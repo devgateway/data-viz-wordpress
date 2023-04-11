@@ -1,0 +1,66 @@
+const SaveComponent = (props) => {
+
+    const {
+        attributes: {
+            placeHolder,
+            type,
+            param,
+            app,
+            icon,
+            group,
+            csvField,
+            csvValue,
+            isRange,
+            allLabel,
+            noneLabel,
+            startLabel,
+            endLabel,
+            ***REMOVED***,
+            ***REMOVED***,
+            filterType,
+            defaultValues,
+            ***REMOVED***,
+            ***REMOVED***,
+            ***REMOVED***,
+            ***REMOVED***,
+            hiddenFilters,
+            ***REMOVED***,
+            closeOnSelect
+        }
+    } = props;
+
+    const divClass = {}
+    const divStyles = {}
+
+
+    return (<div className={"tcdi-component"}
+             data-component={"filter"}
+             data-app={app}
+             data-icon={icon}
+             data-type={type}
+             data-group={group}
+             data-param={param}
+             data-csv-field={csvField}
+             data-csv-value={csvValue}
+             data-place-holder={placeHolder}
+             data-is-range={isRange}
+             data-all-label={allLabel}
+             data-none-label={noneLabel}
+             data-start-label={startLabel}
+             data-end-label={endLabel}
+             data-use-single-column={***REMOVED***}
+             data-enable-text-search={***REMOVED***}
+             data-filter-type={filterType}
+             data-default-values={defaultValues}
+             data-show-no-data-option={***REMOVED***}
+             data-default-value-criteria={***REMOVED***}
+             data-boolean-true-label={***REMOVED***}
+             data-boolean-false-label={***REMOVED***}
+             data-hidden-filters={***REMOVED***(JSON.stringify(hiddenFilters))}
+             data-close-on-select={closeOnSelect}			
+             data-all-none-same-behaviour={***REMOVED***}>                 
+             </div>);
+}
+
+
+export default SaveComponent
