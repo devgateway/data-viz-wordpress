@@ -425,7 +425,7 @@ const PostCarousel = (props) => {
         ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
         ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true"
     }
-    return <Container style={{height: `${height}px`}} className={`tcdi time line ${editing ? 'editing' : ''}`}
+    return <Container style={{height: `${height}px`}} className={`viz time line ${editing ? 'editing' : ''}`}
                       fluid={true}>
             <PostProvider type={type} taxonomy={taxonomy} categories={categories}
                       store={"carousel_" + parent + "_" + unique} page={1}

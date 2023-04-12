@@ -122,7 +122,7 @@ const ***REMOVED*** = (props) => {
     return (
 
         <Container
-            className={`tcdi download ${style}  ${useTitle ? 'has-title' : ''}  ${isCheckPNG ||  isCheckJPG ? 'has-formats' : ''} ${editing ? 'editing' : ''}`}
+            className={`viz download ${style}  ${useTitle ? 'has-title' : ''}  ${isCheckPNG ||  isCheckJPG ? 'has-formats' : ''} ${editing ? 'editing' : ''}`}
             fluid={true}>
 
             <***REMOVED*** ref={componentRef}>
