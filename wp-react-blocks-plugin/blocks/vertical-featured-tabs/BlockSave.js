@@ -24,7 +24,7 @@ const SaveComponent = (props) => {
                      data-taxonomy={taxonomy}
                      data-cover-width={coverWidth}
                      data-categories={***REMOVED***(JSON.stringify(categories))}
-                     className={"tcdi-component"}
+                     className={"viz-component"}
                      data-read-more-label={readMoreLabel}
                      data-component={"verticalTabs"}>
                 </div>
