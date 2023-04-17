@@ -239,10 +239,6 @@ import Generic from "../icons";
                 type: 'String',
                 default: '{}'
             },           
-            type: {
-                type: 'string',
-                default: "media",
-            },
             taxonomy: {
                 type: 'string',
                 default: "none",
