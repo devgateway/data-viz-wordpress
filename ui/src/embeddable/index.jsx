@@ -15,7 +15,6 @@ const InlineList = ***REMOVED***(() => import("./inlinelist/"));
 const Chart = ***REMOVED***(() => import("./chart/"));
 const NewsLetter = ***REMOVED***(() => import("./newsletter/"));
 const ShowcaseForm = ***REMOVED***(() => import("./showcase/"));
-const Body = ***REMOVED***(() => import("./body/"));
 const Filter = ***REMOVED***(() => import("./filter/"));
 const Download = ***REMOVED***(() => import("./download/"));
 const DownloadPdf = ***REMOVED***(() => import('./downloadPDF/'))
@@ -26,9 +25,9 @@ const ***REMOVED*** = ***REMOVED***(() => import('./references/***REMOVED***'))
 const Reference = ***REMOVED***(() => import('./references/Reference'))
 const TimeLine = ***REMOVED***(() => import('./time-line'))
 const NewTimeLine = ***REMOVED***(() => import('./new-time-line'))
-
-
 const Measures = ***REMOVED***(() => import('./measures'))
+const Menu = ***REMOVED***(() => import('./menu'))
+const ***REMOVED*** = ***REMOVED***(() => import('./child-page-menu'))
 
 export const reducers = {
     data,
@@ -43,7 +42,6 @@ const components = {
     filter: Filter,
     showCaseForm: ShowcaseForm,
     newsLetter: NewsLetter,
-    body: Body,
     tabbedPosts: TabbedPosts,
     pageModules: PageModules,
     featuredTabs: FeaturedTabs,
@@ -57,8 +55,10 @@ const components = {
     references: ***REMOVED***,
     reference: Reference,
     timeLine: TimeLine,
-    newTimeLine:NewTimeLine,
-    measures: Measures
+    newTimeLine: NewTimeLine,
+    measures: Measures,
+    menu: Menu,
+    ***REMOVED***: ***REMOVED***
 
 }
 
