@@ -28,6 +28,7 @@ const NewTimeLine = ***REMOVED***(() => import('./new-time-line'))
 const Measures = ***REMOVED***(() => import('./measures'))
 const Menu = ***REMOVED***(() => import('./menu'))
 const ***REMOVED*** = ***REMOVED***(() => import('./child-page-menu'))
+const NewMap = ***REMOVED***(() => import('./d3Map'))
 
 export const reducers = {
     data,
@@ -58,7 +59,8 @@ const components = {
     newTimeLine: NewTimeLine,
     measures: Measures,
     menu: Menu,
-    ***REMOVED***: ***REMOVED***
+    ***REMOVED***: ***REMOVED***,
+    newMap: NewMap
 
 }
 
