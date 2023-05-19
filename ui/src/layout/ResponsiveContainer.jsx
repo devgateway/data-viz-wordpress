@@ -10,7 +10,6 @@ import TopNavigator from "./TopNavigator";
 import ***REMOVED*** from "./Customizer";
 
 
-
 class ***REMOVED*** extends Component {
     render() {
         const {children, fixed} = this.props
@@ -82,7 +81,9 @@ class ***REMOVED*** extends Component {
 
 
     render() {
-        const {children, fixed, locale} = this.props
+        const {children, fixed, locale, pages} = this.props
+        debugger;
+        const page = pages ? pages[0] : null;
         return (
 
             <div>
@@ -93,8 +94,7 @@ class ***REMOVED*** extends Component {
                 <***REMOVED*** fixed={fixed}>
                     {children}
                 </***REMOVED***>
-                <Footer></Footer>
-
+                {page&&page.template=="noofoter.php"?"":<Footer></Footer>}
             </div>)
     }
 }
