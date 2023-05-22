@@ -48,7 +48,7 @@ const IntroWithFeaturedImage = ({post, count, ***REMOVED***, active, dimensions,
 
 
 const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
-    debugger
+    
     const [active, setActive] = useState(null)
 
     //const arrayColors = color.split(',')

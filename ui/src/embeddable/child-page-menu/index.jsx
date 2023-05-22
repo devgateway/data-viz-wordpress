@@ -31,7 +31,7 @@ const ***REMOVED*** = function (str) {
     return ''
 };
 const ***REMOVED*** = ({pages, title, selected, ***REMOVED***}) => {
-    debugger;
+    
     const childPages = pages ? pages.sort((a, b) => a.menu_order - b.menu_order) : []
 
     const [selectedGroup, ***REMOVED***] = useState({id: -1})
@@ -100,7 +100,7 @@ const ***REMOVED*** = ({pages, title, selected, ***REMOVED***}) => {
 }
 
 const ContentArea = ({page}) => {
-    debugger;
+    
     return <Container><PostContent post={page}></PostContent></Container>
 }
 
@@ -117,7 +117,7 @@ const Root = (props) => {
         intl: {locale}
     } = props
 
-    debugger
+    
     const [page, setPage] = useState(null)
     const styles = editing ? {padding: '4px', margin: '0px'} : {}
     return (<Container style={styles} fluid className={`viz child page navigator`}>
