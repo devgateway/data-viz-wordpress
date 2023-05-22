@@ -20,43 +20,24 @@ const Measures = (props) => {
         ***REMOVED***,
         allMeasures,
         setAttributes,
-        title,
         panelStatus,
         layer: {
             measures,
-            dimension1,
-            dimension2,
-            type,
             app
         }
     } = props
 
 
-    const MToggle = ({measure}) => {
-        const userMeasure = measures[app] ? measures[app][measure.value] : {}
-
-        return (<ToggleControl
-            label={***REMOVED***(measure)}
-            checked={userMeasure ? userMeasure.selected : false}
-            onChange={(value) => ***REMOVED***(measure.value)}/>)
-    }
-
     const MCheckbox = ({measure}) => {
-        const userMeasure = measures[app] ? measures[app][measure.value] : {}
+        
+        const userMeasure = measures ? measures[measure.value] : {}
         return <***REMOVED***
             label={***REMOVED***(measure)}
-            checked={userMeasure ? userMeasure.selected : false}
+            checked={measures.indexOf(measure.value) > -1}
             onChange={(value) => ***REMOVED***(measure.value)}/>
     }
 
 
-    const ***REMOVED*** = ({measure, single}) => {
-        return <PanelRow>
-            {single && <MCheckbox measure={measure}></MCheckbox>}
-            {!single && <MToggle measure={measure}></MToggle>}
-        </PanelRow>
-
-    }
 
     const countSelected = (g) => {
         if (measures[app]) {
@@ -80,15 +61,15 @@ const Measures = (props) => {
     }
 
     return <PanelBody title={__("Measures")}>
-
-
         {allMeasures && [...new Set(allMeasures.map(p => ***REMOVED***(p.group)))].map(g => {
                 return (<PanelBody
                     onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                     title={`${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `}>
                     {allMeasures.filter(f => ***REMOVED***(f.group) === g)
                         .map(m => <PanelRow>
-                            <***REMOVED*** single={true} measure={m}></***REMOVED***>
+                            <PanelRow>
+                                <MCheckbox measure={m}></MCheckbox>
+                            </PanelRow>
                         </PanelRow>)}
                 </PanelBody>)
             })}

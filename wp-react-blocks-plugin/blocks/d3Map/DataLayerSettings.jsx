@@ -41,7 +41,6 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
         return null;
     }
 }
-
 export class ***REMOVED*** extends Component {
     constructor(props) {
         super(props);
@@ -63,13 +62,16 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(prevState) {
+        
         const {***REMOVED***} = this.props
         ***REMOVED***("measures", [])
         ***REMOVED***("filters", [])
+
         //setAttributes({measures: [], filters: []})
     }
 
     ***REMOVED***(param, idx) {
+        
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         const newFilters = filters.slice()
         const selected = allFilters.filter(f => f.param === param)[0]
@@ -81,6 +83,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(value, idx) {
+        
         const {layer: {filters}, ***REMOVED***} = this.props
         const selected = filters[idx]
         let values = selected.value
@@ -97,6 +100,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(value, idx) {
+        
         const {layer: {filters}, ***REMOVED***} = this.props
         const selected = filters[idx]
         let values = selected.value
@@ -109,6 +113,7 @@ export class ***REMOVED*** extends Component {
     }
 
     addFilter() {
+        
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         let index = filters.length > allFilters.length ? allFilters.length : filters.length
         const newFilter = (allFilters && allFilters.length > 0) ? {
@@ -122,6 +127,7 @@ export class ***REMOVED*** extends Component {
     }
 
     removeFilter(f) {
+        
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         let newFilters = filters.slice(0, -1)
         //setAttributes({filters: newFilters})
@@ -136,6 +142,7 @@ export class ***REMOVED*** extends Component {
 
 
     ***REMOVED***(value) {
+        
         const {***REMOVED***} = this.props
         //setAttributes({measures: [value]})
         ***REMOVED***("measures", [value])
@@ -143,6 +150,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(value) {
+        
         const {***REMOVED***, attributes: {measures}} = this.props
         if (measures.indexOf(value) > -1) {
             //setAttributes({measures: measures.filter(d => d != value)})
@@ -155,6 +163,7 @@ export class ***REMOVED*** extends Component {
 
 
     items(type) {
+        
         const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : []
         const cat = values.length > 0 ? values[0] : null
         let items = null
@@ -169,6 +178,7 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
+            ***REMOVED***,
             allDimensions,
             allFilters,
             allMeasures,
@@ -189,14 +199,17 @@ export class ***REMOVED*** extends Component {
                         label={'Matching Field'}
                         value={[dimension1]} // e.g: value = [ 'a', 'c' ]
                         onChange={(value) => {
-                            setAttributes({dimension1: value})
+                            ***REMOVED***("dimension1", value)
+
                         }}
                         options={allDimensions}
                     />
                 </PanelRow>
 
             </PanelBody>,
-                <Measures ***REMOVED***={this.***REMOVED***}
+
+                <Measures
+                        ***REMOVED***={this.***REMOVED***}
                           ***REMOVED***={this.***REMOVED***}
                           {...this.props} />,
                 <>
@@ -225,6 +238,4 @@ export class ***REMOVED*** extends Component {
     }
 
 }
-
-
 export default ***REMOVED***;
