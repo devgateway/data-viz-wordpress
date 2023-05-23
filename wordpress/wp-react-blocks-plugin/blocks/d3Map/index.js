@@ -28,6 +28,10 @@ import Generic from "../icons";
                 type: "Object",
                 default: {}
             },
+            ***REMOVED***: {
+                type: "string",
+                default: "#347ba2"
+            }
 
 
         },
