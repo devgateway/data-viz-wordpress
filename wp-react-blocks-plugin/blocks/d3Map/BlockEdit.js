@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor'
+import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor'
 import {
     Panel,
     PanelBody,
@@ -61,6 +61,7 @@ class BlockEdit extends ComponentWithSettings {
                 panelStatus,
                 height,
                 group,
+                ***REMOVED***,
                 layers = [],
             }
         } = this.props;
@@ -84,6 +85,27 @@ class BlockEdit extends ComponentWithSettings {
                     <SizeConfig setAttributes={setAttributes} panelStatus={panelStatus}
                                 height={height}></SizeConfig>
 
+                    <PanelBody
+                        panelStatus={panelStatus['COLORS']}
+                        onToggle={e => togglePanel("COLORS", panelStatus, setAttributes)}
+                        title={__("Colors")}>
+
+
+                            <***REMOVED***
+                                title={__('Background')}
+                                colorSettings={[{
+                                    value: ***REMOVED***(***REMOVED***), onChange: (color) => {
+                                        if (color) {
+                                            setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                        } else {
+                                            setAttributes({***REMOVED***: null})
+                                        }
+                                    }, label: __('Background Color')
+                                }]}
+                            />
+
+
+                    </PanelBody>
                     <PanelBody panelStatus={panelStatus['LAYERS']}
                                onToggle={e => togglePanel("LAYERS", panelStatus, setAttributes)}
                                title={__("Layers")}>
