@@ -4,12 +4,13 @@ import {
     Button,
     ***REMOVED***,
     PanelBody,
-    PanelRow,
+    PanelRow, RangeControl,
     SelectControl,
     TextControl,
     ToggleControl
 } from '@wordpress/components';
 import Measures from './MapMeasures.jsx'
+import Property from "./Property";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -41,6 +42,7 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
         return null;
     }
 }
+
 export class ***REMOVED*** extends Component {
     constructor(props) {
         super(props);
@@ -62,7 +64,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(prevState) {
-        
+
         const {***REMOVED***} = this.props
         ***REMOVED***("measures", [])
         ***REMOVED***("filters", [])
@@ -71,7 +73,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(param, idx) {
-        
+
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         const newFilters = filters.slice()
         const selected = allFilters.filter(f => f.param === param)[0]
@@ -83,7 +85,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(value, idx) {
-        
+
         const {layer: {filters}, ***REMOVED***} = this.props
         const selected = filters[idx]
         let values = selected.value
@@ -100,7 +102,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(value, idx) {
-        
+
         const {layer: {filters}, ***REMOVED***} = this.props
         const selected = filters[idx]
         let values = selected.value
@@ -113,7 +115,7 @@ export class ***REMOVED*** extends Component {
     }
 
     addFilter() {
-        
+
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         let index = filters.length > allFilters.length ? allFilters.length : filters.length
         const newFilter = (allFilters && allFilters.length > 0) ? {
@@ -127,7 +129,7 @@ export class ***REMOVED*** extends Component {
     }
 
     removeFilter(f) {
-        
+
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         let newFilters = filters.slice(0, -1)
         //setAttributes({filters: newFilters})
@@ -142,7 +144,7 @@ export class ***REMOVED*** extends Component {
 
 
     ***REMOVED***(value) {
-        
+
         const {***REMOVED***} = this.props
         //setAttributes({measures: [value]})
         ***REMOVED***("measures", [value])
@@ -150,7 +152,7 @@ export class ***REMOVED*** extends Component {
     }
 
     ***REMOVED***(value) {
-        
+
         const {***REMOVED***, attributes: {measures}} = this.props
         if (measures.indexOf(value) > -1) {
             //setAttributes({measures: measures.filter(d => d != value)})
@@ -163,7 +165,7 @@ export class ***REMOVED*** extends Component {
 
 
     items(type) {
-        
+
         const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : []
         const cat = values.length > 0 ? values[0] : null
         let items = null
@@ -182,60 +184,106 @@ export class ***REMOVED*** extends Component {
             allDimensions,
             allFilters,
             allMeasures,
+            features,
             layer: {
                 measures,
                 filters,
-                dimension1,
-                dimension2,
-                type
+                ***REMOVED***,
+                ***REMOVED***,
+                type,
+                ***REMOVED***,
+                useShape,
+                pointSize
             }
         } = this.props
 
 
         return (
-            [<PanelBody initialOpen={false} title={__('Fields')}>
-                <PanelRow>
-                    <SelectControl
-                        label={'Matching Field'}
-                        value={[dimension1]} // e.g: value = [ 'a', 'c' ]
-                        onChange={(value) => {
-                            ***REMOVED***("dimension1", value)
+            [
+                <PanelBody title={"Join Attributes"}>
+                    <Property property={"***REMOVED***"} type={"select"} ***REMOVED***={***REMOVED***}
+                              features={features}
+                              value={***REMOVED***}
+                              title={"Shape Attribute"}>
 
-                        }}
-                        options={allDimensions}
-                    />
-                </PanelRow>
+                    </Property>
+                    <PanelRow>
+                        <SelectControl
+                            label={'Api Attribute'}
+                            value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
+                            onChange={(value) => {
+                                debugger
+                                ***REMOVED***("***REMOVED***", value)
+                            }}
+                            options={allDimensions}
+                        />
+                    </PanelRow>
 
-            </PanelBody>,
-
+                </PanelBody>
+                ,
                 <Measures
-                        ***REMOVED***={this.***REMOVED***}
-                          ***REMOVED***={this.***REMOVED***}
-                          {...this.props} />,
-                <>
-                    <PanelBody initialOpen={false} title={__("Filters")}>
-                        {filters.map((f, index) => {
+                    ***REMOVED***={this.***REMOVED***}
+                    ***REMOVED***={this.***REMOVED***}
+                    {...this.props} />
+                ,
 
-                            return (
-                                <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
-                                    <***REMOVED*** param={f.param} index={index} options={allFilters}
-                                                    ***REMOVED***={this.***REMOVED***}/>
-                                    {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
-                                                        ***REMOVED***={this.***REMOVED***}/>}
-                                </PanelBody>)
-                        })}
+                <PanelBody initialOpen={false} title={__("Filters")}>
+                    {filters.map((f, index) => {
 
-                        <PanelRow>
+                        return (
+                            <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
+                                <***REMOVED*** param={f.param} index={index} options={allFilters}
+                                                ***REMOVED***={this.***REMOVED***}/>
+                                {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
+                                                    ***REMOVED***={this.***REMOVED***}/>}
+                            </PanelBody>)
+                    })}
 
-                            <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
-                            <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
-                        </PanelRow>
-                    </PanelBody>
+                    <PanelRow>
 
-                </>
-            ]
-        )
+                        <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
+                        <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
+                    </PanelRow>
+                </PanelBody>,
+                <PanelBody title={"Data Render"}>
+                    <PanelRow>
+                        <ToggleControl
+                            label="Centroid Point"
+                            checked={***REMOVED***}
+                            onChange={(value) => {
+                                ***REMOVED***("***REMOVED***", value)
+                            }}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <ToggleControl
+                            label="Shape"
+                            checked={useShape}
+                            onChange={(value) => {
+                                ***REMOVED***("useShape", value)
+                            }}
+                        />
+                    </PanelRow>
+
+                    <PanelRow>
+                        <RangeControl
+                            label="Point Size"
+                            value={pointSize}
+                            onChange={(value) => {
+                                ***REMOVED***("pointSize", value)
+                            }}
+                            min={1}
+                            max={10}
+                        />
+                    </PanelRow>
+
+    </PanelBody>
+
+
+    ]
+    )
     }
 
 }
+
 export default ***REMOVED***;

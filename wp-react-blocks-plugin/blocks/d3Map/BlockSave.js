@@ -4,7 +4,11 @@ const SaveComponent = (props) => {
 
     const {
         attributes: {
-            layers
+            layers,
+            height,
+            group,
+            ***REMOVED***,
+            mapPosition
         }
     } = props;
 
@@ -16,6 +20,10 @@ const SaveComponent = (props) => {
     return (
         <div {...blockProps}
              className={"viz-component"}
+             data-height={height}
+             data-group={group}
+             data-back-ground-color={***REMOVED***}
+             data-map-position={***REMOVED***(JSON.stringify(mapPosition))}
              data-component={"newMap"}
              data-layers={***REMOVED***(JSON.stringify(layers))}
              >

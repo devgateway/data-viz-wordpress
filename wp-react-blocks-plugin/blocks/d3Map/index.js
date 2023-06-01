@@ -31,8 +31,11 @@ import Generic from "../icons";
             ***REMOVED***: {
                 type: "string",
                 default: "#347ba2"
-            }
-
+            },
+            mapPosition: {
+                type: "Object",
+                default: {}
+            },
 
         },
         edit: BlockEdit,
