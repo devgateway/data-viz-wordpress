@@ -88,6 +88,7 @@ const ***REMOVED*** = ({pages, title, selected, ***REMOVED***}) => {
                 >
                     {s.iconComponent ? s.iconComponent : <Image src={s.icon} />}
                     <span>{***REMOVED***(s.label)}</span>
+                    <div className="green-rectangle"></div>
 
                     <Menu.Menu className={`${s.id == selectedGroup.id ? 'expanded' : 'collapsed'}`}>
                         <PageProvider locale={"en"}
