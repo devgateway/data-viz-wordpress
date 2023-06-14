@@ -20,36 +20,45 @@ const MapWrapper = (props) => {
 
     const layers = parse(dataLayers)
     const [transform, ***REMOVED***] = React.useState(null)
+    const [readyState, setReadyState] = React.useState(false)
+    const layerCreated = []
+    const ***REMOVED*** = (layer) => {
+        layerCreated.push(layer)
+        
+        if (layerCreated.length == layers.length) {
+            setReadyState(true)
+        }
 
-    
+    }
 
     return (
-        <Container  className={"d3map-container"}
-                   style={{***REMOVED***: decode(bgColorParam), height: height+"px"}}>
-            <***REMOVED*** editing={editing}  ***REMOVED***={parse(***REMOVED***, editing)}>
+        <Container className={"d3map-container"}
+                   style={{***REMOVED***: decode(bgColorParam), height: height + "px"}}>
+            <***REMOVED*** editing={editing} ***REMOVED***={parse(***REMOVED***, editing)}>
                 <Map>
                     {layers.map((layer, i) => {
                         if (layer.type === 'base') {
-                            return <BaseLayer key={i} {...layer} />
+                            return <BaseLayer unique={unique} ***REMOVED***={e => ***REMOVED***(layer)} key={i} {...layer} />
                         }
                         if (layer.type === 'data') {
-                            return <DataLayer key={i} {...layer} />
+                            return <DataLayer unique={unique} ***REMOVED***={e => ***REMOVED***(layer)}
+                                              key={i} {...layer} />
                         }
 
                     })}
                 </Map>
-                <ZoomControl editing={editing}/>
-
+                <ZoomControl readyState={readyState} editing={editing}/>
             </***REMOVED***>
         </Container>
     );
 
-};
-
-const ***REMOVED*** = (state, ownProps) => {
-    return {}
 }
+    ;
 
-const ***REMOVED*** = {};
+    const ***REMOVED*** = (state, ownProps) => {
+        return {}
+    }
 
-export default connect(***REMOVED***, ***REMOVED***)(MapWrapper)
+    const ***REMOVED*** = {};
+
+    export default connect(***REMOVED***, ***REMOVED***)(MapWrapper)

@@ -49,6 +49,8 @@ class ***REMOVED*** extends React.Component {
                     ***REMOVED***,
                     height: this.getHeight(),
                     width: this.getWidth(),
+                    editing: this.props.editing
+
                 },)
             }) : null}
         </div>
