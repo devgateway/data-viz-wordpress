@@ -51,7 +51,7 @@ export class LayerObject {
 
     ***REMOVED*** = false
     pointSize = 1
-    useShape = true
+
 
     constructor() {
 
