@@ -11,6 +11,7 @@ import {
 } from '@wordpress/components';
 import Measures from './MapMeasures.jsx'
 import Property from "./Property";
+import ***REMOVED*** from "./***REMOVED***";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -192,7 +193,7 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 type,
                 ***REMOVED***,
-                useShape,
+                ***REMOVED***,
                 pointSize
             }
         } = this.props
@@ -245,27 +246,26 @@ export class ***REMOVED*** extends Component {
                         <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
                     </PanelRow>
                 </PanelBody>,
-                <PanelBody title={"Data Render"}>
+                <PanelBody title={"Marks & Colors"}>
                     <PanelRow>
                         <ToggleControl
-                            label="Centroid Point"
+                            label="Use Circle Mark"
                             checked={***REMOVED***}
                             onChange={(value) => {
                                 ***REMOVED***("***REMOVED***", value)
                             }}
                         />
                     </PanelRow>
-                    <PanelRow>
-                        <ToggleControl
-                            label="Shape"
-                            checked={useShape}
-                            onChange={(value) => {
-                                ***REMOVED***("useShape", value)
-                            }}
-                        />
-                    </PanelRow>
 
-                    <PanelRow>
+
+                    {***REMOVED*** && <PanelRow>
+                        <ToggleControl label={"Use fixed size"}
+                                       checked={***REMOVED***}
+                                       onChange={(value) => ***REMOVED***("***REMOVED***", value)}>
+                        </ToggleControl>
+                    </PanelRow>}
+
+                    {***REMOVED*** && ***REMOVED*** && <PanelRow>
                         <RangeControl
                             label="Point Size"
                             value={pointSize}
@@ -275,13 +275,15 @@ export class ***REMOVED*** extends Component {
                             min={1}
                             max={10}
                         />
-                    </PanelRow>
+                    </PanelRow>}
+                    {***REMOVED*** && !***REMOVED*** && <PanelRow>
+                        <***REMOVED***/>
+                    </PanelRow>}
+                </PanelBody>
 
-    </PanelBody>
 
-
-    ]
-    )
+            ]
+        )
     }
 
 }
