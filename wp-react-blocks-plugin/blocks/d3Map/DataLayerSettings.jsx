@@ -12,6 +12,7 @@ import {
 import Measures from './MapMeasures.jsx'
 import Property from "./Property";
 import ***REMOVED*** from "./***REMOVED***";
+import {BlockEditWithAPIMetadata} from "../commons";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -199,10 +200,13 @@ export class ***REMOVED*** extends Component {
         } = this.props
 
 
+
+
         return (
             [
-                <PanelBody title={"Join Attributes"}>
-                    <Property property={"***REMOVED***"} type={"select"} ***REMOVED***={***REMOVED***}
+                <PanelBody title={"Join Fields"}>
+                    <Property property={"***REMOVED***"}
+                              type={"select"} ***REMOVED***={***REMOVED***}
                               features={features}
                               value={***REMOVED***}
                               title={"Shape Attribute"}>
@@ -210,10 +214,9 @@ export class ***REMOVED*** extends Component {
                     </Property>
                     <PanelRow>
                         <SelectControl
-                            label={'Api Attribute'}
+                            label={'Dimension'}
                             value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
                             onChange={(value) => {
-                                debugger
                                 ***REMOVED***("***REMOVED***", value)
                             }}
                             options={allDimensions}
