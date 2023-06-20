@@ -13,6 +13,7 @@ import Measures from './MapMeasures.jsx'
 import Property from "./Property";
 import ***REMOVED*** from "./***REMOVED***";
 import {BlockEditWithAPIMetadata} from "../commons";
+import {***REMOVED***} from "@wordpress/block-editor";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -193,9 +194,10 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 ***REMOVED***,
                 type,
+                breaks,
+                markFillColor,
                 ***REMOVED***,
-                ***REMOVED***,
-                pointSize
+                markSizeScale
             }
         } = this.props
 
@@ -249,39 +251,52 @@ export class ***REMOVED*** extends Component {
                         <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
                     </PanelRow>
                 </PanelBody>,
+
                 <PanelBody title={"Marks & Colors"}>
                     <PanelRow>
                         <ToggleControl
                             label="Use Circle Mark"
-                            checked={***REMOVED***}
+                            checked={true}
                             onChange={(value) => {
                                 ***REMOVED***("***REMOVED***", value)
                             }}
                         />
                     </PanelRow>
-
-
-                    {***REMOVED*** && <PanelRow>
-                        <ToggleControl label={"Use fixed size"}
-                                       checked={***REMOVED***}
-                                       onChange={(value) => ***REMOVED***("***REMOVED***", value)}>
-                        </ToggleControl>
-                    </PanelRow>}
-
-                    {***REMOVED*** && ***REMOVED*** && <PanelRow>
+                     <PanelRow>
                         <RangeControl
-                            label="Point Size"
-                            value={pointSize}
+                            label="Maker Base Size"
+                            value={markSizeScale}
                             onChange={(value) => {
-                                ***REMOVED***("pointSize", value)
+                                ***REMOVED***("markSizeScale", value)
                             }}
-                            min={1}
+                            step={0.5}
+                            min={0}
                             max={10}
                         />
-                    </PanelRow>}
-                    {***REMOVED*** && !***REMOVED*** && <PanelRow>
-                        <***REMOVED***/>
-                    </PanelRow>}
+                    </PanelRow>
+                    <PanelRow>
+                        <***REMOVED***
+                            title={__(`Fill Color`)}
+                            colorSettings={[{
+                                value: markFillColor, onChange: (fillColor) => {
+                                    ***REMOVED***("markFillColor", fillColor)
+                                },
+
+                            }]}
+                        />
+                        <***REMOVED***
+                            title={__(`Border Color`)}
+                            colorSettings={[{
+                                value: ***REMOVED***, onChange: (borderColor) => {
+                                    ***REMOVED***("***REMOVED***", borderColor)
+                                },
+
+                            }]}
+                        />
+                    </PanelRow>
+
+                    <***REMOVED*** ***REMOVED***={***REMOVED***} breaks={breaks}/>
+
                 </PanelBody>
 
 
