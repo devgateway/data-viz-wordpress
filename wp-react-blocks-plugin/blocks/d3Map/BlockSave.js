@@ -6,6 +6,7 @@ const SaveComponent = (props) => {
         attributes: {
             layers,
             height,
+            width,
             group,
             ***REMOVED***,
             mapPosition
@@ -21,6 +22,7 @@ const SaveComponent = (props) => {
         <div {...blockProps}
              className={"viz-component"}
              data-height={height}
+             data-width={width}
              data-group={group}
              data-back-ground-color={***REMOVED***}
              data-map-position={***REMOVED***(JSON.stringify(mapPosition))}
