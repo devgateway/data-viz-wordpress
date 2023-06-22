@@ -47,7 +47,7 @@ const Layer = (props) => {
         });
     }, [layer.file])
     const ***REMOVED*** = (atrr, value) => {
-
+        debugger;
         console.log("change attribute " + atrr + " to " + value)
         const newLayer = {...layer}
         newLayer[atrr] = value
@@ -127,11 +127,11 @@ const Layer = (props) => {
             <PanelRow>
                 <RangeControl
                     label="Size"
-                    value={layer.labelFontSize * 1000}
-                    onChange={(labelFontSize) => ***REMOVED***("labelFontSize", labelFontSize / 1000)}
-                    min={0}
+                    value={layer.labelFontSize}
+                    onChange={(labelFontSize) => ***REMOVED***("labelFontSize", labelFontSize )}
+                    min={1}
                     step={1}
-                    max={500}
+                    max={100}
                 />
             </PanelRow>
 
@@ -189,7 +189,6 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
 
     ***REMOVED***() {
         const {layer: {name, type, file, app}} = this.props
-        debugger
         fetch(`/api/registry/eureka/apps`, {
             headers: {
                 'Accept': 'application/json',
@@ -215,7 +214,6 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
         super.***REMOVED***(prevProps, prevState, snapshot)
         const {layer: {app}} = this.props
         const {layer: {app: prevAPP}} = prevProps
-        debugger;
         if ((app != prevAPP) || (prevAPP == null && app != null)) {
 
             this._loadMetadata(app)
