@@ -1,7 +1,8 @@
 import {Button, PanelBody, PanelRow, RangeControl, TextControl} from "@wordpress/components";
 import {***REMOVED***} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
-const ***REMOVED*** = ({***REMOVED***, breaks=[]}) => {
+
+const ***REMOVED*** = ({***REMOVED***, breaks = []}) => {
 
     const add = () => {
         const newBreaks = [...breaks]
@@ -14,16 +15,19 @@ const ***REMOVED*** = ({***REMOVED***, breaks=[]}) => {
         ***REMOVED***("breaks", newBreaks)
     }
 
-    const update = (property, value, index) => {
-
+    const update = (property, index , value ) => {
+        const newBreaks = [...breaks]
+        newBreaks[index][property] = value
+        ***REMOVED***("breaks", newBreaks)
     }
 
-    const remove=(index)=>{
-
+    const remove = (index) => {
+        const newBreaks = [...breaks]
+        newBreaks.pop()
+        ***REMOVED***("breaks", newBreaks)
     }
 
-    return <PanelBody title={"Breaks"}>
-
+    return <>
         {breaks.map((br, index) => {
             return (<PanelBody title={"Breaks"}>
                 <PanelRow>
@@ -31,6 +35,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks=[]}) => {
                         type={"Number"}
                         label={__("Start", "dg")}
                         value={br.start}
+                        onChange={(value) => update("start", index, value)}
                     />
                 </PanelRow>
                 <PanelRow>
@@ -38,6 +43,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks=[]}) => {
                         type={"Number"}
                         label={__("End", "dg")}
                         value={br.end}
+                        onChange={(value) => update("end", index, value)}
                     />
                 </PanelRow>
                 <PanelRow>
@@ -58,7 +64,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks=[]}) => {
                         colorSettings={[{
                             value: br.color,
                             onChange: (fillColor) => {
-
+                                update("color", index, fillColor)
                             },
 
                         }]}
@@ -68,7 +74,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks=[]}) => {
                         colorSettings={[{
                             value: br.color,
                             onChange: (borderColor) => {
-
+                                update("color", index, borderColor)
                             },
 
                         }]}
@@ -80,10 +86,10 @@ const ***REMOVED*** = ({***REMOVED***, breaks=[]}) => {
 
 
         <PanelRow>
-            <Button isLink onClick={e=>add()}>Add</Button>
-            <Button isLink onClick={e=>remove()}>Remove</Button>
+            <Button isLink onClick={e => add()}>Add Break</Button>
+            <Button isLink onClick={e => remove()}>Remove Break</Button>
         </PanelRow>
-    </PanelBody>
+    </>
 }
 
 
