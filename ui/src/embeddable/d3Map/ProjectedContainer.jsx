@@ -30,7 +30,6 @@ class ***REMOVED*** extends React.Component {
 
     ***REMOVED***(prevProps, prevState, snapshot) {
         if (prevProps.height !== this.props.height || prevProps.width !== this.props.width) {
-            debugger;
             const {path, projection} = this.***REMOVED***()
             this.setState({path, projection})
         }

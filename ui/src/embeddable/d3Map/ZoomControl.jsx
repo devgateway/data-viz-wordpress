@@ -39,7 +39,7 @@ class ZoomControl extends React.Component {
     ***REMOVED***() {
         const selection = this.getSelection()
         selection.call(this.zoom)
-        this.reset()
+        this.***REMOVED***()
     }
 
     ***REMOVED***(prevProps, prevState, snapshot) {
