@@ -196,6 +196,8 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 ***REMOVED***,
                 type,
+                fillColor,
+                borderColor,
                 breaks,
                 markFillColor,
                 ***REMOVED***,
@@ -260,7 +262,8 @@ export class ***REMOVED*** extends Component {
                 </PanelRow>
             </PanelBody>}
                 </>,
-                <PanelBody title={"Marks & Colors"}>
+                <PanelBody title={"Marker Defaults"}>
+
                     <PanelRow>
                         <ToggleControl
                             label="Use Circle Mark"
@@ -285,6 +288,7 @@ export class ***REMOVED*** extends Component {
                     <PanelRow>
                         <***REMOVED***
                             title={__(`Fill Color`)}
+                            value={fillColor}
                             colorSettings={[{
                                 value: markFillColor, onChange: (fillColor) => {
                                     ***REMOVED***("markFillColor", fillColor)
@@ -294,6 +298,7 @@ export class ***REMOVED*** extends Component {
                         />
                         <***REMOVED***
                             title={__(`Border Color`)}
+                            value={borderColor}
                             colorSettings={[{
                                 value: ***REMOVED***, onChange: (borderColor) => {
                                     ***REMOVED***("***REMOVED***", borderColor)
@@ -303,7 +308,7 @@ export class ***REMOVED*** extends Component {
                         />
                     </PanelRow>
 
-                    <***REMOVED*** ***REMOVED***={***REMOVED***} breaks={breaks}/>
+                    <***REMOVED*** ***REMOVED***={***REMOVED***} ***REMOVED***={markFillColor} ***REMOVED***={***REMOVED***} breaks={breaks}/>
 
                 </PanelBody>
 
