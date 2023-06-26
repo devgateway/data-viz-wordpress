@@ -5,7 +5,7 @@ import {
     ***REMOVED***,
     PanelBody,
     PanelRow, RangeControl,
-    SelectControl,
+    SelectControl, ***REMOVED***,
     TextControl,
     ToggleControl
 } from '@wordpress/components';
@@ -189,6 +189,8 @@ export class ***REMOVED*** extends Component {
             allMeasures,
             features,
             layer: {
+                app,
+                csv,
                 measures,
                 filters,
                 ***REMOVED***,
@@ -202,8 +204,6 @@ export class ***REMOVED*** extends Component {
         } = this.props
 
 
-
-
         return (
             [
                 <PanelBody title={"Join Fields"}>
@@ -214,7 +214,15 @@ export class ***REMOVED*** extends Component {
                               title={"Shape Attribute"}>
 
                     </Property>
-                    <PanelRow>
+                    {app == 'csv' && <PanelRow>
+                        <***REMOVED***
+                            label={__("CSV Data")}
+                            value={csv}
+                            onChange={(csv) => ***REMOVED***("csv", csv)}
+                        />
+                    </PanelRow>}
+
+                    {app != 'csv' && <PanelRow>
                         <SelectControl
                             label={'Dimension'}
                             value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
@@ -223,35 +231,35 @@ export class ***REMOVED*** extends Component {
                             }}
                             options={allDimensions}
                         />
-                    </PanelRow>
+                    </PanelRow>}
 
-                </PanelBody>
-                ,
-                <Measures
-                    ***REMOVED***={this.***REMOVED***}
-                    ***REMOVED***={this.***REMOVED***}
-                    {...this.props} />
-                ,
-
-                <PanelBody initialOpen={false} title={__("Filters")}>
-                    {filters.map((f, index) => {
-
-                        return (
-                            <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
-                                <***REMOVED*** param={f.param} index={index} options={allFilters}
-                                                ***REMOVED***={this.***REMOVED***}/>
-                                {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
-                                                    ***REMOVED***={this.***REMOVED***}/>}
-                            </PanelBody>)
-                    })}
-
-                    <PanelRow>
-
-                        <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
-                        <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
-                    </PanelRow>
                 </PanelBody>,
+                <>
+                    {app != 'csv' && <Measures
+                    ***REMOVED***={this.***REMOVED***}
+                    ***REMOVED***={this.***REMOVED***}
+                    {...this.props} />}
+                </>,
+                <>
+                    {app!='csv'&& <PanelBody initialOpen={false} title={__("Filters")}>
+                {filters.map((f, index) => {
 
+                    return (
+                        <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
+                            <***REMOVED*** param={f.param} index={index} options={allFilters}
+                                            ***REMOVED***={this.***REMOVED***}/>
+                            {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
+                                                ***REMOVED***={this.***REMOVED***}/>}
+                        </PanelBody>)
+                })}
+
+                <PanelRow>
+
+                    <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
+                    <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
+                </PanelRow>
+            </PanelBody>}
+                </>,
                 <PanelBody title={"Marks & Colors"}>
                     <PanelRow>
                         <ToggleControl
@@ -262,7 +270,7 @@ export class ***REMOVED*** extends Component {
                             }}
                         />
                     </PanelRow>
-                     <PanelRow>
+                    <PanelRow>
                         <RangeControl
                             label="Maker Base Size"
                             value={markSizeScale}
