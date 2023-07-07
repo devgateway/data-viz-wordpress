@@ -55,6 +55,8 @@ export class LayerObject {
     ***REMOVED*** = 'none'
     ***REMOVED*** = false
 
+
+    tooltip="Value {value}"
     breaks=[]
 
     constructor() {
