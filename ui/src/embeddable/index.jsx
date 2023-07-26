@@ -29,11 +29,10 @@ const Measures = ***REMOVED***(() => import('./measures'))
 const Menu = ***REMOVED***(() => import('./menu'))
 const ***REMOVED*** = ***REMOVED***(() => import('./child-page-menu'))
 const NewMap = ***REMOVED***(() => import('./d3Map'))
-const Parallax = ***REMOVED***(() => import('./Parallax'))
+const ***REMOVED*** = ***REMOVED***(() => import('./parallax/'))
 
 export const reducers = {
-    data,
-    embeddable
+    data, embeddable
 }
 
 
@@ -62,11 +61,13 @@ const components = {
     menu: Menu,
     ***REMOVED***: ***REMOVED***,
     newMap: NewMap,
-    parallax:Parallax
+    ***REMOVED***: ***REMOVED***,
+    redirect: () => null
 
 }
 
 export const getComponentByNameIgnoreCase = (name) => {
+    debugger;
     const k = Object.keys(components).filter(value => value.toLowerCase() == name.toLowerCase())
     return injectIntl(components[k])
 }
