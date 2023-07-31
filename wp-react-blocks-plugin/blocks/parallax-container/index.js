@@ -15,6 +15,10 @@ import {Generic} from "../icons";
                 type: "Object",
                 default: {}
             },
+            horizontal: {
+                type: 'boolean',
+                default: false,
+            },
             count: {
                 type: 'numeric',
                 default: 7,
