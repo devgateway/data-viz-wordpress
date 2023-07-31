@@ -6,7 +6,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***,***REMOVED***}
 
     const add = () => {
         const newBreaks = [...breaks]
-        debugger;
+        
         newBreaks.push({
             start: 0,
             end: 1,
@@ -24,7 +24,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***,***REMOVED***}
     }
 
     const remove = (index) => {
-        debugger;
+        
         const newBreaks = [...breaks]
         newBreaks.pop()
         ***REMOVED***("breaks", newBreaks)
