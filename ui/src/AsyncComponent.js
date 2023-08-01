@@ -11,11 +11,20 @@ export default function ***REMOVED***(***REMOVED***) {
         }
 
         async ***REMOVED***() {
-            const {default: component} = await ***REMOVED***()
 
-            this.setState({
-                component: component
-            })
+            try {
+                const {default: component} = await ***REMOVED***()
+                this.setState({
+                    component: component
+                })
+            } catch (err) {
+                const c= () => <div>Component not found</div>
+                this.setState({
+                    component:c
+                })
+            }
+
+
         }
 
         render() {

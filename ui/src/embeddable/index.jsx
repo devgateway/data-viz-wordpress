@@ -30,6 +30,7 @@ const Menu = ***REMOVED***(() => import('./menu'))
 const ***REMOVED*** = ***REMOVED***(() => import('./child-page-menu'))
 const NewMap = ***REMOVED***(() => import('./d3Map'))
 const ***REMOVED*** = ***REMOVED***(() => import('./parallax/'))
+const Wrapped = ***REMOVED***(() => import('./wrapped/'))
 
 export const reducers = {
     data, embeddable
@@ -62,6 +63,7 @@ const components = {
     ***REMOVED***: ***REMOVED***,
     newMap: NewMap,
     ***REMOVED***: ***REMOVED***,
+    wrapped:Wrapped,
     redirect: () => null
 
 }
