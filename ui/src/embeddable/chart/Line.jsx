@@ -46,6 +46,7 @@ const ***REMOVED*** = (col, amt) => {
 const Chart = ({app,
                    legends,
                    tooltip,
+                   ***REMOVED***,
                    options,
                    intl,
                    groupMode,
@@ -90,7 +91,8 @@ const Chart = ({app,
                    ***REMOVED***,
                    tooltipEnableMarkdown,
                    minMaxClamp,
-                   reverseLegend
+                   reverseLegend,
+                   ***REMOVED***
                }) => {
 
 
@@ -406,9 +408,12 @@ const Chart = ({app,
                         legend: legends.right,
                         ***REMOVED***: 'middle',
                         legendOffset: parseInt(offsetRight),
-                        format: value => intl.formatNumber(format.style === 'percent' ? value / 100 : value, {
-                            ...format                            
-                        })
+                        format: value => {
+                            const ***REMOVED*** = ***REMOVED*** ? ***REMOVED*** : format
+                            return intl.formatNumber(***REMOVED***.style === 'percent' ? value / 100 : value, {
+                                ...***REMOVED***
+                            })                    
+                    }
                     } : null}
                     enableGridY={enableGridY}
                     enableGridX={enableGridX}
@@ -431,14 +436,22 @@ const Chart = ({app,
                         legend: legends.left,
                         ***REMOVED***: 'middle',
                         legendOffset: parseInt(offsetY),
-                        format: value => intl.formatNumber(format.style === 'percent' ? value / 100 : value, {
-                            ...format                           
-                        })
+                        format: value => {
+                            const ***REMOVED*** = ***REMOVED*** ? ***REMOVED*** : format
+                            return intl.formatNumber(***REMOVED***.style === 'percent' ? value / 100 : value, {
+                                ...***REMOVED***
+                            })
+                        }
                     }
                     }
 
                     tooltip={(d) => {
-                        return (<Tooltip intl={intl} format={format} d={d} tooltip={tooltip} tooltipEnableMarkdown={tooltipEnableMarkdown}/>)
+                        if (***REMOVED*** && tooltip && tooltip.trim().length > 0) {
+                            return (<Tooltip intl={intl} format={format} d={d} tooltip={tooltip} tooltipEnableMarkdown={tooltipEnableMarkdown}/>)
+                        }
+
+                        return null;
+
                     }}
                     pointSize={10}
                     ***REMOVED***={2}

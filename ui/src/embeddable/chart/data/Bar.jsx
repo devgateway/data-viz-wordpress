@@ -3,9 +3,10 @@ import {***REMOVED***, measuresMap, typesMap} from "./Utils";
 
 
 const getOptionsNoDimension = (props) => {
-    const {data, measures, swap, dimensions, locale} = props
+    const {data, measures, swap, dimensions, locale, customLabels} = props
     let options = {}
     const ***REMOVED*** = dimensions.filter(f => f != '')
+    const ***REMOVED*** = new Set()
     if (***REMOVED***.length == 0 && data) {
         const mMap = measuresMap(data)
         const categories = new Set()
@@ -31,7 +32,7 @@ const getOptionsNoDimension = (props) => {
 
             ***REMOVED***.forEach(m => {
                 let row = {}
-                const label = ***REMOVED***(mMap[m.value], locale)
+                const label = customLabels[m.value] || ***REMOVED***(mMap[m.value], locale)
                 row.type = "measure"
                 row["***REMOVED***"] = m.value
                 row["measure"] = label
@@ -39,12 +40,14 @@ const getOptionsNoDimension = (props) => {
                 row.variables = variables
                 series.push(row)
                 keys.add(label)
+                ***REMOVED***.add(mMap[m.value])
             })
 
             options = {
                 categories,
                 indexBy,
                 keys: Array.from(keys),
+                ***REMOVED***,
                 data: series
             }
         }
@@ -94,7 +97,7 @@ const ***REMOVED*** = (props) => {
 
 const ***REMOVED*** = (props) => {
     let options = {}
-    const {data, measures, swap, dimensions, ***REMOVED***, locale} = props
+    const {data, measures, swap, dimensions, ***REMOVED***, locale, customLabels, colorBy, hiddenBars} = props   
     const ***REMOVED*** = dimensions.filter(f => f != '')
     const ***REMOVED*** = data.metadata.measures.filter(m => measures.includes(m.value)).sort((aMeasure, bMeasure) => {
         if (aMeasure.position != null && bMeasure.position != null && aMeasure.position != bMeasure.position) {
@@ -121,8 +124,8 @@ const ***REMOVED*** = (props) => {
         if (swap && (***REMOVED***.length == 1 && measures.length > 0)) {            
             indexBy = 'measure'
             ***REMOVED***.forEach(measure => {  
-                const row = {}
-                row["measure"] = ***REMOVED***(mMap[measure.value], locale)// measureLabel(mMap, m)
+                const row = {}                
+                row["measure"] = customLabels[measure.value] || ***REMOVED***(mMap[measure.value], locale)// measureLabel(mMap, m)
                 ***REMOVED***.add(mMap[measure.value])
                 data.children.forEach(d => {
                     const value = ***REMOVED***(tMap[d.type].items.filter(i => i.value === d.value)[0], locale) || d.value
@@ -147,17 +150,15 @@ const ***REMOVED*** = (props) => {
             data.children.forEach(d => {
                 const variables = {}
                 const row = {}
-
                 row[d.type] =  ***REMOVED***(tMap[d.type] && tMap[d.type].items ? tMap[d.type].items.filter(i => i.value === d.value)[0] : d.value, locale) || d.value
-
                 Object.keys(d).forEach(k => {
                     variables[k] = d[k]
                 })
 
                 ***REMOVED***.add(tMap[d.type])
                 variables[d.type] = d.value.toString()
-                ***REMOVED***.map(m => {                    
-                    const label = ***REMOVED***(mMap[m.value], locale)
+                ***REMOVED***.map(m => {                     
+                    const label = customLabels[m.value] || ***REMOVED***(mMap[m.value], locale)
                     row[label] = d[m.value];
                     ***REMOVED***.add(mMap[m.value])
                     keys.add(label)
@@ -169,14 +170,13 @@ const ***REMOVED*** = (props) => {
 
         }
 
-
-        options = {
+         options = {
             metadata: data.metadata,
             indexBy,
             ***REMOVED***,
             ***REMOVED***,
             keys: Array.from(keys),
-            data: series
+            data: hiddenBars && series ? series.filter(s => hiddenBars.indexOf(s[indexBy]) == -1) : series//series
         }
 
     }
@@ -186,7 +186,7 @@ const ***REMOVED*** = (props) => {
 
 }
 const ***REMOVED*** = (props) => {
-    const {data, measures, ***REMOVED***, dimensions, hiddenBars, colorBy, locale} = props
+    const {data, measures, ***REMOVED***, dimensions, hiddenBars, colorBy, locale, customLabels} = props
     const ***REMOVED*** = dimensions.filter(f => f != '')
     let options = {}
     if (***REMOVED***) {
@@ -278,11 +278,11 @@ const ***REMOVED*** = (props) => {
 
 const BarData = (props) => {
     const {data, measures, dimensions} = props
-
+   const copyData = JSON.parse(JSON.stringify(data))
     if (dimensions.length === 1) {
-        return <***REMOVED*** {...props}></***REMOVED***>
+        return <***REMOVED*** {...props} data={copyData}></***REMOVED***>
     } else {
-        return <***REMOVED*** {...props}></***REMOVED***>
+        return <***REMOVED*** {...props} data={copyData}></***REMOVED***>
     }
 }
 

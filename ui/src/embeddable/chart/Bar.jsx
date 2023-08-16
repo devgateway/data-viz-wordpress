@@ -54,7 +54,6 @@ const Chart = ({
                    barPadding,
                    ***REMOVED***,
                    ***REMOVED***,
-                   showGrid,
                    ***REMOVED***,
                    xLabelColor,
                    barLabelColor,
@@ -77,7 +76,10 @@ const Chart = ({
                    tooltipEnableMarkdown,
                    ***REMOVED***,
                    minMaxClamp,
-                   reverseLegend
+                   reverseLegend,
+                   enableGridY,
+                   enableGridX,
+                   ***REMOVED***
                }) => {
 
     const [filter, setFilter] = useState([])
@@ -359,8 +361,7 @@ const Chart = ({
         setShowLine(***REMOVED***)       
     }
 
-    const barLabel = ({bars}) => {
-
+    const ***REMOVED*** = ({bars}) => {         
         return (
             <g>
                 {bars.map((bar) => {
@@ -369,7 +370,8 @@ const Chart = ({
                     const valueLength = value.length
                     let yPos;
                     let xPos;
-                    if (width >= LABEL_SKIP_WIDTH && height >= LABEL_SKIP_HEIGHT) {
+                    if ((layout == 'vertical' && height >= LABEL_SKIP_HEIGHT) ||
+                    (layout == 'horizontal' && width >= LABEL_SKIP_HEIGHT)) {
                         if (layout == 'vertical') {
                             let padding = 6 // adjusts position not to be too close to the bar
                             yPos = y - padding;
@@ -587,21 +589,16 @@ const Chart = ({
     const ***REMOVED*** = ***REMOVED***()
 
     
-    let layers = ["axes", "bars"]
+    let layers = ["grid", "axes", "bars"]
     if (***REMOVED***) {
         layers.push(***REMOVED***)
     }
-
-    if (showGrid) {
-        layers.unshift("grid")
-    } else {
-        layers.push(***REMOVED***)
-        layers.push(***REMOVED***)
-    }
-
+    
+    layers.push(***REMOVED***) 
+    layers.push(***REMOVED***)  
     
     if (***REMOVED*** && overlays) {
-        overlays.forEach((o, idx) => {
+            overlays.forEach((o, idx) => {
             /*
             app: 'csv',
             lineColor: ***REMOVED***("#555555"),
@@ -611,28 +608,31 @@ const Chart = ({
             measure: [],
             */
             
-            if (showLine[idx] == true) {
+            if (showLine[idx] == true || showLine[idx] == undefined) {
                 const {app, ***REMOVED***, lineColor, tooltip, title, measure} = o
                 if (o.app == 'csv') {                    
-                    const overlayData = Papa.parse(***REMOVED***, {header: false, dynamicTyping: true});
-                    const line = LineLayer(overlayData, lineColor, layout, groupMode, applyFilter(options.keys, true), tooltip, o.title, "")
-                    layers.push(line)
+                    const overlayData = Papa.parse(***REMOVED***, {header: false, dynamicTyping: true});                    
+                    if (overlayData.data && overlayData.data.filter(d => d[1] !== null).length > 0) {
+                        overlayData.data = overlayData.data.filter(d => d[1] !== null)
+                        const line = LineLayer(overlayData, lineColor, layout, groupMode, applyFilter(options.keys, true), tooltip, o.title, "")
+                        layers.push(line)
+                    }                    
                 } else {
-                    const overlayData = {}
-                    const data = options.data.map(d => [d[options.indexBy], d.variables[o.measure[0]]])
-                    
-                    const measure =options.metadata.measures? options.metadata.measures.filter(m => m.value == o.measure[0]):[]
-                    overlayData.data = data
-                    const line = LineLayer(overlayData, lineColor, layout, groupMode, applyFilter(options.keys, true), tooltip, o.title, measure.length > 0 ? measure[0].label : "")
-                    layers.push(line)
-
+                    if (o.measure[0]) {
+                        const overlayData = {}
+                        const data = options.data.map(d => [d[options.indexBy], d.variables[o.measure[0]]])
+                        const measure = options.metadata.measures? options.metadata.measures.filter(m => m.value == o.measure[0]):[]
+                        overlayData.data = data                        
+                        const line = LineLayer(overlayData, lineColor, layout, groupMode, applyFilter(options.keys, true), tooltip, o.title, measure.length > 0 ? measure[0].label : "")
+                        layers.push(line)
+                    }
                 }
             }
         })
     }
 
     if (***REMOVED*** === POSITION_TOP) {
-        layers.push(barLabel)
+        layers.push(***REMOVED***)
     }
 
     if (***REMOVED***) {
@@ -780,9 +780,16 @@ const Chart = ({
                         legend: legends.right,
                         ***REMOVED***: 'middle',
                         legendOffset: parseInt(offsetRight),
-                        format: value => layout === 'horizontal' ? value : intl.formatNumber(format.style === 'percent' ? value / 100 : value, {
-                            ...format                            
-                        })
+                        format: value => {
+                            if (layout == 'vertical') {
+                                const ***REMOVED*** = ***REMOVED*** ? ***REMOVED*** : format
+                                return intl.formatNumber(***REMOVED***.style === 'percent' ? value / 100 : value, {
+                                    ...***REMOVED***                                    
+                                })
+                            }
+                            
+                            return value
+                        } 
                     } : null}
                     axisBottom={
                         layout == 'horizontal' ? {
@@ -791,9 +798,15 @@ const Chart = ({
                             legendOffset: parseInt(offsetBottom),
                             tickPadding: 5,
                             tickRotation: 0,
-                            format: value => layout === 'vertical' ? value : intl.formatNumber(format.style === 'percent' ? value / 100 : value, {
-                                ...format                               
-                            })
+                            format: value => {
+                                if (layout == 'horizontal') {
+                                    const ***REMOVED*** = ***REMOVED*** ? ***REMOVED*** : format
+                                    return intl.formatNumber(***REMOVED***.style === 'percent' ? value / 100 : value, {
+                                        ...***REMOVED***
+                                    })
+                                }
+                                return value
+                            }
                         } : {
                             legend: legends.bottom,
                             ***REMOVED***: 'middle',
@@ -809,18 +822,27 @@ const Chart = ({
                         legend: legends.left,
                         ***REMOVED***: 'middle',
                         legendOffset: parseInt(offsetY),
-                        format: value => layout === 'horizontal' ? value : intl.formatNumber(format.style === 'percent' ? value / 100 : value, {
-                            ...format                            
-                        })
+                        format: value => {
+                            if (layout == 'vertical') {
+                                const ***REMOVED*** = ***REMOVED*** ? ***REMOVED*** : format
+                                return intl.formatNumber(***REMOVED***.style === 'percent' ? value / 100 : value, {
+                                    ...***REMOVED***
+                                })
+                            }
+                            
+                            return value
+                        } 
                     }
                     }
+                    enableGridY={enableGridY}
+                    enableGridX={enableGridX}
                     layout={layout}
                     ***REMOVED***={30}
                     ***REMOVED***={15}
                     padding={barPadding}
                     ***REMOVED***={barLabelColor}
                     label={(l) => intl.formatNumber(format.style === 'percent' ? l.value / 100 : l.value, format)}
-                    layers={layers}
+                    layers={layers}                    
                     onMouseEnter={(_data, event) => {
                     }}
 
