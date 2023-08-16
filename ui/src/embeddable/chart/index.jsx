@@ -184,11 +184,43 @@ const Chart = (props) => {
             return ***REMOVED*** && ***REMOVED***["csv"] ? ***REMOVED***["csv"].format : null
         }
     }
+
+    const ***REMOVED*** = () => { 
+        let format  = null
+        if (***REMOVED***[app]) {           
+            const ***REMOVED*** = ***REMOVED***[app].***REMOVED***
+            if (***REMOVED*** && ***REMOVED***[app].customFormat) {
+                format = ***REMOVED***[app].customFormat
+            }                      
+            
+        } else {
+            if (***REMOVED*** && ***REMOVED***["csv"]) {
+                const ***REMOVED*** = ***REMOVED***["csv"].***REMOVED***
+                if (***REMOVED*** && ***REMOVED***["csv"].customFormat) {
+                    format = ***REMOVED***["csv"].customFormat
+                }                
+            }           
+        }
+
+        return format
+    }
+    
     const ***REMOVED*** = () => {
         if (***REMOVED***[app]) {
             return Object.keys(***REMOVED***[app]).map(s => ({value: s, ...***REMOVED***[app][s]})).filter(m => m.selected).map(s => s.value)
         }
         return []
+    }
+    const ***REMOVED*** = () => {	
+        const customLabels = {}
+        if (***REMOVED***[app]) {
+            const ***REMOVED*** = Object.keys(***REMOVED***[app]).map(s => ({value: s, ...***REMOVED***[app][s]})).filter(m => m.selected && m.***REMOVED***)
+            ***REMOVED***.forEach(m => {
+                customLabels[m.value] = m.customLabel
+            }
+            )
+        }
+        return customLabels
     }
     const ***REMOVED*** = () => {
         if (***REMOVED***[app]) {
@@ -224,14 +256,15 @@ const Chart = (props) => {
         notation: (***REMOVED***.style === 'compacted') ? 'compact' : "standard",
         currency: ***REMOVED***.currency,
         minimumFractionDigits: parseInt(***REMOVED***.minimumFractionDigits),
-        maximumFractionDigits: parseInt(***REMOVED***.maximumFractionDigits)
+        maximumFractionDigits: parseInt(***REMOVED***.maximumFractionDigits)        
     } : {
         notation: "standard",
         currency: "USD",
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        maximumFractionDigits: 2        
     }
 
+    const ***REMOVED*** = ***REMOVED***()
 
     const groupTotalFormatObject = parse(***REMOVED***)
 
@@ -255,6 +288,8 @@ const Chart = (props) => {
         bottom: bottom,
         right: rightLegendForSelectedMeasure
     }
+
+
 
 
     const chartProps = {
@@ -339,6 +374,7 @@ const Chart = (props) => {
         overallLabel,
         minMaxClamp,
         reverseLegend: reverseLegend == true || reverseLegend == "true",
+        ***REMOVED***
     }
 
 
@@ -381,7 +417,7 @@ const Chart = (props) => {
             break
         case  "line":
             Chart = Line
-            showNotEnoughParameters = app != 'csv' && ***REMOVED***.length == 0
+            showNotEnoughParameters = app != 'csv' && (***REMOVED***.length == 0 || dimension1 == 'none')
             break
         case "pie":
             showNotEnoughParameters = app != 'csv' && ***REMOVED***.length == 0
@@ -424,7 +460,7 @@ const Chart = (props) => {
 
                     {showNotEnoughParameters && <Messages editing={editing}></Messages>}
                     {!showNotEnoughParameters && <DataConsumer>
-                            <Messages app={app} group={group}>  </Messages>
+                            <Messages app={app} group={group} noDataMsg={noDataMsg}>  </Messages>
                             <***REMOVED***
                                 locale={locale}
                                 colorBy={colorBy}
@@ -433,12 +469,14 @@ const Chart = (props) => {
                                 ***REMOVED***={***REMOVED*** == true || ***REMOVED*** == "true"}
                                 overallLabel={overallLabel}
                                 measures={***REMOVED***}
-                                dimensions={[...dimensions]}>
+                                dimensions={[...dimensions]}
+                                customLabels={***REMOVED***()}>
                                 <ColorProvider
                                     type={type}
                                     app={app}
                                     locale={locale}
                                     overallLabel={overallLabel}
+                                    customLabels={***REMOVED***()}
                                     manualColors={***REMOVED***()} colorBy={colorBy} scheme={scheme}
                                     barColor={chartProps.barColor}>
 
