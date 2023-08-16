@@ -58,7 +58,7 @@ const AxisConfig = (props) => {
                     title={__('X Axis Text Background')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(tickColor ? tickColor : "#f0f0f1"),
+                            value: ***REMOVED***(tickColor ? tickColor : "#FFFFFF"),
                             onChange: (color) => {
                                 if (color) {
                                     setAttributes({tickColor: ***REMOVED***(color)})
