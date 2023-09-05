@@ -69,7 +69,11 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             zoomLevelToShowPoints,
             zoomOnFilter,
-            ***REMOVED***
+            ***REMOVED***,
+            ***REMOVED***,
+            noDataText,
+            ***REMOVED***,
+            showShadingLayerLabels
         }
     } = props;
     
@@ -157,7 +161,11 @@ const SaveComponent = (props) => {
              data-aggregation-formula={***REMOVED***}
              data-zoom-level-to-show-points={zoomLevelToShowPoints}
              data-zoom-on-filter={zoomOnFilter}
-             data-zoom-on-filter-field={***REMOVED***}>  
+             data-zoom-on-filter-field={***REMOVED***}
+             data-labels-exclusion-list={***REMOVED***}
+             data-no-data-text={noDataText}
+             data-custom-measure-labels={***REMOVED***(JSON.stringify(***REMOVED***))}
+             data-show-shading-layer-labels={showShadingLayerLabels}>
         </div>
     );
 }
