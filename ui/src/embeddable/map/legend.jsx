@@ -20,7 +20,7 @@ export default class Legend extends React.Component {
 
     render() {
         const {***REMOVED***, ***REMOVED***, ***REMOVED***, symbols, ***REMOVED***,
-           ***REMOVED***, ***REMOVED***, intl, numberFormat, ***REMOVED***, ***REMOVED***} = this.props;
+           ***REMOVED***, ***REMOVED***, intl, numberFormat, ***REMOVED***, ***REMOVED***, noDataText} = this.props;
         const legendStyle={fontSize: ***REMOVED*** + 'px', fontWeight: ***REMOVED***}        
         
         return (
@@ -61,7 +61,7 @@ export default class Legend extends React.Component {
                     <li>
                     <span className="symbol" style= {{***REMOVED***: ***REMOVED***}}>
                                </span>
-                    <span className="legend-label" style={legendStyle}>No Data</span>                        
+                    <span className="legend-label" style={legendStyle}>{noDataText}</span>                        
                     </li>
                     }
                    {symbols && symbols.map((symbol,i) => {                     
