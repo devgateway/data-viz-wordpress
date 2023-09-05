@@ -47,10 +47,7 @@ import Generic from "../icons";
                 type: "Array",
                 default: []
             },
-            type: {
-                type: 'string',
-                default: "map",
-            },
+
             csv: {
                 type: "String",
                 default: ""
@@ -118,7 +115,7 @@ import Generic from "../icons";
             showTooltip:{
                 type:'Boolean',
                 default: true
-            }, 
+            },
             ***REMOVED***: {
                 type: "String",
                 default: ""
@@ -130,11 +127,11 @@ import Generic from "../icons";
             ***REMOVED***:{
                 type:'Boolean',
                 default: false
-            },	
+            },
             ***REMOVED***: {
                 type:'Boolean',
                 default: false
-            },	
+            },
             ***REMOVED***:{
                 type: 'Numeric',
                 default: 5
@@ -146,7 +143,7 @@ import Generic from "../icons";
             ***REMOVED***: {
                 type:'Boolean',
                 default: false
-            },	
+            },
             group: {
                 type: 'String',
                 default: 'default',
@@ -157,27 +154,27 @@ import Generic from "../icons";
             },
             tooltipTheme: {
                 type: 'String',
-                default: 'map-tooltip-dark',  
+                default: 'map-tooltip-dark',
             },
             ***REMOVED***: {
                 type: 'String',
-                default: ***REMOVED***("#595959"), 
+                default: ***REMOVED***("#595959"),
             },
             labelFontSize: {
                 type: 'Numeric',
-                default: 12, 
+                default: 12,
             },
             ***REMOVED***: {
                 type: 'String',
-                default: 'normal', 
+                default: 'normal',
             },
             ***REMOVED***:{
                 type: 'Numeric',
-                default: 12, 
+                default: 12,
             },
             ***REMOVED***:{
                 type: 'String',
-                default: 'normal', 
+                default: 'normal',
             },
             ***REMOVED***: {
                 type: "Array",
@@ -197,23 +194,27 @@ import Generic from "../icons";
             },
             ***REMOVED***:{
                 type: 'Numeric',
-                default: 14, 
+                default: 14,
             },
             ***REMOVED***: {
+                type: "String",
+                default: "ifUnitHasData"
+            },
+            showShadingLayerLabels: {
                 type: "String",
                 default: "showAll"
             },
             ***REMOVED***: {
                 type: 'String',
-                default: ***REMOVED***("#f8f8f8"), 
+                default: ***REMOVED***("#f8f8f8"),
             },
             ***REMOVED***: {
                 type: 'String',
-                default: ***REMOVED***("#000"), 
+                default: ***REMOVED***("#000"),
             },
             mapFocusBoundaryColor: {
                 type: 'String',
-                default: ***REMOVED***("#000"), 
+                default: ***REMOVED***("#000"),
             },
             ***REMOVED***:{
                 type: "String",
@@ -238,36 +239,40 @@ import Generic from "../icons";
             mapPosition: {
                 type: 'String',
                 default: '{}'
-            },           
+            },
+            type: {
+                type: 'string',
+                default: "media",
+            },
             taxonomy: {
                 type: 'string',
                 default: "none",
-            }, 
+            },
             fileType: {
                 type: 'string',
                 default: "none",
-            },     
+            },
             panelStatus: {
                 type: "Object",
                 default: {}
-            },    
+            },
             ***REMOVED***:{
                 type: "String",
                 default: "%({value},2)"
-            },  
-            ***REMOVED***: {
-                type: 'String',
-                default: ***REMOVED***("#FFF"), 
             },
             ***REMOVED***: {
                 type: 'String',
-                default: ***REMOVED***("#FFFF00"), 
+                default: ***REMOVED***("#FFF"),
+            },
+            ***REMOVED***: {
+                type: 'String',
+                default: ***REMOVED***("#FFFF00"),
             },
             mapType: {
                 type: 'String',
                 default: ""
             },
-           ***REMOVED***: {
+            ***REMOVED***: {
                 type:'Boolean',
                 default: false
             },
@@ -286,6 +291,18 @@ import Generic from "../icons";
             ***REMOVED***: {
                 type: 'String',
                 default: "name"
+            },
+            ***REMOVED***: {
+                type: 'String',
+                default: ""
+            },
+            noDataText: {
+                type: 'String',
+                default: "No Data"
+            },
+            ***REMOVED***: {
+                type: "Object",
+                default: {}
             }
         },
         edit: BlockEdit,
