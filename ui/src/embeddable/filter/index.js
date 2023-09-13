@@ -359,6 +359,7 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
 
 const ***REMOVED*** = (props) => {
+    debugger;
     const {data, type, ***REMOVED***} = props
     const cat = data.filter(d => d.type === type)[0]
     const ***REMOVED*** = cat ? cat.items.filter(f => {
@@ -433,6 +434,9 @@ const Filter = ({
                     "data-asc-order": ascOrder = "true",
                     intl,
                 }) => {
+
+
+    debugger
 
     const ***REMOVED*** = parse(hiddenFilters)
     let ***REMOVED***;

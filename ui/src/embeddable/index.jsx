@@ -1,9 +1,10 @@
 import React from 'react'
 import ***REMOVED*** from "../***REMOVED***";
-
 import data from './reducers/data'
 import embeddable from './reducers/embeddable'
 import {injectIntl} from "react-intl";
+import * as customizer from "@devgateway/customizer";
+import Reducers from "@devgateway/customizer/src/embedded/reducers";
 
 const TabbedPosts = ***REMOVED***(() => import("./tabbedposts/"));
 const PostsCarousel = ***REMOVED***(() => import("./postscarousel/"));
@@ -31,10 +32,15 @@ const ***REMOVED*** = ***REMOVED***(() => import('./child-page-menu'))
 const NewMap = ***REMOVED***(() => import('./d3Map'))
 const ***REMOVED*** = ***REMOVED***(() => import('./parallax/'))
 const Wrapped = ***REMOVED***(() => import('./wrapped/'))
+let reducerList = {data, embeddable}
 
-export const reducers = {
-    data, embeddable
+alert(customizer)
+
+if (customizer.Reducers) {
+    reducerList = {...reducerList, ...customizer.Reducers}
 }
+
+export const reducers = reducerList;
 
 
 const components = {
@@ -63,13 +69,20 @@ const components = {
     ***REMOVED***: ***REMOVED***,
     newMap: NewMap,
     ***REMOVED***: ***REMOVED***,
-    wrapped:Wrapped,
+    wrapped: Wrapped,
     redirect: () => null
 
 }
 
 export const getComponentByNameIgnoreCase = (name) => {
-    
+
     const k = Object.keys(components).filter(value => value.toLowerCase() == name.toLowerCase())
-    return injectIntl(components[k])
+    if (k.length > 0) {
+        return injectIntl(components[k])
+    } else {
+        const ***REMOVED*** = customizer.getComponentByNameIgnoreCase(name)
+        if (***REMOVED***) {
+            return injectIntl(***REMOVED***)
+        }
+    }
 }
