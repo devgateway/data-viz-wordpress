@@ -147,7 +147,7 @@ const SaveComponent = (props) => {
              data-decimals={decimals}
              data-currency={currency}
              data-csv={csv}
-             data-tooltip-html={tooltipHTML}
+             data-tooltip-html={***REMOVED***(tooltipHTML)}
              data-start-angle={startAngle}
              data-end-angle={endAngle}
              data-layout={layout}
