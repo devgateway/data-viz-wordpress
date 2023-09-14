@@ -596,6 +596,7 @@ class Map extends React.Component {
                     const variables = d.properties.variables || {}
                     label += "<br><span class='map-label-value'>" + formatContent(valueFormat, {
                         value: d.properties.value,
+                        ...d.properties,
                         measure: this.***REMOVED***(), ...variables
                     }, intl) + "</span>"
                 } else {
