@@ -31,9 +31,6 @@ const NewMap = ***REMOVED***(() => import('./d3Map'))
 const ***REMOVED*** = ***REMOVED***(() => import('./parallax/'))
 const Wrapped = ***REMOVED***(() => import('./wrapped/'))
 let reducerList = {data, embeddable}
-
-alert(customizer)
-
 if (customizer.Reducers) {
     reducerList = {...reducerList, ...customizer.Reducers}
 }
