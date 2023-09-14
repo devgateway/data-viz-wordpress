@@ -477,6 +477,14 @@ import {Chart} from '../icons/index.js'
             reverseLegend: {
                 type: 'Boolean',
                 default: false
+            },
+            sort: {
+                type: 'string',
+                default: '',
+            },
+            sortReverse: {
+                type: 'Boolean',
+                default: false
             }
         },
 
