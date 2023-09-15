@@ -50,14 +50,14 @@ export class LayerObject {
     //type:'shape', //shape layer user will select file and data source
     //type:'data', //will select data source and symbols + symbols configuration
 
-
+    format = {***REMOVED***: false, format: format, customFormat: format, selected: false}
     ***REMOVED*** = 'none'
     ***REMOVED*** = 'none'
     ***REMOVED*** = false
 
 
-    tooltip="Value {value}"
-    breaks=[]
+    tooltip = "Value {value}"
+    breaks = []
 
     constructor() {
 
