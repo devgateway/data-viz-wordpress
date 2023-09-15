@@ -60,12 +60,35 @@ export class ***REMOVED*** extends Component {
         this.removeFilter = this.removeFilter.bind(this)
         this.items = this.items.bind(this)
         this.getCSValue = this.getCSValue.bind(this)
-
+        this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.state = {
             measures: [], dimensions: [], filters: [], categories: []
         }
     }
 
+
+    ***REMOVED***(format, field) {
+        const {
+            ***REMOVED***, allDimensions, allFilters, allMeasures, features, apps, layer: {
+                app,
+                csv,
+                measures,
+                filters,
+                ***REMOVED***,
+                ***REMOVED***,
+                type,
+                fillColor,
+                borderColor,
+                breaks,
+                markFillColor,
+                ***REMOVED***,
+                markSizeScale,
+                tooltip
+            }
+        } = this.props
+
+        ***REMOVED***("format", format);
+    }
 
     getCSValue() {
         const {apps, features, layer: {csv, ***REMOVED***}} = this.props
@@ -256,6 +279,7 @@ export class ***REMOVED*** extends Component {
             </PanelRow>
         </PanelBody>, <React.Fragment>
             {app != 'csv' && <Measures
+                ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
                 {...this.props} />}
