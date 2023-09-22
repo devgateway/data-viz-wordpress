@@ -11,11 +11,8 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import Measures from './MapMeasures.jsx'
-import Property from "./Property";
-import ***REMOVED*** from "./***REMOVED***";
-import {BlockEditWithAPIMetadata} from "../commons";
-import {***REMOVED***} from "@wordpress/block-editor";
+import Measures from './utils/MapMeasures.jsx'
+import Property from "./utils/Property";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -222,9 +219,11 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 ***REMOVED***,
                 type,
+                ***REMOVED***,
                 fillColor,
                 borderColor,
                 breaks,
+
                 markFillColor,
                 ***REMOVED***,
                 markSizeScale,
@@ -283,7 +282,8 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
                 {...this.props} />}
-        </React.Fragment>, <React.Fragment>
+        </React.Fragment>,
+            <React.Fragment>
             {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
                 {filters.map((f, index) => {
 
@@ -302,52 +302,9 @@ export class ***REMOVED*** extends Component {
             </PanelBody>}
         </React.Fragment>,
 
-            <PanelBody initialOpen={false} title={"Marker Defaults"}>
-                <PanelRow>
-                    <ToggleControl
-                        label="Use Circle Mark"
-                        checked={true}
-                        onChange={(value) => {
-                            ***REMOVED***("***REMOVED***", value)
-                        }}
-                    />
-                </PanelRow>
-                <PanelRow>
-                    <RangeControl
-                        label="Maker Base Size"
-                        value={markSizeScale}
-                        onChange={(value) => {
-                            ***REMOVED***("markSizeScale", value)
-                        }}
-                        step={0.5}
-                        min={0}
-                        max={10}
-                    />
-                </PanelRow>
-                <PanelRow>
-                    <***REMOVED***
-                        title={__(`Fill Color`)}
-                        value={fillColor}
-                        colorSettings={[{
-                            value: markFillColor, onChange: (fillColor) => {
-                                ***REMOVED***("markFillColor", fillColor)
-                            },
+            <PanelBody initialOpen={false} title={"Styles"}>
 
-                        }]}
-                    />
-                    <***REMOVED***
-                        title={__(`Border Color`)}
-                        value={borderColor}
-                        colorSettings={[{
-                            value: ***REMOVED***, onChange: (borderColor) => {
-                                ***REMOVED***("***REMOVED***", borderColor)
-                            },
 
-                        }]}
-                    />
-                </PanelRow>
-                <***REMOVED*** ***REMOVED***={***REMOVED***} ***REMOVED***={markFillColor}
-                                 ***REMOVED***={***REMOVED***} breaks={breaks}/>
 
             </PanelBody>
 
