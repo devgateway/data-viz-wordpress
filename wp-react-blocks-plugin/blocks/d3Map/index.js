@@ -42,6 +42,7 @@ import Generic from "../icons";
                 default: {}
             },
 
+
         },
         edit: BlockEdit,
         save: BlockSave,
