@@ -59,7 +59,7 @@ class ***REMOVED*** extends React.Component {
                     ***REMOVED***,
                     editing,
                     height,
-                    width
+                    width,
                 })
 
             })}
