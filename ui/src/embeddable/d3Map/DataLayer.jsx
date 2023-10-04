@@ -107,6 +107,21 @@ class DataLayer extends BaseLayer {
         const filteredData = json.features.filter(f => f.properties._value != null)
 
 
+        const ***REMOVED*** = (d) => {
+            if (d.properties._value) {
+                const variables = {
+                    ...d.properties, meta: {
+                        [***REMOVED***]: d.properties.meta ? d.properties.meta.value : '', ...d.properties.meta,
+                        value: d.properties._value
+                    }
+                }
+                return variables
+            }
+            return {}
+
+        }
+
+
         this.g.selectAll(".point").remove()
         this.g.selectAll(".point-label").remove()
         this.g.selectAll(".shape-pattern").remove()
@@ -126,11 +141,19 @@ class DataLayer extends BaseLayer {
                 }
             })
         } else {
+            patternsData = data.metadata.types.filter(d => d.dimension == ***REMOVED***)[0].items.map(item => {
+                const key = item.value
+                return {
+                    key: key,
+                    type: patterns[key + "_symbol"],
+                    color: patterns[key + "_color"],
+                    rotation: patterns[key + "_rotation"]
+                }
 
+            })
         }
 
         defs.selectAll("pattern").remove()
-
         defs.selectAll("pattern")
             .data(patternsData).enter()
             .append("pattern")
@@ -212,7 +235,15 @@ class DataLayer extends BaseLayer {
                 })
                 //.attr("transform", this.props.transform)
                 .on("mouseenter", (d) => {
-                    this.showToolTip(tooltip, d.properties, getColor(d.properties._value))
+                    if (d.properties._value) {
+                        const variables = {
+                            ...d.properties, meta: {
+                                [***REMOVED***]: d.properties.meta ? d.properties.meta.value : '', ...d.properties.meta,
+                                value: d.properties._value
+                            }
+                        }
+                        this.showToolTip(tooltip, variables, getColor(d.properties._value))
+                    }
                 })
                 .on("mouseleave", (d) => {
                     this.hiddenToolTip()
@@ -235,9 +266,8 @@ class DataLayer extends BaseLayer {
                 }).on("mouseover", (d) => {
 
             });
-        } else {
-
-
+        } //Map Shapes
+        else {
             this.g.selectAll("path")
                 .attr("fill", d => {
                     if (!d.properties._value) {
@@ -247,13 +277,16 @@ class DataLayer extends BaseLayer {
                 })
                 .attr("stroke", borderColor)
                 .attr("id", "state-borders")
-                .attr("d", path)
-                .on("mouseenter", (d) => {
-                    this.showToolTip(tooltip, d.properties, getColor(d.properties._value))
-                })
+                .attr("d", path).on("mouseenter", (d) => {
+                this.showToolTip(tooltip, ***REMOVED***(d), getColor(d.properties._value))
+            })
                 .on("mouseleave", (d) => {
                     this.hiddenToolTip()
                 })
+                .on("mousemove", (d) => {
+                    this.moveToolTip()
+                })
+
 
             if (usePattern) {
                 this.g.selectAll("shape-pattern")
@@ -264,7 +297,7 @@ class DataLayer extends BaseLayer {
                     .attr("class", "shape-pattern")
                     .attr("opacity", d => {
                         if (useBreaks) {
-                            return 1
+                            return .7
                         }
                     })
                     .attr("fill", d => {
@@ -274,12 +307,21 @@ class DataLayer extends BaseLayer {
                     .attr("style", d => {
                         if (d.properties && d.properties.meta) {
                             const id = d.properties.meta[***REMOVED***]
-                            return "fill:url(#" + id + ");"
-                        }else{
-                            //return "fill:red;"
+                            return "none;fill:url(#" + id + ");"
+                        } else {
+                            // return "pointer-events:none;"
                         }
 
                     })
+                    .on("mouseenter", (d) => {
+                        this.showToolTip(tooltip, ***REMOVED***(d), getColor(d.properties._value))
+                    }).on("mousemove", (d) => {
+                        this.moveToolTip()
+                    }).on("mouseleave", (d) => {
+                        this.hiddenToolTip()
+                    })
+
+
             }
 
 
@@ -307,8 +349,10 @@ class DataLayer extends BaseLayer {
             ***REMOVED***,
             editing,
             data,
-            measures
+            measures,
+            ***REMOVED***
         } = this.props
+
 
         this.loadJSON(file).then(json => {
 
@@ -318,11 +362,21 @@ class DataLayer extends BaseLayer {
 
                 if (app != 'csv' && data && data.children) {
                     const values = data.children.filter(d => d.value.indexOf(joinValue) > -1)
-
                     if (values.length > 0) {
+
                         const measureValue = (values[0][measures[0]])
                         d.properties.meta = values[0]
                         d.properties._value = measureValue
+
+                        if (***REMOVED***) {
+                            const ***REMOVED*** = values[0].children.filter(f => f.type == ***REMOVED***).map(d => d.value)
+
+                            const patternType = values[0].children.map(d => ({
+                                value: d.value, [measures[0]]: d[measures[0]]
+                            })).sort(d => d.value)[0].value
+
+                            d.properties.meta[***REMOVED***] = patternType
+                        }
 
                     } else {
                         d.properties._value = null
@@ -392,10 +446,10 @@ class DataLayer extends BaseLayer {
 
 const DataWrapper = (props) => {
     const {
-        name, unique, filters, csv, app, group = "default", ***REMOVED***, editing
+        name, unique, filters, csv, app, group = "default", ***REMOVED***, editing, ***REMOVED***,
     } = props
 
-    debugger;
+
     return (<DataProvider
         editing={editing}
         params={filters}
@@ -406,7 +460,7 @@ const DataWrapper = (props) => {
         ignoreErrors={true}
         isSvg={true}
         store={[app, unique, name]}
-        source={[***REMOVED***]}>
+        source={***REMOVED*** + "/" + ***REMOVED***}>
         <DataConsumer>
             <DataLayer {...props}></DataLayer>
         </DataConsumer>
