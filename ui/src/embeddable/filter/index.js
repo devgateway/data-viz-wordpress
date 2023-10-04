@@ -189,7 +189,7 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)((props) => {
                     }
                     onInit({app, group, param, value: filterValues})
                 }else{
-                    debugger;
+                    
                     onInit({app, group, param, value: [filterItems[0]]})
                 }
             }
@@ -359,7 +359,7 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
 
 const ***REMOVED*** = (props) => {
-    debugger;
+    
     const {data, type, ***REMOVED***} = props
     const cat = data.filter(d => d.type === type)[0]
     const ***REMOVED*** = cat ? cat.items.filter(f => {

@@ -18,7 +18,7 @@ import Generic from "../icons";
             },
             width: {
                 type: 'Numeric',
-                default: 800
+                default: 1024
             },
             group: {
                 type: 'string',

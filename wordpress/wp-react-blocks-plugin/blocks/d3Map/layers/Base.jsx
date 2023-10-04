@@ -3,6 +3,7 @@ import {
     PanelBody,
     PanelRow,
     RangeControl,
+    ***REMOVED***,
     SelectControl,
     TextControl,
     ToggleControl
@@ -140,19 +141,69 @@ const Base = (props) => {
                     />
                 </PanelRow>
 
-                {labelField != 'none' && <PanelRow>
-                    <PanelBody title={"Show/Hidde Labels"}>
-                        {features && features.map(feature => <ToggleControl
-                            label={feature.properties[labelField]}
-                            checked={labelFilter.indexOf(feature.properties[labelField]) == -1}
-                            onChange={(selected) => {
+                {labelField != 'none' && <PanelBody title={__("Labels")}>
+                    <PanelRow>
+                        <ToggleControl
+                            label={"None/All"}
+                            checked={labelFilter.length == 0 }
+                            onChange={(checked) => {
+                                if (!checked){
+                                    ***REMOVED***("labelFilter", features.map(f => f.properties[labelField]))
+                                }else{
+                                    ***REMOVED***("labelFilter", [])
+                                }
 
-                                ***REMOVED***("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]))
                             }}
-                        />)}
+                        />
+                    </PanelRow>
+                    {features && features.map(feature => <>
+                        <PanelRow>
+                            <ToggleControl
+                                label={feature.properties[labelField]}
+                                checked={labelFilter.indexOf(feature.properties[labelField]) == -1}
+                                onChange={(selected) => {
+                                    ***REMOVED***("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]))
+                                }}
+                            />
+                        </PanelRow>
+                        {(labelFilter.indexOf(feature.properties[labelField]) == -1) && <PanelBody>
+                            <PanelRow>
+                                <RangeControl
+                                    label="Offset X"
+                                    min={-500}
+                                    max={500}
+                                    value={layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0}
+                                    onChange={(offsetX) => ***REMOVED***("labelSettings", {
+                                        ...layer.labelSettings, [feature.properties[labelField] + "_offsetX"]: offsetX
+                                    })}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <RangeControl
+                                    label="Offset Y"
+                                    min={-500}
+                                    max={500}
+                                    value={layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0}
+                                    onChange={(offset) => ***REMOVED***("labelSettings", {
+                                        ...layer.labelSettings, [feature.properties[labelField] + "_offsetY"]: offset
+                                    })}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <***REMOVED*** label={"Rotation"}
+                                                    value={layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0}
+                                                    onChange={(rotation) => ***REMOVED***("labelSettings", {
+                                                        ...layer.labelSettings,
+                                                        [feature.properties[labelField] + "_rotation"]: rotation
+                                                    })}>
 
-                    </PanelBody>
-                </PanelRow>}
+                                    ></***REMOVED***>
+                            </PanelRow>
+                        </PanelBody>}
+
+                    </>)}
+
+                </PanelBody>}
             </PanelBody>
 
             }  </>,

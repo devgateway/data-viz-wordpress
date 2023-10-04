@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MapDataFrame = ({children, data, measures, ***REMOVED***}) => {
-    debugger;
+    
     const ***REMOVED*** = {
         locationsData: [],
         nationalData: {},
@@ -46,7 +46,7 @@ const MapDataFrame = ({children, data, measures, ***REMOVED***}) => {
         ***REMOVED***.measures = measuresArray.length > 1 ? measuresArray : null;
         ***REMOVED***.nationalData.value = data[measures];
     }
-    debugger;
+    
     return React.Children.map(children, child => React.cloneElement(child, {***REMOVED***: ***REMOVED***}))
 }
 

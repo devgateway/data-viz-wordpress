@@ -75,7 +75,7 @@ export const getComponentByNameIgnoreCase = (name) => {
     if (k.length > 0) {
         return injectIntl(components[k])
     } else {
-        debugger;
+        
         const ***REMOVED*** = customizer.getComponentByNameIgnoreCase(name)
         if (***REMOVED***) {
             return injectIntl(***REMOVED***)

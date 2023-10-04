@@ -13,7 +13,7 @@ class CustomColors extends Colors {
         //1 dimension by id == by measure        
         if (app != 'csv') {
             const ***REMOVED*** = (***REMOVED***) => {
-                debugger;
+                
                 const ***REMOVED*** = [...***REMOVED***][***REMOVED***]
 
                 if (***REMOVED***) {
