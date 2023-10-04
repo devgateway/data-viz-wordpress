@@ -13,7 +13,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
             end: 1,
             color: ***REMOVED***,
             borderColor: ***REMOVED***,
-            size: .1
+            size: 1
         })
         ***REMOVED***("breaks", newBreaks)
     }

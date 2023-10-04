@@ -137,7 +137,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
     }
 
     ***REMOVED***(checked, value) {
-        debugger;
+        
         const {setAttributes, attributes: {categories}} = this.props
         if (!checked) {
             setAttributes({categories: categories.filter(i => i != value)})
