@@ -15,23 +15,30 @@ export const Model = {
     csv: "",
 
     file: 'none',
-    fillColor: '#000000',
+
+    opacity: 1,
+
+    fillColor: '#FFFFFF',
+    markFillColor: '#FFFFFF',
 
     borderColor: '#000000',
+    ***REMOVED***: '#000000',
+    markSizeScale: 2,
+
     labelColor: '#000000',
-    labelFontSize: 5,
     ***REMOVED***: '#000000',
-    markFillColor: '#000000',
-    ***REMOVED***: '#000000',
-    markSizeScale: 5,
+    labelFontSize: 2,
+
     labelFilter: [],
     labelSettings: {},
-    opacity: 1,
+
     labelField: 'none',
     type: 'base', //base layer user will select only a file
     //type:'shape', //shape layer user will select file and data source
     //type:'data', //will select data source and symbols + symbols configuration
     useBreaks: false,
+    usePattern: false,
+
     format: {
         "style": "percent",
         "minimumFractionDigits": 1,
@@ -41,7 +48,6 @@ export const Model = {
     ***REMOVED***: 'none',
     ***REMOVED***: 'none',
     ***REMOVED***: false,
-    usePattern: false,
     ***REMOVED***: 'none',
     patterns: [],
     tooltip: "Value {value}",

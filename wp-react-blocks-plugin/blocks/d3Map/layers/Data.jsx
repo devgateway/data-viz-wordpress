@@ -337,14 +337,14 @@ export class ***REMOVED*** extends Component {
 
             {***REMOVED*** && <PanelRow>
                 <RangeControl
-                    label="Point Base size"
+                    label="Point Base Size"
                     value={markSizeScale}
                     onChange={(value) => {
                         ***REMOVED***("markSizeScale", value)
                     }}
-                    step={0.5}
+                    step={1}
                     min={0}
-                    max={200}
+                    max={100}
                 />
             </PanelRow>}
             <PanelRow>
@@ -354,6 +354,9 @@ export class ***REMOVED*** extends Component {
                     onChange={(***REMOVED***) => {
                         ***REMOVED***("***REMOVED***", ***REMOVED***)
                     }}
+                    step={1}
+                    min={0}
+                    max={100}
                 >
 
                 </RangeControl>
@@ -364,6 +367,8 @@ export class ***REMOVED*** extends Component {
                     title={__(`Circle Fill Color`)}
                     value={markFillColor}
                     colorSettings={[{
+                        clearable: true,
+                        enableAlpha: true,
                         value: markFillColor, onChange: (markFillColor) => {
                             ***REMOVED***("markFillColor", markFillColor)
                         },
@@ -374,6 +379,8 @@ export class ***REMOVED*** extends Component {
                     title={__(`Circle Label Color`)}
                     value={***REMOVED***}
                     colorSettings={[{
+                        clearable: true,
+                        enableAlpha: true,
                         value: ***REMOVED***, onChange: (***REMOVED***) => {
                             ***REMOVED***("***REMOVED***", ***REMOVED***)
                         },
@@ -386,6 +393,8 @@ export class ***REMOVED*** extends Component {
                     title={__(`Circle Border Color`)}
                     value={borderColor}
                     colorSettings={[{
+                        clearable: true,
+                        enableAlpha: true,
                         value: ***REMOVED***, onChange: (borderColor) => {
                             ***REMOVED***("***REMOVED***", borderColor)
                         },
@@ -411,7 +420,7 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***={markFillColor}
                 ***REMOVED***={***REMOVED***} breaks={breaks}/>}
 
-            {!***REMOVED*** && <PanelRow>
+             <PanelRow>
                 <ToggleControl
                     label="Use Patterns"
                     checked={usePattern}
@@ -419,10 +428,10 @@ export class ***REMOVED*** extends Component {
                         ***REMOVED***("usePattern", !usePattern)
                     }}
                 />
-            </PanelRow>}
+            </PanelRow>
 
 
-            {!***REMOVED*** && usePattern &&
+            {usePattern &&
                 <***REMOVED*** allCategories={allCategories} allDimensions={allDimensions} ***REMOVED***={fillColor} ***REMOVED***={***REMOVED***}
                                   patterns={patterns} app={app} csv={csv}
                                   ***REMOVED***={***REMOVED***}/>}
