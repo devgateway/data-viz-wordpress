@@ -13,6 +13,7 @@ import {
 } from '@wordpress/components';
 import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
+import {***REMOVED***} from "@wordpress/block-editor";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -90,7 +91,7 @@ export class ***REMOVED*** extends Component {
     getCSValue() {
         const {apps, features, layer: {csv, ***REMOVED***}} = this.props
         if (csv == '') {
-            let generatedCSV = 'id,value\n'
+            let generatedCSV = 'Latitude,Longitude,value\n'
             if (features && features.length > 0) {
                 features.forEach(f => {
                     generatedCSV = generatedCSV + f.properties[***REMOVED***] + ', \n'
@@ -243,13 +244,7 @@ export class ***REMOVED*** extends Component {
                     options={apps}
                 />
             </PanelRow>
-            <Property property={"***REMOVED***"}
-                      type={"select"} ***REMOVED***={***REMOVED***}
-                      features={features}
-                      value={***REMOVED***}
-                      title={"Shape Attribute"}>
 
-            </Property>
             {app == 'csv' && <PanelRow>
                 <***REMOVED***
                     label={__("CSV Data")}
@@ -303,8 +298,48 @@ export class ***REMOVED*** extends Component {
         </React.Fragment>,
 
             <PanelBody initialOpen={false} title={"Styles"}>
+                <PanelRow>
+                    <RangeControl
+                        label="Points Size"
+                        value={markSizeScale}
+                        onChange={(value) => {
+                            ***REMOVED***("markSizeScale", value)
+                        }}
+                        step={1}
+                        min={0}
+                        max={100}
+                    />
+                </PanelRow>
+                <PanelRow>
 
+                    <***REMOVED***
+                        title={__(`Points Fill Color`)}
+                        value={markFillColor}
+                        colorSettings={[{
+                            clearable: true,
+                            enableAlpha: true,
+                            value: markFillColor, onChange: (markFillColor) => {
+                                ***REMOVED***("markFillColor", markFillColor)
+                            },
 
+                        }]}
+                    />
+
+                </PanelRow>
+                <PanelRow>
+                <***REMOVED***
+                    title={__(`Border Color`)}
+                    value={borderColor}
+                    colorSettings={[{
+                        clearable: true,
+                        enableAlpha: true,
+                        value: ***REMOVED***, onChange: (borderColor) => {
+                            ***REMOVED***("***REMOVED***", borderColor)
+                        },
+
+                    }]}
+                />
+            </PanelRow>
 
             </PanelBody>
 
