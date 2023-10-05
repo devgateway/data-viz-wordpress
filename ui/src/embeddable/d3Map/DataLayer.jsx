@@ -121,7 +121,7 @@ class DataLayer extends BaseLayer {
 
         }
 
-       this.createPaths(json)
+        this.createPaths(json)
 
         this.g.selectAll(".point").remove()
         this.g.selectAll(".point-label").remove()
@@ -321,60 +321,60 @@ class DataLayer extends BaseLayer {
             ***REMOVED***
         } = this.props
 
+        if (file!="none")  {
+            this.loadJSON(file).then(json => {
 
-        this.loadJSON(file).then(json => {
+                const features = json.features.map(d => {
 
-            const features = json.features.map(d => {
+                    const joinValue = d.properties[***REMOVED***]
 
-                const joinValue = d.properties[***REMOVED***]
+                    if (app != 'csv' && data && data.children) {
+                        const values = data.children.filter(d => d.value.indexOf(joinValue) > -1)
+                        if (values.length > 0) {
 
-                if (app != 'csv' && data && data.children) {
-                    const values = data.children.filter(d => d.value.indexOf(joinValue) > -1)
-                    if (values.length > 0) {
+                            const measureValue = (values[0][measures[0]])
+                            d.properties.meta = values[0]
+                            d.properties._value = measureValue
 
-                        const measureValue = (values[0][measures[0]])
-                        d.properties.meta = values[0]
-                        d.properties._value = measureValue
+                            if (***REMOVED***) {
+                                const ***REMOVED*** = values[0].children.filter(f => f.type == ***REMOVED***).map(d => d.value)
 
-                        if (***REMOVED***) {
-                            const ***REMOVED*** = values[0].children.filter(f => f.type == ***REMOVED***).map(d => d.value)
+                                const patternType = values[0].children.map(d => ({
+                                    value: d.value, [measures[0]]: d[measures[0]]
+                                })).sort(d => d.value)[0].value
 
-                            const patternType = values[0].children.map(d => ({
-                                value: d.value, [measures[0]]: d[measures[0]]
-                            })).sort(d => d.value)[0].value
+                                d.properties.meta[***REMOVED***] = patternType
+                            }
 
-                            d.properties.meta[***REMOVED***] = patternType
+                        } else {
+                            d.properties._value = null
                         }
 
+                    } else if (app == 'csv') {
+                        const values = data.data.filter(d => d[data.meta.fields[0]] == joinValue)
+                        if (values.length > 0) {
+                            d.properties.meta = values[0]
+                            d.properties._value = values[0][data.meta.fields[1]]
+                        } else {
+                            d.properties._value = null
+                        }
+
+
                     } else {
                         d.properties._value = null
                     }
-
-                } else if (app == 'csv') {
-                    const values = data.data.filter(d => d[data.meta.fields[0]] == joinValue)
-                    if (values.length > 0) {
-                        d.properties.meta = values[0]
-                        d.properties._value = values[0][data.meta.fields[1]]
-                    } else {
-                        d.properties._value = null
-                    }
+                    return d
+                })
 
 
-                } else {
-                    d.properties._value = null
-                }
-                return d
-            })
+                const newJson = {...json, features}
 
 
-            const newJson = {...json, features}
+                this.***REMOVED***(newJson);
 
 
-
-            this.***REMOVED***(newJson);
-
-
-        });
+            });
+        }
     }
 
     ***REMOVED***(prevProps, prevState, snapshot) {
