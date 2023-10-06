@@ -8,7 +8,7 @@ import LatLongLayer from './LatLongLayer'
 import ZoomControl from "./ZoomControl";
 import {Container} from "semantic-ui-react";
 import ***REMOVED*** from "./***REMOVED***";
-
+import Legends from "./Legends"
 const MapWrapper = (props) => {
         const {
             unique,
@@ -57,6 +57,7 @@ const MapWrapper = (props) => {
                     </Map>
                     <ZoomControl  onZoomed={setTransform} width={width} height={height} ref={zoomRef} group={group}
                                  editing={editing}/>
+                    <Legends layers={layers}></Legends>
                 </***REMOVED***>
             </div>
         );

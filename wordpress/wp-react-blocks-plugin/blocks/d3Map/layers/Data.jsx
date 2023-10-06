@@ -291,151 +291,179 @@ export class ***REMOVED*** extends Component {
                     onChange={(tooltip) => ***REMOVED***("tooltip", tooltip)}
                     rows={10}
                 />
+
             </PanelRow>
-        </PanelBody>, <React.Fragment>
-            {app != 'csv' && <Measures
-                ***REMOVED***={this.***REMOVED***}
-                ***REMOVED***={this.***REMOVED***}
-                ***REMOVED***={this.***REMOVED***}
-                {...this.props} />}
-        </React.Fragment>, <React.Fragment>
-            {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
-                {filters.map((f, index) => {
-                    return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
-                        <***REMOVED*** param={f.param} index={index} options={allFilters}
-                                        ***REMOVED***={this.***REMOVED***}/>
-                        {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
-                                            ***REMOVED***={this.***REMOVED***}/>}
-                    </PanelBody>)
-                })}
+            {app != 'csv' && allMeasures && allMeasures.map(m => <PanelRow><p
+                style={{
+                    "margin-top": "calc(8px)",
+                    "font-size": "12px",
+                    "font-style": "normal",
+                    "color": "rgb(117, 117, 117)"
+                }}>{"{" + m.value + "}"}</p></PanelRow>)
+            }
+        </PanelBody>,
+            <React.Fragment>
+                {app != 'csv' && <Measures
+                    ***REMOVED***={this.***REMOVED***}
+                    ***REMOVED***={this.***REMOVED***}
+                    ***REMOVED***={this.***REMOVED***}
+                    {...this.props} />}
+            </React.Fragment>, <React.Fragment>
+                {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
+                    {filters.map((f, index) => {
+                        return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
+                            <***REMOVED*** param={f.param} index={index} options={allFilters}
+                                            ***REMOVED***={this.***REMOVED***}/>
+                            {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
+                                                ***REMOVED***={this.***REMOVED***}/>}
+                        </PanelBody>)
+                    })}
+
+                    <PanelRow>
+                        <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
+                        <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
+                    </PanelRow>
+                </PanelBody>}
+            </React.Fragment>, <PanelBody initialOpen={false} title={"Symbols and Styles"}>
 
                 <PanelRow>
-                    <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
-                    <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
+                    <***REMOVED***
+                        title={__(`Default Fill Color`)}
+                        value={fillColor}
+                        colorSettings={[{
+                            clearable: true,
+                            enableAlpha: true,
+                            value: markFillColor, onChange: (fillColor) => {
+                                ***REMOVED***("fillColor", fillColor)
+                            },
+
+                        }]}
+                    />
                 </PanelRow>
-            </PanelBody>}
-        </React.Fragment>, <PanelBody initialOpen={false} title={"Symbols and Styles"}>
-            <PanelRow>
-                <ToggleControl
-                    label="Use Centroid Points"
-                    checked={***REMOVED***}
-                    onChange={(value) => {
-                        ***REMOVED***("***REMOVED***", true)
-                    }}
-                />
-            </PanelRow>
-            <PanelRow>
-                <ToggleControl
-                    label="Use Shape Colors"
-                    checked={!***REMOVED***}
-                    onChange={(value) => {
-                        ***REMOVED***("***REMOVED***", false)
-                    }}
-                />
-            </PanelRow>
+                <PanelRow>
+                    <ToggleControl
+                        label="Use Centroid Points"
+                        checked={***REMOVED***}
+                        onChange={(value) => {
+                            ***REMOVED***("***REMOVED***", true)
+                        }}
+                    />
+                </PanelRow>
+                <PanelRow>
+                    <ToggleControl
+                        label="Use Shape Colors"
+                        checked={!***REMOVED***}
+                        onChange={(value) => {
+                            ***REMOVED***("***REMOVED***", false)
+                        }}
+                    />
+                </PanelRow>
 
 
-            {***REMOVED*** && <PanelRow>
-                <RangeControl
-                    label="Point Base Size"
-                    value={markSizeScale}
-                    onChange={(value) => {
-                        ***REMOVED***("markSizeScale", value)
-                    }}
-                    step={1}
-                    min={0}
-                    max={100}
-                />
-            </PanelRow>}
-            <PanelRow>
-                <RangeControl
-                    label="Point Label Size"
-                    value={***REMOVED***}
-                    onChange={(***REMOVED***) => {
-                        ***REMOVED***("***REMOVED***", ***REMOVED***)
-                    }}
-                    step={1}
-                    min={0}
-                    max={100}
-                >
-
-                </RangeControl>
-            </PanelRow>
-            {***REMOVED*** && <PanelRow>
-
-                <***REMOVED***
-                    title={__(`Circle Fill Color`)}
-                    value={markFillColor}
-                    colorSettings={[{
-                        clearable: true,
-                        enableAlpha: true,
-                        value: markFillColor, onChange: (markFillColor) => {
-                            ***REMOVED***("markFillColor", markFillColor)
-                        },
-
-                    }]}
-                />
-                <***REMOVED***
-                    title={__(`Circle Label Color`)}
-                    value={***REMOVED***}
-                    colorSettings={[{
-                        clearable: true,
-                        enableAlpha: true,
-                        value: ***REMOVED***, onChange: (***REMOVED***) => {
+                {***REMOVED*** && <PanelRow>
+                    <RangeControl
+                        label="Point Base Size"
+                        value={markSizeScale}
+                        onChange={(value) => {
+                            ***REMOVED***("markSizeScale", value)
+                        }}
+                        step={1}
+                        min={0}
+                        max={100}
+                    />
+                </PanelRow>}
+                {***REMOVED*** && <PanelRow>
+                    <RangeControl
+                        label="Point Label Size"
+                        value={***REMOVED***}
+                        onChange={(***REMOVED***) => {
                             ***REMOVED***("***REMOVED***", ***REMOVED***)
-                        },
+                        }}
+                        step={1}
+                        min={0}
+                        max={100}
+                    >
 
-                    }]}
-                />
-            </PanelRow>}
-            {***REMOVED*** && <PanelRow>
-                <***REMOVED***
-                    title={__(`Circle Border Color`)}
-                    value={borderColor}
-                    colorSettings={[{
-                        clearable: true,
-                        enableAlpha: true,
-                        value: ***REMOVED***, onChange: (borderColor) => {
-                            ***REMOVED***("***REMOVED***", borderColor)
-                        },
+                    </RangeControl>
+                </PanelRow>}
+                {***REMOVED*** && <PanelRow>
 
-                    }]}
-                />
-            </PanelRow>}
+                    <***REMOVED***
+                        title={__(`Circle Fill Color`)}
+                        value={markFillColor}
+                        colorSettings={[{
+                            clearable: true,
+                            enableAlpha: true,
+                            value: markFillColor, onChange: (markFillColor) => {
+                                ***REMOVED***("markFillColor", markFillColor)
+                            },
 
-            <PanelRow>
-                <ToggleControl
-                    label="Use Breaks"
-                    checked={useBreaks}
-                    onChange={e => {
-                        ***REMOVED***("useBreaks", !useBreaks)
-                    }}
+                        }]}
+                    /></PanelRow>}
 
-                />
-            </PanelRow>
+                {***REMOVED*** && <PanelRow>
+                    <***REMOVED***
+                        title={__(`Circle Label Color`)}
+                        value={***REMOVED***}
+                        colorSettings={[{
+                            clearable: true,
+                            enableAlpha: true,
+                            value: ***REMOVED***, onChange: (***REMOVED***) => {
+                                ***REMOVED***("***REMOVED***", ***REMOVED***)
+                            },
 
-            {useBreaks && <***REMOVED***
-                showSize={***REMOVED***}
-                ***REMOVED***={***REMOVED***}
-                ***REMOVED***={markFillColor}
-                ***REMOVED***={***REMOVED***} breaks={breaks}/>}
+                        }]}
+                    />
+                </PanelRow>}
+                {***REMOVED*** && <PanelRow>
+                    <***REMOVED***
+                        title={__(`Circle Border Color`)}
+                        value={borderColor}
+                        colorSettings={[{
+                            clearable: true,
+                            enableAlpha: true,
+                            value: ***REMOVED***, onChange: (borderColor) => {
+                                ***REMOVED***("***REMOVED***", borderColor)
+                            },
 
-             <PanelRow>
-                <ToggleControl
-                    label="Use Patterns"
-                    checked={usePattern}
-                    onChange={e => {
-                        ***REMOVED***("usePattern", !usePattern)
-                    }}
-                />
-            </PanelRow>
+                        }]}
+                    />
+                </PanelRow>}
+
+                <PanelRow>
+                    <ToggleControl
+                        label="Use Breaks"
+                        checked={useBreaks}
+                        onChange={e => {
+                            ***REMOVED***("useBreaks", !useBreaks)
+                        }}
+
+                    />
+                </PanelRow>
+
+                {useBreaks && <***REMOVED***
+                    showSize={***REMOVED***}
+                    ***REMOVED***={***REMOVED***}
+                    ***REMOVED***={markFillColor}
+                    ***REMOVED***={***REMOVED***} breaks={breaks}/>
+                }
 
 
-            {usePattern &&
-                <***REMOVED*** allCategories={allCategories} allDimensions={allDimensions} ***REMOVED***={fillColor} ***REMOVED***={***REMOVED***}
-                                  patterns={patterns} app={app} csv={csv}
-                                  ***REMOVED***={***REMOVED***}/>}
-        </PanelBody>
+                <PanelRow>
+                    <ToggleControl
+                        label="Use Patterns"
+                        checked={usePattern}
+                        onChange={e => {
+                            ***REMOVED***("usePattern", !usePattern)
+                        }}
+                    />
+                </PanelRow>
+
+                {usePattern && <***REMOVED*** allCategories={allCategories} allDimensions={allDimensions}
+                                                 ***REMOVED***={fillColor} ***REMOVED***={***REMOVED***}
+                                                 patterns={patterns} app={app} csv={csv}
+                                                 ***REMOVED***={***REMOVED***}/>}
+            </PanelBody>
 
 
         ])

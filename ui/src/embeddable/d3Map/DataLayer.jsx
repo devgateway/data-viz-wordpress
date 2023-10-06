@@ -35,7 +35,7 @@ class DataLayer extends BaseLayer {
             app,
             svg,
             format,
-            name,
+            id,
             file,
             path,
             ***REMOVED***,
@@ -131,9 +131,8 @@ class DataLayer extends BaseLayer {
 
         const defs = d3.select(svg).append("defs")
         let patternsData = []
-        if (app == "csv") {
+        if (app == "csv" && ***REMOVED***!='none') {
             patternsData = [...new Set(data.data.map(d => d[***REMOVED***]))].map(key => {
-
                 return {
                     key: key,
                     type: patterns[key + "_symbol"],
@@ -141,8 +140,8 @@ class DataLayer extends BaseLayer {
                     rotation: patterns[key + "_rotation"]
                 }
             })
-        } else {
-            patternsData = data.metadata.types.filter(d => d.dimension == ***REMOVED***)[0].items.map(item => {
+        } else if(***REMOVED***!='none') {
+                patternsData = data.metadata.types.filter(d => d.dimension == ***REMOVED***)[0].items.map(item => {
                 const key = item.value
                 return {
                     key: key,
@@ -321,7 +320,7 @@ class DataLayer extends BaseLayer {
             ***REMOVED***
         } = this.props
 
-        if (file!="none")  {
+        if (file != "none") {
             this.loadJSON(file).then(json => {
 
                 const features = json.features.map(d => {
@@ -336,7 +335,7 @@ class DataLayer extends BaseLayer {
                             d.properties.meta = values[0]
                             d.properties._value = measureValue
 
-                            if (***REMOVED***) {
+                            if (***REMOVED*** && ***REMOVED***!='none') {
                                 const ***REMOVED*** = values[0].children.filter(f => f.type == ***REMOVED***).map(d => d.value)
 
                                 const patternType = values[0].children.map(d => ({
@@ -391,7 +390,7 @@ class DataLayer extends BaseLayer {
     render() {
 
         const {
-            name,
+            id,
             file,
             path,
             zoom,
@@ -407,28 +406,40 @@ class DataLayer extends BaseLayer {
             editing
         } = this.props
 
-        return <g className={"data " + name} ref={this.gRef}/>
+        return <g className={"data " + id} ref={this.gRef}/>
     }
 
 }
 
 const DataWrapper = (props) => {
     const {
-        name, unique, filters, csv, app, group = "default", ***REMOVED***, editing, ***REMOVED***,
+        id, unique, filters, csv, app, group = "default", ***REMOVED***, editing, ***REMOVED***,
     } = props
+
+    let params = {}
+
+    const ff = filters || {}
+
+    if (ff && ff.forEach) {
+        ff.forEach(f => {
+            if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0)
+                params[f.param] = f.value
+        })
+    }
+
 
 
     return (<DataProvider
         editing={editing}
-        params={filters}
+        params={params}
         app={app}
         csv={***REMOVED***(csv)}
         group={group}
         editing={editing}
         ignoreErrors={true}
         isSvg={true}
-        store={[app, unique, name]}
-        source={***REMOVED*** + "/" + ***REMOVED***}>
+        store={[app, unique, id]}
+        source={***REMOVED*** + (***REMOVED*** != 'none' ? "/"+***REMOVED*** : '')}>
         <DataConsumer>
             <DataLayer {...props}></DataLayer>
         </DataConsumer>
