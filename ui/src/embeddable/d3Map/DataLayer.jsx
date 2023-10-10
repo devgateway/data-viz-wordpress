@@ -68,8 +68,8 @@ class DataLayer extends BaseLayer {
             useBreaks,
             ***REMOVED***,
             usePattern,
-            patternWidth=.35,
-            patternHeight=.25,
+            patternWidth = .35,
+            patternHeight = .25,
             intl,
 
 
@@ -207,7 +207,7 @@ class DataLayer extends BaseLayer {
             if (d.type === 'triangle') {
                 defs.select("#" + toId(d.key))
                     .append("polygon")
-                    .attr("points",".085,.0 .18,.18 0,.18")
+                    .attr("points", ".085,.0 .18,.18 0,.18")
                     .attr('fill', d.color)
                     .attr("opacity", .75)
                     .attr("stroke-width", 1)
@@ -215,12 +215,40 @@ class DataLayer extends BaseLayer {
             }
         })
 
+
+        if (!***REMOVED***) {
+            this.g.selectAll("path")
+                .attr("fill", d => {
+                    if (!d || !d.properties || !d.properties._value) {
+                        return fillColor
+                    }
+                    return getColor(d.properties._value)
+                })
+                .attr("stroke", borderColor)
+                .attr("id", "state-borders")
+                .attr("d", path).on("mouseenter", (d) => {
+                this.showToolTip(tooltip, ***REMOVED***(d), getColor(d.properties._value))
+            })
+                .on("mouseleave", (d) => {
+                    this.hiddenToolTip()
+                })
+                .on("mousemove", (d) => {
+                    this.moveToolTip()
+                })
+
+            this.createLabels(json)
+
+        }
+
+        const k = this.props.transform ? this.props.transform.k : 1
+
+
         if (usePattern && json && json.features) {
 
             json.features.forEach(d => {
                 let patterns = []
                 if (d.properties && d.properties.meta) {
-                    patterns = d.properties.meta[***REMOVED***]?d.properties.meta[***REMOVED***]:[]
+                    patterns = d.properties.meta[***REMOVED***] ? d.properties.meta[***REMOVED***] : []
 
                     patterns.forEach(p => {
                         this.g.append("path")
@@ -252,69 +280,11 @@ class DataLayer extends BaseLayer {
                 }
 
             })
-            /*
-            this.g.selectAll("shape-pattern")
-                .data(json.features)
-                .enter()
-                .append("path")
-                .attr("d", path)
-                .attr("class", "shape-pattern")
-                .attr("opacity", d => {
-                    if (useBreaks) {
-                        return .7
-                    }
-                })
-                .attr("fill", d => {
-                    return "transparent"
-                })
 
-                .attr("style", d => {
-                    debugger;
-                    if (d.properties && d.properties.meta) {
-                        const id = d.properties.meta[***REMOVED***]
-                        return "none;fill:url(#" + toId(id) + ");"
-                    } else {
-                        // return "pointer-events:none;"
-                    }
-
-                })
-                .on("mouseenter", (d) => {
-                    this.showToolTip(tooltip, ***REMOVED***(d), getColor(d.properties._value))
-                }).on("mousemove", (d) => {
-                this.moveToolTip()
-            }).on("mouseleave", (d) => {
-                this.hiddenToolTip()
-            })
-        */
-
-        }
-        if (!***REMOVED***) {
-
-
-            this.g.selectAll("path")
-                .attr("fill", d => {
-                    if (!d.properties && !d.properties._value) {
-                        return fillColor
-                    }
-                    return getColor(d.properties._value)
-                })
-                .attr("stroke", borderColor)
-                .attr("id", "state-borders")
-                .attr("d", path).on("mouseenter", (d) => {
-                this.showToolTip(tooltip, ***REMOVED***(d), getColor(d.properties._value))
-            })
-                .on("mouseleave", (d) => {
-                    this.hiddenToolTip()
-                })
-                .on("mousemove", (d) => {
-                    this.moveToolTip()
-                })
-
-            this.createLabels(json)
 
         }
 
-        const k = this.props.transform ? this.props.transform.k : 1
+
         if (***REMOVED***) {
             this.createLabels(json)
             this.g.selectAll(".point")
@@ -408,7 +378,7 @@ class DataLayer extends BaseLayer {
                             d.properties._value = measureValue
 
                             if (***REMOVED*** && ***REMOVED*** != 'none') {
-                                const ***REMOVED*** = values[0]&&values[0].children?values[0].children.filter(f => f.type == ***REMOVED***).map(d => d.value):[]
+                                const ***REMOVED*** = values[0] && values[0].children ? values[0].children.filter(f => f.type == ***REMOVED***).map(d => d.value) : []
                                 /*
                                  const patternType = values[0].children.map(d => ({
                                      value: d.value, [measures[0]]: d[measures[0]]
