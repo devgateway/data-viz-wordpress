@@ -48,7 +48,7 @@ export const Model = {
     },
     ***REMOVED***: 'none',
     ***REMOVED***: 'none',
-    ***REMOVED***: false,
+    ***REMOVED***: true,
     ***REMOVED***: 'none',
     patterns: [],
     tooltip: "Value {value}",

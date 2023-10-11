@@ -1,5 +1,6 @@
 import {PanelRow, SelectControl, TextControl, ToggleControl, PanelBody} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
+
 const styles = [
     {label: 'Decimal', value: 'decimal'},
     {label: 'Compacted', value: 'compacted'},
@@ -333,7 +334,15 @@ const currencies = [
 
 const DEFAULT_FORMAT = 'DEFAULT';
 const CUSTOM_FORMAT = 'CUSTOM';
-const Format = ({format, title, ***REMOVED***, onUseCustomAxisFormatChange, customFormat, ***REMOVED***}) => {
+const Format = ({
+                    format,
+                    title,
+                    ***REMOVED***,
+                    onUseCustomAxisFormatChange,
+                    customFormat,
+                    hiddenCustomAxisFormat,
+                    ***REMOVED***
+                }) => {
 
 
     const ***REMOVED*** = (style, ***REMOVED***) => {
@@ -359,69 +368,77 @@ const Format = ({format, title, ***REMOVED***, onUseCustomAxisFormatChange, cust
 
     return [
         <PanelBody initialOpen={true} title={__("Default Format")}>
-        <PanelRow>
-            <SelectControl
-                label={__('Style',"dg")}
-                value={[format.style]} // e.g: value = [ 'a', 'c' ]
-                onChange={(value) => {***REMOVED***(value, DEFAULT_FORMAT)}}
-                options={styles}
-            />
-        </PanelRow>
-        <>{format.style === "currency" && <PanelRow>
-            <SelectControl
-                label={__("Currency","dg")}
-                onChange={(value) => {
-                    ***REMOVED***(value, DEFAULT_FORMAT)
-                }}
-                value={format.currency}
-                options={currencies}
-            />
-        </PanelRow>}</>
-        <PanelRow>
-            <TextControl
-                type={"Number"}
-                label={__("Decimal Points","dg")}
-                onChange={(value) => {
-                    ***REMOVED***(value, DEFAULT_FORMAT)
-                }}
-                value={format.minimumFractionDigits}
-            />
-        </PanelRow>
-        </PanelBody>,
-        <PanelRow>
-             <ToggleControl label={__("Use Custom Axis Format","dg")} checked={***REMOVED***} onChange={(value) => onUseCustomAxisFormatChange(value)}/>
-        </PanelRow>,
+            <PanelRow>
+                <SelectControl
+                    label={__('Style', "dg")}
+                    value={[format.style]} // e.g: value = [ 'a', 'c' ]
+                    onChange={(value) => {
+                        ***REMOVED***(value, DEFAULT_FORMAT)
+                    }}
+                    options={styles}
+                />
+            </PanelRow>
+            <>{format.style === "currency" && <PanelRow>
+                <SelectControl
+                    label={__("Currency", "dg")}
+                    onChange={(value) => {
+                        ***REMOVED***(value, DEFAULT_FORMAT)
+                    }}
+                    value={format.currency}
+                    options={currencies}
+                />
+            </PanelRow>}</>
+            <PanelRow>
+                <TextControl
+                    type={"Number"}
+                    label={__("Decimal Points", "dg")}
+                    onChange={(value) => {
+                        ***REMOVED***(value, DEFAULT_FORMAT)
+                    }}
+                    value={format.minimumFractionDigits}
+                />
+            </PanelRow>
+        </PanelBody>, <>
+            {!hiddenCustomAxisFormat && <PanelRow>
+                <ToggleControl label={__("Use Custom Axis Format", "dg")} checked={***REMOVED***}
+                               onChange={(value) => onUseCustomAxisFormatChange(value)}/>
+            </PanelRow>
+            }
+        </>
+        ,
         <>
-         {***REMOVED*** && <PanelBody initialOpen={true} title={__("Custom Axis Format")}>
-         <PanelRow>
-            <SelectControl
-                label={__('Style',"dg")}
-                value={[customFormat.style]} // e.g: value = [ 'a', 'c' ]
-                onChange={(value) => {***REMOVED***(value, CUSTOM_FORMAT)}}
-                options={styles}
-            />
-        </PanelRow>
-        <>{customFormat.style === "currency" && <PanelRow>
-            <SelectControl
-                label={__("Currency","dg")}
-                onChange={(value) => {
-                    ***REMOVED***(value, CUSTOM_FORMAT)
-                }}
-                value={customFormat.currency}
-                options={currencies}
-            />
-        </PanelRow>}</>
-        <PanelRow>
-            <TextControl
-                type={"Number"}
-                label={__("Decimal Points","dg")}
-                onChange={(value) => {
-                    ***REMOVED***(value, CUSTOM_FORMAT)
-                }}
-                value={customFormat.minimumFractionDigits}
-            />
-        </PanelRow>
-        </PanelBody>}</>
+            {***REMOVED*** && <PanelBody initialOpen={true} title={__("Custom Axis Format")}>
+                <PanelRow>
+                    <SelectControl
+                        label={__('Style', "dg")}
+                        value={[customFormat.style]} // e.g: value = [ 'a', 'c' ]
+                        onChange={(value) => {
+                            ***REMOVED***(value, CUSTOM_FORMAT)
+                        }}
+                        options={styles}
+                    />
+                </PanelRow>
+                <>{customFormat.style === "currency" && <PanelRow>
+                    <SelectControl
+                        label={__("Currency", "dg")}
+                        onChange={(value) => {
+                            ***REMOVED***(value, CUSTOM_FORMAT)
+                        }}
+                        value={customFormat.currency}
+                        options={currencies}
+                    />
+                </PanelRow>}</>
+                <PanelRow>
+                    <TextControl
+                        type={"Number"}
+                        label={__("Decimal Points", "dg")}
+                        onChange={(value) => {
+                            ***REMOVED***(value, CUSTOM_FORMAT)
+                        }}
+                        value={customFormat.minimumFractionDigits}
+                    />
+                </PanelRow>
+            </PanelBody>}</>
 
     ]
 }
