@@ -61,49 +61,73 @@ const ***REMOVED*** = (props) => {
     const {fillColor, borderColor, name} = props
     return <div className={"legend"}>
         <div className={"legend-item"}>
-            <div className={"legend-color"} style={{***REMOVED***: fillColor}}/>
+            <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
             <div className={"legend-label"}>{name}</div>
         </div>
     </div>
 }
 
 const ***REMOVED*** = (props) => {
-    const {markFillColor, markSizeScale, ***REMOVED***, name, useBreaks, breaks, usePatterns, patterns} = props
+    const {
+        markFillColor,
+        fillColor,
+        markSizeScale,
+        ***REMOVED***,
+        name,
+        useBreaks,
+        breaks,
+        usePatterns,
+        patterns,
+        measures,
+        borderColor
+    } = props
 
-    
+    debugger;
 
     return <div className={"legend"}>
-        {***REMOVED*** && !useBreaks && <div className={"legend-item"}>
-            <div className={"legend-color"} style={{***REMOVED***: markFillColor}}/>
-            <div className={"legend-label"}>{name}</div>
+        {***REMOVED*** && !useBreaks && <div>
+            <div className={"legend-item"}>
+                <div className={"legend-color"} style={{***REMOVED***: fillColor}}/>
+                <div className={"legend-label"}>{name}</div>
+
+            </div>
+            <div className={"legend-breaks"}>
+                <div className={"break"}>
+                    <div className={"break-item"} style={{
+                        ***REMOVED***: markFillColor,
+
+                    }}></div>
+                    <div className={"break-label"}> {measures}</div>
+                </div>
+            </div>
         </div>
         }
-        {***REMOVED*** && useBreaks && <div className={"legend-item"} style={{flexDirection:"column"}}>
-            <div className={"legend-label"}>{name}</div>
+
+        {***REMOVED*** && useBreaks && <div>
+            <div className={"legend-item"}>
+                <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
+                <div className={"legend-label"}>{name}</div>
+            </div>
             <div className={"legend-breaks"}>
                 {breaks.map((b, i) => {
-                    return (<div>
+                    return (<div className={"break"}>
                         <div className={"break-item"} style={{
                             ***REMOVED***: b.color,
-                            borderRadius: "50%",
-                            width: "20px",
-                            height: "20px"
+
                         }}></div>
-                        <div className={"legend-label"}>{b.value}</div>
+                        <div className={"break-label"}>  &lt; {b.end}</div>
                     </div>)
 
                 })}
             </div>
-
         </div>
-
         }
     </div>
 }
 const Legends = (props) => {
 
     const {layers = []} = props;
-    return <div>
+    return <div className={"legends"}>
         {layers.map(l => {
             return <div>
                 {l.type == "base" && <***REMOVED*** {...l}/>}

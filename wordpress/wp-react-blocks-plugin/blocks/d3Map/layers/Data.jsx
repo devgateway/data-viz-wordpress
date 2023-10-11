@@ -16,6 +16,7 @@ import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
+import Format from '../../charts/Format.jsx'
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -231,7 +232,7 @@ export class ***REMOVED*** extends Component {
                 useBreaks,
                 fillColor,
                 borderColor,
-
+                format,
 
                 breaks,
                 labelFontSize,
@@ -266,6 +267,7 @@ export class ***REMOVED*** extends Component {
                                                title={"Shape Attribute"}>
 
             </Property>}
+
             {app == 'csv' && <PanelRow>
                 <***REMOVED***
                     label={__("CSV Data")}
@@ -273,6 +275,11 @@ export class ***REMOVED*** extends Component {
                     onChange={(csv) => ***REMOVED***("csv", csv)}
                 />
             </PanelRow>}
+
+            {app == 'csv' && <PanelRow>
+                 <Format title={"Format"} format={format} hiddenCustomAxisFormat={true}   ***REMOVED***={this.***REMOVED***}></Format>
+            </PanelRow>}
+
             {app != 'csv' && <PanelRow>
                 <SelectControl
                     label={'Dimension' + (type == 'dataPoints' ? 'LatLong' : '')}
