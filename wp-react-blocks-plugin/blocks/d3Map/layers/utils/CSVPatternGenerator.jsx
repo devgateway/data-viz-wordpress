@@ -20,7 +20,7 @@ const Patterns = ({csv, app, ***REMOVED***, patterns, ***REMOVED***, ***REMOVED*
     const fieldsOptions = data ? data.meta.fields.map(f => {
         return {label: f, value: f}
     }) : []
-    const values = ***REMOVED*** != 'none' ? [...(new Set(data.data.map(d => d[***REMOVED***].toString().trim())))] : []
+    const values = ***REMOVED*** != 'none' ? [...(new Set(data.data.filter(d => d[***REMOVED***] != null && d[***REMOVED***].toString().trim() !== "").map(d => d[***REMOVED***].toString().trim())))] : []
     return <PanelBody title={"Patterns"}>
         <PanelRow>
             <SelectControl
