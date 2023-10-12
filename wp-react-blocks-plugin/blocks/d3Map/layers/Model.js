@@ -24,7 +24,7 @@ export const Model = {
     borderColor: '#000000',
     ***REMOVED***: '#000000',
     markSizeScale: 2,
-    ***REMOVED***:1,
+    ***REMOVED***: 1,
 
     labelColor: '#000000',
     ***REMOVED***: '#000000',
@@ -53,6 +53,7 @@ export const Model = {
     patterns: [],
     tooltip: "Value {value}",
     breaks: [],
+    ***REMOVED***: {}
 
 }
 
