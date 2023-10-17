@@ -352,7 +352,7 @@ export class ***REMOVED*** extends Component {
                 <TextControl
                     label={***REMOVED***}
                     help={__("Customize Measure Label")}
-                    value={***REMOVED***[***REMOVED***]}
+                    value={***REMOVED*** ? ***REMOVED***[***REMOVED***] : ""}
                     onChange={(measureLabel) => {
                         ***REMOVED***("***REMOVED***", {
                             ...***REMOVED***, [***REMOVED***]: measureLabel
