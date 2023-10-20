@@ -82,46 +82,35 @@ const ***REMOVED*** = (props) => {
         borderColor
     } = props
 
-    debugger;
 
     return <div className={"legend"}>
-        {***REMOVED*** && !useBreaks && <div>
-            <div className={"legend-item"}>
-                <div className={"legend-color"} style={{***REMOVED***: fillColor}}/>
-                <div className={"legend-label"}>{name}</div>
-
-            </div>
-            <div className={"legend-breaks"}>
-                <div className={"break"}>
-                    <div className={"break-item"} style={{
-                        ***REMOVED***: markFillColor,
-
-                    }}></div>
-                    <div className={"break-label"}> {measures}</div>
-                </div>
-            </div>
-        </div>
-        }
-
-        {***REMOVED*** && useBreaks && <div>
+        <div>
             <div className={"legend-item"}>
                 <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
                 <div className={"legend-label"}>{name}</div>
             </div>
-            <div className={"legend-breaks"}>
+            {((***REMOVED*** && !useBreaks) || (!***REMOVED*** && !useBreaks)) && <div className={"legend-breaks"}>
+                <div className={"break"}>
+                    <div className={"break-item"} style={{
+                        ***REMOVED***: markFillColor,
+                    }}></div>
+                    <div className={"break-label"}> {measures}</div>
+                </div>
+            </div>
+            }
+
+            {((!***REMOVED*** && useBreaks) || (***REMOVED*** && useBreaks)) && <div className={"legend-breaks"}>
                 {breaks.map((b, i) => {
                     return (<div className={"break"}>
                         <div className={"break-item"} style={{
                             ***REMOVED***: b.color,
-
                         }}></div>
                         <div className={"break-label"}>  &lt; {b.end}</div>
                     </div>)
-
                 })}
             </div>
+            }
         </div>
-        }
     </div>
 }
 const Legends = (props) => {
