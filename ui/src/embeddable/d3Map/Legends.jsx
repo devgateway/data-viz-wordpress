@@ -192,33 +192,24 @@ const ***REMOVED*** = (props) => {
     }
 
     return <div className={"legend"}>
-        {***REMOVED*** && !useBreaks && <div>
+        <div>
             <div className={"legend-item"}>
-                <div className={"legend-color"} style={{***REMOVED***: fillColor}}/>
+                <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
                 <div className={"legend-label"}>{name}</div>
-
             </div>
-            <div className={"legend-breaks"}>
+            {((***REMOVED*** && !useBreaks) || (!***REMOVED*** && !useBreaks)) && <div className={"legend-breaks"}>
                 <div className={"break"}>
 
                     <div className={"break-item"} style={{
                         ***REMOVED***: markFillColor,
                         border: `1px solid ${***REMOVED***}`,
-
                     }}></div>
                     <div className={"break-label"}> {measureLabel}</div>
                 </div>
             </div>
-        </div>
-        }
+            }
 
-        {***REMOVED*** && useBreaks && <div>
-            <div className={"legend-item"}>
-                <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
-                <div className={"legend-label"}>{name}</div>
-            </div>
-            <div className={"legend-breaks"}>
-                <div className={"break-label"}> {measureLabel}</div>
+            {((!***REMOVED*** && useBreaks) || (***REMOVED*** && useBreaks)) && <div className={"legend-breaks"}>
                 {breaks.map((b, i) => {
                     return (<div className={"break"}>
                         <div className={"break-item"} style={{
@@ -227,35 +218,10 @@ const ***REMOVED*** = (props) => {
                         }}></div>
                         <div className={"break-label"}> &lt; {b.end}</div>
                     </div>)
-
                 })}
             </div>
+            }
         </div>
-        }
-
-
-        {!***REMOVED*** && <div>
-            <div className={"legend-item"}>
-                <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
-                <div className={"legend-label"}>{name}</div>
-            </div>
-            {useBreaks && <div className={"legend-breaks"}>
-                <div className={"break-label"}> {measureLabel}</div>
-                {breaks.map((b, i) => {
-                    return (<div className={"break"}>
-                        <div className={"break-item-shape"} style={{
-                            ***REMOVED***: b.color,
-                            border: `1px solid ${borderColor}`,
-                        }}></div>
-                        <div className={"break-label"}> &lt; {b.end}</div>
-                    </div>)
-
-                })}
-            </div>}
-        </div>
-        }
-
-
     </div>
 }
 const Legends = (props) => {
