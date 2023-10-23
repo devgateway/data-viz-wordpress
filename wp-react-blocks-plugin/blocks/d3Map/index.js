@@ -11,7 +11,7 @@ import Generic from "../icons";
         category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
-          
+
             height: {
                 type: 'Numeric',
                 default: 500
@@ -23,6 +23,10 @@ import Generic from "../icons";
             group: {
                 type: 'string',
                 default: 'default',
+            },
+            projection: {
+                type: 'string',
+                default: 'geoMercator',
             },
 
             layers: {
