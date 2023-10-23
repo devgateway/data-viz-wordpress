@@ -20,10 +20,13 @@ export const Model = {
 
     fillColor: '#FFFFFF',
     markFillColor: '#FFFFFF',
+    ***REMOVED***: '#FFFFFF',
 
     borderColor: '#000000',
     ***REMOVED***: '#000000',
+    ***REMOVED***: '#000000',
     markSizeScale: 2,
+    ***REMOVED***: 2,
     ***REMOVED***: 1,
 
     labelColor: '#000000',
