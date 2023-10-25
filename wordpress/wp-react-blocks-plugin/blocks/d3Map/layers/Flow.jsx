@@ -11,11 +11,12 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import Measures from './MapMeasures.jsx'
-import Property from "./Property";
-import ***REMOVED*** from "./***REMOVED***";
-import {BlockEditWithAPIMetadata} from "../commons";
+import Measures from './utils/MapMeasures.jsx'
+import Property from "./utils/Property";
+import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
+import ***REMOVED*** from "./utils/***REMOVED***";
+import Format from '../../charts/Format.jsx'
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -60,10 +61,34 @@ export class ***REMOVED*** extends Component {
         this.removeFilter = this.removeFilter.bind(this)
         this.items = this.items.bind(this)
         this.getCSValue = this.getCSValue.bind(this)
-
+        this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.state = {
             measures: [], dimensions: [], filters: [], categories: []
         }
+    }
+
+
+    ***REMOVED***(format, field) {
+        const {
+            ***REMOVED***, allDimensions, allFilters, allMeasures, features, apps, layer: {
+                app,
+                csv,
+                measures,
+                filters,
+                ***REMOVED***,
+                ***REMOVED***,
+                type,
+                fillColor,
+                borderColor,
+                breaks,
+                markFillColor,
+                ***REMOVED***,
+                markSizeScale,
+                tooltip
+            }
+        } = this.props
+
+        ***REMOVED***("format", format);
     }
 
 
@@ -191,7 +216,7 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, features, apps, layer: {
+            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, features, apps, layer: {
                 app,
                 csv,
                 measures,
@@ -199,17 +224,52 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 ***REMOVED***,
                 type,
+                ***REMOVED***,
+                useBreaks,
                 fillColor,
                 borderColor,
+                format,
+
                 breaks,
+                labelFontSize,
                 markFillColor,
                 ***REMOVED***,
+                ***REMOVED***,
+                ***REMOVED***,
+                ***REMOVED***,
                 markSizeScale,
-                tooltip
+                ***REMOVED***,
+                ***REMOVED***,
+                tooltip,
+                usePattern,
+                patterns,
+                ***REMOVED***,
+                ***REMOVED***,
+                flowOrigin,
+                ***REMOVED***,
             }
         } = this.props
 
+        let ***REMOVED*** = ""
+        let ***REMOVED*** = ""
 
+        if (app != 'csv') {
+            debugger;
+            const theMeasure = measures ? measures[0] : null
+            const ***REMOVED*** = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null
+            if (***REMOVED***) {
+                ***REMOVED*** = ***REMOVED***.label
+                ***REMOVED*** = ***REMOVED***.value
+
+
+                if (***REMOVED*** && (!***REMOVED***[***REMOVED***] || ***REMOVED***[***REMOVED***] == "")) {
+                    ***REMOVED***("***REMOVED***", {
+                        ...***REMOVED***, [***REMOVED***]: ***REMOVED***
+                    })
+                }
+            }
+        }
+        debugger;
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
@@ -221,13 +281,14 @@ export class ***REMOVED*** extends Component {
                     options={apps}
                 />
             </PanelRow>
-            <Property property={"***REMOVED***"}
-                      type={"select"} ***REMOVED***={***REMOVED***}
-                      features={features}
-                      value={***REMOVED***}
-                      title={"Shape Attribute"}>
+            {type != 'dataPoints' && <Property property={"***REMOVED***"}
+                                               type={"select"} ***REMOVED***={***REMOVED***}
+                                               features={features}
+                                               value={***REMOVED***}
+                                               title={"Shape Attribute"}>
 
-            </Property>
+            </Property>}
+
             {app == 'csv' && <PanelRow>
                 <***REMOVED***
                     label={__("CSV Data")}
@@ -235,9 +296,25 @@ export class ***REMOVED*** extends Component {
                     onChange={(csv) => ***REMOVED***("csv", csv)}
                 />
             </PanelRow>}
+
+            {app == 'csv' && <PanelRow>
+                <Format title={"Format"} format={format} hiddenCustomAxisFormat={true}
+                        ***REMOVED***={this.***REMOVED***}></Format>
+            </PanelRow>}
+
             {app != 'csv' && <PanelRow>
                 <SelectControl
-                    label={'Dimension'}
+                    label={'Origin'}
+                    value={[flowOrigin]} // e.g: value = [ 'a', 'c' ]
+                    onChange={(value) => {
+                        ***REMOVED***("flowOrigin", value)
+                    }}
+                    options={allDimensions}
+                />
+            </PanelRow>}
+            {app != 'csv' && <PanelRow>
+                <SelectControl
+                    label={'Destination'}
                     value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
                         ***REMOVED***("***REMOVED***", value)
@@ -253,16 +330,24 @@ export class ***REMOVED*** extends Component {
                     onChange={(tooltip) => ***REMOVED***("tooltip", tooltip)}
                     rows={10}
                 />
+
             </PanelRow>
+            {app != 'csv' && allMeasures && allMeasures.map(m => <PanelRow><p
+                style={{
+                    "margin-top": "calc(8px)",
+                    "font-size": "12px",
+                    "font-style": "normal",
+                    "color": "rgb(117, 117, 117)"
+                }}>{"{" + m.value + "}"}</p></PanelRow>)}
         </PanelBody>, <React.Fragment>
             {app != 'csv' && <Measures
+                ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
                 {...this.props} />}
         </React.Fragment>, <React.Fragment>
             {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
                 {filters.map((f, index) => {
-
                     return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
                         <***REMOVED*** param={f.param} index={index} options={allFilters}
                                         ***REMOVED***={this.***REMOVED***}/>
@@ -276,57 +361,92 @@ export class ***REMOVED*** extends Component {
                     <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
                 </PanelRow>
             </PanelBody>}
-        </React.Fragment>,
+        </React.Fragment>, <PanelBody initialOpen={false} title={"Symbols and Styles"}>
+            {app != "csv" && ***REMOVED*** && <PanelRow>
+                <TextControl
+                    label={***REMOVED***}
+                    help={__("Customize Measure Label")}
+                    value={***REMOVED*** ? ***REMOVED***[***REMOVED***] : ""}
+                    onChange={(measureLabel) => {
+                        ***REMOVED***("***REMOVED***", {
+                            ...***REMOVED***, [***REMOVED***]: measureLabel
+                        })
 
-            <PanelBody initialOpen={false} title={"Marker Defaults"}>
+
+                    }}>
+                </TextControl>
+            </PanelRow>}
+            <PanelRow>
+                <RangeControl
+                    label="Circle Size"
+                    value={markSizeScale}
+                    onChange={(value) => {
+                        ***REMOVED***("markSizeScale", value)
+                    }}
+                    step={1}
+                    min={0}
+                    max={100}
+                />
+            </PanelRow>
+
+            <PanelRow>
+                <***REMOVED***
+                    title={__(`Circle Fill Color`)}
+                    value={markFillColor}
+                    colorSettings={[{
+                        clearable: true, enableAlpha: true, value: markFillColor, onChange: (markFillColor) => {
+                            ***REMOVED***("markFillColor", markFillColor)
+                        },
+
+                    }]}/>
+            </PanelRow>
+            <PanelRow>
+                <***REMOVED***
+                    title={__(`Circle Border Color`)}
+                    value={borderColor}
+                    colorSettings={[{
+                        clearable: true,
+                        enableAlpha: true,
+                        value: ***REMOVED***, onChange: (borderColor) => {
+                            ***REMOVED***("***REMOVED***", borderColor)
+                        },
+
+                    }]}
+                />
+            </PanelRow>
+            <PanelRow>
+                <***REMOVED***
+                    title={__(`Line Fill Color`)}
+                    value={***REMOVED***}
+                    colorSettings={[{
+                        clearable: true, enableAlpha: true,
+                        value: ***REMOVED***,
+                        onChange: (***REMOVED***) => {
+                            ***REMOVED***("***REMOVED***", ***REMOVED***)
+                        },
+
+                    }]}/>
+            </PanelRow>
                 <PanelRow>
-                    <ToggleControl
-                        label="Use Circle Mark"
-                        checked={true}
+                    <RangeControl
+                        label="Line Size"
+                        value={***REMOVED***}
                         onChange={(value) => {
                             ***REMOVED***("***REMOVED***", value)
                         }}
-                    />
-                </PanelRow>
-                <PanelRow>
-                    <RangeControl
-                        label="Maker Base Size"
-                        value={markSizeScale}
-                        onChange={(value) => {
-                            ***REMOVED***("markSizeScale", value)
-                        }}
-                        step={0.5}
+                        step={1}
                         min={0}
-                        max={10}
+                        max={100}
                     />
-                </PanelRow>
-                <PanelRow>
-                    <***REMOVED***
-                        title={__(`Fill Color`)}
-                        value={fillColor}
-                        colorSettings={[{
-                            value: markFillColor, onChange: (fillColor) => {
-                                ***REMOVED***("markFillColor", fillColor)
-                            },
 
-                        }]}
-                    />
-                    <***REMOVED***
-                        title={__(`Border Color`)}
-                        value={borderColor}
-                        colorSettings={[{
-                            value: ***REMOVED***, onChange: (borderColor) => {
-                                ***REMOVED***("***REMOVED***", borderColor)
-                            },
+            </PanelRow>
 
-                        }]}
-                    />
-                </PanelRow>
-                <***REMOVED*** ***REMOVED***={***REMOVED***} ***REMOVED***={markFillColor}
-                                 ***REMOVED***={***REMOVED***} breaks={breaks}/>
-
-            </PanelBody>
-
+            <***REMOVED***
+                showSize={true}
+                ***REMOVED***={***REMOVED***}
+                ***REMOVED***={markFillColor}
+                ***REMOVED***={***REMOVED***} breaks={breaks}/>
+        </PanelBody>
 
         ])
     }

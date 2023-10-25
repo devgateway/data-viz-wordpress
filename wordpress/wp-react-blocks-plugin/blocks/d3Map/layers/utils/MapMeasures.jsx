@@ -1,9 +1,9 @@
 import {__} from '@wordpress/i18n';
 import {***REMOVED***, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 
-import Format from '../charts/Format.jsx'
-import {togglePanel} from "../commons/Util";
-import {***REMOVED***} from "../commons/APIutils";
+import Format from '../../../charts/Format.jsx'
+import {togglePanel} from "../../../commons/Util";
+import {***REMOVED***} from "../../../commons/APIutils";
 
 const defaultFormat = {
     "style": "percent",
@@ -23,20 +23,20 @@ const Measures = (props) => {
         panelStatus,
         layer: {
             measures,
-            app
+            app,
+            format
         }
     } = props
 
 
     const MCheckbox = ({measure}) => {
-        
+
         const userMeasure = measures ? measures[measure.value] : {}
         return <***REMOVED***
             label={***REMOVED***(measure)}
             checked={measures.indexOf(measure.value) > -1}
             onChange={(value) => ***REMOVED***(measure.value)}/>
     }
-
 
 
     const countSelected = (g) => {
@@ -62,20 +62,20 @@ const Measures = (props) => {
 
     return <PanelBody title={__("Measures")}>
         {allMeasures && [...new Set(allMeasures.map(p => ***REMOVED***(p.group)))].map(g => {
-                return (<PanelBody
-                    onToggle={e => togglePanel(g, panelStatus, setAttributes)}
-                    title={`${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `}>
-                    {allMeasures.filter(f => ***REMOVED***(f.group) === g)
-                        .map(m => <PanelRow>
-                            <PanelRow>
-                                <MCheckbox measure={m}></MCheckbox>
-                            </PanelRow>
-                        </PanelRow>)}
-                </PanelBody>)
-            })}
+            return (<PanelBody
+                onToggle={e => togglePanel(g, panelStatus, setAttributes)}
+                title={`${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `}>
+                {allMeasures.filter(f => ***REMOVED***(f.group) === g)
+                    .map(m => <PanelRow>
+                        <PanelRow>
+                            <MCheckbox measure={m}></MCheckbox>
+                        </PanelRow>
+                    </PanelRow>)}
+            </PanelBody>)
+        })}
 
         <Format
-            format={measures[app] && measures[app].format ? measures[app].format : defaultFormat}
+            format={format ? format : defaultFormat}
             ***REMOVED***={format => {
                 ***REMOVED***(format)
             }}>

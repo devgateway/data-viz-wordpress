@@ -70,11 +70,11 @@ import Generic from "../icons";
             },
             ***REMOVED***: {
                 type: 'Boolean',
-                default: false 
+                default: false
             },
             ***REMOVED***: {
                 type: 'Boolean',
-                default: true 
+                default: true
             },
             filterType: {
                 type: 'String',
@@ -84,7 +84,7 @@ import Generic from "../icons";
                 type: 'String',
                 default: ""
             },
-            ***REMOVED***:{
+            ***REMOVED***: {
                 type: 'String',
                 default: "DEFAULT_VALUE_INPUT"
             },
@@ -100,14 +100,23 @@ import Generic from "../icons";
                 type: "Array",
                 default: []
             },
-            ***REMOVED***:{
+            ***REMOVED***: {
                 type: 'Boolean',
-                default: false 
+                default: false
             },
-            closeOnSelect:{
+            ***REMOVED***: {
                 type: 'Boolean',
-                default: false 
+                default: true
+            },
+            ascOrder: {
+                type: 'Boolean',
+                default: true,
+            },
+            closeOnSelect: {
+                type: 'Boolean',
+                default: false
             }
+
 
         },
         edit: BlockEdit,

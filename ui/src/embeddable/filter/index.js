@@ -4,36 +4,49 @@ import ***REMOVED*** from '../data/***REMOVED***'
 import ***REMOVED*** from '../data/***REMOVED***'
 import {connect} from "react-redux";
 import {setFilter, ***REMOVED***} from "../reducers/data";
+import {injectIntl} from 'react-intl';
 
 const FILTER_TYPE_MULTI_SELECT = 'multi-select';
 const FILTER_TYPE_SINGLE_SELECT = 'single-select';
+
+
 const NO_DATA = 'NO_DATA';
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'
 const HIGHEST_VALUE = 'HIGHEST_VALUE'
 
 
-const toOptions = (items) => items ? items.sort((a, b) => a.position - b.position).map(i => ({
-    key: i.id,
-    value: i.id,
-    text: i.value,
-    icon: i.value.***REMOVED***(),
-    position: i.position ? i.position : i.value,
+const ***REMOVED*** = (val) => {
+    if (val instanceof Boolean) {
+        return val
+    } else {
+        return val == "true"
+    }
+}
 
-})) : []
+const toOptions = (items, locale) => items ? items.sort((a, b) => a.position - b.position).map(i => {
+    const text = locale && i.labels && i.labels[locale.toUpperCase()] ? i.labels[locale.toUpperCase()] : i.value
+    return ({
+        key: i.id,
+        value: i.id,
+        text: text,
+        icon: i.value.***REMOVED***(),
+        position: i.position ? i.position : i.value,
+    })
+}) : []
 
 const decode = (value) => {
-  return ***REMOVED***(value)
+    return ***REMOVED***(value)
 }
 
 const parse = (value) => {
     try {
         return JSON.parse(decode(value))
     } catch (error) {
-        
+
     }
 
-    return null    
+    return null
 }
 
 const ***REMOVED*** = (state, ownProps) => {
@@ -44,45 +57,62 @@ const ***REMOVED*** = (state, ownProps) => {
 }
 
 const ***REMOVED*** = {
-    onInit: ***REMOVED***,
-    onChange: setFilter
+    onInit: ***REMOVED***, onChange: setFilter
 };
 
 const ***REMOVED*** = (props) => {
-    const {isRange, options, respectOrder} = props
-    const filterProps = {...props};
-    if (!respectOrder) {
-        filterProps.options = options.sort(function (a, b) {
-            var aText = a.text ? a.text.toLowerCase() : "";
-            var bText = b.text ? b.text.toLowerCase() : "";
-            return aText < bText ? -1 : aText > bText ? 1 : 0;
+
+    const {isRange, options, ***REMOVED***, ascOrder} = props
+    let sortedOptions = []
+    if (***REMOVED***(***REMOVED***)) {
+        sortedOptions = options.sort(function (a, b) {
+            const aText = a.text ? a.text.toLowerCase() : "";
+            const bText = b.text ? b.text.toLowerCase() : "";
+            if (***REMOVED***(ascOrder)) {
+                return aText < bText ? -1 : aText > bText ? 1 : 0;
+            } else {
+                return aText < bText ? 1 : aText > bText ? -1 : 0;
+            }
+        });
+    } else {
+        sortedOptions = options.sort(function (a, b) {
+            return ***REMOVED***(ascOrder) ? a.position - b.position : b.position - a.position;
         });
     }
 
-    return isRange ? <***REMOVED*** {...filterProps}/> : <***REMOVED*** {...filterProps}/>
+    const filterProps = {...props, options: sortedOptions}
+
+    if (isRange) {
+        return <***REMOVED***  {...filterProps}/>
+    } else {
+        return <***REMOVED*** {...filterProps}/>
+    }
+
 }
 
-const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
-                                                                            allLabel,
-                                                                            noneLabel,
-                                                                            placeholder,
-                                                                            options,
-                                                                            app,
-                                                                            group,
-                                                                            param,
-                                                                            current,
-                                                                            onChange,
-                                                                            onInit,
-                                                                            ***REMOVED***,
-                                                                            ***REMOVED***,
-                                                                            filterType,
-                                                                            defaultValues,
-                                                                            ***REMOVED***,
-                                                                            ***REMOVED***,
-                                                                            ***REMOVED***,
-                                                                            closeOnSelect,
-                                                                            hiddenFilters
-                                                                        }) => {
+const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)((props) => {
+
+    const {
+        allLabel,
+        noneLabel,
+        placeholder,
+        options,
+        app,
+        group,
+        param,
+        current,
+        onChange,
+        onInit,
+        ***REMOVED***,
+        ***REMOVED***,
+        filterType,
+        defaultValues,
+        ***REMOVED***,
+        ***REMOVED***,
+        ***REMOVED***,
+        closeOnSelect,
+        hiddenFilters
+    } = props
 
     const [searchFilter, ***REMOVED***] = useState("")
     const changeFilter = (value) => {
@@ -97,7 +127,7 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
         onChange({app, group, param, value: newValue})
         if (closeOnSelect) {
-           refContainer.current.close()
+            refContainer.current.close()
         }
     }
     const all = (value) => {
@@ -110,9 +140,9 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
         onChange({app, group, param, value: matchingItems.map(v => v.value)})
         if (closeOnSelect) {
-           refContainer.current.close()
+            refContainer.current.close()
         }
-        
+
     }
     const none = () => {
         const matchingItems = options.filter(o => {
@@ -141,20 +171,27 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
     useEffect((e) => {
         if (!current) {
-            const filterItems = options.map(o => o.value).sort()
+
+            const filterItems = options.map(o => o.value)
             if (filterType == FILTER_TYPE_MULTI_SELECT || filterType == "") {
+                //if multiple select select all  elements
                 onInit({app, group, param, value: filterItems})
             } else {
-                let filterValues = []
-                if (***REMOVED*** === DEFAULT_VALUE_INPUT) {
-                    filterValues = defaultValues ? defaultValues.split(',') : []
-                } else if (***REMOVED*** == LOWEST_VALUE) {
-                    filterValues = filterItems.length > 0 ? [filterItems[0]] : []
-                } else if (***REMOVED*** == HIGHEST_VALUE) {
-                    filterValues = filterItems.length > 0 ? [filterItems[filterItems.length - 1]] : []
+                if (app == "csv") {
+                    //if single select select base on default value criteria
+                    let filterValues = []
+                    if (***REMOVED*** === DEFAULT_VALUE_INPUT) {
+                        filterValues = defaultValues ? defaultValues.split(',') : []
+                    } else if (***REMOVED*** == LOWEST_VALUE) {
+                        filterValues = filterItems.length > 0 ? [filterItems[0]] : []
+                    } else if (***REMOVED*** == HIGHEST_VALUE) {
+                        filterValues = filterItems.length > 0 ? [filterItems[filterItems.length - 1]] : []
+                    }
+                    onInit({app, group, param, value: filterValues})
+                }else{
+                    
+                    onInit({app, group, param, value: [filterItems[0]]})
                 }
-
-                onInit({app, group, param, value: filterValues})
             }
         }
 
@@ -164,17 +201,17 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
         if (filterType == FILTER_TYPE_SINGLE_SELECT) {
             const selectedItem = current && current[0] ? options.filter(v => v.value == current[0])[0] : null
             return `${placeholder} ${selectedItem ? selectedItem.text : ""}`;
-        } else {           
+        } else {
             return `${placeholder} (${current ? current.filter(v => {
-                if(v == Number.MIN_SAFE_INTEGER) {
-                    return false 
+                if (v == Number.MIN_SAFE_INTEGER) {
+                    return false
                 }
-                
+
                 if (hiddenFilters && hiddenFilters.length > 0) {
                     return !(hiddenFilters.indexOf(v) != -1)
-                } 
+                }
 
-                return true               
+                return true
             }).length : 0}/${options.filter(f => {
                 if (hiddenFilters && hiddenFilters.length > 0) {
                     return !(hiddenFilters.indexOf(f.id) != -1)
@@ -183,82 +220,77 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
             }).length}) `
         }
     }
-
     const refContainer = useRef(null);
     const [searchText, setSearchText] = useState('')
 
-    return (<Dropdown
-        ref={refContainer}
-        fluid
-        text={getSelected()}
-        scrolling={false}
-        button
-        icon={"angle down ignore"}
-        multiple={true}
-        search
-        floating={false}
-        className={`${current && current.length > 0 ? 'applied ' : ''}`}>
-        <Dropdown.Menu>
-            {filterType != FILTER_TYPE_SINGLE_SELECT &&
-                <>
+    return (
+        <Dropdown
+            ref={refContainer}
+            fluid
+            text={getSelected()}
+            scrolling={false}
+            button
+            icon={"angle down ignore"}
+            multiple={true}
+            search
+            floating={false}
+            className={`${current && current.length > 0 ? 'applied ' : ''}`}>
+
+            <Dropdown.Menu>
+                {filterType != FILTER_TYPE_SINGLE_SELECT && <>
                     <Segment>
                         <Dropdown.Item>
                             <Label basic onClick={all}>{allLabel}</Label> | <Label basic
                                                                                    onClick={none}>{noneLabel}</Label>
                         </Dropdown.Item>
                     </Segment>
-                    {***REMOVED*** &&
-                        <>
-                            <Container>
-                                <Dropdown.Item>
+                    {***REMOVED*** && <>
+                        <Container>
+                            <Dropdown.Item>
 
 
-                                    <div class="ui action input">
-                                        <Input placeholder='Search...' iconPosition='right'>
-                                            <input className="filter-search" value={searchText} onChange={e => {
-                                                ***REMOVED***(e.target.value)
-                                            }}/>
+                                <div class="ui action input">
+                                    <Input placeholder='Search...' iconPosition='right'>
+                                        <input className="filter-search" value={searchText} onChange={e => {
+                                            ***REMOVED***(e.target.value)
+                                        }}/>
 
-                                            <Icon name='remove' link className="clear-icon ignore" onClick={e => {
-                                                ***REMOVED***('')
-                                            }}></Icon>
-                                        </Input>
-                                    </div>
-                                </Dropdown.Item>
-                            </Container>
-                            <Divider/>
-                        </>
-                    }
+                                        <Icon name='remove' link className="clear-icon ignore" onClick={e => {
+                                            ***REMOVED***('')
+                                        }}></Icon>
+                                    </Input>
+                                </div>
+                            </Dropdown.Item>
+                        </Container>
+                        <Divider/>
+                    </>}
 
-                </>
-            }
-            <br></br>
-            <Container className={***REMOVED*** ? "dropdown-single-column" : ""}>
-                {options.filter(o => {
-                    if (***REMOVED*** && searchText && searchText.trim().length > 0 && o.text) {
-                        return o.text.toLowerCase().includes(searchText.toLowerCase())
-                    }
-                    return true;
-                }).map(({value, text}) => (
-                    <Dropdown.Item className={***REMOVED*** ? "dropdown-item-single-column" : ""}>
-                        {filterType == FILTER_TYPE_SINGLE_SELECT &&
-                            <Radio
+                </>}
+                <br></br>
+                <Container className={***REMOVED*** ? "dropdown-single-column" : ""}>
+                    {options.filter(o => {
+                        if (***REMOVED*** && searchText && searchText.trim().length > 0 && o.text) {
+                            return o.text.toLowerCase().includes(searchText.toLowerCase())
+                        }
+                        return true;
+                    }).map(({value, text}) => (
+                        <Dropdown.Item className={***REMOVED*** ? "dropdown-item-single-column" : ""}>
+                            {filterType == FILTER_TYPE_SINGLE_SELECT && <Radio
                                 checked={current && current.indexOf(value) > -1 ? true : false}
                                 onChange={e => changeFilter(value)}
-                                label={text}/>
-                        }
-                        {filterType == FILTER_TYPE_MULTI_SELECT &&
-                            <Checkbox
-                                checked={(current && current.indexOf(value) > -1 ) && !(options.length == current.length && ***REMOVED***) ? true : false}
+                                label={text}/>}
+                            {filterType == FILTER_TYPE_MULTI_SELECT && <Checkbox
+                                checked={(current && current.indexOf(value) > -1) && !(options.length == current.length && ***REMOVED***) ? true : false}
                                 onChange={e => changeFilter(value)}
-                                label={text}/>
-                        }
-                    </Dropdown.Item>
-                ))}
-            </Container>
-        </Dropdown.Menu>
-    </Dropdown>)
+                                label={text}/>}
+                        </Dropdown.Item>))}
+                </Container>
+            </Dropdown.Menu>
+
+        </Dropdown>
+    )
 })
+
 const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
                                                                              placeholder,
                                                                              startLabel,
@@ -273,15 +305,14 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
     const [start, setStart] = useState(options[0].position)
     const [end, setEnd] = useState(options[options.length - 1].position)
-
     useEffect((e) => {
-        const current = options.filter(v => (v.position > start || v.position === start) && (v.position < end || v.position === end)).map(o => o.value)
 
+        const current = options.filter(v => (v.position > start || v.position === start) && (v.position < end || v.position === end)).map(o => o.value)
         onChange({app, group, param, value: current})
     }, [start, end])
 
     const refContainer = useRef(null);
-    
+
     return (<Dropdown
 
         ref={refContainer}
@@ -303,28 +334,24 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
             </Segment>
             <Container>
 
-                {options.map(({value, text, position}) => (
-                    <Dropdown.Item>
-                        <Radio
-                            disabled={position > end}
-                            checked={start === position}
-                            onChange={e => setStart(position)}
-                            label={text}/></Dropdown.Item>
-                ))}
+                {options.map(({value, text, position}) => (<Dropdown.Item>
+                    <Radio
+                        disabled={position > end}
+                        checked={start === position}
+                        onChange={e => setStart(position)}
+                        label={text}/></Dropdown.Item>))}
             </Container>
             <Segment>
                 <Dropdown.Item> <Label basic>{endLabel}</Label></Dropdown.Item>
             </Segment>
             <Container>
 
-                {options.map(({value, text, position}) => (
-                    <Dropdown.Item>
-                        <Radio
-                            disabled={position < start}
-                            checked={end === position}
-                            onChange={e => setEnd(position)}
-                            label={text}/></Dropdown.Item>
-                ))}
+                {options.map(({value, text, position}) => (<Dropdown.Item>
+                    <Radio
+                        disabled={position < start}
+                        checked={end === position}
+                        onChange={e => setEnd(position)}
+                        label={text}/></Dropdown.Item>))}
             </Container>
         </Dropdown.Menu>
     </Dropdown>)
@@ -332,7 +359,8 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
 
 const ***REMOVED*** = (props) => {
-    const {data, type, editing, ***REMOVED***} = props
+    
+    const {data, type, ***REMOVED***} = props
     const cat = data.filter(d => d.type === type)[0]
     const ***REMOVED*** = cat ? cat.items.filter(f => {
         if (!***REMOVED*** && f.code == NO_DATA) {
@@ -343,25 +371,21 @@ const ***REMOVED*** = (props) => {
         }
         return true
     }) : []
-    const options = ***REMOVED*** ? toOptions(***REMOVED***) : []
-    return <Container fluid={true} className={`filter`}>
-        <***REMOVED*** {...props} options={options}></***REMOVED***>
-    </Container>
+    const options = ***REMOVED*** ? toOptions(***REMOVED***, props.locale) : []
+    return (
+        <Container fluid={true} className={`filter`}>
+            <***REMOVED*** {...props} options={options}></***REMOVED***>
+        </Container>
+    )
 }
 
 
 const BooleanFilter = connect(***REMOVED***, ***REMOVED***)((props) => {
     let idx = 0
     const options = [{
-        key: "Yes",
-        value: true,
-        text: "Yes",
-        position: idx++,
+        key: "Yes", value: true, text: "Yes", position: idx++,
     }, {
-        key: "No",
-        value: false,
-        text: "No",
-        position: idx++,
+        key: "No", value: false, text: "No", position: idx++,
     }]
     return (<Container fluid={true} className={`filter`}>
         <***REMOVED*** options={options}  {...props} > </***REMOVED***>
@@ -374,18 +398,16 @@ const CSVFilter = (props) => {
     let idx = 0
     const options = csvValue.split(',').map(o => {
         return {
-            key: o,
-            value: o,
-            text: o,
-            icon: o.***REMOVED***(),
-            position: idx++,
+            key: o, value: o, text: o, icon: o.***REMOVED***(), position: idx++,
         }
     })
 
     return <Container fluid={true} className={`filter`}>
-        <***REMOVED*** options={options}  {...props} respectOrder={true}> </***REMOVED***>
+        <***REMOVED*** options={options}  {...props} > </***REMOVED***>
     </Container>
 }
+
+
 const Filter = ({
                     "data-group": group,
                     "data-app": app,
@@ -407,10 +429,16 @@ const Filter = ({
                     "data-default-value-criteria": ***REMOVED*** = "DEFAULT_VALUE_INPUT",
                     "data-hidden-filters": hiddenFilters = '[]',
                     "data-all-none-same-behaviour": ***REMOVED*** = "false",
-			        "data-close-on-select": closeOnSelect = "false"
-                }) => {    
-                    
-    const ***REMOVED*** = parse(hiddenFilters)   
+                    "data-close-on-select": closeOnSelect = "false",
+                    "data-alphabetical-sort": ***REMOVED*** = "true",
+                    "data-asc-order": ascOrder = "true",
+                    intl,
+                }) => {
+
+
+    debugger
+
+    const ***REMOVED*** = parse(hiddenFilters)
     let ***REMOVED***;
     if (filterType == null || filterType == "") {
         ***REMOVED*** = isRange === 'true' ? "range" : "multi-select";
@@ -431,6 +459,7 @@ const Filter = ({
                           ***REMOVED***={***REMOVED***}
                           ***REMOVED***={***REMOVED*** == true || ***REMOVED*** == "true"}
                           closeOnSelect={closeOnSelect == true || closeOnSelect == "true"}
+                          locale={intl.locale}
         />
     } else {
 
@@ -439,29 +468,45 @@ const Filter = ({
                 <***REMOVED***>
                     <Container fluid={true}>
                         {type === "Boolean" &&
-                            <BooleanFilter startLabel={startLabel} endLabel={endLabel} allLabel={allLabel}
-                                           noneLabel={noneLabel} isRange={isRange === 'true'}
-                                           app={app} group={group}
-                                           icon={icon} placeholder={placeholder}
-                                           param={param} filterType={***REMOVED***}
-                                           defaultValues={defaultValues}></BooleanFilter>}
-                        {type !== "Boolean" &&
-                            <***REMOVED*** type={type}>
-                                <***REMOVED*** startLabel={startLabel} endLabel={endLabel} allLabel={allLabel}
-                                                noneLabel={noneLabel} isRange={isRange === 'true'}
-                                                app={app} group={group}
-                                                icon={icon} placeholder={placeholder}
-                                                param={param}
-                                                ***REMOVED***={***REMOVED*** === 'true'}
-                                                ***REMOVED***={***REMOVED*** === 'true'}
-                                                ***REMOVED***={***REMOVED*** === 'true'}
-                                                filterType={***REMOVED***}
-                                                defaultValues={defaultValues}
-                                                ***REMOVED***={***REMOVED***}
-                                                hiddenFilters={***REMOVED*** || []}
-                                                ***REMOVED***={***REMOVED*** == true || ***REMOVED*** == "true"}
-                                                closeOnSelect={closeOnSelect == true || closeOnSelect == "true"}></***REMOVED***>
-                            </***REMOVED***>}
+                            <BooleanFilter startLabel={startLabel}
+                                           endLabel={endLabel}
+                                           allLabel={allLabel}
+                                           noneLabel={noneLabel}
+                                           isRange={***REMOVED***(isRange)}
+                                           app={app}
+                                           group={group}
+                                           icon={icon}
+                                           placeholder={placeholder}
+                                           param={param}
+                                           filterType={***REMOVED***}
+                                           defaultValues={defaultValues}
+                                           locale={intl.locale}>
+
+                            </BooleanFilter>}
+                        {type !== "Boolean" && <***REMOVED*** type={type}>
+                            <***REMOVED***
+                                startLabel={startLabel}
+                                endLabel={endLabel} allLabel={allLabel}
+                                noneLabel={noneLabel}
+                                isRange={***REMOVED***(isRange)}
+                                app={app} group={group}
+                                icon={icon} placeholder={placeholder}
+                                param={param}
+                                ***REMOVED***={***REMOVED***}
+                                ascOrder={ascOrder}
+                                ***REMOVED***={***REMOVED***(***REMOVED***)}
+                                ***REMOVED***={***REMOVED***(***REMOVED***)}
+                                ***REMOVED***={***REMOVED***(***REMOVED***)}
+                                filterType={***REMOVED***}
+                                defaultValues={defaultValues}
+                                ***REMOVED***={***REMOVED***}
+                                hiddenFilters={***REMOVED*** || []}
+                                ***REMOVED***={***REMOVED*** == true || ***REMOVED*** == "true"}
+                                closeOnSelect={***REMOVED***(closeOnSelect)}
+                                locale={intl.locale}>
+
+                            </***REMOVED***>
+                        </***REMOVED***>}
 
                     </Container>
                 </***REMOVED***>
@@ -473,4 +518,4 @@ const Filter = ({
 }
 
 
-export default Filter
+export default injectIntl(Filter)

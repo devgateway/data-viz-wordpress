@@ -2,21 +2,22 @@ import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata} from '../commons/index'
+import {useEffect} from "react";
+
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'
 const HIGHEST_VALUE = 'HIGHEST_VALUE'
 
 const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
-    if (items) {                
-        const sortedItems = items.sort(function (a, b) {   
-            if  (a.position !== null && b.position !== null)  {
+    if (items) {
+        const sortedItems = items.sort(function (a, b) {
+            if (a.position !== null && b.position !== null) {
                 return a.position - b.position
-            }    
-
-            return 0        
+            }
+            return 0
         });
 
-       return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
+        return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
                                                               onChange={e => {
                                                                   ***REMOVED***(v.id, index)
                                                               }}/></PanelRow>)
@@ -28,10 +29,10 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
-        this.iframe = React.createRef();              
+        this.iframe = React.createRef();
         this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.items = this.items.bind(this)
-    }   
+    }
 
     ***REMOVED***(value, idx) {
         const {attributes: {hiddenFilters}, setAttributes} = this.props
@@ -39,7 +40,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             setAttributes({hiddenFilters: hiddenFilters.filter(item => item !== value)})
         } else {
             setAttributes({hiddenFilters: [...hiddenFilters, value]})
-        }      
+        }
     }
 
     items(type) {
@@ -52,16 +53,19 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } else if (cat) {
             items = cat.items
         }
-       
+
         return items
 
     }
 
+    ***REMOVED***(prevProps, prevState, snapshot) {
+        super.***REMOVED***(prevProps, prevState, snapshot)
+        const {setAttributes} = this.props
+    }
+
     render() {
         const {
-            isSelected,
-            setAttributes,
-            attributes: {
+            isSelected, setAttributes, attributes: {
                 group,
                 placeHolder,
                 param,
@@ -72,6 +76,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 csvValue,
                 isRange,
                 allLabel,
+                ***REMOVED***,
+                ascOrder,
                 noneLabel,
                 startLabel,
                 endLabel,
@@ -89,7 +95,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         const iframeStyles = {height: '65px'}
         const ***REMOVED*** = this.state.filters ? this.state.filters.filter(f => f.param == param && f.type != 'Boolean') : null
-        
+
+        const filter = ***REMOVED*** && ***REMOVED***.length > 0 ? ***REMOVED***[0] : null
+
+
         return ([isSelected && (<***REMOVED***>
                 <Panel header={__("Filter Configuration")}>
                     <PanelBody initialOpen={false} title={__("Group")}>
@@ -137,44 +146,53 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelRow>
                         <PanelRow>
                             <SelectControl
-							    label={__('Default Value Criteria')}
+                                label={__('Default Value Criteria')}
                                 value={***REMOVED***}
                                 onChange={(***REMOVED***) => {
                                     setAttributes({***REMOVED***: ***REMOVED***})
                                 }}
-                                options={[{value: DEFAULT_VALUE_INPUT,label:'Enter default value'}, {value: LOWEST_VALUE,label: 'Lowest value in filter data'}, {value: HIGHEST_VALUE,label: 'Highest value in filter data'}]}
+                                options={[{
+                                    value: DEFAULT_VALUE_INPUT, label: 'Enter default value'
+                                }, {value: LOWEST_VALUE, label: 'Lowest value in filter data'}, {
+                                    value: HIGHEST_VALUE, label: 'Highest value in filter data'
+                                }]}
                             />
                         </PanelRow>
-                        {***REMOVED*** == DEFAULT_VALUE_INPUT &&
-                        <PanelRow>
+                        {***REMOVED*** == DEFAULT_VALUE_INPUT && <PanelRow>
                             <TextControl label={__("Default Values")} value={defaultValues}
                                          onChange={(defaultValues) => setAttributes({defaultValues})}></TextControl>
+                        </PanelRow>}
+
+
+                    </PanelBody>}
+                    <PanelBody title={__("Type Setting")}>
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Filter Type')}
+                                value={[isRange ? "range" : filterType]}
+                                onChange={(filterType) => {
+                                    setAttributes({filterType: filterType, isRange: filterType == "range"})
+                                }}
+                                options={app == 'csv' ? [{
+                                    label: "Multi select",
+                                    value: "multi-select"
+                                }, {label: "Single select", value: "single-select"}, {
+                                    label: "Range",
+                                    value: "range"
+                                }] : [{label: "Multi select", value: "multi-select"}, {
+                                    label: "Single select",
+                                    value: "single-select"
+                                }, {label: "Range", value: "range"}]}
+                            />
                         </PanelRow>
-                        }
-                        
 
-
-                </PanelBody>}
-                <PanelBody title={__("Type")}>
-                    <PanelRow>
-                        <SelectControl
-                            label={__('Filter Type')}
-                            value={[isRange ? "range" : filterType]}
-                            onChange={(filterType) => {
-                                setAttributes({ filterType: filterType, isRange: filterType == "range" })
-                            }}
-                            options={app == 'csv' ? [{ label: "Multi select", value: "multi-select" }, { label: "Single select", value: "single-select" }, { label: "Range", value: "range" }] 
-                            : [{ label: "Multi select", value: "multi-select" }, { label: "Range", value: "range" }]}
-                        />
-                    </PanelRow>
-                    
-                    {isRange && <PanelRow>
-                        <TextControl
-                            label={__('Start')}
-                            value={startLabel}
-                            onChange={(startLabel) => setAttributes({ startLabel })}
-                        />
-                    </PanelRow>}
+                        {isRange && <PanelRow>
+                            <TextControl
+                                label={__('Start')}
+                                value={startLabel}
+                                onChange={(startLabel) => setAttributes({startLabel})}
+                            />
+                        </PanelRow>}
                         {isRange && <PanelRow>
                             <TextControl
                                 label={__('End')}
@@ -184,13 +202,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelRow>}
                     </PanelBody>
                     {app != 'csv' && ***REMOVED*** && ***REMOVED***.length > 0 &&
-                    <PanelBody initialOpen={false} title={__("Hidden Filter Options")}>
-                         {***REMOVED***.map((f, index) => {
-                            return (<***REMOVED*** value={hiddenFilters} index={index} items={this.items(f.type)}
-                                                        ***REMOVED***={this.***REMOVED***}/>)
-                        })}                        
-                    </PanelBody>
-                    }
+                        <PanelBody initialOpen={false} title={__("Hidden Filter Options")}>
+                            {***REMOVED***.map((f, index) => {
+                                return (
+                                    <***REMOVED*** value={hiddenFilters} index={index} items={this.items(f.type)}
+                                                       ***REMOVED***={this.***REMOVED***}/>)
+                            })}
+                        </PanelBody>}
                     <PanelBody title={__("Labels")}>
                         <PanelRow>
                             <TextControl
@@ -212,56 +230,64 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 value={noneLabel}
                                 onChange={(noneLabel) => setAttributes({noneLabel})}
                             />
-                        </PanelRow>}  
-                   </PanelBody>
+                        </PanelRow>}
+                    </PanelBody>
                     <PanelBody title={__("Dropdown Options")}>
-                    <PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                                label={__("Alphabetical Sort")}
+                                checked={***REMOVED***}
+                                onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                        </PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                                label={__("Order Asc")}
+                                checked={ascOrder}
+                                onChange={() => setAttributes({ascOrder: !ascOrder})}/>
+                        </PanelRow>
+                        <PanelRow>
                             <ToggleControl
                                 label={__("Use single column to display dropdown items")}
                                 checked={***REMOVED***}
                                 onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
                         </PanelRow>
-                    <PanelRow>
-                        <ToggleControl label={__("Enable Text Search")}
-                            checked={***REMOVED***}
-                            onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })} />
-                    </PanelRow>
-                    <PanelRow>
-                        <ToggleControl label={__("Show No Data Option (if available)")}
-                            checked={***REMOVED***}
-                            onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })} />
-                    </PanelRow>
-                    {filterType == "multi-select" &&
-                        <>
+                        <PanelRow>
+                            <ToggleControl label={__("Enable Text Search")}
+                                           checked={***REMOVED***}
+                                           onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                        </PanelRow>
+                        <PanelRow>
+                            <ToggleControl label={__("Show No Data Option (if available)")}
+                                           checked={***REMOVED***}
+                                           onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                        </PanelRow>
+                        {filterType == "multi-select" && <>
                             <PanelRow>
                                 <ToggleControl
                                     label={__("Close dropdown on item select/click")}
                                     checked={closeOnSelect}
-                                    onChange={() => setAttributes({ closeOnSelect: !closeOnSelect })} />
+                                    onChange={() => setAttributes({closeOnSelect: !closeOnSelect})}/>
                             </PanelRow>
                             <PanelRow>
                                 <ToggleControl
                                     label={__("All and None have same behaviour")}
                                     checked={***REMOVED***}
-                                    onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })} />
+                                    onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
                             </PanelRow>
-                        </>
-                    }
-            </PanelBody>
-                    
+                        </>}
+                    </PanelBody>
+
                 </Panel>
             </***REMOVED***>),
 
                 (<div>
 
-                        {this.state.react_ui_url &&
-                        <iframe ref={this.iframe} scrolling={"no"}
-                                style={iframeStyles}
-                                src={this.state.react_ui_url + "/embeddable/filter" }/>}
+                        {this.state.react_ui_url && <iframe ref={this.iframe} scrolling={"no"}
+                                                            style={iframeStyles}
+                                                            src={this.state.react_ui_url + "/embeddable/filter"}/>}
                     </div>
 
-                )]
-        );
+                )]);
 
     }
 }

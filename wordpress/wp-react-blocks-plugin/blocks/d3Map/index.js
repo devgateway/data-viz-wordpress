@@ -11,18 +11,22 @@ import Generic from "../icons";
         category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
-          
+
             height: {
                 type: 'Numeric',
                 default: 500
             },
             width: {
                 type: 'Numeric',
-                default: 800
+                default: 1024
             },
             group: {
                 type: 'string',
                 default: 'default',
+            },
+            projection: {
+                type: 'string',
+                default: 'geoMercator',
             },
 
             layers: {
@@ -41,6 +45,7 @@ import Generic from "../icons";
                 type: "Object",
                 default: {}
             },
+
 
         },
         edit: BlockEdit,
