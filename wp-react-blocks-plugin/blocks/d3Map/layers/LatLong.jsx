@@ -1,6 +1,7 @@
 import {Component} from "@wordpress/element";
 import {__} from '@wordpress/i18n';
 import {
+    ***REMOVED***,
     Button,
     ***REMOVED***,
     PanelBody,
@@ -14,6 +15,7 @@ import {
 import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
+import ***REMOVED*** from "./utils/***REMOVED***";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -65,26 +67,8 @@ export class ***REMOVED*** extends Component {
     }
 
 
-    ***REMOVED***(format, field) {
-        const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, features, apps, layer: {
-                app,
-                csv,
-                measures,
-                filters,
-                ***REMOVED***,
-                ***REMOVED***,
-                type,
-                fillColor,
-                borderColor,
-                breaks,
-                markFillColor,
-                ***REMOVED***,
-                markSizeScale,
-                tooltip
-            }
-        } = this.props
-
+    ***REMOVED***(format) {
+        const {***REMOVED***} = this.props
         ***REMOVED***("format", format);
     }
 
@@ -212,7 +196,7 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, features, apps, layer: {
+            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, features, apps, layer: {
                 app,
                 csv,
                 measures,
@@ -223,8 +207,11 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 fillColor,
                 borderColor,
+                useBreaks,
                 breaks,
-
+                pointStyleBy,
+                dimension2,
+                ***REMOVED*** = [],
                 markFillColor,
                 ***REMOVED***,
                 markSizeScale,
@@ -232,7 +219,10 @@ export class ***REMOVED*** extends Component {
             }
         } = this.props
 
-
+        const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : []
+        const items = cats.length > 0 ? cats[0].items : []
+        const ***REMOVED*** = items.map(i => i.value)
+        debugger
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
@@ -280,6 +270,13 @@ export class ***REMOVED*** extends Component {
                     "font-style": "normal",
                     "color": "rgb(117, 117, 117)"}}>{"{" + m.value + "}"}</p></PanelRow>)
             }
+            {app != 'csv' && pointStyleBy === 'dimension' && dimension2 != 'none' && <PanelRow><p
+              style={{
+                  "margin-top": "calc(8px)",
+                  "font-size": "12px",
+                  "font-style": "normal",
+                  "color": "rgb(117, 117, 117)"}}>{"{" + dimension2 + "}"}</p></PanelRow>
+            }
         </PanelBody>,
             <React.Fragment>
                 {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
@@ -300,10 +297,10 @@ export class ***REMOVED*** extends Component {
                 </PanelBody>}
             </React.Fragment>,
 
-            <PanelBody initialOpen={false} title={"Styles"}>
+            <PanelBody initialOpen={false} title={"Symbols and Styles"}>
                 <PanelRow>
                     <RangeControl
-                        label="Points Size"
+                        label={__(`Default Points Size`)}
                         value={markSizeScale}
                         onChange={(value) => {
                             ***REMOVED***("markSizeScale", value)
@@ -314,9 +311,8 @@ export class ***REMOVED*** extends Component {
                     />
                 </PanelRow>
                 <PanelRow>
-
                     <***REMOVED***
-                        title={__(`Points Fill Color`)}
+                        title={__(`Default Fill Color`)}
                         value={markFillColor}
                         colorSettings={[{
                             clearable: true,
@@ -327,11 +323,10 @@ export class ***REMOVED*** extends Component {
 
                         }]}
                     />
-
                 </PanelRow>
                 <PanelRow>
                     <***REMOVED***
-                        title={__(`Border Color`)}
+                        title={__(`Default Border Color`)}
                         value={borderColor}
                         colorSettings={[{
                             clearable: true,
@@ -343,6 +338,82 @@ export class ***REMOVED*** extends Component {
                         }]}
                     />
                 </PanelRow>
+                <PanelRow>
+                    <SelectControl
+                      label={"Point styles by"}
+                      value={pointStyleBy ? pointStyleBy : 'none'}
+                      onChange={(v) => {
+                          ***REMOVED***('pointStyleBy', v)
+                      }}
+                      options={[{label: "None", value: "none"}, {label: "Dimension", value: "dimension"}, {label: "Measure", value: "measure"}]}/>
+                </PanelRow>
+
+                {pointStyleBy === 'measure' && <Measures
+                  ***REMOVED***={this.***REMOVED***}
+                  ***REMOVED***={this.***REMOVED***}
+                  {...this.props} />
+                }
+
+                {pointStyleBy === 'measure' && <***REMOVED***
+                  showSize={***REMOVED***}
+                  ***REMOVED***={***REMOVED***}
+                  ***REMOVED***={markFillColor}
+                  ***REMOVED***={***REMOVED***} breaks={breaks}/>
+                }
+
+                {pointStyleBy === 'dimension' && <PanelRow>
+                    <SelectControl
+                        label={'Dimension'}
+                        value={[dimension2]}
+                        onChange={(value) => {
+                            ***REMOVED***("dimension2", value)
+                        }}
+                        options={allDimensions}
+                    />
+                </PanelRow>
+                }
+                {pointStyleBy  === 'dimension' && ***REMOVED***.map(field => <PanelBody initialOpen={false} title={field}>
+                    <PanelRow>
+                        <RangeControl
+                          label={__(`Point Size`)}
+                          value={***REMOVED***[field + '_size'] ? ***REMOVED***[field + '_size'] : 'none'}
+                          onChange={(v) => {
+                              ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_size']: v})
+                          }}
+                          step={1}
+                          min={0}
+                          max={100}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <***REMOVED***
+                          title={__(`Point Fill Color`)}
+                          value={***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : 'none'}
+                          colorSettings={[{
+                              clearable: true,
+                              enableAlpha: true,
+                              value: ***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : 'none', onChange: (v) => {
+                                  ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_color']: v})
+                              },
+
+                          }]}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <***REMOVED***
+                          title={__(`Point Border Color`)}
+                          value={***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : 'none'}
+                          colorSettings={[{
+                              clearable: true,
+                              enableAlpha: true,
+                              value: ***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : 'none', onChange: (v) => {
+                                  ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_border']: v})
+                              },
+                          }]}
+                        />
+                    </PanelRow>
+                </PanelBody>)
+                }
             </PanelBody>
         ])
     }
