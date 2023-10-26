@@ -57,6 +57,56 @@ import {***REMOVED***} from "react-intl";
     breaks: [],
 
 * */
+const DataPointsLayerLegend = (props) => {
+    const {
+        name,
+        breaks,
+        pointStyleBy,
+        dimension2,
+        ***REMOVED*** = {},
+        markFillColor,
+        ***REMOVED***,
+        measures,
+    } = props
+    const ***REMOVED*** = [...new Set(Object.keys(***REMOVED***).map(k => k.split('_')[0]))]
+    return <div className={"legend"}>
+        <div>
+            <div className={"legend-item"}>
+                <div className={"legend-color"} style={{***REMOVED***: markFillColor, borderColor: ***REMOVED***}}/>
+                <div className={"legend-label"}>{name}</div>
+            </div>
+            {(pointStyleBy === "dimension") && <div className={"legend-breaks"}>
+                <div className={"legend-label"}>{dimension2}</div>
+                {***REMOVED***.map((d) => {
+                    return (<div className={"break"}>
+                        <div className={"break-item"} style={{
+                            ***REMOVED***: ***REMOVED***[d + '_color'],
+                            border: `1px solid ${***REMOVED***[d + '_border']}`,
+                        }}></div>
+                        <div className={"break-label"}>{d}</div>
+                    </div>)
+                })}
+            </div>
+            }
+
+            {(pointStyleBy === "measure") && <div className={"legend-breaks"}>
+                <div className={"legend-label"}>{measures[0]}</div>
+                {breaks.map((b, i) => {
+                    return (<div className={"break"}>
+                        <div className={"break-item"} style={{
+                            ***REMOVED***: b.color,
+                            border: `1px solid ${b.borderColor}`,
+                        }}></div>
+                        <div className={"break-label"}> &lt; {b.end}</div>
+                    </div>)
+                })}
+            </div>
+            }
+        </div>
+    </div>
+}
+
+
 const ***REMOVED*** = (props) => {
     const {fillColor, borderColor, name} = props
     return <div className={"legend"}>
@@ -72,6 +122,7 @@ const toId = (key) => {
     if (!key) return ""
     return "legend_pattern_" + key.toString().replace(/ /g, "_")
 }
+
 const ***REMOVED*** = (props) => {
     const {
         markFillColor,
@@ -84,6 +135,7 @@ const ***REMOVED*** = (props) => {
         breaks,
         usePattern,
         patterns,
+        ***REMOVED***,
         measures,
         borderColor,
         data,
@@ -104,11 +156,11 @@ const ***REMOVED*** = (props) => {
     const g = d3.select(`#data-${id}`)
     const ***REMOVED*** = g.selectAll("defs").selectAll("pattern")
 
-    if (usePattern&&divRef.current && ***REMOVED***.size() > 0) {
+    if (usePattern && divRef.current && ***REMOVED***.size() > 0) {
         const patternsData = ***REMOVED***.data()
         d3.select(divRef.current).select("svg").remove()
         const g = d3.select(divRef.current).append("svg")
-
+        debugger
         const defs = g.append("defs")
         defs.selectAll("pattern").remove()
         defs.selectAll("pattern")
@@ -167,13 +219,19 @@ const ***REMOVED*** = (props) => {
         g.attr("width", "150px")
             .attr("height", "auto")
 
+        g.append("text")
+          .attr("class","patterns-title")
+          .attr("y", 5)
+          .attr("x", 12)
+          .text(***REMOVED***)
+
         g.selectAll(".legend-squares")
             .data(patternsData)
             .enter()
             .append("rect")
             .attr("width", 18)
             .attr("height", 18)
-            .attr("y", (d, i) => (i * 22))
+            .attr("y", (d, i) => (i * 22) + 25)
             .attr("x", 20)
             .attr("stroke", borderColor)
             .attr("style", (d) => {
@@ -185,9 +243,8 @@ const ***REMOVED*** = (props) => {
             .enter()
             .append("text")
             .attr("class","patterns-labels")
-            .attr("y", (d, i) => (i * 22))
+            .attr("y", (d, i) => (i * 22) + 25)
             .attr("x", 40)
-
             .text(d=>d.key)
     }
 
@@ -197,9 +254,8 @@ const ***REMOVED*** = (props) => {
                 <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
                 <div className={"legend-label"}>{name}</div>
             </div>
-            {((***REMOVED*** && !useBreaks) || (!***REMOVED*** && !useBreaks)) && <div className={"legend-breaks"}>
+            {((***REMOVED*** && !useBreaks)) && <div className={"legend-breaks"}>
                 <div className={"break"}>
-
                     <div className={"break-item"} style={{
                         ***REMOVED***: markFillColor,
                         border: `1px solid ${***REMOVED***}`,
@@ -210,6 +266,7 @@ const ***REMOVED*** = (props) => {
             }
 
             {((!***REMOVED*** && useBreaks) || (***REMOVED*** && useBreaks)) && <div className={"legend-breaks"}>
+                <div className={"legend-label"}>{measureLabel}</div>
                 {breaks.map((b, i) => {
                     return (<div className={"break"}>
                         <div className={"break-item"} style={{
@@ -231,8 +288,9 @@ const Legends = (props) => {
     return <div className={"legends"} ref={divRef}>
         {layers.map(l => {
             return <div>
-                {l.type == "base" && <***REMOVED***  {...l}/>}
+                {l.type == "base" && <***REMOVED*** {...l}/>}
                 {l.type == "data" && <***REMOVED*** divRef={divRef} {...l}/>}
+                {l.type == "dataPoints" && <DataPointsLayerLegend {...l}/>}
             </div>
         })}
 

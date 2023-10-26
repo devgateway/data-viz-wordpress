@@ -42,7 +42,7 @@ export const Model = {
     //type:'data', //will select data source and symbols + symbols configuration
     useBreaks: false,
     usePattern: false,
-
+    pointStyleBy: 'none',
     format: {
         "style": "percent",
         "minimumFractionDigits": 1,
@@ -54,6 +54,7 @@ export const Model = {
     ***REMOVED***: true,
     ***REMOVED***: 'none',
     patterns: [],
+    ***REMOVED***: [],
     tooltip: "Value {value}",
     breaks: [],
     ***REMOVED***: {}
