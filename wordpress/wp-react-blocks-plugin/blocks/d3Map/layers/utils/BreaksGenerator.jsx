@@ -33,7 +33,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
 
     return <>
         {breaks.map((br, index) => {
-            return (<PanelBody title={"Break (" + br.end + ")"}>
+            return (<PanelBody initialOpen={false} title={"Break (" + br.end + ")"}>
                 <PanelRow>
                     <TextControl
                         type={"Number"}
