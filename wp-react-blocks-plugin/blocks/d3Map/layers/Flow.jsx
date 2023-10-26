@@ -388,21 +388,9 @@ export class ***REMOVED*** extends Component {
                     max={100}
                 />
             </PanelRow>
-
             <PanelRow>
                 <***REMOVED***
-                    title={__(`Circle Fill Color`)}
-                    value={markFillColor}
-                    colorSettings={[{
-                        clearable: true, enableAlpha: true, value: markFillColor, onChange: (markFillColor) => {
-                            ***REMOVED***("markFillColor", markFillColor)
-                        },
-
-                    }]}/>
-            </PanelRow>
-            <PanelRow>
-                <***REMOVED***
-                    title={__(`Circle Border Color`)}
+                    title={__(`Border`)}
                     value={borderColor}
                     colorSettings={[{
                         clearable: true,
@@ -416,7 +404,7 @@ export class ***REMOVED*** extends Component {
             </PanelRow>
             <PanelRow>
                 <***REMOVED***
-                    title={__(`Line Fill Color`)}
+                    title={__(`Color`)}
                     value={***REMOVED***}
                     colorSettings={[{
                         clearable: true, enableAlpha: true,
@@ -427,17 +415,17 @@ export class ***REMOVED*** extends Component {
 
                     }]}/>
             </PanelRow>
-                <PanelRow>
-                    <RangeControl
-                        label="Line Size"
-                        value={***REMOVED***}
-                        onChange={(value) => {
-                            ***REMOVED***("***REMOVED***", value)
-                        }}
-                        step={1}
-                        min={0}
-                        max={100}
-                    />
+            <PanelRow>
+                <RangeControl
+                    label="Line Size"
+                    value={***REMOVED***}
+                    onChange={(value) => {
+                        ***REMOVED***("***REMOVED***", value)
+                    }}
+                    step={1}
+                    min={0}
+                    max={100}
+                />
 
             </PanelRow>
 
