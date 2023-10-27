@@ -445,14 +445,8 @@ export class ***REMOVED*** extends Component {
                     ***REMOVED***={***REMOVED***}
                     ***REMOVED***={markFillColor}
                     ***REMOVED***={***REMOVED***} breaks={breaks}/>
-            </PanelBody>,
-            <PanelBody initialOpen={false}>
-                <ButtonGroup>
-                    <Button variant={"secondary"} type onClick={onRemoveLayer}>Delete</Button>
-                    <Button variant={"secondary"} type onClick={e => onMoveLayer(-1, layer)}>Up</Button>
-                    <Button variant={"secondary"} type onClick={e => onMoveLayer(1, layer)}>Down</Button>
-                </ButtonGroup>
             </PanelBody>
+
 
         ])
     }
