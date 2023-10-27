@@ -1,7 +1,7 @@
 import {Component} from "@wordpress/element";
 import {__} from '@wordpress/i18n';
 import {
-    Button,
+    Button, ButtonGroup,
     ***REMOVED***,
     PanelBody,
     PanelRow,
@@ -216,7 +216,7 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, features, apps, layer: {
+            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, features, apps,layer, layer: {
                 app,
                 csv,
                 measures,
@@ -241,7 +241,9 @@ export class ***REMOVED*** extends Component {
                 usePattern,
                 patterns,
                 ***REMOVED***,
-                ***REMOVED***
+                ***REMOVED***,
+                onRemoveLayer,
+                onMoveLayer,
             }
         } = this.props
 
@@ -498,6 +500,7 @@ export class ***REMOVED*** extends Component {
                                              patterns={patterns} app={app} csv={csv}
                                              ***REMOVED***={***REMOVED***}/>}
         </PanelBody>
+
 
 
         ])
