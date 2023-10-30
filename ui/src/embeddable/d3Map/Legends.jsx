@@ -57,7 +57,7 @@ import {***REMOVED***} from "react-intl";
     breaks: [],
 
 * */
-const DataPointsLayerLegend = (props) => {
+const ***REMOVED*** = (props) => {
     const {
         name,
         breaks,
@@ -67,16 +67,61 @@ const DataPointsLayerLegend = (props) => {
         markFillColor,
         ***REMOVED***,
         measures,
+        visible,
+        id,
+        onItemClick
     } = props
     const ***REMOVED*** = [...new Set(Object.keys(***REMOVED***).map(k => k.split('_')[0]))]
     return <div className={"legend"}>
         <div>
             <div className={"legend-item"}>
-                <div className={"legend-color"} style={{***REMOVED***: markFillColor, borderColor: ***REMOVED***}}/>
-                <div className={"legend-label"}>{name}</div>
+                <div className={"legend-color legend-check"} onClick={e => onItemClick(id)}
+                     style={{***REMOVED***: markFillColor, borderColor: ***REMOVED***}}>{visible && <>&#10003;</>}
+                </div>
+                <div className={"legend-label"}>{name} ({measures[0]})</div>
             </div>
-            {(pointStyleBy === "dimension") && <div className={"legend-breaks"}>
-                <div className={"legend-label"}>{dimension2}</div>
+
+            {(breaks.length > 0 && visible) && <div className={"legend-breaks"}>
+                {breaks.map((b, i) => {
+                    return (<div className={"break"}>
+                        <div className={"break-item"} style={{
+                            ***REMOVED***: b.color,
+                            border: `1px solid ${b.borderColor}`,
+                        }}></div>
+                        <div className={"break-label"}> &lt; {b.end}</div>
+                    </div>)
+                })}
+            </div>
+            }
+        </div>
+    </div>
+}
+
+const DataPointsLayerLegend = (props) => {
+    const {
+        id,
+        name,
+        breaks,
+        pointStyleBy,
+        dimension2,
+        ***REMOVED*** = {},
+        markFillColor,
+        ***REMOVED***,
+        measures,
+        visible,
+        onItemClick
+    } = props
+    const ***REMOVED*** = [...new Set(Object.keys(***REMOVED***).map(k => k.split('_')[0]))]
+    const fieldLabel = pointStyleBy === "dimension" ? dimension2 : measures[0]
+    return <div className={"legend"}>
+        <div>
+            <div className={"legend-item"}>
+                <div className={"legend-color legend-check"} onClick={e => onItemClick(id)}
+                     style={{***REMOVED***: markFillColor, borderColor: ***REMOVED***}}>{visible && <>&#10003;</>}
+                </div>
+                <div className={"legend-label"}>{name} ({fieldLabel})</div>
+            </div>
+            {(pointStyleBy === "dimension"  && visible) && <div className={"legend-breaks"}>
                 {***REMOVED***.map((d) => {
                     return (<div className={"break"}>
                         <div className={"break-item"} style={{
@@ -89,8 +134,7 @@ const DataPointsLayerLegend = (props) => {
             </div>
             }
 
-            {(pointStyleBy === "measure") && <div className={"legend-breaks"}>
-                <div className={"legend-label"}>{measures[0]}</div>
+            {(pointStyleBy === "measure"  && visible) && <div className={"legend-breaks"}>
                 {breaks.map((b, i) => {
                     return (<div className={"break"}>
                         <div className={"break-item"} style={{
@@ -108,10 +152,12 @@ const DataPointsLayerLegend = (props) => {
 
 
 const ***REMOVED*** = (props) => {
-    const {fillColor, borderColor, name} = props
+    const {fillColor, borderColor, name, visible, id, onItemClick} = props
     return <div className={"legend"}>
         <div className={"legend-item"}>
-            <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
+            <div className={"legend-color legend-check"} onClick={e => onItemClick(id)}
+                 style={{***REMOVED***: fillColor, borderColor: borderColor}}>{visible && <>&#10003;</>}
+            </div>
             <div className={"legend-label"}>{name}</div>
         </div>
     </div>
@@ -144,7 +190,8 @@ const ***REMOVED*** = (props) => {
         id,
         patternWidth = .35,
         patternHeight = .25,
-
+        visible,
+        onItemClick
     } = props
     let measureLabel = measures
 
@@ -160,7 +207,6 @@ const ***REMOVED*** = (props) => {
         const patternsData = ***REMOVED***.data()
         d3.select(divRef.current).select("svg").remove()
         const g = d3.select(divRef.current).append("svg")
-        debugger
         const defs = g.append("defs")
         defs.selectAll("pattern").remove()
         defs.selectAll("pattern")
@@ -251,7 +297,9 @@ const ***REMOVED*** = (props) => {
     return <div className={"legend"}>
         <div>
             <div className={"legend-item"}>
-                <div className={"legend-color"} style={{***REMOVED***: fillColor, borderColor: borderColor}}/>
+                <div className={"legend-color legend-check"} onClick={e => onItemClick(id)}
+                     style={{***REMOVED***: fillColor, borderColor: borderColor}}>{visible && <>&#10003;</>}
+                </div>
                 <div className={"legend-label"}>{name}</div>
             </div>
             {((***REMOVED*** && !useBreaks)) && <div className={"legend-breaks"}>
@@ -284,13 +332,14 @@ const ***REMOVED*** = (props) => {
 const Legends = (props) => {
 
     const divRef = useRef(null);
-    const {layers = []} = props;
+    const {layers = [], onItemClick} = props;
     return <div className={"legends"} ref={divRef}>
         {layers.map(l => {
             return <div>
-                {l.type == "base" && <***REMOVED*** {...l}/>}
-                {l.type == "data" && <***REMOVED*** divRef={divRef} {...l}/>}
-                {l.type == "dataPoints" && <DataPointsLayerLegend {...l}/>}
+                {l.type == "base" && <***REMOVED*** {...l} onItemClick={onItemClick}/>}
+                {l.type == "data" && <***REMOVED*** divRef={divRef} {...l} onItemClick={onItemClick}/>}
+                {l.type == "dataPoints" && <DataPointsLayerLegend {...l} onItemClick={onItemClick}/>}
+                {l.type == "flow" && <***REMOVED*** {...l} onItemClick={onItemClick}/>}
             </div>
         })}
 
