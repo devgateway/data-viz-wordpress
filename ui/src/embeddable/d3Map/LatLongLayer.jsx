@@ -79,7 +79,8 @@ class DataLayer extends React.Component {
             breaks,
             ***REMOVED*** = [],
             pointStyleBy,
-            dimension2
+            dimension2,
+            visible = true
         } = this.props
         const sizeScale = d3.***REMOVED***()
           .domain(breaks.map(d => d.end))

@@ -8,6 +8,7 @@ import {decode} from "../utils/parseUtils"; // d3 plugin
 class ***REMOVED*** extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {};
         this.divRef = React.createRef();
         this.***REMOVED*** = this.***REMOVED***.bind(this)
     }
@@ -43,7 +44,6 @@ class ***REMOVED*** extends React.Component {
     render() {
         const {editing, ***REMOVED***, height, width, scale = 190, center = [0, 0], ***REMOVED***} = this.props
         const arrayChildren = Children.toArray(this.props.children);
-
         return <div
             className={"projected"}
             width={width}

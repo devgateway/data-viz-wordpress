@@ -57,8 +57,8 @@ export const Model = {
     ***REMOVED***: [],
     tooltip: "Value {value}",
     breaks: [],
-    ***REMOVED***: {}
-
+    ***REMOVED***: {},
+    visible: true
 }
 
 
