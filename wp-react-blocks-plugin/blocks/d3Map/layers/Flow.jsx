@@ -416,12 +416,12 @@ export class ***REMOVED*** extends Component {
                 <PanelRow>
                     <***REMOVED***
                         title={__(`Color`)}
-                        value={***REMOVED***}
+                        value={markFillColor}
                         colorSettings={[{
                             clearable: true, enableAlpha: true,
-                            value: ***REMOVED***,
-                            onChange: (***REMOVED***) => {
-                                ***REMOVED***("***REMOVED***", ***REMOVED***)
+                            value: markFillColor,
+                            onChange: (markFillColor) => {
+                                ***REMOVED***("markFillColor", markFillColor)
                             },
 
                         }]}/>

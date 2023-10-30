@@ -215,7 +215,8 @@ export class ***REMOVED*** extends Component {
                 markFillColor,
                 ***REMOVED***,
                 markSizeScale,
-                tooltip
+                tooltip,
+                visible = true
             }
         } = this.props
 
