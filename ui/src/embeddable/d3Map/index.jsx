@@ -1,6 +1,6 @@
-import React, {***REMOVED***, useRef, useState} from 'react';
+import React, {useEffect, ***REMOVED***, useRef, useState} from 'react';
 import {connect} from "react-redux";
-import {decode, parse} from "../utils/parseUtils";
+import {decode, parse, ***REMOVED***} from "../utils/parseUtils";
 import Map from "./Map"
 import BaseLayer from './BaseLayer'
 import DataLayer from './DataLayer'
@@ -27,10 +27,16 @@ const MapWrapper = (props) => {
         } = props
 
         const [layers, setLayers] = useState(parse(dataLayers))
-        const layerCreated = []
         const ref = useRef(null);
         const zoomRef = useRef(null);
         const [transform, setTransform] = useState(null)
+
+        useEffect(() => {
+          const newLayers = parse(dataLayers)
+          if (!***REMOVED***(layers, newLayers)) {
+            setLayers(newLayers)
+          }
+        }, [dataLayers])
 
         const ***REMOVED*** = (id) => {
           const newLayers = layers.slice()
@@ -49,7 +55,7 @@ const MapWrapper = (props) => {
                                     ***REMOVED***={***REMOVED***}
                                     editing={editing} ***REMOVED***={parse(***REMOVED***, editing)}>
                     <Map>
-                        {layers.filter(l => l.visible).map((layer, i) => {
+                        {layers.filter(l => l.visible != false).map((layer, i) => {
                             if (layer.type === 'base') {
                                 return <BaseLayer transform={transform} intl={intl} zoom={zoomRef} unique={unique}
                                                   key={i} {...layer} />
