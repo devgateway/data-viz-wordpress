@@ -105,8 +105,14 @@ class DataLayer extends React.Component {
                     value = d[measures[0]]
                     pointStyle = {color: colorScale(value), size: sizeScale(value), border: borderScale(value)}
                 } else if (pointStyleBy === "dimension") {
-                    value = d.children[0].value
-                    pointStyle = {color: ***REMOVED***[value + '_color'], size: ***REMOVED***[value + '_size'], border: ***REMOVED***[value + '_border']}
+                    if (d.children) {
+                        value = d.children[0].value
+                        pointStyle = {
+                            color: ***REMOVED***[value + '_color'],
+                            size: ***REMOVED***[value + '_size'],
+                            border: ***REMOVED***[value + '_border']
+                        }
+                    }
                 }
                 return {
                     x: latLong[0], y: latLong[1], value, metadata: d, pointStyle
@@ -197,9 +203,10 @@ class DataLayer extends React.Component {
 
 const DataWrapper = (props) => {
     const {
-        id, unique, filters, csv, app, group = "default", ***REMOVED***, editing, ***REMOVED***
+        id, unique, filters, csv, app, group = "default", ***REMOVED***, editing, dimension2, pointStyleBy
     } = props
 
+    const ***REMOVED*** = pointStyleBy === "dimension" && dimension2 != 'none' ? "/" + dimension2 : ''
     let params = {}
     const ff = filters || {}
     if (ff && ff.forEach) {
@@ -220,7 +227,7 @@ const DataWrapper = (props) => {
         ignoreErrors={true}
         isSvg={true}
         store={[app, unique, id]}
-        source={[***REMOVED*** + (***REMOVED*** != 'none' ? "/" + ***REMOVED*** : '')]}>
+        source={[***REMOVED*** + (***REMOVED***)]}>
         <DataConsumer>
             <DataLayer {...props}></DataLayer>
         </DataConsumer>
