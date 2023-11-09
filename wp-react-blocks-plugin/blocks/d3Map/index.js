@@ -45,7 +45,14 @@ import Generic from "../icons";
                 type: "Object",
                 default: {}
             },
-
+            zoomEnabled: {
+                type: "Boolean",
+                default: true
+            },
+            ***REMOVED***: {
+                type: "Boolean",
+                default: false
+            }
 
         },
         edit: BlockEdit,
