@@ -32,7 +32,7 @@ class ZoomControl extends React.Component {
     ***REMOVED***() {
         const {zoomEnabled = true, ***REMOVED***} = this.props
         const selection = this.getSelection()
-        debugger;
+        
         if (selection) {
 
             if (zoomEnabled) {
