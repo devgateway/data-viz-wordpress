@@ -325,17 +325,6 @@ export class ***REMOVED*** extends Component {
                 />
             </PanelRow>}
 
-            {app != 'csv' && <PanelRow>
-                <SelectControl
-                    label={'Use Values From'}
-                    help={"Aggregate values by origin or destination"}
-                    value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(value) => {
-                        ***REMOVED***("***REMOVED***", value)
-                    }}
-                    options={[{label: 'Origin', value: 'origin'}, {label: 'Destination', value: 'destination'}]}
-                />
-            </PanelRow>}
 
             <PanelRow>
                 <***REMOVED***

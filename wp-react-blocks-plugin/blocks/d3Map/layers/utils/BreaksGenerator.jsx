@@ -61,6 +61,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
     }
 
     const ***REMOVED*** = (property, value) => {
+        debugger;
         const ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')[0]
         const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
         ***REMOVED***[property] = value
@@ -71,7 +72,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
     return <>
 
         <PanelRow>
-            <Button  variant="primary" onClick={e => add()}>Add Break</Button>
+            <Button variant="primary" onClick={e => add()}>Add Break</Button>
         </PanelRow>
         {breaks.map((br, index) => {
                 if (br.type == 'lessThan') {
@@ -118,11 +119,11 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
                 if (br.type == 'graterThan') {
                     return <PanelBody initialOpen={false} title={"Grater than (" + br.end + ")"}>
                         {showSize && <PanelRow>
-                            <TextControl
+                            <RangeControl
                                 label="Size"
-                                value={2}
+                                value={br.size}
                                 onChange={(value) => {
-                                    ***REMOVED***("size", value)
+                                    ***REMOVED***("size",  value)
                                 }}
                                 step={1}
                                 min={0}
@@ -133,7 +134,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
                             <***REMOVED***
                                 title={__(`Fill Color`)}
                                 colorSettings={[{
-                                    value: ***REMOVED***,
+                                    value: br.color,
                                     onChange: (fillColor) => {
                                         ***REMOVED***("color", fillColor)
                                     },
