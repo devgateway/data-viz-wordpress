@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, ***REMOVED***, useRef} from 'react';
 import {connect} from "react-redux";
 import * as d3 from 'd3' // d3 plugin
 import * as topojson from "topojson-client";
@@ -57,6 +57,35 @@ import {***REMOVED***} from "react-intl";
     breaks: [],
 
 * */
+
+
+const Breaks = ({breaks, isPoint}) => {
+    return (breaks.length > 0) && <div className={"legend-breaks"}>
+        {breaks.map((b, i) => {
+            if (b.type !== 'graterThan') {
+                return (<div className={"break"}>
+                    <div className={`break-item ${isPoint ? 'point' : ''}`}
+                         style={{
+                             ***REMOVED***: b.color,
+                             border: `1px solid ${b.borderColor}`,
+                         }}></div>
+                    <div className={"break-label"}> &lt; {b.end}</div>
+                </div>)
+            } else {
+                return (<div className={"break"}>
+                    <div className={`break-item ${isPoint ? 'point' : ''}`}
+                         style={{
+                             ***REMOVED***: b.color,
+                             border: `1px solid ${b.borderColor}`,
+                         }}></div>
+                    <div className={"break-label"}> &gt; {b.end}</div>
+
+                </div>)
+            }
+        })}
+    </div>
+
+}
 const ***REMOVED*** = (props) => {
     const {
         name,
@@ -89,32 +118,8 @@ const ***REMOVED*** = (props) => {
                 <div className={"legend-label"}>{name} ({measureLabel})</div>
             </div>
 
-            {(breaks.length > 0 && visible != false) && <div className={"legend-breaks"}>
-                {breaks.map((b, i) => {
-                    if (b.type !== 'graterThan') {
-                        return (<div className={"break"}>
-                            <div className={"break-item"} style={{
-                                ***REMOVED***: b.color,
-                                border: `1px solid ${b.borderColor}`,
-                            }}></div>
-                            <div className={"break-label"}> &lt; {b.end}</div>
-                        </div>)
-                    }else{
+            {(visible != false) && <Breaks breaks={breaks}></Breaks>}
 
-                        return ( <div className={"break"}>
-                            <div className={"break-item"} style={{
-                                ***REMOVED***: b.color,
-                                border: `1px solid ${b.borderColor}`,
-                            }}></div>
-                            <div className={"break-label"}> &gt; {b.end}</div>
-
-                        </div>)
-                    }
-
-                })}
-
-            </div>
-            }
         </div>
     </div>
 }
@@ -182,7 +187,6 @@ const DataPointsLayerLegend = (props) => {
     </div>
 }
 
-
 const ***REMOVED*** = (props) => {
     const {fillColor, borderColor, name, visible, id, onItemClick} = props
     return <div className={"legend"}>
@@ -214,9 +218,11 @@ const ***REMOVED*** = (props) => {
         usePattern,
         patterns,
         ***REMOVED***,
+        patternDiscriminatorLabel,
         measures,
         borderColor,
         data,
+
         ***REMOVED***,
         divRef,
         id,
@@ -232,149 +238,144 @@ const ***REMOVED*** = (props) => {
     }
 
 
-    const g = d3.select(`#data-${id}`)
-    const ***REMOVED*** = g.selectAll("defs").selectAll("pattern")
+        const g = d3.select(`#data-${id}`)
+        const ***REMOVED*** = g.selectAll("defs").selectAll("pattern")
+        if (usePattern && ***REMOVED***.size() > 0 && visible != false) {
+            debugger;
+            d3.select("#legend_" + id).select("svg").remove()
+            const patternsData = ***REMOVED***.data()
+            const g = d3.select("#legend_" + id).append("svg")
+            const defs = g.append("defs")
+            defs.selectAll("pattern").remove()
+            defs.selectAll("pattern")
+                .data(patternsData).enter()
+                .append("pattern")
+                .attr('id', d => toId(d.key))
+                .attr('patternUnits', '***REMOVED***')
+                .attr('width', 5)
+                .attr('height', 5)
+                .attr("x", 0).attr("y", 0)
+                .attr("***REMOVED***", d => `rotate(${!d.rotation ? 0 : d.rotation})`)
 
-    d3.select(divRef.current).select("svg").remove()
-    if (usePattern && divRef.current && ***REMOVED***.size() > 0 && visible != false) {
-        const patternsData = ***REMOVED***.data()
-        const g = d3.select(divRef.current).append("svg")
-        const defs = g.append("defs")
-        defs.selectAll("pattern").remove()
-        defs.selectAll("pattern")
-            .data(patternsData).enter()
-            .append("pattern")
-            .attr('id', d => toId(d.key))
-            .attr('patternUnits', '***REMOVED***')
-            .attr('width', 5)
-            .attr('height', 5)
-            .attr("x", 0).attr("y", 0)
-            .attr("***REMOVED***", d => `rotate(${!d.rotation ? 0 : d.rotation})`)
+            patternsData.forEach(d => {
+                if (d.type === 'lines') {
+                    defs.select("#" + toId(d.key))
+                        .append("rect")
+                        .attr("x", 0)
+                        .attr('width', 1)
+                        .attr('height', 10)
+                        .attr("opacity", .75)
+                        .attr('fill', d.color)
+                }
+                if (d.type === 'squares') {
+                    defs.select("#" + toId(d.key))
+                        .append("rect")
+                        .attr('width', 3)
+                        .attr('height', 3)
+                        .attr('fill', d.color)
+                        .attr("opacity", 1)
+                        .attr("stroke-width", 1)
 
-        patternsData.forEach(d => {
-            if (d.type === 'lines') {
-                defs.select("#" + toId(d.key))
-                    .append("rect")
-                    .attr("x", 0)
-                    .attr('width', 1)
-                    .attr('height', 10)
-                    .attr("opacity", .75)
-                    .attr('fill', d.color)
-            }
-            if (d.type === 'squares') {
-                defs.select("#" + toId(d.key))
-                    .append("rect")
-                    .attr('width', 3)
-                    .attr('height', 3)
-                    .attr('fill', d.color)
-                    .attr("opacity", 1)
-                    .attr("stroke-width", 1)
+                }
+                if (d.type === 'dots') {
+                    defs.select("#" + toId(d.key))
+                        .append("circle")
+                        .attr("cx", 2)
+                        .attr("cy", 2)
+                        .attr('r', 2)
+                        .attr('fill', d.color)
+                        .attr("opacity", 1)
+                        .attr("stroke-width", 1)
 
-            }
-            if (d.type === 'dots') {
-                defs.select("#" + toId(d.key))
-                    .append("circle")
-                    .attr("cx", 2)
-                    .attr("cy", 2)
-                    .attr('r', 2)
-                    .attr('fill', d.color)
-                    .attr("opacity", 1)
-                    .attr("stroke-width", 1)
+                }
+                if (d.type === 'triangle') {
+                    defs.select("#" + toId(d.key))
+                        .append("polygon")
+                        .attr("points", "5,0 8,8 0,5")
+                        .attr('fill', d.color)
+                        .attr("opacity", 1)
+                        .attr("stroke-width", 1)
 
-            }
-            if (d.type === 'triangle') {
-                defs.select("#" + toId(d.key))
-                    .append("polygon")
-                    .attr("points", "5,0 8,8 0,5")
-                    .attr('fill', d.color)
-                    .attr("opacity", 1)
-                    .attr("stroke-width", 1)
-
-            }
-        })
-
-
-        g.attr("width", "150px")
-            .attr("height", "auto")
-
-        g.append("text")
-            .attr("class", "patterns-title")
-            .attr("y", 5)
-            .attr("x", 12)
-            .text(***REMOVED***)
-
-        g.selectAll(".legend-squares")
-            .data(patternsData)
-            .enter()
-            .append("rect")
-            .attr("width", 18)
-            .attr("height", 18)
-            .attr("y", (d, i) => (i * 22) + 25)
-            .attr("x", 20)
-            .attr("stroke", borderColor)
-            .attr("style", (d) => {
-                return "none;fill:url(#" + toId(d.key) + ");"
+                }
             })
 
-        g.selectAll(".patterns-labels")
-            .data(patternsData)
-            .enter()
-            .append("text")
-            .attr("class", "patterns-labels")
-            .attr("y", (d, i) => (i * 22) + 25)
-            .attr("x", 40)
-            .text(d => d.key)
-    }
 
-    return <div className={"legend"}>
+            g.attr("width", "150px")
+                .attr("height", "auto")
+
+            g.append("text")
+                .attr("class", "patterns-title")
+                .attr("y", 5)
+                .attr("x", 12)
+                .text(a => patternDiscriminatorLabel ? patternDiscriminatorLabel : ***REMOVED***)
+
+            g.selectAll(".legend-squares")
+                .data(patternsData)
+                .enter()
+                .append("rect")
+                .attr("width", 18)
+                .attr("height", 18)
+                .attr("y", (d, i) => (i * 22) + 25)
+                .attr("x", 20)
+                .attr("stroke", borderColor)
+                .attr("style", (d) => {
+                    return "none;fill:url(#" + toId(d.key) + ");"
+                })
+
+            g.selectAll(".patterns-labels")
+                .data(patternsData)
+                .enter()
+                .append("text")
+                .attr("class", "patterns-labels")
+                .attr("y", (d, i) => (i * 22) + 25)
+                .attr("x", 40)
+                .text(d => d.key)
+        }
+
+
+
+    return <div className={"legend"} id={"legend_" + id}>
         <div>
             <div className={"legend-item"}>
                 <div className={"legend-color legend-check"} onClick={e => onItemClick(id)}
                      style={{***REMOVED***: fillColor, borderColor: borderColor}}>{visible != false && <>&#10003;</>}
                 </div>
-                <div className={"legend-label"}>{name} ({measureLabel})</div>
+                <div className={"legend-label"}>{name} {!***REMOVED*** && <span>({measureLabel})</span>}</div>
+
             </div>
+
             {((***REMOVED*** && !useBreaks && visible != false)) && <div className={"legend-breaks"}>
                 <div className={"break"}>
                     <div className={"break-item"} style={{
                         ***REMOVED***: markFillColor,
                         border: `1px solid ${***REMOVED***}`,
                     }}></div>
+                    {measureLabel}
                 </div>
             </div>
             }
 
-            {(useBreaks && visible != false) && <div className={"legend-breaks"}>
-                {breaks.map((b, i) => {
-                    return (<div className={"break"}>
-                        <div className={"break-item"} style={{
-                            ***REMOVED***: b.color,
-                            border: `1px solid ${borderColor}`,
-                        }}></div>
-                        <div className={"break-label"}> &lt; {b.end}</div>
-                    </div>)
-                })}
-                <div className={"break"}>
-                    <div className={"break-item"} style={{
-                        ***REMOVED***: ***REMOVED*** ? markFillColor : fillColor,
-                        border: `1px solid ${***REMOVED*** ? ***REMOVED*** : borderColor}`,
-                    }}></div>
-                    <div className={"break-label"}> &gt; {Math.max(...breaks.map(b => b.end))}</div>
+            {(useBreaks && visible != false) &&
+                <div>
+                    {***REMOVED*** && <div className={"legend-breaks"}>
+                        <div className={"break-item"}>{measureLabel}</div>
+                    </div>}
+                    <Breaks isPoint={***REMOVED***} breaks={breaks} visible={visible}></Breaks>
                 </div>
-            </div>
+
             }
         </div>
     </div>
 }
 const Legends = (props) => {
-
     const divRef = useRef(null);
     const {layers = [], onItemClick} = props;
+    debugger;
     return <div className={"legends"} ref={divRef}>
         {layers.map(l => {
             return <div>
                 {l.type == "base" && <***REMOVED*** {...l} onItemClick={onItemClick}/>}
-                {l.type == "data" && <***REMOVED*** divRef={divRef} {...l} onItemClick={onItemClick}/>}
+                {l.type == "data" && <***REMOVED***  divRef={divRef} {...l} onItemClick={onItemClick}/>}
                 {l.type == "dataPoints" && <DataPointsLayerLegend {...l} onItemClick={onItemClick}/>}
                 {l.type == "flow" && <***REMOVED*** {...l} onItemClick={onItemClick}/>}
             </div>
