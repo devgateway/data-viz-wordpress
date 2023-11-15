@@ -10,7 +10,7 @@ import {
 import {***REMOVED***} from '@wordpress/block-editor';
 import {__} from '@wordpress/i18n';
 import {togglePanel} from "../commons/Util";
-import Measures from "../commons/Measures";
+import ChartMeasures from "../commons/ChartMeasures";
 
 const ***REMOVED*** = (preFillCsv) => {
     return {
@@ -95,7 +95,7 @@ const LineOverlay = (props) => {
             </PanelRow>}
 
             {o.app != "csv" &&
-                <Measures
+                <ChartMeasures
                     title={"Select Measure"}
                     ***REMOVED***={e => null}
                     ***REMOVED***={a => alert("format")}
