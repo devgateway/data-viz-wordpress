@@ -53,6 +53,7 @@ export const Model = {
     ***REMOVED***: 'none',
     ***REMOVED***: true,
     ***REMOVED***: 'none',
+    patternDiscriminatorLabel: null,
     patterns: [],
     ***REMOVED***: [],
     tooltip: "Value {value}",
