@@ -205,7 +205,7 @@ class DataLayer extends BaseLayer {
             })
 
 
-            ***REMOVED***(id,patternsData)
+            ***REMOVED***(id, patternsData)
 
             if (!***REMOVED***) {
                 this.g.selectAll("path")
@@ -218,7 +218,9 @@ class DataLayer extends BaseLayer {
                     .attr("stroke", borderColor)
                     .attr("id", "state-borders")
                     .attr("d", path).on("mouseenter", (d) => {
-                    this.showToolTip(tooltip, ***REMOVED***(d), brStyles.getColor(d.properties._value))
+                    if (d.properties._value) {
+                        this.showToolTip(tooltip, ***REMOVED***(d), brStyles.getColor(d.properties._value))
+                    }
                 })
                     .on("mouseleave", (d) => {
                         this.hiddenToolTip()
@@ -291,7 +293,9 @@ class DataLayer extends BaseLayer {
                     })
                     //.attr("transform", this.props.transform)
                     .on("mouseenter", (d) => {
+                        debugger;
                         if (d.properties._value) {
+
                             const variables = {
                                 ...d.properties, meta: {
                                     [***REMOVED***]: d.properties.meta ? d.properties.meta.value : '', ...d.properties.meta,
@@ -401,7 +405,6 @@ class DataLayer extends BaseLayer {
             });
         }
     }
-
 
 
     ***REMOVED***(prevProps, prevState, snapshot) {

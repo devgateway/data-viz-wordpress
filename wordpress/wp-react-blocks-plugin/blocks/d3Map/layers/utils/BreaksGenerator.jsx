@@ -48,7 +48,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
         let ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
         const newBreaks = [...***REMOVED***]
         newBreaks.splice(index, 1)
-        debugger;
+        
         if (newBreaks.length > 0) {
             ***REMOVED***[0].end = ***REMOVED***[newBreaks.length - 1].end
         }
@@ -61,14 +61,14 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
     }
 
     const ***REMOVED*** = (property, value) => {
-        debugger;
+        
         const ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')[0]
         const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
         ***REMOVED***[property] = value
         ***REMOVED***("breaks", [...***REMOVED***, ***REMOVED***])
     }
 
-    debugger;
+    
     return <>
 
         <PanelRow>
