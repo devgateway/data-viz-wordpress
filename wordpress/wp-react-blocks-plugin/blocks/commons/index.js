@@ -6,8 +6,8 @@ import {togglePanel} from "./Util";
 
 import {***REMOVED***} from './APIutils'
 
-export const SizeConfig = ({height, setAttributes, panelStatus}) => {
-    return (<PanelBody initialOpen={panelStatus["SIZE"]} onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
+export const SizeConfig = ({height, setAttributes, panelStatus,initialOpen}) => {
+    return (<PanelBody initialOpen={panelStatus?panelStatus["SIZE"]:initialOpen} onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
                        title={__("Size")}>
         <PanelRow>
             <TextControl
@@ -88,7 +88,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
         } = this.props;
 
         super.***REMOVED***(prevProps, prevState, snapshot)
-        if (prevProps.attributes) {
+            if (prevProps.attributes) {
             if (type != prevProps.attributes.type) {
 
             }
@@ -137,7 +137,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
     }
 
     ***REMOVED***(checked, value) {
-
+        
         const {setAttributes, attributes: {categories}} = this.props
         if (!checked) {
             setAttributes({categories: categories.filter(i => i != value)})
@@ -285,7 +285,6 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
     }
 
     ***REMOVED***() {
-
         super.***REMOVED***();
 
         fetch(`/api/registry/eureka/apps`, {
@@ -326,7 +325,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
 
 
     _loadMetadata(app) {
-        
+
         if (app != "csv") {
             fetch(`/api/${app}/dimensions`)
                 .then(response => {
@@ -389,6 +388,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     return response.json()
                 })
                 .then(data => {
+                        
                         this.setState({...this.state, categories: ***REMOVED***(data)})
                     }
                 )

@@ -1,12 +1,15 @@
-import React, {***REMOVED***, useRef, useState} from 'react';
+import React, {useEffect, ***REMOVED***, useRef, useState} from 'react';
 import {connect} from "react-redux";
-import {decode, parse} from "../utils/parseUtils";
+import {decode, parse, ***REMOVED***} from "../utils/parseUtils";
 import Map from "./Map"
 import BaseLayer from './BaseLayer'
 import DataLayer from './DataLayer'
+import LatLongLayer from './LatLongLayer'
 import ZoomControl from "./ZoomControl";
 import {Container} from "semantic-ui-react";
 import ***REMOVED*** from "./***REMOVED***";
+import Legends from "./Legends"
+import FlowLayer from "./FlowLayer";
 
 const MapWrapper = (props) => {
         const {
@@ -18,14 +21,40 @@ const MapWrapper = (props) => {
             "data-width": width = 1000,
             "data-back-ground-color": bgColorParam = '#88e8dc',
             "data-map-position": ***REMOVED*** = {},
+            "data-projection": ***REMOVED*** = "geoMercator",
+            "data-zoom-enabled": zoomEnabled = true,
+            "data-rotation-enabled": ***REMOVED*** = false,
             intl
         } = props
-        
-        const layers = parse(dataLayers)
-        const layerCreated = []
 
+
+        const [layers, setLayers] = useState(parse(dataLayers))
         const ref = useRef(null);
         const zoomRef = useRef(null);
+        const [transform, setTransform] = useState(null)
+
+        useEffect(() => {
+            const newLayers = parse(dataLayers)
+            if (!***REMOVED***(layers, newLayers)) {
+                setLayers(newLayers)
+            }
+        }, [dataLayers])
+
+        const ***REMOVED*** = (id) => {
+            const newLayers = layers.slice()
+            const ly = newLayers.find(l => l.id == id);
+            if (ly) {
+                ly.visible = !ly.visible
+            }
+            setLayers(newLayers)
+        }
+
+
+        const [patterns, setPatterns] = useState({})
+
+        const ***REMOVED*** = (id, patterns) => {
+           // setPatterns({[id]: patterns})
+        }
 
 
         return (
@@ -33,21 +62,45 @@ const MapWrapper = (props) => {
                 <***REMOVED*** ***REMOVED***={decode(bgColorParam)}
                                     height={height}
                                     width={width}
+                                    ***REMOVED***={***REMOVED***}
                                     editing={editing} ***REMOVED***={parse(***REMOVED***, editing)}>
-                    <Map>
-                        {layers.map((layer, i) => {
+                    <Map ***REMOVED***={parse(***REMOVED***, editing)}>
+                        {layers.filter(l => l.visible != false).map((layer, i) => {
                             if (layer.type === 'base') {
-                                return <BaseLayer intl={intl}  zoom={zoomRef} unique={unique}
+                                return <BaseLayer transform={transform} intl={intl} zoom={zoomRef} unique={unique}
                                                   key={i} {...layer} />
                             }
                             if (layer.type === 'data') {
-                                return <DataLayer intl={intl} group={group} zoom={zoomRef} unique={unique}
+                                return <DataLayer ***REMOVED***={***REMOVED***} transform={transform} intl={intl}
+                                                  group={group} zoom={zoomRef}
+                                                  unique={unique}
                                                   key={i} {...layer} />
+                            }
+                            if (layer.type === 'flow') {
+                                return <FlowLayer transform={transform} intl={intl} group={group} zoom={zoomRef}
+                                                  unique={unique}
+                                                  key={i} {...layer} />
+                            }
+                            if (layer.type === 'dataPoints') {
+                                return <LatLongLayer transform={transform} intl={intl} group={group} zoom={zoomRef}
+                                                     unique={unique}
+                                                     key={i} {...layer} />
                             }
 
                         })}
+
+
                     </Map>
-                    <ZoomControl ref={zoomRef} group={group} editing={editing}/>
+
+
+                    <Legends patterns={patterns} layers={layers} onItemClick={***REMOVED***}></Legends>
+
+                    <ZoomControl ***REMOVED***={parse(***REMOVED***, editing)}
+                                 zoomEnabled={parse(zoomEnabled, editing)} onZoomed={setTransform} width={width}
+                                 height={height} ref={zoomRef} group={group}
+                                 editing={editing}/>
+
+
                 </***REMOVED***>
             </div>
         );

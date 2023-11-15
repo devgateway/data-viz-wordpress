@@ -120,16 +120,17 @@ const defaultMap = (props) => {
                 ***REMOVED***.measures.push(data.meta.fields[***REMOVED***])
             }
 
-            if (data.meta.fields.length > ***REMOVED***) {
+            if (data.meta.fields.length > ***REMOVED***) {                
                 newItem.children = []
                 for (let i = ***REMOVED*** + 1; i <= data.meta.fields.length; i++) {
                     const columnName = data.meta.fields[i]
                     const value = item[data.meta.fields[i]]
+                    
                     if (columnName) {
                         if (columnName.trim().startsWith("_")) {
                             variables[columnName] = value;
                         } else {
-                            if (value != null) {
+                            //if (value != null) {
                                 if (***REMOVED***) {
                                     const measureData = { label: item[data.meta.fields[0]], value: value, measure: data.meta.fields[i] }
                                     measureData.variables = variables;
@@ -140,7 +141,7 @@ const defaultMap = (props) => {
                                 } else {
                                     newItem.children.push({ label: data.meta.fields[i], value: value });
                                 }
-                            }
+                           // }
                         }
                     }
                 }

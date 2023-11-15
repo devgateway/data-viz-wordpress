@@ -4,8 +4,11 @@ import DataProvider from "../data/DataProvider";
 import DataConsumer from "../data/DataConsumer";
 import {buildDivergingOptions, ***REMOVED***} from './***REMOVED***'
 import HalfPie from "./Pie";
+
+import Radar from "./Radar";
 import Bar from "./Bar";
 import Line from "./Line";
+
 import {PostContent} from "@devgateway/wp-react-lib";
 import dataFrames from './data/index'
 
@@ -137,7 +140,9 @@ const Chart = (props) => {
         "data-offset-text": offsetText = 0,
         "data-overall-label": overallLabel = "Overall",
         "data-min-max-clamp": minMaxClamp = "false",
-        "data-reverse-legend": reverseLegend = "false"
+        "data-reverse-legend": reverseLegend = "false",
+        "data-sort": sort = "default",
+        "data-sort-reverse": sortReverse = "false",
     } = props
 
     const locale = props.intl.locale
@@ -166,7 +171,7 @@ const Chart = (props) => {
     const ***REMOVED*** = () => {
         return parse(measures)
     }
-    const ***REMOVED*** = () => {        
+    const ***REMOVED*** = () => {
         if (***REMOVED***[app]) {
             let format = ***REMOVED***[app].format
             if (!format) {
@@ -175,20 +180,52 @@ const Chart = (props) => {
                     if (***REMOVED***[app][keys[i]].selected && ***REMOVED***[app][keys[i]].format) {
                         format = ***REMOVED***[app][keys[i]].format
                         break
-                    }                
-                }               
-            }           
-            
+                    }
+                }
+            }
+
             return format
         } else {
             return ***REMOVED*** && ***REMOVED***["csv"] ? ***REMOVED***["csv"].format : null
         }
     }
+
+    const ***REMOVED*** = () => {
+        let format = null
+        if (***REMOVED***[app]) {
+            const ***REMOVED*** = ***REMOVED***[app].***REMOVED***
+            if (***REMOVED*** && ***REMOVED***[app].customFormat) {
+                format = ***REMOVED***[app].customFormat
+            }
+
+        } else {
+            if (***REMOVED*** && ***REMOVED***["csv"]) {
+                const ***REMOVED*** = ***REMOVED***["csv"].***REMOVED***
+                if (***REMOVED*** && ***REMOVED***["csv"].customFormat) {
+                    format = ***REMOVED***["csv"].customFormat
+                }
+            }
+        }
+
+        return format
+    }
+
     const ***REMOVED*** = () => {
         if (***REMOVED***[app]) {
             return Object.keys(***REMOVED***[app]).map(s => ({value: s, ...***REMOVED***[app][s]})).filter(m => m.selected).map(s => s.value)
         }
         return []
+    }
+    const ***REMOVED*** = () => {
+        const customLabels = {}
+        if (***REMOVED***[app]) {
+            const ***REMOVED*** = Object.keys(***REMOVED***[app]).map(s => ({value: s, ...***REMOVED***[app][s]})).filter(m => m.selected && m.***REMOVED***)
+            ***REMOVED***.forEach(m => {
+                    customLabels[m.value] = m.customLabel
+                }
+            )
+        }
+        return customLabels
     }
     const ***REMOVED*** = () => {
         if (***REMOVED***[app]) {
@@ -204,7 +241,9 @@ const Chart = (props) => {
     let userMeasures = ***REMOVED***()
     let leftLegendForSelectedMeasure = left
     let rightLegendForSelectedMeasure = rightLegend
-    let tooltipForSelectedMeasure = tooltip
+
+    /*Decoding tooltip string*/
+    let tooltipForSelectedMeasure = decode(tooltip)
 
     if (***REMOVED***) {
         const selected = Object.keys(***REMOVED***[app].measures).map(s => ({value: s, ...***REMOVED***[app].measures[s]})).filter(m => m.selected).map(s => s.value)
@@ -232,6 +271,7 @@ const Chart = (props) => {
         maximumFractionDigits: 2
     }
 
+    const ***REMOVED*** = ***REMOVED***()
 
     const groupTotalFormatObject = parse(***REMOVED***)
 
@@ -339,6 +379,9 @@ const Chart = (props) => {
         overallLabel,
         minMaxClamp,
         reverseLegend: reverseLegend == true || reverseLegend == "true",
+        ***REMOVED***,
+        sort,
+        sortReverse: sortReverse == true || sortReverse == "true",
     }
 
 
@@ -366,6 +409,11 @@ const Chart = (props) => {
             case  "pie":
                 ***REMOVED*** = dataFrames.PieDataFrame
                 break
+            case  "radar":
+                //TODO RADAR
+
+                ***REMOVED*** = dataFrames.BarDataFrame
+                break
             default:
                 ***REMOVED*** = dataFrames.BarDataFrame
                 break
@@ -381,11 +429,16 @@ const Chart = (props) => {
             break
         case  "line":
             Chart = Line
-            showNotEnoughParameters = app != 'csv' && ***REMOVED***.length == 0
+            showNotEnoughParameters = app != 'csv' && (***REMOVED***.length == 0 || dimension1 == 'none')
             break
         case "pie":
             showNotEnoughParameters = app != 'csv' && ***REMOVED***.length == 0
             Chart = HalfPie
+            break
+        case "radar":
+            showNotEnoughParameters = app != 'csv' && ***REMOVED***.length == 0
+            //TODO RADAR ***REMOVED***
+            Chart = Radar
             break
         default:
             Chart = <div>No Chart</div>
@@ -413,39 +466,43 @@ const Chart = (props) => {
                 editing={editing}
                 style={{"height": `${contentHeight}px`}}
                 params={params}
-                          app={app}
-                          group={group}
-                          csv={csv}
-                          editing={editing}
-                          store={[app, unique, ...dimensions]} source={dimensions.join("/")}>
+                app={app}
+                group={group}
+                csv={csv}
+                editing={editing}
+                store={[app, unique, ...dimensions]} source={dimensions.join("/")}>
 
 
                 <Container style={{"height": `${contentHeight}px`}} className={"body"} fluid={true}>
 
                     {showNotEnoughParameters && <Messages editing={editing}></Messages>}
                     {!showNotEnoughParameters && <DataConsumer>
-                            <Messages app={app} group={group}>  </Messages>
-                            <***REMOVED***
+                        <Messages app={app} group={group} noDataMsg={noDataMsg}> </Messages>
+                        <***REMOVED***
+                            locale={locale}
+                            colorBy={colorBy}
+                            hiddenBars={hiddenBars}
+                            swap={swap == 'true' || swap == true} type={type} includeTotal={true}
+                            ***REMOVED***={***REMOVED*** == true || ***REMOVED*** == "true"}
+                            overallLabel={overallLabel}
+                            measures={***REMOVED***}
+                            dimensions={[...dimensions]}
+                            sort={sort}
+                            sortreverse={sortReverse}
+                            customLabels={***REMOVED***()}>
+                            <ColorProvider
+                                type={type}
+                                app={app}
                                 locale={locale}
-                                colorBy={colorBy}
-                                hiddenBars={hiddenBars}
-                                swap={swap == 'true' || swap == true} type={type} includeTotal={true}
-                                ***REMOVED***={***REMOVED*** == true || ***REMOVED*** == "true"}
                                 overallLabel={overallLabel}
-                                measures={***REMOVED***}
-                                dimensions={[...dimensions]}>
-                                <ColorProvider
-                                    type={type}
-                                    app={app}
-                                    locale={locale}
-                                    overallLabel={overallLabel}
-                                    manualColors={***REMOVED***()} colorBy={colorBy} scheme={scheme}
-                                    barColor={chartProps.barColor}>
+                                customLabels={***REMOVED***()}
+                                manualColors={***REMOVED***()} colorBy={colorBy} scheme={scheme}
+                                barColor={chartProps.barColor}>
 
-                                    <Chart {...chartProps}></Chart>
-                                </ColorProvider>
+                                <Chart {...chartProps}></Chart>
+                            </ColorProvider>
 
-                            </***REMOVED***>
+                        </***REMOVED***>
 
                     </DataConsumer>}
 

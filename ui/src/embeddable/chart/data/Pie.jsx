@@ -3,7 +3,7 @@ import React from "react";
 import {measuresMap, typesMap, ***REMOVED***} from './Utils'
 
 export const PieData = (props) => {
-    const {children, data, measures, locale} = props
+    const {children, data, measures, locale, customLabels} = props
     const ***REMOVED*** = new Set()
     const ***REMOVED*** = new Set()
     const mMap = measuresMap(data)
@@ -77,9 +77,9 @@ export const PieData = (props) => {
             let row = {}            
             row.type = "measure"
             row["***REMOVED***"] = m.value
-            row["id"] = ***REMOVED***(mMap[m.value], locale)
+            row["id"] =  customLabels[m.value] || ***REMOVED***(mMap[m.value], locale)
             row["position"] = m.position
-            row["label"] = ***REMOVED***(mMap[m.value], locale)
+            row["label"] = customLabels[m.value] || ***REMOVED***(mMap[m.value], locale)
             row["value"] = data[m.value]
             row.variables = variables
             values.push(row)

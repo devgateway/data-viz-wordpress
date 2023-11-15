@@ -94,7 +94,7 @@ import {Chart} from '../icons/index.js'
 
             ***REMOVED***: {
                 type: 'String',
-                default: "right"
+                default: "top"
             },
             marginLeft: {
                 type: 'Numeric',
@@ -166,7 +166,7 @@ import {Chart} from '../icons/index.js'
             },
             tickColor: {
                 type: "String",
-                default: ***REMOVED***("#f0f0f1")
+                default: ***REMOVED***("#FFFFFF")
             },
             ***REMOVED***: {
                 type: 'Numeric',
@@ -193,13 +193,18 @@ import {Chart} from '../icons/index.js'
                             style: "percent",
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
-                        }
+                        },
+                        customFormat: {
+                            style: "percent",
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        },
+                        ***REMOVED***: false
                     },
                 }
             },
 
-            _measures: {
-            },
+            _measures: {},
             filters: {
                 type: "Array",
                 default: []
@@ -234,7 +239,7 @@ import {Chart} from '../icons/index.js'
             },
             ***REMOVED***: {
                 type: "Boolean",
-                default: true
+                default: false
             },
 
             ***REMOVED***: {
@@ -252,7 +257,7 @@ import {Chart} from '../icons/index.js'
 
             useCheckBoxBackground: {
                 type: "Boolean",
-                default: false
+                default: true
             },
             offsetY: {
                 type: "Numeric",
@@ -366,11 +371,11 @@ import {Chart} from '../icons/index.js'
             },
             ***REMOVED***: {
                 type: "Boolean",
-                default: true
+                default: false
             },
             showTickLine: {
                 type: "Boolean",
-                default: true
+                default: false
             },
             showRightAxis: {
                 type: "Boolean",
@@ -458,19 +463,27 @@ import {Chart} from '../icons/index.js'
                 default: false
             },
             enableGridY: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: true
             },
             enableGridX: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
             minMaxClamp: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
             reverseLegend: {
-                type:'Boolean',
+                type: 'Boolean',
+                default: false
+            },
+            sort: {
+                type: 'string',
+                default: '',
+            },
+            sortReverse: {
+                type: 'Boolean',
                 default: false
             }
         },
