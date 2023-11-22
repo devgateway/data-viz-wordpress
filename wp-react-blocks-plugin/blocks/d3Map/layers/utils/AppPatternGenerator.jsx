@@ -13,6 +13,7 @@ const Patterns = ({
                       ***REMOVED***,
                       patterns,
                       ***REMOVED***,
+                      patternDiscriminatorLabel,
                       ***REMOVED***
                   }) => {
 
@@ -21,17 +22,18 @@ const Patterns = ({
         value: 'squares'
     }, {label: 'Triangle', value: 'triangle'}]
 
-    
-
 
     const dims = allDimensions ? allDimensions : []
+
     const cats = ***REMOVED*** && allCategories ? allCategories.filter(c => c.type.toUpperCase() == ***REMOVED***.toUpperCase()) : []
 
+    console.log(cats)
 
     const items = cats.length > 0 ? cats[0].items : []
     const values = items.map(i => i.value)
 
     
+
     return <PanelBody title={"Patterns"}>
         <PanelRow>
             <SelectControl
@@ -42,7 +44,15 @@ const Patterns = ({
                 }}
                 options={[...dims]}/>
         </PanelRow>
-
+        <PanelRow>
+            <TextControl
+                label={__("Label")}
+                value={patternDiscriminatorLabel}
+                onChange={(v) => {
+                    ***REMOVED***('patternDiscriminatorLabel', v)
+                }}
+            ></TextControl>
+        </PanelRow>
         {values.map(field => <PanelBody title={field}>
             <PanelRow>
                 <SelectControl
