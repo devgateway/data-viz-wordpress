@@ -12,7 +12,7 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import Measures from './utils/MapMeasures.jsx'
+import Measures from '../../commons/Measures.jsx'
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
@@ -51,7 +51,6 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
 export class ***REMOVED*** extends Component {
     constructor(props) {
         super(props);
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.addFilter = this.addFilter.bind(this)
         this.***REMOVED*** = this.***REMOVED***.bind(this)
@@ -170,16 +169,6 @@ export class ***REMOVED*** extends Component {
         ***REMOVED***("measures", [value])
     }
 
-    ***REMOVED***(value) {
-        const {***REMOVED***, attributes: {measures}} = this.props
-        if (measures.indexOf(value) > -1) {
-            ***REMOVED***("measures", measures.filter(d => d != value))
-        } else {
-            ***REMOVED***("measures", [...measures, value])
-        }
-    }
-
-
     items(type) {
 
         const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : []
@@ -201,6 +190,7 @@ export class ***REMOVED*** extends Component {
                 csv,
                 measures,
                 filters,
+                format,
                 ***REMOVED***,
                 ***REMOVED***,
                 type,
@@ -352,7 +342,9 @@ export class ***REMOVED*** extends Component {
                 {pointStyleBy === 'measure' && <Measures
                   ***REMOVED***={this.***REMOVED***}
                   ***REMOVED***={this.***REMOVED***}
-                  {...this.props} />
+                  measures={measures}
+                  format={format}
+                  {...this.props}/>
                 }
 
                 {pointStyleBy === 'measure' && <***REMOVED***
