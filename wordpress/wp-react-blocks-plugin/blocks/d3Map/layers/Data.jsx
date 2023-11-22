@@ -11,7 +11,7 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import Measures from './utils/MapMeasures.jsx'
+import Measures from '../../commons/Measures.jsx'
 import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
@@ -52,7 +52,6 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
 export class ***REMOVED*** extends Component {
     constructor(props) {
         super(props);
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.addFilter = this.addFilter.bind(this)
         this.***REMOVED*** = this.***REMOVED***.bind(this)
@@ -190,16 +189,6 @@ export class ***REMOVED*** extends Component {
         ***REMOVED***("measures", [value])
     }
 
-    ***REMOVED***(value) {
-        const {***REMOVED***, attributes: {measures}} = this.props
-        if (measures.indexOf(value) > -1) {
-            ***REMOVED***("measures", measures.filter(d => d != value))
-        } else {
-            ***REMOVED***("measures", [...measures, value])
-        }
-    }
-
-
     items(type) {
 
         const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : []
@@ -251,7 +240,6 @@ export class ***REMOVED*** extends Component {
         let ***REMOVED*** = ""
 
         if (app != 'csv') {
-            
             const theMeasure = measures ? measures[0] : null
             const ***REMOVED*** = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null
             if (***REMOVED***) {
@@ -267,7 +255,7 @@ export class ***REMOVED*** extends Component {
                 }
             }
         }
-        
+      
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
@@ -332,8 +320,9 @@ export class ***REMOVED*** extends Component {
             {app != 'csv' && <Measures
                 ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
-                ***REMOVED***={this.***REMOVED***}
-                {...this.props} />}
+                measures={layer.measures}
+                format={layer.format}
+                {...this.props}/>}
         </React.Fragment>,
         <React.Fragment>
             {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
