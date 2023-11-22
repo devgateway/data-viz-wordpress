@@ -10,7 +10,7 @@ import {
 import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/block-editor';
 
-const Legends = (props) => {
+const ChartLegends = (props) => {
     const {
         setAttributes, attributes: {
             showLegends, ***REMOVED***, marginLeft,
@@ -159,4 +159,4 @@ const Legends = (props) => {
     ]
 }
 
-export default Legends
+export default ChartLegends
