@@ -240,7 +240,6 @@ export class ***REMOVED*** extends Component {
         let ***REMOVED*** = ""
 
         if (app != 'csv') {
-            debugger;
             const theMeasure = measures ? measures[0] : null
             const ***REMOVED*** = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null
             if (***REMOVED***) {
@@ -256,7 +255,6 @@ export class ***REMOVED*** extends Component {
                 }
             }
         }
-        debugger;
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl

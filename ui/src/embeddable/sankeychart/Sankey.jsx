@@ -14,8 +14,6 @@ const COLOR_VARIABLE = "_Color"
 
 const Chart = (props) => {
   const {
-    ***REMOVED***,
-    legends,
     marginLeft,
     marginTop,
     marginRight,
@@ -24,76 +22,57 @@ const Chart = (props) => {
     intl,
     format,
     colors,
-    groupMode,
     height,
     showLegends,
-    ***REMOVED***,
-    tickRotation,
-    offsetText,
     tickColor,
-    layout,
-    reverse,
-    offsetY,
-    ***REMOVED***,
-    lineColor,
-    lineTooltip,
-    lineTitle,
-    tooltip,
-    ***REMOVED***,
-    overlays,
-    maxValue,
-    valueScale,
     ***REMOVED***,
     legendLabel,
     ***REMOVED***,
-    fixedMinValue,
-    fixedMaxValue,
-    barPadding,
     ***REMOVED***,
     ***REMOVED***,
-    ***REMOVED***,
-    xLabelColor,
-    barLabelColor,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    showTickLine,
-    showRightAxis,
-    offsetRight,
-    offsetBottom,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    groupTotalFixedPosition,
-    userMeasures,
-    tooltipEnableMarkdown,
-    ***REMOVED***,
-    minMaxClamp,
     reverseLegend,
-    enableGridY,
-    enableGridX,
-    ***REMOVED***
+
+    measures,
+    dimension1,
+    dimension2,
+    dimension3,
+    mode,
+    app,
+    tooltipHTML,
+    tooltip,
+    filters,
+    layout,
+    group,
+    noDataMessage,
+    ***REMOVED***,
+    tooltipEnableMarkdown,
+
+    sort,
+    nodeThickness,
+    nodeOpacity,
+    ***REMOVED***,
+    ***REMOVED***,
+    nodeSpacing,
+    nodeHoverOthersOpacity,
+    ***REMOVED***,
+    ***REMOVED***,
+    linkOpacity,
+    ***REMOVED***,
+    linkHoverOthersOpacity,
+    linkContract,
+    ***REMOVED***,
+    enableLabels,
+    labelPosition,
+    labelPadding,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    useCheckBoxBackground
   } = props
   const [filter, setFilter] = useState([])
   const {colorBy, scheme} = colors
-
-
-  const applyFilter = (values, filterKeys) => {
-    if (filter) {
-      if ((colors.colorBy === 'index' || colors.colorBy === 'id' || colors.colorBy === 'values') && !filterKeys) {
-        return values.filter(d => filter.indexOf(d[options.indexBy]) === -1);
-      } else {
-        return values ? values.filter(d => filter.indexOf(d) === -1) : [];
-      }
-    } else {
-      return values
-    }
-  }
-
 
   const toggle = (id) => {
     const newFilter = filter.slice();
@@ -106,46 +85,7 @@ const Chart = (props) => {
     setFilter(newFilter)
   }
 
-
   let margins = {top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft}
-
-  let chartLegends = []
-
-  /*if (options.data) {
-    chartLegends = colors.colorBy === 'index' ? options.data.map((d, index) => {
-      let theColor;
-      let enabled = true;
-      if (filter.indexOf(d[options.indexBy]) > -1) {
-        enabled = false
-        theColor = DEFAULT_COLOR
-      } else {
-        theColor = d[COLOR_VARIABLE] ? d[COLOR_VARIABLE] : ***REMOVED***.getColor(d.id, d)
-      }
-      return {
-        enabled: enabled,
-        color: theColor,
-        id: d[options.indexBy],
-        label: d[options.indexBy]
-      }
-    }) : options.keys.map((k) => {
-      let theColor;
-      let enabled = true;
-      if (filter.indexOf(k) > -1) {
-        enabled = false
-        theColor = DEFAULT_COLOR
-      } else {
-        theColor = ***REMOVED***.getColorByKey(k)
-      }
-      return {
-        enabled: enabled,
-        color: theColor,
-        id: k,
-        label: k
-      }
-    })
-  }*/
-
-  let layers = ["grid", "axes", "bars"]
 
   const legendTitle = () => {
     return (<>{showLegends && legendLabel &&
@@ -155,98 +95,90 @@ const Chart = (props) => {
     }</>)
   }
 
+  const ***REMOVED*** = (data) => {
+    return (
+      <div className="sankey-tooltip">
+        <div className="">
+          {data.source.id} - {data.target.id}
+        </div>
+        <div className="inner">
+          <label>{intl.formatNumber(format.style === 'percent' ? data.value / 100 : data.value, format)}</label>
+        </div>
+      </div>
+    );
+  }
+
   const legendItems = () => {
-    if (reverseLegend){
+    const chartLegends = props.options.data.nodes.slice()
+    if (reverseLegend) {
       chartLegends.reverse()
     }
     return (<>
       {showLegends && chartLegends.map(legend => {
+        const legendEnabled = filter.indexOf(legend.id) == -1
         return (
-          <div className={`legend item ${legend.enabled ? "" : "ignore"}`} onClick={() => toggle(legend.id)}>
-
-
-            {***REMOVED*** && <input className={legend.enabled ? "" : "ignore"} type='checkbox'
-                                       checked={legend.enabled}
+          <div className={`legend item ${legendEnabled ? "" : "ignore"}`} onClick={() => toggle(legend.id)}>
+            {useCheckBoxBackground && <input className={legendEnabled ? "" : "ignore"} type='checkbox'
+                                       checked={legendEnabled}
                                        style={{
-                                         ***REMOVED***: ***REMOVED***? (colorBy === 'values' ? tickColor : legend.color) : "none",
+                                         ***REMOVED***: legend.color,
                                          color: "#000"
                                        }}/>
             }
-            {!***REMOVED*** && <input  type='checkbox'
-                                         checked={legend.enabled}
+            {!useCheckBoxBackground && <input  type='checkbox'
+                                         checked={legendEnabled}
                                          style={{
                                            color: "#000"
                                          }}/>}
-
-            {***REMOVED***&&<span className={ 'checkmark-with-bg' }
+            {useCheckBoxBackground && <span className={ 'checkmark-with-bg' }
                                     style={{***REMOVED***:  legend.color }}></span>}
-
-            {!***REMOVED***&&<span className={'checkmark'}></span>}
-
-
-            {***REMOVED***&&  <label className={legend.enabled ? "" : "ignore"}
+            {!useCheckBoxBackground && <span className={'checkmark'}></span>}
+            {***REMOVED*** && <label className={legendEnabled ? "" : "ignore"}
                                        style={{
-                                         ***REMOVED***:  (colorBy === 'values' ? tickColor : legend.color) ,
+                                         ***REMOVED***: legend.color,
                                          color: ***REMOVED***
-                                       }}>{legend.label}</label>}
-
-            {!***REMOVED***&&  <label className={legend.enabled ? "" : "ignore"}
+                                       }}>{legend.id}</label>}
+            {!***REMOVED*** && <label className={legendEnabled ? "" : "ignore"}
                                         style={{
                                           color: ***REMOVED***
-                                        }}>{legend.label}</label>}
+                                        }}>{legend.id}</label>}
           </div>)
       })}
-      {colorBy === "values" &&
-      <div className={"legend item"}>
-        <label className={"range min"} style={{
-          ***REMOVED***: ***REMOVED***.***REMOVED***(***REMOVED***.minValue),
-          color: '#fff'
-        }}></label>
-        <label>
-          {intl.formatNumber(format.style === 'percent' ? ***REMOVED***.minValue / 100 : ***REMOVED***.minValue, {
-            ...format,
-            minimumFractionDigits: 0
-          })}
-        </label>
-      </div>}
 
-      {colorBy === "values" && <div className={"legend item"}>
-        <label className={"range max"} style={{
-          ***REMOVED***: ***REMOVED***.***REMOVED***(***REMOVED***.maxValue),
-          color: '#fff'
-        }}> </label>
-        <label>
-          {intl.formatNumber(format.style === 'percent' ? ***REMOVED***.maxValue / 100 : ***REMOVED***.maxValue, {
-            ...format,
-            minimumFractionDigits: 0
-          })}
-        </label>
-      </div>}
+
     </>)
   }
 
-  const ***REMOVED*** = (data) => {
-    data.nodes.forEach(node => {
-      debugger
+  let filteredData = {nodes: [], links: []}
+
+  if (props.options.data && props.options.data.nodes && props.options.data.nodes.length) {
+    const {links, nodes} = props.options.data
+    nodes.forEach(node => {
       node.color = ***REMOVED***.getColor(node.id)
     })
-    debugger
-    return data
+    const filteredLinks = links.filter(l => filter.indexOf(l.source) == -1 && filter.indexOf(l.target) == -1) || []
+    const filteredNodes = nodes.filter(n => filter.indexOf(n.id) == -1 && filteredLinks.find(fl => fl.source == n.id || fl.target == n.id))
+    filteredData = {
+      links: filteredLinks,
+      nodes: filteredNodes
+    }
   }
 
   return (
     <div style={{height: height}}>
       <>
-        {props.options.data && props.options.data.nodes && props.options.data.nodes.length && <***REMOVED***
-          data={***REMOVED***(props.options.data)}
-          margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
+        {filteredData.nodes.length && filteredData.links.length && <***REMOVED***
+          data={filteredData}
+          margin={margins}
+          layout={layout}
           align="justify"
-          //colors={{ scheme: 'category10' }}
-          nodeOpacity={1}
-          nodeHoverOthersOpacity={0.35}
-          nodeThickness={18}
-          nodeSpacing={24}
-          ***REMOVED***={0}
+          sort={sort}
+          colors={{datum: 'color'}}
+          nodeOpacity={nodeOpacity}
+          nodeHoverOthersOpacity={nodeHoverOthersOpacity}
+          nodeThickness={nodeThickness}
+          nodeSpacing={nodeSpacing}
+          ***REMOVED***={***REMOVED***}
           ***REMOVED***={{
             from: 'color',
             modifiers: [
@@ -256,15 +188,23 @@ const Chart = (props) => {
               ]
             ]
           }}
-          ***REMOVED***={3}
-          linkOpacity={0.5}
-          linkHoverOthersOpacity={0.1}
-          linkContract={3}
-          ***REMOVED***={true}
-          labelPosition="outside"
-          ***REMOVED***="vertical"
-          labelPadding={16}
-          ***REMOVED***={{
+          linkTooltip={(data) => {
+            return (***REMOVED***(data));
+          }}
+          enableLabels={enableLabels}
+          ***REMOVED***={***REMOVED***}
+          ***REMOVED***={***REMOVED***}
+          ***REMOVED***={***REMOVED***}
+          ***REMOVED***={***REMOVED***}
+          linkOpacity={linkOpacity}
+          linkHoverOthersOpacity={linkHoverOthersOpacity}
+          linkContract={linkContract}
+          ***REMOVED***={***REMOVED***}
+          labelPosition={labelPosition}
+          ***REMOVED***={***REMOVED***}
+          labelPadding={labelPadding}
+          ***REMOVED***={***REMOVED*** ? ***REMOVED*** :
+            {
             from: 'color',
             modifiers: [
               [
@@ -273,29 +213,8 @@ const Chart = (props) => {
               ]
             ]
           }}
-          legends={[
-            {
-              anchor: 'bottom-right',
-              direction: 'column',
-              translateX: 130,
-              itemWidth: 100,
-              itemHeight: 14,
-              itemDirection: 'right-to-left',
-              itemsSpacing: 2,
-              itemTextColor: '#999',
-              symbolSize: 14,
-              effects: [
-                {
-                  on: 'hover',
-                  style: {
-                    itemTextColor: '#000'
-                  }
-                }
-              ]
-            }
-          ]}
         />}
-        {/*(***REMOVED*** == 'top' || ***REMOVED*** == 'bottom') &&
+        {(***REMOVED*** == 'top' || ***REMOVED*** == 'bottom') &&
         <div  className={`legends container has-standard-12-font-size  ${***REMOVED***}`}>
           <div className = "legend-sections">
             <div className = "title-section">
@@ -305,15 +224,15 @@ const Chart = (props) => {
               {legendItems()}
             </div>
           </div>
-        </div>
-        */}
+        </div>}
 
-        {/*(***REMOVED*** == 'right' || ***REMOVED*** == 'left') &&
+
+        {(***REMOVED*** == 'right' || ***REMOVED*** == 'left') &&
         <div className={`legends container has-standard-12-font-size  ${***REMOVED***}`}>
           {legendTitle()}
           {legendItems()}
-        </div>
-        */}
+        </div>}
+
 
       </>
 

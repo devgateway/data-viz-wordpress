@@ -1,110 +1,57 @@
 import {useBlockProps} from '@wordpress/block-editor';
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 const SaveComponent = (props) => {
-    const {
-        ***REMOVED***, setAttributes, attributes: {
+    const {attributes: {
+            measures,
             height,
-            width,
-            type,
-            groupMode,
-            bottomLegend,
-            leftLegend,
             scheme,
-            colorBy,
             dimension1,
             dimension2,
             dimension3,
-            dualMode,
+            app,
+            tooltipHTML,
+            tooltip,
+            format,
+            filters,
+            layout,
+            group,
+            noDataMessage,
+            ***REMOVED***,
+            tooltipEnableMarkdown,
+            csv,
+            sort,
+            nodeThickness,
+            nodeOpacity,
+            ***REMOVED***,
+            ***REMOVED***,
+            nodeSpacing,
+            nodeHoverOthersOpacity,
+            ***REMOVED***,
+            ***REMOVED***,
+            linkOpacity,
+            ***REMOVED***,
+            linkHoverOthersOpacity,
+            linkContract,
+            ***REMOVED***,
+            enableLabels,
+            labelPosition,
+            labelPadding,
             ***REMOVED***,
             ***REMOVED***,
             ***REMOVED***,
-            dataSource,
+            showLegends,
             ***REMOVED***,
             marginLeft,
-            marginTop,
             marginRight,
             marginBottom,
-            showLegends,
+            marginTop,
             legendLabel,
-            app,
-            measures,
-            tickColor,
-            tickRotation,
-            offsetText,
-            format,
-            decimals,
-            currency,
-            tooltipHTML,
-            csv,
-            startAngle,
-            endAngle,
-            layout,
-            reverse,
-            offsetY,
-            ***REMOVED***,
-            csvLineColor,
-            ***REMOVED***,
-            csvLineTitle,
-            ***REMOVED***,
-            group,
-            maxValue,
-            valueScale,
-            filters,
-            swap,
-            noDataMessage,
-            barColor,
-            ***REMOVED***,
-            fixedMaxValue,
-            fixedMinValue,
-            barPadding,
-            ***REMOVED***,
-            showGrid,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
             ***REMOVED***,
             useCheckBoxBackground,
-            xLabelColor = "#000000",
-            barLabelColor = "#000000",
-            ***REMOVED*** = "#000000",
             ***REMOVED***,
-            showTickLine,
-            manualColors,
-            showRightAxis,
-            rightLegend,
-            offsetRight,
-            offsetBottom,
-            hiddenBars,
-            enableArea,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            showPoints,
-            ***REMOVED***,
-            centerLabel,
-            showArcLabels,
-            ***REMOVED***,
-            slicePadding,
-            centerLabelFontWeight,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            groupTotalFixedPosition,
-            ***REMOVED***,
-            groupTotalLabelOffset,
-            tooltipEnableMarkdown,
-            ***REMOVED***,
-            enableGridY,
-            enableGridX,
-            overallLabel,
-            overlays,
-            minMaxClamp,
             reverseLegend,
-            sort,
-            sortReverse,
+            manualColors,
+            noDataMsg
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -118,21 +65,11 @@ const SaveComponent = (props) => {
         <div {...blockProps} className={"viz-component"}
              data-component={"sankeychart"}
              data-height={height}
-             data-type={type}
              data-source={source}
              data-dimension1={dimension1}
              data-dimension2={dimension2}
              data-dimension3={dimension3}
-             data-color-by={colorBy}
              data-scheme={scheme}
-             data-group-mode={groupMode}
-             data-left-legend={leftLegend}
-             data-dualMode={dualMode}
-             data-bottom-legend={bottomLegend}
-             data-toggle-info-label={***REMOVED***}
-             data-toggle-chart-label={***REMOVED***}
-             data-data-source-label={***REMOVED***}
-             data-chart-data-source={dataSource}
              data-margin-left={marginLeft}
              data-margin-top={marginTop}
              data-margin-right={marginRight}
@@ -140,86 +77,46 @@ const SaveComponent = (props) => {
              data-show-legends={showLegends}
              data-legend-position={***REMOVED***}
              data-app={app}
-             data-tick-rotation={tickRotation}
-             data-offset-text={offsetText}
-             data-tick-color={tickColor}
-             data-line-layer-enabled={***REMOVED***}
              data-measures={***REMOVED***(JSON.stringify(measures))}
              data-format={***REMOVED***(JSON.stringify(format))}
-             data-decimals={decimals}
-             data-currency={currency}
-             data-csv={csv}
              data-tooltip-html={***REMOVED***(tooltipHTML)}
-             data-start-angle={startAngle}
-             data-end-angle={endAngle}
              data-layout={layout}
-             data-reverse={reverse}
-             data-offset-y={offsetY}
-            //data-csv-line-layer-data={***REMOVED***}
-            //data-csv-line-color={csvLineColor}
-            // data-csv-line-tooltip={***REMOVED***}
-            //data-csv-line-title={csvLineTitle}
              data-group={group}
-             data-max-value={maxValue}
-             data-value-scale={valueScale}
              data-filters={***REMOVED***(JSON.stringify(filters))}
-             data-swap={swap}
              data-no-data-message={noDataMessage}
              data-legend-label={legendLabel}
-             data-bar-color={barColor}
-             data-override-tick-color={***REMOVED***}
-             data-fixed-min-value={fixedMinValue}
-             data-fixed-max-value={fixedMaxValue}
-             data-bar-padding={barPadding}
-             data-bar-label-position={***REMOVED***}
-             data-show-grid={showGrid}
-             data-include-overall={***REMOVED***}
              data-tooltip-enabled={***REMOVED***}
-             data-x-label-color={xLabelColor}
-             data-bar-label-color={barLabelColor}
-             data-bar-inner-padding={***REMOVED***}
              data-use-label-background={***REMOVED***}
              data-use-check-box-background={useCheckBoxBackground}
              data-legend-label-color={***REMOVED***}
-             data-highlight-xaxis-line={***REMOVED***}
-             data-show-tick-line={showTickLine}
-             data-show-right-axis={showRightAxis}
-             data-right-legend={rightLegend}
-             data-offset-right={offsetRight}
-             data-offset-bottom={offsetBottom}
-             data-enable-area={enableArea}
-             data-area-shading-criteria={***REMOVED***}
-             data-area-lower-bound={***REMOVED***}
-             data-area-upper-bound={***REMOVED***}
-             data-show-points={showPoints}
-             data-hidden-bars={hiddenBars.join(',')}
-             data-confidence-intervals={***REMOVED***(JSON.stringify(***REMOVED***))}
-             data-manual-colors={***REMOVED***(JSON.stringify(manualColors))}
-             data-group-total-measure={***REMOVED***}
-             data-show-group-total={***REMOVED***}
-             data-group-total-label-offset={groupTotalLabelOffset}
-             data-group-total-format={***REMOVED***(JSON.stringify(***REMOVED***))}
-             data-group-total-fixed-position={groupTotalFixedPosition}
-             data-group-total-label={***REMOVED***}
-             data-show-arc-labels={showArcLabels}
-             data-show-arc-link-labels={***REMOVED***}
-             data-slice-padding={slicePadding}
-             data-center-label={centerLabel}
-             data-center-label-font-weight={centerLabelFontWeight}
-             data-center-label-font-size={***REMOVED***}
-             data-center-label-xoffset={***REMOVED***}
-             data-center-label-yoffset={***REMOVED***}
              data-tooltip-enable-markdown={tooltipEnableMarkdown}
-             data-y-axis-tick-values={***REMOVED***}
-             data-enable-grid-y={enableGridY}
-             data-enable-grid-x={enableGridX}
-             data-overall-label={overallLabel}
-             data-overlays={***REMOVED***(JSON.stringify(overlays))}
-             data-min-max-clamp={minMaxClamp}
              data-reverse-legend={reverseLegend}
              data-sort={sort}
-             data-sort-reverse={sortReverse}
-        >
+             data-tooltip={tooltip}
+             data-node-thickness={nodeThickness}
+             data-node-opacity={nodeOpacity}
+             data-node-hover-opacity={***REMOVED***}
+             data-node-inner-padding={***REMOVED***}
+             data-node-spacing={nodeSpacing}
+             data-node-hover-others-opacity={nodeHoverOthersOpacity}
+             data-node-border-width={***REMOVED***}
+             data-node-border-radius={***REMOVED***}
+             data-link-opacity={linkOpacity}
+             data-link-hover-opacity={***REMOVED***}
+             data-link-hover-others-opacity={linkHoverOthersOpacity}
+             data-link-contract={linkContract}
+             data-enable-link-gradient={***REMOVED***}
+             data-enable-labels={enableLabels}
+             data-label-position={labelPosition}
+             data-label-padding={labelPadding}
+             data-use-custom-label-color={***REMOVED***}
+             data-label-text-color={***REMOVED***}
+             data-label-orientation={***REMOVED***}
+             data-manual-colors={manualColors}
+             data-no-data-message={noDataMsg}
+             data-csv={csv}
+
+>
 
             <InnerBlocks.Content/>
         </div>

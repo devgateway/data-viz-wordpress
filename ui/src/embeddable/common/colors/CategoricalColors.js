@@ -14,7 +14,6 @@ class ***REMOVED*** extends Colors {
             this._domain = this.data.map(d => d[this.indexBy])
         }
         if (colorBy === "id") {
-            debugger
             this._domain = this.keys
         }
 
