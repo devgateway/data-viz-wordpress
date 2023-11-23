@@ -114,10 +114,6 @@ import {Generic} from '../icons/index.js'
                 type: "String",
                 default: "{value}"
             },
-            tooltip: {
-                type: "String",
-                default: "{value}"
-            },
             layout: {
                 type: "String",
                 default: "horizontal"
