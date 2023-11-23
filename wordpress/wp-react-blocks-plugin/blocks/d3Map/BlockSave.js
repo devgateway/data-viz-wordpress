@@ -10,7 +10,9 @@ const SaveComponent = (props) => {
             group,
             ***REMOVED***,
             mapPosition,
-            projection
+            projection,
+            zoomEnabled,
+            ***REMOVED***
         }
     } = props;
 
@@ -29,6 +31,8 @@ const SaveComponent = (props) => {
              data-back-ground-color={***REMOVED***}
              data-map-position={***REMOVED***(JSON.stringify(mapPosition))}
              data-component={"newMap"}
+             data-zoom-enabled={zoomEnabled}
+             data-rotation-enabled={***REMOVED***}
              data-layers={***REMOVED***(JSON.stringify(layers))}
              >
         </div>
