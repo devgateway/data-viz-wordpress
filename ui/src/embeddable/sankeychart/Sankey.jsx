@@ -2,6 +2,7 @@ import React, {Fragment, useState} from 'react'
 import {***REMOVED***} from '@nivo/sankey'
 import {injectIntl} from 'react-intl';
 import {useTheme} from '@nivo/core'
+import Tooltip from "../common/ChartTooltip";
 
 const POSITION_MIDDLE = "middle";
 const POSITION_TOP = "top";
@@ -96,6 +97,7 @@ const Chart = (props) => {
   }
 
   const ***REMOVED*** = (data) => {
+    debugger
     return (
       <div className="sankey-tooltip">
         <div className="">
@@ -188,9 +190,14 @@ const Chart = (props) => {
               ]
             ]
           }}
-          linkTooltip={(data) => {
+          linkTooltip={(d) => {
+            if (***REMOVED*** && tooltip && tooltip.trim().length > 0) {
+              return (<Tooltip intl={intl} format={format} d={d} tooltip={tooltip} tooltipEnableMarkdown={tooltipEnableMarkdown}/>)
+            }
+            return null
+          }}/*{(data) => {
             return (***REMOVED***(data));
-          }}
+          }}*/
           enableLabels={enableLabels}
           ***REMOVED***={***REMOVED***}
           ***REMOVED***={***REMOVED***}
