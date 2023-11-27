@@ -260,7 +260,7 @@ const DataFrame = (props) => {
             return {nodes, links}
         }
 
-        const ***REMOVED*** = (children, nodes, links, source, measure, ***REMOVED***) => {
+        const ***REMOVED*** = (children = [], nodes, links, source, measure, ***REMOVED***) => {
             children.forEach(c => {
                 const nodeValue = {}
                 nodeValue[c.type] = c.value
@@ -281,6 +281,7 @@ const DataFrame = (props) => {
                 }
             })
         }
+
         chartData = getData(props)
         options = {
             indexBy: '',
