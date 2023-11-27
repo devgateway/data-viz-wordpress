@@ -254,12 +254,16 @@ const DataFrame = (props) => {
             const {data, dimensions, measure} = props
             const nodes = []
             const links = []
-            ***REMOVED***(data.children, nodes, links, null, measure)
+            const nodeValue = {}
+            nodeValue[data.type] = data.value
+            ***REMOVED***(data.children, nodes, links, null, measure, nodeValue)
             return {nodes, links}
         }
 
-        const ***REMOVED*** = (children, nodes, links, source, measure) => {
+        const ***REMOVED*** = (children, nodes, links, source, measure, ***REMOVED***) => {
             children.forEach(c => {
+                const nodeValue = {}
+                nodeValue[c.type] = c.value
                 if (!nodes.find(n => n.id === c.value)) {
                     nodes.push({id: c.value});
                 }
@@ -268,11 +272,12 @@ const DataFrame = (props) => {
                     if (link) {
                         link.value = link.value + c[measure]
                     } else {
-                        links.push({source: source, target: c.value, value: c[measure], data: c})
+                        const data = {...c, ...nodeValue, ...***REMOVED***}
+                        links.push({source: source, target: c.value, value: c[measure], data})
                     }
                 }
                 if (c.children && c.children.length > 0) {
-                    ***REMOVED***(c.children, nodes, links, c.value, measure)
+                    ***REMOVED***(c.children, nodes, links, c.value, measure, nodeValue)
                 }
             })
         }
