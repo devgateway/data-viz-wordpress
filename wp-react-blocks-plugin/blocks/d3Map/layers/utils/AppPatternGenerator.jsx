@@ -6,6 +6,7 @@ import {__} from '@wordpress/i18n';
 
 import Papa from 'papaparse'
 
+const ***REMOVED*** = "#000000"
 const Patterns = ({
                       allCategories,
                       allDimensions,
