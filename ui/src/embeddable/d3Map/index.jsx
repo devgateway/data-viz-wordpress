@@ -11,54 +11,48 @@ import ***REMOVED*** from "./***REMOVED***";
 import Legends from "./Legends"
 import FlowLayer from "./FlowLayer";
 
+
 const MapWrapper = (props) => {
-        const {
-            unique,
-            editing,
-            "data-group": group,
-            "data-layers": dataLayers,
-            "data-height": height = 400,
-            "data-width": width = 1000,
-            "data-back-ground-color": bgColorParam = '#88e8dc',
-            "data-map-position": ***REMOVED*** = {},
-            "data-projection": ***REMOVED*** = "geoMercator",
-            "data-zoom-enabled": zoomEnabled = true,
-            "data-rotation-enabled": ***REMOVED*** = false,
-            intl
-        } = props
+    const {
+        unique,
+        editing,
+        "data-group": group,
+        "data-layers": dataLayers,
+        "data-height": height = 400,
+        "data-width": width = 1000,
+        "data-back-ground-color": bgColorParam = '#88e8dc',
+        "data-map-position": ***REMOVED*** = {},
+        "data-projection": ***REMOVED*** = "geoMercator",
+        "data-zoom-enabled": zoomEnabled = true,
+        "data-rotation-enabled": ***REMOVED*** = false,
+        intl
+    } = props
 
 
-        const [layers, setLayers] = useState(parse(dataLayers))
-        const ref = useRef(null);
-        const zoomRef = useRef(null);
-        const [transform, setTransform] = useState(null)
+    const [layers, setLayers] = useState(parse(dataLayers))
+    const ref = useRef(null);
+    const zoomRef = useRef(null);
+    const [transform, setTransform] = useState(null)
 
-        useEffect(() => {
-            const newLayers = parse(dataLayers)
-            if (!***REMOVED***(layers, newLayers)) {
-                setLayers(newLayers)
-            }
-        }, [dataLayers])
-
-        const ***REMOVED*** = (id) => {
-            const newLayers = layers.slice()
-            const ly = newLayers.find(l => l.id == id);
-            if (ly) {
-                ly.visible = !ly.visible
-            }
+    useEffect(() => {
+        const newLayers = parse(dataLayers)
+        if (!***REMOVED***(layers, newLayers)) {
             setLayers(newLayers)
         }
+    }, [dataLayers])
 
-
-        const [patterns, setPatterns] = useState({})
-
-        const ***REMOVED*** = (id, patterns) => {
-           // setPatterns({[id]: patterns})
+    const ***REMOVED*** = (id) => {
+        const newLayers = layers.slice()
+        const ly = newLayers.find(l => l.id == id);
+        if (ly) {
+            ly.visible = !ly.visible
         }
+        setLayers(newLayers)
+    }
 
 
-        return (
-            <div ref={ref} className={"d3map-container"}>
+    return (
+        <div ref={ref} className={"d3map-container"}>
                 <***REMOVED*** ***REMOVED***={decode(bgColorParam)}
                                     height={height}
                                     width={width}
@@ -71,10 +65,14 @@ const MapWrapper = (props) => {
                                                   key={i} {...layer} />
                             }
                             if (layer.type === 'data') {
-                                return <DataLayer ***REMOVED***={***REMOVED***} transform={transform} intl={intl}
+                                return <DataLayer  ***REMOVED***={e => {
+
+                                }
+                                } transform={transform} intl={intl}
                                                   group={group} zoom={zoomRef}
                                                   unique={unique}
                                                   key={i} {...layer} />
+
                             }
                             if (layer.type === 'flow') {
                                 return <FlowLayer transform={transform} intl={intl} group={group} zoom={zoomRef}
@@ -92,8 +90,8 @@ const MapWrapper = (props) => {
 
                     </Map>
 
+                    <Legends patternsData={null} layers={layers} group={group} onItemClick={***REMOVED***}></Legends>
 
-                    <Legends patterns={patterns} layers={layers} onItemClick={***REMOVED***}></Legends>
 
                     <ZoomControl ***REMOVED***={parse(***REMOVED***, editing)}
                                  zoomEnabled={parse(zoomEnabled, editing)} onZoomed={setTransform} width={width}
@@ -102,11 +100,12 @@ const MapWrapper = (props) => {
 
 
                 </***REMOVED***>
-            </div>
-        );
 
-    }
-;
+        </div>
+    );
+
+}
+
 
 const ***REMOVED*** = (state, ownProps) => {
     return {}

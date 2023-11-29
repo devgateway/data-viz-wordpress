@@ -5,7 +5,7 @@ import {***REMOVED***} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
 
 import Papa from 'papaparse'
-
+const ***REMOVED***="#000000"
 const Patterns = ({csv, app, ***REMOVED***, patterns, ***REMOVED***, ***REMOVED***}) => {
 
     const ***REMOVED*** = [
