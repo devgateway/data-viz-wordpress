@@ -110,7 +110,7 @@ const SaveComponent = (props) => {
              data-use-custom-label-color={***REMOVED***}
              data-label-text-color={***REMOVED***}
              data-label-orientation={***REMOVED***}
-             data-manual-colors={manualColors}
+             data-manual-colors={***REMOVED***(JSON.stringify(manualColors))}
              data-no-data-message={noDataMsg}
              data-csv={csv}
 
