@@ -93,6 +93,7 @@ const Chart = (props) => {
     const ***REMOVED*** = () => {
         return parse(manualColors)[app]
     }
+
     const formatObject = parse(format)
     let numberFormat = formatObject ? {
         style: (formatObject.style === 'compacted') ? 'decimal' : formatObject.style,
@@ -158,8 +159,8 @@ const Chart = (props) => {
         ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
         ***REMOVED***,
         ***REMOVED***,
-        ***REMOVED***,
-        useCheckBoxBackground
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        useCheckBoxBackground: useCheckBoxBackground == true || useCheckBoxBackground == "true"
     }
 
 
