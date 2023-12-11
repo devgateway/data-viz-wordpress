@@ -16,6 +16,7 @@ import Measures from '../../commons/Measures.jsx'
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
+import {***REMOVED***} from "../../../../../ui/src/embeddable/utils/parseUtils";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -159,8 +160,11 @@ export class ***REMOVED*** extends Component {
 
 
     ***REMOVED***(prevProps) {
-        const {***REMOVED***, layer: {type, dimension2, types}} = this.props
-        const {layer: {type: prevType, dimension2: ***REMOVED***}} = prevProps
+        const {***REMOVED***, allCategories, layer: {type, dimension2, types}} = this.props
+        const {allCategories: ***REMOVED***, layer: {type: prevType, dimension2: ***REMOVED***}} = prevProps
+        if (!***REMOVED***(allCategories, ***REMOVED***)) {
+            ***REMOVED***("allCategories", allCategories)
+        }
     }
 
 
@@ -369,7 +373,7 @@ export class ***REMOVED*** extends Component {
                     <PanelRow>
                         <RangeControl
                           label={__(`Point Size`)}
-                          value={***REMOVED***[field + '_size'] ? ***REMOVED***[field + '_size'] : 'none'}
+                          value={***REMOVED***[field + '_size'] ? ***REMOVED***[field + '_size'] : markSizeScale}
                           onChange={(v) => {
                               ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_size']: v})
                           }}
@@ -381,11 +385,11 @@ export class ***REMOVED*** extends Component {
                     <PanelRow>
                         <***REMOVED***
                           title={__(`Point Fill Color`)}
-                          value={***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : 'none'}
+                          value={***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : markFillColor}
                           colorSettings={[{
                               clearable: true,
                               enableAlpha: true,
-                              value: ***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : 'none', onChange: (v) => {
+                              value: ***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : markFillColor, onChange: (v) => {
                                   ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_color']: v})
                               },
 
@@ -395,11 +399,11 @@ export class ***REMOVED*** extends Component {
                     <PanelRow>
                         <***REMOVED***
                           title={__(`Point Border Color`)}
-                          value={***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : 'none'}
+                          value={***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : ***REMOVED***}
                           colorSettings={[{
                               clearable: true,
                               enableAlpha: true,
-                              value: ***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : 'none', onChange: (v) => {
+                              value: ***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : ***REMOVED***, onChange: (v) => {
                                   ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_border']: v})
                               },
                           }]}

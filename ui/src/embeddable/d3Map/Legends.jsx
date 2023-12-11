@@ -139,7 +139,8 @@ const DataPointsLayerLegend = (props) => {
         measures,
         visible,
         onItemClick,
-        ***REMOVED***
+        ***REMOVED***,
+        allCategories
     } = props
 
     let measureLabel = measures[0]
@@ -147,7 +148,10 @@ const DataPointsLayerLegend = (props) => {
         measureLabel = ***REMOVED***[measures[0]]
     }
 
-    const ***REMOVED*** = [...new Set(Object.keys(***REMOVED***).map(k => k.split('_')[0]))]
+    const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : []
+    const items = cats.length > 0 ? cats[0].items : []
+    const ***REMOVED*** = items.map(i => i.value)
+
     const fieldLabel = pointStyleBy === "dimension" ? dimension2 : measureLabel
     return <div className={"legend"}>
         <div>
@@ -170,8 +174,8 @@ const DataPointsLayerLegend = (props) => {
                 {***REMOVED***.map((d) => {
                     return (<div className={"break"}>
                         <div className={"break-item"} style={{
-                            ***REMOVED***: ***REMOVED***[d + '_color'],
-                            border: `1px solid ${***REMOVED***[d + '_border']}`,
+                            ***REMOVED***: ***REMOVED***[d + '_color'] || markFillColor,
+                            border: `1px solid ${***REMOVED***[d + '_border'] || ***REMOVED***}`,
                         }}></div>
                         <div className={"break-label"}>{d}</div>
                     </div>)
@@ -248,7 +252,6 @@ const ***REMOVED*** = (props) => {
         measureLabel = ***REMOVED***[measures[0]]
     } else {
         const parsed = Papa.parse(csv, {header: true, dynamicTyping: true});
-        debugger;
         measureLabel = parsed.meta.fields.length > 0 ? parsed.meta.fields[1] : ''
     }
 
