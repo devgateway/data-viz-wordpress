@@ -418,7 +418,4 @@ export class ***REMOVED*** extends Component {
     }
 
 }
-const ***REMOVED*** = (p1, p2) => {
-    return JSON.stringify(p1) === JSON.stringify(p2)
-}
 export default ***REMOVED***;
