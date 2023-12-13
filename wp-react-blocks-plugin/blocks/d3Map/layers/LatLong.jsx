@@ -16,8 +16,9 @@ import Measures from '../../commons/Measures.jsx'
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
-import {***REMOVED***} from "../../../../../ui/src/embeddable/utils/parseUtils";
-
+const ***REMOVED*** = (p1, p2) => {
+    return JSON.stringify(p1) === JSON.stringify(p2)
+}
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
@@ -163,6 +164,7 @@ export class ***REMOVED*** extends Component {
         const {***REMOVED***, allCategories, layer: {type, dimension2, types}} = this.props
         const {allCategories: ***REMOVED***, layer: {type: prevType, dimension2: ***REMOVED***}} = prevProps
         if (!***REMOVED***(allCategories, ***REMOVED***)) {
+
             ***REMOVED***("allCategories", allCategories)
         }
     }
@@ -416,5 +418,7 @@ export class ***REMOVED*** extends Component {
     }
 
 }
-
+const ***REMOVED*** = (p1, p2) => {
+    return JSON.stringify(p1) === JSON.stringify(p2)
+}
 export default ***REMOVED***;
