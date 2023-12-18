@@ -73,10 +73,11 @@ const ***REMOVED*** = (words) => {
 }
 
 
-const SearchControl = ({onSearch,perPage, loading, results, meta}) => {
+const SearchControl = ({onSearch,perPage, loading, results, meta, locale}) => {
     const total = meta ? meta['x-wp-total'] : 0
     const totalPages = meta ? meta['x-wp-totalpages'] : 0
 
+    const placeholder = locale === 'fr' ? 'Recherche...' : 'Search...';
 
     const [searchTerm, setSearchTerm] = useState('')
     useEffect(() => {
@@ -93,7 +94,7 @@ const SearchControl = ({onSearch,perPage, loading, results, meta}) => {
     return (<***REMOVED***
             value={searchTerm}
             loading={loading}
-            placeholder='Search...'
+            placeholder={placeholder}
             ***REMOVED***={(e, data) => null}
             total={total}
             perPage={perPage}
