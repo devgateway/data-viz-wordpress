@@ -36,6 +36,10 @@ import Generic from "../icons";
                 type: 'String',
                 default: "filter",
             },
+            filters: {
+                type: "Array",
+                default: []
+            },
             csvField: {
                 type: 'String',
                 default: "",
