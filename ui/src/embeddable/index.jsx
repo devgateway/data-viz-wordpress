@@ -31,6 +31,7 @@ const NewMap = ***REMOVED***(() => import('./d3Map'))
 const ***REMOVED*** = ***REMOVED***(() => import('./parallax/'))
 const Wrapped = ***REMOVED***(() => import('./wrapped/'))
 const SankeyChart = ***REMOVED***(() => import('./sankeychart/'))
+const DataLabel = ***REMOVED***(() => import('./datalabel/'))
 let reducerList = {data, embeddable}
 if (customizer.Reducers) {
     reducerList = {...reducerList, ...customizer.Reducers}
@@ -67,6 +68,7 @@ const components = {
     ***REMOVED***: ***REMOVED***,
     wrapped: Wrapped,
     sankeyChart: SankeyChart,
+    dataLabel: DataLabel,
     redirect: () => null
 
 }
