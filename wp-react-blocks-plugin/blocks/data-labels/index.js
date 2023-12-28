@@ -21,7 +21,7 @@ import {Generic} from '../icons/index.js'
             },
             height: {
                 type: 'number',
-                default: 50,
+                default: 20,
             },
             dimension1: {
                 type: 'String',
