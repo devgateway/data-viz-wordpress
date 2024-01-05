@@ -32,6 +32,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         super(props);
         this.iframe = React.createRef();
         this.***REMOVED*** = this.***REMOVED***.bind(this)
+        //this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.items = this.items.bind(this)
     }
 
@@ -44,9 +45,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
     }
 
-    ***REMOVED***() {
-        this.loadMetadata()
-    }
+    /****REMOVED***() {
+        this.loadMetadata();
+    }*/
 
     items(type) {
         const allCategories = this.state.categories
@@ -91,7 +92,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 ***REMOVED***,
                 hiddenFilters,
                 ***REMOVED***,
-                closeOnSelect
+                closeOnSelect,
+                ***REMOVED***
             }
         } = this.props;
 
@@ -203,20 +205,33 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             />
                         </PanelRow>}
                     </PanelBody>
-                    {app != 'csv' && <DataFilters
-                      allFilters={this.state.filters}
-                      allCategories={this.state.categories}
-                      onChange={this.***REMOVED***}
-                      {...this.props}/>
-                    }
-                    {app != 'csv' && ***REMOVED*** && ***REMOVED***.length > 0 &&
-                        <PanelBody initialOpen={false} title={__("Hidden Filter Options")}>
-                            {***REMOVED***.map((f, index) => {
-                                return (
-                                    <***REMOVED*** value={hiddenFilters} index={index} items={this.items(f.type)}
-                                                       ***REMOVED***={this.***REMOVED***}/>)
-                            })}
-                        </PanelBody>}
+                    {app != 'csv' && <PanelBody initialOpen={false} title={__("Filter or hide items")}>
+                        <PanelRow>
+                            <ToggleControl
+                              label={__("Filter items")}
+                              checked={***REMOVED***}
+                              onChange={() => setAttributes({***REMOVED***: !***REMOVED***, filters: [], hiddenFilters: []})}/>
+                        </PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                              label={__("Hide items")}
+                              checked={!***REMOVED***}
+                              onChange={() => setAttributes({***REMOVED***: !***REMOVED***, filters: [], hiddenFilters: []})}/>
+                        </PanelRow>
+                            {***REMOVED*** && <DataFilters
+                              allFilters={this.state.filters}
+                              allCategories={this.state.categories}
+                              {...this.props}/>
+                            }
+                            {!***REMOVED*** && <PanelBody initialOpen={false} title={__("Hidden Filter Options")}>
+                                {(***REMOVED*** || []).map((f, index) => {
+                                    return (
+                                      <***REMOVED*** value={hiddenFilters} index={index} items={this.items(f.type)}
+                                                         ***REMOVED***={this.***REMOVED***}/>)
+                                })}
+                            </PanelBody>
+                            }
+                    </PanelBody>}
                     <PanelBody title={__("Labels")}>
                         <PanelRow>
                             <TextControl

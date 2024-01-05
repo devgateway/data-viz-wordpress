@@ -28,7 +28,8 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             closeOnSelect,
             ***REMOVED***,
-            ascOrder
+            ascOrder,
+            ***REMOVED***
         }
     } = props;
 
@@ -64,6 +65,7 @@ const SaveComponent = (props) => {
                  data-boolean-false-label={***REMOVED***}
                  data-hidden-filters={***REMOVED***(JSON.stringify(hiddenFilters))}
                  data-close-on-select={closeOnSelect}
+                 data-use-filter-items={***REMOVED***}
                  data-all-none-same-behaviour={***REMOVED***}>
     </div>);
 }

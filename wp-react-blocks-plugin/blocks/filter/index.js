@@ -119,6 +119,10 @@ import Generic from "../icons";
             closeOnSelect: {
                 type: 'Boolean',
                 default: false
+            },
+            ***REMOVED***: {
+                type: 'Boolean',
+                default: true
             }
 
 
