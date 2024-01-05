@@ -57,14 +57,13 @@ export const ***REMOVED*** = ({app, group, param, value}) => (dispatch, getState
 
 
 export const getCategories = (props) => (dispatch, getState) => {
-    const {app, params} = props
-    dispatch({type: LOAD_CATEGORIES, params, app})
-    api.getCategories({app, params})
-      .then(data => {
-          data.***REMOVED*** = params
-          return dispatch({type: LOAD_CATEGORIES_DONE, app, data})
-      })
-      .catch(error => dispatch({type: LOAD_CATEGORIES_ERROR, app, error}))
+    const {app} = props
+    dispatch({type: LOAD_CATEGORIES, app})
+    api.getCategories(props).then(data => {
+        dispatch({type: LOAD_CATEGORIES_DONE, data, app})
+    }).catch(error => {
+        dispatch({type: LOAD_CATEGORIES_ERROR, error, app})
+    })
 }
 
 
