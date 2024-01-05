@@ -12,7 +12,6 @@ const SaveComponent = (props) => {
             csvValue,
             isRange,
             allLabel,
-            filters,
             noneLabel,
             startLabel,
             endLabel,
@@ -28,8 +27,7 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             closeOnSelect,
             ***REMOVED***,
-            ascOrder,
-            ***REMOVED***
+            ascOrder
         }
     } = props;
 
@@ -58,14 +56,12 @@ const SaveComponent = (props) => {
                  data-enable-text-search={***REMOVED***}
                  data-filter-type={filterType}
                  data-default-values={defaultValues}
-                 data-filters={***REMOVED***(JSON.stringify(filters))}
                  data-show-no-data-option={***REMOVED***}
                  data-default-value-criteria={***REMOVED***}
                  data-boolean-true-label={***REMOVED***}
                  data-boolean-false-label={***REMOVED***}
                  data-hidden-filters={***REMOVED***(JSON.stringify(hiddenFilters))}
                  data-close-on-select={closeOnSelect}
-                 data-use-filter-items={***REMOVED***}
                  data-all-none-same-behaviour={***REMOVED***}>
     </div>);
 }
