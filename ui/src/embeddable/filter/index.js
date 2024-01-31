@@ -421,6 +421,7 @@ const Filter = ({
                     "data-start-label": startLabel,
                     "data-end-label": endLabel,
                     "data-csv-value": csvValue,
+                    "data-filters": filters = [],
                     "data-use-single-column": ***REMOVED*** = "false",
                     "data-enable-text-search": ***REMOVED*** = "false",
                     "data-filter-type": filterType,
@@ -436,7 +437,15 @@ const Filter = ({
                 }) => {
 
 
-    debugger
+    let params = {}
+    const ff = parse(filters) || {}
+
+    if (ff && ff.forEach) {
+        ff.forEach(f => {
+            if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0)
+                params[f.param] = f.value
+        })
+    }
 
     const ***REMOVED*** = parse(hiddenFilters)
     let ***REMOVED***;
@@ -464,7 +473,10 @@ const Filter = ({
     } else {
 
         if (app) {
-            return (<***REMOVED*** app={app} hiddenFilters={***REMOVED*** || []}>
+            return (<***REMOVED***
+              params={params}
+              app={app}
+              hiddenFilters={***REMOVED*** || []}>
                 <***REMOVED***>
                     <Container fluid={true}>
                         {type === "Boolean" &&
