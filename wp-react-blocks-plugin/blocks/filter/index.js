@@ -36,6 +36,10 @@ import Generic from "../icons";
                 type: 'String',
                 default: "filter",
             },
+            filters: {
+                type: "Array",
+                default: []
+            },
             csvField: {
                 type: 'String',
                 default: "",
@@ -115,6 +119,10 @@ import Generic from "../icons";
             closeOnSelect: {
                 type: 'Boolean',
                 default: false
+            },
+            ***REMOVED***: {
+                type: 'Boolean',
+                default: true
             }
 
 
