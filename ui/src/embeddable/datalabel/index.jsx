@@ -125,7 +125,8 @@ const DataFrame = (props) => {
     const {valueType, measure, data, format, intl} = props
     let ***REMOVED*** = 'N/A'
     if (valueType === 'first') {
-        ***REMOVED*** = data[measure]
+        const labelData =data.children[0][measure]
+        ***REMOVED*** = intl.formatNumber(format.style === 'percent' ? labelData / 100 : labelData, {...format})
     } else if (valueType === 'total') {
         const labelData = data[measure]
         ***REMOVED*** = intl.formatNumber(format.style === 'percent' ? labelData / 100 : labelData, {...format})
