@@ -97,6 +97,7 @@ const SaveComponent = (props) => {
             groupTotalLabelOffset,
             tooltipEnableMarkdown,
             ***REMOVED***,
+            ***REMOVED***,
             enableGridY,
             enableGridX,
             overallLabel,
@@ -105,6 +106,17 @@ const SaveComponent = (props) => {
             reverseLegend,
             sort,
             sortReverse,
+            ***REMOVED***,
+            radarCurve,
+            ***REMOVED***,
+            ***REMOVED***,
+            ***REMOVED***,
+            ***REMOVED***,
+            ***REMOVED***,
+            ***REMOVED***,
+            radarDotSize,
+            ***REMOVED***,
+            ***REMOVED***
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -115,7 +127,7 @@ const SaveComponent = (props) => {
     const source = levels.filter(l => l != 'none' && l != null).join('/')
 
     return (
-        <div {...blockProps} className={"viz-component"}
+        <div {...blockProps} className={"tcdi-component"}
              data-component={"chart"}
              data-height={height}
              data-type={type}
@@ -211,6 +223,7 @@ const SaveComponent = (props) => {
              data-center-label-yoffset={***REMOVED***}
              data-tooltip-enable-markdown={tooltipEnableMarkdown}
              data-y-axis-tick-values={***REMOVED***}
+             data-x-axis-tick-values={***REMOVED***}
              data-enable-grid-y={enableGridY}
              data-enable-grid-x={enableGridX}
              data-overall-label={overallLabel}
@@ -219,11 +232,21 @@ const SaveComponent = (props) => {
              data-reverse-legend={reverseLegend}
              data-sort={sort}
              data-sort-reverse={sortReverse}
-        >
-
+             data-***REMOVED***={***REMOVED***}
+             data-radar-curve={radarCurve}
+             data-radar-fill-opacity={***REMOVED***}
+             data-radar-border-width={***REMOVED***}
+             data-radar-grid-levels={***REMOVED***}
+             data-radar-grid-shape={***REMOVED***}
+             data-radar-grid-label-offset={***REMOVED***}
+             data-radar-enable-dots={***REMOVED***}
+             data-radar-dot-size={radarDotSize}
+             data-radar-enable-dot-label={***REMOVED***}
+             data-radar-dot-label-offset={***REMOVED***}>
             <InnerBlocks.Content/>
         </div>
     );
 }
 
 export default SaveComponent
+

@@ -172,6 +172,10 @@ import {Chart} from '../icons/index.js'
                 type: 'Numeric',
                 default: 10
             },
+            ***REMOVED***: {
+                type: 'Numeric',
+                default: 10
+            },
             xLabelColor: {
                 type: "String",
                 default: ***REMOVED***("#000000")
@@ -326,7 +330,9 @@ import {Chart} from '../icons/index.js'
                 default: [
                     {label: 'Bar', value: 'bar', supports: {singleMeasure: false, ***REMOVED***: false}},
                     {label: 'Pie', value: 'pie', supports: {singleMeasure: false, ***REMOVED***: false}},
-                    {label: 'Line', value: 'line', supports: {singleMeasure: false, ***REMOVED***: true}}]
+                    {label: 'Line', value: 'line', supports: {singleMeasure: false, ***REMOVED***: true}},
+                    {label: 'Radar', value: 'radar', supports: {singleMeasure: true, ***REMOVED***: true}}
+                ]
             },
             barColor: {
                 type: "String",
@@ -482,14 +488,57 @@ import {Chart} from '../icons/index.js'
                 type: 'string',
                 default: '',
             },
+            ***REMOVED***: {
+                type: 'string',
+                default: 'none',
+            },
             sortReverse: {
                 type: 'Boolean',
                 default: false
+            },
+            radarCurve: {
+                type: 'string',
+                default: 'linearClosed'
+            },
+            ***REMOVED***: {
+                type: 'Numeric',
+                default: 0.25
+            },
+            ***REMOVED***: {
+                type: 'Numeric',
+                default: 1
+            },
+            ***REMOVED***: {
+                type: 'Numeric',
+                default: 7
+            },
+            ***REMOVED***: {
+                type: 'string',
+                default: 'circular'
+            },
+            ***REMOVED***: {
+                type: 'Numeric',
+                default: 36
+            },
+            ***REMOVED***: {
+                type: 'Boolean',
+                default: true
+            },
+            radarDotSize: {
+                type: 'Numeric',
+                default: 6
+            },
+            ***REMOVED***: {
+                type: 'Boolean',
+                default: false
+
+            },
+            ***REMOVED***: {
+                type: 'Numeric',
+                default: -12
             }
         },
-
         edit: BlockEdit,
         save: BlockSave,
     }
 );
-
