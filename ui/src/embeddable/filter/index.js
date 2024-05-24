@@ -61,11 +61,10 @@ const ***REMOVED*** = {
 };
 
 const ***REMOVED*** = (props) => {
-
     const {isRange, options, ***REMOVED***, ascOrder} = props
     let sortedOptions = []
     if (***REMOVED***(***REMOVED***)) {
-        sortedOptions = options.sort(function (a, b) {
+         options.sort(function (a, b) {
             const aText = a.text ? a.text.toLowerCase() : "";
             const bText = b.text ? b.text.toLowerCase() : "";
             if (***REMOVED***(ascOrder)) {
@@ -75,12 +74,12 @@ const ***REMOVED*** = (props) => {
             }
         });
     } else {
-        sortedOptions = options.sort(function (a, b) {
+         options.sort(function (a, b) {
             return ***REMOVED***(ascOrder) ? a.position - b.position : b.position - a.position;
         });
     }
 
-    const filterProps = {...props, options: sortedOptions}
+    const filterProps = {...props, options: options}
 
     if (isRange) {
         return <***REMOVED***  {...filterProps}/>
@@ -189,7 +188,7 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)((props) => {
                     }
                     onInit({app, group, param, value: filterValues})
                 }else{
-                    
+
                     onInit({app, group, param, value: [filterItems[0]]})
                 }
             }
@@ -303,8 +302,9 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
                                                                              current
                                                                          }) => {
 
-    const [start, setStart] = useState(options[0].position)
-    const [end, setEnd] = useState(options[options.length - 1].position)
+    const [start, setStart] = useState(Math.min(...options.map(o=>parseInt(o.position))))
+    const [end, setEnd] = useState(Math.max(...options.map(o=>parseInt(o.position))))
+
     useEffect((e) => {
 
         const current = options.filter(v => (v.position > start || v.position === start) && (v.position < end || v.position === end)).map(o => o.value)
@@ -328,7 +328,6 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
     >
         <Dropdown.Menu>
-
             <Segment>
                 <Dropdown.Item> <Label basic>{startLabel}</Label></Dropdown.Item>
             </Segment>
@@ -359,7 +358,6 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
 
 
 const ***REMOVED*** = (props) => {
-    
     const {data, type, ***REMOVED***} = props
     const cat = data.filter(d => d.type === type)[0]
     const ***REMOVED*** = cat ? cat.items.filter(f => {
@@ -461,6 +459,7 @@ const Filter = ({
                           icon={icon} placeholder={placeholder}
                           startLabel={startLabel} endLabel={endLabel}
                           param={param}
+                          ascOrder={ascOrder}
                           ***REMOVED***={***REMOVED*** === 'true'}
                           ***REMOVED***={***REMOVED*** === 'true'}
                           filterType={***REMOVED***}
@@ -473,10 +472,7 @@ const Filter = ({
     } else {
 
         if (app) {
-            return (<***REMOVED***
-              params={params}
-              app={app}
-              hiddenFilters={***REMOVED*** || []}>
+            return (<***REMOVED*** app={app} hiddenFilters={***REMOVED*** || []}>
                 <***REMOVED***>
                     <Container fluid={true}>
                         {type === "Boolean" &&

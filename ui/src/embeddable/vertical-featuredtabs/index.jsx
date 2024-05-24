@@ -1,54 +1,53 @@
-import React, {useEffect, ***REMOVED***, useRef, useState} from 'react'
-import {Container, Grid, Icon, Label, Segment, Transition} from 'semantic-ui-react'
+import React, {***REMOVED***, useRef, useState} from 'react'
+import {Container} from 'semantic-ui-react'
 import {
-    MediaConsumer,
-    MediaProvider,
     PostConsumer,
-    PostIcon,
     PostProvider,
-    PostTitle,
     PostContent
 } from "@devgateway/wp-react-lib";
 import PostIntro from "../connected-templates/PostIntro";
 
 
-const IntroWithFeaturedImage = ({post, count, ***REMOVED***, active, dimensions, height, coverWidth}) => {
-
-    const media = post['_embedded'] ? post['_embedded']["wp:featuredmedia"] : null
-
+const IntroWithFeaturedImage = ({ post, count, ***REMOVED***, active, dimensions, height, coverWidth }) => {
+    const media = post['_embedded'] ? post['_embedded']["wp:featuredmedia"] : null;
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
         <div className={"content-area"}>
-            <div className={"cover"} style={{
-                'width': `${coverWidth}px`,
-                "***REMOVED***": ***REMOVED***,
-                "***REMOVED***": 'url(' + (media ? media[0].source_url : '') + ')'
-            }}>
-                <div className={"rotator"}
-                     style={{width: height + 'px', "transform": `translate(${coverWidth / 2}px, 0px) rotate(90deg)`}}>
-                    <PostIntro post={post}/></div>
-
+            <div
+                className={"cover"}
+                style={{
+                    'width': `${coverWidth}px`,
+                    "***REMOVED***": ***REMOVED***,
+                    "***REMOVED***": 'url(' + (media ? media[0].source_url : '') + ')'
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                <div className="rotator" style={{ width: height + 'px', "transform": `translate(${coverWidth / 2}px, 0px) rotate(90deg)` }}>
+                    <PostIntro post={post} />
+                </div>
+                <div className="overlay-label-container">
+                    <div className={`overlay-label ${isHovered && !active ? 'visible' : ''}`}>CLICK TO EXPAND</div>
+                    <div className="arrow-svg"></div>
+                </div>
             </div>
             <div className={`collapsable-content ${active ? 'expanded' : 'collapsed'}`}
                  style={{
-                     "***REMOVED***": ***REMOVED***,
+                     "***REMOVED***": "#f9f9f9",
                      width: dimensions.width - (coverWidth * count) + 'px',
                      "marginLeft": `${coverWidth}px`
-                 }}>
-                    <PostContent post={post}/>
-
+                 }}
+            >
+                <PostContent post={post} />
             </div>
         </div>
-
-
-    )
-
-
-}
+    );
+};
 
 
 const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
-    
+
     const [active, setActive] = useState(null)
 
     //const arrayColors = color.split(',')
@@ -91,11 +90,10 @@ const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
         }
     }, []);
 
-    console.log('active ....'+active)
     return (
-        <Container fluid={true} className={`vertical featured tabs ${editing?'editing':''}`}>
+        <Container fluid={true} className={`vertical featured tabs ${editing ? 'editing' : ''}`}>
             {posts && posts.map((post, i) => {
-                const isActive =active? post.slug === active:i==0
+                const isActive = active ? post.slug === active : i == 0
                 return <div
                     key={post.slug}
                     ref={targetRef}
@@ -129,7 +127,7 @@ const Root = (props) => {
         "data-read-more-label": moreLabel = "READ More",
         editing, parent, unique
     } = props
-
+    const locale = props.intl.locale
     const decode = (value) => {
         if (editing) {
             return value
@@ -146,19 +144,22 @@ const Root = (props) => {
         return null
     }
 
-    const [random,setRandom]=useState(Math.random())
-    return <Container className={`viz featured tabs ${editing ? 'editing' : ''}`} fluid={true}>
-                    <PostProvider type={type}
-                                          taxonomy={taxonomy}
-                                          categories={parse(categories).join(',')}
-                                          store={"vertical_tabs" + parent + "_" + unique}
-                                          page={1}
-                                          perPage={items}>
-                                <PostConsumer>
-                                    <FeaturedTabs editing={editing} coverWidth={coverWidth} moreLabel={moreLabel} colors={parse(colors)}
-                                                  height={height}></FeaturedTabs>
-                                </PostConsumer>
-                            </PostProvider>
+
+    const [random, setRandom] = useState(Math.random())
+    return <Container style={{"max-width": "100%"}} className={`viz featured tabs ${editing ? 'editing' : ''}`}
+                      fluid={true}>
+        <PostProvider type={type}
+                      locale={locale}
+                      taxonomy={taxonomy}
+                      categories={parse(categories).join(',')}
+                      store={"vertical_tabs" + parent + "_" + unique}
+                      page={1}
+                      perPage={items}>
+            <PostConsumer>
+                <FeaturedTabs editing={editing} coverWidth={coverWidth} moreLabel={moreLabel} colors={parse(colors)}
+                              height={height}></FeaturedTabs>
+            </PostConsumer>
+        </PostProvider>
     </Container>
 }
 
