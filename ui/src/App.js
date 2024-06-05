@@ -170,7 +170,7 @@ class IntlRoutes extends Component {
                             </Route>
                             <Route exact={true} path="/:lan/embeddable/:name" render={(props) =>
                                 <***REMOVED***>
-                                <PreviewComponentParameterParser  {...props}></PreviewComponentParameterParser>
+                                  <PreviewComponentParameterParser  {...props}></PreviewComponentParameterParser>
                                 </***REMOVED***>}>
                             </Route>
 

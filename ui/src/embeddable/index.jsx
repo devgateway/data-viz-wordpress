@@ -33,6 +33,9 @@ const Wrapped = ***REMOVED***(() => import('./wrapped/'))
 const SankeyChart = ***REMOVED***(() => import('./sankeychart/'))
 const DataLabel = ***REMOVED***(() => import('./datalabel/'))
 let reducerList = {data, embeddable}
+
+
+
 if (customizer.Reducers) {
     reducerList = {...reducerList, ...customizer.Reducers}
 }
