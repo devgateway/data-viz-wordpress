@@ -32,6 +32,7 @@ const ***REMOVED*** = ***REMOVED***(() => import('./parallax/'))
 const Wrapped = ***REMOVED***(() => import('./wrapped/'))
 const SankeyChart = ***REMOVED***(() => import('./sankeychart/'))
 const DataLabel = ***REMOVED***(() => import('./datalabel/'))
+const Body = ***REMOVED***(() => import('./body/'))
 let reducerList = {data, embeddable}
 if (customizer.Reducers) {
     reducerList = {...reducerList, ...customizer.Reducers}
@@ -69,6 +70,7 @@ const components = {
     wrapped: Wrapped,
     sankeyChart: SankeyChart,
     dataLabel: DataLabel,
+    body: Body,
     redirect: () => null
 
 }
