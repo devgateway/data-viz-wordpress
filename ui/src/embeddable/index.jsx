@@ -34,6 +34,9 @@ const SankeyChart = ***REMOVED***(() => import('./sankeychart/'))
 const DataLabel = ***REMOVED***(() => import('./datalabel/'))
 const Body = ***REMOVED***(() => import('./body/'))
 let reducerList = {data, embeddable}
+
+
+
 if (customizer.Reducers) {
     reducerList = {...reducerList, ...customizer.Reducers}
 }
