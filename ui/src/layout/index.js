@@ -1,6 +1,6 @@
-import ***REMOVED*** from './***REMOVED***.jsx'
+import DefaultResponsiveContainer from './***REMOVED***.jsx'
 import * as customizer from "@devgateway/customizer";
 
-const ***REMOVED*** = () => customizer.***REMOVED***('***REMOVED***') ? customizer.***REMOVED*** : ***REMOVED***
+const ***REMOVED*** = customizer.***REMOVED*** || DefaultResponsiveContainer;
 
-export default ***REMOVED***();
+export default ***REMOVED***;
