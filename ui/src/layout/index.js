@@ -1,3 +1,6 @@
 import ***REMOVED*** from './***REMOVED***.jsx'
+import * as customizer from "@devgateway/customizer";
 
-export default ***REMOVED***
+const ***REMOVED*** = () => customizer.***REMOVED***('***REMOVED***') ? customizer.***REMOVED*** : ***REMOVED***
+
+export default ***REMOVED***();
