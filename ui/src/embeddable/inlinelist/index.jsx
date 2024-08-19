@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react'
 import {Container, Grid, Label} from 'semantic-ui-react'
 import {MediaConsumer, MediaProvider, PostConsumer, PostIcon, PostProvider, utils} from "@devgateway/wp-react-lib";
 import PostIntro from "../connected-templates/PostIntro";
+import PostContent from "../connected-templates/PostContent";
 
 
 const ListOfPost=(props)=>{
     const {posts, showIcons, ***REMOVED***, contentToggleHPosition, locale} = props
     const [toggleState, ***REMOVED***] = useState({});
-    const postTopRef = React.createRef();        
-     useEffect(e=>{
+    const postTopRef = React.createRef();
+     useEffect(()=>{
         window.setTimeout( () => {
                 if (window.location.hash) {
                      const element = document.***REMOVED***(window.location.hash.substr(1));
@@ -20,29 +21,50 @@ const ListOfPost=(props)=>{
         )
     }, posts)
 
+    const hasBody = (post) => {
+        const contentParts = post.content ? post.content.rendered.split("<!--more-->") : []
+        return contentParts.length > 1 && contentParts[1].trim().length > 0
+    }
+
     const getBody = (post) => {
         const contentParts = post.content ? post.content.rendered.split("<!--more-->") : []
-        const content = contentParts.length > 1 ? contentParts[1] : contentParts[0]        
-        return content
+        const content = contentParts.length > 1 ? contentParts[1] : contentParts[0]
+        return content ? content.trim() : ''
     }
-    const ***REMOVED*** = (slug) =>  {       
+
+    const getIntro = (post) => {
+        const contentParts = post.content ? post.content.rendered.split("<!--more-->") : []
+        const content = contentParts.length > 1 ? contentParts[0]  : null
+        return content ? content.trim() : null
+    }
+
+    const ***REMOVED*** = (slug) =>  {
         const show = toggleState[slug] || false;
         const linkText = show ? 'Read less' : 'Read more';
-        return (<div>
-        <div style={{ position: 'relative', left: contentToggleHPosition + '%'}}>
-            <a className="link" onClick={() => {
-                if (postTopRef.current && show) {
-                    postTopRef.current.***REMOVED***({ behavior: "smooth", block: "start" });
-                    postTopRef.current.scrollTop = 0; // scroll postTopRef back to top
-                }
-                ***REMOVED***({...toggleState, [slug]: !show})                
-            }}>
-                {linkText}
-            </a>
 
-        </div>
-    </div>)
-    }
+        const ***REMOVED*** = (event) => {
+            const button = event.target;
+            const show = toggleState[slug] || false;
+            ***REMOVED***({...toggleState, [slug]: !show});
+            if (show) {
+                const ***REMOVED*** = button.closest('.grid');
+                if (***REMOVED***) {
+                    ***REMOVED***.***REMOVED***({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        };
+
+        return (
+            <div>
+                <div style={{ position: 'relative', left: contentToggleHPosition + '%' }}>
+                    <a className="link" onClick={***REMOVED***}>
+                        {linkText}
+                    </a>
+                </div>
+            </div>
+        );
+    };
+
 
     return (
             <Container fluid className="inline list">
@@ -58,14 +80,20 @@ const ListOfPost=(props)=>{
                             </MediaProvider>
                         </Grid.Column>}
                         <Grid.Column width={showIcons ? 15 : 16}>
-                            <PostIntro as={Container} fluid post={p} ref={postTopRef}/>
-                           <Container>
-                                {(***REMOVED*** && getBody(p)) &&
+                            {getIntro(p) &&
+                              <PostIntro as={Container} fluid post={p} ref={postTopRef}/>
+                            }
+                            {!getIntro(p) &&
+                             <PostContent post={{content: {rendered: getBody(p)}}} style={{ clear: 'both', display: 'block' }}></PostContent>
+                            }
+                            {hasBody(p) &&
+                             <Container>
+                                {***REMOVED*** &&
                                     <>
                                         {!toggleState[p.slug] &&
                                             ***REMOVED***(p.slug)
                                         }
-                                        <Container fluid className="content" style={{ clear: 'both', display: toggleState[p.slug] ? 'block' : 'none' }} dangerouslySetInnerHTML={{ __html: utils.***REMOVED***(getBody(p), locale) }} />
+                                        <PostContent post={{content: {rendered: getBody(p)}}} style={{ clear: 'both', display: toggleState[p.slug] ? 'block' : 'none' }}></PostContent>
                                         {toggleState[p.slug] &&
                                             ***REMOVED***(p.slug)
                                         }
@@ -75,6 +103,7 @@ const ListOfPost=(props)=>{
                                     <a href={utils.replaceLink(p.link)}
                                         className="link">Read More</a>}
                                 </Container>
+                            }
                         </Grid.Column>
 
                     </Grid>
@@ -101,14 +130,16 @@ const Root = (props) => {
         "data-content-toggle-h-position": contentToggleHPosition, //horizontal position
         parent,
         editing,
-        component, unique
+        component,
+        unique
 
     } = props
 
-    
+    const locale = props.intl.locale
 
     return <Container fluid={true}>
                 <PostProvider type={type}
+                              locale={locale}
                           taxonomy={taxonomy}
                           categories={categories}
                           store={"inline_list_" + parent + "_" + unique}

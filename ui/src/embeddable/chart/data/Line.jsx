@@ -150,6 +150,7 @@ const ***REMOVED*** = (props) => {
   } else if (data && data.children && ***REMOVED***.length > 0) {
     const mMap = measuresMap(data);
     const tMap = typesMap(data);
+    const categories = new Set();
     const ***REMOVED*** = new Set();
     const ***REMOVED*** = new Set();
     let keys = new Set();
@@ -185,41 +186,45 @@ const ***REMOVED*** = (props) => {
       });
     } else {
       indexBy = data.children[0].type;
-      let total = 0;
-      data.children.forEach((d) => {
-        const variables = {};
-        const row = {};
-        row[d.type] =
-          ***REMOVED***(
-            tMap[d.type] && tMap[d.type].items
-              ? tMap[d.type].items.filter((i) => i.value === d.value)[0]
-              : d.value,
-            locale
-          ) || d.value;
-        Object.keys(d).forEach((k) => {
-          variables[k] = d[k];
+      Object.keys(data)
+        .filter((k) => measures.indexOf(k) > -1)
+        .forEach((k) => {
+          const variables = {};
+          const row = {};
+          categories.add(customLabels[k] || mMap[k]?.label);
+          ***REMOVED***.add(mMap[k]);
+          row["id"] = customLabels[k] || ***REMOVED***(mMap[k], locale);
+          row["label"] = customLabels[k] || ***REMOVED***(mMap[k], locale);
+          row["position"] =
+            mMap && mMap[k] && mMap[k].position ? mMap[k].position : 0;
+          row["data"] = data.children.map((d) => {
+            const value =
+              ***REMOVED***(
+                tMap[d.type].items.filter((i) => i.value === d.value)[0],
+                locale
+              ) || d.value;
+            const variables = {};
+            Object.keys(d).forEach((k) => {
+              variables[k] = d[k];
+            });
+            variables["value"] = d[k];
+            variables[d.type] = d.value.toString();
+            ***REMOVED***.add(tMap[d.type]);
+            keys.add(value);
+            return {
+              x: value,
+              y: d[k],
+              variables: variables,
+            };
+          });
+          series.push({ ...row, variables, parent_variables: variables });
         });
-
-        ***REMOVED***.add(tMap[d.type]);
-        variables[d.type] = d.value.toString();
-        ***REMOVED***.map((m) => {
-          const label =
-            customLabels[m.value] || ***REMOVED***(mMap[m.value], locale);
-          row[label] = d[m.value];
-          ***REMOVED***.add(mMap[m.value]);
-          keys.add(label);
-        });
-
-        series.push({ ...row, variables, parent_variables: variables });
-      });
     }
     const allKeys = Array.from(keys);
     let filtered =
       hiddenBars && series
         ? series.filter((s) => hiddenBars.indexOf(s[indexBy]) == -1)
         : series;
-
-    debugger;
 
     if (props.sort == "***REMOVED***") {
       filtered = filtered.sort((a, b) =>
@@ -236,13 +241,13 @@ const ***REMOVED*** = (props) => {
     options = {
       metadata: data.metadata,
       indexBy,
+      categories,
       ***REMOVED***,
       ***REMOVED***,
       keys: allKeys,
       data: filtered,
     };
   }
-
   return React.Children.map(props.children, (child) =>
     React.cloneElement(child, { options })
   );
