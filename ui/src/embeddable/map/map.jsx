@@ -107,6 +107,14 @@ const ***REMOVED*** = {
   'wide': 100
 }
 
+const ***REMOVED*** = {
+  'mobile': 250,
+  'tablet': 250,
+  'midTablet': 250,
+  'laptop': 0,
+  'desktop': 0,
+  'wide': 0
+}
 
 
 const colorSchemes = {
@@ -1694,7 +1702,9 @@ handleScroll = () => {
     let svg = container.select("svg");
     let ***REMOVED*** = this.getWidth();
     if(***REMOVED*** === 0) {
-      ***REMOVED*** = window.innerWidth;
+      ***REMOVED*** = window.innerWidth + ***REMOVED***[***REMOVED***()];
+    } else {
+      ***REMOVED*** += ***REMOVED***[***REMOVED***()];
     }
     const ***REMOVED*** = this.getHeight() - 100;
 
