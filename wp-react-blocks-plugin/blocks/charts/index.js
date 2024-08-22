@@ -480,6 +480,18 @@ import {Chart} from '../icons/index.js'
                 type: 'Boolean',
                 default: false
             },
+            ***REMOVED***: {
+                type: 'Object',
+                default: {
+                    labels: {
+                        xAxis: {},
+                        yAxis: {}
+                    },
+                    xAxisEnabled: true,
+                    tickRotation: 0,
+                    ***REMOVED***: 10,
+                }
+            },
             reverseLegend: {
                 type: 'Boolean',
                 default: false
