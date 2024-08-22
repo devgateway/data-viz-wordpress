@@ -116,6 +116,7 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             radarDotSize,
             ***REMOVED***,
+            ***REMOVED***,
             ***REMOVED***
         }
     } = props;
@@ -242,7 +243,9 @@ const SaveComponent = (props) => {
              data-radar-enable-dots={***REMOVED***}
              data-radar-dot-size={radarDotSize}
              data-radar-enable-dot-label={***REMOVED***}
-             data-radar-dot-label-offset={***REMOVED***}>
+             data-radar-dot-label-offset={***REMOVED***}
+             data-mobile-customization={***REMOVED***}
+             >
             <InnerBlocks.Content/>
         </div>
     );
