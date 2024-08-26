@@ -7,6 +7,7 @@ import {
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { useState } from "react";
+import { ***REMOVED*** } from ".././commons/APIutils";
 
 function ***REMOVED***(csvData) {
   const lines = csvData.split("\n");
@@ -16,21 +17,48 @@ function ***REMOVED***(csvData) {
   return ***REMOVED***;
 }
 
+function getSelectedLabelsForApp(data, appName) {
+  const appData = data[appName];
+  if (!appData) {
+    return [];
+  }
+  return Object.keys(appData)
+    .filter((key) => appData[key].selected) // Filter out the selected items
+    .map((key) =>
+      appData[key].***REMOVED*** ? appData[key].customLabel : key
+    );
+}
+
 const MobileConfig = (props) => {
   const {
     setAttributes,
-    attributes: { type, ***REMOVED***, csv },
+    attributes: { type, ***REMOVED***, csv, app, measures, dimension1 },
   } = props;
-  const xAxisLabels = ***REMOVED***(csv);
-  const [initialToggleStateXAxisLabels, setInitialToggleStateXAxisLabel] =
-    useState(true);
+  let xAxisLabels = ***REMOVED***(csv);
+  if (app !== "csv") {
+    if (dimension1 !== "none") {
+      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem("categories"));
+      const categories =
+        ***REMOVED*** ??
+        fetch(`/api/${app}/categories`)
+          .then((response) => response.json())
+          .then((data) => ***REMOVED***(data));
+      xAxisLabels = categories
+        .filter(
+          (category) =>
+            category.type?.toLowerCase() === dimension1?.toLowerCase()
+        )[0]
+        .items?.map((item) => item.value);
+    } else {
+      xAxisLabels = getSelectedLabelsForApp(measures, app);
+    }
+  }
 
   const ***REMOVED*** = (label, value) => {
     const newObject = Object.assign({}, ***REMOVED***);
     if (newObject && newObject.labels && newObject.labels.xAxis) {
       newObject.labels.xAxis[label] = value;
     }
-    setInitialToggleStateXAxisLabel(false);
     setAttributes({ ***REMOVED***: newObject });
   };
 
@@ -90,12 +118,9 @@ const MobileConfig = (props) => {
             {xAxisLabels.map((label, index) => (
               <PanelRow key={`____${index}${label}`}>
                 <ToggleControl
+                  key={`_____${index}${label}`}
                   label={__(label)}
-                  checked={***REMOVED***(
-                    initialToggleStateXAxisLabels,
-                    label,
-                    "xAxis"
-                  )}
+                  checked={***REMOVED***(true, label, "xAxis")}
                   onChange={(value) => {
                     ***REMOVED***(label, value);
                   }}
@@ -124,6 +149,5 @@ const MobileConfig = (props) => {
       )}
     </PanelBody>
   );
-
 };
 export default MobileConfig;
