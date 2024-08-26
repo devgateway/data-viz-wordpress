@@ -22,11 +22,24 @@ function getSelectedLabelsForApp(data, appName) {
   if (!appData) {
     return [];
   }
+  console.log('appData initial', appData);
   return Object.keys(appData)
     .filter((key) => appData[key].selected) // Filter out the selected items
-    .map((key) =>
-      appData[key].***REMOVED*** ? appData[key].customLabel : key
-    );
+    .map((key) => {
+      return appData[key].***REMOVED*** ? appData[key].customLabel : appData[key].label;
+    });
+}
+
+const ***REMOVED*** = (data, measures, app) => {
+  const apiMeasures = ***REMOVED***(data);
+  // for each api measure, find the corresponding measure in the measures array
+  // and add a label property to the measure in the measures array
+  apiMeasures.forEach((apiMeasure) => {
+    const measure = measures[app][apiMeasure.value];
+    if (measure) {
+      measure.label = apiMeasure.label;
+    }
+  });
 }
 
 const MobileConfig = (props) => {
@@ -50,7 +63,22 @@ const MobileConfig = (props) => {
         )[0]
         .items?.map((item) => item.value);
     } else {
+      // get measures from session storage
+
+      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem("measures"));
+      // if measures are not present in session storage, fetch them from the API
+      if (!***REMOVED***) {
+        fetch(`/api/${app}/measures`)
+          .then((response) => response.json())
+          .then((data) => {
+            ***REMOVED***.setItem("measures", JSON.stringify(data));
+            ***REMOVED***(data, measures, app);
+          });
+      } else {
+        ***REMOVED***(***REMOVED***, measures, app);
+      }
       xAxisLabels = getSelectedLabelsForApp(measures, app);
+      console.log('xAxisLabels', xAxisLabels, measures);
     }
   }
 
