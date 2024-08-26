@@ -16,6 +16,10 @@ import CSVDataFrame from "./CSVDataFrame";
 import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
+import deviceType from '../../utils/deviceType'
+
+
+const isMobile = deviceType() === 'mobile';
 
 const PieChart = (props) => {
   const { data, legends, colors, height } = props;
@@ -351,10 +355,12 @@ const Chart = (props) => {
     right: rightLegendForSelectedMeasure,
   };
 
+  const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
+
   const chartProps = {
     app,
     tickColor: ***REMOVED***(tickColor),
-    tickRotation: tickRotation,
+    tickRotation: isMobile ? ***REMOVED***.tickRotation ?? tickRotation : tickRotation,
     layout,
     reverse: reverse == true || reverse == "true",
     showLegends: showLegends == true || showLegends == "true",
