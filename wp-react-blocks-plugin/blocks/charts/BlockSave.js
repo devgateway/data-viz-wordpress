@@ -244,7 +244,7 @@ const SaveComponent = (props) => {
              data-radar-dot-size={radarDotSize}
              data-radar-enable-dot-label={***REMOVED***}
              data-radar-dot-label-offset={***REMOVED***}
-             data-mobile-customization={***REMOVED***}
+             data-mobile-customization={***REMOVED***(JSON.stringify(***REMOVED***))}
              >
             <InnerBlocks.Content/>
         </div>

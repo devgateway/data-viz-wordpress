@@ -387,6 +387,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     return response.json()
                 })
                 .then(data => {
+                        ***REMOVED***.setItem('categories', JSON.stringify(data))
                         this.setState({...this.state, categories: ***REMOVED***(data)})
                     }
                 )
