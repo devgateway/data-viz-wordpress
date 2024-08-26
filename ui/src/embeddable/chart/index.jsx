@@ -438,7 +438,7 @@ const Chart = (props) => {
     userMeasures,
     tooltipEnableMarkdown:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true",
-    ***REMOVED***,
+    ***REMOVED***: isMobile ? ***REMOVED***.***REMOVED*** ?? ***REMOVED*** : ***REMOVED***,
     ***REMOVED***,
     enableGridY: enableGridY == true || enableGridY == "true",
     enableGridX: enableGridX == true || enableGridX == "true",
