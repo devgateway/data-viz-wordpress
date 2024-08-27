@@ -487,7 +487,7 @@ import {Chart} from '../icons/index.js'
                         xAxis: {},
                         yAxis: {}
                     },
-                    xAxisEnabled: true,
+                    xAxisDisabled: false,
                     tickRotation: 0,
                     ***REMOVED***: 10,
                 }
