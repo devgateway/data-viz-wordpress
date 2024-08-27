@@ -558,7 +558,7 @@ const Chart = ({
             return ***REMOVED***.getColor(d.id, d);
           }}
           axisBottom={
-            isMobile && ***REMOVED***?.xAxisDisabled === false ? null :{
+            isMobile && ***REMOVED***?.xAxisDisabled === true ? null :{
             renderTick: CustomTick,
             legend: legends.bottom,
             ***REMOVED***: "middle",
