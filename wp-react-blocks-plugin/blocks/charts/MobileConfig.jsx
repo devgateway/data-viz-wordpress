@@ -17,6 +17,30 @@ function ***REMOVED***(csvData) {
   return ***REMOVED***;
 }
 
+function transformDataToAppObject(data, appName, ***REMOVED*** = {}) {
+  if(***REMOVED***[appName] !== undefined) {
+    return ***REMOVED***;
+  }
+  ***REMOVED***[appName] = {};
+  data.forEach(item => {
+      const key = item.value;
+      ***REMOVED***[appName][key] = {
+          selected: false,
+          format: {
+              style: "percent",
+              minimumFractionDigits: 1,
+              maximumFractionDigits: 1,
+              currency: "USD"
+          },
+          ***REMOVED***: false,
+          customLabel: item.label || key
+      };
+  });
+
+  return ***REMOVED***;
+}
+
+
 function getSelectedLabelsForApp(data, appName) {
   const appData = data[appName];
   if (!appData) {
@@ -30,13 +54,10 @@ function getSelectedLabelsForApp(data, appName) {
 }
 
 const ***REMOVED*** = (data, measures, app) => {
-  console.log('data', data)
-  console.log('measures', measures)
-  console.log('app', app)
+  transformDataToAppObject(data, app, measures);
   const apiMeasures = ***REMOVED***(data);
   // for each api measure, find the corresponding measure in the measures array
   // and add a label property to the measure in the measures array
-  console.log('apiMeasures', apiMeasures);
   apiMeasures.forEach((apiMeasure) => {
     const measure = measures[app][apiMeasure.value];
     if (measure) {
@@ -53,7 +74,7 @@ const MobileConfig = (props) => {
   let xAxisLabels = ***REMOVED***(csv);
   if (app !== "csv") {
     if (dimension1 !== "none") {
-      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem("categories"));
+      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(`categories_${app}`));
       const categories =
         ***REMOVED*** ??
         fetch(`/api/${app}/categories`)
@@ -66,15 +87,13 @@ const MobileConfig = (props) => {
         )[0]
         .items?.map((item) => item.value);
     } else {
-      // get measures from session storage
-
-      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem("measures"));
+      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(`measures_${app}`));
       // if measures are not present in session storage, fetch them from the API
       if (!***REMOVED***) {
         fetch(`/api/${app}/measures`)
           .then((response) => response.json())
           .then((data) => {
-            ***REMOVED***.setItem("measures", JSON.stringify(data));
+            ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(data));
             ***REMOVED***(data, measures, app);
           });
       } else {

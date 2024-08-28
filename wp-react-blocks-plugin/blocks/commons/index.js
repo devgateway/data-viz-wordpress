@@ -372,7 +372,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     return response.json()
                 })
                 .then(data => {
-                    ***REMOVED***.setItem('measures', JSON.stringify(***REMOVED***(data)))
+                    ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(***REMOVED***(data)))
                     this.setState({...this.state, measures: ***REMOVED***(data)})
                 })
                 .catch(function (response) {
@@ -387,7 +387,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     return response.json()
                 })
                 .then(data => {
-                        ***REMOVED***.setItem('categories', JSON.stringify(data))
+                        ***REMOVED***.setItem(`categories_${app}`, JSON.stringify(data))
                         this.setState({...this.state, categories: ***REMOVED***(data)})
                     }
                 )
