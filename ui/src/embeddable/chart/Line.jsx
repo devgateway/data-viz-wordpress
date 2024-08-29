@@ -501,7 +501,7 @@ const Chart = ({
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
   if(isMobile) {
       ticks = parseInt(***REMOVED***.***REMOVED***);
-      const labels = new Map(Object.entries(***REMOVED***?.labels?.xAxis));
+      const labels = new Map(Object.entries(***REMOVED***?.labels?.xAxis ?? {}));
       for (let [key, value] of labels) {
         if (!value) {
           hiddenLabels.push(key);
