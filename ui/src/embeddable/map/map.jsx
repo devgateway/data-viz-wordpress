@@ -1694,7 +1694,7 @@ handleScroll = () => {
     let { zoomEnabled, ***REMOVED***, mapPosition, editing, mapType } =
       this.props;
       if(!zoomEnabled) {
-        zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true: false;
+        zoomEnabled = ['mobile', 'tablet'].includes(***REMOVED***()) ? true: false;
       }
     const breaks = this.getBreaks();
     const container = d3.select(this.getMapId());

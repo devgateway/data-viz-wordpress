@@ -16,11 +16,11 @@ const FiltersResetComponent = (props) => {
 
     let enabled = false;
 
-    
+
 
     //TODO: Check why we are using Number.MIN_SAFE_INTEGER instead of an empty array
     Object.keys(***REMOVED***).forEach(k=>{
-        if (***REMOVED***[k].length!=***REMOVED***[k].filter(v=>v!=Number.MIN_SAFE_INTEGER).length){
+        if (***REMOVED***[k].filter(v=>v!=Number.MIN_SAFE_INTEGER).length!=***REMOVED***[k].filter(v=>v!=Number.MIN_SAFE_INTEGER).length){
             enabled=true
         }
     })
