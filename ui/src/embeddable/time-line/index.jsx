@@ -4,6 +4,8 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import React, { useEffect, useRef, useState } from "react";
 import { Container } from "semantic-ui-react";
 import * as d3 from "d3";
+import Carousel from './mobile';
+import getDeviceType from "../../utils/deviceType";
 
 const visibleStyle = {
   visibility: "visible",
@@ -19,30 +21,31 @@ const hiddenStyle = {
 };
 
 const DEFAULT_HIGHLIGHTED_POST = 0;
-const TimeLine = ({
-  posts,
-  position,
-  lineWidth,
-  meta,
-  locale,
-  lineColor,
-  height,
-  config,
-  marginLeft,
-  marginTop,
-  marginRight,
-  marginBottom,
-  fontSize,
-  titleWidth,
-  titleHeight,
-  subtitleWidth,
-  ***REMOVED***,
-  ***REMOVED***,
-  ***REMOVED***,
-  ***REMOVED***,
-  ***REMOVED***,
-  unique,
-}) => {
+const TimeLine = (props) => {
+  let {
+    posts,
+    position,
+    lineWidth,
+    meta,
+    locale,
+    lineColor,
+    height,
+    config,
+    marginLeft,
+    marginTop,
+    marginRight,
+    marginBottom,
+    fontSize,
+    titleWidth,
+    titleHeight,
+    subtitleWidth,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    unique,
+  } = props;
   const ref = useRef();
   const [***REMOVED***, ***REMOVED***] = useState(false);
   const [tooltipData, ***REMOVED***] = useState(null);
@@ -489,4 +492,14 @@ const PostCarousel = (props) => {
     </Container>
   );
 };
-export default PostCarousel;
+
+let carousel;
+if(['mobile', 'tablet', 'midTablet'].includes(getDeviceType())) {
+  console.log('here...')
+    carousel = Carousel
+} else {
+    carousel = PostCarousel
+}
+
+export default carousel;
+
