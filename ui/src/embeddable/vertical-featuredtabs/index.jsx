@@ -1,12 +1,78 @@
-import React, {***REMOVED***, useRef, useState} from 'react'
-import {Container} from 'semantic-ui-react'
+import React, {***REMOVED***, useEffect, useRef, useState} from 'react'
+import {Container, Accordion, Icon} from 'semantic-ui-react'
 import {
     PostConsumer,
+    PostIcon,
     PostProvider,
-    PostContent
+    PostContent,
+    MediaConsumer,
+    MediaProvider
 } from "@devgateway/wp-react-lib";
 import PostIntro from "../connected-templates/PostIntro";
 
+
+const ***REMOVED*** = ({ posts, activeItem, setActive, colors }) => {
+    const [activeIndex, ***REMOVED***] = useState(posts.findIndex(p => p.slug === activeItem));
+    const [scrollTarget, ***REMOVED***] = useState(null);
+
+    useEffect(() => {
+        if (scrollTarget) {
+            const offsetTop = scrollTarget.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth',
+            });
+        }
+    }, [scrollTarget]);
+
+    const handleClick = (e, titleProps) => {
+        const { index } = titleProps;
+        const newIndex = activeIndex === index ? -1 : index;
+        ***REMOVED***(newIndex);
+        setActive(posts[index].slug);
+
+        // Set the scroll target after updating the activeIndex
+        if (newIndex !== -1) {
+            ***REMOVED***(e.currentTarget);
+        }
+    };
+
+    return (
+        <Accordion fluid styled>
+            {posts.map((post, index) => {
+                const iconUrl = post.meta_fields && post.meta_fields.icon ? post.meta_fields.icon[0] : null;
+
+                return (
+                    <React.Fragment key={post.id}>
+                        <Accordion.Title
+                            active={activeIndex === index}
+                            index={index}
+                            onClick={handleClick}
+                            style={{ ***REMOVED***: colors[`color_${index}`]  }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', ***REMOVED***: 'space-between', width: '100%' }}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    {iconUrl && (
+                                        <MediaProvider id={iconUrl}>
+                                            <MediaConsumer>
+                                                <PostIcon className="icon" />
+                                            </MediaConsumer>
+                                        </MediaProvider>
+                                    )}
+                                    <PostIntro post={post} className="vt-accordion-post-intro"/>
+                                </div>
+                                <Icon name="chevron down" />
+                            </div>
+                        </Accordion.Title>
+                        <Accordion.Content className={"accordion-post-content"} active={activeIndex === index}>
+                            <PostContent post={post} />
+                        </Accordion.Content>
+                    </React.Fragment>
+                );
+            })}
+        </Accordion>
+    );
+};
 
 const IntroWithFeaturedImage = ({ post, count, ***REMOVED***, active, dimensions, height, coverWidth }) => {
     const media = post['_embedded'] ? post['_embedded']["wp:featuredmedia"] : null;
@@ -50,7 +116,6 @@ const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
 
     const [active, setActive] = useState(null)
 
-    //const arrayColors = color.split(',')
     const targetRef = useRef();
     const [dimensions, setDimensions] = useState({width: 0, height: 0});
 
@@ -58,29 +123,6 @@ const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
     const ***REMOVED*** = (k) => {
         setActive(k)
     }
-    /*
-    useEffect(e => {
-        if (posts && posts.length > 0) {
-            setActive(posts[0].slug)
-        }
-
-        if (!editing) {
-            window.setTimeout(() => {
-                    if (window.location.hash) {
-                        const slug = window.location.hash.substr(1)
-                        const element = document.***REMOVED***(slug);
-
-                        if (element && posts.map(p => p.slug).indexOf(slug) > -1) {
-                            setActive(slug)
-                            element.***REMOVED***({behavior: "auto", block: "start"});
-                        }
-
-                    }
-                }, 0
-            )
-        }
-    }, posts)
-*/
     ***REMOVED***(() => {
         if (targetRef.current) {
             setDimensions({
@@ -93,7 +135,7 @@ const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
     return (
         <Container fluid={true} className={`vertical featured tabs ${editing ? 'editing' : ''}`}>
             {posts && posts.map((post, i) => {
-                const isActive = active ? post.slug === active : i == 0
+                const isActive = active ? post.slug === active : i === 0
                 return <div
                     key={post.slug}
                     ref={targetRef}
@@ -104,7 +146,7 @@ const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
                     <IntroWithFeaturedImage coverWidth={coverWidth}
                                             height={height}
                                             ***REMOVED***={colors['color_' + i]} count={posts.length}
-                                            dimensions={dimensions} active={isActive} post={post}/>
+                                             dimensions={dimensions} active={isActive} post={post}/>
                 </div>
 
             })}
@@ -115,53 +157,85 @@ const FeaturedTabs = ({editing, posts, height, colors, coverWidth}) => {
 }
 
 
-const Root = (props) => {
-    const {
-        "data-height": height,
-        "data-type": type,
-        "data-taxonomy": taxonomy,
-        "data-categories": categories,
-        "data-count": items,
-        "data-colors": colors,
-        "data-cover-width": coverWidth = 50,
-        "data-read-more-label": moreLabel = "READ More",
-        editing, parent, unique
-    } = props
-    const locale = props.intl.locale
-    const decode = (value) => {
-        if (editing) {
-            return value
-        }
-        return ***REMOVED***(value)
+const Wrapper = (props) => {
+  const {
+    "data-height": height,
+    "data-type": type,
+    "data-taxonomy": taxonomy,
+    "data-categories": categories,
+    "data-count": items,
+    "data-colors": colors,
+    "data-cover-width": coverWidth = 50,
+    "data-read-more-label": moreLabel = "READ More",
+    editing,
+    parent,
+    unique,
+  } = props;
+  const locale = props.intl.locale;
+
+  // Determine screen width and conditionally render components
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1440);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1250);
+    };
+
+    window.***REMOVED***("resize", handleResize);
+    return () => window.***REMOVED***("resize", handleResize);
+  }, []);
+
+  const decode = (value) => {
+    if (editing) {
+      return value;
     }
-    const parse = (value) => {
-        try {
-            return JSON.parse(decode(value))
-        } catch (error) {
-            console.error("error parsing value:" + value)
-        }
-
-        return null
+    return ***REMOVED***(value);
+  };
+  const parse = (value) => {
+    try {
+      return JSON.parse(decode(value));
+    } catch (error) {
+      console.error("error parsing value:" + value);
     }
 
-
-    const [random, setRandom] = useState(Math.random())
-    return <Container style={{"max-width": "100%"}} className={`viz featured tabs ${editing ? 'editing' : ''}`}
-                      fluid={true}>
-        <PostProvider type={type}
-                      locale={locale}
-                      taxonomy={taxonomy}
-                      categories={parse(categories).join(',')}
-                      store={"vertical_tabs" + parent + "_" + unique}
-                      page={1}
-                      perPage={items}>
-            <PostConsumer>
-                <FeaturedTabs editing={editing} coverWidth={coverWidth} moreLabel={moreLabel} colors={parse(colors)}
-                              height={height}></FeaturedTabs>
-            </PostConsumer>
-        </PostProvider>
+    return null;
+  };
+  return (
+    <Container
+      style={{ "max-width": "100%" }}
+      className={`viz featured tabs ${editing ? "editing" : ""}`}
+      fluid={true}
+    >
+      <PostProvider
+        type={type}
+        locale={locale}
+        taxonomy={taxonomy}
+        categories={parse(categories).join(",")}
+        store={"vertical_tabs" + parent + "_" + unique}
+        page={1}
+        perPage={items}
+      >
+        <PostConsumer>
+          {isMobile ? (
+            <***REMOVED***
+              posts={items}
+              activeItem={items[0]?.slug}
+              colors={parse(colors)}
+              setActive={() => {}}
+            />
+          ):  (
+            <FeaturedTabs
+              editing={editing}
+              coverWidth={coverWidth}
+              moreLabel={moreLabel}
+              colors={parse(colors)}
+              height={height}
+            ></FeaturedTabs>
+          )}
+        </PostConsumer>
+      </PostProvider>
     </Container>
-}
+  );
+};
 
 
-export default Root
+export default Wrapper
