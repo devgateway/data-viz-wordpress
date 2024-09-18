@@ -220,7 +220,6 @@ class Map extends React.Component {
   }
 
   ***REMOVED***() {
-    window.***REMOVED***('resize', this.handleResize);
     window.***REMOVED***('scroll', this.handleScroll);
     this.loadLayers();
     this.tooltip = d3
@@ -234,12 +233,6 @@ class Map extends React.Component {
     console.log(error);
   }
 
-  handleResize = (event) => {
-    event.***REMOVED***();
-    const features = this.getFeatures();
-    this.d3Map(features, false);
-}
-
 
 handleScroll = (event) => {
   event.***REMOVED***();
@@ -251,7 +244,6 @@ handleScroll = (event) => {
 
 
 ***REMOVED***() {
-  window.***REMOVED***('resize', this.handleResize);
   window.***REMOVED***('scroll', this.handleScroll);
 }
 
