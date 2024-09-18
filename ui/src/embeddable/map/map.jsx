@@ -221,6 +221,7 @@ class Map extends React.Component {
 
   ***REMOVED***() {
     window.***REMOVED***('scroll', this.handleScroll, { passive: true });
+    window.***REMOVED***('touchmove', this.handleScroll, { passive: true });
     this.loadLayers();
     this.tooltip = d3
       .select("body")
