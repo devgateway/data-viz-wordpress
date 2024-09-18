@@ -490,6 +490,7 @@ import {Chart} from '../icons/index.js'
                     xAxisDisabled: false,
                     tickRotation: 0,
                     ***REMOVED***: 10,
+                    ***REMOVED***: false,
                 }
             },
             reverseLegend: {
