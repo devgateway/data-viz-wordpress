@@ -357,11 +357,22 @@ const Chart = (props) => {
 
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
 
+  const mobileLayout = () => {
+    if(***REMOVED***?.***REMOVED***) {
+      if(layout === 'horizontal') {
+        return 'vertical';
+      } else {
+        return 'horizontal';
+      }
+    }
+    return layout;
+  }
+
   const chartProps = {
     app,
     tickColor: ***REMOVED***(tickColor),
     tickRotation: isMobile ? ***REMOVED***.tickRotation ?? tickRotation : tickRotation,
-    layout,
+    layout: isMobile ? mobileLayout() : layout,
     reverse: reverse == true || reverse == "true",
     showLegends: showLegends == true || showLegends == "true",
     legendLabel,
