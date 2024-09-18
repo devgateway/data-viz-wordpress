@@ -368,11 +368,13 @@ const Chart = (props) => {
     return layout;
   }
 
+  const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
+
   const chartProps = {
     app,
     tickColor: ***REMOVED***(tickColor),
-    tickRotation: isMobile ? ***REMOVED***.tickRotation ?? tickRotation : tickRotation,
-    layout: isMobile ? mobileLayout() : layout,
+    tickRotation: isMobileConfigEnabled ? ***REMOVED***.tickRotation ?? tickRotation : tickRotation,
+    layout: isMobileConfigEnabled ? mobileLayout() : layout,
     reverse: reverse == true || reverse == "true",
     showLegends: showLegends == true || showLegends == "true",
     legendLabel,
@@ -449,7 +451,7 @@ const Chart = (props) => {
     userMeasures,
     tooltipEnableMarkdown:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true",
-    ***REMOVED***: isMobile ? ***REMOVED***.***REMOVED*** ?? ***REMOVED*** : ***REMOVED***,
+    ***REMOVED***: isMobileConfigEnabled ? ***REMOVED***.***REMOVED*** ?? ***REMOVED*** : ***REMOVED***,
     ***REMOVED***,
     enableGridY: enableGridY == true || enableGridY == "true",
     enableGridX: enableGridX == true || enableGridX == "true",

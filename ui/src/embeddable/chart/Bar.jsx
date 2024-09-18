@@ -80,7 +80,9 @@ const Chart = ({
   ***REMOVED***,
   dimension1
 }) => {
+  const isMobile = deviceType() === "mobile";
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
+  const isMobileCustomizationEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false)
   const ***REMOVED*** = () => {
     if (barLabelColor === "null" || barLabelColor === null || !barLabelColor) {
       return "#000000";
@@ -100,7 +102,6 @@ const Chart = ({
   const [newMarginTop, ***REMOVED***] = useState(marginTop);
   const [wrapCount, setWrapCount] = useState(0);
   const [***REMOVED***, ***REMOVED***] = useState(marginBottom);
-  const isMobile = deviceType() === "mobile";
 
   const ***REMOVED*** = (
     options,
@@ -492,7 +493,7 @@ const Chart = ({
 
   const CustomTick = (tick) => {
     const tickObject = Object.assign({}, tick);
-    if(isMobile && hiddenLabels.includes(tick.value)) {
+    if(isMobileCustomizationEnabled && hiddenLabels.includes(tick.value)) {
       tickObject.value = "";
     }
     const theme = useTheme();
@@ -918,7 +919,7 @@ const Chart = ({
   };
 
 let hiddenLabels = [];
-if(isMobile) {
+if(isMobileCustomizationEnabled) {
     ticks = parseInt(***REMOVED***.***REMOVED***);
     const labels = new Map(Object.entries(***REMOVED***?.labels?.xAxis ?? {}));
     for (let [key, value] of labels) {
@@ -993,7 +994,7 @@ if(isMobile) {
                 : null
             }
             axisBottom={
-              isMobile && ***REMOVED***?.xAxisDisabled === true ? null :
+              isMobileCustomizationEnabled && ***REMOVED***?.xAxisDisabled === true ? null :
               layout == "horizontal"
                 ? {
                     legend: legends.bottom,
