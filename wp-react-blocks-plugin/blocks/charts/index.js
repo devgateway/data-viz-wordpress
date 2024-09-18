@@ -483,6 +483,7 @@ import {Chart} from '../icons/index.js'
             ***REMOVED***: {
                 type: 'Object',
                 default: {
+                    ***REMOVED***: false,
                     labels: {
                         xAxis: {},
                         yAxis: {}
