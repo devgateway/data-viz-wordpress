@@ -194,6 +194,21 @@ const MobileConfig = (props) => {
               max={50}
             />
           </PanelRow>
+
+          <PanelRow>
+            <ToggleControl
+              label={__("Override Chart Layout")}
+              checked={***REMOVED***.***REMOVED***}
+              onChange={(***REMOVED***) =>
+                setAttributes({
+                  ***REMOVED***: {
+                    ...***REMOVED***,
+                    ***REMOVED***: ***REMOVED***,
+                  },
+                })
+              }
+            />
+          </PanelRow>
         </>
       )}
     </PanelBody>
