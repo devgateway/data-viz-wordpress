@@ -18,28 +18,27 @@ function ***REMOVED***(csvData) {
 }
 
 function transformDataToAppObject(data, appName, ***REMOVED*** = {}) {
-  if(***REMOVED***[appName] !== undefined) {
+  if (***REMOVED***[appName] !== undefined) {
     return ***REMOVED***;
   }
   ***REMOVED***[appName] = {};
-  data.forEach(item => {
-      const key = item.value;
-      ***REMOVED***[appName][key] = {
-          selected: false,
-          format: {
-              style: "percent",
-              minimumFractionDigits: 1,
-              maximumFractionDigits: 1,
-              currency: "USD"
-          },
-          ***REMOVED***: false,
-          customLabel: item.label || key
-      };
+  data.forEach((item) => {
+    const key = item.value;
+    ***REMOVED***[appName][key] = {
+      selected: false,
+      format: {
+        style: "percent",
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+        currency: "USD",
+      },
+      ***REMOVED***: false,
+      customLabel: item.label || key,
+    };
   });
 
   return ***REMOVED***;
 }
-
 
 function getSelectedLabelsForApp(data, appName) {
   const appData = data[appName];
@@ -49,7 +48,9 @@ function getSelectedLabelsForApp(data, appName) {
   return Object.keys(appData)
     .filter((key) => appData[key].selected) // Filter out the selected items
     .map((key) => {
-      return appData[key].***REMOVED*** ? appData[key].customLabel : appData[key].label;
+      return appData[key].***REMOVED***
+        ? appData[key].customLabel
+        : appData[key].label;
     });
 }
 
@@ -64,17 +65,21 @@ const ***REMOVED*** = (data, measures, app) => {
       measure.label = apiMeasure.label;
     }
   });
-}
+};
 
 const MobileConfig = (props) => {
   const {
     setAttributes,
     attributes: { type, ***REMOVED***, csv, app, measures, dimension1 },
   } = props;
+  const [showMobileCustomization, setShowMobileCustomization] = useState(false);
+
   let xAxisLabels = ***REMOVED***(csv);
   if (app !== "csv") {
     if (dimension1 !== "none") {
-      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(`categories_${app}`));
+      const ***REMOVED*** = JSON.parse(
+        ***REMOVED***.getItem(`categories_${app}`)
+      );
       const categories =
         ***REMOVED*** ??
         fetch(`/api/${app}/categories`)
@@ -87,7 +92,9 @@ const MobileConfig = (props) => {
         )[0]
         .items?.map((item) => item.value);
     } else {
-      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(`measures_${app}`));
+      const ***REMOVED*** = JSON.parse(
+        ***REMOVED***.getItem(`measures_${app}`)
+      );
       // if measures are not present in session storage, fetch them from the API
       if (!***REMOVED***) {
         fetch(`/api/${app}/measures`)
@@ -111,6 +118,16 @@ const MobileConfig = (props) => {
     setAttributes({ ***REMOVED***: newObject });
   };
 
+  const onShowMobileCustomizationChange = (value) => {
+    setShowMobileCustomization(value);
+    setAttributes({
+      ***REMOVED***: {
+        ...***REMOVED***,
+        ***REMOVED***: value,
+      }
+     });
+  };
+
   const ***REMOVED*** = (***REMOVED***, label, axis) => {
     // initial toggle state is false
     if (!***REMOVED***) {
@@ -131,7 +148,16 @@ const MobileConfig = (props) => {
 
   return (
     <PanelBody initialOpen={false} title={__("Mobile Customization Settings")}>
-      {isBarOrLine && (
+      <PanelRow>
+        <ToggleControl
+          label={__("Show Mobile Customization Settings")}
+          checked={showMobileCustomization}
+          onChange={(isShowMobileCustomization) =>
+            onShowMobileCustomizationChange(isShowMobileCustomization)
+          }
+        />
+      </PanelRow>
+      {isBarOrLine && showMobileCustomization && (
         <>
           <PanelRow>
             <ToggleControl
