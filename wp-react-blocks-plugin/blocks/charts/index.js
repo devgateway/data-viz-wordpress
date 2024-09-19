@@ -492,6 +492,10 @@ import {Chart} from '../icons/index.js'
                     tickRotation: 0,
                     ***REMOVED***: 10,
                     ***REMOVED***: false,
+                    marginLeft: 50,
+                    marginTop: 25,
+                    marginBottom: 25,
+                    marginRight: 25,
                 }
             },
             reverseLegend: {
