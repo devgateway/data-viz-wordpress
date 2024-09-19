@@ -6,82 +6,90 @@ import {
   RangeControl,
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ***REMOVED*** } from ".././commons/APIutils";
 
 const MarginSection = ({
   setAttributes,
-  attributes: { ***REMOVED***}
+  attributes: { ***REMOVED*** },
 }) => {
-  const {
-    marginBottom,
-    marginLeft,
-    marginRight,
-    marginTop,
-  } = ***REMOVED***;
+  const { marginBottom, marginLeft, marginRight, marginTop } =
+    ***REMOVED***;
   return (
-    <PanelBody initialOpen={false}   title={__("Margins")}>
-    <PanelRow>
+    <PanelBody initialOpen={false} title={__("Margins")}>
+      <PanelRow>
         <RangeControl
-            label={__('Margin Bottom (Space between chart area and bottom border)')}
-            value={marginBottom}
-            onChange={(marginBottom) => setAttributes({
-                ***REMOVED***: {
-                    ...***REMOVED***,
-                    marginBottom: marginBottom
-                }
-            })}
-            min={0}
-            max={500}
+          label={__(
+            "Margin Bottom (Space between chart area and bottom border)"
+          )}
+          value={marginBottom}
+          onChange={(marginBottom) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                marginBottom: marginBottom,
+                yAxisIntervalModified: true,
+              },
+            })
+          }
+          min={0}
+          max={500}
         />
-    </PanelRow>
+      </PanelRow>
 
-    <PanelRow>
+      <PanelRow>
         <RangeControl
-            label={__('Margin Left (Space between chart area and left border)')}
-            value={marginLeft}
-            ***REMOVED***={0}
-            onChange={(marginLeft) => setAttributes({
-                ***REMOVED***: {
-                    ...***REMOVED***,
-                    marginLeft: marginLeft
-                }
-            })}
-            step={1}
-            min={0}
-            max={500}/>
-    </PanelRow>
-    <PanelRow>
-        <RangeControl
-            label={__('Margin Right')}
-            value={marginRight}
-            onChange={(marginRight) => setAttributes({
-                ***REMOVED***: {
-                    ...***REMOVED***,
-                    marginRight: marginRight
-                }
-            })}
-            min={0}
-            max={500}
+          label={__("Margin Left (Space between chart area and left border)")}
+          value={marginLeft}
+          ***REMOVED***={0}
+          onChange={(marginLeft) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                marginLeft: marginLeft,
+              },
+            })
+          }
+          step={1}
+          min={0}
+          max={500}
         />
-    </PanelRow>
-    <PanelRow>
+      </PanelRow>
+      <PanelRow>
         <RangeControl
-            label={__('Margin Top')}
-            value={marginTop}
-            onChange={(marginTop) => setAttributes({
-                ***REMOVED***: {
-                    ...***REMOVED***,
-                    marginTop: marginTop
-                }
-            })}
-            min={0}
-            max={500}
+          label={__("Margin Right")}
+          value={marginRight}
+          onChange={(marginRight) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                marginRight: marginRight,
+              },
+            })
+          }
+          min={0}
+          max={500}
         />
-    </PanelRow>
-</PanelBody>
-  )
-}
+      </PanelRow>
+      <PanelRow>
+        <RangeControl
+          label={__("Margin Top")}
+          value={marginTop}
+          onChange={(marginTop) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                marginTop: marginTop,
+              },
+            })
+          }
+          min={0}
+          max={500}
+        />
+      </PanelRow>
+    </PanelBody>
+  );
+};
 
 function ***REMOVED***(csvData) {
   const lines = csvData.split("\n");
@@ -144,9 +152,16 @@ const ***REMOVED*** = (data, measures, app) => {
 const MobileConfig = (props) => {
   const {
     setAttributes,
-    attributes: { type, ***REMOVED***, csv, app, measures, dimension1 },
+    attributes: {
+      type,
+      ***REMOVED***,
+      csv,
+      app,
+      measures,
+      dimension1,
+      ***REMOVED***,
+    },
   } = props;
-  const [showMobileCustomization, setShowMobileCustomization] = useState(false);
 
   let xAxisLabels = ***REMOVED***(csv);
   if (app !== "csv") {
@@ -193,13 +208,12 @@ const MobileConfig = (props) => {
   };
 
   const onShowMobileCustomizationChange = (value) => {
-    setShowMobileCustomization(value);
     setAttributes({
       ***REMOVED***: {
         ...***REMOVED***,
         ***REMOVED***: value,
-      }
-     });
+      },
+    });
   };
 
   const ***REMOVED*** = (***REMOVED***, label, axis) => {
@@ -218,6 +232,15 @@ const MobileConfig = (props) => {
     return true;
   };
 
+  const ***REMOVED*** = (value) => {
+    const newObject = Object.assign({}, ***REMOVED***);
+    if (newObject) {
+      newObject.***REMOVED*** = value;
+      newObject.yAxisIntervalModified = true;
+    }
+    setAttributes({ ***REMOVED***: newObject });
+  };
+
   const isBarOrLine = ["bar", "line"].includes(type);
 
   return (
@@ -225,13 +248,13 @@ const MobileConfig = (props) => {
       <PanelRow>
         <ToggleControl
           label={__("Show Mobile Customization Settings")}
-          checked={showMobileCustomization}
+          checked={***REMOVED***?.***REMOVED***}
           onChange={(isShowMobileCustomization) =>
             onShowMobileCustomizationChange(isShowMobileCustomization)
           }
         />
       </PanelRow>
-      {isBarOrLine && showMobileCustomization && (
+      {isBarOrLine && ***REMOVED***?.***REMOVED*** && (
         <>
           <PanelRow>
             <ToggleControl
@@ -278,17 +301,17 @@ const MobileConfig = (props) => {
             ))}
           </PanelBody>
 
+          {/** the number of intervals should default to the value set by ***REMOVED*** */}
           <PanelRow>
             <RangeControl
               label={__("Number of Intervals")}
-              value={***REMOVED***.***REMOVED*** || 10}
+              value={
+                !***REMOVED***?.yAxisIntervalModified
+                  ? ***REMOVED***
+                  : ***REMOVED***.***REMOVED***
+              }
               onChange={(***REMOVED***) =>
-                setAttributes({
-                  ***REMOVED***: {
-                    ...***REMOVED***,
-                    ***REMOVED***: ***REMOVED***,
-                  },
-                })
+                ***REMOVED***(***REMOVED***)
               }
               min={0}
               max={50}
@@ -311,7 +334,6 @@ const MobileConfig = (props) => {
           </PanelRow>
           <MarginSection {...props} />
         </>
-
       )}
     </PanelBody>
   );
