@@ -153,6 +153,8 @@ const colorSchemes = {
   ],
 };
 
+const isMobile = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***());
+
 
 class Map extends React.Component {
   constructor(props) {
@@ -218,6 +220,7 @@ class Map extends React.Component {
       layersLoading: false,
     };
   }
+
 
   ***REMOVED***() {
     window.***REMOVED***('scroll', this.handleScroll, { passive: true });
@@ -1999,7 +2002,7 @@ handleScroll = () => {
                 </div>
               )}
 
-              {(editing || zoomEnabled) && (
+              {(editing || zoomEnabled || isMobile) && (
                 <div className="control panel ignore">
                   <div className="zoom plus" onClick={this.onZoomIn}>
                     <Icon name="plus" size="large" />
