@@ -9,6 +9,80 @@ import { __ } from "@wordpress/i18n";
 import { useState } from "react";
 import { ***REMOVED*** } from ".././commons/APIutils";
 
+const MarginSection = ({
+  setAttributes,
+  attributes: { ***REMOVED***}
+}) => {
+  const {
+    marginBottom,
+    marginLeft,
+    marginRight,
+    marginTop,
+  } = ***REMOVED***;
+  return (
+    <PanelBody initialOpen={false}   title={__("Margins")}>
+    <PanelRow>
+        <RangeControl
+            label={__('Margin Bottom (Space between chart area and bottom border)')}
+            value={marginBottom}
+            onChange={(marginBottom) => setAttributes({
+                ***REMOVED***: {
+                    ...***REMOVED***,
+                    marginBottom: marginBottom
+                }
+            })}
+            min={0}
+            max={500}
+        />
+    </PanelRow>
+
+    <PanelRow>
+        <RangeControl
+            label={__('Margin Left (Space between chart area and left border)')}
+            value={marginLeft}
+            ***REMOVED***={0}
+            onChange={(marginLeft) => setAttributes({
+                ***REMOVED***: {
+                    ...***REMOVED***,
+                    marginLeft: marginLeft
+                }
+            })}
+            step={1}
+            min={0}
+            max={500}/>
+    </PanelRow>
+    <PanelRow>
+        <RangeControl
+            label={__('Margin Right')}
+            value={marginRight}
+            onChange={(marginRight) => setAttributes({
+                ***REMOVED***: {
+                    ...***REMOVED***,
+                    marginRight: marginRight
+                }
+            })}
+            min={0}
+            max={500}
+        />
+    </PanelRow>
+    <PanelRow>
+        <RangeControl
+            label={__('Margin Top')}
+            value={marginTop}
+            onChange={(marginTop) => setAttributes({
+                ***REMOVED***: {
+                    ...***REMOVED***,
+                    marginTop: marginTop
+                }
+            })}
+            min={0}
+            max={500}
+        />
+    </PanelRow>
+</PanelBody>
+  )
+}
+
 function ***REMOVED***(csvData) {
   const lines = csvData.split("\n");
   const ***REMOVED*** = lines?.slice(1)?.map((row) => {
@@ -235,7 +309,9 @@ const MobileConfig = (props) => {
               }
             />
           </PanelRow>
+          <MarginSection {...props} />
         </>
+
       )}
     </PanelBody>
   );
