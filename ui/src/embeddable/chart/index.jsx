@@ -17,6 +17,7 @@ import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
 import deviceType from '../../utils/deviceType'
+import { is } from "immutable";
 
 
 const isMobile = deviceType() === 'mobile';
@@ -368,6 +369,10 @@ const Chart = (props) => {
     return layout;
   }
 
+  const ***REMOVED*** = (mobileEnabled, mobileSetting, defaultValue) => {
+    return mobileEnabled ? parseInt(mobileSetting) ?? defaultValue : defaultValue;
+  }
+
   const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
 
   const chartProps = {
@@ -381,10 +386,10 @@ const Chart = (props) => {
     swap: swap == true || swap == "true",
     showGrid: showGrid == true || showGrid == "true",
 
-    marginLeft: parseInt(marginLeft),
-    marginTop: parseInt(marginTop),
-    marginRight: parseInt(marginRight),
-    marginBottom: parseInt(marginBottom),
+    marginLeft: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginLeft), parseInt(marginLeft)),
+    marginTop: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginTop), parseInt(marginTop)),
+    marginRight: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginRight), parseInt(marginRight)),
+    marginBottom: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginBottom), parseInt(marginBottom)),
     height: `${contentHeight}px`,
     ***REMOVED***: ***REMOVED***,
     legends,

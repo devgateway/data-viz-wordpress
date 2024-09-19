@@ -77,8 +77,7 @@ const Chart = ({
   reverseLegend,
   enableGridY,
   enableGridX,
-  ***REMOVED***,
-  dimension1
+  ***REMOVED***
 }) => {
   const isMobile = deviceType() === "mobile";
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
