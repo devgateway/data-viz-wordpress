@@ -491,7 +491,7 @@ import {Chart} from '../icons/index.js'
                     xAxisDisabled: false,
                     tickRotation: 0,
                     ***REMOVED***: 0,
-                    yAxisIntervalModified: false,
+                    yAxisIntervalUserModified: false,
                     ***REMOVED***: false,
                     marginLeft: 50,
                     marginTop: 25,
