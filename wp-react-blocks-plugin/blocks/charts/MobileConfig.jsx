@@ -28,7 +28,7 @@ const MarginSection = ({
               ***REMOVED***: {
                 ...***REMOVED***,
                 marginBottom: marginBottom,
-                yAxisIntervalModified: true,
+                yAxisIntervalUserModified: true,
               },
             })
           }
@@ -163,6 +163,17 @@ const MobileConfig = (props) => {
     },
   } = props;
 
+  useEffect(() => {
+    if(!***REMOVED***.yAxisIntervalUserModified) {
+      setAttributes({
+        ***REMOVED***: {
+          ...***REMOVED***,
+          ***REMOVED***: ***REMOVED***,
+        },
+      });
+    }
+  }, [***REMOVED***]);
+
   let xAxisLabels = ***REMOVED***(csv);
   if (app !== "csv") {
     if (dimension1 !== "none") {
@@ -236,7 +247,7 @@ const MobileConfig = (props) => {
     const newObject = Object.assign({}, ***REMOVED***);
     if (newObject) {
       newObject.***REMOVED*** = value;
-      newObject.yAxisIntervalModified = true;
+      newObject.yAxisIntervalUserModified = true;
     }
     setAttributes({ ***REMOVED***: newObject });
   };
@@ -306,7 +317,7 @@ const MobileConfig = (props) => {
             <RangeControl
               label={__("Number of Intervals")}
               value={
-                !***REMOVED***?.yAxisIntervalModified
+                !***REMOVED***?.yAxisIntervalUserModified
                   ? ***REMOVED***
                   : ***REMOVED***.***REMOVED***
               }
