@@ -169,7 +169,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive, color }) => {
                                         </MediaProvider>
                                     )}
                                     {!iconUrl && <***REMOVED*** post={post} />}
-                                    <PostTitle post={post} className="accordion-post-ft-title"/>
+                                    <p className='accordion-post-ft-title' dangerouslySetInnerHTML={{ __html: post.title.rendered }} style={{ marginLeft: '10px' }} />
                                 </div>
                                 <Icon name="chevron down" />
                             </div>
