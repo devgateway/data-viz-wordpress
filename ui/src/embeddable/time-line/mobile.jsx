@@ -37,10 +37,13 @@ const TimeLine = (props) => {
     unique,
   } = props;
 
-  const ref = useRef();
-  const [***REMOVED***, ***REMOVED***] = useState(false);
   height = window.innerHeight;
   subtitleWidth = 250;
+
+  const ref = useRef();
+  const parentRef = useRef();
+  const [***REMOVED***, ***REMOVED***] = useState(false);
+  const [parentWidth, ***REMOVED***] = useState(0);
   const [tooltipData, ***REMOVED***] = useState(null);
 
   const getCircleId = (idx) => "circle" + unique + idx;
@@ -189,6 +192,10 @@ const TimeLine = (props) => {
     };
 
     const svgWidth = ref.current.clientWidth;
+    const parentWidth = parentRef.current.clientWidth;
+    if(parentWidth > 0) {
+      ***REMOVED***(parentWidth);
+    }
     const svgHeight = height;
 
     const deviceType = getDeviceType();
@@ -348,7 +355,7 @@ const TimeLine = (props) => {
   }, []);
 
   return (
-    <div className={"time line"} style={{ position: "relative" }}>
+    <div className={"time line"} style={{ position: "relative" }} ref={parentRef}>
       {posts
         .filter((post) => tooltipData && tooltipData.id === post.id)
         .map((post) => {
@@ -380,7 +387,7 @@ const TimeLine = (props) => {
             />
           );
         })}
-      <svg height={height} width={"100vw"} ref={ref} />
+      <svg height={height} width={parentWidth} ref={ref} />
     </div>
   );
 };
