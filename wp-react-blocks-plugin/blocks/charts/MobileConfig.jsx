@@ -6,7 +6,7 @@ import {
   RangeControl,
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { ***REMOVED*** } from ".././commons/APIutils";
 
 const MarginSection = ({
@@ -91,6 +91,60 @@ const MarginSection = ({
   );
 };
 
+const TitleSection = ({
+  setAttributes,
+  attributes: { ***REMOVED*** },
+}) => {
+  return (
+    <PanelBody initialOpen={false} title={__("Axis Titles")}>
+      <PanelRow>
+        <ToggleControl
+          label={__("Show X Axis Title")}
+          checked={***REMOVED***?.***REMOVED*** ?? true}
+          onChange={(***REMOVED***) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                ***REMOVED***: ***REMOVED***,
+              },
+            })
+          }
+        />
+      </PanelRow>
+      <PanelRow>
+        <ToggleControl
+          label={__("Show Y Axis Title")}
+          checked={***REMOVED***?.***REMOVED*** ?? true}
+          onChange={(***REMOVED***) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                ***REMOVED***: ***REMOVED***,
+              },
+            })
+          }
+        />
+      </PanelRow>
+
+      <PanelRow>
+        <ToggleControl
+          label={__("Show Right Axis Title")}
+          checked={***REMOVED***?.***REMOVED*** ?? true}
+          onChange={(***REMOVED***) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                ***REMOVED***: ***REMOVED***,
+              },
+            })
+          }
+        />
+      </PanelRow>
+
+    </PanelBody>
+  );
+};
+
 function ***REMOVED***(csvData) {
   const lines = csvData.split("\n");
   const ***REMOVED*** = lines?.slice(1)?.map((row) => {
@@ -164,7 +218,7 @@ const MobileConfig = (props) => {
   } = props;
 
   useEffect(() => {
-    if(!***REMOVED***.yAxisIntervalUserModified) {
+    if (!***REMOVED***.yAxisIntervalUserModified) {
       setAttributes({
         ***REMOVED***: {
           ...***REMOVED***,
@@ -268,90 +322,92 @@ const MobileConfig = (props) => {
       </PanelRow>
       {***REMOVED*** && ***REMOVED***?.***REMOVED*** && (
         <>
-          {
-            isBarOrLine && <>
-            <PanelRow>
-            <ToggleControl
-              label={__("Disable X Axis Labels")}
-              checked={***REMOVED***.xAxisDisabled}
-              onChange={(***REMOVED***) =>
-                setAttributes({
-                  ***REMOVED***: {
-                    ...***REMOVED***,
-                    xAxisDisabled: ***REMOVED***,
-                  },
-                })
-              }
-            />
-          </PanelRow>
-
-          <PanelRow>
-            <***REMOVED***
-              label={__("X Axis Text Rotation")}
-              value={***REMOVED***.tickRotation}
-              onChange={(value) =>
-                setAttributes({
-                  ***REMOVED***: {
-                    ...***REMOVED***,
-                    tickRotation: value,
-                  },
-                })
-              }
-            />
-          </PanelRow>
-
-          <PanelBody initialOpen={false} title={__("All Labels")}>
-            {xAxisLabels.map((label, index) => (
-              <PanelRow key={`____${index}${label}`}>
+          {isBarOrLine && (
+            <>
+              <PanelRow>
                 <ToggleControl
-                  key={`_____${index}${label}`}
-                  label={__(label)}
-                  checked={***REMOVED***(true, label, "xAxis")}
-                  onChange={(value) => {
-                    ***REMOVED***(label, value);
-                  }}
+                  label={__("Disable X Axis Labels")}
+                  checked={***REMOVED***.xAxisDisabled}
+                  onChange={(***REMOVED***) =>
+                    setAttributes({
+                      ***REMOVED***: {
+                        ...***REMOVED***,
+                        xAxisDisabled: ***REMOVED***,
+                      },
+                    })
+                  }
                 />
               </PanelRow>
-            ))}
-          </PanelBody>
+              <PanelRow>
+                <ToggleControl
+                  label={__("Override Chart Layout")}
+                  checked={***REMOVED***.***REMOVED***}
+                  onChange={(***REMOVED***) =>
+                    setAttributes({
+                      ***REMOVED***: {
+                        ...***REMOVED***,
+                        ***REMOVED***: ***REMOVED***,
+                      },
+                    })
+                  }
+                />
+              </PanelRow>
 
-          {/** the number of intervals should default to the value set by ***REMOVED*** */}
-          <PanelRow>
-            <RangeControl
-              label={__("Number of Intervals")}
-              value={
-                !***REMOVED***?.yAxisIntervalUserModified
-                  ? ***REMOVED***
-                  : ***REMOVED***.***REMOVED***
-              }
-              onChange={(***REMOVED***) =>
-                ***REMOVED***(***REMOVED***)
-              }
-              min={0}
-              max={50}
-            />
-          </PanelRow>
+              <PanelRow>
+                <***REMOVED***
+                  label={__("X Axis Text Rotation")}
+                  value={***REMOVED***.tickRotation}
+                  onChange={(value) =>
+                    setAttributes({
+                      ***REMOVED***: {
+                        ...***REMOVED***,
+                        tickRotation: value,
+                      },
+                    })
+                  }
+                />
+              </PanelRow>
 
-          <PanelRow>
-            <ToggleControl
-              label={__("Override Chart Layout")}
-              checked={***REMOVED***.***REMOVED***}
-              onChange={(***REMOVED***) =>
-                setAttributes({
-                  ***REMOVED***: {
-                    ...***REMOVED***,
-                    ***REMOVED***: ***REMOVED***,
-                  },
-                })
-              }
-            />
-          </PanelRow>
+              {/** the number of intervals should default to the value set by ***REMOVED*** */}
+              <PanelRow>
+                <RangeControl
+                  label={__("Number of Intervals")}
+                  value={
+                    !***REMOVED***?.yAxisIntervalUserModified
+                      ? ***REMOVED***
+                      : ***REMOVED***.***REMOVED***
+                  }
+                  onChange={(***REMOVED***) =>
+                    ***REMOVED***(***REMOVED***)
+                  }
+                  min={0}
+                  max={50}
+                />
+              </PanelRow>
+
+              <PanelBody initialOpen={false} title={__("All Labels")}>
+                {xAxisLabels.map((label, index) => (
+                  <PanelRow key={`____${index}${label}`}>
+                    <ToggleControl
+                      key={`_____${index}${label}`}
+                      label={__(label)}
+                      checked={***REMOVED***(true, label, "xAxis")}
+                      onChange={(value) => {
+                        ***REMOVED***(label, value);
+                      }}
+                    />
+                  </PanelRow>
+                ))}
+              </PanelBody>
+
+              <TitleSection {...props} />
             </>
-          }
+          )}
           <MarginSection {...props} />
         </>
       )}
     </PanelBody>
   );
 };
+
 export default MobileConfig;
