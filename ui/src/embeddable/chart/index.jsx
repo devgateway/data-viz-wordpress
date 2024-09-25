@@ -173,6 +173,8 @@ const Chart = (props) => {
     "data-radar-dot-label-offset": ***REMOVED*** = -12,
     "data-mobile-customization": ***REMOVED*** = "{}",
   } = props;
+  const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
+  const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
 
   const locale = props.intl.locale;
   const ref = useRef(null);
@@ -278,6 +280,8 @@ const Chart = (props) => {
     return [];
   };
 
+  console.log('left...', left);
+
   let ***REMOVED*** = ***REMOVED***();
   let ***REMOVED*** = ***REMOVED***();
 
@@ -288,6 +292,9 @@ const Chart = (props) => {
 
   /*Decoding tooltip string*/
   let tooltipForSelectedMeasure = decode(tooltip);
+  console.log('leftLegendForSelectedMeasure', left)
+
+  console.log('***REMOVED***...', ***REMOVED***)
 
   if (***REMOVED***) {
     const selected = Object.keys(***REMOVED***[app].measures)
@@ -350,13 +357,51 @@ const Chart = (props) => {
   };
   let child = null;
   const contentHeight = editing ? height - 80 : height - 40;
+
+  const ***REMOVED*** = () => {
+    if(isMobileConfigEnabled) {
+      if(***REMOVED***?.***REMOVED***) {
+        return bottom;
+      } else {
+        return '';
+      }
+    }
+    return bottom;
+  }
+
+  const ***REMOVED*** = () => {
+    if(isMobileConfigEnabled) {
+      if(***REMOVED***?.***REMOVED***) {
+        return leftLegendForSelectedMeasure;
+      } else {
+        return '';
+      }
+    }
+    return leftLegendForSelectedMeasure;
+  }
+
+  const ***REMOVED*** = () => {
+    console.log('rightlegends...', rightLegendForSelectedMeasure)
+    console.log('mobile config..', ***REMOVED***)
+    if(isMobileConfigEnabled) {
+      if(***REMOVED***?.***REMOVED***) {
+        return rightLegendForSelectedMeasure;
+      } else {
+        return '';
+      }
+    }
+    return rightLegendForSelectedMeasure;
+  }
+
   const legends = {
-    left: leftLegendForSelectedMeasure,
-    bottom: bottom,
-    right: rightLegendForSelectedMeasure,
+    left: ***REMOVED***(),
+    bottom: ***REMOVED***(),
+    right: ***REMOVED***(),
   };
 
-  const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
+  console.log('***REMOVED***', ***REMOVED***)
+
+  console.log('legends...', legends)
 
   const mobileLayout = () => {
     if(***REMOVED***?.***REMOVED***) {
@@ -372,8 +417,6 @@ const Chart = (props) => {
   const ***REMOVED*** = (mobileEnabled, mobileSetting, defaultValue) => {
     return mobileEnabled ? parseInt(mobileSetting) ?? defaultValue : defaultValue;
   }
-
-  const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
 
   const chartProps = {
     app,
