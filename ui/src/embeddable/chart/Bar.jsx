@@ -968,7 +968,9 @@ const Chart = ({
   }
 
   if (***REMOVED*** === POSITION_TOP) {
-    layers.push(***REMOVED***);
+    if(!isMobile) {
+      layers.push(***REMOVED***);
+    }
   }
 
   if (***REMOVED***) {
