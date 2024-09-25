@@ -497,6 +497,9 @@ import {Chart} from '../icons/index.js'
                     marginTop: 25,
                     marginBottom: 25,
                     marginRight: 25,
+                    ***REMOVED***: true,
+                    ***REMOVED***: true,
+                    ***REMOVED***: true
                 }
             },
             reverseLegend: {
