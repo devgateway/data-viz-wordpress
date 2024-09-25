@@ -280,8 +280,6 @@ const Chart = (props) => {
     return [];
   };
 
-  console.log('left...', left);
-
   let ***REMOVED*** = ***REMOVED***();
   let ***REMOVED*** = ***REMOVED***();
 
@@ -292,9 +290,6 @@ const Chart = (props) => {
 
   /*Decoding tooltip string*/
   let tooltipForSelectedMeasure = decode(tooltip);
-  console.log('leftLegendForSelectedMeasure', left)
-
-  console.log('***REMOVED***...', ***REMOVED***)
 
   if (***REMOVED***) {
     const selected = Object.keys(***REMOVED***[app].measures)
@@ -381,8 +376,6 @@ const Chart = (props) => {
   }
 
   const ***REMOVED*** = () => {
-    console.log('rightlegends...', rightLegendForSelectedMeasure)
-    console.log('mobile config..', ***REMOVED***)
     if(isMobileConfigEnabled) {
       if(***REMOVED***?.***REMOVED***) {
         return rightLegendForSelectedMeasure;
@@ -398,10 +391,6 @@ const Chart = (props) => {
     bottom: ***REMOVED***(),
     right: ***REMOVED***(),
   };
-
-  console.log('***REMOVED***', ***REMOVED***)
-
-  console.log('legends...', legends)
 
   const mobileLayout = () => {
     if(***REMOVED***?.***REMOVED***) {
