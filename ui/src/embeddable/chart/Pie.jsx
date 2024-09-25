@@ -211,14 +211,14 @@ const Chart = ({
                   }
                   style={{
                     ***REMOVED***:
-                      ***REMOVED*** == true ? legend.color : "none",
+                      ***REMOVED*** == true ? legend.color : "transparent",
                   }}
                 ></span>
 
                 <label
                   style={{
                     ***REMOVED***:
-                      ***REMOVED*** == true ? legend.color : "none",
+                      ***REMOVED*** == true ? legend.color : "transparent",
                     color: ***REMOVED***,
                   }}
                 >
