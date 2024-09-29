@@ -422,7 +422,7 @@ const Chart = (props) => {
 
   const mobileLayout = () => {
     if (***REMOVED***?.***REMOVED***) {
-      switchLayout();
+      return switchLayout();
     }
     return layout;
   };
