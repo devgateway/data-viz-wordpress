@@ -1,14 +1,12 @@
 import {***REMOVED***} from 'redux-immutable';
-// import {connectRouter} from 'connected-react-router/immutable'
-// import {intlReducer} from 'react-intl-redux'
 import {wordpress} from "@devgateway/wp-react-lib"
-// import {reducers} from '../embeddable/'
+import {reducers} from '../embeddable'
 import { createReduxHistoryContext } from "redux-first-history";
 import { ***REMOVED*** } from "history";
+import { intlReducer } from '@/lib/react-intl-redux';
 
 const {
     ***REMOVED***,
-    createReduxHistoryEnhancer,
     ***REMOVED***,
     routerReducer
 } =
@@ -19,8 +17,9 @@ const {
 const ***REMOVED*** = () => ***REMOVED***({
     router: routerReducer,
     wordpress,
-    // intl: intlReducer
+    ...reducers,
+    intl: intlReducer
 });
 
-export { ***REMOVED***, createReduxHistoryEnhancer, ***REMOVED*** };
+export { ***REMOVED***, ***REMOVED*** };
 export default ***REMOVED***

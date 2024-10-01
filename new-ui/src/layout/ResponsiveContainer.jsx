@@ -37,12 +37,11 @@ class ***REMOVED*** extends Component {
 }
 
 
-class ***REMOVED*** extends Component {
+function ***REMOVED*** (props) {
 
+    const {children, fixed, locale, pages} = props
+    const page = pages ? pages[0] : null;
 
-    render() {
-        const {children, fixed, locale, pages} = this.props
-        const page = pages ? pages[0] : null;
         return (<div>
             <style>
                 {Media.mediaStyles}
@@ -52,7 +51,6 @@ class ***REMOVED*** extends Component {
             </***REMOVED***>
             {page && page.template === "noofoter.php" ? "" : <Footer></Footer>}
         </div>)
-    }
 }
 
 
