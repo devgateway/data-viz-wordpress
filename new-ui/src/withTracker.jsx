@@ -1,38 +1,29 @@
-import React, {Component} from 'react';
+import React, { useEffect } from 'react';
 
 import ReactGA from "react-ga4";
-
+import { useLocation } from 'react-router-dom';
 
 
 
 ReactGA.initialize('#REACT_APP_GA_CODE#');
 
+
 const withTracker = (***REMOVED***, options = {}) => {
+    const HOC = (props) => {
+        const location = useLocation();
 
+        useEffect(() => {
+            const page = location.pathname;
+            ReactGA.send({ hitType: "pageview", page });
+        }, [location.pathname]);
 
-    const HOC = class extends Component {
-        ***REMOVED***() {
+        React.useEffect(() => {
+            return () => {
+                // Cleanup if needed
+            };
+        }, []);
 
-            const page = this.props.location.pathname;
-            ReactGA.send({hitType: "pageview", page});
-
-            //trackPage(page);
-        }
-
-        ***REMOVED*** = prevPros => {
-            const currentPage = prevPros.location.pathname;
-            const nextPage = this.props.location.pathname;
-
-            if (currentPage !== nextPage) {
-                ReactGA.send({hitType: "pageview", page: nextPage});
-
-            }
-        };
-
-        render() {
-
-            return <***REMOVED*** {...this.props} />;
-        }
+        return <***REMOVED*** {...props} />;
     };
 
     return HOC;
