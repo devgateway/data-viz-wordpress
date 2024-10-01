@@ -2,7 +2,7 @@
 
 import React, { Component, useEffect, useRef, useState, Suspense } from 'react';
 import { Provider } from 'react-redux'
-import { Route, Routes, BrowserRouter, Navigate, useNavigate, useLocation, useParams, Outlet } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate, useLocation, useParams, Outlet } from 'react-router-dom';
 import { store } from './redux/store'
 import messages_en from "./translations/en.json";
 import { updateIntl } from '@/lib/react-intl-redux'
@@ -28,6 +28,10 @@ import ScrollToTop from "./ScrollTop";
 import { Container, Dimmer, Loader, Segment } from "semantic-ui-react";
 import ***REMOVED*** from "./layout/Customizer";
 import * as process from "node:process";
+import ***REMOVED*** from './layout/containers/***REMOVED***';
+import ***REMOVED*** from './layout/containers/***REMOVED***';
+import SlugContainer from './layout/containers/SlugContainer';
+import ***REMOVED*** from './layout/containers/***REMOVED***';
 
 
 const messages = {
@@ -76,6 +80,7 @@ const PreviewComponentParameterParser = (props) => {
 
     return (
         <Suspense fallback={
+            // @ts-ignore
             <Dimmer active>
                 <Loader>Loading</Loader>
             </Dimmer>
@@ -157,12 +162,12 @@ const IntlRoutes = ({ match }) => {
                         {
                             //Category Route
                         }
-                        {/* <Route path="/:lan/category/:slug/" element={
+                        <Route path="/:lan/category/:slug/" element={
                             <***REMOVED***>
                                 <Category />
                             </***REMOVED***>
                         }>
-                        </Route> */}
+                        </Route>
                         {
                             //default route (home)
                         }
@@ -190,6 +195,13 @@ const IntlRoutes = ({ match }) => {
                                 <PreviewComponentParameterParser match={match} />
                             </***REMOVED***>}>
                         </Route>
+
+                        <Route path={"/preview/page/:id"} element={<***REMOVED***/>}/>
+                        <Route path={"/preview/:type/:id"} element={<***REMOVED***/>}/>
+                        <Route path="/:slug/" element={<SlugContainer />}/>
+                        <Route path="/:parent/:slug/" element={<SlugContainer />}/>
+                        <Route path="/:year/:month/:day/:slug/" element={<***REMOVED*** />}/>
+                        <Route path="/:parent/:year/:month/:day/:slug/" element={<***REMOVED*** />}/>
                     </Routes>
                 </***REMOVED***>
             </***REMOVED***>
