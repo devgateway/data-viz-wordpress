@@ -4,8 +4,17 @@ import embeddable from './reducers/embeddable'
 import {injectIntl} from "react-intl";
 import * as customizer from "@devgateway/customizer";
 
+// components
 const PageGallery = lazy(() => import("./pagegallery"));
 const Download = lazy(() => import("./download"));
+const PostsCarousel = lazy(() => import("./postscarousel"));
+const ShowcaseForm = lazy(() => import("./showcase"));
+const NewsLetter = lazy(() => import("./newsletter"));
+const TabbedPosts = lazy(() => import("./tabbedposts"));
+const PageModules = lazy(() => import("./pagemodules"));
+const FeaturedTabs = lazy(() => import("./featuredtabs"));
+const ***REMOVED*** = lazy(() => import("./vertical-featuredtabs"));
+const InlineList = lazy(() => import("./inlinelist"));
 
 
 let reducerList = {data, embeddable};
@@ -18,7 +27,33 @@ export const reducers = reducerList;
 
 const components = {
     pageGallery: PageGallery,
+    postsCarousel: PostsCarousel,
+    // chart: Chart,
+    // filter: Filter,
+    showCaseForm: ShowcaseForm,
+    newsLetter: NewsLetter,
+    tabbedPosts: TabbedPosts,
+    pageModules: PageModules,
+    featuredTabs: FeaturedTabs,
+    verticalTabs: ***REMOVED***,
+    inlineList: InlineList,
     download: Download,
+    // downloadPdf: DownloadPdf,
+    // map: Map,
+    // ***REMOVED***: ***REMOVED***,
+    // tooltip: Tooltip,
+    // references: ***REMOVED***,
+    // reference: Reference,
+    // timeLine: TimeLine,
+    // newTimeLine: NewTimeLine,
+    // measures: Measures,
+    // menu: Menu,
+    // ***REMOVED***: ***REMOVED***,
+    // newMap: NewMap,
+    // ***REMOVED***: ***REMOVED***,
+    // wrapped: Wrapped,
+    // sankeyChart: SankeyChart,
+    // dataLabel: DataLabel,
     redirect: () => null
 }
 
