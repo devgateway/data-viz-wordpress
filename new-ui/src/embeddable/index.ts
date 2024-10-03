@@ -22,6 +22,8 @@ const ***REMOVED*** = lazy(() => import("./***REMOVED***"));
 const Tooltip = lazy(() => import("./tooltip"));
 const ***REMOVED*** = lazy(() => import("./references/***REMOVED***"));
 const Reference = lazy(() => import("./references/Reference"));
+const TimeLine = lazy(() => import("./time-line"));
+const NewTimeLine = lazy(() => import("./new-time-line"));
 
 let reducerList = {data, embeddable};
 
@@ -50,8 +52,8 @@ const components = {
     tooltip: Tooltip,
     references: ***REMOVED***,
     reference: Reference,
-    // timeLine: TimeLine,
-    // newTimeLine: NewTimeLine,
+    timeLine: TimeLine,
+    newTimeLine: NewTimeLine,
     // measures: Measures,
     // menu: Menu,
     // ***REMOVED***: ***REMOVED***,
