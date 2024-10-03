@@ -27,6 +27,7 @@ const NewTimeLine = lazy(() => import("./new-time-line"));
 const Measures = lazy(() => import("./measures"));
 const Menu = lazy(() => import("./menu"));
 const ***REMOVED*** = lazy(() => import("./child-page-menu"));
+const NewMap = lazy(() => import("./d3Map"));
 const ***REMOVED*** = lazy(() => import("./parallax"));
 const Wrapped = lazy(() => import("./wrapped"));
 const SankeyChart = lazy(() => import("./sankeychart"));
@@ -64,7 +65,7 @@ const components = {
     measures: Measures,
     menu: Menu,
     ***REMOVED***: ***REMOVED***,
-    // newMap: NewMap,
+    newMap: NewMap,
     ***REMOVED***: ***REMOVED***,
     wrapped: Wrapped,
     sankeyChart: SankeyChart,
