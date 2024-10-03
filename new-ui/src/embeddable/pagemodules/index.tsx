@@ -1,4 +1,5 @@
-import { Container, Image, Menu, Visibility } from "semantic-ui-react";
+import { Container, Image, Menu } from "semantic-ui-react";
+import { InView } from "react-intersection-observer";
 import React, { createRef, useState, useCallback } from "react";
 import { MediaConsumer, MediaProvider, PageConsumer, PageProvider, PostContent } from "@devgateway/wp-react-lib";
 
@@ -25,7 +26,6 @@ interface ***REMOVED*** {
 export const SectionHeader: React.FC<***REMOVED***> = ({ title, subtitle, icon, media }) => {
     return <Menu.Menu className="header title" text>
         <Menu.Item>
-            {/*  @ts-ignore  Semantic UI React types has not updated to support React 18 */}
             <Image src={media && media.guid ? media.guid.rendered : icon} />
         </Menu.Item>
         <Menu.Header>
@@ -118,16 +118,20 @@ const PageIterator: React.FC<***REMOVED***> = ({ pages, locale, editing, navTitl
 
             <div className={"pages"}>
                 {childPages.map(p => (
-                    <Visibility
+                    <InView
+                        as="div"
                         key={p.id}
-                        onUpdate={(e, { calculations }) => ***REMOVED***(p.id, calculations)}
+                        onChange={(inView, entry) => ***REMOVED***(p.id, {
+                            onScreen: inView,
+                            direction: entry.***REMOVED***.top < 0 ? 'up' : 'down',
+                        })}
                     >
                         <Module
                             locale={locale}
                             page={p}
                             ***REMOVED***={***REMOVED***}
                         />
-                    </Visibility>
+                    </InView>
                 ))}
             </div>
         </React.Fragment>
