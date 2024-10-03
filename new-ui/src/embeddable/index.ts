@@ -26,6 +26,8 @@ const TimeLine = lazy(() => import("./time-line"));
 const NewTimeLine = lazy(() => import("./new-time-line"));
 const Measures = lazy(() => import("./measures"));
 const Menu = lazy(() => import("./menu"));
+const ***REMOVED*** = lazy(() => import("./child-page-menu"));
+const ***REMOVED*** = lazy(() => import("./parallax"));
 
 let reducerList = {data, embeddable};
 
@@ -58,9 +60,9 @@ const components = {
     newTimeLine: NewTimeLine,
     measures: Measures,
     menu: Menu,
-    // ***REMOVED***: ***REMOVED***,
+    ***REMOVED***: ***REMOVED***,
     // newMap: NewMap,
-    // ***REMOVED***: ***REMOVED***,
+    ***REMOVED***: ***REMOVED***,
     // wrapped: Wrapped,
     // sankeyChart: SankeyChart,
     // dataLabel: DataLabel,
