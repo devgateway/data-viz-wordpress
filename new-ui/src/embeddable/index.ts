@@ -18,6 +18,7 @@ const ***REMOVED*** = lazy(() => import("./vertical-featuredtabs"));
 const InlineList = lazy(() => import("./inlinelist"));
 const DownloadPdf = lazy(() => import("./downloadPDF"));
 const Map = lazy(() => import("./map"));
+const ***REMOVED*** = lazy(() => import("./***REMOVED***"));
 
 
 let reducerList = {data, embeddable};
@@ -43,7 +44,7 @@ const components = {
     download: Download,
     downloadPdf: DownloadPdf,
     map: Map,
-    // ***REMOVED***: ***REMOVED***,
+    ***REMOVED***: ***REMOVED***,
     // tooltip: Tooltip,
     // references: ***REMOVED***,
     // reference: Reference,
