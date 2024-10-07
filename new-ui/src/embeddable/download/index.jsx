@@ -57,7 +57,7 @@ const ***REMOVED*** = (props) => {
         const attributes = node.attributes;
         const ***REMOVED*** = []
         if (attributes) {
-            for (var i = 0; i < attributes.length; i++) {
+            for (let i = 0; i < attributes.length; i++) {
                 ***REMOVED***.push(attributes[i].nodeName);
             }
         }

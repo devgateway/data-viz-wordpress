@@ -74,7 +74,7 @@ export const PieData = (props) => {
         
 
         ***REMOVED***.forEach(m => {            
-            let row = {}            
+            const row = {}            
             row.type = "measure"
             row["***REMOVED***"] = m.value
             row["id"] =  customLabels[m.value] || ***REMOVED***(mMap[m.value], locale)

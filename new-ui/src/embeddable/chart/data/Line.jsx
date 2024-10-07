@@ -13,7 +13,7 @@ export const LineData = ({children, data, measures, locale, customLabels}) => {
     const ***REMOVED*** = new Set()
     const ***REMOVED*** = new Set()
 
-    let keys = new Set()
+    const keys = new Set()
 
     const chartData = Object.keys(data)
         .filter(k => measures.indexOf(k) > -1)
