@@ -24,6 +24,7 @@
     "allowJs": true,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
+    "***REMOVED***": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
