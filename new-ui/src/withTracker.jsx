@@ -12,17 +12,12 @@ const withTracker = (***REMOVED***, options = {}) => {
     const HOC = (props) => {
         const location = useLocation();
 
-        useEffect(() => {
-            const page = location.pathname;
-            ReactGA.send({ hitType: "pageview", page });
-        }, [location.pathname]);
+        // useEffect(() => {
+        //     const page = location.pathname;
+        //     ReactGA.send({ hitType: "pageview", page });
+        // }, [location.pathname]);
 
-        React.useEffect(() => {
-            return () => {
-                // Cleanup if needed
-            };
-        }, []);
-
+        
         return <***REMOVED*** {...props} />;
     };
 

@@ -1,9 +1,14 @@
 import { Search, Segment } from "semantic-ui-react";
 import React from "react";
 import clsx from "clsx";
-import * as lib from 'semantic-ui-react/dist/commonjs/lib';
+import {
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***
+} from 'semantic-ui-react/dist/commonjs/lib'
 
 const CustomSearch = (props) => {
+    const { results, ***REMOVED***, ***REMOVED***, value, showNoResults, ***REMOVED***, loading } = props;
     const [searchClasses, ***REMOVED***] = React.useState('');
     const [focus, setFocus] = React.useState(false);
     const [open, setOpen] = React.useState(false);
@@ -24,17 +29,10 @@ const CustomSearch = (props) => {
     };
 
     const renderResults = () => {
-        const { results } = props;
         return (
             <React.Fragment>
                 {renderHeader()}
-                {results && (
-                    <div>
-                        {results.map((result, index) => (
-                            <Search.Result key={index} {...result} />
-                        ))}
-                    </div>
-                )}
+                <Search.Result key={index} {...result} />
             </React.Fragment>
         );
     };
@@ -60,38 +58,50 @@ const CustomSearch = (props) => {
         }
     };
 
-    const { aligned, category, className, fluid, loading, size } = props;
+    const { aligned, category, className, fluid, size } = props;
+
 
     const classes = clsx(
         'ui',
         open && 'active visible',
         size,
         searchClasses,
-        lib.useKeyOnly(category, 'category'),
-        lib.useKeyOnly(focus, 'focus'),
-        lib.useKeyOnly(fluid, 'fluid'),
-        lib.useKeyOnly(loading, 'loading'),
-        lib.***REMOVED***(aligned, 'aligned'),
+        // ...category ? 'category',
+        // ...focus && 'focus',
+        // ...fluid && 'fluid',
+        // ...loading && 'loading',
+        // ...aligned && aligned,
         'search',
         className
     );
 
-    const unhandled = lib.***REMOVED***(Search, props);
-    const ElementType = lib.***REMOVED***(Search, props);
-    const [***REMOVED***, rest] = lib.***REMOVED***(unhandled, {
-        htmlProps: lib.***REMOVED***,
+
+    const unhandled = ***REMOVED***(Search, props);
+    // const ElementType = lib.***REMOVED***(Search, props);
+    const [***REMOVED***, rest] = ***REMOVED***(unhandled, {
+        htmlProps: ***REMOVED***,
     });
 
     return (
-        <ElementType
-            className={classes}
-            onBlur={handleBlur}
-            onFocus={handleFocus}
-            onMouseDown={***REMOVED***}
-        >
-            <Search.Input {...***REMOVED***} />
-            <Search.Results>{renderResults()}</Search.Results>
-        </ElementType>
+        <div>
+            <Search
+                className={classes}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                onMouseDown={***REMOVED***}
+                ***REMOVED***={***REMOVED***}
+                ***REMOVED***={***REMOVED***}
+                results={results}
+                value={value}
+                showNoResults={showNoResults}
+                ***REMOVED***={***REMOVED***}
+                loading={loading}
+
+            />
+            {/* <Search.Results>{renderResults()}</Search.Results> */}
+
+        </div>
+
     );
 };
 

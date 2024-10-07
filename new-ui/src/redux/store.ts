@@ -16,7 +16,10 @@ const ***REMOVED*** = () => {
 export const store  = ***REMOVED***({
     reducer: ***REMOVED***(),
     ***REMOVED***: initialState,
-    middleware: (***REMOVED***) => ***REMOVED***().concat(***REMOVED***)
+    middleware: (***REMOVED***) => ***REMOVED***({
+        ***REMOVED***: false,
+        ***REMOVED***: false
+    }).concat(***REMOVED***)
 });
 
 export const reduxHistory = ***REMOVED***(store);

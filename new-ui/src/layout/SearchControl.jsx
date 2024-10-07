@@ -41,13 +41,13 @@ const ***REMOVED*** = injectIntl(({
 })
 
 const replaceString = (content, words) => {
-    let regex = RegExp(words, 'gi')
+    const regex = RegExp(words, 'gi')
     let newHTML = content
-    let instances = [...(newHTML.matchAll(regex))]
+    const instances = [...(newHTML.matchAll(regex))]
     let shift = 0
-    let ***REMOVED*** = newHTML.length
+    const ***REMOVED*** = newHTML.length
     instances.forEach(instance => {
-        let replacement = '<b>' + newHTML.substring(instance.index + shift, instance.index + shift + words.length) + '</b>';
+        const replacement = '<b>' + newHTML.substring(instance.index + shift, instance.index + shift + words.length) + '</b>';
         newHTML = newHTML.substring(0, instance.index + shift) + replacement + newHTML.substring(instance.index + words.length + shift);
         shift = newHTML.length - ***REMOVED***;
     })
@@ -57,8 +57,8 @@ const replaceString = (content, words) => {
 
 const ***REMOVED*** = (words) => {
     let searchedPara = document.querySelector('.results');
-    let ***REMOVED*** = searchedPara = searchedPara = document.***REMOVED***('H5')
-    let searchResult = searchedPara = searchedPara = document.***REMOVED***('.search-content')
+    const ***REMOVED*** = searchedPara = searchedPara = document.***REMOVED***('H5')
+    const searchResult = searchedPara = searchedPara = document.***REMOVED***('.search-content')
     for (let i = 0; i < searchResult.length; i++) {
         if (searchResult[i]) {
             searchResult[i].innerHTML = replaceString(searchResult[i].textContent, words);

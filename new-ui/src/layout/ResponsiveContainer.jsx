@@ -10,26 +10,20 @@ import TopNavigator from "./TopNavigator.jsx";
 import ***REMOVED*** from "./Customizer.jsx";
 
 
-class ***REMOVED*** extends Component {
-    render() {
-        const {children, fixed} = this.props
-        return (
-
-            <Container fluid>
+const ***REMOVED*** = ({ children, fixed }) => {
+    return (
+        <Container fluid>
+            <***REMOVED***>
                 <***REMOVED***>
-                    <***REMOVED***>
-                        <Header></Header>
-                    </***REMOVED***>
+                    <Header></Header>
                 </***REMOVED***>
-                <Container className="desktop">
-                    {children}
-                </Container>
-                <TopNavigator/>
+            </***REMOVED***>
+            <Container className="desktop">
+                {children}
             </Container>
-
-
-        )
-    }
+            <TopNavigator/>
+        </Container>
+    )
 }
 
 ***REMOVED***.propTypes = {
