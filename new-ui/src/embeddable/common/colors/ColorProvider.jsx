@@ -41,9 +41,14 @@ const ColorProvider = ({
 
         return (
             <div>
-                {React.Children.map(children, (child => React.cloneElement(child, {
-                    ***REMOVED***: colorManager
-                })))}
+                {React.Children.map(children, (child) => {
+                    if (React.***REMOVED***(child)) {
+                        return React.cloneElement(child, {
+                            ***REMOVED***: colorManager
+                        });
+                    }
+                    return child;
+                })}
             </div>
         );
     } else {
