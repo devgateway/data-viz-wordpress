@@ -1,10 +1,8 @@
 import React from 'react';
-import { ***REMOVED*** } from './types';
 
-
-const MapDataFrame: React.FC<***REMOVED***> = ({children, data, measures, ***REMOVED*** }) => {
+const MapDataFrame = ({children, data, measures, ***REMOVED***}) => {
     
-    const ***REMOVED***: any  = {
+    const ***REMOVED*** = {
         locationsData: [],
         nationalData: {},
         ***REMOVED***: {}
@@ -48,13 +46,8 @@ const MapDataFrame: React.FC<***REMOVED***> = ({children, data, measures, ***REM
         ***REMOVED***.measures = measuresArray.length > 1 ? measuresArray : null;
         ***REMOVED***.nationalData.value = data[measures];
     }
-
-    return React.Children.map(children, child => {
-        if (React.***REMOVED***(child)) {
-            return React.cloneElement(child as React.ReactElement<{ ***REMOVED***?: any }>, { ***REMOVED***: ***REMOVED*** });
-        }
-        return child; // Return unchanged if not a valid React element
-    });
+    
+    return React.Children.map(children, child => React.cloneElement(child, {***REMOVED***: ***REMOVED***}))
 }
 
 export default MapDataFrame;

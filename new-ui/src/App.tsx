@@ -141,8 +141,6 @@ const IntlRoutes = () => {
     // @ts-ignore
     window.***REMOVED*** = customize_changeset_uuid != null;
 
-    console.log("locale", locale)
-
     if (!locale) {
         return <Navigate to={"/en"}></Navigate>
     }

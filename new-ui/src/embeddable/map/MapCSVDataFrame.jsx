@@ -1,8 +1,6 @@
 import React from 'react';
-import { ***REMOVED*** } from './types';
 
-
-const ***REMOVED*** = (props: ***REMOVED***) => { 
+const ***REMOVED*** = (props) => { 
     const {mapType} = props
     if (mapType == 'POINTS_MAP') {
         return pointsMap(props)
@@ -13,7 +11,7 @@ const ***REMOVED*** = (props: ***REMOVED***) => {
 const pointsMap = (props) => {
     const { children, data, ***REMOVED***, ***REMOVED***} = props;
 
-    const ***REMOVED***: any = {
+    const ***REMOVED*** = {
         locationsData: [],
         nationalData: {},
         measures: [],
@@ -24,12 +22,12 @@ const pointsMap = (props) => {
         return i > 2 && !f.startsWith('_');
     })
 
-    const ***REMOVED***: any[] = []
+    const ***REMOVED*** = []
     if (data && data.data && data.meta.fields && data.meta.fields.length >= 2) {
 
         /// create summary of data
         data.data.forEach(item => {
-            const newItem : any = {
+            const newItem = {
                 label: item[data.meta.fields[0]],
                 lat: item[data.meta.fields[1]],
                 lng: item[data.meta.fields[2]],
@@ -53,11 +51,7 @@ const pointsMap = (props) => {
                         } else {
                             if (value != null) {
                                 if (***REMOVED***) {
-                                    const measureData: { label: any; value: any; measure: any; variables?: any } = { 
-                                        label: item[data.meta.fields[0]], 
-                                        value: value, 
-                                        measure: data.meta.fields[i] 
-                                    }
+                                    const measureData = { label: item[data.meta.fields[0]], value: value, measure: data.meta.fields[i] }
                                     measureData.variables = variables;
                                     ***REMOVED***.push(measureData);
                                     if (!***REMOVED***.measures.includes(data.meta.fields[i])) {
@@ -77,7 +71,7 @@ const pointsMap = (props) => {
         })
 
         //count, sum
-        const summaryData: any[]= []
+        const summaryData= []
         ***REMOVED***.forEach(locData => {            
             let summaryItem = summaryData.find(s => s.label == locData.label)
             if (!summaryItem) {
@@ -103,7 +97,7 @@ const pointsMap = (props) => {
 const defaultMap = (props) => {
     const { children, data, ***REMOVED*** } = props;
 
-    const ***REMOVED*** : any = {
+    const ***REMOVED*** = {
         locationsData: [],
         nationalData: {},
         measures: [],
@@ -116,7 +110,7 @@ const defaultMap = (props) => {
 
     if (data && data.data && data.meta.fields && data.meta.fields.length >= 2) {
         data.data.forEach(item => {
-            const newItem : any = {
+            const newItem = {
                 label: item[data.meta.fields[0]],
                 value: item[data.meta.fields[***REMOVED***]],
                 measure: data.meta.fields[***REMOVED***]
@@ -138,7 +132,7 @@ const defaultMap = (props) => {
                         } else {
                             //if (value != null) {
                                 if (***REMOVED***) {
-                                    const measureData: { label: any; value: any; measure: any; variables?: any } = { label: item[data.meta.fields[0]], value: value, measure: data.meta.fields[i] }
+                                    const measureData = { label: item[data.meta.fields[0]], value: value, measure: data.meta.fields[i] }
                                     measureData.variables = variables;
                                     ***REMOVED***.locationsData.push(measureData);
                                     if (!***REMOVED***.measures.includes(data.meta.fields[i])) {

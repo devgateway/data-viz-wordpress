@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { connect } from "react-redux";
 import DataProvider from "../data/DataProvider";
@@ -141,7 +142,7 @@ const MapWrapper = (props) => {
         return params
     }
 
-    const numberFormat = {
+    let numberFormat = {
         style: (style === 'compacted') ? 'decimal' : style,
         notation: (style === 'compacted') ? 'compact' : "standard",
         currency: currency,
@@ -156,9 +157,9 @@ const MapWrapper = (props) => {
         return l
     })
     
-    const country = countries.find(c => c.value === mapCenter)   
+    let country = countries.find(c => c.value === mapCenter)   
 
-    const ***REMOVED*** = ***REMOVED*** == true || ***REMOVED*** == "true"    
+    let ***REMOVED*** = ***REMOVED*** == true || ***REMOVED*** == "true"    
 
     const levels = [dimension1, dimension2]
     const source = levels.filter(l => l != 'none' && l != null).join('/')
@@ -167,8 +168,8 @@ const MapWrapper = (props) => {
         unique,
         editing,
         source: '/' + mapFile,
-        center: country && country.center,
-        scale: country &&  country.scale,
+        center: country.center,
+        scale: country.scale,
         measures,
         legendTitle,
         height,
@@ -232,7 +233,7 @@ const MapWrapper = (props) => {
       
     const measureLabels = parse(***REMOVED***) || {}
     const DataFrame = app === "csv" ? ***REMOVED*** : MapDataFrame;   
-    const measuresCSV = editing ? (parse(measures) || []).join(',') : measures    
+    let measuresCSV = editing ? (parse(measures) || []).join(',') : measures    
     return (<DataProvider 
         params={getFilters(filters)}
         app={app}
@@ -241,7 +242,7 @@ const MapWrapper = (props) => {
         editing={editing}
         store={[app, unique, ...source.split("/")]} source={source}>
         <DataConsumer>
-            <DataFrame measures={measuresCSV} ***REMOVED***={***REMOVED***} mapType={mapType} ***REMOVED***={***REMOVED***} ***REMOVED***={measureLabels}>
+            <DataFrame measures={measuresCSV} ***REMOVED*** = {***REMOVED***} mapType={mapType} ***REMOVED***={***REMOVED***} ***REMOVED***={measureLabels}>
                 <Map  {...mapProps} />
             </DataFrame>
         </DataConsumer>
