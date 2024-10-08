@@ -154,6 +154,7 @@ const colorSchemes = {
 };
 
 const isMobile = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***());
+const ***REMOVED*** = ['mobile', 'tablet'].includes(***REMOVED***());
 
 
 class Map extends React.Component {
@@ -1904,82 +1905,86 @@ handleScroll = () => {
       ***REMOVED***.marginTop = "25px";
     }
 
+    const ***REMOVED*** = () => (
+      <Container fluid className={"footnote "}>
+      {
+        <Grid columns={2}>
+          {app !== "csv" && ***REMOVED*** && (
+            <Grid.Column textAlign={"left"} width={4}>
+              <div className="national-average-div">
+                <span className="national-avg-label">
+                  {***REMOVED***}
+                </span>
+                <span className="national-avg-value">
+                  {formatContent(
+                    valueFormat,
+                    { value: ***REMOVED*** },
+                    intl,
+                    noDataText,
+                  )}
+                </span>
+              </div>
+            </Grid.Column>
+          )}
+          <Grid.Column
+            textAlign={"right"}
+            width={app !== "csv" && ***REMOVED*** ? 12 : 16}
+          >
+            <Legend
+              ***REMOVED***={this.getBreaks()}
+              ***REMOVED***={formatContent(
+                legendTitle,
+                { ...filters },
+                intl,
+                noDataText,
+              )}
+              ***REMOVED***={this.state.***REMOVED***}
+              {...this.props}
+            />
+          </Grid.Column>
+        </Grid>
+      }
+      <div className="measure-selector">
+        <ul>
+          {***REMOVED*** && (
+            <li>
+              <span className="label">{***REMOVED***}</span>
+            </li>
+          )}
+          {***REMOVED*** &&
+            ***REMOVED***.measures &&
+            ***REMOVED***.measures.length > 1 &&
+            ***REMOVED***.measures.map((measure) => {
+              return (
+                <li
+                  onClick={this.selectedMeasureChanged.bind(
+                    this,
+                    measure,
+                  )}
+                >
+                  <input
+                    checked={this.***REMOVED***() === measure}
+                    type="radio"
+                    value={measure}
+                  />
+                  <label>
+                    {***REMOVED***.***REMOVED***[measure] ||
+                      measure}
+                  </label>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
+    </Container>
+    )
+
     return (
       <div className="map component wp-data-viz-map" ref={this.mapContainer}>
         {this.state.layersLoading && this.renderLoader()}
         {!this.state.layersLoading && (
           <>
-            <Container fluid className={"footnote "}>
-              {
-                <Grid columns={2}>
-                  {app !== "csv" && ***REMOVED*** && (
-                    <Grid.Column textAlign={"left"} width={4}>
-                      <div className="national-average-div">
-                        <span className="national-avg-label">
-                          {***REMOVED***}
-                        </span>
-                        <span className="national-avg-value">
-                          {formatContent(
-                            valueFormat,
-                            { value: ***REMOVED*** },
-                            intl,
-                            noDataText,
-                          )}
-                        </span>
-                      </div>
-                    </Grid.Column>
-                  )}
-                  <Grid.Column
-                    textAlign={"right"}
-                    width={app !== "csv" && ***REMOVED*** ? 12 : 16}
-                  >
-                    <Legend
-                      ***REMOVED***={this.getBreaks()}
-                      ***REMOVED***={formatContent(
-                        legendTitle,
-                        { ...filters },
-                        intl,
-                        noDataText,
-                      )}
-                      ***REMOVED***={this.state.***REMOVED***}
-                      {...this.props}
-                    />
-                  </Grid.Column>
-                </Grid>
-              }
-              <div className="measure-selector">
-                <ul>
-                  {***REMOVED*** && (
-                    <li>
-                      <span className="label">{***REMOVED***}</span>
-                    </li>
-                  )}
-                  {***REMOVED*** &&
-                    ***REMOVED***.measures &&
-                    ***REMOVED***.measures.length > 1 &&
-                    ***REMOVED***.measures.map((measure) => {
-                      return (
-                        <li
-                          onClick={this.selectedMeasureChanged.bind(
-                            this,
-                            measure,
-                          )}
-                        >
-                          <input
-                            checked={this.***REMOVED***() === measure}
-                            type="radio"
-                            value={measure}
-                          />
-                          <label>
-                            {***REMOVED***.***REMOVED***[measure] ||
-                              measure}
-                          </label>
-                        </li>
-                      );
-                    })}
-                </ul>
-              </div>
-            </Container>
+           { !***REMOVED*** && <***REMOVED*** />}
             <div
               className={"map wrapper scaling-svg-container " + unique}
               style={{ height: this.props.height - ***REMOVED***[***REMOVED***()] + "px" }}
@@ -2029,6 +2034,7 @@ handleScroll = () => {
                 </div>
               )}
             </div>
+            {***REMOVED*** && <***REMOVED*** />}
           </>
         )}
       </div>
