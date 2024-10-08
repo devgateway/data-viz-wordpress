@@ -27,6 +27,7 @@ const AxisConfig = (props) => {
             fixedMinValue,
             fixedMaxValue,
             ***REMOVED***,
+            ***REMOVED***,
             offsetText,
             minMaxClamp
         }
@@ -46,16 +47,16 @@ const AxisConfig = (props) => {
                 checked={showTickLine === true}
                 onChange={(value) => setAttributes({showTickLine: !showTickLine})}/>
         </PanelRow>
-            {<PanelRow>
+            {showTickLine && <PanelRow>
                 <ToggleControl
-                    label={__("Override X Axis Text Background")}
+                    label={__("Change Stick Color")}
                     checked={***REMOVED*** === true}
                     onChange={(value) => setAttributes({***REMOVED***: !***REMOVED***})}/>
             </PanelRow>}
 
-            {***REMOVED*** && <PanelRow>
+            {showTickLine && ***REMOVED*** && <PanelRow>
                 <***REMOVED***
-                    title={__('X Axis Text Background')}
+                    title={__("Stick Color")}
                     colorSettings={[
                         {
                             value: ***REMOVED***(tickColor ? tickColor : "#FFFFFF"),
@@ -140,6 +141,17 @@ const AxisConfig = (props) => {
                             max={200}
                         />
                     </PanelRow>
+        {
+            type === "bar" && <PanelRow>
+                <RangeControl
+                    label={__('Number of Intervals')}
+                    value={***REMOVED***}
+                    onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                    min={0}
+                    max={50}
+                />
+            </PanelRow>
+        }
         </PanelBody>,
         <PanelBody initialOpen={false}   title={__("Y Axis Settings")}>
             <PanelRow>
@@ -172,7 +184,7 @@ const AxisConfig = (props) => {
                 label={__("Show Right Axis")}
                 checked={showRightAxis}
                 onChange={(showRightAxis) => setAttributes({showRightAxis})}/>
-          </PanelRow> 
+          </PanelRow>
             {showRightAxis &&
                 <>
                     <PanelRow>
@@ -192,7 +204,7 @@ const AxisConfig = (props) => {
                         />
                     </PanelRow>
                 </>
-            }   
+            }
               <PanelRow>
                 <ToggleControl
                     label={__("Use Fixed Min & Max Values")}
@@ -217,7 +229,7 @@ const AxisConfig = (props) => {
                                      onChange={(value) => setAttributes({fixedMaxValue: value})} type="number"/>
                     </PanelRow>
                 </>
-            }               
+            }
         </PanelBody>
     ]
 }
