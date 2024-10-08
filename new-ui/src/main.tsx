@@ -11,6 +11,6 @@ createRoot(document.***REMOVED***('root')!).render(
   <StrictMode>
     <App />
   </StrictMode>,
-)
+);
 
 serviceWorker.unregister();
