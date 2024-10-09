@@ -17,7 +17,7 @@ import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
 import deviceType from '../../utils/deviceType'
-import { is } from "immutable";
+import { get, is } from "immutable";
 
 
 const isMobile = deviceType() === 'mobile';
@@ -432,6 +432,10 @@ const Chart = (props) => {
     return mobileEnabled ? parseInt(mobileSetting) ?? defaultValue : defaultValue;
   }
 
+  const getBarPadValueOuterOrInner = (mobileEnabled, mobileSetting, defaultValue) => {
+    return mobileEnabled ? mobileSetting ?? defaultValue: defaultValue;
+  }
+
   const chartProps = {
     app,
     tickColor: ***REMOVED***(tickColor),
@@ -474,9 +478,9 @@ const Chart = (props) => {
     ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
     fixedMinValue,
     fixedMaxValue,
-    barPadding,
+    barPadding: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.barPadding, barPadding),
     ***REMOVED***,
-    ***REMOVED***,
+    ***REMOVED***: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.***REMOVED***, ***REMOVED***),
     xLabelColor: ***REMOVED***(xLabelColor),
     barLabelColor: ***REMOVED***(barLabelColor),
     ***REMOVED***: ***REMOVED***(***REMOVED***),
