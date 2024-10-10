@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
-import CustomSearch from './***REMOVED***.jsx'
-import ***REMOVED*** from "@devgateway/wp-react-lib/dist/providers/***REMOVED***";
-import ***REMOVED*** from "@devgateway/wp-react-lib/dist/consumers/***REMOVED***";
+import CustomSearch from './***REMOVED***.jsx';
+import {
+    ***REMOVED***,
+    ***REMOVED***
+} from "@devgateway/wp-react-lib";
 import {injectIntl} from "react-intl";
 import {utils} from "@devgateway/wp-react-lib";
 import ***REMOVED*** from "./***REMOVED***.jsx";
