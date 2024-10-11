@@ -20,6 +20,7 @@ import deviceType from '../../utils/deviceType';
 
 
 const isMobile = deviceType() === 'mobile';
+const ***REMOVED*** = deviceType() === 'mobile' || deviceType() === 'tablet' || deviceType() === 'midTablet';
 
 const PieChart = (props) => {
   const { data, legends, colors, height } = props;
@@ -451,7 +452,7 @@ const Chart = (props) => {
     marginRight: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginRight), parseInt(marginRight)),
     marginBottom: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginBottom), parseInt(marginBottom)),
     height: `${contentHeight}px`,
-    ***REMOVED***: ***REMOVED***,
+    ***REMOVED***: ***REMOVED*** ? "bottom" : ***REMOVED***,
     legends,
     tooltip:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true"
