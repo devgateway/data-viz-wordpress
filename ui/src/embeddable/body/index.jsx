@@ -44,26 +44,35 @@ class Body extends React.Component {
 
   ***REMOVED***(e) {
     if (!this.state.isMobile) return;
+
     const svg = e.target.closest("svg");
     const titleText = e.target.closest(".title");
     const btn = e.target.closest(".title-rect");
 
     if (titleText || btn) {
-      [...svg.***REMOVED***(".title, .title-rect")].forEach((node) =>
-        node.classList.remove("on")
+      // Remove the 'on' class from all .title, .title-rect, and .title-line elements
+      [...svg.***REMOVED***(".title, .title-rect, .title-line")].forEach((node) =>
+          node.classList.remove("on")
       );
 
       const ***REMOVED*** = titleText || btn;
-      ***REMOVED***.classList.add("on");
-      (titleText ? titleText.***REMOVED*** : btn.nextSibling)?.classList.add(
-        "on"
-      );
 
+      // Add the 'on' class to the clicked title and title-rect
+      ***REMOVED***.classList.add("on");
+
+      // Add the 'on' class to the corresponding title-line
+      const titleLine = ***REMOVED***.closest("g").querySelector(".title-line");
+      if (titleLine) {
+        titleLine.classList.add("on");
+      }
+
+      // Update the selected option state
       this.setState({
-        ***REMOVED***: (titleText ? titleText : btn.nextSibling).innerHTML,
+        ***REMOVED***: (titleText ? titleText.innerHTML : btn.nextSibling.innerHTML),
       });
     }
   }
+
 
   onMouseOut() {
     d3.select(".body.parts")
@@ -145,7 +154,35 @@ class Body extends React.Component {
     window.***REMOVED***("resize", this.updateLayout);
     this.updateLayout();
     this.***REMOVED***();
+
+    // Add the "on" class on page refresh based on the selected option
+    this.addOnClassToSelectedElements();
   }
+
+  addOnClassToSelectedElements() {
+    const { ***REMOVED*** } = this.state;
+    const svg = document.querySelector("svg");
+
+    // Find the text element and the corresponding line for the selected option
+    let ***REMOVED***, ***REMOVED***;
+
+    if (***REMOVED*** === "Cancers") {
+      ***REMOVED*** = svg.querySelector(".title");
+      ***REMOVED*** = svg.querySelector(".title-line");
+    } else if (***REMOVED*** === "***REMOVED***") {
+      // Assuming the second text and line refer to "Other conditions"
+      ***REMOVED*** = svg.***REMOVED***(".title")[1];
+      ***REMOVED*** = svg.***REMOVED***(".title-line")[1];
+    }
+
+    // Add the 'on' class if the elements exist
+    if (***REMOVED*** && ***REMOVED***) {
+      ***REMOVED***.classList.add("on");
+      ***REMOVED***.classList.add("on");
+    }
+  }
+
+
 
   ***REMOVED***() {
     const root = d3.select(".body.parts");
@@ -534,6 +571,7 @@ class Body extends React.Component {
   ***REMOVED***(prevProps, prevState) {
     if (prevState.***REMOVED*** !== this.state.***REMOVED***) {
       this.***REMOVED***();
+      this.addOnClassToSelectedElements(); // Apply "on" class after updates
     }
   }
 
@@ -577,72 +615,62 @@ class Body extends React.Component {
           <Ectopic className="system Ectopic" />
           <g onClick={this.***REMOVED***}>
             <rect
-              className="title-rect"
-              x={
-                this.state.isMobile
-                  ? this.mobileOptions["Cancers"]["x"] - 20
-                  : ""
-              }
-              y={
-                this.state.isMobile
-                  ? this.mobileOptions["Cancers"]["y"] - 20
-                  : "60"
-              }
-              rx="5"
-              ry="5"
-              width="100"
-              height="30"
+                className="title-rect"
+                x={this.state.isMobile ? this.mobileOptions["Cancers"]["x"] - 20 : ""}
+                y={this.state.isMobile ? this.mobileOptions["Cancers"]["y"] - 20 : "60"}
+                rx="5"
+                ry="5"
+                width="100"
+                height="30"
             />
             <text
-              x={
-                this.state.isMobile
-                  ? this.mobileOptions["Cancers"]["x"]
-                  : "-250"
-              }
-              y={
-                this.state.isMobile ? this.mobileOptions["Cancers"]["y"] : "60"
-              }
-              className="title"
+                x={this.state.isMobile ? this.mobileOptions["Cancers"]["x"] : "-250"}
+                y={this.state.isMobile ? this.mobileOptions["Cancers"]["y"] : "60"}
+                className="title"
             >
               <***REMOVED*** id="ailments.title" ***REMOVED***="Cancers" />
             </text>
+            {this.state.isMobile && (
+                <rect
+                    className="title-line"
+                    x={this.state.isMobile ? this.mobileOptions["Cancers"]["x"] -18 : "-250"}
+                    y={this.state.isMobile ? this.mobileOptions["Cancers"]["y"] + 7 : ""}
+                    width="58"
+                    height="3"
+                    fill="#E5EBED"
+                />
+            )}
           </g>
           <g onClick={this.***REMOVED***}>
             <rect
-              className="title-rect"
-              x={
-                this.state.isMobile
-                  ? this.mobileOptions["***REMOVED***"]["x"] - 15
-                  : ""
-              }
-              y={
-                this.state.isMobile
-                  ? this.mobileOptions["***REMOVED***"]["y"] - 20
-                  : ""
-              }
-              rx="5"
-              ry="5"
-              width="155"
-              height="30"
+                className="title-rect"
+                x={this.state.isMobile ? this.mobileOptions["***REMOVED***"]["x"] - 65 : ""}
+                y={this.state.isMobile ? this.mobileOptions["***REMOVED***"]["y"] - 20 : "60"} // Ensure the default desktop y-position
+                rx="5"
+                ry="5"
+                width="155"
+                height="30"
             />
             <text
-              x={
-                this.state.isMobile
-                  ? this.mobileOptions["***REMOVED***"]["x"]
-                  : "200"
-              }
-              y={
-                this.state.isMobile
-                  ? this.mobileOptions["***REMOVED***"]["y"]
-                  : "60"
-              }
-              className="title"
+                x={this.state.isMobile ? this.mobileOptions["***REMOVED***"]["x"] - 50 : "200"} // Desktop remains "200"
+                y={this.state.isMobile ? this.mobileOptions["***REMOVED***"]["y"] : "60"} // Ensure the default desktop y-position
+                className="title"
             >
               <***REMOVED***
-                id="ailments.***REMOVED***"
-                ***REMOVED***="Other conditions"
+                  id="ailments.***REMOVED***"
+                  ***REMOVED***="Other conditions"
               />
             </text>
+            {this.state.isMobile && (
+                <rect
+                    className="title-line"
+                    x={this.state.isMobile ? this.mobileOptions["***REMOVED***"]["x"] - 68 : "200"} // Keep desktop x-position as "200"
+                    y={this.state.isMobile ? this.mobileOptions["***REMOVED***"]["y"] + 7 : "60"} // Default desktop y-position
+                    width="118"
+                    height="3"
+                    fill="#E5EBED"
+                />
+            )}
           </g>
         </svg>
       </Container>
