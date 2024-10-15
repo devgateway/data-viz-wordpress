@@ -56,6 +56,8 @@ const Chart = ({
   const [wrapCount, setWrapCount] = useState(0);
   const [***REMOVED***, ***REMOVED***] = useState(marginBottom);
 
+  console.log('lgend position...', ***REMOVED***)
+
   const chartLegends = optionsVal.data
     .sort((a, b) => {
       if (a.position && b.position) {
@@ -95,8 +97,7 @@ const Chart = ({
 
   const leftLegendDynamicStyle = {
     bottom: `-${bottomSpacing}px`,
-    gap: "0px",
-    top: "0px",
+    gap: "0px"
   };
 
   const toggle = (id) => {
