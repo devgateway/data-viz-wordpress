@@ -250,6 +250,7 @@ const Chart = ({
                     className={legend.enabled ? "" : "ignore"}
                     type="checkbox"
                     checked={legend.enabled}
+                    readOnly
                     style={{
                       ***REMOVED***: ***REMOVED***
                         ? colorBy === "values"
@@ -264,6 +265,7 @@ const Chart = ({
                   <input
                     type="checkbox"
                     checked={legend.enabled}
+                    readOnly
                     style={{
                       color: "#000",
                     }}
@@ -366,6 +368,7 @@ const Chart = ({
                   className={***REMOVED*** && showLine[idx] ? "" : "ignore"}
                   type="checkbox"
                   checked={showLine[idx]}
+                  readOnly
                   style={{
                     ***REMOVED***:
                       showLine[idx] && ***REMOVED*** === true

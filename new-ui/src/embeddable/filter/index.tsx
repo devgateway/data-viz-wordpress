@@ -261,7 +261,7 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)((props: ListFilterDr
             text={getSelected()}
             scrolling={false}
             button
-            icon={"angle down ignore"}
+            icon={"angle down"}
             multiple={true}
             search
             floating={false}
@@ -366,7 +366,7 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)(({
         multiple={true}
         search
         floating={false}
-        icon={"angle down ignore"}
+        icon="angle down"
         className={`${current && current.length > 0 ? 'applied ' : ''} range`}
 
     >

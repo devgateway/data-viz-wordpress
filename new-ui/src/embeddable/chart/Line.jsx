@@ -127,6 +127,7 @@ const Chart = ({
                   className={"ignore"}
                   type="checkbox"
                   checked={filter.length === 0 || !filter.includes(legend.id)}
+                  readOnly
                   style={{
                     ***REMOVED***:
                       ***REMOVED*** === true ? legend.color : "none",
