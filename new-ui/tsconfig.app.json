@@ -12,7 +12,7 @@
     "***REMOVED***": true,
     "***REMOVED***": "force",
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
 
     /* Linting */
     "strict": true,

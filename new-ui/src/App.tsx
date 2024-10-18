@@ -1,5 +1,3 @@
-// noinspection TypeScriptCheckImport
-
 import React, { Component, useEffect, useRef, useState, Suspense } from 'react';
 import { Provider } from 'react-redux'
 import { Route, Routes, BrowserRouter, Navigate, useLocation, useParams, Outlet } from 'react-router-dom';
@@ -27,11 +25,11 @@ import queryString from "query-string";
 import ScrollToTop from "./ScrollTop";
 import { Container, Dimmer, Loader, Segment } from "semantic-ui-react";
 import ***REMOVED*** from "./layout/Customizer";
-import * as process from "node:process";
 import ***REMOVED*** from './layout/containers/***REMOVED***';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
 import SlugContainer from './layout/containers/SlugContainer';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
+import Router from './router';
 
 
 const messages = {
@@ -138,7 +136,6 @@ const IntlRoutes = () => {
 
     return (
         <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
-            {/* @ts-expect-error Has no types */}
             <***REMOVED*** getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
                 <***REMOVED*** locale={locale} changeUUID={customize_changeset_uuid}>
                     <ScrollToTop />
@@ -152,7 +149,7 @@ const IntlRoutes = () => {
                         {
                             //Category Route
                         }
-                        <Route path="/:lan/category/:slug/" element={
+                        <Route path="/category/:slug/" element={
                             <***REMOVED***>
                                 <Category />
                             </***REMOVED***>
@@ -179,7 +176,7 @@ const IntlRoutes = () => {
                             </PageProvider>
                         )}>
                         </Route>
-                        <Route path="/embeddable/:name" element={
+                        <Route path="embeddable/:name" element={
                             <***REMOVED***>
                                 <PreviewComponentParameterParser />
                             </***REMOVED***>}>
@@ -187,10 +184,10 @@ const IntlRoutes = () => {
 
                         <Route path={"/preview/page/:id"} element={<***REMOVED*** />} />
                         <Route path={"/preview/:type/:id"} element={<***REMOVED*** />} />
-                        <Route path="/:slug" element={<SlugContainer />} />
-                        <Route path="/:parent/:slug" element={<SlugContainer />} />
-                        <Route path="/:year/:month/:day/:slug/" element={<***REMOVED*** />} />
-                        <Route path="/:parent/:year/:month/:day/:slug/" element={<***REMOVED*** />} />
+                        <Route path=":slug" element={<SlugContainer />} />
+                        <Route path=":parent/:slug" element={<SlugContainer />} />
+                        <Route path=":year/:month/:day/:slug" element={<***REMOVED*** />} />
+                        <Route path=":parent/:year/:month/:day/:slug" element={<***REMOVED*** />} />
                     </Routes>
                 </***REMOVED***>
             </***REMOVED***>
