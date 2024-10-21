@@ -29,7 +29,6 @@ import ***REMOVED*** from './layout/containers/***REMOVED***';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
 import SlugContainer from './layout/containers/SlugContainer';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
-import Router from './router';
 
 
 const messages = {
@@ -168,7 +167,6 @@ const IntlRoutes = () => {
                                     <***REMOVED***>
                                         <PageConsumer>
                                             <Page />
-                                            {/* @ts-ignore */}
                                             <Helmet locale={locale} />
                                         </PageConsumer>
                                     </***REMOVED***>
