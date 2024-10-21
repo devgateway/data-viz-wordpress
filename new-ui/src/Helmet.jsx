@@ -38,7 +38,7 @@ export const ***REMOVED*** = (html, locale) => {
 const helmetContext = {}
 
 
-const ***REMOVED*** = ({pages, locale}) => {
+const ***REMOVED*** = ({pages = {}, locale}) => {
 
     const {yoast_head_json} = pages[0];
 
