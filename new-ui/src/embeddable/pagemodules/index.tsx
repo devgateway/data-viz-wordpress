@@ -24,7 +24,7 @@ interface ***REMOVED*** {
 }
 
 export const SectionHeader: React.FC<***REMOVED***> = ({ title, subtitle, icon, media }) => {
-    return <Menu.Menu className="header title" text>
+    return <Menu className="header title" text>
         <Menu.Item>
             <Image src={media && media.guid ? media.guid.rendered : icon} />
         </Menu.Item>
@@ -34,7 +34,7 @@ export const SectionHeader: React.FC<***REMOVED***> = ({ title, subtitle, icon, 
                 <h2 className="has-gray-color">{subtitle}</h2>
             </div>
         </Menu.Header>
-    </Menu.Menu>
+    </Menu>
 }
 
 const MediaImage = (props) => <img src={props.media && props.media.guid ? props.media.guid.rendered : null} />
