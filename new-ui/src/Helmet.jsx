@@ -4,11 +4,11 @@ import ***REMOVED*** from 'html-react-parser';
 
 console.log("env==>",process.env)
 
-const useHash = process.env.REACT_APP_USE_HASH_LINKS === true;
+const useHash = process.env.VITE_REACT_APP_USE_HASH_LINKS === true;
 
 export const ***REMOVED*** = (html, locale) => {
 
-    const ***REMOVED*** = process.env.REACT_APP_WP_HOSTS.split(",");
+    const ***REMOVED*** = process.env.VITE_REACT_APP_WP_HOSTS.split(",");
 
     const all = new RegExp("^(http|https)://(" + ***REMOVED***.join('|') + ")", "ig");
     let link;
