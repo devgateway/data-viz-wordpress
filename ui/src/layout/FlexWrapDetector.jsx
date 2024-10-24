@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import deviceType from '../utils/deviceType';
 
 const ***REMOVED*** = ({ children, onWrapChange, className }) => {
   const containerRef = useRef(null);
   const [wrapCount, setWrapCount] = useState(0);
+  const ***REMOVED*** = deviceType() === 'mobile' || deviceType() === 'tablet' || deviceType() === 'midTablet';
 
   const makeFlexWrap = useCallback(() => {
     if (containerRef.current) {
       containerRef.current.style.setProperty("display", "flex", "important");
-      if (wrapCount > 0) {
+      if (wrapCount > 0 || ***REMOVED***) {
         containerRef.current.style.setProperty(
           "flex-wrap",
           "wrap",
@@ -21,7 +23,7 @@ const ***REMOVED*** = ({ children, onWrapChange, className }) => {
         );
       }
     }
-  }, [wrapCount]);
+  }, [wrapCount, ***REMOVED***]);
 
   const checkWrap = useCallback(() => {
     const container = containerRef.current;
