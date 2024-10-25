@@ -13,4 +13,4 @@ createRoot(document.***REMOVED***('root')!).render(
   </React.StrictMode>,
 );
 
-serviceWorker.unregister();
+// serviceWorker.unregister();

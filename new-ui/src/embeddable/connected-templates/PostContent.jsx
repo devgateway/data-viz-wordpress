@@ -8,7 +8,7 @@ const Connected = (props) => {
 }
 
 const ***REMOVED*** = (state, ownProps) => {
-
+    return {}
 }
 
 const ***REMOVED*** = {

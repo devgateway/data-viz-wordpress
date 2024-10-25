@@ -1,3 +1,3 @@
-import ***REMOVED*** from './***REMOVED***.jsx'
+import ***REMOVED*** from './***REMOVED***'
 
 export default ***REMOVED***

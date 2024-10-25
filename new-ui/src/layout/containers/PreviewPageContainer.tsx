@@ -1,5 +1,5 @@
 import React from 'react'
-import ***REMOVED*** from '../***REMOVED***';
+import ***REMOVED*** from '@/layout/***REMOVED***';
 import {
     PageProvider,
     PageConsumer,

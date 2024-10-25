@@ -138,11 +138,11 @@ const IntlRoutes = () => {
             <***REMOVED*** getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
                 <***REMOVED*** locale={locale} changeUUID={customize_changeset_uuid}>
                     <ScrollToTop />
-                    <***REMOVED***>
+                    {/* <***REMOVED***>
                         <***REMOVED***>
                             <InjectTitle />
                         </***REMOVED***>
-                    </***REMOVED***>
+                    </***REMOVED***> */}
                     <Routes>
                         {/* <Route path="/" element={<Outlet />} /> */}
                         {
@@ -158,7 +158,7 @@ const IntlRoutes = () => {
                             //default route (home)
                         }
 
-                        <Route path="/" element={(
+                        {/* <Route path="/" element={(
                             <PageProvider
                                 slug={"home"}
                                 locale={locale}
@@ -173,12 +173,12 @@ const IntlRoutes = () => {
                                 </PageConsumer>
                             </PageProvider>
                         )}>
-                        </Route>
-                        <Route path="embeddable/:name" element={
+                        </Route> */}
+                        {/* <Route path="embeddable/:name" element={
                             <***REMOVED***>
                                 <PreviewComponentParameterParser />
                             </***REMOVED***>}>
-                        </Route>
+                        </Route> */}
 
                         <Route path={"/preview/page/:id"} element={<***REMOVED*** />} />
                         <Route path={"/preview/:type/:id"} element={<***REMOVED*** />} />
@@ -194,7 +194,7 @@ const IntlRoutes = () => {
 };
 
 
-const ***REMOVED*** = WithTracker(IntlRoutes)
+const ***REMOVED*** = WithTracker(IntlRoutes);
 
 const MainRoutes = (props) => {
     return (
