@@ -1,22 +1,11 @@
 {
-  "***REMOVED***": {
-    "target": "ES2022",
-    "lib": ["ES2023"],
-    "module": "ESNext",
+ "***REMOVED***": {
+    "composite": true,
     "skipLibCheck": true,
-
-    /* Bundler mode */
+    "module": "ESNext",
     "***REMOVED***": "bundler",
-    "allowImportingTsExtensions": true,
-    "***REMOVED***": true,
-    "***REMOVED***": "force",
-    "noEmit": true,
-
-    /* Linting */
-    "strict": true,
-    "***REMOVED***": true,
-    "***REMOVED***": true,
-    "noFallthroughCasesInSwitch": true
-  },
+    "allowSyntheticDefaultImports": true,
+    "strict": true
+  }, 
   "include": ["vite.config.ts"]
 }

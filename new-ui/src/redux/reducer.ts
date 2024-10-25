@@ -18,7 +18,7 @@ const ***REMOVED*** = () => ***REMOVED***({
     router: routerReducer,
     wordpress,
     ...reducers,
-    intl: intlReducer
+    // intl: intlReducer
 });
 
 export { ***REMOVED***, ***REMOVED*** };
