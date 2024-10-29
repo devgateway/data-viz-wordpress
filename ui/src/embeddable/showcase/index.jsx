@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, ***REMOVED***, useState} from 'react'
+import React, {useCallback, useEffect, ***REMOVED***, useState, useRef} from 'react'
 import {Button, Container, Dropdown, Form, Grid, Input, Label, Message, TextArea, Icon} from 'semantic-ui-react'
 import ***REMOVED*** from '../../countries'
 import {reset, ***REMOVED***} from "../reducers/embeddable";
@@ -58,8 +58,8 @@ function FileUploader({***REMOVED***, ***REMOVED***, inputRef, name}) {
            <Container fluid className={`upload files ${hasErrors ? 'error' : ''}`}>
                <div className="error-messages">
             <ul style={{}}>
-          {errors[0].errors.map( e => {
-                   return (<li>{"File type not allowed. File type must be - application/-pdf,.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.rtf,.html,.zip,.mp3,.wma,.mpg,.flv,.avi,.jpg,.jpeg,.png,.gif "}</li>)
+          {errors[0].errors.map( (e, index) => {
+                   return (<li key={index}>{"File type not allowed. File type must be - application/-pdf,.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.rtf,.html,.zip,.mp3,.wma,.mpg,.flv,.avi,.jpg,.jpeg,.png,.gif "}</li>)
           })}
           </ul>
           </div>
@@ -71,7 +71,7 @@ function FileUploader({***REMOVED***, ***REMOVED***, inputRef, name}) {
                 <input {...getInputProps()}/>
                 <p>Drag 'n' drop files here, or click select button to select files. The maximum file size allowed is {configData.***REMOVED***}MB.</p>
                 {files.length > 0 ? <ul>
-                    {files.map((f, i) => <li><Label color="green" icon='file'>{f.name}</Label>
+                    {files.map((f, i) => <li key={i}><Label color="green" icon='file'>{f.name}</Label>
                     <Icon color="red" name='remove' size='large' onClick={(e) =>{ e.***REMOVED***(); remove(i);}}/>
                     </li>)}
                 </ul> : null}
@@ -166,103 +166,72 @@ const ***REMOVED*** = ({placeholder, name, icon, required, pattern, as, inputRef
 }
 
 
-class Index extends React.Component {
-    state = {};
-    iframe = React.createRef();
+const Index = (props) => {
+    const [state, setState] = useState({});
+    const iframe = useRef();
+    const inputs = useRef({});
 
-    constructor(props) {
-        super(props);
-        this.submitForm = this.submitForm.bind(this)
-        this.reset = this.reset.bind(this)
-        this.captchaChange = this.captchaChange.bind(this)
-        this.inputs = {};
-
-        this.setInput = this.setInput.bind(this)
-    }
-
-
-    ***REMOVED***() {
-
-    }
-
-    captchaChange(value) {
-        this.setState({token: value})
-    }
-
-
-    setInput(el) {
-        if (el) {
-            this.inputs[el.name] = el
-        }
-
-    }
-
-
-    reset() {
-
-        const elements = Object.keys(this.inputs).map(k => this.inputs[k])
-        elements.forEach(e => {
-            e.reset()
-        })
-        this.setState({***REMOVED***: false, status: null})
-        this.props.onReset()
-    }
-
-    submitForm(e) {
-        const elements = Object.keys(this.inputs).map(k => this.inputs[k])
-        let hasErrors = elements.map(e => e.hasErrors()).reduce((a, b) => a || b)
-        const files = this.state.files
-        //hasErrors = hasErrors || this.state.token == null
+    const submitForm = (e) => {
+        const elements = Object.keys(inputs.current).map(k => inputs.current[k]);
+        const hasErrors = elements.map(e => e.hasErrors()).reduce((a, b) => a || b);
+        const files = state.files;
         if (hasErrors) {
-            this.setState({***REMOVED***: true})
+            setState(prevState => ({...prevState, ***REMOVED***: true}));
         } else {
-            const values = {}
-            elements.forEach(e => values[e.name] = e.value())
-            //  values['token'] = this.state.token
-            this.props.onSubmit(values)
-             setTimeout(()=>{
-                    this.reset()
-                }, 5000)
+            const values = {};
+            elements.forEach(e => values[e.name] = e.value());
+            props.onSubmit(values);
+            setTimeout(() => {
+                reset();
+            }, 5000);
         }
-}
+    };
 
+    const reset = () => {
+        const elements = Object.keys(inputs.current).map(k => inputs.current[k]);
+        elements.forEach(e => {
+            e.reset();
+        });
+        setState({***REMOVED***: false, status: null});
+        props.onReset();
+    };
 
-    render() {
-        const {
-            status,
-            organization = "Organization",
-            name = "Name",
-            email = "Email",
-            country = "Country",
-            message = "Message",
-            resetlabel = "Reset",
-            submitlabel = "Submit",
-            ***REMOVED*** = "Thanks for submitting your data",
-            ***REMOVED*** = "Something didn't go well, please try again later",
-            editing
-        } = this.props
-        const {***REMOVED***, token, reset} = this.state
+    const captchaChange = (value) => {
+        setState(prevState => ({...prevState, token: value}));
+    };
 
-        return <Container fluid={true} className="viz showcase">
+    const setInput = (el) => {
+        if (el) {
+            inputs.current[el.name] = el;
+        }
+    };
 
-             {/*(status == 'ERROR' || editing) && <Message negative>
-                <p>{***REMOVED***}</p>
-            </Message>}
+    const {
+        status,
+        organization = "Organization",
+        name = "Name",
+        email = "Email",
+        country = "Country",
+        message = "Message",
+        resetlabel = "Reset",
+        submitlabel = "Submit",
+        ***REMOVED*** = "Thanks for submitting your data",
+        ***REMOVED*** = "Something didn't go well, please try again later",
+        editing
+    } = props;
+    const {***REMOVED***, token, reset: resetState} = state;
 
-            {(status == 'OK' || editing) && <Message
-                success
-                content={<p>{***REMOVED***}</p>}
-           />*/}
-
-            <Grid columns={1} className={this.state.***REMOVED*** ? 'validated' : ''}>
+    return (
+        <Container fluid={true} className="viz showcase">
+            <Grid columns={1} className={***REMOVED*** ? 'validated' : ''}>
                 <Grid.Column>
-                    <***REMOVED*** inputRef={el => this.setInput(el)} ***REMOVED***={***REMOVED***} required={true}
+                    <***REMOVED*** inputRef={el => setInput(el)} ***REMOVED***={***REMOVED***} required={true}
                                     icon={"building"}
                                     name={"organization"} placeholder={organization}/>
                 </Grid.Column>
 
                 <Grid.Column>
-                    <***REMOVED*** inputRef={el => this.setInput(el)} ***REMOVED***={***REMOVED***} required={true}
+                    <***REMOVED*** inputRef={el => setInput(el)} ***REMOVED***={***REMOVED***} required={true}
                                     icon={"user"}
                                     name={"name"}
                                     placeholder={name}/>
@@ -270,8 +239,7 @@ class Index extends React.Component {
 
                 <Grid.Column>
                     <***REMOVED***
-
-                        inputRef={el => this.setInput(el)} ***REMOVED***={***REMOVED***} required={true}
+                        inputRef={el => setInput(el)} ***REMOVED***={***REMOVED***} required={true}
                         pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
                         icon={"envelope"}
                         placeholder={email}
@@ -280,7 +248,7 @@ class Index extends React.Component {
 
                 <Grid.Column>
                     <Form.Field>
-                        <***REMOVED*** inputRef={el => this.setInput(el)}
+                        <***REMOVED*** inputRef={el => setInput(el)}
                                            ***REMOVED***={***REMOVED***}
                                            name={"country"}
                                            required={true}
@@ -290,46 +258,36 @@ class Index extends React.Component {
                 </Grid.Column>
 
                 <Grid.Column>
-
-                    <FileUploader inputRef={el => this.setInput(el)}
+                    <FileUploader inputRef={el => setInput(el)}
                                   ***REMOVED***={***REMOVED***}
                                   name="files"></FileUploader>
-
                 </Grid.Column>
 
                 <Grid.Column>
-                    <***REMOVED*** inputRef={el => this.setInput(el)} placeholder={message} name={"message"}
+                    <***REMOVED*** inputRef={el => setInput(el)} placeholder={message} name={"message"}
                                     as={TextArea}/>
                 </Grid.Column>
 
-
                 <Grid.Row>
-
                     <Grid.Column textAlign={"left"} width={12} verticalAlign="bottom" className="form-buttons">
                         <Button className="btn-reset"
-                                onClick={e => this.reset()}>{resetlabel}</Button>
+                                onClick={e => reset()}>{resetlabel}</Button>
                         <Button secondary={true}
-                                onClick={e => this.submitForm()}>{submitlabel}</Button>
+                                onClick={e => submitForm()}>{submitlabel}</Button>
                     </Grid.Column>
                     {(status == 'OK' || editing) && <Grid.Column width={16}> <Message
-                    success
-                    content={<p>{***REMOVED***}</p>}
-                /></Grid.Column>}
+                        success
+                        content={<p>{***REMOVED***}</p>}
+                    /></Grid.Column>}
 
-                {(status == 'ERROR' || editing) && <Grid.Column width={16}> <Message negative>
-                    <p>{***REMOVED***}</p>
-                </Message></Grid.Column>}
-
+                    {(status == 'ERROR' || editing) && <Grid.Column width={16}> <Message negative>
+                        <p>{***REMOVED***}</p>
+                    </Message></Grid.Column>}
                 </Grid.Row>
-
-
-
-
             </Grid>
-
         </Container>
-    }
-}
+    );
+};
 
 
 const ***REMOVED*** = (state, ownProps) => {

@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
-import CustomSearch from './***REMOVED***'
-import ***REMOVED*** from "@devgateway/wp-react-lib/dist/providers/***REMOVED***";
-import ***REMOVED*** from "@devgateway/wp-react-lib/dist/consumers/***REMOVED***";
+import CustomSearch from './***REMOVED***.jsx';
+import {
+    ***REMOVED***,
+    ***REMOVED***
+} from "@devgateway/wp-react-lib";
 import {injectIntl} from "react-intl";
 import {utils} from "@devgateway/wp-react-lib";
-import ***REMOVED*** from "./***REMOVED***";
+import ***REMOVED*** from "./***REMOVED***.jsx";
 
 
 const ***REMOVED*** = injectIntl(({
@@ -28,7 +30,7 @@ const ***REMOVED*** = injectIntl(({
     let target = parent_link ? utils.replaceLink(parent_link, locale) + `#${slug}` : utils.replaceLink(link, locale)
     target = redirect_url ? redirect_url + `#${slug}` : target
 
-    
+
 
     return (
         <div className={"has-standard-12-font-size"} onClick={e => document.location.href = target}>
@@ -41,34 +43,34 @@ const ***REMOVED*** = injectIntl(({
 })
 
 const replaceString = (content, words) => {
-    let regex = RegExp(words, 'gi')  
+    const regex = RegExp(words, 'gi')
     let newHTML = content
-    let instances = [...(newHTML.matchAll(regex))]
+    const instances = [...(newHTML.matchAll(regex))]
     let shift = 0
-    let ***REMOVED*** = newHTML.length
-    instances.forEach(instance => {                             
-        let replacement = '<b>' + newHTML.substring(instance.index + shift, instance.index + shift + words.length) + '</b>';
+    const ***REMOVED*** = newHTML.length
+    instances.forEach(instance => {
+        const replacement = '<b>' + newHTML.substring(instance.index + shift, instance.index + shift + words.length) + '</b>';
         newHTML = newHTML.substring(0, instance.index + shift) + replacement + newHTML.substring(instance.index + words.length + shift);
-        shift = newHTML.length - ***REMOVED***;              
-    }) 
+        shift = newHTML.length - ***REMOVED***;
+    })
 
     return newHTML;
 }
 
 const ***REMOVED*** = (words) => {
     let searchedPara = document.querySelector('.results');
-    let ***REMOVED*** = searchedPara = searchedPara = document.***REMOVED***('H5')
-    let searchResult = searchedPara = searchedPara = document.***REMOVED***('.search-content')
+    const ***REMOVED*** = searchedPara = searchedPara = document.***REMOVED***('H5')
+    const searchResult = searchedPara = searchedPara = document.***REMOVED***('.search-content')
     for (let i = 0; i < searchResult.length; i++) {
-        if (searchResult[i]) {          
+        if (searchResult[i]) {
             searchResult[i].innerHTML = replaceString(searchResult[i].textContent, words);
-        }      
+        }
     }
-    
+
     for (let i = 0; i < ***REMOVED***.length; i++) {
        if (***REMOVED***[i]) {
             ***REMOVED***[i].innerHTML = replaceString(***REMOVED***[i].textContent, words);
-      }        
+      }
     }
 }
 
