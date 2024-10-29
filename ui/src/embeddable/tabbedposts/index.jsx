@@ -88,7 +88,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
     }
   }, [scrollTarget]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     let timeoutId;
     let observers = []; // Array to store observers for each accordion
 
@@ -215,7 +215,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
       clearTimeout(timeoutId);
       observers.forEach((observer) => observer.disconnect());
     };
-  }, [activeIndex, ***REMOVED***]);
+  }, [activeIndex, ***REMOVED***]);*/
 
   const handleClick = (e, titleProps) => {
     const { index } = titleProps;
