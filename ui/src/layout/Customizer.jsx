@@ -11,7 +11,7 @@ const ***REMOVED*** = {
   const readCustomizationMessage = (event) => {
             console.log("-------------------------------reading customizer message ----------------------------------------")
             const data = JSON.parse(event.data);
-            
+
             const newSettings = {...customization}
 
             if (***REMOVED***[data.property]) {
@@ -38,7 +38,7 @@ const ***REMOVED*** = (props) => {
     const setValue = (event) => {
         //const data = JSON.parse(event.data);
         const data = event.data;
-        if (data.messageType && data.messageType == 'partial-update') {
+        if (data.messageType && data.messageType === 'partial-update') {
             const ***REMOVED*** = ref.current
             if (***REMOVED***[data.property]) {
                 ***REMOVED***[***REMOVED***[data.property]] = data.value;
@@ -64,7 +64,7 @@ const ***REMOVED*** = (props) => {
         };
     }, [])
 
-    
+
     return React.Children.map(props.children, (child => React.cloneElement(child, {
         ...props,
         settings: {...customization}

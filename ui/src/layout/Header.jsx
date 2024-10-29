@@ -1,9 +1,9 @@
 import React from "react";
 
-import ClassicHeader from "./ClassicHeader";
-import ***REMOVED*** from "./***REMOVED***";
+import ClassicHeader from "./ClassicHeader.jsx";
+import ***REMOVED*** from "./***REMOVED***.jsx";
 import {injectIntl} from "react-intl";
-import {withRouter} from "react-router";
+import {withRouter} from "@/withRouter";
 
 const Header = (props) => {
     const {settings} = props;

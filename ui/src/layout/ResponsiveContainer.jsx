@@ -3,33 +3,27 @@ import React, {Component, useEffect, useState} from 'react'
 import {Container, Icon, Menu, Sidebar,} from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import {***REMOVED***} from '@devgateway/wp-react-lib'
-import {Media} from "../AppMedia"
-import Footer from "./Footer";
-import Header from "./Header";
-import TopNavigator from "./TopNavigator";
-import ***REMOVED*** from "./Customizer";
+import {Media} from "../AppMedia.js"
+import Footer from "./Footer.jsx";
+import Header from "./Header.jsx";
+import TopNavigator from "./TopNavigator.jsx";
+import ***REMOVED*** from "./Customizer.jsx";
 
 
-class ***REMOVED*** extends Component {
-    render() {
-        const {children, fixed} = this.props
-        return (
-
-            <Container fluid>
+const ***REMOVED*** = ({ children, fixed }) => {
+    return (
+        <Container fluid>
+            <***REMOVED***>
                 <***REMOVED***>
-                    <***REMOVED***>
-                        <Header></Header>
-                    </***REMOVED***>
+                    <Header></Header>
                 </***REMOVED***>
-                <Container className="desktop">
-                    {children}
-                </Container>
-                <TopNavigator/>
+            </***REMOVED***>
+            <Container className="desktop">
+                {children}
             </Container>
-
-
-        )
-    }
+            <TopNavigator/>
+        </Container>
+    )
 }
 
 ***REMOVED***.propTypes = {
@@ -37,12 +31,11 @@ class ***REMOVED*** extends Component {
 }
 
 
-class ***REMOVED*** extends Component {
+function ***REMOVED*** (props) {
 
+    const {children, fixed, locale, pages} = props
+    const page = pages ? pages[0] : null;
 
-    render() {
-        const {children, fixed, locale, pages} = this.props
-        const page = pages ? pages[0] : null;
         return (<div>
             <style>
                 {Media.mediaStyles}
@@ -50,9 +43,8 @@ class ***REMOVED*** extends Component {
             <***REMOVED*** fixed={fixed}>
                 {children}
             </***REMOVED***>
-            {page && page.template == "noofoter.php" ? "" : <Footer></Footer>}
+            {page && page.template === "noofoter.php" ? "" : <Footer></Footer>}
         </div>)
-    }
 }
 
 

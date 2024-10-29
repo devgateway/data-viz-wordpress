@@ -1,22 +1,18 @@
-import React from 'react';
-import {withRouter} from "react-router";
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
+const ***REMOVED*** = () => {
+    const { pathname } = useLocation();
 
-class ***REMOVED*** extends React.Component {
-    ***REMOVED***() {
+    useEffect(() => {
         window.scrollTo(0, 0);
-    }
+    }, []);
 
-    ***REMOVED***(prevProps) {
-        if (this.props.location.pathname !== prevProps.location.pathname) {
-            window.setTimeout(e => window.scrollTo(0, 0), 200)
-        }
-    }
+    useEffect(() => {
+        window.setTimeout(() => window.scrollTo(0, 0), 200);
+    }, [pathname]);
 
+    return null;
+};
 
-    render() {
-        return null;
-    }
-}
-
-export default withRouter(***REMOVED***);
+export default ***REMOVED***;
