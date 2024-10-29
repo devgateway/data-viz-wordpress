@@ -660,15 +660,15 @@ const Chart = (props) => {
 
                 if (adjustedLegendsBottom > adjustedDataSourceTop) {
                   let overlap = adjustedLegendsBottom - adjustedDataSourceTop;
-                  if (overlap < 5) overlap += 30;
-                  ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Add padding
+                  if (overlap < 5) overlap += 1;
+                  ***REMOVED***.style.marginTop = `${overlap + 1}px`; // Add padding
                 }
               } else {
                 // Delay adjustment if elements are not fully visible yet
                 setTimeout(() => {
                   if (***REMOVED***.top < legendsRect.bottom) {
                     ***REMOVED***.style.marginTop = `${
-                      legendsRect.bottom - ***REMOVED***.top + 20
+                      legendsRect.bottom - ***REMOVED***.top + 1
                     }px`;
                   }
                 }, 1000);
@@ -692,7 +692,7 @@ const Chart = (props) => {
 
             if (***REMOVED*** < adjustedChartContainerBottom) {
               const overlap = adjustedChartContainerBottom - ***REMOVED***;
-              ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Add padding
+              ***REMOVED***.style.marginTop = `${overlap + 1}px`; // Add padding
             }
           }
 
@@ -701,7 +701,7 @@ const Chart = (props) => {
 
         adjustDataSourceMargin();
       }
-    }, 0);
+    }, 100);
 
     // Cleanup observer and timeout
     return () => {
