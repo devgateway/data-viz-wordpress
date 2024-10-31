@@ -20,6 +20,8 @@ import deviceType from '../../utils/deviceType';
 
 
 const isMobile = deviceType() === 'mobile';
+const isTablet = deviceType() === 'tablet';
+const isMidTablet = deviceType() === 'midTablet';
 const ***REMOVED*** = deviceType() === 'mobile' || deviceType() === 'tablet' || deviceType() === 'midTablet';
 
 const PieChart = (props) => {
@@ -174,7 +176,7 @@ const Chart = (props) => {
     "data-mobile-customization": ***REMOVED*** = "{}",
   } = props;
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
-  const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
+  const isMobileConfigEnabled = (isMobile || isTablet || isMidTablet) && (***REMOVED***?.  ***REMOVED*** ?? false);
 
   const locale = props.intl.locale;
   const ref = useRef(null);
