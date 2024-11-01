@@ -143,7 +143,6 @@ const Chart = ({
   ***REMOVED***
 }: BarChartProps) => {
   const isMobile = deviceType() === "mobile";
-  const theme = useTheme();
   const LABEL_SKIP_WIDTH = 30; // important for vertical layout
   const LABEL_SKIP_HEIGHT = 15; // important for horizontal layout
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
@@ -451,7 +450,7 @@ const Chart = ({
       <Fragment>
         {bars
           .filter((b) => b.data.value != null)
-          .map((bar) => {
+          .map((bar, idx) => {
             let seriedId = bar.data.indexValue;
             if (
               options.***REMOVED*** &&
@@ -471,7 +470,7 @@ const Chart = ({
               const low = yScale(parseFloat(***REMOVED***.low));
               const high = yScale(parseFloat(***REMOVED***.high));
               return (
-                <g>
+                <g key={idx}>
                   <line
                     y1={low}
                     y2={high}
@@ -575,6 +574,7 @@ const Chart = ({
 
   const CustomTick = (tick) => {
     const tickObject = Object.assign({}, tick);
+    const theme = useTheme();
    
     // @ts-ignore
     if(isMobileCustomizationEnabled && hiddenLabels.includes(String(tickObject.value))) {
@@ -729,7 +729,7 @@ const Chart = ({
   const ***REMOVED*** = ({ bars }) => {
     return (
       <g>
-        {bars.map((bar) => {
+        {bars.map((bar, idx) => {
           const { width, height, y, x, data } = bar;
           if (layout === "horizontal" && height <= LABEL_SKIP_HEIGHT) {
             return;
@@ -762,6 +762,7 @@ const Chart = ({
 
             return (
               <text
+                key={idx}
                 y={yPos}
                 x={xPos}
                 style={{ fill: ***REMOVED***() }}

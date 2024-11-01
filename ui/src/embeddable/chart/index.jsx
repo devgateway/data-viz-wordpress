@@ -50,7 +50,7 @@ const Diverging = (props) => {
   );
 };
 const Chart = (props) => {
-  const{
+  const {
     parent,
     editing = false,
     unique,
@@ -152,8 +152,6 @@ const Chart = (props) => {
     "data-tooltip-enable-markdown": tooltipEnableMarkdown = "false",
     "data-y-axis-tick-values": ***REMOVED*** = "10",
     "data-x-axis-tick-values": ***REMOVED*** = "10",
-    "data-enable-grid-y": enableGridY = "true",
-    "data-enable-grid-x": enableGridX = "false",
     "data-offset-text": offsetText = 0,
     "data-overall-label": overallLabel = "Overall",
     "data-min-max-clamp": minMaxClamp = "false",
@@ -172,6 +170,11 @@ const Chart = (props) => {
     "data-radar-enable-dot-label": ***REMOVED*** = "true",
     "data-radar-dot-label-offset": ***REMOVED*** = -12,
     "data-mobile-customization": ***REMOVED*** = "{}",
+  } = props;
+
+  let {   
+    "data-enable-grid-y": enableGridY = "true",
+    "data-enable-grid-x": enableGridX = "false"
   } = props;
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
   const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
