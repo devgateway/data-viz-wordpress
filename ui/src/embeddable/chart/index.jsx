@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Container } from "semantic-ui-react";
 import DataProvider from "../data/DataProvider";
 import DataConsumer from "../data/DataConsumer";
@@ -16,11 +16,13 @@ import CSVDataFrame from "./CSVDataFrame";
 import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
-import deviceType from '@/utils/deviceType'
-import { is } from "immutable";
+import deviceType from '@/utils/deviceType';
 
 
 const isMobile = deviceType() === 'mobile';
+const isTablet = deviceType() === 'tablet';
+const isMidTablet = deviceType() === 'midTablet';
+const ***REMOVED*** = deviceType() === 'mobile' || deviceType() === 'tablet' || deviceType() === 'midTablet';
 
 const PieChart = (props) => {
   const { data, legends, colors, height } = props;
@@ -172,12 +174,12 @@ const Chart = (props) => {
     "data-mobile-customization": ***REMOVED*** = "{}",
   } = props;
 
-  let {   
+  let {
     "data-enable-grid-y": enableGridY = "true",
-    "data-enable-grid-x": enableGridX = "false"
+    "data-enable-grid-x": enableGridX = "false",
   } = props;
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
-  const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
+  const isMobileConfigEnabled = (isMobile || isTablet || isMidTablet) && (***REMOVED***?.  ***REMOVED*** ?? false);
 
   const locale = props.intl.locale;
   const ref = useRef(null);
@@ -287,7 +289,7 @@ const Chart = (props) => {
   let ***REMOVED*** = ***REMOVED***();
 
   let ***REMOVED*** = ***REMOVED***();
-  const userMeasures = ***REMOVED***();
+  let userMeasures = ***REMOVED***();
   let leftLegendForSelectedMeasure = left;
   let rightLegendForSelectedMeasure = rightLegend;
 
@@ -310,7 +312,7 @@ const Chart = (props) => {
     }
   }
 
-  const numberFormat = ***REMOVED***
+  let numberFormat = ***REMOVED***
     ? {
         style:
           ***REMOVED***.style === "compacted"
@@ -332,7 +334,7 @@ const Chart = (props) => {
 
   const groupTotalFormatObject = parse(***REMOVED***);
 
-  const groupTotalFormatParsed = {
+  let groupTotalFormatParsed = {
     style:
       groupTotalFormatObject.style === "compacted"
         ? "decimal"
@@ -353,8 +355,8 @@ const Chart = (props) => {
     scheme: scheme,
     colorBy: colorBy,
   };
-  const child = null;
-  const contentHeight = editing ? height - 80 : height - 40;
+  let child = null;
+  const contentHeight = editing ? height - 80 : height;
 
   const ***REMOVED*** = () => {
     if(isMobileConfigEnabled) {
@@ -435,6 +437,10 @@ const Chart = (props) => {
     return mobileEnabled ? parseInt(mobileSetting) ?? defaultValue : defaultValue;
   }
 
+  const getBarPadValueOuterOrInner = (mobileEnabled, mobileSetting, defaultValue) => {
+    return mobileEnabled ? mobileSetting ?? defaultValue: defaultValue;
+  }
+
   const chartProps = {
     app,
     tickColor: ***REMOVED***(tickColor),
@@ -451,7 +457,7 @@ const Chart = (props) => {
     marginRight: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginRight), parseInt(marginRight)),
     marginBottom: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginBottom), parseInt(marginBottom)),
     height: `${contentHeight}px`,
-    ***REMOVED***: ***REMOVED***,
+    ***REMOVED***: ***REMOVED*** ? "bottom" : ***REMOVED***,
     legends,
     tooltip:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true"
@@ -477,9 +483,9 @@ const Chart = (props) => {
     ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
     fixedMinValue,
     fixedMaxValue,
-    barPadding,
+    barPadding: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.barPadding, barPadding),
     ***REMOVED***,
-    ***REMOVED***,
+    ***REMOVED***: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.***REMOVED***, ***REMOVED***),
     xLabelColor: ***REMOVED***(xLabelColor),
     barLabelColor: ***REMOVED***(barLabelColor),
     ***REMOVED***: ***REMOVED***(***REMOVED***),
@@ -544,7 +550,7 @@ const Chart = (props) => {
     dimension1
   };
 
-  const params = {};
+  let params = {};
   const ff = parse(filters) || {};
 
   if (ff && ff.forEach) {
@@ -613,13 +619,112 @@ const Chart = (props) => {
   if (dimension2 != "none") {
     dimensions.push(dimension2);
   }
+  const [legendsContainerHeight, setLegendsContainerHeight] = useState(0);
+
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (***REMOVED***) {
+        // Function to handle margin adjustment for all charts
+        const adjustDataSourceMargin = () => {
+          const ***REMOVED*** =
+            ref.current.querySelector(
+              ".legends.container.has-standard-12-font-size.bottom"
+            ) || ref.current.querySelector(".legends.container.items-section");
+
+          if (!***REMOVED***) return;
+
+          // Get computed style and dimensions of the legends container
+          const { clientHeight: height } = ***REMOVED***;
+          const styles = window.***REMOVED***(***REMOVED***);
+          const marginTop = parseInt(styles.marginTop);
+          const marginBottom = parseInt(styles.marginBottom);
+          const paddingTop = parseInt(styles.paddingTop);
+          const paddingBottom = parseInt(styles.paddingBottom);
+          const totalHeight =
+            height + marginTop + marginBottom + paddingTop + paddingBottom;
+
+          // Find the closest '.ui.fluid.container.content' ancestor from the legends container
+          const container = ***REMOVED***.closest(".ui.fluid.container.content");
+
+          if (container) {
+            const ***REMOVED*** = container.querySelector(".data-source");
+            if (***REMOVED***) {
+              const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
+              const legendsRect = ***REMOVED***.getBoundingClientRect();
+
+              // Ensure elements are visible before adjusting margins
+              if (legendsRect.bottom !== 0 && ***REMOVED***.top !== 0) {
+                if (***REMOVED***.textContent.trim() === "") return;
+
+                const ***REMOVED*** = marginBottom; // Legend margin-bottom is already computed
+                const adjustedLegendsBottom = legendsRect.bottom + ***REMOVED***;
+                const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
+                const ***REMOVED*** = parseFloat(***REMOVED***.marginTop) || 0;
+                const adjustedDataSourceTop = ***REMOVED***.top - ***REMOVED***;
+
+                if (adjustedLegendsBottom > adjustedDataSourceTop) {
+                  let overlap = adjustedLegendsBottom - adjustedDataSourceTop;
+                  if (overlap < 5) overlap += 1;
+                  ***REMOVED***.style.marginTop = `${overlap + 1}px`; // Add padding
+                }
+              } else {
+                // Delay adjustment if elements are not fully visible yet
+                setTimeout(() => {
+                  if (***REMOVED***.top < legendsRect.bottom) {
+                    ***REMOVED***.style.marginTop = `${
+                      legendsRect.bottom - ***REMOVED***.top + 1
+                    }px`;
+                  }
+                }, 1000);
+              }
+            }
+          }
+
+          // Check for overlap with the chart container above
+          const ***REMOVED*** = ***REMOVED***.closest(".chart.container");
+          if (***REMOVED***) {
+            const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
+            const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
+            const chartContainerMarginBottom =
+              parseFloat(***REMOVED***.marginBottom) || 0;
+            const adjustedChartContainerBottom =
+              ***REMOVED***.bottom + chartContainerMarginBottom;
+
+            const legendsRect = ***REMOVED***.getBoundingClientRect();
+            const ***REMOVED*** = parseFloat(styles.marginTop) || 0;
+            const ***REMOVED*** = legendsRect.top - ***REMOVED***;
+
+            if (***REMOVED*** < adjustedChartContainerBottom) {
+              const overlap = adjustedChartContainerBottom - ***REMOVED***;
+              ***REMOVED***.style.marginTop = `${overlap + 1}px`; // Add padding
+            }
+          }
+
+          setLegendsContainerHeight(totalHeight);
+        };
+
+        adjustDataSourceMargin();
+      }
+    }, 100);
+
+    // Cleanup observer and timeout
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [***REMOVED***, ref]);
 
   return (
     <div ref={ref}>
       <Container
-        className={"chart container"}
-        style={{ minHeight: height + "px" }}
-        fluid={true}
+          className={"chart container"}
+          style={{
+            minHeight:
+                type === "pie" && window.innerWidth <= 480
+                    ? `${parseInt(height) + parseInt(legendsContainerHeight) * 0.5}px`
+                    : `${parseInt(height) + parseInt(legendsContainerHeight)}px`,
+          }}
+          fluid={true}
       >
         <DataProvider
           editing={editing}
@@ -708,4 +813,5 @@ const ***REMOVED*** = (state, ownProps) => {
   }
 };
 const ***REMOVED*** = {};
+
 export default connect(***REMOVED***, ***REMOVED***)(Chart);
