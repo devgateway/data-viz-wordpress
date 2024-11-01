@@ -1,6 +1,6 @@
 import {***REMOVED***, ***REMOVED***} from 'history'
 import Immutable from 'immutable'
-import ***REMOVED***, { ***REMOVED***, ***REMOVED*** } from "./reducer";
+import ***REMOVED*** from "./reducer";
 import { ***REMOVED*** } from '@reduxjs/toolkit';
 
 const useHash = process.env.VITE_REACT_APP_USE_HASH_LINKS as unknown as boolean;
@@ -19,7 +19,5 @@ export const store  = ***REMOVED***({
     middleware: (***REMOVED***) => ***REMOVED***({
         ***REMOVED***: false,
         ***REMOVED***: false
-    }).concat(***REMOVED***)
+    })
 });
-
-export const reduxHistory = ***REMOVED***(store);
