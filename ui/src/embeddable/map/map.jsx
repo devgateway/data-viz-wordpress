@@ -1226,7 +1226,7 @@ handleScroll = () => {
   }
 
   showTooltip(event, d) {
-    let {
+    const {
       showTooltip,
       zoomEnabled,
       tooltipTheme,
@@ -1665,7 +1665,7 @@ handleScroll = () => {
   }
 
   d3Map(features, filterUpdated) {
-    let { zoomEnabled, ***REMOVED***, mapPosition, editing, mapType } =
+    const { zoomEnabled, ***REMOVED***, mapPosition, editing, mapType } =
       this.props;
       if(!zoomEnabled) {
         zoomEnabled = ['mobile', 'tablet'].includes(***REMOVED***()) ? true: false;
@@ -1869,7 +1869,7 @@ handleScroll = () => {
   }
 
   render() {
-    let {
+    const {
       app,
       legendTitle,
       ***REMOVED***,

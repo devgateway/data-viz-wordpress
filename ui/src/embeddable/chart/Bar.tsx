@@ -143,6 +143,7 @@ const Chart = ({
   ***REMOVED***
 }: BarChartProps) => {
   const isMobile = deviceType() === "mobile";
+  const theme = useTheme();
   const LABEL_SKIP_WIDTH = 30; // important for vertical layout
   const LABEL_SKIP_HEIGHT = 15; // important for horizontal layout
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
@@ -574,11 +575,12 @@ const Chart = ({
 
   const CustomTick = (tick) => {
     const tickObject = Object.assign({}, tick);
+   
     // @ts-ignore
     if(isMobileCustomizationEnabled && hiddenLabels.includes(String(tickObject.value))) {
       tickObject.value = "";
     }
-    const theme = useTheme();
+    
     let ***REMOVED***;
     if (***REMOVED***) {
       ***REMOVED*** = tickColor;

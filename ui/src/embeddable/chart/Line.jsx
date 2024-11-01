@@ -98,6 +98,8 @@ const Chart = ({
   ***REMOVED***,
   ***REMOVED***
 }) => {
+  const theme = useTheme();
+
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
   const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
   const [bottomSpacing, ***REMOVED***] = useState(50);
@@ -201,7 +203,7 @@ const Chart = ({
     if(isMobileConfigEnabled && hiddenLabels.includes(String(tickObject.value))) {
       tickObject.value = "";
     }
-    const theme = useTheme();
+    
     const width = getTextWidth(tickObject.value, "12px Roboto") + 15;
 
     if (tickRotation > 0 && tickRotation < 180) {

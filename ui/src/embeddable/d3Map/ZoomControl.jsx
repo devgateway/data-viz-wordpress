@@ -37,9 +37,9 @@ class ZoomControl extends React.Component {
                 selection.call(this.zoom)
                 this.***REMOVED***()
             }
-            if (***REMOVED***) {
+            // if (***REMOVED***) {
 
-            }
+            // }
         }
     }
 
