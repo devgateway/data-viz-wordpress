@@ -1,5 +1,5 @@
 import { Container, Flag, Image, Menu } from "semantic-ui-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   MediaConsumer,
   MediaProvider,
@@ -263,30 +263,75 @@ const MenuItems = injectIntl(
 const Header = ({ intl, match, settings }) => {
   const [selected, setSelected] = useState();
   const [isMenuVisible, ***REMOVED***] = useState(false);
-  const [isSmallScreen, ***REMOVED***] = useState(false); // State to track small screen
-  const [hasInteracted, ***REMOVED***] = useState(false); // Track user interaction
+  const [isSmallScreen, ***REMOVED***] = useState(false);
+  const [hasInteracted, ***REMOVED***] = useState(false);
 
+  const menuRef = useRef(null); // Reference for the menu container
   const { slug } = match.params;
 
   const toggleMenu = () => {
-    ***REMOVED***(true); // Ensures animations are only enabled after this interaction
+    ***REMOVED***(true);
     ***REMOVED***((prevState) => !prevState);
   };
 
+  // Close the menu when clicking outside of it or pressing Esc
   useEffect(() => {
-    // Function to update isSmallScreen state
-    const ***REMOVED*** = () => {
-      ***REMOVED***(window.innerWidth <= 1024); // Check if width is 1024px or lower
+    const ***REMOVED*** = (event) => {
+      // Close menu if clicking outside of menuRef or directly on an element with the "desktop" class
+      if (
+          menuRef.current &&
+          !menuRef.current.contains(event.target) ||
+          event.target.closest(".desktop")
+      ) {
+        ***REMOVED***(false);
+      }
     };
 
-    // Initial check
+
+    const handleEscKey = (event) => {
+      if (event.key === "Escape") {
+        ***REMOVED***(false);
+      }
+    };
+
+    document.***REMOVED***("mousedown", ***REMOVED***);
+    document.***REMOVED***("keydown", handleEscKey);
+
+    return () => {
+      document.***REMOVED***("mousedown", ***REMOVED***);
+      document.***REMOVED***("keydown", handleEscKey);
+    };
+  }, []);
+
+  // Debounced resize logic
+  useEffect(() => {
+    let resizeTimeout;
+
+    const ***REMOVED*** = () => {
+      const ***REMOVED*** = window.innerWidth <= 1024;
+
+      if (***REMOVED*** && !isSmallScreen) {
+        // Reset menu visibility when switching to mobile view
+        ***REMOVED***(false);
+      }
+
+      ***REMOVED***(***REMOVED***);
+    };
+
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(***REMOVED***, 200); // Debounce the resize event
+    };
+
+    // Initial check and add event listener
     ***REMOVED***();
+    window.***REMOVED***("resize", handleResize);
 
-    // Event listener for window resize
-    window.***REMOVED***("resize", ***REMOVED***);
-
-    // Cleanup
-    return () => window.***REMOVED***("resize", ***REMOVED***);
+    // Cleanup on unmount
+    return () => {
+      clearTimeout(resizeTimeout);
+      window.***REMOVED***("resize", handleResize);
+    };
   }, []);
 
   const [***REMOVED***, ***REMOVED***] = useState(false); // State to track small screen
@@ -330,7 +375,7 @@ const Header = ({ intl, match, settings }) => {
             <div></div>
           </div>
 
-          <Container fluid={true} className={"background"}>
+          <Container fluid={true} className={"background"} ref={menuRef}>
             <Menu className={"branding"} text>
               <Menu.Item>
                 <a href={`${SITE_URL_WITH_LOCALE}`}>
