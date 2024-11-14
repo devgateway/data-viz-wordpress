@@ -165,7 +165,7 @@ const MenuItems = injectIntl(
 
       useEffect(() => {
         const handleResize = () => {
-          setIsMobileResolution(window.innerWidth <= 1024);
+          setIsMobileResolution(window.innerWidth <= 1200);
         };
 
         // Initial check and event listener
@@ -309,7 +309,7 @@ const Header = ({ intl, match, settings }) => {
     let resizeTimeout;
 
     const ***REMOVED*** = () => {
-      const ***REMOVED*** = window.innerWidth <= 1024;
+      const ***REMOVED*** = window.innerWidth <= 1200;
 
       if (***REMOVED*** && !isSmallScreen) {
         // Reset menu visibility when switching to mobile view
