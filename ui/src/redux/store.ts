@@ -1,12 +1,8 @@
-import {***REMOVED***, ***REMOVED***} from 'history'
-import Immutable from 'immutable'
-import ***REMOVED***, { ***REMOVED***, ***REMOVED*** } from "./reducer";
-import { ***REMOVED*** } from '@reduxjs/toolkit';
+import Immutable, { Record } from 'immutable'
+import ***REMOVED*** from "./reducer";
+import { ***REMOVED***, ThunkAction, Action } from '@reduxjs/toolkit';
 
-const useHash = process.env.VITE_REACT_APP_USE_HASH_LINKS as unknown as boolean;
-export const history = useHash? ***REMOVED***():***REMOVED***()
-
-const initialState = Immutable.Map()
+const initialState: Immutable.Map<string, any> = Immutable.Map()
 
 const ***REMOVED*** = () => {
     return ***REMOVED***()
@@ -14,12 +10,19 @@ const ***REMOVED*** = () => {
 
 
 export const store  = ***REMOVED***({
-    reducer: ***REMOVED***(),
+    reducer: ***REMOVED***() ,
     ***REMOVED***: initialState,
     middleware: (***REMOVED***) => ***REMOVED***({
         ***REMOVED***: false,
         ***REMOVED***: false
-    }).concat(***REMOVED***)
+    })
 });
 
-export const reduxHistory = ***REMOVED***(store);
+export type AppDispatch = typeof store.dispatch;
+export type RootState = Record<ReturnType<typeof store.getState>>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    Action<string>
+>;

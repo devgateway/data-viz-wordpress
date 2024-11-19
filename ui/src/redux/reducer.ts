@@ -1,25 +1,18 @@
-import {***REMOVED***} from 'redux-immutable';
+import {***REMOVED***} from '@/lib/redux-immutable'
 import {wordpress} from "@devgateway/wp-react-lib"
 import {reducers} from '../embeddable'
-import { createReduxHistoryContext } from "redux-first-history";
-import { ***REMOVED*** } from "history";
 import { intlReducer } from '@/lib/react-intl-redux';
+import * as Immutable from 'immutable';
 
-const {
-    ***REMOVED***,
-    ***REMOVED***,
-    routerReducer
-} =
-    createReduxHistoryContext({
-        history: ***REMOVED***(),
-    })
-
-const ***REMOVED*** = () => ***REMOVED***({
-    router: routerReducer,
-    wordpress,
+const appReducers = {
     ...reducers,
+    wordpress,
     intl: intlReducer
-});
+}
 
-export { ***REMOVED***, ***REMOVED*** };
+const initialState = () => Immutable.Map<string, any>();
+
+
+const ***REMOVED*** = () => ***REMOVED***(appReducers, initialState);
+
 export default ***REMOVED***

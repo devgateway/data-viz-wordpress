@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Tooltip from "./Tooltip";
-import { BarDatum, BarLayer, LegendData, ResponsiveBar } from "@nivo/bar";
+import { BarDatum, BarLayer, ResponsiveBar } from "@nivo/bar";
 import { injectIntl } from "react-intl";
 import { useTheme } from "@nivo/core";
 import { line } from "d3-shape";
@@ -181,45 +181,45 @@ const Chart = ({
       label: string;
     }
 
-    let chartLegends: ChartLegends [] = [];
+    let chartLegends: ChartLegends[] = [];
 
     if (options.data) {
       chartLegends =
         colors.colorBy === "index"
           ? options.data.map((d) => {
-              let theColor;
-              let enabled = true;
-              if (filter.indexOf(d[options.indexBy]) > -1) {
-                enabled = false;
-                theColor = DEFAULT_COLOR;
-              } else {
-                theColor = d[COLOR_VARIABLE]
-                  ? d[COLOR_VARIABLE]
-                  : ***REMOVED***.getColor(d.id, d);
-              }
-              return {
-                enabled: enabled,
-                color: theColor,
-                id: d[options.indexBy],
-                label: d[options.indexBy],
-              };
-            })
+            let theColor;
+            let enabled = true;
+            if (filter.indexOf(d[options.indexBy]) > -1) {
+              enabled = false;
+              theColor = DEFAULT_COLOR;
+            } else {
+              theColor = d[COLOR_VARIABLE]
+                ? d[COLOR_VARIABLE]
+                : ***REMOVED***.getColor(d.id, d);
+            }
+            return {
+              enabled: enabled,
+              color: theColor,
+              id: d[options.indexBy],
+              label: d[options.indexBy],
+            };
+          })
           : options.keys.map((k) => {
-              let theColor;
-              let enabled = true;
-              if (filter.indexOf(k) > -1) {
-                enabled = false;
-                theColor = DEFAULT_COLOR;
-              } else {
-                theColor = ***REMOVED***.getColorByKey(k);
-              }
-              return {
-                enabled: enabled,
-                color: theColor,
-                id: k,
-                label: k,
-              };
-            });
+            let theColor;
+            let enabled = true;
+            if (filter.indexOf(k) > -1) {
+              enabled = false;
+              theColor = DEFAULT_COLOR;
+            } else {
+              theColor = ***REMOVED***.getColorByKey(k);
+            }
+            return {
+              enabled: enabled,
+              color: theColor,
+              id: k,
+              label: k,
+            };
+          });
     }
 
     return chartLegends;
@@ -239,9 +239,10 @@ const Chart = ({
     return (
       <>
         {showLegends &&
-          chartLegends.map((legend) => {
+          chartLegends.map((legend, index) => {
             return (
               <div
+                key={index}
                 className={`legend item ${legend.enabled ? "" : "ignore"}`}
                 onClick={() => toggle(legend.id)}
               >
@@ -363,7 +364,7 @@ const Chart = ({
           ***REMOVED*** &&
           overlays.map((o, idx) => {
             return (
-              <div className={"legend item"} onClick={() => toggleLine(idx)}>
+              <div key={idx} className={"legend item"} onClick={() => toggleLine(idx)}>
                 <input
                   className={***REMOVED*** && showLine[idx] ? "" : "ignore"}
                   type="checkbox"
@@ -450,7 +451,7 @@ const Chart = ({
       <Fragment>
         {bars
           .filter((b) => b.data.value != null)
-          .map((bar) => {
+          .map((bar, idx) => {
             let seriedId = bar.data.indexValue;
             if (
               options.***REMOVED*** &&
@@ -470,7 +471,7 @@ const Chart = ({
               const low = yScale(parseFloat(***REMOVED***.low));
               const high = yScale(parseFloat(***REMOVED***.high));
               return (
-                <g>
+                <g key={idx}>
                   <line
                     y1={low}
                     y2={high}
@@ -510,7 +511,7 @@ const Chart = ({
     if (axis == "X") {
       points = [0, innerWidth];
       lineGenerator = line()
-      // @ts-ignore Investigate why it is returning a tuple instead of a number
+        // @ts-ignore Investigate why it is returning a tuple instead of a number
         .x((xPoint, index) => {
           if (index === 0) {
             return -10;
@@ -574,11 +575,13 @@ const Chart = ({
 
   const CustomTick = (tick) => {
     const tickObject = Object.assign({}, tick);
+    const theme = useTheme();
+
     // @ts-ignore
-    if(isMobileCustomizationEnabled && hiddenLabels.includes(String(tickObject.value))) {
+    if (isMobileCustomizationEnabled && hiddenLabels.includes(String(tickObject.value))) {
       tickObject.value = "";
     }
-    const theme = useTheme();
+
     let ***REMOVED***;
     if (***REMOVED***) {
       ***REMOVED*** = tickColor;
@@ -708,7 +711,7 @@ const Chart = ({
   };
 
   const toggle = (id) => {
-    const newFilter: any [] = filter.slice();
+    const newFilter: any[] = filter.slice();
     if (newFilter.indexOf(id) > -1) {
       const index = newFilter.indexOf(id);
       newFilter.splice(index, 1);
@@ -727,7 +730,7 @@ const Chart = ({
   const ***REMOVED*** = ({ bars }) => {
     return (
       <g>
-        {bars.map((bar) => {
+        {bars.map((bar, idx) => {
           const { width, height, y, x, data } = bar;
           if (layout === "horizontal" && height <= LABEL_SKIP_HEIGHT) {
             return;
@@ -737,9 +740,9 @@ const Chart = ({
           }
           const value = data.value
             ? intl.formatNumber(
-                format.style === "percent" ? data.value / 100 : data.value,
-                format
-              )
+              format.style === "percent" ? data.value / 100 : data.value,
+              format
+            )
             : "";
           const valueLength = value.length;
           let yPos;
@@ -760,6 +763,7 @@ const Chart = ({
 
             return (
               <text
+                key={idx}
                 y={yPos}
                 x={xPos}
                 style={{ fill: ***REMOVED***() }}
@@ -782,7 +786,7 @@ const Chart = ({
           .filter(
             (key) => bars.filter((b) => b.data.indexValue == key).length > 0
           )
-          .map((key) => {
+          .map((key, idx) => {
             const barsInGroup = bars.filter((b) => b.data.indexValue == key);
 
             let anchor = "right";
@@ -874,13 +878,13 @@ const Chart = ({
             const sumOfVariablesToFilterOut =
               colorBy !== "index"
                 ? filter
-                    ?.map((item) => group[item])
-                    ?.reduce((acc, curr) => acc + curr, 0)
+                  ?.map((item) => group[item])
+                  ?.reduce((acc, curr) => acc + curr, 0)
                 : 0;
             total -= sumOfVariablesToFilterOut;
 
             return (
-              <text y={y} x={x} style={{ fill: ***REMOVED***() }}>
+              <text key={idx} y={y} x={x} style={{ fill: ***REMOVED***() }}>
                 <tspan textAnchor={anchor}>
                   {***REMOVED*** ? ***REMOVED*** + " " : ""}
                   {intl.formatNumber(
@@ -915,7 +919,7 @@ const Chart = ({
   }
 
   const ***REMOVED*** = () => {
-    const values: number [] = [];
+    const values: number[] = [];
     if (***REMOVED***) {
       ***REMOVED***.forEach((c) => {
         if (c.low) {
@@ -982,8 +986,8 @@ const Chart = ({
       fixedMinValue !== ""
       ? fixedMinValue
       : minVal > 0
-      ? minVal * 0.9
-      : minVal * 1.1;
+        ? minVal * 0.9
+        : minVal * 1.1;
   };
 
   const ***REMOVED*** = ***REMOVED***();
@@ -1083,8 +1087,8 @@ const Chart = ({
     );
   };
 
-const hiddenLabels: string [] = [];
-if(isMobileCustomizationEnabled) {
+  const hiddenLabels: string[] = [];
+  if (isMobileCustomizationEnabled) {
     ticks = parseInt(***REMOVED***.***REMOVED***);
     const labels = new Map(Object.entries(***REMOVED***?.labels?.xAxis ?? {}));
     for (const [key, value] of labels) {
@@ -1092,7 +1096,7 @@ if(isMobileCustomizationEnabled) {
         hiddenLabels.push(key);
       }
     }
-}
+  }
 
   return (
     <div style={{ height: height }}>
@@ -1127,41 +1131,41 @@ if(isMobileCustomizationEnabled) {
             axisRight={
               showRightAxis
                 ? {
-                    tickSize:
-                      (layout == "horizontal" && showTickLine) ||
+                  tickSize:
+                    (layout == "horizontal" && showTickLine) ||
                       layout === "vertical"
-                        ? 5
-                        : 0,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    tickValues: ticks,
-                    legend: legends && legends.right,
-                    ***REMOVED***: "middle",
-                    legendOffset: parseInt(String(offsetRight)),
-                    format: (value) => {
-                      if (layout == "vertical") {
-                        const ***REMOVED*** = ***REMOVED***
-                          ? ***REMOVED***
-                          : format;
-                        return intl.formatNumber(
-                          ***REMOVED***.style === "percent"
-                            ? value / 100
-                            : value,
-                          {
-                            ...***REMOVED***,
-                          }
-                        );
-                      }
+                      ? 5
+                      : 0,
+                  tickPadding: 5,
+                  tickRotation: 0,
+                  tickValues: ticks,
+                  legend: legends && legends.right,
+                  ***REMOVED***: "middle",
+                  legendOffset: parseInt(String(offsetRight)),
+                  format: (value) => {
+                    if (layout == "vertical") {
+                      const ***REMOVED*** = ***REMOVED***
+                        ? ***REMOVED***
+                        : format;
+                      return intl.formatNumber(
+                        ***REMOVED***.style === "percent"
+                          ? value / 100
+                          : value,
+                        {
+                          ...***REMOVED***,
+                        }
+                      );
+                    }
 
-                      return value;
-                    },
-                  }
+                    return value;
+                  },
+                }
                 : null
             }
             axisBottom={
               isMobileCustomizationEnabled && ***REMOVED***?.xAxisDisabled === true ? null :
-              layout == "horizontal"
-                ? {
+                layout == "horizontal"
+                  ? {
                     legend: legends && legends.bottom,
                     ***REMOVED***: "middle",
                     legendOffset: parseInt(String(offsetBottom)),
@@ -1185,7 +1189,7 @@ if(isMobileCustomizationEnabled) {
                       return value;
                     },
                   }
-                : {
+                  : {
                     legend: legends && legends.bottom,
                     ***REMOVED***: "middle",
                     legendOffset: parseInt(String(offsetBottom)),
@@ -1195,7 +1199,7 @@ if(isMobileCustomizationEnabled) {
             axisLeft={{
               tickSize:
                 (layout == "horizontal" && showTickLine) ||
-                layout === "vertical"
+                  layout === "vertical"
                   ? 5
                   : 0,
               tickPadding: 5,
@@ -1233,8 +1237,8 @@ if(isMobileCustomizationEnabled) {
               )
             }
             layers={layers}
-            onMouseEnter={(_data) => {}}
-            onMouseLeave={(_data) => {}}
+            onMouseEnter={(_data) => { }}
+            onMouseLeave={(_data) => { }}
             tooltip={(d) => {
               if (***REMOVED*** && tooltip && tooltip.trim().length > 0) {
                 return (
