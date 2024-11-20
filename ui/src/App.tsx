@@ -1,6 +1,6 @@
-import React, { Component, useEffect, useRef, useState, Suspense } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Provider } from 'react-redux'
-import { Route, Routes, BrowserRouter, Navigate, useLocation, useParams, Outlet } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate, useLocation, useParams } from 'react-router-dom';
 import { store } from './redux/store'
 import messages_en from "./translations/en.json";
 import { updateIntl } from '@/lib/react-intl-redux'
@@ -15,15 +15,12 @@ import {
     Page,
     PageConsumer,
     PageProvider,
-    Post,
-    PostConsumer,
-    PostProvider,
     ***REMOVED***,
     ***REMOVED***
 } from "@devgateway/wp-react-lib";
 import queryString from "query-string";
 import ScrollToTop from "./ScrollTop";
-import { Container, Dimmer, Loader, Segment } from "semantic-ui-react";
+import { Container, Segment } from "semantic-ui-react";
 import ***REMOVED*** from "./layout/Customizer";
 import ***REMOVED*** from './layout/containers/***REMOVED***';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
@@ -41,6 +38,7 @@ const PreviewComponentParameterParser = () => {
 
     const componentRef = useRef(getComponentByNameIgnoreCase(urlParams.name ? urlParams.name : ''));
 
+    // TODO: Fix this react compiler issue 
     const UIComponent = componentRef.current
 
 
@@ -126,8 +124,12 @@ const IntlRoutes = () => {
 
     const urlParams = new ***REMOVED***(window.location.search);
     const customize_changeset_uuid = urlParams.get('customize_changeset_uuid');
-    // @ts-ignore
-    window.***REMOVED*** = customize_changeset_uuid != null;
+ 
+
+    useEffect(() => {
+        // @ts-ignore
+        window.***REMOVED*** = customize_changeset_uuid != null;
+    }, [customize_changeset_uuid]);
 
     if (!locale) {
         return <Navigate to={"/en"}></Navigate>

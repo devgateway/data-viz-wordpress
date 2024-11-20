@@ -1,5 +1,5 @@
-import React, { LegacyRef, ***REMOVED***, useEffect, useRef, useState } from "react";
-import { Checkbox, Container, Divider, Dropdown, DropdownProps, ***REMOVED***, Icon, Input, Label, Radio, Segment } from "semantic-ui-react";
+import React, { LegacyRef, useEffect, useRef, useState } from "react";
+import { Checkbox, Container, Divider, Dropdown, DropdownProps, Icon, Input, Label, Radio, Segment } from "semantic-ui-react";
 import ***REMOVED*** from '../data/***REMOVED***'
 import ***REMOVED*** from '../data/***REMOVED***'
 import { connect } from "react-redux";
@@ -304,8 +304,8 @@ const ***REMOVED*** = connect(***REMOVED***, ***REMOVED***)((props: ListFilterDr
                             return o.text.toLowerCase().includes(searchText.toLowerCase())
                         }
                         return true;
-                    }).map(({ value, text }) => (
-                        <Dropdown.Item className={***REMOVED*** ? "dropdown-item-single-column" : ""}>
+                    }).map(({ value, text }, index) => (
+                        <Dropdown.Item key={index} className={***REMOVED*** ? "dropdown-item-single-column" : ""}>
                             {filterType == FILTER_TYPE_SINGLE_SELECT && <Radio
                                 checked={current && current.indexOf(value) > -1 ? true : false}
                                 onChange={e => changeFilter(value)}
