@@ -1,773 +1,768 @@
-(function (global) {
-    
+const util = newUtil();
+const inliner = newInliner();
+const fontFaces = newFontFaces();
+const images = newImages();
 
-    var util = newUtil();
-    var inliner = newInliner();
-    var fontFaces = newFontFaces();
-    var images = newImages();
+// Default impl options
+const ***REMOVED*** = {
+    // Default is to fail on error, no placeholder
+    ***REMOVED***: undefined,
+    // Default cache bust is false, it will use the cache
+    cacheBust: false
+};
 
-    // Default impl options
-    var ***REMOVED*** = {
-        // Default is to fail on error, no placeholder
-        ***REMOVED***: undefined,
-        // Default cache bust is false, it will use the cache
-        cacheBust: false
-    };
+export const domtoimage = {
+    toSvg: toSvg,
+    toPng: toPng,
+    toJpeg: toJpeg,
+    toBlob: toBlob,
+    toPixelData: toPixelData,
+    cloneNode: cloneNode,
+    impl: {
+        fontFaces: fontFaces,
+        images: images,
+        util: util,
+        inliner: inliner,
+        options: {}
+    }
+};
 
-    var domtoimage = {
-        toSvg: toSvg,
-        toPng: toPng,
-        toJpeg: toJpeg,
-        toBlob: toBlob,
-        toPixelData: toPixelData,
-        cloneNode: cloneNode,
-        impl: {
-            fontFaces: fontFaces,
-            images: images,
-            util: util,
-            inliner: inliner,
-            options: {}
-        }
-    };
-
-    if (typeof module !== 'undefined')
-        module.exports = domtoimage;
-    else
-        global.domtoimage = domtoimage;
+if (typeof module !== 'undefined')
+    module.exports = domtoimage;
+else
+    globalThis.domtoimage = domtoimage;
 
 
-    /**
-     * @param {Node} node - The DOM Node object to render
-     * @param {Object} options - Rendering options
-     * @param {Function} options.filter - Should return true if passed node should be included in the output
-     *          (excluding node means excluding it's children as well). Not called on the root node.
-     * @param {String} options.bgcolor - color for the background, any valid CSS color value.
-     * @param {Number} options.width - width to be applied to node before rendering.
-     * @param {Number} options.height - height to be applied to node before rendering.
-     * @param {Object} options.style - an object whose properties to be copied to node's style before rendering.
-     * @param {Number} options.quality - a Number between 0 and 1 indicating image quality (applicable to JPEG only),
-     defaults to 1.0.
-     * @param {String} options.***REMOVED*** - dataURL to use as a placeholder for failed images, default behaviour is to fail fast on images we can't fetch
-     * @param {Boolean} options.cacheBust - set to true to cache bust by appending the time to the request url
-     * @return {Promise} - A promise that is fulfilled with a SVG image data URL
-     * */
-    function toSvg(node, options) {
-        options = options || {};
-        copyOptions(options);
-        return Promise.resolve(node)
-            .then(function (node) {
-                return cloneNode(node, options.filter, true);
-            })
-            .then(embedFonts)
-            .then(inlineImages)
-            .then(applyOptions)
-            .then(function (clone) {
-                return ***REMOVED***(clone,
-                    options.width || util.width(node),
-                    options.height || util.height(node)
-                );
+/**
+ * @param {Node} node - The DOM Node object to render
+ * @param {Object} options - Rendering options
+ * @param {Function} options.filter - Should return true if passed node should be included in the output
+ *          (excluding node means excluding it's children as well). Not called on the root node.
+ * @param {String} options.bgcolor - color for the background, any valid CSS color value.
+ * @param {Number} options.width - width to be applied to node before rendering.
+ * @param {Number} options.height - height to be applied to node before rendering.
+ * @param {Object} options.style - an object whose properties to be copied to node's style before rendering.
+ * @param {Number} options.quality - a Number between 0 and 1 indicating image quality (applicable to JPEG only),
+ defaults to 1.0.
+ * @param {String} options.***REMOVED*** - dataURL to use as a placeholder for failed images, default behaviour is to fail fast on images we can't fetch
+ * @param {Boolean} options.cacheBust - set to true to cache bust by appending the time to the request url
+ * @return {Promise} - A promise that is fulfilled with a SVG image data URL
+ * */
+async function toSvg(node, options) {
+    options = options || {};
+    copyOptions(options);
+    const node_1 = await Promise.resolve(node);
+    const node_3 = await cloneNode(node_1, options.filter, true);
+    const node_4 = await embedFonts(node_3);
+    const clone = await inlineImages(node_4);
+    const clone_1 = await applyOptions(clone);
+    return await ***REMOVED***(clone_1, options.width || util.width(node),
+        options.height || util.height(node)
+    );
+
+    function applyOptions(clone) {
+        if (options.bgcolor) clone.style.***REMOVED*** = options.bgcolor;
+
+        if (options.width) clone.style.width = options.width + 'px';
+        if (options.height) clone.style.height = options.height + 'px';
+
+        if (options.style)
+            Object.keys(options.style).forEach(function (property) {
+                clone.style[property] = options.style[property];
             });
 
-        function applyOptions(clone) {
-            if (options.bgcolor) clone.style.***REMOVED*** = options.bgcolor;
+        return clone;
+    }
+}
 
-            if (options.width) clone.style.width = options.width + 'px';
-            if (options.height) clone.style.height = options.height + 'px';
+/**
+ * @param {Node} node - The DOM Node object to render
+ * @param {Object} options - Rendering options, @see {@link toSvg}
+ * @return {Promise} - A promise that is fulfilled with a Uint8Array containing RGBA pixel data.
+ * */
+async function toPixelData(node, options) {
+    const canvas = await draw(node, options || {});
+    if (!canvas) return null;
+    return canvas.getContext('2d').getImageData(
+        0,
+        0,
+        util.width(node),
+        util.height(node)
+    ).data;
+}
 
-            if (options.style)
-                Object.keys(options.style).forEach(function (property) {
-                    clone.style[property] = options.style[property];
-                });
+/**
+ * @param {Node} node - The DOM Node object to render
+ * @param {Object} options - Rendering options, @see {@link toSvg}
+ * @return {Promise} - A promise that is fulfilled with a PNG image data URL
+ * */
+async function toPng(node, options) {
+    const canvas = await draw(node, options || {});
+    if (!canvas) return null;
+    return canvas.toDataURL();
+}
 
-            return clone;
-        }
+/**
+ * @param {Node} node - The DOM Node object to render
+ * @param {Object} options - Rendering options, @see {@link toSvg}
+ * @return {Promise} - A promise that is fulfilled with a JPEG image data URL
+ * */
+async function toJpeg(node, options) {
+    options = options || {};
+    const canvas = await draw(node, options);
+    if (!canvas) return null;
+    return canvas.toDataURL('image/jpeg', options.quality || 1.0);
+}
+
+/**
+ * @param {Node} node - The DOM Node object to render
+ * @param {Object} options - Rendering options, @see {@link toSvg}
+ * @return {Promise} - A promise that is fulfilled with a PNG image blob
+ * */
+function toBlob(node, options) {
+    return draw(node, options || {})
+        .then(util.canvasToBlob);
+}
+
+function copyOptions(options) {
+    // Copy options to impl options for use in impl
+    if (typeof (options.***REMOVED***) === 'undefined') {
+        domtoimage.impl.options.***REMOVED*** = ***REMOVED***.***REMOVED***;
+    } else {
+        domtoimage.impl.options.***REMOVED*** = options.***REMOVED***;
     }
 
-    /**
-     * @param {Node} node - The DOM Node object to render
-     * @param {Object} options - Rendering options, @see {@link toSvg}
-     * @return {Promise} - A promise that is fulfilled with a Uint8Array containing RGBA pixel data.
-     * */
-    function toPixelData(node, options) {
-        return draw(node, options || {})
-            .then(function (canvas) {
-                return canvas.getContext('2d').getImageData(
-                    0,
-                    0,
-                    util.width(node),
-                    util.height(node)
-                ).data;
-            });
+    if (typeof (options.cacheBust) === 'undefined') {
+        domtoimage.impl.options.cacheBust = ***REMOVED***.cacheBust;
+    } else {
+        domtoimage.impl.options.cacheBust = options.cacheBust;
     }
+}
 
-    /**
-     * @param {Node} node - The DOM Node object to render
-     * @param {Object} options - Rendering options, @see {@link toSvg}
-     * @return {Promise} - A promise that is fulfilled with a PNG image data URL
-     * */
-    function toPng(node, options) {
-        return draw(node, options || {})
-            .then(function (canvas) {
-                return canvas.toDataURL();
-            });
-    }
-
-    /**
-     * @param {Node} node - The DOM Node object to render
-     * @param {Object} options - Rendering options, @see {@link toSvg}
-     * @return {Promise} - A promise that is fulfilled with a JPEG image data URL
-     * */
-    function toJpeg(node, options) {
-        options = options || {};
-        return draw(node, options)
-            .then(function (canvas) {
-                return canvas.toDataURL('image/jpeg', options.quality || 1.0);
-            });
-    }
-
-    /**
-     * @param {Node} node - The DOM Node object to render
-     * @param {Object} options - Rendering options, @see {@link toSvg}
-     * @return {Promise} - A promise that is fulfilled with a PNG image blob
-     * */
-    function toBlob(node, options) {
-        return draw(node, options || {})
-            .then(util.canvasToBlob);
-    }
-
-    function copyOptions(options) {
-        // Copy options to impl options for use in impl
-        if(typeof(options.***REMOVED***) === 'undefined') {
-            domtoimage.impl.options.***REMOVED*** = ***REMOVED***.***REMOVED***;
-        } else {
-            domtoimage.impl.options.***REMOVED*** = options.***REMOVED***;
-        }
-
-        if(typeof(options.cacheBust) === 'undefined') {
-            domtoimage.impl.options.cacheBust = ***REMOVED***.cacheBust;
-        } else {
-            domtoimage.impl.options.cacheBust = options.cacheBust;
-        }
-    }
-
-    function draw(domNode, options) {
-        return toSvg(domNode, options)
-            .then(util.makeImage)
-            .then(util.delay(100))
-            .then(function (image) {
-                var canvas = newCanvas(domNode);
-                canvas.getContext('2d').drawImage(image, 0, 0);
-                return canvas;
-            });
-
-        function newCanvas(domNode) {
-            var canvas = document.createElement('canvas');
-            canvas.width = options.width || util.width(domNode);
-            canvas.height = options.height || util.height(domNode);
-
-            if (options.bgcolor) {
-                var ctx = canvas.getContext('2d');
-                ctx.fillStyle = options.bgcolor;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-
+function draw(domNode, options) {
+    return toSvg(domNode, options)
+        .then(util.makeImage)
+        .then(util.delay(100))
+        .then(function (image) {
+            const canvas = newCanvas(domNode, options);
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return new ***REMOVED***();
+            ctx.drawImage(image, 0, 0);
             return canvas;
+        })
+        .catch(function (error) {
+            console.error("Failed to draw canvas:", error);
+        });
+
+    function newCanvas(domNode, options) {
+        const canvas = document.createElement('canvas');
+        const rect = domNode.getBoundingClientRect(); // Get accurate dimensions including CSS effects
+        const scale = window.***REMOVED*** || 1; // Handle high DPI screens
+
+        // Adjust canvas size according to the pixel ratio
+        canvas.width = (options.width || rect.width) * scale;
+        canvas.height = (options.height || rect.height) * scale;
+        canvas.style.width = (options.width || rect.width) + "px";
+        canvas.style.height = (options.height || rect.height) + "px";
+
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) return new ***REMOVED***();
+        ctx.scale(scale, scale); // Normalize coordinate system to use CSS pixels
+
+        if (options.bgcolor) {
+            ctx.fillStyle = options.bgcolor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        return canvas;
+    }
+}
+
+async function cloneNode(node, filter, root) {
+    if (!root && filter && !filter(node)) return Promise.resolve();
+
+    const node_1 = await Promise.resolve(node);
+    const clone = await makeNodeCopy(node_1);
+    const clone_1 = await cloneChildren(node, clone, filter);
+    return processClone(node, clone_1);
+
+    function makeNodeCopy(node) {
+        if (node instanceof ***REMOVED***) return util.makeImage(node.toDataURL());
+        return node.cloneNode(false);
+    }
+
+    async function cloneChildren(original, clone, filter) {
+        const children = original.childNodes;
+        if (children.length === 0) return Promise.resolve(clone);
+
+        await ***REMOVED***(clone, util.asArray(children), filter);
+        return clone;
+
+        function ***REMOVED***(parent, children, filter) {
+            let done = Promise.resolve();
+            children.forEach(function (child) {
+                done = done
+                    .then(function () {
+                        return cloneNode(child, filter);
+                    })
+                    .then(function (childClone) {
+                        if (childClone) parent.appendChild(childClone);
+                    });
+            });
+            return done;
         }
     }
 
-    function cloneNode(node, filter, root) {
-        if (!root && filter && !filter(node)) return Promise.resolve();
+    function processClone(original, clone) {
+        if (!(clone instanceof Element)) return clone;
 
-        return Promise.resolve(node)
-            .then(makeNodeCopy)
-            .then(function (clone) {
-                return cloneChildren(node, clone, filter);
-            })
-            .then(function (clone) {
-                return processClone(node, clone);
+        return Promise.resolve()
+            .then(cloneStyle)
+            .then(***REMOVED***)
+            .then(copyUserInput)
+            .then(fixSvg)
+            .then(function () {
+                return clone;
             });
 
-        function makeNodeCopy(node) {
-            if (node instanceof ***REMOVED***) return util.makeImage(node.toDataURL());
-            return node.cloneNode(false);
-        }
+        function cloneStyle() {
+            copyStyle(window.***REMOVED***(original), clone.style);
 
-        function cloneChildren(original, clone, filter) {
-            var children = original.childNodes;
-            if (children.length === 0) return Promise.resolve(clone);
+            function copyStyle(source, target) {
+                if (source.cssText) target.cssText = source.cssText;
+                else ***REMOVED***(source, target);
 
-            return ***REMOVED***(clone, util.asArray(children), filter)
-                .then(function () {
-                    return clone;
-                });
-
-            function ***REMOVED***(parent, children, filter) {
-                var done = Promise.resolve();
-                children.forEach(function (child) {
-                    done = done
-                        .then(function () {
-                            return cloneNode(child, filter);
-                        })
-                        .then(function (childClone) {
-                            if (childClone) parent.appendChild(childClone);
-                        });
-                });
-                return done;
+                function ***REMOVED***(source, target) {
+                    util.asArray(source).forEach(function (name) {
+                        target.setProperty(
+                            name,
+                            source.***REMOVED***(name),
+                            source.***REMOVED***(name)
+                        );
+                    });
+                }
             }
         }
 
-        function processClone(original, clone) {
-            if (!(clone instanceof Element)) return clone;
+        function ***REMOVED***() {
+            [':before', ':after'].forEach(function (element) {
+                ***REMOVED***(element);
+            });
 
-            return Promise.resolve()
-                .then(cloneStyle)
-                .then(***REMOVED***)
-                .then(copyUserInput)
-                .then(fixSvg)
-                .then(function () {
-                    return clone;
-                });
+            function ***REMOVED***(element) {
+                const style = window.***REMOVED***(original, element);
+                const content = style.***REMOVED***('content');
 
-            function cloneStyle() {
-                copyStyle(window.***REMOVED***(original), clone.style);
+                if (content === '' || content === 'none') return;
 
-                function copyStyle(source, target) {
-                    if (source.cssText) target.cssText = source.cssText;
-                    else ***REMOVED***(source, target);
+                const className = util.uid();
+                clone.className = clone.className + ' ' + className;
+                const styleElement = document.createElement('style');
+                styleElement.appendChild(formatPseudoElementStyle(className, element, style));
+                clone.appendChild(styleElement);
 
-                    function ***REMOVED***(source, target) {
-                        util.asArray(source).forEach(function (name) {
-                            target.setProperty(
-                                name,
-                                source.***REMOVED***(name),
-                                source.***REMOVED***(name)
-                            );
-                        });
+                function formatPseudoElementStyle(className, element, style) {
+                    const selector = '.' + className + ':' + element;
+                    const cssText = style.cssText ? formatCssText(style) : ***REMOVED***(style);
+                    return document.***REMOVED***(selector + '{' + cssText + '}');
+
+                    function formatCssText(style) {
+                        const content = style.***REMOVED***('content');
+                        return style.cssText + ' content: ' + content + ';';
+                    }
+
+                    function ***REMOVED***(style) {
+
+                        return util.asArray(style)
+                            .map(***REMOVED***)
+                            .join('; ') + ';';
+
+                        function ***REMOVED***(name) {
+                            return name + ': ' +
+                                style.***REMOVED***(name) +
+                                (style.***REMOVED***(name) ? ' !important' : '');
+                        }
                     }
                 }
             }
+        }
+
+        function copyUserInput() {
+            if (original instanceof ***REMOVED***) clone.innerHTML = original.value;
+            if (original instanceof ***REMOVED***) clone.setAttribute("value", original.value);
+        }
+
+        function fixSvg() {
+            if (!(clone instanceof SVGElement)) return;
+            clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+            if (!(clone instanceof ***REMOVED***)) return;
+            ['width', 'height'].forEach(function (attribute) {
+                const value = clone.getAttribute(attribute);
+                if (!value) return;
+
+                clone.style.setProperty(attribute, value);
+            });
+        }
+    }
+}
+
+async function embedFonts(node) {
+    const cssText = await fontFaces.resolveAll();
+    const styleNode = document.createElement('style');
+    node.appendChild(styleNode);
+    styleNode.appendChild(document.***REMOVED***(cssText));
+    return node;
+}
+
+function inlineImages(node) {
+    return images.inlineAll(node)
+        .then(function () {
+            return node;
+        });
+}
+
+function ***REMOVED***(node, width, height) {
+    return Promise.resolve(node)
+        .then(function (node) {
+            node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+            return new XMLSerializer().***REMOVED***(node);
+        })
+        .then(util.escapeXhtml)
+        .then(function (xhtml) {
+            return '<foreignObject x="0" y="0" width="100%" height="100%">' + xhtml + '</foreignObject>';
+        })
+        .then(function (foreignObject) {
+            return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '">' +
+                foreignObject + '</svg>';
+        })
+        .then(function (svg) {
+            return 'data:image/svg+xml;charset=utf-8,' + svg;
+        });
+}
+
+function newUtil() {
+    return {
+        escape: escape,
+        ***REMOVED***: ***REMOVED***,
+        mimeType: mimeType,
+        dataAsUrl: dataAsUrl,
+        isDataUrl: isDataUrl,
+        canvasToBlob: canvasToBlob,
+        resolveUrl: resolveUrl,
+        getAndEncode: getAndEncode,
+        uid: uid(),
+        delay: delay,
+        asArray: asArray,
+        escapeXhtml: escapeXhtml,
+        makeImage: makeImage,
+        width: width,
+        height: height
+    };
+
+    function mimes() {
+        /*
+         * Only WOFF and EOT mime types for fonts are 'real'
+         * see http://www.iana.org/assignments/media-types/media-types.xhtml
+         */
+        const WOFF = 'application/font-woff';
+        const JPEG = 'image/jpeg';
+
+        return {
+            'woff': WOFF,
+            'woff2': WOFF,
+            'ttf': 'application/font-truetype',
+            'eot': 'application/vnd.ms-fontobject',
+            'png': 'image/png',
+            'jpg': JPEG,
+            'jpeg': JPEG,
+            'gif': 'image/gif',
+            'tiff': 'image/tiff',
+            'svg': 'image/svg+xml'
+        };
+    }
+
+    function ***REMOVED***(url) {
+        const match = /\.([^\.\/]*?)$/g.exec(url);
+        if (match) return match[1];
+        else return '';
+    }
+
+    function mimeType(url) {
+        const extension = ***REMOVED***(url).toLowerCase();
+        return mimes()[extension] || '';
+    }
+
+    function isDataUrl(url) {
+        return url.search(/^(data:)/) !== -1;
+    }
+
+    function toBlob(canvas) {
+        return new Promise(function (resolve) {
+            const binaryString = window.atob(canvas.toDataURL().split(',')[1]);
+            const length = binaryString.length;
+            const binaryArray = new Uint8Array(length);
+
+            for (let i = 0; i < length; i++)
+                binaryArray[i] = binaryString.charCodeAt(i);
+
+            resolve(new Blob([binaryArray], {
+                type: 'image/png'
+            }));
+        });
+    }
+
+    function canvasToBlob(canvas) {
+        if (canvas.toBlob)
+            return new Promise(function (resolve) {
+                canvas.toBlob(resolve);
+            });
+
+        return toBlob(canvas);
+    }
+
+    function resolveUrl(url, baseUrl) {
+        const doc = document.***REMOVED***.***REMOVED***();
+        const base = doc.createElement('base');
+        doc.head.appendChild(base);
+        const a = doc.createElement('a');
+        doc.body.appendChild(a);
+        base.href = baseUrl;
+        a.href = url;
+        return a.href;
+    }
+
+    function uid() {
+        let index = 0;
+
+        return function () {
+            return 'u' + ***REMOVED***() + index++;
 
             function ***REMOVED***() {
-                [':before', ':after'].forEach(function (element) {
-                    ***REMOVED***(element);
-                });
-
-                function ***REMOVED***(element) {
-                    var style = window.***REMOVED***(original, element);
-                    var content = style.***REMOVED***('content');
-
-                    if (content === '' || content === 'none') return;
-
-                    var className = util.uid();
-                    clone.className = clone.className + ' ' + className;
-                    var styleElement = document.createElement('style');
-                    styleElement.appendChild(formatPseudoElementStyle(className, element, style));
-                    clone.appendChild(styleElement);
-
-                    function formatPseudoElementStyle(className, element, style) {
-                        var selector = '.' + className + ':' + element;
-                        var cssText = style.cssText ? formatCssText(style) : ***REMOVED***(style);
-                        return document.***REMOVED***(selector + '{' + cssText + '}');
-
-                        function formatCssText(style) {
-                            var content = style.***REMOVED***('content');
-                            return style.cssText + ' content: ' + content + ';';
-                        }
-
-                        function ***REMOVED***(style) {
-
-                            return util.asArray(style)
-                                .map(***REMOVED***)
-                                .join('; ') + ';';
-
-                            function ***REMOVED***(name) {
-                                return name + ': ' +
-                                    style.***REMOVED***(name) +
-                                    (style.***REMOVED***(name) ? ' !important' : '');
-                            }
-                        }
-                    }
-                }
+                /* see http://stackoverflow.com/a/6248722/2519373 */
+                return ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
             }
-
-            function copyUserInput() {
-                if (original instanceof ***REMOVED***) clone.innerHTML = original.value;
-                if (original instanceof ***REMOVED***) clone.setAttribute("value", original.value);
-            }
-
-            function fixSvg() {
-                if (!(clone instanceof SVGElement)) return;
-                clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-
-                if (!(clone instanceof ***REMOVED***)) return;
-                ['width', 'height'].forEach(function (attribute) {
-                    var value = clone.getAttribute(attribute);
-                    if (!value) return;
-
-                    clone.style.setProperty(attribute, value);
-                });
-            }
-        }
-    }
-
-    function embedFonts(node) {
-        return fontFaces.resolveAll()
-            .then(function (cssText) {
-                var styleNode = document.createElement('style');
-                node.appendChild(styleNode);
-                styleNode.appendChild(document.***REMOVED***(cssText));
-                return node;
-            });
-    }
-
-    function inlineImages(node) {
-        return images.inlineAll(node)
-            .then(function () {
-                return node;
-            });
-    }
-
-    function ***REMOVED***(node, width, height) {
-        return Promise.resolve(node)
-            .then(function (node) {
-                node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-                return new XMLSerializer().***REMOVED***(node);
-            })
-            .then(util.escapeXhtml)
-            .then(function (xhtml) {
-                return '<foreignObject x="0" y="0" width="100%" height="100%">' + xhtml + '</foreignObject>';
-            })
-            .then(function (foreignObject) {
-                return '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + '" height="' + height + '">' +
-                    foreignObject + '</svg>';
-            })
-            .then(function (svg) {
-                return 'data:image/svg+xml;charset=utf-8,' + svg;
-            });
-    }
-
-    function newUtil() {
-        return {
-            escape: escape,
-            ***REMOVED***: ***REMOVED***,
-            mimeType: mimeType,
-            dataAsUrl: dataAsUrl,
-            isDataUrl: isDataUrl,
-            canvasToBlob: canvasToBlob,
-            resolveUrl: resolveUrl,
-            getAndEncode: getAndEncode,
-            uid: uid(),
-            delay: delay,
-            asArray: asArray,
-            escapeXhtml: escapeXhtml,
-            makeImage: makeImage,
-            width: width,
-            height: height
         };
+    }
 
-        function mimes() {
-            /*
-             * Only WOFF and EOT mime types for fonts are 'real'
-             * see http://www.iana.org/assignments/media-types/media-types.xhtml
-             */
-            var WOFF = 'application/font-woff';
-            var JPEG = 'image/jpeg';
-
-            return {
-                'woff': WOFF,
-                'woff2': WOFF,
-                'ttf': 'application/font-truetype',
-                'eot': 'application/vnd.ms-fontobject',
-                'png': 'image/png',
-                'jpg': JPEG,
-                'jpeg': JPEG,
-                'gif': 'image/gif',
-                'tiff': 'image/tiff',
-                'svg': 'image/svg+xml'
+    function makeImage(uri) {
+        return new Promise(function (resolve, reject) {
+            const image = new Image();
+            image.onload = function () {
+                resolve(image);
             };
+            image.onerror = reject;
+            image.src = uri;
+        });
+    }
+
+    function getAndEncode(url) {
+        const TIMEOUT = 30000;
+        if (domtoimage.impl.options.cacheBust) {
+            // Cache bypass so we dont have CORS issues with cached images
+            // Source: https://developer.mozilla.org/en/docs/Web/API/***REMOVED***/Using_XMLHttpRequest#Bypassing_the_cache
+            url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
         }
 
-        function ***REMOVED***(url) {
-            var match = /\.([^\.\/]*?)$/g.exec(url);
-            if (match) return match[1];
-            else return '';
-        }
+        return new Promise(function (resolve) {
+            const request = new ***REMOVED***();
 
-        function mimeType(url) {
-            var extension = ***REMOVED***(url).toLowerCase();
-            return mimes()[extension] || '';
-        }
+            request.***REMOVED*** = done;
+            request.ontimeout = timeout;
+            request.responseType = 'blob';
+            request.timeout = TIMEOUT;
+            request.open('GET', url, true);
+            request.send();
 
-        function isDataUrl(url) {
-            return url.search(/^(data:)/) !== -1;
-        }
-
-        function toBlob(canvas) {
-            return new Promise(function (resolve) {
-                var binaryString = window.atob(canvas.toDataURL().split(',')[1]);
-                var length = binaryString.length;
-                var binaryArray = new Uint8Array(length);
-
-                for (var i = 0; i < length; i++)
-                    binaryArray[i] = binaryString.charCodeAt(i);
-
-                resolve(new Blob([binaryArray], {
-                    type: 'image/png'
-                }));
-            });
-        }
-
-        function canvasToBlob(canvas) {
-            if (canvas.toBlob)
-                return new Promise(function (resolve) {
-                    canvas.toBlob(resolve);
-                });
-
-            return toBlob(canvas);
-        }
-
-        function resolveUrl(url, baseUrl) {
-            var doc = document.***REMOVED***.***REMOVED***();
-            var base = doc.createElement('base');
-            doc.head.appendChild(base);
-            var a = doc.createElement('a');
-            doc.body.appendChild(a);
-            base.href = baseUrl;
-            a.href = url;
-            return a.href;
-        }
-
-        function uid() {
-            var index = 0;
-
-            return function () {
-                return 'u' + ***REMOVED***() + index++;
-
-                function ***REMOVED***() {
-                    /* see http://stackoverflow.com/a/6248722/2519373 */
-                    return ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36)).slice(-4);
+            let placeholder;
+            if (domtoimage.impl.options.***REMOVED***) {
+                const split = domtoimage.impl.options.***REMOVED***.split(/,/);
+                if (split && split[1]) {
+                    placeholder = split[1];
                 }
-            };
-        }
-
-        function makeImage(uri) {
-            return new Promise(function (resolve, reject) {
-                var image = new Image();
-                image.onload = function () {
-                    resolve(image);
-                };
-                image.onerror = reject;
-                image.src = uri;
-            });
-        }
-
-        function getAndEncode(url) {
-            var TIMEOUT = 30000;
-            if(domtoimage.impl.options.cacheBust) {
-                // Cache bypass so we dont have CORS issues with cached images
-                // Source: https://developer.mozilla.org/en/docs/Web/API/***REMOVED***/Using_XMLHttpRequest#Bypassing_the_cache
-                url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
             }
 
-            return new Promise(function (resolve) {
-                var request = new ***REMOVED***();
+            function done() {
+                if (request.readyState !== 4) return;
 
-                request.***REMOVED*** = done;
-                request.ontimeout = timeout;
-                request.responseType = 'blob';
-                request.timeout = TIMEOUT;
-                request.open('GET', url, true);
-                request.send();
-
-                var placeholder;
-                if(domtoimage.impl.options.***REMOVED***) {
-                    var split = domtoimage.impl.options.***REMOVED***.split(/,/);
-                    if(split && split[1]) {
-                        placeholder = split[1];
-                    }
-                }
-
-                function done() {
-                    if (request.readyState !== 4) return;
-
-                    if (request.status !== 200) {
-                        if(placeholder) {
-                            resolve(placeholder);
-                        } else {
-                            fail('cannot fetch resource: ' + url + ', status: ' + request.status);
-                        }
-
-                        return;
-                    }
-
-                    var encoder = new FileReader();
-                    encoder.onloadend = function () {
-                        var content = encoder.result.split(/,/)[1];
-                        resolve(content);
-                    };
-                    encoder.readAsDataURL(request.response);
-                }
-
-                function timeout() {
-                    if(placeholder) {
+                if (request.status !== 200) {
+                    if (placeholder) {
                         resolve(placeholder);
                     } else {
-                        fail('timeout of ' + TIMEOUT + 'ms occured while fetching resource: ' + url);
+                        fail('cannot fetch resource: ' + url + ', status: ' + request.status);
                     }
+
+                    return;
                 }
 
-                function fail(message) {
-                    console.error(message);
-                    resolve('');
+                const encoder = new FileReader();
+                encoder.onloadend = function () {
+                    const content = encoder.result.split(/,/)[1];
+                    resolve(content);
+                };
+                encoder.readAsDataURL(request.response);
+            }
+
+            function timeout() {
+                if (placeholder) {
+                    resolve(placeholder);
+                } else {
+                    fail('timeout of ' + TIMEOUT + 'ms occured while fetching resource: ' + url);
                 }
+            }
+
+            function fail(message) {
+                console.error(message);
+                resolve('');
+            }
+        });
+    }
+
+    function dataAsUrl(content, type) {
+        return 'data:' + type + ';base64,' + content;
+    }
+
+    function escape(string) {
+        return string.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1');
+    }
+
+    function delay(ms) {
+        return function (arg) {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve(arg);
+                }, ms);
             });
-        }
+        };
+    }
 
-        function dataAsUrl(content, type) {
-            return 'data:' + type + ';base64,' + content;
-        }
+    function asArray(arrayLike) {
+        const array = [];
+        const length = arrayLike.length;
+        for (let i = 0; i < length; i++) array.push(arrayLike[i]);
+        return array;
+    }
 
-        function escape(string) {
-            return string.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1');
-        }
+    function escapeXhtml(string) {
+        return string.replace(/#/g, '%23').replace(/\n/g, '%0A');
+    }
 
-        function delay(ms) {
-            return function (arg) {
-                return new Promise(function (resolve) {
-                    setTimeout(function () {
-                        resolve(arg);
-                    }, ms);
-                });
-            };
-        }
+    function width(node) {
+        const leftBorder = px(node, 'border-left-width');
+        const rightBorder = px(node, 'border-right-width');
+        return node.scrollWidth + leftBorder + rightBorder;
+    }
 
-        function asArray(arrayLike) {
-            var array = [];
-            var length = arrayLike.length;
-            for (var i = 0; i < length; i++) array.push(arrayLike[i]);
-            return array;
-        }
+    function height(node) {
+        const topBorder = px(node, 'border-top-width');
+        const bottomBorder = px(node, 'border-bottom-width');
+        return node.scrollHeight + topBorder + bottomBorder;
+    }
 
-        function escapeXhtml(string) {
-            return string.replace(/#/g, '%23').replace(/\n/g, '%0A');
-        }
+    function px(node, styleProperty) {
+        const value = window.***REMOVED***(node).***REMOVED***(styleProperty);
+        return parseFloat(value.replace('px', ''));
+    }
+}
 
-        function width(node) {
-            var leftBorder = px(node, 'border-left-width');
-            var rightBorder = px(node, 'border-right-width');
-            return node.scrollWidth + leftBorder + rightBorder;
-        }
+function newInliner() {
+    const URL_REGEX = /url\(['"]?([^'"]+?)['"]?\)/g;
 
-        function height(node) {
-            var topBorder = px(node, 'border-top-width');
-            var bottomBorder = px(node, 'border-bottom-width');
-            return node.scrollHeight + topBorder + bottomBorder;
+    return {
+        inlineAll: inlineAll,
+        shouldProcess: shouldProcess,
+        impl: {
+            readUrls: readUrls,
+            inline: inline
         }
+    };
 
-        function px(node, styleProperty) {
-            var value = window.***REMOVED***(node).***REMOVED***(styleProperty);
-            return parseFloat(value.replace('px', ''));
+    function shouldProcess(string) {
+        return string.search(URL_REGEX) !== -1;
+    }
+
+    function readUrls(string) {
+        const result = [];
+        let match;
+        while ((match = URL_REGEX.exec(string)) !== null) {
+            result.push(match[1]);
+        }
+        return result.filter(function (url) {
+            return !util.isDataUrl(url);
+        });
+    }
+
+    function inline(string, url, baseUrl, get) {
+        return Promise.resolve(url)
+            .then(function (url) {
+                return baseUrl ? util.resolveUrl(url, baseUrl) : url;
+            })
+            .then(get || util.getAndEncode)
+            .then(function (data) {
+                return util.dataAsUrl(data, util.mimeType(url));
+            })
+            .then(function (dataUrl) {
+                return string.replace(urlAsRegex(url), '$1' + dataUrl + '$3');
+            });
+
+        function urlAsRegex(url) {
+            return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
         }
     }
 
-    function newInliner() {
-        var URL_REGEX = /url\(['"]?([^'"]+?)['"]?\)/g;
+    function inlineAll(string, baseUrl, get) {
+        if (***REMOVED***()) return Promise.resolve(string);
 
+        return Promise.resolve(string)
+            .then(readUrls)
+            .then(function (urls) {
+                let done = Promise.resolve(string);
+                urls.forEach(function (url) {
+                    done = done.then(function (string) {
+                        return inline(string, url, baseUrl, get);
+                    });
+                });
+                return done;
+            });
+
+        function ***REMOVED***() {
+            return !shouldProcess(string);
+        }
+    }
+}
+
+function newFontFaces() {
+    return {
+        resolveAll: resolveAll,
+        impl: {
+            readAll: readAll
+        }
+    };
+
+    function resolveAll() {
+        return readAll(document)
+            .then(function (webFonts) {
+                return Promise.all(
+                    webFonts.map(function (webFont) {
+                        return webFont.resolve();
+                    })
+                );
+            })
+            .then(function (cssStrings) {
+                return cssStrings.join('\n');
+            });
+    }
+
+    function readAll() {
+        return Promise.resolve(util.asArray(document.styleSheets))
+            .then(getCssRules)
+            .then(***REMOVED***)
+            .then(function (rules) {
+                return rules.map(newWebFont);
+            });
+
+        function ***REMOVED***(cssRules) {
+            return cssRules
+                .filter(function (rule) {
+                    return rule.type === CSSRule.FONT_FACE_RULE;
+                })
+                .filter(function (rule) {
+                    return inliner.shouldProcess(rule.style.***REMOVED***('src'));
+                });
+        }
+
+        function getCssRules(styleSheets) {
+            const cssRules = [];
+            styleSheets.forEach(function (sheet) {
+                if (Object.prototype.***REMOVED***.call(sheet, "cssRules")) {
+                    try {
+                        util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
+                    } catch (e) {
+                        console.log('Error while reading CSS rules from ' + sheet.href, e.toString());
+                    }
+                }
+            });
+            return cssRules;
+        }
+
+        function newWebFont(webFontRule) {
+            return {
+                resolve: function resolve() {
+                    const baseUrl = (webFontRule.***REMOVED*** || {}).href;
+                    return inliner.inlineAll(webFontRule.cssText, baseUrl);
+                },
+                src: function () {
+                    return webFontRule.style.***REMOVED***('src');
+                }
+            };
+        }
+    }
+}
+
+function newImages() {
+    return {
+        inlineAll: inlineAll,
+        impl: {
+            newImage: newImage
+        }
+    };
+
+    function newImage(element) {
         return {
-            inlineAll: inlineAll,
-            shouldProcess: shouldProcess,
-            impl: {
-                readUrls: readUrls,
-                inline: inline
-            }
+            inline: inline
         };
 
-        function shouldProcess(string) {
-            return string.search(URL_REGEX) !== -1;
-        }
+        function inline(get) {
+            if (util.isDataUrl(element.src)) return Promise.resolve();
 
-        function readUrls(string) {
-            var result = [];
-            var match;
-            while ((match = URL_REGEX.exec(string)) !== null) {
-                result.push(match[1]);
-            }
-            return result.filter(function (url) {
-                return !util.isDataUrl(url);
-            });
-        }
-
-        function inline(string, url, baseUrl, get) {
-            return Promise.resolve(url)
-                .then(function (url) {
-                    return baseUrl ? util.resolveUrl(url, baseUrl) : url;
-                })
+            return Promise.resolve(element.src)
                 .then(get || util.getAndEncode)
                 .then(function (data) {
-                    return util.dataAsUrl(data, util.mimeType(url));
+                    return util.dataAsUrl(data, util.mimeType(element.src));
                 })
                 .then(function (dataUrl) {
-                    return string.replace(urlAsRegex(url), '$1' + dataUrl + '$3');
-                });
-
-            function urlAsRegex(url) {
-                return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
-            }
-        }
-
-        function inlineAll(string, baseUrl, get) {
-            if (***REMOVED***()) return Promise.resolve(string);
-
-            return Promise.resolve(string)
-                .then(readUrls)
-                .then(function (urls) {
-                    var done = Promise.resolve(string);
-                    urls.forEach(function (url) {
-                        done = done.then(function (string) {
-                            return inline(string, url, baseUrl, get);
-                        });
+                    return new Promise(function (resolve, reject) {
+                        element.onload = resolve;
+                        element.onerror = reject;
+                        element.src = dataUrl;
+                        element.srcset = "";
                     });
-                    return done;
                 });
-
-            function ***REMOVED***() {
-                return !shouldProcess(string);
-            }
         }
     }
 
-    function newFontFaces() {
-        return {
-            resolveAll: resolveAll,
-            impl: {
-                readAll: readAll
-            }
-        };
+    function inlineAll(node) {
+        if (!(node instanceof Element)) return Promise.resolve(node);
 
-        function resolveAll() {
-            return readAll(document)
-                .then(function (webFonts) {
+        return ***REMOVED***(node)
+            .then(function () {
+                if (node instanceof ***REMOVED***)
+                    return newImage(node).inline();
+                else
                     return Promise.all(
-                        webFonts.map(function (webFont) {
-                            return webFont.resolve();
+                        util.asArray(node.childNodes).map(function (child) {
+                            return inlineAll(child);
                         })
                     );
+            });
+
+        function ***REMOVED***(node) {
+            const background = node.style.***REMOVED***('background');
+
+            if (!background) return Promise.resolve(node);
+
+            return inliner.inlineAll(background)
+                .then(function (inlined) {
+                    node.style.setProperty(
+                        'background',
+                        inlined,
+                        node.style.***REMOVED***('background')
+                    );
                 })
-                .then(function (cssStrings) {
-                    return cssStrings.join('\n');
-                });
-        }
-
-        function readAll() {
-            return Promise.resolve(util.asArray(document.styleSheets))
-                .then(getCssRules)
-                .then(***REMOVED***)
-                .then(function (rules) {
-                    return rules.map(newWebFont);
-                });
-
-            function ***REMOVED***(cssRules) {
-                return cssRules
-                    .filter(function (rule) {
-                        return rule.type === CSSRule.FONT_FACE_RULE;
-                    })
-                    .filter(function (rule) {
-                        return inliner.shouldProcess(rule.style.***REMOVED***('src'));
-                    });
-            }
-
-            function getCssRules(styleSheets) {
-                var cssRules = [];
-                styleSheets.forEach(function (sheet) {
-                    if (sheet.***REMOVED***("cssRules")) {
-                        try {
-                            util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
-                        } catch (e) {
-                            console.log('Error while reading CSS rules from ' + sheet.href, e.toString());
-                        }
-                    }
-                });
-                return cssRules;
-            }
-
-            function newWebFont(webFontRule) {
-                return {
-                    resolve: function resolve() {
-                        var baseUrl = (webFontRule.***REMOVED*** || {}).href;
-                        return inliner.inlineAll(webFontRule.cssText, baseUrl);
-                    },
-                    src: function () {
-                        return webFontRule.style.***REMOVED***('src');
-                    }
-                };
-            }
-        }
-    }
-
-    function newImages() {
-        return {
-            inlineAll: inlineAll,
-            impl: {
-                newImage: newImage
-            }
-        };
-
-        function newImage(element) {
-            return {
-                inline: inline
-            };
-
-            function inline(get) {
-                if (util.isDataUrl(element.src)) return Promise.resolve();
-
-                return Promise.resolve(element.src)
-                    .then(get || util.getAndEncode)
-                    .then(function (data) {
-                        return util.dataAsUrl(data, util.mimeType(element.src));
-                    })
-                    .then(function (dataUrl) {
-                        return new Promise(function (resolve, reject) {
-                            element.onload = resolve;
-                            element.onerror = reject;
-                            element.src = dataUrl;
-                            element.srcset="";
-                        });
-                    });
-            }
-        }
-
-        function inlineAll(node) {
-            if (!(node instanceof Element)) return Promise.resolve(node);
-
-            return ***REMOVED***(node)
                 .then(function () {
-                    if (node instanceof ***REMOVED***)
-                        return newImage(node).inline();
-                    else
-                        return Promise.all(
-                            util.asArray(node.childNodes).map(function (child) {
-                                return inlineAll(child);
-                            })
-                        );
+                    return node;
                 });
-
-            function ***REMOVED***(node) {
-                var background = node.style.***REMOVED***('background');
-
-                if (!background) return Promise.resolve(node);
-
-                return inliner.inlineAll(background)
-                    .then(function (inlined) {
-                        node.style.setProperty(
-                            'background',
-                            inlined,
-                            node.style.***REMOVED***('background')
-                        );
-                    })
-                    .then(function () {
-                        return node;
-                    });
-            }
         }
     }
-})(this);
+}
