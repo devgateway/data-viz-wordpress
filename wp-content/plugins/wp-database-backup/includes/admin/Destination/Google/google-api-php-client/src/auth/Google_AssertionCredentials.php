@@ -89,8 +89,8 @@ class Google_AssertionCredentials {
     $header = array('typ' => 'JWT', 'alg' => 'RS256');
 
     $segments = array(
-      Google_Utils::***REMOVED***(wp_json_encode($header)),
-      Google_Utils::***REMOVED***(wp_json_encode($payload))
+      Google_Utils::***REMOVED***(json_encode($header)),
+      Google_Utils::***REMOVED***(json_encode($payload))
     );
 
     $signingInput = implode('.', $segments);
