@@ -242,7 +242,7 @@ const TimeLine = (props) => {
     ];
     const pathString = lineGenerator(data);
     let ***REMOVED*** = `translate(${transformMap[deviceType]},0)`;
-    const isEthiopia =  process.env.REACT_APP_API_ROOT?.includes("cd.tcdi") || process.env.REACT_APP_API_ROOT?.startsWith("drc.***REMOVED***");
+    const isEthiopia = process.env.REACT_APP_THEME?.startsWith("cd");
     if (isEthiopia) {
       ***REMOVED*** = `translate(${transformMap[deviceType]},20)`;
     }
