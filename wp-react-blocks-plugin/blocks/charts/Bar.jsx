@@ -83,11 +83,11 @@ const BarOptions = (props) => {
                     const {type} = ds[0]
                     const cat = allCategories.filter(a => a.type === type)
                     if (cat && cat.length > 0) {
-
                         return cat[0].items.sort((a, b) => b.position - a.position).map(d => ({
                             value: d.value,
                             id: d.id,
-                            code: d.code
+                            code: d.code,
+                            labels: d.labels
                         }))
                     }
                 }
@@ -128,162 +128,229 @@ const BarOptions = (props) => {
     }
     const series = app == 'csv' ? getCSVSeries() : getSeries();
 
-    return [<PanelBody initialOpen={false} title={__("Bar Options")}>
-
+    return [
+      <PanelBody initialOpen={false} title={__("Bar Options")}>
         <PanelBody initialOpen={false} title={__("Colors")}>
-            <ChartColors  {...props}></ChartColors>
-
+          <ChartColors {...props}></ChartColors>
         </PanelBody>
         <PanelBody initialOpen={false} title={"Layout"}>
-            <PanelRow>
+          <PanelRow>
+            <ToggleControl
+              label={__("Grouped")}
+              checked={groupMode === "grouped"}
+              onChange={() =>
+                setAttributes({
+                  groupMode: groupMode === "grouped" ? "stacked" : "grouped",
+                })
+              }
+            />
+          </PanelRow>
+          <PanelRow>
+            <ToggleControl
+              label={__("Symlog Scale")}
+              checked={valueScale === "symlog"}
+              onChange={() =>
+                setAttributes({
+                  valueScale: valueScale === "linear" ? "symlog" : "linear",
+                })
+              }
+            />
+          </PanelRow>
+          <PanelRow>
+            <ToggleControl
+              label={__("Horizontal")}
+              checked={layout === "horizontal"}
+              onChange={(value) =>
+                setAttributes({
+                  layout: layout === "horizontal" ? "vertical" : "horizontal",
+                })
+              }
+            />
+          </PanelRow>
+          <PanelRow>
+            <ToggleControl
+              label={__("Reverse")}
+              checked={reverse}
+              onChange={(value) => setAttributes({ reverse: !reverse })}
+            />
+          </PanelRow>
+
+          {app !== "csv" && <Sort {...props}></Sort>}
+
+          {app !== "csv" &&
+            dimension1 != "none" &&
+            dimension2 == "none" &&
+            ***REMOVED***.length > 0 && (
+              <PanelRow>
                 <ToggleControl
-                    label={__("Grouped")}
-                    checked={groupMode === "grouped"}
-                    onChange={() => setAttributes({groupMode: (groupMode === "grouped" ? "stacked" : "grouped")})}/>
-
-            </PanelRow>
-            <PanelRow>
+                  label={__("Swap Values")}
+                  checked={swap}
+                  onChange={(swap) => setAttributes({ swap })}
+                />
+              </PanelRow>
+            )}
+          <PanelRow>
+            <ToggleControl
+              label={__("Enable Y Grid Lines")}
+              checked={enableGridY}
+              onChange={() => setAttributes({ enableGridY: !enableGridY })}
+            />
+          </PanelRow>
+          <PanelRow>
+            <ToggleControl
+              label={__("Enable X Grid Lines")}
+              checked={enableGridX}
+              onChange={() => setAttributes({ enableGridX: !enableGridX })}
+            />
+          </PanelRow>
+          {app !== "csv" && (
+            <>
+              <PanelRow>
                 <ToggleControl
-                    label={__("Symlog Scale")}
-                    checked={valueScale === "symlog"}
-                    onChange={() => setAttributes({valueScale: (valueScale === "linear" ? "symlog" : "linear")})}/>
-            </PanelRow>
-            <PanelRow>
-                <ToggleControl
-                    label={__("Horizontal")}
-                    checked={layout === "horizontal"}
-                    onChange={(value) => setAttributes({layout: (layout === "horizontal" ? "vertical" : "horizontal")})}/>
-
-            </PanelRow>
-            <PanelRow>
-                <ToggleControl
-                    label={__("Reverse")}
-                    checked={reverse}
-                    onChange={(value) => setAttributes({reverse: (!reverse)})}/>
-
-            </PanelRow>
-
-            {(app !== 'csv' && <Sort {...props}></Sort>)}
-
-            {(app !== 'csv' && dimension1 != "none" && dimension2 == "none" && ***REMOVED***.length > 0) &&
+                  label={__("Include Overall")}
+                  checked={***REMOVED***}
+                  onChange={(***REMOVED***) =>
+                    setAttributes({ ***REMOVED*** })
+                  }
+                />
+              </PanelRow>
+              {***REMOVED*** && (
                 <PanelRow>
-                    <ToggleControl
-                        label={__("Swap Values")}
-                        checked={swap}
-                        onChange={(swap) => setAttributes({swap})}/>
+                  <TextControl
+                    label={__("Overall Label")}
+                    value={overallLabel}
+                    onChange={(overallLabel) => setAttributes({ overallLabel })}
+                  />
                 </PanelRow>
-            }
-            <PanelRow>
-                <ToggleControl
-                    label={__("Enable Y Grid Lines")}
-                    checked={enableGridY}
-                    onChange={() => setAttributes({enableGridY: !enableGridY})}/>
-            </PanelRow>
-            <PanelRow>
-                <ToggleControl
-                    label={__("Enable X Grid Lines")}
-                    checked={enableGridX}
-                    onChange={() => setAttributes({enableGridX: !enableGridX})}/>
-            </PanelRow>
-            {app !== 'csv' &&
-                <>
-                    <PanelRow>
-                        <ToggleControl
-                            label={__("Include Overall")}
-                            checked={***REMOVED***}
-                            onChange={(***REMOVED***) => setAttributes({***REMOVED***})}/>
-                    </PanelRow>
-                    {***REMOVED*** &&
-                        <PanelRow>
-                            <TextControl
-                                label={__('Overall Label')}
-                                value={overallLabel}
-                                onChange={(overallLabel) => setAttributes({overallLabel})}
-                            />
-                        </PanelRow>
-                    }
-                </>
-            }
-            <PanelRow>
-                <ToggleControl
-                    label={__("Display Group Total")}
-                    checked={***REMOVED***}
-                    onChange={(***REMOVED***) => {
-                        if (!***REMOVED*** || ***REMOVED*** == "") {
-                            setAttributes({***REMOVED***, ***REMOVED***: allMeasures ? allMeasures[0].value : ""})
-                        } else {
-                            setAttributes({***REMOVED***})
-                        }
-                    }}/>
-            </PanelRow>
+              )}
+            </>
+          )}
+          <PanelRow>
+            <ToggleControl
+              label={__("Display Group Total")}
+              checked={***REMOVED***}
+              onChange={(***REMOVED***) => {
+                if (!***REMOVED*** || ***REMOVED*** == "") {
+                  setAttributes({
+                    ***REMOVED***,
+                    ***REMOVED***: allMeasures ? allMeasures[0].value : "",
+                  });
+                } else {
+                  setAttributes({ ***REMOVED*** });
+                }
+              }}
+            />
+          </PanelRow>
 
-            <Labels {...props}></Labels>
+          <Labels {...props}></Labels>
         </PanelBody>
 
         {***REMOVED*** && <***REMOVED*** {...props}></***REMOVED***>}
 
-        {getSeries() && <PanelBody initialOpen={false} title={__("Hidden Bars")}>
-            {getSeries().map(p => <PanelRow>
-
+        {getSeries() && (
+          <PanelBody initialOpen={false} title={__("Hidden Bars")}>
+            {getSeries().map((p) => (
+              <PanelRow>
                 <ToggleControl
-                    label={p.value}
-                    checked={hiddenBars.indexOf(p.value) > -1}
-                    onChange={(value) => {
-                        if (hiddenBars.indexOf(p.value) > -1) {
+                  label={p.value}
+                  checked={
+                    hiddenBars.includes(p.value) ||
+                    (p.labels &&
+                      hiddenBars.includes(
+                        p.labels[window._user_locale.toUpperCase()]
+                      ))
+                  }
+                  onChange={() => {
+                    const localeKey = window._user_locale.toUpperCase();
+                    const labelByLocale = p.labels?.[localeKey]; // Safely access p.labels[localeKey]
 
-                            setAttributes({hiddenBars: hiddenBars.filter(item => item !== p.value)})
-                        } else {
-                            setAttributes({hiddenBars: [...hiddenBars, p.value]})
-                        }
+                    let updatedBars = [...hiddenBars];
 
-                    }}/>
+                    // If the bar is already hidden, remove it and its localized label (if applicable)
+                    if (
+                      hiddenBars.includes(p.value) ||
+                      (labelByLocale && hiddenBars.includes(labelByLocale))
+                    ) {
+                      updatedBars = updatedBars.filter(
+                        (item) => item !== p.value
+                      );
+                      if (labelByLocale) {
+                        updatedBars = updatedBars.filter(
+                          (item) => item !== labelByLocale
+                        );
+                      }
+                    } else {
+                      // Add the bar and its localized label (if applicable)
+                      updatedBars.push(p.value);
+                      if (labelByLocale) {
+                        updatedBars.push(labelByLocale);
+                      }
+                    }
 
-            </PanelRow>)
-            }
-
-
-        </PanelBody>}
+                    // Update the attributes
+                    setAttributes({ hiddenBars: updatedBars });
+                  }}
+                />
+              </PanelRow>
+            ))}
+          </PanelBody>
+        )}
         {series && <ConfidenceIntervalConfig series={series} {...props} />}
-
 
         <AxisConfig {...props}></AxisConfig>
 
         <PanelBody initialOpen={false} title={__("Padding")}>
-            <PanelRow>
-                <RangeControl
-                    label={__('Bar Padding (Space between bars that are not in the same group)')}
-                    value={barPadding}
-                    ***REMOVED***={0.15}
-                    onChange={(barPadding) => setAttributes({barPadding})}
-                    step={0.05}
-                    min={0}
-                    max={1}/>
-            </PanelRow>
+          <PanelRow>
+            <RangeControl
+              label={__(
+                "Bar Padding (Space between bars that are not in the same group)"
+              )}
+              value={barPadding}
+              ***REMOVED***={0.15}
+              onChange={(barPadding) => setAttributes({ barPadding })}
+              step={0.05}
+              min={0}
+              max={1}
+            />
+          </PanelRow>
 
-            <PanelRow>
-                <RangeControl
-                    label={__('Bar Inner Padding (Space between bars in the same group)')}
-                    value={***REMOVED***}
-                    ***REMOVED***={0.75}
-                    onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
-                    step={0.25}
-                    min={0}
-                    max={50}/>
-            </PanelRow>
+          <PanelRow>
+            <RangeControl
+              label={__(
+                "Bar Inner Padding (Space between bars in the same group)"
+              )}
+              value={***REMOVED***}
+              ***REMOVED***={0.75}
+              onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+              step={0.25}
+              min={0}
+              max={50}
+            />
+          </PanelRow>
         </PanelBody>
 
         <ChartLegends {...props}></ChartLegends>
 
         <PanelBody initialOpen={false} title={__("Line Overlay")}>
-            <PanelRow>
-                <ToggleControl
-                    label={__("Enable Overlay")}
-                    checked={***REMOVED*** === true}
-                    onChange={(value) => setAttributes({***REMOVED***: !***REMOVED***})}/>
-            </PanelRow>
-            {***REMOVED*** && <LineOverlay allMeasures={allMeasures} apps={apps} {...props}></LineOverlay>}
+          <PanelRow>
+            <ToggleControl
+              label={__("Enable Overlay")}
+              checked={***REMOVED*** === true}
+              onChange={(value) =>
+                setAttributes({ ***REMOVED***: !***REMOVED*** })
+              }
+            />
+          </PanelRow>
+          {***REMOVED*** && (
+            <LineOverlay
+              allMeasures={allMeasures}
+              apps={apps}
+              {...props}
+            ></LineOverlay>
+          )}
         </PanelBody>
-    </PanelBody>]
+      </PanelBody>,
+    ];
 }
 
 export default BarOptions
