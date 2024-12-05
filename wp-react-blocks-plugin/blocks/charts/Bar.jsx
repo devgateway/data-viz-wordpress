@@ -57,7 +57,9 @@ const BarOptions = (props) => {
             sortReverse,
         }
     } = props;
-
+    const ***REMOVED*** = document.***REMOVED***.lang;
+    const locale = ***REMOVED***.split('-')[0];
+    window._user_locale = locale;
 
     const getSeries = () => {
         if (allCategories) {
