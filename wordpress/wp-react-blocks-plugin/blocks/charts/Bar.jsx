@@ -1,3 +1,4 @@
+import { useEffect  } from 'react';
 import {PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import ChartColors from "../commons/ChartColors.jsx"
@@ -57,9 +58,11 @@ const BarOptions = (props) => {
             sortReverse,
         }
     } = props;
-    const ***REMOVED*** = document.***REMOVED***.lang;
-    const locale = ***REMOVED***.split('-')[0];
-    window._user_locale = locale;
+    useEffect(() => {
+        const ***REMOVED*** = document.***REMOVED***.lang;
+        const locale = ***REMOVED***.split('-')[0];
+        window._user_locale = locale;
+    }, []);
 
     const getSeries = () => {
         if (allCategories) {
