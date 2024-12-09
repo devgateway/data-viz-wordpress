@@ -499,9 +499,7 @@ import {Chart} from '../icons/index.js'
                     marginRight: 25,
                     ***REMOVED***: true,
                     ***REMOVED***: true,
-                    ***REMOVED***: true,
-                    barPadding: 0.15,
-                    ***REMOVED***: 0.7,
+                    ***REMOVED***: true
                 }
             },
             reverseLegend: {
