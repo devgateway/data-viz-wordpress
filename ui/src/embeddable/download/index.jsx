@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Button, Container, Dropdown, Grid, Icon} from "semantic-ui-react";
-import {PostContent} from "@devgateway/wp-react-lib";
-import {cloneNode, toJpeg, toPng} from "./dom-to-image";
-import {saveAs} from 'file-saver';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Container, Dropdown, Grid, Icon } from "semantic-ui-react";
+import { PostContent } from "@devgateway/wp-react-lib";
+import { domtoimage } from "./dom-to-image";
+import { saveAs } from 'file-saver';
 
 
 const ***REMOVED*** = React.forwardRef((props, ref) => (
@@ -41,8 +41,8 @@ const ***REMOVED*** = (props) => {
 
 
     const [fileType, setFileType] = useState(defaultFormat)
-    const isCheckPNG = checkPNG == 'true' || checkPNG == true
-    const isCheckJPG = checkJPG == 'true' || checkJPG == true
+    const isCheckPNG = checkPNG === 'true' || checkPNG === true
+    const isCheckJPG = checkJPG === 'true' || checkJPG === true
 
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const ***REMOVED*** = (props) => {
         const attributes = node.attributes;
         const ***REMOVED*** = []
         if (attributes) {
-            for (var i = 0; i < attributes.length; i++) {
+            for (let i = 0; i < attributes.length; i++) {
                 ***REMOVED***.push(attributes[i].nodeName);
             }
         }
@@ -76,46 +76,41 @@ const ***REMOVED*** = (props) => {
         return true;
     }
 
-    const options = {filter, bgcolor: "#FFF"}
+    const options = { filter, bgcolor: "#FFF" }
     const save = (type) => {
 
-         cloneNode(componentRef.current).then(function (node) {
+        domtoimage.cloneNode(componentRef.current).then(function (node) {
+            //add source url
+            const addSourceURL = ***REMOVED*** === "true";
+            if (addSourceURL) {
+                const urlNode = document.createElement('div')
+                urlNode.style.marginLeft = ***REMOVED*** + "px"
+                urlNode.style.marginTop = ***REMOVED*** + "px"
+                urlNode.style.fontSize = ***REMOVED*** + "px"
+                urlNode.innerHTML = window.location.href
+                node.appendChild(urlNode)
+            }
+            
+            // TODO: Fix react compiler issue
+             
+            options.height = componentRef.current.offsetHeight + 100
+            options.width = componentRef.current.offsetWidth + 100
+            node.style.padding = "20px"
 
-             [...node.***REMOVED***("input")].forEach(e=>e.remove())
+            if (type == "PNG") {
+                domtoimage.toPng(node, options)
+                    .then(function (blob) {
+                        saveAs(blob, pngLabel)
+                    });
+            }
 
-              //add source url
-              const addSourceURL = ***REMOVED*** == "true";
-              if (addSourceURL) {
-                  const urlNode = document.createElement('div')
-                  urlNode.style.marginLeft = ***REMOVED*** + "px"
-                  urlNode.style.marginTop = ***REMOVED*** + "px"
-                  urlNode.style.fontSize = ***REMOVED*** + "px"
-                  urlNode.style.fontFamily = 'Roboto, sans-serif';
-                  urlNode.style.fontWeight = '400';
-                  urlNode.style.color = '#66676d';
-                  urlNode.style.opacity = '0.75';
-                  urlNode.innerHTML = window.location.href
-                  node.appendChild(urlNode)
-              }
-
-             options.height = componentRef.current.scrollHeight;
-             options.width = componentRef.current.scrollWidth + 30;
-              node.style.padding = "20px"
-
-              if (type == "PNG") {
-                  toPng(node, options)
-                      .then(function (blob) {
-                          saveAs(blob, pngLabel)
-                      });
-              }
-
-              if (type == "JPG") {
-                  toJpeg(node, options)
-                      .then(function (blob) {
-                          saveAs(blob, jpgLabel)
-                      });
-              }
-          })
+            if (type == "JPG") {
+                domtoimage.toJpeg(node, options)
+                    .then(function (blob) {
+                        saveAs(blob, jpgLabel)
+                    });
+            }
+        })
     }
 
     const ***REMOVED*** = (type) => {
@@ -129,11 +124,7 @@ const ***REMOVED*** = (props) => {
     return (
 
         <Container
-            className={`viz download ${style} ${useTitle ? 'has-title' : ''} 
-                ${(isCheckPNG || isCheckJPG) ? 'has-formats' : ''} 
-                ${editing ? 'editing' : ''} 
-                ${(isCheckPNG && isCheckJPG) ? 'multi-format' : ''} 
-                ${(isCheckPNG && !isCheckJPG) || (!isCheckPNG && isCheckJPG) ? 'single-format' : ''}`}
+            className={`viz download ${style}  ${useTitle ? 'has-title' : ''}  ${isCheckPNG || isCheckJPG ? 'has-formats' : ''} ${editing ? 'editing' : ''}`}
             fluid={true}>
 
             <***REMOVED*** ref={componentRef}>
@@ -141,47 +132,42 @@ const ***REMOVED*** = (props) => {
                     {!editing && useTitle == "true" &&
                         <Grid.Column width={12}>
                             <PostContent parentUnique={props.unique}
-                                         post={{content: {rendered: ***REMOVED***(sectionTitle)}}}></PostContent>
+                                post={{ content: { rendered: ***REMOVED***(sectionTitle) } }}></PostContent>
 
                         </Grid.Column>}
-                    <Grid.Column className={ editing ? "editing ignore" : "ignore"  } width={(editing || useTitle != "true") ? 16 : 4}
-                                 textAlign={"right"}>
+                    <Grid.Column className={editing ? "editing ignore" : "ignore"} width={(editing || useTitle != "true") ? 16 : 4}
+                        textAlign={"right"}>
                         <div className={"wrapper"}>
+
+                            <Dropdown className={"download"} data-tooltip={***REMOVED***(tooltip)}
+                                trigger={(isCheckJPG && isCheckPNG) ?
+                                    <Icon name={"download"} className='download-icon'></Icon> : null}>
+                                <Dropdown.Menu>
+                                    {title}
+                                    {(isCheckPNG == 'true' || isCheckPNG == true) ? <Dropdown.Item onClick={() => ***REMOVED***('PNG')}>
+                                        <input type='radio' value='PNG' checked={fileType === 'PNG'}
+                                            onChange={handleChange} />
+                                        <label>{pngText}</label>
+                                    </Dropdown.Item> : null}
+                                    {(isCheckJPG == 'true' || isCheckJPG == true) ? <Dropdown.Item onClick={() => ***REMOVED***('JPG')}>
+                                        <input type='radio' value='JPG' checked={fileType === 'JPG'}
+                                            onChange={handleChange} />
+                                        <label>{jpgText}</label>
+                                    </Dropdown.Item> : null}
+                                </Dropdown.Menu>
+                            </Dropdown>
+
                             <Button className={"download"} onClick={() => ***REMOVED***(fileType)}>
                                 {buttonLabel} {fileType === 'PNG' ? 'PNG' : 'JPG'}
                             </Button>
-                            <Dropdown className={"download"} data-tooltip={***REMOVED***(tooltip)}
-                                      trigger={(isCheckJPG && isCheckPNG) ?
-                                          <Icon name={"download"} className='download-icon'></Icon> : null}>
-                                <Dropdown.Menu>
-                                    {title}
-                                    {(isCheckPNG == 'true' || isCheckPNG == true) ? (
-                                        <Dropdown.Item onClick={() => {
-                                            setFileType('PNG');
-                                            ***REMOVED***('PNG');
-                                        }}>
-                                            <input type='radio' value='PNG' checked={fileType === 'PNG'} onChange={handleChange} />
-                                            <label>{pngText}</label>
-                                        </Dropdown.Item>
-                                    ) : null}
-                                    {(isCheckJPG == 'true' || isCheckJPG == true) ? (
-                                        <Dropdown.Item onClick={() => {
-                                            setFileType('JPG');
-                                            ***REMOVED***('JPG');
-                                        }}>
-                                            <input type='radio' value='JPG' checked={fileType === 'JPG'} onChange={handleChange} />
-                                            <label>{jpgText}</label>
-                                        </Dropdown.Item>
-                                    ) : null}
-                                </Dropdown.Menu>
-                            </Dropdown>
+
                         </div>
                     </Grid.Column>
                 </Grid>
                 {!editing &&
                     <Container fluid={true} className={"download area"}>
                         <PostContent parentUnique={props.unique}
-                                     post={{content: {rendered: childContent}}}></PostContent>
+                            post={{ content: { rendered: childContent } }}></PostContent>
                     </Container>
                 }
             </***REMOVED***>

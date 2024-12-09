@@ -1,0 +1,536 @@
+import React, {useRef, useState} from "react";
+import {Container} from "semantic-ui-react";
+import DataProvider from "../data/DataProvider";
+import DataConsumer from "../data/DataConsumer";
+import {buildDivergingOptions, ***REMOVED***} from './***REMOVED***'
+import HalfPie from "./Pie";
+
+import Radar from "./Radar";
+import Bar from "./Bar";
+import Line from "./Line";
+
+import {PostContent} from "@devgateway/wp-react-lib";
+import dataFrames from './data/index'
+
+
+import CSVDataFrame from "./CSVDataFrame";
+import ColorProvider from "../common/colors/ColorProvider"
+import Messages from "../common/Messages";
+import {connect} from "react-redux";
+
+const PieChart = (props) => {
+    const {data, legends, colors, height} = props
+    const options = ***REMOVED***(data, true)
+    return <HalfPie height={height} legends={legends} colors={colors} options={options}
+                    format={{style: "percent"}}></HalfPie>
+}
+
+const Diverging = (props) => {
+    const {data, legends, colors, height} = props
+    const options = buildDivergingOptions(data, true)
+    return <Diverging height={height} legends={legends} colors={colors} options={options}
+                      format={{style: "percent", currency: "EUR"}}></Diverging>
+}
+const Chart = (props) => {
+    const {
+        parent,
+        editing = false,
+        unique,
+        childContent,
+        categories,
+        ***REMOVED***,
+        "data-app": app = "prevalence",
+        "data-group": group = "default",
+        "data-height": height = 500,
+        "data-type": type = 'bar',
+        //'data-source': source = 'gender/smoke',f
+        'data-dimension1': dimension1,
+        'data-dimension2': dimension2,
+        'data-dimension3': dimension3,
+        'data-color-by': colorBy = 'index',
+        'data-scheme': scheme = 'system',
+        'data-group-mode': groupMode = 'grouped',
+        'data-left-legend': left = 'Left Legend',
+        'data-legend-label': legendLabel = "",
+        'data-bottom-legend': bottom = 'Bottom Legend',
+        'data-dualmode': dualMode,
+        'data-legend-position': ***REMOVED*** = "right",
+        'data-show-legends': showLegends = "true",
+        'data-data-source-label': ***REMOVED*** = "Source",
+        'data-chart-data-source': dataSource = "Data Source",
+        'data-toggle-info-label': ***REMOVED*** = "Info Graphic",
+        'data-toggle-chart-label': ***REMOVED*** = "Chart",
+        //'data-number-format': format = '{"style":"percent", "minimumFractionDigits": 1, "maximumFractionDigits": 1}',
+        'data-tick-rotation': tickRotation = 0,
+        'data-tick-color': tickColor = "rgb(92,93,99)",
+        'data-measures': measures = "{}",
+        'data-format': format = "{}",
+        "data-csv": csv = "",
+        "data-margin-left": marginLeft = 50,
+        "data-margin-top": marginTop = 25,
+        "data-margin-right": marginRight = 25,
+        "data-margin-bottom": marginBottom = 25,
+        "data-start-angle": startAngle = 0,
+        "data-end-angle": endAngle = 360,
+        "data-view-mode": editMode = 'info',
+        "data-filters": filters = '[]', //filters
+        "data-tooltip-html": tooltip = "",
+        "data-layout": layout = "vertical",
+        "data-reverse": reverse = "false",
+        "data-offset-y": offsetY = "-40",
+        "data-line-layer-enabled": ***REMOVED*** = "false",
+
+        //"data-csv-line-layer-data": ***REMOVED*** = "",
+        //"data-csv-line-color": lineColor = "#000000",
+        //"data-csv-line-tooltip": lineTooltip = "",
+        //"data-csv-line-title": lineTitle = "",
+
+        "data-overlays": overlays,
+        "data-max-value": maxValue = 'auto',
+        "data-value-scale": valueScale = "linear",
+        "data-swap": swap = "false",
+        "data-no-data-message": noDataMsg = "No data matches your selection",
+        "data-bar-color": barColor = "rgb(0,0,0)",
+        "data-override-tick-color": ***REMOVED*** = "false",
+        "data-fixed-min-value": fixedMinValue = 0,
+        "data-fixed-max-value": fixedMaxValue = 0,
+        "data-bar-padding": barPadding = 0.15,
+        "data-bar-label-position": ***REMOVED*** = "middle",
+        "data-show-grid": showGrid = "true",
+        "data-include-overall": ***REMOVED*** = "false",
+        "data-bar-inner-padding": ***REMOVED*** = .7,
+        "data-x-label-color": xLabelColor = "#000",
+        "data-bar-label-color": barLabelColor = "#000",
+        "data-legend-label-color": ***REMOVED*** = "#000",
+        "data-tooltip-enabled": ***REMOVED*** = "true",
+        "data-use-check-box-background": ***REMOVED*** = "false",
+        "data-use-label-background": ***REMOVED*** = "true",
+        "data-highlight-xaxis-line": ***REMOVED*** = "false",
+        "data-show-tick-line": showTickLine = "true",
+        "data-show-right-axis": showRightAxis = "true",
+        "data-manual-colors": manualColors = "{}",
+        "data-right-legend": rightLegend = "",
+        "data-offset-right": offsetRight = "40",
+        "data-offset-bottom": offsetBottom = "40",
+        "data-hidden-bars": hiddenBars = [],
+        "data-confidence-intervals": ***REMOVED*** = "[]",
+        "data-enable-area": enableArea = "false",
+        "data-area-shading-criteria": ***REMOVED*** = "DEFAULT",
+        "data-area-lower-bound": ***REMOVED*** = "",
+        "data-area-upper-bound": ***REMOVED*** = "",
+        "data-show-points": showPoints = "true",
+        "data-center-label": centerLabel = "",
+        "data-show-arc-labels": showArcLabels = "true",
+        "data-show-arc-link-labels": ***REMOVED*** = "true",
+        "data-slice-padding": slicePadding = 1,
+        "data-center-label-font-weight": centerLabelFontWeight = "normal",
+        "data-center-label-font-size": ***REMOVED*** = "12",
+        "data-center-label-xoffset": ***REMOVED*** = 0,
+        "data-center-label-yoffset": ***REMOVED*** = 0,
+        "data-group-total-measure": ***REMOVED*** = "",
+        "data-show-group-total": ***REMOVED*** = "true",
+        "data-group-total-label": ***REMOVED*** = "",
+        "data-group-total-format": ***REMOVED*** = "{}",
+        "data-group-total-label-offset": ***REMOVED***,
+        "data-group-total-fixed-position": groupTotalFixedPosition = "false",
+        "data-tooltip-enable-markdown": tooltipEnableMarkdown = "false",
+        "data-y-axis-tick-values": ***REMOVED*** = "10",
+        "data-enable-grid-y": enableGridY = "true",
+        "data-enable-grid-x": enableGridX = "false",
+        "data-offset-text": offsetText = 0,
+        "data-overall-label": overallLabel = "Overall",
+        "data-min-max-clamp": minMaxClamp = "false",
+        "data-reverse-legend": reverseLegend = "false",
+        "data-sort": sort = "default",
+        "data-sort-reverse": sortReverse = "false",
+    } = props
+
+    const locale = props.intl.locale
+    const ref = useRef(null);
+    const decode = (value) => {
+        if (editing) {
+            return value
+        }
+        return ***REMOVED***(value)
+    }
+
+    const parse = (value) => {
+        try {
+            return JSON.parse(decode(value))
+        } catch (error) {
+            console.error("error parsing value:" + value)
+        }
+
+        return null
+    }
+
+    const ***REMOVED*** = () => {
+        return parse(manualColors)[app]
+    }
+
+    const ***REMOVED*** = () => {
+        return parse(measures)
+    }
+    const ***REMOVED*** = () => {
+        if (***REMOVED***[app]) {
+            let format = ***REMOVED***[app].format
+            if (!format) {
+                const keys = Object.keys(***REMOVED***[app])
+                for (let i = 0; i < keys.length; i++) {
+                    if (***REMOVED***[app][keys[i]].selected && ***REMOVED***[app][keys[i]].format) {
+                        format = ***REMOVED***[app][keys[i]].format
+                        break
+                    }
+                }
+            }
+
+            return format
+        } else {
+            return ***REMOVED*** && ***REMOVED***["csv"] ? ***REMOVED***["csv"].format : null
+        }
+    }
+
+    const ***REMOVED*** = () => {
+        let format = null
+        if (***REMOVED***[app]) {
+            const ***REMOVED*** = ***REMOVED***[app].***REMOVED***
+            if (***REMOVED*** && ***REMOVED***[app].customFormat) {
+                format = ***REMOVED***[app].customFormat
+            }
+
+        } else {
+            if (***REMOVED*** && ***REMOVED***["csv"]) {
+                const ***REMOVED*** = ***REMOVED***["csv"].***REMOVED***
+                if (***REMOVED*** && ***REMOVED***["csv"].customFormat) {
+                    format = ***REMOVED***["csv"].customFormat
+                }
+            }
+        }
+
+        return format
+    }
+
+    const ***REMOVED*** = () => {
+        if (***REMOVED***[app]) {
+            return Object.keys(***REMOVED***[app]).map(s => ({value: s, ...***REMOVED***[app][s]})).filter(m => m.selected).map(s => s.value)
+        }
+        return []
+    }
+    const ***REMOVED*** = () => {
+        const customLabels = {}
+        if (***REMOVED***[app]) {
+            const ***REMOVED*** = Object.keys(***REMOVED***[app]).map(s => ({value: s, ...***REMOVED***[app][s]})).filter(m => m.selected && m.***REMOVED***)
+            ***REMOVED***.forEach(m => {
+                    customLabels[m.value] = m.customLabel
+                }
+            )
+        }
+        return customLabels
+    }
+    const ***REMOVED*** = () => {
+        if (***REMOVED***[app]) {
+            return Object.keys(***REMOVED***[app]).filter(k => ***REMOVED***[app][k].***REMOVED***)
+        }
+        return []
+    }
+
+    let ***REMOVED*** = ***REMOVED***()
+    let ***REMOVED*** = ***REMOVED***()
+
+    let ***REMOVED*** = ***REMOVED***()
+    let userMeasures = ***REMOVED***()
+    let leftLegendForSelectedMeasure = left
+    let rightLegendForSelectedMeasure = rightLegend
+
+    /*Decoding tooltip string*/
+    let tooltipForSelectedMeasure = decode(tooltip)
+
+    if (***REMOVED***) {
+        const selected = Object.keys(***REMOVED***[app].measures).map(s => ({value: s, ...***REMOVED***[app].measures[s]})).filter(m => m.selected).map(s => s.value)
+        ***REMOVED*** = ***REMOVED***
+        ***REMOVED*** = selected
+        ***REMOVED*** = ***REMOVED***()
+
+        leftLegendForSelectedMeasure = ***REMOVED***.leftTitle
+        rightLegendForSelectedMeasure = ***REMOVED***.rightTitle
+        if (***REMOVED***.customTooltip) {
+            tooltipForSelectedMeasure = ***REMOVED***.customTooltip
+        }
+    }
+
+    let numberFormat = ***REMOVED*** ? {
+        style: (***REMOVED***.style === 'compacted') ? 'decimal' : ***REMOVED***.style,
+        notation: (***REMOVED***.style === 'compacted') ? 'compact' : "standard",
+        currency: ***REMOVED***.currency,
+        minimumFractionDigits: parseInt(***REMOVED***.minimumFractionDigits),
+        maximumFractionDigits: parseInt(***REMOVED***.maximumFractionDigits)
+    } : {
+        notation: "standard",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }
+
+    const ***REMOVED*** = ***REMOVED***()
+
+    const groupTotalFormatObject = parse(***REMOVED***)
+
+    let groupTotalFormatParsed = {
+        style: (groupTotalFormatObject.style === 'compacted') ? 'decimal' : groupTotalFormatObject.style,
+        notation: (groupTotalFormatObject.style === 'compacted') ? 'compact' : "standard",
+        currency: groupTotalFormatObject.currency,
+        minimumFractionDigits: parseInt(groupTotalFormatObject.minimumFractionDigits),
+        maximumFractionDigits: parseInt(groupTotalFormatObject.maximumFractionDigits)
+    }
+    const [mode, setMode] = useState(editMode)
+    const viewMode = editing ? editMode : mode
+    const colors = {
+        scheme: scheme,
+        colorBy: colorBy
+    }
+    let child = null
+    const contentHeight = (editing ? height - 80 : height - 40)
+    const legends = {
+        left: leftLegendForSelectedMeasure,
+        bottom: bottom,
+        right: rightLegendForSelectedMeasure
+    }
+
+
+    const chartProps = {
+        app,
+        tickColor: ***REMOVED***(tickColor),
+        tickRotation: tickRotation,
+        layout,
+        reverse: (reverse == true || reverse == "true"),
+        showLegends: (showLegends == true || showLegends == "true"),
+        legendLabel,
+        swap: (swap == true || swap == "true"),
+        showGrid: (showGrid == true || showGrid == "true"),
+
+        marginLeft: parseInt(marginLeft),
+        marginTop: parseInt(marginTop),
+        marginRight: parseInt(marginRight),
+        marginBottom: parseInt(marginBottom),
+        height: `${contentHeight}px`,
+        ***REMOVED***: ***REMOVED***,
+        legends,
+        tooltip: (tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true") ? tooltipForSelectedMeasure : tooltipForSelectedMeasure.replace(/\r\n/g, '<hr/>').replace(/[\r\n]/g, '<hr/>'),
+        colors: colors,
+        groupMode: groupMode,
+        format: numberFormat,
+        startAngle,
+        endAngle,
+        offsetY,
+        // ***REMOVED***,
+        // lineColor: ***REMOVED***(lineColor),
+        // lineTooltip,
+        // lineTitle,
+        maxValue,
+        valueScale,
+        categories,
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        overlays: parse(overlays) || [],
+        barColor: ***REMOVED***(barColor),
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        fixedMinValue,
+        fixedMaxValue,
+        barPadding,
+        ***REMOVED***,
+        ***REMOVED***,
+        xLabelColor: ***REMOVED***(xLabelColor),
+        barLabelColor: ***REMOVED***(barLabelColor),
+        ***REMOVED***: ***REMOVED***(***REMOVED***),
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        showTickLine: showTickLine == true || showTickLine == "true",
+        showRightAxis: showRightAxis == true || showRightAxis == "true",
+        offsetRight,
+        offsetBottom,
+        ***REMOVED***: parse(***REMOVED***) || [],
+        showPoints: showPoints == true || showPoints == "true",
+        enableArea: enableArea == true || enableArea == "true",
+        ***REMOVED***,
+        ***REMOVED***,
+        ***REMOVED***,
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        ***REMOVED***,
+        ***REMOVED***,
+        ***REMOVED***: groupTotalFormatParsed,
+        ***REMOVED***,
+        groupTotalFixedPosition: groupTotalFixedPosition == true || groupTotalFixedPosition == "true",
+        centerLabel,
+        showArcLabels: showArcLabels == true || showArcLabels == "true",
+        ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
+        slicePadding,
+        centerLabelFontWeight,
+        ***REMOVED***,
+        ***REMOVED***,
+        ***REMOVED***,
+        userMeasures,
+        tooltipEnableMarkdown: tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true",
+        ***REMOVED***,
+        enableGridY: enableGridY == true || enableGridY == "true",
+        enableGridX: enableGridX == true || enableGridX == "true",
+        offsetText,
+        ***REMOVED***,
+        overallLabel,
+        minMaxClamp,
+        reverseLegend: reverseLegend == true || reverseLegend == "true",
+        ***REMOVED***,
+        sort,
+        sortReverse: sortReverse == true || sortReverse == "true",
+    }
+
+
+    let params = {}
+    const ff = parse(filters) || {}
+
+    if (ff && ff.forEach) {
+        ff.forEach(f => {
+            if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0)
+                params[f.param] = f.value
+        })
+    }
+
+
+    let ***REMOVED*** = null
+    let Chart = null
+
+    if (app === "csv") {
+        ***REMOVED*** = CSVDataFrame
+    } else {
+        switch (type) {
+            case  "line":
+                ***REMOVED*** = dataFrames.LineDataFrame
+                break
+            case  "pie":
+                ***REMOVED*** = dataFrames.PieDataFrame
+                break
+            case  "radar":
+                //TODO RADAR
+
+                ***REMOVED*** = dataFrames.BarDataFrame
+                break
+            default:
+                ***REMOVED*** = dataFrames.BarDataFrame
+                break
+        }
+    }
+    let showNotEnoughParameters = false
+
+
+    switch (type) {
+        case  "bar":
+            Chart = Bar
+            showNotEnoughParameters = app != 'csv' && dimension1 == 'none' && ***REMOVED***.length == 0
+            break
+        case  "line":
+            Chart = Line
+            showNotEnoughParameters = app != 'csv' && (***REMOVED***.length == 0 || dimension1 == 'none')
+            break
+        case "pie":
+            showNotEnoughParameters = app != 'csv' && ***REMOVED***.length == 0
+            Chart = HalfPie
+            break
+        case "radar":
+            showNotEnoughParameters = app != 'csv' && ***REMOVED***.length == 0
+            //TODO RADAR ***REMOVED***
+            Chart = Radar
+            break
+        default:
+            Chart = <div>No Chart</div>
+            break
+    }
+
+
+    const dual = (dualMode === 'true')
+    const dimensions = []
+    if (dimension1 != 'none') {
+        dimensions.push(dimension1)
+    }
+    if (dimension2 != 'none') {
+        dimensions.push(dimension2)
+    }
+
+
+    return (<div ref={ref}>
+
+
+        <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
+
+
+            <DataProvider
+                editing={editing}
+                style={{"height": `${contentHeight}px`}}
+                params={params}
+                app={app}
+                group={group}
+                csv={csv}
+                editing={editing}
+                store={[app, unique, ...dimensions]} source={dimensions.join("/")}>
+
+
+                <Container style={{"height": `${contentHeight}px`}} className={"body"} fluid={true}>
+
+                    {showNotEnoughParameters && <Messages editing={editing}></Messages>}
+                    {!showNotEnoughParameters && <DataConsumer>
+                        <Messages app={app} group={group} noDataMsg={noDataMsg}> </Messages>
+                        <***REMOVED***
+                            locale={locale}
+                            colorBy={colorBy}
+                            hiddenBars={hiddenBars}
+                            swap={swap == 'true' || swap == true} type={type} includeTotal={true}
+                            ***REMOVED***={***REMOVED*** == true || ***REMOVED*** == "true"}
+                            overallLabel={overallLabel}
+                            measures={***REMOVED***}
+                            dimensions={[...dimensions]}
+                            sort={sort}
+                            sortreverse={sortReverse}
+                            customLabels={***REMOVED***()}>
+                            <ColorProvider
+                                type={type}
+                                app={app}
+                                locale={locale}
+                                overallLabel={overallLabel}
+                                customLabels={***REMOVED***()}
+                                manualColors={***REMOVED***()} colorBy={colorBy} scheme={scheme}
+                                barColor={chartProps.barColor}>
+
+                                <Chart {...chartProps}></Chart>
+                            </ColorProvider>
+
+                        </***REMOVED***>
+
+                    </DataConsumer>}
+
+                </Container>
+
+            </DataProvider>
+
+            <br/>
+            {dual && childContent && viewMode == 'info' &&
+                <Container fluid={true} style={{"height": contentHeight + 'px'}} className={"body"}>
+                    <PostContent post={{content: {rendered: childContent}}}></PostContent>
+                </Container>}
+
+        </Container>
+    </div>)
+
+}
+
+const ***REMOVED*** = (state, ownProps) => {
+    const {"data-app": app, "data-group": group,} = ownProps
+    const ***REMOVED*** = state.getIn(['data', 'measures', app, group])
+    if (***REMOVED***) {
+        return {
+            "***REMOVED***": ***REMOVED***,
+        }
+    } else {
+        return {}
+    }
+}
+const ***REMOVED*** = {};
+export default connect(***REMOVED***, ***REMOVED***)(Chart)

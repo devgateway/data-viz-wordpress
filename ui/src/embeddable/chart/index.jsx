@@ -16,7 +16,7 @@ import CSVDataFrame from "./CSVDataFrame";
 import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
-import deviceType from '../../utils/deviceType';
+import deviceType from '@/utils/deviceType';
 
 
 const isMobile = deviceType() === 'mobile';
@@ -52,7 +52,7 @@ const Diverging = (props) => {
   );
 };
 const Chart = (props) => {
-  let {
+  const {
     parent,
     editing = false,
     unique,
@@ -154,8 +154,6 @@ const Chart = (props) => {
     "data-tooltip-enable-markdown": tooltipEnableMarkdown = "false",
     "data-y-axis-tick-values": ***REMOVED*** = "10",
     "data-x-axis-tick-values": ***REMOVED*** = "10",
-    "data-enable-grid-y": enableGridY = "true",
-    "data-enable-grid-x": enableGridX = "false",
     "data-offset-text": offsetText = 0,
     "data-overall-label": overallLabel = "Overall",
     "data-min-max-clamp": minMaxClamp = "false",
@@ -174,6 +172,11 @@ const Chart = (props) => {
     "data-radar-enable-dot-label": ***REMOVED*** = "true",
     "data-radar-dot-label-offset": ***REMOVED*** = -12,
     "data-mobile-customization": ***REMOVED*** = "{}",
+  } = props;
+
+  let {
+    "data-enable-grid-y": enableGridY = "true",
+    "data-enable-grid-x": enableGridX = "false",
   } = props;
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
   const isMobileConfigEnabled = (isMobile || isTablet || isMidTablet) && (***REMOVED***?.  ***REMOVED*** ?? false);
@@ -286,7 +289,7 @@ const Chart = (props) => {
   let ***REMOVED*** = ***REMOVED***();
 
   let ***REMOVED*** = ***REMOVED***();
-  let userMeasures = ***REMOVED***();
+  const userMeasures = ***REMOVED***();
   let leftLegendForSelectedMeasure = left;
   let rightLegendForSelectedMeasure = rightLegend;
 
@@ -309,7 +312,7 @@ const Chart = (props) => {
     }
   }
 
-  let numberFormat = ***REMOVED***
+  const numberFormat = ***REMOVED***
     ? {
         style:
           ***REMOVED***.style === "compacted"
@@ -331,7 +334,7 @@ const Chart = (props) => {
 
   const groupTotalFormatObject = parse(***REMOVED***);
 
-  let groupTotalFormatParsed = {
+  const groupTotalFormatParsed = {
     style:
       groupTotalFormatObject.style === "compacted"
         ? "decimal"
@@ -352,7 +355,7 @@ const Chart = (props) => {
     scheme: scheme,
     colorBy: colorBy,
   };
-  let child = null;
+  const child = null;
   const contentHeight = editing ? height - 80 : height;
 
   const ***REMOVED*** = () => {
@@ -547,7 +550,7 @@ const Chart = (props) => {
     dimension1
   };
 
-  let params = {};
+  const params = {};
   const ff = parse(filters) || {};
 
   if (ff && ff.forEach) {
@@ -810,4 +813,5 @@ const ***REMOVED*** = (state, ownProps) => {
   }
 };
 const ***REMOVED*** = {};
+
 export default connect(***REMOVED***, ***REMOVED***)(Chart);
