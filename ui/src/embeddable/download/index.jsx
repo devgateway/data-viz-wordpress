@@ -99,7 +99,7 @@ const ***REMOVED*** = (props) => {
               }
 
              options.height = componentRef.current.scrollHeight;
-             options.width = componentRef.current.scrollWidth;
+             options.width = componentRef.current.scrollWidth + 30;
               node.style.padding = "20px"
 
               if (type == "PNG") {
