@@ -1,11 +1,29 @@
-import { Search, Segment } from "semantic-ui-react";
+import { Search, Segment, Input } from "semantic-ui-react";
 import React from "react";
 import clsx from "clsx";
 import {
     ***REMOVED***,
     ***REMOVED***,
+    ***REMOVED***,
+    useKeyOnly,
+    ***REMOVED***,
     ***REMOVED***
 } from 'semantic-ui-react/dist/commonjs/lib'
+
+// type SearchProps = typeof Search;
+
+// type ***REMOVED*** = SearchProps & React.HTMLProps<***REMOVED***>;
+
+// interface ***REMOVED*** extends ***REMOVED*** {
+//     ***REMOVED*** : React.ComponentType<any> | React.ReactNode | JSX.Element;
+//     ***REMOVED*** : (event: React.***REMOVED***, data: any) => void;
+//     value : string;
+//     showNoResults : boolean;
+//     ***REMOVED*** : (event: React.***REMOVED***, data: any) => void;
+//     loading : boolean;
+//     perPage : number;
+//     total : number;
+// }
 
 const CustomSearch = (props) => {
     const { results, ***REMOVED***, ***REMOVED***, value, showNoResults, ***REMOVED***, loading } = props;
@@ -32,9 +50,16 @@ const CustomSearch = (props) => {
         return (
             <React.Fragment>
                 {renderHeader()}
-                <Search.Result key={index} {...result} />
+                {results.map((result, index) => (
+                    <Search.Result key={index} {...result} />
+                ))}
             </React.Fragment>
         );
+    };
+
+    const ***REMOVED*** = (***REMOVED***) => {
+        // Assuming there is an existing ***REMOVED*** logic
+        return <Input {...***REMOVED***} />;
     };
 
     const handleBlur = (e, data) => {
@@ -58,7 +83,7 @@ const CustomSearch = (props) => {
         }
     };
 
-    const { aligned, category, className, fluid, size } = props;
+    const { aligned, category, className, fluid, size, ***REMOVED*** } = props;
 
 
     const classes = clsx(
@@ -66,27 +91,28 @@ const CustomSearch = (props) => {
         open && 'active visible',
         size,
         searchClasses,
-        // ...category ? 'category',
-        // ...focus && 'focus',
-        // ...fluid && 'fluid',
-        // ...loading && 'loading',
-        // ...aligned && aligned,
+        useKeyOnly(category, 'category'),
+        useKeyOnly(fluid, 'fluid'),
+        useKeyOnly(loading, 'loading'),
+        ***REMOVED***(aligned, 'aligned'),
         'search',
         className
     );
 
 
     const unhandled = ***REMOVED***(Search, props);
-    // const ElementType = lib.***REMOVED***(Search, props);
+    // const ElementType = ***REMOVED***(Search, props);
     const [***REMOVED***, rest] = ***REMOVED***(unhandled, {
         htmlProps: ***REMOVED***,
     });
 
     return (
-        <div>
+        <>
             <Search
+                {...rest}
                 className={classes}
                 onBlur={handleBlur}
+                size="tiny"
                 onFocus={handleFocus}
                 onMouseDown={***REMOVED***}
                 ***REMOVED***={***REMOVED***}
@@ -98,9 +124,7 @@ const CustomSearch = (props) => {
                 loading={loading}
 
             />
-            {/* <Search.Results>{renderResults()}</Search.Results> */}
-
-        </div>
+        </>
 
     );
 };
