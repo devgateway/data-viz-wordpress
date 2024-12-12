@@ -8,7 +8,7 @@ import { injectIntl, IntlProvider } from "react-intl";
 import ***REMOVED*** from './layout'
 import { getComponentByNameIgnoreCase } from "./embeddable";
 import Helmet from './Helmet'
-import WithTracker from "./withTracker";
+// import WithTracker from "./withTracker";
 import {
     ***REMOVED***,
     Category,
@@ -195,8 +195,8 @@ const IntlRoutes = () => {
     );
 };
 
-
-const ***REMOVED*** = WithTracker(IntlRoutes);
+// TODO: Return Tracker
+const ***REMOVED*** = IntlRoutes;
 
 const MainRoutes = (props) => {
     return (
