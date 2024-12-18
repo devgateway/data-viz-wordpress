@@ -357,7 +357,7 @@ import {Chart} from '../icons/index.js'
             },
             ***REMOVED***: {
                 type: "String",
-                default: "top"
+                default: "none"
             },
             showGrid: {
                 type: 'Boolean',

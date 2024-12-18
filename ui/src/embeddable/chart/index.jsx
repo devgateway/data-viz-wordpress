@@ -114,7 +114,7 @@ const Chart = (props) => {
     "data-fixed-max-value": fixedMaxValue = 0,
     "data-bar-padding": barPadding = 0.15,
     "data-bar-label-position": ***REMOVED*** = "middle",
-    "data-line-label-position": ***REMOVED*** = "top",
+    "data-line-label-position": ***REMOVED*** = "none",
     "data-show-grid": showGrid = "true",
     "data-include-overall": ***REMOVED*** = "false",
     "data-bar-inner-padding": ***REMOVED*** = 0.7,
