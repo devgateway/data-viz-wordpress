@@ -55,6 +55,7 @@ const Chart = ({
   groupMode,
   reverse,
   marginLeft,
+  ***REMOVED***,
   marginTop,
   marginRight,
   marginBottom,
@@ -557,6 +558,7 @@ const Chart = ({
           }
           enableGridY={enableGridY}
           enableGridX={enableGridX}
+          ***REMOVED***={***REMOVED*** === 'top'}
           lineWidth={3}
           colors={(d) => {
             return ***REMOVED***.getColor(d.id, d);
@@ -606,7 +608,6 @@ const Chart = ({
           pointSize={10}
           ***REMOVED***={2}
           ***REMOVED***={{ from: "serieColor" }}
-          ***REMOVED***={-12}
           useMesh={true}
         />
 
