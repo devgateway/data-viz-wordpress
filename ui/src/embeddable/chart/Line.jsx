@@ -559,6 +559,13 @@ const Chart = ({
           enableGridY={enableGridY}
           enableGridX={enableGridX}
           ***REMOVED***={***REMOVED*** === 'top'}
+          pointLabel={(l) => {
+            return intl.formatNumber(
+              format.style === "percent" ? l.yFormatted / 100 : l.yFormatted,
+              format
+            )
+          }
+          }
           lineWidth={3}
           colors={(d) => {
             return ***REMOVED***.getColor(d.id, d);
