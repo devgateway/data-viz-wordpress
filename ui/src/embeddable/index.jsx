@@ -1,4 +1,3 @@
-import React from 'react'
 import ***REMOVED*** from "../***REMOVED***";
 import data from './reducers/data'
 import embeddable from './reducers/embeddable'
@@ -12,6 +11,7 @@ const PageModules = ***REMOVED***(() => import("./pagemodules/"));
 const FeaturedTabs = ***REMOVED***(() => import("./featuredtabs/"));
 const ***REMOVED*** = ***REMOVED***(() => import("./vertical-featuredtabs/"));
 const InlineList = ***REMOVED***(() => import("./inlinelist/"));
+const ***REMOVED*** = ***REMOVED***(() => import("./agree-and-download/"));
 const Chart = ***REMOVED***(() => import("./chart/"));
 const NewsLetter = ***REMOVED***(() => import("./newsletter/"));
 const ShowcaseForm = ***REMOVED***(() => import("./showcase/"));
@@ -75,6 +75,7 @@ const components = {
     sankeyChart: SankeyChart,
     dataLabel: DataLabel,
     body: Body,
+    ***REMOVED***: ***REMOVED***,
     redirect: () => null
 
 }
