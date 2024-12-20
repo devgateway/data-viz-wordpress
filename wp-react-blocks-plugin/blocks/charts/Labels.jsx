@@ -37,7 +37,7 @@ const Labels = (props) => {
       {type == "line" && (
         <PanelRow>
           <SelectControl
-            label={__("Line Label Position", "dg")}
+            label={__("Point Label Position", "dg")}
             value={[***REMOVED***]}
             onChange={(position) => {
               setAttributes({ ***REMOVED***: position });
