@@ -1055,6 +1055,7 @@ if(isMobileCustomizationEnabled) {
                     ***REMOVED***: "middle",
                     legendOffset: parseInt(offsetRight),
                     format: (value) => {
+                      if(!value) return "";
                       if (layout == "vertical") {
                         const ***REMOVED*** = ***REMOVED***
                           ? ***REMOVED***
@@ -1085,6 +1086,7 @@ if(isMobileCustomizationEnabled) {
                     tickRotation: 0,
                     tickValues: parseInt(***REMOVED***),
                     format: (value) => {
+                      if(!value) return "";
                       if (layout == "horizontal") {
                         const ***REMOVED*** = ***REMOVED***
                           ? ***REMOVED***
