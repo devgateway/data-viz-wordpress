@@ -1121,6 +1121,7 @@ if(isMobileCustomizationEnabled) {
               ***REMOVED***: "middle",
               legendOffset: parseInt(offsetY),
               format: (value) => {
+                if(!value) return "";
                 if (layout == "vertical") {
                   const ***REMOVED*** = ***REMOVED***
                     ? ***REMOVED***
