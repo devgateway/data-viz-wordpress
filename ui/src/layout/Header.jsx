@@ -12,7 +12,7 @@ import { withRouter } from "react-router";
 import ***REMOVED*** from "./SearchControl";
 import LangSwitcher from "./LangSwitcher";
 
-const SITE_URL_WITH_LOCALE = 'https://***REMOVED***.org'
+const SITE_URL_WITH_LOCALE = process.env.REACT_APP_SITE_URL_WITH_LOCALE || "#";
 
 const getPath = (menu, match) => {
   let path = [];
