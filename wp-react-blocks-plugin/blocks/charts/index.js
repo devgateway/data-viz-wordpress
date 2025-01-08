@@ -124,7 +124,10 @@ import {Chart} from '../icons/index.js'
                 type: 'String',
                 default: "csv"
             },
-
+            datasetId: {
+                type: 'String',
+                default: ""
+            },
             params: {
                 type: Object,
                 default: {}
