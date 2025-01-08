@@ -251,6 +251,16 @@ const ***REMOVED*** = (data, measures, app) => {
   });
 };
 
+const ALIVE_SUPERSET_PROXY_URL = 'http://localhost:3001'
+const ALIVE_SUPERSET_APP = 'alive-superset'
+
+const getBaseURL = (app) => {  
+  if (app === ALIVE_SUPERSET_APP) {
+    return ALIVE_SUPERSET_PROXY_URL
+  }
+  return ''
+};
+
 const MobileConfig = (props) => {
   const {
     setAttributes,
@@ -262,6 +272,7 @@ const MobileConfig = (props) => {
       measures,
       dimension1,
       ***REMOVED***,
+      datasetId,
     },
   } = props;
 
@@ -277,29 +288,47 @@ const MobileConfig = (props) => {
   }, [***REMOVED***]);
 
   let xAxisLabels = ***REMOVED***(csv);
+
   if (app !== "csv") {
     if (dimension1 !== "none") {
       const ***REMOVED*** = JSON.parse(
         ***REMOVED***.getItem(`categories_${app}`)
       );
-      const categories =
-        ***REMOVED*** ??
-        fetch(`/api/${app}/categories`)
-          .then((response) => response.json())
-          .then((data) => ***REMOVED***(data));
-      xAxisLabels = categories
-        .filter(
-          (category) =>
-            category.type?.toLowerCase() === dimension1?.toLowerCase()
-        )[0]
-        ?.items?.map((item) => item.value);
+
+      
+       // const app = "alive-superset"
+
+      let categories = []
+      xAxisLabels = []
+
+      if (!***REMOVED***) {
+        console.log("fetching categories")
+        fetch(`${getBaseURL(app)}/api/${app}/categories?datasetId=${datasetId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          categories = ***REMOVED***(data)
+          xAxisLabels = categories
+          .filter(
+            (category) =>
+              category.type?.toLowerCase() === dimension1?.toLowerCase()
+          )[0]
+          ?.items?.map((item) => item.value);
+          
+        });
+
+      }         
+
+    
+  
+
+      
     } else {
       const ***REMOVED*** = JSON.parse(
         ***REMOVED***.getItem(`measures_${app}`)
       );
       // if measures are not present in session storage, fetch them from the API
       if (!***REMOVED***) {
-        fetch(`/api/${app}/measures`)
+        fetch(`${getBaseURL(app)}/api/${app}/measures?datasetId=${datasetId}`)
           .then((response) => response.json())
           .then((data) => {
             ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(data));
