@@ -81,7 +81,10 @@ const ***REMOVED*** = (props) => {
 
          cloneNode(componentRef.current).then(function (node) {
 
-             [...node.***REMOVED***("input")].forEach(e=>e.remove())
+             [...node.***REMOVED***("input")].forEach(e=>e.remove());
+
+             // Remove all elements that are icons
+             [...node.***REMOVED***(".question.circle.icon")].forEach(e => e.remove());
 
               //add source url
               const addSourceURL = ***REMOVED*** == "true";
@@ -129,10 +132,10 @@ const ***REMOVED*** = (props) => {
     return (
 
         <Container
-            className={`viz download ${style} ${useTitle ? 'has-title' : ''} 
-                ${(isCheckPNG || isCheckJPG) ? 'has-formats' : ''} 
-                ${editing ? 'editing' : ''} 
-                ${(isCheckPNG && isCheckJPG) ? 'multi-format' : ''} 
+            className={`viz download ${style} ${useTitle ? 'has-title' : ''}
+                ${(isCheckPNG || isCheckJPG) ? 'has-formats' : ''}
+                ${editing ? 'editing' : ''}
+                ${(isCheckPNG && isCheckJPG) ? 'multi-format' : ''}
                 ${(isCheckPNG && !isCheckJPG) || (!isCheckPNG && isCheckJPG) ? 'single-format' : ''}`}
             fluid={true}>
 
