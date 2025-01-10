@@ -6,7 +6,6 @@ import {
     ***REMOVED***,
     ***REMOVED***,
     useKeyOnly,
-    ***REMOVED***,
     ***REMOVED***
 } from 'semantic-ui-react/dist/commonjs/lib'
 

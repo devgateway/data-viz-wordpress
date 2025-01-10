@@ -1,4 +1,4 @@
-import React, { LegacyRef, useEffect, ***REMOVED***, useRef, useState } from 'react'
+import React, { useEffect, ***REMOVED***, useRef, useState } from 'react'
 import { Accordion, Container, Icon } from 'semantic-ui-react'
 import {
     PostConsumer,

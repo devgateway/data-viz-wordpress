@@ -12,7 +12,7 @@ import ***REMOVED*** from "./Customizer.jsx";
 
 const ***REMOVED*** = ({ children, fixed }) => {
     return (
-        <Container fluid>
+        <Container fluid="true">
             <***REMOVED***>
                 <***REMOVED***>
                     <Header></Header>
