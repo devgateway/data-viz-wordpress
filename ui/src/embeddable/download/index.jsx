@@ -94,7 +94,11 @@ const ***REMOVED*** = (props) => {
                 urlNode.style.marginLeft = ***REMOVED*** + "px"
                 urlNode.style.marginTop = ***REMOVED*** + "px"
                 urlNode.style.fontSize = ***REMOVED*** + "px"
-                urlNode.innerHTML = window.location.href
+
+                urlNode.innerHTML = window.location.href;
+                urlNode.style.maxWidth = "90%"; // Set a max width for the container
+                urlNode.style.wordWrap = "break-word"; // Break lines within words if necessary
+                urlNode.style.overflowWrap = "break-word"; // Ensure compatibility with other browsers
                 node.appendChild(urlNode)
             }
 
