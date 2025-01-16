@@ -3,9 +3,7 @@ import {Button, Container, Dropdown, Grid, Icon} from "semantic-ui-react";
 import {PostContent} from "@devgateway/wp-react-lib";
 import {cloneNode, toJpeg, toPng} from "./dom-to-image";
 import {saveAs} from 'file-saver';
-import getDeviceType from "../../utils/deviceType";
 
-const isMobile = getDeviceType() === 'mobile';
 
 const ***REMOVED*** = React.forwardRef((props, ref) => (
     <div ref={ref}>{props.children}</div>
@@ -31,7 +29,7 @@ const ***REMOVED*** = (props) => {
         "data-section-title": sectionTitle = "",
         "data-download-tooltip": tooltip = "",
         "data-include-source-url": ***REMOVED*** = "false",
-        "data-source-urlmargin-left": ***REMOVED*** = isMobile ? 0: 70,
+        "data-source-urlmargin-left": ***REMOVED*** = 70,
         "data-source-urlmargin-top": ***REMOVED*** = 10,
         "data-source-urlfont-size": ***REMOVED*** = 18,
         parent,
@@ -90,10 +88,6 @@ const ***REMOVED*** = (props) => {
 
               //add source url
               const addSourceURL = ***REMOVED*** == "true";
-              let ***REMOVED*** = ***REMOVED***;
-              if(***REMOVED*** > 0 && isMobile) {
-                ***REMOVED*** = 0;
-              }
               if (addSourceURL) {
                   const urlNode = document.createElement('div')
                   urlNode.style.marginLeft = ***REMOVED*** + "px"
