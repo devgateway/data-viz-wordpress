@@ -26,7 +26,7 @@ import ***REMOVED*** from './layout/containers/***REMOVED***';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
 import SlugContainer from './layout/containers/SlugContainer';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
-
+import withTracker from './withTracker';
 
 const messages = {
     'en': messages_en
@@ -195,7 +195,7 @@ const IntlRoutes = () => {
 
 
 // TODO: Return Tracker
-const ***REMOVED*** = IntlRoutes;
+const ***REMOVED*** = withTracker(IntlRoutes);
 
 const router = ***REMOVED***(
     createRoutesFromElements(
