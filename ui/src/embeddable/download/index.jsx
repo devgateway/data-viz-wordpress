@@ -3,10 +3,7 @@ import { Button, Container, Dropdown, Grid, Icon } from "semantic-ui-react";
 import { PostContent } from "@devgateway/wp-react-lib";
 import { domtoimage } from "./dom-to-image";
 import { saveAs } from 'file-saver';
-import getDeviceType from "../../utils/deviceType";
 
-
-const isMobile = getDeviceType() === 'mobile';
 
 const ***REMOVED*** = React.forwardRef((props, ref) => (
     <div ref={ref}>{props.children}</div>
@@ -32,7 +29,7 @@ const ***REMOVED*** = (props) => {
         "data-section-title": sectionTitle = "",
         "data-download-tooltip": tooltip = "",
         "data-include-source-url": ***REMOVED*** = "false",
-        "data-source-urlmargin-left": ***REMOVED*** = isMobile ? 0: 70,
+        "data-source-urlmargin-left": ***REMOVED*** = 70,
         "data-source-urlmargin-top": ***REMOVED*** = 10,
         "data-source-urlfont-size": ***REMOVED*** = 18,
         parent,
@@ -85,16 +82,15 @@ const ***REMOVED*** = (props) => {
         domtoimage.cloneNode(componentRef.current).then(function (node) {
             //add source url
             const addSourceURL = ***REMOVED*** === "true";
-            let ***REMOVED*** = ***REMOVED***;
-            if(***REMOVED*** > 0 && isMobile) {
-                ***REMOVED*** = 0;
-            }
             if (addSourceURL) {
                 const urlNode = document.createElement('div')
                 urlNode.style.marginLeft = ***REMOVED*** + "px"
                 urlNode.style.marginTop = ***REMOVED*** + "px"
                 urlNode.style.fontSize = ***REMOVED*** + "px"
-
+                urlNode.style.fontFamily = 'Roboto, sans-serif';
+                urlNode.style.fontWeight = '400';
+                urlNode.style.color = '#66676d';
+                urlNode.style.opacity = '0.75';
                 urlNode.innerHTML = window.location.href;
                 urlNode.style.maxWidth = "90%"; // Set a max width for the container
                 urlNode.style.wordWrap = "break-word"; // Break lines within words if necessary
