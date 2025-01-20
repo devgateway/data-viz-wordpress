@@ -263,6 +263,7 @@ const MobileConfig = (props) => {
       dimension1,
       ***REMOVED***,
       datasetId,
+      ***REMOVED***
     },
   } = props;
 
@@ -289,8 +290,7 @@ const MobileConfig = (props) => {
       xAxisLabels = []
 
       if (!***REMOVED***) {
-        console.log("fetching categories")
-        fetch(`/api/${app}/categories?datasetId=${datasetId}`)
+         fetch(`/api/${app}/categories?datasetId=${datasetId}&***REMOVED***=${***REMOVED***}`)
         .then((response) => response.json())
         .then((data) => {
           categories = ***REMOVED***(data)
@@ -315,7 +315,7 @@ const MobileConfig = (props) => {
       );
       // if measures are not present in session storage, fetch them from the API
       if (!***REMOVED***) {
-        fetch(`/api/${app}/measures?datasetId=${datasetId}`)
+        fetch(`/api/${app}/measures?datasetId=${datasetId}&***REMOVED***=${***REMOVED***}`)
           .then((response) => response.json())
           .then((data) => {
             ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(data));
