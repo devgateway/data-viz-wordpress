@@ -118,7 +118,8 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             ***REMOVED***,
             ***REMOVED***,
-            datasetId
+            datasetId,
+            ***REMOVED***
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -247,7 +248,7 @@ const SaveComponent = (props) => {
              data-radar-enable-dot-label={***REMOVED***}
              data-radar-dot-label-offset={***REMOVED***}
              data-mobile-customization={***REMOVED***(JSON.stringify(***REMOVED***))}
-             >
+             data-apache-superset-url={***REMOVED***(***REMOVED***)} >
             <InnerBlocks.Content/>
         </div>
     );
