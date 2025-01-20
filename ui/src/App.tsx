@@ -195,7 +195,8 @@ const IntlRoutes = () => {
 
 
 // TODO: Return Tracker
-const ***REMOVED*** = withTracker(IntlRoutes);
+// const ***REMOVED*** = withTracker(IntlRoutes);
+const ***REMOVED*** = IntlRoutes;
 
 const router = ***REMOVED***(
     createRoutesFromElements(
