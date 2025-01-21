@@ -5,6 +5,8 @@ import {
   Grid,
   Icon,
   Popup,
+  Dimmer,
+  Loader,
   Segment,
 } from "semantic-ui-react";
 import React from "react";
@@ -12,9 +14,8 @@ import * as topojson from "topojson-client";
 import Legend from "./legend";
 import { formatContent } from "../common/MapTooltip";
 import ***REMOVED*** from '../../utils/deviceType';
-import * as geoStats from 'geostats';
-import { Config } from "@/conf";
 
+import * as geoStats from "geostats";
 const COLOR_VARIABLE = "_Color_";
 const LOCATION = "location";
 const SHOW_ALL = "showAll";
@@ -23,28 +24,28 @@ const MAX_LABEL_LEN = 10;
 
 const breakpoints = {
   mobile: {
-    min: 320,
-    max: 480
+      min: 320,
+      max: 480
   },
   tablet: {
-    min: 481,
-    max: 768
+      min: 481,
+      max: 768
   },
   midTablet: {
-    min: 769,
-    max: 852,
+      min: 769,
+      max: 852,
   },
   laptop: {
-    min: 852,
-    max: 1024
+      min: 852,
+      max: 1024
   },
   desktop: {
-    min: 1025,
-    max: 1365
+      min: 1025,
+      max: 1365
   },
   wide: {
-    min: 1366,
-    max: Infinity
+      min: 1366,
+      max: Infinity
   }
 };
 
@@ -211,8 +212,8 @@ class Map extends React.Component {
     this.state = {
       ***REMOVED***:
         props.***REMOVED*** &&
-          props.***REMOVED***.measures &&
-          props.***REMOVED***.measures.length > 1
+        props.***REMOVED***.measures &&
+        props.***REMOVED***.measures.length > 1
           ? props.***REMOVED***.measures[0]
           : null,
       ***REMOVED***: [],
@@ -238,22 +239,22 @@ class Map extends React.Component {
   }
 
 
-  handleScroll = () => {
-    // adds debounce to scroll to prevent event from rerendering the map too often
-    let scrollTimeout = null;
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      const labelsExist = d3.select(this.getMapId()).selectAll(".map-labels-container").size() > 0;
-      if (!labelsExist) {
-        this.***REMOVED***(this.getFeatures(), false);
-      }
-    }, 300);
-  }
+handleScroll = () => {
+  // adds debounce to scroll to prevent event from rerendering the map too often
+  let scrollTimeout = null;
+  clearTimeout(scrollTimeout);
+  scrollTimeout = setTimeout(() => {
+    const labelsExist = d3.select(this.getMapId()).selectAll(".map-labels-container").size() > 0;
+    if (!labelsExist) {
+      this.***REMOVED***(this.getFeatures(), false);
+    }
+  }, 300);
+}
 
 
-  ***REMOVED***() {
-    window.***REMOVED***('scroll', this.handleScroll);
-  }
+***REMOVED***() {
+  window.***REMOVED***('scroll', this.handleScroll);
+}
 
   loadLayers() {
     const { source, mainLayerId, enabledLayers } = this.props;
@@ -266,7 +267,7 @@ class Map extends React.Component {
       enabledLayers.forEach((l) => {
         metadataFuncs.push(
           new Promise((resolve, reject) => {
-            d3.json(Config.REACT_APP_WP_API + "/wp/v2/media/" + l.id)
+            d3.json(process.env.REACT_APP_WP_API + "/wp/v2/media/" + l.id)
               .then((data) => {
                 resolve({ id: l.id, url: data.source_url, index: l.index });
               })
@@ -382,7 +383,7 @@ class Map extends React.Component {
         mainLayer != prevState.mainLayer ||
         prevProps.mainLayerId !== this.props.mainLayerId ||
         JSON.stringify(prevProps.enabledLayers) !=
-        JSON.stringify(this.props.enabledLayers))
+          JSON.stringify(this.props.enabledLayers))
     ) {
       this.***REMOVED***(this.getFeatures(), filterUpdated);
     }
@@ -442,31 +443,31 @@ class Map extends React.Component {
       .select("g")
       .selectAll(".map-labels-container");
 
-    labels.each((d, i, nodes) => {
-      const label = d3.select(nodes[i]);
-      const transform = d3.zoomTransform(label.node());
+      labels.each((d, i, nodes) => {
+        const label = d3.select(nodes[i]);
+        const transform = d3.zoomTransform(label.node());
 
-      const position = this.***REMOVED***(d);
-      let boxWidth = this.***REMOVED***(d);
-      let boxHeight = this.***REMOVED***(d);
+        const position = this.***REMOVED***(d);
+        let boxWidth = this.***REMOVED***(d);
+        let boxHeight = this.***REMOVED***(d);
 
-      if (d.properties[mapLabelField]) {
-        boxWidth = transform.k > 1 ? boxWidth / transform.k : boxWidth;
-        boxHeight = transform.k > 1 ? boxHeight / transform.k : boxHeight;
-      }
+        if (d.properties[mapLabelField]) {
+          boxWidth = transform.k > 1 ? boxWidth / transform.k : boxWidth;
+          boxHeight = transform.k > 1 ? boxHeight / transform.k : boxHeight;
+        }
 
-      const scalingFactor = Math.pow(transform.k, 0.5);
+        const scalingFactor = Math.pow(transform.k, 0.5);
 
-      label
-        .attr("x", position[0] - boxWidth / 2)
-        .attr("y", position[1] - (transform.k > 1 ? 10 / transform.k : 10))
-        .attr("width", boxWidth)
-        .attr("height", boxHeight)
-        .attr(
-          "font-size",
-          (transform.k > 1 ? labelFontSize / scalingFactor : labelFontSize) + "px"
-        );
-    });
+        label
+          .attr("x", position[0] - boxWidth / 2)
+          .attr("y", position[1] - (transform.k > 1 ? 10 / transform.k : 10))
+          .attr("width", boxWidth)
+          .attr("height", boxHeight)
+          .attr(
+            "font-size",
+            (transform.k > 1 ? labelFontSize / scalingFactor : labelFontSize) + "px"
+          );
+      });
   }
 
   ***REMOVED***() {
@@ -541,8 +542,8 @@ class Map extends React.Component {
 
   classColor(d) {
     let { zoomEnabled } = this.props;
-    if (!zoomEnabled) {
-      zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true : false;
+    if(!zoomEnabled) {
+      zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true: false;
     }
     if (zoomEnabled) {
       return "active zoom-enabled";
@@ -1226,9 +1227,9 @@ class Map extends React.Component {
   }
 
   showTooltip(event, d) {
-    const {
+    let {
       showTooltip,
-
+      zoomEnabled,
       tooltipTheme,
       ***REMOVED***,
       ***REMOVED***,
@@ -1241,9 +1242,7 @@ class Map extends React.Component {
       noDataText,
     } = this.props;
 
-    let { zoomEnabled } = this.props;
-
-    zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true : false;
+    zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true: false;
 
     if (
       (showTooltip && d.properties.value != null) ||
@@ -1667,17 +1666,16 @@ class Map extends React.Component {
   }
 
   d3Map(features, filterUpdated) {
-    const { ***REMOVED***, mapPosition, editing, mapType } =
+    let { zoomEnabled, ***REMOVED***, mapPosition, editing, mapType } =
       this.props;
-    let zoomEnabled = this.props.zoomEnabled;
-    if (!zoomEnabled) {
-      zoomEnabled = ['mobile', 'tablet'].includes(***REMOVED***()) ? true : false;
-    }
+      if(!zoomEnabled) {
+        zoomEnabled = ['mobile', 'tablet'].includes(***REMOVED***()) ? true: false;
+      }
     const breaks = this.getBreaks();
     const container = d3.select(this.getMapId());
     let svg = container.select("svg");
     let ***REMOVED*** = this.getWidth();
-    if (***REMOVED*** === 0) {
+    if(***REMOVED*** === 0) {
       ***REMOVED*** = window.innerWidth + ***REMOVED***[***REMOVED***()];
     } else {
       ***REMOVED*** += ***REMOVED***[***REMOVED***()];
@@ -1739,17 +1737,17 @@ class Map extends React.Component {
             .translate(mapPosition.x, mapPosition.y)
             .scale(mapPosition.k),
         );
-      if (mapType === 'POINTS_MAP') {
-        const ***REMOVED*** = {
-          'mobile': 100,
-          'tablet': 0,
-          'midTablet': 0,
-          'desktop': 0,
-          'laptop': 0,
-          'wide': 0
-        }
-        const translateVal = ***REMOVED***[***REMOVED***()];
-        svg
+        if(mapType === 'POINTS_MAP') {
+          const ***REMOVED*** = {
+            'mobile': 100,
+            'tablet': 0,
+            'midTablet': 0,
+            'desktop': 0,
+            'laptop': 0,
+            'wide': 0
+          }
+          const translateVal = ***REMOVED***[***REMOVED***()];
+          svg
           .transition()
           .duration(300)
           .call(
@@ -1758,7 +1756,7 @@ class Map extends React.Component {
               .translate(mapPosition.x + translateVal, mapPosition.y)
               .scale(mapPosition.k),
           );
-      }
+        }
     }
 
     if (zoomEnabled || editing) {
@@ -1872,11 +1870,12 @@ class Map extends React.Component {
   }
 
   render() {
-    const {
+    let {
       app,
       legendTitle,
       ***REMOVED***,
       intl,
+      zoomEnabled,
       ***REMOVED***,
       ***REMOVED***,
       valueFormat,
@@ -1890,12 +1889,8 @@ class Map extends React.Component {
       noDataText,
     } = this.props;
 
-    let {
-      zoomEnabled
-    } = this.props;
-
-    if (!zoomEnabled) {
-      zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true : false;
+    if(!zoomEnabled) {
+      zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true: false;
     }
     const ***REMOVED*** = this.getAvg();
     const filters = this.getFilters();
@@ -1912,85 +1907,84 @@ class Map extends React.Component {
 
     const ***REMOVED*** = () => (
       <Container fluid className={"footnote "}>
-        {
-          <Grid columns={2}>
-            {app !== "csv" && ***REMOVED*** && (
-              <Grid.Column textAlign={"left"} width={4}>
-                <div className="national-average-div">
-                  <span className="national-avg-label">
-                    {***REMOVED***}
-                  </span>
-                  <span className="national-avg-value">
-                    {formatContent(
-                      valueFormat,
-                      { value: ***REMOVED*** },
-                      intl,
-                      noDataText,
-                    )}
-                  </span>
-                </div>
-              </Grid.Column>
-            )}
-            <Grid.Column
-              textAlign={"right"}
-              width={app !== "csv" && ***REMOVED*** ? 12 : 16}
-            >
-              <Legend
-                ***REMOVED***={this.getBreaks()}
-                ***REMOVED***={formatContent(
-                  legendTitle,
-                  { ...filters },
-                  intl,
-                  noDataText,
-                )}
-                ***REMOVED***={this.state.***REMOVED***}
-                {...this.props}
-              />
+      {
+        <Grid columns={2}>
+          {app !== "csv" && ***REMOVED*** && (
+            <Grid.Column textAlign={"left"} width={4}>
+              <div className="national-average-div">
+                <span className="national-avg-label">
+                  {***REMOVED***}
+                </span>
+                <span className="national-avg-value">
+                  {formatContent(
+                    valueFormat,
+                    { value: ***REMOVED*** },
+                    intl,
+                    noDataText,
+                  )}
+                </span>
+              </div>
             </Grid.Column>
-          </Grid>
-        }
-        <div className="measure-selector">
-          <ul>
-            {***REMOVED*** && (
-              <li>
-                <span className="label">{***REMOVED***}</span>
-              </li>
-            )}
-            {***REMOVED*** &&
-              ***REMOVED***.measures &&
-              ***REMOVED***.measures.length > 1 &&
-              ***REMOVED***.measures.map((measure) => {
-                return (
-                  <li
-                    onClick={this.selectedMeasureChanged.bind(
-                      this,
-                      measure,
-                    )}
-                  >
-                    <input
-                      checked={this.***REMOVED***() === measure}
-                      type="radio"
-                      readOnly
-                      value={measure}
-                    />
-                    <label>
-                      {***REMOVED***.***REMOVED***[measure] ||
-                        measure}
-                    </label>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-      </Container>
+          )}
+          <Grid.Column
+            textAlign={"right"}
+            width={app !== "csv" && ***REMOVED*** ? 12 : 16}
+          >
+            <Legend
+              ***REMOVED***={this.getBreaks()}
+              ***REMOVED***={formatContent(
+                legendTitle,
+                { ...filters },
+                intl,
+                noDataText,
+              )}
+              ***REMOVED***={this.state.***REMOVED***}
+              {...this.props}
+            />
+          </Grid.Column>
+        </Grid>
+      }
+      <div className="measure-selector">
+        <ul>
+          {***REMOVED*** && (
+            <li>
+              <span className="label">{***REMOVED***}</span>
+            </li>
+          )}
+          {***REMOVED*** &&
+            ***REMOVED***.measures &&
+            ***REMOVED***.measures.length > 1 &&
+            ***REMOVED***.measures.map((measure) => {
+              return (
+                <li
+                  onClick={this.selectedMeasureChanged.bind(
+                    this,
+                    measure,
+                  )}
+                >
+                  <input
+                    checked={this.***REMOVED***() === measure}
+                    type="radio"
+                    value={measure}
+                  />
+                  <label>
+                    {***REMOVED***.***REMOVED***[measure] ||
+                      measure}
+                  </label>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
+    </Container>
     )
 
     return (
       <div className="map component wp-data-viz-map" ref={this.mapContainer}>
-        {/* {this.state.layersLoading && this.renderLoader()} */}
+        {this.state.layersLoading && this.renderLoader()}
         {!this.state.layersLoading && (
           <>
-            {!***REMOVED*** && <***REMOVED*** />}
+           { !***REMOVED*** && <***REMOVED*** />}
             <div
               className={"map wrapper scaling-svg-container " + unique}
               style={{ height: this.props.height - ***REMOVED***[***REMOVED***()] + "px" }}
