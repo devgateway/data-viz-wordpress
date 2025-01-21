@@ -16,7 +16,7 @@ import CSVDataFrame from "./CSVDataFrame";
 import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
-import deviceType from '@/utils/deviceType';
+import deviceType from '../../utils/deviceType';
 
 
 const isMobile = deviceType() === 'mobile';
@@ -52,7 +52,7 @@ const Diverging = (props) => {
   );
 };
 const Chart = (props) => {
-  const {
+  let {
     parent,
     editing = false,
     unique,
@@ -114,6 +114,7 @@ const Chart = (props) => {
     "data-fixed-max-value": fixedMaxValue = 0,
     "data-bar-padding": barPadding = 0.15,
     "data-bar-label-position": ***REMOVED*** = "middle",
+    "data-line-label-position": ***REMOVED*** = "none",
     "data-show-grid": showGrid = "true",
     "data-include-overall": ***REMOVED*** = "false",
     "data-bar-inner-padding": ***REMOVED*** = 0.7,
@@ -154,6 +155,8 @@ const Chart = (props) => {
     "data-tooltip-enable-markdown": tooltipEnableMarkdown = "false",
     "data-y-axis-tick-values": ***REMOVED*** = "10",
     "data-x-axis-tick-values": ***REMOVED*** = "10",
+    "data-enable-grid-y": enableGridY = "true",
+    "data-enable-grid-x": enableGridX = "false",
     "data-offset-text": offsetText = 0,
     "data-overall-label": overallLabel = "Overall",
     "data-min-max-clamp": minMaxClamp = "false",
@@ -172,11 +175,6 @@ const Chart = (props) => {
     "data-radar-enable-dot-label": ***REMOVED*** = "true",
     "data-radar-dot-label-offset": ***REMOVED*** = -12,
     "data-mobile-customization": ***REMOVED*** = "{}",
-  } = props;
-
-  let {
-    "data-enable-grid-y": enableGridY = "true",
-    "data-enable-grid-x": enableGridX = "false",
   } = props;
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
   const isMobileConfigEnabled = (isMobile || isTablet || isMidTablet) && (***REMOVED***?.  ***REMOVED*** ?? false);
@@ -289,7 +287,7 @@ const Chart = (props) => {
   let ***REMOVED*** = ***REMOVED***();
 
   let ***REMOVED*** = ***REMOVED***();
-  const userMeasures = ***REMOVED***();
+  let userMeasures = ***REMOVED***();
   let leftLegendForSelectedMeasure = left;
   let rightLegendForSelectedMeasure = rightLegend;
 
@@ -312,7 +310,7 @@ const Chart = (props) => {
     }
   }
 
-  const numberFormat = ***REMOVED***
+  let numberFormat = ***REMOVED***
     ? {
         style:
           ***REMOVED***.style === "compacted"
@@ -334,7 +332,7 @@ const Chart = (props) => {
 
   const groupTotalFormatObject = parse(***REMOVED***);
 
-  const groupTotalFormatParsed = {
+  let groupTotalFormatParsed = {
     style:
       groupTotalFormatObject.style === "compacted"
         ? "decimal"
@@ -355,7 +353,7 @@ const Chart = (props) => {
     scheme: scheme,
     colorBy: colorBy,
   };
-  const child = null;
+  let child = null;
   const contentHeight = editing ? height - 80 : height;
 
   const ***REMOVED*** = () => {
@@ -485,6 +483,7 @@ const Chart = (props) => {
     fixedMaxValue,
     barPadding: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.barPadding, barPadding),
     ***REMOVED***,
+    ***REMOVED***,
     ***REMOVED***: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.***REMOVED***, ***REMOVED***),
     xLabelColor: ***REMOVED***(xLabelColor),
     barLabelColor: ***REMOVED***(barLabelColor),
@@ -550,7 +549,7 @@ const Chart = (props) => {
     dimension1
   };
 
-  const params = {};
+  let params = {};
   const ff = parse(filters) || {};
 
   if (ff && ff.forEach) {
@@ -813,5 +812,4 @@ const ***REMOVED*** = (state, ownProps) => {
   }
 };
 const ***REMOVED*** = {};
-
 export default connect(***REMOVED***, ***REMOVED***)(Chart);
