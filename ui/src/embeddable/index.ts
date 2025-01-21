@@ -17,6 +17,7 @@ const PageModules = lazy(() => import("./pagemodules"));
 const FeaturedTabs = lazy(() => import("./featuredtabs"));
 const ***REMOVED*** = lazy(() => import("./vertical-featuredtabs"));
 const InlineList = lazy(() => import("./inlinelist"));
+const ***REMOVED*** = lazy(() => import("./agree-and-download/"));
 const DownloadPdf = lazy(() => import("./downloadPDF"));
 const Map = lazy(() => import("./map"));
 const ***REMOVED*** = lazy(() => import("./***REMOVED***"));
@@ -73,6 +74,7 @@ const components = {
     sankeyChart: SankeyChart,
     dataLabel: DataLabel,
     body: Body,
+    ***REMOVED***: ***REMOVED***,
     redirect: () => null
 }
 
