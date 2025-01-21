@@ -355,6 +355,10 @@ import {Chart} from '../icons/index.js'
                 type: "String",
                 default: "middle"
             },
+            ***REMOVED***: {
+                type: "String",
+                default: "none"
+            },
             showGrid: {
                 type: 'Boolean',
                 default: true
@@ -499,7 +503,9 @@ import {Chart} from '../icons/index.js'
                     marginRight: 25,
                     ***REMOVED***: true,
                     ***REMOVED***: true,
-                    ***REMOVED***: true
+                    ***REMOVED***: true,
+                    barPadding: 0.15,
+                    ***REMOVED***: 0.7,
                 }
             },
             reverseLegend: {
