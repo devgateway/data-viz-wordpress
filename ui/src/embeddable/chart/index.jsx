@@ -522,7 +522,7 @@ const Chart = (props) => {
     tooltipEnableMarkdown:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true",
     ***REMOVED***: isMobileConfigEnabled ? ***REMOVED***.***REMOVED*** ?? ***REMOVED*** : ***REMOVED***,
-    ***REMOVED***,
+    ***REMOVED***: isMobileConfigEnabled ? ***REMOVED***.***REMOVED*** ?? ***REMOVED*** : ***REMOVED***,
     enableGridY: enableGridY == true || enableGridY == "true",
     enableGridX: enableGridX == true || enableGridX == "true",
     offsetText,
