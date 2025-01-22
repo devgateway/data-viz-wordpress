@@ -40,7 +40,7 @@ const decode = (value) => {
 }
 
 const parse = (value) => {
-    try {
+    try { 
         return JSON.parse(decode(value))
 
     } catch (error) {
@@ -465,7 +465,7 @@ const Filter = ({
     "data-start-label": startLabel,
     "data-end-label": endLabel,
     "data-csv-value": csvValue,
-    "data-filters": filters = [],
+    "data-filters": filters = '[]',
     "data-use-single-column": ***REMOVED*** = "false",
     "data-enable-text-search": ***REMOVED*** = "false",
     "data-filter-type": filterType,
@@ -482,7 +482,7 @@ const Filter = ({
 
 
     const params = {}
-    const ff = parse(filters) || {}
+    const ff = filters? parse(filters) : {}
 
     if (ff && ff.forEach) {
         ff.forEach(f => {
@@ -491,7 +491,7 @@ const Filter = ({
         })
     }
 
-    const ***REMOVED*** = parse(hiddenFilters)
+    const ***REMOVED*** = hiddenFilters ?  parse(hiddenFilters): []
     let ***REMOVED***;
     if (filterType == null || filterType == "") {
         ***REMOVED*** = isRange === 'true' ? "range" : "multi-select";
