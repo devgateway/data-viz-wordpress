@@ -76,7 +76,7 @@ const MapWrapper = (props) => {
         'data-map-container-bg-color': ***REMOVED*** = '#fff',
         'data-map-position': mapPosition = '{}',
         "data-main-layer-id": mainLayerId = '',
-        'data-enabled-layers': enabledLayers = '',
+        'data-enabled-layers': enabledLayers = '[]',
         'data-point-label-color': ***REMOVED*** = '#fff',
         'data-point-label-format': ***REMOVED*** = '{locationName} %({value},2)',
         'data-show-no-data-legend-item': ***REMOVED*** = false,
