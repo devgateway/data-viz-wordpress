@@ -476,7 +476,7 @@ const Chart = (props) => {
     valueScale,
     categories,
     ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
-    overlays: parse(overlays) || [],
+    overlays: overlays ? parse(overlays) : [],
     barColor: ***REMOVED***(barColor),
     ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
     fixedMinValue,
