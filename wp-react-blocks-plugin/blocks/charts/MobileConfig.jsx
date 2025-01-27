@@ -455,46 +455,90 @@ const MobileConfig = (props) => {
                   }
                 />
               </PanelRow>
-              <PanelRow>
-                <RangeControl
-                  label={__("Y Axis Line Height")}
-                  value={
-                    !***REMOVED***?.***REMOVED***
-                      ? 12
-                      : ***REMOVED***.***REMOVED***
-                  }
-                  onChange={(value) =>
-                    setAttributes({
-                      ***REMOVED***: {
-                        ...***REMOVED***,
-                        ***REMOVED***: value,
-                      },
-                    })
-                  }
-                  min={0}
-                  max={30}
-                />
-              </PanelRow>
-              <PanelRow>
-                <RangeControl
-                  label={__("Max Tick Word Length")}
-                  value={
-                    !***REMOVED***?.maxTickLength
-                      ? 25
-                      : ***REMOVED***.maxTickLength
-                  }
-                  onChange={(value) =>
-                    setAttributes({
-                      ***REMOVED***: {
-                        ...***REMOVED***,
-                        maxTickLength: value,
-                      },
-                    })
-                  }
-                  min={0}
-                  max={30}
-                />
-              </PanelRow>
+              <PanelBody initialOpen={false} title={__("Tablet Settings")}>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Tablet Y Axis Line Height")}
+                    value={
+                      !***REMOVED***?.tabletYAxisLineHeight
+                        ? 12
+                        : ***REMOVED***.tabletYAxisLineHeight
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          tabletYAxisLineHeight: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={30}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Tablet Max Tick Word Length")}
+                    value={
+                      !***REMOVED***?.***REMOVED***
+                        ? 25
+                        : ***REMOVED***.***REMOVED***
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          ***REMOVED***: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={30}
+                  />
+                </PanelRow>
+              </PanelBody>
+              <PanelBody initialOpen={false} title={__("Mobile Settings")}>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Mobile Y Axis Line Height")}
+                    value={
+                      !***REMOVED***?.mobileYAxisLineHeight
+                        ? 12
+                        : ***REMOVED***.mobileYAxisLineHeight
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          mobileYAxisLineHeight: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={30}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Mobile Max Tick Word Length")}
+                    value={
+                      !***REMOVED***?.***REMOVED***
+                        ? 25
+                        : ***REMOVED***.***REMOVED***
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          ***REMOVED***: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={30}
+                  />
+                </PanelRow>
+              </PanelBody>
               <***REMOVED*** {...props} />
               <PanelBody initialOpen={false} title={__("All Labels")}>
                 {xAxisLabels?.map((label, index) => (

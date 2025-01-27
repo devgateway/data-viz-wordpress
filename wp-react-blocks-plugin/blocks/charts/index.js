@@ -508,8 +508,10 @@ import {Chart} from '../icons/index.js'
                     ***REMOVED***: true,
                     barPadding: 0.15,
                     ***REMOVED***: 0.7,
-                    ***REMOVED***: 12,
-                    maxTickLength: 25
+                    mobileYAxisLineHeight: 12,
+                    ***REMOVED***: 25,
+                    tabletYAxisLineHeight: 12,
+                    ***REMOVED***: 25,
                 }
             },
             reverseLegend: {
