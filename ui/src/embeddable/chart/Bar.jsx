@@ -79,11 +79,13 @@ const Chart = ({
   enableGridX,
   ***REMOVED***
 }) => {
-  const isMobile = deviceType() === "mobile";
+  const ***REMOVED*** = ['mobile', 'tablet', 'midTablet'].includes(deviceType());
+  const ***REMOVED*** = ['tablet', 'midTablet'].includes(deviceType())
+  const ***REMOVED*** = deviceType() === 'mobile';
   const LABEL_SKIP_WIDTH = 30; // important for vertical layout
   const LABEL_SKIP_HEIGHT = 15; // important for horizontal layout
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
-  const isMobileCustomizationEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
+  const isMobileCustomizationEnabled = ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
   const ***REMOVED*** = () => {
     if (barLabelColor === "null" || barLabelColor === null || !barLabelColor) {
       return "#000000";
@@ -511,7 +513,13 @@ const Chart = ({
     let currentLine = "";
     if(isMobileCustomizationEnabled) {
       const words = String(tickObject.value).split(" ");
-      const maxLineLength = ***REMOVED***?.maxTickLength ?? 25;
+      let maxLineLength = 25;
+      if(***REMOVED***) {
+        maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+      } else if(***REMOVED***) {
+        maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+      }
+
       words.forEach((word) => {
         if (currentLine.length + String(word).length <= maxLineLength) {
           currentLine += (currentLine ? " " : "") + word;
@@ -526,8 +534,12 @@ const Chart = ({
     } else {
       lines = [tickObject.value];
     }
-    const lineHeight = ***REMOVED***?.***REMOVED*** ?? 12;
-
+    let lineHeight = 12;
+    if(***REMOVED***) {
+      lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
+    } else if(***REMOVED***) {
+      lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
+    }
     if (tickRotation > 0 && tickRotation < 180) {
       return (
         <g transform={`translate(${tick.x},${tick.y + 30})`}>
@@ -1022,7 +1034,12 @@ const ***REMOVED*** = (tick) => {
   ) {
     return "";
   }
-  const maxLineLength = ***REMOVED***?.maxTickLength ?? 25;
+  let maxLineLength = 25;
+  if(***REMOVED***) {
+    maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+  } else if(***REMOVED***) {
+    maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+  }
   const words =
     typeof tick.value === "string" ? tick.value.split(" ") : [tick.value];
   let lines = [];
@@ -1040,7 +1057,12 @@ const ***REMOVED*** = (tick) => {
   if (currentLine) {
     lines.push(currentLine);
   }
-  const lineHeight = ***REMOVED***?.***REMOVED*** ?? 12;
+  let lineHeight = 12;
+  if(***REMOVED***) {
+    lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
+  } else if(***REMOVED***) {
+    lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
+  }
   return (
     <g transform={`translate(${tick.x},${tick.y})`}>
       <line x1={-5} x2={0} y1={0} y2={0} stroke={"#000"} strokeWidth={1} />
