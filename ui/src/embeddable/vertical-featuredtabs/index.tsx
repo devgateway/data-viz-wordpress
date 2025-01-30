@@ -209,6 +209,7 @@ const Wrapper = (props) => {
     unique,
   } = props;
   const locale = props.intl.locale;
+  const ***REMOVED*** = categories ? categories : "[]";
 
   // Determine screen width and conditionally render components
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1440);
@@ -246,7 +247,7 @@ const Wrapper = (props) => {
         type={type}
         locale={locale}
         taxonomy={taxonomy}
-        categories={parse(categories).join(",")}
+        categories={parse(***REMOVED***)}
         store={"vertical_tabs" + parent + "_" + unique}
         page={1}
         perPage={items}
@@ -255,7 +256,7 @@ const Wrapper = (props) => {
           {isMobile ? (
             <***REMOVED***
               posts={items}
-              activeItem={items[0]?.slug}
+              activeItem={items?.[0]?.slug}
               colors={parse(colors)}
               setActive={() => {}}
             />

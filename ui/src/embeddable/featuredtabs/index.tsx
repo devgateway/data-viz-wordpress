@@ -275,7 +275,7 @@ const Wrapper = (props: ***REMOVED***) => {
                     {isMobile ? (
                         <***REMOVED***
                             posts={items}
-                            activeItem={items[0]?.slug}
+                            activeItem={items?.[0]?.slug}
                             color={color}
                             setActive={() => {}}
                         />
