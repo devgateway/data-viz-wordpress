@@ -17,6 +17,7 @@ import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
 import deviceType from '../../utils/deviceType';
+import { injectIntl } from 'react-intl';
 
 
 const isMobile = deviceType() === 'mobile';
@@ -549,6 +550,8 @@ const Chart = (props) => {
     dimension1
   };
 
+  console.log("chartProps", chartProps)
+
   let params = {};
   const ff = parse(filters) || {};
 
@@ -812,4 +815,4 @@ const ***REMOVED*** = (state, ownProps) => {
   }
 };
 const ***REMOVED*** = {};
-export default connect(***REMOVED***, ***REMOVED***)(Chart);
+export default connect(***REMOVED***, ***REMOVED***)(injectIntl(Chart));
