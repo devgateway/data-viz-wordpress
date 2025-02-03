@@ -18,7 +18,7 @@ const ***REMOVED*** = () => {
                 locale={locale}
             >
                 <PostConsumer>
-                    <Post></Post>
+                    <Post/>
                 </PostConsumer>
             </PostProvider>
         </***REMOVED***>

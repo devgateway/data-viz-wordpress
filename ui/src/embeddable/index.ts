@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import React, { lazy } from 'react'
 import data from './reducers/data'
 import embeddable from './reducers/embeddable'
 import { injectIntl } from "react-intl";
@@ -17,6 +17,7 @@ const PageModules = lazy(() => import("./pagemodules"));
 const FeaturedTabs = lazy(() => import("./featuredtabs"));
 const ***REMOVED*** = lazy(() => import("./vertical-featuredtabs"));
 const InlineList = lazy(() => import("./inlinelist"));
+const ***REMOVED*** = lazy(() => import("./agree-and-download/"));
 const DownloadPdf = lazy(() => import("./downloadPDF"));
 const Map = lazy(() => import("./map"));
 const ***REMOVED*** = lazy(() => import("./***REMOVED***"));
@@ -72,6 +73,8 @@ const components = {
     wrapped: Wrapped,
     sankeyChart: SankeyChart,
     dataLabel: DataLabel,
+    body: Body,
+    ***REMOVED***: ***REMOVED***,
     redirect: () => null
 }
 
@@ -79,7 +82,8 @@ export const getComponentByNameIgnoreCase = (name: string) => {
 
     const k = Object.keys(components).find(value => value.toLowerCase() === name.toLowerCase())
     if (k) {
-        return injectIntl(components[k])
+        const Component = components[k]
+        return React.memo(injectIntl(Component))
     }
     else {
         const ***REMOVED*** = customizer.getComponentByNameIgnoreCase(name)

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { connect } from "react-redux";
 import DataProvider from "../data/DataProvider";
@@ -28,7 +27,7 @@ const MapWrapper = (props) => {
         "data-csv": csv = '',
         'data-dimension1': dimension1 = '',
         'data-dimension2': dimension2 = '',
-        "data-measures": measures = '***REMOVED***',
+        "data-measures": measures = '["***REMOVED***"]',
         "data-height": height = 600,
           width = 960,
         "data-data-source-text": ***REMOVED*** = 'NIDS',
@@ -38,7 +37,7 @@ const MapWrapper = (props) => {
         "data-legend-breaks": legendBreaks = '[]',
         "data-zoom-enabled": zoomEnabled = false, 
         "data-show-legend-labels": ***REMOVED*** = false,
-        "data-map-file": mapFile = 'NG_Zones_topoJSON.json',
+        "data-map-file": mapFile = 'africa-geojson-tanzania-others-en-v2.json',
         "data-mapping-field": mappingField = 'zone',
         "data-map-label-field": mapLabelField = "admin",
         "data-has-multiple-measures": ***REMOVED*** = "false",         
@@ -76,7 +75,7 @@ const MapWrapper = (props) => {
         'data-map-container-bg-color': ***REMOVED*** = '#fff',
         'data-map-position': mapPosition = '{}',
         "data-main-layer-id": mainLayerId = '',
-        'data-enabled-layers': enabledLayers = '',
+        'data-enabled-layers': enabledLayers,
         'data-point-label-color': ***REMOVED*** = '#fff',
         'data-point-label-format': ***REMOVED*** = '{locationName} %({value},2)',
         'data-show-no-data-legend-item': ***REMOVED*** = false,

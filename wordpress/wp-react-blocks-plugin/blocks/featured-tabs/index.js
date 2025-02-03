@@ -34,6 +34,10 @@ import {Generic} from '../icons'
                 type:"String",
                 default:"READ More"
             },
+            useScrolls: {
+                type: "boolean",
+                default: false
+            },
             colors: {
                 type: "object",
                 default: {color_0: '#FFFF', color_1: '#FFFF', color_2: '#FFFF'}
