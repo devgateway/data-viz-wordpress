@@ -135,6 +135,8 @@ const IntlRoutes = () => {
         return <Navigate to={"/en"}></Navigate>
     }
 
+    console.log("locale", locale)
+
     return (
         <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
             <***REMOVED*** getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
@@ -166,7 +168,7 @@ const IntlRoutes = () => {
                                 locale={locale}
                                 store={"home"}>
                                 <PageConsumer>
-                                    <***REMOVED***>
+                                    <***REMOVED*** locale={locale}>
                                         <PageConsumer>
                                             <Page />
                                             <Helmet locale={locale} />
