@@ -82,7 +82,7 @@ import Generic from "../icons";
             },
             mapFile: {
                 type: "String",
-                default: "NG_Zones_topoJSON.json"
+                default: 'africa-geojson-tanzania-others-en-v2.json' 
             },
             enabledLayers: {
                 type: "Array",
