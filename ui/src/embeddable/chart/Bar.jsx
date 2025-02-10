@@ -103,7 +103,7 @@ const Chart = ({
   const [showLine, setShowLine] = useState(***REMOVED***);
   const [bottomSpacing, ***REMOVED***] = useState(50);
   const [newMarginTop, ***REMOVED***] = useState(marginTop);
-  const [wrapCount, setWrapCount] = useState(0);
+  const [_wrapCount, setWrapCount] = useState(0);
   const [***REMOVED***, ***REMOVED***] = useState(marginBottom);
 
   const ***REMOVED*** = (
@@ -1026,7 +1026,6 @@ if(isMobileCustomizationEnabled) {
     }
 }
 
-
 const ***REMOVED*** = (tick) => {
   if (
     isMobileCustomizationEnabled &&
@@ -1063,6 +1062,7 @@ const ***REMOVED*** = (tick) => {
   } else if(***REMOVED***) {
     lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
   }
+
   return (
     <g transform={`translate(${tick.x},${tick.y})`}>
       <line x1={-5} x2={0} y1={0} y2={0} stroke={"#000"} strokeWidth={1} />

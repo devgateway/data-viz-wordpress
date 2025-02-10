@@ -619,6 +619,16 @@ const Chart = (props) => {
     dimensions.push(dimension2);
   }
   const [legendsContainerHeight, setLegendsContainerHeight] = useState(0);
+  const [, ***REMOVED***] = useState(***REMOVED***());
+
+  function ***REMOVED***() {
+    return (
+      window.screen.orientation?.type ||
+      (window.innerWidth > window.innerHeight
+        ? "landscape-primary"
+        : "portrait-primary")
+    );
+  };
 
 
   useEffect(() => {
@@ -712,6 +722,20 @@ const Chart = (props) => {
       clearTimeout(timeoutId);
     };
   }, [***REMOVED***, ref]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(() => {
+        ***REMOVED***(***REMOVED***());
+      }, 100);
+    };
+    if(window.screen.orientation) {
+      window.screen.orientation.***REMOVED***("change", handleResize);
+    } else {
+      window.***REMOVED***("resize", handleResize);
+    }
+    return () => window.***REMOVED***("resize", handleResize);
+  }, []);
 
   return (
     <div ref={ref}>
