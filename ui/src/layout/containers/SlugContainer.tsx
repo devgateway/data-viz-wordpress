@@ -9,7 +9,7 @@ import ***REMOVED*** from '../***REMOVED***';
 import Helmet from "@/Helmet";
 
 const SlugContainer = () => {
-    const { locale, slug } = useParams();
+    const { lan: locale ,slug } = useParams();
     return (
         <PageProvider
             locale={locale}

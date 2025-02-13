@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet, ***REMOVED*** } from "react-helmet-async";
+import ***REMOVED*** from 'html-react-parser';
 
 console.log("env==>",process.env)
 
@@ -39,13 +40,10 @@ const helmetContext = {}
 
 const ***REMOVED*** = ({pages = {}, locale}) => {
 
-    const {yoast_head_json} = pages[0];
-
-
     return (
         <***REMOVED*** context={helmetContext}>
             <Helmet>
-                {/* {***REMOVED***(pages[0].yoast_head)} */}
+                {pages[0] && pages[0].yoast_head && ***REMOVED***(pages[0].yoast_head)}
             </Helmet>
         </***REMOVED***>
 

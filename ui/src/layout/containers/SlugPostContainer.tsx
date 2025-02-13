@@ -9,7 +9,7 @@ import {
 
 
 const ***REMOVED*** = () => {
-    const { locale, slug } = useParams();
+    const { lan: locale, slug } = useParams();
     return (
         <***REMOVED***>
             <PostProvider
