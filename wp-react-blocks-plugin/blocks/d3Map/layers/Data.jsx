@@ -17,6 +17,7 @@ import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import Format from '../../charts/Format.jsx'
+import {ALIVE_SUPERSET_APP} from '../../commons/Constants';
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -65,6 +66,9 @@ export class ***REMOVED*** extends Component {
             measures: [], dimensions: [], filters: [], categories: []
         }
     }
+
+    
+
 
 
     ***REMOVED***(format, field) {
@@ -205,7 +209,8 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, features, apps,layer, layer: {
+            ***REMOVED***,
+            allDimensions, allFilters, allMeasures, allCategories, allDatasets, features, apps,layer, layer: {
                 app,
                 csv,
                 measures,
@@ -233,11 +238,16 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 onRemoveLayer,
                 onMoveLayer,
+                ***REMOVED***,
+                datasetId,
+                           
             }
         } = this.props
 
         let ***REMOVED*** = ""
         let ***REMOVED*** = ""
+
+        
 
         if (app != 'csv') {
             const theMeasure = measures ? measures[0] : null
@@ -255,18 +265,47 @@ export class ***REMOVED*** extends Component {
                 }
             }
         }
+
+        const  datasets = [{label: 'Select Dataset', value: '0'}]
+        if (allDatasets) { {
+            allDatasets.forEach(d => {
+                datasets.push({label: d.label, value: d.id})
+            })
+        }
+
+        console.log("***REMOVED***", ***REMOVED***)
+        console.log("App", app)
+
+        console.log("All Datasets", allDatasets)
+        console.log("DatasetId", datasetId)
+        
+        console.log("AllDimensions", allDimensions)
+        console.log("AllMeasures", allMeasures)
       
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {
-                        ***REMOVED***("app", app)
+                    onChange={(app) => {    
+                        ***REMOVED***("***REMOVED***", ***REMOVED***)        
+                        ***REMOVED***("app", app)                            
                     }}
                     options={apps}
                 />
             </PanelRow>
+            {app == ALIVE_SUPERSET_APP && <PanelRow>
+                <SelectControl
+                    label={__('Datasets')}
+                    value={[datasetId]}
+                    onChange={(newDatasetId) => {
+                        ***REMOVED***("datasetId", newDatasetId)
+                       // ***REMOVED***("***REMOVED***", "none")                      
+                    }}
+                    options={datasets}
+                />
+            </PanelRow>
+            }
             {type != 'dataPoints' && <Property property={"***REMOVED***"}
                                                type={"select"} ***REMOVED***={***REMOVED***}
                                                features={features}
@@ -495,6 +534,7 @@ export class ***REMOVED*** extends Component {
         ])
     }
 
+}
 }
 
 export default ***REMOVED***;

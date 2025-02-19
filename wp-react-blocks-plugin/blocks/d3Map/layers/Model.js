@@ -61,6 +61,8 @@ export const Model = {
     ***REMOVED***: {},
     visible: true,
     ***REMOVED***: 'origin',
+    datasetId: '',
+    ***REMOVED***: '',
 }
 
 
