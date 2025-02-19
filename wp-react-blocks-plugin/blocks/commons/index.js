@@ -334,13 +334,23 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
         }
     }
 
-    ***REMOVED***(url, datasetId) {
-        const {attributes: {app, ***REMOVED***}} = this.props
-        if (app == ALIVE_SUPERSET_APP) {
-            return `${url}?datasetId=${datasetId}&***REMOVED***=${***REMOVED***}`            
+    ***REMOVED***(url, datId) {
+        let app = this.props.attributes.app || this.props.layer.app
+        let datasetId = datId || this.props.attributes.datasetId
+        let ***REMOVED*** = this.props.attributes.***REMOVED***
+       
+        if (this.props.layer) {
+            app = this.props.layer.app
+            datasetId = this.props.layer.datasetId
+            ***REMOVED*** = this.props.layer.***REMOVED***
         }
 
-        return url       
+
+        if (app == ALIVE_SUPERSET_APP) {
+            return `${url}?datasetId=${datasetId}&***REMOVED***=${***REMOVED***}`
+        }
+
+        return url
     }
 
     _loadMetadata(app, datasetId) {
@@ -424,8 +434,11 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
        this._loadMetadata(app, newDatasetId || this.props.attributes.datasetId)       
     }   
 
-    loadDatasets(app) {
-        const {attributes: {***REMOVED***}} = this.props
+    loadDatasets(app) {       
+        let ***REMOVED*** = this.props.attributes.***REMOVED***
+        if (this.props.layer) {
+            ***REMOVED*** = this.props.layer.***REMOVED***
+        }
         fetch(`/api/${app}/datasets?***REMOVED***=${***REMOVED***}`)
             .then(response => {
                 if (!response.ok) {
