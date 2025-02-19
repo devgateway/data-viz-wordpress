@@ -52,8 +52,7 @@ import Generic from "../icons";
             ***REMOVED***: {
                 type: "Boolean",
                 default: false
-            }
-
+            }          
         },
         edit: BlockEdit,
         save: BlockSave,
