@@ -9,6 +9,7 @@ import {
     MediaProvider
 } from "@devgateway/wp-react-lib";
 import PostIntro from "../connected-templates/PostIntro";
+import { useWindowDimensionsAndDevice } from '@/lib/hooks/window-dimensions';
 
 export interface VerticalFeaturedTabsProps {
     "data-height": number;
@@ -212,15 +213,8 @@ const Wrapper = (props) => {
   const ***REMOVED*** = categories ? categories : "[]";
 
   // Determine screen width and conditionally render components
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1440);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1250);
-    };
-
-    window.***REMOVED***("resize", handleResize);
-    return () => window.***REMOVED***("resize", handleResize);
-  }, []);
+  const { width: deviceWidth} = useWindowDimensionsAndDevice();
+  const isMobile = deviceWidth <= 1024;
 
   const decode = (value) => {
     if (editing) {
