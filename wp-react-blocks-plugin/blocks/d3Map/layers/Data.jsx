@@ -271,8 +271,8 @@ export class ***REMOVED*** extends Component {
                 <SelectControl
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {                        
-                        ***REMOVED***("app", app)                            
+                    onChange={(app) => {  
+                       ***REMOVED***("app", app)                            
                     }}
                     options={apps}
                 />
