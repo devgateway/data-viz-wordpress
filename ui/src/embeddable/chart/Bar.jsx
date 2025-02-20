@@ -7,7 +7,7 @@ import { line } from "d3-shape";
 import LineLayer from "./LineLayer";
 import Papa from "papaparse";
 import ***REMOVED*** from "../../layout/***REMOVED***";
-import deviceType from '../../utils/deviceType'
+import deviceType from "../../utils/deviceType";
 
 const POSITION_MIDDLE = "middle";
 const POSITION_TOP = "top";
@@ -77,15 +77,20 @@ const Chart = ({
   reverseLegend,
   enableGridY,
   enableGridX,
-  ***REMOVED***
+  ***REMOVED***,
 }) => {
-  const ***REMOVED*** = ['mobile', 'tablet', 'midTablet'].includes(deviceType());
-  const ***REMOVED*** = ['tablet', 'midTablet'].includes(deviceType())
-  const ***REMOVED*** = deviceType() === 'mobile';
+  const ***REMOVED*** = ["mobile", "tablet", "midTablet"].includes(
+    deviceType()
+  );
+  const ***REMOVED*** = ["tablet", "midTablet"].includes(deviceType());
+  const ***REMOVED*** = deviceType() === "mobile";
   const LABEL_SKIP_WIDTH = 30; // important for vertical layout
   const LABEL_SKIP_HEIGHT = 15; // important for horizontal layout
-  const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
-  const isMobileCustomizationEnabled = ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
+  const ***REMOVED*** = JSON.parse(
+    ***REMOVED***(***REMOVED***)
+  );
+  const isMobileCustomizationEnabled =
+    ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
   const ***REMOVED*** = () => {
     if (barLabelColor === "null" || barLabelColor === null || !barLabelColor) {
       return "#000000";
@@ -511,13 +516,17 @@ const Chart = ({
     }
     let lines = [];
     let currentLine = "";
-    if(isMobileCustomizationEnabled) {
+    if (isMobileCustomizationEnabled) {
       const words = String(tickObject.value).split(" ");
       let maxLineLength = 25;
-      if(***REMOVED***) {
+      if (***REMOVED***) {
         maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
-      } else if(***REMOVED***) {
+      } else if (***REMOVED***) {
         maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+      } else if (
+        window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
+      ) {
+        maxLineLength = 15;
       }
 
       words.forEach((word) => {
@@ -535,9 +544,9 @@ const Chart = ({
       lines = [tickObject.value];
     }
     let lineHeight = 12;
-    if(***REMOVED***) {
+    if (***REMOVED***) {
       lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
-    } else if(***REMOVED***) {
+    } else if (***REMOVED***) {
       lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
     }
     if (tickRotation > 0 && tickRotation < 180) {
@@ -1015,63 +1024,68 @@ const Chart = ({
     );
   };
 
-let hiddenLabels = [];
-if(isMobileCustomizationEnabled) {
+  let hiddenLabels = [];
+  if (isMobileCustomizationEnabled) {
     ticks = parseInt(***REMOVED***.***REMOVED***);
-    const labels = new Map(Object.entries(***REMOVED***?.labels?.xAxis ?? {}));
+    const labels = new Map(
+      Object.entries(***REMOVED***?.labels?.xAxis ?? {})
+    );
     for (let [key, value] of labels) {
       if (!value) {
         hiddenLabels.push(key);
       }
     }
-}
-
-const ***REMOVED*** = (tick) => {
-  if (
-    isMobileCustomizationEnabled &&
-    hiddenLabels.includes(String(tick.value))
-  ) {
-    return "";
   }
-  let maxLineLength = 25;
-  if(***REMOVED***) {
-    maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
-  } else if(***REMOVED***) {
-    maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
-  }
-  const words =
-    typeof tick.value === "string" ? tick.value.split(" ") : [tick.value];
-  let lines = [];
-  let currentLine = "";
 
-  words.forEach((word) => {
-    if (currentLine.length + String(word).length <= maxLineLength) {
-      currentLine += (currentLine ? " " : "") + word;
-    } else {
-      lines.push(currentLine);
-      currentLine = word;
+  const ***REMOVED*** = (tick) => {
+    if (
+      isMobileCustomizationEnabled &&
+      hiddenLabels.includes(String(tick.value))
+    ) {
+      return "";
     }
-  });
+    let maxLineLength = 25;
+    if (***REMOVED***) {
+      maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+    } else if (***REMOVED***) {
+      maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+    } else if (
+      window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
+    ) {
+      maxLineLength = 15;
+    }
+    const words =
+      typeof tick.value === "string" ? tick.value.split(" ") : [tick.value];
+    let lines = [];
+    let currentLine = "";
 
-  if (currentLine) {
-    lines.push(currentLine);
-  }
-  let lineHeight = 12;
-  if(***REMOVED***) {
-    lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
-  } else if(***REMOVED***) {
-    lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
-  }
+    words.forEach((word) => {
+      if (currentLine.length + String(word).length <= maxLineLength) {
+        currentLine += (currentLine ? " " : "") + word;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    });
 
-  return (
-    <g transform={`translate(${tick.x},${tick.y})`}>
-      <line x1={-5} x2={0} y1={0} y2={0} stroke={"#000"} strokeWidth={1} />
-      {lines
-        .map((line, i) => (
+    if (currentLine) {
+      lines.push(currentLine);
+    }
+    let lineHeight = 12;
+    if (***REMOVED***) {
+      lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
+    } else if (***REMOVED***) {
+      lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
+    }
+
+    return (
+      <g transform={`translate(${tick.x},${tick.y})`}>
+        <line x1={-5} x2={0} y1={0} y2={0} stroke={"#000"} strokeWidth={1} />
+        {lines.map((line, i) => (
           <text
             key={i}
             x={-10}
-            y={typeof tick.value === "number" ? 0: i * lineHeight}
+            y={typeof tick.value === "number" ? 0 : i * lineHeight}
             textAnchor="end"
             ***REMOVED***="middle"
             style={{
@@ -1083,10 +1097,9 @@ const ***REMOVED*** = (tick) => {
             {line}
           </text>
         ))}
-    </g>
-  );
-};
-
+      </g>
+    );
+  };
 
   return (
     <div style={{ height: height }}>
@@ -1133,7 +1146,7 @@ const ***REMOVED*** = (tick) => {
                     ***REMOVED***: "middle",
                     legendOffset: parseInt(offsetRight),
                     format: (value) => {
-                      if(!value) return "";
+                      if (!value) return "";
                       if (layout == "vertical") {
                         const ***REMOVED*** = ***REMOVED***
                           ? ***REMOVED***
@@ -1154,8 +1167,10 @@ const ***REMOVED*** = (tick) => {
                 : null
             }
             axisBottom={
-              isMobileCustomizationEnabled && ***REMOVED***?.xAxisDisabled === true ? null :
-              layout == "horizontal"
+              isMobileCustomizationEnabled &&
+              ***REMOVED***?.xAxisDisabled === true
+                ? null
+                : layout == "horizontal"
                 ? {
                     legend: legends.bottom,
                     ***REMOVED***: "middle",
@@ -1164,7 +1179,7 @@ const ***REMOVED*** = (tick) => {
                     tickRotation: 0,
                     tickValues: parseInt(***REMOVED***),
                     format: (value) => {
-                      if(!value) return "";
+                      if (!value) return "";
                       if (layout == "horizontal") {
                         const ***REMOVED*** = ***REMOVED***
                           ? ***REMOVED***
@@ -1200,24 +1215,26 @@ const ***REMOVED*** = (tick) => {
               legend: legends.left,
               ***REMOVED***: "middle",
               legendOffset: parseInt(offsetY),
-              ...(
-                isMobileCustomizationEnabled ? { renderTick: ***REMOVED*** }
+              ...(isMobileCustomizationEnabled
+                ? { renderTick: ***REMOVED*** }
                 : {
-                  format: (value) => {
-                    if(!value) return "";
-                    if (layout === "vertical") {
-                      const ***REMOVED*** = ***REMOVED***
-                        ? ***REMOVED***
-                        : format;
-                      return intl.formatNumber(
-                        ***REMOVED***.style === "percent" ? value / 100 : value,
-                        {
-                          ...***REMOVED***,
-                        }
-                      );
-                    }
-                    return value;
-                  },
+                    format: (value) => {
+                      if (!value) return "";
+                      if (layout === "vertical") {
+                        const ***REMOVED*** = ***REMOVED***
+                          ? ***REMOVED***
+                          : format;
+                        return intl.formatNumber(
+                          ***REMOVED***.style === "percent"
+                            ? value / 100
+                            : value,
+                          {
+                            ...***REMOVED***,
+                          }
+                        );
+                      }
+                      return value;
+                    },
                   }),
             }}
             enableGridY={enableGridY}

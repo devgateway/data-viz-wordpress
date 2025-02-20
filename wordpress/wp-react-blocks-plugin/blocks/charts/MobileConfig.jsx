@@ -441,20 +441,6 @@ const MobileConfig = (props) => {
                 />
               </PanelRow>
 
-              <PanelRow>
-                <***REMOVED***
-                  label={__("X Axis Text Rotation")}
-                  value={***REMOVED***.tickRotation}
-                  onChange={(value) =>
-                    setAttributes({
-                      ***REMOVED***: {
-                        ...***REMOVED***,
-                        tickRotation: value,
-                      },
-                    })
-                  }
-                />
-              </PanelRow>
               <PanelBody initialOpen={false} title={__("Tablet Settings")}>
                 <PanelRow>
                   <RangeControl
@@ -494,6 +480,20 @@ const MobileConfig = (props) => {
                     }
                     min={0}
                     max={500}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <***REMOVED***
+                    label={__("X Axis Text Rotation")}
+                    value={***REMOVED***.tabletXAxisTextRotation}
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          tabletXAxisTextRotation: value,
+                        },
+                      })
+                    }
                   />
                 </PanelRow>
               </PanelBody>
@@ -536,6 +536,20 @@ const MobileConfig = (props) => {
                     }
                     min={0}
                     max={30}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <***REMOVED***
+                    label={__("X Axis Text Rotation")}
+                    value={***REMOVED***.mobileXAxisTextRotation}
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          mobileXAxisTextRotation: value,
+                        },
+                      })
+                    }
                   />
                 </PanelRow>
               </PanelBody>

@@ -493,7 +493,8 @@ import {Chart} from '../icons/index.js'
                         yAxis: {}
                     },
                     xAxisDisabled: false,
-                    tickRotation: 0,
+                    mobileXAxisTextRotation: 0,
+                    tabletXAxisTextRotation: 0,
                     ***REMOVED***: 0,
                     xAxisIntervalUserModified: false,
                     ***REMOVED***: 0,
