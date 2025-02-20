@@ -16,7 +16,8 @@ import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
-import Format from '../../charts/Format.jsx'
+import Format from '../../charts/Format.jsx';
+import {ALIVE_SUPERSET_APP} from '../../commons/Constants';
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -83,7 +84,7 @@ export class ***REMOVED*** extends Component {
                 markFillColor,
                 ***REMOVED***,
                 markSizeScale,
-                tooltip
+                tooltip                
             }
         } = this.props
 
@@ -205,7 +206,7 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, features, apps, layer, layer: {
+            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, features, apps, allDatasets, layer, layer: {
                 app,
                 csv,
                 measures,
@@ -238,6 +239,7 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 onRemoveLayer,
                 ***REMOVED***,
+                datasetId
             }
         } = this.props
 
@@ -260,18 +262,30 @@ export class ***REMOVED*** extends Component {
                 }
             }
         }
-        
+
+               
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {
+                    onChange={(app) => {                       
                         ***REMOVED***("app", app)
                     }}
                     options={apps}
                 />
             </PanelRow>
+               {app == ALIVE_SUPERSET_APP && <PanelRow>
+                            <SelectControl
+                                label={__('Datasets')}
+                                value={[datasetId]}
+                                onChange={(newDatasetId) => {
+                                    ***REMOVED***("datasetId", newDatasetId)                       
+                                }}
+                                options={allDatasets}
+                            />
+                        </PanelRow>
+                        }
             {type != 'dataPoints' && <Property property={"***REMOVED***"}
                                                type={"select"} ***REMOVED***={***REMOVED***}
                                                features={features}

@@ -334,20 +334,20 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
         }
     }
 
+  
+
     ***REMOVED***(url, datId) {
         let app = this.props.attributes.app || this.props.layer.app
-        let datasetId = datId || this.props.attributes.datasetId
-        let ***REMOVED*** = this.props.attributes.***REMOVED***
+        let datasetId = datId || this.props.attributes.datasetId        
        
         if (this.props.layer) {
             app = this.props.layer.app
-            datasetId = this.props.layer.datasetId
-            ***REMOVED*** = this.props.layer.***REMOVED***
+            datasetId = this.props.layer.datasetId           
         }
 
 
         if (app == ALIVE_SUPERSET_APP) {
-            return `${url}?datasetId=${datasetId}&***REMOVED***=${***REMOVED***}`
+            return `${url}?datasetId=${datasetId}&***REMOVED***=${this.state.apache_superset_url}`
         }
 
         return url
@@ -434,12 +434,8 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
        this._loadMetadata(app, newDatasetId || this.props.attributes.datasetId)       
     }   
 
-    loadDatasets(app) {       
-        let ***REMOVED*** = this.props.attributes.***REMOVED***
-        if (this.props.layer) {
-            ***REMOVED*** = this.props.layer.***REMOVED***
-        }
-        fetch(`/api/${app}/datasets?***REMOVED***=${***REMOVED***}`)
+    loadDatasets(app) {   
+          fetch(`/api/${app}/datasets?***REMOVED***=${this.state.apache_superset_url}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("HTTP status " + response.status);
