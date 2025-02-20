@@ -1,7 +1,7 @@
-export const ***REMOVED*** = (options) => {
-
+export const ***REMOVED*** = (options) => {    
     const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase()
-    if (options) {
+    
+    if (options && options instanceof Array) {
         return options.map(o => {
             let {label, value, labels} = o
 
@@ -15,8 +15,7 @@ export const ***REMOVED*** = (options) => {
 
 }
 
-export const ***REMOVED*** = (translatable) => {
-    
+export const ***REMOVED*** = (translatable) => {    
     const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase()
     let {label, labels, value} = translatable
     if (labels && labels[currentLocale]) {

@@ -303,7 +303,15 @@ import Generic from "../icons";
             ***REMOVED***: {
                 type: "Object",
                 default: {}
-            }
+            },
+            datasetId: {
+                type: 'String',
+                default: ""
+            },
+            ***REMOVED***: {
+                type: 'string',
+                default: ''
+            }  
         },
         edit: BlockEdit,
         save: BlockSave,

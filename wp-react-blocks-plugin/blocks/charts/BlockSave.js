@@ -118,6 +118,8 @@ const SaveComponent = (props) => {
             radarDotSize,
             ***REMOVED***,
             ***REMOVED***,
+            ***REMOVED***,
+            datasetId,
             ***REMOVED***
         }
     } = props;
@@ -134,6 +136,7 @@ const SaveComponent = (props) => {
              data-height={height}
              data-type={type}
              data-source={source}
+             data-dataset-id={datasetId}
              data-dimension1={dimension1}
              data-dimension2={dimension2}
              data-dimension3={dimension3}
@@ -247,6 +250,7 @@ const SaveComponent = (props) => {
              data-radar-enable-dot-label={***REMOVED***}
              data-radar-dot-label-offset={***REMOVED***}
              data-mobile-customization={***REMOVED***(JSON.stringify(***REMOVED***))}
+             data-apache-superset-url={***REMOVED***(***REMOVED***)} 
              >
             <InnerBlocks.Content/>
         </div>
