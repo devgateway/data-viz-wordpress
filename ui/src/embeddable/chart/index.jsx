@@ -177,7 +177,24 @@ const Chart = (props) => {
   );
   const isMobileConfigEnabled =
     ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
-  const [***REMOVED***, ***REMOVED***] = useState(tickRotation);
+
+  const ***REMOVED*** = () => {
+    if (
+      window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
+    ) {
+      return isMobileConfigEnabled
+        ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
+        : tickRotation;
+    } else if (window.matchMedia("(max-width: 480px)").matches) {
+      return isMobileConfigEnabled
+        ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
+        : tickRotation;
+    } else {
+      return tickRotation;
+    }
+  };
+
+  const [***REMOVED***, ***REMOVED***] = useState(***REMOVED***());
 
   const locale = props.intl.locale;
   const ref = useRef(null);
@@ -445,21 +462,6 @@ const Chart = (props) => {
   };
 
   useEffect(() => {
-    const ***REMOVED*** = () => {
-      if (
-        window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
-      ) {
-        return isMobileConfigEnabled
-          ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
-          : tickRotation;
-      } else if (window.matchMedia("(max-width: 480px)").matches) {
-        return isMobileConfigEnabled
-          ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
-          : tickRotation;
-      } else {
-        return tickRotation;
-      }
-    };
     const ***REMOVED*** = () => {
       ***REMOVED***(window.innerWidth <= 1250);
       ***REMOVED***(***REMOVED***());
