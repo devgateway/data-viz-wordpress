@@ -25,12 +25,14 @@ class BlockEdit extends ComponentWithSettings {
     }
 
     ***REMOVED***() {
+        super.***REMOVED***();
+        
         const {
             className, isSelected, ***REMOVED***, setAttributes, attributes: {
                 panelStatus, height, width, group, ***REMOVED***, layers = [],
             }
         } = this.props;
-        super.***REMOVED***();
+        
 
         window.***REMOVED***("message", (event) => {
             if (event.data.type == `d3_map_${group}`) {
