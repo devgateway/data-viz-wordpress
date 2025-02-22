@@ -126,7 +126,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <SelectControl
                                 value={app}
                                 onChange={(app) => {
-                                    setAttributes({app: app, hiddenFilters: [], ***REMOVED***: this.state.apache_superset_url})
+                                    setAttributes({app: app, hiddenFilters: []})
                                 }}
                                 options={this.state.apps}
                             />
