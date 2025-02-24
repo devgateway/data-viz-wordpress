@@ -123,15 +123,9 @@ import Generic from "../icons";
             ***REMOVED***: {
                 type: 'Boolean',
                 default: true
-            },
-            datasetId: {
-                type: 'String',
-                default: ""
-            },
-            ***REMOVED***: {
-                type: 'string',
-                default: ''
-            }  
+            }
+
+
         },
         edit: BlockEdit,
         save: BlockSave,
