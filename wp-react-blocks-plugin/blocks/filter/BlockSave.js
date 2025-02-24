@@ -29,8 +29,6 @@ const SaveComponent = (props) => {
             closeOnSelect,
             ***REMOVED***,
             ascOrder,
-            ***REMOVED***,
-            datasetId,
             ***REMOVED***
         }
     } = props;
@@ -42,7 +40,6 @@ const SaveComponent = (props) => {
     return (<div className={"viz-component"}
                  data-component={"filter"}
                  data-app={app}
-                 data-dataset-id={datasetId}
                  data-icon={icon}
                  data-alphabetical-sort={***REMOVED***}
                  data-asc-order={ascOrder}
@@ -69,9 +66,7 @@ const SaveComponent = (props) => {
                  data-hidden-filters={***REMOVED***(JSON.stringify(hiddenFilters))}
                  data-close-on-select={closeOnSelect}
                  data-use-filter-items={***REMOVED***}
-                 data-all-none-same-behaviour={***REMOVED***}
-                 data-apache-superset-url={***REMOVED***(***REMOVED***)} 
-                 >
+                 data-all-none-same-behaviour={***REMOVED***}>
     </div>);
 }
 
