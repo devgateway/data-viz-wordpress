@@ -73,10 +73,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
   );
   const [scrollTarget, ***REMOVED***] = useState(null);
   const ref = useRef(null);
-  const ***REMOVED*** =
-    getDeviceType() === "mobile" ||
-    getDeviceType() === "tablet" ||
-    getDeviceType() === "midTablet";
+  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 1250);
 
   useEffect(() => {
     if (scrollTarget) {
@@ -89,121 +86,130 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
     }
   }, [scrollTarget]);
 
+  const ***REMOVED*** = () => {
+    return (
+      window.screen.orientation?.type ||
+      (window.innerWidth > window.innerHeight
+        ? "landscape-primary"
+        : "portrait-primary")
+    );
+  }
+  const [orientation, ***REMOVED***] = useState(***REMOVED***());
+
+  const handleOrientationChange = () => {
+    setTimeout(() => {
+      ***REMOVED***(***REMOVED***());
+      ***REMOVED***(window.innerWidth <= 1250);
+    }, 100);
+  }
+
+  const adjustDataSourceMargin = (ref) => {
+    // Use a timeout for better WebKit compatibility
+    setTimeout(() => {
+      // Get all legend containers
+      const ***REMOVED*** = ref.***REMOVED***(
+        ".accordion .legends.container.has-standard-12-font-size.bottom, .legends.container.items-section"
+      );
+
+      if (***REMOVED***.length === 0) {
+        return;
+      }
+
+      for (const ***REMOVED*** of ***REMOVED***) {
+        const container = ***REMOVED***.closest(".ui.fluid.container.content");
+        const ***REMOVED*** = container
+          ? container.querySelector(".data-source")
+          : null;
+
+        if (!***REMOVED***) {
+          continue;
+        }
+
+        // Extra WebKit check: Ensure elements have dimensions
+        if (
+          ***REMOVED***.offsetParent === null ||
+          ***REMOVED***.offsetParent === null ||
+          ***REMOVED***.offsetHeight === 0 ||
+          ***REMOVED***.offsetHeight === 0
+        ) {
+          continue;
+        }
+
+        // Get bounding rectangles (fallback for WebKit)
+        const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
+        const legendsRect = ***REMOVED***.getBoundingClientRect();
+
+        // Get computed styles
+        const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
+        const legendsStyles = window.***REMOVED***(***REMOVED***);
+
+        // Parse margins, fallback to 0 if "auto" is returned
+        const ***REMOVED*** = parseFloat(***REMOVED***.marginTop) || 0;
+        const ***REMOVED*** = parseFloat(legendsStyles.marginBottom) || 0;
+
+        // Calculate adjusted positions
+        const adjustedLegendsBottom = legendsRect.bottom + ***REMOVED***;
+        const adjustedDataSourceTop = ***REMOVED***.top - ***REMOVED***;
+
+        // Fix overlapping of legends and data source
+        if (adjustedLegendsBottom > adjustedDataSourceTop) {
+          const overlap = adjustedLegendsBottom - adjustedDataSourceTop;
+          ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Extra padding
+        }
+
+        // Fix overlap with the next `.wp-block-column`
+        const ***REMOVED*** = ***REMOVED***.closest(
+          ".wp-block-column.is-layout-flow.wp-block-column-is-layout-flow"
+        )?.***REMOVED***;
+
+        if (***REMOVED***) {
+          const wpColumnAfterChartRect = ***REMOVED***.getBoundingClientRect();
+          const wpColumnAfterChartStyles = window.***REMOVED***(***REMOVED***);
+
+          const wpColumnAfterChartMarginTop = parseFloat(wpColumnAfterChartStyles.marginTop) || 0;
+          const adjustedWpColumnAfterChartTop = wpColumnAfterChartRect.top - wpColumnAfterChartMarginTop;
+
+          if (adjustedLegendsBottom > adjustedWpColumnAfterChartTop) {
+            const overlap = adjustedLegendsBottom - adjustedWpColumnAfterChartTop;
+            ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Add padding
+          }
+        }
+
+        // Fix overlap with chart container above it
+        const ***REMOVED*** = ***REMOVED***.closest(".chart.container");
+
+        if (***REMOVED***) {
+          const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
+          const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
+          const chartContainerMarginBottom = parseFloat(***REMOVED***.marginBottom) || 0;
+          const adjustedChartContainerBottom = ***REMOVED***.bottom + chartContainerMarginBottom;
+
+          const ***REMOVED*** = parseFloat(legendsStyles.marginTop) || 0;
+          const ***REMOVED*** = legendsRect.top - ***REMOVED***;
+
+          if (***REMOVED*** < adjustedChartContainerBottom) {
+            const overlap = adjustedChartContainerBottom - ***REMOVED***;
+            ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Extra padding
+          }
+        }
+      }
+    }, 10); // Delay helps WebKit render layout properly
+  };
+  useEffect(() => {
+    if (window.screen.orientation) {
+      window.screen.orientation.***REMOVED***(
+        "change",
+        handleOrientationChange
+      );
+    }
+    window.***REMOVED***("resize", handleOrientationChange);
+
+    return () => window.***REMOVED***("resize", handleOrientationChange);
+  }, []);
+
   useEffect(() => {
     let timeoutId;
-    let observers = []; // Array to store observers for each accordion
-
-    const adjustDataSourceMargin = (ref) => {
-      requestAnimationFrame(() => {
-        // Find all legend containers
-        const ***REMOVED*** = ref.***REMOVED***(
-          ".accordion .legends.container.has-standard-12-font-size.bottom, .legends.container.items-section"
-        );
-
-        if (***REMOVED***.length === 0) {
-          return;
-        }
-
-        for (const ***REMOVED*** of ***REMOVED***) {
-          const container = ***REMOVED***.closest(
-            ".ui.fluid.container.content"
-          );
-          const ***REMOVED*** = container
-            ? container.querySelector(".data-source")
-            : null;
-
-          if (!***REMOVED***) {
-            continue;
-          }
-
-          // Check if the elements have dimensions and are visible
-          if (
-            ***REMOVED***.offsetParent === null ||
-            ***REMOVED***.offsetParent === null
-          ) {
-            continue;
-          }
-
-          // Get bounding rectangles
-          const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
-          const legendsRect = ***REMOVED***.getBoundingClientRect();
-
-          // Get computed styles to include margins in the calculation
-          const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
-          const legendsStyles = window.***REMOVED***(***REMOVED***);
-
-          // Get the margins (parse as float to get numeric values)
-          const ***REMOVED*** =
-            parseFloat(***REMOVED***.marginTop) || 0;
-          const ***REMOVED*** =
-            parseFloat(legendsStyles.marginBottom) || 0;
-
-          // Adjust margins if there's an overlap
-          const adjustedLegendsBottom =
-            legendsRect.bottom + ***REMOVED***; // Including margin-bottom of legends
-
-        const ***REMOVED*** = parseFloat(legendsStyles.marginTop) || 0;
-        const ***REMOVED*** = legendsRect.top - ***REMOVED***; // Adjusted top of legends container
-
-
-          const adjustedDataSourceTop =
-            ***REMOVED***.top - ***REMOVED***; // Including margin-top of data-source
-
-          if (adjustedLegendsBottom > adjustedDataSourceTop) {
-            const overlap = adjustedLegendsBottom - adjustedDataSourceTop;
-            ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Add some extra padding
-          }
-
-
-          // check for overlap with the next wp-block-column
-          const ***REMOVED*** = ***REMOVED***.closest(
-            ".wp-block-column.is-layout-flow.wp-block-column-is-layout-flow"
-          )?.***REMOVED***;
-
-          if (***REMOVED***) {
-            // check for overlap with legend container
-            const wpColumnAfterChartRect =
-              ***REMOVED***.getBoundingClientRect();
-            const wpColumnAfterChartStyles =
-              window.***REMOVED***(***REMOVED***);
-
-            const wpColumnAfterChartMarginTop =
-              parseFloat(wpColumnAfterChartStyles.marginTop) || 0;
-            const ***REMOVED*** =
-              parseFloat(legendsStyles.marginBottom) || 0;
-
-            const adjustedWpColumnAfterChartTop =
-              wpColumnAfterChartRect.top - wpColumnAfterChartMarginTop;
-            const adjustedLegendsBottom =
-              legendsRect.bottom + ***REMOVED***;
-
-            if (adjustedLegendsBottom > adjustedWpColumnAfterChartTop) {
-              const overlap =
-                adjustedLegendsBottom - adjustedWpColumnAfterChartTop;
-              ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Add some extra padding
-            }
-          }
-
-          // check for overlap with the chart container above it
-            const ***REMOVED*** = ***REMOVED***.closest(
-                ".chart.container"
-            );
-
-            if (***REMOVED***) {
-                const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
-                const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
-                const chartContainerMarginBottom = parseFloat(***REMOVED***.marginBottom) || 0;
-                const adjustedChartContainerBottom = ***REMOVED***.bottom + chartContainerMarginBottom; // Adjusted bottom of chart container
-
-                // Check for overlap and adjust margin-bottom of ***REMOVED*** if necessary
-                if (***REMOVED*** < adjustedChartContainerBottom) {
-                    const overlap = adjustedChartContainerBottom - ***REMOVED***;
-                    ***REMOVED***.style.marginTop = `${overlap + 20}px`; // Add some extra padding
-                }
-            }
-        }
-      });
-    };
+    let observers = []; // Store ***REMOVED*** for each accordion
 
     if (activeIndex !== -1) {
       timeoutId = setTimeout(() => {
@@ -216,7 +222,8 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
       clearTimeout(timeoutId);
       observers.forEach((observer) => observer.disconnect());
     };
-  }, [activeIndex, ***REMOVED***]);
+  }, [activeIndex, ***REMOVED***, orientation]);
+
 
   const handleClick = (e, titleProps) => {
     const { index } = titleProps;
@@ -378,7 +385,7 @@ const Wrapper = (props) => {
                 perPage={items}>
                 <PostConsumer>
                     <PostConsumer>
-                        {(isMobile) ? (
+                        {isMobile ? (
                             <***REMOVED*** posts={items} activeItem={items[0]?.slug} setActive={() => { }} />
                         ) : theme === 'light' ? (
                             <***REMOVED*** height={***REMOVED***} showLabels={showLabels === 'true'} />

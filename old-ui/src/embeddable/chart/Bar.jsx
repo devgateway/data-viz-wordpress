@@ -7,14 +7,13 @@ import { line } from "d3-shape";
 import LineLayer from "./LineLayer";
 import Papa from "papaparse";
 import ***REMOVED*** from "../../layout/***REMOVED***";
-import deviceType from '../../utils/deviceType'
+import deviceType from "../../utils/deviceType";
 
 const POSITION_MIDDLE = "middle";
 const POSITION_TOP = "top";
 const ZERO_LINE_COLOR = "#66676d";
 const GRID_LINE_COLOR = "#dddddd";
 const DEFAULT_COLOR = "none";
-const LABEL_SKIP_HEIGHT = 0;
 const COLOR_VARIABLE = "_Color";
 
 const Chart = ({
@@ -77,13 +76,20 @@ const Chart = ({
   reverseLegend,
   enableGridY,
   enableGridX,
-  ***REMOVED***
+  ***REMOVED***,
 }) => {
-  const isMobile = deviceType() === "mobile";
+  const ***REMOVED*** = ["mobile", "tablet", "midTablet"].includes(
+    deviceType()
+  );
+  const ***REMOVED*** = ["tablet", "midTablet"].includes(deviceType());
+  const ***REMOVED*** = deviceType() === "mobile";
   const LABEL_SKIP_WIDTH = 30; // important for vertical layout
   const LABEL_SKIP_HEIGHT = 15; // important for horizontal layout
-  const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
-  const isMobileCustomizationEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
+  const ***REMOVED*** = JSON.parse(
+    ***REMOVED***(***REMOVED***)
+  );
+  const isMobileCustomizationEnabled =
+    ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
   const ***REMOVED*** = () => {
     if (barLabelColor === "null" || barLabelColor === null || !barLabelColor) {
       return "#000000";
@@ -101,7 +107,7 @@ const Chart = ({
   const [showLine, setShowLine] = useState(***REMOVED***);
   const [bottomSpacing, ***REMOVED***] = useState(50);
   const [newMarginTop, ***REMOVED***] = useState(marginTop);
-  const [wrapCount, setWrapCount] = useState(0);
+  const [_wrapCount, setWrapCount] = useState(0);
   const [***REMOVED***, ***REMOVED***] = useState(marginBottom);
 
   const ***REMOVED*** = (
@@ -493,19 +499,56 @@ const Chart = ({
   };
 
   const CustomTick = (tick) => {
+    const theme = useTheme();
+    if (!tick.value) return "";
     const tickObject = Object.assign({}, tick);
-    if(isMobileCustomizationEnabled && hiddenLabels.includes(String(tickObject.value))) {
+    if (
+      isMobileCustomizationEnabled &&
+      hiddenLabels.includes(String(tickObject.value))
+    ) {
       tickObject.value = "";
     }
-    const theme = useTheme();
     let ***REMOVED***;
     if (***REMOVED***) {
       ***REMOVED*** = tickColor;
     } else {
       ***REMOVED*** = legendColor(tick);
     }
-    const width = getTextWidth(tickObject.value, "12px Roboto") + 30;
+    let lines = [];
+    let currentLine = "";
+    if (isMobileCustomizationEnabled) {
+      const words = String(tickObject.value).split(" ");
+      let maxLineLength = 25;
+      if (***REMOVED***) {
+        maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+      } else if (***REMOVED***) {
+        maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+      } else if (
+        window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
+      ) {
+        maxLineLength = 15;
+      }
 
+      words.forEach((word) => {
+        if (currentLine.length + String(word).length <= maxLineLength) {
+          currentLine += (currentLine ? " " : "") + word;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+        }
+      });
+      if (currentLine) {
+        lines.push(currentLine);
+      }
+    } else {
+      lines = [tickObject.value];
+    }
+    let lineHeight = 12;
+    if (***REMOVED***) {
+      lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
+    } else if (***REMOVED***) {
+      lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
+    }
     if (tickRotation > 0 && tickRotation < 180) {
       return (
         <g transform={`translate(${tick.x},${tick.y + 30})`}>
@@ -519,29 +562,23 @@ const Chart = ({
           )}
 
           <g transform={`translate(0, ${tick.y + offsetText})`}>
-            {/* <rect
-              transform={`rotate(${tickRotation})`}
-              x={-12}
-              y={-12}
-              rx={2}
-              ry={2}
-              width={width}
-              height={22}
-              fill={"#FFFFFF"}
-            /> */}
-
-            <text
-              transform={`rotate(${tickRotation})`}
-              textAnchor="start"
-              ***REMOVED***="middle"
-              style={{
-                ...theme.axis.ticks.text,
-                fill: xLabelColor === "null" ? "black" : xLabelColor,
-                fontSize: "12px",
-              }}
-            >
-              {tickObject.value}
-            </text>
+            {lines.map((line, i) => (
+              <text
+                key={i}
+                transform={`rotate(${tickRotation})`}
+                textAnchor="start"
+                y={typeof tick.value === "number" ? 0 : i * lineHeight}
+                ***REMOVED***="middle"
+                style={{
+                  ...theme.axis.ticks.text,
+                  fill: xLabelColor === "null" ? "black" : xLabelColor,
+                  fontSize: "12px",
+                  fontFamily: "Roboto",
+                }}
+              >
+                {line}
+              </text>
+            ))}
           </g>
         </g>
       );
@@ -558,29 +595,23 @@ const Chart = ({
           )}
 
           <g transform={`translate(0, ${tick.y + offsetText})`}>
-            {/* <rect
-              transform={`rotate(${tickRotation - 180})`}
-              x={-12}
-              y={-10}
-              rx={2}
-              ry={2}
-              width={width}
-              height={22}
-              fill={"#FFFFFF"}
-            /> */}
-
-            <text
-              transform={`rotate(${tickRotation})`}
-              textAnchor="end"
-              ***REMOVED***="middle"
-              style={{
-                ...theme.axis.ticks.text,
-                fill: xLabelColor === "null" ? "black" : xLabelColor,
-                fontSize: "12px",
-              }}
-            >
-              {tickObject.value}
-            </text>
+            {lines.map((line, i) => (
+              <text
+                key={i}
+                transform={`rotate(${tickRotation})`}
+                textAnchor="end"
+                y={typeof tick.value === "number" ? 0 : i * lineHeight}
+                ***REMOVED***="middle"
+                style={{
+                  ...theme.axis.ticks.text,
+                  fill: xLabelColor === "null" ? "black" : xLabelColor,
+                  fontSize: "12px",
+                  fontFamily: "Roboto",
+                }}
+              >
+                {line}
+              </text>
+            ))}
           </g>
         </g>
       );
@@ -597,29 +628,23 @@ const Chart = ({
           )}
 
           <g transform={`translate(0, ${tick.y + offsetText})`}>
-            {/* <rect
-              transform={`rotate(${tickRotation})`}
-              x={(-1 * width) / 2}
-              y={-12}
-              rx={2}
-              ry={2}
-              width={width}
-              height={22}
-              fill={"#FFFFFF"}
-            /> */}
-
-            <text
-              transform={`rotate(${tickRotation})`}
-              textAnchor="middle"
-              ***REMOVED***="middle"
-              style={{
-                ...theme.axis.ticks.text,
-                fill: xLabelColor === "null" ? "black" : xLabelColor,
-                fontSize: "12px",
-              }}
-            >
-              {tickObject.value}
-            </text>
+            {lines.map((line, i) => (
+              <text
+                key={i}
+                transform={`rotate(${tickRotation})`}
+                textAnchor="middle"
+                y={typeof tick.value === "number" ? 0 : i * lineHeight}
+                ***REMOVED***="middle"
+                style={{
+                  ...theme.axis.ticks.text,
+                  fill: xLabelColor === "null" ? "black" : xLabelColor,
+                  fontSize: "12px",
+                  fontFamily: "Roboto",
+                }}
+              >
+                {line}
+              </text>
+            ))}
           </g>
         </g>
       );
@@ -999,16 +1024,83 @@ const Chart = ({
     );
   };
 
-let hiddenLabels = [];
-if(isMobileCustomizationEnabled) {
+  let hiddenLabels = [];
+  if (isMobileCustomizationEnabled) {
     ticks = parseInt(***REMOVED***.***REMOVED***);
-    const labels = new Map(Object.entries(***REMOVED***?.labels?.xAxis ?? {}));
+    const labels = new Map(
+      Object.entries(***REMOVED***?.labels?.xAxis ?? {})
+    );
     for (let [key, value] of labels) {
       if (!value) {
         hiddenLabels.push(key);
       }
     }
-}
+  }
+
+  const ***REMOVED*** = (tick) => {
+    if (
+      !tick.value ||
+      (isMobileCustomizationEnabled &&
+        hiddenLabels.includes(String(tick.value)))
+    ) {
+      return "";
+    }
+    let maxLineLength = 25;
+    if (***REMOVED***) {
+      maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+    } else if (***REMOVED***) {
+      maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+    } else if (
+      window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
+    ) {
+      maxLineLength = 15;
+    }
+    const words =
+      typeof tick.value === "string" ? tick.value.split(" ") : [tick.value];
+    let lines = [];
+    let currentLine = "";
+
+    words.forEach((word) => {
+      if (currentLine.length + String(word).length <= maxLineLength) {
+        currentLine += (currentLine ? " " : "") + word;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    });
+
+    if (currentLine) {
+      lines.push(currentLine);
+    }
+    let lineHeight = 12;
+    if (***REMOVED***) {
+      lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
+    } else if (***REMOVED***) {
+      lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
+    }
+
+    return (
+      <g transform={`translate(${tick.x},${tick.y})`}>
+        <line x1={-5} x2={0} y1={0} y2={0} stroke={"#000"} strokeWidth={1} />
+        {lines.map((line, i) => (
+          <text
+            key={i}
+            x={-10}
+            y={typeof tick.value === "number" ? 0 : i * lineHeight}
+            textAnchor="end"
+            ***REMOVED***="middle"
+            style={{
+              fill: xLabelColor === "null" ? "black" : xLabelColor,
+              fontSize: "12px",
+              fontFamily: "Roboto",
+            }}
+          >
+            {line}
+          </text>
+        ))}
+      </g>
+    );
+  };
 
   return (
     <div style={{ height: height }}>
@@ -1055,6 +1147,7 @@ if(isMobileCustomizationEnabled) {
                     ***REMOVED***: "middle",
                     legendOffset: parseInt(offsetRight),
                     format: (value) => {
+                      if (!value) return "";
                       if (layout == "vertical") {
                         const ***REMOVED*** = ***REMOVED***
                           ? ***REMOVED***
@@ -1075,8 +1168,10 @@ if(isMobileCustomizationEnabled) {
                 : null
             }
             axisBottom={
-              isMobileCustomizationEnabled && ***REMOVED***?.xAxisDisabled === true ? null :
-              layout == "horizontal"
+              isMobileCustomizationEnabled &&
+              ***REMOVED***?.xAxisDisabled === true
+                ? null
+                : layout == "horizontal"
                 ? {
                     legend: legends.bottom,
                     ***REMOVED***: "middle",
@@ -1085,6 +1180,7 @@ if(isMobileCustomizationEnabled) {
                     tickRotation: 0,
                     tickValues: parseInt(***REMOVED***),
                     format: (value) => {
+                      if (!value) return "";
                       if (layout == "horizontal") {
                         const ***REMOVED*** = ***REMOVED***
                           ? ***REMOVED***
@@ -1120,20 +1216,27 @@ if(isMobileCustomizationEnabled) {
               legend: legends.left,
               ***REMOVED***: "middle",
               legendOffset: parseInt(offsetY),
-              format: (value) => {
-                if (layout == "vertical") {
-                  const ***REMOVED*** = ***REMOVED***
-                    ? ***REMOVED***
-                    : format;
-                  return intl.formatNumber(
-                    ***REMOVED***.style === "percent" ? value / 100 : value,
-                    {
-                      ...***REMOVED***,
-                    }
-                  );
-                }
-                return value;
-              },
+              ...(isMobileCustomizationEnabled
+                ? { renderTick: ***REMOVED*** }
+                : {
+                    format: (value) => {
+                      if (!value) return "";
+                      if (layout === "vertical") {
+                        const ***REMOVED*** = ***REMOVED***
+                          ? ***REMOVED***
+                          : format;
+                        return intl.formatNumber(
+                          ***REMOVED***.style === "percent"
+                            ? value / 100
+                            : value,
+                          {
+                            ...***REMOVED***,
+                          }
+                        );
+                      }
+                      return value;
+                    },
+                  }),
             }}
             enableGridY={enableGridY}
             enableGridX={enableGridX}

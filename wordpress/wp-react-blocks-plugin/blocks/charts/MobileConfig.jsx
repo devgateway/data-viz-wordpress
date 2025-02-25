@@ -7,7 +7,11 @@ import {
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { useEffect } from "react";
-import { ***REMOVED*** } from ".././commons/APIutils";
+import {
+  ***REMOVED***,
+  getSelectedLabelsForApp,
+  ***REMOVED***,
+} from "../commons/***REMOVED***";
 
 const MarginSection = ({
   setAttributes,
@@ -32,7 +36,7 @@ const MarginSection = ({
               },
             })
           }
-          min={0}
+          min={-500}
           max={500}
         />
       </PanelRow>
@@ -51,7 +55,7 @@ const MarginSection = ({
             })
           }
           step={1}
-          min={0}
+          min={-500}
           max={500}
         />
       </PanelRow>
@@ -67,7 +71,7 @@ const MarginSection = ({
               },
             })
           }
-          min={0}
+          min={-500}
           max={500}
         />
       </PanelRow>
@@ -83,7 +87,7 @@ const MarginSection = ({
               },
             })
           }
-          min={0}
+          min={-500}
           max={500}
         />
       </PanelRow>
@@ -104,12 +108,14 @@ const ***REMOVED*** = ({
           )}
           value={***REMOVED***?.barPadding ?? barPadding}
           ***REMOVED***={0.15}
-          onChange={(newBarPadding) => setAttributes({
-            ***REMOVED***: {
-              ...***REMOVED***,
-              barPadding: newBarPadding,
-            },
-           })}
+          onChange={(newBarPadding) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                barPadding: newBarPadding,
+              },
+            })
+          }
           step={0.05}
           min={0}
           max={1}
@@ -119,16 +125,16 @@ const ***REMOVED*** = ({
       <PanelRow>
         <RangeControl
           label={__("Bar Inner Padding (Space between bars in the same group)")}
-          value={
-            ***REMOVED***?.***REMOVED*** ?? ***REMOVED***
-          }
+          value={***REMOVED***?.***REMOVED*** ?? ***REMOVED***}
           ***REMOVED***={0.75}
-          onChange={(***REMOVED***) => setAttributes({
-            ***REMOVED***: {
-              ...***REMOVED***,
-              ***REMOVED***: ***REMOVED***,
-            },
-           })}
+          onChange={(***REMOVED***) =>
+            setAttributes({
+              ***REMOVED***: {
+                ...***REMOVED***,
+                ***REMOVED***: ***REMOVED***,
+              },
+            })
+          }
           step={0.25}
           min={0}
           max={50}
@@ -137,7 +143,6 @@ const ***REMOVED*** = ({
     </PanelBody>
   );
 };
-
 
 const TitleSection = ({
   setAttributes,
@@ -188,67 +193,93 @@ const TitleSection = ({
           }
         />
       </PanelRow>
-
     </PanelBody>
   );
 };
 
-function ***REMOVED***(csvData) {
-  const lines = csvData.split("\n");
-  const ***REMOVED*** = lines?.slice(1)?.map((row) => {
-    return row.split(",")[0];
-  });
-  return ***REMOVED***;
-}
+const ***REMOVED*** = ({
+  setAttributes,
+  attributes: { ***REMOVED***, ***REMOVED***, ***REMOVED***, layout },
+}) => {
+  const isHorizontal =
+    (layout === "horizontal" &&
+      ***REMOVED***.***REMOVED*** === false) ||
+    (layout === "vertical" && ***REMOVED***.***REMOVED*** === true);
 
-function transformDataToAppObject(data, appName, ***REMOVED*** = {}) {
-  if (***REMOVED***[appName] !== undefined) {
-    return ***REMOVED***;
-  }
-  ***REMOVED***[appName] = {};
-  data.forEach((item) => {
-    const key = item.value;
-    ***REMOVED***[appName][key] = {
-      selected: false,
-      format: {
-        style: "percent",
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-        currency: "USD",
-      },
-      ***REMOVED***: false,
-      customLabel: item.label || key,
-    };
-  });
+  const isVertical =
+    (layout === "vertical" &&
+      ***REMOVED***.***REMOVED*** === false) ||
+    (layout === "horizontal" &&
+      ***REMOVED***.***REMOVED*** === true);
 
-  return ***REMOVED***;
-}
-
-function getSelectedLabelsForApp(data, appName) {
-  const appData = data[appName];
-  if (!appData) {
-    return [];
-  }
-  return Object.keys(appData)
-    .filter((key) => appData[key].selected) // Filter out the selected items
-    .map((key) => {
-      return appData[key].***REMOVED***
-        ? appData[key].customLabel
-        : appData[key].label;
-    });
-}
-
-const ***REMOVED*** = (data, measures, app) => {
-  transformDataToAppObject(data, app, measures);
-  const apiMeasures = ***REMOVED***(data);
-  // for each api measure, find the corresponding measure in the measures array
-  // and add a label property to the measure in the measures array
-  apiMeasures.forEach((apiMeasure) => {
-    const measure = measures[app][apiMeasure.value];
-    if (measure) {
-      measure.label = apiMeasure.label;
+  const ***REMOVED*** = (value, prop, intervalProp) => {
+    const newObject = Object.assign({}, ***REMOVED***);
+    if (newObject) {
+      newObject[prop] = value;
+      newObject[intervalProp] = true;
     }
-  });
+    setAttributes({ ***REMOVED***: newObject });
+  };
+
+  return (
+    <PanelBody initialOpen={false} title={__("Intervals")}>
+      {
+        /**
+         * the number of intervals should default to the value set by ***REMOVED***
+         * this should only be displayed when the layout is vertical and the ***REMOVED***.***REMOVED*** is false
+         */
+        isVertical && (
+          <PanelRow>
+            <RangeControl
+              label={__("Number of Y Axis Intervals")}
+              value={
+                !***REMOVED***?.yAxisIntervalUserModified
+                  ? ***REMOVED***
+                  : ***REMOVED***.***REMOVED***
+              }
+              onChange={(***REMOVED***) =>
+                ***REMOVED***(
+                  ***REMOVED***,
+                  "***REMOVED***",
+                  "yAxisIntervalUserModified"
+                )
+              }
+              min={0}
+              max={50}
+            />
+          </PanelRow>
+        )
+      }
+
+      {
+        /**
+         * the number of intervals should default to the value set by ***REMOVED***
+         * this should only be displayed when the layout is horizontal and the ***REMOVED***.***REMOVED*** is false
+         * */
+        isHorizontal && (
+          <PanelRow>
+            <RangeControl
+              label={__("Number of X Axis Intervals")}
+              value={
+                !***REMOVED***?.xAxisIntervalUserModified
+                  ? ***REMOVED***
+                  : ***REMOVED***.***REMOVED***
+              }
+              onChange={(***REMOVED***) =>
+                ***REMOVED***(
+                  ***REMOVED***,
+                  "***REMOVED***",
+                  "xAxisIntervalUserModified"
+                )
+              }
+              min={0}
+              max={50}
+            />
+          </PanelRow>
+        )
+      }
+    </PanelBody>
+  );
 };
 
 const MobileConfig = (props) => {
@@ -262,6 +293,7 @@ const MobileConfig = (props) => {
       measures,
       dimension1,
       ***REMOVED***,
+      ***REMOVED***,
     },
   } = props;
 
@@ -274,7 +306,15 @@ const MobileConfig = (props) => {
         },
       });
     }
-  }, [***REMOVED***]);
+    if (!***REMOVED***.xAxisIntervalUserModified) {
+      setAttributes({
+        ***REMOVED***: {
+          ...***REMOVED***,
+          ***REMOVED***: ***REMOVED***,
+        },
+      });
+    }
+  }, [***REMOVED***, ***REMOVED***]);
 
   let xAxisLabels = ***REMOVED***(csv);
   if (app !== "csv") {
@@ -351,20 +391,14 @@ const MobileConfig = (props) => {
     return true;
   };
 
-  const ***REMOVED*** = (value) => {
-    const newObject = Object.assign({}, ***REMOVED***);
-    if (newObject) {
-      newObject.***REMOVED*** = value;
-      newObject.yAxisIntervalUserModified = true;
-    }
-    setAttributes({ ***REMOVED***: newObject });
-  };
-
   const ***REMOVED*** = ["bar", "line", "pie"].includes(type);
 
   const isBarOrLine = ["bar", "line"].includes(type);
   return (
-    <PanelBody initialOpen={false} title={__("Mobile & Tablet Customization Settings")}>
+    <PanelBody
+      initialOpen={false}
+      title={__("Mobile & Tablet Customization Settings")}
+    >
       <PanelRow>
         <ToggleControl
           label={__("Show Mobile & Tablet Customization Settings")}
@@ -407,38 +441,119 @@ const MobileConfig = (props) => {
                 />
               </PanelRow>
 
-              <PanelRow>
-                <***REMOVED***
-                  label={__("X Axis Text Rotation")}
-                  value={***REMOVED***.tickRotation}
-                  onChange={(value) =>
-                    setAttributes({
-                      ***REMOVED***: {
-                        ...***REMOVED***,
-                        tickRotation: value,
-                      },
-                    })
-                  }
-                />
-              </PanelRow>
-
-              {/** the number of intervals should default to the value set by ***REMOVED*** */}
-              <PanelRow>
-                <RangeControl
-                  label={__("Number of Intervals")}
-                  value={
-                    !***REMOVED***?.yAxisIntervalUserModified
-                      ? ***REMOVED***
-                      : ***REMOVED***.***REMOVED***
-                  }
-                  onChange={(***REMOVED***) =>
-                    ***REMOVED***(***REMOVED***)
-                  }
-                  min={0}
-                  max={50}
-                />
-              </PanelRow>
-
+              <PanelBody initialOpen={false} title={__("Tablet Settings")}>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Tablet Y Axis Line Height")}
+                    value={
+                      !***REMOVED***?.tabletYAxisLineHeight
+                        ? 12
+                        : ***REMOVED***.tabletYAxisLineHeight
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          tabletYAxisLineHeight: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={500}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Tablet Max Tick Word Length")}
+                    value={
+                      !***REMOVED***?.***REMOVED***
+                        ? 25
+                        : ***REMOVED***.***REMOVED***
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          ***REMOVED***: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={500}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <***REMOVED***
+                    label={__("X Axis Text Rotation")}
+                    value={***REMOVED***.tabletXAxisTextRotation}
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          tabletXAxisTextRotation: value,
+                        },
+                      })
+                    }
+                  />
+                </PanelRow>
+              </PanelBody>
+              <PanelBody initialOpen={false} title={__("Mobile Settings")}>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Mobile Y Axis Line Height")}
+                    value={
+                      !***REMOVED***?.mobileYAxisLineHeight
+                        ? 12
+                        : ***REMOVED***.mobileYAxisLineHeight
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          mobileYAxisLineHeight: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={30}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <RangeControl
+                    label={__("Mobile Max Tick Word Length.")}
+                    value={
+                      !***REMOVED***?.***REMOVED***
+                        ? 25
+                        : ***REMOVED***.***REMOVED***
+                    }
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          ***REMOVED***: value,
+                        },
+                      })
+                    }
+                    min={0}
+                    max={500}
+                  />
+                </PanelRow>
+                <PanelRow>
+                  <***REMOVED***
+                    label={__("X Axis Text Rotation")}
+                    value={***REMOVED***.mobileXAxisTextRotation}
+                    onChange={(value) =>
+                      setAttributes({
+                        ***REMOVED***: {
+                          ...***REMOVED***,
+                          mobileXAxisTextRotation: value,
+                        },
+                      })
+                    }
+                  />
+                </PanelRow>
+              </PanelBody>
+              <***REMOVED*** {...props} />
               <PanelBody initialOpen={false} title={__("All Labels")}>
                 {xAxisLabels?.map((label, index) => (
                   <PanelRow key={`____${index}${label}`}>
@@ -458,7 +573,7 @@ const MobileConfig = (props) => {
             </>
           )}
           <MarginSection {...props} />
-          { type === "bar" && <***REMOVED*** {...props} /> }
+          {type === "bar" && <***REMOVED*** {...props} />}
         </>
       )}
     </PanelBody>

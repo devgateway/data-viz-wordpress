@@ -16,14 +16,7 @@ import CSVDataFrame from "./CSVDataFrame";
 import ColorProvider from "./colors/ColorProvider";
 import Messages from "./Messages";
 import { connect } from "react-redux";
-import deviceType from '../../utils/deviceType';
-import { injectIntl } from 'react-intl';
-
-
-const isMobile = deviceType() === 'mobile';
-const isTablet = deviceType() === 'tablet';
-const isMidTablet = deviceType() === 'midTablet';
-const ***REMOVED*** = deviceType() === 'mobile' || deviceType() === 'tablet' || deviceType() === 'midTablet';
+import { injectIntl } from "react-intl";
 
 const PieChart = (props) => {
   const { data, legends, colors, height } = props;
@@ -177,8 +170,32 @@ const Chart = (props) => {
     "data-radar-dot-label-offset": ***REMOVED*** = -12,
     "data-mobile-customization": ***REMOVED*** = "{}",
   } = props;
-  const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
-  const isMobileConfigEnabled = (isMobile || isTablet || isMidTablet) && (***REMOVED***?.  ***REMOVED*** ?? false);
+  const ***REMOVED*** = JSON.parse(
+    ***REMOVED***(***REMOVED***)
+  );
+  const [***REMOVED***, ***REMOVED***] = useState(
+    window.innerWidth <= 1250
+  );
+  const isMobileConfigEnabled =
+    ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
+
+  const ***REMOVED*** = () => {
+    if (
+      window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
+    ) {
+      return isMobileConfigEnabled
+        ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
+        : tickRotation;
+    } else if (window.matchMedia("(max-width: 480px)").matches) {
+      return isMobileConfigEnabled
+        ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
+        : tickRotation;
+    } else {
+      return tickRotation;
+    }
+  };
+
+  const [***REMOVED***, ***REMOVED***] = useState(***REMOVED***());
 
   const locale = props.intl.locale;
   const ref = useRef(null);
@@ -188,7 +205,7 @@ const Chart = (props) => {
         return value;
       }
       return ***REMOVED***(value);
-    } catch(err) {
+    } catch (err) {
       console.error("error decoding value:" + value);
       return value;
     }
@@ -358,37 +375,37 @@ const Chart = (props) => {
   const contentHeight = editing ? height - 80 : height;
 
   const ***REMOVED*** = () => {
-    if(isMobileConfigEnabled) {
-      if(***REMOVED***?.***REMOVED***) {
+    if (isMobileConfigEnabled) {
+      if (***REMOVED***?.***REMOVED***) {
         return bottom;
       } else {
-        return '';
+        return "";
       }
     }
     return bottom;
-  }
+  };
 
   const ***REMOVED*** = () => {
-    if(isMobileConfigEnabled) {
-      if(***REMOVED***?.***REMOVED***) {
+    if (isMobileConfigEnabled) {
+      if (***REMOVED***?.***REMOVED***) {
         return leftLegendForSelectedMeasure;
       } else {
-        return '';
+        return "";
       }
     }
     return leftLegendForSelectedMeasure;
-  }
+  };
 
   const ***REMOVED*** = () => {
-    if(isMobileConfigEnabled) {
-      if(***REMOVED***?.***REMOVED***) {
+    if (isMobileConfigEnabled) {
+      if (***REMOVED***?.***REMOVED***) {
         return rightLegendForSelectedMeasure;
       } else {
-        return '';
+        return "";
       }
     }
     return rightLegendForSelectedMeasure;
-  }
+  };
 
   const legends = {
     left: ***REMOVED***(),
@@ -433,17 +450,34 @@ const Chart = (props) => {
 
 
   const ***REMOVED*** = (mobileEnabled, mobileSetting, defaultValue) => {
-    return mobileEnabled ? parseInt(mobileSetting) ?? defaultValue : defaultValue;
-  }
+    return mobileEnabled
+      ? parseInt(mobileSetting) ?? defaultValue
+      : defaultValue;
+  };
 
-  const getBarPadValueOuterOrInner = (mobileEnabled, mobileSetting, defaultValue) => {
-    return mobileEnabled ? mobileSetting ?? defaultValue: defaultValue;
-  }
+  const getBarPadValueOuterOrInner = (
+    mobileEnabled,
+    mobileSetting,
+    defaultValue
+  ) => {
+    return mobileEnabled ? mobileSetting ?? defaultValue : defaultValue;
+  };
+
+  useEffect(() => {
+    const ***REMOVED*** = () => {
+      ***REMOVED***(window.innerWidth <= 1250);
+      ***REMOVED***(***REMOVED***());
+    };
+    window.***REMOVED***("resize", ***REMOVED***);
+    return () => {
+      window.***REMOVED***("resize", ***REMOVED***);
+    };
+  }, []);
 
   const chartProps = {
     app,
     tickColor: ***REMOVED***(tickColor),
-    tickRotation: isMobileConfigEnabled ? ***REMOVED***.tickRotation ?? tickRotation : tickRotation,
+    tickRotation: ***REMOVED***,
     layout: isMobileConfigEnabled ? mobileLayout() : layout,
     reverse: reverse == true || reverse == "true",
     showLegends: showLegends == true || showLegends == "true",
@@ -451,10 +485,26 @@ const Chart = (props) => {
     swap: swap == true || swap == "true",
     showGrid: showGrid == true || showGrid == "true",
 
-    marginLeft: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginLeft), parseInt(marginLeft)),
-    marginTop: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginTop), parseInt(marginTop)),
-    marginRight: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginRight), parseInt(marginRight)),
-    marginBottom: ***REMOVED***(isMobileConfigEnabled, parseInt(***REMOVED***?.marginBottom), parseInt(marginBottom)),
+    marginLeft: ***REMOVED***(
+      isMobileConfigEnabled,
+      parseInt(***REMOVED***?.marginLeft),
+      parseInt(marginLeft)
+    ),
+    marginTop: ***REMOVED***(
+      isMobileConfigEnabled,
+      parseInt(***REMOVED***?.marginTop),
+      parseInt(marginTop)
+    ),
+    marginRight: ***REMOVED***(
+      isMobileConfigEnabled,
+      parseInt(***REMOVED***?.marginRight),
+      parseInt(marginRight)
+    ),
+    marginBottom: ***REMOVED***(
+      isMobileConfigEnabled,
+      parseInt(***REMOVED***?.marginBottom),
+      parseInt(marginBottom)
+    ),
     height: `${contentHeight}px`,
     ***REMOVED***: ***REMOVED*** ? "bottom" : ***REMOVED***,
     legends,
@@ -482,10 +532,18 @@ const Chart = (props) => {
     ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
     fixedMinValue,
     fixedMaxValue,
-    barPadding: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.barPadding, barPadding),
+    barPadding: getBarPadValueOuterOrInner(
+      isMobileConfigEnabled,
+      ***REMOVED***?.barPadding,
+      barPadding
+    ),
     ***REMOVED***,
     ***REMOVED***,
-    ***REMOVED***: getBarPadValueOuterOrInner(isMobileConfigEnabled, ***REMOVED***?.***REMOVED***, ***REMOVED***),
+    ***REMOVED***: getBarPadValueOuterOrInner(
+      isMobileConfigEnabled,
+      ***REMOVED***?.***REMOVED***,
+      ***REMOVED***
+    ),
     xLabelColor: ***REMOVED***(xLabelColor),
     barLabelColor: ***REMOVED***(barLabelColor),
     ***REMOVED***: ***REMOVED***(***REMOVED***),
@@ -522,8 +580,12 @@ const Chart = (props) => {
     userMeasures,
     tooltipEnableMarkdown:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true",
-    ***REMOVED***: isMobileConfigEnabled ? ***REMOVED***.***REMOVED*** ?? ***REMOVED*** : ***REMOVED***,
-    ***REMOVED***,
+    ***REMOVED***: isMobileConfigEnabled
+      ? ***REMOVED***.***REMOVED*** ?? ***REMOVED***
+      : ***REMOVED***,
+    ***REMOVED***: isMobileConfigEnabled
+      ? ***REMOVED***.***REMOVED*** ?? ***REMOVED***
+      : ***REMOVED***,
     enableGridY: enableGridY == true || enableGridY == "true",
     enableGridX: enableGridX == true || enableGridX == "true",
     offsetText,
@@ -620,7 +682,16 @@ const Chart = (props) => {
     dimensions.push(dimension2);
   }
   const [legendsContainerHeight, setLegendsContainerHeight] = useState(0);
+  const [orientation, ***REMOVED***] = useState(***REMOVED***());
 
+  function ***REMOVED***() {
+    return (
+      window.screen.orientation?.type ||
+      (window.innerWidth > window.innerHeight
+        ? "landscape-primary"
+        : "portrait-primary")
+    );
+  }
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -645,12 +716,15 @@ const Chart = (props) => {
             height + marginTop + marginBottom + paddingTop + paddingBottom;
 
           // Find the closest '.ui.fluid.container.content' ancestor from the legends container
-          const container = ***REMOVED***.closest(".ui.fluid.container.content");
+          const container = ***REMOVED***.closest(
+            ".ui.fluid.container.content"
+          );
 
           if (container) {
             const ***REMOVED*** = container.querySelector(".data-source");
             if (***REMOVED***) {
-              const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
+              const ***REMOVED*** =
+                ***REMOVED***.getBoundingClientRect();
               const legendsRect = ***REMOVED***.getBoundingClientRect();
 
               // Ensure elements are visible before adjusting margins
@@ -658,10 +732,14 @@ const Chart = (props) => {
                 if (***REMOVED***.textContent.trim() === "") return;
 
                 const ***REMOVED*** = marginBottom; // Legend margin-bottom is already computed
-                const adjustedLegendsBottom = legendsRect.bottom + ***REMOVED***;
-                const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
-                const ***REMOVED*** = parseFloat(***REMOVED***.marginTop) || 0;
-                const adjustedDataSourceTop = ***REMOVED***.top - ***REMOVED***;
+                const adjustedLegendsBottom =
+                  legendsRect.bottom + ***REMOVED***;
+                const ***REMOVED*** =
+                  window.***REMOVED***(***REMOVED***);
+                const ***REMOVED*** =
+                  parseFloat(***REMOVED***.marginTop) || 0;
+                const adjustedDataSourceTop =
+                  ***REMOVED***.top - ***REMOVED***;
 
                 if (adjustedLegendsBottom > adjustedDataSourceTop) {
                   let overlap = adjustedLegendsBottom - adjustedDataSourceTop;
@@ -685,7 +763,8 @@ const Chart = (props) => {
           const ***REMOVED*** = ***REMOVED***.closest(".chart.container");
           if (***REMOVED***) {
             const ***REMOVED*** = ***REMOVED***.getBoundingClientRect();
-            const ***REMOVED*** = window.***REMOVED***(***REMOVED***);
+            const ***REMOVED*** =
+              window.***REMOVED***(***REMOVED***);
             const chartContainerMarginBottom =
               parseFloat(***REMOVED***.marginBottom) || 0;
             const adjustedChartContainerBottom =
@@ -714,17 +793,31 @@ const Chart = (props) => {
     };
   }, [***REMOVED***, ref]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(() => {
+        ***REMOVED***(***REMOVED***());
+      }, 100);
+    };
+    if (window.screen.orientation) {
+      window.screen.orientation.***REMOVED***("change", handleResize);
+    } else {
+      window.***REMOVED***("resize", handleResize);
+    }
+    return () => window.***REMOVED***("resize", handleResize);
+  }, []);
+
   return (
-    <div ref={ref}>
+    <div ref={ref} key={orientation}>
       <Container
-          className={"chart container"}
-          style={{
-            minHeight:
-                type === "pie" && window.innerWidth <= 480
-                    ? `${parseInt(height) + parseInt(legendsContainerHeight) * 0.5}px`
-                    : `${parseInt(height) + parseInt(legendsContainerHeight)}px`,
-          }}
-          fluid={true}
+        className={"chart container"}
+        style={{
+          minHeight:
+            type === "pie" && window.innerWidth <= 480
+              ? `${parseInt(height) + parseInt(legendsContainerHeight) * 0.5}px`
+              : `${parseInt(height) + parseInt(legendsContainerHeight)}px`,
+        }}
+        fluid={true}
       >
         <DataProvider
           editing={editing}
