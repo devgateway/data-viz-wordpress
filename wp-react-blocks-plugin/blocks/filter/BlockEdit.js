@@ -94,8 +94,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 ***REMOVED***,
                 closeOnSelect,
                 ***REMOVED***,
-                datasetId,
-                ***REMOVED***
+                datasetId
             }
         } = this.props;
 
