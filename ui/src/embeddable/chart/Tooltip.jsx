@@ -2,8 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-
-const template = require("string-template");
+import template from 'string-template';
 
 const ***REMOVED*** = /(\+?\%)[\(]([A-z0-9,.,-]+)\)/gi;
 const ***REMOVED*** = /(\+?\#)[\(]([A-z0-9,.,-]+)\)/gi;

@@ -96,7 +96,7 @@ const Chart = (props) => {
     //"data-csv-line-tooltip": lineTooltip = "",
     //"data-csv-line-title": lineTitle = "",
 
-    "data-overlays": overlays,
+    "data-overlays": overlays = "[]",
     "data-max-value": maxValue = "auto",
     "data-value-scale": valueScale = "linear",
     "data-swap": swap = "false",
@@ -447,6 +447,7 @@ const Chart = (props) => {
     return layout;
   };
 
+
   const ***REMOVED*** = (mobileEnabled, mobileSetting, defaultValue) => {
     return mobileEnabled
       ? parseInt(mobileSetting) ?? defaultValue
@@ -525,7 +526,7 @@ const Chart = (props) => {
     valueScale,
     categories,
     ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
-    overlays: parse(overlays) || [],
+    overlays: overlays ? parse(overlays) : [],
     barColor: ***REMOVED***(barColor),
     ***REMOVED***: ***REMOVED*** == true || ***REMOVED*** == "true",
     fixedMinValue,
@@ -607,7 +608,7 @@ const Chart = (props) => {
     ***REMOVED***,
     ***REMOVED***,
     ***REMOVED***,
-    dimension1,
+    dimension1
   };
 
   let params = {};
@@ -656,8 +657,7 @@ const Chart = (props) => {
     case "line":
       Chart = Line;
       showNotEnoughParameters =
-        app !== "csv" &&
-        (***REMOVED***.length === 0 || dimension1 === "none");
+        app !== "csv" && (***REMOVED***.length === 0 || dimension1 === "none");
       break;
     case "pie":
       showNotEnoughParameters = app != "csv" && ***REMOVED***.length == 0;
@@ -905,4 +905,4 @@ const ***REMOVED*** = (state, ownProps) => {
   }
 };
 const ***REMOVED*** = {};
-export default connect(***REMOVED***, ***REMOVED***)(Chart);
+export default connect(***REMOVED***, ***REMOVED***)(injectIntl(Chart));

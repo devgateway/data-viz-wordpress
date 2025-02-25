@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Container, Flag, Image, Menu} from "semantic-ui-react";
 
 const ***REMOVED*** = {
     'blogname': 'name',
@@ -38,7 +37,7 @@ const ***REMOVED*** = (props) => {
     const setValue = (event) => {
         //const data = JSON.parse(event.data);
         const data = event.data;
-        if (data.messageType && data.messageType == 'partial-update') {
+        if (data.messageType && data.messageType === 'partial-update') {
             const ***REMOVED*** = ref.current
             if (***REMOVED***[data.property]) {
                 ***REMOVED***[***REMOVED***[data.property]] = data.value;
@@ -65,9 +64,10 @@ const ***REMOVED*** = (props) => {
     }, [])
 
 
-    return React.Children.map(props.children, (child => React.cloneElement(child, {
+    return React.Children.map(props.children, ((child, index) => React.cloneElement(child, {
         ...props,
-        settings: {...customization}
+        settings: {...customization},
+        key: `customizer-child-${index}`
     })))
 }
 

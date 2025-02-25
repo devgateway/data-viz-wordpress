@@ -1,4 +1,4 @@
-import React, {useEffect, ***REMOVED***, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {connect} from "react-redux";
 import {decode, parse, ***REMOVED***} from "../utils/parseUtils";
 import Map from "./Map"
@@ -6,7 +6,6 @@ import BaseLayer from './BaseLayer'
 import DataLayer from './DataLayer'
 import LatLongLayer from './LatLongLayer'
 import ZoomControl from "./ZoomControl";
-import {Container} from "semantic-ui-react";
 import ***REMOVED*** from "./***REMOVED***";
 import Legends from "./Legends"
 import FlowLayer from "./FlowLayer";
