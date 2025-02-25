@@ -127,11 +127,7 @@ import Generic from "../icons";
             datasetId: {
                 type: 'String',
                 default: ""
-            },
-            ***REMOVED***: {
-                type: 'string',
-                default: ''
-            }  
+            }           
         },
         edit: BlockEdit,
         save: BlockSave,
