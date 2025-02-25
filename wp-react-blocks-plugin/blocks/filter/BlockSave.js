@@ -30,8 +30,7 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             ascOrder,
             ***REMOVED***,
-            datasetId,
-            ***REMOVED***
+            datasetId
         }
     } = props;
 
@@ -69,9 +68,7 @@ const SaveComponent = (props) => {
                  data-hidden-filters={***REMOVED***(JSON.stringify(hiddenFilters))}
                  data-close-on-select={closeOnSelect}
                  data-use-filter-items={***REMOVED***}
-                 data-all-none-same-behaviour={***REMOVED***}
-                 data-apache-superset-url={***REMOVED***(***REMOVED***)} 
-                 >
+                 data-all-none-same-behaviour={***REMOVED***}>
     </div>);
 }
 

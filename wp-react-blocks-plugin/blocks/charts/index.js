@@ -565,11 +565,7 @@ import {Chart} from '../icons/index.js'
             ***REMOVED***: {
                 type: 'Numeric',
                 default: -12
-            },
-            ***REMOVED***: {
-                type: 'string',
-                default: ''
-            }   
+            }            
         },
         edit: BlockEdit,
         save: BlockSave,
