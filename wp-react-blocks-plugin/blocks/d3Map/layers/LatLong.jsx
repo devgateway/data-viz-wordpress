@@ -16,7 +16,7 @@ import Measures from '../../commons/Measures.jsx'
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
-import {ALIVE_SUPERSET_APP} from '../../commons/Constants';
+import {isSupersetAPI} from "../../commons/APIutils";
 
 const ***REMOVED*** = (p1, p2) => {
     return JSON.stringify(p1) === JSON.stringify(p2)
@@ -235,7 +235,7 @@ export class ***REMOVED*** extends Component {
                 />
             </PanelRow>
 
-            {app == ALIVE_SUPERSET_APP && <PanelRow>
+            {isSupersetAPI(app, apps) && <PanelRow>
                 <SelectControl
                     label={__('Datasets')}
                     value={[datasetId]}
