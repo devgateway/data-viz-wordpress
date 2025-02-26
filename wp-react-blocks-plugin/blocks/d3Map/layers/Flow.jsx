@@ -17,7 +17,7 @@ import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import Format from '../../charts/Format.jsx';
-import {ALIVE_SUPERSET_APP} from '../../commons/Constants';
+import {isSupersetAPI} from "../../commons/APIutils";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -275,7 +275,7 @@ export class ***REMOVED*** extends Component {
                     options={apps}
                 />
             </PanelRow>
-               {app == ALIVE_SUPERSET_APP && <PanelRow>
+               {isSupersetAPI(app, apps) && <PanelRow>
                             <SelectControl
                                 label={__('Datasets')}
                                 value={[datasetId]}
