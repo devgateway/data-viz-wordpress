@@ -69,6 +69,7 @@ const SaveComponent = (props) => {
                  data-close-on-select={closeOnSelect}
                  data-use-filter-items={***REMOVED***}
                  data-all-none-same-behaviour={***REMOVED***}>
+                 data-all-none-same-behaviour={***REMOVED***}>
     </div>);
 }
 

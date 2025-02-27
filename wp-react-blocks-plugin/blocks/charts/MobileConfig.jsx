@@ -262,7 +262,7 @@ const MobileConfig = (props) => {
       measures,
       dimension1,
       ***REMOVED***,
-      datasetId      
+      datasetId
     },
   } = props;
 

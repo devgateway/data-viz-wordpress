@@ -124,10 +124,7 @@ import {Chart} from '../icons/index.js'
                 type: 'String',
                 default: "csv"
             },
-            datasetId: {
-                type: 'String',
-                default: ""
-            },
+
             params: {
                 type: Object,
                 default: {}
@@ -506,7 +503,9 @@ import {Chart} from '../icons/index.js'
                     marginRight: 25,
                     ***REMOVED***: true,
                     ***REMOVED***: true,
-                    ***REMOVED***: true
+                    ***REMOVED***: true,
+                    barPadding: 0.15,
+                    ***REMOVED***: 0.7,
                 }
             },
             reverseLegend: {
