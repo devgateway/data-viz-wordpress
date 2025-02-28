@@ -3,7 +3,6 @@ import { Button, Container, Grid, Label, Menu, Accordion, Icon } from 'semantic-
 import { MediaConsumer, MediaProvider, PostConsumer, PostIcon, PostLabel, PostProvider } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import PostIntro from "../connected-templates/PostIntro";
-import getDeviceType from '../../utils/deviceType';
 import { useWindowDimensionsAndDevice } from '@/lib/hooks/window-dimensions';
 
 const ItemMenu = ({ posts, activeItem, setActive, showLabels }) => {
@@ -73,7 +72,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
   );
   const [scrollTarget, ***REMOVED***] = useState(null);
   const ref = useRef(null);
-  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 1250);
+  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     if (scrollTarget) {
@@ -99,7 +98,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
   const handleOrientationChange = () => {
     setTimeout(() => {
       ***REMOVED***(***REMOVED***());
-      ***REMOVED***(window.innerWidth <= 1250);
+      ***REMOVED***(window.innerWidth <= 768);
     }, 100);
   }
 
@@ -209,7 +208,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
 
   useEffect(() => {
     let timeoutId;
-    let observers = []; // Store ***REMOVED*** for each accordion
+    const observers = []; // Store ***REMOVED*** for each accordion
 
     if (activeIndex !== -1) {
       timeoutId = setTimeout(() => {

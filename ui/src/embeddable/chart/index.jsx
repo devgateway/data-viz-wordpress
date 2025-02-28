@@ -305,7 +305,7 @@ const Chart = (props) => {
   let ***REMOVED*** = ***REMOVED***();
 
   let ***REMOVED*** = ***REMOVED***();
-  let userMeasures = ***REMOVED***();
+  const userMeasures = ***REMOVED***();
   let leftLegendForSelectedMeasure = left;
   let rightLegendForSelectedMeasure = rightLegend;
 
@@ -328,7 +328,7 @@ const Chart = (props) => {
     }
   }
 
-  let numberFormat = ***REMOVED***
+  const numberFormat = ***REMOVED***
     ? {
         style:
           ***REMOVED***.style === "compacted"
@@ -350,7 +350,7 @@ const Chart = (props) => {
 
   const groupTotalFormatObject = parse(***REMOVED***);
 
-  let groupTotalFormatParsed = {
+  const groupTotalFormatParsed = {
     style:
       groupTotalFormatObject.style === "compacted"
         ? "decimal"
@@ -371,7 +371,7 @@ const Chart = (props) => {
     scheme: scheme,
     colorBy: colorBy,
   };
-  let child = null;
+  const child = null;
   const contentHeight = editing ? height - 80 : height;
 
   const ***REMOVED*** = () => {
@@ -447,7 +447,6 @@ const Chart = (props) => {
     }
     return layout;
   };
-
 
   const ***REMOVED*** = (mobileEnabled, mobileSetting, defaultValue) => {
     return mobileEnabled
@@ -609,10 +608,10 @@ const Chart = (props) => {
     ***REMOVED***,
     ***REMOVED***,
     ***REMOVED***,
-    dimension1
+    dimension1,
   };
 
-  let params = {};
+  const params = {};
   const ff = parse(filters) || {};
 
   if (ff && ff.forEach) {
@@ -658,7 +657,8 @@ const Chart = (props) => {
     case "line":
       Chart = Line;
       showNotEnoughParameters =
-        app !== "csv" && (***REMOVED***.length === 0 || dimension1 === "none");
+        app !== "csv" &&
+        (***REMOVED***.length === 0 || dimension1 === "none");
       break;
     case "pie":
       showNotEnoughParameters = app != "csv" && ***REMOVED***.length == 0;

@@ -26,7 +26,7 @@ export interface ***REMOVED*** {
     "data-type": string,
     "data-taxonomy": string,
     "data-categories": string,
-    "data-items": number,
+    "data-items": any,
     "data-color": string,
     "data-read-more-label": string,
     "data-use-scrolls": string,
@@ -36,8 +36,26 @@ export interface ***REMOVED*** {
     intl: any
 }
 
+interface ***REMOVED*** {
+    post: any;
+    onClick: () => void;
+    active?: boolean;
+    moreLabel: string;
+}
+
+interface GetFigureFromPostProps {
+    post: any;
+}
+
+interface AccordionContentProps {
+    posts: any[];
+    activeItem: string;
+    setActive: (slug: string) => void;
+    color: string;
+}
+
 // Desktop FeaturedPost Component
-const FeaturedPost = ({ post, onClick, active, moreLabel }) => {
+const FeaturedPost: React.FC<***REMOVED***> = ({ post, onClick, active, moreLabel }) => {
     const media = post['_embedded'] ? post['_embedded']["wp:featuredmedia"] : null;
 
     return (
@@ -50,7 +68,7 @@ const FeaturedPost = ({ post, onClick, active, moreLabel }) => {
     );
 };
 
-const ***REMOVED*** = ({ post }) => {
+const ***REMOVED***: React.FC<GetFigureFromPostProps> = ({ post }) => {
     const parser = new DOMParser();
     const doc = parser.***REMOVED***(post.content.rendered, 'text/html');
     const figureElement = doc.querySelector('figure');
@@ -68,10 +86,10 @@ const ***REMOVED*** = ({ post }) => {
 const FeaturedTabs: React.FC<***REMOVED***> = ({ posts, width, height, color, moreLabel }) => {
     const [active, setActive] = useState<string | null>(null);
     const [visible, setVisible] = useState(false);
-    const [scrollPos, setScrollPos] = useState<any>([]);
+    const [scrollPos, setScrollPos] = useState<[number, number]>([0, 0]);
     const arrayColors = color.split(',');
 
-    const ***REMOVED*** = (k) => {
+    const ***REMOVED*** = (k: string) => {
         if (!visible) {
             setActive(k);
             setVisible(true);
@@ -145,12 +163,28 @@ const FeaturedTabs: React.FC<***REMOVED***> = ({ posts, width, height, color, mo
 };
 
 // Mobile ***REMOVED*** Component
-const ***REMOVED*** = ({ posts, activeItem, setActive, color }) => {
+const ***REMOVED***: React.FC<AccordionContentProps> = ({ posts, activeItem, setActive, color }) => {
     const [activeIndex, ***REMOVED***] = useState(posts.findIndex(p => p.slug === activeItem));
-    const [scrollTarget, ***REMOVED***] = useState<any>(null);
+    const [scrollTarget, ***REMOVED***] = useState<HTMLElement | null>(null);
     const arrayColors = color.split(',');
 
-    const findElementAndAddStyles = (elementClass, ***REMOVED***, ***REMOVED***) => {
+    const ***REMOVED*** = (): string => {
+        return (
+            window.screen.orientation?.type ||
+            (window.innerWidth > window.innerHeight
+                ? "landscape-primary"
+                : "portrait-primary")
+        );
+    };
+    const [orientation, ***REMOVED***] = useState(***REMOVED***());
+
+    const handleOrientationChange = () => {
+        setTimeout(() => {
+            ***REMOVED***(***REMOVED***());
+        }, 100);
+    };
+
+    const findElementAndAddStyles = (elementClass: string, ***REMOVED***: string, ***REMOVED***: string) => {
         const elements = document.***REMOVED***(elementClass);
         elements.forEach((element) => {
             if(element.querySelector(***REMOVED***)) {
@@ -177,7 +211,26 @@ const ***REMOVED*** = ({ posts, activeItem, setActive, color }) => {
         findElementAndAddStyles('.ui.fluid.container.viz.featured.tabs', '.content.active.accordion-post-content .wp-block-columns', 'has-wp-block-columns');
     }, [scrollTarget]);
 
-    const handleClick = (e, titleProps) => {
+    useEffect(() => {
+        if (window.screen.orientation) {
+            window.screen.orientation.***REMOVED***(
+                "change",
+                handleOrientationChange
+            );
+        }
+        window.***REMOVED***("resize", handleOrientationChange);
+        return () => {
+            window.***REMOVED***("resize", handleOrientationChange);
+            if (window.screen.orientation) {
+                window.screen.orientation.***REMOVED***(
+                    "change",
+                    handleOrientationChange
+                );
+            }
+        };
+    }, []);
+
+    const handleClick = (e: React.MouseEvent, titleProps: { index: number }) => {
         const { index } = titleProps;
         const newIndex = activeIndex === index ? -1 : index;
         ***REMOVED***(newIndex);
@@ -185,7 +238,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive, color }) => {
 
         // Set the scroll target after updating the activeIndex
         if (newIndex !== -1) {
-            ***REMOVED***(e.currentTarget);
+            ***REMOVED***(e.currentTarget as HTMLElement);
         }
     };
 
@@ -199,7 +252,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive, color }) => {
                         <Accordion.Title
                             active={activeIndex === index}
                             index={index}
-                            onClick={handleClick}
+                            onClick={handleClick as any}
                             style={{ ***REMOVED***: arrayColors[index]  }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', ***REMOVED***: 'space-between', width: '100%' }}>
@@ -229,7 +282,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive, color }) => {
 };
 
 // Wrapper Component for Handling Mobile and Desktop View
-const Wrapper = (props: ***REMOVED***) => {
+const Wrapper: React.FC<***REMOVED***> = (props) => {
     const {
         "data-width": width,
         "data-height": height,

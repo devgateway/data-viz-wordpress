@@ -27,7 +27,7 @@ class Body extends React.Component {
     // No llames this.setState() aquí!
     this.state = {
       counter: 0,
-      isMobile: ["mobile", "tablet", "midTablet"].includes(getDeviceType()),
+      isMobile: ["mobile", "tablet"].includes(getDeviceType()),
       isClicked: false,
       ***REMOVED***: "Cancers",
       orientation: this.***REMOVED***(),
@@ -506,7 +506,7 @@ class Body extends React.Component {
 
     const { ***REMOVED***, isMobile } = this.state;
 
-    let data = ***REMOVED*** === "Cancers" ? left : right;
+    const data = ***REMOVED*** === "Cancers" ? left : right;
 
     let sy = 60;
 
