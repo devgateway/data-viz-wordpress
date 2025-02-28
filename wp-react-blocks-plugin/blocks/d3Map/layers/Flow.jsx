@@ -11,7 +11,7 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import Measures from '../../commons/Measures.jsx'
+import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
@@ -247,7 +247,7 @@ export class ***REMOVED*** extends Component {
         let ***REMOVED*** = ""
 
         if (app != 'csv') {
-            
+
             const theMeasure = measures ? measures[0] : null
             const ***REMOVED*** = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null
             if (***REMOVED***) {
@@ -262,8 +262,7 @@ export class ***REMOVED*** extends Component {
                 }
             }
         }
-
-               
+        
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
