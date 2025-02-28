@@ -90,7 +90,7 @@ const Measures = (props) => {
         }
         return []
     }
-
+    debugger;
     const ***REMOVED*** = ***REMOVED***()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
                         onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
