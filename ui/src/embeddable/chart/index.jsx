@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Container } from "semantic-ui-react";
 import DataProvider from "../data/DataProvider";
 import DataConsumer from "../data/DataConsumer";
+import getDeviceType from "../../utils/deviceType";
 import { buildDivergingOptions, ***REMOVED*** } from "./***REMOVED***";
 import HalfPie from "./Pie";
 
@@ -472,6 +473,16 @@ const Chart = (props) => {
     };
   }, []);
 
+  const determineLegendPosition = () => {
+    const ***REMOVED*** = ["tablet", "mobile", "midTablet"].includes(
+      getDeviceType()
+    );
+    if (editing) {
+      return ***REMOVED*** ? "bottom" : ***REMOVED***;
+    }
+    return !***REMOVED*** ? ***REMOVED*** : "bottom";
+  };
+
   const chartProps = {
     app,
     tickColor: ***REMOVED***(tickColor),
@@ -504,7 +515,7 @@ const Chart = (props) => {
       parseInt(marginBottom)
     ),
     height: `${contentHeight}px`,
-    ***REMOVED***: ***REMOVED*** ? "bottom" : ***REMOVED***,
+    ***REMOVED***: determineLegendPosition(),
     legends,
     tooltip:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true"
@@ -804,10 +815,10 @@ const Chart = (props) => {
       window.***REMOVED***("resize", handleResize);
     }
     return () => window.***REMOVED***("resize", handleResize);
-  }, []);
+  });
 
   return (
-    <div ref={ref} key={orientation}>
+    <div ref={ref} key={orientation + Math.random()}>
       <Container
         className={"chart container"}
         style={{
