@@ -72,7 +72,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
   );
   const [scrollTarget, ***REMOVED***] = useState(null);
   const ref = useRef(null);
-  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 768);
+  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 1250);
 
   useEffect(() => {
     if (scrollTarget) {
@@ -98,7 +98,7 @@ const ***REMOVED*** = ({ posts, activeItem, setActive }) => {
   const handleOrientationChange = () => {
     setTimeout(() => {
       ***REMOVED***(***REMOVED***());
-      ***REMOVED***(window.innerWidth <= 768);
+      ***REMOVED***(window.innerWidth <= 1250);
     }, 100);
   }
 
