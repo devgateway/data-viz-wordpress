@@ -303,7 +303,7 @@ const Wrapper: React.FC<***REMOVED***> = (props) => {
     const { width: deviceWidth} = useWindowDimensionsAndDevice();
 
     // Determine screen width and conditionally render components
-    const isMobile = deviceWidth <= 1024;
+    const isMobile = deviceWidth <= 1250;
 
     return (
         <Container

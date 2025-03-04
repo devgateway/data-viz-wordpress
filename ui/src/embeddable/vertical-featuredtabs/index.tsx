@@ -23,7 +23,7 @@ export interface VerticalFeaturedTabsProps {
     parent: string;
     unique: string;
     intl: any;
-    
+
 }
 
 interface AccordionContentProps {
@@ -57,8 +57,8 @@ const ***REMOVED***: React.FC<AccordionContentProps> = ({ posts, activeItem, set
     const [scrollTarget, ***REMOVED***] = useState<HTMLElement | null>(null);
 
     const findElementAndAddStyles = (
-        elementClass: string, 
-        ***REMOVED***: string, 
+        elementClass: string,
+        ***REMOVED***: string,
         ***REMOVED***: string
     ) => {
         const elements = document.***REMOVED***(elementClass);
@@ -248,14 +248,14 @@ const ***REMOVED***: React.FC<AccordionContentProps> = ({ posts, activeItem, set
     );
 };
 
-const IntroWithFeaturedImage: React.FC<IntroWithFeaturedImageProps> = ({ 
-    post, 
-    count, 
-    ***REMOVED***, 
-    active, 
-    dimensions, 
-    height, 
-    coverWidth 
+const IntroWithFeaturedImage: React.FC<IntroWithFeaturedImageProps> = ({
+    post,
+    count,
+    ***REMOVED***,
+    active,
+    dimensions,
+    height,
+    coverWidth
 }) => {
     const media = post['_embedded'] ? post['_embedded']["wp:featuredmedia"] : null;
     const [isHovered, setIsHovered] = useState(false);
@@ -301,7 +301,7 @@ const FeaturedTabs: React.FC<***REMOVED***> = ({editing, posts, height, colors, 
     const ***REMOVED*** = (k: string) => {
         setActive(k);
     }
-    
+
     ***REMOVED***(() => {
         if (targetRef.current && targetRef.current.parentElement) {
             setDimensions({
@@ -324,13 +324,13 @@ const FeaturedTabs: React.FC<***REMOVED***> = ({editing, posts, height, colors, 
                         style={{"minHeight": height + 'px', "minWidth": `${coverWidth}px`}}
                     >
                         <a id={post.slug}></a>
-                        <IntroWithFeaturedImage 
+                        <IntroWithFeaturedImage
                             coverWidth={coverWidth}
                             height={height}
-                            ***REMOVED***={colors['color_' + i]} 
+                            ***REMOVED***={colors['color_' + i]}
                             count={posts.length}
-                            dimensions={dimensions} 
-                            active={isActive} 
+                            dimensions={dimensions}
+                            active={isActive}
                             post={post}
                         />
                     </div>
@@ -358,8 +358,8 @@ const Wrapper: React.FC<VerticalFeaturedTabsProps> = (props) => {
   const ***REMOVED*** = categories ? categories : "[]";
 
   // Determine screen width and conditionally render components
-  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 768);
-  
+  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 1250);
+
   const ***REMOVED*** = (): string => {
     return (
       window.screen.orientation?.type ||
@@ -368,16 +368,16 @@ const Wrapper: React.FC<VerticalFeaturedTabsProps> = (props) => {
         : "portrait-primary")
     );
   };
-  
+
   const [orientation, ***REMOVED***] = useState(***REMOVED***());
 
   const handleOrientationChange = () => {
     setTimeout(() => {
       ***REMOVED***(***REMOVED***());
-      ***REMOVED***(window.innerWidth <= 768);
+      ***REMOVED***(window.innerWidth <= 1250);
     }, 100);
   };
-  
+
   useEffect(() => {
     if (window.screen.orientation) {
       window.screen.orientation.***REMOVED***(
@@ -404,7 +404,7 @@ const Wrapper: React.FC<VerticalFeaturedTabsProps> = (props) => {
     }
     return ***REMOVED***(value);
   };
-  
+
   const parse = (value: string): any => {
     try {
       return JSON.parse(decode(value));
@@ -414,7 +414,7 @@ const Wrapper: React.FC<VerticalFeaturedTabsProps> = (props) => {
 
     return null;
   };
-  
+
   return (
     <Container
       style={{ maxWidth: "100%" }}
