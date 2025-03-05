@@ -129,6 +129,10 @@ import {Chart} from '../icons/index.js'
                 type: Object,
                 default: {}
             },
+            datasetId: {
+                type: 'String',
+                default: ""
+            },
             format: {
                 type: Object,
                 default: {
