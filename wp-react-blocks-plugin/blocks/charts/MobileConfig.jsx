@@ -280,15 +280,14 @@ const MobileConfig = (props) => {
   let xAxisLabels = ***REMOVED***(csv);
 
   if (app !== "csv") {
+    const key = `${app}_categories_${datasetId ? datasetId : ""}`;
     if (dimension1 !== "none") {
-      const ***REMOVED*** = JSON.parse(
-        ***REMOVED***.getItem(`categories_${app}`)
-      );
+      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(key));
       
       let categories = []
       xAxisLabels = []
 
-      if (!***REMOVED***) {
+      if (!***REMOVED***) {        
          fetch(`/api/${app}/categories?datasetId=${datasetId}`)
         .then((response) => response.json())
         .then((data) => {
@@ -301,23 +300,17 @@ const MobileConfig = (props) => {
           ?.items?.map((item) => item.value);
           
         });
+      }  
 
-      }         
-
-    
-  
-
-      
     } else {
-      const ***REMOVED*** = JSON.parse(
-        ***REMOVED***.getItem(`measures_${app}`)
-      );
+      const key = `${app}_measures_${datasetId ? datasetId : ""}`;
+      const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(key));
       // if measures are not present in session storage, fetch them from the API
       if (!***REMOVED***) {
         fetch(`/api/${app}/measures?datasetId=${datasetId}`)
           .then((response) => response.json())
           .then((data) => {
-            ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(data));
+            ***REMOVED***.setItem(key, JSON.stringify(data));
             ***REMOVED***(data, measures, app);
           });
       } else {
