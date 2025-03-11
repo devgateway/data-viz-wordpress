@@ -816,7 +816,6 @@ const Chart = (props) => {
     } else {
         window.***REMOVED***("resize", handleResize);
     }
-
     return () => {
         if (window.screen.orientation) {
             window.screen.orientation.***REMOVED***("change", handleResize);
