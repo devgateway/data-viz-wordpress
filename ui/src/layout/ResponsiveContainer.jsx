@@ -1,91 +1,51 @@
-import React, { Component } from "react";
-import { Container, Icon, Menu, Sidebar } from "semantic-ui-react";
-import PropTypes from "prop-types";
-import MainMenu, { ***REMOVED*** } from "@devgateway/wp-react-lib";
-import { Media } from "../AppMedia";
-import Footer from "./Footer";
-import Header from "./Header";
-import TopNavigator from "./TopNavigator";
-import ***REMOVED*** from "./Customizer";
+import React from 'react'
 
-class ***REMOVED*** extends Component {
-  render() {
-    const { children, fixed } = this.props;
+import {Container,} from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import {***REMOVED***} from '@devgateway/wp-react-lib'
+import {Media} from "../AppMedia.js"
+import Footer from "./Footer.jsx";
+import Header from "./Header.jsx";
+import TopNavigator from "./TopNavigator.jsx";
+import ***REMOVED*** from "./Customizer.jsx";
+
+
+const ***REMOVED*** = ({ children, fixed }) => {
     return (
-      <Container fluid>
-        <***REMOVED***>
-          <***REMOVED*** key={"header"}>
-            <Header></Header>
-          </***REMOVED***>
-        </***REMOVED***>
-        <Container className="desktop">{children}</Container>
-        <***REMOVED***>
-          <TopNavigator key={"header"} />
-        </***REMOVED***>
-      </Container>
-    );
-  }
+        <Container fluid="true">
+            <***REMOVED***>
+                <***REMOVED***>
+                    <Header></Header>
+                </***REMOVED***>
+            </***REMOVED***>
+            <Container className="desktop">
+                {children}
+            </Container>
+            <TopNavigator/>
+        </Container>
+    )
 }
 
 ***REMOVED***.propTypes = {
-  children: PropTypes.node,
-};
-
-class ***REMOVED*** extends Component {
-  state = {};
-  ***REMOVED*** = () => this.setState({ sidebarOpened: false });
-  handleToggle = () => this.setState({ sidebarOpened: true });
-
-  render() {
-    const { children, big } = this.props;
-    const { sidebarOpened } = this.state;
-
-    return (
-      <Container>
-        <Sidebar
-          as={Menu}
-          animation="push"
-          onHide={this.***REMOVED***}
-          vertical
-          visible={sidebarOpened}
-        >
-          <Container>
-            <MainMenu slug="main" />
-          </Container>
-        </Sidebar>
-
-        <Sidebar.Pusher dimmed={sidebarOpened}>
-          <Container fluid>
-            <Menu>
-              <Menu.Item onClick={this.handleToggle}>
-                {" "}
-                <Icon name="sidebar" color="orange" />{" "}
-              </Menu.Item>
-            </Menu>
-            {children}
-          </Container>
-        </Sidebar.Pusher>
-      </Container>
-    );
-  }
+    children: PropTypes.node,
 }
 
-***REMOVED***.propTypes = {
-  children: PropTypes.node,
-};
 
-class ***REMOVED*** extends Component {
-  render() {
-    const { children, fixed } = this.props;
-    return (
-      <div>
-        <style>{Media.mediaStyles}</style>
+function ***REMOVED*** (props) {
 
-        <***REMOVED*** fixed={fixed}>{children}</***REMOVED***>
-        <Footer></Footer>
-      </div>
-    );
-  }
+    const {children, fixed, locale, pages} = props
+    const page = pages ? pages[0] : null;
+
+        return (<div>
+            <style>
+                {Media.mediaStyles}
+            </style>
+            <***REMOVED*** fixed={fixed}>
+                {children}
+            </***REMOVED***>
+            {page && page.template === "noofoter.php" ? "" : <Footer></Footer>}
+        </div>)
 }
 
-export default ***REMOVED***;
+
+export default ***REMOVED***

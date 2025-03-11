@@ -1,0 +1,11 @@
+{
+ "***REMOVED***": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "***REMOVED***": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strict": true
+  }, 
+  "include": ["vite.config.ts"]
+}

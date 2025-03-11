@@ -58,10 +58,9 @@ class DataProvider extends React.Component {
     ***REMOVED***() {
         const {data, loading, time, error} = this.props
         const loadingTime = Date.now() - time
-        console.log(loadingTime)
+
         if (loading && time && loadingTime > 1000) {
             this.setState({showLoading: true})
-            console.log("-----show loading---")
         } else if (loading) {
             setTimeout(this.***REMOVED***, 100);
         }

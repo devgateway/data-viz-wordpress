@@ -1,3 +1,3 @@
-import ***REMOVED*** from './***REMOVED***';
+import ***REMOVED*** from './***REMOVED***'
 
-export default ***REMOVED***;
+export default ***REMOVED***
