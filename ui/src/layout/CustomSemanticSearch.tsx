@@ -2,13 +2,11 @@ import { Search, Segment, Input } from "semantic-ui-react";
 import React from "react";
 import clsx from "clsx";
 import {
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
     useKeyOnly,
     ***REMOVED***,
-    ***REMOVED***
-} from 'semantic-ui-react/dist/commonjs/lib'
+} from 'semantic-ui-react/src/lib/***REMOVED***';
+import { ***REMOVED***, ***REMOVED***, } from 'semantic-ui-react/src/lib/***REMOVED***';
+import ***REMOVED*** from 'semantic-ui-react/src/lib/***REMOVED***';
 import { injectIntl, useIntl } from "react-intl";
 import { utils } from "@devgateway/wp-react-lib";
 
@@ -43,10 +41,6 @@ const ***REMOVED*** = injectIntl(({
     bread_crumbs = [],
     intl: { locale }
 }) => {
-
-    
-
-
     const target = parent_link ? utils.replaceLink(parent_link, locale) + `#${slug}` : utils.replaceLink(link, locale)
     // target = metadata?.redirect_url ? redirect_url + `#${slug}` : target
 
@@ -102,7 +96,6 @@ const CustomSearch = (props) => {
     };
 
     const renderResults = (res) => {
-        console.log('res', res);
 
         if (res.isHeader) {
             return renderHeader();
@@ -160,10 +153,11 @@ const CustomSearch = (props) => {
 
 
     const unhandled = ***REMOVED***(Search, props);
-    const ElementType = ***REMOVED***(Search, props);
     const [***REMOVED***, rest] = ***REMOVED***(unhandled, {
         htmlProps: ***REMOVED***,
     });
+
+    console.log("classes", classes);
 
 
     return (

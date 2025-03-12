@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom/client';
 import { utils, ***REMOVED***, ***REMOVED*** } from "@devgateway/wp-react-lib";
 import ***REMOVED*** from "./***REMOVED***";
 import { Icon } from "semantic-ui-react";
