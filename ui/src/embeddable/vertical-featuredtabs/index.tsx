@@ -358,7 +358,7 @@ const Wrapper: React.FC<VerticalFeaturedTabsProps> = (props) => {
   const ***REMOVED*** = categories ? categories : "[]";
 
   // Determine screen width and conditionally render components
-  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 1250);
+  const [***REMOVED***, ***REMOVED***] = useState(window.innerWidth <= 1380);
 
   const ***REMOVED*** = (): string => {
     return (
@@ -374,7 +374,7 @@ const Wrapper: React.FC<VerticalFeaturedTabsProps> = (props) => {
   const handleOrientationChange = () => {
     setTimeout(() => {
       ***REMOVED***(***REMOVED***());
-      ***REMOVED***(window.innerWidth <= 1250);
+      ***REMOVED***(window.innerWidth <= 1380);
     }, 100);
   };
 
