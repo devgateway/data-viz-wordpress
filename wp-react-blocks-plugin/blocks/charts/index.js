@@ -568,7 +568,11 @@ import {Chart} from '../icons/index.js'
             ***REMOVED***: {
                 type: 'Numeric',
                 default: -12
-            }            
+            }, 
+            ***REMOVED***: {
+                type: 'Boolean',
+                default: false
+            }        
         },
         edit: BlockEdit,
         save: BlockSave,
