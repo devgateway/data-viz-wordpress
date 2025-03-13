@@ -26,7 +26,8 @@ const PieOptions = (props) => {
             centerLabelFontWeight,
             ***REMOVED***,
             ***REMOVED***,
-            ***REMOVED***
+            ***REMOVED***,
+            ***REMOVED***,
         }
     } = props;
 
@@ -62,6 +63,14 @@ const PieOptions = (props) => {
                 checked={***REMOVED***}
                 onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
         </PanelRow>
+        
+        <PanelRow>
+            <ToggleControl
+                label={__("Show Percentage")}
+                checked={***REMOVED***}
+                onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+        </PanelRow>
+
         <ChartLegends {...props}></ChartLegends>
 
 
