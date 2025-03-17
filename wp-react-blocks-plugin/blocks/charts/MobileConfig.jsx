@@ -262,7 +262,7 @@ const MobileConfig = (props) => {
       measures,
       dimension1,
       ***REMOVED***,
-      datasetId
+      ***REMOVED***
     },
   } = props;
 
@@ -280,7 +280,7 @@ const MobileConfig = (props) => {
   let xAxisLabels = ***REMOVED***(csv);
 
   if (app !== "csv") {
-    const key = `${app}_categories_${datasetId ? datasetId : ""}`;
+    const key = `${app}_categories_${***REMOVED*** ? ***REMOVED*** : ""}`;
     if (dimension1 !== "none") {
       const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(key));
       
@@ -288,7 +288,7 @@ const MobileConfig = (props) => {
       xAxisLabels = []
 
       if (!***REMOVED***) {        
-         fetch(`/api/${app}/categories?datasetId=${datasetId}`)
+         fetch(`/api/${app}/categories?***REMOVED***=${***REMOVED***}`)
         .then((response) => response.json())
         .then((data) => {
           categories = ***REMOVED***(data)
@@ -303,11 +303,11 @@ const MobileConfig = (props) => {
       }  
 
     } else {
-      const key = `${app}_measures_${datasetId ? datasetId : ""}`;
+      const key = `${app}_measures_${***REMOVED*** ? ***REMOVED*** : ""}`;
       const ***REMOVED*** = JSON.parse(***REMOVED***.getItem(key));
       // if measures are not present in session storage, fetch them from the API
       if (!***REMOVED***) {
-        fetch(`/api/${app}/measures?datasetId=${datasetId}`)
+        fetch(`/api/${app}/measures?***REMOVED***=${***REMOVED***}`)
           .then((response) => response.json())
           .then((data) => {
             ***REMOVED***.setItem(key, JSON.stringify(data));

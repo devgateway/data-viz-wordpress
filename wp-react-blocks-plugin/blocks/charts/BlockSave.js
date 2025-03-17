@@ -119,7 +119,7 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             ***REMOVED***,
             ***REMOVED***,
-            datasetId,
+            ***REMOVED***,
             ***REMOVED***
         }
     } = props;
@@ -136,7 +136,7 @@ const SaveComponent = (props) => {
              data-height={height}
              data-type={type}
              data-source={source}
-             data-dataset-id={datasetId}
+             data-dvz-proxy-dataset-id={***REMOVED***}
              data-dimension1={dimension1}
              data-dimension2={dimension2}
              data-dimension3={dimension3}
