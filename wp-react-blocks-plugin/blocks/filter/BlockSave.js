@@ -30,7 +30,8 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             ascOrder,
             ***REMOVED***,
-            datasetId
+            datasetId,
+            autoApply
         }
     } = props;
 
@@ -68,7 +69,8 @@ const SaveComponent = (props) => {
                  data-hidden-filters={***REMOVED***(JSON.stringify(hiddenFilters))}
                  data-close-on-select={closeOnSelect}
                  data-use-filter-items={***REMOVED***}
-                 data-all-none-same-behaviour={***REMOVED***}>
+                 data-all-none-same-behaviour={***REMOVED***}
+                 data-auto-apply={autoApply}>
     </div>);
 }
 
