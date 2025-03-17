@@ -53,8 +53,8 @@ import {Generic} from '../icons/index.js'
             filters: {
                 type: "Array",
                 default: []
-            },          
-            datasetId: {
+            },
+            ***REMOVED***: {
                 type: 'String',
                 default: ""
             },

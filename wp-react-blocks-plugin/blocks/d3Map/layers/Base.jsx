@@ -333,9 +333,9 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
                     site_language: settingsData["site_language"],
                     current_language: new ***REMOVED***(document.location.search).get("edit_lang"),
                     apps
-                }, ()=> {
-                    this.***REMOVED***(app)  
                 })
+                debugger;
+                this.***REMOVED***(app)
 
                               
             })
@@ -352,15 +352,17 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
         super.***REMOVED***(prevProps, prevState, snapshot)
         const {layer: {app}} = this.props
         const {layer: {app: prevAPP}} = prevProps
-        const datasetId = this.props.layer.datasetId
-        const prevDatasetId = prevProps.layer.datasetId
-        if ((app != prevAPP) || (prevAPP == null && app != null) || (datasetId != prevDatasetId)) {
-            this.loadMetadataForSuperset(app, datasetId)
+        const ***REMOVED*** = this.props.layer.***REMOVED***
+        const prevDatasetId = prevProps.layer.***REMOVED***
+
+        debugger;
+        if ((app != prevAPP) || (prevAPP == null && app != null) || (***REMOVED*** != prevDatasetId)) {
+            this.loadMetadata(app, ***REMOVED***)
         }
 
         if ((app != prevAPP) || (prevAPP == null && app != null) && isSupersetAPI(app, this.state.apps)) {
             this.loadDatasets(app)
-        }        
+        }
     }
 
     render() {
