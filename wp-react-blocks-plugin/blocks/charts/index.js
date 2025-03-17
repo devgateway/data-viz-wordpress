@@ -499,6 +499,8 @@ import {Chart} from '../icons/index.js'
                     xAxisDisabled: false,
                     tickRotation: 0,
                     ***REMOVED***: 0,
+                    xAxisIntervalUserModified: false,
+                    ***REMOVED***: 0,
                     yAxisIntervalUserModified: false,
                     ***REMOVED***: false,
                     marginLeft: 50,
@@ -510,6 +512,10 @@ import {Chart} from '../icons/index.js'
                     ***REMOVED***: true,
                     barPadding: 0.15,
                     ***REMOVED***: 0.7,
+                    mobileYAxisLineHeight: 12,
+                    ***REMOVED***: 25,
+                    tabletYAxisLineHeight: 12,
+                    ***REMOVED***: 25,
                 }
             },
             reverseLegend: {
