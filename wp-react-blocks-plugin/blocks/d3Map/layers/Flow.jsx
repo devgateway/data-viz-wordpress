@@ -239,7 +239,7 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 onRemoveLayer,
                 ***REMOVED***,
-                datasetId
+                ***REMOVED***
             }
         } = this.props
 
@@ -279,9 +279,9 @@ export class ***REMOVED*** extends Component {
                {isSupersetAPI(app, apps) && <PanelRow>
                             <SelectControl
                                 label={__('Datasets')}
-                                value={[datasetId]}
+                                value={[***REMOVED***]}
                                 onChange={(newDatasetId) => {
-                                    ***REMOVED***("datasetId", newDatasetId)                       
+                                    ***REMOVED***("***REMOVED***", newDatasetId)
                                 }}
                                 options={allDatasets}
                             />

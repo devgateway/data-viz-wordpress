@@ -238,8 +238,8 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 ***REMOVED***,
                 onRemoveLayer,
-                onMoveLayer,                
-                datasetId,
+                onMoveLayer,
+                ***REMOVED***,
                            
             }
         } = this.props
@@ -283,9 +283,9 @@ export class ***REMOVED*** extends Component {
             <PanelRow>
                 <SelectControl
                     label={__('Datasets')}
-                    value={[datasetId]}
+                    value={[***REMOVED***]}
                     onChange={(newDatasetId) => {
-                        ***REMOVED***("datasetId", newDatasetId)                       
+                        ***REMOVED***("***REMOVED***", newDatasetId)
                     }}
                     options={allDatasets}
                 />
