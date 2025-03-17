@@ -8,8 +8,9 @@ import {***REMOVED***} from './APIutils'
 import {isSupersetAPI} from "./APIutils";
 
 
-export const SizeConfig = ({height, setAttributes, panelStatus,initialOpen}) => {
-    return (<PanelBody initialOpen={panelStatus?panelStatus["SIZE"]:initialOpen} onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
+export const SizeConfig = ({height, setAttributes, panelStatus, initialOpen}) => {
+    return (<PanelBody initialOpen={panelStatus ? panelStatus["SIZE"] : initialOpen}
+                       onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
                        title={__("Size")}>
         <PanelRow>
             <TextControl
@@ -51,7 +52,7 @@ export class ComponentWithSettings extends Component {
     }
 
     ***REMOVED***() {
-        apiFetch({path: '/dg/v1/settings'}).then((data) => {           
+        apiFetch({path: '/dg/v1/settings'}).then((data) => {
             this.setState({
                 react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
                 react_api_url: data["react_api_url"],
@@ -91,7 +92,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
         } = this.props;
 
         super.***REMOVED***(prevProps, prevState, snapshot)
-            if (prevProps.attributes) {
+        if (prevProps.attributes) {
             if (type != prevProps.attributes.type) {
 
             }
@@ -140,7 +141,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
     }
 
     ***REMOVED***(checked, value) {
-        
+
         const {setAttributes, attributes: {categories}} = this.props
         if (!checked) {
             setAttributes({categories: categories.filter(i => i != value)})
@@ -296,38 +297,38 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     'Accept': 'application/json',
                 },
             })
-            .then(response => response.json())
-            .then(data => {
-                const apps = data.applications ? [...data.applications.application
+                .then(response => response.json())
+                .then(data => {
+                    const apps = data.applications ? [...data.applications.application
                         .filter(a => a.instance[0].metadata.type === 'data')
                         .map(a => ({
-                                label: a.name,
-                                value: a.instance[0].vipAddress,
-                                settings: a.instance[0]
-                            })), {
-                            label: 'CSV',
-                            value: 'csv'
-                        }
+                            label: a.name,
+                            value: a.instance[0].vipAddress,
+                            settings: a.instance[0]
+                        })), {
+                        label: 'CSV',
+                        value: 'csv'
+                    }
                     ] : [{
-                            label: 'CSV',
-                            value: 'csv'
-                        }
+                        label: 'CSV',
+                        value: 'csv'
+                    }
                     ];
 
-                this.setState({
-                    react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
-                    react_api_url: settingsData["react_api_url"],
-                    apache_superset_url: settingsData["apache_superset_url"],
-                    site_language: settingsData["site_language"],
-                    current_language: new ***REMOVED***(document.location.search).get("edit_lang"),
-                    apps
-                }, () => {
-                    this.loadMetadata();
+                    this.setState({
+                        react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
+                        react_api_url: settingsData["react_api_url"],
+                        apache_superset_url: settingsData["apache_superset_url"],
+                        site_language: settingsData["site_language"],
+                        current_language: new ***REMOVED***(document.location.search).get("edit_lang"),
+                        apps
+                    }, () => {
+                        this.loadMetadata();
+                    });
+                })
+                .catch(() => {
+                    console.log("Error when loading apps");
                 });
-            })
-            .catch(() => {
-                console.log("Error when loading apps");
-            });
         });
     }
 
@@ -349,7 +350,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
         }
     }
 
-    
+
     loadMetadata() {
         const {
             attributes: {
@@ -370,29 +371,38 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
             this.loadMetadataForSuperset();
         } else {
             this.***REMOVED***();
-        }   
+        }
     }
 
-       
+
+    ***REMOVED***() {
+        const {app, datasetId} = this.props.attributes;
+
+        fetch(this.***REMOVED***(`/api/${app}/cacheEvict`, datasetId)).then(() => {
+            
+            this.loadMetadataForSuperset(app, datasetId)
+        })
+    }
+
     loadMetadataForSuperset(selectedApp, datasetId) {
-        let app =  selectedApp || this.props.attributes.app;
+        let app = selectedApp || this.props.attributes.app;
         let newDatasetId = datasetId || this.props.attributes.datasetId;
-        if  (!newDatasetId || !app)
+        if (!newDatasetId || !app)
             return;
 
-        this.fetchData(this.***REMOVED***( `/api/${app}/dimensions`, newDatasetId), 
-        'dimensions', 
-        data => [{
-            "label": __("None"),
-            "value": "none"
-        }, ...***REMOVED***(data)]);
+        this.fetchData(this.***REMOVED***(`/api/${app}/dimensions`, newDatasetId),
+            'dimensions',
+            data => [{
+                "label": __("None"),
+                "value": "none"
+            }, ...***REMOVED***(data)]);
 
-        this.fetchData(this.***REMOVED***( `/api/${app}/filters`, newDatasetId), 'filters', data => data.map(f => ({
+        this.fetchData(this.***REMOVED***(`/api/${app}/filters`, newDatasetId), 'filters', data => data.map(f => ({
             ...f,
             value: f.param
         })));
-        this.fetchData(this.***REMOVED***( `/api/${app}/measures`, newDatasetId), 'measures', ***REMOVED***);
-        this.fetchData(this.***REMOVED***( `/api/${app}/categories`, newDatasetId), 'categories', ***REMOVED***);
+        this.fetchData(this.***REMOVED***(`/api/${app}/measures`, newDatasetId), 'measures', ***REMOVED***);
+        this.fetchData(this.***REMOVED***(`/api/${app}/categories`, newDatasetId), 'categories', ***REMOVED***);
     }
 
     ***REMOVED***() {
@@ -414,21 +424,21 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
     }
 
     loadDatasets(app) {
-       fetch(`/api/${app}/datasets`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP status " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            this.setState({
-                datasets: data
+        fetch(`/api/${app}/datasets`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP status " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.setState({
+                    datasets: data
+                });
+            })
+            .catch(() => {
+                console.log("Error when loading datasets");
             });
-        })
-        .catch(() => {
-            console.log("Error when loading datasets");
-        });
     }
 
     ***REMOVED***(url, datId) {
@@ -447,24 +457,23 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
         return url;
     }
 
-  
 
     fetchData(url, stateKey, transformData) {
         fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("HTTP status " + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            this.setState({
-                [stateKey]: transformData(data)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP status " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.setState({
+                    [stateKey]: transformData(data)
+                });
+            })
+            .catch(() => {
+                console.log(`Error when loading ${stateKey}`);
             });
-        })
-        .catch(() => {
-            console.log(`Error when loading ${stateKey}`);
-        });
     }
 
 }
