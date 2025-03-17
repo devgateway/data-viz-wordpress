@@ -71,9 +71,8 @@ interface ***REMOVED*** {
 const ***REMOVED*** = (props: ***REMOVED***) => {
 
     const { isRange, options, ***REMOVED***, ascOrder } = props
-    let sortedOptions: any [] = []
     if (***REMOVED***(***REMOVED***)) {
-        sortedOptions = options.sort(function (a, b) {
+        options.sort(function (a, b) {
             const aText = a.text ? a.text.toLowerCase() : "";
             const bText = b.text ? b.text.toLowerCase() : "";
             if (***REMOVED***(ascOrder)) {
@@ -83,12 +82,12 @@ const ***REMOVED*** = (props: ***REMOVED***) => {
             }
         });
     } else {
-        sortedOptions = options.sort(function (a, b) {
+        options.sort(function (a, b) {
             return ***REMOVED***(ascOrder) ? a.position - b.position : b.position - a.position;
         });
     }
 
-    const filterProps = { ...props, options: sortedOptions }
+    const filterProps = { ...props, options }
 
     if (isRange) {
         return <***REMOVED***  {...filterProps} />
@@ -505,6 +504,7 @@ const Filter = ({
             icon={icon} placeholder={placeholder}
             startLabel={startLabel} endLabel={endLabel}
             param={param}
+            ascOrder={ascOrder}
             ***REMOVED***={***REMOVED*** === 'true'}
             ***REMOVED***={***REMOVED*** === 'true'}
             filterType={***REMOVED***}
