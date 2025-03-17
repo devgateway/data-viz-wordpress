@@ -4,7 +4,7 @@ const SaveComponent = (props) => {
         attributes: {
            group,
            app,
-           resetLabel
+           label
         }
     } = props;
 
@@ -15,9 +15,10 @@ const SaveComponent = (props) => {
              data-component={"***REMOVED***"}
              data-group={group}
              data-app={app}
-             data-reset-label={resetLabel}>
+             data-label={label}>
         </div>);
 }
+
 
 
 export default SaveComponent
