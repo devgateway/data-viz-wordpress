@@ -74,7 +74,7 @@ const SaveComponent = (props) => {
             noDataText,
             ***REMOVED***,
             showShadingLayerLabels,
-            datasetId
+            ***REMOVED***
         }
     } = props;
     
@@ -167,7 +167,7 @@ const SaveComponent = (props) => {
              data-no-data-text={noDataText}
              data-custom-measure-labels={***REMOVED***(JSON.stringify(***REMOVED***))}
              data-show-shading-layer-labels={showShadingLayerLabels}
-             data-dataset-id={datasetId}  >
+             data-dvz-proxy-dataset-id={***REMOVED***}  >
         </div>
     );
 }

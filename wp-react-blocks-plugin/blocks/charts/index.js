@@ -129,7 +129,7 @@ import {Chart} from '../icons/index.js'
                 type: Object,
                 default: {}
             },
-            datasetId: {
+            ***REMOVED***: {
                 type: 'String',
                 default: ""
             },
