@@ -5,7 +5,7 @@ import BlockEdit from "./BlockEdit";
 
 ***REMOVED***(process.env.BLOCKS_NS + '/data-filters-apply',
     {
-        title: __('Filters Apply Button', 'wp-react-blocks-plugin'),
+        title: __('Apply Button', 'wp-react-blocks-plugin'),
         category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
@@ -17,9 +17,9 @@ import BlockEdit from "./BlockEdit";
                 type: 'String',
                 default: "csv"
             },
-            resetLabel: {
+            label: {
                 type: 'String',
-                default: "Apply Filters"
+                default: "Apply"
             }
         },
         edit: BlockEdit,
