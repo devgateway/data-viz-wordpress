@@ -326,7 +326,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
 
         if (app != prevAPP) { //if app changes we shoudl reload metadta
 
-            debugger;
+            
             if (isSupersetAPI(app, this.state.apps)) { //if app is superset proxy an additional step is added
                 this.loadDatasets(app)
                 if (***REMOVED***) {
@@ -336,7 +336,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                 this.loadMetadata(app);
             }
         } else {//app wasn't changed
-            debugger;
+            
             if (***REMOVED*** != prevDvzProxyDatasetId) {
                 this.loadMetadata(app, ***REMOVED***);
             }
@@ -378,7 +378,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
             return;
         }
 
-        debugger;
+        
         const dimensionsUrl = `/api/${app}/dimensions${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
         const measuresUrl = `/api/${app}/measures${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
         const filtersUrl = `/api/${app}/filters${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
@@ -467,7 +467,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                 return response.json();
             })
             .then(data => {
-                debugger;
+                
                 this.setState({
                     [stateKey]: transformData(data)
                 });
