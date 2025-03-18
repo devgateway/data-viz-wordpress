@@ -211,7 +211,17 @@ export class ***REMOVED*** extends Component {
     render() {
         const {
             ***REMOVED***,
-            allDimensions, allFilters, allMeasures, allCategories, allDatasets, features, apps,layer, layer: {
+            allDimensions,
+            allFilters,
+            allMeasures,
+            allCategories,
+            allDatasets,
+            features,
+            apps,
+            layer,
+
+
+            layer: {
                 app,
                 csv,
                 measures,
@@ -244,7 +254,7 @@ export class ***REMOVED*** extends Component {
             }
         } = this.props
 
-
+        
         
 
         let ***REMOVED*** = ""

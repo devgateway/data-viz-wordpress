@@ -25,7 +25,7 @@ export const ***REMOVED*** = (translatable) => {
 }
 
 export const isSupersetAPI = (app, apps) => {
-    debugger;
+    
     if (app == 'csv' || !apps) {
         return false
     }
