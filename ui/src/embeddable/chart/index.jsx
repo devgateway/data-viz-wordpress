@@ -54,7 +54,7 @@ const Chart = (props) => {
     childContent,
     categories,
     ***REMOVED***,
-    "data-app": app = "prevalence",
+    "data-app": app = "csv",
     "data-group": group = "default",
     "data-height": height = 500,
     "data-type": type = "bar", //'data-source': source = 'gender/smoke',f
@@ -170,6 +170,7 @@ const Chart = (props) => {
     "data-radar-enable-dot-label": ***REMOVED*** = "true",
     "data-radar-dot-label-offset": ***REMOVED*** = -12,
     "data-mobile-customization": ***REMOVED*** = "{}",
+    "data-preview-mode": previewMode = "Desktop",
   } = props;
   const ***REMOVED*** = JSON.parse(
     ***REMOVED***(***REMOVED***)
@@ -180,20 +181,36 @@ const Chart = (props) => {
   const isMobileConfigEnabled =
     ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
 
+  const ***REMOVED*** =  (["Tablet"].includes(previewMode) && editing);
+  const ***REMOVED*** =  (["Mobile"].includes(previewMode) && editing);
+
+  const ***REMOVED*** = isMobileConfigEnabled && previewMode !== "Desktop";
+  const isNotEditingAndIsMobileOrTablet = isMobileConfigEnabled && !editing;
+
   const ***REMOVED*** = () => {
     if (
-      window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches
+      ***REMOVED***
     ) {
       return isMobileConfigEnabled
         ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
         : tickRotation;
-    } else if (window.matchMedia("(max-width: 480px)").matches) {
-      return isMobileConfigEnabled
+    }
+    if (***REMOVED***) {
+      return isMobileConfigEnabled && previewMode !== "Desktop"
         ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
         : tickRotation;
-    } else {
-      return tickRotation;
     }
+    if(window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches) {
+      return isMobileConfigEnabled
+        ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
+        : tickRotation;
+    }
+    if(window.matchMedia("(max-width: 480px)").matches) {
+      return isMobileConfigEnabled && previewMode !== "Desktop"
+        ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
+        : tickRotation;
+    }
+    return tickRotation;
   };
 
   const [***REMOVED***, ***REMOVED***] = useState(***REMOVED***());
@@ -375,35 +392,28 @@ const Chart = (props) => {
   const child = null;
   const contentHeight = editing ? height - 80 : height;
 
-  const ***REMOVED*** = () => {
-    if (isMobileConfigEnabled) {
-      if (***REMOVED***?.***REMOVED***) {
-        return bottom;
-      } else {
-        return "";
-      }
-    }
-    return bottom;
-  };
+  const ***REMOVED*** = () => (
+    (***REMOVED*** || isNotEditingAndIsMobileOrTablet) && !***REMOVED***?.***REMOVED***
+      ? ""
+      : bottom
+  );
 
   const ***REMOVED*** = () => {
-    if (isMobileConfigEnabled) {
+    if (***REMOVED*** || isNotEditingAndIsMobileOrTablet) {
       if (***REMOVED***?.***REMOVED***) {
         return leftLegendForSelectedMeasure;
-      } else {
-        return "";
       }
+      return "";
     }
     return leftLegendForSelectedMeasure;
   };
 
   const ***REMOVED*** = () => {
-    if (isMobileConfigEnabled) {
+    if (***REMOVED*** || isNotEditingAndIsMobileOrTablet) {
       if (***REMOVED***?.***REMOVED***) {
         return rightLegendForSelectedMeasure;
-      } else {
-        return "";
       }
+      return "";
     }
     return rightLegendForSelectedMeasure;
   };
@@ -417,7 +427,8 @@ const Chart = (props) => {
   const parseBoolean = (str) => {
     if (str === "true" || str === true) {
       return true;
-    } else if (str === "false" || str === false) {
+    }
+    if (str === "false" || str === false) {
       return false;
     }
   };
@@ -436,10 +447,9 @@ const Chart = (props) => {
     if (layout === "horizontal") {
       ***REMOVED***();
       return "vertical";
-    } else {
-      ***REMOVED***();
-      return "horizontal";
     }
+    ***REMOVED***();
+    return "horizontal";
   };
 
   const mobileLayout = () => {
@@ -451,7 +461,7 @@ const Chart = (props) => {
 
   const ***REMOVED*** = (mobileEnabled, mobileSetting, defaultValue) => {
     return mobileEnabled
-      ? parseInt(mobileSetting) ?? defaultValue
+      ? Number.parseInt(mobileSetting) ?? defaultValue
       : defaultValue;
   };
 
@@ -465,55 +475,63 @@ const Chart = (props) => {
 
   useEffect(() => {
     const ***REMOVED*** = () => {
+      const rotation = ***REMOVED***();
       ***REMOVED***(window.innerWidth <= 1250);
-      ***REMOVED***(***REMOVED***());
+      ***REMOVED***(rotation);
     };
     window.***REMOVED***("resize", ***REMOVED***);
+    if ((editing && previewMode !== "Desktop") || !editing) {
+      ***REMOVED***(***REMOVED***());
+    }
     return () => {
       window.***REMOVED***("resize", ***REMOVED***);
     };
-  }, []);
+  }, [
+    previewMode,
+    isMobileConfigEnabled,
+    ***REMOVED***?.tabletXAxisTextRotation,
+    ***REMOVED***?.mobileXAxisTextRotation,
+  ]);
 
   const determineLegendPosition = () => {
-    const ***REMOVED*** = ["tablet", "mobile", "midTablet"].includes(
-      getDeviceType()
-    );
-    if (editing) {
-      return ***REMOVED*** ? "bottom" : ***REMOVED***;
+    const ***REMOVED*** = ["tablet", "mobile", "midTablet"].includes(getDeviceType());
+    if (editing && previewMode !== "Desktop") {
+      return "bottom";
     }
-    return !***REMOVED*** ? ***REMOVED*** : "bottom";
+    return ***REMOVED*** ? "bottom" : ***REMOVED***;
   };
+
 
   const chartProps = {
     app,
+    editing,
     tickColor: ***REMOVED***(tickColor),
     tickRotation: ***REMOVED***,
-    layout: isMobileConfigEnabled ? mobileLayout() : layout,
+    layout: (***REMOVED*** || isNotEditingAndIsMobileOrTablet) ? mobileLayout() : layout,
     reverse: reverse == true || reverse == "true",
     showLegends: showLegends == true || showLegends == "true",
     legendLabel,
     swap: swap == true || swap == "true",
     showGrid: showGrid == true || showGrid == "true",
-
     marginLeft: ***REMOVED***(
-      isMobileConfigEnabled,
-      parseInt(***REMOVED***?.marginLeft),
+      (***REMOVED*** || isNotEditingAndIsMobileOrTablet),
+      Number.parseInt(***REMOVED***?.marginLeft),
       parseInt(marginLeft)
     ),
     marginTop: ***REMOVED***(
-      isMobileConfigEnabled,
-      parseInt(***REMOVED***?.marginTop),
+      (***REMOVED*** || isNotEditingAndIsMobileOrTablet),
+      Number.parseInt(***REMOVED***?.marginTop),
       parseInt(marginTop)
     ),
     marginRight: ***REMOVED***(
-      isMobileConfigEnabled,
-      parseInt(***REMOVED***?.marginRight),
-      parseInt(marginRight)
+      (***REMOVED*** || isNotEditingAndIsMobileOrTablet),
+      Number.parseInt(***REMOVED***?.marginRight),
+      Number.parseInt(marginRight)
     ),
     marginBottom: ***REMOVED***(
-      isMobileConfigEnabled,
-      parseInt(***REMOVED***?.marginBottom),
-      parseInt(marginBottom)
+      (***REMOVED*** || isNotEditingAndIsMobileOrTablet),
+      Number.parseInt(***REMOVED***?.marginBottom),
+      Number.parseInt(marginBottom)
     ),
     height: `${contentHeight}px`,
     ***REMOVED***: determineLegendPosition(),
@@ -543,14 +561,14 @@ const Chart = (props) => {
     fixedMinValue,
     fixedMaxValue,
     barPadding: getBarPadValueOuterOrInner(
-      isMobileConfigEnabled,
+      (***REMOVED*** || isNotEditingAndIsMobileOrTablet),
       ***REMOVED***?.barPadding,
       barPadding
     ),
     ***REMOVED***,
     ***REMOVED***,
     ***REMOVED***: getBarPadValueOuterOrInner(
-      isMobileConfigEnabled,
+      (***REMOVED*** || isNotEditingAndIsMobileOrTablet),
       ***REMOVED***?.***REMOVED***,
       ***REMOVED***
     ),
@@ -590,10 +608,10 @@ const Chart = (props) => {
     userMeasures,
     tooltipEnableMarkdown:
       tooltipEnableMarkdown == true || tooltipEnableMarkdown == "true",
-    ***REMOVED***: isMobileConfigEnabled
+    ***REMOVED***: (***REMOVED*** || isNotEditingAndIsMobileOrTablet)
       ? ***REMOVED***.***REMOVED*** ?? ***REMOVED***
       : ***REMOVED***,
-    ***REMOVED***: isMobileConfigEnabled
+    ***REMOVED***:(***REMOVED*** || isNotEditingAndIsMobileOrTablet)
       ? ***REMOVED***.***REMOVED*** ?? ***REMOVED***
       : ***REMOVED***,
     enableGridY: enableGridY == true || enableGridY == "true",
@@ -620,6 +638,7 @@ const Chart = (props) => {
     ***REMOVED***,
     ***REMOVED***,
     dimension1,
+    previewMode
   };
 
   const params = {};
@@ -777,12 +796,12 @@ const Chart = (props) => {
             const ***REMOVED*** =
               window.***REMOVED***(***REMOVED***);
             const chartContainerMarginBottom =
-              parseFloat(***REMOVED***.marginBottom) || 0;
+              Number.parseFloat(***REMOVED***.marginBottom) || 0;
             const adjustedChartContainerBottom =
               ***REMOVED***.bottom + chartContainerMarginBottom;
 
             const legendsRect = ***REMOVED***.getBoundingClientRect();
-            const ***REMOVED*** = parseFloat(styles.marginTop) || 0;
+            const ***REMOVED*** = Number.parseFloat(styles.marginTop) || 0;
             const ***REMOVED*** = legendsRect.top - ***REMOVED***;
 
             if (***REMOVED*** < adjustedChartContainerBottom) {

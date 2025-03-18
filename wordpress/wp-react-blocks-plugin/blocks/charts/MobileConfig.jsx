@@ -235,7 +235,7 @@ const ***REMOVED*** = ({
               value={
                 !***REMOVED***?.yAxisIntervalUserModified
                   ? ***REMOVED***
-                  : ***REMOVED***.***REMOVED***
+                  : ***REMOVED***.***REMOVED*** ?? ***REMOVED***
               }
               onChange={(***REMOVED***) =>
                 ***REMOVED***(
@@ -263,7 +263,7 @@ const ***REMOVED*** = ({
               value={
                 !***REMOVED***?.xAxisIntervalUserModified
                   ? ***REMOVED***
-                  : ***REMOVED***.***REMOVED***
+                  : ***REMOVED***.***REMOVED*** ?? ***REMOVED***
               }
               onChange={(***REMOVED***) =>
                 ***REMOVED***(
@@ -360,7 +360,7 @@ const MobileConfig = (props) => {
 
   const ***REMOVED*** = (label, value) => {
     const newObject = Object.assign({}, ***REMOVED***);
-    if (newObject && newObject.labels && newObject.labels.xAxis) {
+    if (newObject?.labels?.xAxis) {
       newObject.labels.xAxis[label] = value;
     }
     setAttributes({ ***REMOVED***: newObject });
@@ -515,7 +515,7 @@ const MobileConfig = (props) => {
                       })
                     }
                     min={0}
-                    max={30}
+                    max={500}
                   />
                 </PanelRow>
                 <PanelRow>

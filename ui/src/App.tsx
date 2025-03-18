@@ -62,9 +62,11 @@ const PreviewComponentParameterParser = () => {
 
     useEffect(() => {
         window.***REMOVED***("message", readMessage, false);
-
         if (window.parent) {
             window.parent.postMessage({ type: "***REMOVED***", value: true }, "*")
+        }
+        if(window.top) {
+            window.top.postMessage({ type: "***REMOVED***", value: true }, "*")
         }
         return () => {
             window.***REMOVED***('message', readMessage);

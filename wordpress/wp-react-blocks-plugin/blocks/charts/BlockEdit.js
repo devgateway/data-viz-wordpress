@@ -28,12 +28,29 @@ import Radar from './Radar.jsx';
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
-        this.***REMOVED*** = ['tooltip']
+        this.***REMOVED*** = ['tooltip'];
+        this.unsubscribe = wp.data.subscribe(() => {
+            const ***REMOVED*** = wp.data.select("core/editor").getDeviceType();
+            if (***REMOVED*** !== this.state.previewMode) {
+                this.setState({previewMode: ***REMOVED*** });
+            }
+        });
+    }
+
+    ***REMOVED***() {
+        if (this.unsubscribe) {
+            this.unsubscribe();
+        }
     }
 
     ***REMOVED***(prevProps, prevState, snapshot) {
-        const {setAttributes, attributes: {type,colorBy,dimension1, dimension2, types, measures, app}} = this.props
+        const {setAttributes, attributes: {type,colorBy,dimension1, dimension2, types, measures, app, previewMode}} = this.props
         const {attributes: {type: prevType, dimension2: ***REMOVED***}} = prevProps
+        const ***REMOVED*** = this.state?.previewMode;
+
+        if (***REMOVED*** !== prevState.previewMode) {
+            setAttributes({previewMode: ***REMOVED***});
+        }
 
         if (type != prevType) {
             if (type == 'radar') {
@@ -471,7 +488,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         <div className={className}>
                             {mode == "info" && <div><InnerBlocks template={[['core/image', {}]]}/></div>}
-                            {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
+                            {this.state.react_ui_url && <iframe ref={this.iframe} key={this.state} style={divStyles} scrolling={"no"}
                                                                 src={this.state.react_ui_url + "/embeddable/chart?"}/>}
 
                         </div>

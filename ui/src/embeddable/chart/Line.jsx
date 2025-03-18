@@ -10,7 +10,10 @@ import deviceType from '@/utils/deviceType'
 const ZERO_LINE_COLOR = "#66676d";
 const DEFAULT_TICK_BG_COLOR = "#f0f0f1";
 
-const isMobile = deviceType() === "mobile";
+const ***REMOVED*** = ['mobile', 'tablet', 'midTablet'].includes(deviceType());
+const ***REMOVED*** = deviceType() === 'mobile';
+const ***REMOVED*** = ['tablet', 'midTablet'].includes(deviceType());
+
 
 const getTextWidth = (text, font) => {
   // re-use canvas object for better performance
@@ -46,6 +49,8 @@ const ***REMOVED*** = (col, amt) => {
 };
 
 const Chart = ({
+  editing,
+  previewMode,
   app,
   legends,
   tooltip,
@@ -100,7 +105,9 @@ const Chart = ({
   ***REMOVED***
 }) => {
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
-  const isMobileConfigEnabled = isMobile && (***REMOVED***?.***REMOVED*** ?? false);
+  const isMobileConfigEnabled = ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
+  const ***REMOVED*** = isMobileConfigEnabled && (previewMode !== 'Desktop');
+  const isNotEditingAndIsMobileCustomizationEnabled = !editing && isMobileCustomizationEnabled;
   const [bottomSpacing, ***REMOVED***] = useState(50);
   const [newMarginTop, ***REMOVED***] = useState(marginTop);
   const [wrapCount, setWrapCount] = useState(0);
@@ -201,10 +208,56 @@ const Chart = ({
     const tickObject = Object.assign({}, tick);
     const theme = useTheme();
 
-    if(isMobileConfigEnabled && hiddenLabels.includes(String(tickObject.value))) {
+    if (
+      (***REMOVED*** || isNotEditingAndIsMobileCustomizationEnabled) &&
+      hiddenLabels.includes(String(tickObject.value))
+    ) {
       tickObject.value = "";
     }
-    
+    let lines = [];
+    let currentLine = "";
+    if (***REMOVED*** || isNotEditingAndIsMobileCustomizationEnabled) {
+      const words = String(tickObject.value).split(" ");
+      let maxLineLength = 25;
+      if (
+        (editing && previewMode === "Mobile") ||
+        (***REMOVED*** && !editing)
+      ) {
+        maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+      } else if (
+        (editing && previewMode === "Tablet") ||
+        (***REMOVED*** && !editing)
+      ) {
+        maxLineLength = ***REMOVED***?.***REMOVED*** ?? 25;
+      } else if (
+        window.matchMedia("(min-width: 768px) and (max-width: 1250px)")
+          .matches &&
+        !editing
+      ) {
+        maxLineLength = 15;
+      }
+
+      words.forEach((word) => {
+        if (currentLine.length + String(word).length <= maxLineLength) {
+          currentLine += (currentLine ? " " : "") + word;
+        } else {
+          lines.push(currentLine);
+          currentLine = word;
+        }
+      });
+      if (currentLine) {
+        lines.push(currentLine);
+      }
+    } else {
+      lines = [tickObject.value];
+    }
+    let lineHeight = 12;
+    if ((editing && previewMode === "Mobile") || (***REMOVED*** && !editing)) {
+      lineHeight = ***REMOVED***?.mobileYAxisLineHeight ?? 12;
+    } else if ((editing && previewMode === "Tablet") || (***REMOVED*** && !editing)) {
+      lineHeight = ***REMOVED***?.tabletYAxisLineHeight ?? 12;
+    }
+
     const width = getTextWidth(tickObject.value, "12px Roboto") + 15;
 
     if (tickRotation > 0 && tickRotation < 180) {
@@ -220,34 +273,28 @@ const Chart = ({
           )}
 
           <g transform={`translate(0, ${tick.y + offsetText})`}>
-            {/* <rect
-              transform={`rotate(${tickRotation})`}
-              x={-12}
-              y={-12}
-              rx={2}
-              ry={2}
-              width={width + 12}
-              height={22}
-              fill={***REMOVED*** ? tickColor : DEFAULT_TICK_BG_COLOR}
-            /> */}
-
-            <text
-              transform={`rotate(${tickRotation})`}
-              textAnchor="start"
-              ***REMOVED***="middle"
-              style={{
-                ...theme.axis.ticks.text,
-                fill: xLabelColor,
-                fontSize: "12px",
-              }}
-
-            >
-              {tickObject.value}
-            </text>
+            {lines.map((line, i) => (
+              <text
+                key={line}
+                transform={`rotate(${tickRotation})`}
+                textAnchor="start"
+                y={typeof tick.value === "number" ? 0 : i * lineHeight}
+                ***REMOVED***="middle"
+                style={{
+                  ...theme.axis.ticks.text,
+                  fill: xLabelColor === "null" ? "black" : xLabelColor,
+                  fontSize: "12px",
+                  fontFamily: "Roboto",
+                }}
+              >
+                {line}
+              </text>
+            ))}
           </g>
         </g>
       );
-    } else if (tickRotation > 180 && tickRotation < 360) {
+    }
+    if (tickRotation > 180 && tickRotation < 360) {
       return (
         <g transform={`translate(${tick.x},${tick.y + 30})`}>
           {showTickLine && (
@@ -286,48 +333,39 @@ const Chart = ({
           </g>
         </g>
       );
-    } else {
-      return (
-        <g transform={`translate(${tick.x},${tick.y + 30})`}>
-          {showTickLine && (
-            <line
-              stroke={***REMOVED*** ? tickColor : DEFAULT_TICK_BG_COLOR}
-              strokeWidth={1.5}
-              y1={-32}
-              y2={-12}
-            />
-          )}
+    }
+    return (
+      <g transform={`translate(${tick.x},${tick.y + 30})`}>
+        {showTickLine && (
+          <line
+            stroke={***REMOVED*** ? tickColor : DEFAULT_TICK_BG_COLOR}
+            strokeWidth={1.5}
+            y1={-32}
+            y2={-12}
+          />
+        )}
 
-          <g transform={`translate(0, ${tick.y + offsetText})`}>
-            {/* <rect
-              transform={`rotate(${tickRotation})`}
-              x={(-1 * width) / 2}
-              y={-12}
-              rx={2}
-              ry={2}
-              width={width}
-              height={22}
-              fill={***REMOVED*** ? tickColor : DEFAULT_TICK_BG_COLOR}
-            /> */}
-
+        <g transform={`translate(0, ${tick.y + offsetText})`}>
+          {lines.map((line, i) => (
             <text
+              key={line}
               transform={`rotate(${tickRotation})`}
               textAnchor="middle"
+              y={typeof tick.value === "number" ? 0 : i * lineHeight}
               ***REMOVED***="middle"
               style={{
                 ...theme.axis.ticks.text,
-                fill: xLabelColor,
+                fill: xLabelColor === "null" ? "black" : xLabelColor,
                 fontSize: "12px",
+                fontFamily: "Roboto",
               }}
-              // dx={5}
-              // dy={15}
             >
-              {tickObject.value}
+              {line}
             </text>
-          </g>
+          ))}
         </g>
-      );
-    }
+      </g>
+    );
   };
 
   const AreaLayer = ({ series, xScale, yScale, innerHeight }) => {
@@ -507,8 +545,8 @@ const Chart = ({
     options.data && options.data?.filter((d) => d?.data?.length > 0)?.length;
 
   const hiddenLabels = [];
-  if(isMobileConfigEnabled) {
-      ticks = parseInt(***REMOVED***.***REMOVED***);
+  if(***REMOVED*** || isNotEditingAndIsMobileCustomizationEnabled) {
+      ticks = Number.parseInt(***REMOVED***.***REMOVED***);
       const labels = new Map(Object.entries(***REMOVED***?.labels?.xAxis ?? {}));
       for (const [key, value] of labels) {
         if (!value) {
@@ -517,7 +555,7 @@ const Chart = ({
       }
   }
 
-  if (options && options.data && hasData > 0) {
+  if (options?.data && hasData > 0) {
     return (
       <div style={{ height: height }}>
         <***REMOVED***
@@ -574,11 +612,11 @@ const Chart = ({
             return ***REMOVED***.getColor(d.id, d);
           }}
           axisBottom={
-            isMobileConfigEnabled && ***REMOVED***?.xAxisDisabled === true ? null :{
+            (***REMOVED*** || isNotEditingAndIsMobileCustomizationEnabled) && ***REMOVED***?.xAxisDisabled === true ? null :{
             renderTick: CustomTick,
             legend: legends.bottom,
             ***REMOVED***: "middle",
-            legendOffset: parseInt(offsetBottom),
+            legendOffset: Number.parseInt(offsetBottom),
           }}
           axisLeft={{
             tickSize: 5,
@@ -587,7 +625,7 @@ const Chart = ({
             tickRotation: 0,
             legend: legends.left,
             ***REMOVED***: "middle",
-            legendOffset: parseInt(offsetY),
+            legendOffset: Number.parseInt(offsetY),
             format: (value) => {
               const ***REMOVED*** = ***REMOVED***
                 ? ***REMOVED***
