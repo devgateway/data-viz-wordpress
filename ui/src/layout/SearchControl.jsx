@@ -1,10 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import { utils, ***REMOVED***, ***REMOVED*** } from "@devgateway/wp-react-lib";
 import ***REMOVED*** from "./***REMOVED***";
-import { createPortal } from 'react-dom';
+import { createPortal } from "react-dom";
 import { Icon } from "semantic-ui-react";
 import { IntlProvider, injectIntl } from "react-intl";
 
+// Utility function to highlight search terms
+const ***REMOVED*** = (text, term) => {
+  if (!term || !text) return text;
+  const regex = new RegExp(`(${term})`, "gi");
+  return text.replace(regex, "<b>$1</b>");
+};
+
+// ***REMOVED*** component with highlighting
 const ***REMOVED*** = injectIntl(({
   ID,
   title,
@@ -20,6 +28,7 @@ const ***REMOVED*** = injectIntl(({
   bread_crumbs = [],
   metadata: { redirect_url },
   intl: { locale },
+  searchTerm, // Added searchTerm prop
 }) => {
   let target = parent_link
     ? utils.replaceLink(parent_link, locale) + `#${slug}`
@@ -35,18 +44,30 @@ const ***REMOVED*** = injectIntl(({
         className={"has-standard-12-font-size"}
         onClick={(e) => (document.location.href = target)}
       >
-        <h5 className="breadcrumbs-search">
-          {bread_crumbs && bread_crumbs.length > 0
-            ? `${bread_crumbs.join(" / ")}`
-            : ""}{" "}
-        </h5>
+        <h5
+          className="breadcrumbs-search"
+          dangerouslySetInnerHTML={{
+            __html:
+              bread_crumbs && bread_crumbs.length > 0
+                ? ***REMOVED***(bread_crumbs.join(" / "), searchTerm)
+                : "",
+          }}
+        />
         <div className={"has-standard-14-font-size"}>
-          <h4 className="search-title">{title}</h4>
+          <h4
+            className="search-title"
+            dangerouslySetInnerHTML={{
+              __html: ***REMOVED***(title, searchTerm),
+            }}
+          />
         </div>
         <div
           className="search-content"
           dangerouslySetInnerHTML={{
-            __html: utils.***REMOVED***(extract, locale),
+            __html: utils.***REMOVED***(
+              ***REMOVED***(extract, searchTerm),
+              locale
+            ),
           }}
         />
       </div>
@@ -55,98 +76,58 @@ const ***REMOVED*** = injectIntl(({
 }
 );
 
-const replaceString = (content, words) => {
-  const regex = RegExp(words, "gi");
-  let newHTML = content;
-  const instances = [...newHTML.matchAll(regex)];
-  let shift = 0;
-  const ***REMOVED*** = newHTML.length;
-  instances.forEach((instance) => {
-    const replacement =
-      "<b>" +
-      newHTML.substring(
-        instance.index + shift,
-        instance.index + shift + words.length
-      ) +
-      "</b>";
-    newHTML =
-      newHTML.substring(0, instance.index + shift) +
-      replacement +
-      newHTML.substring(instance.index + words.length + shift);
-    shift = newHTML.length - ***REMOVED***;
-  });
-
-  return newHTML;
-};
-
-const ***REMOVED*** = (words) => {
-  let searchedPara = document.querySelector(".results");
-  const ***REMOVED*** =
-    (searchedPara =
-      searchedPara =
-      document.***REMOVED***("H5"));
-  const searchResult =
-    (searchedPara =
-      searchedPara =
-      document.***REMOVED***(".search-content"));
-  for (let i = 0; i < searchResult.length; i++) {
-    if (searchResult[i]) {
-      searchResult[i].innerHTML = replaceString(
-        searchResult[i].textContent,
-        words
-      );
-    }
-  }
-
-  for (let i = 0; i < ***REMOVED***.length; i++) {
-    if (***REMOVED***[i]) {
-      ***REMOVED***[i].innerHTML = replaceString(
-        ***REMOVED***[i].textContent,
-        words
-      );
-    }
-  }
-};
-
-const SearchControl = ({ onSearch, perPage, loading, results, meta, intl }) => {
+// ***REMOVED*** component with highlighting
+const ***REMOVED*** = ({ results, meta, perPage, intl, searchTerm }) => {
   const total = meta ? meta["x-wp-total"] : 0;
   const totalPages = meta ? meta["x-wp-totalpages"] : 0;
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    const ***REMOVED*** = setTimeout(() => {
-      onSearch(searchTerm);
-    }, 300);
-
-    return () => clearTimeout(***REMOVED***);
-  }, [searchTerm]);
-
-  useEffect(() => ***REMOVED***(searchTerm), [results]);
   return (
-    <***REMOVED***
-      value={searchTerm}
-      loading={loading}
+    <div id="float-results-container">
+      <span className="float-results-header">
+        {intl.formatMessage(
+          {
+            id: "search.results.summary",
+            ***REMOVED***: "{count} of {total} Results",
+          },
+          { count: total < perPage ? total : perPage, total: total }
+        )}
+      </span>
+      {results.map((r) => (
+        <***REMOVED*** key={r.ID} {...r} searchTerm={searchTerm} />
+      ))}
+    </div>
+  );
+};
+
+// ***REMOVED*** component
+const ***REMOVED*** = ({
+  onSearch,
+  perPage,
+  loading,
+  results,
+  meta,
+  intl,
+}) => {
+  const total = meta ? meta["x-wp-total"] : 0;
+  const totalPages = meta ? meta["x-wp-totalpages"] : 0;
+
+  return (
+    <input
       placeholder={intl.formatMessage({
         id: "search.placeholder",
         ***REMOVED***: "Search...",
       })}
-      ***REMOVED***={(e, data) => null}
-      total={total}
-      perPage={perPage}
-      totalPages={totalPages}
-      ***REMOVED***={(a, b) => {
-        setSearchTerm(b.value);
+      type={"text"}
+      className={"input search"}
+      name={"search"}
+      onChange={(e) => {
+        onSearch(e.target.value);
       }}
-      ***REMOVED***={***REMOVED***}
-      ***REMOVED***={***REMOVED***}
-      results={results}
-      showNoResults={false}
-      intl={intl}
     />
   );
 };
 
+// FloatingSearchController component
 const FloatingSearchController = ({
   onSearch,
   onSetSelected,
@@ -156,17 +137,17 @@ const FloatingSearchController = ({
   meta,
   locale,
   intl,
+  search, // Added search from ***REMOVED***
 }) => {
   const [***REMOVED***, ***REMOVED***] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const newContainer = document.createElement('div');
-    newContainer.setAttribute('id', 'float-input-container');
-    newContainer.setAttribute('class', 'input container');
-    newContainer.style.display = 'none'; // Hide container by default
-    // Append to #root to preserve the original layout context (width & position)
-    const rootElement = document.***REMOVED***('root');
+    const newContainer = document.createElement("div");
+    newContainer.setAttribute("id", "float-input-container");
+    newContainer.setAttribute("class", "input container");
+    newContainer.style.display = "none"; // Hide container by default
+    const rootElement = document.***REMOVED***("root");
     if (rootElement) {
       rootElement.appendChild(newContainer);
       containerRef.current = newContainer;
@@ -180,7 +161,7 @@ const FloatingSearchController = ({
 
   useEffect(() => {
     if (containerRef.current) {
-      containerRef.current.style.display = ***REMOVED*** ? 'block' : 'none';
+      containerRef.current.style.display = ***REMOVED*** ? "block" : "none";
     }
   }, [***REMOVED***]);
 
@@ -223,90 +204,70 @@ const FloatingSearchController = ({
                     meta={meta}
                     perPage={perPage}
                     intl={intl}
+                    searchTerm={search} // Pass search term
                   />
                 </IntlProvider>
               )}
             </div>
           ) : null,
           containerRef.current
-        )
-      }
+        )}
     </>
   );
 };
 
-const ***REMOVED*** = ({
-  onSearch,
-  perPage,
-  loading,
-  results,
-  meta,
-  intl,
-}) => {
+// SearchControl component
+const SearchControl = ({ onSearch, perPage, loading, results, meta, intl }) => {
   const total = meta ? meta["x-wp-total"] : 0;
   const totalPages = meta ? meta["x-wp-totalpages"] : 0;
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    const ***REMOVED*** = setTimeout(() => {
+      onSearch(searchTerm);
+    }, 300);
+    return () => clearTimeout(***REMOVED***);
+  }, [searchTerm]);
+
+  const enhancedResultRenderer = (props) => (
+    <***REMOVED*** {...props} searchTerm={searchTerm} />
+  );
 
   return (
-    <input
+    <***REMOVED***
+      value={searchTerm}
+      loading={loading}
       placeholder={intl.formatMessage({
         id: "search.placeholder",
         ***REMOVED***: "Search...",
       })}
-      type={"text"}
-      className={"input search"}
-      name={"search"}
-      onChange={(e) => {
-        onSearch(e.target.value);
+      ***REMOVED***={(e, data) => null}
+      total={total}
+      perPage={perPage}
+      totalPages={totalPages}
+      ***REMOVED***={(a, b) => {
+        setSearchTerm(b.value);
       }}
+      ***REMOVED***={enhancedResultRenderer} // Use wrapper to pass searchTerm
+      results={results}
+      showNoResults={false}
+      intl={intl}
     />
   );
 };
 
-const ***REMOVED*** = ({ results, meta, perPage, intl }) => {
-  const total = meta ? meta["x-wp-total"] : 0;
-  const totalPages = meta ? meta["x-wp-totalpages"] : 0;
-
-  useEffect(() => {
-    const searchWords = document.querySelector(".input.search").value;
-    ***REMOVED***(searchWords);
-  }, [results]);
-
-  return (
-    <div id="float-results-container">
-      <span className="float-results-header">
-        {intl.formatMessage(
-          {
-            id: "search.results.summary",
-            ***REMOVED***: "{count} of {total} Results",
-          },
-          { count: total < perPage ? total : perPage, total: total }
-        )}
-      </span>
-      {results.map((r) => (
-        <***REMOVED*** {...r} />
-      ))}
-    </div>
-  );
-};
-
+// Main ***REMOVED***
 const ***REMOVED*** = injectIntl((props) => {
   const { intl, onSetSelected } = props;
   const [query, setQuery] = useState("");
+  const [isSmallScreen, ***REMOVED***] = useState(false); // Track small screen
 
-  const [isSmallScreen, ***REMOVED***] = useState(false); // State to track small screen
   useEffect(() => {
-    // Function to update isSmallScreen state
     const ***REMOVED*** = () => {
       ***REMOVED***(window.innerWidth <= 1365); // Check if width is 1365px or lower
     };
-
-    // Initial check
     ***REMOVED***();
-
-    // Event listener for window resize
     window.***REMOVED***("resize", ***REMOVED***);
-
-    // Cleanup
     return () => window.***REMOVED***("resize", ***REMOVED***);
   }, []);
 
@@ -324,8 +285,9 @@ const ***REMOVED*** = injectIntl((props) => {
         onSearch={setQuery}
         perPage={5}
         {...props}
-      ></SearchControl>
+      />
     );
+
   return (
     <***REMOVED*** search={query} perPage={5} locale={intl.locale}>
       <***REMOVED***>{component}</***REMOVED***>
