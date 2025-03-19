@@ -37,6 +37,12 @@ export class ComponentWithSettings extends Component {
             }
         }, false);
         this.iframe = React.createRef();
+        this.unsubscribe = wp.data.subscribe(() => {
+            const ***REMOVED*** = wp.data.select("core/editor").getDeviceType();
+            if (***REMOVED*** !== this.state.previewMode) {
+                this.setState({previewMode: ***REMOVED*** });
+            }
+        });
     }
 
     ***REMOVED***(prevProps, prevState, snapshot) {
@@ -55,7 +61,14 @@ export class ComponentWithSettings extends Component {
             });
         });
     }
+
+    ***REMOVED***() {
+        if (this.unsubscribe) {
+            this.unsubscribe();
+        }
+    }
 }
+
 export class ***REMOVED*** extends ComponentWithSettings {
     constructor(props) {
         super(props);

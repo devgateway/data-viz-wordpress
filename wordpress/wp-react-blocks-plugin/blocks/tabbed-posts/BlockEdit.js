@@ -14,6 +14,13 @@ class BlockEdit extends ***REMOVED*** {
         super(props);
     }
 
+    ***REMOVED***(prevProps, prevState, snapshot) {
+        const ***REMOVED*** = this.state?.previewMode;
+        if (***REMOVED*** !== prevState.previewMode) {
+            this.props.setAttributes({previewMode: ***REMOVED***});
+        }
+    }
+
     render() {
         const {
             className, isSelected,
@@ -29,14 +36,15 @@ class BlockEdit extends ***REMOVED*** {
                 theme,
                 useScrolls,
                 showIcons,
-                useLabels
+                useLabels,
+                previewMode
             },
         } = this.props;
 
 
 
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-theme=${theme}&data-show-icons=${showIcons}&data-show-labels=${useLabels}&data-use-scrolls=${useScrolls}`
-        const divStyles = {height: height + 'px', width: '100%'}
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-theme=${theme}&data-show-icons=${showIcons}&data-show-labels=${useLabels}&data-use-scrolls=${useScrolls}&data-preview-mode=${previewMode}`
+        const divStyles = {height: `${height}px`, width: '100%'}
         return (
             <div>
                 <***REMOVED***>
