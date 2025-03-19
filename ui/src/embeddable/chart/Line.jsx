@@ -107,7 +107,7 @@ const Chart = ({
   const ***REMOVED*** = JSON.parse(***REMOVED***(***REMOVED***));
   const isMobileConfigEnabled = ***REMOVED*** && (***REMOVED***?.***REMOVED*** ?? false);
   const ***REMOVED*** = isMobileConfigEnabled && (previewMode !== 'Desktop');
-  const isNotEditingAndIsMobileCustomizationEnabled = !editing && isMobileCustomizationEnabled;
+  const isNotEditingAndIsMobileCustomizationEnabled = !editing && isMobileConfigEnabled;
   const [bottomSpacing, ***REMOVED***] = useState(50);
   const [newMarginTop, ***REMOVED***] = useState(marginTop);
   const [wrapCount, setWrapCount] = useState(0);
