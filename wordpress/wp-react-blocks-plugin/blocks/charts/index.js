@@ -571,6 +571,10 @@ import {Chart} from '../icons/index.js'
             ***REMOVED***: {
                 type: 'Numeric',
                 default: -12
+            },
+            previewMode: {
+                type: "string",
+                default: "Desktop"
             }
         },
         edit: BlockEdit,

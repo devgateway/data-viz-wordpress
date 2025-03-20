@@ -30,6 +30,7 @@ export interface ***REMOVED*** {
     "data-color": string,
     "data-read-more-label": string,
     "data-use-scrolls": string,
+    "data-preview-mode": string,
     editing: boolean,
     parent: number,
     unique: number,
@@ -59,7 +60,7 @@ const FeaturedPost: React.FC<***REMOVED***> = ({ post, onClick, active, moreLabe
     const media = post['_embedded'] ? post['_embedded']["wp:featuredmedia"] : null;
 
     return (
-        <div className="cover" style={{ "***REMOVED***": 'url(' + (media ? media[0].source_url : '') + ')' }}>
+        <div className="cover" style={{ "***REMOVED***": `url(${media ? media[0].source_url : ''})` }}>
             <PostIntro post={post} />
             {!active ?
                 <Label onClick={onClick}><Icon name='search' size="large" /> {moreLabel}</Label> :
@@ -126,7 +127,7 @@ const FeaturedTabs: React.FC<***REMOVED***> = ({ posts, width, height, color, mo
         <Container fluid={true} className="featured tabs" style={{ minHeight: `${height}px` }}>
             {/*  @ts-expect-error */}
             <Grid stackable columns={active != null ? 1 : posts?.length} className="desktop">
-                {posts && posts.map((post, i) => (
+                {posts?.map((post, i) => (
                     <React.Fragment key={post.slug}>
                         <Grid.Column
                             style={active == null ? { display: 'block', visibility: 'visible', ***REMOVED***: arrayColors[i] } : { display: 'none', visibility: 'hidden' }}
@@ -141,7 +142,7 @@ const FeaturedTabs: React.FC<***REMOVED***> = ({ posts, width, height, color, mo
                             style={active != post.slug ? { display: 'none', visibility: 'hidden' } : { display: 'block', visibility: 'visible' }}
                         >
                             <Segment style={{ "***REMOVED***": arrayColors[i] }}>
-                                {post.meta_fields && post.meta_fields.icon &&
+                                {post.meta_fields?.icon &&
                                     <MediaProvider id={post.meta_fields ? post.meta_fields.icon[0] : null}>
                                         <MediaConsumer>
                                             <PostIcon />
@@ -245,7 +246,7 @@ const ***REMOVED***: React.FC<AccordionContentProps> = ({ posts, activeItem, set
     return (
         <Accordion fluid styled>
             {posts.map((post, index) => {
-                const iconUrl = post.meta_fields && post.meta_fields.icon ? post.meta_fields.icon[0] : null;
+                const iconUrl = post.meta_fields?.icon ? post.meta_fields.icon[0] : null;
 
                 return (
                     <React.Fragment key={post.id}>
@@ -293,6 +294,7 @@ const Wrapper: React.FC<***REMOVED***> = (props) => {
         "data-color": color,
         "data-use-scrolls": useScrolls,
         "data-read-more-label": moreLabel = "READ More",
+        "data-preview-mode": previewMode = "Desktop",
         editing,
         parent,
         unique
@@ -304,6 +306,8 @@ const Wrapper: React.FC<***REMOVED***> = (props) => {
 
     // Determine screen width and conditionally render components
     const isMobile = deviceWidth <= 1250;
+    const ***REMOVED*** = previewMode !== 'Desktop' && editing;
+    const ***REMOVED*** = isMobile && !editing;
 
     return (
         <Container
@@ -320,7 +324,7 @@ const Wrapper: React.FC<***REMOVED***> = (props) => {
                 perPage={items}
             >
                 <PostConsumer>
-                    {isMobile ? (
+                    {(***REMOVED*** || ***REMOVED***) ? (
                         <***REMOVED***
                             posts={items}
                             activeItem={items?.[0]?.slug}
