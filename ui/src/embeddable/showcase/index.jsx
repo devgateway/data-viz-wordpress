@@ -110,7 +110,7 @@ const ***REMOVED*** = ({options, placeholder, name, required, ***REMOVED***, ico
         }
     }));
 
-    return <Dropdown
+    return <Form.Dropdown
         value={value}
 
         error={error && ***REMOVED***}
@@ -119,7 +119,6 @@ const ***REMOVED*** = ({options, placeholder, name, required, ***REMOVED***, ico
             setValue(value.value)
 
         }}
-        fluid
         multiple={false}
         search
         selection
