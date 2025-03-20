@@ -5,7 +5,6 @@ import { MediaConsumer, MediaProvider, PageConsumer, PageProvider, PostContent }
 
 import { injectIntl } from "react-intl";
 import ***REMOVED*** from './***REMOVED***'
-import Visibility from 'semantic-ui-react/dist/commonjs/behaviors/Visibility';
 
 const ***REMOVED*** = function (str: string) {
     if (str) {
