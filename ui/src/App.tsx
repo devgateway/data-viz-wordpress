@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux'
-import { Route, Routes, BrowserRouter, Navigate, useLocation, useParams, ***REMOVED***, createRoutesFromElements, ***REMOVED*** } from 'react-router-dom';
+import { Route, Routes, Navigate, useLocation, useParams, ***REMOVED***, createRoutesFromElements, ***REMOVED*** } from 'react-router-dom';
 import { store } from './redux/store'
 import messages_en from "./translations/en.json";
 import messages_fr from "./translations/fr.json";
 import messages_am from './translations/af.json';
 import { updateIntl } from '@/lib/react-intl-redux'
-import { injectIntl, IntlProvider, useIntl } from "react-intl";
+import { injectIntl, IntlProvider } from "react-intl";
 import ***REMOVED*** from './layout'
 import { getComponentByNameIgnoreCase } from "./embeddable";
 import Helmet from './Helmet'
@@ -65,7 +65,7 @@ const PreviewComponentParameterParser = () => {
         if (window.parent) {
             window.parent.postMessage({ type: "***REMOVED***", value: true }, "*")
         }
-        if(window.top) {
+        if (window.top) {
             window.top.postMessage({ type: "***REMOVED***", value: true }, "*")
         }
         return () => {
@@ -93,7 +93,63 @@ const InjectTitle = injectIntl((props) => {
     document.title = props.settings.description
     console.log(props)
     return <></>
-})
+});
+
+
+const TrackedRoutes = withTracker(({ children, locale }: { children: any, locale: string }) => {
+    return (
+        <>
+            <ScrollToTop />
+            <***REMOVED***>
+                <InjectTitle />
+            </***REMOVED***>
+            <Routes>
+                {/* <Route path="/" element={<Outlet />} /> */}
+                {
+                    //Category Route
+                }
+                <Route path="/category/:slug/" element={
+                    <***REMOVED***>
+                        <Category />
+                    </***REMOVED***>
+                }>
+                </Route>
+                {
+                    //default route (home)
+                }
+
+                <Route path="/" element={(
+                    <PageProvider
+                        slug={"home"}
+                        locale={locale}
+                        store={"home"}>
+                        <PageConsumer>
+                            <***REMOVED*** locale={locale}>
+                                <PageConsumer>
+                                    <Page />
+                                    <Helmet locale={locale} />
+                                </PageConsumer>
+                            </***REMOVED***>
+                        </PageConsumer>
+                    </PageProvider>
+                )}>
+                </Route>
+                <Route path="embeddable/:name" element={
+                    <***REMOVED***>
+                        <PreviewComponentParameterParser />
+                    </***REMOVED***>}>
+                </Route>
+
+                <Route path={"preview/page/:id"} element={<***REMOVED*** />} />
+                <Route path={"preview/:type/:id"} element={<***REMOVED*** />} />
+                <Route path=":slug" element={<SlugContainer />} />
+                <Route path=":parent/:slug" element={<SlugContainer />} />
+                <Route path=":year/:month/:day/:slug" element={<***REMOVED*** />} />
+                <Route path=":parent/:year/:month/:day/:slug" element={<***REMOVED*** />} />
+            </Routes>
+        </>
+    )
+});
 
 const IntlRoutes = () => {
     const pathParams = useParams();
@@ -137,62 +193,13 @@ const IntlRoutes = () => {
         return <Navigate to={defaultLocale}></Navigate>
     }
 
-    console.log("locale", locale)
-
     return (
         <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
             <***REMOVED*** getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
                 <***REMOVED*** locale={locale} changeUUID={customize_changeset_uuid}>
-                    <ScrollToTop />
                     <***REMOVED***>
-                        <***REMOVED***>
-                            <InjectTitle />
-                        </***REMOVED***>
+                        <TrackedRoutes locale={locale} />
                     </***REMOVED***>
-                    <Routes>
-                        {/* <Route path="/" element={<Outlet />} /> */}
-                        {
-                            //Category Route
-                        }
-                        <Route path="/category/:slug/" element={
-                            <***REMOVED***>
-                                <Category />
-                            </***REMOVED***>
-                        }>
-                        </Route>
-                        {
-                            //default route (home)
-                        }
-
-                        <Route path="/" element={(
-                            <PageProvider
-                                slug={"home"}
-                                locale={locale}
-                                store={"home"}>
-                                <PageConsumer>
-                                    <***REMOVED*** locale={locale}>
-                                        <PageConsumer>
-                                            <Page />
-                                            <Helmet locale={locale} />
-                                        </PageConsumer>
-                                    </***REMOVED***>
-                                </PageConsumer>
-                            </PageProvider>
-                        )}>
-                        </Route>
-                        <Route path="embeddable/:name" element={
-                            <***REMOVED***>
-                                <PreviewComponentParameterParser />
-                            </***REMOVED***>}>
-                        </Route>
-
-                        <Route path={"preview/page/:id"} element={<***REMOVED*** />} />
-                        <Route path={"preview/:type/:id"} element={<***REMOVED*** />} />
-                        <Route path=":slug" element={<SlugContainer />} />
-                        <Route path=":parent/:slug" element={<SlugContainer />} />
-                        <Route path=":year/:month/:day/:slug" element={<***REMOVED*** />} />
-                        <Route path=":parent/:year/:month/:day/:slug" element={<***REMOVED*** />} />
-                    </Routes>
                 </***REMOVED***>
             </***REMOVED***>
         </IntlProvider>
@@ -200,16 +207,11 @@ const IntlRoutes = () => {
 };
 
 
-
-// TODO: Return Tracker
-const ***REMOVED*** = withTracker(IntlRoutes);
-// const ***REMOVED*** = IntlRoutes;
-
 const router = ***REMOVED***(
     createRoutesFromElements(
         <Route>
-            <Route path="/:lan/*" element={<***REMOVED*** />} />
-            <Route path={"/"} element={<***REMOVED*** />} />
+            <Route path="/:lan/*" element={<IntlRoutes />} />
+            <Route path={"/"} element={<IntlRoutes />} />
         </Route>
     )
 )
