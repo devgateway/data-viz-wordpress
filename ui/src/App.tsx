@@ -95,62 +95,6 @@ const InjectTitle = injectIntl((props) => {
     return <></>
 });
 
-
-const TrackedRoutes = withTracker(({ children, locale }: { children: any, locale: string }) => {
-    return (
-        <>
-            <ScrollToTop />
-            <***REMOVED***>
-                <InjectTitle />
-            </***REMOVED***>
-            <Routes>
-                {/* <Route path="/" element={<Outlet />} /> */}
-                {
-                    //Category Route
-                }
-                <Route path="/category/:slug/" element={
-                    <***REMOVED***>
-                        <Category />
-                    </***REMOVED***>
-                }>
-                </Route>
-                {
-                    //default route (home)
-                }
-
-                <Route path="/" element={(
-                    <PageProvider
-                        slug={"home"}
-                        locale={locale}
-                        store={"home"}>
-                        <PageConsumer>
-                            <***REMOVED*** locale={locale}>
-                                <PageConsumer>
-                                    <Page />
-                                    <Helmet locale={locale} />
-                                </PageConsumer>
-                            </***REMOVED***>
-                        </PageConsumer>
-                    </PageProvider>
-                )}>
-                </Route>
-                <Route path="embeddable/:name" element={
-                    <***REMOVED***>
-                        <PreviewComponentParameterParser />
-                    </***REMOVED***>}>
-                </Route>
-
-                <Route path={"preview/page/:id"} element={<***REMOVED*** />} />
-                <Route path={"preview/:type/:id"} element={<***REMOVED*** />} />
-                <Route path=":slug" element={<SlugContainer />} />
-                <Route path=":parent/:slug" element={<SlugContainer />} />
-                <Route path=":year/:month/:day/:slug" element={<***REMOVED*** />} />
-                <Route path=":parent/:year/:month/:day/:slug" element={<***REMOVED*** />} />
-            </Routes>
-        </>
-    )
-});
-
 const IntlRoutes = () => {
     const pathParams = useParams();
     const defaultLocale = Config.DEFAULT_LOCALE;
@@ -198,7 +142,54 @@ const IntlRoutes = () => {
             <***REMOVED*** getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
                 <***REMOVED*** locale={locale} changeUUID={customize_changeset_uuid}>
                     <***REMOVED***>
-                        <TrackedRoutes locale={locale} />
+                        <ScrollToTop />
+                        <***REMOVED***>
+                            <InjectTitle />
+                        </***REMOVED***>
+                        <Routes>
+                            {/* <Route path="/" element={<Outlet />} /> */}
+                            {
+                                //Category Route
+                            }
+                            <Route path="/category/:slug/" element={
+                                <***REMOVED***>
+                                    <Category />
+                                </***REMOVED***>
+                            }>
+                            </Route>
+                            {
+                                //default route (home)
+                            }
+
+                            <Route path="/" element={(
+                                <PageProvider
+                                    slug={"home"}
+                                    locale={locale}
+                                    store={"home"}>
+                                    <PageConsumer>
+                                        <***REMOVED*** locale={locale}>
+                                            <PageConsumer>
+                                                <Page />
+                                                <Helmet locale={locale} />
+                                            </PageConsumer>
+                                        </***REMOVED***>
+                                    </PageConsumer>
+                                </PageProvider>
+                            )}>
+                            </Route>
+                            <Route path="embeddable/:name" element={
+                                <***REMOVED***>
+                                    <PreviewComponentParameterParser />
+                                </***REMOVED***>}>
+                            </Route>
+
+                            <Route path={"preview/page/:id"} element={<***REMOVED*** />} />
+                            <Route path={"preview/:type/:id"} element={<***REMOVED*** />} />
+                            <Route path=":slug" element={<SlugContainer />} />
+                            <Route path=":parent/:slug" element={<SlugContainer />} />
+                            <Route path=":year/:month/:day/:slug" element={<***REMOVED*** />} />
+                            <Route path=":parent/:year/:month/:day/:slug" element={<***REMOVED*** />} />
+                        </Routes>
                     </***REMOVED***>
                 </***REMOVED***>
             </***REMOVED***>
@@ -206,12 +197,14 @@ const IntlRoutes = () => {
     );
 };
 
+const TrackedRoutes = withTracker(IntlRoutes);
+
 
 const router = ***REMOVED***(
     createRoutesFromElements(
         <Route>
-            <Route path="/:lan/*" element={<IntlRoutes />} />
-            <Route path={"/"} element={<IntlRoutes />} />
+            <Route path="/:lan/*" element={<TrackedRoutes />} />
+            <Route path={"/"} element={<TrackedRoutes />} />
         </Route>
     )
 )
