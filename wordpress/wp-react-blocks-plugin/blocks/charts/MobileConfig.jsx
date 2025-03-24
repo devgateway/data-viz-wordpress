@@ -342,6 +342,8 @@ useEffect(() => {
         ***REMOVED***(allMeasures, measures, app);
         const ***REMOVED*** = getSelectedItemsForApp(measures, app);
         labels = _.isEmpty(***REMOVED***) ? [] : getSelectedLabelsForApp(***REMOVED***);
+      } else {
+        labels = [];
       }
     }
   }
