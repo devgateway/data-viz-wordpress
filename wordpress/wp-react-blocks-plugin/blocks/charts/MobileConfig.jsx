@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   ***REMOVED***,
   PanelBody,
@@ -6,11 +7,13 @@ import {
   RangeControl,
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
 import {
   ***REMOVED***,
-  getSelectedLabelsForApp,
   ***REMOVED***,
+  getSelectedItemsForApp,
+  getSelectedLabelsForApp,
+  ***REMOVED***
 } from "../commons/***REMOVED***";
 
 const MarginSection = ({
@@ -295,7 +298,12 @@ const MobileConfig = (props) => {
       ***REMOVED***,
       ***REMOVED***,
     },
+    allMeasures,
+    allCategories,
+    allDimensions,
   } = props;
+
+  const [xAxisLabels, ***REMOVED***] = useState([]);
 
   useEffect(() => {
     if (!***REMOVED***.yAxisIntervalUserModified) {
@@ -316,47 +324,28 @@ const MobileConfig = (props) => {
     }
   }, [***REMOVED***, ***REMOVED***]);
 
-  let xAxisLabels = ***REMOVED***(csv);
-  if (app !== "csv") {
+useEffect(() => {
+  let labels = [];
+  const categoryKey = `_categories_${app}`;
+  if (app === "csv") {
+    labels = ***REMOVED***(csv);
+  } else {
     if (dimension1 !== "none") {
-      const ***REMOVED*** = JSON.parse(
-        ***REMOVED***.getItem(`categories_${app}`)
-      );
-      const categories =
-        ***REMOVED*** ??
-        fetch(`/api/${app}/categories`)
-          .then((response) => response.json())
-          .then((data) => ***REMOVED***(data));
-      xAxisLabels =
-        categories
-          .filter(
-            (category) =>
-              category.type?.toLowerCase() === dimension1?.toLowerCase()
-          )[0]
-          ?.items?.map((item) => item.value) ??
-        categories
-          .filter((category) =>
-            dimension1?.toLowerCase().includes(category?.type?.toLowerCase())
-          )[0]
-          ?.items?.map((item) => item.value);
+      const dimensionKey = `_dimensions_${app}`;
+      const dimensions = ***REMOVED***(dimensionKey, allDimensions, true);
+      const categories = ***REMOVED***(categoryKey, allCategories, true);
+      const dimType = dimensions.filter((dim) => dim.value === dimension1)?.[0]?.type;
+      const ***REMOVED*** = categories.filter((a) => a.type === dimType);
+      labels = ***REMOVED***[0]?.items?.map((item) => item.value) || [];
     } else {
-      const ***REMOVED*** = JSON.parse(
-        ***REMOVED***.getItem(`measures_${app}`)
-      );
-      // if measures are not present in session storage, fetch them from the API
-      if (!***REMOVED***) {
-        fetch(`/api/${app}/measures`)
-          .then((response) => response.json())
-          .then((data) => {
-            ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(data));
-            ***REMOVED***(data, measures, app);
-          });
-      } else {
-        ***REMOVED***(***REMOVED***, measures, app);
-      }
-      xAxisLabels = getSelectedLabelsForApp(measures, app);
+      ***REMOVED***(allMeasures, measures, app);
+      const ***REMOVED*** = getSelectedItemsForApp(measures, app);
+      labels = _.isEmpty(***REMOVED***) ? [] : getSelectedLabelsForApp(***REMOVED***);
     }
   }
+  ***REMOVED***(labels);
+}, [app, dimension1, csv, allDimensions, allCategories, allMeasures, measures]);
+
 
   const ***REMOVED*** = (label, value) => {
     const newObject = Object.assign({}, ***REMOVED***);

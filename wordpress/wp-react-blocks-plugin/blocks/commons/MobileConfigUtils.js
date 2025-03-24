@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { ***REMOVED*** } from "./APIutils";
 
 
@@ -32,8 +33,25 @@ export function transformDataToAppObject(data, appName, ***REMOVED*** = {}) {
   return ***REMOVED***;
 }
 
+export function getSelectedItemsForApp(config, appName) {
+  const appConfig = config[appName];
+  if (!appConfig) return {};
+
+  const ***REMOVED*** = {};
+
+  for (const key in appConfig) {
+    const value = appConfig[key];
+    if (value && typeof value === 'object' && value.selected === true) {
+      ***REMOVED***[key] = value;
+    }
+  }
+
+  return ***REMOVED***;
+}
+
+
 export function getSelectedLabelsForApp(data, appName) {
-  const appData = data[appName];
+  const appData = data;
   if (!appData) {
     return [];
   }
@@ -58,3 +76,19 @@ export function ***REMOVED***(data, measures, app) {
     }
   });
 };
+
+
+export function ***REMOVED***(key, fallback, overwrite=false) {
+  const fallbackValue = fallback || [];
+  if (overwrite && !_.isEmpty(fallbackValue)) {
+    ***REMOVED***
+      .setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  const stored = JSON.parse(***REMOVED***.getItem(key));
+  if (!stored) {
+    ***REMOVED***.setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  return stored;
+}
