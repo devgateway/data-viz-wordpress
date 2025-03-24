@@ -338,9 +338,11 @@ useEffect(() => {
       const ***REMOVED*** = categories.filter((a) => a.type === dimType);
       labels = ***REMOVED***[0]?.items?.map((item) => item.value) || [];
     } else {
-      ***REMOVED***(allMeasures, measures, app);
-      const ***REMOVED*** = getSelectedItemsForApp(measures, app);
-      labels = _.isEmpty(***REMOVED***) ? [] : getSelectedLabelsForApp(***REMOVED***);
+      if(allMeasures && measures) {
+        ***REMOVED***(allMeasures, measures, app);
+        const ***REMOVED*** = getSelectedItemsForApp(measures, app);
+        labels = _.isEmpty(***REMOVED***) ? [] : getSelectedLabelsForApp(***REMOVED***);
+      }
     }
   }
   ***REMOVED***(labels);
