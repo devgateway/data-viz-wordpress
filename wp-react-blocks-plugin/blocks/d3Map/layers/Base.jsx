@@ -67,7 +67,7 @@ const Base = (props) => {
 
     const ***REMOVED*** = (atrr, value) => {
 
-        debugger
+
         console.log("change attribute " + atrr + " to " + value)
 
         const newLayer = {...layer}
@@ -320,7 +320,7 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
 
     ***REMOVED***() {
         const {layer: {name, type, file, app, ***REMOVED***}} = this.props
-        debugger;
+
 
         fetch(`/api/registry/eureka/apps`, {
             headers: {
@@ -353,7 +353,7 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
         super.***REMOVED***(prevProps, prevState, snapshot)
         const {layer: {app, ***REMOVED***}} = this.props
         const {layer: {app: prevAPP, ***REMOVED***: prevDvzProxyDatasetId}} = prevProps
-        debugger;
+
         if (app != prevAPP) { //if app changes we shoudl reload metadta
 
 
