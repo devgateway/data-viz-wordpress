@@ -6,11 +6,11 @@ import { Icon } from "semantic-ui-react";
 import { IntlProvider, injectIntl } from "react-intl";
 
 // Utility function to highlight search terms
-const ***REMOVED*** = (text, term) => {
-  if (!term || !text) return text;
-  const regex = new RegExp(`(${term})`, "gi");
-  return text.replace(regex, "<b>$1</b>");
-};
+const ***REMOVED*** = (text, searchTerm) => {
+  if (!searchTerm) return text;
+  const regex = new RegExp(`(${searchTerm})`, 'gi');
+  return text.replace(regex, '<strong>$1</strong>');
+}
 
 // ***REMOVED*** component with highlighting
 const ***REMOVED*** = injectIntl(({
@@ -34,6 +34,13 @@ const ***REMOVED*** = injectIntl(({
     ? utils.replaceLink(parent_link, locale) + `#${slug}`
     : utils.replaceLink(link, locale);
   target = redirect_url ? redirect_url + `#${slug}` : target;
+  
+
+ 
+
+  const boldedTitle = ***REMOVED***(String(title), searchTerm);
+  const boldedExtract = ***REMOVED***(extract, searchTerm);
+
 
   return (
     <div
@@ -57,17 +64,14 @@ const ***REMOVED*** = injectIntl(({
           <h4
             className="search-title"
             dangerouslySetInnerHTML={{
-              __html: ***REMOVED***(title, searchTerm),
+              __html: boldedTitle
             }}
           />
         </div>
         <div
           className="search-content"
           dangerouslySetInnerHTML={{
-            __html: utils.***REMOVED***(
-              ***REMOVED***(extract, searchTerm),
-              locale
-            ),
+            __html:  utils.***REMOVED***(boldedExtract, locale)
           }}
         />
       </div>
@@ -137,7 +141,7 @@ const FloatingSearchController = ({
   meta,
   locale,
   intl,
-  search, // Added search from ***REMOVED***
+  searchTerm, // Added search from ***REMOVED***
 }) => {
   const [***REMOVED***, ***REMOVED***] = useState(false);
   const containerRef = useRef(null);
@@ -195,6 +199,7 @@ const FloatingSearchController = ({
                   results={results}
                   meta={meta}
                   intl={intl}
+                  searchTerm={searchTerm}
                 />
               </div>
               {results && results.length > 0 && (
@@ -204,7 +209,7 @@ const FloatingSearchController = ({
                     meta={meta}
                     perPage={perPage}
                     intl={intl}
-                    searchTerm={search} // Pass search term
+                    searchTerm={searchTerm} // Pass search term
                   />
                 </IntlProvider>
               )}
@@ -252,6 +257,7 @@ const SearchControl = ({ onSearch, perPage, loading, results, meta, intl }) => {
       results={results}
       showNoResults={false}
       intl={intl}
+      searchTerm={searchTerm}
     />
   );
 };
@@ -278,6 +284,7 @@ const ***REMOVED*** = injectIntl((props) => {
         onSearch={setQuery}
         perPage={5}
         {...props}
+        searchTerm={query}
       />
     ) : (
       <SearchControl
