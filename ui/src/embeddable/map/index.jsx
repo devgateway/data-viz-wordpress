@@ -7,12 +7,12 @@ import MapDataFrame from './MapDataFrame';
 import ***REMOVED*** from './***REMOVED***';
 
 const countries = [
-    { label: 'KENYA', value: 'KEN', center: [35.8166634, 0.1], scale: 2000}, 
-    { label: 'Nigeria', value: 'NGA', center: [7.491302, 9.072264], scale: 2000}, 
+    { label: 'KENYA', value: 'KEN', center: [35.8166634, 0.1], scale: 2000},
+    { label: 'Nigeria', value: 'NGA', center: [7.491302, 9.072264], scale: 2000},
     { label: 'South Africa', value: 'ZAF', center: [24.676997, -28.48322], scale: 2000 },
     { label: 'West Africa', value: 'West Africa', center: [-7.293255, 13.905720], scale: 1500 },
     { label: 'Africa', value: 'Africa', center: [13.134227,-11.523088], scale: 550 },
-    { label: 'Ethiopia', value: 'ETH', center: [35.8166634, 1.7], scale: 2000}, 
+    { label: 'Ethiopia', value: 'ETH', center: [35.8166634, 1.7], scale: 2000},
     { label: 'Zambia', value: 'ZMB', center: [26.459455, -14.668135], scale: 2000},
     { label: 'Democratic Republic of the Congo', value: 'DRC', center: [23.174338, -5.837475], scale: 1250},
     { label: 'World', value: 'World', center: [0, 20.050043], scale: 150}
@@ -35,19 +35,19 @@ const MapWrapper = (props) => {
         "data-national-average-label": ***REMOVED*** = 'National Prevalence Avg',
         "data-legend-title": legendTitle = 'Tobacco Prevalence Rate',
         "data-legend-breaks": legendBreaks = '[]',
-        "data-zoom-enabled": zoomEnabled = false, 
+        "data-zoom-enabled": zoomEnabled = false,
         "data-show-legend-labels": ***REMOVED*** = false,
-        "data-map-file": mapFile = 'africa-geojson-tanzania-others-en-v2.json',
+        "data-map-file": mapFile,
         "data-mapping-field": mappingField = 'zone',
         "data-map-label-field": mapLabelField = "admin",
-        "data-has-multiple-measures": ***REMOVED*** = "false",         
-         topoJSONField = "collection",        
-        'data-map-center': mapCenter = 'NGA', //country        
+        "data-has-multiple-measures": ***REMOVED*** = "false",
+         topoJSONField = "collection",
+        'data-map-center': mapCenter = 'NGA', //country
         "data-map-label-show-value": ***REMOVED*** = "false",
         "data-show-tooltip": showTooltip = "true",
         "data-measure-selector-label": ***REMOVED*** = "",
         "data-value-format": valueFormat = "",
-        "data-show-overall-value": ***REMOVED*** = "false",        
+        "data-show-overall-value": ***REMOVED*** = "false",
         "data-auto-generate-breaks": ***REMOVED*** = "false",
         "data-number-of-breaks": ***REMOVED*** = 5,
         "data-scheme": colorScheme = "reds",
@@ -91,7 +91,7 @@ const MapWrapper = (props) => {
         'data-labels-exclusion-list': ***REMOVED*** = "",
         'data-custom-measure-labels': ***REMOVED*** = "{}",
         'data-show-shading-layer-labels': showShadingLayerLabels = "ifUnitHasData",
-    } = props  
+    } = props
 
     const decode = (value) => {
         if (editing) {
@@ -105,7 +105,7 @@ const MapWrapper = (props) => {
             return JSON.parse(decode(value))
         } catch (error) {
             console.error("error parsing value:" + value)
-        } 
+        }
     }
 
     const getBreaks = (legendBreaks) => {
@@ -114,20 +114,20 @@ const MapWrapper = (props) => {
             if (b.min) {
                 b.min =  parseFloat(b.min);
             }
-            
+
             if (b.max) {
                 b.max =  parseFloat(b.max);
-            }    
-    
+            }
+
             b.color = ***REMOVED***(b.color);
-            return b;    
+            return b;
         })
 
         return ***REMOVED***;
     }
 
     const getFilters = (filters) => {
-        const ff = parse(filters)  || []  
+        const ff = parse(filters)  || []
         let params = {};
         if (ff && ff.forEach) {
             ff.forEach(f => {
@@ -155,10 +155,10 @@ const MapWrapper = (props) => {
         l.fontColor = ***REMOVED***(l.fontColor)
         return l
     })
-    
-    const country = countries.find(c => c.value === mapCenter)   
 
-    const ***REMOVED*** = ***REMOVED*** == true || ***REMOVED*** == "true"    
+    const country = countries.find(c => c.value === mapCenter)
+
+    const ***REMOVED*** = ***REMOVED*** == true || ***REMOVED*** == "true"
 
     const levels = [dimension1, dimension2]
     const source = levels.filter(l => l != 'none' && l != null).join('/')
@@ -166,7 +166,7 @@ const MapWrapper = (props) => {
     const mapProps = {
         unique,
         editing,
-        source: '/' + mapFile,
+        source: `/${mapFile}`,
         center: country.center,
         scale: country.scale,
         measures,
@@ -228,12 +228,12 @@ const MapWrapper = (props) => {
         noDataText,
         ***REMOVED***: ***REMOVED***.split(',').map(l => l.trim()),
         showShadingLayerLabels
-    } 
-      
+    }
+
     const measureLabels = parse(***REMOVED***) || {}
-    const DataFrame = app === "csv" ? ***REMOVED*** : MapDataFrame;   
-    const measuresCSV = editing ? (parse(measures) || []).join(',') : measures    
-    return (<DataProvider 
+    const DataFrame = app === "csv" ? ***REMOVED*** : MapDataFrame;
+    const measuresCSV = editing ? (parse(measures) || []).join(',') : measures
+    return (<DataProvider
         params={getFilters(filters)}
         app={app}
         csv={***REMOVED***(csv)}

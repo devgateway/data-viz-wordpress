@@ -82,7 +82,7 @@ import Generic from "../icons";
             },
             mapFile: {
                 type: "String",
-                default: 'africa-geojson-tanzania-others-en-v2.json' 
+                default: ''
             },
             enabledLayers: {
                 type: "Array",
