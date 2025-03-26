@@ -63,7 +63,8 @@ export const Model = {
     ***REMOVED***: 'origin',
     flowOrigin: 'none',
     ***REMOVED***: 'none',
-    ***REMOVED***: ''
+    ***REMOVED***: '',
+    offsetPixels: 10,
 }
 
 
