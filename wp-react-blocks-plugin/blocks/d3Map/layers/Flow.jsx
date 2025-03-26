@@ -239,7 +239,8 @@ export class ***REMOVED*** extends Component {
                 ***REMOVED***,
                 onRemoveLayer,
                 ***REMOVED***,
-                ***REMOVED***
+                ***REMOVED***,
+                offsetPixels
             }
         } = this.props
 
@@ -441,6 +442,19 @@ export class ***REMOVED*** extends Component {
                         value={***REMOVED***}
                         onChange={(value) => {
                             ***REMOVED***("***REMOVED***", value)
+                        }}
+                        step={1}
+                        min={0}
+                        max={100}
+                    />
+
+                </PanelRow>
+                <PanelRow>
+                    <RangeControl
+                        label="Offset Size"
+                        value={offsetPixels}
+                        onChange={(offsetPixels) => {
+                            ***REMOVED***("offsetPixels", offsetPixels)
                         }}
                         step={1}
                         min={0}

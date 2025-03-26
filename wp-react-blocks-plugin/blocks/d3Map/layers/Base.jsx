@@ -337,10 +337,17 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
 
                 this.setState({...this.state, apps})
 
-
+                debugger;
 
                 if (app && app != 'none') {
-                    this.loadMetadata(app, ***REMOVED***);
+                    if (isSupersetAPI(app, apps)) { //if app is superset proxy an additional step is added
+                        this.loadDatasets(app)
+                        if (***REMOVED***) {
+                            this.loadMetadata(app, ***REMOVED***)
+                        }
+                    } else {
+                        this.loadMetadata(app);
+                    }
                 }
 
             })
