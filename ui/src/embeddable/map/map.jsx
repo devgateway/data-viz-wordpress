@@ -1904,7 +1904,7 @@ handleScroll = () => {
     } = this.props;
 
     if(!zoomEnabled) {
-      zoomEnabled = ['mobile', 'tablet', 'midTablet'].includes(***REMOVED***()) ? true: false;
+      zoomEnabled = !!['mobile', 'tablet', 'midTablet'].includes(***REMOVED***());
     }
     const ***REMOVED*** = this.getAvg();
     const filters = this.getFilters();
@@ -1995,7 +1995,7 @@ handleScroll = () => {
 
     return (
       <div className="map component wp-data-viz-map" ref={this.mapContainer}>
-        {this.state.layersLoading && this.noMapSelected()}
+        {this.state.layersLoading && ( editing ? this.noMapSelected(): this.renderLoader())}
         {!this.state.layersLoading && (
           <>
            { !***REMOVED*** && <***REMOVED*** />}
