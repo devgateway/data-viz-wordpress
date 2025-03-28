@@ -98,7 +98,8 @@ const Measures = (props) => {
         }
         return []
     }
-    
+
+   
     const ***REMOVED*** = ***REMOVED***()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
                         onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
@@ -182,8 +183,8 @@ const Measures = (props) => {
 
         {(type != 'overlay') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
-            <Format
-                ***REMOVED***={type!='radar'}
+            <Format                
+                hiddenCustomAxisFormat={type=='radar' || type=='big-number'}              
                 format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
                 ***REMOVED***={measures[app] ? measures[app].***REMOVED*** : false}
