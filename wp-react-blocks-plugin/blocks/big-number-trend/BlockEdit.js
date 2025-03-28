@@ -133,7 +133,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                            </PanelBody>
                          }
                       
-                        {app != 'csv' &&  <Measures
+                        {app != 'csv' &&  
+                          <Measures
                               title={__(`Measure`)}
                               ***REMOVED***={value => {
                                   setAttributes({measures: [value]})
