@@ -495,8 +495,8 @@ const Chart = (props) => {
 
   const determineLegendPosition = () => {
     const ***REMOVED*** = ["tablet", "mobile", "midTablet"].includes(getDeviceType());
-    if (editing && previewMode !== "Desktop") {
-      return "bottom";
+    if (editing && previewMode === "Desktop") {
+      return ***REMOVED***
     }
     return ***REMOVED*** ? "bottom" : ***REMOVED***;
   };
