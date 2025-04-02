@@ -25,7 +25,7 @@ import {Generic} from '../icons/index.js'
             },
             height: {
                 type: 'number',
-                default: 100,
+                default: 120,
             },
             app: {
                 type: 'String',
@@ -74,11 +74,11 @@ import {Generic} from '../icons/index.js'
             },
             label: {
                 type: 'String',
-                default: ""
+                default: "# of animals"
             },           
             textColor: {
                 type: 'string',
-                default: "#a7a9ac",
+                default: "#5a5d68",
             },
             ***REMOVED***: {
                 type: 'Numeric',
