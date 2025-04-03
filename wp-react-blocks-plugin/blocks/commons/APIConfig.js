@@ -37,7 +37,7 @@ const ***REMOVED*** = ({ param, index, options, ***REMOVED*** }) => {
 const ***REMOVED*** = ({ value, index, items, ***REMOVED*** }) => {
   if (items) {
     const sortedItems = items.sort(function (a, b) {
-      if (a.poistion !== undefined && b.position != undefined) {        
+      if (a.position !== undefined && b.position != undefined) {        
         return a.position - b.position;
       }
 
