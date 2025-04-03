@@ -37,12 +37,13 @@ const ***REMOVED*** = ({ param, index, options, ***REMOVED*** }) => {
 const ***REMOVED*** = ({ value, index, items, ***REMOVED*** }) => {
   if (items) {
     const sortedItems = items.sort(function (a, b) {
-      /*
-                var aValue= a.value ? a.value.toLowerCase() : "";
-                var bValue = b.value ? b.value.toLowerCase() : "";
-                return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-            */
-      return a.position - b.position;
+      if (a.poistion !== undefined && b.position != undefined) {        
+        return a.position - b.position;
+      }
+
+      let aValue = a.value ? a.value.toLowerCase() : "";
+      let bValue = b.value ? b.value.toLowerCase() : "";
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
     });
     return sortedItems.map((v) => (
       <PanelRow>
