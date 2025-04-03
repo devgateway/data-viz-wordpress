@@ -5,12 +5,12 @@ import { store } from './redux/store'
 import messages_en from "./translations/en.json";
 import messages_fr from "./translations/fr.json";
 import messages_am from './translations/af.json';
-import { updateIntl } from '@/lib/react-intl-redux'
+import { updateIntl } from '@/lib/react-intl-redux';
 import { injectIntl, IntlProvider } from "react-intl";
 import ***REMOVED*** from './layout'
 import { getComponentByNameIgnoreCase } from "./embeddable";
-import Helmet from './Helmet'
-// import WithTracker from "./withTracker";
+import Helmet from './Helmet';
+
 import {
     ***REMOVED***,
     Category,
@@ -30,6 +30,7 @@ import SlugContainer from './layout/containers/SlugContainer';
 import ***REMOVED*** from './layout/containers/***REMOVED***';
 import withTracker from './withTracker';
 import { Config } from './conf';
+import ***REMOVED*** from './layout/FavIcon';
 
 const messages = {
     'en': messages_en,
@@ -224,6 +225,7 @@ const MainRoutes = () => {
 }
 
 const AppWrapper = () => {
+    ***REMOVED***(Config.REACT_APP_WP_API);
     return (
         <Provider store={store}>
             <MainRoutes />

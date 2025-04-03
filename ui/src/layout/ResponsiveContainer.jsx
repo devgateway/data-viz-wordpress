@@ -15,7 +15,7 @@ const ***REMOVED*** = ({ children, fixed }) => {
         <Container fluid="true">
             <***REMOVED***>
                 <***REMOVED***>
-                    <Header></Header>
+                    <Header />
                 </***REMOVED***>
             </***REMOVED***>
             <Container className="desktop">
@@ -43,7 +43,7 @@ function ***REMOVED*** (props) {
             <***REMOVED*** fixed={fixed}>
                 {children}
             </***REMOVED***>
-            {page && page.template === "noofoter.php" ? "" : <Footer></Footer>}
+            {page && page.template === "noofoter.php" ? "" : <Footer />}
         </div>)
 }
 

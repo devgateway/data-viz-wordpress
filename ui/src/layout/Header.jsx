@@ -313,7 +313,7 @@ const Header = ({ intl, settings }) => {
             if (***REMOVED*** && !isSmallScreen && isMenuVisible) {
                 // Reset menu visibility when switching to mobile view
                 ***REMOVED***(false);
-              
+
             }
 
             ***REMOVED***(***REMOVED***);
