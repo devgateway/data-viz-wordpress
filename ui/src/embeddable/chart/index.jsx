@@ -183,37 +183,47 @@ const Chart = (props) => {
 
   const ***REMOVED*** =  (["Tablet"].includes(previewMode) && editing);
   const ***REMOVED*** =  (["Mobile"].includes(previewMode) && editing);
+  const ***REMOVED*** = (["Desktop"].includes(previewMode) && editing);
 
   const ***REMOVED*** = isMobileConfigEnabled && previewMode !== "Desktop";
   const isNotEditingAndIsMobileOrTablet = isMobileConfigEnabled && !editing;
 
   const ***REMOVED*** = () => {
-    if (
-      ***REMOVED***
-    ) {
-      return isMobileConfigEnabled
-        ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
-        : tickRotation;
+    const ***REMOVED*** = window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches;
+    const ***REMOVED*** = window.matchMedia("(max-width: 767px)").matches;
+
+    switch (true) {
+      case ***REMOVED***:
+        return tickRotation;
+
+      case ***REMOVED***:
+        return isMobileConfigEnabled
+          ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
+          : tickRotation;
+
+      case ***REMOVED***:
+        return isMobileConfigEnabled
+          ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
+          : tickRotation;
+
+      case ***REMOVED***:
+        return isMobileConfigEnabled
+          ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
+          : tickRotation;
+
+      case ***REMOVED***:
+        return isMobileConfigEnabled
+          ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
+          : tickRotation;
+
+      default:
+        return tickRotation;
     }
-    if (***REMOVED***) {
-      return isMobileConfigEnabled && previewMode !== "Desktop"
-        ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
-        : tickRotation;
-    }
-    if(window.matchMedia("(min-width: 768px) and (max-width: 1250px)").matches) {
-      return isMobileConfigEnabled
-        ? ***REMOVED***?.tabletXAxisTextRotation ?? tickRotation
-        : tickRotation;
-    }
-    if(window.matchMedia("(max-width: 480px)").matches) {
-      return isMobileConfigEnabled && previewMode !== "Desktop"
-        ? ***REMOVED***?.mobileXAxisTextRotation ?? tickRotation
-        : tickRotation;
-    }
-    return tickRotation;
   };
 
-  const [***REMOVED***, ***REMOVED***] = useState(***REMOVED***());
+  const _tickRotation = ***REMOVED***();
+
+  const [***REMOVED***, ***REMOVED***] = useState(_tickRotation);
 
   const locale = props.intl.locale;
   const ref = useRef(null);
@@ -475,20 +485,20 @@ const Chart = (props) => {
 
   useEffect(() => {
     const ***REMOVED*** = () => {
-      const rotation = ***REMOVED***();
       ***REMOVED***(window.innerWidth <= 1250);
+      const rotation = ***REMOVED***();
       ***REMOVED***(rotation);
     };
     window.***REMOVED***("resize", ***REMOVED***);
-    if ((editing && previewMode !== "Desktop") || !editing) {
-      ***REMOVED***(***REMOVED***());
-    }
+    ***REMOVED***(***REMOVED***());
     return () => {
       window.***REMOVED***("resize", ***REMOVED***);
     };
   }, [
+    editing,
     previewMode,
     isMobileConfigEnabled,
+    tickRotation,
     ***REMOVED***?.tabletXAxisTextRotation,
     ***REMOVED***?.mobileXAxisTextRotation,
   ]);
