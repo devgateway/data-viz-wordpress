@@ -402,7 +402,6 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                 .then(data => {
 
                     this.setState({
-                        ...this.state,
                         dimensions: [{"label": __("None"), "value": "none"}, ...***REMOVED***(data)]
                     })
                 })
@@ -421,7 +420,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                 .then(data => {
 
                     const options = data.map(f => ({...f, value: f.param}))
-                    this.setState({...this.state, filters: options})
+                    this.setState({filters: options})
 
                 })
                 .catch(function (response) {
@@ -437,7 +436,8 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                 })
                 .then(data => {
                     ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(***REMOVED***(data)))
-                    this.setState({...this.state, measures: ***REMOVED***(data)})
+                    debugger
+                    this.setState({measures: ***REMOVED***(data)})
                 })
                 .catch(function (response) {
                     console.log("Error when loading measures")
@@ -452,7 +452,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                 })
                 .then(data => {
                         ***REMOVED***.setItem(`categories_${app}`, JSON.stringify(data))
-                        this.setState({...this.state, categories: ***REMOVED***(data)})
+                        this.setState({categories: ***REMOVED***(data)})
                     }
                 )
                 .catch(function (response) {
