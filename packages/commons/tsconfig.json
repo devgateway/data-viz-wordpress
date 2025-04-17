@@ -1,0 +1,38 @@
+{
+    "***REMOVED***": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "skipLibCheck": true,
+        "outDir": "./build",
+        "declaration": true,
+        /* Bundler mode */
+        "***REMOVED***": "bundler",
+        // "allowImportingTsExtensions": true,
+        "***REMOVED***": true,
+        "***REMOVED***": true,
+        "noEmit": false,
+        "jsx": "react",
+        /* Linting */
+        "strict": true,
+        // "***REMOVED***": true,
+        // "***REMOVED***": true,
+        "noFallthroughCasesInSwitch": true,
+        "allowJs": true,
+        "noImplicitAny": false,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        }
+    },
+    "include": [
+        "src"
+    ]
+}
