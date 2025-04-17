@@ -1,0 +1,18 @@
+{
+  "name": "data-viz-wordpress",
+  "version": "1.0.0",
+  "description": "Wordpress Repository for Data Viz that contains plugins and blocks for the Data Viz plugin",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm --filter data-viz-wordpress-commons build"
+  },
+  "keywords": [
+    "wordpress",
+    "data-viz",
+    "data-viz-wordpress",
+    "dg-data-viz"
+  ],
+  "author": "Dev Gateway",
+  "license": "MIT",
+  "packageManager": "pnpm@10.7.1"
+}
