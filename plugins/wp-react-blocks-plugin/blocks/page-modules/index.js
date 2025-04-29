@@ -7,12 +7,17 @@ import {ComponentWithSettings} from "../commons";
 
 
 const SaveComponent = (props) => {
-    const {navLabel, topTopLabel} = props.attributes;
-    return (<div className={"viz-component"} data-component={"pageModules"} data-nav-label={navLabel}
-                 data-to-top-label={topTopLabel}>
-        </div>
-    );
-}
+  const { navLabel, topTopLabel, previewMode } = props.attributes;
+  return (
+    <div
+      className={"viz-component"}
+      data-component={"pageModules"}
+      data-nav-label={navLabel}
+      data-to-top-label={topTopLabel}
+      data-preview-mode={previewMode}
+    />
+  );
+};
 
 class Edit extends ComponentWithSettings {
     constructor(props) {
@@ -23,14 +28,26 @@ class Edit extends ComponentWithSettings {
         super.***REMOVED***();
     }
 
-    render() {
+    ***REMOVED***() {
+        if (this.unsubscribe) {
+            this.unsubscribe()
+        }
+    }
 
-        const {attributes: {width, height, navLabel, topTopLabel}, ***REMOVED***, setAttributes} = this.props;
+    ***REMOVED***(prevProps, prevState, snapshot) {
+        const ***REMOVED*** = this.state?.previewMode ?? 'Desktop';
+        if (***REMOVED*** !== prevState.previewMode) {
+            this.props.setAttributes({previewMode: ***REMOVED***})
+        }
+    }
+
+    render() {
+        const {attributes: {width, height, navLabel, topTopLabel, previewMode}, ***REMOVED***, setAttributes} = this.props;
         const urlParams = new ***REMOVED***(window.location.search);
         const parent = urlParams.get('post');
-        const queryString = `editing=true&parent=${parent}&data-nav-label=${navLabel}&data-to-top-label=${topTopLabel}`;
+        const queryString = `editing=true&parent=${parent}&data-nav-label=${navLabel}&data-to-top-label=${topTopLabel}&data-preview-mode=${previewMode}`;
         const divClass = ""
-        const divStyles = {height: height + 'px', width: '100%'}
+        const divStyles = {height: `${height}px`, width: '100%'}
 
         return (
             <div>
@@ -101,7 +118,7 @@ class Edit extends ComponentWithSettings {
     }
 }
 
-***REMOVED***(process.env.BLOCKS_NS + '/page-modules',
+***REMOVED***(`${process.env.BLOCKS_NS}/page-modules`,
     {
         title: __('Page Modules',"dg"),
         icon: Generic,
@@ -126,6 +143,10 @@ class Edit extends ComponentWithSettings {
             navLabel: {
                 type: 'String',
                 default: "Sections",
+            },
+            previewMode: {
+                type: 'string',
+                default: 'Desktop'
             }
         }
         ,

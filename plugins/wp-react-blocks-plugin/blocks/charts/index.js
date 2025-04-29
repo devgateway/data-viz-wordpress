@@ -497,10 +497,11 @@ import {Chart} from '../icons/index.js'
                         yAxis: {}
                     },
                     xAxisDisabled: false,
-                    tickRotation: 0,
-                    ***REMOVED***: 0,
+                    mobileXAxisTextRotation: 0,
+                    tabletXAxisTextRotation: 0,
+                    ***REMOVED***: 10,
                     xAxisIntervalUserModified: false,
-                    ***REMOVED***: 0,
+                    ***REMOVED***: 10,
                     yAxisIntervalUserModified: false,
                     ***REMOVED***: false,
                     marginLeft: 50,
@@ -516,6 +517,8 @@ import {Chart} from '../icons/index.js'
                     ***REMOVED***: 25,
                     tabletYAxisLineHeight: 12,
                     ***REMOVED***: 25,
+                    mobileXAxisTextRotationModified: false,
+                    tabletXAxisTextRotationModified: false,
                 }
             },
             reverseLegend: {
@@ -574,11 +577,15 @@ import {Chart} from '../icons/index.js'
             ***REMOVED***: {
                 type: 'Numeric',
                 default: -12
-            }, 
+            },
             ***REMOVED***: {
                 type: 'Boolean',
                 default: false
-            }        
+            },
+            previewMode: {
+                type: "string",
+                default: "Desktop"
+            }
         },
         edit: BlockEdit,
         save: BlockSave,
