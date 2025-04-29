@@ -49,6 +49,10 @@ import {Generic} from '../icons'
             panelStatus: {
                 type: "Object",
                 default: {}
+            },
+            previewMode: {
+                type: "string",
+                default: "Desktop"
             }
         },
         edit: BlockEdit,

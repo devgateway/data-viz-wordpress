@@ -120,7 +120,8 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             ***REMOVED***,
             ***REMOVED***,
-            ***REMOVED***
+            ***REMOVED***,
+            previewMode
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -249,8 +250,9 @@ const SaveComponent = (props) => {
              data-radar-dot-size={radarDotSize}
              data-radar-enable-dot-label={***REMOVED***}
              data-radar-dot-label-offset={***REMOVED***}
-             data-mobile-customization={***REMOVED***(JSON.stringify(***REMOVED***))}  
-             data-show-percentage={***REMOVED***}           
+             data-show-percentage={***REMOVED***}
+             data-preview-mode={previewMode}
+             data-mobile-customization={***REMOVED***(JSON.stringify(***REMOVED***))}
              >
             <InnerBlocks.Content/>
         </div>
