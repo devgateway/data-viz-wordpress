@@ -1,3 +1,4 @@
+import React from 'react';
 import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {
     Button,
@@ -11,13 +12,25 @@ import {
     TextControl, ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters} from '../commons'
+import { BlockEditWithFilters, BlockEditWithFiltersProps, BlockEditWithFiltersState} from '@dg-data-viz/wordpress-commons';
 import {MediaUpload} from "@wordpress/media-utils";
+import apiFetch from '@wordpress/api-fetch';
 
+interface AgreeAndDownloadProps extends BlockEditWithFiltersProps {
+    text: string;
+    agree: string;
+    cancel: string;
+    download_style: string;
+    media: string;
+}
 
-class BlockEdit extends BlockEditWithFilters {
+interface AgreeAndDownloadState extends BlockEditWithFiltersState {
+    posts: any[];
+}
 
-    constructor(props) {
+class BlockEdit extends BlockEditWithFilters<AgreeAndDownloadProps, AgreeAndDownloadState> {
+
+    constructor(props: AgreeAndDownloadProps) {
         super(props);
         this.getPosts = this.getPosts.bind(this)
     }
@@ -26,14 +39,14 @@ class BlockEdit extends BlockEditWithFilters {
 
         const {attributes: {type, taxonomy, categories}} = this.props
 
-        wp.apiFetch({
+        apiFetch({
             path: `/wp/v2/${type}?per_page=10&${taxonomy != 'none' && categories && categories.length > 0 ? taxonomy + '=' + categories.join(',') : ''}=${categories}`,
         }).then(data => {
 
             const types = data
             this.setState({
                 ...this.state,
-                posts: data
+                posts: data as any[]
 
             });
         });
@@ -71,9 +84,6 @@ class BlockEdit extends BlockEditWithFilters {
 
     render() {
         const {
-            className,
-            isSelected,
-            toggleSelection,
             setAttributes,
             attributes: {
                 type,

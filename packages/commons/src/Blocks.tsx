@@ -114,9 +114,9 @@ export interface BlockEditWithFiltersState extends ComponentWithSettingsState {
     loading: boolean;
 }
 
-export class BlockEditWithFilters extends ComponentWithSettings<BlockEditWithFiltersProps, BlockEditWithFiltersState> {
+export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEditWithFiltersProps, S extends BlockEditWithFiltersState = BlockEditWithFiltersState> extends ComponentWithSettings<T, S> {
 
-    constructor(props: BlockEditWithFiltersProps) {
+    constructor(props: T) {
         super(props);
         this.state = {
             react_ui_url: '',
@@ -128,11 +128,11 @@ export class BlockEditWithFilters extends ComponentWithSettings<BlockEditWithFil
             types: null,
             taxonomies: null,
             loading: true
-        }
-        this.onTypeChanged = this.onTypeChanged.bind(this)
-        this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this)
-        this.getTaxonomyValues = this.getTaxonomyValues.bind(this)
-        this.onCategoryChanged = this.onCategoryChanged.bind(this)
+        } as unknown as S;
+        this.onTypeChanged = this.onTypeChanged.bind(this);
+        this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this);
+        this.getTaxonomyValues = this.getTaxonomyValues.bind(this);
+        this.onCategoryChanged = this.onCategoryChanged.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
