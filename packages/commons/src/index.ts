@@ -18,6 +18,7 @@ export {
     type ComponentWithSettingsProps,
     type ComponentWithSettingsState,
     SizeConfig,
+    type SizeConfigProps
 } from './Blocks';
 export {
     categorical,

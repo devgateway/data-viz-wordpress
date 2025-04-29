@@ -1,3 +1,4 @@
+import React from 'react';
 import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import {
@@ -9,9 +10,26 @@ import {
 } from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
 import {Generic} from '../icons/index.js'
-import {BlockEditWithFilters} from "../commons";
+import {BlockEditWithFilters} from "@dg-data-viz/wordpress-commons";
+import { BLOCKS_CATEGORY, BLOCKS_NS } from '../constants';
 
-const EditComponent = (props) => {
+interface AilmentsBodyProps {
+    backgroundColor: {
+        color: string;
+        class: string;
+    };
+    setBackgroundColor: (color: string) => void;
+    toggleSelection: (selected: boolean) => void;
+    setAttributes: (attributes: any) => void;
+    attributes: {
+        height: string;
+        alignment: string;
+    };
+    src: string;
+}
+
+
+const EditComponent = (props: AilmentsBodyProps) => {
 
     const {
         backgroundColor,
@@ -28,7 +46,7 @@ const EditComponent = (props) => {
     const onChangeAlignment = newAlignment => {
         props.setAttributes({alignment: newAlignment});
     };
-    let divClass;
+    let divClass: string | undefined;
     let divStyles = {"text-align": alignment, width: "100%", height: height + "px"};
     if (backgroundColor != undefined) {
         if (backgroundColor.class != undefined) {
@@ -56,8 +74,8 @@ const EditComponent = (props) => {
                         title={__('Color settings','dg')}
                         colorSettings={[
                             {
-                                value: backgroundColor.color,
-                                onChange: setBackgroundColor,
+                                value: backgroundColor?.color,
+                                onChange: (newColor) => setBackgroundColor(newColor || ''),
                                 label: __('Background color','dg')
                             },
                         ]}
@@ -84,8 +102,9 @@ const EditComponent = (props) => {
                         topLeft: false,
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
+                        const newHeight = parseInt(height + delta.height, 10);
                         setAttributes({
-                            height: parseInt(height + delta.height, 10)
+                            height: newHeight
                         });
                         toggleSelection(true);
                     }}
@@ -117,24 +136,24 @@ const SaveComponent = (props) => {
     const divStyles = {width, height, "background-color": customBackgroundColor};
 
     return (<div className={divClass} style={divStyles}>
-            <div width={width} height={height} className={"viz-component"} data-component={"body"}></div>
+            <div style={{width, height}} className={"viz-component"} data-component={"body"}></div>
         </div>
 
 
     );
 }
 
-class EditWithSettings extends BlockEditWithFilters {
+class EditWithSettings extends BlockEditWithFilters<AilmentsBodyProps> {
     render() {
-        return <EditComponent src={this.state.react_ui_url + "/embeddable/body?"} {...this.props}></EditComponent>
+        return <EditComponent {...this.props} src={this.state.react_ui_url + "/embeddable/body"}></EditComponent>
     }
 }
 
-
-registerBlockType(process.env.BLOCKS_NS + '/ailments', {
+// @ts-ignore Types not available
+registerBlockType(BLOCKS_NS + '/ailments', {
     title: __('Ailments Body','dg'),
     icon: Generic,
-    category: process.env.BLOCKS_CATEGORY,
+    category: BLOCKS_CATEGORY,
     attributes: {
         width: {
             type: 'Numeric',
