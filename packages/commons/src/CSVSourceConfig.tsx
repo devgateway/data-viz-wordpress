@@ -1,8 +1,8 @@
 import React from 'react';
 import {PanelBody, PanelRow, ***REMOVED***} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import Format from "./Format.jsx";
-import {togglePanel} from "./Util.jsx";
+import Format from "./Format";
+import {togglePanel} from "./Util";
 
 const defaultFormat = {
     "style": "percent",
