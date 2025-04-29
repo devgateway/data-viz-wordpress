@@ -2,7 +2,7 @@ import React from 'react';
 import { __ } from '@wordpress/i18n';
 import { ***REMOVED***, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl } from '@wordpress/components';
 
-import Format from './Format.jsx'
+import Format from './Format'
 import { togglePanel } from "./Util.js";
 import { ***REMOVED*** } from "./APIutils.js";
 import { Measure } from './types.js';

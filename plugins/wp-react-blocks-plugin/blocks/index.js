@@ -34,7 +34,7 @@ require("./data-labels")
 require("./big-number")
 require("./big-number-trend")
 require("./data-filters-apply")
-require("../../../../custom/wp-customizer/blocks/index")
+// require("../../../../custom/wp-customizer/blocks/index")
 
 
 
