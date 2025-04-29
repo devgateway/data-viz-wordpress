@@ -114,9 +114,9 @@ export interface BlockEditWithFiltersState extends ComponentWithSettingsState {
     loading: boolean;
 }
 
-export class ***REMOVED*** extends ComponentWithSettings<BlockEditWithFiltersProps, BlockEditWithFiltersState> {
+export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFiltersProps, S extends BlockEditWithFiltersState = BlockEditWithFiltersState> extends ComponentWithSettings<T, S> {
 
-    constructor(props: BlockEditWithFiltersProps) {
+    constructor(props: T) {
         super(props);
         this.state = {
             react_ui_url: '',
@@ -128,11 +128,11 @@ export class ***REMOVED*** extends ComponentWithSettings<BlockEditWithFiltersPro
             types: null,
             taxonomies: null,
             loading: true
-        }
-        this.onTypeChanged = this.onTypeChanged.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        } as unknown as S;
+        this.onTypeChanged = this.onTypeChanged.bind(this);
+        this.***REMOVED*** = this.***REMOVED***.bind(this);
+        this.***REMOVED*** = this.***REMOVED***.bind(this);
+        this.***REMOVED*** = this.***REMOVED***.bind(this);
     }
 
     ***REMOVED***(prevProps, prevState, snapshot) {
