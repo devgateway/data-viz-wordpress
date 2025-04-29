@@ -497,10 +497,11 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                         yAxis: {}
                     },
                     xAxisDisabled: false,
-                    tickRotation: 0,
-                    xAxisTickValues: 0,
+                    mobileXAxisTextRotation: 0,
+                    tabletXAxisTextRotation: 0,
+                    xAxisTickValues: 10,
                     xAxisIntervalUserModified: false,
-                    yAxisTickValues: 0,
+                    yAxisTickValues: 10,
                     yAxisIntervalUserModified: false,
                     chartLayoutOverride: false,
                     marginLeft: 50,
@@ -516,6 +517,8 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                     mobileMaxTickLength: 25,
                     tabletYAxisLineHeight: 12,
                     tabletMaxTickLength: 25,
+                    mobileXAxisTextRotationModified: false,
+                    tabletXAxisTextRotationModified: false,
                 }
             },
             reverseLegend: {
@@ -574,11 +577,15 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             radarDotLabelOffset: {
                 type: 'Numeric',
                 default: -12
-            }, 
+            },
             showPercentage: {
                 type: 'Boolean',
                 default: false
-            }        
+            },
+            previewMode: {
+                type: "string",
+                default: "Desktop"
+            }
         },
         edit: BlockEdit,
         save: BlockSave,

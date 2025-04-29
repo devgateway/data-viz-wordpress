@@ -5,10 +5,17 @@ import { Component } from '@wordpress/element'
 import apiFetch from '@wordpress/api-fetch';
 import { togglePanel } from './Util';
 import { getTranslatedOptions, isSupersetAPI } from './APIutils'
+import { subscribe, select } from '@wordpress/data';
 import { DgSettings, EurekaResponse, Taxonomies, Taxonomy, Wp_Types } from './types';
 
+export interface SizeConfigProps {
+    height: number;
+    setAttributes: (attributes: any) => void;
+    panelStatus: any;
+    initialOpen: boolean;
+}
 
-export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen }) => {
+export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen }: SizeConfigProps) => {
     return (<PanelBody initialOpen={panelStatus ? panelStatus["SIZE"] : initialOpen}
         onToggle={() => togglePanel("SIZE", panelStatus, setAttributes)}
         title={__("Size")}>
@@ -34,10 +41,12 @@ export type ComponentWithSettingsState = {
     apache_superset_url: string | boolean | null;
     site_language: string;
     current_language: string;
+    previewMode?: string;
 }
 
 export class ComponentWithSettings<T extends ComponentWithSettingsProps, U extends ComponentWithSettingsState> extends Component<T, U> {
     iframe: React.RefObject<HTMLIFrameElement>;
+    unsubscribe: () => void;
 
     constructor(props: T) {
         super(props);
@@ -46,12 +55,12 @@ export class ComponentWithSettings<T extends ComponentWithSettingsProps, U exten
             react_api_url: null,
             apache_superset_url: null,
             site_language: '',
-            current_language: ''
+            current_language: '',
         } as U
 
         window.addEventListener("message", (event) => {
 
-            if (event.data.type == 'componentReady' && event.data.value == true) {
+            if (event.data.type === 'componentReady' && event.data.value === true) {
                 if (this.iframe.current) {
                     console.log("-----------Sending message -----------")
                     this.iframe.current.contentWindow?.postMessage(({ messageType: 'component-attributes', ...this.props.attributes }), "*")
@@ -59,12 +68,17 @@ export class ComponentWithSettings<T extends ComponentWithSettingsProps, U exten
             }
         }, false);
         this.iframe = React.createRef();
+        this.unsubscribe = subscribe(() => {
+            const newPreviewMode = select("core/editor").getDeviceType();
+            if (newPreviewMode !== this.state.previewMode) {
+                this.setState({previewMode: newPreviewMode });
+            }
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.iframe.current) {
-            console.log("-----------Sending message -----------")
-            this.iframe.current.contentWindow?.postMessage(({ messageType: 'component-attributes', ...this.props.attributes }), "*")
+        if (this.iframe.current?.contentWindow) {
+            this.iframe.current.contentWindow.postMessage(({messageType: 'component-attributes', ...this.props.attributes}), "*")
         }
     }
 
@@ -78,6 +92,12 @@ export class ComponentWithSettings<T extends ComponentWithSettingsProps, U exten
                 current_language: new URLSearchParams(document.location.search).get("edit_lang") || ''
             });
         });
+    }
+
+    componentWillUnmount() {
+        if (this.unsubscribe) {
+            this.unsubscribe();
+        }
     }
 }
 
