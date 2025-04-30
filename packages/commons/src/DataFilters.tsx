@@ -6,7 +6,6 @@ import { Filter } from './types';
 export type DataFiltersProps = {
   allCategories: any[];
   allFilters: any[];
-  filters: Filter[];
   onChange?: () => void;
   attributes?: {
     filters: Filter[];
