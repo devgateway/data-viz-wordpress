@@ -16,17 +16,17 @@ const defaultFormat = {
 }
 
 export type MeasuresProps = {
-    ***REMOVED***: (measure: string) => void;
+    ***REMOVED***?: (measure: string) => void;
     ***REMOVED***: (format: string, field: string) => void;
-    onUseCustomAxisFormatChange: (value: boolean) => void;
+    onUseCustomAxisFormatChange?: (value: boolean) => void;
     ***REMOVED***: (measure: string) => void;
-    onCustomLabelToggleChange: (measure: string) => void;
-    ***REMOVED***: (measure: string, value: string) => void;
+    onCustomLabelToggleChange?: (measure: string) => void;
+    ***REMOVED***?: (measure: string, value: string) => void;
     allMeasures: Measure[];
     setAttributes: (attributes: any) => void;
     title?: string;
     format?: any;
-    currentType: string;
+    currentType?: string;
     attributes: {
         panelStatus?: any;
         measures: Measure[];
@@ -66,7 +66,7 @@ export const Measures = (props: MeasuresProps) => {
         return (<ToggleControl
             label={***REMOVED***(measure)}
             checked={userMeasure ? userMeasure.selected : false}
-            onChange={(value) => ***REMOVED***(measure.value)} />)
+            onChange={(value) => ***REMOVED***?.(measure.value)} />)
     }
 
     const MCheckbox = ({ measure }) => {
@@ -217,7 +217,7 @@ export const Measures = (props: MeasuresProps) => {
                     ***REMOVED***(format, field)
                 }}
                 onUseCustomAxisFormatChange={value => {
-                    onUseCustomAxisFormatChange(value)
+                    onUseCustomAxisFormatChange?.(value)
                 }}
             >
             </Format>
@@ -239,12 +239,12 @@ export const Measures = (props: MeasuresProps) => {
                                 return (<><PanelRow><ToggleControl
                                     label={***REMOVED***(m)}
                                     checked={userMeasure ? userMeasure.***REMOVED*** : false}
-                                    onChange={(value) => onCustomLabelToggleChange(m.value)} /> </PanelRow>
+                                    onChange={(value) => onCustomLabelToggleChange?.(m.value)} /> </PanelRow>
                                     {userMeasure.***REMOVED*** &&
                                         <PanelRow>
                                             <TextControl label={__("Custom Label")}
                                                 value={userMeasure ? userMeasure.customLabel : ""}
-                                                onChange={(value) => ***REMOVED***(m.value, value)} />
+                                                onChange={(value) => ***REMOVED***?.(m.value, value)} />
                                         </PanelRow>
                                     }
                                 </>)
