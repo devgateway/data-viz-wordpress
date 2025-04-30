@@ -443,13 +443,13 @@ export class APIConfig extends Component<***REMOVED***> {
         )}
       </PanelBody>,
       <Measures
+      {...this.props}
         ***REMOVED***={this.***REMOVED***}
         onUseCustomAxisFormatChange={this.onUseCustomAxisFormatChange}
         ***REMOVED***={this.***REMOVED***}
         ***REMOVED***={this.***REMOVED***}
         onCustomLabelToggleChange={this.onCustomLabelToggleChange}
         ***REMOVED***={this.***REMOVED***}
-        {...this.props}
         currentType={currentType}
       />,
 
