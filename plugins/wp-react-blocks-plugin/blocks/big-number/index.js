@@ -3,12 +3,13 @@ import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons/index.js'
+import { BLOCKS_NS, BLOCKS_CATEGORY } from '../constants';
 
-***REMOVED***(process.env.BLOCKS_NS + '/bignumber',
+***REMOVED***(BLOCKS_NS + '/bignumber',
     {
         title: __('Big Number'),
         icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             type: {
