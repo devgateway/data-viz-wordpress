@@ -31,7 +31,7 @@ export type MeasuresProps = {
         panelStatus?: any;
         measures: Measure[];
         dimension1: string;
-        dimension2: string;
+        dimension2?: string;
         type: string;
         app: string;
     }
