@@ -3,8 +3,8 @@ Contributors:      kometschuh
 Donate link:       https://wordpress.org/support/plugin/hyperlink-group-block/reviews/?filter=5
 Tags:              block, hyperlink, link, gutenberg, anchor
 Requires at least: 5.6
-Tested up to:      6.6
-Stable tag:        1.17.5
+Tested up to:      6.7
+Stable tag:        2.0.1
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -24,17 +24,17 @@ It's also possible to group existing Blocks.
 Select the Blocks which should be grouped with a Hyperlink. The Block Toolbar will appear. Click on the Block icon and select the Hyperlink Block to transform the selected Blocks to an Hyperlink Block with some InnerBlocks.
 
 = Advanced =
-In the Advanced Tab link [rel attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel) can be set.
+On the Advanced Tab set the link's [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel), [title](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title) and [aria-label](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label) attributes.
 
 = Features =
 * Wrap Blocks with a hyperlink
 * Use link from Query Loop Block
 * Transform Blocks into a group wrapped with an HTML anchor tag (&lt;a&gt;)
 * Set the link href attribute
-* Set rel attributes
+* Set rel, title and aria-label attributes
 * Option open in a new window
 * Set hover background color
-* Delete inner anchor elements
+* Inner anchor elements are automatically deleted
 
 = Contribute =
 While using this plugin if you find any bug or any conflict, please submit an issue at [Github](https://github.com/DanielFloeter/hyperlink-group-block) (If possible with a pull request).
@@ -51,6 +51,19 @@ e.g.
 
 == Frequently Asked Questions ==
 
+= WPML support (translate the anchor) =
+
+There are two kinds for WPML translation.
+
+Translate with "WordPress Editor", not with "WPML Translation Editor":
+WPML > Settings > Translation Editor > Classic Translation Editor
+or
+Your site in admin / gutenberg mode > right sidebar / Page > language > Translations > WordPress Editor
+
+Other option but there is a bug, it doesn't work for us?
+[wpml.org/faq](https://wpml.org/faq/) / FAQ > How-To > "How can I translate links and HTML attributes in the Advanced Translation Editor?"
+Search content: "http" [YouTube](https://wpml.org/announcements/2020/02/translating-links-with-advanced-translation-editor/)
+
 = Can I use links within the Hyperlink Group Block? =
 
 No, that is illegal and causes errors in the renderd HTML.
@@ -60,10 +73,20 @@ No, that is illegal and causes errors in the renderd HTML.
 1. Hyperlink Group Block to group Blocks with an hyperlink.
 2. Wrap Blocks with a link.
 3. Rendered HTML.
-4. Advanced Settings for rel attributes.
+4. Advanced Settings for rel, title and aria-label attributes
 5. Transform Blocks into a group wrapped with an anchor tag
 
 == Changelog ==
+
+= 2.0.1 - Jan 13th 2025 =
+* Support disable Force page reload with Query Loop
+
+= 2.0.0 - Nov 05th 2024 =
+* Title attribute
+
+= 1.17.6 - Oct 24th 2024 =
+* Bugfix Nested anchors
+* Escape output
 
 = 1.17.5 - April 5th 2024 =
 * Bugfix Extra quotes

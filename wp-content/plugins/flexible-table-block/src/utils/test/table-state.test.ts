@@ -1,13 +1,15 @@
+/**
+ * Internal dependencies
+ */
 import {
 	createTable,
 	deleteColumn,
 	deleteRow,
 	insertRow,
-	VCell,
-	VRow,
-	VTable,
+	type VTable,
+	type VRow,
+	type VCell,
 } from '../table-state';
-import { times } from 'lodash';
 import type { SectionName } from '../../BlockAttributes';
 
 const getRow = (
@@ -19,7 +21,7 @@ const getRow = (
 	options = {}
 ): VRow => {
 	return {
-		cells: times( cells, ( vColIndex ): VCell => {
+		cells: Array.from( { length: cells } ).map( ( _, vColIndex ): VCell => {
 			return {
 				content,
 				tag,
