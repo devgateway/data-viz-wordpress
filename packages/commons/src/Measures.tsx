@@ -16,17 +16,17 @@ const defaultFormat = {
 }
 
 export type MeasuresProps = {
-    onMeasuresChange: (measure: string) => void;
+    onMeasuresChange?: (measure: string) => void;
     onFormatChange: (format: string, field: string) => void;
-    onUseCustomAxisFormatChange: (value: boolean) => void;
+    onUseCustomAxisFormatChange?: (value: boolean) => void;
     onSetSingleMeasure: (measure: string) => void;
-    onCustomLabelToggleChange: (measure: string) => void;
-    onCustomLabelChange: (measure: string, value: string) => void;
+    onCustomLabelToggleChange?: (measure: string) => void;
+    onCustomLabelChange?: (measure: string, value: string) => void;
     allMeasures: Measure[];
     setAttributes: (attributes: any) => void;
     title?: string;
     format?: any;
-    currentType: string;
+    currentType?: string;
     attributes: {
         panelStatus?: any;
         measures: Measure[];
@@ -66,7 +66,7 @@ export const Measures = (props: MeasuresProps) => {
         return (<ToggleControl
             label={getTranslation(measure)}
             checked={userMeasure ? userMeasure.selected : false}
-            onChange={(value) => onMeasuresChange(measure.value)} />)
+            onChange={(value) => onMeasuresChange?.(measure.value)} />)
     }
 
     const MCheckbox = ({ measure }) => {
@@ -217,7 +217,7 @@ export const Measures = (props: MeasuresProps) => {
                     onFormatChange(format, field)
                 }}
                 onUseCustomAxisFormatChange={value => {
-                    onUseCustomAxisFormatChange(value)
+                    onUseCustomAxisFormatChange?.(value)
                 }}
             >
             </Format>
@@ -239,12 +239,12 @@ export const Measures = (props: MeasuresProps) => {
                                 return (<><PanelRow><ToggleControl
                                     label={getTranslation(m)}
                                     checked={userMeasure ? userMeasure.hasCustomLabel : false}
-                                    onChange={(value) => onCustomLabelToggleChange(m.value)} /> </PanelRow>
+                                    onChange={(value) => onCustomLabelToggleChange?.(m.value)} /> </PanelRow>
                                     {userMeasure.hasCustomLabel &&
                                         <PanelRow>
                                             <TextControl label={__("Custom Label")}
                                                 value={userMeasure ? userMeasure.customLabel : ""}
-                                                onChange={(value) => onCustomLabelChange(m.value, value)} />
+                                                onChange={(value) => onCustomLabelChange?.(m.value, value)} />
                                         </PanelRow>
                                     }
                                 </>)
