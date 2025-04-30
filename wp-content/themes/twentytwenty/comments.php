@@ -23,7 +23,7 @@ if ( $comments ) {
 	<div class="comments" id="comments">
 
 		<?php
-		$comments_number = absint( get_comments_number() );
+		$comments_number = get_comments_number();
 		?>
 
 		<div class="comments-header section-inner small max-percentage">

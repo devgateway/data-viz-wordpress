@@ -1,8 +1,7 @@
 /**
  * External dependencies
  */
-import { times } from 'lodash';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import type { FormEvent } from 'react';
 
 /**
@@ -11,7 +10,17 @@ import type { FormEvent } from 'react';
 import { __ } from '@wordpress/i18n';
 import { useState, createInterpolateElement } from '@wordpress/element';
 import { BlockIcon } from '@wordpress/block-editor';
-import { Button, Placeholder, TextControl, ToggleControl } from '@wordpress/components';
+import {
+	Button,
+	Placeholder,
+	TextControl,
+	ToggleControl,
+	__experimentalHStack as HStack,
+	__experimentalVStack as VStack,
+	__experimentalSpacer as Spacer,
+	__experimentalText as Text,
+} from '@wordpress/components';
+import { isAppleOS } from '@wordpress/keycodes';
 
 /**
  * Internal dependencies
@@ -25,9 +34,8 @@ import {
 	THRESHOLD_PREVIEW_TABLE_COL,
 	THRESHOLD_PREVIEW_TABLE_ROW,
 } from '../constants';
-import { createTable, ***REMOVED*** } from '../utils/table-state';
+import { createTable, ***REMOVED***, type VTable } from '../utils/table-state';
 import { blockIcon as icon } from '../icons';
-import type { VTable } from '../utils/table-state';
 import type { ***REMOVED*** } from '../***REMOVED***';
 
 type Props = {
@@ -50,7 +58,9 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 	const onCreateTable = ( event: FormEvent ) => {
 		event.***REMOVED***();
 
-		if ( ! rowCount || ! colCount ) return;
+		if ( ! rowCount || ! colCount ) {
+			return;
+		}
 
 		const vTable: VTable = createTable( {
 			rowCount: Math.min( rowCount, MAX_PREVIEW_TABLE_ROW ),
@@ -84,7 +94,7 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 
 	const onToggleFooterSection = ( section: boolean ) => ***REMOVED***( section );
 
-	const tableClasses: string = classnames( 'ftb-placeholder__table', {
+	const tableClasses: string = clsx( 'ftb-placeholder__table', {
 		'is-overflow-row': totalRowCount && totalRowCount > THRESHOLD_PREVIEW_TABLE_ROW,
 		'is-overflow-col': colCount && colCount > THRESHOLD_PREVIEW_TABLE_COL,
 	} );
@@ -95,97 +105,119 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 			className="ftb-placeholder"
 			icon={ <BlockIcon icon={ icon } showColors /> }
 		>
-			<legend className="components-placeholder__instructions">
+			<div className="components-placeholder__instructions">
 				{ createInterpolateElement(
-					__(
-						'Hint: Hold <code>Ctrl</code> key to select multiple cells. Hold <code>Shift</code> key to select range.',
-						'flexible-table-block'
-					),
+					isAppleOS()
+						? __(
+								'Hint: Hold <code>Command</code> key to select multiple cells. Hold <code>Shift</code> key to select the range.',
+								'flexible-table-block'
+						  )
+						: __(
+								'Hint: Hold <code>Ctrl</code> key to select multiple cells. Hold <code>Shift</code> key to select the range.',
+								'flexible-table-block'
+						  ),
 					{ code: <code /> }
 				) }
-			</legend>
-			<div
+			</div>
+			<Spacer
+				as={ VStack }
 				className="ftb-placeholder__table-wrap"
 				style={ { minHeight: MIN_PREVIEW_TABLE_HEIGHT } }
+				alignment="center"
+				padding={ 4 }
+				marginBottom={ 0 }
 			>
-				<div className="ftb-placeholder__tbl-ttl">{ __( 'Preview', 'flexible-table-block' ) }</div>
+				<Text align="center" isBlock weight="500">
+					{ __( 'Preview', 'flexible-table-block' ) }
+				</Text>
 				{ rowCount && colCount && (
 					<table className={ tableClasses }>
 						{ headerSection && (
 							<thead>
 								<tr>
-									{ times( colCount, ( colIndex ) => {
-										if ( colIndex > THRESHOLD_PREVIEW_TABLE_COL ) return;
-										return <th key={ colIndex } style={ { height: cellHeight } } />;
-									} ) }
+									{ Array.from( {
+										length: Math.min( colCount, THRESHOLD_PREVIEW_TABLE_COL ),
+									} ).map( ( _col, colIndex ) => (
+										<th key={ colIndex } style={ { height: cellHeight } } />
+									) ) }
 								</tr>
 							</thead>
 						) }
 						<tbody>
-							{ times( rowCount, ( rowIndex ) => {
-								if ( rowIndex > THRESHOLD_PREVIEW_TABLE_ROW ) return;
-								return (
+							{ Array.from( { length: Math.min( rowCount, THRESHOLD_PREVIEW_TABLE_ROW ) } ).map(
+								( _row, rowIndex ) => (
 									<tr key={ rowIndex }>
-										{ times( Math.min( colCount, MAX_PREVIEW_TABLE_COL ), ( colIndex ) => {
-											if ( colIndex > THRESHOLD_PREVIEW_TABLE_COL ) return;
-											return <td key={ colIndex } style={ { height: cellHeight } } />;
-										} ) }
+										{ Array.from( {
+											length: Math.min( colCount, THRESHOLD_PREVIEW_TABLE_COL ),
+										} ).map( ( _col, colIndex ) => (
+											<td key={ colIndex } style={ { height: cellHeight } } />
+										) ) }
 									</tr>
-								);
-							} ) }
+								)
+							) }
 						</tbody>
 						{ footerSection && (
 							<tfoot>
 								<tr>
-									{ times( colCount, ( colIndex ) => {
-										if ( colIndex > THRESHOLD_PREVIEW_TABLE_COL ) return;
-										return <td key={ colIndex } style={ { height: cellHeight } } />;
-									} ) }
+									{ Array.from( {
+										length: Math.min( colCount, THRESHOLD_PREVIEW_TABLE_COL ),
+									} ).map( ( _col, colIndex ) => (
+										<td key={ colIndex } style={ { height: cellHeight } } />
+									) ) }
 								</tr>
 							</tfoot>
 						) }
 					</table>
 				) }
-			</div>
-			<form className="ftb-placeholder__form" onSubmit={ onCreateTable }>
-				<div className="ftb-placeholder__row">
+			</Spacer>
+			<VStack as="form" onSubmit={ onCreateTable }>
+				<HStack wrap justify="start">
 					<ToggleControl
-						className="ftb-placeholder__toggle-header"
 						label={ __( 'Header section', 'flexible-table-block' ) }
 						checked={ !! headerSection }
 						onChange={ onToggleHeaderSection }
+						__nextHasNoMarginBottom
 					/>
 					<ToggleControl
-						className="ftb-placeholder__toggle-footer"
 						label={ __( 'Footer section', 'flexible-table-block' ) }
 						checked={ !! footerSection }
 						onChange={ onToggleFooterSection }
+						__nextHasNoMarginBottom
 					/>
-				</div>
-				<div className="ftb-placeholder__row">
+				</HStack>
+				<HStack wrap alignment="end" justify="start">
 					<TextControl
-						className="ftb-placeholder__column-count"
 						label={ __( 'Column count', 'flexible-table-block' ) }
+						className="ftb-placeholder__input"
 						type="number"
 						min="1"
 						max={ MAX_PREVIEW_TABLE_COL }
 						value={ colCount || '' }
 						onChange={ ***REMOVED*** }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					<TextControl
-						className="ftb-placeholder__row-count"
 						label={ __( 'Row count', 'flexible-table-block' ) }
+						className="ftb-placeholder__input"
 						type="number"
 						min="1"
 						max={ MAX_PREVIEW_TABLE_ROW }
 						value={ rowCount || '' }
 						onChange={ ***REMOVED*** }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
-					<Button variant="primary" type="submit" disabled={ ! rowCount || ! colCount }>
+					<Button
+						variant="primary"
+						type="submit"
+						disabled={ ! rowCount || ! colCount }
+						__next40pxDefaultSize
+					>
 						{ __( 'Create Table', 'flexible-table-block' ) }
 					</Button>
-				</div>
-			</form>
+				</HStack>
+			</VStack>
 		</Placeholder>
 	);
 }

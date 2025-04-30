@@ -1,0 +1,605 @@
+import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {
+    Panel,
+    PanelBody,
+    PanelRow, RangeControl,
+    ResizableBox,
+    SelectControl,
+    ***REMOVED***,
+    TextControl,
+    ToggleControl
+} from '@wordpress/components';
+
+import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
+import {__} from '@wordpress/i18n';
+import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import ***REMOVED*** from "../commons/***REMOVED***";
+import Tooltip from "../commons/Tooltip.jsx";
+import {togglePanel} from "../commons/Util";
+import Measures from "../commons/Measures";
+import {categorical, sequential, diverging} from "../commons/ChartColors";
+import {***REMOVED***} from "../commons/APIutils";
+import ChartLegends from "../commons/ChartLegends";
+import Papa from "papaparse";
+import DataFilters from "../commons/DataFilters";
+
+class BlockEdit extends BlockEditWithAPIMetadata {
+    constructor(props) {
+        super(props);
+        this.***REMOVED*** = ['tooltip']
+    }
+
+    ***REMOVED***() {
+        super.***REMOVED***()
+        this.***REMOVED***()
+    }
+
+    ***REMOVED***(prevProps, prevState, snapshot) {
+        const {attributes: {csv}} = this.props
+        super.***REMOVED***(prevProps, prevState, snapshot);
+        if (csv != prevProps.attributes.csv) {
+            this.***REMOVED***()
+        }
+    }
+
+    ***REMOVED***() {
+        const {setAttributes, attributes: {app, manualColors, csv}} = this.props
+        const dataParsed = Papa.parse(csv, {header: true, dynamicTyping: true});
+        const sourceList = dataParsed.meta.fields
+        const ***REMOVED*** = sourceList.shift()
+        const targetList = dataParsed.data.map(d => d[***REMOVED***])
+        const nodes = [...sourceList.map(s => {return {id: s}}), ...targetList.map(s => {return {id: s}})]
+        const newColors = Object.assign({}, manualColors)
+        if (!newColors[app]) {
+            newColors[app] = {}
+        }
+        if (nodes.length > 0) {
+            nodes.forEach(item => {
+                if (!newColors[app][item.id]) {
+                    newColors[app][item.id] = "#eeeeee"
+                }
+            })
+            setAttributes({manualColors: newColors})
+        }
+    }
+
+    ***REMOVED***(dimension) {
+        const {setAttributes, attributes: {app, manualColors}} = this.props
+        const {categories} = this.state
+        const itemsList = []
+        if (dimension && dimension != 'none') {
+            const cats = categories.find(c => c.type.toLowerCase() === dimension.toLowerCase()).items
+            itemsList.push(...cats)
+        }
+
+        const newColors = Object.assign({}, manualColors)
+        if (!newColors[app]) {
+            newColors[app] = {}
+        }
+        if (itemsList.length > 0) {
+            itemsList.forEach(item => {
+                if (!newColors[app][item.value]) {
+                    newColors[app][item.value] = item.categoryStyle ? item.categoryStyle.color : "#eeeeee"
+                }
+            })
+            setAttributes({manualColors: newColors})
+        }
+    }
+
+    ***REMOVED***() {
+        const {setAttributes, attributes: {app, manualColors, dimension1, dimension2, dimension3, csv}} = this.props
+        const {categories} = this.state
+        let itemsList = []
+        if (app != 'csv') {
+            if (dimension1 && dimension1 != 'none') {
+                const cats = categories.find(c => c.type.toLowerCase() === dimension1.toLowerCase()).items
+                itemsList.push(...cats)
+            }
+            if (dimension1 && dimension2 != 'none') {
+                const cats = categories.find(c => c.type.toLowerCase() === dimension2.toLowerCase()).items
+                itemsList.push(...cats)
+            }
+            if (dimension1 && dimension3 != 'none') {
+                const cats = categories.find(c => c.type.toLowerCase() === dimension3.toLowerCase()).items
+                itemsList.push(...cats)
+            }
+        } else {
+            const dataParsed = Papa.parse(csv, {header: true, dynamicTyping: true});
+            const sourceList = dataParsed.meta.fields
+            const ***REMOVED*** = sourceList.shift()
+            const targetList = dataParsed.data.map(d => d[***REMOVED***])
+            itemsList = [...sourceList.map(s => {return {value: s}}), ...targetList.map(s => {return {value: s}})]
+        }
+        const updateColor = (value, color) => {
+            const newColors = Object.assign({}, manualColors)
+            newColors[app][value] = color
+            setAttributes({manualColors: newColors})
+        }
+        return <PanelBody initialOpen={false} title={__("Set Colors")}>
+            {itemsList.map(item => {
+                return <***REMOVED***
+                  colorSettings={[{
+                      value: manualColors[app][item.value],
+                      onChange: (color) => {
+                          if (color) {
+                              updateColor(item.value, color)
+                          } else {
+                              updateColor(item.value, item.categoryStyle ? item.categoryStyle.color : "#eeeeee")
+                          }
+                      }, label: ***REMOVED***(item)
+                  }]}
+                />
+            })}
+        </PanelBody>
+    }
+
+    render() {
+        const {
+            className, isSelected,
+            ***REMOVED***, setAttributes,
+            attributes: {
+                measures,
+                height,
+                scheme,
+                dimension1,
+                dimension2,
+                dimension3,
+                app,
+                tooltipHTML,
+                format,
+                filters,
+                layout,
+                group,
+                noDataMessage,
+                ***REMOVED***,
+                tooltipEnableMarkdown,
+                panelStatus,
+                sort,
+                nodeThickness,
+                nodeOpacity,
+                ***REMOVED***,
+                ***REMOVED***,
+                nodeSpacing,
+                nodeHoverOthersOpacity,
+                ***REMOVED***,
+                ***REMOVED***,
+                linkOpacity,
+                ***REMOVED***,
+                linkHoverOthersOpacity,
+                linkContract,
+                ***REMOVED***,
+                enableLabels,
+                labelPosition,
+                labelPadding,
+                ***REMOVED***,
+                ***REMOVED***,
+                ***REMOVED***
+            }
+        } = this.props;
+
+        const {dimensions} = this.state
+
+        let params = {}
+        filters.forEach(f => {
+            if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0)
+                params[f.param] = f.value
+        })
+        const divStyles = {height: height + 'px', width: '100%'}
+        const colorOptions = [{value: "manual", label: 'Manual'}, ...categorical, ...sequential]
+
+        return ([isSelected && (
+            <***REMOVED***>
+                <Panel header={__("Chart Configuration")}>
+                    <PanelBody
+                      panelStatus={panelStatus['GROUP']}
+                      onToggle={e => togglePanel("GROUP", panelStatus, setAttributes)}
+                      title={__("Group")}>
+                        <PanelRow>
+                            <TextControl
+                              label={__('Name')}
+                              value={group}
+                              onChange={(group) => setAttributes({group})}
+                            />
+                        </PanelRow>
+                    </PanelBody>
+                    <SizeConfig setAttributes={setAttributes} panelStatus={panelStatus}
+                                height={height}></SizeConfig>
+
+                    <>
+                        <PanelBody initialOpen={false} title={__("API & Source")}>
+                            <PanelRow>
+                                <SelectControl
+                                  value={[app]}
+                                  onChange={(app) => {
+                                      setAttributes({
+                                          app: app
+                                      })
+                                  }}
+                                  options={this.state.apps}
+                                />
+                            </PanelRow>
+                        </PanelBody>
+                        {app != 'csv' && <PanelBody initialOpen={false} title={__(`Node Dimensions`)}>
+                            <PanelRow>
+                                <SelectControl
+                                  label={__('First Dimension')}
+                                  value={[dimension1]}
+                                  onChange={(value) => {
+                                      this.***REMOVED***(value)
+                                      setAttributes({dimension1: value, dimension2: value == 'none' ? 'none' : dimension2 , dimension3: value == 'none' ? 'none' : dimension3})
+                                  }}
+                                  options={dimensions ? dimensions.filter(d => d.value == 'none' || (d.value != dimension2 && d.value != dimension3)) : []}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <SelectControl
+                                  label={__('Second Dimension')}
+                                  value={[dimension2]}
+                                  onChange={(value) => {
+                                      this.***REMOVED***(value)
+                                      setAttributes({dimension2: value, dimension3: value == 'none' ? 'none' : dimension3})
+                                  }}
+                                  options={dimensions ? dimensions.filter(d => d.value == 'none' || (d.value != dimension1 && d.value != dimension3)) : []}
+                                  disabled={dimension1 == 'none'}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <SelectControl
+                                  label={__('Third Dimension')}
+                                  value={[dimension3]}
+                                  onChange={(value) => {
+                                      this.***REMOVED***(value)
+                                      setAttributes({dimension3: value})
+                                  }}
+                                  options={dimensions ? dimensions.filter(d => d.value == 'none' || (d.value != dimension1 && d.value != dimension2)) : []}
+                                  disabled={dimension2 == 'none' || dimension2 == 'none'}
+                                />
+                            </PanelRow>
+                        </PanelBody>}
+
+                        {app != 'csv' &&  <Measures
+                              title={__(`Link Measure`)}
+                              ***REMOVED***={value => {
+                                  setAttributes({measures: [value]})
+                              }}
+                              ***REMOVED***={value => {
+                                  setAttributes({format: value})
+                              }}
+                              allMeasures={this.state.measures}
+                              format={format}
+                              measures={measures}
+                              {...this.props}/>
+                        }
+
+                        {app == 'csv' &&
+                        <***REMOVED*** {...this.props}>
+                        </***REMOVED***>}
+
+                        <PanelBody initialOpen={false} title={__("Options")}>
+                            <PanelBody initialOpen={false} title={__("Layout")}>
+                                <PanelRow>
+                                    <SelectControl
+                                      label={__('Orientation')}
+                                      value={layout} // e.g: value = [ 'a', 'c' ]
+                                      onChange={(value) => {
+                                          setAttributes({layout: value})
+                                      }}
+                                      options={[{label: 'Vertical', value: 'vertical'}, {label: 'Horizontal', value: 'horizontal'}]}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <SelectControl
+                                      label={__('Sort')}
+                                      value={sort} // e.g: value = [ 'a', 'c' ]
+                                      onChange={(value) => {
+                                          setAttributes({sort: value})
+                                      }}
+                                      options={[{label: 'Auto', value: 'auto'}, {label: 'Input', value: 'input'},
+                                          {label: 'Ascending', value: 'ascending'}, {label: 'Descending', value: 'descending'}]}
+                                    />
+                                </PanelRow>
+                            </PanelBody>
+                            <PanelBody initialOpen={false} title={__("Style")}>
+                                <PanelRow>
+                                    <SelectControl
+                                      label={__('Color Scheme')}
+                                      value={[scheme]}
+                                      onChange={(value) => {
+                                          setAttributes({scheme: value})
+                                      }}
+                                      options={colorOptions}
+                                    />
+                                </PanelRow>
+                                {scheme === 'manual' && this.***REMOVED***()}
+                            </PanelBody>
+                            <PanelBody initialOpen={false} title={__("Nodes")}>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Thickness')}
+                                      value={nodeThickness}
+                                      ***REMOVED***={12}
+                                      onChange={(nodeThickness) => setAttributes({nodeThickness})}
+                                      step={1}
+                                      min={0}
+                                      max={100}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Opacity')}
+                                      value={nodeOpacity}
+                                      ***REMOVED***={0.75}
+                                      onChange={(nodeOpacity) => setAttributes({nodeOpacity})}
+                                      step={0.05}
+                                      min={0}
+                                      max={1}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Hover Opacity')}
+                                      value={***REMOVED***}
+                                      ***REMOVED***={1}
+                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      step={0.05}
+                                      min={0}
+                                      max={1}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Hover Others Opacity')}
+                                      value={nodeHoverOthersOpacity}
+                                      ***REMOVED***={0.15}
+                                      onChange={(nodeHoverOthersOpacity) => setAttributes({nodeHoverOthersOpacity})}
+                                      step={0.05}
+                                      min={0}
+                                      max={1}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Spacing')}
+                                      value={nodeSpacing}
+                                      ***REMOVED***={12}
+                                      onChange={(nodeSpacing) => setAttributes({nodeSpacing})}
+                                      step={1}
+                                      min={0}
+                                      max={60}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Inner Padding')}
+                                      value={***REMOVED***}
+                                      ***REMOVED***={0}
+                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      step={1}
+                                      min={0}
+                                      max={20}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Border Width')}
+                                      value={***REMOVED***}
+                                      ***REMOVED***={1}
+                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      step={1}
+                                      min={0}
+                                      max={20}/>
+                                </PanelRow>
+                                {/*Nivo Sankey ignores this parameter
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Node Border Radius')}
+                                      value={***REMOVED***}
+                                      ***REMOVED***={1}
+                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      step={1}
+                                      min={0}
+                                      max={12}/>
+                                </PanelRow>*/}
+                            </PanelBody>
+                            <PanelBody initialOpen={false} title={__("Links")}>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Link Opacity')}
+                                      value={linkOpacity}
+                                      ***REMOVED***={0.25}
+                                      onChange={(linkOpacity) => setAttributes({linkOpacity})}
+                                      step={0.05}
+                                      min={0}
+                                      max={1}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Link Hover Opacity')}
+                                      value={***REMOVED***}
+                                      ***REMOVED***={0.6}
+                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      step={0.05}
+                                      min={0}
+                                      max={1}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Link Hover Others Opacity')}
+                                      value={linkHoverOthersOpacity}
+                                      ***REMOVED***={0.15}
+                                      onChange={(linkHoverOthersOpacity) => setAttributes({linkHoverOthersOpacity})}
+                                      step={0.05}
+                                      min={0}
+                                      max={1}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Link Contact')}
+                                      value={linkContract}
+                                      ***REMOVED***={0}
+                                      onChange={(linkContract) => setAttributes({linkContract})}
+                                      step={1}
+                                      min={0}
+                                      max={60}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <ToggleControl label={__("Enable Link Gradient")}
+                                       checked={***REMOVED***}
+                                       onChange={(***REMOVED***) => setAttributes({***REMOVED***})
+                                       }/>
+                                </PanelRow>
+                            </PanelBody>
+                            <PanelBody initialOpen={false} title={__("Labels")}>
+                                <PanelRow>
+                                    <ToggleControl label={__("Enable Labels")}
+                                       checked={enableLabels}
+                                       onChange={(enableLabels) => setAttributes({enableLabels})
+                                       }/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <SelectControl
+                                      label={__('Label Position')}
+                                      value={labelPosition}
+                                      onChange={(labelPosition) => {
+                                          setAttributes({labelPosition})
+                                      }}
+                                      options={[{label: 'Inside', value: 'inside'}, {label: 'Outside', value: 'outside'}]}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                      label={__('Label Padding')}
+                                      value={labelPadding}
+                                      ***REMOVED***={9}
+                                      onChange={(labelPadding) => setAttributes({labelPadding})}
+                                      step={1}
+                                      min={0}
+                                      max={60}/>
+                                </PanelRow>
+                                <PanelRow>
+                                    <ToggleControl label={__("Use Custom Label Color")}
+                                       checked={***REMOVED***}
+                                       onChange={(***REMOVED***) => setAttributes({***REMOVED***})
+                                       }/>
+                                </PanelRow>
+                                {***REMOVED*** && <PanelRow>
+                                    <***REMOVED***
+                                      colorSettings={[{
+                                          value: ***REMOVED***,
+                                          onChange: (***REMOVED***) => setAttributes({***REMOVED***}),
+                                          label: __("Label Color")
+                                      }]}
+                                    />
+                                </PanelRow>
+                                }
+                                <PanelRow>
+                                    <SelectControl
+                                      label={__('Label Orientation')}
+                                      value={***REMOVED***}
+                                      onChange={(***REMOVED***) => {
+                                          setAttributes({***REMOVED***})
+                                      }}
+                                      options={[{label: 'Horizontal', value: 'horizontal'}, {label: 'Vertical', value: 'vertical'}]}
+                                    />
+                                </PanelRow>
+
+                            </PanelBody>
+                            <PanelBody initialOpen={false} title={__("Legends")}>
+                                <ChartLegends {...this.props}></ChartLegends>
+                            </PanelBody>
+                        </PanelBody>
+
+                        <DataFilters
+                          allFilters={this.state.filters}
+                          allCategories={this.state.categories}
+                          {...this.props}/>
+
+                        <PanelBody initialOpen={false} title={__("Tooltip")}>
+                            <PanelRow>
+                                <ToggleControl label={__("Enable Tooltip")} checked={***REMOVED***}
+                                               onChange={(***REMOVED***) => {
+                                                   setAttributes({
+                                                       ***REMOVED***,
+                                                       tooltipHTML: "{value}"
+                                                   })
+                                               }}/>
+                            </PanelRow>
+                            {***REMOVED*** &&
+                            <>
+                                <PanelRow>
+                                    <ToggleControl label={__("Enable Markdown Syntax Support")}
+                                                   checked={tooltipEnableMarkdown}
+                                                   onChange={(tooltipEnableMarkdown) => {
+                                                       setAttributes({
+                                                           tooltipEnableMarkdown
+                                                       })
+                                                   }}/>
+                                </PanelRow>
+                                {app == 'csv' &&
+                                <PanelRow>
+                                    <***REMOVED***
+                                      label={__("Tooltip")}
+                                      value={tooltipHTML}
+                                      help={__("You can use variables {var_name}")}
+                                      onChange={(tooltipHTML) => setAttributes({tooltipHTML})}
+                                      rows={10}
+                                    />
+                                </PanelRow>
+                                }
+                                {app != 'csv' &&
+                                <Tooltip allDimensions={this.state.dimensions}
+                                         allMeasures={this.state.measures} {...this.props} ></Tooltip>
+                                }
+                            </>
+                            }
+                        </PanelBody>
+
+
+                        <PanelBody initialOpen={false} title={"Messages"}>
+                            <PanelRow>
+                                <TextControl
+                                  label={__('No Data Message')}
+                                  value={noDataMessage}
+                                  onChange={(noDataMessage) => setAttributes({noDataMessage})}
+                                />
+                            </PanelRow>
+                        </PanelBody>
+                    </>
+                </Panel>
+            </***REMOVED***>),
+              (<ResizableBox
+                  size={{height}}
+                  style={{"margin": "auto", width: "100%"}}
+                  minHeight="50"
+                  minWidth="50"
+                  enable={{
+                      top: false,
+                      right: false,
+                      bottom: true,
+                      left: false,
+                      topRight: false,
+                      bottomRight: false,
+                      bottomLeft: false,
+                      topLeft: false,
+                  }}
+                  onResizeStop={(event, direction, elt, delta) => {
+                      setAttributes({
+                          height: parseInt(height + delta.height, 10),
+                      });
+                      ***REMOVED***(true);
+                  }}
+                  onResizeStart={() => {
+                      ***REMOVED***(false);
+                  }}>
+
+                    <div className={className}>
+                        {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
+                                                            src={this.state.react_ui_url + "/embeddable/sankeychart?"}/>}
+
+                    </div>
+                </ResizableBox>
+              )]
+        );
+
+    }
+}
+
+const Edit = (props) => {
+    const blockProps = useBlockProps();
+    return <div {...blockProps}><BlockEdit {...props}/></div>;
+}
+export default Edit;

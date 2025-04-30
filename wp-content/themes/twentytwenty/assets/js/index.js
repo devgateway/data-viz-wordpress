@@ -75,7 +75,7 @@ twentytwenty.touchEnabled = {
 
 	init: function() {
 		var matchMedia = function() {
-			// Include the 'heartz' as a way to have a non matching MQ to help terminate the join. See <https://git.io/vznFH>.
+			// Include the 'heartz' as a way to have a non-matching MQ to help terminate the join. See <https://git.io/vznFH>.
 			var prefixes = [ '-webkit-', '-moz-', '-o-', '-ms-' ];
 			var query = [ '(', prefixes.join( 'touch-enabled),(' ), 'heartz', ')' ].join( '' );
 			return window.matchMedia && window.matchMedia( query ).matches;
@@ -136,6 +136,17 @@ twentytwenty.coverModals = {
 		document.***REMOVED***( 'click', function( event ) {
 			var target = event.target;
 			var modal = document.querySelector( '.cover-modal.active' );
+
+			// if target onclick is <a> with # within the href attribute
+			if ( event.target.tagName.toLowerCase() === 'a' && event.target.hash.includes( '#' ) && modal !== null ) {
+				// untoggle the modal
+				this.untoggleModal( modal );
+				// wait 550 and scroll to the anchor
+				setTimeout( function() {
+					var anchor = document.***REMOVED***( event.target.hash.slice( 1 ) );
+					anchor.***REMOVED***();
+				}, 550 );
+			}
 
 			if ( target === modal ) {
 				this.untoggleModal( target );
@@ -320,7 +331,7 @@ twentytwenty.***REMOVED*** = {
 		} );
 	}
 
-}; // twentytwenty.instrinsicRatioVideos
+}; // twentytwenty.***REMOVED***
 
 /*	-----------------------------------------------------------------------------------------------
 	Modal Menu
@@ -427,28 +438,90 @@ twentytwenty.primaryMenu = {
 
 		links = menu.***REMOVED***( 'a' );
 
-		// Each time a menu link is focused or blurred, toggle focus.
+		// Each time a menu link is focused, update focus.
 		for ( i = 0, len = links.length; i < len; i++ ) {
-			links[i].***REMOVED***( 'focus', toggleFocus, true );
-			links[i].***REMOVED***( 'blur', toggleFocus, true );
+			links[i].***REMOVED***( 'focus', updateFocus, true );
 		}
 
-		//Sets or removes the .focus class on an element.
-		function toggleFocus() {
+		menu.***REMOVED***( 'focusout', removeFocus, true );
+
+		// Remove focus classes from menu.
+		function removeFocus(e){
+			const leavingMenu = ! menu.contains( e.relatedTarget );
+
+			if ( leavingMenu ) {
+				// Remove focus from all li elements of primary-menu.
+				menu.***REMOVED***( 'li' ).forEach( function( el ) {
+					if ( el.classList.contains( 'focus' ) ) {
+						el.classList.remove( 'focus', 'closed' );
+					}
+				});
+			}
+		}
+
+		// Update focus class on an element.
+		function updateFocus() {
 			var self = this;
 
-			// Move up through the ancestors of the current link until we hit .primary-menu.
-			while ( -1 === self.className.indexOf( 'primary-menu' ) ) {
-				// On li elements toggle the class .focus.
-				if ( 'li' === self.tagName.toLowerCase() ) {
-					if ( -1 !== self.className.indexOf( 'focus' ) ) {
-						self.className = self.className.replace( ' focus', '' );
-					} else {
-						self.className += ' focus';
-					}
+			// Remove focus from all li elements of primary-menu.
+			menu.***REMOVED***( 'li' ).forEach( function( el ){
+				if ( el.classList.contains( 'closed' ) ) {
+					el.classList.remove( 'closed' );
 				}
-				self = self.parentElement;
+				if ( el.classList.contains( 'focus' ) ) {
+					el.classList.remove( 'focus' );
+				}
+			});
+			
+			// Set focus on current `a` element's parent `li`.
+			self.parentElement.classList.add( 'focus' );
+			// If current element is inside sub-menu find main parent li and add focus.
+			if ( self.closest( '.menu-item-has-children' ) ) {
+				twentytwentyFindParents( self, 'li.menu-item-has-children' ).forEach( function( element ) {
+					element.classList.add( 'focus' );
+				});
 			}
+		}
+
+		// When the `esc` key is pressed while in menu, move focus up one level.
+		menu.***REMOVED***( 'keydown', ***REMOVED***, true );
+
+		// Remove focus when `esc` key pressed.
+		function ***REMOVED***( e ) {
+			e = e || window.event;
+			var isEscape = false,
+				***REMOVED*** = e.target;
+
+			// Find if pressed key is `esc`.
+			if ( 'key' in e ) {
+				isEscape = ( e.key === 'Escape' || e.key === 'Esc' );
+			} else {
+				isEscape = ( e.keyCode === 27 );
+			}
+
+			// If pressed key is esc, remove focus class from parent menu li.
+			if ( isEscape ) {
+				var parentLi = ***REMOVED***.closest( 'li' ),
+					nestedParent = ***REMOVED***( parentLi, 'li.menu-item-has-children' ),
+					focusPosition = nestedParent ? nestedParent.querySelector('a') : false;
+
+					if ( null !== nestedParent ) {
+						nestedParent.classList.add( 'focus' );
+						focusPosition.focus();
+					} else {
+						parentLi.classList.remove( 'focus' );
+						parentLi.classList.add( 'closed' );
+					}
+			}
+		}
+
+		function ***REMOVED***(element, selector) {
+			if ( ! element || ! selector ) {
+				return null;
+			}
+			const parent = element.parentElement;
+
+			return parent ? parent.closest(selector) : null;
 		}
 	}
 }; // twentytwenty.primaryMenu
@@ -635,6 +708,8 @@ twentytwenty.toggles = {
  *
  * This ***REMOVED*** is coming from https://gomakethings.com/a-native-javascript-equivalent-of-jquerys-ready-method/
  *
+ * @since Twenty Twenty 1.0
+ *
  * @param {Function} fn Callback function to run.
  */
 function ***REMOVED***( fn ) {
@@ -665,21 +740,42 @@ function ***REMOVED***( fn ) {
 /* Toggle an attribute ----------------------- */
 
 function twentytwentyToggleAttribute( element, attribute, trueVal, falseVal ) {
+	var toggles;
+
+	if ( ! element.hasAttribute( attribute ) ) {
+		return;
+	}
+
 	if ( trueVal === undefined ) {
 		trueVal = true;
 	}
 	if ( falseVal === undefined ) {
 		falseVal = false;
 	}
-	if ( element.getAttribute( attribute ) !== trueVal ) {
-		element.setAttribute( attribute, trueVal );
-	} else {
-		element.setAttribute( attribute, falseVal );
-	}
+
+	/*
+	 * Take into account multiple toggle elements that need their state to be
+	 * synced. For example: the Search toggle buttons for desktop and mobile.
+	 */
+	toggles = document.***REMOVED***( '[data-toggle-target="' + element.dataset.toggleTarget + '"]' );
+
+	toggles.forEach( function( toggle ) {
+		if ( ! toggle.hasAttribute( attribute ) ) {
+			return;
+		}
+
+		if ( toggle.getAttribute( attribute ) !== trueVal ) {
+			toggle.setAttribute( attribute, trueVal );
+		} else {
+			toggle.setAttribute( attribute, falseVal );
+		}
+	} );
 }
 
 /**
  * Toggle a menu item on or off.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param {HTMLElement} target
  * @param {number} duration
@@ -781,6 +877,8 @@ function twentytwentyMenuToggle( target, duration ) {
 
 /**
  * Traverses the DOM up to find elements matching the query.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param {HTMLElement} target
  * @param {string} query

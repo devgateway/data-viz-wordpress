@@ -1,10 +1,9 @@
 /**
  * External dependencies
  */
-import classnames from 'classnames';
+import clsx from 'clsx';
 import type { Properties } from 'csstype';
 import type { Dispatch, ***REMOVED***, MouseEvent, KeyboardEvent } from 'react';
-import { omit } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -18,6 +17,8 @@ import {
 } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { plus, trash, chevronRight, chevronDown } from '@wordpress/icons';
+import { store as noticesStore } from '@wordpress/notices';
+import { useDispatch } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -32,29 +33,27 @@ import {
 	toVirtualRows,
 	***REMOVED***,
 	***REMOVED***,
-	VRow,
+	type VTable,
+	type VCell,
+	type VRow,
+	type VSelectedLine,
+	type ***REMOVED***,
 } from '../utils/table-state';
 import { ***REMOVED*** } from '../utils/style-converter';
 
 import type { SectionName, CellTagValue, ***REMOVED*** } from '../***REMOVED***';
-import type {
-	VTable,
-	VCell,
-	VSelectMode,
-	VSelectedLine,
-	***REMOVED***,
-} from '../utils/table-state';
 import type { StoreOptions } from '../store';
 
 function TSection( props: any ) {
-	const name: SectionName = props.name;
+	const { name, ...restProps } = props;
 	const TagName = `t${ name }`;
-	return <TagName { ...omit( props, 'name' ) } />;
+	return <TagName { ...restProps } />;
 }
 
 function Cell( props: any ) {
-	const TagName: CellTagValue = props.name;
-	return <TagName { ...omit( props, 'name' ) } />;
+	const { name, ...restProps } = props;
+	const TagName: CellTagValue = name;
+	return <TagName { ...restProps } />;
 }
 
 type Props = {
@@ -68,6 +67,7 @@ type Props = {
 	***REMOVED***: Dispatch< ***REMOVED***< ***REMOVED*** > >;
 	selectedLine: VSelectedLine;
 	***REMOVED***: Dispatch< ***REMOVED***< VSelectedLine > >;
+	***REMOVED***: boolean;
 };
 
 export default function Table( {
@@ -81,18 +81,20 @@ export default function Table( {
 	***REMOVED***,
 	selectedLine,
 	***REMOVED***,
+	***REMOVED***,
 }: Props ) {
 	const { ***REMOVED***, ***REMOVED***, sticky } = attributes;
 
 	const colorProps = useColorProps( attributes );
 
-	const [ selectMode, setSelectMode ] = useState< VSelectMode >( undefined );
+	const [ isSelectMode, ***REMOVED*** ] = useState< boolean >( false );
 
 	// Manage rendering status as state since some processing may be performed before rendering components.
 	const [ isReady, setIdReady ] = useState< boolean >( false );
-	useEffect( () => setIdReady( true ) );
+	useEffect( () => setIdReady( true ), [] );
 
 	const tableRef = useRef( null );
+	const { ***REMOVED*** } = useDispatch( noticesStore );
 
 	let isTabMove: boolean = false;
 
@@ -113,8 +115,14 @@ export default function Table( {
 			vTable.body.length === 1 &&
 			( ! ***REMOVED***( vTable.head ) || ! ***REMOVED***( vTable.foot ) )
 		) {
-			// eslint-disable-next-line no-alert, no-undef
-			alert( __( 'The table body must have one or more rows.', 'flexible-table-block' ) );
+			// @ts-ignore
+			***REMOVED***(
+				__( 'The table body must have one or more rows.', 'flexible-table-block' ),
+				{
+					id: 'flexible-table-block-body-row',
+					type: 'snackbar',
+				}
+			);
 			return;
 		}
 
@@ -197,7 +205,9 @@ export default function Table( {
 	const ***REMOVED*** = ( content: string, targetCell: VCell ) => {
 		// If inline highlight is applied to the RichText, this process is performed before rendering the component, causing a warning error.
 		// Therefore, nothing is performed if the component has not yet been rendered.
-		if ( ! isReady ) return;
+		if ( ! isReady ) {
+			return;
+		}
 
 		const { sectionName, rowIndex: ***REMOVED***, vColIndex: ***REMOVED*** } = targetCell;
 		***REMOVED***( [ { ...targetCell, ***REMOVED***: true } ] );
@@ -229,89 +239,128 @@ export default function Table( {
 	const onKeyDown = ( event: KeyboardEvent ) => {
 		const { key } = event;
 
-		if ( key === 'Shift' ) {
-			// range-select mode.
-			setSelectMode( 'range' );
-		} else if ( key === 'Control' || key === 'Meta' ) {
-			// multi-select mode.
-			setSelectMode( 'multi' );
+		if ( key === 'Shift' || key === 'Control' || key === 'Meta' ) {
+			// range-select mode or multi-select mode.
+			***REMOVED***( true );
 		} else if ( key === 'Tab' && options.tab_move && tableRef.current ) {
+			const ***REMOVED*** =
+				( event.target as HTMLElement ).closest( '.wp-block-flexible-table-block-table' ) !== null;
+
+			if ( ! ***REMOVED*** ) {
+				return;
+			}
 			// Focus on the next cell.
 			isTabMove = true;
 
 			const tableElement: HTMLElement = tableRef.current;
-			const activeElement = tableElement.querySelector(
-				'th.is-selected [***REMOVED***], td.is-selected [***REMOVED***]'
+			const { ownerDocument } = tableElement;
+			const { activeElement } = ownerDocument;
+
+			const activeCell = tableElement.querySelector(
+				'th.is-selected > [***REMOVED***="true"], td.is-selected > [***REMOVED***="true"]'
 			);
+			const ***REMOVED*** =
+				activeElement && activeElement.closest( '.components-popover' ) !== null;
+			const ***REMOVED*** = !! ownerDocument.querySelector( '.block-editor-link-control' );
 
-			if ( ! activeElement ) return;
-
-			const tabbableNodes = tableElement.***REMOVED***( '[***REMOVED***]' );
-			const ***REMOVED*** = [].slice.call( tabbableNodes );
-			const activeIndex = ***REMOVED***.findIndex(
-				( element: Node ) => element === activeElement
-			);
-
-			if ( activeIndex === -1 ) return;
-
-			let nextIndex = event.shiftKey ? activeIndex - 1 : activeIndex + 1;
-
-			if ( nextIndex < 0 ) {
-				nextIndex = ***REMOVED***.length - 1;
-			} else if ( nextIndex >= ***REMOVED***.length ) {
-				nextIndex = 0;
+			if ( ! activeCell || ***REMOVED*** || ***REMOVED*** ) {
+				return;
 			}
 
-			const ***REMOVED***: HTMLElement = ***REMOVED***[ nextIndex ];
-			const { ownerDocument } = tableElement;
+			const tabbableNodes = tableElement.***REMOVED***(
+				'th > [***REMOVED***="true"], td > [***REMOVED***="true"]'
+			);
 
-			if ( ***REMOVED*** ) {
-				event.***REMOVED***();
-				setSelectMode( undefined );
-				***REMOVED***.focus();
+			const ***REMOVED*** = [].slice.call( tabbableNodes );
+			const ***REMOVED*** = ***REMOVED***.findIndex(
+				( element: Node ) => element === activeCell
+			);
 
-				// Select all text if the next cell is not empty.
-				const selection = ownerDocument.getSelection();
-				const range = ownerDocument.createRange();
+			if ( ***REMOVED*** === -1 ) {
+				return;
+			}
 
-				if ( selection && ***REMOVED***.innerText.trim().length ) {
-					range.***REMOVED***( ***REMOVED*** );
-					selection.***REMOVED***();
-					selection.addRange( range );
-				}
+			let nextCellIndex = event.shiftKey ? ***REMOVED*** - 1 : ***REMOVED*** + 1;
+
+			if ( nextCellIndex < 0 ) {
+				nextCellIndex = ***REMOVED***.length - 1;
+			} else if ( nextCellIndex >= ***REMOVED***.length ) {
+				nextCellIndex = 0;
+			}
+
+			const ***REMOVED***: HTMLElement = ***REMOVED***[ nextCellIndex ];
+
+			if ( ! ***REMOVED*** ) {
+				return;
+			}
+
+			event.***REMOVED***();
+			***REMOVED***( false );
+			***REMOVED***.focus();
+
+			// Select all text if the next cell is not empty.
+			const selection = ownerDocument.getSelection();
+			const range = ownerDocument.createRange();
+
+			if ( selection && ***REMOVED***.innerText.trim().length ) {
+				range.***REMOVED***( ***REMOVED*** );
+				selection.***REMOVED***();
+				selection.addRange( range );
 			}
 		}
 	};
 
 	const onKeyUp = ( event: KeyboardEvent ) => {
 		const { key } = event;
+
 		if ( key === 'Shift' || key === 'Control' || key === 'Meta' ) {
-			setSelectMode( undefined );
+			const ***REMOVED*** =
+				( event.target as HTMLElement ).closest( '.wp-block-flexible-table-block-table' ) !== null;
+
+			if ( ! ***REMOVED*** ) {
+				return;
+			}
+
+			***REMOVED***( false );
 		}
 	};
 
 	const onClickCell = ( event: MouseEvent, clickedCell: VCell ) => {
+		const { shiftKey, ctrlKey, metaKey } = event;
+		const ***REMOVED*** =
+			( event.target as HTMLElement ).closest( '.wp-block-flexible-table-block-table' ) !== null;
+
+		if ( ! ***REMOVED*** ) {
+			return;
+		}
+
 		const { sectionName, rowIndex, vColIndex } = clickedCell;
 
-		if ( event.shiftKey ) {
+		if ( shiftKey ) {
 			// Range select.
 			if ( ! selectedCells ) {
 				***REMOVED***( [ { ...clickedCell, ***REMOVED***: true } ] );
 			} else {
 				const fromCell = selectedCells.find( ( { ***REMOVED*** } ) => ***REMOVED*** );
 
-				if ( ! fromCell ) return;
+				if ( ! fromCell ) {
+					return;
+				}
 
 				if ( fromCell.sectionName !== sectionName ) {
-					// eslint-disable-next-line no-alert, no-undef
-					alert(
-						__( 'Cannot select range cells from difference section.', 'flexible-table-block' )
+					// @ts-ignore
+					***REMOVED***(
+						__( 'Cannot select range cells from difference sections.', 'flexible-table-block' ),
+						{
+							id: 'flexible-table-block-range-sections',
+							type: 'snackbar',
+						}
 					);
 					return;
 				}
 				***REMOVED***( toRectangledSelectedCells( vTable, { fromCell, toCell: clickedCell } ) );
 			}
-		} else if ( event.ctrlKey || event.metaKey ) {
+		} else if ( ctrlKey || metaKey ) {
 			// Multple select.
 			const ***REMOVED*** = selectedCells ? [ ...selectedCells ] : [];
 			const ***REMOVED*** = ***REMOVED***.findIndex( ( cell ) => {
@@ -323,8 +372,14 @@ export default function Table( {
 			} );
 
 			if ( ***REMOVED***.length && sectionName !== ***REMOVED***[ 0 ].sectionName ) {
-				// eslint-disable-next-line no-alert, no-undef
-				alert( __( 'Cannot select multi cells from difference section.', 'flexible-table-block' ) );
+				// @ts-ignore
+				***REMOVED***(
+					__( 'Cannot select multi cells from difference sections.', 'flexible-table-block' ),
+					{
+						id: 'flexible-table-block-multi-sections',
+						type: 'snackbar',
+					}
+				);
 				return;
 			}
 
@@ -343,7 +398,9 @@ export default function Table( {
 
 	// Remove cells from the virtual table that are not needed for dom rendering.
 	const ***REMOVED*** = Object.keys( vTable ).reduce( ( result: any, sectionName ) => {
-		if ( ***REMOVED***( vTable[ sectionName as SectionName ] ) ) return result;
+		if ( ***REMOVED***( vTable[ sectionName as SectionName ] ) ) {
+			return result;
+		}
 		return {
 			...result,
 			[ sectionName ]: vTable[ sectionName as SectionName ].map( ( row ) => ( {
@@ -352,14 +409,16 @@ export default function Table( {
 		};
 	}, {} );
 
-	if ( ! ***REMOVED*** ) return null;
+	if ( ! ***REMOVED*** ) {
+		return null;
+	}
 
 	const ***REMOVED*** = Object.keys( ***REMOVED*** ) as SectionName[];
 
 	return (
 		// eslint-disable-next-line jsx-a11y/no-***REMOVED***-element-interactions
 		<table
-			className={ classnames( colorProps.className, {
+			className={ clsx( colorProps.className, {
 				'has-fixed-layout': ***REMOVED***,
 				'is-stacked-on-mobile': ***REMOVED***,
 				[ `is-sticky-${ sticky }` ]: sticky,
@@ -401,7 +460,7 @@ export default function Table( {
 									<Cell
 										key={ vColIndex }
 										name={ tag }
-										className={ classnames( className, { 'is-selected': ***REMOVED*** } ) }
+										className={ clsx( className, { 'is-selected': ***REMOVED*** } ) }
 										rowSpan={ rowSpan > 1 ? rowSpan : undefined }
 										colSpan={ colSpan > 1 ? colSpan : undefined }
 										style={ cellStylesObj }
@@ -411,6 +470,7 @@ export default function Table( {
 										onClick={ ( event: MouseEvent ) => onClickCell( event, cell ) }
 									>
 										{ isSelected &&
+											! ***REMOVED*** &&
 											options.show_label_on_section &&
 											rowIndex === 0 &&
 											vColIndex === 0 && (
@@ -426,17 +486,17 @@ export default function Table( {
 													{ `t${ sectionName }` }
 												</Button>
 											) }
-										{ isSelected && options.show_control_button && (
+										{ isSelected && ! ***REMOVED*** && options.show_control_button && (
 											<>
 												{ rowIndex === 0 && vColIndex === 0 && (
 													<Button
-														className={ classnames( 'ftb-row-before-inserter', {
+														className={ clsx( 'ftb-row-before-inserter', {
 															'ftb-row-before-inserter--has-prev-section': sectionIndex > 0,
 														} ) }
 														label={ __( 'Insert row before', 'flexible-table-block' ) }
 														tabIndex={ options.focus_control_button ? 0 : -1 }
 														icon={ plus }
-														iconSize="18"
+														iconSize={ 18 }
 														onClick={ ( event: MouseEvent ) => {
 															onInsertRow( sectionName, rowIndex );
 															event.***REMOVED***();
@@ -450,7 +510,7 @@ export default function Table( {
 															label={ __( 'Select row', 'flexible-table-block' ) }
 															tabIndex={ options.focus_control_button ? 0 : -1 }
 															icon={ chevronRight }
-															iconSize="16"
+															iconSize={ 16 }
 															variant={
 																isRowSelected &&
 																selectedLine.sectionName === sectionName &&
@@ -482,11 +542,11 @@ export default function Table( {
 												) }
 												{ sectionIndex === 0 && rowIndex === 0 && vColIndex === 0 && (
 													<Button
-														className={ 'ftb-column-before-inserter' }
+														className="ftb-column-before-inserter"
 														label={ __( 'Insert column before', 'flexible-table-block' ) }
 														tabIndex={ options.focus_control_button ? 0 : -1 }
 														icon={ plus }
-														iconSize="18"
+														iconSize={ 18 }
 														onClick={ ( event: MouseEvent ) => {
 															***REMOVED***( cell, 0 );
 															event.***REMOVED***();
@@ -500,7 +560,7 @@ export default function Table( {
 															label={ __( 'Select column', 'flexible-table-block' ) }
 															tabIndex={ options.focus_control_button ? 0 : -1 }
 															icon={ chevronDown }
-															iconSize="18"
+															iconSize={ 18 }
 															variant={
 																***REMOVED*** && selectedLine.vColIndex === vColIndex
 																	? 'primary'
@@ -528,7 +588,7 @@ export default function Table( {
 												) }
 												{ vColIndex === 0 && (
 													<Button
-														className={ classnames( 'ftb-row-after-inserter', {
+														className={ clsx( 'ftb-row-after-inserter', {
 															'ftb-row-after-inserter--has-next-section':
 																sectionIndex < Object.keys( ***REMOVED*** ).length - 1 &&
 																rowIndex + rowSpan - 1 === ***REMOVED***[ sectionName ].length - 1,
@@ -536,7 +596,7 @@ export default function Table( {
 														label={ __( 'Insert row after', 'flexible-table-block' ) }
 														tabIndex={ options.focus_control_button ? 0 : -1 }
 														icon={ plus }
-														iconSize="18"
+														iconSize={ 18 }
 														onClick={ ( event: MouseEvent ) => {
 															onInsertRow( sectionName, rowIndex + rowSpan );
 															event.***REMOVED***();
@@ -549,26 +609,26 @@ export default function Table( {
 											key={ vColIndex }
 											value={ content }
 											onChange={ ( value ) => ***REMOVED***( value, cell ) }
-											// @ts-ignore: `***REMOVED***` prop is not exist at @types
-											***REMOVED***={ () => {
-												if ( ! selectMode || isTabMove ) {
+											{ ...( ( ! isSelectMode || isTabMove ) && {
+												onFocus: () => {
 													isTabMove = false;
 													***REMOVED***( undefined );
 													***REMOVED***( [ { ...cell, ***REMOVED***: true } ] );
-												}
-											} }
+												},
+											} ) }
 											aria-label={ CELL_ARIA_LABEL[ sectionName as SectionName ] }
 										/>
 										{ isSelected &&
+											! ***REMOVED*** &&
 											options.show_control_button &&
 											sectionIndex === 0 &&
 											rowIndex === 0 && (
 												<Button
-													className={ 'ftb-column-after-inserter' }
+													className="ftb-column-after-inserter"
 													label={ __( 'Insert column after', 'flexible-table-block' ) }
 													tabIndex={ options.focus_control_button ? 0 : -1 }
 													icon={ plus }
-													iconSize="18"
+													iconSize={ 18 }
 													onClick={ ( event: MouseEvent ) => {
 														***REMOVED***( cell, 1 );
 														event.***REMOVED***();

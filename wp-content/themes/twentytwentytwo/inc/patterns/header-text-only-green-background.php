@@ -3,7 +3,7 @@
  * Text-only header with green background block pattern
  */
 return array(
-	'title'      => __( 'Text-only header with green background', '***REMOVED***' ),
+	'title'      => __( 'Text-only header with background', '***REMOVED***' ),
 	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|background"}}},"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"***REMOVED***":"primary","textColor":"background","layout":{"inherit":true}} -->

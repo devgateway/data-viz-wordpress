@@ -26,13 +26,6 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 	 * as indicating support for post thumbnails.
 	 */
 	function twentynineteen_setup() {
-		/*
-		 * Make theme available for translation.
-		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on Twenty Nineteen, use a find and replace
-		 * to change '***REMOVED***' to the name of your theme in all the template files.
-		 */
-		load_theme_textdomain( '***REMOVED***', get_template_directory() . '/languages' );
 
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
@@ -76,6 +69,7 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 				'caption',
 				'script',
 				'style',
+				'navigation-widgets',
 			)
 		);
 
@@ -145,12 +139,12 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 			'editor-color-palette',
 			array(
 				array(
-					'name'  => 'default' === get_theme_mod( 'primary_color' ) ? __( 'Blue', '***REMOVED***' ) : null,
+					'name'  => 'default' === get_theme_mod( 'primary_color', 'default' ) ? __( 'Blue', '***REMOVED***' ) : null,
 					'slug'  => 'primary',
 					'color' => twentynineteen_hsl_hex( 'default' === get_theme_mod( 'primary_color' ) ? 199 : get_theme_mod( 'primary_color_hue', 199 ), 100, 33 ),
 				),
 				array(
-					'name'  => 'default' === get_theme_mod( 'primary_color' ) ? __( 'Dark Blue', '***REMOVED***' ) : null,
+					'name'  => 'default' === get_theme_mod( 'primary_color', 'default' ) ? __( 'Dark Blue', '***REMOVED***' ) : null,
 					'slug'  => 'secondary',
 					'color' => twentynineteen_hsl_hex( 'default' === get_theme_mod( 'primary_color' ) ? 199 : get_theme_mod( 'primary_color_hue', 199 ), 100, 23 ),
 				),
@@ -174,9 +168,26 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 
 		// Add support for responsive embedded content.
 		add_theme_support( 'responsive-embeds' );
+
+		// Add support for custom line height.
+		add_theme_support( 'custom-line-height' );
 	}
 endif;
 add_action( 'after_setup_theme', 'twentynineteen_setup' );
+
+if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
+	/**
+	 * Retrieves the list item separator based on the locale.
+	 *
+	 * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+	 *
+	 * @since 6.0.0
+	 */
+	function wp_get_list_item_separator() {
+		/* translators: Used between list items, there is a space after the comma. */
+		return __( ', ', '***REMOVED***' );
+	}
+endif;
 
 /**
  * Register widget area.
@@ -196,9 +207,32 @@ function twentynineteen_widgets_init() {
 			'after_title'   => '</h2>',
 		)
 	);
-
 }
 add_action( 'widgets_init', 'twentynineteen_widgets_init' );
+
+/**
+ * Replaces "[...]" (appended to automatically generated excerpts) with ... and
+ * a 'Continue reading' link.
+ *
+ * @since Twenty Nineteen 2.0
+ *
+ * @param string $link Link to single post/page.
+ * @return string 'Continue reading' link prepended with an ellipsis.
+ */
+function twentynineteen_excerpt_more( $link ) {
+	if ( is_admin() ) {
+		return $link;
+	}
+
+	$link = sprintf(
+		'<p class="link-more"><a href="%1$s" class="more-link">%2$s</a></p>',
+		esc_url( get_permalink( get_the_ID() ) ),
+		/* translators: %s: Post title. Only visible to screen readers. */
+		sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', '***REMOVED***' ), get_the_title( get_the_ID() ) )
+	);
+	return ' &hellip; ' . $link;
+}
+add_filter( 'excerpt_more', 'twentynineteen_excerpt_more' );
 
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
@@ -224,8 +258,26 @@ function twentynineteen_scripts() {
 	wp_style_add_data( '***REMOVED***-style', 'rtl', 'replace' );
 
 	if ( has_nav_menu( 'menu-1' ) ) {
-		wp_enqueue_script( '***REMOVED***-priority-menu', get_theme_file_uri( '/js/priority-menu.js' ), array(), '20181214', true );
-		wp_enqueue_script( '***REMOVED***-touch-navigation', get_theme_file_uri( '/js/touch-keyboard-navigation.js' ), array(), '20181231', true );
+		wp_enqueue_script(
+			'***REMOVED***-priority-menu',
+			get_theme_file_uri( '/js/priority-menu.js' ),
+			array(),
+			'20200129',
+			array(
+				'in_footer' => false, // Because involves header.
+				'strategy'  => 'defer',
+			)
+		);
+		wp_enqueue_script(
+			'***REMOVED***-touch-navigation',
+			get_theme_file_uri( '/js/touch-keyboard-navigation.js' ),
+			array(),
+			'20230621',
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
 	}
 
 	wp_enqueue_style( '***REMOVED***-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
@@ -242,6 +294,9 @@ add_action( 'wp_enqueue_scripts', 'twentynineteen_scripts' );
  * This does not enqueue the script because it is tiny and because it is only for IE11,
  * thus it does not warrant having an entire dedicated blocking script being loaded.
  *
+ * @since Twenty Nineteen 1.0
+ * @deprecated Twenty Nineteen 2.6 Removed from wp_print_footer_scripts action.
+ *
  * @link https://git.io/vWdr2
  */
 function twentynineteen_skip_link_focus_fix() {
@@ -252,14 +307,13 @@ function twentynineteen_skip_link_focus_fix() {
 	</script>
 	<?php
 }
-add_action( 'wp_print_footer_scripts', 'twentynineteen_skip_link_focus_fix' );
 
 /**
  * Enqueue supplemental block editor styles.
  */
 function twentynineteen_editor_customizer_styles() {
 
-	wp_enqueue_style( '***REMOVED***-editor-customizer-styles', get_theme_file_uri( '/style-editor-customizer.css' ), false, '1.1', 'all' );
+	wp_enqueue_style( '***REMOVED***-editor-customizer-styles', get_theme_file_uri( '/style-editor-customizer.css' ), false, '2.1', 'all' );
 
 	if ( 'custom' === get_theme_mod( 'primary_color' ) ) {
 		// Include color patterns.
@@ -328,3 +382,14 @@ require get_template_directory() . '/inc/template-tags.php';
  * Customizer additions.
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Register block patterns and pattern categories.
+ *
+ * @since Twenty Nineteen 3.0
+ */
+function twentynineteen_register_block_patterns() {
+	require get_template_directory() . '/inc/block-patterns.php';
+}
+
+add_action( 'init', 'twentynineteen_register_block_patterns' );

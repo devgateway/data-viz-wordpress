@@ -29,115 +29,115 @@ $proURL = "https://go.premio.io/?edd_action=add_to_cart&download_id=687&edd_opti
 $plans = [
     '1_website' => [
         '1_year' => [
-            'price' => 49,
-            'month' => 4.1,
-            'link' => $proURL."37",
+            'price' => 69,
+            'month' => 5.8,
+            'link' => $proURL."52",
             'title' => esc_html__("1 year", "folders"),
             'mobile_title' => esc_html__("Updated and support for 1 year", "folders"),
         ],
         '2_years' => [
-            'price' => 69,
-            'month' => 2.9,
-            'link' => $proURL."38",
+            'price' => 99,
+            'month' => 4.1,
+            'link' => $proURL."53",
             'title' => esc_html__("2 years", "folders"),
             'mobile_title' => esc_html__("Updated and support for 2 years", "folders"),
         ],
         'lifetime' => [
-            'price' => 149,
+            'price' => 175,
             'month' => 0,
-            'link' => $proURL."39",
+            'link' => $proURL."54",
             'title' => esc_html__("Lifetime", "folders"),
             'mobile_title' => esc_html__("Updated and support for lifetime", "folders"),
         ]
     ],
     '5_websites' => [
         '1_year' => [
-            'price' => 109,
-            'month' => 9.1,
-            'link' => $proURL."40",
+            'price' => 149,
+            'month' => 12.4,
+            'link' => $proURL."55",
             'title' => esc_html__("1 year", "folders"),
             'mobile_title' => esc_html__("Updated and support for 1 year", "folders"),
         ],
         '2_years' => [
-            'price' => 169,
-            'month' => 7.1,
-            'link' => $proURL."41",
+            'price' => 229,
+            'month' => 9.5,
+            'link' => $proURL."56",
             'title' => esc_html__("2 years", "folders"),
             'mobile_title' => esc_html__("Updated and support for 2 years", "folders"),
         ],
         'lifetime' => [
-            'price' => 279,
+            'price' => 389,
             'month' => 0,
-            'link' => $proURL."42",
+            'link' => $proURL."57",
             'title' => esc_html__("Lifetime", "folders"),
             'mobile_title' => esc_html__("Updated and support for lifetime", "folders")
         ]
     ],
     '50_websites' => [
         '1_year' => [
-            'price' => 179,
-            'month' => 15,
-            'link' => $proURL."43",
+            'price' => 249,
+            'month' => 20.8,
+            'link' => $proURL."58",
             'title' => esc_html__("1 year", "folders"),
             'mobile_title' => esc_html__("Updated and support for 1 year", "folders"),
         ],
         '2_years' => [
-            'price' => 279,
-            'month' => 11.7,
-            'link' => $proURL."44",
+            'price' => 389,
+            'month' => 16.2,
+            'link' => $proURL."59",
             'title' => esc_html__("2 years", "folders"),
             'mobile_title' => esc_html__("Updated and support for 2 years", "folders"),
         ],
         'lifetime' => [
-            'price' => 479,
+            'price' => 669,
             'month' => 0,
-            'link' => $proURL."45",
+            'link' => $proURL."60",
             'title' => esc_html__("Lifetime", "folders"),
             'mobile_title' => esc_html__("Updated and support for lifetime", "folders")
         ]
     ],
     '500_websites' => [
         '1_year' => [
-            'price' => 349,
-            'month' => 29.1,
-            'link' => $proURL."46",
-            'title' => esc_html__("1 year", "folders"),
-            'mobile_title' => esc_html__("Updated and support for 1 year", "folders"),
-        ],
-        '2_years' => [
-            'price' => 519,
-            'month' => 21.7,
-            'link' => $proURL."47",
-            'title' => esc_html__("2 years", "folders"),
-            'mobile_title' => esc_html__("Updated and support for 2 years", "folders"),
-        ],
-        'lifetime' => [
-            'price' => 869,
-            'month' => 0,
-            'link' => $proURL."48",
-            'title' => esc_html__("Lifetime", "folders"),
-            'mobile_title' => esc_html__("Updated and support for lifetime", "folders")
-        ]
-    ],
-    '1000_websites' => [
-        '1_year' => [
-            'price' => 479,
-            'month' => 40,
-            'link' => $proURL."49",
+            'price' => 489,
+            'month' => 40.8,
+            'link' => $proURL."61",
             'title' => esc_html__("1 year", "folders"),
             'mobile_title' => esc_html__("Updated and support for 1 year", "folders"),
         ],
         '2_years' => [
             'price' => 729,
-            'month' => 30.5,
-            'link' => $proURL."50",
+            'month' => 30.4,
+            'link' => $proURL."62",
             'title' => esc_html__("2 years", "folders"),
             'mobile_title' => esc_html__("Updated and support for 2 years", "folders"),
         ],
         'lifetime' => [
             'price' => 1199,
             'month' => 0,
-            'link' => $proURL."51",
+            'link' => $proURL."63",
+            'title' => esc_html__("Lifetime", "folders"),
+            'mobile_title' => esc_html__("Updated and support for lifetime", "folders")
+        ]
+    ],
+    '1000_websites' => [
+        '1_year' => [
+            'price' => 669,
+            'month' => 55.8,
+            'link' => $proURL."64",
+            'title' => esc_html__("1 year", "folders"),
+            'mobile_title' => esc_html__("Updated and support for 1 year", "folders"),
+        ],
+        '2_years' => [
+            'price' => 999,
+            'month' => 41.6,
+            'link' => $proURL."65",
+            'title' => esc_html__("2 years", "folders"),
+            'mobile_title' => esc_html__("Updated and support for 2 years", "folders"),
+        ],
+        'lifetime' => [
+            'price' => 1699,
+            'month' => 0,
+            'link' => $proURL."66",
             'title' => esc_html__("Lifetime", "folders"),
             'mobile_title' => esc_html__("Updated and support for lifetime", "folders")
         ]
@@ -168,6 +168,10 @@ $features = [
     [
         'title' => esc_html__("Folders access management", "folders"),
         'tooltip' => esc_html__("Advanced access management for your team with roles that restrict their access to view and edit your folders.", "folders")."<img src='".WCP_FOLDER_URL."assets/images/user-access.jpg' alt='".esc_html__("Metadata details on Media Library hover", "folders")."' />"
+    ],
+    [
+        'title' => esc_html__("Email notifications for Folders changes", "folders"),
+        'tooltip' => esc_html__("Stay informed with notifications whenever an action occurs on Folders — whether a new file is uploaded by a team member, a post is deleted, or any other change is made. Perfect for keeping track of updates.", "folders")
     ],
     [
         'title' => esc_html__("Clean unused media files from your Media Library", "folders"),
@@ -202,35 +206,39 @@ $features = [
         'tooltip' => esc_html__("Bookmark, lock/unlock or duplicate folders for faster & easier access to your favorite folders", "folders")
     ],
     [
+        'title' => esc_html__("Export and import Folders structure", "folders"),
+        'tooltip' => esc_html__("Easily export your folder structure in JSON format to back up your settings, or import structures from another WordPress account. Perfect for transferring setups, syncing across multiple sites, or sharing ***REMOVED*** with teammates", "folders")
+    ],
+    [
         'title' => esc_html__("Move files to trash before permanently removing", "folders"),
         'tooltip' => esc_html__("Before deleting files permanently, move them to trash to reduce accidental deletion", "folders")
     ],
     [
         'title' => esc_html__("Customize folder styles with fonts, custom colors & more", "folders"),
         'tooltip' => esc_html__("Customize folders with your preferred colors, font size, font family & more", "folders")
-    ],
+    ]
 ];
 ?>
 <div class="pricing-top">
     <?php if(isset($hasBackButton)) { ?>
         <div class="back-button-box">
-            <a href="<?php echo admin_url("options-general.php?page=wcp_folders_settings") ?>" class="go-back-button"><?php esc_html_e("Back", "folders"); ?></a>
+            <a href="<?php echo esc_url(admin_url("options-general.php?page=wcp_folders_settings")) ?>" class="go-back-button"><?php esc_html_e("Back", "folders"); ?></a>
         </div>
     <?php } ?>
     <div class="price-container">
         <div class="plan-details">
             <div class="unlock-features text-center">
-                <div class="unlock-features-title"><?php esc_html_e("Unlock all features", "chaty"); ?></div>
-                <div class="unlock-features-desc"><?php esc_html_e("(enjoy 30-day money back guarantee on all plans)", "chaty"); ?></div>
+                <div class="unlock-features-title"><?php esc_html_e("Unlock all features", 'folders'); ?></div>
+                <div class="unlock-features-desc"><?php esc_html_e("(enjoy 30-day money back guarantee on all plans)", 'folders'); ?></div>
             </div>
             <div class="plan-details-bottom">
                 <div class="plan-options">
                     <div class="plan-option active" data-id="1_year">
-                        <div class="plan-title"><?php esc_html_e("1 year", "chaty"); ?></div>
-                        <div class="plan-desc"><?php esc_html_e("Updates & Support", "chaty"); ?></div>
+                        <div class="plan-title"><?php esc_html_e("1 year", 'folders'); ?></div>
+                        <div class="plan-desc"><?php esc_html_e("Updates & Support", 'folders'); ?></div>
                     </div>
                     <div class="plan-option" data-id="2_years">
-                        <div class="plan-title"><?php esc_html_e("2 years ", "chaty"); ?><span>(32% Off
+                        <div class="plan-title"><?php esc_html_e("2 years ", 'folders'); ?><span>(32% Off
                             <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect y="0.712891" width="17" height="17" fill="url(#pattern0)"/>
                             <defs>
@@ -242,10 +250,10 @@ $features = [
                             </svg>
                             )</span>
                         </div>
-                        <div class="plan-desc"><?php esc_html_e("Updates & Support", "chaty"); ?></div>
+                        <div class="plan-desc"><?php esc_html_e("Updates & Support", 'folders'); ?></div>
                     </div>
                     <div class="plan-option" data-id="lifetime">
-                        <div class="plan-title"><?php esc_html_e("Lifetime ", "chaty"); ?><span>(60% Off
+                        <div class="plan-title"><?php esc_html_e("Lifetime ", 'folders'); ?><span>(60% Off
                             <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect y="0.712891" width="17" height="17" fill="url(#pattern0)"/>
                             <defs>
@@ -257,7 +265,7 @@ $features = [
                             </svg>
                             )</span>
                         </div>
-                        <div class="plan-desc"><?php esc_html_e("Updates & Support", "chaty"); ?></div>
+                        <div class="plan-desc"><?php esc_html_e("Updates & Support", 'folders'); ?></div>
                     </div>
                 </div>
             </div>
@@ -286,7 +294,7 @@ $features = [
                             <div class="plan-col plan-detail plan-info" data-plan="1_website">
                                 <span class="plan-name">Basic</span>
                                 <span class="plan-price"><span>$<?php echo esc_attr($plans['1_website']['1_year']['price']) ?></span>/year</span>
-                                <span class="plan-type">Billed Annually</span>
+                                <span class="plan-type">Billed Yearly</span>
                                 <span class="plan-monthly">Less than $<?php echo esc_attr($plans['1_website']['1_year']['month']) ?>/mo</span>
                                 <span class="update-support">Updates & Support for</span>
                                 <div class="plan-selector">
@@ -302,7 +310,7 @@ $features = [
                             <div class="plan-col plan-detail plus-plans plan-info" data-plan="5_websites">
                                 <span class="plan-name">Plus</span>
                                 <span class="plan-price"><span>$<?php echo esc_attr($plans['5_websites']['1_year']['price']) ?></span>/year</span>
-                                <span class="plan-type">Billed Annually</span>
+                                <span class="plan-type">Billed Yearly</span>
                                 <span class="plan-monthly">Less than $<?php echo esc_attr($plans['5_websites']['1_year']['month']) ?>/mo</span>
                                 <span class="update-support">Updates & Support for</span>
                                 <div class="plan-selector">
@@ -319,7 +327,7 @@ $features = [
                                 <span class="best-value">🎉 Best Value</span>
                                 <span class="plan-name">Agency</span>
                                 <span class="plan-price"><span>$<?php echo esc_attr($plans['50_websites']['1_year']['price']) ?></span>/year</span>
-                                <span class="plan-type">Billed Annually</span>
+                                <span class="plan-type">Billed Yearly</span>
                                 <span class="plan-monthly">Less than $<?php echo esc_attr($plans['50_websites']['1_year']['month']) ?>/mo</span>
                                 <span class="update-support">Updates & Support for</span>
                                 <div class="plan-selector">
@@ -394,7 +402,7 @@ $features = [
                         <div class="plan-head mobile-head-plan plan-info" data-plan="1_website">
                             <span class="plan-name">Basic</span>
                             <span class="plan-price"><span>$<?php echo esc_attr($plans['1_website']['1_year']['price']) ?></span>/year</span>
-                            <span class="plan-type">Billed Annually</span>
+                            <span class="plan-type">Billed Yearly</span>
                             <span class="plan-monthly">Less than $<?php echo esc_attr($plans['1_website']['1_year']['month']) ?>/mo</span>
                             <span class="update-support">Updates & Support for</span>
                             <div class="plan-selector">
@@ -448,7 +456,7 @@ $features = [
                             <span class="best-value">🎉 Best Value</span>
                             <span class="plan-name">Plus</span>
                             <span class="plan-price"><span>$<?php echo esc_attr($plans['5_websites']['1_year']['price']) ?></span>/year</span>
-                            <span class="plan-type">Billed Annually</span>
+                            <span class="plan-type">Billed Yearly</span>
                             <span class="plan-monthly">Less than $<?php echo esc_attr($plans['5_websites']['1_year']['month']) ?>/mo</span>
                             <span class="update-support">Updates & Support for</span>
                             <div class="plan-selector">
@@ -501,7 +509,7 @@ $features = [
                         <div class="plan-head mobile-head-plan plan-info multiple-plan-info" data-plan="50_websites">
                             <span class="plan-name">Agency</span>
                             <span class="plan-price"><span>$<?php echo esc_attr($plans['50_websites']['1_year']['price']) ?></span>/year</span>
-                            <span class="plan-type">Billed Annually</span>
+                            <span class="plan-type">Billed Yearly</span>
                             <span class="plan-monthly">Less than $<?php echo esc_attr($plans['50_websites']['1_year']['month']) ?>/mo</span>
                             <span class="update-support">Updates & Support for</span>
                             <div class="plan-selector">
@@ -551,11 +559,11 @@ $features = [
         <div class="money-guaranteed">
             <p>
                 <span class="dashicons dashicons-yes"></span>
-                <?php esc_html_e("30 days money back guaranteed", 'chaty'); ?>
+                <?php esc_html_e("30 days money back guaranteed", 'folders'); ?>
             </p>
             <p>
                 <span class="dashicons dashicons-yes"></span>
-                <?php esc_html_e("The plugin will always keep working even if you don't renew your license", 'chaty'); ?>
+                <?php esc_html_e("The plugin will always keep working even if you don't renew your license", 'folders'); ?>
             </p>
             <div class="payments">
                 <img src="<?php echo esc_url(WCP_FOLDER_URL."assets/images/payment.png") ?>" alt="Payment" class="payment-img" />
@@ -665,7 +673,7 @@ $features = [
 <div class="premio-customers">
     <div class="price-container">
         <div class="customer-title"><?php esc_html_e("TRUSTED BY LEADING COMPANIES WORLDWIDE", "folders") ?></div>
-        <img src="<?php echo WCP_FOLDER_URL."assets/images/companies.webp" ?>" alt="premio customers" />
+        <img src="<?php echo esc_url(WCP_FOLDER_URL."assets/images/companies.webp") ?>" alt="premio customers" />
     </div>
 </div>
 <div class="premio-faqs">
@@ -730,7 +738,7 @@ $features = [
             factory(jQuery);
         }
     }(function ($, undefined) {
-        var pluginPlans = <?php echo json_encode($plans) ?>;
+        var pluginPlans = <?php echo wp_json_encode($plans) ?>;
         var selectedId = '1_year';
         $(document).ready(function(){
             $(".testimonial-list").slick({
@@ -784,11 +792,11 @@ $features = [
                         var planPrice = "<span>$"+selectedPlan['price']+"</span>/lifetime";
                         if(selectedId == "2_years") {
                             planMonthly = "Less than $"+selectedPlan['month']+"/mo";
-                            planType = "Billed Annually";
+                            planType = "Billed Yearly after 2 Years";
                             planPrice = "<span>$"+selectedPlan['price']+"</span>/2 years";
                         } else if(selectedId == "1_year") {
                             planMonthly = "Less than $"+selectedPlan['month']+"/mo";
-                            planType = "Billed Annually";
+                            planType = "Billed Yearly";
                             planPrice = "<span>$"+selectedPlan['price']+"</span>/year"
                         }
                         $(this).closest(".plan-info").find(".plan-monthly").html(planMonthly);

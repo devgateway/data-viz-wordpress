@@ -2,7 +2,7 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
-use YoastSEO_Vendor\GuzzleHttp\Psr7;
+use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
 use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 /**
  * HTTP handler that uses cURL easy handles as a transport layer.
@@ -10,23 +10,27 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  * When using the CurlHandler, custom curl options can be specified as an
  * associative array of curl option constants mapping to values in the
  * **curl** key of the "client" key of the request.
+ *
+ * @final
  */
 class CurlHandler
 {
-    /** @var ***REMOVED*** */
+    /**
+     * @var ***REMOVED***
+     */
     private $factory;
     /**
      * Accepts an associative array of options:
      *
-     * - factory: Optional curl factory used to create cURL handles.
+     * - handle_factory: Optional curl factory used to create cURL handles.
      *
-     * @param array $options Array of options to use with the handler
+     * @param array{handle_factory?: ?***REMOVED***} $options Array of options to use with the handler
      */
     public function __construct(array $options = [])
     {
-        $this->factory = isset($options['handle_factory']) ? $options['handle_factory'] : new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlFactory(3);
+        $this->factory = $options['handle_factory'] ?? new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlFactory(3);
     }
-    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options)
+    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     {
         if (isset($options['delay'])) {
             \usleep($options['delay'] * 1000);

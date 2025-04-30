@@ -7,19 +7,23 @@ namespace YoastSEO_Vendor\GuzzleHttp\Cookie;
  */
 class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
 {
-    /** @var string session key */
+    /**
+     * @var string session key
+     */
     private $sessionKey;
-    /** @var bool Control whether to persist session cookies or not. */
+    /**
+     * @var bool Control whether to persist session cookies or not.
+     */
     private $***REMOVED***;
     /**
      * Create a new ***REMOVED*** object
      *
-     * @param string $sessionKey        Session key name to store the cookie
-     *                                  data in session
-     * @param bool $***REMOVED*** Set to true to store session cookies
-     *                                  in the cookie jar.
+     * @param string $sessionKey          Session key name to store the cookie
+     *                                    data in session
+     * @param bool   $***REMOVED*** Set to true to store session cookies
+     *                                    in the cookie jar.
      */
-    public function __construct($sessionKey, $***REMOVED*** = \false)
+    public function __construct(string $sessionKey, bool $***REMOVED*** = \false)
     {
         parent::__construct();
         $this->sessionKey = $sessionKey;
@@ -36,11 +40,11 @@ class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
     /**
      * Save cookies to the client session
      */
-    public function save()
+    public function save() : void
     {
         $json = [];
+        /** @var SetCookie $cookie */
         foreach ($this as $cookie) {
-            /** @var SetCookie $cookie */
             if (\YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar::shouldPersist($cookie, $this->***REMOVED***)) {
                 $json[] = $cookie->toArray();
             }
@@ -50,7 +54,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
     /**
      * Load the contents of the client session into the data array
      */
-    protected function load()
+    protected function load() : void
     {
         if (!isset($_SESSION[$this->sessionKey])) {
             return;
@@ -61,7 +65,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
                 $this->setCookie(new \YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie($cookie));
             }
         } elseif (\strlen($data)) {
-            throw new \***REMOVED***("Invalid cookie data");
+            throw new \***REMOVED***('Invalid cookie data');
         }
     }
 }

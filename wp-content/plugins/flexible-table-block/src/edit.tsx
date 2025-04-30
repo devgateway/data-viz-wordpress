@@ -1,31 +1,25 @@
 /**
  * External dependencies
  */
-import classnames from 'classnames';
+import clsx from 'clsx';
 import type { Properties } from 'csstype';
 
 /**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
-import { ***REMOVED***, BlockControls, useBlockProps } from '@wordpress/block-editor';
+import { useEffect, useState } from '@wordpress/element';
+import { useSelect, useDispatch } from '@wordpress/data';
 import {
+	***REMOVED***,
+	BlockControls,
+	useBlockProps,
 	// @ts-ignore: has no exported member
 	***REMOVED***,
-	PanelBody,
-} from '@wordpress/components';
-import {
-	blockTable,
-	justifyLeft,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	tableRowAfter,
-	***REMOVED***,
-	***REMOVED***,
-} from '@wordpress/icons';
+} from '@wordpress/block-editor';
+import { ***REMOVED***, PanelBody } from '@wordpress/components';
+import { blockTable, justifyLeft } from '@wordpress/icons';
+import { store as noticesStore } from '@wordpress/notices';
 import type { ***REMOVED*** } from '@wordpress/blocks';
 
 /**
@@ -33,7 +27,7 @@ import type { ***REMOVED*** } from '@wordpress/blocks';
  */
 import './editor.scss';
 import { CONTENT_JUSTIFY_CONTROLS } from './constants';
-import { STORE_NAME } from './store';
+import { STORE_NAME, type StoreOptions } from './store';
 import { TableSettings, ***REMOVED***, ***REMOVED*** } from './settings';
 import { Table, ***REMOVED***, TableCaption } from './elements';
 import {
@@ -48,18 +42,28 @@ import {
 	***REMOVED***,
 	***REMOVED***,
 	***REMOVED***,
+	type VTable,
+	type VSelectedLine,
+	type ***REMOVED***,
 } from './utils/table-state';
 import { ***REMOVED*** } from './utils/style-converter';
-import { mergeCell, splitCell } from './icons';
+import {
+	tableRowAfter,
+	***REMOVED***,
+	***REMOVED***,
+	***REMOVED***,
+	***REMOVED***,
+	***REMOVED***,
+	***REMOVED***,
+	***REMOVED***,
+} from './icons';
 import type { ***REMOVED***, SectionName, ***REMOVED*** } from './***REMOVED***';
-import type { StoreOptions } from './store';
-import type { VTable, VSelectedLine, ***REMOVED*** } from './utils/table-state';
 
 function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 	const {
 		attributes,
 		setAttributes,
-		isSelected,
+		isSelected: ***REMOVED***,
 		// @ts-ignore: `***REMOVED***` prop is not exist at @types
 		***REMOVED***,
 	} = props;
@@ -69,7 +73,21 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 
 	const ***REMOVED***: Properties = ***REMOVED***( tableStyles );
 	const ***REMOVED***: Properties = ***REMOVED***( captionStyles );
-	const options: StoreOptions = useSelect( ( select ) => select( STORE_NAME ).getOptions(), [] );
+	const options = useSelect( ( select ) => {
+		const { getOptions }: { getOptions: () => StoreOptions } = select( STORE_NAME );
+		return getOptions();
+	}, [] );
+	const { ***REMOVED*** } = useDispatch( noticesStore );
+	const ***REMOVED*** = ***REMOVED***();
+	const ***REMOVED*** = ***REMOVED*** === 'contentOnly';
+
+	// Release cell selection.
+	useEffect( () => {
+		if ( ! ***REMOVED*** ) {
+			***REMOVED***( undefined );
+			***REMOVED***( undefined );
+		}
+	}, [ ***REMOVED*** ] );
 
 	// Create virtual table object with the cells placed in positions based on how they actually look.
 	const vTable: VTable = ***REMOVED***( attributes );
@@ -80,7 +98,9 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 	};
 
 	const onInsertRow = ( offset: number ) => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) return;
+		if ( ! selectedCells || selectedCells.length !== 1 ) {
+			return;
+		}
 
 		const { sectionName, rowIndex, rowSpan } = selectedCells[ 0 ];
 
@@ -95,7 +115,9 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 	};
 
 	const onDeleteRow = () => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) return;
+		if ( ! selectedCells || selectedCells.length !== 1 ) {
+			return;
+		}
 
 		const { sectionName, rowIndex } = selectedCells[ 0 ];
 
@@ -105,8 +127,14 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 			vTable.body.length === 1 &&
 			( ! ***REMOVED***( vTable.head ) || ! ***REMOVED***( vTable.foot ) )
 		) {
-			// eslint-disable-next-line no-alert, no-undef
-			alert( __( 'The table body must have one or more rows.', 'flexible-table-block' ) );
+			// @ts-ignore
+			***REMOVED***(
+				__( 'The table body must have one or more rows.', 'flexible-table-block' ),
+				{
+					id: 'flexible-table-block-body-row',
+					type: 'snackbar',
+				}
+			);
 			return;
 		}
 
@@ -117,7 +145,9 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 	};
 
 	const ***REMOVED*** = ( offset: number ) => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) return;
+		if ( ! selectedCells || selectedCells.length !== 1 ) {
+			return;
+		}
 
 		const { vColIndex, colSpan } = selectedCells[ 0 ];
 
@@ -132,7 +162,9 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 	};
 
 	const ***REMOVED*** = () => {
-		if ( ! selectedCells || selectedCells.length !== 1 ) return;
+		if ( ! selectedCells || selectedCells.length !== 1 ) {
+			return;
+		}
 
 		const { vColIndex } = selectedCells[ 0 ];
 
@@ -202,18 +234,18 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 			onClick: () => ***REMOVED***(),
 		},
 		{
-			icon: splitCell,
+			icon: ***REMOVED***,
 			title: __( 'Split merged cells', 'flexible-table-block' ),
 			isDisabled: ! selectedCells || ! ***REMOVED***( selectedCells ),
 			onClick: () => ***REMOVED***(),
 		},
 		{
-			icon: mergeCell,
+			icon: ***REMOVED***,
 			title: __( 'Merge cells', 'flexible-table-block' ),
 			isDisabled: ! selectedCells || ! ***REMOVED***( selectedCells ),
 			onClick: () => onMergeCells(),
 		},
-	] as const;
+	];
 
 	const isEmpty: boolean = ! [ 'head', 'body', 'foot' ].filter(
 		( sectionName ) => ! ***REMOVED***( vTable[ sectionName as SectionName ] )
@@ -222,23 +254,25 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 	const tablePlaceholderProps = useBlockProps();
 
 	const ***REMOVED*** = useBlockProps( {
-		className: classnames( `is-caption-side-${ captionSide }`, {
+		className: clsx( `is-caption-side-${ captionSide }`, {
 			[ `is-content-justification-${ ***REMOVED*** }` ]: ***REMOVED***,
 			'show-dot-on-th': options.show_dot_on_th,
 			'show-control-button': options.show_control_button,
+			'is-content-only': ***REMOVED***,
 		} ),
 	} );
 
 	const tableProps = {
 		attributes,
 		setAttributes,
-		isSelected,
+		isSelected: ***REMOVED***,
 		options,
 		vTable,
 		***REMOVED***,
 		selectedCells,
 		***REMOVED***,
 		selectedLine,
+		***REMOVED***,
 		***REMOVED***,
 	};
 
@@ -269,6 +303,7 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 		***REMOVED***,
 		***REMOVED***,
 		***REMOVED***,
+		isSelected: ***REMOVED***,
 	};
 
 	const tableCaptionSettingProps = {
@@ -286,28 +321,28 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 			) }
 			{ ! isEmpty && (
 				<figure { ...***REMOVED*** }>
-					<BlockControls
-						// @ts-ignore: `group` prop is not exist at @types
-						group="block"
-					>
-						<***REMOVED***
-							label={ __( 'Change table justification', 'flexible-table-block' ) }
-							icon={
-								( ***REMOVED*** &&
-									***REMOVED***.find( ( control ) => control.value === ***REMOVED*** )
-										?.icon ) ||
-								justifyLeft
-							}
-							controls={ ***REMOVED*** }
-							***REMOVED***
-						/>
-						<***REMOVED***
-							label={ __( 'Edit table', 'flexible-table-block' ) }
-							icon={ blockTable }
-							controls={ ***REMOVED*** }
-							***REMOVED***
-						/>
-					</BlockControls>
+					{ ! ***REMOVED*** && (
+						<>
+							<BlockControls group="block">
+								<***REMOVED***
+									label={ __( 'Change table justification', 'flexible-table-block' ) }
+									icon={
+										( ***REMOVED*** &&
+											***REMOVED***.find(
+												( control ) => control.value === ***REMOVED***
+											)?.icon ) ||
+										justifyLeft
+									}
+									controls={ ***REMOVED*** }
+								/>
+								<***REMOVED***
+									label={ __( 'Edit table', 'flexible-table-block' ) }
+									icon={ blockTable }
+									controls={ ***REMOVED*** }
+								/>
+							</BlockControls>
+						</>
+					) }
 					<***REMOVED***>
 						<PanelBody
 							title={ __( 'Table settings', 'flexible-table-block' ) }

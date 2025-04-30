@@ -3,7 +3,7 @@
  * Twenty Nineteen: Color Patterns
  *
  * @package WordPress
- * @subpackage ***REMOVED***
+ * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */
 
@@ -18,7 +18,7 @@ function twentynineteen_custom_colors_css() {
 	}
 
 	/**
-	 * Filter Twenty Nineteen default saturation level.
+	 * Filters Twenty Nineteen default saturation level.
 	 *
 	 * @since Twenty Nineteen 1.0
 	 *
@@ -28,7 +28,7 @@ function twentynineteen_custom_colors_css() {
 	$saturation = absint( $saturation ) . '%';
 
 	/**
-	 * Filter Twenty Nineteen default selection saturation level.
+	 * Filters Twenty Nineteen default selection saturation level.
 	 *
 	 * @since Twenty Nineteen 1.0
 	 *
@@ -38,7 +38,7 @@ function twentynineteen_custom_colors_css() {
 	$saturation_selection = $saturation_selection . '%';
 
 	/**
-	 * Filter Twenty Nineteen default lightness level.
+	 * Filters Twenty Nineteen default lightness level.
 	 *
 	 * @since Twenty Nineteen 1.0
 	 *
@@ -48,7 +48,7 @@ function twentynineteen_custom_colors_css() {
 	$lightness = absint( $lightness ) . '%';
 
 	/**
-	 * Filter Twenty Nineteen default hover lightness level.
+	 * Filters Twenty Nineteen default hover lightness level.
 	 *
 	 * @since Twenty Nineteen 1.0
 	 *
@@ -58,7 +58,7 @@ function twentynineteen_custom_colors_css() {
 	$lightness_hover = absint( $lightness_hover ) . '%';
 
 	/**
-	 * Filter Twenty Nineteen default selection lightness level.
+	 * Filters Twenty Nineteen default selection lightness level.
 	 *
 	 * @since Twenty Nineteen 1.0
 	 *
@@ -72,8 +72,8 @@ function twentynineteen_custom_colors_css() {
 		 * Set background for:
 		 * - featured image :before
 		 * - featured image :before
-		 * - post thumbmail :before
-		 * - post thumbmail :before
+		 * - post thumbnail :before
+		 * - post thumbnail :before
 		 * - Submenu
 		 * - Sticky Post
 		 * - buttons
@@ -212,44 +212,45 @@ function twentynineteen_custom_colors_css() {
 		 * - links
 		 * - blockquote
 		 * - pullquote (solid color)
-		 * - buttons
+		 * - buttons, including buttons in the file and search blocks.
 		 */
-		.editor-block-list__layout .editor-block-list__block a,
-		.editor-block-list__layout .editor-block-list__block .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color),
-		.editor-block-list__layout .editor-block-list__block .wp-block-button.is-style-outline:hover .wp-block-button__link:not(.has-text-color),
-		.editor-block-list__layout .editor-block-list__block .wp-block-button.is-style-outline:focus .wp-block-button__link:not(.has-text-color),
-		.editor-block-list__layout .editor-block-list__block .wp-block-button.is-style-outline:active .wp-block-button__link:not(.has-text-color),
-		.editor-block-list__layout .editor-block-list__block .wp-block-file .wp-block-file__textlink {
+		.editor-styles-wrapper .wp-block a,
+		.editor-styles-wrapper .wp-block .wp-block-file .wp-block-file__textlink, /* Before 5.8 */
+		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color), /* Before 5.8 */
+		.editor-styles-wrapper .wp-block.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color),
+		/* Before 5.8, the following hover style is needed to override the default color when the block is selected. */
+		.editor-styles-wrapper .wp-block .wp-block-button.is-style-outline:hover .wp-block-button__link:not(.has-text-color) {
 			color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
-		.editor-block-list__layout .editor-block-list__block .wp-block-quote:not(.is-large):not(.is-style-large),
-		.editor-styles-wrapper .editor-block-list__layout .wp-block-freeform blockquote {
+		.editor-styles-wrapper .wp-block.wp-block-quote:not(.is-large):not(.is-style-large),
+		.editor-styles-wrapper .wp-block .wp-block-freeform blockquote, /* Before 5.8 */
+		.editor-styles-wrapper .wp-block.wp-block-freeform blockquote {
 			border-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
-		.editor-block-list__layout .editor-block-list__block .wp-block-pullquote.is-style-solid-color:not(.has-background-color) {
+		/* Pullquote: The solid color variation was removed in 5.9, the CSS is kept for backwards compatibility. */
+		.editor-styles-wrapper .wp-block .wp-block-pullquote.is-style-solid-color:not(.has-background-color), /* Before 5.8 */
+		.editor-styles-wrapper .wp-block.wp-block-pullquote.is-style-solid-color:not(.has-background-color),
+		.editor-styles-wrapper .wp-block .wp-block-file .wp-block-file__button, /* Before 5.8, and when the block is aligned. */
+		.editor-styles-wrapper .wp-block.wp-block-file .wp-block-file__button,
+		.editor-styles-wrapper .wp-block .wp-block-button:not(.is-style-outline) .wp-block-button__link,
+		.editor-styles-wrapper .wp-block .wp-block-search .wp-block-search__button, /* Before 5.8, and when the block is aligned. */
+		.editor-styles-wrapper .wp-block.wp-block-search .wp-block-search__button {
 			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
-		.editor-block-list__layout .editor-block-list__block .wp-block-file .wp-block-file__button,
-		.editor-block-list__layout .editor-block-list__block .wp-block-button:not(.is-style-outline) .wp-block-button__link,
-		.editor-block-list__layout .editor-block-list__block .wp-block-button:not(.is-style-outline) .wp-block-button__link:active,
-		.editor-block-list__layout .editor-block-list__block .wp-block-button:not(.is-style-outline) .wp-block-button__link:focus,
-		.editor-block-list__layout .editor-block-list__block .wp-block-button:not(.is-style-outline) .wp-block-button__link:hover {
-			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
-		}
-
-		/* Hover colors */
-		.editor-block-list__layout .editor-block-list__block a:hover,
-		.editor-block-list__layout .editor-block-list__block a:active,
-		.editor-block-list__layout .editor-block-list__block .wp-block-file .wp-block-file__textlink:hover {
+		/* Link hover colors */
+		.editor-styles-wrapper .wp-block a:hover,
+		.editor-styles-wrapper .wp-block a:active,
+		.editor-styles-wrapper .wp-block.wp-block-file .wp-block-file__textlink:hover {
 			color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness_hover . ' ); /* base: #005177; */
 		}
 
 		/* Do not overwrite solid color pullquote or cover links */
-		.editor-block-list__layout .editor-block-list__block .wp-block-pullquote.is-style-solid-color a,
-		.editor-block-list__layout .editor-block-list__block .wp-block-cover a {
+		.editor-styles-wrapper .wp-block .wp-block-pullquote.is-style-solid-color a,  /* Before 5.8 */
+		.editor-styles-wrapper .wp-block.wp-block-pullquote.is-style-solid-color a,
+		.editor-styles-wrapper .wp-block.wp-block-cover a {
 			color: inherit;
 		}
 		';

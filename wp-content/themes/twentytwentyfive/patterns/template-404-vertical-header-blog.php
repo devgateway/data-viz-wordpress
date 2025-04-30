@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Right-aligned blog, 404
+ * Title: Right-aligned 404
  * Slug: ***REMOVED***/template-404-vertical-header-blog
  * Template Types: 404
  * Viewport width: 1400

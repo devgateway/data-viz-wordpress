@@ -13,9 +13,9 @@ use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 interface ***REMOVED***
 {
     /**
-     * @deprecated Will be removed in Guzzle 7.0.0
+     * The Guzzle major version.
      */
-    const VERSION = '6.5.5';
+    public const MAJOR_VERSION = 7;
     /**
      * Send an HTTP request.
      *
@@ -23,20 +23,17 @@ interface ***REMOVED***
      * @param array            $options Request options to apply to the given
      *                                  request and to the transfer.
      *
-     * @return ***REMOVED***
      * @throws ***REMOVED***
      */
-    public function send(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []);
+    public function send(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * ***REMOVED*** send an HTTP request.
      *
      * @param ***REMOVED*** $request Request to send
      * @param array            $options Request options to apply to the given
      *                                  request and to the transfer.
-     *
-     * @return ***REMOVED***
      */
-    public function sendAsync(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []);
+    public function sendAsync(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
     /**
      * Create and send an HTTP request.
      *
@@ -48,10 +45,9 @@ interface ***REMOVED***
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @return ***REMOVED***
      * @throws ***REMOVED***
      */
-    public function request($method, $uri, array $options = []);
+    public function request(string $method, $uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Create and send an asynchronous HTTP request.
      *
@@ -63,10 +59,8 @@ interface ***REMOVED***
      * @param string              $method  HTTP method
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
-     *
-     * @return ***REMOVED***
      */
-    public function requestAsync($method, $uri, array $options = []);
+    public function requestAsync(string $method, $uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
     /**
      * Get a client configuration option.
      *
@@ -77,6 +71,8 @@ interface ***REMOVED***
      * @param string|null $option The config option to retrieve.
      *
      * @return mixed
+     *
+     * @deprecated ***REMOVED***::getConfig will be removed in guzzlehttp/guzzle:8.0.
      */
-    public function getConfig($option = null);
+    public function getConfig(string $option = null);
 }

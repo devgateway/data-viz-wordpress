@@ -9,18 +9,22 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  */
 class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
 {
-    /** @var SetCookie[] Loaded cookie data */
+    /**
+     * @var SetCookie[] Loaded cookie data
+     */
     private $cookies = [];
-    /** @var bool */
+    /**
+     * @var bool
+     */
     private $strictMode;
     /**
-     * @param bool $strictMode   Set to true to throw exceptions when invalid
+     * @param bool  $strictMode  Set to true to throw exceptions when invalid
      *                           cookies are added to the cookie jar.
      * @param array $cookieArray Array of SetCookie objects or a hash of
      *                           arrays that can be used with the SetCookie
      *                           constructor
      */
-    public function __construct($strictMode = \false, $cookieArray = [])
+    public function __construct(bool $strictMode = \false, array $cookieArray = [])
     {
         $this->strictMode = $strictMode;
         foreach ($cookieArray as $cookie) {
@@ -35,10 +39,8 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
      *
      * @param array  $cookies Cookies to create the jar from
      * @param string $domain  Domain to set the cookies to
-     *
-     * @return self
      */
-    public static function fromArray(array $cookies, $domain)
+    public static function fromArray(array $cookies, string $domain) : self
     {
         $cookieJar = new self();
         foreach ($cookies as $name => $value) {
@@ -47,21 +49,13 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
         return $cookieJar;
     }
     /**
-     * @deprecated
-     */
-    public static function ***REMOVED***($value)
-    {
-        return $value;
-    }
-    /**
      * Evaluate if this cookie should be persisted to storage
      * that survives between requests.
      *
-     * @param SetCookie $cookie Being evaluated.
-     * @param bool $***REMOVED*** If we should persist session cookies
-     * @return bool
+     * @param SetCookie $cookie              Being evaluated.
+     * @param bool      $***REMOVED*** If we should persist session cookies
      */
-    public static function shouldPersist(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie, $***REMOVED*** = \false)
+    public static function shouldPersist(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie, bool $***REMOVED*** = \false) : bool
     {
         if ($cookie->getExpires() || $***REMOVED***) {
             if (!$cookie->getDiscard()) {
@@ -74,14 +68,11 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
      * Finds and returns the cookie based on the name
      *
      * @param string $name cookie name to search for
+     *
      * @return SetCookie|null cookie that was found or null if not found
      */
-    public function ***REMOVED***($name)
+    public function ***REMOVED***(string $name) : ?\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie
     {
-        // don't allow a non string name
-        if ($name === null || !\is_scalar($name)) {
-            return null;
-        }
         foreach ($this->cookies as $cookie) {
             if ($cookie->getName() !== null && \strcasecmp($cookie->getName(), $name) === 0) {
                 return $cookie;
@@ -89,38 +80,38 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
         }
         return null;
     }
-    public function toArray()
+    public function toArray() : array
     {
-        return \array_map(function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) {
+        return \array_map(static function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) : array {
             return $cookie->toArray();
         }, $this->getIterator()->getArrayCopy());
     }
-    public function clear($domain = null, $path = null, $name = null)
+    public function clear(string $domain = null, string $path = null, string $name = null) : void
     {
         if (!$domain) {
             $this->cookies = [];
             return;
         } elseif (!$path) {
-            $this->cookies = \array_filter($this->cookies, function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) use($domain) {
+            $this->cookies = \array_filter($this->cookies, static function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) use($domain) : bool {
                 return !$cookie->matchesDomain($domain);
             });
         } elseif (!$name) {
-            $this->cookies = \array_filter($this->cookies, function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) use($path, $domain) {
+            $this->cookies = \array_filter($this->cookies, static function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) use($path, $domain) : bool {
                 return !($cookie->matchesPath($path) && $cookie->matchesDomain($domain));
             });
         } else {
-            $this->cookies = \array_filter($this->cookies, function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) use($path, $domain, $name) {
+            $this->cookies = \array_filter($this->cookies, static function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) use($path, $domain, $name) {
                 return !($cookie->getName() == $name && $cookie->matchesPath($path) && $cookie->matchesDomain($domain));
             });
         }
     }
-    public function ***REMOVED***()
+    public function ***REMOVED***() : void
     {
-        $this->cookies = \array_filter($this->cookies, function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) {
+        $this->cookies = \array_filter($this->cookies, static function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) : bool {
             return !$cookie->getDiscard() && $cookie->getExpires();
         });
     }
-    public function setCookie(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie)
+    public function setCookie(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) : bool
     {
         // If the name string is empty (but not 0), ignore the set-cookie
         // string entirely.
@@ -133,10 +124,9 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
         if ($result !== \true) {
             if ($this->strictMode) {
                 throw new \***REMOVED***('Invalid cookie: ' . $result);
-            } else {
-                $this->***REMOVED***($cookie);
-                return \false;
             }
+            $this->***REMOVED***($cookie);
+            return \false;
         }
         // Resolve conflicts with previously set cookies
         foreach ($this->cookies as $i => $c) {
@@ -168,15 +158,18 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
         $this->cookies[] = $cookie;
         return \true;
     }
-    public function count()
+    public function count() : int
     {
         return \count($this->cookies);
     }
-    public function getIterator()
+    /**
+     * @return \ArrayIterator<int, SetCookie>
+     */
+    public function getIterator() : \ArrayIterator
     {
         return new \ArrayIterator(\array_values($this->cookies));
     }
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response)
+    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) : void
     {
         if ($cookieHeader = $response->getHeader('Set-Cookie')) {
             foreach ($cookieHeader as $cookie) {
@@ -199,12 +192,9 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
     /**
      * Computes cookie path following RFC 6265 section 5.1.4
      *
-     * @link https://tools.ietf.org/html/rfc6265#section-5.1.4
-     *
-     * @param ***REMOVED*** $request
-     * @return string
+     * @see https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.4
      */
-    private function getCookiePathFromRequest(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request)
+    private function getCookiePathFromRequest(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request) : string
     {
         $uriPath = $request->getUri()->getPath();
         if ('' === $uriPath) {
@@ -216,12 +206,13 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
         if ('/' === $uriPath) {
             return '/';
         }
-        if (0 === ($lastSlashPos = \strrpos($uriPath, '/'))) {
+        $lastSlashPos = \strrpos($uriPath, '/');
+        if (0 === $lastSlashPos || \false === $lastSlashPos) {
             return '/';
         }
         return \substr($uriPath, 0, $lastSlashPos);
     }
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request)
+    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     {
         $values = [];
         $uri = $request->getUri();
@@ -238,10 +229,8 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
     /**
      * If a cookie already exists and the server asks to set it again with a
      * null value, the cookie must be deleted.
-     *
-     * @param SetCookie $cookie
      */
-    private function ***REMOVED***(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie)
+    private function ***REMOVED***(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) : void
     {
         $cookieValue = $cookie->getValue();
         if ($cookieValue === null || $cookieValue === '') {

@@ -27,7 +27,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      *
      * @return int Status code.
      */
-    public function getStatusCode();
+    public function getStatusCode() : int;
     /**
      * Return an instance with the specified status code and, optionally, reason phrase.
      *
@@ -48,7 +48,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @return static
      * @throws \InvalidArgumentException For invalid status code arguments.
      */
-    public function withStatus($code, $reasonPhrase = '');
+    public function withStatus(int $code, string $reasonPhrase = '') : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Gets the response reason phrase associated with the status code.
      *
@@ -62,5 +62,5 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @link http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
      * @return string Reason phrase; must return an empty string if none present.
      */
-    public function ***REMOVED***();
+    public function ***REMOVED***() : string;
 }

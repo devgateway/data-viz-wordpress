@@ -23,7 +23,7 @@ interface ***REMOVED***
      *
      * @return string HTTP protocol version.
      */
-    public function ***REMOVED***();
+    public function ***REMOVED***() : string;
     /**
      * Return an instance with the specified HTTP protocol version.
      *
@@ -37,7 +37,7 @@ interface ***REMOVED***
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function ***REMOVED***($version);
+    public function ***REMOVED***(string $version) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Retrieves all message header values.
      *
@@ -63,7 +63,7 @@ interface ***REMOVED***
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
-    public function getHeaders();
+    public function getHeaders() : array;
     /**
      * Checks if a header exists by the given case-insensitive name.
      *
@@ -72,7 +72,7 @@ interface ***REMOVED***
      *     name using a case-insensitive string comparison. Returns false if
      *     no matching header name is found in the message.
      */
-    public function hasHeader($name);
+    public function hasHeader(string $name) : bool;
     /**
      * Retrieves a message header value by the given case-insensitive name.
      *
@@ -87,7 +87,7 @@ interface ***REMOVED***
      *    header. If the header does not appear in the message, this method MUST
      *    return an empty array.
      */
-    public function getHeader($name);
+    public function getHeader(string $name) : array;
     /**
      * Retrieves a comma-separated string of the values for a single header.
      *
@@ -107,7 +107,7 @@ interface ***REMOVED***
      *    concatenated together using a comma. If the header does not appear in
      *    the message, this method MUST return an empty string.
      */
-    public function getHeaderLine($name);
+    public function getHeaderLine(string $name) : string;
     /**
      * Return an instance with the provided value replacing the specified header.
      *
@@ -123,7 +123,7 @@ interface ***REMOVED***
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function withHeader($name, $value);
+    public function withHeader(string $name, $value) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Return an instance with the specified header appended with the given value.
      *
@@ -140,7 +140,7 @@ interface ***REMOVED***
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function ***REMOVED***($name, $value);
+    public function ***REMOVED***(string $name, $value) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Return an instance without the specified header.
      *
@@ -153,13 +153,13 @@ interface ***REMOVED***
      * @param string $name Case-insensitive header field name to remove.
      * @return static
      */
-    public function withoutHeader($name);
+    public function withoutHeader(string $name) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Gets the body of the message.
      *
      * @return ***REMOVED*** Returns the body as a stream.
      */
-    public function getBody();
+    public function getBody() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Return an instance with the specified message body.
      *
@@ -173,5 +173,5 @@ interface ***REMOVED***
      * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
-    public function withBody(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $body);
+    public function withBody(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $body) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 }

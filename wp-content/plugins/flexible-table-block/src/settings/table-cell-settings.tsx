@@ -11,12 +11,18 @@ import { createInterpolateElement } from '@wordpress/element';
 import {
 	BaseControl,
 	Button,
-	ButtonGroup,
+	Flex,
+	FlexBlock,
+	SelectControl,
 	TextControl,
-	// @ts-ignore: has no exported member
+	__experimentalHStack as HStack,
+	__experimentalSpacer as Spacer,
+	__experimentalToggleGroupControl as ***REMOVED***,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+	__experimentalToggleGroupControlOptionIcon as ToggleGroupControlOptionIcon,
 	__experimentalUnitControl as UnitControl,
-	// @ts-ignore: has no exported member
 	__experimentalUseCustomUnits as ***REMOVED***,
+	__experimentalParseQuantityAndUnitFromRawValue as parseQuantityAndUnitFromRawValue,
 } from '@wordpress/components';
 
 /**
@@ -38,7 +44,12 @@ import {
 	***REMOVED***,
 	ColorControl,
 } from '../controls';
-import { ***REMOVED***, updateCells } from '../utils/table-state';
+import {
+	***REMOVED***,
+	updateCells,
+	type VTable,
+	type ***REMOVED***,
+} from '../utils/table-state';
 import { ***REMOVED*** } from '../utils/style-converter';
 import {
 	pickPadding,
@@ -46,18 +57,18 @@ import {
 	***REMOVED***,
 	***REMOVED***,
 	***REMOVED***,
+	type CornerProps,
+	type ***REMOVED***,
 } from '../utils/style-picker';
 import { ***REMOVED*** } from '../utils/helper';
 import type {
 	CellTagValue,
 	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
 	SectionName,
 	***REMOVED***,
 } from '../***REMOVED***';
-import type { VTable, ***REMOVED*** } from '../utils/table-state';
-import type { CornerProps, ***REMOVED*** } from '../utils/style-picker';
+
+const PERCENTAGE_WIDTHS = [ 25, 50, 75, 100 ];
 
 type Props = {
 	setAttributes: ( attrs: Partial< ***REMOVED*** > ) => void;
@@ -69,27 +80,31 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 	const ***REMOVED*** = ***REMOVED***( { ***REMOVED***: CELL_WIDTH_UNITS } );
 	const fontSizeUnits = ***REMOVED***( { ***REMOVED***: FONT_SIZE_UNITS } );
 
-	if ( ! selectedCells.length ) return null;
+	if ( ! selectedCells.length ) {
+		return null;
+	}
 
 	const { sectionName, rowIndex, vColIndex } = selectedCells[ 0 ];
 
 	const targetCell = vTable[ sectionName as SectionName ][ rowIndex ].cells[ vColIndex ];
 
-	if ( ! targetCell ) return null;
+	if ( ! targetCell ) {
+		return null;
+	}
 
-	const ***REMOVED***: ( 'th' | 'td' )[] = selectedCells.reduce(
-		( result: CellTagValue[], selectedCell ) => {
-			const { tag } =
-				vTable[ selectedCell.sectionName ][ selectedCell.rowIndex ].cells[ selectedCell.vColIndex ];
-			if ( ! result.includes( tag ) ) {
-				result.push( tag );
-			}
-			return result;
-		},
-		[]
-	);
+	const ***REMOVED*** = selectedCells.reduce( ( result: CellTagValue[], selectedCell ) => {
+		const { tag } =
+			vTable[ selectedCell.sectionName ][ selectedCell.rowIndex ].cells[ selectedCell.vColIndex ];
+		if ( ! result.includes( tag ) ) {
+			result.push( tag );
+		}
+		return result;
+	}, [] );
 
 	const cellStylesObj = ***REMOVED***( targetCell.styles );
+	const [ ***REMOVED***, ***REMOVED*** ] = parseQuantityAndUnitFromRawValue(
+		cellStylesObj?.width
+	);
 
 	const ***REMOVED*** = ( state: {
 		styles?: any;
@@ -103,7 +118,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 		setAttributes( ***REMOVED***( newVTable ) );
 	};
 
-	const ***REMOVED*** = ( value: string ) => {
+	const ***REMOVED*** = ( value: string | undefined ) => {
 		***REMOVED***( { styles: { fontSize: ***REMOVED***( value ) } } );
 	};
 
@@ -119,7 +134,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 		***REMOVED***( { styles: { ***REMOVED***: value } } );
 	};
 
-	const onChangeWidth = ( value: Property.Width ) => {
+	const onChangeWidth = ( value: string | number | undefined ) => {
 		***REMOVED***( { styles: { width: ***REMOVED***( value ) } } );
 	};
 
@@ -143,20 +158,25 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 		***REMOVED***( { styles: { borderColor: values } } );
 	};
 
-	const ***REMOVED*** = ( value: ***REMOVED*** ) => {
+	const ***REMOVED*** = ( value: string | number | undefined ) => {
 		***REMOVED***( {
 			styles: { textAlign: value === cellStylesObj.textAlign ? undefined : value },
 		} );
 	};
 
-	const onChangeVerticalAlign = ( value: ***REMOVED*** ) => {
+	const onChangeVerticalAlign = ( value: string | number | undefined ) => {
 		***REMOVED***( {
 			styles: { verticalAlign: value === cellStylesObj.verticalAlign ? undefined : value },
 		} );
 	};
 
-	const onChangeTag = ( value: CellTagValue ) => {
-		***REMOVED***( { tag: value, id: undefined, headers: undefined, scope: undefined } );
+	const onChangeTag = ( value: string | number | undefined ) => {
+		const isAllowedTag = ( _value: any ): _value is CellTagValue => {
+			return CELL_TAG_CONTROLS.some( ( control ) => control.value === _value );
+		};
+		if ( isAllowedTag( value ) ) {
+			***REMOVED***( { tag: value, id: undefined, headers: undefined, scope: undefined } );
+		}
 	};
 
 	const onChangeClass = ( value: string ) => {
@@ -172,7 +192,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 	};
 
 	const onChangeScope = ( value: ***REMOVED*** ) => {
-		***REMOVED***( { scope: value === targetCell.scope ? undefined : value } );
+		***REMOVED***( { scope: 'none' === value ? undefined : value } );
 	};
 
 	const ***REMOVED*** = () => {
@@ -205,29 +225,23 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 
 	return (
 		<>
-			<BaseControl
-				id="flexible-table-block-cell-clear-settings"
-				className="ftb-reset-settings-control"
-			>
+			<Spacer marginBottom="4" as={ Flex } justify="end">
 				<Button variant="link" isDestructive onClick={ ***REMOVED*** }>
 					{ __( 'Clear cell settings', 'flexible-table-block' ) }
 				</Button>
-			</BaseControl>
-			<div className="ftb-base-control-row">
-				<BaseControl
-					id="flexible-table-block-cell-font-size"
-					label={ __( 'Cell font size', 'flexible-table-block' ) }
-					className="ftb-font-size-control"
-				>
+			</Spacer>
+			<Spacer marginBottom="4" as={ Flex }>
+				<FlexBlock>
 					<UnitControl
-						id="flexible-table-block-cell-font-size"
+						label={ __( 'Cell font size', 'flexible-table-block' ) }
 						value={ cellStylesObj?.fontSize }
 						units={ fontSizeUnits }
-						min="0"
+						min={ 0 }
 						onChange={ ***REMOVED*** }
+						size="__unstable-large"
 					/>
-				</BaseControl>
-				<BaseControl id="flexible-table-block-cell-line-height" className="ftb-line-height-control">
+				</FlexBlock>
+				<FlexBlock>
 					<TextControl
 						label={ __( 'Cell line height', 'flexible-table-block' ) }
 						value={ cellStylesObj?.lineHeight || '' }
@@ -236,50 +250,57 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 						step={ 0.1 }
 						min={ 0 }
 						onChange={ ***REMOVED*** }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
-				</BaseControl>
-			</div>
-			<BaseControl
-				id="flexible-table-block-cell-width"
-				label={ __( 'Cell width', 'flexible-table-block' ) }
-				className="ftb-width-control"
-			>
+				</FlexBlock>
+			</Spacer>
+			<HStack alignment="start">
 				<UnitControl
-					id="flexible-table-block-cell-width"
-					aria-label={ __( 'Cell width', 'flexible-table-block' ) }
+					label={ __( 'Cell width', 'flexible-table-block' ) }
 					value={ cellStylesObj?.width }
 					units={ ***REMOVED*** }
-					min="0"
+					min={ 0 }
 					onChange={ onChangeWidth }
+					size="__unstable-large"
+					__unstableInputWidth="calc(50% - 8px)"
 				/>
-				<ButtonGroup
-					aria-label={ __( 'Cell percentage width', 'flexible-table-block' ) }
-					className="ftb-percent-group"
-				>
-					{ [ 25, 50, 75, 100 ].map( ( perWidth ) => {
-						const isPressed = cellStylesObj?.width === `${ perWidth }%`;
-						return (
-							<Button
-								key={ perWidth }
-								variant={ isPressed ? 'primary' : undefined }
-								isSmall
-								onClick={ () => onChangeWidth( isPressed ? '' : `${ perWidth }%` ) }
-							>
-								{ `${ perWidth }%` }
-							</Button>
-						);
-					} ) }
-				</ButtonGroup>
-			</BaseControl>
+				<Button variant="secondary" size="small" onClick={ () => onChangeWidth( undefined ) }>
+					{ __( 'Reset', 'flexible-table-block' ) }
+				</Button>
+			</HStack>
+			<***REMOVED***
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
+				***REMOVED***
+				label={ __( 'Cell percentage width', 'flexible-table-block' ) }
+				isBlock
+				value={
+					***REMOVED*** &&
+					PERCENTAGE_WIDTHS.includes( ***REMOVED*** ) &&
+					***REMOVED*** === '%'
+						? cellStylesObj?.width
+						: undefined
+				}
+				onChange={ ( value ) => onChangeWidth( value as Property.Width ) }
+			>
+				{ PERCENTAGE_WIDTHS.map( ( perWidth ) => {
+					return (
+						<ToggleGroupControlOption
+							key={ perWidth }
+							label={ `${ perWidth }%` }
+							value={ `${ perWidth }%` }
+						/>
+					);
+				} ) }
+			</***REMOVED***>
 			<hr />
 			<ColorControl
-				id="flexible-table-block-cell-text-color"
 				label={ __( 'Cell text color', 'flexible-table-block' ) }
 				value={ cellStylesObj.color }
 				onChange={ onChangeColor }
 			/>
 			<ColorControl
-				id="flexible-table-block-cell-background-color"
 				label={ __( 'Cell background color', 'flexible-table-block' ) }
 				value={ cellStylesObj.***REMOVED*** }
 				colors={ [
@@ -293,108 +314,101 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 			/>
 			<hr />
 			<***REMOVED***
-				id="flexible-table-block-cell-padding"
 				label={ __( 'Cell padding', 'flexible-table-block' ) }
 				values={ pickPadding( cellStylesObj ) }
 				onChange={ ***REMOVED*** }
 			/>
 			<hr />
 			<***REMOVED***
-				id="flexible-table-block-cell-border-radius"
 				label={ __( 'Cell border radius', 'flexible-table-block' ) }
 				values={ ***REMOVED***( cellStylesObj ) }
 				onChange={ ***REMOVED*** }
 			/>
 			<***REMOVED***
-				id="flexible-table-block-cell-border-width"
 				label={ __( 'Cell border width', 'flexible-table-block' ) }
 				values={ ***REMOVED***( cellStylesObj ) }
 				onChange={ ***REMOVED*** }
 			/>
 			<***REMOVED***
-				id="flexible-table-block-cell-border-style"
 				label={ __( 'Cell border style', 'flexible-table-block' ) }
 				values={ ***REMOVED***( cellStylesObj ) }
 				onChange={ ***REMOVED*** }
 			/>
 			<***REMOVED***
-				id="flexible-table-block-cell-border-color"
 				label={ __( 'Cell border color', 'flexible-table-block' ) }
 				values={ ***REMOVED***( cellStylesObj ) }
 				onChange={ ***REMOVED*** }
 			/>
 			<hr />
-			<BaseControl id="flexible-table-block-cell-text-align">
-				<div aria-labelledby="flexible-table-block-cell-text-align-heading" role="region">
+			<BaseControl id="flexible-table-block-cell-text-align" __nextHasNoMarginBottom>
+				<div aria-labelledby="flexible-table-block-cell-text-align-heading" role="group">
 					<span
 						id="flexible-table-block-cell-text-align-heading"
 						className="ftb-base-control-label"
 					>
 						{ __( 'Cell alignment', 'flexible-table-block' ) }
 					</span>
-					<div className="ftb-base-control-field-row">
-						<ButtonGroup
-							className="ftb-button-group"
-							aria-label={ __( 'Text alignment', 'flexible-table-block' ) }
+					<Flex style={ { marginBottom: '-16px' } } justify="start" align="start">
+						<***REMOVED***
+							***REMOVED***
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+							label={ __( 'Text alignment', 'flexible-table-block' ) }
+							value={ cellStylesObj?.textAlign }
+							***REMOVED***
+							onChange={ ***REMOVED*** }
 						>
-							{ TEXT_ALIGNMENT_CONTROLS.map( ( { icon, label, value } ) => {
-								return (
-									<Button
-										key={ value }
-										label={ label }
-										icon={ icon }
-										variant={ value === cellStylesObj?.textAlign ? 'primary' : 'secondary' }
-										onClick={ () => ***REMOVED***( value ) }
-									/>
-								);
-							} ) }
-						</ButtonGroup>
-						<ButtonGroup
-							className="ftb-button-group"
-							aria-label={ __( 'Vertical alignment', 'flexible-table-block' ) }
+							{ TEXT_ALIGNMENT_CONTROLS.map( ( { icon, label, value } ) => (
+								<ToggleGroupControlOptionIcon
+									key={ value }
+									value={ value }
+									icon={ icon }
+									label={ label }
+								/>
+							) ) }
+						</***REMOVED***>
+						<***REMOVED***
+							***REMOVED***
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
+							label={ __( 'Vertical alignment', 'flexible-table-block' ) }
+							value={ cellStylesObj?.verticalAlign }
+							***REMOVED***
+							onChange={ onChangeVerticalAlign }
 						>
-							{ VERTICAL_ALIGNMENT_CONTROLS.map( ( { icon, label, value } ) => {
-								return (
-									<Button
-										key={ value }
-										label={ label }
-										icon={ icon }
-										variant={ value === cellStylesObj?.verticalAlign ? 'primary' : 'secondary' }
-										onClick={ () => onChangeVerticalAlign( value ) }
-									/>
-								);
-							} ) }
-						</ButtonGroup>
-					</div>
+							{ VERTICAL_ALIGNMENT_CONTROLS.map( ( { icon, label, value } ) => (
+								<ToggleGroupControlOptionIcon
+									key={ value }
+									value={ value }
+									icon={ icon }
+									label={ label }
+								/>
+							) ) }
+						</***REMOVED***>
+					</Flex>
 				</div>
 			</BaseControl>
 			<hr />
-			<BaseControl id="flexible-table-block-cell-tag">
-				<div aria-labelledby="flexible-table-block-cell-tag-heading" role="region">
-					<span id="flexible-table-block-cell-tag-heading" className="ftb-base-control-label">
-						{ __( 'Cell tag', 'flexible-table-block' ) }
-					</span>
-					<ButtonGroup className="ftb-button-group">
-						{ CELL_TAG_CONTROLS.map( ( { label, value } ) => {
-							return (
-								<Button
-									key={ value }
-									variant={ value === targetCell.tag ? 'primary' : 'secondary' }
-									onClick={ () => onChangeTag( value ) }
-								>
-									{ label }
-								</Button>
-							);
-						} ) }
-					</ButtonGroup>
-				</div>
-			</BaseControl>
+			<***REMOVED***
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
+				label={ __( 'Cell tag', 'flexible-table-block' ) }
+				value={ targetCell.tag }
+				isBlock
+				onChange={ onChangeTag }
+			>
+				{ CELL_TAG_CONTROLS.map( ( { label, value } ) => (
+					<ToggleGroupControlOption key={ value } value={ value } label={ label } />
+				) ) }
+			</***REMOVED***>
 			<TextControl
 				label={ __( 'Cell CSS class(es)', 'flexible-table-block' ) }
 				autoComplete="off"
 				value={ targetCell.className || '' }
 				onChange={ onChangeClass }
-				help={ __( 'Separate multiple classes with spaces.' ) }
+				help={ __( 'Separate multiple classes with spaces.', 'flexible-table-block' ) }
+				__nextHasNoMarginBottom
+				__next40pxDefaultSize
 			/>
 			{ ***REMOVED***.length === 1 && (
 				<>
@@ -408,6 +422,8 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 							autoComplete="off"
 							value={ targetCell.id || '' }
 							onChange={ onChangeId }
+							__nextHasNoMarginBottom
+							__next40pxDefaultSize
 						/>
 					) }
 					<TextControl
@@ -418,34 +434,23 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 						autoComplete="off"
 						value={ targetCell.headers || '' }
 						onChange={ ***REMOVED*** }
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 					/>
 					{ ***REMOVED***.includes( 'th' ) && (
-						<BaseControl id="flexible-table-block-cell-scope">
-							<div aria-labelledby="flexible-table-block-cell-scope-heading" role="region">
-								<span
-									id="flexible-table-block-cell-scope-heading"
-									className="ftb-base-control-label"
-								>
-									{ createInterpolateElement(
-										__( '<code>scope</code> attribute', 'flexible-table-block' ),
-										{ code: <code /> }
-									) }
-								</span>
-								<ButtonGroup className="ftb-button-group">
-									{ CELL_SCOPE_CONTROLS.map( ( { label, value } ) => {
-										return (
-											<Button
-												key={ value }
-												variant={ value === targetCell.scope ? 'primary' : 'secondary' }
-												onClick={ () => onChangeScope( value ) }
-											>
-												{ label }
-											</Button>
-										);
-									} ) }
-								</ButtonGroup>
-							</div>
-						</BaseControl>
+						<SelectControl
+							label={ createInterpolateElement(
+								__( '<code>scope</code> attribute', 'flexible-table-block' ),
+								{ code: <code /> }
+							) }
+							value={ targetCell.scope }
+							options={ CELL_SCOPE_CONTROLS.map( ( { label, value } ) => {
+								return { label, value };
+							} ) }
+							onChange={ ( value ) => onChangeScope( value as ***REMOVED*** ) }
+							size="__unstable-large"
+							__nextHasNoMarginBottom
+						/>
 					) }
 				</>
 			) }

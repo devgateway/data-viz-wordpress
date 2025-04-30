@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Text-only blog, archive
+ * Title: Text blog archive
  * Slug: ***REMOVED***/template-archive-text-blog
  * Template Types: archive
  * Viewport width: 1400

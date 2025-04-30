@@ -1,3 +1,6 @@
+/**
+ * Internal dependencies
+ */
 import { ***REMOVED***, ***REMOVED*** } from '../style-converter';
 
 describe( 'style-converter', () => {

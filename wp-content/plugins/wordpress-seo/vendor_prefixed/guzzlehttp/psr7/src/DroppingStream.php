@@ -1,28 +1,30 @@
 <?php
 
+declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
 use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 /**
  * Stream decorator that begins dropping data once the size of the underlying
  * stream becomes too full.
- *
- * @final
  */
-class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
 {
     use ***REMOVED***;
+    /** @var int */
     private $maxLength;
+    /** @var ***REMOVED*** */
+    private $stream;
     /**
      * @param ***REMOVED*** $stream    Underlying stream to decorate.
      * @param int             $maxLength Maximum size before dropping data.
      */
-    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, $maxLength)
+    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, int $maxLength)
     {
         $this->stream = $stream;
         $this->maxLength = $maxLength;
     }
-    public function write($string)
+    public function write($string) : int
     {
         $diff = $this->maxLength - $this->stream->getSize();
         // Begin returning 0 when the underlying stream is too large.

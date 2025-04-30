@@ -1,5 +1,6 @@
 <?php
 
+declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
@@ -21,11 +22,11 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     /**
      * @param string                               $method  HTTP method
      * @param string|UriInterface                  $uri     URI
-     * @param array                                $headers Request headers
+     * @param (string|string[])[]                  $headers Request headers
      * @param string|resource|***REMOVED***|null $body    Request body
      * @param string                               $version Protocol version
      */
-    public function __construct($method, $uri, array $headers = [], $body = null, $version = '1.1')
+    public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1')
     {
         $this->assertMethod($method);
         if (!$uri instanceof \YoastSEO_Vendor\Psr\Http\Message\UriInterface) {
@@ -42,13 +43,13 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
             $this->stream = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::streamFor($body);
         }
     }
-    public function ***REMOVED***()
+    public function ***REMOVED***() : string
     {
         if ($this->requestTarget !== null) {
             return $this->requestTarget;
         }
         $target = $this->uri->getPath();
-        if ($target == '') {
+        if ($target === '') {
             $target = '/';
         }
         if ($this->uri->getQuery() != '') {
@@ -56,7 +57,7 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         }
         return $target;
     }
-    public function ***REMOVED***($requestTarget)
+    public function ***REMOVED***($requestTarget) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     {
         if (\preg_match('#\\s#', $requestTarget)) {
             throw new \InvalidArgumentException('Invalid request target provided; cannot contain whitespace');
@@ -65,22 +66,22 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         $new->requestTarget = $requestTarget;
         return $new;
     }
-    public function getMethod()
+    public function getMethod() : string
     {
         return $this->method;
     }
-    public function withMethod($method)
+    public function withMethod($method) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     {
         $this->assertMethod($method);
         $new = clone $this;
         $new->method = \strtoupper($method);
         return $new;
     }
-    public function getUri()
+    public function getUri() : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {
         return $this->uri;
     }
-    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, $preserveHost = \false)
+    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, $preserveHost = \false) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     {
         if ($uri === $this->uri) {
             return $this;
@@ -92,7 +93,7 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         }
         return $new;
     }
-    private function ***REMOVED***()
+    private function ***REMOVED***() : void
     {
         $host = $this->uri->getHost();
         if ($host == '') {
@@ -108,10 +109,13 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
             $this->headerNames['host'] = 'Host';
         }
         // Ensure Host is the first header.
-        // See: http://tools.ietf.org/html/rfc7230#section-5.4
+        // See: https://datatracker.ietf.org/doc/html/rfc7230#section-5.4
         $this->headers = [$header => [$host]] + $this->headers;
     }
-    private function assertMethod($method)
+    /**
+     * @param mixed $method
+     */
+    private function assertMethod($method) : void
     {
         if (!\is_string($method) || $method === '') {
             throw new \InvalidArgumentException('Method must be a non-empty string.');

@@ -1,8 +1,5 @@
 <?php
-
-
 namespace enshrined\svgSanitize\data;
-
 
 /**
  * Class ***REMOVED***
@@ -146,6 +143,7 @@ class ***REMOVED*** implements ***REMOVED***
             'direction',
             'display',
             'divisor',
+            'dominant-baseline',
             'dur',
             'edgemode',
             'elevation',
@@ -154,6 +152,7 @@ class ***REMOVED*** implements ***REMOVED***
             'fill-opacity',
             'fill-rule',
             'filter',
+            'filterUnits',
             'flood-color',
             'flood-opacity',
             'font-family',
@@ -272,6 +271,7 @@ class ***REMOVED*** implements ***REMOVED***
             'values',
             'viewbox',
             'visibility',
+            'vector-effect',
             'vert-adv-y',
             'vert-origin-x',
             'vert-origin-y',

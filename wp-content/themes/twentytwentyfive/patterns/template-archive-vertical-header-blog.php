@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Archive for the right-aligned blog
+ * Title: Right-aligned archive
  * Slug: ***REMOVED***/template-archive-vertical-header-blog
  * Template Types: archive
  * Viewport width: 1400

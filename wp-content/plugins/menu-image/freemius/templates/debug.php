@@ -17,19 +17,26 @@
     $off_text = fs_text_x_inline( 'Off', 'as turned off' );
     $on_text  = fs_text_x_inline( 'On', 'as turned on' );
 
+    // For some reason css was missing
+    fs_enqueue_local_style( 'fs_common', '/admin/common.css' );
+
     $has_any_active_clone = false;
 
     $is_multisite = is_multisite();
+
+    $auto_off_timestamp = wp_next_scheduled( 'fs_debug_turn_off_logging_hook' ) * 1000;
 ?>
 <h1><?php echo fs_text_inline( 'Freemius Debug' ) . ' - ' . fs_text_inline( 'SDK' ) . ' v.' . $fs_active_plugins->newest->version ?></h1>
 <div>
     <!-- Debugging Switch -->
-    <?php //$debug_mode = get_option( 'fs_debug_mode', null ) ?>
     <span class="fs-switch-label"><?php fs_esc_html_echo_x_inline( 'Debugging', 'as code debugging' ) ?></span>
 
     <div class="fs-switch fs-round <?php echo WP_FS__DEBUG_SDK ? 'fs-on' : 'fs-off' ?>">
         <div class="fs-toggle"></div>
     </div>
+
+    <span class="auto-off-debug-countdown hidden"><?php echo fs_esc_html_echo_x_inline( 'Auto off in:', 'timer for auto-disabling debug' ); ?> <span class="time">23:59:59</span>
+
     <script type="text/javascript">
         (function ($) {
             $(document).ready(function () {
@@ -39,18 +46,70 @@
                         .toggleClass( 'fs-on' )
                         .toggleClass( 'fs-off' );
 
+                    var is_on = ($(this).hasClass( 'fs-on' ) ? 1 : 0);
+
                     $.post( <?php echo Freemius::ajax_url() ?>, {
                         action: 'fs_toggle_debug_mode',
                         // As such we don't need to use `wp_json_encode` method but using it to follow wp.org guideline.
                         _wpnonce   : <?php echo wp_json_encode( wp_create_nonce( 'fs_toggle_debug_mode' ) ); ?>,
-                        is_on : ($(this).hasClass( 'fs-on' ) ? 1 : 0)
-                    }, function ( response ) {
+                        is_on
+                    }, function (response) {
+                        if (is_on) {
+                            startCountdownManually();
+                        } else {
+                            stopCountdownManually();
+                        }
+
                         if ( 1 == response ) {
                             // Refresh page on success.
                             location.reload();
                         }
                     });
                 });
+
+                // Countdown
+                var ***REMOVED*** = document.querySelector('.auto-off-debug-countdown');
+                var timeElement = ***REMOVED***.querySelector('.time');
+                var targetTime = <?php echo wp_json_encode( $auto_off_timestamp ); ?>;
+                var ***REMOVED***;
+
+                function ***REMOVED***() {
+                    var currentTime = new Date().getTime();
+                    var ***REMOVED*** = targetTime - currentTime;
+                    var hours = Math.floor((***REMOVED*** % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((***REMOVED*** % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((***REMOVED*** % (1000 * 60)) / 1000);
+
+
+                    if (***REMOVED*** < 1000) {
+                        ***REMOVED***.classList.add('hidden');
+                        ***REMOVED*** = null;
+                    } else {
+                        timeElement.innerHTML = hours + ":"
+                            + minutes.toString().padStart(2, '0') + ":"
+                            + seconds.toString().padStart(2, '0');
+                        ***REMOVED***.classList.remove('hidden');
+
+                        if (***REMOVED***) {
+                            clearTimeout(***REMOVED***);
+                        }
+                        ***REMOVED*** = setTimeout(***REMOVED***, 1000);
+                    }
+                }
+
+                function startCountdownManually() {
+                    targetTime = ( new Date().getTime() ) + (24 * 60 * 60 * 1000) - 1;
+                    ***REMOVED***();
+                }
+
+                function stopCountdownManually() {
+                    targetTime = new Date().getTime();
+                    ***REMOVED***();
+                }
+
+                ***REMOVED***();
+                // End countdown
+
             });
         }(jQuery));
     </script>
