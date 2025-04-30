@@ -7,8 +7,8 @@
     "plugins/*/*"
   ],
   "scripts": {
-    "build": "pnpm --filter data-viz-wordpress-commons build"
-  },
+    "build": "pnpm recursive run build"
+  }, 
   "keywords": [
     "wordpress",
     "data-viz",

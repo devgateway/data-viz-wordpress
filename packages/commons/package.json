@@ -2,7 +2,7 @@
   "name": "@dg-data-viz/wordpress-commons",
   "version": "1.1.0",
   "private": false,
-  "description": "",
+  "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
   "author": "Sebastian Dimunzio",
   "maintainers": [
     "Sebastian Dimunzio",
@@ -21,11 +21,11 @@
     "url": "https://github.com/devgateway/data-viz-wordpress/issues"
   },
   "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "module": "build/index.js",
   "files": [
     "build"
   ],
-  "types": "build/index.d.ts",
-  "module": "build/index.js",
   "devDependencies": {
     "@babel/runtime": "^7.27.0",
     "@types/lodash.isempty": "^4.4.9",
