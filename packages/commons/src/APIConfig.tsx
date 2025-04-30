@@ -443,13 +443,13 @@ export class APIConfig extends Component<APIConfigProps> {
         )}
       </PanelBody>,
       <Measures
+      {...this.props}
         onFormatChange={this.onFormatChange}
         onUseCustomAxisFormatChange={this.onUseCustomAxisFormatChange}
         onSetSingleMeasure={this.onSetSingleMeasure}
         onMeasuresChange={this.onMeasuresChange}
         onCustomLabelToggleChange={this.onCustomLabelToggleChange}
         onCustomLabelChange={this.onCustomLabelChange}
-        {...this.props}
         currentType={currentType}
       />,
 
