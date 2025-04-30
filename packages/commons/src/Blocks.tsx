@@ -326,8 +326,8 @@ export type BlockEditWithAPIMetadataState = {
 } & ComponentWithSettingsState;
 
 
-export class BlockEditWithAPIMetadata extends ComponentWithSettings<BlockEditWithAPIMetadataProps, BlockEditWithAPIMetadataState> {
-    constructor(props: BlockEditWithAPIMetadataProps) {
+export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = BlockEditWithAPIMetadataProps, S extends BlockEditWithAPIMetadataState = BlockEditWithAPIMetadataState> extends ComponentWithSettings<T, S> {
+    constructor(props: T) {
         super(props);
     }
 
