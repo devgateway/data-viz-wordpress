@@ -3,12 +3,13 @@ import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons/index.js'
+import { BLOCKS_NS, BLOCKS_CATEGORY } from '../constants';
 
-registerBlockType(process.env.BLOCKS_NS + '/bignumber',
+registerBlockType(BLOCKS_NS + '/bignumber',
     {
         title: __('Big Number'),
         icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             type: {
