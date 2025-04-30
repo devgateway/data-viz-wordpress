@@ -1,4 +1,7 @@
-const SaveComponent = (props) => {
+import React from 'react';
+import { ChildPagesNavigatorProps } from './types';
+
+const SaveComponent = (props: ChildPagesNavigatorProps) => {
 
     const {
         attributes: {
