@@ -1,3 +1,4 @@
+import React from 'react';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
     Panel,
@@ -6,10 +7,21 @@ import {
     TextControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings } from "../commons";
+import { ComponentWithSettings } from "@dg-data-viz/wordpress-commons";
 import {PanelColorSettings} from '@wordpress/block-editor';
 
-class BlockEdit extends ComponentWithSettings {
+interface BackToTopProps {
+    setAttributes: (attributes: any) => void;
+    attributes: {
+        buttonLabel: string;
+        height: number;
+        width: number;
+        backgroundColor: string;
+        fontColor: string;
+    };
+}
+
+class BlockEdit extends ComponentWithSettings<BackToTopProps, any> {
     constructor(props) { 
         super(props);       
     }
