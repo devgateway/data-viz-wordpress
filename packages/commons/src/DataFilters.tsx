@@ -7,8 +7,8 @@ export type DataFiltersProps = {
   allCategories: any[];
   allFilters: any[];
   filters: Filter[];
-  onChange: () => void;
-  attributes: {
+  onChange?: () => void;
+  attributes?: {
     filters: Filter[];
   };
   setAttributes: (attributes: any) => void;
@@ -17,7 +17,8 @@ export type DataFiltersProps = {
 export const DataFilters = (props: DataFiltersProps) => {
 
   const updateFilterParam = (param, idx) => {
-    const {attributes: {filters}, setAttributes, allFilters} = props
+    const {attributes, setAttributes, allFilters} = props;
+    const filters = attributes?.filters || [];
     const newFilters = filters.slice()
     const selected = allFilters.filter(f => f.param === param)[0]
     newFilters[idx] = {...selected, value: []}
@@ -26,7 +27,8 @@ export const DataFilters = (props: DataFiltersProps) => {
   }
 
   const updateFilterValue = (value, idx) => {
-    const {attributes: {filters}, setAttributes, onChange} = props
+    const {attributes, setAttributes, onChange} = props;
+    const filters = attributes?.filters || [];
     const selected = filters[idx]
     let values = selected.value
     if (values.indexOf(value) > -1) {
@@ -38,11 +40,12 @@ export const DataFilters = (props: DataFiltersProps) => {
     const newFilters = filters.slice()
     newFilters[idx].value = values
     setAttributes({filters: newFilters})
-    onChange()
+    onChange && onChange();
   }
 
   const addFilter = () => {
-    const {attributes: {filters}, setAttributes, allFilters} = props
+    const {attributes, setAttributes, allFilters} = props;
+    const filters = attributes?.filters || [];
     let index = filters.length > allFilters.length ? allFilters.length : filters.length
     const newFilter = (allFilters && allFilters.length > 0) ? {
       ...allFilters[index],
@@ -54,7 +57,8 @@ export const DataFilters = (props: DataFiltersProps) => {
   }
 
   const removeFilter = (f) => {
-    const {attributes: {filters}, setAttributes} = props
+    const {attributes, setAttributes} = props;
+    const filters = attributes?.filters || [];
     let newFilters = filters.slice(0, -1)
     setAttributes({filters: newFilters})
   }
@@ -103,13 +107,12 @@ export const DataFilters = (props: DataFiltersProps) => {
 
   const {
     allFilters,
-    attributes: {
-      filters,
-    }
+    attributes
   } = props
+  const filters = attributes?.filters || [];
 
   return <PanelBody initialOpen={false} title={__("Filters")}>
-      {filters.map((f, index) => {
+      {filters.length > 0 && filters.map((f, index) => {
 
         return (
           <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>

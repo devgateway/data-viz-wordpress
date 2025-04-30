@@ -102,7 +102,7 @@ const EditComponent = (props: AilmentsBodyProps) => {
                         topLeft: false,
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
-                        const newHeight = parseInt(height + delta.height, 10);
+                        const newHeight = parseInt(String(height), 10) + parseInt(String(delta.height), 10);
                         setAttributes({
                             height: newHeight
                         });
