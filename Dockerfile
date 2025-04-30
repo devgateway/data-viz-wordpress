@@ -1,37 +1,47 @@
-ARG REPO
-ARG TAG
+FROM node:22-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
-FROM node:22-slim  AS dist
-WORKDIR /tmp/work
-COPY wp-react-blocks-plugin/blocks/package.json ./
-#COPY wp-react-blocks-plugin/blocks/package-lock.json ./
-#Copy custom plugins
+RUN echo "Installing corepack..."
+ENV COREPACK_INTEGRITY_KEYS=0
+RUN corepack enable
 
-RUN --mount=type=cache,target=node_modules,id=wp_react_blocks_node_modules \
-npm install && npm install --only=dev
-COPY wp-react-blocks-plugin/blocks/ ./
+COPY . /app
+WORKDIR /app
+
+FROM base AS installer
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  --mount=type=bind,source=package.json,target=package.json \
+  --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+  --mount=type=bind,source=packages/commons/package.json,target=packages/commons/package.json \
+  pnpm install --frozen-lockfile
 
 
-RUN npm i @wordpress/scripts && npm run build
+FROM base AS builder
 
-RUN mkdir -p wp-content/plugins/wp-react-blocks-plugin/blocks
-RUN mv build wp-content/plugins/wp-react-blocks-plugin/blocks
-COPY wp-react-blocks-plugin/index.php wp-content/plugins/wp-react-blocks-plugin/
-COPY wp-react-blocks-plugin/blocks/*.* wp-content/plugins/wp-react-blocks-plugin/blocks/
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  --mount=type=bind,source=package.json,target=package.json \
+  --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+  --mount=type=bind,source=packages/commons/package.json,target=packages/commons/package.json \
+  pnpm install --frozen-lockfile
 
+RUN pnpm build
+
+# Organize WordPress files to the container
 COPY wp-content wp-content
-COPY wp-react-custom-rest-menu/* wp-content/plugins/wp-react-custom-rest-menu/
-COPY wp-react-custom-multilang wp-content/plugins/wp-multilang
+COPY plugins wp-content/plugins
 COPY wp-theme wp-content/themes/dg-semantic
 
-
+# Create a tarball of the wp-content directory
 RUN chown -R 82:82 wp-content \
   && tar -caf /wp-content.tgz wp-content
 
-FROM library/wordpress:6.7.1-fpm-alpine
+FROM wordpress:6.8.0-fpm-alpine AS runtime
 COPY ./custom/custom.ini /usr/local/etc/php/conf.d/
-COPY --from=dist /wp-content.tgz /tmp
-COPY wordpress.sh /usr/local/sbin/
+COPY --from=builder /wp-content.tgz /tmp
+COPY --chmod=755 wordpress.sh /usr/local/sbin/
+
+EXPOSE 80 443
 
 ENTRYPOINT ["/usr/local/sbin/wordpress.sh"]
 CMD ["php-fpm"]
