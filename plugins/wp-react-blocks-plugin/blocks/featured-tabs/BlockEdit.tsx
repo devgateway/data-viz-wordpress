@@ -30,7 +30,7 @@ class BlockEdit extends BlockEditWithFilters<FeaturedTabsProps, BlockEditWithFil
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: FeaturedTabsProps, prevState: BlockEditWithFiltersState , snapshot: any) {
         const newPreviewMode = this.state?.previewMode;
         if (newPreviewMode !== prevState.previewMode) {
             this.props.setAttributes({ previewMode: newPreviewMode });
