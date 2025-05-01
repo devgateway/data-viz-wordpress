@@ -392,6 +392,8 @@ export class FlowLayerSetting extends Component<FlowLayerSettingProps, FlowLayer
                 {app != 'csv' && <Measures
                     onFormatChange={this.onFormatChange}
                     onSetSingleMeasure={this.onSetSingleMeasure}
+                    // TODO: fix measures component
+                    // @ts-ignore 
                     measures={layer.measures}
                     format={layer.format}
                     {...this.props}/>}
