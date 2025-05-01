@@ -1,4 +1,5 @@
-import {InspectorControls, useBlockProps, MediaUpload} from '@wordpress/block-editor';
+import React from 'react';
+import { InspectorControls, useBlockProps, MediaUpload } from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -10,35 +11,34 @@ import {
     ResizableBox,
     ButtonGroup
 } from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-
-import {BlockEditWithAPIMetadata, ComponentWithSettings} from '../commons/index'
+import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
+import { Menu, ComponentWithSettings, ComponentWithSettingsState } from '@dg-data-viz/wp-commons';
+import { MenuBlockProps, MenuBlockState } from './types';
 
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'
 const HIGHEST_VALUE = 'HIGHEST_VALUE'
 
 
-class BlockEdit extends ComponentWithSettings {
+class BlockEdit extends ComponentWithSettings<MenuBlockProps, MenuBlockState> {
 
-    constructor(props) {
+    constructor(props: MenuBlockProps) {
         super(props);
-
     }
 
     componentDidMount() {
         super.componentDidMount()
-        apiFetch({
+        apiFetch<Menu[]>({
             path: '/menus/v1/menus',
             method: 'GET'
         }).then((res) => {
             if (res) {
-                
+
                 const menus = res.map((item, index) => {
-                    return {label: item.name, value: item.name}
+                    return { label: item.name, value: item.name }
                 })
-                this.setState({menus: [{label: __("None"), value: ""}, ...menus]})
+                this.setState({ menus: [{ label: __("None"), value: "" }, ...menus] })
             }
 
         });
@@ -52,24 +52,24 @@ class BlockEdit extends ComponentWithSettings {
             }
         } = this.props;
 
-        const iframeStyles = {height: height + "px", width: "100%"}
+        const iframeStyles = { height: height + "px", width: "100%" }
 
         return ([isSelected && (<InspectorControls>
             <Panel header={__("Menu Configuration")}>
                 <PanelBody>
                     <PanelRow>
-                        <img src={icon}/>
+                        {icon && <img src={icon} />}
                     </PanelRow>
                     <PanelRow>
                         <MediaUpload
                             onSelect={(media) => {
-                                setAttributes({icon: media.url, icon_media_id: media.id})
+                                setAttributes({ icon: media.url, icon_media_id: media.id })
                             }}
                             allowedTypes={['image']}
-                            value={icon}
-                            render={({open}) => (
+                            value={icon as any}
+                            render={({ open }) => (
                                 <ButtonGroup>
-                                    <Button onClick={e => setAttributes({icon: null, icon_media_id: null})}>Remove
+                                    <Button onClick={e => setAttributes({ icon: null, icon_media_id: null })}>Remove
                                         Icon</Button>
                                     <Button variant={"primary"} onClick={open}>Set Icon</Button>
                                 </ButtonGroup>
@@ -82,18 +82,18 @@ class BlockEdit extends ComponentWithSettings {
                             disabled
                             label={__('Height')}
                             value={height}
-                            onChange={(value) => setAttributes({height: parseInt(value)})}
+                            onChange={(value) => setAttributes({ height: parseInt(value) })}
                         />
                     </PanelRow>
                     <PanelRow>
                         <SelectControl
                             label={__('Name')}
                             value={name}
-                            onChange={(name) =>{
-                                
-                                setAttributes({name: name})
+                            onChange={(name) => {
 
-                            } }
+                                setAttributes({ name: name })
+
+                            }}
 
 
                             options={this.state.menus ? this.state.menus : []}
@@ -105,7 +105,7 @@ class BlockEdit extends ComponentWithSettings {
                         <TextControl
                             label={__('Heading Label')}
                             value={label}
-                            onChange={(label) => setAttributes({label})}
+                            onChange={(label) => setAttributes({ label })}
                         />
                     </PanelRow>
                     <PanelRow>
@@ -113,15 +113,15 @@ class BlockEdit extends ComponentWithSettings {
                             label="Show Icons"
                             help={"Icon custom field required"}
                             checked={showIcons}
-                            onChange={() => setAttributes({showIcons: !showIcons})}
+                            onChange={() => setAttributes({ showIcons: !showIcons })}
                         />
                     </PanelRow>
 
                 </PanelBody>
             </Panel>
         </InspectorControls>), (<ResizableBox
-            size={{height}}
-            style={{"margin": "auto", width: "100%"}}
+            size={{ height }}
+            style={{ "margin": "auto", width: "100%" }}
             minHeight="30"
             minWidth="100"
             enable={{
@@ -136,7 +136,7 @@ class BlockEdit extends ComponentWithSettings {
             }}
             onResizeStop={(event, direction, elt, delta) => {
                 setAttributes({
-                    height: parseInt(height + delta.height, 10),
+                    height: parseInt(String(height)) + parseInt(String(delta.height)),
                 });
                 toggleSelection(true);
             }}
@@ -146,9 +146,9 @@ class BlockEdit extends ComponentWithSettings {
             <div>
 
                 {this.state.react_ui_url && <iframe ref={this.iframe}
-                                                    scrolling={"no"}
-                                                    style={iframeStyles}
-                                                    src={this.state.react_ui_url + "/embeddable/menu"}/>}
+                    scrolling={"no"}
+                    style={iframeStyles}
+                    src={this.state.react_ui_url + "/embeddable/menu"} />}
             </div>
         </ResizableBox>)]);
 
@@ -156,16 +156,15 @@ class BlockEdit extends ComponentWithSettings {
 }
 
 
-const Edit = (props) => {
+const Edit = (props: MenuBlockProps) => {
 
-    const blockProps = useBlockProps({className: 'wp-react-component'});
-    return (<div {...blockProps}>
-        <p className={"iframe container"}>
-            <BlockEdit {...props}/>
-        </p>
-
-    </div>)
-
-
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
+    return (
+        <div {...blockProps}>
+            <p className={"iframe container"}>
+                <BlockEdit {...props} />
+            </p>
+        </div>
+    )
 }
 export default Edit;
