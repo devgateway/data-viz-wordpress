@@ -1,6 +1,3 @@
-import {PanelBody, PanelRow} from "@wordpress/components";
-
-
 export const Model = {
 
     id: Date.now(),

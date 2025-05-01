@@ -22,7 +22,7 @@ import {
     Filter,
     Measure,
     Format
-} from '@dg-data-viz/wordpress-commons'
+} from '@dg-data-viz/wp-commons'
 
 
 interface BigNumberProps {
@@ -204,7 +204,6 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
                         <DataFilters
                             allFilters={this.state.filters}
                             allCategories={this.state.categories}
-                            filters={filters}
                             {...this.props} />
 
                     </>
