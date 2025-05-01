@@ -1,4 +1,5 @@
-import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
+import React, { useState } from 'react';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
     __experimentalDivider as Divider,
     Button,
@@ -10,50 +11,72 @@ import {
     ToggleControl,
     TextareaControl
 } from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '../commons/index'
-import Format from '../charts/Format.jsx'
-import {useState} from "@wordpress/element";
-import {v4 as uuidv4} from "uuid";
+import { __ } from '@wordpress/i18n';
+import { BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, Format, Group, Measure } from '@dg-data-viz/wp-commons';
+import { v4 as uuidv4 } from "uuid";
+import { MeasureBlockProps } from './types';
 
 
-const getGroups = (measures) => {
-    let groups = []
+const getGroups = (measures: Measure[]) => {
+    let groups: Group[] = []
     if (measures) {
         groups = [...new Set(measures.map(m => m.group))]
     }
     return groups
 }
 
-const MToggle = ({onChange, checked, label}) => {
+const MToggle = (
+    { onChange, checked, label }:
+        { onChange: (checked: boolean) => void, checked: boolean, label: string }) => {
 
     return (<ToggleControl
         label={label}
         checked={checked}
-        onChange={onChange}/>)
+        onChange={onChange} />)
+}
+
+interface GroupProps {
+    app: string,
+    allMeasures: Measure[],
+    measures: Measure,
+    idx: number,
+    defaultSelected: boolean,
+    label: string,
+    format: any,
+    leftTitle: string,
+    rightTitle: string,
+    customTooltip: string,
+    onLabelChange: (idx: number, label: string) => void,
+    onFormatChange: (idx: number, format: any) => void,
+    onMeasureChange: (idx: number, measure: string, selected: boolean) => void,
+    onLeftTitleChange: (idx: number, title: string) => void,
+    onRightTitleChange: (idx: number, title: string) => void,
+    onDefaultSelectedChanged: (idx: number, selected: boolean) => void,
+    onCsvMeasureChanged: (idx: number, fields: string) => void,
+    onCustomTooltipChange: (idx: number, customTooltip: string) => void
 }
 
 const Group = ({
 
-                   app,
-                   allMeasures,
-                   measures,
-                   idx,
-                   defaultSelected,
-                   label,
-                   format,
-                   leftTitle,
-                   rightTitle,
-                   customTooltip,
-                   onLabelChange,
-                   onFormatChange,
-                   onMeasureChange,
-                   onLeftTitleChange,
-                   onRightTitleChange,
-                   onDefaultSelectedChanged,
-                   onCsvMeasureChanged,
-                   onCustomTooltipChange
-               }) => {
+    app,
+    allMeasures,
+    measures,
+    idx,
+    defaultSelected,
+    label,
+    format,
+    leftTitle,
+    rightTitle,
+    customTooltip,
+    onLabelChange,
+    onFormatChange,
+    onMeasureChange,
+    onLeftTitleChange,
+    onRightTitleChange,
+    onDefaultSelectedChanged,
+    onCsvMeasureChanged,
+    onCustomTooltipChange
+}: GroupProps) => {
     const groups = getGroups(allMeasures)
     const [g, setG] = useState(groups[0])
 
@@ -80,7 +103,7 @@ const Group = ({
             return (<PanelBody title={g.label}>{allMeasures.filter(m => m.group == g).map(m =>
                 <PanelRow>
                     <MToggle label={m.label} checked={measures[m.value] && measures[m.value].selected}
-                             onChange={value => onMeasureChange(idx, m.value, value)}>
+                        onChange={value => onMeasureChange(idx, m.value, value)}>
 
                     </MToggle>
                 </PanelRow>
@@ -91,7 +114,7 @@ const Group = ({
         }
         {app == 'csv' && <PanelBody title={"Fields "}>
             <TextControl value={Object.keys(measures).join(',')} label={__("CSV Fields")}
-                         onChange={value => onCsvMeasureChanged(idx, value)}></TextControl>
+                onChange={value => onCsvMeasureChanged(idx, value)}></TextControl>
 
         </PanelBody>}
         <PanelBody title={__("Format")}>
@@ -132,9 +155,9 @@ const Group = ({
 }
 
 
-class BlockEdit extends BlockEditWithAPIMetadata {
+class BlockEdit extends BlockEditWithAPIMetadata<MeasureBlockProps, BlockEditWithAPIMetadataState> {
 
-    constructor(props) {
+    constructor(props: MeasureBlockProps) {
         super(props);
         this.addGroup = this.addGroup.bind(this)
         this.removeGroup = this.removeGroup.bind(this)
@@ -159,10 +182,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } = this.props;
 
 
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
         newGroups[app].pop()
 
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
     addGroup() {
@@ -175,7 +198,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }
         } = this.props;
 
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
         if (!newGroups[app]) {
             newGroups[app] = []
         }
@@ -192,10 +215,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 "customTooltip": ""
             }
         })
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
-    onLabelChange(idx, label) {
+    onLabelChange(idx: number, label: string) {
         const {
             isSelected,
             setAttributes,
@@ -204,12 +227,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measuresGroups,
             }
         } = this.props;
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
         newGroups[app][idx].label = label
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
-    onLeftTitleChange(idx, leftTitle) {
+    onLeftTitleChange(idx: number, leftTitle: string) {
         const {
             isSelected,
             setAttributes,
@@ -218,13 +241,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measuresGroups,
             }
         } = this.props;
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
 
         newGroups[app][idx].leftTitle = leftTitle
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
-    onRightTitleChange(idx, rightTitle) {
+    onRightTitleChange(idx: number, rightTitle: string) {
         const {
             isSelected,
             setAttributes,
@@ -233,13 +256,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measuresGroups,
             }
         } = this.props;
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
 
         newGroups[app][idx].rightTitle = rightTitle
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
-    onCustomTooltipChange(idx, customTooltip) {
+    onCustomTooltipChange(idx: number, customTooltip: string) {
         const {
             isSelected,
             setAttributes,
@@ -248,12 +271,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measuresGroups,
             }
         } = this.props;
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
         newGroups[app][idx].customTooltip = customTooltip
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
-    onFormatChange(idx, format) {
+    onFormatChange(idx: number, format: any) {
         const {
             isSelected,
             setAttributes,
@@ -262,12 +285,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measuresGroups,
             }
         } = this.props;
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
         newGroups[app][idx].format = format
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
-    onCsvMeasureChanged(idx, fields) {
+    onCsvMeasureChanged(idx: number, fields: string) {
         const {
             isSelected,
             setAttributes,
@@ -276,21 +299,21 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measuresGroups,
             }
         } = this.props;
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
 
         newGroups[app][idx].measures = {}
         fields.split(",").forEach(measure => {
 
             newGroups[app][idx].measures[measure] = {}
-            newGroups[app][idx].measures[measure] = {'selected': true}
+            newGroups[app][idx].measures[measure] = { 'selected': true }
         })
 
 
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
 
     }
 
-    onMeasureChange(idx, measure, selected) {
+    onMeasureChange(idx: number, measure: string, selected: boolean) {
         const {
             isSelected,
             setAttributes,
@@ -299,18 +322,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measuresGroups,
             }
         } = this.props;
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
 
         if (!newGroups[app][idx].measures[measure]) {
             newGroups[app][idx].measures[measure] = {}
         }
 
-        newGroups[app][idx].measures[measure] = {selected}
-        setAttributes({measuresGroups: newGroups})
+        newGroups[app][idx].measures[measure] = { selected }
+        setAttributes({ measuresGroups: newGroups })
 
     }
 
-    onDefaultSelectedChanged(idx, value) {
+    onDefaultSelectedChanged(idx: number, value: boolean) {
         const {
             setAttributes,
             attributes: {
@@ -319,10 +342,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }
         } = this.props;
 
-        const newGroups = {...measuresGroups}
+        const newGroups = { ...measuresGroups }
         newGroups[app].forEach(g => g.defaultSelected = false)
         newGroups[app][idx].defaultSelected = value
-        setAttributes({measuresGroups: newGroups})
+        setAttributes({ measuresGroups: newGroups })
     }
 
     render() {
@@ -336,105 +359,105 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 app,
             }
         } = this.props;
-        const iframeStyles = {height: '65px', width: '100%'}
+        const iframeStyles = { height: '65px', width: '100%' }
         const queryString = ``
         const selectableGroups = measuresGroups[app] ? measuresGroups[app] : [];
 
 
         return ([isSelected && (<InspectorControls>
-                <Panel header={__("Measures Configuration")}>
-                    <PanelBody initialOpen={false} title={__("Group")}>
-                        <PanelRow>
-                            <TextControl
-                                help={__('Use this field to set a shared key')}
-                                label={__('Name')}
-                                value={group == '' ? uuidv4() : group}
-                                onChange={(group) => setAttributes({group})}
-                            />
-                        </PanelRow>
-                    </PanelBody>
-                    <PanelBody initialOpen={false} title={__("API & Source")}>
-                        <PanelRow>
-                            <SelectControl
-                                value={app}
-                                onChange={(app) => {
-
-                                    setAttributes({app: app})
-                                }}
-                                options={this.state.apps ? [...this.state.apps] : []}
-                            />
-                        </PanelRow>
-                    </PanelBody>
-
-                    <PanelBody initialOpen={false} title={__("Options")}>
-
+            <Panel header={__("Measures Configuration")}>
+                <PanelBody initialOpen={false} title={__("Group")}>
+                    <PanelRow>
                         <TextControl
-                            label={__("Label")}
-                            value={label}
-                            onChange={label => setAttributes({label})}
+                            help={__('Use this field to set a shared key')}
+                            label={__('Name')}
+                            value={group == '' ? uuidv4() : group}
+                            onChange={(group) => setAttributes({ group })}
                         />
-                    </PanelBody>
+                    </PanelRow>
+                </PanelBody>
+                <PanelBody initialOpen={false} title={__("API & Source")}>
+                    <PanelRow>
+                        <SelectControl
+                            value={app}
+                            onChange={(app) => {
 
-                    {app != 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
+                                setAttributes({ app: app })
+                            }}
+                            options={this.state.apps ? [...this.state.apps] : []}
+                        />
+                    </PanelRow>
+                </PanelBody>
 
-                        {this.state.measures && selectableGroups.map(g =>
-                            <Group
-                                app={app}
-                                onMeasureChange={this.onMeasureChange}
-                                onFormatChange={this.onFormatChange}
-                                onLabelChange={this.onLabelChange}
-                                onLeftTitleChange={this.onLeftTitleChange}
-                                onRightTitleChange={this.onRightTitleChange}
-                                onDefaultSelectedChanged={this.onDefaultSelectedChanged}
-                                onCustomTooltipChange={this.onCustomTooltipChange}
-                                allMeasures={this.state.measures} {...g}/>)}
+                <PanelBody initialOpen={false} title={__("Options")}>
 
-                        <PanelRow>
+                    <TextControl
+                        label={__("Label")}
+                        value={label}
+                        onChange={label => setAttributes({ label })}
+                    />
+                </PanelBody>
 
-                            <Button variant="link" onClick={this.addGroup}>{__("Add")}</Button>
-                            <Button variant="link" onClick={this.removeGroup}>{__("Remove")}</Button>
+                {app != 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
 
-
-                            <Divider/>
-                        </PanelRow>
-                    </PanelBody>}
-
-
-                    {app == 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
-
-                        {selectableGroups.map(g => <Group
+                    {this.state.measures && selectableGroups.map(g =>
+                        <Group
                             app={app}
-                            onCsvMeasureChanged={this.onCsvMeasureChanged}
+                            onMeasureChange={this.onMeasureChange}
                             onFormatChange={this.onFormatChange}
                             onLabelChange={this.onLabelChange}
                             onLeftTitleChange={this.onLeftTitleChange}
                             onRightTitleChange={this.onRightTitleChange}
                             onDefaultSelectedChanged={this.onDefaultSelectedChanged}
                             onCustomTooltipChange={this.onCustomTooltipChange}
-                            {...g}/>
-                        )}
+                            allMeasures={this.state.measures} {...g} />)}
 
-                        <PanelRow>
+                    <PanelRow>
 
-                            <Button variant="link" onClick={this.addGroup}>{__("Add")}</Button>
-                            <Button variant="link" onClick={this.removeGroup}>{__("Remove")}</Button>
+                        <Button variant="link" onClick={this.addGroup}>{__("Add")}</Button>
+                        <Button variant="link" onClick={this.removeGroup}>{__("Remove")}</Button>
 
 
-                            <Divider/>
-                        </PanelRow>
-                    </PanelBody>}
-                </Panel>
-            </InspectorControls>),
+                        <Divider />
+                    </PanelRow>
+                </PanelBody>}
 
-                (<div>
 
-                        {this.state.react_ui_url &&
-                            <iframe ref={this.iframe} scrolling={"no"} style={iframeStyles}
-                                    src={this.state.react_ui_url + "/embeddable/measures?" + queryString}/>}
-                    </div>
+                {app == 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
 
-                )
-            ]
+                    {selectableGroups.map(g => <Group
+                        app={app}
+                        onCsvMeasureChanged={this.onCsvMeasureChanged}
+                        onFormatChange={this.onFormatChange}
+                        onLabelChange={this.onLabelChange}
+                        onLeftTitleChange={this.onLeftTitleChange}
+                        onRightTitleChange={this.onRightTitleChange}
+                        onDefaultSelectedChanged={this.onDefaultSelectedChanged}
+                        onCustomTooltipChange={this.onCustomTooltipChange}
+                        {...g} />
+                    )}
+
+                    <PanelRow>
+
+                        <Button variant="link" onClick={this.addGroup}>{__("Add")}</Button>
+                        <Button variant="link" onClick={this.removeGroup}>{__("Remove")}</Button>
+
+
+                        <Divider />
+                    </PanelRow>
+                </PanelBody>}
+            </Panel>
+        </InspectorControls>),
+
+        (<div>
+
+            {this.state.react_ui_url &&
+                <iframe ref={this.iframe} scrolling={"no"} style={iframeStyles}
+                    src={this.state.react_ui_url + "/embeddable/measures?" + queryString} />}
+        </div>
+
+        )
+        ]
         );
 
     }
@@ -443,10 +466,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
 const Edit = (props) => {
 
-    const blockProps = useBlockProps({className: 'wp-react-component'});
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
     return (<div {...blockProps}>
         <p className={"iframe container"}>
-            <BlockEdit {...props}/>
+            <BlockEdit {...props} />
         </p>
 
     </div>)
