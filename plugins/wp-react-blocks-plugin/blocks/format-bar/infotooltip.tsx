@@ -1,5 +1,6 @@
-import {__} from '@wordpress/i18n';
-import {useState} from "@wordpress/element";
+import React from 'react';
+import { __ } from '@wordpress/i18n';
+import { useState } from "@wordpress/element";
 import {
     ***REMOVED***,
     insertObject,
@@ -8,12 +9,13 @@ import {
     slice,
     useAnchorRef
 } from '@wordpress/rich-text';
-import {RichTextToolbarButton} from '@wordpress/block-editor';
-import {speak} from '@wordpress/a11y';
-import {info as linkIcon} from '@wordpress/icons';
-import {Button, Modal, Panel, PanelBody, PanelRow, Popover, ***REMOVED***} from '@wordpress/components';
+import { RichTextToolbarButton } from '@wordpress/block-editor';
+import { speak } from '@wordpress/a11y';
+import { info as linkIcon } from '@wordpress/icons';
+import { Button, Modal, Panel, PanelBody, PanelRow, Popover, ***REMOVED*** } from '@wordpress/components';
+import { BLOCKS_NS } from '@dg-data-viz/wp-commons';
 
-const name = process.env.BLOCKS_NS + '/info-tooltip';
+const name = BLOCKS_NS + '/info-tooltip';
 const reference = {
     name,
     object: true,
@@ -29,7 +31,7 @@ const reference = {
     edit
 };
 
-const PopUI = ({onClose, onCancel}) => {
+const PopUI = ({ onClose, onCancel }) => {
     const [text, setText] = useState("")
     return <Modal title={__("Reference")} ***REMOVED***={e => onCancel()}>
         <***REMOVED***
@@ -45,7 +47,7 @@ const PopUI = ({onClose, onCancel}) => {
 
 }
 
-function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}) {
+function InlineUI({ value, onChange, activeObjectAttributes, contentRef, onClose }) {
 
 
     const [content, setContent] = useState(activeObjectAttributes["data-description"]);
@@ -53,7 +55,11 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
     const anchorRef = useAnchorRef({
         ref: contentRef,
         value,
-        settings: reference,
+        settings: {
+            ...reference,
+            interactive: true,
+        },
+
     });
 
     return (
@@ -65,7 +71,7 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
             <Panel>
                 <PanelBody>
                     <form
-                        style={{"width": "300px"}}
+                        style={{ "width": "300px" }}
                         onSubmit={(event) => {
                             const ***REMOVED*** = value.replacements.slice();
                             ***REMOVED***[value.start] = {
@@ -90,7 +96,7 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
                             <***REMOVED***
                                 rows={5}
                                 label={__("Description")}
-                                value={***REMOVED*** (content)}
+                                value={***REMOVED***(content)}
                                 onChange={(content) => setContent(content)}
                             />
                         </PanelRow>
@@ -111,7 +117,18 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
     );
 }
 
-function edit(props) {
+interface EditProps {
+    ***REMOVED***: boolean;
+    isActive: boolean;
+    activeObjectAttributes: any;
+    ***REMOVED***: any;
+    value: any;
+    onChange: (value: any) => void;
+    onFocus: () => void;
+    contentRef: React.RefObject<***REMOVED***>;
+}
+
+function edit(props: EditProps) {
     const {
         ***REMOVED***,
         isActive,
@@ -126,7 +143,10 @@ function edit(props) {
     const anchorRef = useAnchorRef({
         ref: contentRef,
         value,
-        settings: {},
+        settings: {
+            ...reference,
+            interactive: true,
+        },
     });
 
     const [isModalOpen, ***REMOVED***] = useState(false);
@@ -136,12 +156,13 @@ function edit(props) {
         ***REMOVED***(true);
     }
 
-    function closeModal(referenceText) {
+    function closeModal(referenceText: string) {
 
-        
+
         const text = ***REMOVED***(slice(value));
         const obj = insertObject(value, {
             type: name,
+            // @ts-ignore
             attributes: {
                 "className": `wp-info viz-component ignore`,
                 "data-component": "tooltip",
@@ -172,23 +193,25 @@ function edit(props) {
             <RichTextToolbarButton
                 icon={linkIcon}
                 title={__('Tooltip')}
-                isActive={isActive}
+                isActive={isActive || ***REMOVED***}
                 onClick={openModal}
-                isActive={***REMOVED***}
                 shortcutType="primaryShift"
-                ***REMOVED***="t"/>
-            {isModalOpen && <PopUI value={value} onCancel={onCancel} onClose={closeModal}/>}
+                ***REMOVED***="t" />
+            {isModalOpen && <PopUI onCancel={onCancel} onClose={closeModal} />}
             {***REMOVED*** && <InlineUI value={value}
-                                         onClose={e => {
-                                             setShowInline(false)
-                                         }}
-                                         onChange={onChange}
-                                         activeObjectAttributes={activeObjectAttributes}
-                                         contentRef={contentRef}></InlineUI>}
+                onClose={e => {
+                    setShowInline(false)
+                }}
+                onChange={onChange}
+                activeObjectAttributes={activeObjectAttributes}
+                contentRef={contentRef}></InlineUI>}
 
 
         </>
     );
 }
 
-***REMOVED***(name, reference);
+***REMOVED***(name, {
+    ...reference,
+    interactive: true,
+});
