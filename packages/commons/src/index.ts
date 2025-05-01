@@ -1,4 +1,3 @@
-import { ***REMOVED*** } from './ChartColors';
 export {
     APIConfig
 } from './APIConfig';
@@ -32,7 +31,9 @@ export {
     type ***REMOVED***
 } from './ChartMeasures';
 export {
-    DEFAULT_FORMAT_SETTINGS
+    DEFAULT_FORMAT_SETTINGS,
+    BLOCKS_CATEGORY,
+    BLOCKS_NS
 } from './Constants';
 export {
     CSVConfig
@@ -67,3 +68,4 @@ export {
     panelFocus,
     togglePanel
 } from './Util';
+export * from './icons';
