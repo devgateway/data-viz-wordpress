@@ -84,6 +84,7 @@ export interface Filter {
     field:  string;
     // TODO: Check the value property in the API response since it is not there
     value:  string[];
+    values: string;
 }
 
 export interface DgSettings {
@@ -126,6 +127,7 @@ export interface Taxonomy {
     rest_base:      string;
     rest_namespace: string;
     _links:         Links;
+    taxonomy:       string;
 }
 
 export interface Links {
