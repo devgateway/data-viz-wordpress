@@ -1,5 +1,5 @@
-import { Measure } from "@dg-data-viz/wordpress-commons";
-import { Filter } from "@dg-data-viz/wordpress-commons";
+import { Measure } from "@dg-data-viz/wp-commons";
+import { Filter } from "@dg-data-viz/wp-commons";
 
 export interface BigNumberTrendProps {
     className: string;

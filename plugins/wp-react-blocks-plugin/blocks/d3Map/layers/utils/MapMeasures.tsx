@@ -1,9 +1,7 @@
+import React from 'react';
 import {__} from '@wordpress/i18n';
 import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
-
-import Format from '../../../charts/Format.jsx'
-import {togglePanel} from "../../../commons/Util";
-import {getTranslation} from "../../../commons/APIutils";
+import {getTranslation, Format, togglePanel, Measure} from '@dg-data-viz/wp-commons'
 
 const defaultFormat = {
     "style": "percent",
@@ -13,7 +11,21 @@ const defaultFormat = {
 
 }
 
-const Measures = (props) => {
+interface MapMeasuresProps {
+    onMeasuresChange: (measures: string[]) => void;
+    onFormatChange: (format: any) => void;
+    onSetSingleMeasure: (measure: string) => void;
+    allMeasures: any[];
+    setAttributes: (attributes: any) => void;
+    panelStatus: Record<string, any>;
+    layer: {
+        measures: Measure[];
+        app: string;
+        format: any;
+    };
+}
+
+const Measures = (props: MapMeasuresProps) => {
     const {
         onMeasuresChange,
         onFormatChange,

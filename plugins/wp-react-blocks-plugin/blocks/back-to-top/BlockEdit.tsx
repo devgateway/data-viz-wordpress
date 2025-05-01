@@ -7,7 +7,7 @@ import {
     TextControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings } from "@dg-data-viz/wordpress-commons";
+import { ComponentWithSettings } from "@dg-data-viz/wp-commons";
 import {PanelColorSettings} from '@wordpress/block-editor';
 
 interface BackToTopProps {
