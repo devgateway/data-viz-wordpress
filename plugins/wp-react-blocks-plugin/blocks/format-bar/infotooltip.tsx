@@ -1,5 +1,6 @@
-import {__} from '@wordpress/i18n';
-import {useState} from "@wordpress/element";
+import React from 'react';
+import { __ } from '@wordpress/i18n';
+import { useState } from "@wordpress/element";
 import {
     getTextContent,
     insertObject,
@@ -8,12 +9,13 @@ import {
     slice,
     useAnchorRef
 } from '@wordpress/rich-text';
-import {RichTextToolbarButton} from '@wordpress/block-editor';
-import {speak} from '@wordpress/a11y';
-import {info as linkIcon} from '@wordpress/icons';
-import {Button, Modal, Panel, PanelBody, PanelRow, Popover, TextareaControl} from '@wordpress/components';
+import { RichTextToolbarButton } from '@wordpress/block-editor';
+import { speak } from '@wordpress/a11y';
+import { info as linkIcon } from '@wordpress/icons';
+import { Button, Modal, Panel, PanelBody, PanelRow, Popover, TextareaControl } from '@wordpress/components';
+import { BLOCKS_NS } from '@dg-data-viz/wp-commons';
 
-const name = process.env.BLOCKS_NS + '/info-tooltip';
+const name = BLOCKS_NS + '/info-tooltip';
 const reference = {
     name,
     object: true,
@@ -29,7 +31,7 @@ const reference = {
     edit
 };
 
-const PopUI = ({onClose, onCancel}) => {
+const PopUI = ({ onClose, onCancel }) => {
     const [text, setText] = useState("")
     return <Modal title={__("Reference")} onRequestClose={e => onCancel()}>
         <TextareaControl
@@ -45,7 +47,7 @@ const PopUI = ({onClose, onCancel}) => {
 
 }
 
-function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}) {
+function InlineUI({ value, onChange, activeObjectAttributes, contentRef, onClose }) {
 
 
     const [content, setContent] = useState(activeObjectAttributes["data-description"]);
@@ -53,7 +55,11 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
     const anchorRef = useAnchorRef({
         ref: contentRef,
         value,
-        settings: reference,
+        settings: {
+            ...reference,
+            interactive: true,
+        },
+
     });
 
     return (
@@ -65,7 +71,7 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
             <Panel>
                 <PanelBody>
                     <form
-                        style={{"width": "300px"}}
+                        style={{ "width": "300px" }}
                         onSubmit={(event) => {
                             const newReplacements = value.replacements.slice();
                             newReplacements[value.start] = {
@@ -90,7 +96,7 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
                             <TextareaControl
                                 rows={5}
                                 label={__("Description")}
-                                value={decodeURIComponent (content)}
+                                value={decodeURIComponent(content)}
                                 onChange={(content) => setContent(content)}
                             />
                         </PanelRow>
@@ -111,7 +117,18 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
     );
 }
 
-function edit(props) {
+interface EditProps {
+    isObjectActive: boolean;
+    isActive: boolean;
+    activeObjectAttributes: any;
+    activeAttributes: any;
+    value: any;
+    onChange: (value: any) => void;
+    onFocus: () => void;
+    contentRef: React.RefObject<HTMLDivElement>;
+}
+
+function edit(props: EditProps) {
     const {
         isObjectActive,
         isActive,
@@ -126,7 +143,10 @@ function edit(props) {
     const anchorRef = useAnchorRef({
         ref: contentRef,
         value,
-        settings: {},
+        settings: {
+            ...reference,
+            interactive: true,
+        },
     });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -136,12 +156,13 @@ function edit(props) {
         setIsModalOpen(true);
     }
 
-    function closeModal(referenceText) {
+    function closeModal(referenceText: string) {
 
-        
+
         const text = getTextContent(slice(value));
         const obj = insertObject(value, {
             type: name,
+            // @ts-ignore
             attributes: {
                 "className": `wp-info viz-component ignore`,
                 "data-component": "tooltip",
@@ -172,23 +193,25 @@ function edit(props) {
             <RichTextToolbarButton
                 icon={linkIcon}
                 title={__('Tooltip')}
-                isActive={isActive}
+                isActive={isActive || isObjectActive}
                 onClick={openModal}
-                isActive={isObjectActive}
                 shortcutType="primaryShift"
-                shortcutCharacter="t"/>
-            {isModalOpen && <PopUI value={value} onCancel={onCancel} onClose={closeModal}/>}
+                shortcutCharacter="t" />
+            {isModalOpen && <PopUI onCancel={onCancel} onClose={closeModal} />}
             {isObjectActive && <InlineUI value={value}
-                                         onClose={e => {
-                                             setShowInline(false)
-                                         }}
-                                         onChange={onChange}
-                                         activeObjectAttributes={activeObjectAttributes}
-                                         contentRef={contentRef}></InlineUI>}
+                onClose={e => {
+                    setShowInline(false)
+                }}
+                onChange={onChange}
+                activeObjectAttributes={activeObjectAttributes}
+                contentRef={contentRef}></InlineUI>}
 
 
         </>
     );
 }
 
-registerFormatType(name, reference);
+registerFormatType(name, {
+    ...reference,
+    interactive: true,
+});
