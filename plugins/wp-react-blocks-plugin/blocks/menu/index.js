@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import Generic from "../icons";
+import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@dg-data-viz/wp-commons";
 
-***REMOVED***(process.env.BLOCKS_NS + '/menu',
+***REMOVED***(BLOCKS_NS + '/menu',
     {
         title: __('Inline Menu'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             icon: {
