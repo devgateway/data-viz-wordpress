@@ -56,7 +56,7 @@ interface GroupProps {
     onCustomTooltipChange: (idx: number, customTooltip: string) => void
 }
 
-const Group = ({
+const MeasureGroup = ({
 
     app,
     allMeasures,
@@ -401,7 +401,7 @@ class BlockEdit extends BlockEditWithAPIMetadata<***REMOVED***, BlockEditWithAPI
                 {app != 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
 
                     {this.state.measures && ***REMOVED***.map(g =>
-                        <Group
+                        <MeasureGroup
                             app={app}
                             ***REMOVED***={this.***REMOVED***}
                             ***REMOVED***={this.***REMOVED***}
@@ -425,7 +425,7 @@ class BlockEdit extends BlockEditWithAPIMetadata<***REMOVED***, BlockEditWithAPI
 
                 {app == 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
 
-                    {***REMOVED***.map(g => <Group
+                    {***REMOVED***.map(g => <MeasureGroup
                         app={app}
                         ***REMOVED***={this.***REMOVED***}
                         ***REMOVED***={this.***REMOVED***}
