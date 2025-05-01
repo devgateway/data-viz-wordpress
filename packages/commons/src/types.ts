@@ -40,6 +40,12 @@ export interface Category {
     param?:         string | null;
     field?:         string | null;
     fieldType?:     string | null;
+    items?:         CategoryItem[];
+}
+
+export interface CategoryItem {
+    value: string;
+    id: any;
 }
 
 export type Categories = {
@@ -234,4 +240,134 @@ export interface Metadata {
 export interface Port {
     $:          number;
     "@enabled": string;
+}
+
+export interface Media {
+    id:             number;
+    date:           Date;
+    date_gmt:       Date;
+    guid:           Caption;
+    modified:       Date;
+    modified_gmt:   Date;
+    slug:           string;
+    status:         Status;
+    type:           Type;
+    link:           string;
+    title:          Caption;
+    author:         number;
+    featured_media: number;
+    comment_status: CommentStatus;
+    ping_status:    PingStatus;
+    template:       string;
+    meta:           Meta;
+    bread_crumbs:   any[];
+    class_list:     string[];
+    acf:            any[];
+    meta_fields:    MetaFields;
+    description:    Caption;
+    caption:        Caption;
+    alt_text:       string;
+    media_type:     MediaType;
+    mime_type:      MIMEType;
+    media_details:  MediaDetails;
+    post:           null;
+    source_url:     string;
+    _links:         Links;
+}
+
+export interface Links {
+    self:       Self[];
+    collection: About[];
+    about:      About[];
+    author:     Author[];
+    replies:    Author[];
+    "wp:term":  WpTerm[];
+    curies:     Cury[];
+}
+
+export interface About {
+    href: string;
+}
+
+export interface Author {
+    embeddable: boolean;
+    href:       string;
+}
+
+export interface Cury {
+    name:      string;
+    href:      string;
+    templated: boolean;
+}
+
+export interface Self {
+    href:        string;
+    targetHints: TargetHints;
+}
+
+export interface TargetHints {
+    allow: Allow[];
+}
+
+export enum Allow {
+    Get = "GET",
+}
+
+export interface WpTerm {
+    taxonomy:   Taxonomy;
+    embeddable: boolean;
+    href:       string;
+}
+
+export enum MediaTaxonomy {
+    BreadCrumbs = "bread_crumbs",
+}
+
+export interface Caption {
+    rendered: string;
+}
+
+export enum CommentStatus {
+    Open = "open",
+}
+
+export interface MediaDetails {
+    filesize: number;
+    sizes:    Sizes;
+}
+
+export interface Sizes {
+}
+
+export enum MediaType {
+    File = "file",
+}
+
+export interface Meta {
+    _acf_changed:             boolean;
+    inline_featured_image:    boolean;
+    redirect_url:             string;
+    myguten_meta_block_field: string;
+}
+
+export interface MetaFields {
+    _wp_attached_file:       string[];
+    _wp_attachment_metadata: string[];
+    _edit_lock?:             string[];
+}
+
+export enum MIMEType {
+    ***REMOVED*** = "application/json",
+}
+
+export enum PingStatus {
+    Closed = "closed",
+}
+
+export enum Status {
+    Inherit = "inherit",
+}
+
+export enum Type {
+    Attachment = "attachment",
 }
