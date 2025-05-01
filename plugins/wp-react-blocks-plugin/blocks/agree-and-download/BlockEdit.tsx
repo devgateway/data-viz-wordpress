@@ -12,7 +12,7 @@ import {
     TextControl, ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import { BlockEditWithFilters, BlockEditWithFiltersProps, BlockEditWithFiltersState} from '@dg-data-viz/wordpress-commons';
+import { BlockEditWithFilters, BlockEditWithFiltersProps, BlockEditWithFiltersState} from '@dg-data-viz/wp-commons';
 import {MediaUpload} from "@wordpress/media-utils";
 import apiFetch from '@wordpress/api-fetch';
 

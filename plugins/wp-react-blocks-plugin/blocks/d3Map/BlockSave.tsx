@@ -1,6 +1,8 @@
+import React from 'react';
 import {useBlockProps} from '@wordpress/block-editor';
+import { D3MapProps } from './layers/utils/types';
 
-const SaveComponent = (props) => {
+const SaveComponent = (props: D3MapProps) => {
 
     const {
         attributes: {
