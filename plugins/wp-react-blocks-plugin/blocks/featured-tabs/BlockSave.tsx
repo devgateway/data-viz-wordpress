@@ -1,4 +1,7 @@
-const SaveComponent = (props) => {
+import React from 'react';
+import { FeaturedTabsAttributes } from './types';
+
+const SaveComponent = (props: { attributes: FeaturedTabsAttributes }) => {
     const {
         attributes: {
             count,
@@ -13,7 +16,7 @@ const SaveComponent = (props) => {
         },
     } = props;
 
-    const divClass = {};
+    const divClass = "";
     const divStyles = {
         height: `${height}px`, // Set the height style
     };
