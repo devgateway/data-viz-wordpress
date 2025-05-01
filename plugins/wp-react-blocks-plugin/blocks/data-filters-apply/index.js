@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { BLOCKS_NS, BLOCKS_CATEGORY, Generic } from '@dg-data-viz/wp-commons';
+import { BLOCKS_NS, BLOCKS_CATEGORY, GenericIcon } from '@dg-data-viz/wp-commons';
 
 ***REMOVED***(BLOCKS_NS + '/data-filters-apply',
     {
         title: __('Apply Button', 'wp-react-blocks-plugin'),
         category: BLOCKS_CATEGORY,
-        icon: Generic,
+        icon: GenericIcon,
         apiVersion: 2,
         attributes: {
             group: {
