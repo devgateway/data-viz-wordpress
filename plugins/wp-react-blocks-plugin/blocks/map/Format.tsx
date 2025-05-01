@@ -1,3 +1,4 @@
+import React from 'react';
 import {PanelRow, SelectControl,PanelBody, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
@@ -9,7 +10,7 @@ const Format = (props) => {
         <PanelRow>
             <SelectControl
                 label={__('Number Format',"dg")}
-                value={[formatStyle]} // e.g: value = [ 'a', 'c' ]
+                value={formatStyle}
                 onChange={(value) => {
                     setAttributes({formatStyle: value})
                 }}

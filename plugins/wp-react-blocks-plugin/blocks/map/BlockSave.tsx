@@ -1,6 +1,8 @@
-import {useBlockProps} from '@wordpress/block-editor';
+import React from 'react';
+import { useBlockProps } from '@wordpress/block-editor';
+import { MapBlockAttributes } from './types';
 
-const SaveComponent = (props) => {
+const SaveComponent = (props: { attributes: MapBlockAttributes }) => {
 
     const {
         attributes: {            
