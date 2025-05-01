@@ -36,11 +36,11 @@ export type ComponentWithSettingsProps = {
 }
 
 export type ComponentWithSettingsState = {
-    react_ui_url: string;
-    react_api_url: string | null;
-    apache_superset_url: string | boolean | null;
-    site_language: string;
-    current_language: string;
+    react_ui_url?: string;
+    react_api_url?: string | null;
+    apache_superset_url?: string | boolean | null;
+    site_language?: string;
+    current_language?: string;
     previewMode?: string;
 }
 
@@ -318,11 +318,11 @@ export type BlockEditWithAPIMetadataProps = {
 
 export type BlockEditWithAPIMetadataState = {
     apps: any[];
-    datasets: any[];
-    dimensions: any[];
-    filters: any[];
-    measures: any[];
-    categories: any[];
+    datasets?: any[];
+    dimensions?: any[];
+    filters?: any[];
+    measures?: any[];
+    categories?: any[];
 } & ComponentWithSettingsState;
 
 
