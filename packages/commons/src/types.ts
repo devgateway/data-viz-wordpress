@@ -373,3 +373,18 @@ export enum Status {
 export enum Type {
     Attachment = "attachment",
 }
+
+export interface Menu {
+    term_id:          number;
+    name:             string;
+    slug:             string;
+    term_group:       number;
+    term_taxonomy_id: number;
+    taxonomy:         string;
+    description:      string;
+    parent:           number;
+    count:            number;
+    filter:           string;
+    term_order:       string;
+    icon_media_id?:    number;
+}
