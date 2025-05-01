@@ -2,14 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from "../icons";
+import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@dg-data-viz/wp-commons';
 
-
-***REMOVED***(process.env.BLOCKS_NS + '/new-time-line',
+***REMOVED***(BLOCKS_NS + '/new-time-line',
     {
         title: __('New Time Line',"dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'numeric',
