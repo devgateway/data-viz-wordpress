@@ -30,7 +30,7 @@ class BlockEdit extends ***REMOVED***<***REMOVED***, BlockEditWithFiltersState> 
         }
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    ***REMOVED***(prevProps: ***REMOVED***, prevState: BlockEditWithFiltersState , snapshot: any) {
         const ***REMOVED*** = this.state?.previewMode;
         if (***REMOVED*** !== prevState.previewMode) {
             this.props.setAttributes({ previewMode: ***REMOVED*** });
