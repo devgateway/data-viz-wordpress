@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons'
+import { BLOCKS_NS, BLOCKS_CATEGORY,GenericIcon } from '@dg-data-viz/wp-commons';
 
-registerBlockType(process.env.BLOCKS_NS + '/download',
+registerBlockType(BLOCKS_NS + '/download',
     {
         title: __('Download'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             defaultFormat: {
                 type: 'string',
