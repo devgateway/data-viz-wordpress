@@ -1,19 +1,23 @@
+import React from "react";
 import { registerBlockType } from "@wordpress/blocks";
 import { TextControl } from "@wordpress/components";
 import { useEntityProp, useEntityRecords } from "@wordpress/core-data";
 import { useBlockProps } from "@wordpress/block-editor";
 import { useDispatch, useSelect } from "@wordpress/data";
 
+// @ts-ignore Types are not available
 registerBlockType("myguten/meta-block", {
   title: "Meta Block",
   edit: ({ setAttributes, attributes }) => {
     const blockProps = useBlockProps();
     const postType = useSelect(
+      // @ts-ignore Types are not available
       (select) => select("core/editor").getCurrentPostType(),
       []
     );
 
     const properties = useSelect(
+      // @ts-ignore Types are not available
       (select) => select("core/editor").getEditedPostAttribute("meta"),
       []
     );
