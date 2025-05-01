@@ -1,9 +1,7 @@
+import React from 'react';
 import {__} from '@wordpress/i18n';
 import {***REMOVED***, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
-
-import Format from '../../../charts/Format.jsx'
-import {togglePanel} from "../../../commons/Util";
-import {***REMOVED***} from "../../../commons/APIutils";
+import {***REMOVED***, Format, togglePanel, Measure} from '@dg-data-viz/wp-commons'
 
 const defaultFormat = {
     "style": "percent",
@@ -13,7 +11,21 @@ const defaultFormat = {
 
 }
 
-const Measures = (props) => {
+interface ***REMOVED*** {
+    ***REMOVED***: (measures: string[]) => void;
+    ***REMOVED***: (format: any) => void;
+    ***REMOVED***: (measure: string) => void;
+    allMeasures: any[];
+    setAttributes: (attributes: any) => void;
+    panelStatus: Record<string, any>;
+    layer: {
+        measures: Measure[];
+        app: string;
+        format: any;
+    };
+}
+
+const Measures = (props: ***REMOVED***) => {
     const {
         ***REMOVED***,
         ***REMOVED***,

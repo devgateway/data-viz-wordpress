@@ -1,14 +1,33 @@
+import React from 'react';
 import {Button, PanelBody, PanelRow, RangeControl, TextControl} from "@wordpress/components";
 import {***REMOVED***} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
+import * as ss from 'simple-statistics';
 
-var ss = require('simple-statistics')
-const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***, showSize}) => {
+interface ***REMOVED*** {
+    ***REMOVED***: (property: string, value: any) => void;
+    breaks: any[];
+    ***REMOVED***: string;
+    ***REMOVED***: string;
+    showSize: boolean;
+}
+
+interface Break {
+    start: number;
+    end: number;
+    color: string;
+    borderColor: string;
+    size: number;
+    type: 'lessThan' | 'graterThan';
+}
+
+
+const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***, showSize}: ***REMOVED***) => {
 
 
     const add = () => {
-        const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
-        let ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')
+        const ***REMOVED***: Break[] = breaks.filter(b => b.type == 'lessThan')
+        let ***REMOVED***: Break[] = breaks.filter(b => b.type == 'graterThan')
         if (***REMOVED***.length === 0) {
             ***REMOVED*** = [{
                 start: 0,
@@ -43,9 +62,9 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
         ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
     }
 
-    const remove = (index) => {
-        let ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')
-        let ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
+    const remove = (index: number) => {
+        let ***REMOVED***: Break[] = breaks.filter(b => b.type == 'graterThan')
+        let ***REMOVED***: Break[] = breaks.filter(b => b.type == 'lessThan')
         const newBreaks = [...***REMOVED***]
         newBreaks.splice(index, 1)
         
@@ -60,10 +79,10 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
         ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
     }
 
-    const ***REMOVED*** = (property, value) => {
+    const ***REMOVED*** = (property: string, value: any) => {
         
-        const ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')[0]
-        const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
+        const ***REMOVED***: Break[] = breaks.filter(b => b.type == 'graterThan')[0]
+        const ***REMOVED***: Break[] = breaks.filter(b => b.type == 'lessThan')
         ***REMOVED***[property] = value
         ***REMOVED***("breaks", [...***REMOVED***, ***REMOVED***])
     }
@@ -79,7 +98,7 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
                     return <PanelBody initialOpen={false} title={"Less than (" + br.end + ")"}>
                         <PanelRow>
                             <TextControl
-                                type={"Number"}
+                                type={"number"}
                                 label={__("Value", "dg")}
                                 value={br.end}
                                 onChange={(value) => update("end", index, value)}
@@ -101,11 +120,11 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
                         <***REMOVED***
                             title={__(`Fill Color`)}
                             colorSettings={[{
+                                label: __(`Fill Color`),
                                 value: br.color,
                                 onChange: (fillColor) => {
                                     update("color", index, fillColor)
                                 },
-
                             }]}
                         />
 
@@ -134,11 +153,11 @@ const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***
                             <***REMOVED***
                                 title={__(`Fill Color`)}
                                 colorSettings={[{
+                                    label: __(`Fill Color`),
                                     value: br.color,
                                     onChange: (fillColor) => {
                                         ***REMOVED***("color", fillColor)
                                     },
-
                                 }]}
                             />
 

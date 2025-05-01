@@ -1,8 +1,8 @@
+import React from "react";
 import {Component} from "@wordpress/element";
 import {__} from '@wordpress/i18n';
 import {
-    Button, ButtonGroup,
-    ***REMOVED***,
+    Button,
     PanelBody,
     PanelRow,
     RangeControl,
@@ -11,27 +11,27 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import Measures from './utils/MapMeasures.jsx'
+import Measures from './utils/MapMeasures'
 import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
+import {Application, Category, Dimension, Filter, Format, isSupersetAPI, Measure} from "@dg-data-viz/wp-commons";
 import {***REMOVED***} from "@wordpress/block-editor";
-import ***REMOVED*** from "./utils/***REMOVED***";
-import Format from '../../charts/Format.jsx';
-import {isSupersetAPI} from "../../commons/APIutils";
+import { ***REMOVED***, CategoricalFilterProps } from "./utils/types";
 
-const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
-    const sortedOptions = options.sort(function (a, b) {
+
+const ***REMOVED*** = ({param, index, options, ***REMOVED***}: ***REMOVED***) => {
+    const sortedOptions = options ? options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
         return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-    });
+    }) : [];
 
     return <SelectControl onChange={(value) => {
         ***REMOVED***(value, index)
     }} value={param} options={sortedOptions}/>
 }
 
-const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
+const ***REMOVED*** = ({value, index, items, ***REMOVED***}: CategoricalFilterProps) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             /*
@@ -39,9 +39,9 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
                 var bValue = b.value ? b.value.toLowerCase() : "";
                 return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
             */
-            return a.position - b.position
+            return a.position && b.position ? a.position - b.position : 0;
         });
-        return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
+        return sortedItems.map(v => <PanelRow key={v.id}> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
                                                               onChange={e => {
                                                                   ***REMOVED***(v.id, index)
                                                               }}/></PanelRow>)
@@ -50,8 +50,28 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
     }
 }
 
-export class ***REMOVED*** extends Component {
-    constructor(props) {
+interface FlowLayerSettingProps {
+    ***REMOVED***: (property: string, value: any) => void;
+    allDimensions: Dimension[];
+    allFilters: Filter[];
+    allMeasures: Measure[];
+    allCategories: Category[];
+    allDatasets: any[];
+    features: any[];
+    apps: Application[];
+    layer: any;
+}
+
+interface FlowLayerSettingState {
+    measures: Measure[];
+    dimensions: Dimension[];
+    filters: Filter[];
+    categories: Category[];
+}
+
+
+export class ***REMOVED*** extends Component<FlowLayerSettingProps, FlowLayerSettingState> {
+    constructor(props: FlowLayerSettingProps) {
         super(props);
         this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.addFilter = this.addFilter.bind(this)
@@ -68,7 +88,7 @@ export class ***REMOVED*** extends Component {
     }
 
 
-    ***REMOVED***(format, field) {
+    ***REMOVED***(format: any) {
         const {
             ***REMOVED***, allDimensions, allFilters, allMeasures, features, apps, layer: {
                 app,
@@ -108,7 +128,7 @@ export class ***REMOVED*** extends Component {
         return csv
     }
 
-    ***REMOVED***(prevState) {
+    ***REMOVED***(prevState: FlowLayerSettingState) {
 
         const {***REMOVED***} = this.props
         ***REMOVED***("measures", [])
@@ -117,7 +137,7 @@ export class ***REMOVED*** extends Component {
         //setAttributes({measures: [], filters: []})
     }
 
-    ***REMOVED***(param, idx) {
+    ***REMOVED***(param: string, idx: number) {
 
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         const newFilters = filters.slice()
@@ -129,7 +149,7 @@ export class ***REMOVED*** extends Component {
 
     }
 
-    ***REMOVED***(value, idx) {
+    ***REMOVED***(value: any, idx: number) {
 
         const {layer: {filters}, ***REMOVED***} = this.props
         const selected = filters[idx]
@@ -146,7 +166,7 @@ export class ***REMOVED*** extends Component {
         ***REMOVED***("filters", newFilters)
     }
 
-    ***REMOVED***(value, idx) {
+    ***REMOVED***(value: any, idx: number) {
 
         const {layer: {filters}, ***REMOVED***} = this.props
         const selected = filters[idx]
@@ -172,33 +192,35 @@ export class ***REMOVED*** extends Component {
         ***REMOVED***("filters", newFilters)
     }
 
-    removeFilter(f) {
+    removeFilter(f: Filter) {
         const {layer: {filters}, ***REMOVED***, allFilters} = this.props
         let newFilters = filters.slice(0, -1)
         ***REMOVED***("filters", newFilters)
     }
 
 
-    ***REMOVED***(prevProps) {
+    ***REMOVED***(prevProps: FlowLayerSettingProps) {
         const {***REMOVED***, layer: {type, dimension2, types}} = this.props
         const {layer: {type: prevType, dimension2: ***REMOVED***}} = prevProps
     }
 
 
-    ***REMOVED***(value) {
+    ***REMOVED***(value: string) {
         const {***REMOVED***} = this.props
         ***REMOVED***("measures", [value])
     }
 
-    items(type) {
+    items(type: string) {
 
         const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : []
         const cat = values.length > 0 ? values[0] : null
-        let items = null
+        let items: { value: string, id: any, position?: number }[] | null = null
         if (type === 'Boolean') {
             items = [{"value": "Yes", id: true}, {"value": "No", id: false}]
         } else if (cat) {
-            items = cat.items
+            if (cat.items) {
+                items = cat.items
+            }
         }
         return items
 
@@ -247,6 +269,9 @@ export class ***REMOVED*** extends Component {
         let ***REMOVED*** = ""
         let ***REMOVED*** = ""
 
+        const appsOptions = apps.map(a => ({ label: a.name, value: a.name }));
+        const ***REMOVED*** = allDatasets.map(d => ({ label: d.name, value: d.id }));
+
         if (app != 'csv') {
 
             const theMeasure = measures ? measures[0] : null
@@ -269,18 +294,20 @@ export class ***REMOVED*** extends Component {
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
+                    multiple={false}
                     label={__("App", "dg")}
-                    value={[app]} // e.g: value = [ 'a', 'c' ]
+                    value={app} // e.g: value = [ 'a', 'c' ]
                     onChange={(app) => {                       
                         ***REMOVED***("app", app)
                     }}
-                    options={apps}
+                    options={appsOptions}
                 />
             </PanelRow>
                {isSupersetAPI(app, apps) && <PanelRow>
                             <SelectControl
+                                multiple={false}
                                 label={__('Datasets')}
-                                value={[***REMOVED***]}
+                                value={***REMOVED***}
                                 onChange={(newDatasetId) => {
                                     ***REMOVED***("***REMOVED***", newDatasetId)
                                 }}
@@ -299,7 +326,7 @@ export class ***REMOVED*** extends Component {
             {app == 'csv' && <PanelRow>
                 <***REMOVED***
                     label={__("CSV Data")}
-                    value={this.getCSValue(csv)}
+                    value={this.getCSValue()}
                     onChange={(csv) => ***REMOVED***("csv", csv)}
                 />
             </PanelRow>}
@@ -313,8 +340,9 @@ export class ***REMOVED*** extends Component {
 
             {app != 'csv' &&<PanelRow>
                 <SelectControl
+                    multiple={false}
                     label={'Origin'}
-                    value={[flowOrigin]} // e.g: value = [ 'a', 'c' ]
+                    value={flowOrigin} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
                         ***REMOVED***("flowOrigin", value)
                     }}
@@ -323,8 +351,9 @@ export class ***REMOVED*** extends Component {
             </PanelRow>}
             {app != 'csv' && <PanelRow>
                 <SelectControl
+                    multiple={false}
                     label={'Destination'}
-                    value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
+                    value={***REMOVED***} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
                         ***REMOVED***("***REMOVED***", value)
                     }}
@@ -345,9 +374,9 @@ export class ***REMOVED*** extends Component {
             <PanelRow>
                 <div className={"components-base-control__help"}
                      style={{
-                         "display": "block",
-                         "text-align": "left",
-                         "color": "rgb(117, 117, 117)"
+                         display: "block",
+                         textAlign: "left",
+                         color: "rgb(117, 117, 117)"
                      }}>
                     {app != 'csv' && allMeasures && allMeasures.map(m => <p>{"{"}{m.value}{"}"}</p>)}
                     <p>
@@ -371,7 +400,7 @@ export class ***REMOVED*** extends Component {
                 {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
                     {filters.map((f, index) => {
                         return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
-                            <***REMOVED*** param={f.param} index={index} options={allFilters}
+                            <***REMOVED*** param={f.param} index={index} options={allFilters.map(f => ({ label: f.label, value: f.param }))}
                                             ***REMOVED***={this.***REMOVED***}/>
                             {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
                                                 ***REMOVED***={this.***REMOVED***}/>}
@@ -380,7 +409,7 @@ export class ***REMOVED*** extends Component {
 
                     <PanelRow>
                         <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
-                        <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
+                        <Button variant={"link"} onClick={() => this.removeFilter(filters[filters.length - 1])}>{__("Remove")}</Button>
                     </PanelRow>
                 </PanelBody>}
             </React.Fragment>, <PanelBody initialOpen={false} title={"Symbols and Styles"}>
@@ -402,13 +431,13 @@ export class ***REMOVED*** extends Component {
 
                 <***REMOVED***
                     title={__(`Colors`)}
-                    value={borderColor}
                     colorSettings={
                         [{
                             label: __('Border'),
                             clearable: true,
                             enableAlpha: true,
-                            value: ***REMOVED***, onChange: (borderColor) => {
+                            value: ***REMOVED***, 
+                            onChange: (borderColor) => {
                                 ***REMOVED***("***REMOVED***", borderColor)
                             },
 

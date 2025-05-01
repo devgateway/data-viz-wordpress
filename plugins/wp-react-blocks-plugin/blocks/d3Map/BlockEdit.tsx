@@ -1,37 +1,37 @@
-import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor'
+import React from 'react';
+import { ***REMOVED***, ***REMOVED***, useBlockProps } from '@wordpress/block-editor'
 import {
     Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl, Button
 } from '@wordpress/components'
-
-import {__} from '@wordpress/i18n'
-import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '../commons/index'
+import { __ } from '@wordpress/i18n'
+import { BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, togglePanel } from '@dg-data-viz/wp-commons';
 import LayerSettings from "./layers/Base";
-import LayerModel from "./layers/Model"
-import {togglePanel} from "../commons/Util";
-
-class BlockEdit extends ComponentWithSettings {
-    constructor(props) {
+import { D3MapProps } from './layers/utils/types';
+import LayerModel from './layers/Model';
+class BlockEdit extends BlockEditWithAPIMetadata<D3MapProps, BlockEditWithAPIMetadataState> {
+    constructor(props: D3MapProps) {
         super(props);
         this.onChangeLayer = this.onChangeLayer.bind(this)
         this.addLayer = this.addLayer.bind(this)
         this.removeLayer = this.removeLayer.bind(this)
         this.onMoveLayer = this.onMoveLayer.bind(this)
+        
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
-        const {attributes: {app}} = this.props
+    ***REMOVED***(prevProps: D3MapProps, prevState: BlockEditWithAPIMetadataState, snapshot: any) {
+        const { attributes: { app } } = this.props
         super.***REMOVED***(prevProps, prevState, snapshot);
     }
 
     ***REMOVED***() {
         super.***REMOVED***();
-        
+
         const {
-            className, isSelected, ***REMOVED***, setAttributes, attributes: {
-                panelStatus, height, width, group, ***REMOVED***, layers = [],
-            }
+            className, isSelected, ***REMOVED***, setAttributes, attributes
         } = this.props;
-        
+
+        const { group } = attributes;
+
 
         window.***REMOVED***("message", (event) => {
             if (event.data.type == `d3_map_${group}`) {
@@ -39,42 +39,46 @@ class BlockEdit extends ComponentWithSettings {
                 const parentOrigin = window.location.origin.split(':')[1]
                 if (iframeOrigin == parentOrigin) {
                     console.log("Received message from iframe " + event.data.type, event.data.value)
-                    setAttributes({mapPosition: event.data.value})
+                    setAttributes({ ...attributes, mapPosition: event.data.value })
                 }
             }
         }, false);
     }
 
     addLayer() {
-        const {setAttributes, attributes: {layers}} = this.props
+        const { setAttributes, attributes } = this.props;
+        const { layers } = attributes;
         const newLayers = [...layers]
-        const model = {...LayerModel}
+        const model = { ...LayerModel }
         model.id = Date.now()
         newLayers.push(model)
-        
-        setAttributes({layers: newLayers})
+
+        setAttributes({ ...attributes, layers: newLayers })
     }
 
     removeLayer(layer) {
-        const {setAttributes, attributes: {layers}} = this.props
-        const {id, name} = layer
+        const { setAttributes, attributes } = this.props
+        const { id, name } = layer
+        const { layers } = attributes;
         const newLayers = layers.filter(l => l.id != id)
-        setAttributes({layers: newLayers})
+        setAttributes({ ...attributes, layers: newLayers })
     }
 
     onChangeLayer(layer) {
-        const {setAttributes, attributes: {layers}} = this.props
+        const { setAttributes, attributes } = this.props
+        const { layers } = attributes;
         const newLayers = [...layers]
         const index = layers.findIndex(l => l.id === layer.id);
         if (index !== -1) {
             newLayers[index] = layer;
         }
-        setAttributes({layers: newLayers})
+        setAttributes({ ...attributes, layers: newLayers })
     }
 
     onMoveLayer(direction, layer) {
 
-        const {setAttributes, attributes: {layers}} = this.props
+        const { setAttributes, attributes } = this.props
+        const { layers } = attributes;
         const newLayers = [...layers]
         const index = newLayers.findIndex(l => l.id === layer.id);
 
@@ -83,23 +87,25 @@ class BlockEdit extends ComponentWithSettings {
 
             const element = newLayers.splice(index, 1);
             newLayers.splice(newIndex, 0, element[0]);
-            setAttributes({layers: newLayers})
+            setAttributes({ ...attributes, layers: newLayers })
         }
     }
 
     render() {
         const {
-            className, isSelected, ***REMOVED***, setAttributes, attributes: {
-                projection,
-                panelStatus, mapPosition, height, width, group, ***REMOVED***, layers = [],
-                ***REMOVED***,
-                zoomEnabled
-            }
+            className, isSelected, ***REMOVED***, setAttributes, attributes
         } = this.props;
 
+        const {
+            projection,
+            panelStatus, mapPosition, height, width, group, ***REMOVED***, layers = [],
+            ***REMOVED***,
+            zoomEnabled
+        } = attributes;
 
-        
-        const divStyles = {height: height + 'px', width: '100%'};
+
+
+        const divStyles = { height: height + 'px', width: '100%' };
         return ([isSelected && (<***REMOVED***>
             <Panel header={__("Map Configuration")}>
                 <PanelBody
@@ -110,19 +116,19 @@ class BlockEdit extends ComponentWithSettings {
                         <TextControl
                             label={__('Name')}
                             value={group}
-                            onChange={(group) => setAttributes({group})}
+                            onChange={(group) => setAttributes({ ...attributes, group })}
                         />
                     </PanelRow>
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus["SIZE"]}
-                           onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
-                           title={__("Size")}>
+                    onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
+                    title={__("Size")}>
                     <PanelRow>
                         <TextControl
                             size={10}
                             label="Height"
                             value={height}
-                            onChange={(height) => setAttributes({height: height ? parseInt(height) : 0})}
+                            onChange={(height) => setAttributes({ ...attributes, height: height ? parseInt(height) : 0 })}
                         />
                     </PanelRow>
 
@@ -131,18 +137,18 @@ class BlockEdit extends ComponentWithSettings {
                             size={10}
                             label="Width"
                             value={width}
-                            onChange={(width) => setAttributes({width: width ? parseInt(width) : 0})}
+                            onChange={(width) => setAttributes({ ...attributes, width: width ? parseInt(width) : 0 })}
                         />
                     </PanelRow>
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus["PROJECTION"]}
-                           onToggle={e => togglePanel("PROJECTION", panelStatus, setAttributes)}
-                           title={__("Projection")}>
+                    onToggle={e => togglePanel("PROJECTION", panelStatus, setAttributes)}
+                    title={__("Projection")}>
                     <PanelRow>
                         <SelectControl
                             label={__("Projection")}
-                            value={projection}
-                            onChange={(projection) => setAttributes({projection})}
+                            value={projection as "geoMercator" | "geoEqualEarth" | "***REMOVED***" | "geoAzimuthalEqualArea" | "***REMOVED***"}
+                            onChange={(projection) => setAttributes({ ...attributes, projection })}
                             options={[
                                 {
                                     label: "geoMercator",
@@ -171,11 +177,11 @@ class BlockEdit extends ComponentWithSettings {
 
                     <PanelRow>
                         <ToggleControl label={__('Enable Rotation')} checked={***REMOVED***}
-                                       onChange={e => setAttributes({***REMOVED***: !***REMOVED***})}></ToggleControl>
+                            onChange={e => setAttributes({ ...attributes, ***REMOVED***: !***REMOVED*** })}></ToggleControl>
                     </PanelRow>
                     <PanelRow>
                         <ToggleControl label={__('Enable Zoom Controls')} checked={zoomEnabled}
-                                       onChange={e => setAttributes({zoomEnabled: !zoomEnabled})}></ToggleControl>
+                            onChange={e => setAttributes({ ...attributes, zoomEnabled: !zoomEnabled })}></ToggleControl>
                     </PanelRow>
                 </PanelBody>
                 <PanelBody
@@ -192,9 +198,9 @@ class BlockEdit extends ComponentWithSettings {
                             value: ***REMOVED***(***REMOVED***),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({ ...attributes, ***REMOVED***: ***REMOVED***(color) })
                                 } else {
-                                    setAttributes({***REMOVED***: "#FFFFFF"})
+                                    setAttributes({ ...attributes, ***REMOVED***: "#FFFFFF" })
                                 }
                             },
                             label: __('Background Color')
@@ -204,15 +210,14 @@ class BlockEdit extends ComponentWithSettings {
 
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus['LAYERS']}
-                           onToggle={e => togglePanel("LAYERS", panelStatus, setAttributes)} title={__("Layers")}>
+                    onToggle={e => togglePanel("LAYERS", panelStatus, setAttributes)} title={__("Layers")}>
                     {layers.map((layer) => (<LayerSettings
                         {...this.props}
                         setAttributes={setAttributes}
-                        onRemoveLayer={(e) => this.removeLayer(layer)}
+                        onRemoveLayer={() => this.removeLayer(layer)}
                         onChange={this.onChangeLayer}
                         onMoveLayer={this.onMoveLayer}
                         layer={layer}
-
                     />))}
                     <PanelRow>
                         <Button variant={"primary"} onClick={e => this.addLayer()}>Add New Layer</Button>
@@ -222,47 +227,49 @@ class BlockEdit extends ComponentWithSettings {
             </Panel>
         </***REMOVED***>),
 
-            (<div style={{margin: "auto", width: "100%"}}>
-                <ResizableBox
-                    style={{margin: "auto"}}
-                    size={{
-                        height, width
-                    }}
-                    minHeight="50"
-                    minWidth="50"
-                    enable={{
-                        top: false,
-                        right: true,
-                        bottom: true,
-                        left: false,
-                        topRight: false,
-                        bottomRight: true,
-                        bottomLeft: false,
-                        topLeft: false,
-                    }}
-                    onResizeStop={(event, direction, elt, delta) => {
-                        setAttributes({
-                            height: parseInt(height + delta.height, 10), width: parseInt(width + delta.width, 10),
-                        });
-                        ***REMOVED***(true);
-                    }}
-                    onResizeStart={() => {
-                        ***REMOVED***(false);
-                    }}>
+        (<div style={{ margin: "auto", width: "100%" }}>
+            <ResizableBox
+                style={{ margin: "auto" }}
+                size={{
+                    height, width
+                }}
+                minHeight="50"
+                minWidth="50"
+                enable={{
+                    top: false,
+                    right: true,
+                    bottom: true,
+                    left: false,
+                    topRight: false,
+                    bottomRight: true,
+                    bottomLeft: false,
+                    topLeft: false,
+                }}
+                onResizeStop={(event, direction, elt, delta) => {
+                    setAttributes({
+                        ...attributes,
+                        height: parseInt(String(height)) + delta.height,
+                        width: parseInt(String(width)) + delta.width,
+                    });
+                    ***REMOVED***();
+                }}
+                onResizeStart={() => {
+                    ***REMOVED***();
+                }}>
 
 
-                    {this.state.react_ui_url && <iframe ref={this.iframe} scrolling={"no"}
-                                                        style={divStyles}
-                                                        src={this.state.react_ui_url + "/embeddable/newMap?"}/>}
+                {this.state.react_ui_url && <iframe ref={this.iframe} scrolling={"no"}
+                    style={divStyles}
+                    src={this.state.react_ui_url + "/embeddable/newMap?"} />}
 
-                </ResizableBox>
-            </div>)]);
+            </ResizableBox>
+        </div>)]);
 
     }
 }
 
 const Edit = (props) => {
-    const blockProps = useBlockProps({className: 'wp-react-component'});
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
     return <div {...blockProps}><BlockEdit {...props} /></div>;
 }
 export default Edit;

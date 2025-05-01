@@ -1,3 +1,4 @@
+import React, {useEffect, useId } from 'react';
 import {
     Button,
     PanelBody,
@@ -9,29 +10,30 @@ import {
     ToggleControl, ButtonGroup
 } from "@wordpress/components";
 import {__} from '@wordpress/i18n';
-import apiFetch from '@wordpress/api-fetch';
 import {getJsonFiles} from "./utils/FileUtils";
-import {useEffect} from "react";
 import {useState} from "@wordpress/element";
 import DataLayer from "./Data";
 import FlowLayer from "./Flow";
 import LatLongLayer from "./LatLong";
-import {BlockEditWithAPIMetadata, ComponentWithSettings} from "../../commons";
+import {
+    Media,
+    BlockEditWithAPIMetadata,
+    ComponentWithSettings,
+    togglePanel,
+    isSupersetAPI,
+    ***REMOVED***,
+} from "@dg-data-viz/wp-commons";
 import Property from "./utils/Property";
-
 import {***REMOVED***} from "@wordpress/block-editor";
-import {togglePanel} from "../../commons/Util";
-import {isSupersetAPI} from "../../commons/APIutils";
-
 
 const typeOptions = [
     {label: "Base", value: "base"},
-    {label: "Data Shape", value: "data"},
+    {label: "Data Shape", value: "data"}, 
     {label: "FLow layer ", value: "flow"},
     {label: "Data Points ", value: "dataPoints"}
 ]
 
-const toOptions = (files) => {
+const toOptions = (files: Media[]) => {
     return [{label: 'None', value: 'none'}, ...files.map(file => {
         return {label: file.title.rendered, value: file.source_url}
     })]
@@ -45,8 +47,8 @@ const Base = (props) => {
         layer: {name, shapeColor, labelFilter, type, file, app, labelField, visible}
     } = props
 
-    const [files, setFiles] = useState([])
-    const [features, setFeatures] = useState([])
+    const [files, setFiles] = useState<{label: string, value: string}[]>([])
+    const [features, setFeatures] = useState<Record<string, any>[]>([])
 
 
     useEffect(() => {
@@ -65,7 +67,7 @@ const Base = (props) => {
         });
     }, [layer.file])
 
-    const ***REMOVED*** = (atrr, value) => {
+    const ***REMOVED*** = (atrr: string, value: any) => {
 
 
         console.log("change attribute " + atrr + " to " + value)
@@ -85,7 +87,7 @@ const Base = (props) => {
     return [
         <PanelRow>
             <TextControl
-                type={"String"}
+                type="text"
                 label={__("Name", "dg")}
                 onChange={name => ***REMOVED***("name", name)}
                 value={name}
@@ -110,7 +112,7 @@ const Base = (props) => {
         </PanelRow>,
         <>{type != 'dataPoints' && <PanelRow>
             <SelectControl
-                type={"String"}
+                multiple={false}
                 label="File"
                 onChange={file => ***REMOVED***("file", file)}
                 value={file}
@@ -126,6 +128,7 @@ const Base = (props) => {
                         clearable: true,
                         enableAlpha: true,
                         value: layer.fillColor,
+                        label: __("Fill Color", "dg"),
                         onChange: (fillColor) => {
                             if (fillColor != null) {
                                 ***REMOVED***("fillColor", fillColor)
@@ -138,6 +141,7 @@ const Base = (props) => {
                 <***REMOVED***
                     title={__(`Border Color`)}
                     colorSettings={[{
+                        label: __("Border Color", "dg"),
                         value: layer.borderColor,
                         clearable: true,
                         enableAlpha: true,
@@ -150,11 +154,12 @@ const Base = (props) => {
 
                 <***REMOVED***
                     title={__(`Label Color`)}
-                    label="Color"
                     colorSettings={[{
                         clearable: true,
                         enableAlpha: true,
-                        value: layer.labelColor, onChange: (labelColor) => {
+                        value: layer.labelColor,
+                        label: __("Label Color", "dg"),
+                        onChange: (labelColor) => {
                             ***REMOVED***("labelColor", labelColor)
                         },
 
@@ -312,8 +317,19 @@ const Base = (props) => {
 
 }
 
-class ***REMOVED*** extends BlockEditWithAPIMetadata {
-    constructor(props) {
+interface LayerWithMetadataProps {
+    onChange: (layer: any) => void;
+    metadata?: any;
+    layer: any;
+    setAttributes: (attributes: any) => void;
+    onMoveLayer: (index: number, layer: any) => void;
+    panelStatus?: any;
+    onRemoveLayer: () => void;
+    attributes: any;
+}
+
+class ***REMOVED*** extends BlockEditWithAPIMetadata<LayerWithMetadataProps, any> {
+    constructor(props: LayerWithMetadataProps) {
         super(props);
     }
 
@@ -327,7 +343,7 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
                 'Accept': 'application/json',
             },
         })
-            .then(response => response.json())
+            .then(response => response.json() as Promise<***REMOVED***>)
             .then(data => {
                 const apps = data.applications ? [...data.applications.application
                     .filter(a => a.instance[0].metadata.type === 'data')
@@ -336,8 +352,6 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
                     })), {label: 'CSV', value: 'csv'}] : [{label: 'CSV', value: 'csv'}]
 
                 this.setState({...this.state, apps})
-
-                debugger;
 
                 if (app && app != 'none') {
                     if (isSupersetAPI(app, apps)) { //if app is superset proxy an additional step is added
@@ -396,19 +410,17 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
 
         return <PanelBody
             initialOpen={false}
-            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)} title={__("Layers")}
+            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)}
             title={__(`${name}`)}>
 
             <Base {...this.props} metadata={this.state}></Base>
             <PanelBody>
                 <ButtonGroup>
-                    <Button variant={"secondary"} type onClick={onRemoveLayer}>Delete</Button>
-                    <Button variant={"secondary"} type onClick={e => onMoveLayer(-1, layer)}>Up</Button>
-                    <Button variant={"secondary"} type onClick={e => onMoveLayer(1, layer)}>Down</Button>
+                    <Button variant={"secondary"} type="button" onClick={onRemoveLayer}>Delete</Button>
+                    <Button variant={"secondary"} type="button" onClick={e => onMoveLayer(-1, layer)}>Up</Button>
+                    <Button variant={"secondary"} type="button" onClick={e => onMoveLayer(1, layer)}>Down</Button>
                 </ButtonGroup>
-            </PanelBody>
-            <PanelRow>
-            </PanelRow>
+            </PanelBody> 
         </PanelBody>
     }
 
