@@ -392,6 +392,8 @@ export class ***REMOVED*** extends Component<FlowLayerSettingProps, FlowLayerSet
                 {app != 'csv' && <Measures
                     ***REMOVED***={this.***REMOVED***}
                     ***REMOVED***={this.***REMOVED***}
+                    // TODO: fix measures component
+                    // @ts-ignore 
                     measures={layer.measures}
                     format={layer.format}
                     {...this.props}/>}
