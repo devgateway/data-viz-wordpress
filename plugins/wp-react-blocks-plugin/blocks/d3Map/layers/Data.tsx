@@ -382,6 +382,8 @@ export class DataLayerSetting extends Component<DataLayerSettingProps, DataLayer
                 allMeasures={allMeasures}
                 onFormatChange={this.onFormatChange}
                 onSetSingleMeasure={this.onSetSingleMeasure}
+                // TODO: fix measures component
+                // @ts-ignore 
                 measures={layer.measures}
                 format={layer.format}
                  />}
