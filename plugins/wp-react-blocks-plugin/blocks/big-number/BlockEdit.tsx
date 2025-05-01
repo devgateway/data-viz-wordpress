@@ -22,7 +22,7 @@ import {
     Filter,
     Measure,
     Format
-} from '@dg-data-viz/wordpress-commons'
+} from '@dg-data-viz/wp-commons'
 
 
 interface ***REMOVED*** {
@@ -204,7 +204,6 @@ class BlockEdit extends BlockEditWithAPIMetadata<***REMOVED***, any> {
                         <DataFilters
                             allFilters={this.state.filters}
                             allCategories={this.state.categories}
-                            filters={filters}
                             {...this.props} />
 
                     </>

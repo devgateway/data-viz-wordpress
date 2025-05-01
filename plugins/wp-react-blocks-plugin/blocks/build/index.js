@@ -5403,8 +5403,8 @@ const SaveComponent = props => {
 var external_wp_blockEditor_ = __webpack_require__(4715);
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 14 modules
-var build = __webpack_require__(9608);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
+var build = __webpack_require__(7965);
 ;// external ["wp","mediaUtils"]
 const external_wp_mediaUtils_namespaceObject = window["wp"]["mediaUtils"];
 // EXTERNAL MODULE: external ["wp","apiFetch"]
@@ -5647,6 +5647,457 @@ var constants = __webpack_require__(5418);
 
 /***/ }),
 
+/***/ 860:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./big-number/BlockSave.tsx
+
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      measures,
+      height,
+      dimension1,
+      app,
+      format,
+      filters,
+      group,
+      noDataMsg,
+      dvzProxyDatasetId,
+      numberFontSize,
+      numberColor,
+      labelFontSize,
+      labelColor,
+      label,
+      csv
+    }
+  } = props;
+  const blockProps = external_wp_blockEditor_.useBlockProps.save({
+    className: 'big-number'
+  });
+  const levels = [dimension1];
+  const source = levels.filter(l => l != 'none' && l != null).join('/');
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    className: "viz-component",
+    "data-component": "bignumber",
+    "data-height": height,
+    "data-source": source,
+    "data-app": app,
+    "data-csv": csv,
+    "data-dvz-proxy-dataset-id": dvzProxyDatasetId,
+    "data-measures": encodeURIComponent(JSON.stringify(measures)),
+    "data-format": encodeURIComponent(JSON.stringify(format)),
+    "data-group": group,
+    "data-filters": encodeURIComponent(JSON.stringify(filters)),
+    "data-no-data-message": noDataMsg,
+    "data-number-font-size": numberFontSize,
+    "data-number-color": encodeURIComponent(numberColor),
+    "data-label-font-size": labelFontSize,
+    "data-label-color": encodeURIComponent(labelColor),
+    "data-label": label,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InnerBlocks.Content, {})
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
+var build = __webpack_require__(7965);
+;// ./big-number/BlockEdit.tsx
+
+
+
+
+
+
+class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    super.componentDidMount();
+  }
+  render() {
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes: {
+        measures,
+        height,
+        app,
+        format,
+        filters,
+        group,
+        panelStatus,
+        dvzProxyDatasetId,
+        label,
+        numberFontSize,
+        numberColor,
+        labelFontSize,
+        labelColor,
+        csv,
+        type
+      }
+    } = this.props;
+    const datasets = [{
+      label: 'Select Dataset',
+      value: '0'
+    }];
+    if (this.state.datasets) {
+      this.state.datasets.forEach(d => {
+        datasets.push({
+          label: d.label,
+          value: d.id
+        });
+      });
+    }
+    let params = {};
+    filters.forEach(f => {
+      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
+    });
+    const divStyles = {
+      height: height + 'px',
+      width: '100%'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Chart Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: panelStatus['GROUP'],
+          opened: panelStatus['GROUP'],
+          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              value: group,
+              onChange: group => setAttributes({
+                group
+              })
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* SizeConfig */.yr, {
+          setAttributes: setAttributes,
+          panelStatus: panelStatus,
+          height: height,
+          initialOpen: panelStatus['GROUP']
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("API & Source"),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                value: app,
+                multiple: false,
+                onChange: app => {
+                  setAttributes({
+                    app: app
+                  });
+                },
+                options: this.state.apps
+              })
+            }), (0,build/* isSupersetAPI */.oL)(app, this.state.apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                multiple: false,
+                label: (0,external_wp_i18n_.__)('Datasets'),
+                value: dvzProxyDatasetId,
+                onChange: newDatasetId => {
+                  setAttributes({
+                    dvzProxyDatasetId: newDatasetId
+                  });
+                  this.loadMetadata(app, newDatasetId);
+                },
+                options: datasets
+              })
+            })]
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Measures */.I3, {
+            title: (0,external_wp_i18n_.__)(`Measure`),
+            onSetSingleMeasure: value => {
+              setAttributes({
+                measures: [value]
+              });
+            },
+            onFormatChange: value => {
+              setAttributes({
+                format: value
+              });
+            },
+            allMeasures: this.state.measures,
+            format: format,
+            attributes: {
+              panelStatus: panelStatus,
+              measures: measures,
+              dimension1: '',
+              dimension2: '',
+              type: type,
+              app: app
+            },
+            setAttributes: setAttributes
+          }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+              initialOpen: false,
+              title: (0,external_wp_i18n_.__)("CSV Configuration"),
+              onToggle: e => (0,build/* togglePanel */.Pj)("csv_cfg", panelStatus, setAttributes),
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+                  label: (0,external_wp_i18n_.__)("CSV Data"),
+                  value: csv,
+                  onChange: csv => setAttributes({
+                    csv
+                  })
+                })
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Format */.yL, {
+                hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
+                format: format,
+                customFormat: {},
+                useCustomAxisFormat: false,
+                onFormatChange: (newFormat, field) => {
+                  console.log("newFormat", newFormat);
+                  setAttributes({
+                    format: newFormat
+                  });
+                },
+                onUseCustomAxisFormatChange: value => {}
+              })]
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* DataFilters */.M1, {
+            allFilters: this.state.filters,
+            allCategories: this.state.categories,
+            filters: filters,
+            ...this.props
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          title: (0,external_wp_i18n_.__)('Settings'),
+          initialOpen: false,
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Label'),
+              value: label,
+              onChange: label => setAttributes({
+                label
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
+              children: (0,external_wp_i18n_.__)("Number Font Size")
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
+            fontSizes: [],
+            value: numberFontSize,
+            fallbackFontSize: 14,
+            onChange: newFontSize => {
+              setAttributes({
+                numberFontSize: newFontSize
+              });
+            }
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
+              children: (0,external_wp_i18n_.__)("Label Font Size")
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
+            fontSizes: [],
+            value: labelFontSize,
+            fallbackFontSize: 14,
+            onChange: newFontSize => {
+              setAttributes({
+                labelFontSize: newFontSize
+              });
+            }
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)('Color Settings'),
+            colorSettings: [{
+              value: numberColor,
+              onChange: color => {
+                setAttributes({
+                  numberColor: color
+                });
+              },
+              label: (0,external_wp_i18n_.__)("Number Color")
+            }, {
+              value: labelColor,
+              onChange: color => {
+                setAttributes({
+                  labelColor: color
+                });
+              },
+              label: (0,external_wp_i18n_.__)("Label Color")
+            }]
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+      size: {
+        height
+      },
+      style: {
+        "margin": "auto",
+        width: "100%"
+      },
+      minHeight: "0",
+      minWidth: "50",
+      enable: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: false,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false
+      },
+      onResizeStop: (event, direction, elt, delta) => {
+        setAttributes({
+          height: parseInt(String(height), 10) + parseInt(String(delta.height), 10)
+        });
+        toggleSelection(true);
+      },
+      onResizeStart: () => {
+        toggleSelection(false);
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+        className: className,
+        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          style: divStyles,
+          scrolling: "no",
+          src: this.state.react_ui_url + "/embeddable/bignumber?"
+        })
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+      ...props
+    })
+  });
+};
+/* harmony default export */ const big_number_BlockEdit = (Edit);
+// EXTERNAL MODULE: ./icons/index.js
+var icons = __webpack_require__(7552);
+// EXTERNAL MODULE: ./constants.ts
+var constants = __webpack_require__(5418);
+;// ./big-number/index.js
+
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)(constants/* BLOCKS_NS */.R + '/bignumber', {
+  title: (0,external_wp_i18n_.__)('Big Number'),
+  icon: icons/* Generic */.ck,
+  category: constants/* BLOCKS_CATEGORY */._,
+  apiVersion: 2,
+  attributes: {
+    type: {
+      type: 'string',
+      default: "big-number"
+    },
+    group: {
+      type: 'String',
+      default: 'default'
+    },
+    panelStatus: {
+      type: "Object",
+      default: {}
+    },
+    height: {
+      type: 'number',
+      default: 120
+    },
+    app: {
+      type: 'String',
+      default: "csv"
+    },
+    csv: {
+      type: "String",
+      default: "Amount \n20000"
+    },
+    params: {
+      type: Object,
+      default: {}
+    },
+    format: {
+      type: Object,
+      default: {
+        "style": "decimal",
+        "minimumFractionDigits": 0,
+        "maximumFractionDigits": 0,
+        "currency": "USD"
+      }
+    },
+    measures: {
+      type: "Array",
+      default: []
+    },
+    _measures: {},
+    filters: {
+      type: "Array",
+      default: []
+    },
+    dvzProxyDatasetId: {
+      type: 'String',
+      default: ""
+    },
+    types: {
+      type: "Array",
+      default: [{
+        label: 'Big Number',
+        value: 'big-number',
+        supports: {
+          singleMeasure: true,
+          singleDimension: false
+        }
+      }]
+    },
+    label: {
+      type: 'String',
+      default: "# of animals"
+    },
+    numberFontSize: {
+      type: 'Numeric',
+      default: 24
+    },
+    numberColor: {
+      type: 'string',
+      default: "#5a5d68"
+    },
+    labelFontSize: {
+      type: 'Numeric',
+      default: 14
+    },
+    labelColor: {
+      type: 'string',
+      default: "#5a5d68"
+    }
+  },
+  edit: big_number_BlockEdit,
+  save: BlockSave
+});
+
+/***/ }),
+
 /***/ 876:
 /***/ ((module) => {
 
@@ -5749,212 +6200,6 @@ function mergeData(data, source) {
 
 module.exports = mergeData;
 
-
-/***/ }),
-
-/***/ 933:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./child-pages-navigator/BlockSave.js
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      title,
-      showIcon,
-      showLabel
-    }
-  } = props;
-  const divClass = {};
-  const divStyles = {};
-  const urlParams = new URLSearchParams(window.location.search);
-  const parent = urlParams.get('post');
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    className: "viz-component",
-    "data-component": "childPagesMenu",
-    "data-parent": parent,
-    "data-title": title,
-    "data-show-icons": showIcon,
-    "data-show-labels": showLabel
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-;// ./child-pages-navigator/BlockEdit.js
-
-
-
-
-
-const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT';
-const LOWEST_VALUE = 'LOWEST_VALUE';
-const HIGHEST_VALUE = 'HIGHEST_VALUE';
-class BlockEdit extends commons/* ComponentWithSettings */.BE {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    const {
-      setAttributes,
-      attributes: {
-        name,
-        showIcons,
-        showLabels
-      }
-    } = this.props;
-    super.componentDidMount();
-    const urlParams = new URLSearchParams(window.location.search);
-    const parent = urlParams.get('post');
-    setAttributes({
-      parent: parent
-    });
-  }
-  render() {
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        height,
-        title,
-        showIcons,
-        showLabels
-      }
-    } = this.props;
-    const iframeStyles = {
-      height: height + 'px',
-      width: '100%'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Menu Configuration"),
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Title'),
-              value: title,
-              onChange: title => setAttributes({
-                title
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: "Show Icons",
-              checked: showIcons,
-              onChange: () => setAttributes({
-                showIcons: !showIcons
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: "Show Labels",
-              checked: showLabels,
-              onChange: () => setAttributes({
-                showLabels: !showLabels
-              })
-            })
-          })]
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
-      size: {
-        height
-      },
-      style: {
-        "margin": "auto",
-        width: "100%"
-      },
-      minHeight: "200",
-      minWidth: "100",
-      enable: {
-        top: false,
-        right: false,
-        bottom: true,
-        left: false,
-        topRight: true,
-        bottomRight: false,
-        bottomLeft: false,
-        topLeft: false
-      },
-      onResizeStop: (event, direction, elt, delta) => {
-        setAttributes({
-          height: parseInt(height + delta.height, 10)
-        });
-        toggleSelection(true);
-      },
-      onResizeStart: () => {
-        toggleSelection(false);
-      },
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-          ref: this.iframe,
-          scrolling: "no",
-          style: iframeStyles,
-          src: this.state.react_ui_url + "/embeddable/childPagesMenu"
-        })
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
-    className: 'wp-react-component'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-      className: "iframe container",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-        ...props
-      })
-    })
-  });
-};
-/* harmony default export */ const child_pages_navigator_BlockEdit = (Edit);
-// EXTERNAL MODULE: ./icons/index.js
-var icons = __webpack_require__(7552);
-;// ./child-pages-navigator/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/child-pages-menu', {
-  title: (0,external_wp_i18n_.__)('Child Pages Menu'),
-  icon: icons/* default */.Ay,
-  category: "wp-react-lib-blocks",
-  apiVersion: 2,
-  attributes: {
-    title: {
-      type: 'String',
-      default: ""
-    },
-    parent: {
-      type: 'Numeric',
-      default: null
-    },
-    height: {
-      type: 'Numeric',
-      default: 500
-    }
-  },
-  edit: child_pages_navigator_BlockEdit,
-  save: BlockSave
-});
 
 /***/ }),
 
@@ -8038,500 +8283,6 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-
-/***/ }),
-
-/***/ 1426:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","editor"]
-var external_wp_editor_ = __webpack_require__(3656);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./big-number-trend/BlockSave.js
-
- // or wp.editor
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      measures,
-      height,
-      dimension1,
-      app,
-      csv,
-      format,
-      filters,
-      group,
-      noDataMsg,
-      dvzProxyDatasetId,
-      bigNumberFontSize,
-      labelFontSize,
-      percentFontSize,
-      textColor,
-      label,
-      showPercentageChange
-    }
-  } = props;
-  const blockProps = external_wp_blockEditor_.useBlockProps.save({
-    className: 'big-number-trend'
-  });
-  const levels = [dimension1];
-  const source = levels.filter(l => l != 'none' && l != null).join('/');
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    className: "viz-component",
-    "data-component": "bignumbertrend",
-    "data-height": height,
-    "data-source": source,
-    "data-app": app,
-    "data-csv": csv,
-    "data-dvz-proxy-dataset-id": dvzProxyDatasetId,
-    "data-measures": encodeURIComponent(JSON.stringify(measures)),
-    "data-dimension1": dimension1,
-    "data-format": encodeURIComponent(JSON.stringify(format)),
-    "data-group": group,
-    "data-filters": encodeURIComponent(JSON.stringify(filters)),
-    "data-no-data-message": noDataMsg,
-    "data-big-number-font-size": bigNumberFontSize,
-    "data-label-font-size": labelFontSize,
-    "data-percent-font-size": percentFontSize,
-    "data-text-color": encodeURIComponent(textColor),
-    "data-label": label,
-    "data-show-percentage-change": showPercentageChange,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks.Content, {})
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-// EXTERNAL MODULE: ./commons/CSVSourceConfig.js
-var CSVSourceConfig = __webpack_require__(8119);
-// EXTERNAL MODULE: ./commons/Util.jsx
-var Util = __webpack_require__(434);
-// EXTERNAL MODULE: ./commons/Measures.jsx
-var Measures = __webpack_require__(1997);
-// EXTERNAL MODULE: ./commons/DataFilters.jsx
-var DataFilters = __webpack_require__(3845);
-// EXTERNAL MODULE: ./commons/APIutils.js
-var APIutils = __webpack_require__(8203);
-// EXTERNAL MODULE: ./charts/Format.jsx
-var Format = __webpack_require__(1012);
-;// ./big-number-trend/BlockEdit.js
-
-
-
-
-
-
-
-
-
-
-
-class BlockEdit extends commons/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    super.componentDidMount();
-  }
-  render() {
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        measures,
-        height,
-        app,
-        format,
-        filters,
-        group,
-        panelStatus,
-        dvzProxyDatasetId,
-        label,
-        bigNumberFontSize,
-        percentFontSize,
-        labelFontSize,
-        textColor,
-        dimension1,
-        showPercentageChange,
-        csv,
-        type
-      }
-    } = this.props;
-    const datasets = [{
-      label: 'Select Dataset',
-      value: '0'
-    }];
-    if (this.state.datasets) {
-      this.state.datasets.forEach(d => {
-        datasets.push({
-          label: d.label,
-          value: d.id
-        });
-      });
-    }
-    let params = {};
-    filters.forEach(f => {
-      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
-    });
-    const divStyles = {
-      height: height + 'px',
-      width: '100%'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Chart Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          panelStatus: panelStatus['GROUP'],
-          onToggle: e => (0,Util/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(commons/* SizeConfig */.yr, {
-          setAttributes: setAttributes,
-          panelStatus: panelStatus,
-          height: height
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("API & Source"),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                value: [app],
-                onChange: app => {
-                  setAttributes({
-                    app: app
-                  });
-                },
-                options: this.state.apps
-              })
-            }), (0,APIutils/* isSupersetAPI */.oL)(app, this.state.apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                label: (0,external_wp_i18n_.__)('Datasets'),
-                value: [dvzProxyDatasetId],
-                onChange: newDatasetId => {
-                  setAttributes({
-                    dvzProxyDatasetId: newDatasetId
-                  });
-                  this.loadMetadata(app, newDatasetId);
-                },
-                options: datasets
-              })
-            })]
-          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("Dimensions"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                label: (0,external_wp_i18n_.__)("First Dimension"),
-                value: [dimension1],
-                onChange: value => {
-                  setAttributes({
-                    dimension1: value
-                  });
-                },
-                options: this.state.dimensions
-              })
-            })
-          }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-              initialOpen: false,
-              title: (0,external_wp_i18n_.__)("CSV Configuration"),
-              onToggle: e => (0,Util/* togglePanel */.Pj)("csv_cfg", panelStatus, setAttributes),
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-                  label: (0,external_wp_i18n_.__)("CSV Data"),
-                  value: csv,
-                  onChange: csv => setAttributes({
-                    csv
-                  })
-                })
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-                hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
-                format: format,
-                customFormat: {},
-                useCustomAxisFormat: false,
-                onFormatChange: (newFormat, field) => {
-                  console.log("newFormat", newFormat);
-                  setAttributes({
-                    format: newFormat
-                  });
-                },
-                onUseCustomAxisFormatChange: value => {}
-              })]
-            })
-          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Measures/* default */.A, {
-            title: (0,external_wp_i18n_.__)(`Measure`),
-            onSetSingleMeasure: value => {
-              setAttributes({
-                measures: [value]
-              });
-            },
-            onFormatChange: value => {
-              setAttributes({
-                format: value
-              });
-            },
-            allMeasures: this.state.measures,
-            format: format,
-            measures: measures,
-            ...this.props
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(DataFilters/* default */.A, {
-            allFilters: this.state.filters,
-            allCategories: this.state.categories,
-            ...this.props
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          title: (0,external_wp_i18n_.__)('Settings'),
-          initialOpen: false,
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)('Show Percentage Change'),
-              checked: showPercentageChange,
-              onChange: showPercentageChange => setAttributes({
-                showPercentageChange
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Label'),
-              value: label,
-              onChange: label => setAttributes({
-                label
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
-              children: (0,external_wp_i18n_.__)("Big Number Font Size")
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
-            fontSizes: [],
-            value: bigNumberFontSize,
-            fallbackFontSize: 14,
-            onChange: newFontSize => {
-              setAttributes({
-                bigNumberFontSize: newFontSize
-              });
-            }
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
-              children: (0,external_wp_i18n_.__)("Percent Change Font Size")
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
-            fontSizes: [],
-            value: percentFontSize,
-            fallbackFontSize: 14,
-            onChange: newFontSize => {
-              setAttributes({
-                percentFontSize: newFontSize
-              });
-            }
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
-              children: (0,external_wp_i18n_.__)("Label Font Size")
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
-            fontSizes: [],
-            value: labelFontSize,
-            fallbackFontSize: 14,
-            onChange: newFontSize => {
-              setAttributes({
-                labelFontSize: newFontSize
-              });
-            }
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)('Color Settings'),
-            colorSettings: [{
-              value: textColor,
-              onChange: color => {
-                setAttributes({
-                  textColor: color
-                });
-              },
-              label: (0,external_wp_i18n_.__)("Text Color")
-            }]
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
-      size: {
-        height
-      },
-      style: {
-        "margin": "auto",
-        width: "100%"
-      },
-      minHeight: "0",
-      minWidth: "50",
-      enable: {
-        top: false,
-        right: false,
-        bottom: true,
-        left: false,
-        topRight: false,
-        bottomRight: false,
-        bottomLeft: false,
-        topLeft: false
-      },
-      onResizeStop: (event, direction, elt, delta) => {
-        setAttributes({
-          height: parseInt(height + delta.height, 10)
-        });
-        toggleSelection(true);
-      },
-      onResizeStart: () => {
-        toggleSelection(false);
-      },
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-        className: className,
-        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-          ref: this.iframe,
-          style: divStyles,
-          scrolling: "no",
-          src: this.state.react_ui_url + "/embeddable/bignumbertrend?"
-        })
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-      ...props
-    })
-  });
-};
-/* harmony default export */ const big_number_trend_BlockEdit = (Edit);
-// EXTERNAL MODULE: ./icons/index.js
-var icons = __webpack_require__(7552);
-;// ./big-number-trend/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/bignumbertrend', {
-  title: (0,external_wp_i18n_.__)('Big Number Trend'),
-  icon: icons/* Generic */.ck,
-  category: "wp-react-lib-blocks",
-  apiVersion: 2,
-  attributes: {
-    type: {
-      type: 'string',
-      default: "big-number"
-    },
-    group: {
-      type: 'String',
-      default: 'default'
-    },
-    panelStatus: {
-      type: "Object",
-      default: {}
-    },
-    height: {
-      type: 'number',
-      default: 120
-    },
-    app: {
-      type: 'String',
-      default: "csv"
-    },
-    dimension1: {
-      type: 'String',
-      default: 'none'
-    },
-    csv: {
-      type: "String",
-      default: "Year,Amount \n2019,20000 \n2018,10000"
-    },
-    params: {
-      type: Object,
-      default: {}
-    },
-    format: {
-      type: Object,
-      default: {
-        "style": "decimal",
-        "minimumFractionDigits": 0,
-        "maximumFractionDigits": 0,
-        "currency": "USD"
-      }
-    },
-    measures: {
-      type: "Array",
-      default: []
-    },
-    _measures: {},
-    filters: {
-      type: "Array",
-      default: []
-    },
-    dvzProxyDatasetId: {
-      type: 'String',
-      default: ""
-    },
-    types: {
-      type: "Array",
-      default: [{
-        label: 'Big Number',
-        value: 'big-number',
-        supports: {
-          singleMeasure: true,
-          singleDimension: false
-        }
-      }]
-    },
-    label: {
-      type: 'String',
-      default: "# of animals"
-    },
-    textColor: {
-      type: 'string',
-      default: "#5a5d68"
-    },
-    bigNumberFontSize: {
-      type: 'Numeric',
-      default: 24
-    },
-    labelFontSize: {
-      type: 'Numeric',
-      default: 14
-    },
-    percentFontSize: {
-      type: 'Numeric',
-      default: 14
-    },
-    showPercentageChange: {
-      type: 'Boolean',
-      default: false
-    }
-  },
-  edit: big_number_trend_BlockEdit,
-  save: BlockSave
-});
 
 /***/ }),
 
@@ -10646,15 +10397,6 @@ const Measures = props => {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Measures);
-
-/***/ }),
-
-/***/ 2037:
-/***/ (function(__unused_webpack_module, exports) {
-
-!function(r,t){ true?t(exports):0}(this,(function(r){"use strict";function t(r){if(0===r.length)return 0;var t,n=r[0],e=0;if("number"!=typeof n)return Number.NaN;for(var a=1;a<r.length;a++){if("number"!=typeof r[a])return Number.NaN;t=n+r[a],Math.abs(n)>=Math.abs(r[a])?e+=n-t+r[a]:e+=r[a]-t+n,n=t}return n+e}function n(r){if(0===r.length)throw new Error("mean requires at least one data point");return t(r)/r.length}function e(r,t){var e,a,o=n(r),i=0;if(2===t)for(a=0;a<r.length;a++)i+=(e=r[a]-o)*e;else for(a=0;a<r.length;a++)i+=Math.pow(r[a]-o,t);return i}function a(r){if(0===r.length)throw new Error("variance requires at least one data point");return e(r,2)/r.length}function o(r){if(1===r.length)return 0;var t=a(r);return Math.sqrt(t)}function i(r){if(0===r.length)throw new Error("mode requires at least one data point");if(1===r.length)return r[0];for(var t=r[0],n=Number.NaN,e=0,a=1,o=1;o<r.length+1;o++)r[o]!==t?(a>e&&(e=a,n=t),a=1,t=r[o]):a++;return n}function u(r){return r.slice().sort((function(r,t){return r-t}))}function h(r){if(0===r.length)throw new Error("min requires at least one data point");for(var t=r[0],n=1;n<r.length;n++)r[n]<t&&(t=r[n]);return t}function f(r){if(0===r.length)throw new Error("max requires at least one data point");for(var t=r[0],n=1;n<r.length;n++)r[n]>t&&(t=r[n]);return t}function l(r){for(var t=0,n=0;n<r.length;n++){if("number"!=typeof r[n])return Number.NaN;t+=r[n]}return t}function s(r,t){var n=r.length*t;if(0===r.length)throw new Error("quantile requires at least one data point.");if(t<0||t>1)throw new Error("quantiles must be between 0 and 1");return 1===t?r[r.length-1]:0===t?r[0]:n%1!=0?r[Math.ceil(n)-1]:r.length%2==0?(r[n-1]+r[n])/2:r[n]}function c(r,t,n,e){for(n=n||0,e=e||r.length-1;e>n;){if(e-n>600){var a=e-n+1,o=t-n+1,i=Math.log(a),u=.5*Math.exp(2*i/3),h=.5*Math.sqrt(i*u*(a-u)/a);o-a/2<0&&(h*=-1),c(r,t,Math.max(n,Math.floor(t-o*u/a+h)),Math.min(e,Math.floor(t+(a-o)*u/a+h)))}var f=r[t],l=n,s=e;for(g(r,n,t),r[e]>f&&g(r,n,e);l<s;){for(g(r,l,s),l++,s--;r[l]<f;)l++;for(;r[s]>f;)s--}r[n]===f?g(r,n,s):g(r,++s,e),s<=t&&(n=s+1),t<=s&&(e=s-1)}}function g(r,t,n){var e=r[t];r[t]=r[n],r[n]=e}function v(r,t){var n=r.slice();if(Array.isArray(t)){!function(r,t){for(var n=[0],e=0;e<t.length;e++)n.push(w(r.length,t[e]));n.push(r.length-1),n.sort(m);var a=[0,n.length-1];for(;a.length;){var o=Math.ceil(a.pop()),i=Math.floor(a.pop());if(!(o-i<=1)){var u=Math.floor((i+o)/2);p(r,n[u],Math.floor(n[i]),Math.ceil(n[o])),a.push(i,u,u,o)}}}(n,t);for(var e=[],a=0;a<t.length;a++)e[a]=s(n,t[a]);return e}return p(n,w(n.length,t),0,n.length-1),s(n,t)}function p(r,t,n,e){t%1==0?c(r,t,n,e):(c(r,t=Math.floor(t),n,e),c(r,t+1,t+1,e))}function m(r,t){return r-t}function w(r,t){var n=r*t;return 1===t?r-1:0===t?0:n%1!=0?Math.ceil(n)-1:r%2==0?n-.5:n}function M(r,t){if(t<r[0])return 0;if(t>r[r.length-1])return 1;var n=function(r,t){var n=0,e=0,a=r.length;for(;e<a;)t<=r[n=e+a>>>1]?a=n:e=-~n;return e}(r,t);if(r[n]!==t)return n/r.length;n++;var e=function(r,t){var n=0,e=0,a=r.length;for(;e<a;)t>=r[n=e+a>>>1]?e=-~n:a=n;return e}(r,t);if(e===n)return n/r.length;var a=e-n+1;return a*(e+n)/2/a/r.length}function d(r){var t=v(r,.75),n=v(r,.25);if("number"==typeof t&&"number"==typeof n)return t-n}function b(r){return+v(r,.5)}function q(r){for(var t=b(r),n=[],e=0;e<r.length;e++)n.push(Math.abs(r[e]-t));return b(n)}function E(r,t){t=t||Math.random;for(var n,e,a=r.length;a>0;)e=Math.floor(t()*a--),n=r[a],r[a]=r[e],r[e]=n;return r}function y(r,t){return E(r.slice(),t)}function N(r,t,n){return y(r,n).slice(0,t)}function S(r,t){for(var n=[],e=0;e<r;e++){for(var a=[],o=0;o<t;o++)a.push(0);n.push(a)}return n}function x(r){for(var t,n=0,e=0;e<r.length;e++)0!==e&&r[e]===t||(t=r[e],n++);return n}function k(r,t,n,e){var a;if(r>0){var o=(n[t]-n[r-1])/(t-r+1);a=e[t]-e[r-1]-(t-r+1)*o*o}else a=e[t]-n[t]*n[t]/(t+1);return a<0?0:a}function I(r,t,n,e,a,o,i){if(!(r>t)){var u=Math.floor((r+t)/2);e[n][u]=e[n-1][u-1],a[n][u]=u;var h=n;r>n&&(h=Math.max(h,a[n][r-1]||0)),h=Math.max(h,a[n-1][u]||0);var f,l,s,c=u-1;t<e[0].length-1&&(c=Math.min(c,a[n][t+1]||0));for(var g=c;g>=h&&!((f=k(g,u,o,i))+e[n-1][h-1]>=e[n][u]);--g)(l=k(h,u,o,i)+e[n-1][h-1])<e[n][u]&&(e[n][u]=l,a[n][u]=h),h++,(s=f+e[n-1][g-1])<e[n][u]&&(e[n][u]=s,a[n][u]=g);I(r,u-1,n,e,a,o,i),I(u+1,t,n,e,a,o,i)}}function A(r,t){if(r.length!==t.length)throw new Error("sampleCovariance requires samples with equal lengths");if(r.length<2)throw new Error("sampleCovariance requires at least two data points in each sample");for(var e=n(r),a=n(t),o=0,i=0;i<r.length;i++)o+=(r[i]-e)*(t[i]-a);return o/(r.length-1)}function P(r){if(r.length<2)throw new Error("sampleVariance requires at least two data points");return e(r,2)/(r.length-1)}function C(r){var t=P(r);return Math.sqrt(t)}function T(r,t){return A(r,t)/C(r)/C(t)}function _(r,t,n,e){return(r*t+n*e)/(t+e)}function D(r){if(0===r.length)throw new Error("meanSimple requires at least one data point");return l(r)/r.length}function R(r){if(0===r.length)throw new Error("rootMeanSquare requires at least one data point");for(var t=0,n=0;n<r.length;n++)t+=Math.pow(r[n],2);return Math.sqrt(t/r.length)}var V=function(){this.totalCount=0,this.data={}};V.prototype.train=function(r,t){for(var n in this.data[t]||(this.data[t]={}),r){var e=r[n];void 0===this.data[t][n]&&(this.data[t][n]={}),void 0===this.data[t][n][e]&&(this.data[t][n][e]=0),this.data[t][n][e]++}this.totalCount++},V.prototype.score=function(r){var t,n={};for(var e in r){var a=r[e];for(t in this.data)n[t]={},this.data[t][e]?n[t][e+"_"+a]=(this.data[t][e][a]||0)/this.totalCount:n[t][e+"_"+a]=0}var o={};for(t in n)for(var i in o[t]=0,n[t])o[t]+=n[t][i];return o};var F=function(){this.weights=[],this.bias=0};F.prototype.predict=function(r){if(r.length!==this.weights.length)return null;for(var t=0,n=0;n<this.weights.length;n++)t+=this.weights[n]*r[n];return(t+=this.bias)>0?1:0},F.prototype.train=function(r,t){if(0!==t&&1!==t)return null;r.length!==this.weights.length&&(this.weights=r,this.bias=1);var n=this.predict(r);if("number"==typeof n&&n!==t){for(var e=t-n,a=0;a<this.weights.length;a++)this.weights[a]+=e*r[a];this.bias+=e}return this};var L=1e-4;function U(r){if(r<0)throw new Error("factorial requires a non-negative value");if(Math.floor(r)!==r)throw new Error("factorial requires an integer input");for(var t=1,n=2;n<=r;n++)t*=n;return t}var z=[.9999999999999971,57.15623566586292,-59.59796035547549,14.136097974741746,-.4919138160976202,3399464998481189e-20,4652362892704858e-20,-9837447530487956e-20,.0001580887032249125,-.00021026444172410488,.00021743961811521265,-.0001643181065367639,8441822398385275e-20,-26190838401581408e-21,36899182659531625e-22],O=Math.log(Math.sqrt(2*Math.PI));var X={1:{.995:0,.99:0,.975:0,.95:0,.9:.02,.5:.45,.1:2.71,.05:3.84,.025:5.02,.01:6.63,.005:7.88},2:{.995:.01,.99:.02,.975:.05,.95:.1,.9:.21,.5:1.39,.1:4.61,.05:5.99,.025:7.38,.01:9.21,.005:10.6},3:{.995:.07,.99:.11,.975:.22,.95:.35,.9:.58,.5:2.37,.1:6.25,.05:7.81,.025:9.35,.01:11.34,.005:12.84},4:{.995:.21,.99:.3,.975:.48,.95:.71,.9:1.06,.5:3.36,.1:7.78,.05:9.49,.025:11.14,.01:13.28,.005:14.86},5:{.995:.41,.99:.55,.975:.83,.95:1.15,.9:1.61,.5:4.35,.1:9.24,.05:11.07,.025:12.83,.01:15.09,.005:16.75},6:{.995:.68,.99:.87,.975:1.24,.95:1.64,.9:2.2,.5:5.35,.1:10.65,.05:12.59,.025:14.45,.01:16.81,.005:18.55},7:{.995:.99,.99:1.25,.975:1.69,.95:2.17,.9:2.83,.5:6.35,.1:12.02,.05:14.07,.025:16.01,.01:18.48,.005:20.28},8:{.995:1.34,.99:1.65,.975:2.18,.95:2.73,.9:3.49,.5:7.34,.1:13.36,.05:15.51,.025:17.53,.01:20.09,.005:21.96},9:{.995:1.73,.99:2.09,.975:2.7,.95:3.33,.9:4.17,.5:8.34,.1:14.68,.05:16.92,.025:19.02,.01:21.67,.005:23.59},10:{.995:2.16,.99:2.56,.975:3.25,.95:3.94,.9:4.87,.5:9.34,.1:15.99,.05:18.31,.025:20.48,.01:23.21,.005:25.19},11:{.995:2.6,.99:3.05,.975:3.82,.95:4.57,.9:5.58,.5:10.34,.1:17.28,.05:19.68,.025:21.92,.01:24.72,.005:26.76},12:{.995:3.07,.99:3.57,.975:4.4,.95:5.23,.9:6.3,.5:11.34,.1:18.55,.05:21.03,.025:23.34,.01:26.22,.005:28.3},13:{.995:3.57,.99:4.11,.975:5.01,.95:5.89,.9:7.04,.5:12.34,.1:19.81,.05:22.36,.025:24.74,.01:27.69,.005:29.82},14:{.995:4.07,.99:4.66,.975:5.63,.95:6.57,.9:7.79,.5:13.34,.1:21.06,.05:23.68,.025:26.12,.01:29.14,.005:31.32},15:{.995:4.6,.99:5.23,.975:6.27,.95:7.26,.9:8.55,.5:14.34,.1:22.31,.05:25,.025:27.49,.01:30.58,.005:32.8},16:{.995:5.14,.99:5.81,.975:6.91,.95:7.96,.9:9.31,.5:15.34,.1:23.54,.05:26.3,.025:28.85,.01:32,.005:34.27},17:{.995:5.7,.99:6.41,.975:7.56,.95:8.67,.9:10.09,.5:16.34,.1:24.77,.05:27.59,.025:30.19,.01:33.41,.005:35.72},18:{.995:6.26,.99:7.01,.975:8.23,.95:9.39,.9:10.87,.5:17.34,.1:25.99,.05:28.87,.025:31.53,.01:34.81,.005:37.16},19:{.995:6.84,.99:7.63,.975:8.91,.95:10.12,.9:11.65,.5:18.34,.1:27.2,.05:30.14,.025:32.85,.01:36.19,.005:38.58},20:{.995:7.43,.99:8.26,.975:9.59,.95:10.85,.9:12.44,.5:19.34,.1:28.41,.05:31.41,.025:34.17,.01:37.57,.005:40},21:{.995:8.03,.99:8.9,.975:10.28,.95:11.59,.9:13.24,.5:20.34,.1:29.62,.05:32.67,.025:35.48,.01:38.93,.005:41.4},22:{.995:8.64,.99:9.54,.975:10.98,.95:12.34,.9:14.04,.5:21.34,.1:30.81,.05:33.92,.025:36.78,.01:40.29,.005:42.8},23:{.995:9.26,.99:10.2,.975:11.69,.95:13.09,.9:14.85,.5:22.34,.1:32.01,.05:35.17,.025:38.08,.01:41.64,.005:44.18},24:{.995:9.89,.99:10.86,.975:12.4,.95:13.85,.9:15.66,.5:23.34,.1:33.2,.05:36.42,.025:39.36,.01:42.98,.005:45.56},25:{.995:10.52,.99:11.52,.975:13.12,.95:14.61,.9:16.47,.5:24.34,.1:34.28,.05:37.65,.025:40.65,.01:44.31,.005:46.93},26:{.995:11.16,.99:12.2,.975:13.84,.95:15.38,.9:17.29,.5:25.34,.1:35.56,.05:38.89,.025:41.92,.01:45.64,.005:48.29},27:{.995:11.81,.99:12.88,.975:14.57,.95:16.15,.9:18.11,.5:26.34,.1:36.74,.05:40.11,.025:43.19,.01:46.96,.005:49.65},28:{.995:12.46,.99:13.57,.975:15.31,.95:16.93,.9:18.94,.5:27.34,.1:37.92,.05:41.34,.025:44.46,.01:48.28,.005:50.99},29:{.995:13.12,.99:14.26,.975:16.05,.95:17.71,.9:19.77,.5:28.34,.1:39.09,.05:42.56,.025:45.72,.01:49.59,.005:52.34},30:{.995:13.79,.99:14.95,.975:16.79,.95:18.49,.9:20.6,.5:29.34,.1:40.26,.05:43.77,.025:46.98,.01:50.89,.005:53.67},40:{.995:20.71,.99:22.16,.975:24.43,.95:26.51,.9:29.05,.5:39.34,.1:51.81,.05:55.76,.025:59.34,.01:63.69,.005:66.77},50:{.995:27.99,.99:29.71,.975:32.36,.95:34.76,.9:37.69,.5:49.33,.1:63.17,.05:67.5,.025:71.42,.01:76.15,.005:79.49},60:{.995:35.53,.99:37.48,.975:40.48,.95:43.19,.9:46.46,.5:59.33,.1:74.4,.05:79.08,.025:83.3,.01:88.38,.005:91.95},70:{.995:43.28,.99:45.44,.975:48.76,.95:51.74,.9:55.33,.5:69.33,.1:85.53,.05:90.53,.025:95.02,.01:100.42,.005:104.22},80:{.995:51.17,.99:53.54,.975:57.15,.95:60.39,.9:64.28,.5:79.33,.1:96.58,.05:101.88,.025:106.63,.01:112.33,.005:116.32},90:{.995:59.2,.99:61.75,.975:65.65,.95:69.13,.9:73.29,.5:89.33,.1:107.57,.05:113.14,.025:118.14,.01:124.12,.005:128.3},100:{.995:67.33,.99:70.06,.975:74.22,.95:77.93,.9:82.36,.5:99.33,.1:118.5,.05:124.34,.025:129.56,.01:135.81,.005:140.17}};var j=Math.sqrt(2*Math.PI),B={gaussian:function(r){return Math.exp(-.5*r*r)/j}},K={nrd:function(r){var t=C(r),n=d(r);return"number"==typeof n&&(t=Math.min(t,n/1.34)),1.06*t*Math.pow(r.length,-.2)}};function Y(r,t,n){var e,a;if(void 0===t)e=B.gaussian;else if("string"==typeof t){if(!B[t])throw new Error('Unknown kernel "'+t+'"');e=B[t]}else e=t;if(void 0===n)a=K.nrd(r);else if("string"==typeof n){if(!K[n])throw new Error('Unknown bandwidth method "'+n+'"');a=K[n](r)}else a=n;return function(t){var n=0,o=0;for(n=0;n<r.length;n++)o+=e((t-r[n])/a);return o/a/r.length}}var G=Math.sqrt(2*Math.PI);function H(r){for(var t=r,n=r,e=1;e<15;e++)t+=n*=r*r/(2*e+1);return Math.round(1e4*(.5+t/G*Math.exp(-r*r/2)))/1e4}for(var W=[],J=0;J<=3.09;J+=.01)W.push(H(J));function Q(r){var t=1/(1+.5*Math.abs(r)),n=t*Math.exp(-r*r+((((((((.17087277*t-.82215223)*t+1.48851587)*t-1.13520398)*t+.27886807)*t-.18628806)*t+.09678418)*t+.37409196)*t+1.00002368)*t-1.26551223);return r>=0?1-n:n-1}function Z(r){var t=8*(Math.PI-3)/(3*Math.PI*(4-Math.PI)),n=Math.sqrt(Math.sqrt(Math.pow(2/(Math.PI*t)+Math.log(1-r*r)/2,2)-Math.log(1-r*r)/t)-(2/(Math.PI*t)+Math.log(1-r*r)/2));return r>=0?n:-n}function $(r){if("number"==typeof r)return r<0?-1:0===r?0:1;throw new TypeError("not a number")}function rr(r,t){for(var n=0,e=0;e<r.length;e++){var a=r[e]-t[e];n+=a*a}return Math.sqrt(n)}function tr(r,t){return r.map((function(r){for(var n=Number.MAX_VALUE,e=-1,a=0;a<t.length;a++){var o=rr(r,t[a]);o<n&&(n=o,e=a)}return e}))}function nr(r,t,n){for(var e=r[0].length,a=S(n,e),o=Array(n).fill(0),i=r.length,u=0;u<i;u++){for(var h=r[u],f=t[u],l=a[f],s=0;s<e;s++)l[s]+=h[s];o[f]+=1}for(var c=0;c<n;c++){if(0===o[c])throw new Error("Centroid "+c+" has no friends");for(var g=a[c],v=0;v<e;v++)g[v]/=o[c]}return a}function er(r,t){for(var n=0,e=0;e<r.length;e++)n+=rr(r[e],t[e]);return n}function ar(r,t){if(r.length!==t.length)throw new Error("must have exactly as many labels as points");for(var n=function(r){for(var t=1+f(r),n=Array(t),e=0;e<r.length;e++){var a=r[e];void 0===n[a]&&(n[a]=[]),n[a].push(e)}return n}(t),e=function(r){for(var t=r.length,n=S(t,t),e=0;e<t;e++)for(var a=0;a<e;a++)n[e][a]=rr(r[e],r[a]),n[a][e]=n[e][a];return n}(r),a=[],o=0;o<r.length;o++){var i=0;if(n[t[o]].length>1){var u=ir(o,n[t[o]],e),h=or(o,t,n,e);i=(h-u)/Math.max(u,h)}a.push(i)}return a}function or(r,t,n,e){for(var a=t[r],o=Number.MAX_VALUE,i=0;i<n.length;i++)if(i!==a){var u=ir(r,n[i],e);u<o&&(o=u)}return o}function ir(r,t,n){for(var e=0,a=0;a<t.length;a++)e+=n[r][t[a]];return e/t.length}function ur(r,t){return 0===r&&0===t?0:Math.abs((r-t)/t)}r.BayesianClassifier=V,r.PerceptronModel=F,r.addToMean=function(r,t,n){return r+(n-r)/(t+1)},r.approxEqual=function(r,t,n){return void 0===n&&(n=L),ur(r,t)<=n},r.average=n,r.averageSimple=D,r.bayesian=V,r.bernoulliDistribution=function(r){if(r<0||r>1)throw new Error("bernoulliDistribution requires probability to be between 0 and 1 inclusive");return[1-r,r]},r.binomialDistribution=function(r,t){if(!(t<0||t>1||r<=0||r%1!=0)){var n=0,e=0,a=[],o=1;do{a[n]=o*Math.pow(t,n)*Math.pow(1-t,r-n),e+=a[n],o=o*(r-++n+1)/n}while(e<.9999);return a}},r.bisect=function(r,t,n,e,a){if("function"!=typeof r)throw new TypeError("func must be a function");for(var o=0;o<e;o++){var i=(t+n)/2;if(0===r(i)||Math.abs((n-t)/2)<a)return i;$(r(i))===$(r(t))?t=i:n=i}throw new Error("maximum number of iterations exceeded")},r.chiSquaredDistributionTable=X,r.chiSquaredGoodnessOfFit=function(r,t,e){for(var a=0,o=t(n(r)),i=[],u=[],h=0;h<r.length;h++)void 0===i[r[h]]&&(i[r[h]]=0),i[r[h]]++;for(var f=0;f<i.length;f++)void 0===i[f]&&(i[f]=0);for(var l in o)l in i&&(u[+l]=o[l]*r.length);for(var s=u.length-1;s>=0;s--)u[s]<3&&(u[s-1]+=u[s],u.pop(),i[s-1]+=i[s],i.pop());for(var c=0;c<i.length;c++)a+=Math.pow(i[c]-u[c],2)/u[c];var g=i.length-1-1;return X[g][e]<a},r.chunk=function(r,t){var n=[];if(t<1)throw new Error("chunk size must be a positive number");if(Math.floor(t)!==t)throw new Error("chunk size must be an integer");for(var e=0;e<r.length;e+=t)n.push(r.slice(e,e+t));return n},r.ckmeans=function(r,t){if(t>r.length)throw new Error("cannot generate more classes than there are data values");var n=u(r);if(1===x(n))return[n];var e=S(t,n.length),a=S(t,n.length);!function(r,t,n){for(var e=t[0].length,a=r[Math.floor(e/2)],o=[],i=[],u=0,h=void 0;u<e;++u)h=r[u]-a,0===u?(o.push(h),i.push(h*h)):(o.push(o[u-1]+h),i.push(i[u-1]+h*h)),t[0][u]=k(0,u,o,i),n[0][u]=0;for(var f=1;f<t.length;++f)I(f<t.length-1?f:e-1,e-1,f,t,n,o,i)}(n,e,a);for(var o=[],i=a[0].length-1,h=a.length-1;h>=0;h--){var f=a[h][i];o[h]=n.slice(f,i+1),h>0&&(i=f-1)}return o},r.coefficientOfVariation=function(r){return C(r)/n(r)},r.combinations=function r(t,n){var e,a,o,i,u=[];for(e=0;e<t.length;e++)if(1===n)u.push([t[e]]);else for(o=r(t.slice(e+1,t.length),n-1),a=0;a<o.length;a++)(i=o[a]).unshift(t[e]),u.push(i);return u},r.combinationsReplacement=function r(t,n){for(var e=[],a=0;a<t.length;a++)if(1===n)e.push([t[a]]);else for(var o=r(t.slice(a,t.length),n-1),i=0;i<o.length;i++)e.push([t[a]].concat(o[i]));return e},r.combineMeans=_,r.combineVariances=function(r,t,n,e,a,o){var i=_(t,n,a,o);return(n*(r+Math.pow(t-i,2))+o*(e+Math.pow(a-i,2)))/(n+o)},r.cumulativeStdLogisticProbability=function(r){return 1/(Math.exp(-r)+1)},r.cumulativeStdNormalProbability=function(r){var t=Math.abs(r),n=Math.min(Math.round(100*t),W.length-1);return r>=0?W[n]:Math.round(1e4*(1-W[n]))/1e4},r.epsilon=L,r.equalIntervalBreaks=function(r,t){if(r.length<2)return r;for(var n=h(r),e=f(r),a=[n],o=(e-n)/t,i=1;i<t;i++)a.push(a[0]+o*i);return a.push(e),a},r.erf=Q,r.errorFunction=Q,r.extent=function(r){if(0===r.length)throw new Error("extent requires at least one data point");for(var t=r[0],n=r[0],e=1;e<r.length;e++)r[e]>n&&(n=r[e]),r[e]<t&&(t=r[e]);return[t,n]},r.extentSorted=function(r){return[r[0],r[r.length-1]]},r.factorial=U,r.gamma=function r(t){if(Number.isInteger(t))return t<=0?Number.NaN:U(t-1);if(--t<0)return Math.PI/(Math.sin(Math.PI*-t)*r(-t));var n=t+1/4;return Math.pow(t/Math.E,t)*Math.sqrt(2*Math.PI*(t+1/6))*(1+1/144/Math.pow(n,2)-1/12960/Math.pow(n,3)-257/207360/Math.pow(n,4)-52/2612736/Math.pow(n,5)+5741173/9405849600/Math.pow(n,6)+37529/18811699200/Math.pow(n,7))},r.gammaln=function(r){if(r<=0)return Number.POSITIVE_INFINITY;r--;for(var t=z[0],n=1;n<15;n++)t+=z[n]/(r+n);var e=5.2421875+r;return O+Math.log(t)-e+(r+.5)*Math.log(e)},r.geometricMean=function(r){if(0===r.length)throw new Error("geometricMean requires at least one data point");for(var t=1,n=0;n<r.length;n++){if(r[n]<0)throw new Error("geometricMean requires only non-negative numbers as input");t*=r[n]}return Math.pow(t,1/r.length)},r.harmonicMean=function(r){if(0===r.length)throw new Error("harmonicMean requires at least one data point");for(var t=0,n=0;n<r.length;n++){if(r[n]<=0)throw new Error("harmonicMean requires only positive numbers as input");t+=1/r[n]}return r.length/t},r.interquartileRange=d,r.inverseErrorFunction=Z,r.iqr=d,r.jenks=function(r,t){if(t>r.length)return null;var n=function(r,t){var n,e,a=[],o=[],i=0;for(n=0;n<r.length+1;n++){var u=[],h=[];for(e=0;e<t+1;e++)u.push(0),h.push(0);a.push(u),o.push(h)}for(n=1;n<t+1;n++)for(a[1][n]=1,o[1][n]=0,e=2;e<r.length+1;e++)o[e][n]=Number.POSITIVE_INFINITY;for(var f=2;f<r.length+1;f++){for(var l=0,s=0,c=0,g=0,v=1;v<f+1;v++){var p=f-v+1,m=r[p-1];if(i=(s+=m*m)-(l+=m)*l/++c,0!=(g=p-1))for(e=2;e<t+1;e++)o[f][e]>=i+o[g][e-1]&&(a[f][e]=p,o[f][e]=i+o[g][e-1])}a[f][1]=1,o[f][1]=i}return{lowerClassLimits:a,varianceCombinations:o}}(r=r.slice().sort((function(r,t){return r-t})),t);return function(r,t,n){var e=r.length,a=[],o=n;for(a[n]=r[r.length-1];o>0;)a[o-1]=r[t[e][o]-1],e=t[e][o]-1,o--;return a}(r,n.lowerClassLimits,t)},r.kMeansCluster=function(r,t,n){void 0===n&&(n=Math.random);for(var e=null,a=N(r,t,n),o=null,i=Number.MAX_VALUE;0!==i;)e=a,i=er(a=nr(r,o=tr(r,a),t),e);return{labels:o,centroids:a}},r.kde=Y,r.kernelDensityEstimation=Y,r.linearRegression=function(r){var t,n,e=r.length;if(1===e)t=0,n=r[0][1];else{for(var a,o,i,u=0,h=0,f=0,l=0,s=0;s<e;s++)u+=o=(a=r[s])[0],h+=i=a[1],f+=o*o,l+=o*i;n=h/e-(t=(e*l-u*h)/(e*f-u*u))*u/e}return{m:t,b:n}},r.linearRegressionLine=function(r){return function(t){return r.b+r.m*t}},r.logAverage=function(r){if(0===r.length)throw new Error("logAverage requires at least one data point");for(var t=0,n=0;n<r.length;n++){if(r[n]<0)throw new Error("logAverage requires only non-negative numbers as input");t+=Math.log(r[n])}return Math.exp(t/r.length)},r.logit=function(r){if(r<=0||r>=1)throw new Error("p must be strictly between zero and one");return Math.log(r/(1-r))},r.mad=q,r.max=f,r.maxSorted=function(r){return r[r.length-1]},r.mean=n,r.meanSimple=D,r.median=b,r.medianAbsoluteDeviation=q,r.medianSorted=function(r){return s(r,.5)},r.min=h,r.minSorted=function(r){return r[0]},r.mode=function(r){return i(u(r))},r.modeFast=function(r){for(var t,n=new Map,e=0,a=0;a<r.length;a++){var o=n.get(r[a]);void 0===o?o=1:o++,o>e&&(t=r[a],e=o),n.set(r[a],o)}if(0===e)throw new Error("mode requires at last one data point");return t},r.modeSorted=i,r.numericSort=u,r.perceptron=F,r.permutationTest=function(r,t,e,a,o){if(void 0===a&&(a=1e4),void 0===e&&(e="two_side"),"two_side"!==e&&"greater"!==e&&"less"!==e)throw new Error("`alternative` must be either 'two_side', 'greater', or 'less'.");for(var i=n(r)-n(t),u=new Array(a),h=r.concat(t),f=Math.floor(h.length/2),l=0;l<a;l++){E(h,o);var s=h.slice(0,f),c=h.slice(f,h.length),g=n(s)-n(c);u[l]=g}var v=0;if("two_side"===e)for(var p=0;p<=a;p++)Math.abs(u[p])>=Math.abs(i)&&(v+=1);else if("greater"===e)for(var m=0;m<=a;m++)u[m]>=i&&(v+=1);else for(var w=0;w<=a;w++)u[w]<=i&&(v+=1);return v/a},r.permutationsHeap=function(r){for(var t=new Array(r.length),n=[r.slice()],e=0;e<r.length;e++)t[e]=0;for(var a=0;a<r.length;)if(t[a]<a){var o=0;a%2!=0&&(o=t[a]);var i=r[o];r[o]=r[a],r[a]=i,n.push(r.slice()),t[a]++,a=0}else t[a]=0,a++;return n},r.poissonDistribution=function(r){if(!(r<=0)){var t=0,n=0,e=[],a=1;do{e[t]=Math.exp(-r)*Math.pow(r,t)/a,n+=e[t],a*=++t}while(n<.9999);return e}},r.probit=function(r){return 0===r?r=L:r>=1&&(r=.9999),Math.sqrt(2)*Z(2*r-1)},r.product=function(r){for(var t=1,n=0;n<r.length;n++)t*=r[n];return t},r.quantile=v,r.quantileRank=function(r,t){return M(u(r),t)},r.quantileRankSorted=M,r.quantileSorted=s,r.quickselect=c,r.rSquared=function(r,t){if(r.length<2)return 1;for(var n=0,e=0;e<r.length;e++)n+=r[e][1];for(var a=n/r.length,o=0,i=0;i<r.length;i++)o+=Math.pow(a-r[i][1],2);for(var u=0,h=0;h<r.length;h++)u+=Math.pow(r[h][1]-t(r[h][0]),2);return 1-u/o},r.relativeError=ur,r.rms=R,r.rootMeanSquare=R,r.sample=N,r.sampleCorrelation=T,r.sampleCovariance=A,r.sampleKurtosis=function(r){var t=r.length;if(t<4)throw new Error("sampleKurtosis requires at least four data points");for(var e,a=n(r),o=0,i=0,u=0;u<t;u++)o+=(e=r[u]-a)*e,i+=e*e*e*e;return(t-1)/((t-2)*(t-3))*(t*(t+1)*i/(o*o)-3*(t-1))},r.sampleRankCorrelation=function(r,t){for(var n=r.map((function(r,t){return[r,t]})).sort((function(r,t){return r[0]-t[0]})).map((function(r){return r[1]})),e=t.map((function(r,t){return[r,t]})).sort((function(r,t){return r[0]-t[0]})).map((function(r){return r[1]})),a=Array(n.length),o=Array(n.length),i=0;i<n.length;i++)a[n[i]]=i,o[e[i]]=i;return T(a,o)},r.sampleSkewness=function(r){if(r.length<3)throw new Error("sampleSkewness requires at least three data points");for(var t,e=n(r),a=0,o=0,i=0;i<r.length;i++)a+=(t=r[i]-e)*t,o+=t*t*t;var u=r.length-1,h=Math.sqrt(a/u),f=r.length;return f*o/((f-1)*(f-2)*Math.pow(h,3))},r.sampleStandardDeviation=C,r.sampleVariance=P,r.sampleWithReplacement=function(r,t,n){if(0===r.length)return[];n=n||Math.random;for(var e=r.length,a=[],o=0;o<t;o++){var i=Math.floor(n()*e);a.push(r[i])}return a},r.shuffle=y,r.shuffleInPlace=E,r.sign=$,r.silhouette=ar,r.silhouetteMetric=function(r,t){return f(ar(r,t))},r.standardDeviation=o,r.standardNormalTable=W,r.subtractFromMean=function(r,t,n){return(r*t-n)/(t-1)},r.sum=t,r.sumNthPowerDeviations=e,r.sumSimple=l,r.tTest=function(r,t){return(n(r)-t)/(o(r)/Math.sqrt(r.length))},r.tTestTwoSample=function(r,t,e){var a=r.length,o=t.length;if(!a||!o)return null;e||(e=0);var i=n(r),u=n(t),h=P(r),f=P(t);if("number"==typeof i&&"number"==typeof u&&"number"==typeof h&&"number"==typeof f){var l=((a-1)*h+(o-1)*f)/(a+o-2);return(i-u-e)/Math.sqrt(l*(1/a+1/o))}},r.uniqueCountSorted=x,r.variance=a,r.wilcoxonRankSum=function(r,t){if(!r.length||!t.length)throw new Error("Neither sample can be empty");for(var n=r.map((function(r){return{label:"x",value:r}})).concat(t.map((function(r){return{label:"y",value:r}}))).sort((function(r,t){return r.value-t.value})),e=0;e<n.length;e++)n[e].rank=e;for(var a=[n[0].rank],o=1;o<n.length;o++)n[o].value===n[o-1].value?(a.push(n[o].rank),o===n.length-1&&i(n,a)):a.length>1?i(n,a):a=[n[o].rank];function i(r,t){for(var n=(t[0]+t[t.length-1])/2,e=0;e<t.length;e++)r[t[e]].rank=n}for(var u=0,h=0;h<n.length;h++){var f=n[h];"x"===f.label&&(u+=f.rank+1)}return u},r.zScore=function(r,t,n){return(r-t)/n}}));
-//# sourceMappingURL=simple-statistics.min.js.map
-
 
 /***/ }),
 
@@ -17713,6 +17455,216 @@ module.exports = toString;
 
 /***/ }),
 
+/***/ 2957:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./child-pages-navigator/BlockSave.tsx
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      title,
+      showIcon,
+      showLabel
+    }
+  } = props;
+  const divClass = {};
+  const divStyles = {};
+  const urlParams = new URLSearchParams(window.location.search);
+  const parent = urlParams.get('post');
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    className: "viz-component",
+    "data-component": "childPagesMenu",
+    "data-parent": parent,
+    "data-title": title,
+    "data-show-icons": showIcon,
+    "data-show-labels": showLabel
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
+var build = __webpack_require__(7965);
+;// ./child-pages-navigator/BlockEdit.tsx
+
+
+
+
+
+
+const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT';
+const LOWEST_VALUE = 'LOWEST_VALUE';
+const HIGHEST_VALUE = 'HIGHEST_VALUE';
+class BlockEdit extends build/* ComponentWithSettings */.BE {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    const {
+      setAttributes,
+      attributes: {
+        name,
+        showIcons,
+        showLabels
+      }
+    } = this.props;
+    super.componentDidMount();
+    const urlParams = new URLSearchParams(window.location.search);
+    const parent = urlParams.get('post');
+    setAttributes({
+      parent: parent
+    });
+  }
+  render() {
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes: {
+        height,
+        title,
+        showIcons,
+        showLabels
+      }
+    } = this.props;
+    const iframeStyles = {
+      height: height + 'px',
+      width: '100%'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Menu Configuration"),
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Title'),
+              value: title,
+              onChange: title => setAttributes({
+                title
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: "Show Icons",
+              checked: showIcons,
+              onChange: () => setAttributes({
+                showIcons: !showIcons
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: "Show Labels",
+              checked: showLabels,
+              onChange: () => setAttributes({
+                showLabels: !showLabels
+              })
+            })
+          })]
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+      size: {
+        height
+      },
+      style: {
+        "margin": "auto",
+        width: "100%"
+      },
+      minHeight: "200",
+      minWidth: "100",
+      enable: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: false,
+        topRight: true,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false
+      },
+      onResizeStop: (event, direction, elt, delta) => {
+        setAttributes({
+          height: parseInt(String(height)) + parseInt(String(delta.height))
+        });
+        toggleSelection(true);
+      },
+      onResizeStart: () => {
+        toggleSelection(false);
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          scrolling: "no",
+          style: iframeStyles,
+          src: this.state.react_ui_url + "/embeddable/childPagesMenu"
+        })
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
+    className: 'wp-react-component'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+      className: "iframe container",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+        ...props
+      })
+    })
+  });
+};
+/* harmony default export */ const child_pages_navigator_BlockEdit = (Edit);
+// EXTERNAL MODULE: ./icons/index.js
+var icons = __webpack_require__(7552);
+;// ./child-pages-navigator/index.js
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)("viz" + '/child-pages-menu', {
+  title: (0,external_wp_i18n_.__)('Child Pages Menu'),
+  icon: icons/* default */.Ay,
+  category: "wp-react-lib-blocks",
+  apiVersion: 2,
+  attributes: {
+    title: {
+      type: 'String',
+      default: ""
+    },
+    parent: {
+      type: 'Numeric',
+      default: null
+    },
+    height: {
+      type: 'Numeric',
+      default: 500
+    }
+  },
+  edit: child_pages_navigator_BlockEdit,
+  save: BlockSave
+});
+
+/***/ }),
+
 /***/ 2970:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -20363,6 +20315,497 @@ function reorder(array, indexes) {
 
 module.exports = reorder;
 
+
+/***/ }),
+
+/***/ 4090:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./big-number-trend/BlockSave.tsx
+
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      measures,
+      height,
+      dimension1,
+      app,
+      csv,
+      format,
+      filters,
+      group,
+      noDataMsg,
+      dvzProxyDatasetId,
+      bigNumberFontSize,
+      labelFontSize,
+      percentFontSize,
+      textColor,
+      label,
+      showPercentageChange
+    }
+  } = props;
+  const blockProps = external_wp_blockEditor_.useBlockProps.save({
+    className: 'big-number-trend'
+  });
+  const levels = [dimension1];
+  const source = levels.filter(l => l != 'none' && l != null).join('/');
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    className: "viz-component",
+    "data-component": "bignumbertrend",
+    "data-height": height,
+    "data-source": source,
+    "data-app": app,
+    "data-csv": csv,
+    "data-dvz-proxy-dataset-id": dvzProxyDatasetId,
+    "data-measures": encodeURIComponent(JSON.stringify(measures)),
+    "data-dimension1": dimension1,
+    "data-format": encodeURIComponent(JSON.stringify(format)),
+    "data-group": group,
+    "data-filters": encodeURIComponent(JSON.stringify(filters)),
+    "data-no-data-message": noDataMsg,
+    "data-big-number-font-size": bigNumberFontSize,
+    "data-label-font-size": labelFontSize,
+    "data-percent-font-size": percentFontSize,
+    "data-text-color": encodeURIComponent(textColor),
+    "data-label": label,
+    "data-show-percentage-change": showPercentageChange,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InnerBlocks.Content, {})
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
+var build = __webpack_require__(7965);
+;// ./big-number-trend/BlockEdit.tsx
+
+
+
+
+
+
+class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    super.componentDidMount();
+  }
+  render() {
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes: {
+        measures,
+        height,
+        app,
+        format,
+        filters,
+        group,
+        panelStatus,
+        dvzProxyDatasetId,
+        label,
+        bigNumberFontSize,
+        percentFontSize,
+        labelFontSize,
+        textColor,
+        dimension1,
+        showPercentageChange,
+        csv,
+        type
+      }
+    } = this.props;
+    const datasets = [{
+      label: 'Select Dataset',
+      value: '0'
+    }];
+    if (this.state.datasets) {
+      this.state.datasets.forEach(d => {
+        datasets.push({
+          label: d.label,
+          value: d.id
+        });
+      });
+    }
+    let params = {};
+    filters.forEach(f => {
+      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
+    });
+    const divStyles = {
+      height: height + 'px',
+      width: '100%'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Chart Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: panelStatus['GROUP'],
+          opened: panelStatus['GROUP'],
+          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              value: group,
+              onChange: group => setAttributes({
+                group
+              })
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* SizeConfig */.yr, {
+          setAttributes: setAttributes,
+          panelStatus: panelStatus,
+          height: height,
+          initialOpen: panelStatus['SIZE']
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("API & Source"),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                multiple: false,
+                value: app,
+                onChange: app => {
+                  setAttributes({
+                    app: app
+                  });
+                },
+                options: this.state.apps
+              })
+            }), (0,build/* isSupersetAPI */.oL)(app, this.state.apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                multiple: false,
+                label: (0,external_wp_i18n_.__)('Datasets'),
+                value: dvzProxyDatasetId,
+                onChange: newDatasetId => {
+                  setAttributes({
+                    dvzProxyDatasetId: newDatasetId
+                  });
+                  this.loadMetadata(app, newDatasetId);
+                },
+                options: datasets
+              })
+            })]
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("Dimensions"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                multiple: false,
+                label: (0,external_wp_i18n_.__)("First Dimension"),
+                value: dimension1,
+                onChange: value => {
+                  setAttributes({
+                    dimension1: value
+                  });
+                },
+                options: this.state.dimensions
+              })
+            })
+          }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+              initialOpen: false,
+              title: (0,external_wp_i18n_.__)("CSV Configuration"),
+              onToggle: e => (0,build/* togglePanel */.Pj)("csv_cfg", panelStatus, setAttributes),
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+                  label: (0,external_wp_i18n_.__)("CSV Data"),
+                  value: csv,
+                  onChange: csv => setAttributes({
+                    csv
+                  })
+                })
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Format */.yL, {
+                hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
+                format: format,
+                customFormat: {},
+                useCustomAxisFormat: false,
+                onFormatChange: (newFormat, field) => {
+                  console.log("newFormat", newFormat);
+                  setAttributes({
+                    format: newFormat
+                  });
+                },
+                onUseCustomAxisFormatChange: value => {}
+              })]
+            })
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Measures */.I3, {
+            ...this.props,
+            title: (0,external_wp_i18n_.__)(`Measure`),
+            onSetSingleMeasure: value => {
+              setAttributes({
+                measures: [value]
+              });
+            },
+            onFormatChange: value => {
+              setAttributes({
+                format: value
+              });
+            },
+            allMeasures: this.state.measures,
+            format: format,
+            attributes: {
+              measures,
+              app,
+              panelStatus,
+              dimension1,
+              type
+            }
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* DataFilters */.M1, {
+            allFilters: this.state.filters,
+            allCategories: this.state.categories,
+            ...this.props
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          title: (0,external_wp_i18n_.__)('Settings'),
+          initialOpen: false,
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Show Percentage Change'),
+              checked: showPercentageChange,
+              onChange: showPercentageChange => setAttributes({
+                showPercentageChange
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Label'),
+              value: label,
+              onChange: label => setAttributes({
+                label
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
+              children: (0,external_wp_i18n_.__)("Big Number Font Size")
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
+            fontSizes: [],
+            value: bigNumberFontSize,
+            fallbackFontSize: 14,
+            onChange: newFontSize => {
+              setAttributes({
+                bigNumberFontSize: newFontSize
+              });
+            }
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
+              children: (0,external_wp_i18n_.__)("Percent Change Font Size")
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
+            fontSizes: [],
+            value: percentFontSize,
+            fallbackFontSize: 14,
+            onChange: newFontSize => {
+              setAttributes({
+                percentFontSize: newFontSize
+              });
+            }
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
+              children: (0,external_wp_i18n_.__)("Label Font Size")
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
+            fontSizes: [],
+            value: labelFontSize,
+            fallbackFontSize: 14,
+            onChange: newFontSize => {
+              setAttributes({
+                labelFontSize: newFontSize
+              });
+            }
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)('Color Settings'),
+            colorSettings: [{
+              value: textColor,
+              onChange: color => {
+                setAttributes({
+                  textColor: color
+                });
+              },
+              label: (0,external_wp_i18n_.__)("Text Color")
+            }]
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+      size: {
+        height
+      },
+      style: {
+        "margin": "auto",
+        width: "100%"
+      },
+      minHeight: "0",
+      minWidth: "50",
+      enable: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: false,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false
+      },
+      onResizeStop: (event, direction, elt, delta) => {
+        setAttributes({
+          height: parseInt(String(height), 10) + parseInt(String(delta.height), 10)
+        });
+        toggleSelection(true);
+      },
+      onResizeStart: () => {
+        toggleSelection(false);
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+        className: className,
+        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          style: divStyles,
+          scrolling: "no",
+          src: this.state.react_ui_url + "/embeddable/bignumbertrend?"
+        })
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+      ...props
+    })
+  });
+};
+/* harmony default export */ const big_number_trend_BlockEdit = (Edit);
+// EXTERNAL MODULE: ./icons/index.js
+var icons = __webpack_require__(7552);
+// EXTERNAL MODULE: ./constants.ts
+var constants = __webpack_require__(5418);
+;// ./big-number-trend/index.js
+
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)(constants/* BLOCKS_NS */.R + '/bignumbertrend', {
+  title: (0,external_wp_i18n_.__)('Big Number Trend'),
+  icon: icons/* Generic */.ck,
+  category: constants/* BLOCKS_CATEGORY */._,
+  apiVersion: 2,
+  attributes: {
+    type: {
+      type: 'string',
+      default: "big-number"
+    },
+    group: {
+      type: 'String',
+      default: 'default'
+    },
+    panelStatus: {
+      type: "Object",
+      default: {}
+    },
+    height: {
+      type: 'number',
+      default: 120
+    },
+    app: {
+      type: 'String',
+      default: "csv"
+    },
+    dimension1: {
+      type: 'String',
+      default: 'none'
+    },
+    csv: {
+      type: "String",
+      default: "Year,Amount \n2019,20000 \n2018,10000"
+    },
+    params: {
+      type: Object,
+      default: {}
+    },
+    format: {
+      type: Object,
+      default: {
+        "style": "decimal",
+        "minimumFractionDigits": 0,
+        "maximumFractionDigits": 0,
+        "currency": "USD"
+      }
+    },
+    measures: {
+      type: "Array",
+      default: []
+    },
+    _measures: {},
+    filters: {
+      type: "Array",
+      default: []
+    },
+    dvzProxyDatasetId: {
+      type: 'String',
+      default: ""
+    },
+    types: {
+      type: "Array",
+      default: [{
+        label: 'Big Number',
+        value: 'big-number',
+        supports: {
+          singleMeasure: true,
+          singleDimension: false
+        }
+      }]
+    },
+    label: {
+      type: 'String',
+      default: "# of animals"
+    },
+    textColor: {
+      type: 'string',
+      default: "#5a5d68"
+    },
+    bigNumberFontSize: {
+      type: 'Numeric',
+      default: 24
+    },
+    labelFontSize: {
+      type: 'Numeric',
+      default: 14
+    },
+    percentFontSize: {
+      type: 'Numeric',
+      default: 14
+    },
+    showPercentageChange: {
+      type: 'Boolean',
+      default: false
+    }
+  },
+  edit: big_number_trend_BlockEdit,
+  save: BlockSave
+});
 
 /***/ }),
 
@@ -25385,6 +25828,1862 @@ module.exports = arrayPush;
 
 /***/ }),
 
+/***/ 5856:
+/***/ ((module, exports, __webpack_require__) => {
+
+/* module decorator */ module = __webpack_require__.nmd(module);
+/**
+ * Lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1,
+    COMPARE_UNORDERED_FLAG = 2;
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    asyncTag = '[object AsyncFunction]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    nullTag = '[object Null]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    proxyTag = '[object Proxy]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    symbolTag = '[object Symbol]',
+    undefinedTag = '[object Undefined]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[setTag] = typedArrayTags[stringTag] =
+typedArrayTags[weakMapTag] = false;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof __webpack_require__.g == 'object' && __webpack_require__.g && __webpack_require__.g.Object === Object && __webpack_require__.g;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Detect free variable `exports`. */
+var freeExports =  true && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && "object" == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Detect free variable `process` from Node.js. */
+var freeProcess = moduleExports && freeGlobal.process;
+
+/** Used to access faster Node.js helpers. */
+var nodeUtil = (function() {
+  try {
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
+  } catch (e) {}
+}());
+
+/* Node.js helper references. */
+var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+
+/**
+ * A specialized version of `_.filter` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ */
+function arrayFilter(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result[resIndex++] = value;
+    }
+  }
+  return result;
+}
+
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+/**
+ * A specialized version of `_.some` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {boolean} Returns `true` if any element passes the predicate check,
+ *  else `false`.
+ */
+function arraySome(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+
+  while (++index < length) {
+    if (predicate(array[index], index, array)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.unary` without support for storing metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+/**
+ * Checks if a `cache` value for `key` exists.
+ *
+ * @private
+ * @param {Object} cache The cache to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Converts `map` to its key-value pairs.
+ *
+ * @private
+ * @param {Object} map The map to convert.
+ * @returns {Array} Returns the key-value pairs.
+ */
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/**
+ * Converts `set` to an array of its values.
+ *
+ * @private
+ * @param {Object} set The set to convert.
+ * @returns {Array} Returns the values.
+ */
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype,
+    funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined,
+    Symbol = root.Symbol,
+    Uint8Array = root.Uint8Array,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable,
+    splice = arrayProto.splice,
+    symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeGetSymbols = Object.getOwnPropertySymbols,
+    nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+    nativeKeys = overArg(Object.keys, Object);
+
+/* Built-in method references that are verified to be native. */
+var DataView = getNative(root, 'DataView'),
+    Map = getNative(root, 'Map'),
+    Promise = getNative(root, 'Promise'),
+    Set = getNative(root, 'Set'),
+    WeakMap = getNative(root, 'WeakMap'),
+    nativeCreate = getNative(Object, 'create');
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+
+/**
+ * Creates a hash object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Hash(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+function hashClear() {
+  this.__data__ = nativeCreate ? nativeCreate(null) : {};
+  this.size = 0;
+}
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(key) {
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Hash
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(key) {
+  var data = this.__data__;
+  if (nativeCreate) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(data, key) ? data[key] : undefined;
+}
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Hash
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(key) {
+  var data = this.__data__;
+  return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
+}
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+function hashSet(key, value) {
+  var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
+  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  return this;
+}
+
+// Add methods to `Hash`.
+Hash.prototype.clear = hashClear;
+Hash.prototype['delete'] = hashDelete;
+Hash.prototype.get = hashGet;
+Hash.prototype.has = hashHas;
+Hash.prototype.set = hashSet;
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+  this.size = 0;
+}
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  --this.size;
+  return true;
+}
+
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  return index < 0 ? undefined : data[index][1];
+}
+
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function listCacheHas(key) {
+  return assocIndexOf(this.__data__, key) > -1;
+}
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function MapCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapCacheClear() {
+  this.size = 0;
+  this.__data__ = {
+    'hash': new Hash,
+    'map': new (Map || ListCache),
+    'string': new Hash
+  };
+}
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapCacheDelete(key) {
+  var result = getMapData(this, key)['delete'](key);
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapCacheGet(key) {
+  return getMapData(this, key).get(key);
+}
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapCacheHas(key) {
+  return getMapData(this, key).has(key);
+}
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapCacheSet(key, value) {
+  var data = getMapData(this, key),
+      size = data.size;
+
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
+  return this;
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapCacheClear;
+MapCache.prototype['delete'] = mapCacheDelete;
+MapCache.prototype.get = mapCacheGet;
+MapCache.prototype.has = mapCacheHas;
+MapCache.prototype.set = mapCacheSet;
+
+/**
+ *
+ * Creates an array cache object to store unique values.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function SetCache(values) {
+  var index = -1,
+      length = values == null ? 0 : values.length;
+
+  this.__data__ = new MapCache;
+  while (++index < length) {
+    this.add(values[index]);
+  }
+}
+
+/**
+ * Adds `value` to the array cache.
+ *
+ * @private
+ * @name add
+ * @memberOf SetCache
+ * @alias push
+ * @param {*} value The value to cache.
+ * @returns {Object} Returns the cache instance.
+ */
+function setCacheAdd(value) {
+  this.__data__.set(value, HASH_UNDEFINED);
+  return this;
+}
+
+/**
+ * Checks if `value` is in the array cache.
+ *
+ * @private
+ * @name has
+ * @memberOf SetCache
+ * @param {*} value The value to search for.
+ * @returns {number} Returns `true` if `value` is found, else `false`.
+ */
+function setCacheHas(value) {
+  return this.__data__.has(value);
+}
+
+// Add methods to `SetCache`.
+SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+SetCache.prototype.has = setCacheHas;
+
+/**
+ * Creates a stack cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Stack(entries) {
+  var data = this.__data__ = new ListCache(entries);
+  this.size = data.size;
+}
+
+/**
+ * Removes all key-value entries from the stack.
+ *
+ * @private
+ * @name clear
+ * @memberOf Stack
+ */
+function stackClear() {
+  this.__data__ = new ListCache;
+  this.size = 0;
+}
+
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      result = data['delete'](key);
+
+  this.size = data.size;
+  return result;
+}
+
+/**
+ * Gets the stack value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Stack
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function stackGet(key) {
+  return this.__data__.get(key);
+}
+
+/**
+ * Checks if a stack value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Stack
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function stackHas(key) {
+  return this.__data__.has(key);
+}
+
+/**
+ * Sets the stack `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Stack
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the stack cache instance.
+ */
+function stackSet(key, value) {
+  var data = this.__data__;
+  if (data instanceof ListCache) {
+    var pairs = data.__data__;
+    if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+      pairs.push([key, value]);
+      this.size = ++data.size;
+      return this;
+    }
+    data = this.__data__ = new MapCache(pairs);
+  }
+  data.set(key, value);
+  this.size = data.size;
+  return this;
+}
+
+// Add methods to `Stack`.
+Stack.prototype.clear = stackClear;
+Stack.prototype['delete'] = stackDelete;
+Stack.prototype.get = stackGet;
+Stack.prototype.has = stackHas;
+Stack.prototype.set = stackSet;
+
+/**
+ * Creates an array of the enumerable property names of the array-like `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
+ */
+function arrayLikeKeys(value, inherited) {
+  var isArr = isArray(value),
+      isArg = !isArr && isArguments(value),
+      isBuff = !isArr && !isArg && isBuffer(value),
+      isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+      skipIndexes = isArr || isArg || isBuff || isType,
+      result = skipIndexes ? baseTimes(value.length, String) : [],
+      length = result.length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty.call(value, key)) &&
+        !(skipIndexes && (
+           // Safari 9 has enumerable `arguments.length` in strict mode.
+           key == 'length' ||
+           // Node.js 0.10 has enumerable non-index properties on buffers.
+           (isBuff && (key == 'offset' || key == 'parent')) ||
+           // PhantomJS 2 has enumerable non-index properties on typed arrays.
+           (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+           // Skip index properties.
+           isIndex(key, length)
+        ))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
+ * `keysFunc` and `symbolsFunc` to get the enumerable property names and
+ * symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @param {Function} symbolsFunc The function to get the symbols of `object`.
+ * @returns {Array} Returns the array of property names and symbols.
+ */
+function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+  var result = keysFunc(object);
+  return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
+}
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+/**
+ * The base implementation of `_.isArguments`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ */
+function baseIsArguments(value) {
+  return isObjectLike(value) && baseGetTag(value) == argsTag;
+}
+
+/**
+ * The base implementation of `_.isEqual` which supports partial comparisons
+ * and tracks traversed objects.
+ *
+ * @private
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @param {boolean} bitmask The bitmask flags.
+ *  1 - Unordered comparison
+ *  2 - Partial comparison
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {Object} [stack] Tracks traversed `value` and `other` objects.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ */
+function baseIsEqual(value, other, bitmask, customizer, stack) {
+  if (value === other) {
+    return true;
+  }
+  if (value == null || other == null || (!isObjectLike(value) && !isObjectLike(other))) {
+    return value !== value && other !== other;
+  }
+  return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
+}
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = objIsArr ? arrayTag : getTag(object),
+      othTag = othIsArr ? arrayTag : getTag(other);
+
+  objTag = objTag == argsTag ? objectTag : objTag;
+  othTag = othTag == argsTag ? objectTag : othTag;
+
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && isBuffer(object)) {
+    if (!isBuffer(other)) {
+      return false;
+    }
+    objIsArr = true;
+    objIsObj = false;
+  }
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
+      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+  }
+  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * The base implementation of `_.isTypedArray` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ */
+function baseIsTypedArray(value) {
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+}
+
+/**
+ * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeys(object) {
+  if (!isPrototype(object)) {
+    return nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for arrays with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Array} array The array to compare.
+ * @param {Array} other The other array to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `array` and `other` objects.
+ * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+ */
+function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+      arrLength = array.length,
+      othLength = other.length;
+
+  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+    return false;
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(array);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var index = -1,
+      result = true,
+      seen = (bitmask & COMPARE_UNORDERED_FLAG) ? new SetCache : undefined;
+
+  stack.set(array, other);
+  stack.set(other, array);
+
+  // Ignore non-index properties.
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, arrValue, index, other, array, stack)
+        : customizer(arrValue, othValue, index, array, other, stack);
+    }
+    if (compared !== undefined) {
+      if (compared) {
+        continue;
+      }
+      result = false;
+      break;
+    }
+    // Recursively compare arrays (susceptible to call stack limits).
+    if (seen) {
+      if (!arraySome(other, function(othValue, othIndex) {
+            if (!cacheHas(seen, othIndex) &&
+                (arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+              return seen.push(othIndex);
+            }
+          })) {
+        result = false;
+        break;
+      }
+    } else if (!(
+          arrValue === othValue ||
+            equalFunc(arrValue, othValue, bitmask, customizer, stack)
+        )) {
+      result = false;
+      break;
+    }
+  }
+  stack['delete'](array);
+  stack['delete'](other);
+  return result;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for comparing objects of
+ * the same `toStringTag`.
+ *
+ * **Note:** This function only supports comparing values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {string} tag The `toStringTag` of the objects to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
+  switch (tag) {
+    case dataViewTag:
+      if ((object.byteLength != other.byteLength) ||
+          (object.byteOffset != other.byteOffset)) {
+        return false;
+      }
+      object = object.buffer;
+      other = other.buffer;
+
+    case arrayBufferTag:
+      if ((object.byteLength != other.byteLength) ||
+          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
+        return false;
+      }
+      return true;
+
+    case boolTag:
+    case dateTag:
+    case numberTag:
+      // Coerce booleans to `1` or `0` and dates to milliseconds.
+      // Invalid dates are coerced to `NaN`.
+      return eq(+object, +other);
+
+    case errorTag:
+      return object.name == other.name && object.message == other.message;
+
+    case regexpTag:
+    case stringTag:
+      // Coerce regexes to strings and treat strings, primitives and objects,
+      // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
+      // for more details.
+      return object == (other + '');
+
+    case mapTag:
+      var convert = mapToArray;
+
+    case setTag:
+      var isPartial = bitmask & COMPARE_PARTIAL_FLAG;
+      convert || (convert = setToArray);
+
+      if (object.size != other.size && !isPartial) {
+        return false;
+      }
+      // Assume cyclic values are equal.
+      var stacked = stack.get(object);
+      if (stacked) {
+        return stacked == other;
+      }
+      bitmask |= COMPARE_UNORDERED_FLAG;
+
+      // Recursively compare objects (susceptible to call stack limits).
+      stack.set(object, other);
+      var result = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+      stack['delete'](object);
+      return result;
+
+    case symbolTag:
+      if (symbolValueOf) {
+        return symbolValueOf.call(object) == symbolValueOf.call(other);
+      }
+  }
+  return false;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for objects with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+      objProps = getAllKeys(object),
+      objLength = objProps.length,
+      othProps = getAllKeys(other),
+      othLength = othProps.length;
+
+  if (objLength != othLength && !isPartial) {
+    return false;
+  }
+  var index = objLength;
+  while (index--) {
+    var key = objProps[index];
+    if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
+      return false;
+    }
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(object);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(object, other);
+  stack.set(other, object);
+
+  var skipCtor = isPartial;
+  while (++index < objLength) {
+    key = objProps[index];
+    var objValue = object[key],
+        othValue = other[key];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, objValue, key, other, object, stack)
+        : customizer(objValue, othValue, key, object, other, stack);
+    }
+    // Recursively compare objects (susceptible to call stack limits).
+    if (!(compared === undefined
+          ? (objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack))
+          : compared
+        )) {
+      result = false;
+      break;
+    }
+    skipCtor || (skipCtor = key == 'constructor');
+  }
+  if (result && !skipCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+
+    // Non `Object` object instances with different constructors are not equal.
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      result = false;
+    }
+  }
+  stack['delete'](object);
+  stack['delete'](other);
+  return result;
+}
+
+/**
+ * Creates an array of own enumerable property names and symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names and symbols.
+ */
+function getAllKeys(object) {
+  return baseGetAllKeys(object, keys, getSymbols);
+}
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+/**
+ * Creates an array of the own enumerable symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of symbols.
+ */
+var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+  if (object == null) {
+    return [];
+  }
+  object = Object(object);
+  return arrayFilter(nativeGetSymbols(object), function(symbol) {
+    return propertyIsEnumerable.call(object, symbol);
+  });
+};
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = baseGetTag(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : '';
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length &&
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+    ? (value !== '__proto__')
+    : (value === null);
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to convert.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+/**
+ * Performs a deep comparison between two values to determine if they are
+ * equivalent.
+ *
+ * **Note:** This method supports comparing arrays, array buffers, booleans,
+ * date objects, error objects, maps, numbers, `Object` objects, regexes,
+ * sets, strings, symbols, and typed arrays. `Object` objects are compared
+ * by their own, not inherited, enumerable properties. Functions and DOM
+ * nodes are compared by strict equality, i.e. `===`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.isEqual(object, other);
+ * // => true
+ *
+ * object === other;
+ * // => false
+ */
+function isEqual(value, other) {
+  return baseIsEqual(value, other);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+function keys(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+}
+
+/**
+ * This method returns a new empty array.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {Array} Returns the new empty array.
+ * @example
+ *
+ * var arrays = _.times(2, _.stubArray);
+ *
+ * console.log(arrays);
+ * // => [[], []]
+ *
+ * console.log(arrays[0] === arrays[1]);
+ * // => false
+ */
+function stubArray() {
+  return [];
+}
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = isEqual;
+
+
+/***/ }),
+
 /***/ 5943:
 /***/ ((module) => {
 
@@ -28752,3042 +31051,6 @@ const Edit = props => {
 
 /***/ }),
 
-/***/ 7337:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./d3Map/BlockSave.js
-
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      layers,
-      height,
-      width,
-      group,
-      backGroundColor,
-      mapPosition,
-      projection,
-      zoomEnabled,
-      rotationEnabled
-    }
-  } = props;
-  const blockProps = external_wp_blockEditor_.useBlockProps.save({
-    className: 'viz component map'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    className: "viz-component",
-    "data-height": height,
-    "data-width": width,
-    "data-group": group,
-    "data-projection": projection,
-    "data-back-ground-color": backGroundColor,
-    "data-map-position": encodeURIComponent(JSON.stringify(mapPosition)),
-    "data-component": "newMap",
-    "data-zoom-enabled": zoomEnabled,
-    "data-rotation-enabled": rotationEnabled,
-    "data-layers": encodeURIComponent(JSON.stringify(layers))
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-// EXTERNAL MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_ = __webpack_require__(1455);
-;// ./d3Map/layers/utils/FileUtils.js
-const getJsonFiles = () => {
-  return wp.apiFetch({
-    path: '/wp/v2/media?per_page=100&mime_type=application/json'
-  });
-};
-/* harmony default export */ const FileUtils = ((/* unused pure expression or super */ null && (undefined)));
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(1609);
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(6087);
-// EXTERNAL MODULE: ./charts/Format.jsx
-var Format = __webpack_require__(1012);
-// EXTERNAL MODULE: ./commons/Util.jsx
-var Util = __webpack_require__(434);
-// EXTERNAL MODULE: ./commons/APIutils.js
-var APIutils = __webpack_require__(8203);
-;// ./d3Map/layers/utils/MapMeasures.jsx
-
-
-
-
-
-
-const defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const Measures = props => {
-  const {
-    onMeasuresChange,
-    onFormatChange,
-    onSetSingleMeasure,
-    allMeasures,
-    setAttributes,
-    panelStatus,
-    layer: {
-      measures,
-      app,
-      format
-    }
-  } = props;
-  const MCheckbox = ({
-    measure
-  }) => {
-    const userMeasure = measures ? measures[measure.value] : {};
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
-      label: (0,APIutils/* getTranslation */.sC)(measure),
-      checked: measures.indexOf(measure.value) > -1,
-      onChange: value => onSetSingleMeasure(measure.value)
-    });
-  };
-  const countSelected = g => {
-    const groupMeasures = allMeasures.filter(m => m.group.label === g).map(m => m.value);
-    if (groupMeasures.length > 0) {
-      return groupMeasures.filter(m => measures.includes(m)).length;
-    }
-    return 0;
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Measures"),
-    children: [allMeasures && [...new Set(allMeasures.map(p => (0,APIutils/* getTranslation */.sC)(p.group)))].map(g => {
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        onToggle: e => (0,Util/* togglePanel */.Pj)(g, panelStatus, setAttributes),
-        title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group.label === g).length} ) `,
-        children: allMeasures.filter(f => (0,APIutils/* getTranslation */.sC)(f.group) === g).map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MCheckbox, {
-              measure: m
-            })
-          })
-        }))
-      });
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-      format: format ? format : defaultFormat,
-      hiddenCustomAxisFormat: true,
-      onFormatChange: format => {
-        onFormatChange(format);
-      }
-    })]
-  });
-};
-/* harmony default export */ const MapMeasures = (Measures);
-;// ./d3Map/layers/utils/Property.jsx
-
-
-const Property = ({
-  features,
-  onChangeProperty,
-  value,
-  property,
-  title,
-  type = 'toggle'
-}) => {
-  const properties = features && features.length > 0 ? features[0].properties : {};
-  let attributes = Object.keys(properties);
-  if (type == "toggle") {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: "close",
-      title: title,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "None",
-          checked: value == "none",
-          onChange: value => {
-            onChangeProperty(property, "none");
-          }
-        })
-      }), attributes.map(k => {
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: k,
-            checked: value == k,
-            onChange: value => {
-              onChangeProperty(property, value ? k : "none");
-            }
-          })
-        });
-      })]
-    });
-  } else {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: title,
-        value: [value],
-        onChange: value => {
-          onChangeProperty(property, value);
-        },
-        options: [{
-          label: "None",
-          value: 'none'
-        }, ...attributes.map(k => ({
-          label: k,
-          value: k
-        }))]
-      })
-    });
-  }
-};
-/* harmony default export */ const utils_Property = (Property);
-;// ./d3Map/layers/utils/BreaksGenerator.jsx
-
-
-
-
-var ss = __webpack_require__(2037);
-const BreaksGenerator = ({
-  onChangeProperty,
-  breaks = [],
-  defaultFillColor,
-  defaultBorderColor,
-  showSize
-}) => {
-  const add = () => {
-    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
-    if (graterThanBreaks.length === 0) {
-      graterThanBreaks = [{
-        start: 0,
-        end: 1,
-        color: defaultFillColor,
-        borderColor: defaultBorderColor,
-        size: 1,
-        type: 'graterThan'
-      }];
-    }
-    const newBreaks = [...lessThanBreaks];
-    newBreaks.push({
-      start: 0,
-      end: 1,
-      color: defaultFillColor,
-      borderColor: defaultBorderColor,
-      size: 1,
-      type: 'lessThan'
-    });
-    //keep grater than break at the end
-    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
-  };
-  const update = (property, index, value) => {
-    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
-    const newBreaks = [...lessThanBreaks];
-    newBreaks[index][property] = value;
-    graterThanBreaks[0].end = lessThanBreaks[lessThanBreaks.length - 1].end;
-    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
-  };
-  const remove = index => {
-    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
-    let lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    const newBreaks = [...lessThanBreaks];
-    newBreaks.splice(index, 1);
-    if (newBreaks.length > 0) {
-      graterThanBreaks[0].end = lessThanBreaks[newBreaks.length - 1].end;
-    }
-    if (newBreaks.length == 0) {
-      graterThanBreaks = [];
-    }
-    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
-  };
-  const updateGraterThan = (property, value) => {
-    const graterThanBreak = breaks.filter(b => b.type == 'graterThan')[0];
-    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    graterThanBreak[property] = value;
-    onChangeProperty("breaks", [...lessThanBreaks, graterThanBreak]);
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-        variant: "primary",
-        onClick: e => add(),
-        children: "Add Break"
-      })
-    }), breaks.map((br, index) => {
-      if (br.type == 'lessThan') {
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: "Less than (" + br.end + ")",
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              type: "Number",
-              label: (0,external_wp_i18n_.__)("Value", "dg"),
-              value: br.end,
-              onChange: value => update("end", index, value)
-            })
-          }), showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: "Size",
-              value: br.size,
-              onChange: value => {
-                update("size", index, value);
-              },
-              step: 1,
-              min: 0,
-              max: 200
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)(`Fill Color`),
-            colorSettings: [{
-              value: br.color,
-              onChange: fillColor => {
-                update("color", index, fillColor);
-              }
-            }]
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-              variant: "primary",
-              onClick: e => remove(index),
-              children: "Remove This"
-            })
-          })]
-        });
-      }
-      if (br.type == 'graterThan') {
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: "Grater than (" + br.end + ")",
-          children: [showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: "Size",
-              value: br.size,
-              onChange: value => {
-                updateGraterThan("size", value);
-              },
-              step: 1,
-              min: 0,
-              max: 200
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-              title: (0,external_wp_i18n_.__)(`Fill Color`),
-              colorSettings: [{
-                value: br.color,
-                onChange: fillColor => {
-                  updateGraterThan("color", fillColor);
-                }
-              }]
-            })
-          })]
-        });
-      }
-    })]
-  });
-};
-/* harmony default export */ const utils_BreaksGenerator = (BreaksGenerator);
-// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.2/node_modules/papaparse/papaparse.min.js
-var papaparse_min = __webpack_require__(1926);
-var papaparse_min_default = /*#__PURE__*/__webpack_require__.n(papaparse_min);
-;// ./d3Map/layers/utils/CSVPatternGenerator.jsx
-
-
-
-
-
-const defaultPatternColor = "#000000";
-const Patterns = ({
-  csv,
-  app,
-  onChangeProperty,
-  patterns,
-  patternDiscriminator,
-  defaultFillColor
-}) => {
-  const patternsOptions = [{
-    label: 'Lines',
-    value: 'lines'
-  }, {
-    label: 'Dots',
-    value: 'dots'
-  }, {
-    label: 'Squares',
-    value: 'squares'
-  }, {
-    label: 'Triangle',
-    value: 'triangle'
-  }];
-  const data = papaparse_min_default().parse(csv, {
-    header: true,
-    dynamicTyping: true
-  });
-  const fieldsOptions = data ? data.meta.fields.map(f => {
-    return {
-      label: f,
-      value: f
-    };
-  }) : [];
-  const values = patternDiscriminator != 'none' ? [...new Set(data.data.filter(d => d[patternDiscriminator] != null && d[patternDiscriminator].toString().trim() !== "").map(d => d[patternDiscriminator].toString().trim()))] : [];
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    title: "Patterns",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)("Discriminator"),
-        value: patternDiscriminator,
-        onChange: v => {
-          onChangeProperty('patternDiscriminator', v);
-        },
-        options: [{
-          label: "None",
-          value: "none"
-        }, ...fieldsOptions]
-      })
-    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: field,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: "Symbol",
-          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
-          onChange: v => {
-            onChangeProperty('patterns', {
-              ...patterns,
-              [field + '_symbol']: v
-            });
-          },
-          options: [{
-            label: "None",
-            value: "none"
-          }, ...patternsOptions]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Color`),
-          colorSettings: [{
-            value: patterns[field + '_color'] ? patterns[field + '_color'] : defaultPatternColor,
-            label: (0,external_wp_i18n_.__)('Fill Color'),
-            onChange: color => {
-              onChangeProperty('patterns', {
-                ...patterns,
-                [field + '_color']: color
-              });
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-          label: (0,external_wp_i18n_.__)("Rotation"),
-          onChange: value => onChangeProperty('patterns', {
-            ...patterns,
-            [field + '_rotation']: value
-          }),
-          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
-        })
-      })]
-    }))]
-  });
-};
-/* harmony default export */ const CSVPatternGenerator = (Patterns);
-;// ./d3Map/layers/utils/AppPatternGenerator.jsx
-
-
-
-
-
-const AppPatternGenerator_defaultPatternColor = "#000000";
-const AppPatternGenerator_Patterns = ({
-  allCategories,
-  allDimensions,
-  app,
-  onChangeProperty,
-  patterns,
-  patternDiscriminator,
-  patternDiscriminatorLabel,
-  defaultFillColor
-}) => {
-  const patternsOptions = [{
-    label: 'Lines',
-    value: 'lines'
-  }, {
-    label: 'Dots',
-    value: 'dots'
-  }, {
-    label: 'Squares',
-    value: 'squares'
-  }, {
-    label: 'Triangle',
-    value: 'triangle'
-  }];
-  const dims = allDimensions ? allDimensions : [];
-  const cats = patternDiscriminator && allCategories ? allCategories.filter(c => c.type.toUpperCase() == patternDiscriminator.toUpperCase()) : [];
-  console.log(cats);
-  const items = cats.length > 0 ? cats[0].items : [];
-  const values = items.map(i => i.value);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    title: "Patterns",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)("Discriminator"),
-        value: patternDiscriminator,
-        onChange: v => {
-          onChangeProperty('patternDiscriminator', v);
-        },
-        options: [...dims]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-        label: (0,external_wp_i18n_.__)("Label"),
-        value: patternDiscriminatorLabel,
-        onChange: v => {
-          onChangeProperty('patternDiscriminatorLabel', v);
-        }
-      })
-    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: field,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: "Symbol",
-          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
-          onChange: v => {
-            onChangeProperty('patterns', {
-              ...patterns,
-              [field + '_symbol']: v
-            });
-          },
-          options: [{
-            label: "None",
-            value: "none"
-          }, ...patternsOptions]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Color`),
-          colorSettings: [{
-            value: patterns[field + '_color'] ? patterns[field + '_color'] : AppPatternGenerator_defaultPatternColor,
-            label: (0,external_wp_i18n_.__)('Fill Color'),
-            onChange: color => {
-              onChangeProperty('patterns', {
-                ...patterns,
-                [field + '_color']: color
-              });
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-          label: (0,external_wp_i18n_.__)("Rotation"),
-          onChange: value => onChangeProperty('patterns', {
-            ...patterns,
-            [field + '_rotation']: value
-          }),
-          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
-        })
-      })]
-    }))]
-  });
-};
-/* harmony default export */ const AppPatternGenerator = (AppPatternGenerator_Patterns);
-;// ./d3Map/layers/utils/PatternGenerator.jsx
-
-
-
-
-
-
-
-const PatternGenerator_Patterns = props => {
-  const {
-    app
-  } = props;
-  if (app == "csv") {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CSVPatternGenerator, {
-      ...props
-    });
-  } else {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(AppPatternGenerator, {
-      ...props
-    });
-  }
-};
-/* harmony default export */ const PatternGenerator = (PatternGenerator_Patterns);
-;// ./d3Map/layers/Data.jsx
-
-
-
-
-
-
-
-
-
-
-
-const FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      /*
-          var aValue= a.value ? a.value.toLowerCase() : "";
-          var bValue = b.value ? b.value.toLowerCase() : "";
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      */
-      return a.position - b.position;
-    });
-    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })]
-    }));
-  } else {
-    return null;
-  }
-};
-class DataLayerSetting extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.getCSValue = this.getCSValue.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  onFormatChange(format, field) {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      features,
-      apps,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        fillColor,
-        borderColor,
-        breaks,
-        markFillColor,
-        markBorderColor,
-        markSizeScale,
-        tooltip
-      }
-    } = this.props;
-    onChangeProperty("format", format);
-  }
-  getCSValue() {
-    const {
-      apps,
-      features,
-      layer: {
-        csv,
-        featureJoinAttribute
-      }
-    } = this.props;
-    if (csv == '') {
-      let generatedCSV = 'id,value\n';
-      if (features && features.length > 0) {
-        features.forEach(f => {
-          generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
-        });
-      }
-      return generatedCSV;
-    }
-    return csv;
-  }
-  cleanSelection(prevState) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", []);
-    onChangeProperty("filters", []);
-
-    //setAttributes({measures: [], filters: []})
-  }
-  updateFilterParam(param, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  updateFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  setFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  addFilter() {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  removeFilter(f) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    onChangeProperty("filters", newFilters);
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      onChangeProperty,
-      layer: {
-        type,
-        dimension2,
-        types
-      }
-    } = this.props;
-    const {
-      layer: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-  }
-  onSetSingleMeasure(value) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", [value]);
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  }
-  render() {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      allCategories,
-      allDatasets,
-      features,
-      apps,
-      layer,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        useCentroidPoint,
-        useBreaks,
-        fillColor,
-        borderColor,
-        format,
-        breaks,
-        labelFontSize,
-        markFillColor,
-        markLabelColor,
-        markBorderColor,
-        markSizeScale,
-        markerLabelSize,
-        tooltip,
-        usePattern,
-        patterns,
-        customMeasuresLabels,
-        patternDiscriminator,
-        onRemoveLayer,
-        onMoveLayer,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    let selectedMeasureLabel = "";
-    let selectedMeasureValue = "";
-    if (app != 'csv') {
-      const theMeasure = measures ? measures[0] : null;
-      const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null;
-      if (selectedMeasure) {
-        selectedMeasureLabel = selectedMeasure.label;
-        selectedMeasureValue = selectedMeasure.value;
-        if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
-          onChangeProperty("customMeasuresLabels", {
-            ...customMeasuresLabels,
-            [selectedMeasureValue]: selectedMeasureLabel
-          });
-        }
-      }
-    }
-    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Data Source",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)("App", "dg"),
-          value: [app] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: app => {
-            onChangeProperty("app", app);
-          },
-          options: apps
-        })
-      }), (0,APIutils/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Datasets'),
-          value: [dvzProxyDatasetId],
-          onChange: newDatasetId => {
-            onChangeProperty("dvzProxyDatasetId", newDatasetId);
-          },
-          options: allDatasets
-        })
-      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
-        property: "featureJoinAttribute",
-        type: "select",
-        onChangeProperty: onChangeProperty,
-        features: features,
-        value: featureJoinAttribute,
-        title: "Shape Attribute"
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("CSV Data"),
-          value: this.getCSValue(csv),
-          onChange: csv => onChangeProperty("csv", csv)
-        })
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-          title: "Format",
-          format: format,
-          hiddenCustomAxisFormat: true,
-          onFormatChange: this.onFormatChange
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Dimension' + (type == 'dataPoints' ? 'LatLong' : ''),
-          value: [apiJoinAttribute] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: value => {
-            onChangeProperty("apiJoinAttribute", value);
-          },
-          options: allDimensions
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("Tooltip"),
-          value: tooltip,
-          help: (0,external_wp_i18n_.__)("You can use variables {var_name}"),
-          onChange: tooltip => onChangeProperty("tooltip", tooltip),
-          rows: 10
-        })
-      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-          style: {
-            "margin-top": "calc(8px)",
-            "font-size": "12px",
-            "font-style": "normal",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: "{" + m.value + "}"
-        })
-      }))]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
-        onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
-        measures: layer.measures,
-        format: layer.format,
-        ...this.props
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Filters"),
-        children: [filters.map((f, index) => {
-          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(FilterSelector, {
-              param: f.param,
-              index: index,
-              options: allFilters,
-              onUpdateFilterParam: this.updateFilterParam
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CategoricalFilter, {
-              value: f.value,
-              index: index,
-              items: this.items(f.type),
-              onUpdateFilterValue: this.updateFilterValue
-            })]
-          });
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.addFilter,
-            children: (0,external_wp_i18n_.__)("Add Filter")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.removeFilter,
-            children: (0,external_wp_i18n_.__)("Remove")
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Symbols and Styles",
-      children: [app != "csv" && selectedMeasureValue && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: selectedMeasureLabel,
-          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
-          value: customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : "",
-          onChange: measureLabel => {
-            onChangeProperty("customMeasuresLabels", {
-              ...customMeasuresLabels,
-              [selectedMeasureValue]: measureLabel
-            });
-          }
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Default Fill Color`),
-          value: fillColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: fillColor,
-            onChange: fillColor => {
-              onChangeProperty("fillColor", fillColor);
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Centroid Points",
-          checked: useCentroidPoint,
-          onChange: value => {
-            onChangeProperty("useCentroidPoint", true);
-          }
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Shape Colors",
-          checked: !useCentroidPoint,
-          onChange: value => {
-            onChangeProperty("useCentroidPoint", false);
-          }
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Point Base Size",
-          value: markSizeScale,
-          onChange: value => {
-            onChangeProperty("markSizeScale", value);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Point Label Size",
-          value: markerLabelSize,
-          onChange: markerLabelSize => {
-            onChangeProperty("markerLabelSize", markerLabelSize);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Circle Fill Color`),
-          value: markFillColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markFillColor,
-            onChange: markFillColor => {
-              onChangeProperty("markFillColor", markFillColor);
-            }
-          }]
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Circle Label Color`),
-          value: markLabelColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markLabelColor,
-            onChange: markLabelColor => {
-              onChangeProperty("markLabelColor", markLabelColor);
-            }
-          }]
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Circle Border Color`),
-          value: borderColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markBorderColor,
-            onChange: borderColor => {
-              onChangeProperty("markBorderColor", borderColor);
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Breaks",
-          checked: useBreaks,
-          onChange: e => {
-            onChangeProperty("useBreaks", !useBreaks);
-          }
-        })
-      }), useBreaks && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
-        showSize: useCentroidPoint,
-        defaultBorderColor: markBorderColor,
-        defaultFillColor: markFillColor,
-        onChangeProperty: onChangeProperty,
-        breaks: breaks
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Patterns",
-          checked: usePattern,
-          onChange: e => {
-            onChangeProperty("usePattern", !usePattern);
-          }
-        })
-      }), usePattern && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(PatternGenerator, {
-        allCategories: allCategories,
-        allDimensions: allDimensions,
-        defaultFillColor: fillColor,
-        onChangeProperty: onChangeProperty,
-        patterns: patterns,
-        app: app,
-        csv: csv,
-        patternDiscriminator: patternDiscriminator
-      })]
-    })];
-  }
-}
-/* harmony default export */ const Data = (DataLayerSetting);
-;// ./d3Map/layers/Flow.jsx
-
-
-
-
-
-
-
-
-
-
-
-const Flow_FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const Flow_CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      /*
-          var aValue= a.value ? a.value.toLowerCase() : "";
-          var bValue = b.value ? b.value.toLowerCase() : "";
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      */
-      return a.position - b.position;
-    });
-    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })]
-    }));
-  } else {
-    return null;
-  }
-};
-class Flow_DataLayerSetting extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.getCSValue = this.getCSValue.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  onFormatChange(format, field) {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      features,
-      apps,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        fillColor,
-        borderColor,
-        breaks,
-        markFillColor,
-        markBorderColor,
-        markSizeScale,
-        tooltip
-      }
-    } = this.props;
-    onChangeProperty("format", format);
-  }
-  getCSValue() {
-    const {
-      apps,
-      features,
-      layer: {
-        csv,
-        featureJoinAttribute
-      }
-    } = this.props;
-    if (csv == '') {
-      let generatedCSV = 'id,origin,destination,value\n';
-      if (features && features.length > 0) {
-        features.forEach(f => {
-          generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
-        });
-      }
-      return generatedCSV;
-    }
-    return csv;
-  }
-  cleanSelection(prevState) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", []);
-    onChangeProperty("filters", []);
-
-    //setAttributes({measures: [], filters: []})
-  }
-  updateFilterParam(param, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  updateFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  setFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  addFilter() {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  removeFilter(f) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    onChangeProperty("filters", newFilters);
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      onChangeProperty,
-      layer: {
-        type,
-        dimension2,
-        types
-      }
-    } = this.props;
-    const {
-      layer: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-  }
-  onSetSingleMeasure(value) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", [value]);
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  }
-  render() {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      allCategories,
-      features,
-      apps,
-      allDatasets,
-      layer,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        useCentroidPoint,
-        useBreaks,
-        fillColor,
-        borderColor,
-        format,
-        breaks,
-        labelFontSize,
-        markFillColor,
-        markFillColor2,
-        markLabelColor,
-        markBorderColor,
-        markBorderColor2,
-        markSizeScale,
-        markSizeScale2,
-        markerLabelSize,
-        tooltip,
-        usePattern,
-        patterns,
-        customMeasuresLabels,
-        patternDiscriminator,
-        flowOrigin,
-        flowDestination,
-        onRemoveLayer,
-        flowValuesFrom,
-        dvzProxyDatasetId,
-        offsetPixels
-      }
-    } = this.props;
-    let selectedMeasureLabel = "";
-    let selectedMeasureValue = "";
-    if (app != 'csv') {
-      const theMeasure = measures ? measures[0] : null;
-      const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null;
-      if (selectedMeasure) {
-        selectedMeasureLabel = selectedMeasure.label;
-        selectedMeasureValue = selectedMeasure.value;
-        if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
-          onChangeProperty("customMeasuresLabels", {
-            ...customMeasuresLabels,
-            [selectedMeasureValue]: selectedMeasureLabel
-          });
-        }
-      }
-    }
-    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Data Source",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)("App", "dg"),
-          value: [app] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: app => {
-            onChangeProperty("app", app);
-          },
-          options: apps
-        })
-      }), (0,APIutils/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Datasets'),
-          value: [dvzProxyDatasetId],
-          onChange: newDatasetId => {
-            onChangeProperty("dvzProxyDatasetId", newDatasetId);
-          },
-          options: allDatasets
-        })
-      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
-        property: "featureJoinAttribute",
-        type: "select",
-        onChangeProperty: onChangeProperty,
-        features: features,
-        value: featureJoinAttribute,
-        title: "Shape Attribute"
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("CSV Data"),
-          value: this.getCSValue(csv),
-          onChange: csv => onChangeProperty("csv", csv)
-        })
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-          title: "Format",
-          format: format,
-          hiddenCustomAxisFormat: true,
-          onFormatChange: this.onFormatChange
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Origin',
-          value: [flowOrigin] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: value => {
-            onChangeProperty("flowOrigin", value);
-          },
-          options: allDimensions
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Destination',
-          value: [flowDestination] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: value => {
-            onChangeProperty("flowDestination", value);
-          },
-          options: allDimensions
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("Tooltip"),
-          value: tooltip,
-          help: (0,external_wp_i18n_.__)("You can use variables, i.e: From {origin_name} to {target_name} : {value}"),
-          onChange: tooltip => onChangeProperty("tooltip", tooltip),
-          rows: 10
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-          className: "components-base-control__help",
-          style: {
-            "display": "block",
-            "text-align": "left",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: [app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
-            children: ["{", m.value, "}"]
-          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
-            children: ["All features attributes are available as variables, use origin_ prefix for origin attributes and use target_ prefix for destination attributes i.e From ", "{", "origin_name", "}", " to ", "{", "target_name", "}", " : ", "{", "value", "}"]
-          })]
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
-        onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
-        measures: layer.measures,
-        format: layer.format,
-        ...this.props
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Filters"),
-        children: [filters.map((f, index) => {
-          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_FilterSelector, {
-              param: f.param,
-              index: index,
-              options: allFilters,
-              onUpdateFilterParam: this.updateFilterParam
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_CategoricalFilter, {
-              value: f.value,
-              index: index,
-              items: this.items(f.type),
-              onUpdateFilterValue: this.updateFilterValue
-            })]
-          });
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.addFilter,
-            children: (0,external_wp_i18n_.__)("Add Filter")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.removeFilter,
-            children: (0,external_wp_i18n_.__)("Remove")
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Symbols and Styles",
-      children: [app != "csv" && selectedMeasureValue && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: selectedMeasureLabel,
-          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
-          value: customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : "",
-          onChange: measureLabel => {
-            onChangeProperty("customMeasuresLabels", {
-              ...customMeasuresLabels,
-              [selectedMeasureValue]: measureLabel
-            });
-          }
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Colors`),
-        value: borderColor,
-        colorSettings: [{
-          label: (0,external_wp_i18n_.__)('Border'),
-          clearable: true,
-          enableAlpha: true,
-          value: markBorderColor,
-          onChange: borderColor => {
-            onChangeProperty("markBorderColor", borderColor);
-          }
-        }, {
-          label: (0,external_wp_i18n_.__)('Fill'),
-          clearable: true,
-          enableAlpha: true,
-          value: markFillColor,
-          onChange: markFillColor => {
-            onChangeProperty("markFillColor", markFillColor);
-          }
-        }]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Circle Size",
-          value: markSizeScale,
-          onChange: value => {
-            onChangeProperty("markSizeScale", value);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Line Size",
-          value: markSizeScale2,
-          onChange: value => {
-            onChangeProperty("markSizeScale2", value);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Offset Size",
-          value: offsetPixels,
-          onChange: offsetPixels => {
-            onChangeProperty("offsetPixels", offsetPixels);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-        title: (0,external_wp_i18n_.__)("Breaks"),
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
-          showSize: true,
-          defaultBorderColor: markBorderColor,
-          defaultFillColor: markFillColor,
-          onChangeProperty: onChangeProperty,
-          breaks: breaks
-        })
-      })]
-    })];
-  }
-}
-/* harmony default export */ const Flow = (Flow_DataLayerSetting);
-// EXTERNAL MODULE: ./commons/Measures.jsx
-var commons_Measures = __webpack_require__(1997);
-;// ./d3Map/layers/LatLong.jsx
-
-
-
-
-
-
-
-
-
-const compareJsonProps = (p1, p2) => {
-  return JSON.stringify(p1) === JSON.stringify(p2);
-};
-const LatLong_FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const LatLong_CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      /*
-          var aValue= a.value ? a.value.toLowerCase() : "";
-          var bValue = b.value ? b.value.toLowerCase() : "";
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      */
-      return a.position - b.position;
-    });
-    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })]
-    }));
-  } else {
-    return null;
-  }
-};
-class LatLong_DataLayerSetting extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.getCSValue = this.getCSValue.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  onFormatChange(format) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("format", format);
-  }
-  getCSValue() {
-    const {
-      apps,
-      features,
-      layer: {
-        csv,
-        featureJoinAttribute
-      }
-    } = this.props;
-    if (csv == '') {
-      let generatedCSV = 'Latitude,Longitude,value\n';
-      if (features && features.length > 0) {
-        features.forEach(f => {
-          generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
-        });
-      }
-      return generatedCSV;
-    }
-    return csv;
-  }
-  cleanSelection(prevState) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", []);
-    onChangeProperty("filters", []);
-
-    //setAttributes({measures: [], filters: []})
-  }
-  updateFilterParam(param, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  updateFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  setFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  addFilter() {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  removeFilter(f) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    onChangeProperty("filters", newFilters);
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      onChangeProperty,
-      allCategories,
-      layer: {
-        type,
-        dimension2,
-        types
-      }
-    } = this.props;
-    const {
-      allCategories: prevAllCategories,
-      layer: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-    if (!compareJsonProps(allCategories, prevAllCategories)) {
-      onChangeProperty("allCategories", allCategories);
-    }
-  }
-  onSetSingleMeasure(value) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", [value]);
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  }
-  render() {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      allCategories,
-      allDatasets,
-      features,
-      apps,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        format,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        useCentroidPoint,
-        fillColor,
-        borderColor,
-        useBreaks,
-        breaks,
-        pointStyleBy,
-        dimension2,
-        pointDimensionStyles = [],
-        markFillColor,
-        markBorderColor,
-        markSizeScale,
-        tooltip,
-        visible = true,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : [];
-    const items = cats.length > 0 ? cats[0].items : [];
-    const dimensionValues = items.map(i => i.value);
-    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Data Source",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)("App", "dg"),
-          value: [app] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: app => {
-            onChangeProperty("app", app);
-          },
-          options: apps
-        })
-      }), (0,APIutils/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Datasets'),
-          value: [dvzProxyDatasetId],
-          onChange: newDatasetId => {
-            onChangeProperty("dvzProxyDatasetId", newDatasetId);
-          },
-          options: allDatasets
-        })
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("CSV Data"),
-          value: this.getCSValue(csv),
-          onChange: csv => onChangeProperty("csv", csv)
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Dimension',
-          value: [apiJoinAttribute] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: value => {
-            onChangeProperty("apiJoinAttribute", value);
-          },
-          options: allDimensions
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("Tooltip"),
-          value: tooltip,
-          help: (0,external_wp_i18n_.__)(`You can use the following variables: `),
-          onChange: tooltip => onChangeProperty("tooltip", tooltip),
-          rows: 10
-        })
-      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-          style: {
-            "margin-top": "calc(8px)",
-            "font-size": "12px",
-            "font-style": "normal",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: "{" + m.value + "}"
-        })
-      })), app != 'csv' && pointStyleBy === 'dimension' && dimension2 != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-          style: {
-            "margin-top": "calc(8px)",
-            "font-size": "12px",
-            "font-style": "normal",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: "{" + dimension2 + "}"
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Filters"),
-        children: [filters.map((f, index) => {
-          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_FilterSelector, {
-              param: f.param,
-              index: index,
-              options: allFilters,
-              onUpdateFilterParam: this.updateFilterParam
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_CategoricalFilter, {
-              value: f.value,
-              index: index,
-              items: this.items(f.type),
-              onUpdateFilterValue: this.updateFilterValue
-            })]
-          });
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.addFilter,
-            children: (0,external_wp_i18n_.__)("Add Filter")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.removeFilter,
-            children: (0,external_wp_i18n_.__)("Remove")
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Symbols and Styles",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)(`Default Points Size`),
-          value: markSizeScale,
-          onChange: value => {
-            onChangeProperty("markSizeScale", value);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Default Fill Color`),
-          value: markFillColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markFillColor,
-            onChange: markFillColor => {
-              onChangeProperty("markFillColor", markFillColor);
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Default Border Color`),
-          value: borderColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markBorderColor,
-            onChange: borderColor => {
-              onChangeProperty("markBorderColor", borderColor);
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: "Point styles by",
-          value: pointStyleBy ? pointStyleBy : 'none',
-          onChange: v => {
-            onChangeProperty('pointStyleBy', v);
-          },
-          options: [{
-            label: "None",
-            value: "none"
-          }, {
-            label: "Dimension",
-            value: "dimension"
-          }, {
-            label: "Measure",
-            value: "measure"
-          }]
-        })
-      }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(commons_Measures/* default */.A, {
-        onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
-        measures: measures,
-        format: format,
-        ...this.props
-      }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
-        showSize: useCentroidPoint,
-        defaultBorderColor: markBorderColor,
-        defaultFillColor: markFillColor,
-        onChangeProperty: onChangeProperty,
-        breaks: breaks
-      }), pointStyleBy === 'dimension' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Dimension',
-          value: [dimension2],
-          onChange: value => {
-            onChangeProperty("dimension2", value);
-          },
-          options: allDimensions
-        })
-      }), pointStyleBy === 'dimension' && dimensionValues.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: field,
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-            label: (0,external_wp_i18n_.__)(`Point Size`),
-            value: pointDimensionStyles[field + '_size'] ? pointDimensionStyles[field + '_size'] : markSizeScale,
-            onChange: v => {
-              onChangeProperty('pointDimensionStyles', {
-                ...pointDimensionStyles,
-                [field + '_size']: v
-              });
-            },
-            step: 1,
-            min: 0,
-            max: 100
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)(`Point Fill Color`),
-            value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor,
-            colorSettings: [{
-              clearable: true,
-              enableAlpha: true,
-              value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor,
-              onChange: v => {
-                onChangeProperty('pointDimensionStyles', {
-                  ...pointDimensionStyles,
-                  [field + '_color']: v
-                });
-              }
-            }]
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)(`Point Border Color`),
-            value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor,
-            colorSettings: [{
-              clearable: true,
-              enableAlpha: true,
-              value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor,
-              onChange: v => {
-                onChangeProperty('pointDimensionStyles', {
-                  ...pointDimensionStyles,
-                  [field + '_border']: v
-                });
-              }
-            }]
-          })
-        })]
-      }))]
-    })];
-  }
-}
-/* harmony default export */ const LatLong = (LatLong_DataLayerSetting);
-;// ./d3Map/layers/Base.jsx
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const typeOptions = [{
-  label: "Base",
-  value: "base"
-}, {
-  label: "Data Shape",
-  value: "data"
-}, {
-  label: "FLow layer ",
-  value: "flow"
-}, {
-  label: "Data Points ",
-  value: "dataPoints"
-}];
-const toOptions = files => {
-  return [{
-    label: 'None',
-    value: 'none'
-  }, ...files.map(file => {
-    return {
-      label: file.title.rendered,
-      value: file.source_url
-    };
-  })];
-};
-const Base = props => {
-  const {
-    onChange,
-    metadata,
-    layer,
-    layer: {
-      name,
-      shapeColor,
-      labelFilter,
-      type,
-      file,
-      app,
-      labelField,
-      visible
-    }
-  } = props;
-  const [files, setFiles] = (0,external_wp_element_.useState)([]);
-  const [features, setFeatures] = (0,external_wp_element_.useState)([]);
-  (0,external_React_.useEffect)(() => {
-    getJsonFiles().then(files => {
-      setFiles(toOptions(files));
-    });
-  }, []);
-  (0,external_React_.useEffect)(() => {
-    fetch(file).then(response => response.json()).then(data => {
-      setFeatures(data.features);
-    });
-  }, [layer.file]);
-  const onChangeProperty = (atrr, value) => {
-    console.log("change attribute " + atrr + " to " + value);
-    const newLayer = {
-      ...layer
-    };
-    newLayer[atrr] = value;
-    onChange(newLayer);
-  };
-  const datasets = [{
-    label: 'Select Dataset',
-    value: '0'
-  }];
-  if (metadata.datasets) {
-    metadata.datasets.forEach(d => {
-      datasets.push({
-        label: d.label,
-        value: d.id
-      });
-    });
-  }
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-      type: "String",
-      label: (0,external_wp_i18n_.__)("Name", "dg"),
-      onChange: name => onChangeProperty("name", name),
-      value: name
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-      label: "Default visible",
-      checked: visible,
-      onChange: e => {
-        onChangeProperty("visible", !visible);
-      }
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-      label: (0,external_wp_i18n_.__)("Type", "dg"),
-      value: type,
-      onChange: type => onChangeProperty("type", type),
-      options: typeOptions
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-    children: type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        type: "String",
-        label: "File",
-        onChange: file => onChangeProperty("file", file),
-        value: file,
-        options: files
-      })
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-    children: type != 'dataPoints' && type != 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: "Colors",
-      initialOpen: false,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Fill Color`),
-        colorSettings: [{
-          clearable: true,
-          enableAlpha: true,
-          value: layer.fillColor,
-          onChange: fillColor => {
-            if (fillColor != null) {
-              onChangeProperty("fillColor", fillColor);
-            } else {
-              onChangeProperty("fillColor", "transparent");
-            }
-          }
-        }]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Border Color`),
-        colorSettings: [{
-          value: layer.borderColor,
-          clearable: true,
-          enableAlpha: true,
-          onChange: borderColor => {
-            onChangeProperty("borderColor", borderColor);
-          }
-        }]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Label Color`),
-        label: "Color",
-        colorSettings: [{
-          clearable: true,
-          enableAlpha: true,
-          value: layer.labelColor,
-          onChange: labelColor => {
-            onChangeProperty("labelColor", labelColor);
-          }
-        }]
-      })]
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-    children: [type != 'dataPoints' && type != 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: "Labels",
-      initialOpen: false,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
-        title: "Label Field",
-        property: "labelField",
-        value: labelField,
-        onChangeProperty: onChangeProperty,
-        features: features
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Size",
-          value: layer.labelFontSize,
-          onChange: labelFontSize => onChangeProperty("labelFontSize", labelFontSize),
-          min: 1,
-          step: 1,
-          max: 100
-        })
-      }), labelField != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Labels"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: "None/All",
-            checked: labelFilter.length == 0,
-            onChange: checked => {
-              if (!checked) {
-                onChangeProperty("labelFilter", features.map(f => f.properties[labelField]));
-              } else {
-                onChangeProperty("labelFilter", []);
-              }
-            }
-          })
-        }), features && features.sort(f => f.properties[labelField]).map(feature => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: feature.properties[labelField],
-              checked: labelFilter.indexOf(feature.properties[labelField]) == -1,
-              onChange: selected => {
-                onChangeProperty("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]));
-              }
-            })
-          }), labelFilter.indexOf(feature.properties[labelField]) == -1 && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Rotation"),
-            initialOpen: false,
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-                label: "Offset X",
-                min: -500,
-                max: 500,
-                value: layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0,
-                onChange: offsetX => onChangeProperty("labelSettings", {
-                  ...layer.labelSettings,
-                  [feature.properties[labelField] + "_offsetX"]: offsetX
-                })
-              })
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-                label: "Offset Y",
-                min: -500,
-                max: 500,
-                value: layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0,
-                onChange: offset => onChangeProperty("labelSettings", {
-                  ...layer.labelSettings,
-                  [feature.properties[labelField] + "_offsetY"]: offset
-                })
-              })
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-                label: "Rotation",
-                value: layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0,
-                onChange: rotation => onChangeProperty("labelSettings", {
-                  ...layer.labelSettings,
-                  [feature.properties[labelField] + "_rotation"]: rotation
-                })
-              })
-            })]
-          })]
-        }))]
-      })]
-    }), "  "]
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(React.Fragment, {
-    children: [type == 'data' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Data, {
-        ...props,
-        apps: metadata.apps,
-        onChangeProperty: onChangeProperty,
-        allDimensions: metadata.dimensions || [],
-        allFilters: metadata.filters || [],
-        allMeasures: metadata.measures || [],
-        allCategories: metadata.categories || [],
-        allApps: metadata.apps,
-        features: features,
-        layer: layer,
-        allDatasets: datasets
-      })
-    }), type == 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow, {
-        ...props,
-        apps: metadata.apps,
-        onChangeProperty: onChangeProperty,
-        allDimensions: metadata.dimensions || [],
-        allFilters: metadata.filters || [],
-        allMeasures: metadata.measures || [],
-        allCategories: metadata.categories || [],
-        allApps: metadata.apps,
-        features: features,
-        layer: layer,
-        allDatasets: datasets
-      })
-    }), type == 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong, {
-        ...props,
-        apps: metadata.apps,
-        onChangeProperty: onChangeProperty,
-        allDimensions: metadata.dimensions || [],
-        allFilters: metadata.filters || [],
-        allMeasures: metadata.measures || [],
-        allCategories: metadata.categories || [],
-        allApps: metadata.apps,
-        allDatasets: datasets,
-        features: features,
-        layer: layer
-      })
-    })]
-  })];
-};
-class LayerWithMetadata extends commons/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    const {
-      layer: {
-        name,
-        type,
-        file,
-        app,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    fetch(`/api/registry/eureka/apps`, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => response.json()).then(data => {
-      const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
-        label: a.name,
-        value: a.instance[0].vipAddress,
-        settings: a.instance[0]
-      })), {
-        label: 'CSV',
-        value: 'csv'
-      }] : [{
-        label: 'CSV',
-        value: 'csv'
-      }];
-      this.setState({
-        ...this.state,
-        apps
-      });
-      debugger;
-      if (app && app != 'none') {
-        if ((0,APIutils/* isSupersetAPI */.oL)(app, apps)) {
-          //if app is superset proxy an additional step is added
-          this.loadDatasets(app);
-          if (dvzProxyDatasetId) {
-            this.loadMetadata(app, dvzProxyDatasetId);
-          }
-        } else {
-          this.loadMetadata(app);
-        }
-      }
-    }).catch(function (response) {
-      alert("error" + response);
-    });
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-    const {
-      layer: {
-        app,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    const {
-      layer: {
-        app: prevAPP,
-        dvzProxyDatasetId: prevDvzProxyDatasetId
-      }
-    } = prevProps;
-    if (app != prevAPP) {
-      //if app changes we shoudl reload metadta
-
-      if ((0,APIutils/* isSupersetAPI */.oL)(app, this.state.apps)) {
-        //if app is superset proxy an additional step is added
-        this.loadDatasets(app);
-        if (dvzProxyDatasetId) {
-          this.loadMetadata(app, dvzProxyDatasetId);
-        }
-      } else {
-        this.loadMetadata(app);
-      }
-    } else {
-      //app wasn't changed
-
-      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
-        this.loadMetadata(app, dvzProxyDatasetId);
-      }
-    }
-  }
-  render() {
-    const {
-      setAttributes,
-      onMoveLayer,
-      panelStatus,
-      onRemoveLayer,
-      layer,
-      layer: {
-        name,
-        type,
-        file,
-        app
-      }
-    } = this.props;
-    console.log(this.state);
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      onToggle: e => (0,Util/* togglePanel */.Pj)('LAYERS_' + name, panelStatus, setAttributes),
-      title: (0,external_wp_i18n_.__)("Layers"),
-      title: (0,external_wp_i18n_.__)(`${name}`),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Base, {
-        ...this.props,
-        metadata: this.state
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "secondary",
-            type: true,
-            onClick: onRemoveLayer,
-            children: "Delete"
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "secondary",
-            type: true,
-            onClick: e => onMoveLayer(-1, layer),
-            children: "Up"
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "secondary",
-            type: true,
-            onClick: e => onMoveLayer(1, layer),
-            children: "Down"
-          })]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {})]
-    });
-  }
-}
-/* harmony default export */ const layers_Base = (LayerWithMetadata);
-;// ./d3Map/layers/Model.js
-
-const Model = {
-  id: Date.now(),
-  name: 'New Layer',
-  app: "csv",
-  dimension1: "none",
-  dimension2: "none",
-  measures: [],
-  filters: [],
-  csv: "",
-  file: 'none',
-  opacity: 1,
-  fillColor: '#FFFFFF',
-  markFillColor: '#FFFFFF',
-  markFillColor2: '#FFFFFF',
-  borderColor: '#000000',
-  markBorderColor: '#000000',
-  markBorderColor2: '#000000',
-  markSizeScale: 2,
-  markSizeScale2: 2,
-  markerLabelSize: 1,
-  labelColor: '#000000',
-  markLabelColor: '#000000',
-  labelFontSize: 2,
-  labelFilter: [],
-  labelSettings: {},
-  labelField: 'none',
-  type: 'base',
-  //base layer user will select only a file
-  //type:'shape', //shape layer user will select file and data source
-  //type:'data', //will select data source and symbols + symbols configuration
-  useBreaks: false,
-  usePattern: false,
-  pointStyleBy: 'none',
-  format: {
-    "style": "percent",
-    "minimumFractionDigits": 1,
-    "maximumFractionDigits": 1,
-    "currency": "USD"
-  },
-  featureJoinAttribute: 'none',
-  apiJoinAttribute: 'none',
-  useCentroidPoint: true,
-  patternDiscriminator: 'none',
-  patternDiscriminatorLabel: null,
-  patterns: [],
-  pointDimensionStyles: [],
-  tooltip: "Value {value}",
-  breaks: [],
-  customMeasuresLabels: {},
-  visible: true,
-  flowValuesFrom: 'origin',
-  flowOrigin: 'none',
-  flowDestination: 'none',
-  dvzProxyDatasetId: '',
-  offsetPixels: 10
-};
-/* harmony default export */ const layers_Model = (Model);
-;// ./d3Map/BlockEdit.js
-
-
-
-
-
-
-
-
-class BlockEdit extends commons/* ComponentWithSettings */.BE {
-  constructor(props) {
-    super(props);
-    this.onChangeLayer = this.onChangeLayer.bind(this);
-    this.addLayer = this.addLayer.bind(this);
-    this.removeLayer = this.removeLayer.bind(this);
-    this.onMoveLayer = this.onMoveLayer.bind(this);
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      attributes: {
-        app
-      }
-    } = this.props;
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-  }
-  componentDidMount() {
-    super.componentDidMount();
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        panelStatus,
-        height,
-        width,
-        group,
-        backGroundColor,
-        layers = []
-      }
-    } = this.props;
-    window.addEventListener("message", event => {
-      if (event.data.type == `d3_map_${group}`) {
-        const iframeOrigin = event.origin.split(':')[1];
-        const parentOrigin = window.location.origin.split(':')[1];
-        if (iframeOrigin == parentOrigin) {
-          console.log("Received message from iframe " + event.data.type, event.data.value);
-          setAttributes({
-            mapPosition: event.data.value
-          });
-        }
-      }
-    }, false);
-  }
-  addLayer() {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const newLayers = [...layers];
-    const model = {
-      ...layers_Model
-    };
-    model.id = Date.now();
-    newLayers.push(model);
-    setAttributes({
-      layers: newLayers
-    });
-  }
-  removeLayer(layer) {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const {
-      id,
-      name
-    } = layer;
-    const newLayers = layers.filter(l => l.id != id);
-    setAttributes({
-      layers: newLayers
-    });
-  }
-  onChangeLayer(layer) {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const newLayers = [...layers];
-    const index = layers.findIndex(l => l.id === layer.id);
-    if (index !== -1) {
-      newLayers[index] = layer;
-    }
-    setAttributes({
-      layers: newLayers
-    });
-  }
-  onMoveLayer(direction, layer) {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const newLayers = [...layers];
-    const index = newLayers.findIndex(l => l.id === layer.id);
-    const newIndex = index + direction;
-    if (newIndex > -1 && newIndex < newLayers.length) {
-      const element = newLayers.splice(index, 1);
-      newLayers.splice(newIndex, 0, element[0]);
-      setAttributes({
-        layers: newLayers
-      });
-    }
-  }
-  render() {
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        projection,
-        panelStatus,
-        mapPosition,
-        height,
-        width,
-        group,
-        backGroundColor,
-        layers = [],
-        rotationEnabled,
-        zoomEnabled
-      }
-    } = this.props;
-    const divStyles = {
-      height: height + 'px',
-      width: '100%'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Map Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false //{false}//{panelStatus['GROUP']}
-          ,
-          onToggle: e => (0,Util/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus["SIZE"]}
-          ,
-          onToggle: e => (0,Util/* togglePanel */.Pj)("SIZE", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Size"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              size: 10,
-              label: "Height",
-              value: height,
-              onChange: height => setAttributes({
-                height: height ? parseInt(height) : 0
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              size: 10,
-              label: "Width",
-              value: width,
-              onChange: width => setAttributes({
-                width: width ? parseInt(width) : 0
-              })
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus["PROJECTION"]}
-          ,
-          onToggle: e => (0,Util/* togglePanel */.Pj)("PROJECTION", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Projection"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              label: (0,external_wp_i18n_.__)("Projection"),
-              value: projection,
-              onChange: projection => setAttributes({
-                projection
-              }),
-              options: [{
-                label: "geoMercator",
-                value: "geoMercator"
-              }, {
-                label: "geoEqualEarth",
-                value: "geoEqualEarth"
-              }, {
-                label: "geoNaturalEarth1",
-                value: "geoNaturalEarth1"
-              }, {
-                label: "geoAzimuthalEqualArea",
-                value: "geoAzimuthalEqualArea"
-              }, {
-                label: "geoOrthographic",
-                value: "geoOrthographic"
-              }]
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)('Enable Rotation'),
-              checked: rotationEnabled,
-              onChange: e => setAttributes({
-                rotationEnabled: !rotationEnabled
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)('Enable Zoom Controls'),
-              checked: zoomEnabled,
-              onChange: e => setAttributes({
-                zoomEnabled: !zoomEnabled
-              })
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus['COLORS']}
-          ,
-          onToggle: e => (0,Util/* togglePanel */.Pj)("COLORS", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Colors"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)('Background'),
-            colorSettings: [{
-              clearable: true,
-              enableAlpha: true,
-              value: decodeURIComponent(backGroundColor),
-              onChange: color => {
-                if (color) {
-                  setAttributes({
-                    backGroundColor: encodeURIComponent(color)
-                  });
-                } else {
-                  setAttributes({
-                    backGroundColor: "#FFFFFF"
-                  });
-                }
-              },
-              label: (0,external_wp_i18n_.__)('Background Color')
-            }]
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus['LAYERS']}
-          ,
-          onToggle: e => (0,Util/* togglePanel */.Pj)("LAYERS", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Layers"),
-          children: [layers.map(layer => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(layers_Base, {
-            ...this.props,
-            setAttributes: setAttributes,
-            onRemoveLayer: e => this.removeLayer(layer),
-            onChange: this.onChangeLayer,
-            onMoveLayer: this.onMoveLayer,
-            layer: layer
-          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-              variant: "primary",
-              onClick: e => this.addLayer(),
-              children: "Add New Layer"
-            })
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-      style: {
-        margin: "auto",
-        width: "100%"
-      },
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
-        style: {
-          margin: "auto"
-        },
-        size: {
-          height,
-          width
-        },
-        minHeight: "50",
-        minWidth: "50",
-        enable: {
-          top: false,
-          right: true,
-          bottom: true,
-          left: false,
-          topRight: false,
-          bottomRight: true,
-          bottomLeft: false,
-          topLeft: false
-        },
-        onResizeStop: (event, direction, elt, delta) => {
-          setAttributes({
-            height: parseInt(height + delta.height, 10),
-            width: parseInt(width + delta.width, 10)
-          });
-          toggleSelection(true);
-        },
-        onResizeStart: () => {
-          toggleSelection(false);
-        },
-        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-          ref: this.iframe,
-          scrolling: "no",
-          style: divStyles,
-          src: this.state.react_ui_url + "/embeddable/newMap?"
-        })
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
-    className: 'wp-react-component'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-      ...props
-    })
-  });
-};
-/* harmony default export */ const d3Map_BlockEdit = (Edit);
-// EXTERNAL MODULE: ./icons/index.js
-var icons = __webpack_require__(7552);
-;// ./d3Map/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/new-d3-map', {
-  title: (0,external_wp_i18n_.__)('D3 Map'),
-  icon: icons/* default */.Ay,
-  category: "wp-react-lib-blocks",
-  apiVersion: 2,
-  attributes: {
-    height: {
-      type: 'Numeric',
-      default: 500
-    },
-    width: {
-      type: 'Numeric',
-      default: 1024
-    },
-    group: {
-      type: 'string',
-      default: 'default'
-    },
-    projection: {
-      type: 'string',
-      default: 'geoMercator'
-    },
-    layers: {
-      type: "Array",
-      default: []
-    },
-    panelStatus: {
-      type: "Object",
-      default: {}
-    },
-    backGroundColor: {
-      type: "string",
-      default: "#347ba2"
-    },
-    mapPosition: {
-      type: "Object",
-      default: {}
-    },
-    zoomEnabled: {
-      type: "Boolean",
-      default: true
-    },
-    rotationEnabled: {
-      type: "Boolean",
-      default: false
-    }
-  },
-  edit: d3Map_BlockEdit,
-  save: BlockSave
-});
-
-/***/ }),
-
 /***/ 7345:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -32721,6 +31984,3660 @@ module.exports = arrayEach;
 
 /***/ }),
 
+/***/ 7965:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  _q: () => (/* reexport */ BLOCKS_CATEGORY),
+  Rp: () => (/* reexport */ BLOCKS_NS),
+  TM: () => (/* reexport */ BlockEditWithAPIMetadata),
+  jb: () => (/* reexport */ BlockEditWithFilters),
+  BE: () => (/* reexport */ ComponentWithSettings),
+  M1: () => (/* reexport */ DataFilters),
+  yL: () => (/* reexport */ Format_Format),
+  ck: () => (/* reexport */ Generic),
+  I3: () => (/* reexport */ Measures),
+  yr: () => (/* reexport */ SizeConfig),
+  sC: () => (/* reexport */ APIutils_getTranslation),
+  oL: () => (/* reexport */ isSupersetAPI),
+  Pj: () => (/* reexport */ Util_togglePanel)
+});
+
+// UNUSED EXPORTS: APIConfig, Allow, CSVConfig, Chart, ChartColors, ChartMeasures, CommentStatus, DEFAULT_FORMAT_SETTINGS, MIMEType, MapCSVSourceConfig, MediaTaxonomy, MediaType, PingStatus, Status, Tooltip, Type, categorical, diverging, extractAxisValues, getSelectedLabelsForApp, getTranslatedOptions, panelFocus, sequential, transformDataToAppObject, updateMeasureLabels
+
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(6087);
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+;// ../../../packages/commons/build/Format.js
+
+
+
+const styles = [{
+  label: 'Decimal',
+  value: 'decimal'
+}, {
+  label: 'Compacted',
+  value: 'compacted'
+}, {
+  label: 'Currency',
+  value: 'currency'
+}, {
+  label: 'Percent',
+  value: 'percent'
+}];
+const currencies = [{
+  "label": "ADB Unit of Account (XUA)",
+  "value": "XUA"
+}, {
+  "label": "Afghani (AFN)",
+  "value": "AFN"
+}, {
+  "label": "Afghani (AFA)",
+  "value": "AFA"
+}, {
+  "label": "Algerian Dinar (DZD)",
+  "value": "DZD"
+}, {
+  "label": "Andorran Peseta (ADP)",
+  "value": "ADP"
+}, {
+  "label": "Argentine Peso (ARS)",
+  "value": "ARS"
+}, {
+  "label": "Armenian Dram (AMD)",
+  "value": "AMD"
+}, {
+  "label": "Aruban Florin (AWG)",
+  "value": "AWG"
+}, {
+  "label": "Austral (ARA)",
+  "value": "ARA"
+}, {
+  "label": "Australian Dollar (AUD)",
+  "value": "AUD"
+}, {
+  "label": "Azerbaijan Manat (AZN)",
+  "value": "AZN"
+}, {
+  "label": "Azerbaijan Manat (AYM)",
+  "value": "AYM"
+}, {
+  "label": "Azerbaijanian Manat (AZM)",
+  "value": "AZM"
+}, {
+  "label": "Bahamian Dollar (BSD)",
+  "value": "BSD"
+}, {
+  "label": "Bahraini Dinar (BHD)",
+  "value": "BHD"
+}, {
+  "label": "Baht (THB)",
+  "value": "THB"
+}, {
+  "label": "Balboa (PAB)",
+  "value": "PAB"
+}, {
+  "label": "Barbados Dollar (BBD)",
+  "value": "BBD"
+}, {
+  "label": "Belarusian Ruble (BYN)",
+  "value": "BYN"
+}, {
+  "label": "Belarusian Ruble (BYB)",
+  "value": "BYB"
+}, {
+  "label": "Belarusian Ruble (BYR)",
+  "value": "BYR"
+}, {
+  "label": "Belgian Franc (BEF)",
+  "value": "BEF"
+}, {
+  "label": "Belize Dollar (BZD)",
+  "value": "BZD"
+}, {
+  "label": "Bermudian Dollar (BMD)",
+  "value": "BMD"
+}, {
+  "label": "Bol√≠var (VEF)",
+  "value": "VEF"
+}, {
+  "label": "Bol√≠var Soberano (VES)",
+  "value": "VES"
+}, {
+  "label": "Bolivar (VEB)",
+  "value": "VEB"
+}, {
+  "label": "Bolivar (VEF)",
+  "value": "VEF"
+}, {
+  "label": "Bolivar Fuerte (VEF)",
+  "value": "VEF"
+}, {
+  "label": "Boliviano (BOB)",
+  "value": "BOB"
+}, {
+  "label": "Bond Markets Unit European Composite Unit (EURCO) (XBA)",
+  "value": "XBA"
+}, {
+  "label": "Bond Markets Unit European Monetary Unit (E.M.U.-6) (XBB)",
+  "value": "XBB"
+}, {
+  "label": "Bond Markets Unit European Unit of Account 17 (E.U.A.-17) (XBD)",
+  "value": "XBD"
+}, {
+  "label": "Bond Markets Unit European Unit of Account 9 (E.U.A.-9) (XBC)",
+  "value": "XBC"
+}, {
+  "label": "Brazilian Real (BRL)",
+  "value": "BRL"
+}, {
+  "label": "Brunei Dollar (BND)",
+  "value": "BND"
+}, {
+  "label": "Bulgarian Lev (BGN)",
+  "value": "BGN"
+}, {
+  "label": "Burundi Franc (BIF)",
+  "value": "BIF"
+}, {
+  "label": "Cabo Verde Escudo (CVE)",
+  "value": "CVE"
+}, {
+  "label": "Canadian Dollar (CAD)",
+  "value": "CAD"
+}, {
+  "label": "Cayman Islands Dollar (KYD)",
+  "value": "KYD"
+}, {
+  "label": "Cedi (GHC)",
+  "value": "GHC"
+}, {
+  "label": "CFA Franc BCEAO (XOF)",
+  "value": "XOF"
+}, {
+  "label": "CFA Franc BEAC (XAF)",
+  "value": "XAF"
+}, {
+  "label": "CFP Franc (XPF)",
+  "value": "XPF"
+}, {
+  "label": "Chilean Peso (CLP)",
+  "value": "CLP"
+}, {
+  "label": "Codes specifically reserved for testing purposes (XTS)",
+  "value": "XTS"
+}, {
+  "label": "Colombian Peso (COP)",
+  "value": "COP"
+}, {
+  "label": "Comorian Franc  (KMF)",
+  "value": "KMF"
+}, {
+  "label": "Congolese Franc (CDF)",
+  "value": "CDF"
+}, {
+  "label": "Convertible Franc (BEC)",
+  "value": "BEC"
+}, {
+  "label": "Convertible Mark (BAM)",
+  "value": "BAM"
+}, {
+  "label": "Cordoba (NIC)",
+  "value": "NIC"
+}, {
+  "label": "Cordoba Oro (NIO)",
+  "value": "NIO"
+}, {
+  "label": "Costa Rican Colon (CRC)",
+  "value": "CRC"
+}, {
+  "label": "Croatian Dinar (HRD)",
+  "value": "HRD"
+}, {
+  "label": "Croatian Kuna (HRK)",
+  "value": "HRK"
+}, {
+  "label": "Cruzado (BRC)",
+  "value": "BRC"
+}, {
+  "label": "Cruzeiro (BRB)",
+  "value": "BRB"
+}, {
+  "label": "Cruzeiro (BRE)",
+  "value": "BRE"
+}, {
+  "label": "Cruzeiro Real (BRR)",
+  "value": "BRR"
+}, {
+  "label": "Cuban Peso (CUP)",
+  "value": "CUP"
+}, {
+  "label": "Cyprus Pound (CYP)",
+  "value": "CYP"
+}, {
+  "label": "Czech Koruna (CZK)",
+  "value": "CZK"
+}, {
+  "label": "Dalasi (GMD)",
+  "value": "GMD"
+}, {
+  "label": "Danish Krone (DKK)",
+  "value": "DKK"
+}, {
+  "label": "Denar (MKD)",
+  "value": "MKD"
+}, {
+  "label": "Deutsche Mark (DEM)",
+  "value": "DEM"
+}, {
+  "label": "Dinar (BAD)",
+  "value": "BAD"
+}, {
+  "label": "Djibouti Franc (DJF)",
+  "value": "DJF"
+}, {
+  "label": "Dobra (STN)",
+  "value": "STN"
+}, {
+  "label": "Dobra (STD)",
+  "value": "STD"
+}, {
+  "label": "Dominican Peso (DOP)",
+  "value": "DOP"
+}, {
+  "label": "Dong (VND)",
+  "value": "VND"
+}, {
+  "label": "Drachma (GRD)",
+  "value": "GRD"
+}, {
+  "label": "East Caribbean Dollar (XCD)",
+  "value": "XCD"
+}, {
+  "label": "Egyptian Pound (EGP)",
+  "value": "EGP"
+}, {
+  "label": "Ekwele (GQE)",
+  "value": "GQE"
+}, {
+  "label": "El Salvador Colon (SVC)",
+  "value": "SVC"
+}, {
+  "label": "Ethiopian Birr (ETB)",
+  "value": "ETB"
+}, {
+  "label": "Euro (EUR)",
+  "value": "EUR"
+}, {
+  "label": "European Currency Unit (E.C.U) (XEU)",
+  "value": "XEU"
+}, {
+  "label": "Falkland Islands Pound (FKP)",
+  "value": "FKP"
+}, {
+  "label": "Fiji Dollar (FJD)",
+  "value": "FJD"
+}, {
+  "label": "Financial Franc (BEL)",
+  "value": "BEL"
+}, {
+  "label": "Financial Rand (ZAL)",
+  "value": "ZAL"
+}, {
+  "label": "Forint (HUF)",
+  "value": "HUF"
+}, {
+  "label": "French Franc (FRF)",
+  "value": "FRF"
+}, {
+  "label": "Georgian Coupon (GEK)",
+  "value": "GEK"
+}, {
+  "label": "Ghana Cedi (GHS)",
+  "value": "GHS"
+}, {
+  "label": "Ghana Cedi (GHP)",
+  "value": "GHP"
+}, {
+  "label": "Gibraltar Pound (GIP)",
+  "value": "GIP"
+}, {
+  "label": "Gold (XAU)",
+  "value": "XAU"
+}, {
+  "label": "Gold-Franc (XFO)",
+  "value": "XFO"
+}, {
+  "label": "Gourde (HTG)",
+  "value": "HTG"
+}, {
+  "label": "Guarani (PYG)",
+  "value": "PYG"
+}, {
+  "label": "Guinea Escudo (GWE)",
+  "value": "GWE"
+}, {
+  "label": "Guinea-Bissau Peso (GWP)",
+  "value": "GWP"
+}, {
+  "label": "Guinean Franc (GNF)",
+  "value": "GNF"
+}, {
+  "label": "Guyana Dollar (GYD)",
+  "value": "GYD"
+}, {
+  "label": "Hong Kong Dollar (HKD)",
+  "value": "HKD"
+}, {
+  "label": "Hryvnia (UAH)",
+  "value": "UAH"
+}, {
+  "label": "Iceland Krona (ISK)",
+  "value": "ISK"
+}, {
+  "label": "Indian Rupee (INR)",
+  "value": "INR"
+}, {
+  "label": "Inti (PEI)",
+  "value": "PEI"
+}, {
+  "label": "Iranian Rial (IRR)",
+  "value": "IRR"
+}, {
+  "label": "Iraqi Dinar (IQD)",
+  "value": "IQD"
+}, {
+  "label": "Irish Pound (IEP)",
+  "value": "IEP"
+}, {
+  "label": "Italian Lira (ITL)",
+  "value": "ITL"
+}, {
+  "label": "Jamaican Dollar (JMD)",
+  "value": "JMD"
+}, {
+  "label": "Jordanian Dinar (JOD)",
+  "value": "JOD"
+}, {
+  "label": "Karbovanet (UAK)",
+  "value": "UAK"
+}, {
+  "label": "Kenyan Shilling (KES)",
+  "value": "KES"
+}, {
+  "label": "Kina (PGK)",
+  "value": "PGK"
+}, {
+  "label": "Koruna (CSK)",
+  "value": "CSK"
+}, {
+  "label": "Krona A/53 (CSJ)",
+  "value": "CSJ"
+}, {
+  "label": "Kroon (EEK)",
+  "value": "EEK"
+}, {
+  "label": "Kuna (HRK)",
+  "value": "HRK"
+}, {
+  "label": "Kuwaiti Dinar (KWD)",
+  "value": "KWD"
+}, {
+  "label": "Kwacha (MWK)",
+  "value": "MWK"
+}, {
+  "label": "Kwanza (AOA)",
+  "value": "AOA"
+}, {
+  "label": "Kwanza (AOK)",
+  "value": "AOK"
+}, {
+  "label": "Kwanza Reajustado (AOR)",
+  "value": "AOR"
+}, {
+  "label": "Kyat (MMK)",
+  "value": "MMK"
+}, {
+  "label": "Kyat (BUK)",
+  "value": "BUK"
+}, {
+  "label": "Lao Kip (LAK)",
+  "value": "LAK"
+}, {
+  "label": "Lari (GEL)",
+  "value": "GEL"
+}, {
+  "label": "Latvian Lats (LVL)",
+  "value": "LVL"
+}, {
+  "label": "Latvian Ruble (LVR)",
+  "value": "LVR"
+}, {
+  "label": "Lebanese Pound (LBP)",
+  "value": "LBP"
+}, {
+  "label": "Lek (ALL)",
+  "value": "ALL"
+}, {
+  "label": "Lempira (HNL)",
+  "value": "HNL"
+}, {
+  "label": "Leone (SLL)",
+  "value": "SLL"
+}, {
+  "label": "Leu A/52 (ROK)",
+  "value": "ROK"
+}, {
+  "label": "Lev (BGL)",
+  "value": "BGL"
+}, {
+  "label": "Lev A/52 (BGJ)",
+  "value": "BGJ"
+}, {
+  "label": "Lev A/62 (BGK)",
+  "value": "BGK"
+}, {
+  "label": "Liberian Dollar (LRD)",
+  "value": "LRD"
+}, {
+  "label": "Libyan Dinar (LYD)",
+  "value": "LYD"
+}, {
+  "label": "Lilangeni (SZL)",
+  "value": "SZL"
+}, {
+  "label": "Lithuanian Litas (LTL)",
+  "value": "LTL"
+}, {
+  "label": "Loti (LSL)",
+  "value": "LSL"
+}, {
+  "label": "Loti (LSM)",
+  "value": "LSM"
+}, {
+  "label": "Luxembourg Convertible Franc (LUC)",
+  "value": "LUC"
+}, {
+  "label": "Luxembourg Financial Franc (LUL)",
+  "value": "LUL"
+}, {
+  "label": "Luxembourg Franc (LUF)",
+  "value": "LUF"
+}, {
+  "label": "Malagasy Ariary (MGA)",
+  "value": "MGA"
+}, {
+  "label": "Malagasy Franc (MGF)",
+  "value": "MGF"
+}, {
+  "label": "Malawi Kwacha (MWK)",
+  "value": "MWK"
+}, {
+  "label": "Malaysian Ringgit (MYR)",
+  "value": "MYR"
+}, {
+  "label": "Maldive Rupee (MVQ)",
+  "value": "MVQ"
+}, {
+  "label": "Mali Franc (MLF)",
+  "value": "MLF"
+}, {
+  "label": "Maltese Lira (MTL)",
+  "value": "MTL"
+}, {
+  "label": "Maltese Pound (MTP)",
+  "value": "MTP"
+}, {
+  "label": "Mark der DDR (DDM)",
+  "value": "DDM"
+}, {
+  "label": "Markka (FIM)",
+  "value": "FIM"
+}, {
+  "label": "Mauritius Rupee (MUR)",
+  "value": "MUR"
+}, {
+  "label": "Mexican Peso (MXN)",
+  "value": "MXN"
+}, {
+  "label": "Mexican Peso (MXP)",
+  "value": "MXP"
+}, {
+  "label": "Mexican Unidad de Inversion (UDI) (MXV)",
+  "value": "MXV"
+}, {
+  "label": "Moldovan Leu (MDL)",
+  "value": "MDL"
+}, {
+  "label": "Moroccan Dirham (MAD)",
+  "value": "MAD"
+}, {
+  "label": "Mozambique Escudo (MZE)",
+  "value": "MZE"
+}, {
+  "label": "Mozambique Metical (MZN)",
+  "value": "MZN"
+}, {
+  "label": "Mozambique Metical (MZM)",
+  "value": "MZM"
+}, {
+  "label": "Mvdol (BOV)",
+  "value": "BOV"
+}, {
+  "label": "Naira (NGN)",
+  "value": "NGN"
+}, {
+  "label": "Nakfa (ERN)",
+  "value": "ERN"
+}, {
+  "label": "Namibia Dollar (NAD)",
+  "value": "NAD"
+}, {
+  "label": "Nepalese Rupee (NPR)",
+  "value": "NPR"
+}, {
+  "label": "Netherlands Antillean Guilder (ANG)",
+  "value": "ANG"
+}, {
+  "label": "Netherlands Guilder (NLG)",
+  "value": "NLG"
+}, {
+  "label": "New Cruzado (BRN)",
+  "value": "BRN"
+}, {
+  "label": "New Dinar (YUM)",
+  "value": "YUM"
+}, {
+  "label": "New Israeli Sheqel (ILS)",
+  "value": "ILS"
+}, {
+  "label": "New Kwanza (AON)",
+  "value": "AON"
+}, {
+  "label": "New Romanian Leu  (RON)",
+  "value": "RON"
+}, {
+  "label": "New Taiwan Dollar (TWD)",
+  "value": "TWD"
+}, {
+  "label": "New Turkish Lira (TRY)",
+  "value": "TRY"
+}, {
+  "label": "New Yugoslavian Dinar (YUD)",
+  "value": "YUD"
+}, {
+  "label": "New Zaire (ZRN)",
+  "value": "ZRN"
+}, {
+  "label": "New Zealand Dollar (NZD)",
+  "value": "NZD"
+}, {
+  "label": "Ngultrum (BTN)",
+  "value": "BTN"
+}, {
+  "label": "No universal currency ()",
+  "value": ""
+}, {
+  "label": "North Korean Won (KPW)",
+  "value": "KPW"
+}, {
+  "label": "Norwegian Krone (NOK)",
+  "value": "NOK"
+}, {
+  "label": "Nuevo Sol  (PEN)",
+  "value": "PEN"
+}, {
+  "label": "Old Dong (VNC)",
+  "value": "VNC"
+}, {
+  "label": "Old Krona (ISJ)",
+  "value": "ISJ"
+}, {
+  "label": "Old Lek (ALK)",
+  "value": "ALK"
+}, {
+  "label": "Old Leu (ROL)",
+  "value": "ROL"
+}, {
+  "label": "Old Shekel (ILR)",
+  "value": "ILR"
+}, {
+  "label": "Old Shilling (UGW)",
+  "value": "UGW"
+}, {
+  "label": "Old Turkish Lira (TRL)",
+  "value": "TRL"
+}, {
+  "label": "Old Uruguay Peso (UYN)",
+  "value": "UYN"
+}, {
+  "label": "Ouguiya (MRU)",
+  "value": "MRU"
+}, {
+  "label": "Ouguiya (MRO)",
+  "value": "MRO"
+}, {
+  "label": "Pa'anga (TOP)",
+  "value": "TOP"
+}, {
+  "label": "Pakistan Rupee (PKR)",
+  "value": "PKR"
+}, {
+  "label": "Palladium (XPD)",
+  "value": "XPD"
+}, {
+  "label": "Pataca (MOP)",
+  "value": "MOP"
+}, {
+  "label": "Pathet Lao Kip (LAJ)",
+  "value": "LAJ"
+}, {
+  "label": "Peso (ARY)",
+  "value": "ARY"
+}, {
+  "label": "Peso Argentino (ARP)",
+  "value": "ARP"
+}, {
+  "label": "Peso boliviano (BOP)",
+  "value": "BOP"
+}, {
+  "label": "Peso Convertible (CUC)",
+  "value": "CUC"
+}, {
+  "label": "Peso Uruguayo (UYU)",
+  "value": "UYU"
+}, {
+  "label": "Philippine Peso (PHP)",
+  "value": "PHP"
+}, {
+  "label": "Platinum (XPT)",
+  "value": "XPT"
+}, {
+  "label": "Portuguese Escudo (PTE)",
+  "value": "PTE"
+}, {
+  "label": "Pound (ILP)",
+  "value": "ILP"
+}, {
+  "label": "Pound Sterling (GBP)",
+  "value": "GBP"
+}, {
+  "label": "Pula (BWP)",
+  "value": "BWP"
+}, {
+  "label": "Qatari Rial (QAR)",
+  "value": "QAR"
+}, {
+  "label": "Quetzal (GTQ)",
+  "value": "GTQ"
+}, {
+  "label": "Rand (ZAR)",
+  "value": "ZAR"
+}, {
+  "label": "Rhodesian Dollar (RHD)",
+  "value": "RHD"
+}, {
+  "label": "Rhodesian Dollar (ZWC)",
+  "value": "ZWC"
+}, {
+  "label": "Rial Omani (OMR)",
+  "value": "OMR"
+}, {
+  "label": "Riel (KHR)",
+  "value": "KHR"
+}, {
+  "label": "RINET Funds Code (XRE)",
+  "value": "XRE"
+}, {
+  "label": "Romanian Leu (RON)",
+  "value": "RON"
+}, {
+  "label": "Rouble (SUR)",
+  "value": "SUR"
+}, {
+  "label": "Rufiyaa (MVR)",
+  "value": "MVR"
+}, {
+  "label": "Rupiah (IDR)",
+  "value": "IDR"
+}, {
+  "label": "Russian Ruble (RUB)",
+  "value": "RUB"
+}, {
+  "label": "Russian Ruble (RUR)",
+  "value": "RUR"
+}, {
+  "label": "Rwanda Franc (RWF)",
+  "value": "RWF"
+}, {
+  "label": "Saint Helena Pound (SHP)",
+  "value": "SHP"
+}, {
+  "label": "Saudi Riyal (SAR)",
+  "value": "SAR"
+}, {
+  "label": "Schilling (ATS)",
+  "value": "ATS"
+}, {
+  "label": "SDR (Special Drawing Right) (XDR)",
+  "value": "XDR"
+}, {
+  "label": "Serbian Dinar (RSD)",
+  "value": "RSD"
+}, {
+  "label": "Serbian Dinar (CSD)",
+  "value": "CSD"
+}, {
+  "label": "Seychelles Rupee (SCR)",
+  "value": "SCR"
+}, {
+  "label": "Silver (XAG)",
+  "value": "XAG"
+}, {
+  "label": "Singapore Dollar (SGD)",
+  "value": "SGD"
+}, {
+  "label": "Slovak Koruna (SKK)",
+  "value": "SKK"
+}, {
+  "label": "Sol (PEN)",
+  "value": "PEN"
+}, {
+  "label": "Sol (PEH)",
+  "value": "PEH"
+}, {
+  "label": "Sol (PES)",
+  "value": "PES"
+}, {
+  "label": "Solomon Islands Dollar (SBD)",
+  "value": "SBD"
+}, {
+  "label": "Som (KGS)",
+  "value": "KGS"
+}, {
+  "label": "Somali Shilling (SOS)",
+  "value": "SOS"
+}, {
+  "label": "Somoni (TJS)",
+  "value": "TJS"
+}, {
+  "label": "South Sudanese Pound (SSP)",
+  "value": "SSP"
+}, {
+  "label": "Spanish Peseta (ESP)",
+  "value": "ESP"
+}, {
+  "label": "Spanish Peseta (ESA)",
+  "value": "ESA"
+}, {
+  "label": "Sri Lanka Rupee (LKR)",
+  "value": "LKR"
+}, {
+  "label": "Sucre (XSU)",
+  "value": "XSU"
+}, {
+  "label": "Sucre (ECS)",
+  "value": "ECS"
+}, {
+  "label": "Sudanese Dinar (SDD)",
+  "value": "SDD"
+}, {
+  "label": "Sudanese Pound (SDG)",
+  "value": "SDG"
+}, {
+  "label": "Sudanese Pound (SDP)",
+  "value": "SDP"
+}, {
+  "label": "Surinam Dollar (SRD)",
+  "value": "SRD"
+}, {
+  "label": "Surinam Guilder (SRG)",
+  "value": "SRG"
+}, {
+  "label": "Swedish Krona (SEK)",
+  "value": "SEK"
+}, {
+  "label": "Swiss Franc (CHF)",
+  "value": "CHF"
+}, {
+  "label": "Syli (GNE)",
+  "value": "GNE"
+}, {
+  "label": "Syli (GNS)",
+  "value": "GNS"
+}, {
+  "label": "Syrian Pound (SYP)",
+  "value": "SYP"
+}, {
+  "label": "Tajik Ruble (TJR)",
+  "value": "TJR"
+}, {
+  "label": "Taka (BDT)",
+  "value": "BDT"
+}, {
+  "label": "Tala (WST)",
+  "value": "WST"
+}, {
+  "label": "Talonas (LTT)",
+  "value": "LTT"
+}, {
+  "label": "Tanzanian Shilling (TZS)",
+  "value": "TZS"
+}, {
+  "label": "Tenge (KZT)",
+  "value": "KZT"
+}, {
+  "label": "Timor Escudo (TPE)",
+  "value": "TPE"
+}, {
+  "label": "Tolar (SIT)",
+  "value": "SIT"
+}, {
+  "label": "Trinidad and Tobago Dollar (TTD)",
+  "value": "TTD"
+}, {
+  "label": "Tugrik (MNT)",
+  "value": "MNT"
+}, {
+  "label": "Tunisian Dinar (TND)",
+  "value": "TND"
+}, {
+  "label": "Turkish Lira (TRY)",
+  "value": "TRY"
+}, {
+  "label": "Turkmenistan Manat (TMM)",
+  "value": "TMM"
+}, {
+  "label": "Turkmenistan New Manat (TMT)",
+  "value": "TMT"
+}, {
+  "label": "UAE Dirham (AED)",
+  "value": "AED"
+}, {
+  "label": "Uganda Shilling (UGX)",
+  "value": "UGX"
+}, {
+  "label": "Uganda Shilling (UGS)",
+  "value": "UGS"
+}, {
+  "label": "UIC-Franc (XFU)",
+  "value": "XFU"
+}, {
+  "label": "Unidad de Fomento (CLF)",
+  "value": "CLF"
+}, {
+  "label": "Unidad de Valor Constante (UVC) (ECV)",
+  "value": "ECV"
+}, {
+  "label": "Unidad de Valor Real (COU)",
+  "value": "COU"
+}, {
+  "label": "Unidad Previsional (UYW)",
+  "value": "UYW"
+}, {
+  "label": "Uruguay Peso en Unidades Indexadas (UI) (UYI)",
+  "value": "UYI"
+}, {
+  "label": "Uruguayan Peso (UYP)",
+  "value": "UYP"
+}, {
+  "label": "US Dollar (USD)",
+  "value": "USD"
+}, {
+  "label": "US Dollar (Next day) (USN)",
+  "value": "USN"
+}, {
+  "label": "US Dollar (Same day) (USS)",
+  "value": "USS"
+}, {
+  "label": "Uzbekistan Sum (UZS)",
+  "value": "UZS"
+}, {
+  "label": "Vatu (VUV)",
+  "value": "VUV"
+}, {
+  "label": "WIR Euro (CHE)",
+  "value": "CHE"
+}, {
+  "label": "WIR Franc (CHW)",
+  "value": "CHW"
+}, {
+  "label": "WIR Franc (for electronic) (CHC)",
+  "value": "CHC"
+}, {
+  "label": "Won (KRW)",
+  "value": "KRW"
+}, {
+  "label": "Yemeni Dinar (YDD)",
+  "value": "YDD"
+}, {
+  "label": "Yemeni Rial (YER)",
+  "value": "YER"
+}, {
+  "label": "Yen (JPY)",
+  "value": "JPY"
+}, {
+  "label": "Yuan Renminbi (CNY)",
+  "value": "CNY"
+}, {
+  "label": "Yugoslavian Dinar (YUN)",
+  "value": "YUN"
+}, {
+  "label": "Zaire (ZRZ)",
+  "value": "ZRZ"
+}, {
+  "label": "Zambian Kwacha (ZMW)",
+  "value": "ZMW"
+}, {
+  "label": "Zambian Kwacha (ZMK)",
+  "value": "ZMK"
+}, {
+  "label": "Zimbabwe Dollar (ZWL)",
+  "value": "ZWL"
+}, {
+  "label": "Zimbabwe Dollar (ZWD)",
+  "value": "ZWD"
+}, {
+  "label": "Zimbabwe Dollar (ZWR)",
+  "value": "ZWR"
+}, {
+  "label": "Zimbabwe Dollar (new) (ZWN)",
+  "value": "ZWN"
+}, {
+  "label": "Zimbabwe Dollar (old) (ZWD)",
+  "value": "ZWD"
+}, {
+  "label": "Zloty (PLN)",
+  "value": "PLN"
+}, {
+  "label": "Zloty (PLZ)",
+  "value": "PLZ"
+}];
+const DEFAULT_FORMAT = 'DEFAULT';
+const CUSTOM_FORMAT = 'CUSTOM';
+const Format_Format = ({
+  format,
+  title,
+  onFormatChange,
+  onUseCustomAxisFormatChange,
+  customFormat,
+  hiddenCustomAxisFormat,
+  useCustomAxisFormat
+}) => {
+  const onChangeFormat = (style, formatToUpdate) => {
+    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
+    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
+    onFormatChange(Object.assign({}, currentFormat, {
+      style
+    }), field);
+  };
+  const onDecimalChange = (value, formatToUpdate) => {
+    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
+    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
+    onFormatChange(Object.assign({}, currentFormat, {
+      minimumFractionDigits: value,
+      maximumFractionDigits: value
+    }), field);
+  };
+  const onCurrencyChange = (currency, formatToUpdate) => {
+    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
+    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
+    onFormatChange(Object.assign({}, currentFormat, {
+      currency
+    }), field);
+  };
+  return [external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: true,
+    title: (0,external_wp_i18n_.__)("Default Format")
+  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    multiple: true,
+    label: (0,external_wp_i18n_.__)('Style', "dg"),
+    value: [format.style],
+    onChange: value => {
+      onChangeFormat(value, DEFAULT_FORMAT);
+    },
+    options: styles
+  })), external_React_default().createElement((external_React_default()).Fragment, null, format.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    label: (0,external_wp_i18n_.__)("Currency", "dg"),
+    onChange: value => {
+      onCurrencyChange(value, DEFAULT_FORMAT);
+    },
+    value: format.currency,
+    options: currencies
+  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+    type: "number",
+    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
+    onChange: value => {
+      onDecimalChange(value, DEFAULT_FORMAT);
+    },
+    value: format.minimumFractionDigits
+  }))), external_React_default().createElement((external_React_default()).Fragment, null, !hiddenCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
+    label: (0,external_wp_i18n_.__)("Use Custom Axis Format", "dg"),
+    checked: useCustomAxisFormat,
+    onChange: value => onUseCustomAxisFormatChange?.(value)
+  }))), external_React_default().createElement((external_React_default()).Fragment, null, useCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: true,
+    title: (0,external_wp_i18n_.__)("Custom Axis Format")
+  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    multiple: true,
+    label: (0,external_wp_i18n_.__)('Style', "dg"),
+    value: [customFormat.style],
+    onChange: value => {
+      onChangeFormat(value, CUSTOM_FORMAT);
+    },
+    options: styles
+  })), external_React_default().createElement((external_React_default()).Fragment, null, customFormat.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    label: (0,external_wp_i18n_.__)("Currency", "dg"),
+    onChange: value => {
+      onCurrencyChange(value, CUSTOM_FORMAT);
+    },
+    value: customFormat.currency,
+    options: currencies
+  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+    type: "number",
+    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
+    onChange: value => {
+      onDecimalChange(value, CUSTOM_FORMAT);
+    },
+    value: customFormat.minimumFractionDigits
+  }))))];
+};
+/* harmony default export */ const build_Format = (Format_Format);
+;// ../../../packages/commons/build/Util.js
+const Util_togglePanel = (name, panelStatus, setAttributes) => {
+  const newStatus = {
+    ...panelStatus
+  };
+  newStatus[name] = newStatus[name] == true ? false : true;
+  setAttributes({
+    panelStatus: newStatus
+  });
+};
+const panelFocus = (name, panelStatus, setAttributes) => {
+  const newStatus = {
+    ...panelStatus
+  };
+  newStatus[name] = newStatus[name] == true ? false : true;
+  setAttributes({
+    panelFocus: newStatus
+  });
+};
+/* harmony default export */ const Util = ({
+  togglePanel: Util_togglePanel,
+  panelFocus
+});
+;// ../../../packages/commons/build/APIutils.js
+const APIutils_getTranslatedOptions = options => {
+  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
+  if (options && options instanceof Array) {
+    return options.map(o => {
+      let {
+        label,
+        value,
+        labels
+      } = o;
+      if (labels && labels[currentLocale]) {
+        label = labels[currentLocale];
+      }
+      return {
+        ...o,
+        label,
+        value
+      };
+    });
+  }
+  return [];
+};
+const APIutils_getTranslation = translatable => {
+  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
+  let {
+    label,
+    labels,
+    value
+  } = translatable;
+  if (labels && labels[currentLocale]) {
+    label = labels[currentLocale];
+  }
+  return label || value || translatable;
+};
+const isSupersetAPI = (app, apps) => {
+  if (app == 'csv' || !apps) {
+    return false;
+  }
+  const appObj = apps.filter(a => a.value == app)[0];
+  return appObj && appObj.settings && appObj.settings.metadata && appObj.settings.metadata.superset == 'true';
+};
+/* harmony default export */ const APIutils = ((/* unused pure expression or super */ null && (APIutils_getTranslatedOptions)));
+;// ../../../packages/commons/build/Measures.js
+
+
+
+
+
+
+const defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const Measures = props => {
+  const {
+    onMeasuresChange,
+    onFormatChange,
+    onUseCustomAxisFormatChange,
+    onSetSingleMeasure,
+    onCustomLabelToggleChange,
+    onCustomLabelChange,
+    allMeasures,
+    setAttributes,
+    title,
+    format,
+    attributes: {
+      panelStatus,
+      measures,
+      dimension1,
+      dimension2,
+      type,
+      app
+    }
+  } = props;
+  const MToggle = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    return external_React_default().createElement(external_wp_components_.ToggleControl, {
+      label: APIutils_getTranslation(measure),
+      checked: userMeasure ? userMeasure.selected : false,
+      onChange: value => onMeasuresChange?.(measure.value)
+    });
+  };
+  const MCheckbox = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    let isChecked;
+    if (measures instanceof Array) {
+      isChecked = measures.includes(measure.value);
+    } else {
+      isChecked = userMeasure ? userMeasure.selected : false;
+    }
+    return external_React_default().createElement(external_wp_components_.CheckboxControl, {
+      label: APIutils_getTranslation(measure),
+      checked: isChecked,
+      onChange: value => onSetSingleMeasure(measure.value)
+    });
+  };
+  const MeasureOptions = ({
+    measure,
+    single
+  }) => {
+    return external_React_default().createElement(external_wp_components_.PanelRow, null, single && external_React_default().createElement(MCheckbox, {
+      measure: measure
+    }), !single && external_React_default().createElement(MToggle, {
+      measure: measure
+    }));
+  };
+  const countSelected = g => {
+    if (measures[app]) {
+      const mG = allMeasures.filter(f => APIutils_getTranslation(f.group) === g);
+      let count = 0;
+      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
+        if (measures[app][k].selected) {
+          count++;
+        }
+      });
+      return count;
+    }
+    return 0;
+  };
+  const countTotal = g => {
+    if (g) {
+      return allMeasures.filter(f => APIutils_getTranslation(f.group) === g).length;
+    }
+    return 0;
+  };
+  const getSelectedMeasures = () => {
+    if (measures[app] && allMeasures) {
+      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
+        return allMeasures.filter(m => m.value === k)[0];
+      }).filter(m => m);
+    }
+    return [];
+  };
+  const selectedMeasures = getSelectedMeasures();
+  return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
+    title: title ? title : (0,external_wp_i18n_.__)("Measures"),
+    initialOpen: panelStatus["MEASURES"],
+    onToggle: e => Util_togglePanel("MEASURES", panelStatus, setAttributes)
+  },
+  /*
+   Multiple measures conditions
+    Bar:
+   no dimensions selected
+   one dimension is selected
+   -  not available when second dimension gets selected
+    Line:
+     - Always multi measure as measures represents line series, one dimension should always be selected
+    Pie:
+        no dimensions selected
+         -  not available when any dimension is selected
+   */
+  (type == 'line' || type == 'radar' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
+    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
+      single: false,
+      measure: m
+    }))));
+  }),
+  /*Single measure conditions
+  Bar:
+     2 dimensions selected
+  Line:
+      never
+  Pie:
+    any dimensions selected
+  */
+  (type == 'big-number' || type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
+    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
+      single: true,
+      measure: m
+    }))));
+  }), type == 'overlay' && allMeasures && external_React_default().createElement(external_wp_components_.SelectControl, {
+    label: "Measure",
+    // @ts-ignore
+    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
+    options: [{
+      value: '',
+      label: 'Select Measure'
+    }, ...allMeasures],
+    onChange: measure => onSetSingleMeasure(measure),
+    __nextHasNoMarginBottom: true
+  }), type != 'overlay' && external_React_default().createElement(external_wp_components_.PanelBody, {
+    title: (0,external_wp_i18n_.__)("Format"),
+    initialOpen: panelStatus["FORMAT"],
+    onToggle: e => Util_togglePanel("FORMAT", panelStatus, setAttributes)
+  }, external_React_default().createElement(build_Format, {
+    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
+    format: format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat),
+    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat,
+    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
+    onFormatChange: (format, field) => {
+      onFormatChange(format, field);
+    },
+    onUseCustomAxisFormatChange: value => {
+      onUseCustomAxisFormatChange?.(value);
+    }
+  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && external_React_default().createElement(external_wp_components_.PanelBody, {
+    title: (0,external_wp_i18n_.__)("Measure Label Customization"),
+    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
+    onToggle: e => Util_togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
+  }, selectedMeasures && [...new Set(selectedMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
+      onToggle: e => Util_togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
+      title: `${g}`
+    }, selectedMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => {
+      const userMeasure = measures[app] ? measures[app][m.value] : {};
+      return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
+        label: APIutils_getTranslation(m),
+        checked: userMeasure ? userMeasure.hasCustomLabel : false,
+        onChange: value => onCustomLabelToggleChange?.(m.value)
+      }), " "), userMeasure.hasCustomLabel && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+        label: (0,external_wp_i18n_.__)("Custom Label"),
+        value: userMeasure ? userMeasure.customLabel : "",
+        onChange: value => onCustomLabelChange?.(m.value, value)
+      })));
+    }));
+  })));
+};
+/* harmony default export */ const build_Measures = (Measures);
+;// ../../../packages/commons/build/APIConfig.js
+
+
+
+
+
+const APIConfig_defaultFormat = {
+  style: "percent",
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+  currency: "USD"
+};
+const FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  });
+  return external_React_default().createElement(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      if (a.position !== undefined && b.position !== undefined) {
+        return a.position - b.position;
+      }
+      let aValue = a.value ? a.value.toLowerCase() : "";
+      let bValue = b.value ? b.value.toLowerCase() : "";
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    });
+    return sortedItems.map(v => external_React_default().createElement(external_wp_components_.PanelRow, null, " ", external_React_default().createElement(external_wp_components_.ToggleControl, {
+      label: v.value,
+      checked: value.indexOf(v.id) > -1,
+      onChange: e => {
+        onUpdateFilterValue(v.id, index);
+      }
+    })));
+  } else {
+    return null;
+  }
+};
+class APIConfig extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.onCustomLabelToggleChange = this.onCustomLabelToggleChange.bind(this);
+    this.onCustomLabelChange = this.onCustomLabelChange.bind(this);
+    this.onUseCustomAxisFormatChange = this.onUseCustomAxisFormatChange.bind(this);
+    //this.onCustomMeasureFieldChange = this.onCustomMeasureFieldChange.bind(this)
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  cleanSelection(prevState) {
+    const {
+      setAttributes
+    } = this.props;
+    setAttributes({
+      measures: [],
+      filters: []
+    });
+  }
+  updateFilterParam(param, idx) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  updateFilterValue(value, idx) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  setFilterValue(value, idx) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  addFilter() {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      value: []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  removeFilter(f) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      setAttributes,
+      attributes: {
+        type,
+        colorBy,
+        dimension2,
+        types,
+        measures,
+        app
+      }
+    } = this.props;
+    const {
+      attributes: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+    const prevTypeObject = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null;
+    if (dimension2 != prevDimension2) {
+      //TODO ensure only one measure remains selected when selecting a second dimensions
+      const uMs = Object.assign({}, measures);
+      if (dimension2 != "none") {
+        let i = 0; //the idea is to keep one selected
+        if (uMs[app]) {
+          const selected = Object.keys(uMs[app]).map(k => uMs[app][k].selected).length;
+          if (selected > 1) {
+            Object.keys(uMs[app]).forEach(k => {
+              if (uMs[app][k].selected) {
+                uMs[app][k].prevSelected = true; //can be used to recover measures
+                uMs[app][k].selected = i > 0 ? false : true;
+              } else {
+                uMs[app][k].prevSelected = false;
+              }
+              i++;
+            });
+          }
+        }
+        setAttributes({
+          measures: uMs
+        });
+      }
+      if (dimension2 == "none" && uMs[app]) {
+        Object.keys(uMs[app]).forEach(k => {
+          if (uMs[app][k].prevSelected) {
+            uMs[app][k].selected = true; //can be used to recover measures
+            uMs[app][k].prevSelected = false;
+          }
+        });
+        setAttributes({
+          measures: uMs
+        });
+      }
+    }
+  }
+  onSetSingleMeasure(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (!uMs[app]) {
+      uMs[app] = {};
+    }
+    Object.keys(uMs[app]).filter(k => typeof uMs[app][k] !== "boolean").forEach(k => uMs[app][k].selected = false); //single selection all other should be unselected
+    if (uMs[app][value]) {
+      uMs[app][value].selected = uMs[app][value].selected ? false : true;
+    } else {
+      uMs[app][value] = {
+        selected: true,
+        format: APIConfig_defaultFormat
+      };
+    }
+    setAttributes({
+      measures: uMs
+    });
+  }
+  onFormatChange(format, field) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, {
+      ...measures
+    });
+    if (!uMs[app]) {
+      uMs[app] = {
+        allowSelection: false,
+        format: format,
+        customFormat: format,
+        selected: false
+      };
+    }
+    uMs[app][field] = format;
+    setAttributes({
+      measures: uMs
+    });
+  }
+  onUseCustomAxisFormatChange(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, {
+      ...measures
+    });
+    if (uMs[app]) {
+      uMs[app].useCustomAxisFormat = value;
+      setAttributes({
+        measures: uMs
+      });
+    } else {
+      uMs[app] = {
+        allowSelection: false,
+        format: APIConfig_defaultFormat,
+        customFormat: APIConfig_defaultFormat,
+        selected: false,
+        useCustomAxisFormat: value
+      };
+      setAttributes({
+        measures: uMs
+      });
+    }
+  }
+  /*
+    onCustomMeasureFieldChange(measureName, field, value) {
+           const {setAttributes, attributes: {measures}} = this.props
+        const uMs = Object.assign({}, {...measures})
+           if (uMs[measureName]) {
+            uMs[measureName][field] = value
+        } else {
+            uMs[measureName] = {allowSelection: false, field: value, selected: false}
+        }
+           setAttributes({measures: uMs})
+    }
+    */
+  onMeasuresChange(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (!uMs[app]) {
+      uMs[app] = {};
+    }
+    if (uMs[app][value]) {
+      uMs[app][value].selected = uMs[app][value].selected ? false : true;
+    } else {
+      uMs[app][value] = {
+        selected: true,
+        format: APIConfig_defaultFormat
+      };
+    }
+    setAttributes({
+      measures: uMs
+    });
+  }
+  onCustomLabelToggleChange(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (uMs[app] && uMs[app][value]) {
+      uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel ? false : true;
+      setAttributes({
+        measures: uMs
+      });
+    }
+  }
+  onCustomLabelChange(value, customLabel) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
+      uMs[app][value].customLabel = customLabel;
+      setAttributes({
+        measures: uMs
+      });
+    }
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === "Boolean") {
+      items = [{
+        value: "Yes",
+        id: 1
+      }, {
+        value: "No",
+        id: 0
+      }];
+    } else if (cat) {
+      items = cat.items.map(item => ({
+        value: item.value,
+        id: item.id
+      }));
+    }
+    return items;
+  }
+  render() {
+    const {
+      allDimensions,
+      allFilters,
+      allMeasures,
+      setAttributes,
+      attributes: {
+        measures,
+        filters,
+        dimension1,
+        dimension2,
+        type,
+        types
+      }
+    } = this.props;
+    const currentType = types.filter(t => t.value === type).length > 0 ? types.filter(t => t.value === type)[0] : null;
+    return [external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)(type == "map" ? "Fields" : `Dimensions`)
+    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      multiple: false,
+      label: (0,external_wp_i18n_.__)(type == "map" ? "Matching Field" : "First Dimension"),
+      value: dimension1,
+      onChange: value => {
+        setAttributes({
+          dimension1: value,
+          dimension2: value == "none" ? "none" : dimension2
+        });
+      },
+      options: allDimensions
+    })), type != "line" && type != "radar" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      multiple: false,
+      label: (0,external_wp_i18n_.__)(type == "map" ? "Breakdown Field" : "Second Dimension"),
+      value: dimension2,
+      onChange: value => {
+        setAttributes({
+          dimension2: value
+        });
+      },
+      options: allDimensions,
+      disabled: dimension1 == "none"
+    }))), external_React_default().createElement(build_Measures, {
+      ...this.props,
+      onFormatChange: this.onFormatChange,
+      onUseCustomAxisFormatChange: this.onUseCustomAxisFormatChange,
+      onSetSingleMeasure: this.onSetSingleMeasure,
+      onMeasuresChange: this.onMeasuresChange,
+      onCustomLabelToggleChange: this.onCustomLabelToggleChange,
+      onCustomLabelChange: this.onCustomLabelChange,
+      currentType: currentType
+    }), external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Filters")
+    }, filters.map((f, index) => {
+      return external_React_default().createElement(external_wp_components_.PanelBody, {
+        initialOpen: true,
+        title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`)
+      }, external_React_default().createElement(FilterSelector, {
+        param: f.param,
+        index: index,
+        options: allFilters,
+        onUpdateFilterParam: this.updateFilterParam
+      }), external_React_default().createElement(CategoricalFilter, {
+        value: f.value,
+        index: index,
+        items: this.items(f.type),
+        onUpdateFilterValue: this.updateFilterValue
+      }));
+    }), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.Button, {
+      variant: "link",
+      onClick: this.addFilter
+    }, (0,external_wp_i18n_.__)("Add Filter")), external_React_default().createElement(external_wp_components_.Button, {
+      variant: "link",
+      onClick: this.removeFilter
+    }, (0,external_wp_i18n_.__)("Remove")))))];
+  }
+}
+/* harmony default export */ const build_APIConfig = ((/* unused pure expression or super */ null && (APIConfig)));
+// EXTERNAL MODULE: external ["wp","apiFetch"]
+var external_wp_apiFetch_ = __webpack_require__(1455);
+var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
+// EXTERNAL MODULE: external ["wp","data"]
+var external_wp_data_ = __webpack_require__(7143);
+;// ../../../packages/commons/build/Blocks.js
+
+
+
+
+
+
+
+
+const SizeConfig = ({
+  height,
+  setAttributes,
+  panelStatus,
+  initialOpen
+}) => {
+  return external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: panelStatus ? panelStatus["SIZE"] : initialOpen,
+    onToggle: () => Util_togglePanel("SIZE", panelStatus, setAttributes),
+    title: (0,external_wp_i18n_.__)("Size")
+  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+    size: 10,
+    label: "Height",
+    value: height,
+    onChange: height => setAttributes({
+      height: height ? parseInt(height) : 0
+    })
+  })));
+};
+class ComponentWithSettings extends external_wp_element_.Component {
+  iframe;
+  unsubscribe;
+  constructor(props) {
+    super(props);
+    this.state = {
+      react_ui_url: '',
+      react_api_url: null,
+      apache_superset_url: null,
+      site_language: '',
+      current_language: ''
+    };
+    window.addEventListener("message", event => {
+      if (event.data.type === 'componentReady' && event.data.value === true) {
+        if (this.iframe.current) {
+          console.log("-----------Sending message -----------");
+          this.iframe.current.contentWindow?.postMessage({
+            messageType: 'component-attributes',
+            ...this.props.attributes
+          }, "*");
+        }
+      }
+    }, false);
+    this.iframe = external_React_default().createRef();
+    this.unsubscribe = (0,external_wp_data_.subscribe)(() => {
+      const newPreviewMode = (0,external_wp_data_.select)("core/editor").getDeviceType();
+      if (newPreviewMode !== this.state.previewMode) {
+        this.setState({
+          previewMode: newPreviewMode
+        });
+      }
+    });
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.iframe.current?.contentWindow) {
+      this.iframe.current.contentWindow.postMessage({
+        messageType: 'component-attributes',
+        ...this.props.attributes
+      }, "*");
+    }
+  }
+  componentDidMount() {
+    external_wp_apiFetch_default()({
+      path: '/dg/v1/settings'
+    }).then(data => {
+      this.setState({
+        react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
+        react_api_url: data["react_api_url"],
+        apache_superset_url: data["apache_superset_url"],
+        site_language: data["site_language"],
+        current_language: new URLSearchParams(document.location.search).get("edit_lang") || ''
+      });
+    });
+  }
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+}
+class BlockEditWithFilters extends ComponentWithSettings {
+  constructor(props) {
+    super(props);
+    this.state = {
+      react_ui_url: '',
+      react_api_url: null,
+      apache_superset_url: null,
+      site_language: '',
+      current_language: '',
+      taxonomyValues: [],
+      types: null,
+      taxonomies: null,
+      loading: true
+    };
+    this.onTypeChanged = this.onTypeChanged.bind(this);
+    this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this);
+    this.getTaxonomyValues = this.getTaxonomyValues.bind(this);
+    this.onCategoryChanged = this.onCategoryChanged.bind(this);
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      attributes: {
+        type,
+        taxonomy
+      }
+    } = this.props;
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+    if (prevProps.attributes) {
+      if (type != prevProps.attributes.type) {}
+      if (taxonomy != prevProps.attributes.taxonomy) {
+        this.getTaxonomyValues();
+      }
+    }
+  }
+  componentDidMount() {
+    super.componentDidMount();
+    this.getTypes();
+    this.getTaxonomies();
+    const {
+      attributes: {
+        taxonomy
+      }
+    } = this.props;
+    if (taxonomy != 'none') {
+      this.getTaxonomyValues();
+    }
+  }
+  onTypeChanged(value) {
+    const {
+      setAttributes
+    } = this.props;
+    setAttributes({
+      categories: []
+    });
+    setAttributes({
+      taxonomy: 'none'
+    });
+    setAttributes({
+      type: value
+    });
+  }
+  onTaxonomyChanged(value) {
+    const {
+      setAttributes
+    } = this.props;
+    setAttributes({
+      categories: []
+    });
+    setAttributes({
+      taxonomy: value
+    });
+  }
+  onCategoryChanged(checked, value) {
+    const {
+      setAttributes,
+      attributes: {
+        categories
+      }
+    } = this.props;
+    if (!checked) {
+      setAttributes({
+        categories: categories.filter(i => i != value)
+      });
+    } else {
+      let newCate = [...categories];
+      newCate.push(value);
+      setAttributes({
+        categories: newCate
+      });
+    }
+  }
+  getTaxonomyValues() {
+    const {
+      attributes: {
+        taxonomy
+      }
+    } = this.props;
+    external_wp_apiFetch_default()({
+      path: '/wp/v2/taxonomies/' + taxonomy + '?per_page=100'
+    }).then(data => {
+      this.setState({
+        taxonomyValues: data
+      });
+    });
+  }
+  getTaxonomies() {
+    external_wp_apiFetch_default()({
+      path: '/wp/v2/taxonomies?per_page=100'
+    }).then(data => {
+      this.setState({
+        taxonomies: data
+      });
+    });
+  }
+  getTypes() {
+    external_wp_apiFetch_default()({
+      path: '/wp/v2/types?per_page=100'
+    }).then(data => {
+      this.setState({
+        types: data,
+        loading: false
+      });
+    });
+  }
+  typeOptions() {
+    const {
+      types
+    } = this.state;
+    const typeOptions = types ? Object.keys(types).filter(k => ['page', 'attachment', 'wp_block'].indexOf(k) == -1).map(k => ({
+      slug: types[k].slug,
+      label: types[k].name,
+      value: types[k].rest_base
+    })) : [];
+    return typeOptions;
+  }
+  taxonomyOptions() {
+    const {
+      attributes: {
+        type
+      }
+    } = this.props;
+    const {
+      types,
+      taxonomies
+    } = this.state;
+    let slug;
+    if (types) {
+      slug = this.typeOptions().filter(t => t.value == type)[0].slug;
+      const taxonomyOptions = types && taxonomies ? Object.keys(taxonomies).filter(i => taxonomies[i].types.indexOf(slug) > -1).map(k => ({
+        label: types[slug].name + ' -> ' + taxonomies[k].name,
+        value: taxonomies[k].rest_base
+      })) : [];
+      return [{
+        label: 'None',
+        value: 'none'
+      }, ...taxonomyOptions];
+    } else {
+      return [];
+    }
+  }
+  categoriesOptions() {
+    const {
+      taxonomyValues
+    } = this.state;
+    const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({
+      label: t.name,
+      value: t.id
+    }));
+    return taxonomyValuesOptions || [];
+  }
+  renderFilters() {
+    const {
+      attributes: {
+        type,
+        taxonomy,
+        categories
+      }
+    } = this.props;
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      title: (0,external_wp_i18n_.__)("Filter")
+    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      label: (0,external_wp_i18n_.__)("Post Type"),
+      options: this.typeOptions(),
+      value: type,
+      onChange: this.onTypeChanged
+    })), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      label: (0,external_wp_i18n_.__)("Use a taxonomy filter "),
+      options: this.taxonomyOptions(),
+      value: taxonomy,
+      onChange: this.onTaxonomyChanged
+    })), taxonomy != 'none' && this.categoriesOptions().length > 0 && this.categoriesOptions().map(o => {
+      return external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.CheckboxControl, {
+        label: o.label,
+        onChange: checked => this.onCategoryChanged(checked, o.value),
+        checked: categories.indexOf(o.value) > -1
+      }));
+    }));
+  }
+}
+class BlockEditWithAPIMetadata extends ComponentWithSettings {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    external_wp_apiFetch_default()({
+      path: '/dg/v1/settings'
+    }).then(settingsData => {
+      fetch(`/api/registry/eureka/apps`, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => response.json()).then(data => {
+        const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
+          label: a.name,
+          value: a.instance[0].vipAddress,
+          settings: a.instance[0]
+        })), {
+          label: 'CSV',
+          value: 'csv'
+        }] : [{
+          label: 'CSV',
+          value: 'csv'
+        }];
+        this.setState({
+          react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
+          react_api_url: settingsData["react_api_url"],
+          apache_superset_url: settingsData["apache_superset_url"],
+          site_language: settingsData["site_language"],
+          current_language: new URLSearchParams(document.location.search).get("edit_lang") || "",
+          apps
+        }, () => {
+          const {
+            app,
+            dvzProxyDatasetId
+          } = this.props.attributes;
+          if (isSupersetAPI(app, this.state.apps)) {
+            this.loadDatasets(app);
+          }
+          if (app && app != 'none') {
+            this.loadMetadata(app, dvzProxyDatasetId);
+          }
+        });
+      }).catch(() => {
+        console.log("Error when loading apps");
+      });
+    });
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+    const {
+      attributes: {
+        app,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    const {
+      attributes: {
+        dvzProxyDatasetId: prevDvzProxyDatasetId,
+        app: prevAPP
+      }
+    } = prevProps;
+    if (app != prevAPP) {
+      //if app changes we shoudl reload metadta
+      if (isSupersetAPI(app, this.state.apps)) {
+        //if app is superset proxy an additional step is added
+        this.loadDatasets(app);
+        if (dvzProxyDatasetId) {
+          this.loadMetadata(app, dvzProxyDatasetId);
+        }
+      } else {
+        this.loadMetadata(app, dvzProxyDatasetId);
+      }
+    } else {
+      //app wasn't changed
+      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+        this.loadMetadata(app, dvzProxyDatasetId);
+      }
+    }
+  }
+  evictSuperSetCache() {
+    const {
+      app,
+      dvzProxyDatasetId
+    } = this.props.attributes;
+    fetch(`/api/${app}/cacheEvict?dvzProxyDatasetId=${dvzProxyDatasetId}`).then(() => {
+      this.loadMetadata(app, dvzProxyDatasetId);
+    });
+  }
+  loadDatasets(app) {
+    fetch(`/api/${app}/datasets`).then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP status " + response.status);
+      }
+      return response.json();
+    }).then(data => {
+      this.setState({
+        datasets: data
+      });
+    }).catch(() => {
+      console.log("Error when loading datasets");
+    });
+  }
+  loadMetadata(app, dvzProxyDatasetId) {
+    if (app == 'csv') {
+      return;
+    }
+    const dimensionsUrl = `/api/${app}/dimensions${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    const measuresUrl = `/api/${app}/measures${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    const filtersUrl = `/api/${app}/filters${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    const categoriesUrl = `/api/${app}/categories${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    if (app != "csv") {
+      fetch(dimensionsUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        } else {
+          return response.json();
+        }
+      }).then(data => {
+        this.setState({
+          dimensions: [{
+            "label": (0,external_wp_i18n_.__)("None"),
+            "value": "none"
+          }, ...APIutils_getTranslatedOptions(data)]
+        });
+      }).catch(function () {
+        console.log("Error when loading dimensions");
+      });
+      fetch(filtersUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      }).then(data => {
+        const options = data.map(f => ({
+          ...f,
+          value: f.param
+        }));
+        this.setState({
+          filters: options
+        });
+      }).catch(function (response) {
+        console.log("Error when loading filters", response);
+      });
+      fetch(measuresUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      }).then(data => {
+        sessionStorage.setItem(`measures_${app}`, JSON.stringify(APIutils_getTranslatedOptions(data)));
+        debugger;
+        this.setState({
+          measures: APIutils_getTranslatedOptions(data)
+        });
+      }).catch(function () {
+        console.log("Error when loading measures");
+      });
+      fetch(categoriesUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      }).then(data => {
+        sessionStorage.setItem(`categories_${app}`, JSON.stringify(data));
+        this.setState({
+          categories: APIutils_getTranslatedOptions(data)
+        });
+      }).catch(function (response) {
+        console.log("Error when getting categories", response);
+      });
+    }
+  }
+  fetchData(url, stateKey, transformData) {
+    fetch(url).then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP status " + response.status);
+      }
+      return response.json();
+    }).then(data => {
+      // TODO: Check if the data is an array
+      // @ts-ignore
+      this.setState({
+        [stateKey]: transformData(data)
+      });
+    }).catch(() => {
+      console.log(`Error when loading ${stateKey}`);
+    });
+  }
+}
+/* harmony default export */ const Blocks = ((/* unused pure expression or super */ null && (SizeConfig)));
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.2/node_modules/papaparse/papaparse.min.js
+var papaparse_min = __webpack_require__(1926);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+;// ../../../packages/commons/build/ChartColors.js
+
+
+
+
+
+
+
+const OVERALL = 'Overall';
+const system = [{
+  value: "system",
+  label: 'System Colors'
+}, {
+  value: "manual",
+  label: 'Manual Colors'
+}];
+const categorical = [{
+  value: "nivo",
+  label: 'nivo'
+}, {
+  value: "category10",
+  label: 'category10'
+}, {
+  value: "accent",
+  label: 'Accent'
+}, {
+  value: "dark2",
+  label: 'dark2'
+}, {
+  value: "paired",
+  label: 'paired'
+}, {
+  value: "pastel1",
+  label: 'pastel1'
+}, {
+  value: "pastel2",
+  label: 'pastel2'
+}, {
+  value: "set1",
+  label: 'set1'
+}, {
+  value: "set2",
+  label: 'set2'
+}, {
+  value: "set3",
+  label: 'set3'
+}];
+const sequential = [{
+  value: "blues",
+  label: 'blues'
+}, {
+  value: "greens",
+  label: 'greens'
+}, {
+  value: "greys",
+  label: 'greys'
+}, {
+  value: "oranges",
+  label: 'oranges'
+}, {
+  value: "purples",
+  label: 'purples'
+}, {
+  value: "reds",
+  label: 'reds'
+}, {
+  value: "blue_green",
+  label: 'blue_green'
+}, {
+  value: "blue_purple",
+  label: 'blue_purple'
+}, {
+  value: "green_blue",
+  label: 'green_blue'
+}, {
+  value: "orange_red",
+  label: 'orange_red'
+}, {
+  value: "purple_blue_green",
+  label: 'purple_blue_green'
+}, {
+  value: "purple_blue",
+  label: 'purple_blue'
+}, {
+  value: "purple_red",
+  label: 'purple_red'
+}, {
+  value: "red_purple",
+  label: 'red_purple'
+}, {
+  value: "yellow_green_blue",
+  label: 'yellow_green_blue'
+}, {
+  value: "yellow_green",
+  label: 'yellow_green'
+}, {
+  value: "yellow_orange_brown",
+  label: 'yellow_orange_brown'
+}, {
+  value: "yellow_orange_red",
+  label: 'yellow_orange_brown'
+}];
+const diverging = [{
+  value: "brown_blueGreen",
+  label: 'brown_blueGreen'
+}, {
+  value: "purpleRed_green",
+  label: 'purpleRed_green'
+}, {
+  value: "pink_yellowGreen",
+  label: 'pink_yellowGreen'
+}, {
+  value: "purple_orange",
+  label: 'purple_orange'
+}, {
+  value: "red_blue",
+  label: 'red_blue'
+}, {
+  value: "red_grey",
+  label: 'red_grey'
+}, {
+  value: "red_yellow_blue",
+  label: 'red_yellow_blue'
+}, {
+  value: "red_yellow_green",
+  label: 'red_yellow_green'
+}, {
+  value: "spectral",
+  label: 'spectral'
+}];
+const plainColor = {
+  value: "plain_color",
+  label: 'Use Plain color'
+};
+const ChartColors = props => {
+  const {
+    allDimensions,
+    allFilters,
+    allMeasures,
+    allCategories,
+    allApps,
+    setAttributes,
+    attributes
+  } = props;
+  const {
+    swap,
+    measures,
+    manualColors,
+    scheme,
+    colorBy,
+    dimension1,
+    dimension2,
+    barColor,
+    type,
+    app,
+    csv,
+    includeOverall
+  } = attributes;
+  let l1Label = null;
+  let d2Label = null;
+  let d3Label = null;
+  const selectedMeasures = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : [];
+  let colorOptions = [];
+  if (app !== "csv") {
+    l1Label = dimension1 != 'none' && allDimensions ? '1st Dimension - ' + allDimensions.filter(d => d.value == dimension1)[0].label : null;
+    //if one dimensions is selected o
+    if (dimension2 == 'none' && selectedMeasures.length > 0) {
+      d2Label = __("Measure Labels");
+      d3Label = __("Measure Values");
+    } else if (dimension2 != 'none') {
+      //if two dimensions are selected show dimensions 1, dimensions 2 and values
+      d2Label = allDimensions ? '2nd Dimension - ' + allDimensions.filter(d => d.value == dimension2)[0].label : null;
+      d3Label = __("Measure Values");
+    }
+  } else {
+    //CSV Color Options
+    const data = Papa.parse(csv, {
+      header: true,
+      dynamicTyping: true
+    });
+    l1Label = data.meta.fields && data.meta.fields.length > 0 ? '1st Column Values ' : null;
+    d2Label = __("Measure Columns Labels");
+    d3Label = __("Measure Columns Values");
+  }
+  if (type == 'bar') {
+    if (swap && dimension2 == "none" && selectedMeasures.length > 0) {
+      colorOptions = [];
+      if (l1Label) {
+        colorOptions.push({
+          label: l1Label,
+          value: 'id'
+        });
+        if (d2Label) {
+          colorOptions.push({
+            label: d2Label,
+            value: 'index'
+          });
+        }
+      } else {
+        if (d2Label) {
+          colorOptions.push({
+            label: d2Label,
+            value: 'id'
+          });
+        }
+        colorOptions.push({
+          label: "Measure Values",
+          value: 'values'
+        });
+      }
+    } else {
+      colorOptions = [];
+      if (l1Label && l1Label !== 'none') {
+        colorOptions.push({
+          label: l1Label,
+          value: 'index'
+        });
+      }
+      if (d2Label && d2Label !== 'none') {
+        colorOptions.push({
+          label: d2Label,
+          value: l1Label && l1Label !== 'none' ? 'id' : 'index'
+        });
+      }
+      if (d3Label && d3Label !== 'none') {
+        colorOptions.push({
+          label: d3Label,
+          value: 'values'
+        });
+      }
+    }
+  }
+  if (type == 'pie') {
+    if (dimension1 != 'none' && dimension2 == 'none' && colorBy != 'index') {
+      setAttributes({
+        ...attributes,
+        colorBy: 'index'
+      });
+      return null;
+    }
+    if (dimension1 != 'none' && dimension2 != 'none' && colorBy != 'id') {
+      setAttributes({
+        ...attributes,
+        colorBy: 'id'
+      });
+      return null;
+    }
+  }
+  let options = [];
+  if (colorBy === 'index' || colorBy === 'id') {
+    if (type == "bar") {
+      options = [...system, plainColor, ...categorical, ...sequential];
+    } else if (type == "line") {
+      options = [...system, plainColor, ...categorical];
+    } else {
+      options = [...system, ...categorical, ...sequential];
+    }
+  }
+  if (colorBy === 'values') {
+    options = [...sequential];
+  }
+  const [useColors, setUseColors] = useState("dimension");
+  useEffect(() => {
+    let nextUseColors = useColors;
+    if (app != "csv") {
+      // All conditions for coloring by measures
+      if (dimension2 == "none" && colorBy === "index" && swap || type == 'line' || dimension1 == "none" && dimension2 == "none") {
+        //Multi measure colored by first dimension but  swapped (Colored by Measure) or dimensionless bar charts
+        nextUseColors = "measure";
+      } else if (dimension2 == "none" && colorBy === "id" && !swap) {
+        //Multi Measure chart colored by  (Measure)
+        nextUseColors = "measure";
+      } else {
+        //colored by a dimensions
+        nextUseColors = "dimension";
+      }
+      if (prevStatus.current) {
+        if (nextUseColors == "dimension") {
+          if (prevStatus.current["scheme"] != scheme && scheme === "manual") {
+            initColors(colorBy === "index" ? dimension1 : dimension2);
+          }
+          if (prevStatus.current["colorBy"] != colorBy) {
+            initColors(colorBy === "index" ? dimension1 : dimension2);
+          }
+          if (prevStatus.current["dimension1"] != dimension1 || prevStatus.current["dimension2"] != dimension2) {
+            initColors(colorBy === "index" ? dimension1 : dimension2);
+          }
+        } else {
+          initMeasuresColors();
+        }
+      }
+      setUseColors(nextUseColors);
+    } else {
+      if (!manualColors["csv"]) {
+        setAttributes({
+          ...attributes,
+          manualColors: {
+            "csv": {}
+          },
+          colorBy: colorBy || ""
+        });
+      }
+    }
+    prevStatus.current = {
+      scheme,
+      colorBy: colorBy || "",
+      dimension1,
+      dimension2,
+      useColors,
+      app
+    };
+  }, [scheme, dimension1, dimension2, colorBy, swap, app, type]);
+  const prevStatus = useRef(undefined);
+  const updateColor = (value, color) => {
+    const newColors = Object.assign({}, manualColors);
+    newColors[app][value] = color;
+    setAttributes({
+      ...attributes,
+      manualColors: newColors,
+      colorBy: colorBy || ""
+    });
+  };
+  const initColors = dimension => {
+    const ds = allDimensions.filter(d => d.value == dimension);
+    const newColors = Object.assign({}, manualColors);
+    if (!newColors[app]) {
+      newColors[app] = {};
+    }
+    if (ds.length > 0) {
+      const {
+        type
+      } = ds[0];
+      const cat = allCategories.filter(a => a.type === type);
+      if (cat.length > 0) {
+        cat[0].items.forEach(item => {
+          if (!newColors[app][item.code]) {
+            newColors[app][item.code] = item.categoryStyle ? item.categoryStyle.color : "#eeeeee";
+          }
+        });
+      }
+      setAttributes({
+        ...attributes,
+        manualColors: newColors
+      });
+    }
+  };
+  const initMeasuresColors = () => {
+    const newColors = Object.assign({}, manualColors);
+    if (!newColors[app]) {
+      newColors[app] = {};
+    }
+    if (!allMeasures) {}
+    if (allMeasures) {
+      allMeasures.forEach(p => {
+        if (!newColors[app][p.value]) {
+          newColors[app][p.value] = p.styles ? p.styles.color : "#eeeeee";
+        }
+      });
+    }
+    setAttributes({
+      ...attributes,
+      manualColors: newColors
+    });
+  };
+  const combinedCatColors = (dimension1, dimension2) => {
+    if (manualColors[app]) {
+      const ds1 = allDimensions.filter(d => d.value == dimension1);
+      const ds2 = allDimensions.filter(d => d.value == dimension2);
+      if (ds1.length > 0 && ds2.length > 0) {
+        const {
+          type
+        } = ds1[0];
+        const {
+          type: type2
+        } = ds2[0];
+        const cat = allCategories.filter(a => a.type === type);
+        const cat2 = allCategories.filter(a => a.type === type2);
+        const list = [];
+        cat[0].items.sort((a, b) => {
+          var _a$position, _b$position;
+          return ((_a$position = a.position) !== null && _a$position !== void 0 ? _a$position : 0) - ((_b$position = b.position) !== null && _b$position !== void 0 ? _b$position : 0);
+        }).forEach(c1 => {
+          cat2[0].items.sort((a, b) => {
+            var _a$position2, _b$position2;
+            return ((_a$position2 = a.position) !== null && _a$position2 !== void 0 ? _a$position2 : 0) - ((_b$position2 = b.position) !== null && _b$position2 !== void 0 ? _b$position2 : 0);
+          }).forEach(c2 => {
+            list.push(React.createElement(PanelColorSettings, {
+              colorSettings: [{
+                value: manualColors[app][c1.value + ' - ' + c2.value],
+                onChange: color => {
+                  if (color) {
+                    updateColor(c1.value + ' - ' + c2.value, color);
+                  } else {
+                    updateColor(c1.value + ' - ' + c2.value, "#eeeeee");
+                  }
+                },
+                label: c1.value + ' - ' + c2.value
+              }]
+            }));
+          });
+        });
+        return list;
+      }
+    }
+    return null;
+  };
+  const catColors = dimension => {
+    if (manualColors[app]) {
+      const ds = allDimensions.filter(d => d.value == dimension);
+      if (ds.length > 0) {
+        const {
+          type
+        } = ds[0];
+        const cat = allCategories.filter(a => a.type === type);
+        if (cat && cat.length > 0) {
+          const list = cat[0].items.sort((a, b) => {
+            var _b$position3, _a$position3;
+            return ((_b$position3 = b.position) !== null && _b$position3 !== void 0 ? _b$position3 : 0) - ((_a$position3 = a.position) !== null && _a$position3 !== void 0 ? _a$position3 : 0);
+          }).map(item => {
+            return React.createElement(PanelColorSettings, {
+              colorSettings: [{
+                value: manualColors[app][item.code],
+                onChange: color => {
+                  if (color) {
+                    updateColor(item.code, color);
+                  } else {
+                    updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#eeeeee");
+                  }
+                },
+                label: getTranslation(item)
+              }]
+            });
+          });
+          const dimensions = [dimension1, dimension2].filter(f => f != '' && f != "none");
+          let selectedMeasures = [];
+          allMeasures.forEach(m => {
+            if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
+              selectedMeasures.push(m.value);
+            }
+          });
+          if (includeOverall) {
+            list.push(React.createElement(PanelColorSettings, {
+              colorSettings: [{
+                value: manualColors[app][OVERALL],
+                onChange: color => {
+                  if (color) {
+                    updateColor(OVERALL, color);
+                  } else {
+                    updateColor(OVERALL, "#eeeeee");
+                  }
+                },
+                label: __("Overall")
+              }]
+            }));
+          }
+          return list;
+        } else {
+          return null;
+        }
+      }
+    }
+    return null;
+  };
+  const measureColors = () => {
+    if (manualColors[app] && allMeasures && measures[app]) {
+      const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected);
+      if (selectedMeasures.length > 0) {
+        const list = selectedMeasures.sort((a, b) => b.position - a.position).map(item => {
+          return React.createElement(PanelColorSettings, {
+            colorSettings: [{
+              value: manualColors[app][item.value],
+              onChange: color => {
+                if (color) {
+                  updateColor(item.value, color);
+                } else {
+                  updateColor(item.value, item.styles ? item.styles.color : "#555555");
+                }
+              },
+              label: __(item.label)
+            }]
+          });
+        });
+        if (includeOverall && selectedMeasures.length == 1) {
+          list.push(React.createElement(PanelColorSettings, {
+            colorSettings: [{
+              value: manualColors[app][OVERALL],
+              onChange: color => {
+                if (color) {
+                  updateColor(OVERALL, color);
+                } else {
+                  updateColor(OVERALL, "#eeeeee");
+                }
+              },
+              label: __("Overall")
+            }]
+          }));
+        }
+        return list;
+      }
+    }
+    return null;
+  };
+  const csvColors = colorBy => {
+    const data = Papa.parse(csv, {
+      header: true,
+      dynamicTyping: true
+    });
+    const values = [];
+    if (colorBy === "index" && type != 'line') {
+      const field = data.meta?.fields?.[0];
+      if (field) {
+        values.push(...data.data.map(d => d[field]));
+      }
+    }
+    if (colorBy === "id" || type == 'line') {
+      const fields = data.meta?.fields?.slice(1);
+      if (fields) {
+        // Convert string fields to numbers before pushing to values array
+        const numericFields = fields.map(field => Number(field));
+        values.push(...numericFields);
+      }
+    }
+    if (colorBy === "values") {
+      values.push(0, 100);
+    }
+    if (manualColors[app] && values) {
+      return values.map(v => {
+        return React.createElement(PanelColorSettings, {
+          colorSettings: [{
+            value: manualColors[app][v],
+            onChange: color => {
+              if (color) {
+                updateColor(v.toString(), color);
+              }
+            },
+            label: __(v.toString())
+          }]
+        });
+      });
+    }
+    return null;
+  };
+  const elements = [];
+  if (type == 'bar') {
+    elements.push(React.createElement(PanelRow, null, React.createElement(SelectControl, {
+      multiple: false,
+      label: __('Color By'),
+      value: colorBy,
+      onChange: colorBy => {
+        setAttributes({
+          ...attributes,
+          colorBy
+        });
+        if (colorBy === 'index' || colorBy === 'id') {
+          setAttributes({
+            ...attributes,
+            colorBy
+          });
+        }
+        if (colorBy === 'values') {
+          setAttributes({
+            ...attributes,
+            scheme: "blues",
+            colorBy
+          });
+        }
+      },
+      options: colorOptions
+    })));
+  }
+  return [...elements, React.createElement(PanelRow, null, React.createElement(SelectControl, {
+    multiple: false,
+    label: __('Color Scheme'),
+    value: scheme,
+    onChange: value => {
+      setAttributes({
+        ...attributes,
+        scheme: value
+      });
+    },
+    options: options
+  })), scheme == "plain_color" && React.createElement(PanelRow, null, React.createElement(PanelColorSettings, {
+    title: __('Color settings'),
+    colorSettings: [{
+      value: decodeURIComponent(barColor),
+      onChange: color => {
+        if (color) {
+          setAttributes({
+            ...attributes,
+            barColor: encodeURIComponent(color)
+          });
+        } else {
+          setAttributes({
+            ...attributes,
+            barColor: null
+          });
+        }
+      },
+      label: __('Plain color')
+    }]
+  })), scheme == "manual" && React.createElement(PanelRow, null, app != "csv" && useColors == "dimension" && colorBy == "index" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, catColors(dimension1)), app != "csv" && useColors == "dimension" && colorBy == "id" && dimension2 != "none" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, type == 'bar' && catColors(dimension2), type == 'line' && catColors(dimension2), type == 'pie' && combinedCatColors(dimension1, dimension2)), app != "csv" && useColors == "dimension" && swap && colorBy == "id" && dimension1 != "none" && dimension2 == "none" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, catColors(dimension1)), app != 'csv' && useColors === "measure" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Color By Measure")
+  }, measureColors()), app == "csv" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, csvColors(colorBy)))];
+};
+/* harmony default export */ const build_ChartColors = ((/* unused pure expression or super */ null && (ChartColors)));
+;// ../../../packages/commons/build/ChartMeasures.js
+
+
+
+
+
+
+const ChartMeasures_defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const ChartMeasures = props => {
+  const {
+    onMeasuresChange,
+    onFormatChange,
+    onUseCustomAxisFormatChange,
+    onSetSingleMeasure,
+    onCustomLabelToggleChange,
+    onCustomLabelChange,
+    allMeasures,
+    setAttributes,
+    title,
+    attributes: {
+      panelStatus,
+      measures,
+      dimension1,
+      dimension2,
+      type,
+      app
+    }
+  } = props;
+  const MToggle = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    return React.createElement(ToggleControl, {
+      label: getTranslation(measure),
+      checked: userMeasure ? userMeasure.selected : false,
+      onChange: value => onMeasuresChange(measure.value)
+    });
+  };
+  const MCheckbox = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    return React.createElement(CheckboxControl, {
+      label: getTranslation(measure),
+      checked: userMeasure ? userMeasure.selected : false,
+      onChange: value => onSetSingleMeasure(measure.value)
+    });
+  };
+  const MeasureOptions = ({
+    measure,
+    single
+  }) => {
+    return React.createElement(PanelRow, null, single && React.createElement(MCheckbox, {
+      measure: measure
+    }), !single && React.createElement(MToggle, {
+      measure: measure
+    }));
+  };
+  const countSelected = g => {
+    if (measures[app]) {
+      const mG = allMeasures.filter(f => getTranslation(f.group) === g);
+      let count = 0;
+      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
+        if (measures[app][k].selected) {
+          count++;
+        }
+      });
+      return count;
+    }
+    return 0;
+  };
+  const countTotal = g => {
+    if (g) {
+      return allMeasures.filter(f => getTranslation(f.group) === g).length;
+    }
+    return 0;
+  };
+  const getSelectedMeasures = () => {
+    if (measures[app] && allMeasures) {
+      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
+        return allMeasures.filter(m => m.value === k)[0];
+      }).filter(m => m);
+    }
+    return [];
+  };
+  const selectedMeasures = getSelectedMeasures();
+  return React.createElement(React.Fragment, null, React.createElement(PanelBody, {
+    title: title ? title : __("Measures"),
+    initialOpen: panelStatus["MEASURES"],
+    onToggle: e => togglePanel("MEASURES", panelStatus, setAttributes)
+  },
+  /*
+   Multiple measures conditions
+    Bar:
+   no dimensions selected
+   one dimension is selected
+   -  not available when second dimension gets selected
+    Line:
+     - Always multi measure as measures represents line series, one dimension should always be selected
+    Pie:
+        no dimensions selected
+         -  not available when any dimension is selected
+   */
+  (type == 'line' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+    return React.createElement(PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
+    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
+      single: false,
+      measure: m
+    }))));
+  }),
+  /*Single measure conditions
+  Bar:
+     2 dimensions selected
+  Line:
+      never
+  Pie:
+    any dimensions selected
+  */
+  (type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+    return React.createElement(PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `
+    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
+      single: true,
+      measure: m
+    }))));
+  }), type == 'overlay' && allMeasures && React.createElement(SelectControl, {
+    label: "Measure",
+    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
+    options: [{
+      value: '',
+      label: 'Select Measure'
+    }, ...allMeasures],
+    onChange: measure => onSetSingleMeasure(measure),
+    __nextHasNoMarginBottom: true
+  }), type != 'overlay' && React.createElement(PanelBody, {
+    title: __("Format"),
+    initialOpen: panelStatus["FORMAT"],
+    onToggle: e => togglePanel("FORMAT", panelStatus, setAttributes)
+  }, React.createElement(Format, {
+    format: measures[app] && measures[app].format ? measures[app].format : ChartMeasures_defaultFormat,
+    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : ChartMeasures_defaultFormat,
+    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
+    onFormatChange: (format, field) => {
+      onFormatChange(format, field);
+    },
+    onUseCustomAxisFormatChange: value => {
+      onUseCustomAxisFormatChange(value);
+    }
+  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && React.createElement(PanelBody, {
+    title: __("Measure Label Customization"),
+    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
+    onToggle: e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
+  }, selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
+    return React.createElement(PanelBody, {
+      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
+      onToggle: e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
+      title: `${g}`
+    }, selectedMeasures.filter(f => getTranslation(f.group) === g).map(m => {
+      const userMeasure = measures[app] ? measures[app][m.value] : {};
+      return React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
+        label: getTranslation(m),
+        checked: userMeasure ? userMeasure.hasCustomLabel : false,
+        onChange: value => onCustomLabelToggleChange(m.value)
+      }), " "), userMeasure.hasCustomLabel && React.createElement(PanelRow, null, React.createElement(TextControl, {
+        label: __("Custom Label"),
+        value: userMeasure ? userMeasure.customLabel : "",
+        onChange: value => onCustomLabelChange(m.value, value)
+      })));
+    }));
+  })));
+};
+/* harmony default export */ const build_ChartMeasures = ((/* unused pure expression or super */ null && (ChartMeasures)));
+;// ../../../packages/commons/build/Constants.js
+const DEFAULT_FORMAT_SETTINGS = {
+  format: {
+    style: "percent",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  },
+  customFormat: {
+    style: "percent",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  },
+  useCustomAxisFormat: false
+};
+const BLOCKS_CATEGORY = 'wp-react-lib-blocks';
+const BLOCKS_NS = 'viz';
+;// ../../../packages/commons/build/CSVSourceConfig.js
+
+
+
+
+
+const CSVSourceConfig_defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const CSVConfig = ({
+  attributes: {
+    csv,
+    panelStatus,
+    measures,
+    type
+  },
+  setAttributes
+}) => {
+  const onFormatChange = (format, field) => {
+    const app = "csv";
+    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
+    if (!uMs[app]) {
+      uMs[app] = {
+        allowSelection: false,
+        format: Object.assign({}, CSVSourceConfig_defaultFormat),
+        customFormat: Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        }),
+        selected: false
+      };
+    }
+    uMs[app][field] = format;
+    setAttributes({
+      measures: uMs
+    });
+  };
+  const onUseCustomAxisFormatChange = value => {
+    const app = "csv";
+    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
+    if (uMs[app]) {
+      uMs[app].useCustomAxisFormat = value;
+      if (!uMs[app].customFormat) {
+        uMs[app].customFormat = Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        });
+      }
+      setAttributes({
+        measures: uMs
+      });
+    } else {
+      uMs[app] = {
+        allowSelection: false,
+        format: Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        }),
+        customFormat: Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        }),
+        selected: false
+      };
+      uMs[app].useCustomAxisFormat = value;
+      setAttributes({
+        measures: uMs
+      });
+    }
+  };
+  return [React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("CSV Configuration"),
+    onToggle: e => togglePanel("csv_cfg", panelStatus, setAttributes)
+  }, React.createElement(PanelRow, null, React.createElement(TextareaControl, {
+    label: __("CSV Data"),
+    value: csv,
+    onChange: csv => setAttributes({
+      csv
+    })
+  })), React.createElement(Format, {
+    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
+    format: measures["csv"] && measures["csv"].format ? measures["csv"].format : {},
+    customFormat: measures["csv"] && measures["csv"].customFormat ? measures["csv"].customFormat : {},
+    useCustomAxisFormat: measures["csv"] ? measures["csv"].useCustomAxisFormat : false,
+    onFormatChange: (newFormat, field) => {
+      onFormatChange(newFormat, field);
+    },
+    onUseCustomAxisFormatChange: value => {
+      onUseCustomAxisFormatChange(value);
+    }
+  }))];
+};
+/* harmony default export */ const CSVSourceConfig = ((/* unused pure expression or super */ null && (CSVConfig)));
+;// ../../../packages/commons/build/DataFilters.js
+
+
+
+const DataFilters = props => {
+  const updateFilterParam = (param, idx) => {
+    const {
+      attributes,
+      setAttributes,
+      allFilters
+    } = props;
+    const filters = attributes?.filters || [];
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    setAttributes({
+      filters: newFilters
+    });
+  };
+  const updateFilterValue = (value, idx) => {
+    const {
+      attributes,
+      setAttributes,
+      onChange
+    } = props;
+    const filters = attributes?.filters || [];
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    setAttributes({
+      filters: newFilters
+    });
+    onChange && onChange();
+  };
+  const addFilter = () => {
+    const {
+      attributes,
+      setAttributes,
+      allFilters
+    } = props;
+    const filters = attributes?.filters || [];
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    setAttributes({
+      filters: newFilters
+    });
+  };
+  const removeFilter = f => {
+    const {
+      attributes,
+      setAttributes
+    } = props;
+    const filters = attributes?.filters || [];
+    let newFilters = filters.slice(0, -1);
+    setAttributes({
+      filters: newFilters
+    });
+  };
+  const items = type => {
+    const values = props.allCategories ? props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      items = cat.items;
+    }
+    return items;
+  };
+  const FilterSelector = ({
+    param,
+    index,
+    options,
+    onUpdateFilterParam
+  }) => {
+    const sortedOptions = options.sort(function (a, b) {
+      var aLabel = a.label ? a.label.toLowerCase() : "";
+      var bLabel = b.label ? b.label.toLowerCase() : "";
+      return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+    });
+    return external_React_default().createElement(external_wp_components_.SelectControl, {
+      onChange: value => {
+        onUpdateFilterParam(value, index);
+      },
+      value: param,
+      options: sortedOptions
+    });
+  };
+  const CategoricalFilter = ({
+    value,
+    index,
+    items,
+    onUpdateFilterValue
+  }) => {
+    if (items) {
+      const sortedItems = items.sort(function (a, b) {
+        if (a.position !== undefined && b.position !== undefined) {
+          return a.position - b.position;
+        }
+        let aValue = a.value ? a.value.toLowerCase() : "";
+        let bValue = b.value ? b.value.toLowerCase() : "";
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      });
+      return sortedItems.map(v => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })));
+    } else {
+      return null;
+    }
+  };
+  const {
+    allFilters,
+    attributes
+  } = props;
+  const filters = attributes?.filters || [];
+  return external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Filters")
+  }, filters.length > 0 && filters.map((f, index) => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: true,
+      title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`)
+    }, external_React_default().createElement(FilterSelector, {
+      param: f.param,
+      index: index,
+      options: allFilters,
+      onUpdateFilterParam: updateFilterParam
+    }), external_React_default().createElement(CategoricalFilter, {
+      value: f.value,
+      index: index,
+      items: items(f.type),
+      onUpdateFilterValue: updateFilterValue
+    }));
+  }), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.Button, {
+    variant: "link",
+    onClick: addFilter
+  }, (0,external_wp_i18n_.__)("Add Filter")), external_React_default().createElement(external_wp_components_.Button, {
+    variant: "link",
+    onClick: removeFilter
+  }, (0,external_wp_i18n_.__)("Remove"))));
+};
+/* harmony default export */ const build_DataFilters = ((/* unused pure expression or super */ null && (DataFilters)));
+;// ../../../packages/commons/build/MapCSVSourceConfig.js
+
+
+
+const MapCSVSourceConfig = ({
+  attributes: {
+    app,
+    csv,
+    hasMultipleMeasures,
+    enableSummaryView
+  },
+  setAttributes
+}) => {
+  return [React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("CSV Configuration")
+  }, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
+    label: "Has Multiple Measures",
+    checked: hasMultipleMeasures,
+    onChange: () => setAttributes({
+      hasMultipleMeasures: !hasMultipleMeasures
+    })
+  })), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
+    label: __("CSV Data"),
+    value: csv,
+    onChange: csv => setAttributes({
+      csv
+    })
+  })))];
+};
+/* harmony default export */ const build_MapCSVSourceConfig = ((/* unused pure expression or super */ null && (MapCSVSourceConfig)));
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/lodash.isempty@4.4.0/node_modules/lodash.isempty/index.js
+var lodash_isempty = __webpack_require__(1299);
+;// ../../../packages/commons/build/MobileConfigUtils.js
+
+
+function extractAxisValues(csvData) {
+  const lines = csvData.split("\n");
+  const firstColumnValues = lines?.slice(1)?.map(row => {
+    return row.split(",")[0];
+  });
+  return firstColumnValues;
+}
+function transformDataToAppObject(data, appName, existingObject = {}) {
+  if (existingObject[appName] !== undefined) {
+    return existingObject;
+  }
+  existingObject[appName] = {};
+  data?.forEach(item => {
+    const key = item.value;
+    existingObject[appName][key] = {
+      selected: false,
+      format: {
+        style: "percent",
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+        currency: "USD"
+      },
+      hasCustomLabel: false,
+      customLabel: item.label || key
+    };
+  });
+  return existingObject;
+}
+function getSelectedItemsForApp(config, appName) {
+  const appConfig = config[appName];
+  if (!appConfig) return {};
+  const selectedEntries = {};
+  for (const key in appConfig) {
+    const value = appConfig[key];
+    if (value && typeof value === 'object' && value.selected === true) {
+      selectedEntries[key] = value;
+    }
+  }
+  return selectedEntries;
+}
+function getSelectedLabelsForApp(data, appName) {
+  const appData = data[appName];
+  if (!appData) {
+    return [];
+  }
+  return Object.keys(appData).filter(key => appData[key].selected) // Filter out the selected items
+  .map(key => {
+    return appData[key].hasCustomLabel ? appData[key].customLabel : appData[key].label;
+  });
+}
+function updateMeasureLabels(data, measures, app) {
+  transformDataToAppObject(data, app, measures);
+  const apiMeasures = getTranslatedOptions(data);
+  // for each api measure, find the corresponding measure in the measures array
+  // and add a label property to the measure in the measures array
+  apiMeasures?.forEach(apiMeasure => {
+    const measure = measures[app][apiMeasure.value];
+    if (measure) {
+      measure.label = apiMeasure.label;
+    }
+  });
+}
+;
+function getStoredOrSetItem(key, fallback, overwrite = false) {
+  const fallbackValue = fallback || [];
+  if (overwrite && !isEmpty(fallbackValue)) {
+    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  const storedItem = sessionStorage.getItem(key);
+  if (storedItem === null) {
+    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  const stored = JSON.parse(storedItem);
+  if (!stored) {
+    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  return stored;
+}
+;// ../../../packages/commons/build/Tooltip.js
+
+
+
+const Tooltip = props => {
+  function repeat(times) {
+    return function (strs, ...substs) {
+      return cook(strs, ...substs).repeat(times);
+    };
+  }
+  function cook(strs, ...substs) {
+    return substs.reduce((prev, cur, i) => prev + cur + strs[i + 1], strs[0]);
+  }
+  const {
+    setAttributes,
+    attributes: {
+      tooltipHTML,
+      dimension1,
+      dimension2,
+      dimension3,
+      measures
+    },
+    allMeasures,
+    allDimensions,
+    type
+  } = props;
+  return [React.createElement(PanelBody, {
+    title: __("Variables")
+  }, React.createElement("div", null, allDimensions.filter(d => d.value === dimension1 || d.value === dimension2 || d.value === dimension3).map(d => React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, d.label, " -> ", "{", d.value, "}")))), React.createElement("div", null, allMeasures.map(m => React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, m.label, " -> ", "{", m.value, "}")))), dimension1 == "none" && dimension2 == "none" && React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, "Corresponding Population -> ", "{", "populationValue", "}")), type === "pie" && React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, "Value Percent -> ", '{valuePercent}')), React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, "Category -> ", '{category}')))), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
+    label: __("Tooltip"),
+    value: tooltipHTML,
+    help: __("You can use variables {var_name}"),
+    onChange: tooltipHTML => setAttributes({
+      tooltipHTML
+    }),
+    rows: 10
+  }))];
+};
+/* harmony default export */ const build_Tooltip = ((/* unused pure expression or super */ null && (Tooltip)));
+;// ../../../packages/commons/build/types.js
+;
+var Allow;
+(function (Allow) {
+  Allow["Get"] = "GET";
+})(Allow || (Allow = {}));
+var MediaTaxonomy;
+(function (MediaTaxonomy) {
+  MediaTaxonomy["BreadCrumbs"] = "bread_crumbs";
+})(MediaTaxonomy || (MediaTaxonomy = {}));
+var CommentStatus;
+(function (CommentStatus) {
+  CommentStatus["Open"] = "open";
+})(CommentStatus || (CommentStatus = {}));
+var MediaType;
+(function (MediaType) {
+  MediaType["File"] = "file";
+})(MediaType || (MediaType = {}));
+var MIMEType;
+(function (MIMEType) {
+  MIMEType["ApplicationJSON"] = "application/json";
+})(MIMEType || (MIMEType = {}));
+var PingStatus;
+(function (PingStatus) {
+  PingStatus["Closed"] = "closed";
+})(PingStatus || (PingStatus = {}));
+var Status;
+(function (Status) {
+  Status["Inherit"] = "inherit";
+})(Status || (Status = {}));
+var Type;
+(function (Type) {
+  Type["Attachment"] = "attachment";
+})(Type || (Type = {}));
+;// ../../../packages/commons/build/icons/Generic.js
+
+
+const Generic = () => external_React_default().createElement(external_wp_components_.Icon, {
+  icon: () => external_React_default().createElement("svg", {
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    xmlns: "http://www.w3.org/2000/svg",
+    role: "img",
+    "aria-hidden": "true",
+    focusable: "false"
+  }, external_React_default().createElement("path", {
+    d: "M19 6.5H5c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7c0-1.1-.9-2-2-2zm.5 9c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-7c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v7zM8 13h8v-1.5H8V13z"
+  }))
+});
+/* harmony default export */ const icons_Generic = ((/* unused pure expression or super */ null && (Generic)));
+;// ../../../packages/commons/build/icons/Chart.js
+
+
+const Chart = () => {
+  return React.createElement(Icon, {
+    icon: () => React.createElement("svg", {
+      version: "1.1",
+      viewBox: "0 0 18.777 18.777"
+    }, React.createElement("g", null, React.createElement("g", null, React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M2.245,10.496H0.272C0.122,10.496,0,10.62,0,10.77v5.717c0,0.15,0.122,0.272,0.272,0.272h1.973\n\t\t\tc0.15,0,0.272-0.122,0.272-0.272V10.77C2.518,10.62,2.396,10.496,2.245,10.496z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M18.504,10.496h-1.973c-0.15,0-0.271,0.124-0.271,0.274v5.717c0,0.15,0.121,0.272,0.271,0.272\n\t\t\th1.973c0.152,0,0.273-0.122,0.273-0.272V10.77C18.777,10.62,18.656,10.496,18.504,10.496z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M5.907,7.228H3.934c-0.15,0-0.273,0.122-0.273,0.273v8.984c0,0.15,0.123,0.272,0.273,0.272h1.973\n\t\t\tc0.151,0,0.273-0.122,0.273-0.272V7.501C6.18,7.349,6.058,7.228,5.907,7.228z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M14.271,7.228h-1.973c-0.15,0-0.271,0.122-0.271,0.273v8.984c0,0.15,0.121,0.272,0.271,0.272h1.973\n\t\t\tc0.152,0,0.273-0.122,0.273-0.272V7.501C14.545,7.349,14.424,7.228,14.271,7.228z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M10.01,9.218H8.036c-0.15,0-0.272,0.123-0.272,0.272v6.994c0,0.15,0.122,0.272,0.272,0.272h1.974\n\t\t\tc0.152,0,0.273-0.122,0.273-0.272V9.49C10.283,9.341,10.162,9.218,10.01,9.218z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M1.259,6.947c0.581,0,1.051-0.47,1.051-1.051c0-0.101-0.019-0.196-0.046-0.288l2.211-1.591\n\t\t\tc0.136,0.064,0.286,0.102,0.446,0.102c0.309,0,0.583-0.135,0.776-0.347L7.784,4.98c-0.012,0.062-0.02,0.126-0.02,0.19\n\t\t\tc0,0.58,0.471,1.051,1.051,1.051c0.559,0,1.012-0.438,1.044-0.989l2.814-0.823c0.191,0.262,0.498,0.435,0.848,0.435\n\t\t\tc0.232,0,0.443-0.077,0.617-0.205l2.365,1.604c-0.02,0.083-0.037,0.17-0.037,0.26c0,0.581,0.471,1.052,1.051,1.052\n\t\t\ts1.053-0.471,1.053-1.052s-0.473-1.051-1.053-1.051c-0.232,0-0.443,0.077-0.617,0.204l-2.363-1.601\n\t\t\tc0.02-0.084,0.035-0.17,0.035-0.26c0-0.581-0.469-1.051-1.051-1.051c-0.559,0-1.012,0.438-1.045,0.989L9.663,4.555\n\t\t\tC9.472,4.292,9.164,4.12,8.815,4.12c-0.259,0-0.492,0.096-0.675,0.251L5.968,3.112c0-0.015,0.004-0.028,0.004-0.042\n\t\t\tc0-0.581-0.47-1.052-1.051-1.052S3.87,2.488,3.87,3.069c0,0.158,0.038,0.306,0.1,0.441L1.855,5.032\n\t\t\tC1.686,4.914,1.481,4.845,1.259,4.845c-0.581,0-1.051,0.471-1.051,1.051C0.208,6.477,0.678,6.947,1.259,6.947z"
+    }))))
+  });
+};
+/* harmony default export */ const icons_Chart = ((/* unused pure expression or super */ null && (Chart)));
+;// ../../../packages/commons/build/icons/index.js
+
+
+;// ../../../packages/commons/build/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
 /***/ 8019:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -33045,6 +35962,3112 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
+
+/***/ }),
+
+/***/ 8202:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./d3Map/BlockSave.tsx
+
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      layers,
+      height,
+      width,
+      group,
+      backGroundColor,
+      mapPosition,
+      projection,
+      zoomEnabled,
+      rotationEnabled
+    }
+  } = props;
+  const blockProps = external_wp_blockEditor_.useBlockProps.save({
+    className: 'viz component map'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    className: "viz-component",
+    "data-height": height,
+    "data-width": width,
+    "data-group": group,
+    "data-projection": projection,
+    "data-back-ground-color": backGroundColor,
+    "data-map-position": encodeURIComponent(JSON.stringify(mapPosition)),
+    "data-component": "newMap",
+    "data-zoom-enabled": zoomEnabled,
+    "data-rotation-enabled": rotationEnabled,
+    "data-layers": encodeURIComponent(JSON.stringify(layers))
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
+var build = __webpack_require__(7965);
+// EXTERNAL MODULE: external ["wp","apiFetch"]
+var external_wp_apiFetch_ = __webpack_require__(1455);
+var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
+;// ./d3Map/layers/utils/FileUtils.ts
+
+const getJsonFiles = () => {
+  return external_wp_apiFetch_default()({
+    path: '/wp/v2/media?per_page=100&mime_type=application/json'
+  });
+};
+/* harmony default export */ const FileUtils = ({
+  getJsonFiles
+});
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(6087);
+;// ./d3Map/layers/utils/MapMeasures.tsx
+
+
+
+
+
+const defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const Measures = props => {
+  const {
+    onMeasuresChange,
+    onFormatChange,
+    onSetSingleMeasure,
+    allMeasures,
+    setAttributes,
+    panelStatus,
+    layer: {
+      measures,
+      app,
+      format
+    }
+  } = props;
+  const MCheckbox = ({
+    measure
+  }) => {
+    const userMeasure = measures ? measures[measure.value] : {};
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
+      label: (0,build/* getTranslation */.sC)(measure),
+      checked: measures.indexOf(measure.value) > -1,
+      onChange: value => onSetSingleMeasure(measure.value)
+    });
+  };
+  const countSelected = g => {
+    const groupMeasures = allMeasures.filter(m => m.group.label === g).map(m => m.value);
+    if (groupMeasures.length > 0) {
+      return groupMeasures.filter(m => measures.includes(m)).length;
+    }
+    return 0;
+  };
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Measures"),
+    children: [allMeasures && [...new Set(allMeasures.map(p => (0,build/* getTranslation */.sC)(p.group)))].map(g => {
+      return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        onToggle: e => (0,build/* togglePanel */.Pj)(g, panelStatus, setAttributes),
+        title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group.label === g).length} ) `,
+        children: allMeasures.filter(f => (0,build/* getTranslation */.sC)(f.group) === g).map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MCheckbox, {
+              measure: m
+            })
+          })
+        }))
+      });
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Format */.yL, {
+      format: format ? format : defaultFormat,
+      hiddenCustomAxisFormat: true,
+      onFormatChange: format => {
+        onFormatChange(format);
+      }
+    })]
+  });
+};
+/* harmony default export */ const MapMeasures = (Measures);
+;// ./d3Map/layers/utils/Property.tsx
+
+
+
+const Property = ({
+  features,
+  onChangeProperty,
+  value,
+  property,
+  title,
+  type = 'toggle'
+}) => {
+  const properties = features && features.length > 0 ? features[0].properties : {};
+  let attributes = Object.keys(properties);
+  if (type == "toggle") {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: title,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "None",
+          checked: value == "none",
+          onChange: value => {
+            onChangeProperty(property, "none");
+          }
+        })
+      }), attributes.map(k => {
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: k,
+            checked: value == k,
+            onChange: value => {
+              onChangeProperty(property, value ? k : "none");
+            }
+          })
+        });
+      })]
+    });
+  } else {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: title,
+        value: value,
+        multiple: false,
+        onChange: value => {
+          onChangeProperty(property, value);
+        },
+        options: [{
+          label: "None",
+          value: 'none'
+        }, ...attributes.map(k => ({
+          label: k,
+          value: k
+        }))]
+      })
+    });
+  }
+};
+/* harmony default export */ const utils_Property = (Property);
+;// ./d3Map/layers/utils/BreaksGenerator.tsx
+
+
+
+
+
+const BreaksGenerator = ({
+  onChangeProperty,
+  breaks = [],
+  defaultFillColor,
+  defaultBorderColor,
+  showSize
+}) => {
+  const add = () => {
+    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
+    if (graterThanBreaks.length === 0) {
+      graterThanBreaks = [{
+        start: 0,
+        end: 1,
+        color: defaultFillColor,
+        borderColor: defaultBorderColor,
+        size: 1,
+        type: 'graterThan'
+      }];
+    }
+    const newBreaks = [...lessThanBreaks];
+    newBreaks.push({
+      start: 0,
+      end: 1,
+      color: defaultFillColor,
+      borderColor: defaultBorderColor,
+      size: 1,
+      type: 'lessThan'
+    });
+    //keep grater than break at the end
+    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
+  };
+  const update = (property, index, value) => {
+    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
+    const newBreaks = [...lessThanBreaks];
+    newBreaks[index][property] = value;
+    graterThanBreaks[0].end = lessThanBreaks[lessThanBreaks.length - 1].end;
+    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
+  };
+  const remove = index => {
+    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
+    let lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    const newBreaks = [...lessThanBreaks];
+    newBreaks.splice(index, 1);
+    if (newBreaks.length > 0) {
+      graterThanBreaks[0].end = lessThanBreaks[newBreaks.length - 1].end;
+    }
+    if (newBreaks.length == 0) {
+      graterThanBreaks = [];
+    }
+    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
+  };
+  const updateGraterThan = (property, value) => {
+    const graterThanBreak = breaks.filter(b => b.type == 'graterThan')[0];
+    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    graterThanBreak[property] = value;
+    onChangeProperty("breaks", [...lessThanBreaks, graterThanBreak]);
+  };
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+        variant: "primary",
+        onClick: e => add(),
+        children: "Add Break"
+      })
+    }), breaks.map((br, index) => {
+      if (br.type == 'lessThan') {
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: "Less than (" + br.end + ")",
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              type: "number",
+              label: (0,external_wp_i18n_.__)("Value", "dg"),
+              value: br.end,
+              onChange: value => update("end", index, value)
+            })
+          }), showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: "Size",
+              value: br.size,
+              onChange: value => {
+                update("size", index, value);
+              },
+              step: 1,
+              min: 0,
+              max: 200
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)(`Fill Color`),
+            colorSettings: [{
+              label: (0,external_wp_i18n_.__)(`Fill Color`),
+              value: br.color,
+              onChange: fillColor => {
+                update("color", index, fillColor);
+              }
+            }]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+              variant: "primary",
+              onClick: e => remove(index),
+              children: "Remove This"
+            })
+          })]
+        });
+      }
+      if (br.type == 'graterThan') {
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: "Grater than (" + br.end + ")",
+          children: [showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: "Size",
+              value: br.size,
+              onChange: value => {
+                updateGraterThan("size", value);
+              },
+              step: 1,
+              min: 0,
+              max: 200
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+              title: (0,external_wp_i18n_.__)(`Fill Color`),
+              colorSettings: [{
+                label: (0,external_wp_i18n_.__)(`Fill Color`),
+                value: br.color,
+                onChange: fillColor => {
+                  updateGraterThan("color", fillColor);
+                }
+              }]
+            })
+          })]
+        });
+      }
+    })]
+  });
+};
+/* harmony default export */ const utils_BreaksGenerator = (BreaksGenerator);
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.2/node_modules/papaparse/papaparse.min.js
+var papaparse_min = __webpack_require__(1926);
+var papaparse_min_default = /*#__PURE__*/__webpack_require__.n(papaparse_min);
+;// ./d3Map/layers/utils/CSVPatternGenerator.tsx
+
+
+
+
+
+
+const defaultPatternColor = "#000000";
+const Patterns = ({
+  csv,
+  app,
+  onChangeProperty,
+  patterns,
+  patternDiscriminator,
+  defaultFillColor
+}) => {
+  const patternsOptions = [{
+    label: 'Lines',
+    value: 'lines'
+  }, {
+    label: 'Dots',
+    value: 'dots'
+  }, {
+    label: 'Squares',
+    value: 'squares'
+  }, {
+    label: 'Triangle',
+    value: 'triangle'
+  }];
+  const data = papaparse_min_default().parse(csv, {
+    header: true,
+    dynamicTyping: true
+  });
+  const fieldsOptions = data?.meta?.fields ? data.meta.fields.map(f => {
+    return {
+      label: f,
+      value: f
+    };
+  }) : [];
+  const values = patternDiscriminator !== 'none' && data?.data ? [...new Set(data.data.filter(d => d[patternDiscriminator] != null && d[patternDiscriminator].toString().trim() !== "").map(d => d[patternDiscriminator].toString().trim()))] : [];
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    title: "Patterns",
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)("Discriminator"),
+        value: patternDiscriminator,
+        onChange: v => {
+          onChangeProperty('patternDiscriminator', v);
+        },
+        options: [{
+          label: "None",
+          value: "none"
+        }, ...fieldsOptions]
+      })
+    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: field,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: "Symbol",
+          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
+          onChange: v => {
+            onChangeProperty('patterns', {
+              ...patterns,
+              [field + '_symbol']: v
+            });
+          },
+          options: [{
+            label: "None",
+            value: "none"
+          }, ...patternsOptions]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Color`),
+          colorSettings: [{
+            value: patterns[field + '_color'] ? patterns[field + '_color'] : defaultPatternColor,
+            label: (0,external_wp_i18n_.__)('Fill Color'),
+            onChange: color => {
+              onChangeProperty('patterns', {
+                ...patterns,
+                [field + '_color']: color
+              });
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+          label: (0,external_wp_i18n_.__)("Rotation"),
+          onChange: value => onChangeProperty('patterns', {
+            ...patterns,
+            [field + '_rotation']: value
+          }),
+          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
+        })
+      })]
+    }))]
+  });
+};
+/* harmony default export */ const CSVPatternGenerator = (Patterns);
+;// ./d3Map/layers/utils/AppPatternGenerator.tsx
+
+
+
+
+
+const AppPatternGenerator_defaultPatternColor = "#000000";
+const AppPatternGenerator_Patterns = ({
+  allCategories,
+  allDimensions,
+  app,
+  onChangeProperty,
+  patterns,
+  patternDiscriminator,
+  patternDiscriminatorLabel,
+  defaultFillColor
+}) => {
+  const patternsOptions = [{
+    label: 'Lines',
+    value: 'lines'
+  }, {
+    label: 'Dots',
+    value: 'dots'
+  }, {
+    label: 'Squares',
+    value: 'squares'
+  }, {
+    label: 'Triangle',
+    value: 'triangle'
+  }];
+  const dims = allDimensions ? allDimensions : [];
+  const cats = patternDiscriminator && allCategories ? allCategories.filter(c => c.type.toUpperCase() == patternDiscriminator.toUpperCase()) : [];
+  console.log(cats);
+  const items = cats.length > 0 ? cats[0].items : [];
+  const values = items.map(i => i.value);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    title: "Patterns",
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)("Discriminator"),
+        value: patternDiscriminator,
+        onChange: v => {
+          onChangeProperty('patternDiscriminator', v);
+        },
+        options: [...dims]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+        label: (0,external_wp_i18n_.__)("Label"),
+        value: patternDiscriminatorLabel,
+        onChange: v => {
+          onChangeProperty('patternDiscriminatorLabel', v);
+        }
+      })
+    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: field,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: "Symbol",
+          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
+          onChange: v => {
+            onChangeProperty('patterns', {
+              ...patterns,
+              [field + '_symbol']: v
+            });
+          },
+          options: [{
+            label: "None",
+            value: "none"
+          }, ...patternsOptions]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Color`),
+          colorSettings: [{
+            value: patterns[field + '_color'] ? patterns[field + '_color'] : AppPatternGenerator_defaultPatternColor,
+            label: (0,external_wp_i18n_.__)('Fill Color'),
+            onChange: color => {
+              onChangeProperty('patterns', {
+                ...patterns,
+                [field + '_color']: color
+              });
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+          label: (0,external_wp_i18n_.__)("Rotation"),
+          onChange: value => onChangeProperty('patterns', {
+            ...patterns,
+            [field + '_rotation']: value
+          }),
+          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
+        })
+      })]
+    }))]
+  });
+};
+/* harmony default export */ const AppPatternGenerator = (AppPatternGenerator_Patterns);
+;// ./d3Map/layers/utils/PatternGenerator.tsx
+
+
+
+
+const PatternGenerator_Patterns = props => {
+  const {
+    app,
+    csv
+  } = props;
+  if (app === "csv" && csv !== undefined) {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CSVPatternGenerator, {
+      ...props,
+      csv: csv
+    });
+  } else {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(AppPatternGenerator, {
+      ...props,
+      patternDiscriminatorLabel: props.patternDiscriminatorLabel
+    });
+  }
+};
+/* harmony default export */ const PatternGenerator = (PatternGenerator_Patterns);
+;// ./d3Map/layers/Data.tsx
+
+
+
+
+
+
+
+
+
+
+
+const FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options ? options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  }) : [];
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      /*
+          var aValue= a.value ? a.value.toLowerCase() : "";
+          var bValue = b.value ? b.value.toLowerCase() : "";
+          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      */
+      return a.position && b.position ? a.position - b.position : 0;
+    });
+    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })]
+    }, v.id));
+  } else {
+    return null;
+  }
+};
+class DataLayerSetting extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.getCSValue = this.getCSValue.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  onFormatChange(format) {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      features,
+      apps,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        fillColor,
+        borderColor,
+        breaks,
+        markFillColor,
+        markBorderColor,
+        markSizeScale,
+        tooltip
+      }
+    } = this.props;
+    onChangeProperty("format", format);
+  }
+  getCSValue() {
+    const {
+      apps,
+      features,
+      layer: {
+        csv,
+        featureJoinAttribute
+      }
+    } = this.props;
+    if (csv == '') {
+      let generatedCSV = 'id,value\n';
+      if (features && features.length > 0) {
+        features.forEach(f => {
+          generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
+        });
+      }
+      return generatedCSV;
+    }
+    return csv;
+  }
+  cleanSelection(prevState) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", []);
+    onChangeProperty("filters", []);
+
+    //setAttributes({measures: [], filters: []})
+  }
+  updateFilterParam(param, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  updateFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  setFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  addFilter() {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  removeFilter(f) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    onChangeProperty("filters", newFilters);
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      onChangeProperty,
+      layer: {
+        type,
+        dimension2,
+        types
+      }
+    } = this.props;
+    const {
+      layer: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+  }
+  onSetSingleMeasure(value) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", [value]);
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      if (cat.items) {
+        items = cat.items;
+      }
+    }
+    return items;
+  }
+  render() {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      allCategories,
+      allDatasets,
+      features,
+      apps,
+      layer,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        useCentroidPoint,
+        useBreaks,
+        fillColor,
+        borderColor,
+        format,
+        breaks,
+        labelFontSize,
+        markFillColor,
+        markLabelColor,
+        markBorderColor,
+        markSizeScale,
+        markerLabelSize,
+        tooltip,
+        usePattern,
+        patterns,
+        customMeasuresLabels,
+        patternDiscriminator,
+        onRemoveLayer,
+        onMoveLayer,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    let selectedMeasureLabel = "";
+    let selectedMeasureValue = "";
+    const appsOptions = apps.map(a => ({
+      label: a.name,
+      value: a.name
+    }));
+    const datasetsOptions = allDatasets.map(d => ({
+      label: d.name,
+      value: d.id
+    }));
+    if (app != 'csv') {
+      const theMeasure = measures ? measures[0] : null;
+      const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null;
+      if (selectedMeasure) {
+        selectedMeasureLabel = selectedMeasure.label;
+        selectedMeasureValue = selectedMeasure.value;
+        if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
+          onChangeProperty("customMeasuresLabels", {
+            ...customMeasuresLabels,
+            [selectedMeasureValue]: selectedMeasureLabel
+          });
+        }
+      }
+    }
+    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Data Source",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: (0,external_wp_i18n_.__)("App", "dg"),
+          value: app // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: app => {
+            onChangeProperty("app", app);
+          },
+          options: appsOptions
+        })
+      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: (0,external_wp_i18n_.__)('Datasets'),
+          value: dvzProxyDatasetId,
+          onChange: newDatasetId => {
+            onChangeProperty("dvzProxyDatasetId", newDatasetId);
+          },
+          options: datasetsOptions
+        })
+      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
+        property: "featureJoinAttribute",
+        type: "select",
+        onChangeProperty: onChangeProperty,
+        features: features,
+        value: featureJoinAttribute,
+        title: "Shape Attribute"
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("CSV Data"),
+          value: this.getCSValue(),
+          onChange: csv => onChangeProperty("csv", csv)
+        })
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Format */.yL, {
+          title: "Format",
+          format: format,
+          hiddenCustomAxisFormat: true,
+          onFormatChange: this.onFormatChange
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: 'Dimension' + (type == 'dataPoints' ? 'LatLong' : ''),
+          value: apiJoinAttribute,
+          onChange: value => {
+            onChangeProperty("apiJoinAttribute", value);
+          },
+          options: allDimensions
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("Tooltip"),
+          value: tooltip,
+          help: (0,external_wp_i18n_.__)("You can use variables {var_name}"),
+          onChange: tooltip => onChangeProperty("tooltip", tooltip),
+          rows: 10
+        })
+      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+          style: {
+            marginTop: "calc(8px)",
+            fontSize: "12px",
+            fontStyle: "normal",
+            color: "rgb(117, 117, 117)"
+          },
+          children: "{" + m.value + "}"
+        })
+      }))]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)((external_React_default()).Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        ...this.props,
+        allMeasures: allMeasures,
+        onFormatChange: this.onFormatChange,
+        onSetSingleMeasure: this.onSetSingleMeasure,
+        measures: layer.measures,
+        format: layer.format
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)((external_React_default()).Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Filters"),
+        children: [filters.map((f, index) => {
+          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(FilterSelector, {
+              param: f.param,
+              index: index,
+              options: allFilters.map(f => ({
+                label: f.label,
+                value: f.param
+              })),
+              onUpdateFilterParam: this.updateFilterParam
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CategoricalFilter, {
+              value: f.value,
+              index: index,
+              items: this.items(f.type),
+              onUpdateFilterValue: this.updateFilterValue
+            })]
+          });
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: () => this.addFilter(),
+            children: (0,external_wp_i18n_.__)("Add Filter")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: () => this.removeFilter(filters[filters.length - 1]),
+            children: (0,external_wp_i18n_.__)("Remove")
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Symbols and Styles",
+      children: [app != "csv" && selectedMeasureValue && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: selectedMeasureLabel,
+          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
+          value: customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : "",
+          onChange: measureLabel => {
+            onChangeProperty("customMeasuresLabels", {
+              ...customMeasuresLabels,
+              [selectedMeasureValue]: measureLabel
+            });
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Default Fill Color`),
+          colorSettings: [{
+            label: (0,external_wp_i18n_.__)("Default Fill Color"),
+            clearable: true,
+            enableAlpha: true,
+            value: fillColor,
+            onChange: fillColor => {
+              onChangeProperty("fillColor", fillColor);
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Centroid Points",
+          checked: useCentroidPoint,
+          onChange: value => {
+            onChangeProperty("useCentroidPoint", true);
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Shape Colors",
+          checked: !useCentroidPoint,
+          onChange: value => {
+            onChangeProperty("useCentroidPoint", false);
+          }
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Point Base Size",
+          value: markSizeScale,
+          onChange: value => {
+            onChangeProperty("markSizeScale", value);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Point Label Size",
+          value: markerLabelSize,
+          onChange: markerLabelSize => {
+            onChangeProperty("markerLabelSize", markerLabelSize);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Circle Fill Color`),
+          colorSettings: [{
+            label: (0,external_wp_i18n_.__)("Circle Fill Color"),
+            clearable: true,
+            enableAlpha: true,
+            value: markFillColor,
+            onChange: markFillColor => {
+              onChangeProperty("markFillColor", markFillColor);
+            }
+          }]
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Circle Label Color`),
+          colorSettings: [{
+            label: (0,external_wp_i18n_.__)("Circle Label Color"),
+            clearable: true,
+            enableAlpha: true,
+            value: markLabelColor,
+            onChange: markLabelColor => {
+              onChangeProperty("markLabelColor", markLabelColor);
+            }
+          }]
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Circle Border Color`),
+          colorSettings: [{
+            label: (0,external_wp_i18n_.__)("Circle Border Color"),
+            clearable: true,
+            enableAlpha: true,
+            value: markBorderColor,
+            onChange: borderColor => {
+              onChangeProperty("markBorderColor", borderColor);
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Breaks",
+          checked: useBreaks,
+          onChange: e => {
+            onChangeProperty("useBreaks", !useBreaks);
+          }
+        })
+      }), useBreaks && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
+        showSize: useCentroidPoint,
+        defaultBorderColor: markBorderColor,
+        defaultFillColor: markFillColor,
+        onChangeProperty: onChangeProperty,
+        breaks: breaks
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Patterns",
+          checked: usePattern,
+          onChange: e => {
+            onChangeProperty("usePattern", !usePattern);
+          }
+        })
+      }), usePattern && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(PatternGenerator, {
+        allCategories: allCategories,
+        allDimensions: allDimensions,
+        defaultFillColor: fillColor,
+        onChangeProperty: onChangeProperty,
+        patterns: patterns,
+        app: app,
+        csv: csv,
+        patternDiscriminator: patternDiscriminator
+      })]
+    })];
+  }
+}
+/* harmony default export */ const Data = (DataLayerSetting);
+;// ./d3Map/layers/Flow.tsx
+
+
+
+
+
+
+
+
+
+
+const Flow_FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options ? options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  }) : [];
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const Flow_CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      /*
+          var aValue= a.value ? a.value.toLowerCase() : "";
+          var bValue = b.value ? b.value.toLowerCase() : "";
+          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      */
+      return a.position && b.position ? a.position - b.position : 0;
+    });
+    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })]
+    }, v.id));
+  } else {
+    return null;
+  }
+};
+class FlowLayerSetting extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.getCSValue = this.getCSValue.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  onFormatChange(format) {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      features,
+      apps,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        fillColor,
+        borderColor,
+        breaks,
+        markFillColor,
+        markBorderColor,
+        markSizeScale,
+        tooltip
+      }
+    } = this.props;
+    onChangeProperty("format", format);
+  }
+  getCSValue() {
+    const {
+      apps,
+      features,
+      layer: {
+        csv,
+        featureJoinAttribute
+      }
+    } = this.props;
+    if (csv == '') {
+      let generatedCSV = 'id,origin,destination,value\n';
+      if (features && features.length > 0) {
+        features.forEach(f => {
+          generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
+        });
+      }
+      return generatedCSV;
+    }
+    return csv;
+  }
+  cleanSelection(prevState) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", []);
+    onChangeProperty("filters", []);
+
+    //setAttributes({measures: [], filters: []})
+  }
+  updateFilterParam(param, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  updateFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  setFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  addFilter() {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  removeFilter(f) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    onChangeProperty("filters", newFilters);
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      onChangeProperty,
+      layer: {
+        type,
+        dimension2,
+        types
+      }
+    } = this.props;
+    const {
+      layer: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+  }
+  onSetSingleMeasure(value) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", [value]);
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      if (cat.items) {
+        items = cat.items;
+      }
+    }
+    return items;
+  }
+  render() {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      allCategories,
+      features,
+      apps,
+      allDatasets,
+      layer,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        useCentroidPoint,
+        useBreaks,
+        fillColor,
+        borderColor,
+        format,
+        breaks,
+        labelFontSize,
+        markFillColor,
+        markFillColor2,
+        markLabelColor,
+        markBorderColor,
+        markBorderColor2,
+        markSizeScale,
+        markSizeScale2,
+        markerLabelSize,
+        tooltip,
+        usePattern,
+        patterns,
+        customMeasuresLabels,
+        patternDiscriminator,
+        flowOrigin,
+        flowDestination,
+        onRemoveLayer,
+        flowValuesFrom,
+        dvzProxyDatasetId,
+        offsetPixels
+      }
+    } = this.props;
+    let selectedMeasureLabel = "";
+    let selectedMeasureValue = "";
+    const appsOptions = apps.map(a => ({
+      label: a.name,
+      value: a.name
+    }));
+    const datasetsOptions = allDatasets.map(d => ({
+      label: d.name,
+      value: d.id
+    }));
+    if (app != 'csv') {
+      const theMeasure = measures ? measures[0] : null;
+      const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null;
+      if (selectedMeasure) {
+        selectedMeasureLabel = selectedMeasure.label;
+        selectedMeasureValue = selectedMeasure.value;
+        if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
+          onChangeProperty("customMeasuresLabels", {
+            ...customMeasuresLabels,
+            [selectedMeasureValue]: selectedMeasureLabel
+          });
+        }
+      }
+    }
+    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Data Source",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: (0,external_wp_i18n_.__)("App", "dg"),
+          value: app // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: app => {
+            onChangeProperty("app", app);
+          },
+          options: appsOptions
+        })
+      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: (0,external_wp_i18n_.__)('Datasets'),
+          value: dvzProxyDatasetId,
+          onChange: newDatasetId => {
+            onChangeProperty("dvzProxyDatasetId", newDatasetId);
+          },
+          options: allDatasets
+        })
+      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
+        property: "featureJoinAttribute",
+        type: "select",
+        onChangeProperty: onChangeProperty,
+        features: features,
+        value: featureJoinAttribute,
+        title: "Shape Attribute"
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("CSV Data"),
+          value: this.getCSValue(),
+          onChange: csv => onChangeProperty("csv", csv)
+        })
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Format */.yL, {
+          title: "Format",
+          format: format,
+          hiddenCustomAxisFormat: true,
+          onFormatChange: this.onFormatChange
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: 'Origin',
+          value: flowOrigin // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: value => {
+            onChangeProperty("flowOrigin", value);
+          },
+          options: allDimensions
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: 'Destination',
+          value: flowDestination // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: value => {
+            onChangeProperty("flowDestination", value);
+          },
+          options: allDimensions
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("Tooltip"),
+          value: tooltip,
+          help: (0,external_wp_i18n_.__)("You can use variables, i.e: From {origin_name} to {target_name} : {value}"),
+          onChange: tooltip => onChangeProperty("tooltip", tooltip),
+          rows: 10
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+          className: "components-base-control__help",
+          style: {
+            display: "block",
+            textAlign: "left",
+            color: "rgb(117, 117, 117)"
+          },
+          children: [app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
+            children: ["{", m.value, "}"]
+          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
+            children: ["All features attributes are available as variables, use origin_ prefix for origin attributes and use target_ prefix for destination attributes i.e From ", "{", "origin_name", "}", " to ", "{", "target_name", "}", " : ", "{", "value", "}"]
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)((external_React_default()).Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        onFormatChange: this.onFormatChange,
+        onSetSingleMeasure: this.onSetSingleMeasure,
+        measures: layer.measures,
+        format: layer.format,
+        ...this.props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)((external_React_default()).Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Filters"),
+        children: [filters.map((f, index) => {
+          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_FilterSelector, {
+              param: f.param,
+              index: index,
+              options: allFilters.map(f => ({
+                label: f.label,
+                value: f.param
+              })),
+              onUpdateFilterParam: this.updateFilterParam
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_CategoricalFilter, {
+              value: f.value,
+              index: index,
+              items: this.items(f.type),
+              onUpdateFilterValue: this.updateFilterValue
+            })]
+          });
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.addFilter,
+            children: (0,external_wp_i18n_.__)("Add Filter")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: () => this.removeFilter(filters[filters.length - 1]),
+            children: (0,external_wp_i18n_.__)("Remove")
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Symbols and Styles",
+      children: [app != "csv" && selectedMeasureValue && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: selectedMeasureLabel,
+          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
+          value: customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : "",
+          onChange: measureLabel => {
+            onChangeProperty("customMeasuresLabels", {
+              ...customMeasuresLabels,
+              [selectedMeasureValue]: measureLabel
+            });
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Colors`),
+        colorSettings: [{
+          label: (0,external_wp_i18n_.__)('Border'),
+          clearable: true,
+          enableAlpha: true,
+          value: markBorderColor,
+          onChange: borderColor => {
+            onChangeProperty("markBorderColor", borderColor);
+          }
+        }, {
+          label: (0,external_wp_i18n_.__)('Fill'),
+          clearable: true,
+          enableAlpha: true,
+          value: markFillColor,
+          onChange: markFillColor => {
+            onChangeProperty("markFillColor", markFillColor);
+          }
+        }]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Circle Size",
+          value: markSizeScale,
+          onChange: value => {
+            onChangeProperty("markSizeScale", value);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Line Size",
+          value: markSizeScale2,
+          onChange: value => {
+            onChangeProperty("markSizeScale2", value);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Offset Size",
+          value: offsetPixels,
+          onChange: offsetPixels => {
+            onChangeProperty("offsetPixels", offsetPixels);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        title: (0,external_wp_i18n_.__)("Breaks"),
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
+          showSize: true,
+          defaultBorderColor: markBorderColor,
+          defaultFillColor: markFillColor,
+          onChangeProperty: onChangeProperty,
+          breaks: breaks
+        })
+      })]
+    })];
+  }
+}
+/* harmony default export */ const Flow = (FlowLayerSetting);
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/lodash.isequal@4.5.0/node_modules/lodash.isequal/index.js
+var lodash_isequal = __webpack_require__(5856);
+var lodash_isequal_default = /*#__PURE__*/__webpack_require__.n(lodash_isequal);
+;// ./d3Map/layers/LatLong.tsx
+
+
+
+
+
+
+
+
+
+
+const compareJsonProps = (p1, p2) => {
+  return lodash_isequal_default()(p1, p2);
+};
+const LatLong_FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options ? options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  }) : [];
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const LatLong_CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      /*
+          var aValue= a.value ? a.value.toLowerCase() : "";
+          var bValue = b.value ? b.value.toLowerCase() : "";
+          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      */
+      return a.position && b.position ? a.position - b.position : 0;
+    });
+    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })]
+    }));
+  } else {
+    return null;
+  }
+};
+class LatLongLayerSetting extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.getCSValue = this.getCSValue.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  onFormatChange(format) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("format", format);
+  }
+  getCSValue() {
+    const {
+      apps,
+      features,
+      layer: {
+        csv,
+        featureJoinAttribute
+      }
+    } = this.props;
+    if (csv == '') {
+      let generatedCSV = 'Latitude,Longitude,value\n';
+      if (features && features.length > 0) {
+        features.forEach(f => {
+          generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
+        });
+      }
+      return generatedCSV;
+    }
+    return csv;
+  }
+  cleanSelection(prevState) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", []);
+    onChangeProperty("filters", []);
+
+    //setAttributes({measures: [], filters: []})
+  }
+  updateFilterParam(param, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  updateFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  setFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  addFilter() {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  removeFilter(f) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    onChangeProperty("filters", newFilters);
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      onChangeProperty,
+      allCategories,
+      layer: {
+        type,
+        dimension2,
+        types
+      }
+    } = this.props;
+    const {
+      allCategories: prevAllCategories,
+      layer: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+    if (!compareJsonProps(allCategories, prevAllCategories)) {
+      onChangeProperty("allCategories", allCategories);
+    }
+  }
+  onSetSingleMeasure(value) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", [value]);
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      if (cat.items) {
+        items = cat.items;
+      }
+    }
+    return items;
+  }
+  render() {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      allCategories,
+      allDatasets,
+      features,
+      apps,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        format,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        useCentroidPoint,
+        fillColor,
+        borderColor,
+        useBreaks,
+        breaks,
+        pointStyleBy,
+        dimension2,
+        pointDimensionStyles = [],
+        markFillColor,
+        markBorderColor,
+        markSizeScale,
+        tooltip,
+        visible = true,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : [];
+    const items = cats.length > 0 ? cats[0].items : [];
+    const dimensionValues = items ? items.map(i => i.value) : [];
+    const appsOptions = apps.map(a => ({
+      label: a.name,
+      value: a.name
+    }));
+    const datasetsOptions = allDatasets.map(d => ({
+      label: d.name,
+      value: d.id
+    }));
+    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Data Source",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: (0,external_wp_i18n_.__)("App", "dg"),
+          value: app // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: app => {
+            onChangeProperty("app", app);
+          },
+          options: appsOptions
+        })
+      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: (0,external_wp_i18n_.__)('Datasets'),
+          value: dvzProxyDatasetId,
+          onChange: newDatasetId => {
+            onChangeProperty("dvzProxyDatasetId", newDatasetId);
+          },
+          options: datasetsOptions
+        })
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("CSV Data"),
+          value: this.getCSValue(),
+          onChange: csv => onChangeProperty("csv", csv)
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: 'Dimension',
+          value: apiJoinAttribute // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: value => {
+            onChangeProperty("apiJoinAttribute", value);
+          },
+          options: allDimensions.map(d => ({
+            label: d.value,
+            value: d.value
+          }))
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("Tooltip"),
+          value: tooltip,
+          help: (0,external_wp_i18n_.__)(`You can use the following variables: `),
+          onChange: tooltip => onChangeProperty("tooltip", tooltip),
+          rows: 10
+        })
+      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+          style: {
+            marginTop: "calc(8px)",
+            fontSize: "12px",
+            fontStyle: "normal",
+            color: "rgb(117, 117, 117)"
+          },
+          children: "{" + m.value + "}"
+        })
+      })), app != 'csv' && pointStyleBy === 'dimension' && dimension2 != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+          style: {
+            marginTop: "calc(8px)",
+            fontSize: "12px",
+            fontStyle: "normal",
+            color: "rgb(117, 117, 117)"
+          },
+          children: "{" + dimension2 + "}"
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)((external_React_default()).Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Filters"),
+        children: [filters.map((f, index) => {
+          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_FilterSelector, {
+              param: f.param,
+              index: index,
+              options: allFilters.map(f => ({
+                label: f.label,
+                value: f.param
+              })),
+              onUpdateFilterParam: this.updateFilterParam
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_CategoricalFilter, {
+              value: f.value,
+              index: index,
+              items: this.items(f.type),
+              onUpdateFilterValue: this.updateFilterValue
+            })]
+          });
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.addFilter,
+            children: (0,external_wp_i18n_.__)("Add Filter")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: () => this.removeFilter(filters[filters.length - 1]),
+            children: (0,external_wp_i18n_.__)("Remove")
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Symbols and Styles",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)(`Default Points Size`),
+          value: markSizeScale,
+          onChange: value => {
+            onChangeProperty("markSizeScale", value);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Default Fill Color`),
+          colorSettings: [{
+            label: (0,external_wp_i18n_.__)("Default Fill Color"),
+            clearable: true,
+            enableAlpha: true,
+            value: markFillColor,
+            onChange: markFillColor => {
+              onChangeProperty("markFillColor", markFillColor);
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Default Border Color`),
+          colorSettings: [{
+            label: (0,external_wp_i18n_.__)("Default Border Color"),
+            clearable: true,
+            enableAlpha: true,
+            value: markBorderColor,
+            onChange: borderColor => {
+              onChangeProperty("markBorderColor", borderColor);
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: "Point styles by",
+          value: pointStyleBy ? pointStyleBy : 'none',
+          onChange: v => {
+            onChangeProperty('pointStyleBy', v);
+          },
+          options: [{
+            label: "None",
+            value: "none"
+          }, {
+            label: "Dimension",
+            value: "dimension"
+          }, {
+            label: "Measure",
+            value: "measure"
+          }]
+        })
+      }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Measures */.I3, {
+        onFormatChange: this.onFormatChange,
+        onSetSingleMeasure: this.onSetSingleMeasure,
+        measures: measures,
+        format: format,
+        ...this.props
+      }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
+        showSize: useCentroidPoint,
+        defaultBorderColor: markBorderColor,
+        defaultFillColor: markFillColor,
+        onChangeProperty: onChangeProperty,
+        breaks: breaks
+      }), pointStyleBy === 'dimension' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          multiple: false,
+          label: 'Dimension',
+          value: dimension2,
+          onChange: value => {
+            onChangeProperty("dimension2", value);
+          },
+          options: allDimensions.map(d => ({
+            label: d.value,
+            value: d.value
+          }))
+        })
+      }), pointStyleBy === 'dimension' && dimensionValues.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: field,
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+            label: (0,external_wp_i18n_.__)(`Point Size`),
+            value: pointDimensionStyles[field + '_size'] ? pointDimensionStyles[field + '_size'] : markSizeScale,
+            onChange: v => {
+              onChangeProperty('pointDimensionStyles', {
+                ...pointDimensionStyles,
+                [field + '_size']: v
+              });
+            },
+            step: 1,
+            min: 0,
+            max: 100
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)(`Point Fill Color`),
+            colorSettings: [{
+              label: (0,external_wp_i18n_.__)("Point Fill Color"),
+              clearable: true,
+              enableAlpha: true,
+              value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor,
+              onChange: v => {
+                onChangeProperty('pointDimensionStyles', {
+                  ...pointDimensionStyles,
+                  [field + '_color']: v
+                });
+              }
+            }]
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)(`Point Border Color`),
+            colorSettings: [{
+              label: (0,external_wp_i18n_.__)("Point Border Color"),
+              clearable: true,
+              enableAlpha: true,
+              value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor,
+              onChange: v => {
+                onChangeProperty('pointDimensionStyles', {
+                  ...pointDimensionStyles,
+                  [field + '_border']: v
+                });
+              }
+            }]
+          })
+        })]
+      }))]
+    })];
+  }
+}
+/* harmony default export */ const LatLong = (LatLongLayerSetting);
+;// ./d3Map/layers/Base.tsx
+
+
+
+
+
+
+
+
+
+
+
+
+const typeOptions = [{
+  label: "Base",
+  value: "base"
+}, {
+  label: "Data Shape",
+  value: "data"
+}, {
+  label: "FLow layer ",
+  value: "flow"
+}, {
+  label: "Data Points ",
+  value: "dataPoints"
+}];
+const toOptions = files => {
+  return [{
+    label: 'None',
+    value: 'none'
+  }, ...files.map(file => {
+    return {
+      label: file.title.rendered,
+      value: file.source_url
+    };
+  })];
+};
+const Base = props => {
+  const {
+    onChange,
+    metadata,
+    layer,
+    layer: {
+      name,
+      shapeColor,
+      labelFilter,
+      type,
+      file,
+      app,
+      labelField,
+      visible
+    }
+  } = props;
+  const [files, setFiles] = (0,external_wp_element_.useState)([]);
+  const [features, setFeatures] = (0,external_wp_element_.useState)([]);
+  (0,external_React_.useEffect)(() => {
+    getJsonFiles().then(files => {
+      setFiles(toOptions(files));
+    });
+  }, []);
+  (0,external_React_.useEffect)(() => {
+    fetch(file).then(response => response.json()).then(data => {
+      setFeatures(data.features);
+    });
+  }, [layer.file]);
+  const onChangeProperty = (atrr, value) => {
+    console.log("change attribute " + atrr + " to " + value);
+    const newLayer = {
+      ...layer
+    };
+    newLayer[atrr] = value;
+    onChange(newLayer);
+  };
+  const datasets = [{
+    label: 'Select Dataset',
+    value: '0'
+  }];
+  if (metadata.datasets) {
+    metadata.datasets.forEach(d => {
+      datasets.push({
+        label: d.label,
+        value: d.id
+      });
+    });
+  }
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+      type: "text",
+      label: (0,external_wp_i18n_.__)("Name", "dg"),
+      onChange: name => onChangeProperty("name", name),
+      value: name
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+      label: "Default visible",
+      checked: visible,
+      onChange: e => {
+        onChangeProperty("visible", !visible);
+      }
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+      label: (0,external_wp_i18n_.__)("Type", "dg"),
+      value: type,
+      onChange: type => onChangeProperty("type", type),
+      options: typeOptions
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+    children: type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        multiple: false,
+        label: "File",
+        onChange: file => onChangeProperty("file", file),
+        value: file,
+        options: files
+      })
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+    children: type != 'dataPoints' && type != 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: "Colors",
+      initialOpen: false,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Fill Color`),
+        colorSettings: [{
+          clearable: true,
+          enableAlpha: true,
+          value: layer.fillColor,
+          label: (0,external_wp_i18n_.__)("Fill Color", "dg"),
+          onChange: fillColor => {
+            if (fillColor != null) {
+              onChangeProperty("fillColor", fillColor);
+            } else {
+              onChangeProperty("fillColor", "transparent");
+            }
+          }
+        }]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Border Color`),
+        colorSettings: [{
+          label: (0,external_wp_i18n_.__)("Border Color", "dg"),
+          value: layer.borderColor,
+          clearable: true,
+          enableAlpha: true,
+          onChange: borderColor => {
+            onChangeProperty("borderColor", borderColor);
+          }
+        }]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Label Color`),
+        colorSettings: [{
+          clearable: true,
+          enableAlpha: true,
+          value: layer.labelColor,
+          label: (0,external_wp_i18n_.__)("Label Color", "dg"),
+          onChange: labelColor => {
+            onChangeProperty("labelColor", labelColor);
+          }
+        }]
+      })]
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+    children: [type != 'dataPoints' && type != 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: "Labels",
+      initialOpen: false,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
+        title: "Label Field",
+        property: "labelField",
+        value: labelField,
+        onChangeProperty: onChangeProperty,
+        features: features
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Size",
+          value: layer.labelFontSize,
+          onChange: labelFontSize => onChangeProperty("labelFontSize", labelFontSize),
+          min: 1,
+          step: 1,
+          max: 100
+        })
+      }), labelField != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Labels"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: "None/All",
+            checked: labelFilter.length == 0,
+            onChange: checked => {
+              if (!checked) {
+                onChangeProperty("labelFilter", features.map(f => f.properties[labelField]));
+              } else {
+                onChangeProperty("labelFilter", []);
+              }
+            }
+          })
+        }), features && features.sort(f => f.properties[labelField]).map(feature => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: feature.properties[labelField],
+              checked: labelFilter.indexOf(feature.properties[labelField]) == -1,
+              onChange: selected => {
+                onChangeProperty("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]));
+              }
+            })
+          }), labelFilter.indexOf(feature.properties[labelField]) == -1 && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Rotation"),
+            initialOpen: false,
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+                label: "Offset X",
+                min: -500,
+                max: 500,
+                value: layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0,
+                onChange: offsetX => onChangeProperty("labelSettings", {
+                  ...layer.labelSettings,
+                  [feature.properties[labelField] + "_offsetX"]: offsetX
+                })
+              })
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+                label: "Offset Y",
+                min: -500,
+                max: 500,
+                value: layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0,
+                onChange: offset => onChangeProperty("labelSettings", {
+                  ...layer.labelSettings,
+                  [feature.properties[labelField] + "_offsetY"]: offset
+                })
+              })
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+                label: "Rotation",
+                value: layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0,
+                onChange: rotation => onChangeProperty("labelSettings", {
+                  ...layer.labelSettings,
+                  [feature.properties[labelField] + "_rotation"]: rotation
+                })
+              })
+            })]
+          })]
+        }))]
+      })]
+    }), "  "]
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)((external_React_default()).Fragment, {
+    children: [type == 'data' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Data, {
+        ...props,
+        apps: metadata.apps,
+        onChangeProperty: onChangeProperty,
+        allDimensions: metadata.dimensions || [],
+        allFilters: metadata.filters || [],
+        allMeasures: metadata.measures || [],
+        allCategories: metadata.categories || [],
+        allApps: metadata.apps,
+        features: features,
+        layer: layer,
+        allDatasets: datasets
+      })
+    }), type == 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow, {
+        ...props,
+        apps: metadata.apps,
+        onChangeProperty: onChangeProperty,
+        allDimensions: metadata.dimensions || [],
+        allFilters: metadata.filters || [],
+        allMeasures: metadata.measures || [],
+        allCategories: metadata.categories || [],
+        allApps: metadata.apps,
+        features: features,
+        layer: layer,
+        allDatasets: datasets
+      })
+    }), type == 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong, {
+        ...props,
+        apps: metadata.apps,
+        onChangeProperty: onChangeProperty,
+        allDimensions: metadata.dimensions || [],
+        allFilters: metadata.filters || [],
+        allMeasures: metadata.measures || [],
+        allCategories: metadata.categories || [],
+        allApps: metadata.apps,
+        allDatasets: datasets,
+        features: features,
+        layer: layer
+      })
+    })]
+  })];
+};
+class LayerWithMetadata extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    const {
+      layer: {
+        name,
+        type,
+        file,
+        app,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    fetch(`/api/registry/eureka/apps`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => response.json()).then(data => {
+      const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
+        label: a.name,
+        value: a.instance[0].vipAddress,
+        settings: a.instance[0]
+      })), {
+        label: 'CSV',
+        value: 'csv'
+      }] : [{
+        label: 'CSV',
+        value: 'csv'
+      }];
+      this.setState({
+        ...this.state,
+        apps
+      });
+      if (app && app != 'none') {
+        if ((0,build/* isSupersetAPI */.oL)(app, apps)) {
+          //if app is superset proxy an additional step is added
+          this.loadDatasets(app);
+          if (dvzProxyDatasetId) {
+            this.loadMetadata(app, dvzProxyDatasetId);
+          }
+        } else {
+          this.loadMetadata(app);
+        }
+      }
+    }).catch(function (response) {
+      alert("error" + response);
+    });
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+    const {
+      layer: {
+        app,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    const {
+      layer: {
+        app: prevAPP,
+        dvzProxyDatasetId: prevDvzProxyDatasetId
+      }
+    } = prevProps;
+    if (app != prevAPP) {
+      //if app changes we shoudl reload metadta
+
+      if ((0,build/* isSupersetAPI */.oL)(app, this.state.apps)) {
+        //if app is superset proxy an additional step is added
+        this.loadDatasets(app);
+        if (dvzProxyDatasetId) {
+          this.loadMetadata(app, dvzProxyDatasetId);
+        }
+      } else {
+        this.loadMetadata(app);
+      }
+    } else {
+      //app wasn't changed
+
+      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+        this.loadMetadata(app, dvzProxyDatasetId);
+      }
+    }
+  }
+  render() {
+    const {
+      setAttributes,
+      onMoveLayer,
+      panelStatus,
+      onRemoveLayer,
+      layer,
+      layer: {
+        name,
+        type,
+        file,
+        app
+      }
+    } = this.props;
+    console.log(this.state);
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      onToggle: e => (0,build/* togglePanel */.Pj)('LAYERS_' + name, panelStatus, setAttributes),
+      title: (0,external_wp_i18n_.__)(`${name}`),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Base, {
+        ...this.props,
+        metadata: this.state
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "secondary",
+            type: "button",
+            onClick: onRemoveLayer,
+            children: "Delete"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "secondary",
+            type: "button",
+            onClick: e => onMoveLayer(-1, layer),
+            children: "Up"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "secondary",
+            type: "button",
+            onClick: e => onMoveLayer(1, layer),
+            children: "Down"
+          })]
+        })
+      })]
+    });
+  }
+}
+/* harmony default export */ const layers_Base = (LayerWithMetadata);
+;// ./d3Map/layers/Model.ts
+const Model = {
+  id: Date.now(),
+  name: 'New Layer',
+  app: "csv",
+  dimension1: "none",
+  dimension2: "none",
+  measures: [],
+  filters: [],
+  csv: "",
+  file: 'none',
+  opacity: 1,
+  fillColor: '#FFFFFF',
+  markFillColor: '#FFFFFF',
+  markFillColor2: '#FFFFFF',
+  borderColor: '#000000',
+  markBorderColor: '#000000',
+  markBorderColor2: '#000000',
+  markSizeScale: 2,
+  markSizeScale2: 2,
+  markerLabelSize: 1,
+  labelColor: '#000000',
+  markLabelColor: '#000000',
+  labelFontSize: 2,
+  labelFilter: [],
+  labelSettings: {},
+  labelField: 'none',
+  type: 'base',
+  //base layer user will select only a file
+  //type:'shape', //shape layer user will select file and data source
+  //type:'data', //will select data source and symbols + symbols configuration
+  useBreaks: false,
+  usePattern: false,
+  pointStyleBy: 'none',
+  format: {
+    "style": "percent",
+    "minimumFractionDigits": 1,
+    "maximumFractionDigits": 1,
+    "currency": "USD"
+  },
+  featureJoinAttribute: 'none',
+  apiJoinAttribute: 'none',
+  useCentroidPoint: true,
+  patternDiscriminator: 'none',
+  patternDiscriminatorLabel: null,
+  patterns: [],
+  pointDimensionStyles: [],
+  tooltip: "Value {value}",
+  breaks: [],
+  customMeasuresLabels: {},
+  visible: true,
+  flowValuesFrom: 'origin',
+  flowOrigin: 'none',
+  flowDestination: 'none',
+  dvzProxyDatasetId: '',
+  offsetPixels: 10
+};
+/* harmony default export */ const layers_Model = (Model);
+;// ./d3Map/BlockEdit.tsx
+
+
+
+
+
+
+
+
+class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+    this.onChangeLayer = this.onChangeLayer.bind(this);
+    this.addLayer = this.addLayer.bind(this);
+    this.removeLayer = this.removeLayer.bind(this);
+    this.onMoveLayer = this.onMoveLayer.bind(this);
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      attributes: {
+        app
+      }
+    } = this.props;
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+  }
+  componentDidMount() {
+    super.componentDidMount();
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes
+    } = this.props;
+    const {
+      group
+    } = attributes;
+    window.addEventListener("message", event => {
+      if (event.data.type == `d3_map_${group}`) {
+        const iframeOrigin = event.origin.split(':')[1];
+        const parentOrigin = window.location.origin.split(':')[1];
+        if (iframeOrigin == parentOrigin) {
+          console.log("Received message from iframe " + event.data.type, event.data.value);
+          setAttributes({
+            ...attributes,
+            mapPosition: event.data.value
+          });
+        }
+      }
+    }, false);
+  }
+  addLayer() {
+    const {
+      setAttributes,
+      attributes
+    } = this.props;
+    const {
+      layers
+    } = attributes;
+    const newLayers = [...layers];
+    const model = {
+      ...layers_Model
+    };
+    model.id = Date.now();
+    newLayers.push(model);
+    setAttributes({
+      ...attributes,
+      layers: newLayers
+    });
+  }
+  removeLayer(layer) {
+    const {
+      setAttributes,
+      attributes
+    } = this.props;
+    const {
+      id,
+      name
+    } = layer;
+    const {
+      layers
+    } = attributes;
+    const newLayers = layers.filter(l => l.id != id);
+    setAttributes({
+      ...attributes,
+      layers: newLayers
+    });
+  }
+  onChangeLayer(layer) {
+    const {
+      setAttributes,
+      attributes
+    } = this.props;
+    const {
+      layers
+    } = attributes;
+    const newLayers = [...layers];
+    const index = layers.findIndex(l => l.id === layer.id);
+    if (index !== -1) {
+      newLayers[index] = layer;
+    }
+    setAttributes({
+      ...attributes,
+      layers: newLayers
+    });
+  }
+  onMoveLayer(direction, layer) {
+    const {
+      setAttributes,
+      attributes
+    } = this.props;
+    const {
+      layers
+    } = attributes;
+    const newLayers = [...layers];
+    const index = newLayers.findIndex(l => l.id === layer.id);
+    const newIndex = index + direction;
+    if (newIndex > -1 && newIndex < newLayers.length) {
+      const element = newLayers.splice(index, 1);
+      newLayers.splice(newIndex, 0, element[0]);
+      setAttributes({
+        ...attributes,
+        layers: newLayers
+      });
+    }
+  }
+  render() {
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes
+    } = this.props;
+    const {
+      projection,
+      panelStatus,
+      mapPosition,
+      height,
+      width,
+      group,
+      backGroundColor,
+      layers = [],
+      rotationEnabled,
+      zoomEnabled
+    } = attributes;
+    const divStyles = {
+      height: height + 'px',
+      width: '100%'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Map Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false //{false}//{panelStatus['GROUP']}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              value: group,
+              onChange: group => setAttributes({
+                ...attributes,
+                group
+              })
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus["SIZE"]}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("SIZE", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Size"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              size: 10,
+              label: "Height",
+              value: height,
+              onChange: height => setAttributes({
+                ...attributes,
+                height: height ? parseInt(height) : 0
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              size: 10,
+              label: "Width",
+              value: width,
+              onChange: width => setAttributes({
+                ...attributes,
+                width: width ? parseInt(width) : 0
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus["PROJECTION"]}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("PROJECTION", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Projection"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              label: (0,external_wp_i18n_.__)("Projection"),
+              value: projection,
+              onChange: projection => setAttributes({
+                ...attributes,
+                projection
+              }),
+              options: [{
+                label: "geoMercator",
+                value: "geoMercator"
+              }, {
+                label: "geoEqualEarth",
+                value: "geoEqualEarth"
+              }, {
+                label: "geoNaturalEarth1",
+                value: "geoNaturalEarth1"
+              }, {
+                label: "geoAzimuthalEqualArea",
+                value: "geoAzimuthalEqualArea"
+              }, {
+                label: "geoOrthographic",
+                value: "geoOrthographic"
+              }]
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Enable Rotation'),
+              checked: rotationEnabled,
+              onChange: e => setAttributes({
+                ...attributes,
+                rotationEnabled: !rotationEnabled
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Enable Zoom Controls'),
+              checked: zoomEnabled,
+              onChange: e => setAttributes({
+                ...attributes,
+                zoomEnabled: !zoomEnabled
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus['COLORS']}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("COLORS", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Colors"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)('Background'),
+            colorSettings: [{
+              clearable: true,
+              enableAlpha: true,
+              value: decodeURIComponent(backGroundColor),
+              onChange: color => {
+                if (color) {
+                  setAttributes({
+                    ...attributes,
+                    backGroundColor: encodeURIComponent(color)
+                  });
+                } else {
+                  setAttributes({
+                    ...attributes,
+                    backGroundColor: "#FFFFFF"
+                  });
+                }
+              },
+              label: (0,external_wp_i18n_.__)('Background Color')
+            }]
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus['LAYERS']}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("LAYERS", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Layers"),
+          children: [layers.map(layer => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(layers_Base, {
+            ...this.props,
+            setAttributes: setAttributes,
+            onRemoveLayer: () => this.removeLayer(layer),
+            onChange: this.onChangeLayer,
+            onMoveLayer: this.onMoveLayer,
+            layer: layer
+          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+              variant: "primary",
+              onClick: e => this.addLayer(),
+              children: "Add New Layer"
+            })
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+      style: {
+        margin: "auto",
+        width: "100%"
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+        style: {
+          margin: "auto"
+        },
+        size: {
+          height,
+          width
+        },
+        minHeight: "50",
+        minWidth: "50",
+        enable: {
+          top: false,
+          right: true,
+          bottom: true,
+          left: false,
+          topRight: false,
+          bottomRight: true,
+          bottomLeft: false,
+          topLeft: false
+        },
+        onResizeStop: (event, direction, elt, delta) => {
+          setAttributes({
+            ...attributes,
+            height: parseInt(String(height)) + delta.height,
+            width: parseInt(String(width)) + delta.width
+          });
+          toggleSelection();
+        },
+        onResizeStart: () => {
+          toggleSelection();
+        },
+        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          scrolling: "no",
+          style: divStyles,
+          src: this.state.react_ui_url + "/embeddable/newMap?"
+        })
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
+    className: 'wp-react-component'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+      ...props
+    })
+  });
+};
+/* harmony default export */ const d3Map_BlockEdit = (Edit);
+;// ./d3Map/index.js
+
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/new-d3-map', {
+  title: (0,external_wp_i18n_.__)('D3 Map'),
+  icon: build/* Generic */.ck,
+  category: build/* BLOCKS_CATEGORY */._q,
+  apiVersion: 2,
+  attributes: {
+    height: {
+      type: 'Numeric',
+      default: 500
+    },
+    width: {
+      type: 'Numeric',
+      default: 1024
+    },
+    group: {
+      type: 'string',
+      default: 'default'
+    },
+    projection: {
+      type: 'string',
+      default: 'geoMercator'
+    },
+    layers: {
+      type: "Array",
+      default: []
+    },
+    panelStatus: {
+      type: "Object",
+      default: {}
+    },
+    backGroundColor: {
+      type: "string",
+      default: "#347ba2"
+    },
+    mapPosition: {
+      type: "Object",
+      default: {}
+    },
+    zoomEnabled: {
+      type: "Boolean",
+      default: true
+    },
+    rotationEnabled: {
+      type: "Boolean",
+      default: false
+    }
+  },
+  edit: d3Map_BlockEdit,
+  save: BlockSave
+});
 
 /***/ }),
 
@@ -36134,3553 +42157,6 @@ module.exports = values;
 
 /***/ }),
 
-/***/ 9608:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  jb: () => (/* reexport */ BlockEditWithFilters)
-});
-
-// UNUSED EXPORTS: APIConfig, BlockEditWithAPIMetadata, CSVConfig, ChartColors, ChartMeasures, ComponentWithSettings, DEFAULT_FORMAT_SETTINGS, DataFilters, Format, MapCSVSourceConfig, Measures, SizeConfig, Tooltip, categorical, diverging, extractAxisValues, getSelectedLabelsForApp, getTranslatedOptions, getTranslation, isSupersetAPI, panelFocus, sequential, togglePanel, transformDataToAppObject, updateMeasureLabels
-
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(1609);
-var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(6087);
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-;// ../../../packages/commons/build/Format.js
-
-
-
-const styles = [{
-  label: 'Decimal',
-  value: 'decimal'
-}, {
-  label: 'Compacted',
-  value: 'compacted'
-}, {
-  label: 'Currency',
-  value: 'currency'
-}, {
-  label: 'Percent',
-  value: 'percent'
-}];
-const currencies = [{
-  "label": "ADB Unit of Account (XUA)",
-  "value": "XUA"
-}, {
-  "label": "Afghani (AFN)",
-  "value": "AFN"
-}, {
-  "label": "Afghani (AFA)",
-  "value": "AFA"
-}, {
-  "label": "Algerian Dinar (DZD)",
-  "value": "DZD"
-}, {
-  "label": "Andorran Peseta (ADP)",
-  "value": "ADP"
-}, {
-  "label": "Argentine Peso (ARS)",
-  "value": "ARS"
-}, {
-  "label": "Armenian Dram (AMD)",
-  "value": "AMD"
-}, {
-  "label": "Aruban Florin (AWG)",
-  "value": "AWG"
-}, {
-  "label": "Austral (ARA)",
-  "value": "ARA"
-}, {
-  "label": "Australian Dollar (AUD)",
-  "value": "AUD"
-}, {
-  "label": "Azerbaijan Manat (AZN)",
-  "value": "AZN"
-}, {
-  "label": "Azerbaijan Manat (AYM)",
-  "value": "AYM"
-}, {
-  "label": "Azerbaijanian Manat (AZM)",
-  "value": "AZM"
-}, {
-  "label": "Bahamian Dollar (BSD)",
-  "value": "BSD"
-}, {
-  "label": "Bahraini Dinar (BHD)",
-  "value": "BHD"
-}, {
-  "label": "Baht (THB)",
-  "value": "THB"
-}, {
-  "label": "Balboa (PAB)",
-  "value": "PAB"
-}, {
-  "label": "Barbados Dollar (BBD)",
-  "value": "BBD"
-}, {
-  "label": "Belarusian Ruble (BYN)",
-  "value": "BYN"
-}, {
-  "label": "Belarusian Ruble (BYB)",
-  "value": "BYB"
-}, {
-  "label": "Belarusian Ruble (BYR)",
-  "value": "BYR"
-}, {
-  "label": "Belgian Franc (BEF)",
-  "value": "BEF"
-}, {
-  "label": "Belize Dollar (BZD)",
-  "value": "BZD"
-}, {
-  "label": "Bermudian Dollar (BMD)",
-  "value": "BMD"
-}, {
-  "label": "Bol√≠var (VEF)",
-  "value": "VEF"
-}, {
-  "label": "Bol√≠var Soberano (VES)",
-  "value": "VES"
-}, {
-  "label": "Bolivar (VEB)",
-  "value": "VEB"
-}, {
-  "label": "Bolivar (VEF)",
-  "value": "VEF"
-}, {
-  "label": "Bolivar Fuerte (VEF)",
-  "value": "VEF"
-}, {
-  "label": "Boliviano (BOB)",
-  "value": "BOB"
-}, {
-  "label": "Bond Markets Unit European Composite Unit (EURCO) (XBA)",
-  "value": "XBA"
-}, {
-  "label": "Bond Markets Unit European Monetary Unit (E.M.U.-6) (XBB)",
-  "value": "XBB"
-}, {
-  "label": "Bond Markets Unit European Unit of Account 17 (E.U.A.-17) (XBD)",
-  "value": "XBD"
-}, {
-  "label": "Bond Markets Unit European Unit of Account 9 (E.U.A.-9) (XBC)",
-  "value": "XBC"
-}, {
-  "label": "Brazilian Real (BRL)",
-  "value": "BRL"
-}, {
-  "label": "Brunei Dollar (BND)",
-  "value": "BND"
-}, {
-  "label": "Bulgarian Lev (BGN)",
-  "value": "BGN"
-}, {
-  "label": "Burundi Franc (BIF)",
-  "value": "BIF"
-}, {
-  "label": "Cabo Verde Escudo (CVE)",
-  "value": "CVE"
-}, {
-  "label": "Canadian Dollar (CAD)",
-  "value": "CAD"
-}, {
-  "label": "Cayman Islands Dollar (KYD)",
-  "value": "KYD"
-}, {
-  "label": "Cedi (GHC)",
-  "value": "GHC"
-}, {
-  "label": "CFA Franc BCEAO (XOF)",
-  "value": "XOF"
-}, {
-  "label": "CFA Franc BEAC (XAF)",
-  "value": "XAF"
-}, {
-  "label": "CFP Franc (XPF)",
-  "value": "XPF"
-}, {
-  "label": "Chilean Peso (CLP)",
-  "value": "CLP"
-}, {
-  "label": "Codes specifically reserved for testing purposes (XTS)",
-  "value": "XTS"
-}, {
-  "label": "Colombian Peso (COP)",
-  "value": "COP"
-}, {
-  "label": "Comorian Franc  (KMF)",
-  "value": "KMF"
-}, {
-  "label": "Congolese Franc (CDF)",
-  "value": "CDF"
-}, {
-  "label": "Convertible Franc (BEC)",
-  "value": "BEC"
-}, {
-  "label": "Convertible Mark (BAM)",
-  "value": "BAM"
-}, {
-  "label": "Cordoba (NIC)",
-  "value": "NIC"
-}, {
-  "label": "Cordoba Oro (NIO)",
-  "value": "NIO"
-}, {
-  "label": "Costa Rican Colon (CRC)",
-  "value": "CRC"
-}, {
-  "label": "Croatian Dinar (HRD)",
-  "value": "HRD"
-}, {
-  "label": "Croatian Kuna (HRK)",
-  "value": "HRK"
-}, {
-  "label": "Cruzado (BRC)",
-  "value": "BRC"
-}, {
-  "label": "Cruzeiro (BRB)",
-  "value": "BRB"
-}, {
-  "label": "Cruzeiro (BRE)",
-  "value": "BRE"
-}, {
-  "label": "Cruzeiro Real (BRR)",
-  "value": "BRR"
-}, {
-  "label": "Cuban Peso (CUP)",
-  "value": "CUP"
-}, {
-  "label": "Cyprus Pound (CYP)",
-  "value": "CYP"
-}, {
-  "label": "Czech Koruna (CZK)",
-  "value": "CZK"
-}, {
-  "label": "Dalasi (GMD)",
-  "value": "GMD"
-}, {
-  "label": "Danish Krone (DKK)",
-  "value": "DKK"
-}, {
-  "label": "Denar (MKD)",
-  "value": "MKD"
-}, {
-  "label": "Deutsche Mark (DEM)",
-  "value": "DEM"
-}, {
-  "label": "Dinar (BAD)",
-  "value": "BAD"
-}, {
-  "label": "Djibouti Franc (DJF)",
-  "value": "DJF"
-}, {
-  "label": "Dobra (STN)",
-  "value": "STN"
-}, {
-  "label": "Dobra (STD)",
-  "value": "STD"
-}, {
-  "label": "Dominican Peso (DOP)",
-  "value": "DOP"
-}, {
-  "label": "Dong (VND)",
-  "value": "VND"
-}, {
-  "label": "Drachma (GRD)",
-  "value": "GRD"
-}, {
-  "label": "East Caribbean Dollar (XCD)",
-  "value": "XCD"
-}, {
-  "label": "Egyptian Pound (EGP)",
-  "value": "EGP"
-}, {
-  "label": "Ekwele (GQE)",
-  "value": "GQE"
-}, {
-  "label": "El Salvador Colon (SVC)",
-  "value": "SVC"
-}, {
-  "label": "Ethiopian Birr (ETB)",
-  "value": "ETB"
-}, {
-  "label": "Euro (EUR)",
-  "value": "EUR"
-}, {
-  "label": "European Currency Unit (E.C.U) (XEU)",
-  "value": "XEU"
-}, {
-  "label": "Falkland Islands Pound (FKP)",
-  "value": "FKP"
-}, {
-  "label": "Fiji Dollar (FJD)",
-  "value": "FJD"
-}, {
-  "label": "Financial Franc (BEL)",
-  "value": "BEL"
-}, {
-  "label": "Financial Rand (ZAL)",
-  "value": "ZAL"
-}, {
-  "label": "Forint (HUF)",
-  "value": "HUF"
-}, {
-  "label": "French Franc (FRF)",
-  "value": "FRF"
-}, {
-  "label": "Georgian Coupon (GEK)",
-  "value": "GEK"
-}, {
-  "label": "Ghana Cedi (GHS)",
-  "value": "GHS"
-}, {
-  "label": "Ghana Cedi (GHP)",
-  "value": "GHP"
-}, {
-  "label": "Gibraltar Pound (GIP)",
-  "value": "GIP"
-}, {
-  "label": "Gold (XAU)",
-  "value": "XAU"
-}, {
-  "label": "Gold-Franc (XFO)",
-  "value": "XFO"
-}, {
-  "label": "Gourde (HTG)",
-  "value": "HTG"
-}, {
-  "label": "Guarani (PYG)",
-  "value": "PYG"
-}, {
-  "label": "Guinea Escudo (GWE)",
-  "value": "GWE"
-}, {
-  "label": "Guinea-Bissau Peso (GWP)",
-  "value": "GWP"
-}, {
-  "label": "Guinean Franc (GNF)",
-  "value": "GNF"
-}, {
-  "label": "Guyana Dollar (GYD)",
-  "value": "GYD"
-}, {
-  "label": "Hong Kong Dollar (HKD)",
-  "value": "HKD"
-}, {
-  "label": "Hryvnia (UAH)",
-  "value": "UAH"
-}, {
-  "label": "Iceland Krona (ISK)",
-  "value": "ISK"
-}, {
-  "label": "Indian Rupee (INR)",
-  "value": "INR"
-}, {
-  "label": "Inti (PEI)",
-  "value": "PEI"
-}, {
-  "label": "Iranian Rial (IRR)",
-  "value": "IRR"
-}, {
-  "label": "Iraqi Dinar (IQD)",
-  "value": "IQD"
-}, {
-  "label": "Irish Pound (IEP)",
-  "value": "IEP"
-}, {
-  "label": "Italian Lira (ITL)",
-  "value": "ITL"
-}, {
-  "label": "Jamaican Dollar (JMD)",
-  "value": "JMD"
-}, {
-  "label": "Jordanian Dinar (JOD)",
-  "value": "JOD"
-}, {
-  "label": "Karbovanet (UAK)",
-  "value": "UAK"
-}, {
-  "label": "Kenyan Shilling (KES)",
-  "value": "KES"
-}, {
-  "label": "Kina (PGK)",
-  "value": "PGK"
-}, {
-  "label": "Koruna (CSK)",
-  "value": "CSK"
-}, {
-  "label": "Krona A/53 (CSJ)",
-  "value": "CSJ"
-}, {
-  "label": "Kroon (EEK)",
-  "value": "EEK"
-}, {
-  "label": "Kuna (HRK)",
-  "value": "HRK"
-}, {
-  "label": "Kuwaiti Dinar (KWD)",
-  "value": "KWD"
-}, {
-  "label": "Kwacha (MWK)",
-  "value": "MWK"
-}, {
-  "label": "Kwanza (AOA)",
-  "value": "AOA"
-}, {
-  "label": "Kwanza (AOK)",
-  "value": "AOK"
-}, {
-  "label": "Kwanza Reajustado (AOR)",
-  "value": "AOR"
-}, {
-  "label": "Kyat (MMK)",
-  "value": "MMK"
-}, {
-  "label": "Kyat (BUK)",
-  "value": "BUK"
-}, {
-  "label": "Lao Kip (LAK)",
-  "value": "LAK"
-}, {
-  "label": "Lari (GEL)",
-  "value": "GEL"
-}, {
-  "label": "Latvian Lats (LVL)",
-  "value": "LVL"
-}, {
-  "label": "Latvian Ruble (LVR)",
-  "value": "LVR"
-}, {
-  "label": "Lebanese Pound (LBP)",
-  "value": "LBP"
-}, {
-  "label": "Lek (ALL)",
-  "value": "ALL"
-}, {
-  "label": "Lempira (HNL)",
-  "value": "HNL"
-}, {
-  "label": "Leone (SLL)",
-  "value": "SLL"
-}, {
-  "label": "Leu A/52 (ROK)",
-  "value": "ROK"
-}, {
-  "label": "Lev (BGL)",
-  "value": "BGL"
-}, {
-  "label": "Lev A/52 (BGJ)",
-  "value": "BGJ"
-}, {
-  "label": "Lev A/62 (BGK)",
-  "value": "BGK"
-}, {
-  "label": "Liberian Dollar (LRD)",
-  "value": "LRD"
-}, {
-  "label": "Libyan Dinar (LYD)",
-  "value": "LYD"
-}, {
-  "label": "Lilangeni (SZL)",
-  "value": "SZL"
-}, {
-  "label": "Lithuanian Litas (LTL)",
-  "value": "LTL"
-}, {
-  "label": "Loti (LSL)",
-  "value": "LSL"
-}, {
-  "label": "Loti (LSM)",
-  "value": "LSM"
-}, {
-  "label": "Luxembourg Convertible Franc (LUC)",
-  "value": "LUC"
-}, {
-  "label": "Luxembourg Financial Franc (LUL)",
-  "value": "LUL"
-}, {
-  "label": "Luxembourg Franc (LUF)",
-  "value": "LUF"
-}, {
-  "label": "Malagasy Ariary (MGA)",
-  "value": "MGA"
-}, {
-  "label": "Malagasy Franc (MGF)",
-  "value": "MGF"
-}, {
-  "label": "Malawi Kwacha (MWK)",
-  "value": "MWK"
-}, {
-  "label": "Malaysian Ringgit (MYR)",
-  "value": "MYR"
-}, {
-  "label": "Maldive Rupee (MVQ)",
-  "value": "MVQ"
-}, {
-  "label": "Mali Franc (MLF)",
-  "value": "MLF"
-}, {
-  "label": "Maltese Lira (MTL)",
-  "value": "MTL"
-}, {
-  "label": "Maltese Pound (MTP)",
-  "value": "MTP"
-}, {
-  "label": "Mark der DDR (DDM)",
-  "value": "DDM"
-}, {
-  "label": "Markka (FIM)",
-  "value": "FIM"
-}, {
-  "label": "Mauritius Rupee (MUR)",
-  "value": "MUR"
-}, {
-  "label": "Mexican Peso (MXN)",
-  "value": "MXN"
-}, {
-  "label": "Mexican Peso (MXP)",
-  "value": "MXP"
-}, {
-  "label": "Mexican Unidad de Inversion (UDI) (MXV)",
-  "value": "MXV"
-}, {
-  "label": "Moldovan Leu (MDL)",
-  "value": "MDL"
-}, {
-  "label": "Moroccan Dirham (MAD)",
-  "value": "MAD"
-}, {
-  "label": "Mozambique Escudo (MZE)",
-  "value": "MZE"
-}, {
-  "label": "Mozambique Metical (MZN)",
-  "value": "MZN"
-}, {
-  "label": "Mozambique Metical (MZM)",
-  "value": "MZM"
-}, {
-  "label": "Mvdol (BOV)",
-  "value": "BOV"
-}, {
-  "label": "Naira (NGN)",
-  "value": "NGN"
-}, {
-  "label": "Nakfa (ERN)",
-  "value": "ERN"
-}, {
-  "label": "Namibia Dollar (NAD)",
-  "value": "NAD"
-}, {
-  "label": "Nepalese Rupee (NPR)",
-  "value": "NPR"
-}, {
-  "label": "Netherlands Antillean Guilder (ANG)",
-  "value": "ANG"
-}, {
-  "label": "Netherlands Guilder (NLG)",
-  "value": "NLG"
-}, {
-  "label": "New Cruzado (BRN)",
-  "value": "BRN"
-}, {
-  "label": "New Dinar (YUM)",
-  "value": "YUM"
-}, {
-  "label": "New Israeli Sheqel (ILS)",
-  "value": "ILS"
-}, {
-  "label": "New Kwanza (AON)",
-  "value": "AON"
-}, {
-  "label": "New Romanian Leu  (RON)",
-  "value": "RON"
-}, {
-  "label": "New Taiwan Dollar (TWD)",
-  "value": "TWD"
-}, {
-  "label": "New Turkish Lira (TRY)",
-  "value": "TRY"
-}, {
-  "label": "New Yugoslavian Dinar (YUD)",
-  "value": "YUD"
-}, {
-  "label": "New Zaire (ZRN)",
-  "value": "ZRN"
-}, {
-  "label": "New Zealand Dollar (NZD)",
-  "value": "NZD"
-}, {
-  "label": "Ngultrum (BTN)",
-  "value": "BTN"
-}, {
-  "label": "No universal currency ()",
-  "value": ""
-}, {
-  "label": "North Korean Won (KPW)",
-  "value": "KPW"
-}, {
-  "label": "Norwegian Krone (NOK)",
-  "value": "NOK"
-}, {
-  "label": "Nuevo Sol  (PEN)",
-  "value": "PEN"
-}, {
-  "label": "Old Dong (VNC)",
-  "value": "VNC"
-}, {
-  "label": "Old Krona (ISJ)",
-  "value": "ISJ"
-}, {
-  "label": "Old Lek (ALK)",
-  "value": "ALK"
-}, {
-  "label": "Old Leu (ROL)",
-  "value": "ROL"
-}, {
-  "label": "Old Shekel (ILR)",
-  "value": "ILR"
-}, {
-  "label": "Old Shilling (UGW)",
-  "value": "UGW"
-}, {
-  "label": "Old Turkish Lira (TRL)",
-  "value": "TRL"
-}, {
-  "label": "Old Uruguay Peso (UYN)",
-  "value": "UYN"
-}, {
-  "label": "Ouguiya (MRU)",
-  "value": "MRU"
-}, {
-  "label": "Ouguiya (MRO)",
-  "value": "MRO"
-}, {
-  "label": "Pa'anga (TOP)",
-  "value": "TOP"
-}, {
-  "label": "Pakistan Rupee (PKR)",
-  "value": "PKR"
-}, {
-  "label": "Palladium (XPD)",
-  "value": "XPD"
-}, {
-  "label": "Pataca (MOP)",
-  "value": "MOP"
-}, {
-  "label": "Pathet Lao Kip (LAJ)",
-  "value": "LAJ"
-}, {
-  "label": "Peso (ARY)",
-  "value": "ARY"
-}, {
-  "label": "Peso Argentino (ARP)",
-  "value": "ARP"
-}, {
-  "label": "Peso boliviano (BOP)",
-  "value": "BOP"
-}, {
-  "label": "Peso Convertible (CUC)",
-  "value": "CUC"
-}, {
-  "label": "Peso Uruguayo (UYU)",
-  "value": "UYU"
-}, {
-  "label": "Philippine Peso (PHP)",
-  "value": "PHP"
-}, {
-  "label": "Platinum (XPT)",
-  "value": "XPT"
-}, {
-  "label": "Portuguese Escudo (PTE)",
-  "value": "PTE"
-}, {
-  "label": "Pound (ILP)",
-  "value": "ILP"
-}, {
-  "label": "Pound Sterling (GBP)",
-  "value": "GBP"
-}, {
-  "label": "Pula (BWP)",
-  "value": "BWP"
-}, {
-  "label": "Qatari Rial (QAR)",
-  "value": "QAR"
-}, {
-  "label": "Quetzal (GTQ)",
-  "value": "GTQ"
-}, {
-  "label": "Rand (ZAR)",
-  "value": "ZAR"
-}, {
-  "label": "Rhodesian Dollar (RHD)",
-  "value": "RHD"
-}, {
-  "label": "Rhodesian Dollar (ZWC)",
-  "value": "ZWC"
-}, {
-  "label": "Rial Omani (OMR)",
-  "value": "OMR"
-}, {
-  "label": "Riel (KHR)",
-  "value": "KHR"
-}, {
-  "label": "RINET Funds Code (XRE)",
-  "value": "XRE"
-}, {
-  "label": "Romanian Leu (RON)",
-  "value": "RON"
-}, {
-  "label": "Rouble (SUR)",
-  "value": "SUR"
-}, {
-  "label": "Rufiyaa (MVR)",
-  "value": "MVR"
-}, {
-  "label": "Rupiah (IDR)",
-  "value": "IDR"
-}, {
-  "label": "Russian Ruble (RUB)",
-  "value": "RUB"
-}, {
-  "label": "Russian Ruble (RUR)",
-  "value": "RUR"
-}, {
-  "label": "Rwanda Franc (RWF)",
-  "value": "RWF"
-}, {
-  "label": "Saint Helena Pound (SHP)",
-  "value": "SHP"
-}, {
-  "label": "Saudi Riyal (SAR)",
-  "value": "SAR"
-}, {
-  "label": "Schilling (ATS)",
-  "value": "ATS"
-}, {
-  "label": "SDR (Special Drawing Right) (XDR)",
-  "value": "XDR"
-}, {
-  "label": "Serbian Dinar (RSD)",
-  "value": "RSD"
-}, {
-  "label": "Serbian Dinar (CSD)",
-  "value": "CSD"
-}, {
-  "label": "Seychelles Rupee (SCR)",
-  "value": "SCR"
-}, {
-  "label": "Silver (XAG)",
-  "value": "XAG"
-}, {
-  "label": "Singapore Dollar (SGD)",
-  "value": "SGD"
-}, {
-  "label": "Slovak Koruna (SKK)",
-  "value": "SKK"
-}, {
-  "label": "Sol (PEN)",
-  "value": "PEN"
-}, {
-  "label": "Sol (PEH)",
-  "value": "PEH"
-}, {
-  "label": "Sol (PES)",
-  "value": "PES"
-}, {
-  "label": "Solomon Islands Dollar (SBD)",
-  "value": "SBD"
-}, {
-  "label": "Som (KGS)",
-  "value": "KGS"
-}, {
-  "label": "Somali Shilling (SOS)",
-  "value": "SOS"
-}, {
-  "label": "Somoni (TJS)",
-  "value": "TJS"
-}, {
-  "label": "South Sudanese Pound (SSP)",
-  "value": "SSP"
-}, {
-  "label": "Spanish Peseta (ESP)",
-  "value": "ESP"
-}, {
-  "label": "Spanish Peseta (ESA)",
-  "value": "ESA"
-}, {
-  "label": "Sri Lanka Rupee (LKR)",
-  "value": "LKR"
-}, {
-  "label": "Sucre (XSU)",
-  "value": "XSU"
-}, {
-  "label": "Sucre (ECS)",
-  "value": "ECS"
-}, {
-  "label": "Sudanese Dinar (SDD)",
-  "value": "SDD"
-}, {
-  "label": "Sudanese Pound (SDG)",
-  "value": "SDG"
-}, {
-  "label": "Sudanese Pound (SDP)",
-  "value": "SDP"
-}, {
-  "label": "Surinam Dollar (SRD)",
-  "value": "SRD"
-}, {
-  "label": "Surinam Guilder (SRG)",
-  "value": "SRG"
-}, {
-  "label": "Swedish Krona (SEK)",
-  "value": "SEK"
-}, {
-  "label": "Swiss Franc (CHF)",
-  "value": "CHF"
-}, {
-  "label": "Syli (GNE)",
-  "value": "GNE"
-}, {
-  "label": "Syli (GNS)",
-  "value": "GNS"
-}, {
-  "label": "Syrian Pound (SYP)",
-  "value": "SYP"
-}, {
-  "label": "Tajik Ruble (TJR)",
-  "value": "TJR"
-}, {
-  "label": "Taka (BDT)",
-  "value": "BDT"
-}, {
-  "label": "Tala (WST)",
-  "value": "WST"
-}, {
-  "label": "Talonas (LTT)",
-  "value": "LTT"
-}, {
-  "label": "Tanzanian Shilling (TZS)",
-  "value": "TZS"
-}, {
-  "label": "Tenge (KZT)",
-  "value": "KZT"
-}, {
-  "label": "Timor Escudo (TPE)",
-  "value": "TPE"
-}, {
-  "label": "Tolar (SIT)",
-  "value": "SIT"
-}, {
-  "label": "Trinidad and Tobago Dollar (TTD)",
-  "value": "TTD"
-}, {
-  "label": "Tugrik (MNT)",
-  "value": "MNT"
-}, {
-  "label": "Tunisian Dinar (TND)",
-  "value": "TND"
-}, {
-  "label": "Turkish Lira (TRY)",
-  "value": "TRY"
-}, {
-  "label": "Turkmenistan Manat (TMM)",
-  "value": "TMM"
-}, {
-  "label": "Turkmenistan New Manat (TMT)",
-  "value": "TMT"
-}, {
-  "label": "UAE Dirham (AED)",
-  "value": "AED"
-}, {
-  "label": "Uganda Shilling (UGX)",
-  "value": "UGX"
-}, {
-  "label": "Uganda Shilling (UGS)",
-  "value": "UGS"
-}, {
-  "label": "UIC-Franc (XFU)",
-  "value": "XFU"
-}, {
-  "label": "Unidad de Fomento (CLF)",
-  "value": "CLF"
-}, {
-  "label": "Unidad de Valor Constante (UVC) (ECV)",
-  "value": "ECV"
-}, {
-  "label": "Unidad de Valor Real (COU)",
-  "value": "COU"
-}, {
-  "label": "Unidad Previsional (UYW)",
-  "value": "UYW"
-}, {
-  "label": "Uruguay Peso en Unidades Indexadas (UI) (UYI)",
-  "value": "UYI"
-}, {
-  "label": "Uruguayan Peso (UYP)",
-  "value": "UYP"
-}, {
-  "label": "US Dollar (USD)",
-  "value": "USD"
-}, {
-  "label": "US Dollar (Next day) (USN)",
-  "value": "USN"
-}, {
-  "label": "US Dollar (Same day) (USS)",
-  "value": "USS"
-}, {
-  "label": "Uzbekistan Sum (UZS)",
-  "value": "UZS"
-}, {
-  "label": "Vatu (VUV)",
-  "value": "VUV"
-}, {
-  "label": "WIR Euro (CHE)",
-  "value": "CHE"
-}, {
-  "label": "WIR Franc (CHW)",
-  "value": "CHW"
-}, {
-  "label": "WIR Franc (for electronic) (CHC)",
-  "value": "CHC"
-}, {
-  "label": "Won (KRW)",
-  "value": "KRW"
-}, {
-  "label": "Yemeni Dinar (YDD)",
-  "value": "YDD"
-}, {
-  "label": "Yemeni Rial (YER)",
-  "value": "YER"
-}, {
-  "label": "Yen (JPY)",
-  "value": "JPY"
-}, {
-  "label": "Yuan Renminbi (CNY)",
-  "value": "CNY"
-}, {
-  "label": "Yugoslavian Dinar (YUN)",
-  "value": "YUN"
-}, {
-  "label": "Zaire (ZRZ)",
-  "value": "ZRZ"
-}, {
-  "label": "Zambian Kwacha (ZMW)",
-  "value": "ZMW"
-}, {
-  "label": "Zambian Kwacha (ZMK)",
-  "value": "ZMK"
-}, {
-  "label": "Zimbabwe Dollar (ZWL)",
-  "value": "ZWL"
-}, {
-  "label": "Zimbabwe Dollar (ZWD)",
-  "value": "ZWD"
-}, {
-  "label": "Zimbabwe Dollar (ZWR)",
-  "value": "ZWR"
-}, {
-  "label": "Zimbabwe Dollar (new) (ZWN)",
-  "value": "ZWN"
-}, {
-  "label": "Zimbabwe Dollar (old) (ZWD)",
-  "value": "ZWD"
-}, {
-  "label": "Zloty (PLN)",
-  "value": "PLN"
-}, {
-  "label": "Zloty (PLZ)",
-  "value": "PLZ"
-}];
-const DEFAULT_FORMAT = 'DEFAULT';
-const CUSTOM_FORMAT = 'CUSTOM';
-const Format_Format = ({
-  format,
-  title,
-  onFormatChange,
-  onUseCustomAxisFormatChange,
-  customFormat,
-  hiddenCustomAxisFormat,
-  useCustomAxisFormat
-}) => {
-  const onChangeFormat = (style, formatToUpdate) => {
-    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
-    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
-    onFormatChange(Object.assign({}, currentFormat, {
-      style
-    }), field);
-  };
-  const onDecimalChange = (value, formatToUpdate) => {
-    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
-    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
-    onFormatChange(Object.assign({}, currentFormat, {
-      minimumFractionDigits: value,
-      maximumFractionDigits: value
-    }), field);
-  };
-  const onCurrencyChange = (currency, formatToUpdate) => {
-    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
-    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
-    onFormatChange(Object.assign({}, currentFormat, {
-      currency
-    }), field);
-  };
-  return [external_React_default().createElement(external_wp_components_.PanelBody, {
-    initialOpen: true,
-    title: (0,external_wp_i18n_.__)("Default Format")
-  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    multiple: true,
-    label: (0,external_wp_i18n_.__)('Style', "dg"),
-    value: [format.style],
-    onChange: value => {
-      onChangeFormat(value, DEFAULT_FORMAT);
-    },
-    options: styles
-  })), external_React_default().createElement((external_React_default()).Fragment, null, format.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    label: (0,external_wp_i18n_.__)("Currency", "dg"),
-    onChange: value => {
-      onCurrencyChange(value, DEFAULT_FORMAT);
-    },
-    value: format.currency,
-    options: currencies
-  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
-    type: "number",
-    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
-    onChange: value => {
-      onDecimalChange(value, DEFAULT_FORMAT);
-    },
-    value: format.minimumFractionDigits
-  }))), external_React_default().createElement((external_React_default()).Fragment, null, !hiddenCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
-    label: (0,external_wp_i18n_.__)("Use Custom Axis Format", "dg"),
-    checked: useCustomAxisFormat,
-    onChange: value => onUseCustomAxisFormatChange(value)
-  }))), external_React_default().createElement((external_React_default()).Fragment, null, useCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelBody, {
-    initialOpen: true,
-    title: (0,external_wp_i18n_.__)("Custom Axis Format")
-  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    multiple: true,
-    label: (0,external_wp_i18n_.__)('Style', "dg"),
-    value: [customFormat.style],
-    onChange: value => {
-      onChangeFormat(value, CUSTOM_FORMAT);
-    },
-    options: styles
-  })), external_React_default().createElement((external_React_default()).Fragment, null, customFormat.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    label: (0,external_wp_i18n_.__)("Currency", "dg"),
-    onChange: value => {
-      onCurrencyChange(value, CUSTOM_FORMAT);
-    },
-    value: customFormat.currency,
-    options: currencies
-  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
-    type: "number",
-    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
-    onChange: value => {
-      onDecimalChange(value, CUSTOM_FORMAT);
-    },
-    value: customFormat.minimumFractionDigits
-  }))))];
-};
-/* harmony default export */ const build_Format = (Format_Format);
-;// ../../../packages/commons/build/Util.js
-const Util_togglePanel = (name, panelStatus, setAttributes) => {
-  const newStatus = {
-    ...panelStatus
-  };
-  newStatus[name] = newStatus[name] == true ? false : true;
-  setAttributes({
-    panelStatus: newStatus
-  });
-};
-const panelFocus = (name, panelStatus, setAttributes) => {
-  const newStatus = {
-    ...panelStatus
-  };
-  newStatus[name] = newStatus[name] == true ? false : true;
-  setAttributes({
-    panelFocus: newStatus
-  });
-};
-/* harmony default export */ const Util = ({
-  togglePanel: Util_togglePanel
-});
-;// ../../../packages/commons/build/APIutils.js
-const APIutils_getTranslatedOptions = options => {
-  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
-  if (options && options instanceof Array) {
-    return options.map(o => {
-      let {
-        label,
-        value,
-        labels
-      } = o;
-      if (labels && labels[currentLocale]) {
-        label = labels[currentLocale];
-      }
-      return {
-        ...o,
-        label,
-        value
-      };
-    });
-  }
-  return [];
-};
-const APIutils_getTranslation = translatable => {
-  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
-  let {
-    label,
-    labels,
-    value
-  } = translatable;
-  if (labels && labels[currentLocale]) {
-    label = labels[currentLocale];
-  }
-  return label || value || translatable;
-};
-const isSupersetAPI = (app, apps) => {
-  if (app == 'csv' || !apps) {
-    return false;
-  }
-  const appObj = apps.filter(a => a.value == app)[0];
-  return appObj && appObj.settings && appObj.settings.metadata && appObj.settings.metadata.superset == 'true';
-};
-/* harmony default export */ const APIutils = ((/* unused pure expression or super */ null && (APIutils_getTranslatedOptions)));
-;// ../../../packages/commons/build/Measures.js
-
-
-
-
-
-
-const defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const Measures = props => {
-  const {
-    onMeasuresChange,
-    onFormatChange,
-    onUseCustomAxisFormatChange,
-    onSetSingleMeasure,
-    onCustomLabelToggleChange,
-    onCustomLabelChange,
-    allMeasures,
-    setAttributes,
-    title,
-    format,
-    attributes: {
-      panelStatus,
-      measures,
-      dimension1,
-      dimension2,
-      type,
-      app
-    }
-  } = props;
-  const MToggle = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    return external_React_default().createElement(external_wp_components_.ToggleControl, {
-      label: APIutils_getTranslation(measure),
-      checked: userMeasure ? userMeasure.selected : false,
-      onChange: value => onMeasuresChange(measure.value)
-    });
-  };
-  const MCheckbox = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    let isChecked;
-    if (measures instanceof Array) {
-      isChecked = measures.includes(measure.value);
-    } else {
-      isChecked = userMeasure ? userMeasure.selected : false;
-    }
-    return external_React_default().createElement(external_wp_components_.CheckboxControl, {
-      label: APIutils_getTranslation(measure),
-      checked: isChecked,
-      onChange: value => onSetSingleMeasure(measure.value)
-    });
-  };
-  const MeasureOptions = ({
-    measure,
-    single
-  }) => {
-    return external_React_default().createElement(external_wp_components_.PanelRow, null, single && external_React_default().createElement(MCheckbox, {
-      measure: measure
-    }), !single && external_React_default().createElement(MToggle, {
-      measure: measure
-    }));
-  };
-  const countSelected = g => {
-    if (measures[app]) {
-      const mG = allMeasures.filter(f => APIutils_getTranslation(f.group) === g);
-      let count = 0;
-      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
-        if (measures[app][k].selected) {
-          count++;
-        }
-      });
-      return count;
-    }
-    return 0;
-  };
-  const countTotal = g => {
-    if (g) {
-      return allMeasures.filter(f => APIutils_getTranslation(f.group) === g).length;
-    }
-    return 0;
-  };
-  const getSelectedMeasures = () => {
-    if (measures[app] && allMeasures) {
-      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
-        return allMeasures.filter(m => m.value === k)[0];
-      }).filter(m => m);
-    }
-    return [];
-  };
-  const selectedMeasures = getSelectedMeasures();
-  return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
-    title: title ? title : (0,external_wp_i18n_.__)("Measures"),
-    initialOpen: panelStatus["MEASURES"],
-    onToggle: e => Util_togglePanel("MEASURES", panelStatus, setAttributes)
-  },
-  /*
-   Multiple measures conditions
-    Bar:
-   no dimensions selected
-   one dimension is selected
-   -  not available when second dimension gets selected
-    Line:
-     - Always multi measure as measures represents line series, one dimension should always be selected
-    Pie:
-        no dimensions selected
-         -  not available when any dimension is selected
-   */
-  (type == 'line' || type == 'radar' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
-    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
-      single: false,
-      measure: m
-    }))));
-  }),
-  /*Single measure conditions
-  Bar:
-     2 dimensions selected
-  Line:
-      never
-  Pie:
-    any dimensions selected
-  */
-  (type == 'big-number' || type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
-    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
-      single: true,
-      measure: m
-    }))));
-  }), type == 'overlay' && allMeasures && external_React_default().createElement(external_wp_components_.SelectControl, {
-    label: "Measure",
-    // @ts-ignore
-    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
-    options: [{
-      value: '',
-      label: 'Select Measure'
-    }, ...allMeasures],
-    onChange: measure => onSetSingleMeasure(measure),
-    __nextHasNoMarginBottom: true
-  }), type != 'overlay' && external_React_default().createElement(external_wp_components_.PanelBody, {
-    title: (0,external_wp_i18n_.__)("Format"),
-    initialOpen: panelStatus["FORMAT"],
-    onToggle: e => Util_togglePanel("FORMAT", panelStatus, setAttributes)
-  }, external_React_default().createElement(build_Format, {
-    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
-    format: format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat),
-    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat,
-    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
-    onFormatChange: (format, field) => {
-      onFormatChange(format, field);
-    },
-    onUseCustomAxisFormatChange: value => {
-      onUseCustomAxisFormatChange(value);
-    }
-  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && external_React_default().createElement(external_wp_components_.PanelBody, {
-    title: (0,external_wp_i18n_.__)("Measure Label Customization"),
-    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
-    onToggle: e => Util_togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
-  }, selectedMeasures && [...new Set(selectedMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
-      onToggle: e => Util_togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
-      title: `${g}`
-    }, selectedMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => {
-      const userMeasure = measures[app] ? measures[app][m.value] : {};
-      return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
-        label: APIutils_getTranslation(m),
-        checked: userMeasure ? userMeasure.hasCustomLabel : false,
-        onChange: value => onCustomLabelToggleChange(m.value)
-      }), " "), userMeasure.hasCustomLabel && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
-        label: (0,external_wp_i18n_.__)("Custom Label"),
-        value: userMeasure ? userMeasure.customLabel : "",
-        onChange: value => onCustomLabelChange(m.value, value)
-      })));
-    }));
-  })));
-};
-/* harmony default export */ const build_Measures = (Measures);
-;// ../../../packages/commons/build/APIConfig.js
-
-
-
-
-
-const APIConfig_defaultFormat = {
-  style: "percent",
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1,
-  currency: "USD"
-};
-const FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return external_React_default().createElement(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      if (a.position !== undefined && b.position !== undefined) {
-        return a.position - b.position;
-      }
-      let aValue = a.value ? a.value.toLowerCase() : "";
-      let bValue = b.value ? b.value.toLowerCase() : "";
-      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-    });
-    return sortedItems.map(v => external_React_default().createElement(external_wp_components_.PanelRow, null, " ", external_React_default().createElement(external_wp_components_.ToggleControl, {
-      label: v.value,
-      checked: value.indexOf(v.id) > -1,
-      onChange: e => {
-        onUpdateFilterValue(v.id, index);
-      }
-    })));
-  } else {
-    return null;
-  }
-};
-class APIConfig extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onMeasuresChange = this.onMeasuresChange.bind(this);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.onCustomLabelToggleChange = this.onCustomLabelToggleChange.bind(this);
-    this.onCustomLabelChange = this.onCustomLabelChange.bind(this);
-    this.onUseCustomAxisFormatChange = this.onUseCustomAxisFormatChange.bind(this);
-    //this.onCustomMeasureFieldChange = this.onCustomMeasureFieldChange.bind(this)
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  cleanSelection(prevState) {
-    const {
-      setAttributes
-    } = this.props;
-    setAttributes({
-      measures: [],
-      filters: []
-    });
-  }
-  updateFilterParam(param, idx) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  updateFilterValue(value, idx) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  setFilterValue(value, idx) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  addFilter() {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      value: []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  removeFilter(f) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      setAttributes,
-      attributes: {
-        type,
-        colorBy,
-        dimension2,
-        types,
-        measures,
-        app
-      }
-    } = this.props;
-    const {
-      attributes: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-    const prevTypeObject = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null;
-    if (dimension2 != prevDimension2) {
-      //TODO ensure only one measure remains selected when selecting a second dimensions
-      const uMs = Object.assign({}, measures);
-      if (dimension2 != "none") {
-        let i = 0; //the idea is to keep one selected
-        if (uMs[app]) {
-          const selected = Object.keys(uMs[app]).map(k => uMs[app][k].selected).length;
-          if (selected > 1) {
-            Object.keys(uMs[app]).forEach(k => {
-              if (uMs[app][k].selected) {
-                uMs[app][k].prevSelected = true; //can be used to recover measures
-                uMs[app][k].selected = i > 0 ? false : true;
-              } else {
-                uMs[app][k].prevSelected = false;
-              }
-              i++;
-            });
-          }
-        }
-        setAttributes({
-          measures: uMs
-        });
-      }
-      if (dimension2 == "none" && uMs[app]) {
-        Object.keys(uMs[app]).forEach(k => {
-          if (uMs[app][k].prevSelected) {
-            uMs[app][k].selected = true; //can be used to recover measures
-            uMs[app][k].prevSelected = false;
-          }
-        });
-        setAttributes({
-          measures: uMs
-        });
-      }
-    }
-  }
-  onSetSingleMeasure(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (!uMs[app]) {
-      uMs[app] = {};
-    }
-    Object.keys(uMs[app]).filter(k => typeof uMs[app][k] !== "boolean").forEach(k => uMs[app][k].selected = false); //single selection all other should be unselected
-    if (uMs[app][value]) {
-      uMs[app][value].selected = uMs[app][value].selected ? false : true;
-    } else {
-      uMs[app][value] = {
-        selected: true,
-        format: APIConfig_defaultFormat
-      };
-    }
-    setAttributes({
-      measures: uMs
-    });
-  }
-  onFormatChange(format, field) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, {
-      ...measures
-    });
-    if (!uMs[app]) {
-      uMs[app] = {
-        allowSelection: false,
-        format: format,
-        customFormat: format,
-        selected: false
-      };
-    }
-    uMs[app][field] = format;
-    setAttributes({
-      measures: uMs
-    });
-  }
-  onUseCustomAxisFormatChange(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, {
-      ...measures
-    });
-    if (uMs[app]) {
-      uMs[app].useCustomAxisFormat = value;
-      setAttributes({
-        measures: uMs
-      });
-    } else {
-      uMs[app] = {
-        allowSelection: false,
-        format: APIConfig_defaultFormat,
-        customFormat: APIConfig_defaultFormat,
-        selected: false,
-        useCustomAxisFormat: value
-      };
-      setAttributes({
-        measures: uMs
-      });
-    }
-  }
-  /*
-    onCustomMeasureFieldChange(measureName, field, value) {
-           const {setAttributes, attributes: {measures}} = this.props
-        const uMs = Object.assign({}, {...measures})
-           if (uMs[measureName]) {
-            uMs[measureName][field] = value
-        } else {
-            uMs[measureName] = {allowSelection: false, field: value, selected: false}
-        }
-           setAttributes({measures: uMs})
-    }
-    */
-  onMeasuresChange(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (!uMs[app]) {
-      uMs[app] = {};
-    }
-    if (uMs[app][value]) {
-      uMs[app][value].selected = uMs[app][value].selected ? false : true;
-    } else {
-      uMs[app][value] = {
-        selected: true,
-        format: APIConfig_defaultFormat
-      };
-    }
-    setAttributes({
-      measures: uMs
-    });
-  }
-  onCustomLabelToggleChange(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (uMs[app] && uMs[app][value]) {
-      uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel ? false : true;
-      setAttributes({
-        measures: uMs
-      });
-    }
-  }
-  onCustomLabelChange(value, customLabel) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
-      uMs[app][value].customLabel = customLabel;
-      setAttributes({
-        measures: uMs
-      });
-    }
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === "Boolean") {
-      items = [{
-        value: "Yes",
-        id: 1
-      }, {
-        value: "No",
-        id: 0
-      }];
-    } else if (cat) {
-      items = cat.items.map(item => ({
-        value: item.value,
-        id: item.id
-      }));
-    }
-    return items;
-  }
-  render() {
-    const {
-      allDimensions,
-      allFilters,
-      allMeasures,
-      setAttributes,
-      attributes: {
-        measures,
-        filters,
-        dimension1,
-        dimension2,
-        type,
-        types
-      }
-    } = this.props;
-    const currentType = types.filter(t => t.value === type).length > 0 ? types.filter(t => t.value === type)[0] : null;
-    return [external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)(type == "map" ? "Fields" : `Dimensions`)
-    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      multiple: false,
-      label: (0,external_wp_i18n_.__)(type == "map" ? "Matching Field" : "First Dimension"),
-      value: dimension1,
-      onChange: value => {
-        setAttributes({
-          dimension1: value,
-          dimension2: value == "none" ? "none" : dimension2
-        });
-      },
-      options: allDimensions
-    })), type != "line" && type != "radar" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      multiple: false,
-      label: (0,external_wp_i18n_.__)(type == "map" ? "Breakdown Field" : "Second Dimension"),
-      value: dimension2,
-      onChange: value => {
-        setAttributes({
-          dimension2: value
-        });
-      },
-      options: allDimensions,
-      disabled: dimension1 == "none"
-    }))), external_React_default().createElement(build_Measures, {
-      onFormatChange: this.onFormatChange,
-      onUseCustomAxisFormatChange: this.onUseCustomAxisFormatChange,
-      onSetSingleMeasure: this.onSetSingleMeasure,
-      onMeasuresChange: this.onMeasuresChange,
-      onCustomLabelToggleChange: this.onCustomLabelToggleChange,
-      onCustomLabelChange: this.onCustomLabelChange,
-      ...this.props,
-      currentType: currentType
-    }), external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Filters")
-    }, filters.map((f, index) => {
-      return external_React_default().createElement(external_wp_components_.PanelBody, {
-        initialOpen: true,
-        title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`)
-      }, external_React_default().createElement(FilterSelector, {
-        param: f.param,
-        index: index,
-        options: allFilters,
-        onUpdateFilterParam: this.updateFilterParam
-      }), external_React_default().createElement(CategoricalFilter, {
-        value: f.value,
-        index: index,
-        items: this.items(f.type),
-        onUpdateFilterValue: this.updateFilterValue
-      }));
-    }), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.Button, {
-      variant: "link",
-      onClick: this.addFilter
-    }, (0,external_wp_i18n_.__)("Add Filter")), external_React_default().createElement(external_wp_components_.Button, {
-      variant: "link",
-      onClick: this.removeFilter
-    }, (0,external_wp_i18n_.__)("Remove")))))];
-  }
-}
-/* harmony default export */ const build_APIConfig = ((/* unused pure expression or super */ null && (APIConfig)));
-// EXTERNAL MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_ = __webpack_require__(1455);
-var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
-// EXTERNAL MODULE: external ["wp","data"]
-var external_wp_data_ = __webpack_require__(7143);
-;// ../../../packages/commons/build/Blocks.js
-
-
-
-
-
-
-
-
-const SizeConfig = ({
-  height,
-  setAttributes,
-  panelStatus,
-  initialOpen
-}) => {
-  return React.createElement(PanelBody, {
-    initialOpen: panelStatus ? panelStatus["SIZE"] : initialOpen,
-    onToggle: () => togglePanel("SIZE", panelStatus, setAttributes),
-    title: __("Size")
-  }, React.createElement(PanelRow, null, React.createElement(TextControl, {
-    size: 10,
-    label: "Height",
-    value: height,
-    onChange: height => setAttributes({
-      height: height ? parseInt(height) : 0
-    })
-  })));
-};
-class ComponentWithSettings extends external_wp_element_.Component {
-  iframe;
-  unsubscribe;
-  constructor(props) {
-    super(props);
-    this.state = {
-      react_ui_url: '',
-      react_api_url: null,
-      apache_superset_url: null,
-      site_language: '',
-      current_language: ''
-    };
-    window.addEventListener("message", event => {
-      if (event.data.type === 'componentReady' && event.data.value === true) {
-        if (this.iframe.current) {
-          console.log("-----------Sending message -----------");
-          this.iframe.current.contentWindow?.postMessage({
-            messageType: 'component-attributes',
-            ...this.props.attributes
-          }, "*");
-        }
-      }
-    }, false);
-    this.iframe = external_React_default().createRef();
-    this.unsubscribe = (0,external_wp_data_.subscribe)(() => {
-      const newPreviewMode = (0,external_wp_data_.select)("core/editor").getDeviceType();
-      if (newPreviewMode !== this.state.previewMode) {
-        this.setState({
-          previewMode: newPreviewMode
-        });
-      }
-    });
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.iframe.current?.contentWindow) {
-      this.iframe.current.contentWindow.postMessage({
-        messageType: 'component-attributes',
-        ...this.props.attributes
-      }, "*");
-    }
-  }
-  componentDidMount() {
-    external_wp_apiFetch_default()({
-      path: '/dg/v1/settings'
-    }).then(data => {
-      this.setState({
-        react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
-        react_api_url: data["react_api_url"],
-        apache_superset_url: data["apache_superset_url"],
-        site_language: data["site_language"],
-        current_language: new URLSearchParams(document.location.search).get("edit_lang") || ''
-      });
-    });
-  }
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-}
-class BlockEditWithFilters extends ComponentWithSettings {
-  constructor(props) {
-    super(props);
-    this.state = {
-      react_ui_url: '',
-      react_api_url: null,
-      apache_superset_url: null,
-      site_language: '',
-      current_language: '',
-      taxonomyValues: [],
-      types: null,
-      taxonomies: null,
-      loading: true
-    };
-    this.onTypeChanged = this.onTypeChanged.bind(this);
-    this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this);
-    this.getTaxonomyValues = this.getTaxonomyValues.bind(this);
-    this.onCategoryChanged = this.onCategoryChanged.bind(this);
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      attributes: {
-        type,
-        taxonomy
-      }
-    } = this.props;
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-    if (prevProps.attributes) {
-      if (type != prevProps.attributes.type) {}
-      if (taxonomy != prevProps.attributes.taxonomy) {
-        this.getTaxonomyValues();
-      }
-    }
-  }
-  componentDidMount() {
-    super.componentDidMount();
-    this.getTypes();
-    this.getTaxonomies();
-    const {
-      attributes: {
-        taxonomy
-      }
-    } = this.props;
-    if (taxonomy != 'none') {
-      this.getTaxonomyValues();
-    }
-  }
-  onTypeChanged(value) {
-    const {
-      setAttributes
-    } = this.props;
-    setAttributes({
-      categories: []
-    });
-    setAttributes({
-      taxonomy: 'none'
-    });
-    setAttributes({
-      type: value
-    });
-  }
-  onTaxonomyChanged(value) {
-    const {
-      setAttributes
-    } = this.props;
-    setAttributes({
-      categories: []
-    });
-    setAttributes({
-      taxonomy: value
-    });
-  }
-  onCategoryChanged(checked, value) {
-    const {
-      setAttributes,
-      attributes: {
-        categories
-      }
-    } = this.props;
-    if (!checked) {
-      setAttributes({
-        categories: categories.filter(i => i != value)
-      });
-    } else {
-      let newCate = [...categories];
-      newCate.push(value);
-      setAttributes({
-        categories: newCate
-      });
-    }
-  }
-  getTaxonomyValues() {
-    const {
-      attributes: {
-        taxonomy
-      }
-    } = this.props;
-    external_wp_apiFetch_default()({
-      path: '/wp/v2/taxonomies/' + taxonomy + '?per_page=100'
-    }).then(data => {
-      this.setState({
-        taxonomyValues: data
-      });
-    });
-  }
-  getTaxonomies() {
-    external_wp_apiFetch_default()({
-      path: '/wp/v2/taxonomies?per_page=100'
-    }).then(data => {
-      this.setState({
-        taxonomies: data
-      });
-    });
-  }
-  getTypes() {
-    external_wp_apiFetch_default()({
-      path: '/wp/v2/types?per_page=100'
-    }).then(data => {
-      this.setState({
-        types: data,
-        loading: false
-      });
-    });
-  }
-  typeOptions() {
-    const {
-      types
-    } = this.state;
-    const typeOptions = types ? Object.keys(types).filter(k => ['page', 'attachment', 'wp_block'].indexOf(k) == -1).map(k => ({
-      slug: types[k].slug,
-      label: types[k].name,
-      value: types[k].rest_base
-    })) : [];
-    return typeOptions;
-  }
-  taxonomyOptions() {
-    const {
-      attributes: {
-        type
-      }
-    } = this.props;
-    const {
-      types,
-      taxonomies
-    } = this.state;
-    let slug;
-    if (types) {
-      slug = this.typeOptions().filter(t => t.value == type)[0].slug;
-      const taxonomyOptions = types && taxonomies ? Object.keys(taxonomies).filter(i => taxonomies[i].types.indexOf(slug) > -1).map(k => ({
-        label: types[slug].name + ' -> ' + taxonomies[k].name,
-        value: taxonomies[k].rest_base
-      })) : [];
-      return [{
-        label: 'None',
-        value: 'none'
-      }, ...taxonomyOptions];
-    } else {
-      return [];
-    }
-  }
-  categoriesOptions() {
-    const {
-      taxonomyValues
-    } = this.state;
-    const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({
-      label: t.name,
-      value: t.id
-    }));
-    return taxonomyValuesOptions || [];
-  }
-  renderFilters() {
-    const {
-      attributes: {
-        type,
-        taxonomy,
-        categories
-      }
-    } = this.props;
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      title: (0,external_wp_i18n_.__)("Filter")
-    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      label: (0,external_wp_i18n_.__)("Post Type"),
-      options: this.typeOptions(),
-      value: type,
-      onChange: this.onTypeChanged
-    })), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      label: (0,external_wp_i18n_.__)("Use a taxonomy filter "),
-      options: this.taxonomyOptions(),
-      value: taxonomy,
-      onChange: this.onTaxonomyChanged
-    })), taxonomy != 'none' && this.categoriesOptions().length > 0 && this.categoriesOptions().map(o => {
-      return external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.CheckboxControl, {
-        label: o.label,
-        onChange: checked => this.onCategoryChanged(checked, o.value),
-        checked: categories.indexOf(o.value) > -1
-      }));
-    }));
-  }
-}
-class BlockEditWithAPIMetadata extends ComponentWithSettings {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    external_wp_apiFetch_default()({
-      path: '/dg/v1/settings'
-    }).then(settingsData => {
-      fetch(`/api/registry/eureka/apps`, {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(response => response.json()).then(data => {
-        const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
-          label: a.name,
-          value: a.instance[0].vipAddress,
-          settings: a.instance[0]
-        })), {
-          label: 'CSV',
-          value: 'csv'
-        }] : [{
-          label: 'CSV',
-          value: 'csv'
-        }];
-        this.setState({
-          react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
-          react_api_url: settingsData["react_api_url"],
-          apache_superset_url: settingsData["apache_superset_url"],
-          site_language: settingsData["site_language"],
-          current_language: new URLSearchParams(document.location.search).get("edit_lang") || "",
-          apps
-        }, () => {
-          const {
-            app,
-            dvzProxyDatasetId
-          } = this.props.attributes;
-          if (isSupersetAPI(app, this.state.apps)) {
-            this.loadDatasets(app);
-          }
-          if (app && app != 'none') {
-            this.loadMetadata(app, dvzProxyDatasetId);
-          }
-        });
-      }).catch(() => {
-        console.log("Error when loading apps");
-      });
-    });
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-    const {
-      attributes: {
-        app,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    const {
-      attributes: {
-        dvzProxyDatasetId: prevDvzProxyDatasetId,
-        app: prevAPP
-      }
-    } = prevProps;
-    if (app != prevAPP) {
-      //if app changes we shoudl reload metadta
-      if (isSupersetAPI(app, this.state.apps)) {
-        //if app is superset proxy an additional step is added
-        this.loadDatasets(app);
-        if (dvzProxyDatasetId) {
-          this.loadMetadata(app, dvzProxyDatasetId);
-        }
-      } else {
-        this.loadMetadata(app, dvzProxyDatasetId);
-      }
-    } else {
-      //app wasn't changed
-      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
-        this.loadMetadata(app, dvzProxyDatasetId);
-      }
-    }
-  }
-  evictSuperSetCache() {
-    const {
-      app,
-      dvzProxyDatasetId
-    } = this.props.attributes;
-    fetch(`/api/${app}/cacheEvict?dvzProxyDatasetId=${dvzProxyDatasetId}`).then(() => {
-      this.loadMetadata(app, dvzProxyDatasetId);
-    });
-  }
-  loadDatasets(app) {
-    fetch(`/api/${app}/datasets`).then(response => {
-      if (!response.ok) {
-        throw new Error("HTTP status " + response.status);
-      }
-      return response.json();
-    }).then(data => {
-      this.setState({
-        datasets: data
-      });
-    }).catch(() => {
-      console.log("Error when loading datasets");
-    });
-  }
-  loadMetadata(app, dvzProxyDatasetId) {
-    if (app == 'csv') {
-      return;
-    }
-    const dimensionsUrl = `/api/${app}/dimensions${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    const measuresUrl = `/api/${app}/measures${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    const filtersUrl = `/api/${app}/filters${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    const categoriesUrl = `/api/${app}/categories${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    if (app != "csv") {
-      fetch(dimensionsUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        } else {
-          return response.json();
-        }
-      }).then(data => {
-        this.setState({
-          dimensions: [{
-            "label": (0,external_wp_i18n_.__)("None"),
-            "value": "none"
-          }, ...APIutils_getTranslatedOptions(data)]
-        });
-      }).catch(function () {
-        console.log("Error when loading dimensions");
-      });
-      fetch(filtersUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        return response.json();
-      }).then(data => {
-        const options = data.map(f => ({
-          ...f,
-          value: f.param
-        }));
-        this.setState({
-          filters: options
-        });
-      }).catch(function (response) {
-        console.log("Error when loading filters", response);
-      });
-      fetch(measuresUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        return response.json();
-      }).then(data => {
-        sessionStorage.setItem(`measures_${app}`, JSON.stringify(APIutils_getTranslatedOptions(data)));
-        debugger;
-        this.setState({
-          measures: APIutils_getTranslatedOptions(data)
-        });
-      }).catch(function () {
-        console.log("Error when loading measures");
-      });
-      fetch(categoriesUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        return response.json();
-      }).then(data => {
-        sessionStorage.setItem(`categories_${app}`, JSON.stringify(data));
-        this.setState({
-          categories: APIutils_getTranslatedOptions(data)
-        });
-      }).catch(function (response) {
-        console.log("Error when getting categories", response);
-      });
-    }
-  }
-  fetchData(url, stateKey, transformData) {
-    fetch(url).then(response => {
-      if (!response.ok) {
-        throw new Error("HTTP status " + response.status);
-      }
-      return response.json();
-    }).then(data => {
-      // TODO: Check if the data is an array
-      // @ts-ignore
-      this.setState({
-        [stateKey]: transformData(data)
-      });
-    }).catch(() => {
-      console.log(`Error when loading ${stateKey}`);
-    });
-  }
-}
-/* harmony default export */ const Blocks = ((/* unused pure expression or super */ null && (SizeConfig)));
-// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.2/node_modules/papaparse/papaparse.min.js
-var papaparse_min = __webpack_require__(1926);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-;// ../../../packages/commons/build/ChartColors.js
-
-
-
-
-
-
-
-const OVERALL = 'Overall';
-const system = [{
-  value: "system",
-  label: 'System Colors'
-}, {
-  value: "manual",
-  label: 'Manual Colors'
-}];
-const categorical = [{
-  value: "nivo",
-  label: 'nivo'
-}, {
-  value: "category10",
-  label: 'category10'
-}, {
-  value: "accent",
-  label: 'Accent'
-}, {
-  value: "dark2",
-  label: 'dark2'
-}, {
-  value: "paired",
-  label: 'paired'
-}, {
-  value: "pastel1",
-  label: 'pastel1'
-}, {
-  value: "pastel2",
-  label: 'pastel2'
-}, {
-  value: "set1",
-  label: 'set1'
-}, {
-  value: "set2",
-  label: 'set2'
-}, {
-  value: "set3",
-  label: 'set3'
-}];
-const sequential = [{
-  value: "blues",
-  label: 'blues'
-}, {
-  value: "greens",
-  label: 'greens'
-}, {
-  value: "greys",
-  label: 'greys'
-}, {
-  value: "oranges",
-  label: 'oranges'
-}, {
-  value: "purples",
-  label: 'purples'
-}, {
-  value: "reds",
-  label: 'reds'
-}, {
-  value: "blue_green",
-  label: 'blue_green'
-}, {
-  value: "blue_purple",
-  label: 'blue_purple'
-}, {
-  value: "green_blue",
-  label: 'green_blue'
-}, {
-  value: "orange_red",
-  label: 'orange_red'
-}, {
-  value: "purple_blue_green",
-  label: 'purple_blue_green'
-}, {
-  value: "purple_blue",
-  label: 'purple_blue'
-}, {
-  value: "purple_red",
-  label: 'purple_red'
-}, {
-  value: "red_purple",
-  label: 'red_purple'
-}, {
-  value: "yellow_green_blue",
-  label: 'yellow_green_blue'
-}, {
-  value: "yellow_green",
-  label: 'yellow_green'
-}, {
-  value: "yellow_orange_brown",
-  label: 'yellow_orange_brown'
-}, {
-  value: "yellow_orange_red",
-  label: 'yellow_orange_brown'
-}];
-const diverging = [{
-  value: "brown_blueGreen",
-  label: 'brown_blueGreen'
-}, {
-  value: "purpleRed_green",
-  label: 'purpleRed_green'
-}, {
-  value: "pink_yellowGreen",
-  label: 'pink_yellowGreen'
-}, {
-  value: "purple_orange",
-  label: 'purple_orange'
-}, {
-  value: "red_blue",
-  label: 'red_blue'
-}, {
-  value: "red_grey",
-  label: 'red_grey'
-}, {
-  value: "red_yellow_blue",
-  label: 'red_yellow_blue'
-}, {
-  value: "red_yellow_green",
-  label: 'red_yellow_green'
-}, {
-  value: "spectral",
-  label: 'spectral'
-}];
-const plainColor = {
-  value: "plain_color",
-  label: 'Use Plain color'
-};
-const ChartColors = props => {
-  const {
-    allDimensions,
-    allFilters,
-    allMeasures,
-    allCategories,
-    allApps,
-    setAttributes,
-    attributes
-  } = props;
-  const {
-    swap,
-    measures,
-    manualColors,
-    scheme,
-    colorBy,
-    dimension1,
-    dimension2,
-    barColor,
-    type,
-    app,
-    csv,
-    includeOverall
-  } = attributes;
-  let l1Label = null;
-  let d2Label = null;
-  let d3Label = null;
-  const selectedMeasures = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : [];
-  let colorOptions = [];
-  if (app !== "csv") {
-    l1Label = dimension1 != 'none' && allDimensions ? '1st Dimension - ' + allDimensions.filter(d => d.value == dimension1)[0].label : null;
-    //if one dimensions is selected o
-    if (dimension2 == 'none' && selectedMeasures.length > 0) {
-      d2Label = __("Measure Labels");
-      d3Label = __("Measure Values");
-    } else if (dimension2 != 'none') {
-      //if two dimensions are selected show dimensions 1, dimensions 2 and values
-      d2Label = allDimensions ? '2nd Dimension - ' + allDimensions.filter(d => d.value == dimension2)[0].label : null;
-      d3Label = __("Measure Values");
-    }
-  } else {
-    //CSV Color Options
-    const data = Papa.parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-    l1Label = data.meta.fields && data.meta.fields.length > 0 ? '1st Column Values ' : null;
-    d2Label = __("Measure Columns Labels");
-    d3Label = __("Measure Columns Values");
-  }
-  if (type == 'bar') {
-    if (swap && dimension2 == "none" && selectedMeasures.length > 0) {
-      colorOptions = [];
-      if (l1Label) {
-        colorOptions.push({
-          label: l1Label,
-          value: 'id'
-        });
-        if (d2Label) {
-          colorOptions.push({
-            label: d2Label,
-            value: 'index'
-          });
-        }
-      } else {
-        if (d2Label) {
-          colorOptions.push({
-            label: d2Label,
-            value: 'id'
-          });
-        }
-        colorOptions.push({
-          label: "Measure Values",
-          value: 'values'
-        });
-      }
-    } else {
-      colorOptions = [];
-      if (l1Label && l1Label !== 'none') {
-        colorOptions.push({
-          label: l1Label,
-          value: 'index'
-        });
-      }
-      if (d2Label && d2Label !== 'none') {
-        colorOptions.push({
-          label: d2Label,
-          value: l1Label && l1Label !== 'none' ? 'id' : 'index'
-        });
-      }
-      if (d3Label && d3Label !== 'none') {
-        colorOptions.push({
-          label: d3Label,
-          value: 'values'
-        });
-      }
-    }
-  }
-  if (type == 'pie') {
-    if (dimension1 != 'none' && dimension2 == 'none' && colorBy != 'index') {
-      setAttributes({
-        ...attributes,
-        colorBy: 'index'
-      });
-      return null;
-    }
-    if (dimension1 != 'none' && dimension2 != 'none' && colorBy != 'id') {
-      setAttributes({
-        ...attributes,
-        colorBy: 'id'
-      });
-      return null;
-    }
-  }
-  let options = [];
-  if (colorBy === 'index' || colorBy === 'id') {
-    if (type == "bar") {
-      options = [...system, plainColor, ...categorical, ...sequential];
-    } else if (type == "line") {
-      options = [...system, plainColor, ...categorical];
-    } else {
-      options = [...system, ...categorical, ...sequential];
-    }
-  }
-  if (colorBy === 'values') {
-    options = [...sequential];
-  }
-  const [useColors, setUseColors] = useState("dimension");
-  useEffect(() => {
-    let nextUseColors = useColors;
-    if (app != "csv") {
-      // All conditions for coloring by measures
-      if (dimension2 == "none" && colorBy === "index" && swap || type == 'line' || dimension1 == "none" && dimension2 == "none") {
-        //Multi measure colored by first dimension but  swapped (Colored by Measure) or dimensionless bar charts
-        nextUseColors = "measure";
-      } else if (dimension2 == "none" && colorBy === "id" && !swap) {
-        //Multi Measure chart colored by  (Measure)
-        nextUseColors = "measure";
-      } else {
-        //colored by a dimensions
-        nextUseColors = "dimension";
-      }
-      if (prevStatus.current) {
-        if (nextUseColors == "dimension") {
-          if (prevStatus.current["scheme"] != scheme && scheme === "manual") {
-            initColors(colorBy === "index" ? dimension1 : dimension2);
-          }
-          if (prevStatus.current["colorBy"] != colorBy) {
-            initColors(colorBy === "index" ? dimension1 : dimension2);
-          }
-          if (prevStatus.current["dimension1"] != dimension1 || prevStatus.current["dimension2"] != dimension2) {
-            initColors(colorBy === "index" ? dimension1 : dimension2);
-          }
-        } else {
-          initMeasuresColors();
-        }
-      }
-      setUseColors(nextUseColors);
-    } else {
-      if (!manualColors["csv"]) {
-        setAttributes({
-          ...attributes,
-          manualColors: {
-            "csv": {}
-          },
-          colorBy: colorBy || ""
-        });
-      }
-    }
-    prevStatus.current = {
-      scheme,
-      colorBy: colorBy || "",
-      dimension1,
-      dimension2,
-      useColors,
-      app
-    };
-  }, [scheme, dimension1, dimension2, colorBy, swap, app, type]);
-  const prevStatus = useRef(undefined);
-  const updateColor = (value, color) => {
-    const newColors = Object.assign({}, manualColors);
-    newColors[app][value] = color;
-    setAttributes({
-      ...attributes,
-      manualColors: newColors,
-      colorBy: colorBy || ""
-    });
-  };
-  const initColors = dimension => {
-    const ds = allDimensions.filter(d => d.value == dimension);
-    const newColors = Object.assign({}, manualColors);
-    if (!newColors[app]) {
-      newColors[app] = {};
-    }
-    if (ds.length > 0) {
-      const {
-        type
-      } = ds[0];
-      const cat = allCategories.filter(a => a.type === type);
-      if (cat.length > 0) {
-        cat[0].items.forEach(item => {
-          if (!newColors[app][item.code]) {
-            newColors[app][item.code] = item.categoryStyle ? item.categoryStyle.color : "#eeeeee";
-          }
-        });
-      }
-      setAttributes({
-        ...attributes,
-        manualColors: newColors
-      });
-    }
-  };
-  const initMeasuresColors = () => {
-    const newColors = Object.assign({}, manualColors);
-    if (!newColors[app]) {
-      newColors[app] = {};
-    }
-    if (!allMeasures) {}
-    if (allMeasures) {
-      allMeasures.forEach(p => {
-        if (!newColors[app][p.value]) {
-          newColors[app][p.value] = p.styles ? p.styles.color : "#eeeeee";
-        }
-      });
-    }
-    setAttributes({
-      ...attributes,
-      manualColors: newColors
-    });
-  };
-  const combinedCatColors = (dimension1, dimension2) => {
-    if (manualColors[app]) {
-      const ds1 = allDimensions.filter(d => d.value == dimension1);
-      const ds2 = allDimensions.filter(d => d.value == dimension2);
-      if (ds1.length > 0 && ds2.length > 0) {
-        const {
-          type
-        } = ds1[0];
-        const {
-          type: type2
-        } = ds2[0];
-        const cat = allCategories.filter(a => a.type === type);
-        const cat2 = allCategories.filter(a => a.type === type2);
-        const list = [];
-        cat[0].items.sort((a, b) => {
-          var _a$position, _b$position;
-          return ((_a$position = a.position) !== null && _a$position !== void 0 ? _a$position : 0) - ((_b$position = b.position) !== null && _b$position !== void 0 ? _b$position : 0);
-        }).forEach(c1 => {
-          cat2[0].items.sort((a, b) => {
-            var _a$position2, _b$position2;
-            return ((_a$position2 = a.position) !== null && _a$position2 !== void 0 ? _a$position2 : 0) - ((_b$position2 = b.position) !== null && _b$position2 !== void 0 ? _b$position2 : 0);
-          }).forEach(c2 => {
-            list.push(React.createElement(PanelColorSettings, {
-              colorSettings: [{
-                value: manualColors[app][c1.value + ' - ' + c2.value],
-                onChange: color => {
-                  if (color) {
-                    updateColor(c1.value + ' - ' + c2.value, color);
-                  } else {
-                    updateColor(c1.value + ' - ' + c2.value, "#eeeeee");
-                  }
-                },
-                label: c1.value + ' - ' + c2.value
-              }]
-            }));
-          });
-        });
-        return list;
-      }
-    }
-    return null;
-  };
-  const catColors = dimension => {
-    if (manualColors[app]) {
-      const ds = allDimensions.filter(d => d.value == dimension);
-      if (ds.length > 0) {
-        const {
-          type
-        } = ds[0];
-        const cat = allCategories.filter(a => a.type === type);
-        if (cat && cat.length > 0) {
-          const list = cat[0].items.sort((a, b) => {
-            var _b$position3, _a$position3;
-            return ((_b$position3 = b.position) !== null && _b$position3 !== void 0 ? _b$position3 : 0) - ((_a$position3 = a.position) !== null && _a$position3 !== void 0 ? _a$position3 : 0);
-          }).map(item => {
-            return React.createElement(PanelColorSettings, {
-              colorSettings: [{
-                value: manualColors[app][item.code],
-                onChange: color => {
-                  if (color) {
-                    updateColor(item.code, color);
-                  } else {
-                    updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#eeeeee");
-                  }
-                },
-                label: getTranslation(item)
-              }]
-            });
-          });
-          const dimensions = [dimension1, dimension2].filter(f => f != '' && f != "none");
-          let selectedMeasures = [];
-          allMeasures.forEach(m => {
-            if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
-              selectedMeasures.push(m.value);
-            }
-          });
-          if (includeOverall) {
-            list.push(React.createElement(PanelColorSettings, {
-              colorSettings: [{
-                value: manualColors[app][OVERALL],
-                onChange: color => {
-                  if (color) {
-                    updateColor(OVERALL, color);
-                  } else {
-                    updateColor(OVERALL, "#eeeeee");
-                  }
-                },
-                label: __("Overall")
-              }]
-            }));
-          }
-          return list;
-        } else {
-          return null;
-        }
-      }
-    }
-    return null;
-  };
-  const measureColors = () => {
-    if (manualColors[app] && allMeasures && measures[app]) {
-      const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected);
-      if (selectedMeasures.length > 0) {
-        const list = selectedMeasures.sort((a, b) => b.position - a.position).map(item => {
-          return React.createElement(PanelColorSettings, {
-            colorSettings: [{
-              value: manualColors[app][item.value],
-              onChange: color => {
-                if (color) {
-                  updateColor(item.value, color);
-                } else {
-                  updateColor(item.value, item.styles ? item.styles.color : "#555555");
-                }
-              },
-              label: __(item.label)
-            }]
-          });
-        });
-        if (includeOverall && selectedMeasures.length == 1) {
-          list.push(React.createElement(PanelColorSettings, {
-            colorSettings: [{
-              value: manualColors[app][OVERALL],
-              onChange: color => {
-                if (color) {
-                  updateColor(OVERALL, color);
-                } else {
-                  updateColor(OVERALL, "#eeeeee");
-                }
-              },
-              label: __("Overall")
-            }]
-          }));
-        }
-        return list;
-      }
-    }
-    return null;
-  };
-  const csvColors = colorBy => {
-    const data = Papa.parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-    const values = [];
-    if (colorBy === "index" && type != 'line') {
-      const field = data.meta?.fields?.[0];
-      if (field) {
-        values.push(...data.data.map(d => d[field]));
-      }
-    }
-    if (colorBy === "id" || type == 'line') {
-      const fields = data.meta?.fields?.slice(1);
-      if (fields) {
-        // Convert string fields to numbers before pushing to values array
-        const numericFields = fields.map(field => Number(field));
-        values.push(...numericFields);
-      }
-    }
-    if (colorBy === "values") {
-      values.push(0, 100);
-    }
-    if (manualColors[app] && values) {
-      return values.map(v => {
-        return React.createElement(PanelColorSettings, {
-          colorSettings: [{
-            value: manualColors[app][v],
-            onChange: color => {
-              if (color) {
-                updateColor(v.toString(), color);
-              }
-            },
-            label: __(v.toString())
-          }]
-        });
-      });
-    }
-    return null;
-  };
-  const elements = [];
-  if (type == 'bar') {
-    elements.push(React.createElement(PanelRow, null, React.createElement(SelectControl, {
-      multiple: false,
-      label: __('Color By'),
-      value: colorBy,
-      onChange: colorBy => {
-        setAttributes({
-          ...attributes,
-          colorBy
-        });
-        if (colorBy === 'index' || colorBy === 'id') {
-          setAttributes({
-            ...attributes,
-            colorBy
-          });
-        }
-        if (colorBy === 'values') {
-          setAttributes({
-            ...attributes,
-            scheme: "blues",
-            colorBy
-          });
-        }
-      },
-      options: colorOptions
-    })));
-  }
-  return [...elements, React.createElement(PanelRow, null, React.createElement(SelectControl, {
-    multiple: false,
-    label: __('Color Scheme'),
-    value: scheme,
-    onChange: value => {
-      setAttributes({
-        ...attributes,
-        scheme: value
-      });
-    },
-    options: options
-  })), scheme == "plain_color" && React.createElement(PanelRow, null, React.createElement(PanelColorSettings, {
-    title: __('Color settings'),
-    colorSettings: [{
-      value: decodeURIComponent(barColor),
-      onChange: color => {
-        if (color) {
-          setAttributes({
-            ...attributes,
-            barColor: encodeURIComponent(color)
-          });
-        } else {
-          setAttributes({
-            ...attributes,
-            barColor: null
-          });
-        }
-      },
-      label: __('Plain color')
-    }]
-  })), scheme == "manual" && React.createElement(PanelRow, null, app != "csv" && useColors == "dimension" && colorBy == "index" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, catColors(dimension1)), app != "csv" && useColors == "dimension" && colorBy == "id" && dimension2 != "none" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, type == 'bar' && catColors(dimension2), type == 'line' && catColors(dimension2), type == 'pie' && combinedCatColors(dimension1, dimension2)), app != "csv" && useColors == "dimension" && swap && colorBy == "id" && dimension1 != "none" && dimension2 == "none" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, catColors(dimension1)), app != 'csv' && useColors === "measure" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Color By Measure")
-  }, measureColors()), app == "csv" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, csvColors(colorBy)))];
-};
-/* harmony default export */ const build_ChartColors = ((/* unused pure expression or super */ null && (ChartColors)));
-;// ../../../packages/commons/build/ChartMeasures.js
-
-
-
-
-
-
-const ChartMeasures_defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const ChartMeasures = props => {
-  const {
-    onMeasuresChange,
-    onFormatChange,
-    onUseCustomAxisFormatChange,
-    onSetSingleMeasure,
-    onCustomLabelToggleChange,
-    onCustomLabelChange,
-    allMeasures,
-    setAttributes,
-    title,
-    attributes: {
-      panelStatus,
-      measures,
-      dimension1,
-      dimension2,
-      type,
-      app
-    }
-  } = props;
-  const MToggle = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    return React.createElement(ToggleControl, {
-      label: getTranslation(measure),
-      checked: userMeasure ? userMeasure.selected : false,
-      onChange: value => onMeasuresChange(measure.value)
-    });
-  };
-  const MCheckbox = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    return React.createElement(CheckboxControl, {
-      label: getTranslation(measure),
-      checked: userMeasure ? userMeasure.selected : false,
-      onChange: value => onSetSingleMeasure(measure.value)
-    });
-  };
-  const MeasureOptions = ({
-    measure,
-    single
-  }) => {
-    return React.createElement(PanelRow, null, single && React.createElement(MCheckbox, {
-      measure: measure
-    }), !single && React.createElement(MToggle, {
-      measure: measure
-    }));
-  };
-  const countSelected = g => {
-    if (measures[app]) {
-      const mG = allMeasures.filter(f => getTranslation(f.group) === g);
-      let count = 0;
-      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
-        if (measures[app][k].selected) {
-          count++;
-        }
-      });
-      return count;
-    }
-    return 0;
-  };
-  const countTotal = g => {
-    if (g) {
-      return allMeasures.filter(f => getTranslation(f.group) === g).length;
-    }
-    return 0;
-  };
-  const getSelectedMeasures = () => {
-    if (measures[app] && allMeasures) {
-      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
-        return allMeasures.filter(m => m.value === k)[0];
-      }).filter(m => m);
-    }
-    return [];
-  };
-  const selectedMeasures = getSelectedMeasures();
-  return React.createElement(React.Fragment, null, React.createElement(PanelBody, {
-    title: title ? title : __("Measures"),
-    initialOpen: panelStatus["MEASURES"],
-    onToggle: e => togglePanel("MEASURES", panelStatus, setAttributes)
-  },
-  /*
-   Multiple measures conditions
-    Bar:
-   no dimensions selected
-   one dimension is selected
-   -  not available when second dimension gets selected
-    Line:
-     - Always multi measure as measures represents line series, one dimension should always be selected
-    Pie:
-        no dimensions selected
-         -  not available when any dimension is selected
-   */
-  (type == 'line' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
-    return React.createElement(PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
-    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
-      single: false,
-      measure: m
-    }))));
-  }),
-  /*Single measure conditions
-  Bar:
-     2 dimensions selected
-  Line:
-      never
-  Pie:
-    any dimensions selected
-  */
-  (type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
-    return React.createElement(PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `
-    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
-      single: true,
-      measure: m
-    }))));
-  }), type == 'overlay' && allMeasures && React.createElement(SelectControl, {
-    label: "Measure",
-    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
-    options: [{
-      value: '',
-      label: 'Select Measure'
-    }, ...allMeasures],
-    onChange: measure => onSetSingleMeasure(measure),
-    __nextHasNoMarginBottom: true
-  }), type != 'overlay' && React.createElement(PanelBody, {
-    title: __("Format"),
-    initialOpen: panelStatus["FORMAT"],
-    onToggle: e => togglePanel("FORMAT", panelStatus, setAttributes)
-  }, React.createElement(Format, {
-    format: measures[app] && measures[app].format ? measures[app].format : ChartMeasures_defaultFormat,
-    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : ChartMeasures_defaultFormat,
-    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
-    onFormatChange: (format, field) => {
-      onFormatChange(format, field);
-    },
-    onUseCustomAxisFormatChange: value => {
-      onUseCustomAxisFormatChange(value);
-    }
-  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && React.createElement(PanelBody, {
-    title: __("Measure Label Customization"),
-    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
-    onToggle: e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
-  }, selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
-    return React.createElement(PanelBody, {
-      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
-      onToggle: e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
-      title: `${g}`
-    }, selectedMeasures.filter(f => getTranslation(f.group) === g).map(m => {
-      const userMeasure = measures[app] ? measures[app][m.value] : {};
-      return React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
-        label: getTranslation(m),
-        checked: userMeasure ? userMeasure.hasCustomLabel : false,
-        onChange: value => onCustomLabelToggleChange(m.value)
-      }), " "), userMeasure.hasCustomLabel && React.createElement(PanelRow, null, React.createElement(TextControl, {
-        label: __("Custom Label"),
-        value: userMeasure ? userMeasure.customLabel : "",
-        onChange: value => onCustomLabelChange(m.value, value)
-      })));
-    }));
-  })));
-};
-/* harmony default export */ const build_ChartMeasures = ((/* unused pure expression or super */ null && (ChartMeasures)));
-;// ../../../packages/commons/build/Constants.js
-const DEFAULT_FORMAT_SETTINGS = {
-  format: {
-    style: "percent",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  },
-  customFormat: {
-    style: "percent",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  },
-  useCustomAxisFormat: false
-};
-;// ../../../packages/commons/build/CSVSourceConfig.js
-
-
-
-
-
-const CSVSourceConfig_defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const CSVConfig = ({
-  attributes: {
-    csv,
-    panelStatus,
-    measures,
-    type
-  },
-  setAttributes
-}) => {
-  const onFormatChange = (format, field) => {
-    const app = "csv";
-    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
-    if (!uMs[app]) {
-      uMs[app] = {
-        allowSelection: false,
-        format: Object.assign({}, CSVSourceConfig_defaultFormat),
-        customFormat: Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        }),
-        selected: false
-      };
-    }
-    uMs[app][field] = format;
-    setAttributes({
-      measures: uMs
-    });
-  };
-  const onUseCustomAxisFormatChange = value => {
-    const app = "csv";
-    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
-    if (uMs[app]) {
-      uMs[app].useCustomAxisFormat = value;
-      if (!uMs[app].customFormat) {
-        uMs[app].customFormat = Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        });
-      }
-      setAttributes({
-        measures: uMs
-      });
-    } else {
-      uMs[app] = {
-        allowSelection: false,
-        format: Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        }),
-        customFormat: Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        }),
-        selected: false
-      };
-      uMs[app].useCustomAxisFormat = value;
-      setAttributes({
-        measures: uMs
-      });
-    }
-  };
-  return [React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("CSV Configuration"),
-    onToggle: e => togglePanel("csv_cfg", panelStatus, setAttributes)
-  }, React.createElement(PanelRow, null, React.createElement(TextareaControl, {
-    label: __("CSV Data"),
-    value: csv,
-    onChange: csv => setAttributes({
-      csv
-    })
-  })), React.createElement(Format, {
-    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
-    format: measures["csv"] && measures["csv"].format ? measures["csv"].format : {},
-    customFormat: measures["csv"] && measures["csv"].customFormat ? measures["csv"].customFormat : {},
-    useCustomAxisFormat: measures["csv"] ? measures["csv"].useCustomAxisFormat : false,
-    onFormatChange: (newFormat, field) => {
-      onFormatChange(newFormat, field);
-    },
-    onUseCustomAxisFormatChange: value => {
-      onUseCustomAxisFormatChange(value);
-    }
-  }))];
-};
-/* harmony default export */ const CSVSourceConfig = ((/* unused pure expression or super */ null && (CSVConfig)));
-;// ../../../packages/commons/build/DataFilters.js
-
-
-
-const DataFilters = props => {
-  const updateFilterParam = (param, idx) => {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    setAttributes({
-      filters: newFilters
-    });
-  };
-  const updateFilterValue = (value, idx) => {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      onChange
-    } = props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    setAttributes({
-      filters: newFilters
-    });
-    onChange();
-  };
-  const addFilter = () => {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    setAttributes({
-      filters: newFilters
-    });
-  };
-  const removeFilter = f => {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes
-    } = props;
-    let newFilters = filters.slice(0, -1);
-    setAttributes({
-      filters: newFilters
-    });
-  };
-  const items = type => {
-    const values = props.allCategories ? props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  };
-  const FilterSelector = ({
-    param,
-    index,
-    options,
-    onUpdateFilterParam
-  }) => {
-    const sortedOptions = options.sort(function (a, b) {
-      var aLabel = a.label ? a.label.toLowerCase() : "";
-      var bLabel = b.label ? b.label.toLowerCase() : "";
-      return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-    });
-    return React.createElement(SelectControl, {
-      onChange: value => {
-        onUpdateFilterParam(value, index);
-      },
-      value: param,
-      options: sortedOptions
-    });
-  };
-  const CategoricalFilter = ({
-    value,
-    index,
-    items,
-    onUpdateFilterValue
-  }) => {
-    if (items) {
-      const sortedItems = items.sort(function (a, b) {
-        if (a.position !== undefined && b.position !== undefined) {
-          return a.position - b.position;
-        }
-        let aValue = a.value ? a.value.toLowerCase() : "";
-        let bValue = b.value ? b.value.toLowerCase() : "";
-        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      });
-      return sortedItems.map(v => React.createElement(PanelRow, null, React.createElement(ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })));
-    } else {
-      return null;
-    }
-  };
-  const {
-    allFilters,
-    attributes: {
-      filters
-    }
-  } = props;
-  return React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Filters")
-  }, filters.map((f, index) => {
-    return React.createElement(PanelBody, {
-      initialOpen: true,
-      title: __(`Filter - ${f.label}`)
-    }, React.createElement(FilterSelector, {
-      param: f.param,
-      index: index,
-      options: allFilters,
-      onUpdateFilterParam: updateFilterParam
-    }), React.createElement(CategoricalFilter, {
-      value: f.value,
-      index: index,
-      items: items(f.type),
-      onUpdateFilterValue: updateFilterValue
-    }));
-  }), React.createElement(PanelRow, null, React.createElement(Button, {
-    variant: "link",
-    onClick: addFilter
-  }, __("Add Filter")), React.createElement(Button, {
-    variant: "link",
-    onClick: removeFilter
-  }, __("Remove"))));
-};
-/* harmony default export */ const build_DataFilters = ((/* unused pure expression or super */ null && (DataFilters)));
-;// ../../../packages/commons/build/MapCSVSourceConfig.js
-
-
-
-const MapCSVSourceConfig = ({
-  attributes: {
-    app,
-    csv,
-    hasMultipleMeasures,
-    enableSummaryView
-  },
-  setAttributes
-}) => {
-  return [React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("CSV Configuration")
-  }, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
-    label: "Has Multiple Measures",
-    checked: hasMultipleMeasures,
-    onChange: () => setAttributes({
-      hasMultipleMeasures: !hasMultipleMeasures
-    })
-  })), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
-    label: __("CSV Data"),
-    value: csv,
-    onChange: csv => setAttributes({
-      csv
-    })
-  })))];
-};
-/* harmony default export */ const build_MapCSVSourceConfig = ((/* unused pure expression or super */ null && (MapCSVSourceConfig)));
-// EXTERNAL MODULE: ../../../node_modules/.pnpm/lodash.isempty@4.4.0/node_modules/lodash.isempty/index.js
-var lodash_isempty = __webpack_require__(1299);
-;// ../../../packages/commons/build/MobileConfigUtils.js
-
-
-function extractAxisValues(csvData) {
-  const lines = csvData.split("\n");
-  const firstColumnValues = lines?.slice(1)?.map(row => {
-    return row.split(",")[0];
-  });
-  return firstColumnValues;
-}
-function transformDataToAppObject(data, appName, existingObject = {}) {
-  if (existingObject[appName] !== undefined) {
-    return existingObject;
-  }
-  existingObject[appName] = {};
-  data?.forEach(item => {
-    const key = item.value;
-    existingObject[appName][key] = {
-      selected: false,
-      format: {
-        style: "percent",
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-        currency: "USD"
-      },
-      hasCustomLabel: false,
-      customLabel: item.label || key
-    };
-  });
-  return existingObject;
-}
-function getSelectedItemsForApp(config, appName) {
-  const appConfig = config[appName];
-  if (!appConfig) return {};
-  const selectedEntries = {};
-  for (const key in appConfig) {
-    const value = appConfig[key];
-    if (value && typeof value === 'object' && value.selected === true) {
-      selectedEntries[key] = value;
-    }
-  }
-  return selectedEntries;
-}
-function getSelectedLabelsForApp(data, appName) {
-  const appData = data[appName];
-  if (!appData) {
-    return [];
-  }
-  return Object.keys(appData).filter(key => appData[key].selected) // Filter out the selected items
-  .map(key => {
-    return appData[key].hasCustomLabel ? appData[key].customLabel : appData[key].label;
-  });
-}
-function updateMeasureLabels(data, measures, app) {
-  transformDataToAppObject(data, app, measures);
-  const apiMeasures = getTranslatedOptions(data);
-  // for each api measure, find the corresponding measure in the measures array
-  // and add a label property to the measure in the measures array
-  apiMeasures?.forEach(apiMeasure => {
-    const measure = measures[app][apiMeasure.value];
-    if (measure) {
-      measure.label = apiMeasure.label;
-    }
-  });
-}
-;
-function getStoredOrSetItem(key, fallback, overwrite = false) {
-  const fallbackValue = fallback || [];
-  if (overwrite && !isEmpty(fallbackValue)) {
-    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
-    return fallbackValue;
-  }
-  const storedItem = sessionStorage.getItem(key);
-  if (storedItem === null) {
-    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
-    return fallbackValue;
-  }
-  const stored = JSON.parse(storedItem);
-  if (!stored) {
-    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
-    return fallbackValue;
-  }
-  return stored;
-}
-;// ../../../packages/commons/build/Tooltip.js
-
-
-
-const Tooltip = props => {
-  function repeat(times) {
-    return function (strs, ...substs) {
-      return cook(strs, ...substs).repeat(times);
-    };
-  }
-  function cook(strs, ...substs) {
-    return substs.reduce((prev, cur, i) => prev + cur + strs[i + 1], strs[0]);
-  }
-  const {
-    setAttributes,
-    attributes: {
-      tooltipHTML,
-      dimension1,
-      dimension2,
-      dimension3,
-      measures
-    },
-    allMeasures,
-    allDimensions,
-    type
-  } = props;
-  return [React.createElement(PanelBody, {
-    title: __("Variables")
-  }, React.createElement("div", null, allDimensions.filter(d => d.value === dimension1 || d.value === dimension2 || d.value === dimension3).map(d => React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, d.label, " -> ", "{", d.value, "}")))), React.createElement("div", null, allMeasures.map(m => React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, m.label, " -> ", "{", m.value, "}")))), dimension1 == "none" && dimension2 == "none" && React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, "Corresponding Population -> ", "{", "populationValue", "}")), type === "pie" && React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, "Value Percent -> ", '{valuePercent}')), React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, "Category -> ", '{category}')))), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
-    label: __("Tooltip"),
-    value: tooltipHTML,
-    help: __("You can use variables {var_name}"),
-    onChange: tooltipHTML => setAttributes({
-      tooltipHTML
-    }),
-    rows: 10
-  }))];
-};
-/* harmony default export */ const build_Tooltip = ((/* unused pure expression or super */ null && (Tooltip)));
-;// ../../../packages/commons/build/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
 /***/ 9650:
 /***/ ((module, exports, __webpack_require__) => {
 
@@ -40424,456 +42900,6 @@ module.exports = createHybrid;
 
 /***/ }),
 
-/***/ 9900:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","editor"]
-var external_wp_editor_ = __webpack_require__(3656);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./big-number/BlockSave.js
-
- // or wp.editor
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      measures,
-      height,
-      dimension1,
-      app,
-      format,
-      filters,
-      group,
-      noDataMsg,
-      dvzProxyDatasetId,
-      numberFontSize,
-      numberColor,
-      labelFontSize,
-      labelColor,
-      label,
-      csv
-    }
-  } = props;
-  const blockProps = external_wp_blockEditor_.useBlockProps.save({
-    className: 'big-number'
-  });
-  const levels = [dimension1];
-  const source = levels.filter(l => l != 'none' && l != null).join('/');
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    className: "viz-component",
-    "data-component": "bignumber",
-    "data-height": height,
-    "data-source": source,
-    "data-app": app,
-    "data-csv": csv,
-    "data-dvz-proxy-dataset-id": dvzProxyDatasetId,
-    "data-measures": encodeURIComponent(JSON.stringify(measures)),
-    "data-format": encodeURIComponent(JSON.stringify(format)),
-    "data-group": group,
-    "data-filters": encodeURIComponent(JSON.stringify(filters)),
-    "data-no-data-message": noDataMsg,
-    "data-number-font-size": numberFontSize,
-    "data-number-color": encodeURIComponent(numberColor),
-    "data-label-font-size": labelFontSize,
-    "data-label-color": encodeURIComponent(labelColor),
-    "data-label": label,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks.Content, {})
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-// EXTERNAL MODULE: ./commons/Util.jsx
-var Util = __webpack_require__(434);
-// EXTERNAL MODULE: ./commons/Measures.jsx
-var Measures = __webpack_require__(1997);
-// EXTERNAL MODULE: ./commons/DataFilters.jsx
-var DataFilters = __webpack_require__(3845);
-// EXTERNAL MODULE: ./commons/APIutils.js
-var APIutils = __webpack_require__(8203);
-// EXTERNAL MODULE: ./charts/Format.jsx
-var Format = __webpack_require__(1012);
-;// ./big-number/BlockEdit.js
-
-
-
-
-
-
-
-
-
-
-class BlockEdit extends commons/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    super.componentDidMount();
-  }
-  render() {
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        measures,
-        height,
-        app,
-        format,
-        filters,
-        group,
-        panelStatus,
-        dvzProxyDatasetId,
-        label,
-        numberFontSize,
-        numberColor,
-        labelFontSize,
-        labelColor,
-        csv,
-        type
-      }
-    } = this.props;
-    const datasets = [{
-      label: 'Select Dataset',
-      value: '0'
-    }];
-    if (this.state.datasets) {
-      this.state.datasets.forEach(d => {
-        datasets.push({
-          label: d.label,
-          value: d.id
-        });
-      });
-    }
-    let params = {};
-    filters.forEach(f => {
-      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
-    });
-    const divStyles = {
-      height: height + 'px',
-      width: '100%'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Chart Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          panelStatus: panelStatus['GROUP'],
-          onToggle: e => (0,Util/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(commons/* SizeConfig */.yr, {
-          setAttributes: setAttributes,
-          panelStatus: panelStatus,
-          height: height
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("API & Source"),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                value: [app],
-                onChange: app => {
-                  setAttributes({
-                    app: app
-                  });
-                },
-                options: this.state.apps
-              })
-            }), (0,APIutils/* isSupersetAPI */.oL)(app, this.state.apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                label: (0,external_wp_i18n_.__)('Datasets'),
-                value: [dvzProxyDatasetId],
-                onChange: newDatasetId => {
-                  setAttributes({
-                    dvzProxyDatasetId: newDatasetId
-                  });
-                  this.loadMetadata(app, newDatasetId);
-                },
-                options: datasets
-              })
-            })]
-          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Measures/* default */.A, {
-            title: (0,external_wp_i18n_.__)(`Measure`),
-            onSetSingleMeasure: value => {
-              setAttributes({
-                measures: [value]
-              });
-            },
-            onFormatChange: value => {
-              setAttributes({
-                format: value
-              });
-            },
-            allMeasures: this.state.measures,
-            format: format,
-            measures: measures,
-            ...this.props
-          }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-              initialOpen: false,
-              title: (0,external_wp_i18n_.__)("CSV Configuration"),
-              onToggle: e => (0,Util/* togglePanel */.Pj)("csv_cfg", panelStatus, setAttributes),
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-                  label: (0,external_wp_i18n_.__)("CSV Data"),
-                  value: csv,
-                  onChange: csv => setAttributes({
-                    csv
-                  })
-                })
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-                hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
-                format: format,
-                customFormat: {},
-                useCustomAxisFormat: false,
-                onFormatChange: (newFormat, field) => {
-                  console.log("newFormat", newFormat);
-                  setAttributes({
-                    format: newFormat
-                  });
-                },
-                onUseCustomAxisFormatChange: value => {}
-              })]
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(DataFilters/* default */.A, {
-            allFilters: this.state.filters,
-            allCategories: this.state.categories,
-            ...this.props
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          title: (0,external_wp_i18n_.__)('Settings'),
-          initialOpen: false,
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Label'),
-              value: label,
-              onChange: label => setAttributes({
-                label
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
-              children: (0,external_wp_i18n_.__)("Number Font Size")
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
-            fontSizes: [],
-            value: numberFontSize,
-            fallbackFontSize: 14,
-            onChange: newFontSize => {
-              setAttributes({
-                numberFontSize: newFontSize
-              });
-            }
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
-              children: (0,external_wp_i18n_.__)("Label Font Size")
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
-            fontSizes: [],
-            value: labelFontSize,
-            fallbackFontSize: 14,
-            onChange: newFontSize => {
-              setAttributes({
-                labelFontSize: newFontSize
-              });
-            }
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)('Color Settings'),
-            colorSettings: [{
-              value: numberColor,
-              onChange: color => {
-                setAttributes({
-                  numberColor: color
-                });
-              },
-              label: (0,external_wp_i18n_.__)("Number Color")
-            }, {
-              value: labelColor,
-              onChange: color => {
-                setAttributes({
-                  labelColor: color
-                });
-              },
-              label: (0,external_wp_i18n_.__)("Label Color")
-            }]
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
-      size: {
-        height
-      },
-      style: {
-        "margin": "auto",
-        width: "100%"
-      },
-      minHeight: "0",
-      minWidth: "50",
-      enable: {
-        top: false,
-        right: false,
-        bottom: true,
-        left: false,
-        topRight: false,
-        bottomRight: false,
-        bottomLeft: false,
-        topLeft: false
-      },
-      onResizeStop: (event, direction, elt, delta) => {
-        setAttributes({
-          height: parseInt(height + delta.height, 10)
-        });
-        toggleSelection(true);
-      },
-      onResizeStart: () => {
-        toggleSelection(false);
-      },
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-        className: className,
-        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-          ref: this.iframe,
-          style: divStyles,
-          scrolling: "no",
-          src: this.state.react_ui_url + "/embeddable/bignumber?"
-        })
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-      ...props
-    })
-  });
-};
-/* harmony default export */ const big_number_BlockEdit = (Edit);
-// EXTERNAL MODULE: ./icons/index.js
-var icons = __webpack_require__(7552);
-;// ./big-number/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/bignumber', {
-  title: (0,external_wp_i18n_.__)('Big Number'),
-  icon: icons/* Generic */.ck,
-  category: "wp-react-lib-blocks",
-  apiVersion: 2,
-  attributes: {
-    type: {
-      type: 'string',
-      default: "big-number"
-    },
-    group: {
-      type: 'String',
-      default: 'default'
-    },
-    panelStatus: {
-      type: "Object",
-      default: {}
-    },
-    height: {
-      type: 'number',
-      default: 120
-    },
-    app: {
-      type: 'String',
-      default: "csv"
-    },
-    csv: {
-      type: "String",
-      default: "Amount \n20000"
-    },
-    params: {
-      type: Object,
-      default: {}
-    },
-    format: {
-      type: Object,
-      default: {
-        "style": "decimal",
-        "minimumFractionDigits": 0,
-        "maximumFractionDigits": 0,
-        "currency": "USD"
-      }
-    },
-    measures: {
-      type: "Array",
-      default: []
-    },
-    _measures: {},
-    filters: {
-      type: "Array",
-      default: []
-    },
-    dvzProxyDatasetId: {
-      type: 'String',
-      default: ""
-    },
-    types: {
-      type: "Array",
-      default: [{
-        label: 'Big Number',
-        value: 'big-number',
-        supports: {
-          singleMeasure: true,
-          singleDimension: false
-        }
-      }]
-    },
-    label: {
-      type: 'String',
-      default: "# of animals"
-    },
-    numberFontSize: {
-      type: 'Numeric',
-      default: 24
-    },
-    numberColor: {
-      type: 'string',
-      default: "#5a5d68"
-    },
-    labelFontSize: {
-      type: 'Numeric',
-      default: 14
-    },
-    labelColor: {
-      type: 'string',
-      default: "#5a5d68"
-    }
-  },
-  edit: big_number_BlockEdit,
-  save: BlockSave
-});
-
-/***/ }),
-
 /***/ 9924:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -41025,7 +43051,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6427);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _icons_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7552);
-/* harmony import */ var _dg_data_viz_wordpress_commons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9608);
+/* harmony import */ var _dg_data_viz_wp_commons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7965);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5418);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(790);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
@@ -41118,7 +43144,7 @@ const EditComponent = props => {
           topLeft: false
         },
         onResizeStop: (event, direction, elt, delta) => {
-          const newHeight = parseInt(height + delta.height, 10);
+          const newHeight = parseInt(String(height), 10) + parseInt(String(delta.height), 10);
           setAttributes({
             height: newHeight
           });
@@ -41169,7 +43195,7 @@ const SaveComponent = props => {
     })
   });
 };
-class EditWithSettings extends _dg_data_viz_wordpress_commons__WEBPACK_IMPORTED_MODULE_6__/* .BlockEditWithFilters */ .jb {
+class EditWithSettings extends _dg_data_viz_wp_commons__WEBPACK_IMPORTED_MODULE_6__/* .BlockEditWithFilters */ .jb {
   render() {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(EditComponent, {
       ...this.props,
@@ -41323,15 +43349,15 @@ __webpack_require__(4202);
 __webpack_require__(643);
 __webpack_require__(5966);
 __webpack_require__(5190);
-__webpack_require__(933);
-__webpack_require__(7337);
+__webpack_require__(2957);
+__webpack_require__(8202);
 __webpack_require__(6987);
 __webpack_require__(8401);
 __webpack_require__(2925);
 __webpack_require__(2644);
 __webpack_require__(3188);
-__webpack_require__(9900);
-__webpack_require__(1426);
+__webpack_require__(860);
+__webpack_require__(4090);
 __webpack_require__(7321);
 // require("../../../../custom/wp-customizer/blocks/index")
 /******/ })()
