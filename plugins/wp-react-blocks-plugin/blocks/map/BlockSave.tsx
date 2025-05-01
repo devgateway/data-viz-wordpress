@@ -1,6 +1,8 @@
-import {useBlockProps} from '@wordpress/block-editor';
+import React from 'react';
+import { useBlockProps } from '@wordpress/block-editor';
+import { ***REMOVED*** } from './types';
 
-const SaveComponent = (props) => {
+const SaveComponent = (props: { attributes: ***REMOVED*** }) => {
 
     const {
         attributes: {            
