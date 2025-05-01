@@ -394,6 +394,8 @@ export class ***REMOVED*** extends Component<LatLongLayerSettingProps, LatLongLa
             {pointStyleBy === 'measure' && <Measures
                 ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
+                // TODO: fix measures component
+                // @ts-ignore 
                 measures={measures}
                 format={format}
                 {...this.props} />

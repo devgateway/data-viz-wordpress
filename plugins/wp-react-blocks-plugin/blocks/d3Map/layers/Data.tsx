@@ -382,6 +382,8 @@ export class ***REMOVED*** extends Component<DataLayerSettingProps, DataLayerSet
                 allMeasures={allMeasures}
                 ***REMOVED***={this.***REMOVED***}
                 ***REMOVED***={this.***REMOVED***}
+                // TODO: fix measures component
+                // @ts-ignore 
                 measures={layer.measures}
                 format={layer.format}
                  />}
