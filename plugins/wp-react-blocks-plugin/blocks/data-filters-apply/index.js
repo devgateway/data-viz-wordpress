@@ -2,11 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
+import { BLOCKS_NS, BLOCKS_CATEGORY, Generic } from '@dg-data-viz/wp-commons';
 
-registerBlockType(process.env.BLOCKS_NS + '/data-filters-apply',
+registerBlockType(BLOCKS_NS + '/data-filters-apply',
     {
         title: __('Apply Button', 'wp-react-blocks-plugin'),
-        category: process.env.BLOCKS_CATEGORY,
+        category: BLOCKS_CATEGORY,
+        icon: Generic,
         apiVersion: 2,
         attributes: {
             group: {
