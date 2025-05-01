@@ -340,8 +340,8 @@ export type FormatProps = {
     format: any;
     title?: string;
     onFormatChange: (format: any, field: string) => void;
-    onUseCustomAxisFormatChange: (value: boolean) => void;
-    customFormat: any;
+    onUseCustomAxisFormatChange?: (value: boolean) => void;
+    customFormat?: any;
     hiddenCustomAxisFormat?: boolean;
     useCustomAxisFormat?: boolean;
 }
@@ -414,7 +414,7 @@ export const Format = ({
         </PanelBody>, <>
             {!hiddenCustomAxisFormat && <PanelRow>
                 <ToggleControl label={__("Use Custom Axis Format", "dg")} checked={useCustomAxisFormat}
-                    onChange={(value) => onUseCustomAxisFormatChange(value)} />
+                    onChange={(value) => onUseCustomAxisFormatChange?.(value)} />
             </PanelRow>
             }
         </>
