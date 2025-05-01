@@ -1,3 +1,4 @@
+import React from 'react';
 import {__} from '@wordpress/i18n';
 import {useState} from "@wordpress/element";
 import {
@@ -8,12 +9,11 @@ import {
     slice,
     useAnchorRef
 } from '@wordpress/rich-text';
-
+import { BLOCKS_NS, GenericIcon, BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, BLOCKS_CATEGORY } from '@dg-data-viz/wp-commons';
 import {***REMOVED***} from '@wordpress/blocks';
 import {***REMOVED***, RichTextToolbarButton} from '@wordpress/block-editor';
 import {speak} from '@wordpress/a11y';
 import {tag as linkIcon} from '@wordpress/icons';
-import {Generic} from '../icons'
 import {
     Button,
     Modal,
@@ -26,9 +26,8 @@ import {
     ToggleControl,
     SelectControl
 } from '@wordpress/components';
-import {BlockEditWithAPIMetadata} from "../commons";
 
-const name = process.env.BLOCKS_NS + '/reference';
+const name = BLOCKS_NS + '/reference';
 const reference = {
     name,
     object: true,
@@ -59,17 +58,19 @@ const PopUI = ({onClose, onCancel, value}) => {
 
     const elements = document.getElementsByClassName("wp-reference")
 
-    const indexes = elements.length > 0 ? new Array(...elements).map(e => parseInt(e.getAttribute("data-index"))) : [0];
+    const indexes = elements.length > 0 ? Array.from(elements).map(e => {
+        const indexAttr = e.getAttribute("data-index");
+        return indexAttr ? parseInt(indexAttr) : 0;
+    }) : [0];
 
     const max = Math.max(...indexes) + 1
-
 
     const [index, setIndex] = useState(max)
 
     return <Modal title={__("Reference")} ***REMOVED***={e => onCancel()}>
 
         <TextControl value={index} label={__("Index")}
-                     onChange={(value) => setIndex(value)}>
+                     onChange={(value: string) => setIndex(parseInt(value))}>
 
         </TextControl>
 
@@ -102,7 +103,10 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
     const anchorRef = useAnchorRef({
         ref: contentRef,
         value,
-        settings: reference,
+        settings: {
+            ...reference,
+            interactive: true,
+        },
     });
 
     return (
@@ -158,16 +162,16 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
                         <PanelRow>
                             <TextControl
                                 className="block-editor-format-toolbar__image-container-value"
-
-                                type="string"
+                                type="url"
                                 label={__('Link')}
                                 value={link}
                                 onChange={(newLink) => setLink(newLink)}
                             />
+                            
                         </PanelRow>
-                        <PanelRow style={{"justify-content": "end"}}>
+                        {/* @ts-ignore */}
+                        <PanelRow  style={{***REMOVED***: "end"}}>
                             <Button
-
                                 isPrimary={true}
                                 label={__('Apply')}
                                 type="submit"
@@ -182,7 +186,18 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
     );
 }
 
-function edit(props) {
+interface EditProps {
+    ***REMOVED***: boolean;
+    isActive: boolean;
+    activeObjectAttributes: any;
+    ***REMOVED***: any;
+    value: any;
+    onChange: (value: any) => void;
+    onFocus: () => void;
+    contentRef: React.RefObject<***REMOVED***>;
+}
+
+function edit(props: EditProps) {
     const {
         ***REMOVED***,
         isActive,
@@ -197,7 +212,10 @@ function edit(props) {
     const anchorRef = useAnchorRef({
         ref: contentRef,
         value,
-        settings: {},
+        settings: {
+            ...reference,
+            interactive: true,
+        },
     });
     const [showInline, setShowInline] = useState(true);
 
@@ -213,6 +231,7 @@ function edit(props) {
         const text = ***REMOVED***(slice(value));
         const obj = insertObject(value, {
             type: name,
+            // @ts-ignore
             attributes: {
                 className: `wp-reference viz-component wp-reference-${index}`,
                 "data-index": `${index}`,
@@ -245,9 +264,8 @@ function edit(props) {
             <RichTextToolbarButton
                 icon={linkIcon}
                 title={__('Reference')}
-                isActive={isActive}
+                isActive={isActive || ***REMOVED***}
                 onClick={openModal}
-                isActive={***REMOVED***}
                 shortcutType="primaryShift"
                 ***REMOVED***="e"/>
             {isModalOpen && <PopUI value={value} onCancel={onCancel} onClose={closeModal}/>}
@@ -263,13 +281,28 @@ function edit(props) {
     );
 }
 
-***REMOVED***(name, reference);
+***REMOVED***(name, {
+    ...reference,
+    interactive: true,
+});
 
 
+interface ***REMOVED*** {
+    isSelected: boolean;
+    setAttributes: (attributes: any) => void;
+    attributes: {
+        group: string;
+        app: string;
+        resetLabel: string;
+        height: number;
+        columns: number;
+        flexDirection: string;
+    };
+}
 
-class BlockEdit extends BlockEditWithAPIMetadata {
+class BlockEdit extends BlockEditWithAPIMetadata<***REMOVED***, BlockEditWithAPIMetadataState> {
 
-    constructor(props) {
+    constructor(props: ***REMOVED***) {
         super(props);
     }
 
@@ -297,7 +330,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     <PanelRow>
                         <SelectControl
                             label={__('Direction')}
-                            value={[flexDirection]}
+                            value={flexDirection as "column" | "row"}
                             onChange={(value) => {
                                 setAttributes({ flexDirection: value })
                             }}
@@ -332,7 +365,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 }
 
-const BlockSave = (props) => {
+const BlockSave = (props: { attributes: { height: number; columns: number; flexDirection: string } }) => {
         const {       
         attributes: {
             height,
@@ -349,11 +382,12 @@ const BlockSave = (props) => {
     </div>)
 }
 
-***REMOVED***(process.env.BLOCKS_NS + '/reference-lists',
+// @ts-ignore
+***REMOVED***(`${BLOCKS_NS}/reference-lists`,
     {
         title: __('References List'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             height: {
                 type: "Numeric",
