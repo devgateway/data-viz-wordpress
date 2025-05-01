@@ -1,4 +1,7 @@
-const SaveComponent = (props) => {
+import React from "react";
+import { FilterAttributes } from "./types";
+
+const SaveComponent = (props: { attributes: FilterAttributes }) => {
 
     const {
         attributes: {
@@ -21,9 +24,7 @@ const SaveComponent = (props) => {
             filterType,
             defaultValues,
             showNoDataOption,
-            defaultValueCriteria,
-            booleanTrueLabel,
-            booleanFalseLabel,
+            defaultValueCriteria, 
             hiddenFilters,
             allNoneSameBehaviour,
             closeOnSelect,
@@ -31,15 +32,15 @@ const SaveComponent = (props) => {
             ascOrder,
             useFilterItems,
             dvzProxyDatasetId,
-            autoApply
+            autoApply,
+            booleanTrueLabel,
+            booleanFalseLabel
         }
     } = props;
 
-    const divClass = {}
-    const divStyles = {}
 
-
-    return (<div className={"viz-component"}
+    return (
+    <div className={"viz-component"}
                  data-component={"filter"}
                  data-app={app}
                  data-dvz-proxy-dataset-id={dvzProxyDatasetId}
@@ -71,7 +72,8 @@ const SaveComponent = (props) => {
                  data-use-filter-items={useFilterItems}
                  data-all-none-same-behaviour={allNoneSameBehaviour}
                  data-auto-apply={autoApply}>
-    </div>);
+    </div>)
+    ;
 }
 
 
