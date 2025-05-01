@@ -1,8 +1,8 @@
+import React from "react";
 import {Component} from "@wordpress/element";
 import {__} from '@wordpress/i18n';
 import {
-    Button, ButtonGroup,
-    CheckboxControl,
+    Button,
     PanelBody,
     PanelRow,
     RangeControl,
@@ -11,27 +11,27 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import Measures from './utils/MapMeasures.jsx'
+import Measures from './utils/MapMeasures'
 import Property from "./utils/Property";
 import BreaksGenerator from "./utils/BreaksGenerator";
+import {Application, Category, Dimension, Filter, Format, isSupersetAPI, Measure} from "@dg-data-viz/wp-commons";
 import {PanelColorSettings} from "@wordpress/block-editor";
-import PatternGenerator from "./utils/PatternGenerator";
-import Format from '../../charts/Format.jsx';
-import {isSupersetAPI} from "../../commons/APIutils";
+import { FilterSelectorProps, CategoricalFilterProps } from "./utils/types";
 
-const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
-    const sortedOptions = options.sort(function (a, b) {
+
+const FilterSelector = ({param, index, options, onUpdateFilterParam}: FilterSelectorProps) => {
+    const sortedOptions = options ? options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
         return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-    });
+    }) : [];
 
     return <SelectControl onChange={(value) => {
         onUpdateFilterParam(value, index)
     }} value={param} options={sortedOptions}/>
 }
 
-const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
+const CategoricalFilter = ({value, index, items, onUpdateFilterValue}: CategoricalFilterProps) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             /*
@@ -39,9 +39,9 @@ const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
                 var bValue = b.value ? b.value.toLowerCase() : "";
                 return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
             */
-            return a.position - b.position
+            return a.position && b.position ? a.position - b.position : 0;
         });
-        return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
+        return sortedItems.map(v => <PanelRow key={v.id}> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
                                                               onChange={e => {
                                                                   onUpdateFilterValue(v.id, index)
                                                               }}/></PanelRow>)
@@ -50,8 +50,28 @@ const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
     }
 }
 
-export class DataLayerSetting extends Component {
-    constructor(props) {
+interface FlowLayerSettingProps {
+    onChangeProperty: (property: string, value: any) => void;
+    allDimensions: Dimension[];
+    allFilters: Filter[];
+    allMeasures: Measure[];
+    allCategories: Category[];
+    allDatasets: any[];
+    features: any[];
+    apps: Application[];
+    layer: any;
+}
+
+interface FlowLayerSettingState {
+    measures: Measure[];
+    dimensions: Dimension[];
+    filters: Filter[];
+    categories: Category[];
+}
+
+
+export class FlowLayerSetting extends Component<FlowLayerSettingProps, FlowLayerSettingState> {
+    constructor(props: FlowLayerSettingProps) {
         super(props);
         this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this)
         this.addFilter = this.addFilter.bind(this)
@@ -68,7 +88,7 @@ export class DataLayerSetting extends Component {
     }
 
 
-    onFormatChange(format, field) {
+    onFormatChange(format: any) {
         const {
             onChangeProperty, allDimensions, allFilters, allMeasures, features, apps, layer: {
                 app,
@@ -108,7 +128,7 @@ export class DataLayerSetting extends Component {
         return csv
     }
 
-    cleanSelection(prevState) {
+    cleanSelection(prevState: FlowLayerSettingState) {
 
         const {onChangeProperty} = this.props
         onChangeProperty("measures", [])
@@ -117,7 +137,7 @@ export class DataLayerSetting extends Component {
         //setAttributes({measures: [], filters: []})
     }
 
-    updateFilterParam(param, idx) {
+    updateFilterParam(param: string, idx: number) {
 
         const {layer: {filters}, onChangeProperty, allFilters} = this.props
         const newFilters = filters.slice()
@@ -129,7 +149,7 @@ export class DataLayerSetting extends Component {
 
     }
 
-    updateFilterValue(value, idx) {
+    updateFilterValue(value: any, idx: number) {
 
         const {layer: {filters}, onChangeProperty} = this.props
         const selected = filters[idx]
@@ -146,7 +166,7 @@ export class DataLayerSetting extends Component {
         onChangeProperty("filters", newFilters)
     }
 
-    setFilterValue(value, idx) {
+    setFilterValue(value: any, idx: number) {
 
         const {layer: {filters}, onChangeProperty} = this.props
         const selected = filters[idx]
@@ -172,33 +192,35 @@ export class DataLayerSetting extends Component {
         onChangeProperty("filters", newFilters)
     }
 
-    removeFilter(f) {
+    removeFilter(f: Filter) {
         const {layer: {filters}, onChangeProperty, allFilters} = this.props
         let newFilters = filters.slice(0, -1)
         onChangeProperty("filters", newFilters)
     }
 
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: FlowLayerSettingProps) {
         const {onChangeProperty, layer: {type, dimension2, types}} = this.props
         const {layer: {type: prevType, dimension2: prevDimension2}} = prevProps
     }
 
 
-    onSetSingleMeasure(value) {
+    onSetSingleMeasure(value: string) {
         const {onChangeProperty} = this.props
         onChangeProperty("measures", [value])
     }
 
-    items(type) {
+    items(type: string) {
 
         const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : []
         const cat = values.length > 0 ? values[0] : null
-        let items = null
+        let items: { value: string, id: any, position?: number }[] | null = null
         if (type === 'Boolean') {
             items = [{"value": "Yes", id: true}, {"value": "No", id: false}]
         } else if (cat) {
-            items = cat.items
+            if (cat.items) {
+                items = cat.items
+            }
         }
         return items
 
@@ -247,6 +269,9 @@ export class DataLayerSetting extends Component {
         let selectedMeasureLabel = ""
         let selectedMeasureValue = ""
 
+        const appsOptions = apps.map(a => ({ label: a.name, value: a.name }));
+        const datasetsOptions = allDatasets.map(d => ({ label: d.name, value: d.id }));
+
         if (app != 'csv') {
 
             const theMeasure = measures ? measures[0] : null
@@ -269,18 +294,20 @@ export class DataLayerSetting extends Component {
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
+                    multiple={false}
                     label={__("App", "dg")}
-                    value={[app]} // e.g: value = [ 'a', 'c' ]
+                    value={app} // e.g: value = [ 'a', 'c' ]
                     onChange={(app) => {                       
                         onChangeProperty("app", app)
                     }}
-                    options={apps}
+                    options={appsOptions}
                 />
             </PanelRow>
                {isSupersetAPI(app, apps) && <PanelRow>
                             <SelectControl
+                                multiple={false}
                                 label={__('Datasets')}
-                                value={[dvzProxyDatasetId]}
+                                value={dvzProxyDatasetId}
                                 onChange={(newDatasetId) => {
                                     onChangeProperty("dvzProxyDatasetId", newDatasetId)
                                 }}
@@ -299,7 +326,7 @@ export class DataLayerSetting extends Component {
             {app == 'csv' && <PanelRow>
                 <TextareaControl
                     label={__("CSV Data")}
-                    value={this.getCSValue(csv)}
+                    value={this.getCSValue()}
                     onChange={(csv) => onChangeProperty("csv", csv)}
                 />
             </PanelRow>}
@@ -313,8 +340,9 @@ export class DataLayerSetting extends Component {
 
             {app != 'csv' &&<PanelRow>
                 <SelectControl
+                    multiple={false}
                     label={'Origin'}
-                    value={[flowOrigin]} // e.g: value = [ 'a', 'c' ]
+                    value={flowOrigin} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
                         onChangeProperty("flowOrigin", value)
                     }}
@@ -323,8 +351,9 @@ export class DataLayerSetting extends Component {
             </PanelRow>}
             {app != 'csv' && <PanelRow>
                 <SelectControl
+                    multiple={false}
                     label={'Destination'}
-                    value={[flowDestination]} // e.g: value = [ 'a', 'c' ]
+                    value={flowDestination} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
                         onChangeProperty("flowDestination", value)
                     }}
@@ -345,9 +374,9 @@ export class DataLayerSetting extends Component {
             <PanelRow>
                 <div className={"components-base-control__help"}
                      style={{
-                         "display": "block",
-                         "text-align": "left",
-                         "color": "rgb(117, 117, 117)"
+                         display: "block",
+                         textAlign: "left",
+                         color: "rgb(117, 117, 117)"
                      }}>
                     {app != 'csv' && allMeasures && allMeasures.map(m => <p>{"{"}{m.value}{"}"}</p>)}
                     <p>
@@ -371,7 +400,7 @@ export class DataLayerSetting extends Component {
                 {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
                     {filters.map((f, index) => {
                         return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
-                            <FilterSelector param={f.param} index={index} options={allFilters}
+                            <FilterSelector param={f.param} index={index} options={allFilters.map(f => ({ label: f.label, value: f.param }))}
                                             onUpdateFilterParam={this.updateFilterParam}/>
                             {<CategoricalFilter value={f.value} index={index} items={this.items(f.type)}
                                                 onUpdateFilterValue={this.updateFilterValue}/>}
@@ -380,7 +409,7 @@ export class DataLayerSetting extends Component {
 
                     <PanelRow>
                         <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
-                        <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
+                        <Button variant={"link"} onClick={() => this.removeFilter(filters[filters.length - 1])}>{__("Remove")}</Button>
                     </PanelRow>
                 </PanelBody>}
             </React.Fragment>, <PanelBody initialOpen={false} title={"Symbols and Styles"}>
@@ -402,13 +431,13 @@ export class DataLayerSetting extends Component {
 
                 <PanelColorSettings
                     title={__(`Colors`)}
-                    value={borderColor}
                     colorSettings={
                         [{
                             label: __('Border'),
                             clearable: true,
                             enableAlpha: true,
-                            value: markBorderColor, onChange: (borderColor) => {
+                            value: markBorderColor, 
+                            onChange: (borderColor) => {
                                 onChangeProperty("markBorderColor", borderColor)
                             },
 
@@ -477,4 +506,4 @@ export class DataLayerSetting extends Component {
 
 }
 
-export default DataLayerSetting;
+export default FlowLayerSetting;

@@ -1,14 +1,33 @@
+import React from 'react';
 import {Button, PanelBody, PanelRow, RangeControl, TextControl} from "@wordpress/components";
 import {PanelColorSettings} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
+import * as ss from 'simple-statistics';
 
-var ss = require('simple-statistics')
-const BreaksGenerator = ({onChangeProperty, breaks = [], defaultFillColor, defaultBorderColor, showSize}) => {
+interface BreaksGeneratorProps {
+    onChangeProperty: (property: string, value: any) => void;
+    breaks: any[];
+    defaultFillColor: string;
+    defaultBorderColor: string;
+    showSize: boolean;
+}
+
+interface Break {
+    start: number;
+    end: number;
+    color: string;
+    borderColor: string;
+    size: number;
+    type: 'lessThan' | 'graterThan';
+}
+
+
+const BreaksGenerator = ({onChangeProperty, breaks = [], defaultFillColor, defaultBorderColor, showSize}: BreaksGeneratorProps) => {
 
 
     const add = () => {
-        const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
-        let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
+        const lessThanBreaks: Break[] = breaks.filter(b => b.type == 'lessThan')
+        let graterThanBreaks: Break[] = breaks.filter(b => b.type == 'graterThan')
         if (graterThanBreaks.length === 0) {
             graterThanBreaks = [{
                 start: 0,
@@ -43,9 +62,9 @@ const BreaksGenerator = ({onChangeProperty, breaks = [], defaultFillColor, defau
         onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks])
     }
 
-    const remove = (index) => {
-        let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
-        let lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
+    const remove = (index: number) => {
+        let graterThanBreaks: Break[] = breaks.filter(b => b.type == 'graterThan')
+        let lessThanBreaks: Break[] = breaks.filter(b => b.type == 'lessThan')
         const newBreaks = [...lessThanBreaks]
         newBreaks.splice(index, 1)
         
@@ -60,10 +79,10 @@ const BreaksGenerator = ({onChangeProperty, breaks = [], defaultFillColor, defau
         onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks])
     }
 
-    const updateGraterThan = (property, value) => {
+    const updateGraterThan = (property: string, value: any) => {
         
-        const graterThanBreak = breaks.filter(b => b.type == 'graterThan')[0]
-        const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
+        const graterThanBreak: Break[] = breaks.filter(b => b.type == 'graterThan')[0]
+        const lessThanBreaks: Break[] = breaks.filter(b => b.type == 'lessThan')
         graterThanBreak[property] = value
         onChangeProperty("breaks", [...lessThanBreaks, graterThanBreak])
     }
@@ -79,7 +98,7 @@ const BreaksGenerator = ({onChangeProperty, breaks = [], defaultFillColor, defau
                     return <PanelBody initialOpen={false} title={"Less than (" + br.end + ")"}>
                         <PanelRow>
                             <TextControl
-                                type={"Number"}
+                                type={"number"}
                                 label={__("Value", "dg")}
                                 value={br.end}
                                 onChange={(value) => update("end", index, value)}
@@ -101,11 +120,11 @@ const BreaksGenerator = ({onChangeProperty, breaks = [], defaultFillColor, defau
                         <PanelColorSettings
                             title={__(`Fill Color`)}
                             colorSettings={[{
+                                label: __(`Fill Color`),
                                 value: br.color,
                                 onChange: (fillColor) => {
                                     update("color", index, fillColor)
                                 },
-
                             }]}
                         />
 
@@ -134,11 +153,11 @@ const BreaksGenerator = ({onChangeProperty, breaks = [], defaultFillColor, defau
                             <PanelColorSettings
                                 title={__(`Fill Color`)}
                                 colorSettings={[{
+                                    label: __(`Fill Color`),
                                     value: br.color,
                                     onChange: (fillColor) => {
                                         updateGraterThan("color", fillColor)
                                     },
-
                                 }]}
                             />
 
