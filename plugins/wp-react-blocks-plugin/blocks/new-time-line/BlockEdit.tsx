@@ -1,4 +1,5 @@
-import {ColorPalette, ***REMOVED***, ***REMOVED***, useBlockProps, useSetting} from '@wordpress/block-editor';
+import React from "react";
+import { ColorPalette, ***REMOVED***, ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
     __experimentalText as Text,
@@ -11,20 +12,25 @@ import {
     RangeControl,
     ResizableBox,
     TextControl
-
 } from '@wordpress/components'
-
-import {__} from '@wordpress/i18n';
-import {***REMOVED***, SizeConfig} from "../commons";
+import { __ } from '@wordpress/i18n';
+import { useSetting, ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
 import apiFetch from '@wordpress/api-fetch';
+import { NewTimeLineAttributes, ***REMOVED*** } from "./types";
+import { NewTimeLineBlockProps } from "./types";
 
-const COLORS = ["#6acbd5", "#fcb535", "#f79132", "#e54957", "#0e5583","#2fb2e4", "#fcb535"]
-const FontSelector = (props) => {
-    
+const COLORS = ["#6acbd5", "#fcb535", "#f79132", "#e54957", "#0e5583", "#2fb2e4", "#fcb535"]
+const FontSelector = (props: {
+    setAttributes: (attributes: Partial<NewTimeLineAttributes>) => void;
+    attributes: {
+        fontSize: string;
+    };
+}) => {
+
     const {
         setAttributes,
         attributes: {
-            fontSize      
+            fontSize
         },
     } = props;
     return <***REMOVED***
@@ -32,14 +38,16 @@ const FontSelector = (props) => {
         value={fontSize}
         ***REMOVED***={14}
         onChange={(newFontSize) => {
-            setAttributes({fontSize: newFontSize})            
+            if (newFontSize) {
+                setAttributes({ fontSize: newFontSize.toString() })
+            }
         }}
     />
 }
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends ***REMOVED***<NewTimeLineBlockProps, BlockEditWithFiltersState> {
 
-    constructor(props) {
+    constructor(props: NewTimeLineBlockProps) {
         super(props);
         this.***REMOVED*** = this.***REMOVED***.bind(this)
         this.onLoadPosts = this.onLoadPosts.bind(this)
@@ -61,7 +69,7 @@ class BlockEdit extends ***REMOVED*** {
             },
         } = this.props;
 
-        
+
 
         // path: '/wp/v2/' + taxonomy + '?per_page=100',
         let url = "/wp/v2/" + (type ? type : 'posts')
@@ -69,15 +77,13 @@ class BlockEdit extends ***REMOVED*** {
         url += (categories ? (taxonomy ? '?' + taxonomy : '&categories') + "=" + (categories ? categories : "") : '') //ids
 
 
-        apiFetch({path: url}).then((data) => {
-            alert(data)
+        apiFetch({ path: url }).then((data) => {
+            // alert(data)
         })
     }
 
-    ***REMOVED***(checked, value) {
+    ***REMOVED***(checked: boolean, value: string) {
         super.***REMOVED***(checked, value)
-
-
     }
 
     render() {
@@ -105,16 +111,16 @@ class BlockEdit extends ***REMOVED*** {
         } = this.props;
 
         const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-config=${***REMOVED***(JSON.stringify(config))}&data-csv-line-color=${***REMOVED***(lineColor)}&data-position=${position}&data-line-width=${lineWidth}&data-margin-left=${marginLeft}&data-margin-top=${marginTop}&data-margin-right=${marginRight}&data-margin-bottom=${marginBottom}&data-font-size=${fontSize}&data-title-width=${titleWidth}&data-subtitle-width=${subtitleWidth}`
-        const divStyles = {height: height + 'px', width: '100%'}
+        const divStyles = { height: height + 'px', width: '100%' }
 
 
-        const newConfig = []
+        const newConfig: ***REMOVED***[] = []
         if (count) {
             Array.from(Array(count).keys()).forEach(i => {
                 if (!config[i]) {
                     newConfig.push({
                         circleColor: COLORS[i] || "#000000",
-                        lineColor: COLORS[i]|| "#000000",
+                        lineColor: COLORS[i] || "#000000",
                         labelColor: "#000000",
                         titleColor: COLORS[i] || "#000000",
                         size: 10,
@@ -126,10 +132,10 @@ class BlockEdit extends ***REMOVED*** {
                     })
                 } else {
                     newConfig.push(Object.assign({}, config[i]))
-                }
+                };
             })
         }
-        
+
 
 
         return (
@@ -150,41 +156,40 @@ class BlockEdit extends ***REMOVED*** {
                                 <NumberControl
                                     ***REMOVED***={true}
                                     onChange={(count) => {
-                                        setAttributes({count: parseInt(count)})
-                                        setAttributes({config: newConfig})
+                                        if (count) {
+                                            setAttributes({ count: parseInt(count) })
+                                        }
+                                        setAttributes({ config: newConfig })
                                     }}
                                     shiftStep={1}
                                     min={1}
                                     max={10}
                                     value={count}
-                                    label={__("Items")}/>
+                                    label={__("Items")} />
                             </PanelRow>
                             <PanelRow>
                                 <Text>{__("Position")}</Text>
                             </PanelRow>
 
                             <PanelRow>
-                                <Button isPrimary={position == 'top'}
-                                        isSecondary={position != 'top'}
-                                        onClick={e => {
-                                            setAttributes({position: "top"})
-                                        }}>
+                                <Button variant={position == 'top' ? 'primary' : 'secondary'}
+                                    onClick={e => {
+                                        setAttributes({ position: "top" })
+                                    }}>
                                     {__("Top")}
                                 </Button>
 
-                                <Button isPrimary={position == 'middle'}
-                                        isSecondary={position != 'middle'}
-                                        onClick={e => {
-                                            setAttributes({position: "middle"})
-                                        }}>
+                                <Button variant={position == 'middle' ? 'primary' : 'secondary'}
+                                    onClick={e => {
+                                        setAttributes({ position: "middle" })
+                                    }}>
                                     {__("Middle")}
                                 </Button>
 
-                                <Button isPrimary={position == 'bottom'}
-                                        isSecondary={position != 'bottom'}
-                                        onClick={e => {
-                                            setAttributes({position: "bottom"})
-                                        }}>
+                                <Button variant={position == 'bottom' ? 'primary' : 'secondary'}
+                                    onClick={e => {
+                                        setAttributes({ position: "bottom" })
+                                    }}>
                                     {__("Bottom")}
                                 </Button>
                             </PanelRow>
@@ -194,7 +199,7 @@ class BlockEdit extends ***REMOVED*** {
                                     label={__('Line Width')}
                                     value={lineWidth}
                                     onChange={(lineWidth) => {
-                                        setAttributes({lineWidth})
+                                        setAttributes({ lineWidth })
                                     }}
                                     min={0}
                                     max={10}
@@ -213,30 +218,29 @@ class BlockEdit extends ***REMOVED*** {
                             </PanelRow>
 
                             <PanelRow>
+                                <Text>{__("Line Color")}</Text>
                                 <ColorPalette
-
-                                    label="Line Color"
                                     value={lineColor}
-                                    onChange={(value) => setAttributes({lineColor: value})}
+                                    onChange={(value) => setAttributes({ lineColor: value })}
                                 />
                             </PanelRow>
                             <PanelRow>
-                            <RangeControl
+                                <RangeControl
                                     label={__('Title Width')}
                                     value={titleWidth}
                                     onChange={(titleWidth) => {
-                                        setAttributes({titleWidth})
+                                        setAttributes({ titleWidth })
                                     }}
                                     min={0}
                                     max={400}
                                 />
                             </PanelRow>
                             <PanelRow>
-                            <RangeControl
+                                <RangeControl
                                     label={__('Subtitle Width')}
                                     value={subtitleWidth}
                                     onChange={(subtitleWidth) => {
-                                        setAttributes({subtitleWidth})
+                                        setAttributes({ subtitleWidth })
                                     }}
                                     min={0}
                                     max={400}
@@ -249,7 +253,7 @@ class BlockEdit extends ***REMOVED*** {
                                 <RangeControl
                                     label={__('Margin Bottom')}
                                     value={marginBottom}
-                                    onChange={(marginBottom) => setAttributes({marginBottom})}
+                                    onChange={(marginBottom) => setAttributes({ marginBottom })}
                                     min={0}
                                     max={300}
                                 />
@@ -258,7 +262,7 @@ class BlockEdit extends ***REMOVED*** {
                                 <RangeControl
                                     label={__('Margin Left')}
                                     value={marginLeft}
-                                    onChange={(marginLeft) => setAttributes({marginLeft})}
+                                    onChange={(marginLeft) => setAttributes({ marginLeft })}
                                     min={0}
                                     max={300}
                                 />
@@ -267,7 +271,7 @@ class BlockEdit extends ***REMOVED*** {
                                 <RangeControl
                                     label={__('Margin Right')}
                                     value={marginRight}
-                                    onChange={(marginRight) => setAttributes({marginRight})}
+                                    onChange={(marginRight) => setAttributes({ marginRight })}
                                     min={0}
                                     max={300}
                                 />
@@ -276,7 +280,7 @@ class BlockEdit extends ***REMOVED*** {
                                 <RangeControl
                                     label={__('Margin Top')}
                                     value={marginTop}
-                                    onChange={(marginTop) => setAttributes({marginTop})}
+                                    onChange={(marginTop) => setAttributes({ marginTop })}
                                     min={0}
                                     max={300}
                                 />
@@ -290,8 +294,8 @@ class BlockEdit extends ***REMOVED*** {
                                             label={__('Circle Size')}
                                             value={newConfig[i].size}
                                             onChange={(size) => {
-                                                newConfig[i].size = size
-                                                setAttributes({config: newConfig})
+                                                newConfig[i].size = size || 0
+                                                setAttributes({ config: newConfig })
                                             }}
                                             min={0}
                                             max={100}
@@ -304,8 +308,8 @@ class BlockEdit extends ***REMOVED*** {
                                             label={__('Subtitle Offset')}
                                             value={newConfig[i].***REMOVED***}
                                             onChange={(offset) => {
-                                                newConfig[i].***REMOVED*** = offset
-                                                setAttributes({config: newConfig})
+                                                newConfig[i].***REMOVED*** = offset || 0
+                                                setAttributes({ config: newConfig })
                                             }}
                                             min={-height}
                                             max={height}
@@ -317,8 +321,8 @@ class BlockEdit extends ***REMOVED*** {
                                             label={__('Title Offset')}
                                             value={newConfig[i].titleOffset}
                                             onChange={(offset) => {
-                                                newConfig[i].titleOffset = offset
-                                                setAttributes({config: newConfig})
+                                                newConfig[i].titleOffset = offset || 0
+                                                setAttributes({ config: newConfig })
                                             }}
                                             min={-height}
                                             max={height}
@@ -340,8 +344,8 @@ class BlockEdit extends ***REMOVED*** {
                                             label={__('Connector Line Height')}
                                             value={newConfig[i].***REMOVED***}
                                             onChange={(***REMOVED***) => {
-                                                newConfig[i].***REMOVED*** = ***REMOVED***
-                                                setAttributes({config: newConfig})
+                                                newConfig[i].***REMOVED*** = ***REMOVED*** || 0
+                                                setAttributes({ config: newConfig })
                                             }}
                                             min={0}
                                             max={height}
@@ -349,25 +353,23 @@ class BlockEdit extends ***REMOVED*** {
                                         />
                                     </PanelRow>
                                     <PanelRow>
-                                    <Text>{__("Connector line direction")}</Text>
+                                        <Text>{__("Connector line direction")}</Text>
                                     </PanelRow>
-                                    <PanelRow >                                    
-                                        <ButtonGroup>                                        
-                                            <Button isPrimary={newConfig[i].position == 'top'}
-                                                    isSecondary={newConfig[i].position != 'top'}
-                                                    onClick={e => {
-                                                        newConfig[i].position = "top"
-                                                        setAttributes({config: newConfig})
-                                                    }}>
+                                    <PanelRow >
+                                        <ButtonGroup>
+                                            <Button variant={newConfig[i].position == 'top' ? 'primary' : 'secondary'}
+                                                onClick={e => {
+                                                    newConfig[i].position = "top"
+                                                    setAttributes({ config: newConfig })
+                                                }}>
                                                 {__("Top")}
                                             </Button>
 
-                                            <Button isPrimary={newConfig[i].position == 'bottom'}
-                                                    isSecondary={newConfig[i].position != 'bottom'}
-                                                    onClick={e => {
-                                                        newConfig[i].position = "bottom"
-                                                        setAttributes({config: newConfig})
-                                                    }}>
+                                            <Button variant={newConfig[i].position == 'bottom' ? 'primary' : 'secondary'}
+                                                onClick={e => {
+                                                    newConfig[i].position = "bottom"
+                                                    setAttributes({ config: newConfig })
+                                                }}>
                                                 {__("Bottom")}
                                             </Button>
                                         </ButtonGroup>
@@ -375,36 +377,44 @@ class BlockEdit extends ***REMOVED*** {
                                     </PanelRow>
 
                                     <***REMOVED*** title={__('Color Settings')}
-                                                        colorSettings={[
-                                                            {
-                                                                value: newConfig[i].circleColor,
-                                                                onChange: (color) => {
-                                                                    newConfig[i].circleColor = color
-                                                                    setAttributes({config: newConfig})
-                                                                }, label: __("Circle Color")
-                                                            },
-                                                            {
-                                                                value: newConfig[i].labelColor,
-                                                                onChange: (color) => {
-                                                                    newConfig[i].labelColor = color
-                                                                    setAttributes({config: newConfig})
-                                                                }, label: __("Subtitle Color")
-                                                            },
-                                                            {
-                                                                value: newConfig[i].titleColor,
-                                                                onChange: (color) => {
-                                                                    newConfig[i].titleColor = color
-                                                                    setAttributes({config: newConfig})
-                                                                }, label: __("Title Color")
-                                                            },
-                                                            {
-                                                                value: newConfig[i].lineColor,
-                                                                onChange: (color) => {
-                                                                    newConfig[i].lineColor = color
-                                                                    setAttributes({config: newConfig})
-                                                                }, label: __("Connector Line Color")
-                                                            }
-                                                        ]}
+                                        colorSettings={[
+                                            {
+                                                value: newConfig[i].circleColor,
+                                                onChange: (color) => {
+                                                    if (color) {
+                                                        newConfig[i].circleColor = color
+                                                        setAttributes({ config: newConfig })
+                                                    }
+                                                }, label: __("Circle Color")
+                                            },
+                                            {
+                                                value: newConfig[i].labelColor,
+                                                onChange: (color) => {
+                                                    if (color) {
+                                                        newConfig[i].labelColor = color
+                                                        setAttributes({ config: newConfig })
+                                                    }
+                                                }, label: __("Subtitle Color")
+                                            },
+                                            {
+                                                value: newConfig[i].titleColor,
+                                                onChange: (color) => {
+                                                    if (color) {
+                                                        newConfig[i].titleColor = color
+                                                        setAttributes({ config: newConfig })
+                                                    }
+                                                }, label: __("Title Color")
+                                            },
+                                            {
+                                                value: newConfig[i].lineColor,
+                                                onChange: (color) => {
+                                                    if (color) {
+                                                        newConfig[i].lineColor = color
+                                                        setAttributes({ config: newConfig })
+                                                    }
+                                                }, label: __("Connector Line Color")
+                                            }
+                                        ]}
                                     />
 
 
@@ -417,8 +427,8 @@ class BlockEdit extends ***REMOVED*** {
 
 
                 <ResizableBox
-                    size={{height}}
-                    style={{"margin": "auto", width: "100%"}}
+                    size={{ height }}
+                    style={{ "margin": "auto", width: "100%" }}
                     minHeight="50"
                     enable={{
                         top: false,
@@ -432,7 +442,7 @@ class BlockEdit extends ***REMOVED*** {
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: parseInt(String(height)) + parseInt(String(delta.height)),
                         });
                         ***REMOVED***(true);
                     }}
@@ -441,7 +451,7 @@ class BlockEdit extends ***REMOVED*** {
                     }}>
                     <div style={divStyles}>
                         {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
-                                                            src={this.state.react_ui_url + "/embeddable/newTimeLine" }/>}
+                            src={this.state.react_ui_url + "/embeddable/newTimeLine"} />}
                     </div>
                 </ResizableBox>
 
@@ -454,11 +464,11 @@ class BlockEdit extends ***REMOVED*** {
 }
 
 const Edit = (props) => {
-    const blockProps = useBlockProps({className: 'wp-react-component'});
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
     const colorsFeature = useSetting('custom-font-sizes');
     const ***REMOVED*** = useSetting('editor-font-sizes');
-    
-    return <div {...blockProps}><BlockEdit {...props}/></div>;
+
+    return <div {...blockProps}><BlockEdit {...props} /></div>;
 
 }
 export default Edit;
