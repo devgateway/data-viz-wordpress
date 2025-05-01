@@ -1,10 +1,11 @@
+import React from 'react';
 import {
     ***REMOVED***,
     ***REMOVED***,
     ***REMOVED***,
     RichText,
     useBlockProps,
-    useSetting
+    InnerBlocks,
 } from '@wordpress/block-editor';
 import {
     ***REMOVED***,
@@ -17,14 +18,13 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {ComponentWithSettings} from "../commons";
+import {ComponentWithSettings, ComponentWithSettingsState, useSetting} from "@dg-data-viz/wp-commons";
+import {***REMOVED***} from './types';
 
+class BlockEdit extends ComponentWithSettings<***REMOVED***, ComponentWithSettingsState> {
 
-class BlockEdit extends ComponentWithSettings {
-
-    constructor(props) {
+    constructor(props: ***REMOVED***) {
         super(props);
         this.iframe = React.createRef();
     }
@@ -62,8 +62,8 @@ class BlockEdit extends ComponentWithSettings {
         } = this.props;
 
         const titleStyle = {
-            'font-size': (!fontClass) ? fontSize : 'auto',
-            'color': color
+            fontSize: (!fontClass) ? fontSize : 'auto',
+            color: color ?? undefined
         }
         ;
         //migration code
@@ -83,20 +83,20 @@ class BlockEdit extends ComponentWithSettings {
                                 <div>
                                     <input type="radio" id="png" name="png" checked={defaultFormat === 'PNG'}
                                            value='PNG'
-                                           onChange={() => setAttributes({
-                                               defaultFormat: event.target.value,
+                                           onChange={(e) => setAttributes({
+                                               defaultFormat: e.target.value,
                                                checkPng: true,
                                            })}/>
-                                    <label for="PNG">PNG</label></div>
+                                    <label htmlFor="PNG">PNG</label></div>
                                 <div>
                                     <input type="radio" id="jpg" name="jpg" checked={defaultFormat === 'JPG'}
                                            value='JPG'
-                                           onChange={() => setAttributes({
-                                               defaultFormat: event.target.value,
+                                           onChange={(e) => setAttributes({
+                                               defaultFormat: e.target.value,
                                                checkJpg: true
                                            })}/>
 
-                                    <label for="JPG">JPG</label></div>
+                                    <label htmlFor="JPG">JPG</label></div>
                             </PanelRow>
                         </PanelBody>
                         <PanelBody title={__("Allowed Format")}>
@@ -145,10 +145,10 @@ class BlockEdit extends ComponentWithSettings {
                                             if (current) {
                                                 setAttributes({
                                                     fontClass: ***REMOVED***(current.slug),
-                                                    fontSize: fontSize
+                                                    fontSize: fontSize?.toString()
                                                 })
                                             } else {
-                                                setAttributes({fontClass: '', fontSize: fontSize})
+                                                setAttributes({fontClass: '', fontSize: fontSize?.toString()})
                                             }
                                         }}>
                                     </***REMOVED***>
@@ -157,7 +157,7 @@ class BlockEdit extends ComponentWithSettings {
                                     <***REMOVED***
                                         colorSettings={[
                                             {
-                                                value: color,
+                                                value: color ?? undefined,
                                                 onChange: (color) => {
                                                     if (color) {
                                                         setAttributes({color})
@@ -280,7 +280,7 @@ class BlockEdit extends ComponentWithSettings {
                 <div className={`${className} ${className.split('-').join(' ')}`} >
 
                     <div style={{"display": "flex"}}>
-                        {useTitle && <div style={{"flex-grow": "1"}}>
+                        {useTitle && <div style={{flexGrow: "1"}}>
                             <RichText
                                 tagName="p"
                                 style={titleStyle}
@@ -290,7 +290,7 @@ class BlockEdit extends ComponentWithSettings {
                                 placeholder={__('Title...')}
                             />
                         </div>}
-                        <div style={!useTitle ? {"flex-grow": "1"} : {}}>
+                        <div style={!useTitle ? {flexGrow: "1"} : {}}>
 
                             {this.state.react_ui_url && <iframe width={"100%"} ref={this.iframe} scrolling={"no"}
                                                                 src={this.state.react_ui_url + "/embeddable/download?"}></iframe>
@@ -312,7 +312,7 @@ class BlockEdit extends ComponentWithSettings {
 
 const Edit = (props) => {
     const blockProps = useBlockProps();
-    const fontSizes = useSetting ? useSetting('typography.fontSizes') : [];
+    const fontSizes = useSetting('typography.fontSizes') ?? [];
     return <div {...blockProps}><BlockEdit fontSizes={fontSizes} {...props} /></div>;
 
 }

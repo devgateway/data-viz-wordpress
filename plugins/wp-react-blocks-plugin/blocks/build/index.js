@@ -5403,8 +5403,8 @@ const SaveComponent = props => {
 var external_wp_blockEditor_ = __webpack_require__(4715);
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
-var build = __webpack_require__(7965);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
 ;// external ["wp","mediaUtils"]
 const external_wp_mediaUtils_namespaceObject = window["wp"]["mediaUtils"];
 // EXTERNAL MODULE: external ["wp","apiFetch"]
@@ -5716,8 +5716,8 @@ const SaveComponent = props => {
 /* harmony default export */ const BlockSave = (SaveComponent);
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
-var build = __webpack_require__(7965);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
 ;// ./big-number/BlockEdit.tsx
 
 
@@ -5880,7 +5880,6 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* DataFilters */.M1, {
             allFilters: this.state.filters,
             allCategories: this.state.categories,
-            filters: filters,
             ...this.props
           })]
         }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
@@ -17056,6 +17055,3676 @@ module.exports = invoke;
 
 /***/ }),
 
+/***/ 2680:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  _q: () => (/* reexport */ BLOCKS_CATEGORY),
+  Rp: () => (/* reexport */ BLOCKS_NS),
+  TM: () => (/* reexport */ BlockEditWithAPIMetadata),
+  jb: () => (/* reexport */ BlockEditWithFilters),
+  BE: () => (/* reexport */ ComponentWithSettings),
+  M1: () => (/* reexport */ DataFilters),
+  yL: () => (/* reexport */ Format_Format),
+  Z7: () => (/* reexport */ GenericIcon),
+  I3: () => (/* reexport */ Measures),
+  yr: () => (/* reexport */ SizeConfig),
+  sC: () => (/* reexport */ APIutils_getTranslation),
+  oL: () => (/* reexport */ isSupersetAPI),
+  Pj: () => (/* reexport */ Util_togglePanel),
+  iK: () => (/* reexport */ useSetting)
+});
+
+// UNUSED EXPORTS: APIConfig, Allow, CSVConfig, ChartColors, ChartIcon, ChartMeasures, CommentStatus, DEFAULT_FORMAT_SETTINGS, MIMEType, MapCSVSourceConfig, MediaTaxonomy, MediaType, PingStatus, Status, Tooltip, Type, categorical, diverging, extractAxisValues, getSelectedLabelsForApp, getTranslatedOptions, panelFocus, sequential, transformDataToAppObject, updateMeasureLabels, useSettingWithFallback
+
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(6087);
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+;// ../../../packages/commons/build/Format.js
+
+
+
+const styles = [{
+  label: 'Decimal',
+  value: 'decimal'
+}, {
+  label: 'Compacted',
+  value: 'compacted'
+}, {
+  label: 'Currency',
+  value: 'currency'
+}, {
+  label: 'Percent',
+  value: 'percent'
+}];
+const currencies = [{
+  "label": "ADB Unit of Account (XUA)",
+  "value": "XUA"
+}, {
+  "label": "Afghani (AFN)",
+  "value": "AFN"
+}, {
+  "label": "Afghani (AFA)",
+  "value": "AFA"
+}, {
+  "label": "Algerian Dinar (DZD)",
+  "value": "DZD"
+}, {
+  "label": "Andorran Peseta (ADP)",
+  "value": "ADP"
+}, {
+  "label": "Argentine Peso (ARS)",
+  "value": "ARS"
+}, {
+  "label": "Armenian Dram (AMD)",
+  "value": "AMD"
+}, {
+  "label": "Aruban Florin (AWG)",
+  "value": "AWG"
+}, {
+  "label": "Austral (ARA)",
+  "value": "ARA"
+}, {
+  "label": "Australian Dollar (AUD)",
+  "value": "AUD"
+}, {
+  "label": "Azerbaijan Manat (AZN)",
+  "value": "AZN"
+}, {
+  "label": "Azerbaijan Manat (AYM)",
+  "value": "AYM"
+}, {
+  "label": "Azerbaijanian Manat (AZM)",
+  "value": "AZM"
+}, {
+  "label": "Bahamian Dollar (BSD)",
+  "value": "BSD"
+}, {
+  "label": "Bahraini Dinar (BHD)",
+  "value": "BHD"
+}, {
+  "label": "Baht (THB)",
+  "value": "THB"
+}, {
+  "label": "Balboa (PAB)",
+  "value": "PAB"
+}, {
+  "label": "Barbados Dollar (BBD)",
+  "value": "BBD"
+}, {
+  "label": "Belarusian Ruble (BYN)",
+  "value": "BYN"
+}, {
+  "label": "Belarusian Ruble (BYB)",
+  "value": "BYB"
+}, {
+  "label": "Belarusian Ruble (BYR)",
+  "value": "BYR"
+}, {
+  "label": "Belgian Franc (BEF)",
+  "value": "BEF"
+}, {
+  "label": "Belize Dollar (BZD)",
+  "value": "BZD"
+}, {
+  "label": "Bermudian Dollar (BMD)",
+  "value": "BMD"
+}, {
+  "label": "Bol√≠var (VEF)",
+  "value": "VEF"
+}, {
+  "label": "Bol√≠var Soberano (VES)",
+  "value": "VES"
+}, {
+  "label": "Bolivar (VEB)",
+  "value": "VEB"
+}, {
+  "label": "Bolivar (VEF)",
+  "value": "VEF"
+}, {
+  "label": "Bolivar Fuerte (VEF)",
+  "value": "VEF"
+}, {
+  "label": "Boliviano (BOB)",
+  "value": "BOB"
+}, {
+  "label": "Bond Markets Unit European Composite Unit (EURCO) (XBA)",
+  "value": "XBA"
+}, {
+  "label": "Bond Markets Unit European Monetary Unit (E.M.U.-6) (XBB)",
+  "value": "XBB"
+}, {
+  "label": "Bond Markets Unit European Unit of Account 17 (E.U.A.-17) (XBD)",
+  "value": "XBD"
+}, {
+  "label": "Bond Markets Unit European Unit of Account 9 (E.U.A.-9) (XBC)",
+  "value": "XBC"
+}, {
+  "label": "Brazilian Real (BRL)",
+  "value": "BRL"
+}, {
+  "label": "Brunei Dollar (BND)",
+  "value": "BND"
+}, {
+  "label": "Bulgarian Lev (BGN)",
+  "value": "BGN"
+}, {
+  "label": "Burundi Franc (BIF)",
+  "value": "BIF"
+}, {
+  "label": "Cabo Verde Escudo (CVE)",
+  "value": "CVE"
+}, {
+  "label": "Canadian Dollar (CAD)",
+  "value": "CAD"
+}, {
+  "label": "Cayman Islands Dollar (KYD)",
+  "value": "KYD"
+}, {
+  "label": "Cedi (GHC)",
+  "value": "GHC"
+}, {
+  "label": "CFA Franc BCEAO (XOF)",
+  "value": "XOF"
+}, {
+  "label": "CFA Franc BEAC (XAF)",
+  "value": "XAF"
+}, {
+  "label": "CFP Franc (XPF)",
+  "value": "XPF"
+}, {
+  "label": "Chilean Peso (CLP)",
+  "value": "CLP"
+}, {
+  "label": "Codes specifically reserved for testing purposes (XTS)",
+  "value": "XTS"
+}, {
+  "label": "Colombian Peso (COP)",
+  "value": "COP"
+}, {
+  "label": "Comorian Franc  (KMF)",
+  "value": "KMF"
+}, {
+  "label": "Congolese Franc (CDF)",
+  "value": "CDF"
+}, {
+  "label": "Convertible Franc (BEC)",
+  "value": "BEC"
+}, {
+  "label": "Convertible Mark (BAM)",
+  "value": "BAM"
+}, {
+  "label": "Cordoba (NIC)",
+  "value": "NIC"
+}, {
+  "label": "Cordoba Oro (NIO)",
+  "value": "NIO"
+}, {
+  "label": "Costa Rican Colon (CRC)",
+  "value": "CRC"
+}, {
+  "label": "Croatian Dinar (HRD)",
+  "value": "HRD"
+}, {
+  "label": "Croatian Kuna (HRK)",
+  "value": "HRK"
+}, {
+  "label": "Cruzado (BRC)",
+  "value": "BRC"
+}, {
+  "label": "Cruzeiro (BRB)",
+  "value": "BRB"
+}, {
+  "label": "Cruzeiro (BRE)",
+  "value": "BRE"
+}, {
+  "label": "Cruzeiro Real (BRR)",
+  "value": "BRR"
+}, {
+  "label": "Cuban Peso (CUP)",
+  "value": "CUP"
+}, {
+  "label": "Cyprus Pound (CYP)",
+  "value": "CYP"
+}, {
+  "label": "Czech Koruna (CZK)",
+  "value": "CZK"
+}, {
+  "label": "Dalasi (GMD)",
+  "value": "GMD"
+}, {
+  "label": "Danish Krone (DKK)",
+  "value": "DKK"
+}, {
+  "label": "Denar (MKD)",
+  "value": "MKD"
+}, {
+  "label": "Deutsche Mark (DEM)",
+  "value": "DEM"
+}, {
+  "label": "Dinar (BAD)",
+  "value": "BAD"
+}, {
+  "label": "Djibouti Franc (DJF)",
+  "value": "DJF"
+}, {
+  "label": "Dobra (STN)",
+  "value": "STN"
+}, {
+  "label": "Dobra (STD)",
+  "value": "STD"
+}, {
+  "label": "Dominican Peso (DOP)",
+  "value": "DOP"
+}, {
+  "label": "Dong (VND)",
+  "value": "VND"
+}, {
+  "label": "Drachma (GRD)",
+  "value": "GRD"
+}, {
+  "label": "East Caribbean Dollar (XCD)",
+  "value": "XCD"
+}, {
+  "label": "Egyptian Pound (EGP)",
+  "value": "EGP"
+}, {
+  "label": "Ekwele (GQE)",
+  "value": "GQE"
+}, {
+  "label": "El Salvador Colon (SVC)",
+  "value": "SVC"
+}, {
+  "label": "Ethiopian Birr (ETB)",
+  "value": "ETB"
+}, {
+  "label": "Euro (EUR)",
+  "value": "EUR"
+}, {
+  "label": "European Currency Unit (E.C.U) (XEU)",
+  "value": "XEU"
+}, {
+  "label": "Falkland Islands Pound (FKP)",
+  "value": "FKP"
+}, {
+  "label": "Fiji Dollar (FJD)",
+  "value": "FJD"
+}, {
+  "label": "Financial Franc (BEL)",
+  "value": "BEL"
+}, {
+  "label": "Financial Rand (ZAL)",
+  "value": "ZAL"
+}, {
+  "label": "Forint (HUF)",
+  "value": "HUF"
+}, {
+  "label": "French Franc (FRF)",
+  "value": "FRF"
+}, {
+  "label": "Georgian Coupon (GEK)",
+  "value": "GEK"
+}, {
+  "label": "Ghana Cedi (GHS)",
+  "value": "GHS"
+}, {
+  "label": "Ghana Cedi (GHP)",
+  "value": "GHP"
+}, {
+  "label": "Gibraltar Pound (GIP)",
+  "value": "GIP"
+}, {
+  "label": "Gold (XAU)",
+  "value": "XAU"
+}, {
+  "label": "Gold-Franc (XFO)",
+  "value": "XFO"
+}, {
+  "label": "Gourde (HTG)",
+  "value": "HTG"
+}, {
+  "label": "Guarani (PYG)",
+  "value": "PYG"
+}, {
+  "label": "Guinea Escudo (GWE)",
+  "value": "GWE"
+}, {
+  "label": "Guinea-Bissau Peso (GWP)",
+  "value": "GWP"
+}, {
+  "label": "Guinean Franc (GNF)",
+  "value": "GNF"
+}, {
+  "label": "Guyana Dollar (GYD)",
+  "value": "GYD"
+}, {
+  "label": "Hong Kong Dollar (HKD)",
+  "value": "HKD"
+}, {
+  "label": "Hryvnia (UAH)",
+  "value": "UAH"
+}, {
+  "label": "Iceland Krona (ISK)",
+  "value": "ISK"
+}, {
+  "label": "Indian Rupee (INR)",
+  "value": "INR"
+}, {
+  "label": "Inti (PEI)",
+  "value": "PEI"
+}, {
+  "label": "Iranian Rial (IRR)",
+  "value": "IRR"
+}, {
+  "label": "Iraqi Dinar (IQD)",
+  "value": "IQD"
+}, {
+  "label": "Irish Pound (IEP)",
+  "value": "IEP"
+}, {
+  "label": "Italian Lira (ITL)",
+  "value": "ITL"
+}, {
+  "label": "Jamaican Dollar (JMD)",
+  "value": "JMD"
+}, {
+  "label": "Jordanian Dinar (JOD)",
+  "value": "JOD"
+}, {
+  "label": "Karbovanet (UAK)",
+  "value": "UAK"
+}, {
+  "label": "Kenyan Shilling (KES)",
+  "value": "KES"
+}, {
+  "label": "Kina (PGK)",
+  "value": "PGK"
+}, {
+  "label": "Koruna (CSK)",
+  "value": "CSK"
+}, {
+  "label": "Krona A/53 (CSJ)",
+  "value": "CSJ"
+}, {
+  "label": "Kroon (EEK)",
+  "value": "EEK"
+}, {
+  "label": "Kuna (HRK)",
+  "value": "HRK"
+}, {
+  "label": "Kuwaiti Dinar (KWD)",
+  "value": "KWD"
+}, {
+  "label": "Kwacha (MWK)",
+  "value": "MWK"
+}, {
+  "label": "Kwanza (AOA)",
+  "value": "AOA"
+}, {
+  "label": "Kwanza (AOK)",
+  "value": "AOK"
+}, {
+  "label": "Kwanza Reajustado (AOR)",
+  "value": "AOR"
+}, {
+  "label": "Kyat (MMK)",
+  "value": "MMK"
+}, {
+  "label": "Kyat (BUK)",
+  "value": "BUK"
+}, {
+  "label": "Lao Kip (LAK)",
+  "value": "LAK"
+}, {
+  "label": "Lari (GEL)",
+  "value": "GEL"
+}, {
+  "label": "Latvian Lats (LVL)",
+  "value": "LVL"
+}, {
+  "label": "Latvian Ruble (LVR)",
+  "value": "LVR"
+}, {
+  "label": "Lebanese Pound (LBP)",
+  "value": "LBP"
+}, {
+  "label": "Lek (ALL)",
+  "value": "ALL"
+}, {
+  "label": "Lempira (HNL)",
+  "value": "HNL"
+}, {
+  "label": "Leone (SLL)",
+  "value": "SLL"
+}, {
+  "label": "Leu A/52 (ROK)",
+  "value": "ROK"
+}, {
+  "label": "Lev (BGL)",
+  "value": "BGL"
+}, {
+  "label": "Lev A/52 (BGJ)",
+  "value": "BGJ"
+}, {
+  "label": "Lev A/62 (BGK)",
+  "value": "BGK"
+}, {
+  "label": "Liberian Dollar (LRD)",
+  "value": "LRD"
+}, {
+  "label": "Libyan Dinar (LYD)",
+  "value": "LYD"
+}, {
+  "label": "Lilangeni (SZL)",
+  "value": "SZL"
+}, {
+  "label": "Lithuanian Litas (LTL)",
+  "value": "LTL"
+}, {
+  "label": "Loti (LSL)",
+  "value": "LSL"
+}, {
+  "label": "Loti (LSM)",
+  "value": "LSM"
+}, {
+  "label": "Luxembourg Convertible Franc (LUC)",
+  "value": "LUC"
+}, {
+  "label": "Luxembourg Financial Franc (LUL)",
+  "value": "LUL"
+}, {
+  "label": "Luxembourg Franc (LUF)",
+  "value": "LUF"
+}, {
+  "label": "Malagasy Ariary (MGA)",
+  "value": "MGA"
+}, {
+  "label": "Malagasy Franc (MGF)",
+  "value": "MGF"
+}, {
+  "label": "Malawi Kwacha (MWK)",
+  "value": "MWK"
+}, {
+  "label": "Malaysian Ringgit (MYR)",
+  "value": "MYR"
+}, {
+  "label": "Maldive Rupee (MVQ)",
+  "value": "MVQ"
+}, {
+  "label": "Mali Franc (MLF)",
+  "value": "MLF"
+}, {
+  "label": "Maltese Lira (MTL)",
+  "value": "MTL"
+}, {
+  "label": "Maltese Pound (MTP)",
+  "value": "MTP"
+}, {
+  "label": "Mark der DDR (DDM)",
+  "value": "DDM"
+}, {
+  "label": "Markka (FIM)",
+  "value": "FIM"
+}, {
+  "label": "Mauritius Rupee (MUR)",
+  "value": "MUR"
+}, {
+  "label": "Mexican Peso (MXN)",
+  "value": "MXN"
+}, {
+  "label": "Mexican Peso (MXP)",
+  "value": "MXP"
+}, {
+  "label": "Mexican Unidad de Inversion (UDI) (MXV)",
+  "value": "MXV"
+}, {
+  "label": "Moldovan Leu (MDL)",
+  "value": "MDL"
+}, {
+  "label": "Moroccan Dirham (MAD)",
+  "value": "MAD"
+}, {
+  "label": "Mozambique Escudo (MZE)",
+  "value": "MZE"
+}, {
+  "label": "Mozambique Metical (MZN)",
+  "value": "MZN"
+}, {
+  "label": "Mozambique Metical (MZM)",
+  "value": "MZM"
+}, {
+  "label": "Mvdol (BOV)",
+  "value": "BOV"
+}, {
+  "label": "Naira (NGN)",
+  "value": "NGN"
+}, {
+  "label": "Nakfa (ERN)",
+  "value": "ERN"
+}, {
+  "label": "Namibia Dollar (NAD)",
+  "value": "NAD"
+}, {
+  "label": "Nepalese Rupee (NPR)",
+  "value": "NPR"
+}, {
+  "label": "Netherlands Antillean Guilder (ANG)",
+  "value": "ANG"
+}, {
+  "label": "Netherlands Guilder (NLG)",
+  "value": "NLG"
+}, {
+  "label": "New Cruzado (BRN)",
+  "value": "BRN"
+}, {
+  "label": "New Dinar (YUM)",
+  "value": "YUM"
+}, {
+  "label": "New Israeli Sheqel (ILS)",
+  "value": "ILS"
+}, {
+  "label": "New Kwanza (AON)",
+  "value": "AON"
+}, {
+  "label": "New Romanian Leu  (RON)",
+  "value": "RON"
+}, {
+  "label": "New Taiwan Dollar (TWD)",
+  "value": "TWD"
+}, {
+  "label": "New Turkish Lira (TRY)",
+  "value": "TRY"
+}, {
+  "label": "New Yugoslavian Dinar (YUD)",
+  "value": "YUD"
+}, {
+  "label": "New Zaire (ZRN)",
+  "value": "ZRN"
+}, {
+  "label": "New Zealand Dollar (NZD)",
+  "value": "NZD"
+}, {
+  "label": "Ngultrum (BTN)",
+  "value": "BTN"
+}, {
+  "label": "No universal currency ()",
+  "value": ""
+}, {
+  "label": "North Korean Won (KPW)",
+  "value": "KPW"
+}, {
+  "label": "Norwegian Krone (NOK)",
+  "value": "NOK"
+}, {
+  "label": "Nuevo Sol  (PEN)",
+  "value": "PEN"
+}, {
+  "label": "Old Dong (VNC)",
+  "value": "VNC"
+}, {
+  "label": "Old Krona (ISJ)",
+  "value": "ISJ"
+}, {
+  "label": "Old Lek (ALK)",
+  "value": "ALK"
+}, {
+  "label": "Old Leu (ROL)",
+  "value": "ROL"
+}, {
+  "label": "Old Shekel (ILR)",
+  "value": "ILR"
+}, {
+  "label": "Old Shilling (UGW)",
+  "value": "UGW"
+}, {
+  "label": "Old Turkish Lira (TRL)",
+  "value": "TRL"
+}, {
+  "label": "Old Uruguay Peso (UYN)",
+  "value": "UYN"
+}, {
+  "label": "Ouguiya (MRU)",
+  "value": "MRU"
+}, {
+  "label": "Ouguiya (MRO)",
+  "value": "MRO"
+}, {
+  "label": "Pa'anga (TOP)",
+  "value": "TOP"
+}, {
+  "label": "Pakistan Rupee (PKR)",
+  "value": "PKR"
+}, {
+  "label": "Palladium (XPD)",
+  "value": "XPD"
+}, {
+  "label": "Pataca (MOP)",
+  "value": "MOP"
+}, {
+  "label": "Pathet Lao Kip (LAJ)",
+  "value": "LAJ"
+}, {
+  "label": "Peso (ARY)",
+  "value": "ARY"
+}, {
+  "label": "Peso Argentino (ARP)",
+  "value": "ARP"
+}, {
+  "label": "Peso boliviano (BOP)",
+  "value": "BOP"
+}, {
+  "label": "Peso Convertible (CUC)",
+  "value": "CUC"
+}, {
+  "label": "Peso Uruguayo (UYU)",
+  "value": "UYU"
+}, {
+  "label": "Philippine Peso (PHP)",
+  "value": "PHP"
+}, {
+  "label": "Platinum (XPT)",
+  "value": "XPT"
+}, {
+  "label": "Portuguese Escudo (PTE)",
+  "value": "PTE"
+}, {
+  "label": "Pound (ILP)",
+  "value": "ILP"
+}, {
+  "label": "Pound Sterling (GBP)",
+  "value": "GBP"
+}, {
+  "label": "Pula (BWP)",
+  "value": "BWP"
+}, {
+  "label": "Qatari Rial (QAR)",
+  "value": "QAR"
+}, {
+  "label": "Quetzal (GTQ)",
+  "value": "GTQ"
+}, {
+  "label": "Rand (ZAR)",
+  "value": "ZAR"
+}, {
+  "label": "Rhodesian Dollar (RHD)",
+  "value": "RHD"
+}, {
+  "label": "Rhodesian Dollar (ZWC)",
+  "value": "ZWC"
+}, {
+  "label": "Rial Omani (OMR)",
+  "value": "OMR"
+}, {
+  "label": "Riel (KHR)",
+  "value": "KHR"
+}, {
+  "label": "RINET Funds Code (XRE)",
+  "value": "XRE"
+}, {
+  "label": "Romanian Leu (RON)",
+  "value": "RON"
+}, {
+  "label": "Rouble (SUR)",
+  "value": "SUR"
+}, {
+  "label": "Rufiyaa (MVR)",
+  "value": "MVR"
+}, {
+  "label": "Rupiah (IDR)",
+  "value": "IDR"
+}, {
+  "label": "Russian Ruble (RUB)",
+  "value": "RUB"
+}, {
+  "label": "Russian Ruble (RUR)",
+  "value": "RUR"
+}, {
+  "label": "Rwanda Franc (RWF)",
+  "value": "RWF"
+}, {
+  "label": "Saint Helena Pound (SHP)",
+  "value": "SHP"
+}, {
+  "label": "Saudi Riyal (SAR)",
+  "value": "SAR"
+}, {
+  "label": "Schilling (ATS)",
+  "value": "ATS"
+}, {
+  "label": "SDR (Special Drawing Right) (XDR)",
+  "value": "XDR"
+}, {
+  "label": "Serbian Dinar (RSD)",
+  "value": "RSD"
+}, {
+  "label": "Serbian Dinar (CSD)",
+  "value": "CSD"
+}, {
+  "label": "Seychelles Rupee (SCR)",
+  "value": "SCR"
+}, {
+  "label": "Silver (XAG)",
+  "value": "XAG"
+}, {
+  "label": "Singapore Dollar (SGD)",
+  "value": "SGD"
+}, {
+  "label": "Slovak Koruna (SKK)",
+  "value": "SKK"
+}, {
+  "label": "Sol (PEN)",
+  "value": "PEN"
+}, {
+  "label": "Sol (PEH)",
+  "value": "PEH"
+}, {
+  "label": "Sol (PES)",
+  "value": "PES"
+}, {
+  "label": "Solomon Islands Dollar (SBD)",
+  "value": "SBD"
+}, {
+  "label": "Som (KGS)",
+  "value": "KGS"
+}, {
+  "label": "Somali Shilling (SOS)",
+  "value": "SOS"
+}, {
+  "label": "Somoni (TJS)",
+  "value": "TJS"
+}, {
+  "label": "South Sudanese Pound (SSP)",
+  "value": "SSP"
+}, {
+  "label": "Spanish Peseta (ESP)",
+  "value": "ESP"
+}, {
+  "label": "Spanish Peseta (ESA)",
+  "value": "ESA"
+}, {
+  "label": "Sri Lanka Rupee (LKR)",
+  "value": "LKR"
+}, {
+  "label": "Sucre (XSU)",
+  "value": "XSU"
+}, {
+  "label": "Sucre (ECS)",
+  "value": "ECS"
+}, {
+  "label": "Sudanese Dinar (SDD)",
+  "value": "SDD"
+}, {
+  "label": "Sudanese Pound (SDG)",
+  "value": "SDG"
+}, {
+  "label": "Sudanese Pound (SDP)",
+  "value": "SDP"
+}, {
+  "label": "Surinam Dollar (SRD)",
+  "value": "SRD"
+}, {
+  "label": "Surinam Guilder (SRG)",
+  "value": "SRG"
+}, {
+  "label": "Swedish Krona (SEK)",
+  "value": "SEK"
+}, {
+  "label": "Swiss Franc (CHF)",
+  "value": "CHF"
+}, {
+  "label": "Syli (GNE)",
+  "value": "GNE"
+}, {
+  "label": "Syli (GNS)",
+  "value": "GNS"
+}, {
+  "label": "Syrian Pound (SYP)",
+  "value": "SYP"
+}, {
+  "label": "Tajik Ruble (TJR)",
+  "value": "TJR"
+}, {
+  "label": "Taka (BDT)",
+  "value": "BDT"
+}, {
+  "label": "Tala (WST)",
+  "value": "WST"
+}, {
+  "label": "Talonas (LTT)",
+  "value": "LTT"
+}, {
+  "label": "Tanzanian Shilling (TZS)",
+  "value": "TZS"
+}, {
+  "label": "Tenge (KZT)",
+  "value": "KZT"
+}, {
+  "label": "Timor Escudo (TPE)",
+  "value": "TPE"
+}, {
+  "label": "Tolar (SIT)",
+  "value": "SIT"
+}, {
+  "label": "Trinidad and Tobago Dollar (TTD)",
+  "value": "TTD"
+}, {
+  "label": "Tugrik (MNT)",
+  "value": "MNT"
+}, {
+  "label": "Tunisian Dinar (TND)",
+  "value": "TND"
+}, {
+  "label": "Turkish Lira (TRY)",
+  "value": "TRY"
+}, {
+  "label": "Turkmenistan Manat (TMM)",
+  "value": "TMM"
+}, {
+  "label": "Turkmenistan New Manat (TMT)",
+  "value": "TMT"
+}, {
+  "label": "UAE Dirham (AED)",
+  "value": "AED"
+}, {
+  "label": "Uganda Shilling (UGX)",
+  "value": "UGX"
+}, {
+  "label": "Uganda Shilling (UGS)",
+  "value": "UGS"
+}, {
+  "label": "UIC-Franc (XFU)",
+  "value": "XFU"
+}, {
+  "label": "Unidad de Fomento (CLF)",
+  "value": "CLF"
+}, {
+  "label": "Unidad de Valor Constante (UVC) (ECV)",
+  "value": "ECV"
+}, {
+  "label": "Unidad de Valor Real (COU)",
+  "value": "COU"
+}, {
+  "label": "Unidad Previsional (UYW)",
+  "value": "UYW"
+}, {
+  "label": "Uruguay Peso en Unidades Indexadas (UI) (UYI)",
+  "value": "UYI"
+}, {
+  "label": "Uruguayan Peso (UYP)",
+  "value": "UYP"
+}, {
+  "label": "US Dollar (USD)",
+  "value": "USD"
+}, {
+  "label": "US Dollar (Next day) (USN)",
+  "value": "USN"
+}, {
+  "label": "US Dollar (Same day) (USS)",
+  "value": "USS"
+}, {
+  "label": "Uzbekistan Sum (UZS)",
+  "value": "UZS"
+}, {
+  "label": "Vatu (VUV)",
+  "value": "VUV"
+}, {
+  "label": "WIR Euro (CHE)",
+  "value": "CHE"
+}, {
+  "label": "WIR Franc (CHW)",
+  "value": "CHW"
+}, {
+  "label": "WIR Franc (for electronic) (CHC)",
+  "value": "CHC"
+}, {
+  "label": "Won (KRW)",
+  "value": "KRW"
+}, {
+  "label": "Yemeni Dinar (YDD)",
+  "value": "YDD"
+}, {
+  "label": "Yemeni Rial (YER)",
+  "value": "YER"
+}, {
+  "label": "Yen (JPY)",
+  "value": "JPY"
+}, {
+  "label": "Yuan Renminbi (CNY)",
+  "value": "CNY"
+}, {
+  "label": "Yugoslavian Dinar (YUN)",
+  "value": "YUN"
+}, {
+  "label": "Zaire (ZRZ)",
+  "value": "ZRZ"
+}, {
+  "label": "Zambian Kwacha (ZMW)",
+  "value": "ZMW"
+}, {
+  "label": "Zambian Kwacha (ZMK)",
+  "value": "ZMK"
+}, {
+  "label": "Zimbabwe Dollar (ZWL)",
+  "value": "ZWL"
+}, {
+  "label": "Zimbabwe Dollar (ZWD)",
+  "value": "ZWD"
+}, {
+  "label": "Zimbabwe Dollar (ZWR)",
+  "value": "ZWR"
+}, {
+  "label": "Zimbabwe Dollar (new) (ZWN)",
+  "value": "ZWN"
+}, {
+  "label": "Zimbabwe Dollar (old) (ZWD)",
+  "value": "ZWD"
+}, {
+  "label": "Zloty (PLN)",
+  "value": "PLN"
+}, {
+  "label": "Zloty (PLZ)",
+  "value": "PLZ"
+}];
+const DEFAULT_FORMAT = 'DEFAULT';
+const CUSTOM_FORMAT = 'CUSTOM';
+const Format_Format = ({
+  format,
+  title,
+  onFormatChange,
+  onUseCustomAxisFormatChange,
+  customFormat,
+  hiddenCustomAxisFormat,
+  useCustomAxisFormat
+}) => {
+  const onChangeFormat = (style, formatToUpdate) => {
+    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
+    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
+    onFormatChange(Object.assign({}, currentFormat, {
+      style
+    }), field);
+  };
+  const onDecimalChange = (value, formatToUpdate) => {
+    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
+    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
+    onFormatChange(Object.assign({}, currentFormat, {
+      minimumFractionDigits: value,
+      maximumFractionDigits: value
+    }), field);
+  };
+  const onCurrencyChange = (currency, formatToUpdate) => {
+    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
+    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
+    onFormatChange(Object.assign({}, currentFormat, {
+      currency
+    }), field);
+  };
+  return [external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: true,
+    title: (0,external_wp_i18n_.__)("Default Format")
+  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    multiple: true,
+    label: (0,external_wp_i18n_.__)('Style', "dg"),
+    value: [format.style],
+    onChange: value => {
+      onChangeFormat(value, DEFAULT_FORMAT);
+    },
+    options: styles
+  })), external_React_default().createElement((external_React_default()).Fragment, null, format.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    label: (0,external_wp_i18n_.__)("Currency", "dg"),
+    onChange: value => {
+      onCurrencyChange(value, DEFAULT_FORMAT);
+    },
+    value: format.currency,
+    options: currencies
+  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+    type: "number",
+    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
+    onChange: value => {
+      onDecimalChange(value, DEFAULT_FORMAT);
+    },
+    value: format.minimumFractionDigits
+  }))), external_React_default().createElement((external_React_default()).Fragment, null, !hiddenCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
+    label: (0,external_wp_i18n_.__)("Use Custom Axis Format", "dg"),
+    checked: useCustomAxisFormat,
+    onChange: value => onUseCustomAxisFormatChange?.(value)
+  }))), external_React_default().createElement((external_React_default()).Fragment, null, useCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: true,
+    title: (0,external_wp_i18n_.__)("Custom Axis Format")
+  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    multiple: true,
+    label: (0,external_wp_i18n_.__)('Style', "dg"),
+    value: [customFormat.style],
+    onChange: value => {
+      onChangeFormat(value, CUSTOM_FORMAT);
+    },
+    options: styles
+  })), external_React_default().createElement((external_React_default()).Fragment, null, customFormat.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+    label: (0,external_wp_i18n_.__)("Currency", "dg"),
+    onChange: value => {
+      onCurrencyChange(value, CUSTOM_FORMAT);
+    },
+    value: customFormat.currency,
+    options: currencies
+  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+    type: "number",
+    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
+    onChange: value => {
+      onDecimalChange(value, CUSTOM_FORMAT);
+    },
+    value: customFormat.minimumFractionDigits
+  }))))];
+};
+/* harmony default export */ const build_Format = (Format_Format);
+;// ../../../packages/commons/build/Util.js
+const Util_togglePanel = (name, panelStatus, setAttributes) => {
+  const newStatus = {
+    ...panelStatus
+  };
+  newStatus[name] = newStatus[name] == true ? false : true;
+  setAttributes({
+    panelStatus: newStatus
+  });
+};
+const panelFocus = (name, panelStatus, setAttributes) => {
+  const newStatus = {
+    ...panelStatus
+  };
+  newStatus[name] = newStatus[name] == true ? false : true;
+  setAttributes({
+    panelFocus: newStatus
+  });
+};
+/* harmony default export */ const Util = ({
+  togglePanel: Util_togglePanel,
+  panelFocus
+});
+;// ../../../packages/commons/build/APIutils.js
+const APIutils_getTranslatedOptions = options => {
+  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
+  if (options && options instanceof Array) {
+    return options.map(o => {
+      let {
+        label,
+        value,
+        labels
+      } = o;
+      if (labels && labels[currentLocale]) {
+        label = labels[currentLocale];
+      }
+      return {
+        ...o,
+        label,
+        value
+      };
+    });
+  }
+  return [];
+};
+const APIutils_getTranslation = translatable => {
+  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
+  let {
+    label,
+    labels,
+    value
+  } = translatable;
+  if (labels && labels[currentLocale]) {
+    label = labels[currentLocale];
+  }
+  return label || value || translatable;
+};
+const isSupersetAPI = (app, apps) => {
+  if (app == 'csv' || !apps) {
+    return false;
+  }
+  const appObj = apps.filter(a => a.value == app)[0];
+  return appObj && appObj.settings && appObj.settings.metadata && appObj.settings.metadata.superset == 'true';
+};
+/* harmony default export */ const APIutils = ((/* unused pure expression or super */ null && (APIutils_getTranslatedOptions)));
+;// ../../../packages/commons/build/Measures.js
+
+
+
+
+
+
+const defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const Measures = props => {
+  const {
+    onMeasuresChange,
+    onFormatChange,
+    onUseCustomAxisFormatChange,
+    onSetSingleMeasure,
+    onCustomLabelToggleChange,
+    onCustomLabelChange,
+    allMeasures,
+    setAttributes,
+    title,
+    format,
+    attributes: {
+      panelStatus,
+      measures,
+      dimension1,
+      dimension2,
+      type,
+      app
+    }
+  } = props;
+  const MToggle = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    return external_React_default().createElement(external_wp_components_.ToggleControl, {
+      label: APIutils_getTranslation(measure),
+      checked: userMeasure ? userMeasure.selected : false,
+      onChange: value => onMeasuresChange?.(measure.value)
+    });
+  };
+  const MCheckbox = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    let isChecked;
+    if (measures instanceof Array) {
+      isChecked = measures.includes(measure.value);
+    } else {
+      isChecked = userMeasure ? userMeasure.selected : false;
+    }
+    return external_React_default().createElement(external_wp_components_.CheckboxControl, {
+      label: APIutils_getTranslation(measure),
+      checked: isChecked,
+      onChange: value => onSetSingleMeasure(measure.value)
+    });
+  };
+  const MeasureOptions = ({
+    measure,
+    single
+  }) => {
+    return external_React_default().createElement(external_wp_components_.PanelRow, null, single && external_React_default().createElement(MCheckbox, {
+      measure: measure
+    }), !single && external_React_default().createElement(MToggle, {
+      measure: measure
+    }));
+  };
+  const countSelected = g => {
+    if (measures[app]) {
+      const mG = allMeasures.filter(f => APIutils_getTranslation(f.group) === g);
+      let count = 0;
+      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
+        if (measures[app][k].selected) {
+          count++;
+        }
+      });
+      return count;
+    }
+    return 0;
+  };
+  const countTotal = g => {
+    if (g) {
+      return allMeasures.filter(f => APIutils_getTranslation(f.group) === g).length;
+    }
+    return 0;
+  };
+  const getSelectedMeasures = () => {
+    if (measures[app] && allMeasures) {
+      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
+        return allMeasures.filter(m => m.value === k)[0];
+      }).filter(m => m);
+    }
+    return [];
+  };
+  const selectedMeasures = getSelectedMeasures();
+  return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
+    title: title ? title : (0,external_wp_i18n_.__)("Measures"),
+    initialOpen: panelStatus["MEASURES"],
+    onToggle: e => Util_togglePanel("MEASURES", panelStatus, setAttributes)
+  },
+  /*
+   Multiple measures conditions
+    Bar:
+   no dimensions selected
+   one dimension is selected
+   -  not available when second dimension gets selected
+    Line:
+     - Always multi measure as measures represents line series, one dimension should always be selected
+    Pie:
+        no dimensions selected
+         -  not available when any dimension is selected
+   */
+  (type == 'line' || type == 'radar' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
+    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
+      single: false,
+      measure: m
+    }))));
+  }),
+  /*Single measure conditions
+  Bar:
+     2 dimensions selected
+  Line:
+      never
+  Pie:
+    any dimensions selected
+  */
+  (type == 'big-number' || type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
+    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
+      single: true,
+      measure: m
+    }))));
+  }), type == 'overlay' && allMeasures && external_React_default().createElement(external_wp_components_.SelectControl, {
+    label: "Measure",
+    // @ts-ignore
+    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
+    options: [{
+      value: '',
+      label: 'Select Measure'
+    }, ...allMeasures],
+    onChange: measure => onSetSingleMeasure(measure),
+    __nextHasNoMarginBottom: true
+  }), type != 'overlay' && external_React_default().createElement(external_wp_components_.PanelBody, {
+    title: (0,external_wp_i18n_.__)("Format"),
+    initialOpen: panelStatus["FORMAT"],
+    onToggle: e => Util_togglePanel("FORMAT", panelStatus, setAttributes)
+  }, external_React_default().createElement(build_Format, {
+    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
+    format: format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat),
+    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat,
+    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
+    onFormatChange: (format, field) => {
+      onFormatChange(format, field);
+    },
+    onUseCustomAxisFormatChange: value => {
+      onUseCustomAxisFormatChange?.(value);
+    }
+  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && external_React_default().createElement(external_wp_components_.PanelBody, {
+    title: (0,external_wp_i18n_.__)("Measure Label Customization"),
+    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
+    onToggle: e => Util_togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
+  }, selectedMeasures && [...new Set(selectedMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
+      onToggle: e => Util_togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
+      title: `${g}`
+    }, selectedMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => {
+      const userMeasure = measures[app] ? measures[app][m.value] : {};
+      return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
+        label: APIutils_getTranslation(m),
+        checked: userMeasure ? userMeasure.hasCustomLabel : false,
+        onChange: value => onCustomLabelToggleChange?.(m.value)
+      }), " "), userMeasure.hasCustomLabel && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+        label: (0,external_wp_i18n_.__)("Custom Label"),
+        value: userMeasure ? userMeasure.customLabel : "",
+        onChange: value => onCustomLabelChange?.(m.value, value)
+      })));
+    }));
+  })));
+};
+/* harmony default export */ const build_Measures = (Measures);
+;// ../../../packages/commons/build/APIConfig.js
+
+
+
+
+
+const APIConfig_defaultFormat = {
+  style: "percent",
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+  currency: "USD"
+};
+const FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  });
+  return external_React_default().createElement(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      if (a.position !== undefined && b.position !== undefined) {
+        return a.position - b.position;
+      }
+      let aValue = a.value ? a.value.toLowerCase() : "";
+      let bValue = b.value ? b.value.toLowerCase() : "";
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    });
+    return sortedItems.map(v => external_React_default().createElement(external_wp_components_.PanelRow, null, " ", external_React_default().createElement(external_wp_components_.ToggleControl, {
+      label: v.value,
+      checked: value.indexOf(v.id) > -1,
+      onChange: e => {
+        onUpdateFilterValue(v.id, index);
+      }
+    })));
+  } else {
+    return null;
+  }
+};
+class APIConfig extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.onCustomLabelToggleChange = this.onCustomLabelToggleChange.bind(this);
+    this.onCustomLabelChange = this.onCustomLabelChange.bind(this);
+    this.onUseCustomAxisFormatChange = this.onUseCustomAxisFormatChange.bind(this);
+    //this.onCustomMeasureFieldChange = this.onCustomMeasureFieldChange.bind(this)
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  cleanSelection(prevState) {
+    const {
+      setAttributes
+    } = this.props;
+    setAttributes({
+      measures: [],
+      filters: []
+    });
+  }
+  updateFilterParam(param, idx) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  updateFilterValue(value, idx) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  setFilterValue(value, idx) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  addFilter() {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      value: []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  removeFilter(f) {
+    const {
+      attributes: {
+        filters
+      },
+      setAttributes,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    setAttributes({
+      filters: newFilters
+    });
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      setAttributes,
+      attributes: {
+        type,
+        colorBy,
+        dimension2,
+        types,
+        measures,
+        app
+      }
+    } = this.props;
+    const {
+      attributes: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+    const prevTypeObject = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null;
+    if (dimension2 != prevDimension2) {
+      //TODO ensure only one measure remains selected when selecting a second dimensions
+      const uMs = Object.assign({}, measures);
+      if (dimension2 != "none") {
+        let i = 0; //the idea is to keep one selected
+        if (uMs[app]) {
+          const selected = Object.keys(uMs[app]).map(k => uMs[app][k].selected).length;
+          if (selected > 1) {
+            Object.keys(uMs[app]).forEach(k => {
+              if (uMs[app][k].selected) {
+                uMs[app][k].prevSelected = true; //can be used to recover measures
+                uMs[app][k].selected = i > 0 ? false : true;
+              } else {
+                uMs[app][k].prevSelected = false;
+              }
+              i++;
+            });
+          }
+        }
+        setAttributes({
+          measures: uMs
+        });
+      }
+      if (dimension2 == "none" && uMs[app]) {
+        Object.keys(uMs[app]).forEach(k => {
+          if (uMs[app][k].prevSelected) {
+            uMs[app][k].selected = true; //can be used to recover measures
+            uMs[app][k].prevSelected = false;
+          }
+        });
+        setAttributes({
+          measures: uMs
+        });
+      }
+    }
+  }
+  onSetSingleMeasure(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (!uMs[app]) {
+      uMs[app] = {};
+    }
+    Object.keys(uMs[app]).filter(k => typeof uMs[app][k] !== "boolean").forEach(k => uMs[app][k].selected = false); //single selection all other should be unselected
+    if (uMs[app][value]) {
+      uMs[app][value].selected = uMs[app][value].selected ? false : true;
+    } else {
+      uMs[app][value] = {
+        selected: true,
+        format: APIConfig_defaultFormat
+      };
+    }
+    setAttributes({
+      measures: uMs
+    });
+  }
+  onFormatChange(format, field) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, {
+      ...measures
+    });
+    if (!uMs[app]) {
+      uMs[app] = {
+        allowSelection: false,
+        format: format,
+        customFormat: format,
+        selected: false
+      };
+    }
+    uMs[app][field] = format;
+    setAttributes({
+      measures: uMs
+    });
+  }
+  onUseCustomAxisFormatChange(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, {
+      ...measures
+    });
+    if (uMs[app]) {
+      uMs[app].useCustomAxisFormat = value;
+      setAttributes({
+        measures: uMs
+      });
+    } else {
+      uMs[app] = {
+        allowSelection: false,
+        format: APIConfig_defaultFormat,
+        customFormat: APIConfig_defaultFormat,
+        selected: false,
+        useCustomAxisFormat: value
+      };
+      setAttributes({
+        measures: uMs
+      });
+    }
+  }
+  /*
+    onCustomMeasureFieldChange(measureName, field, value) {
+           const {setAttributes, attributes: {measures}} = this.props
+        const uMs = Object.assign({}, {...measures})
+           if (uMs[measureName]) {
+            uMs[measureName][field] = value
+        } else {
+            uMs[measureName] = {allowSelection: false, field: value, selected: false}
+        }
+           setAttributes({measures: uMs})
+    }
+    */
+  onMeasuresChange(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (!uMs[app]) {
+      uMs[app] = {};
+    }
+    if (uMs[app][value]) {
+      uMs[app][value].selected = uMs[app][value].selected ? false : true;
+    } else {
+      uMs[app][value] = {
+        selected: true,
+        format: APIConfig_defaultFormat
+      };
+    }
+    setAttributes({
+      measures: uMs
+    });
+  }
+  onCustomLabelToggleChange(value) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (uMs[app] && uMs[app][value]) {
+      uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel ? false : true;
+      setAttributes({
+        measures: uMs
+      });
+    }
+  }
+  onCustomLabelChange(value, customLabel) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures
+      }
+    } = this.props;
+    const uMs = Object.assign({}, measures);
+    if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
+      uMs[app][value].customLabel = customLabel;
+      setAttributes({
+        measures: uMs
+      });
+    }
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === "Boolean") {
+      items = [{
+        value: "Yes",
+        id: 1
+      }, {
+        value: "No",
+        id: 0
+      }];
+    } else if (cat) {
+      items = cat.items.map(item => ({
+        value: item.value,
+        id: item.id
+      }));
+    }
+    return items;
+  }
+  render() {
+    const {
+      allDimensions,
+      allFilters,
+      allMeasures,
+      setAttributes,
+      attributes: {
+        measures,
+        filters,
+        dimension1,
+        dimension2,
+        type,
+        types
+      }
+    } = this.props;
+    const currentType = types.filter(t => t.value === type).length > 0 ? types.filter(t => t.value === type)[0] : null;
+    return [external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)(type == "map" ? "Fields" : `Dimensions`)
+    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      multiple: false,
+      label: (0,external_wp_i18n_.__)(type == "map" ? "Matching Field" : "First Dimension"),
+      value: dimension1,
+      onChange: value => {
+        setAttributes({
+          dimension1: value,
+          dimension2: value == "none" ? "none" : dimension2
+        });
+      },
+      options: allDimensions
+    })), type != "line" && type != "radar" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      multiple: false,
+      label: (0,external_wp_i18n_.__)(type == "map" ? "Breakdown Field" : "Second Dimension"),
+      value: dimension2,
+      onChange: value => {
+        setAttributes({
+          dimension2: value
+        });
+      },
+      options: allDimensions,
+      disabled: dimension1 == "none"
+    }))), external_React_default().createElement(build_Measures, {
+      ...this.props,
+      onFormatChange: this.onFormatChange,
+      onUseCustomAxisFormatChange: this.onUseCustomAxisFormatChange,
+      onSetSingleMeasure: this.onSetSingleMeasure,
+      onMeasuresChange: this.onMeasuresChange,
+      onCustomLabelToggleChange: this.onCustomLabelToggleChange,
+      onCustomLabelChange: this.onCustomLabelChange,
+      currentType: currentType
+    }), external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Filters")
+    }, filters.map((f, index) => {
+      return external_React_default().createElement(external_wp_components_.PanelBody, {
+        initialOpen: true,
+        title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`)
+      }, external_React_default().createElement(FilterSelector, {
+        param: f.param,
+        index: index,
+        options: allFilters,
+        onUpdateFilterParam: this.updateFilterParam
+      }), external_React_default().createElement(CategoricalFilter, {
+        value: f.value,
+        index: index,
+        items: this.items(f.type),
+        onUpdateFilterValue: this.updateFilterValue
+      }));
+    }), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.Button, {
+      variant: "link",
+      onClick: this.addFilter
+    }, (0,external_wp_i18n_.__)("Add Filter")), external_React_default().createElement(external_wp_components_.Button, {
+      variant: "link",
+      onClick: this.removeFilter
+    }, (0,external_wp_i18n_.__)("Remove")))))];
+  }
+}
+/* harmony default export */ const build_APIConfig = ((/* unused pure expression or super */ null && (APIConfig)));
+// EXTERNAL MODULE: external ["wp","apiFetch"]
+var external_wp_apiFetch_ = __webpack_require__(1455);
+var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
+// EXTERNAL MODULE: external ["wp","data"]
+var external_wp_data_ = __webpack_require__(7143);
+;// ../../../packages/commons/build/Blocks.js
+
+
+
+
+
+
+
+
+const SizeConfig = ({
+  height,
+  setAttributes,
+  panelStatus,
+  initialOpen = false
+}) => {
+  return external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: panelStatus ? panelStatus["SIZE"] : initialOpen,
+    onToggle: () => Util_togglePanel("SIZE", panelStatus, setAttributes),
+    title: (0,external_wp_i18n_.__)("Size")
+  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
+    size: 10,
+    label: "Height",
+    value: height,
+    onChange: height => setAttributes({
+      height: height ? parseInt(height) : 0
+    })
+  })));
+};
+class ComponentWithSettings extends external_wp_element_.Component {
+  iframe;
+  unsubscribe;
+  constructor(props) {
+    super(props);
+    this.state = {
+      react_ui_url: '',
+      react_api_url: null,
+      apache_superset_url: null,
+      site_language: '',
+      current_language: ''
+    };
+    window.addEventListener("message", event => {
+      if (event.data.type === 'componentReady' && event.data.value === true) {
+        if (this.iframe.current) {
+          console.log("-----------Sending message -----------");
+          this.iframe.current.contentWindow?.postMessage({
+            messageType: 'component-attributes',
+            ...this.props.attributes
+          }, "*");
+        }
+      }
+    }, false);
+    this.iframe = external_React_default().createRef();
+    this.unsubscribe = (0,external_wp_data_.subscribe)(() => {
+      const newPreviewMode = (0,external_wp_data_.select)("core/editor").getDeviceType();
+      if (newPreviewMode !== this.state.previewMode) {
+        this.setState({
+          previewMode: newPreviewMode
+        });
+      }
+    });
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.iframe.current?.contentWindow) {
+      this.iframe.current.contentWindow.postMessage({
+        messageType: 'component-attributes',
+        ...this.props.attributes
+      }, "*");
+    }
+  }
+  componentDidMount() {
+    external_wp_apiFetch_default()({
+      path: '/dg/v1/settings'
+    }).then(data => {
+      this.setState({
+        react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
+        react_api_url: data["react_api_url"],
+        apache_superset_url: data["apache_superset_url"],
+        site_language: data["site_language"],
+        current_language: new URLSearchParams(document.location.search).get("edit_lang") || ''
+      });
+    });
+  }
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+}
+class BlockEditWithFilters extends ComponentWithSettings {
+  constructor(props) {
+    super(props);
+    this.state = {
+      react_ui_url: '',
+      react_api_url: null,
+      apache_superset_url: null,
+      site_language: '',
+      current_language: '',
+      taxonomyValues: [],
+      types: null,
+      taxonomies: null,
+      loading: true
+    };
+    this.onTypeChanged = this.onTypeChanged.bind(this);
+    this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this);
+    this.getTaxonomyValues = this.getTaxonomyValues.bind(this);
+    this.onCategoryChanged = this.onCategoryChanged.bind(this);
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      attributes: {
+        type,
+        taxonomy
+      }
+    } = this.props;
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+    if (prevProps.attributes) {
+      if (type != prevProps.attributes.type) {}
+      if (taxonomy != prevProps.attributes.taxonomy) {
+        this.getTaxonomyValues();
+      }
+    }
+  }
+  componentDidMount() {
+    super.componentDidMount();
+    this.getTypes();
+    this.getTaxonomies();
+    const {
+      attributes: {
+        taxonomy
+      }
+    } = this.props;
+    if (taxonomy != 'none') {
+      this.getTaxonomyValues();
+    }
+  }
+  onTypeChanged(value) {
+    const {
+      setAttributes
+    } = this.props;
+    setAttributes({
+      categories: []
+    });
+    setAttributes({
+      taxonomy: 'none'
+    });
+    setAttributes({
+      type: value
+    });
+  }
+  onTaxonomyChanged(value) {
+    const {
+      setAttributes
+    } = this.props;
+    setAttributes({
+      categories: []
+    });
+    setAttributes({
+      taxonomy: value
+    });
+  }
+  onCategoryChanged(checked, value) {
+    const {
+      setAttributes,
+      attributes: {
+        categories
+      }
+    } = this.props;
+    if (!checked) {
+      setAttributes({
+        categories: categories.filter(i => i != value)
+      });
+    } else {
+      let newCate = [...categories];
+      newCate.push(value);
+      setAttributes({
+        categories: newCate
+      });
+    }
+  }
+  getTaxonomyValues() {
+    const {
+      attributes: {
+        taxonomy
+      }
+    } = this.props;
+    external_wp_apiFetch_default()({
+      path: '/wp/v2/taxonomies/' + taxonomy + '?per_page=100'
+    }).then(data => {
+      this.setState({
+        taxonomyValues: data
+      });
+    });
+  }
+  getTaxonomies() {
+    external_wp_apiFetch_default()({
+      path: '/wp/v2/taxonomies?per_page=100'
+    }).then(data => {
+      this.setState({
+        taxonomies: data
+      });
+    });
+  }
+  getTypes() {
+    external_wp_apiFetch_default()({
+      path: '/wp/v2/types?per_page=100'
+    }).then(data => {
+      this.setState({
+        types: data,
+        loading: false
+      });
+    });
+  }
+  typeOptions() {
+    const {
+      types
+    } = this.state;
+    const typeOptions = types ? Object.keys(types).filter(k => ['page', 'attachment', 'wp_block'].indexOf(k) == -1).map(k => ({
+      slug: types[k].slug,
+      label: types[k].name,
+      value: types[k].rest_base
+    })) : [];
+    return typeOptions;
+  }
+  taxonomyOptions() {
+    const {
+      attributes: {
+        type
+      }
+    } = this.props;
+    const {
+      types,
+      taxonomies
+    } = this.state;
+    let slug;
+    if (types) {
+      slug = this.typeOptions().filter(t => t.value == type)[0].slug;
+      const taxonomyOptions = types && taxonomies ? Object.keys(taxonomies).filter(i => taxonomies[i].types.indexOf(slug) > -1).map(k => ({
+        label: types[slug].name + ' -> ' + taxonomies[k].name,
+        value: taxonomies[k].rest_base
+      })) : [];
+      return [{
+        label: 'None',
+        value: 'none'
+      }, ...taxonomyOptions];
+    } else {
+      return [];
+    }
+  }
+  categoriesOptions() {
+    const {
+      taxonomyValues
+    } = this.state;
+    const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({
+      label: t.name,
+      value: t.id
+    }));
+    return taxonomyValuesOptions || [];
+  }
+  renderFilters() {
+    const {
+      attributes: {
+        type,
+        taxonomy,
+        categories
+      }
+    } = this.props;
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      title: (0,external_wp_i18n_.__)("Filter")
+    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      label: (0,external_wp_i18n_.__)("Post Type"),
+      options: this.typeOptions(),
+      value: type,
+      onChange: this.onTypeChanged
+    })), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
+      label: (0,external_wp_i18n_.__)("Use a taxonomy filter "),
+      options: this.taxonomyOptions(),
+      value: taxonomy,
+      onChange: this.onTaxonomyChanged
+    })), taxonomy != 'none' && this.categoriesOptions().length > 0 && this.categoriesOptions().map(o => {
+      return external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.CheckboxControl, {
+        label: o.label,
+        onChange: checked => this.onCategoryChanged(checked, o.value),
+        checked: categories.indexOf(o.value) > -1
+      }));
+    }));
+  }
+}
+class BlockEditWithAPIMetadata extends ComponentWithSettings {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    external_wp_apiFetch_default()({
+      path: '/dg/v1/settings'
+    }).then(settingsData => {
+      fetch(`/api/registry/eureka/apps`, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => response.json()).then(data => {
+        const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
+          label: a.name,
+          value: a.instance[0].vipAddress,
+          settings: a.instance[0]
+        })), {
+          label: 'CSV',
+          value: 'csv'
+        }] : [{
+          label: 'CSV',
+          value: 'csv'
+        }];
+        this.setState({
+          react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
+          react_api_url: settingsData["react_api_url"],
+          apache_superset_url: settingsData["apache_superset_url"],
+          site_language: settingsData["site_language"],
+          current_language: new URLSearchParams(document.location.search).get("edit_lang") || "",
+          apps
+        }, () => {
+          const {
+            app,
+            dvzProxyDatasetId
+          } = this.props.attributes;
+          if (isSupersetAPI(app, this.state.apps)) {
+            this.loadDatasets(app);
+          }
+          if (app && app != 'none') {
+            this.loadMetadata(app, dvzProxyDatasetId);
+          }
+        });
+      }).catch(() => {
+        console.log("Error when loading apps");
+      });
+    });
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+    const {
+      attributes: {
+        app,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    const {
+      attributes: {
+        dvzProxyDatasetId: prevDvzProxyDatasetId,
+        app: prevAPP
+      }
+    } = prevProps;
+    if (app != prevAPP) {
+      //if app changes we shoudl reload metadta
+      if (isSupersetAPI(app, this.state.apps)) {
+        //if app is superset proxy an additional step is added
+        this.loadDatasets(app);
+        if (dvzProxyDatasetId) {
+          this.loadMetadata(app, dvzProxyDatasetId);
+        }
+      } else {
+        this.loadMetadata(app, dvzProxyDatasetId);
+      }
+    } else {
+      //app wasn't changed
+      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+        this.loadMetadata(app, dvzProxyDatasetId);
+      }
+    }
+  }
+  evictSuperSetCache() {
+    const {
+      app,
+      dvzProxyDatasetId
+    } = this.props.attributes;
+    fetch(`/api/${app}/cacheEvict?dvzProxyDatasetId=${dvzProxyDatasetId}`).then(() => {
+      this.loadMetadata(app, dvzProxyDatasetId);
+    });
+  }
+  loadDatasets(app) {
+    fetch(`/api/${app}/datasets`).then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP status " + response.status);
+      }
+      return response.json();
+    }).then(data => {
+      this.setState({
+        datasets: data
+      });
+    }).catch(() => {
+      console.log("Error when loading datasets");
+    });
+  }
+  loadMetadata(app, dvzProxyDatasetId) {
+    if (app == 'csv') {
+      return;
+    }
+    const dimensionsUrl = `/api/${app}/dimensions${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    const measuresUrl = `/api/${app}/measures${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    const filtersUrl = `/api/${app}/filters${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    const categoriesUrl = `/api/${app}/categories${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
+    if (app != "csv") {
+      fetch(dimensionsUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        } else {
+          return response.json();
+        }
+      }).then(data => {
+        this.setState({
+          dimensions: [{
+            "label": (0,external_wp_i18n_.__)("None"),
+            "value": "none"
+          }, ...APIutils_getTranslatedOptions(data)]
+        });
+      }).catch(function () {
+        console.log("Error when loading dimensions");
+      });
+      fetch(filtersUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      }).then(data => {
+        const options = data.map(f => ({
+          ...f,
+          value: f.param
+        }));
+        this.setState({
+          filters: options
+        });
+      }).catch(function (response) {
+        console.log("Error when loading filters", response);
+      });
+      fetch(measuresUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      }).then(data => {
+        sessionStorage.setItem(`measures_${app}`, JSON.stringify(APIutils_getTranslatedOptions(data)));
+        debugger;
+        this.setState({
+          measures: APIutils_getTranslatedOptions(data)
+        });
+      }).catch(function () {
+        console.log("Error when loading measures");
+      });
+      fetch(categoriesUrl).then(response => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        return response.json();
+      }).then(data => {
+        sessionStorage.setItem(`categories_${app}`, JSON.stringify(data));
+        this.setState({
+          categories: APIutils_getTranslatedOptions(data)
+        });
+      }).catch(function (response) {
+        console.log("Error when getting categories", response);
+      });
+    }
+  }
+  fetchData(url, stateKey, transformData) {
+    fetch(url).then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP status " + response.status);
+      }
+      return response.json();
+    }).then(data => {
+      // TODO: Check if the data is an array
+      // @ts-ignore
+      this.setState({
+        [stateKey]: transformData(data)
+      });
+    }).catch(() => {
+      console.log(`Error when loading ${stateKey}`);
+    });
+  }
+}
+/* harmony default export */ const Blocks = ((/* unused pure expression or super */ null && (SizeConfig)));
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.2/node_modules/papaparse/papaparse.min.js
+var papaparse_min = __webpack_require__(1926);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+;// ../../../packages/commons/build/ChartColors.js
+
+
+
+
+
+
+
+const OVERALL = 'Overall';
+const system = [{
+  value: "system",
+  label: 'System Colors'
+}, {
+  value: "manual",
+  label: 'Manual Colors'
+}];
+const categorical = [{
+  value: "nivo",
+  label: 'nivo'
+}, {
+  value: "category10",
+  label: 'category10'
+}, {
+  value: "accent",
+  label: 'Accent'
+}, {
+  value: "dark2",
+  label: 'dark2'
+}, {
+  value: "paired",
+  label: 'paired'
+}, {
+  value: "pastel1",
+  label: 'pastel1'
+}, {
+  value: "pastel2",
+  label: 'pastel2'
+}, {
+  value: "set1",
+  label: 'set1'
+}, {
+  value: "set2",
+  label: 'set2'
+}, {
+  value: "set3",
+  label: 'set3'
+}];
+const sequential = [{
+  value: "blues",
+  label: 'blues'
+}, {
+  value: "greens",
+  label: 'greens'
+}, {
+  value: "greys",
+  label: 'greys'
+}, {
+  value: "oranges",
+  label: 'oranges'
+}, {
+  value: "purples",
+  label: 'purples'
+}, {
+  value: "reds",
+  label: 'reds'
+}, {
+  value: "blue_green",
+  label: 'blue_green'
+}, {
+  value: "blue_purple",
+  label: 'blue_purple'
+}, {
+  value: "green_blue",
+  label: 'green_blue'
+}, {
+  value: "orange_red",
+  label: 'orange_red'
+}, {
+  value: "purple_blue_green",
+  label: 'purple_blue_green'
+}, {
+  value: "purple_blue",
+  label: 'purple_blue'
+}, {
+  value: "purple_red",
+  label: 'purple_red'
+}, {
+  value: "red_purple",
+  label: 'red_purple'
+}, {
+  value: "yellow_green_blue",
+  label: 'yellow_green_blue'
+}, {
+  value: "yellow_green",
+  label: 'yellow_green'
+}, {
+  value: "yellow_orange_brown",
+  label: 'yellow_orange_brown'
+}, {
+  value: "yellow_orange_red",
+  label: 'yellow_orange_brown'
+}];
+const diverging = [{
+  value: "brown_blueGreen",
+  label: 'brown_blueGreen'
+}, {
+  value: "purpleRed_green",
+  label: 'purpleRed_green'
+}, {
+  value: "pink_yellowGreen",
+  label: 'pink_yellowGreen'
+}, {
+  value: "purple_orange",
+  label: 'purple_orange'
+}, {
+  value: "red_blue",
+  label: 'red_blue'
+}, {
+  value: "red_grey",
+  label: 'red_grey'
+}, {
+  value: "red_yellow_blue",
+  label: 'red_yellow_blue'
+}, {
+  value: "red_yellow_green",
+  label: 'red_yellow_green'
+}, {
+  value: "spectral",
+  label: 'spectral'
+}];
+const plainColor = {
+  value: "plain_color",
+  label: 'Use Plain color'
+};
+const ChartColors = props => {
+  const {
+    allDimensions,
+    allFilters,
+    allMeasures,
+    allCategories,
+    allApps,
+    setAttributes,
+    attributes
+  } = props;
+  const {
+    swap,
+    measures,
+    manualColors,
+    scheme,
+    colorBy,
+    dimension1,
+    dimension2,
+    barColor,
+    type,
+    app,
+    csv,
+    includeOverall
+  } = attributes;
+  let l1Label = null;
+  let d2Label = null;
+  let d3Label = null;
+  const selectedMeasures = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : [];
+  let colorOptions = [];
+  if (app !== "csv") {
+    l1Label = dimension1 != 'none' && allDimensions ? '1st Dimension - ' + allDimensions.filter(d => d.value == dimension1)[0].label : null;
+    //if one dimensions is selected o
+    if (dimension2 == 'none' && selectedMeasures.length > 0) {
+      d2Label = __("Measure Labels");
+      d3Label = __("Measure Values");
+    } else if (dimension2 != 'none') {
+      //if two dimensions are selected show dimensions 1, dimensions 2 and values
+      d2Label = allDimensions ? '2nd Dimension - ' + allDimensions.filter(d => d.value == dimension2)[0].label : null;
+      d3Label = __("Measure Values");
+    }
+  } else {
+    //CSV Color Options
+    const data = Papa.parse(csv, {
+      header: true,
+      dynamicTyping: true
+    });
+    l1Label = data.meta.fields && data.meta.fields.length > 0 ? '1st Column Values ' : null;
+    d2Label = __("Measure Columns Labels");
+    d3Label = __("Measure Columns Values");
+  }
+  if (type == 'bar') {
+    if (swap && dimension2 == "none" && selectedMeasures.length > 0) {
+      colorOptions = [];
+      if (l1Label) {
+        colorOptions.push({
+          label: l1Label,
+          value: 'id'
+        });
+        if (d2Label) {
+          colorOptions.push({
+            label: d2Label,
+            value: 'index'
+          });
+        }
+      } else {
+        if (d2Label) {
+          colorOptions.push({
+            label: d2Label,
+            value: 'id'
+          });
+        }
+        colorOptions.push({
+          label: "Measure Values",
+          value: 'values'
+        });
+      }
+    } else {
+      colorOptions = [];
+      if (l1Label && l1Label !== 'none') {
+        colorOptions.push({
+          label: l1Label,
+          value: 'index'
+        });
+      }
+      if (d2Label && d2Label !== 'none') {
+        colorOptions.push({
+          label: d2Label,
+          value: l1Label && l1Label !== 'none' ? 'id' : 'index'
+        });
+      }
+      if (d3Label && d3Label !== 'none') {
+        colorOptions.push({
+          label: d3Label,
+          value: 'values'
+        });
+      }
+    }
+  }
+  if (type == 'pie') {
+    if (dimension1 != 'none' && dimension2 == 'none' && colorBy != 'index') {
+      setAttributes({
+        ...attributes,
+        colorBy: 'index'
+      });
+      return null;
+    }
+    if (dimension1 != 'none' && dimension2 != 'none' && colorBy != 'id') {
+      setAttributes({
+        ...attributes,
+        colorBy: 'id'
+      });
+      return null;
+    }
+  }
+  let options = [];
+  if (colorBy === 'index' || colorBy === 'id') {
+    if (type == "bar") {
+      options = [...system, plainColor, ...categorical, ...sequential];
+    } else if (type == "line") {
+      options = [...system, plainColor, ...categorical];
+    } else {
+      options = [...system, ...categorical, ...sequential];
+    }
+  }
+  if (colorBy === 'values') {
+    options = [...sequential];
+  }
+  const [useColors, setUseColors] = useState("dimension");
+  useEffect(() => {
+    let nextUseColors = useColors;
+    if (app != "csv") {
+      // All conditions for coloring by measures
+      if (dimension2 == "none" && colorBy === "index" && swap || type == 'line' || dimension1 == "none" && dimension2 == "none") {
+        //Multi measure colored by first dimension but  swapped (Colored by Measure) or dimensionless bar charts
+        nextUseColors = "measure";
+      } else if (dimension2 == "none" && colorBy === "id" && !swap) {
+        //Multi Measure chart colored by  (Measure)
+        nextUseColors = "measure";
+      } else {
+        //colored by a dimensions
+        nextUseColors = "dimension";
+      }
+      if (prevStatus.current) {
+        if (nextUseColors == "dimension") {
+          if (prevStatus.current["scheme"] != scheme && scheme === "manual") {
+            initColors(colorBy === "index" ? dimension1 : dimension2);
+          }
+          if (prevStatus.current["colorBy"] != colorBy) {
+            initColors(colorBy === "index" ? dimension1 : dimension2);
+          }
+          if (prevStatus.current["dimension1"] != dimension1 || prevStatus.current["dimension2"] != dimension2) {
+            initColors(colorBy === "index" ? dimension1 : dimension2);
+          }
+        } else {
+          initMeasuresColors();
+        }
+      }
+      setUseColors(nextUseColors);
+    } else {
+      if (!manualColors["csv"]) {
+        setAttributes({
+          ...attributes,
+          manualColors: {
+            "csv": {}
+          },
+          colorBy: colorBy || ""
+        });
+      }
+    }
+    prevStatus.current = {
+      scheme,
+      colorBy: colorBy || "",
+      dimension1,
+      dimension2,
+      useColors,
+      app
+    };
+  }, [scheme, dimension1, dimension2, colorBy, swap, app, type]);
+  const prevStatus = useRef(undefined);
+  const updateColor = (value, color) => {
+    const newColors = Object.assign({}, manualColors);
+    newColors[app][value] = color;
+    setAttributes({
+      ...attributes,
+      manualColors: newColors,
+      colorBy: colorBy || ""
+    });
+  };
+  const initColors = dimension => {
+    const ds = allDimensions.filter(d => d.value == dimension);
+    const newColors = Object.assign({}, manualColors);
+    if (!newColors[app]) {
+      newColors[app] = {};
+    }
+    if (ds.length > 0) {
+      const {
+        type
+      } = ds[0];
+      const cat = allCategories.filter(a => a.type === type);
+      if (cat.length > 0) {
+        cat[0].items.forEach(item => {
+          if (!newColors[app][item.code]) {
+            newColors[app][item.code] = item.categoryStyle ? item.categoryStyle.color : "#eeeeee";
+          }
+        });
+      }
+      setAttributes({
+        ...attributes,
+        manualColors: newColors
+      });
+    }
+  };
+  const initMeasuresColors = () => {
+    const newColors = Object.assign({}, manualColors);
+    if (!newColors[app]) {
+      newColors[app] = {};
+    }
+    if (!allMeasures) {}
+    if (allMeasures) {
+      allMeasures.forEach(p => {
+        if (!newColors[app][p.value]) {
+          newColors[app][p.value] = p.styles ? p.styles.color : "#eeeeee";
+        }
+      });
+    }
+    setAttributes({
+      ...attributes,
+      manualColors: newColors
+    });
+  };
+  const combinedCatColors = (dimension1, dimension2) => {
+    if (manualColors[app]) {
+      const ds1 = allDimensions.filter(d => d.value == dimension1);
+      const ds2 = allDimensions.filter(d => d.value == dimension2);
+      if (ds1.length > 0 && ds2.length > 0) {
+        const {
+          type
+        } = ds1[0];
+        const {
+          type: type2
+        } = ds2[0];
+        const cat = allCategories.filter(a => a.type === type);
+        const cat2 = allCategories.filter(a => a.type === type2);
+        const list = [];
+        cat[0].items.sort((a, b) => {
+          var _a$position, _b$position;
+          return ((_a$position = a.position) !== null && _a$position !== void 0 ? _a$position : 0) - ((_b$position = b.position) !== null && _b$position !== void 0 ? _b$position : 0);
+        }).forEach(c1 => {
+          cat2[0].items.sort((a, b) => {
+            var _a$position2, _b$position2;
+            return ((_a$position2 = a.position) !== null && _a$position2 !== void 0 ? _a$position2 : 0) - ((_b$position2 = b.position) !== null && _b$position2 !== void 0 ? _b$position2 : 0);
+          }).forEach(c2 => {
+            list.push(React.createElement(PanelColorSettings, {
+              colorSettings: [{
+                value: manualColors[app][c1.value + ' - ' + c2.value],
+                onChange: color => {
+                  if (color) {
+                    updateColor(c1.value + ' - ' + c2.value, color);
+                  } else {
+                    updateColor(c1.value + ' - ' + c2.value, "#eeeeee");
+                  }
+                },
+                label: c1.value + ' - ' + c2.value
+              }]
+            }));
+          });
+        });
+        return list;
+      }
+    }
+    return null;
+  };
+  const catColors = dimension => {
+    if (manualColors[app]) {
+      const ds = allDimensions.filter(d => d.value == dimension);
+      if (ds.length > 0) {
+        const {
+          type
+        } = ds[0];
+        const cat = allCategories.filter(a => a.type === type);
+        if (cat && cat.length > 0) {
+          const list = cat[0].items.sort((a, b) => {
+            var _b$position3, _a$position3;
+            return ((_b$position3 = b.position) !== null && _b$position3 !== void 0 ? _b$position3 : 0) - ((_a$position3 = a.position) !== null && _a$position3 !== void 0 ? _a$position3 : 0);
+          }).map(item => {
+            return React.createElement(PanelColorSettings, {
+              colorSettings: [{
+                value: manualColors[app][item.code],
+                onChange: color => {
+                  if (color) {
+                    updateColor(item.code, color);
+                  } else {
+                    updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#eeeeee");
+                  }
+                },
+                label: getTranslation(item)
+              }]
+            });
+          });
+          const dimensions = [dimension1, dimension2].filter(f => f != '' && f != "none");
+          let selectedMeasures = [];
+          allMeasures.forEach(m => {
+            if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
+              selectedMeasures.push(m.value);
+            }
+          });
+          if (includeOverall) {
+            list.push(React.createElement(PanelColorSettings, {
+              colorSettings: [{
+                value: manualColors[app][OVERALL],
+                onChange: color => {
+                  if (color) {
+                    updateColor(OVERALL, color);
+                  } else {
+                    updateColor(OVERALL, "#eeeeee");
+                  }
+                },
+                label: __("Overall")
+              }]
+            }));
+          }
+          return list;
+        } else {
+          return null;
+        }
+      }
+    }
+    return null;
+  };
+  const measureColors = () => {
+    if (manualColors[app] && allMeasures && measures[app]) {
+      const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected);
+      if (selectedMeasures.length > 0) {
+        const list = selectedMeasures.sort((a, b) => b.position - a.position).map(item => {
+          return React.createElement(PanelColorSettings, {
+            colorSettings: [{
+              value: manualColors[app][item.value],
+              onChange: color => {
+                if (color) {
+                  updateColor(item.value, color);
+                } else {
+                  updateColor(item.value, item.styles ? item.styles.color : "#555555");
+                }
+              },
+              label: __(item.label)
+            }]
+          });
+        });
+        if (includeOverall && selectedMeasures.length == 1) {
+          list.push(React.createElement(PanelColorSettings, {
+            colorSettings: [{
+              value: manualColors[app][OVERALL],
+              onChange: color => {
+                if (color) {
+                  updateColor(OVERALL, color);
+                } else {
+                  updateColor(OVERALL, "#eeeeee");
+                }
+              },
+              label: __("Overall")
+            }]
+          }));
+        }
+        return list;
+      }
+    }
+    return null;
+  };
+  const csvColors = colorBy => {
+    const data = Papa.parse(csv, {
+      header: true,
+      dynamicTyping: true
+    });
+    const values = [];
+    if (colorBy === "index" && type != 'line') {
+      const field = data.meta?.fields?.[0];
+      if (field) {
+        values.push(...data.data.map(d => d[field]));
+      }
+    }
+    if (colorBy === "id" || type == 'line') {
+      const fields = data.meta?.fields?.slice(1);
+      if (fields) {
+        // Convert string fields to numbers before pushing to values array
+        const numericFields = fields.map(field => Number(field));
+        values.push(...numericFields);
+      }
+    }
+    if (colorBy === "values") {
+      values.push(0, 100);
+    }
+    if (manualColors[app] && values) {
+      return values.map(v => {
+        return React.createElement(PanelColorSettings, {
+          colorSettings: [{
+            value: manualColors[app][v],
+            onChange: color => {
+              if (color) {
+                updateColor(v.toString(), color);
+              }
+            },
+            label: __(v.toString())
+          }]
+        });
+      });
+    }
+    return null;
+  };
+  const elements = [];
+  if (type == 'bar') {
+    elements.push(React.createElement(PanelRow, null, React.createElement(SelectControl, {
+      multiple: false,
+      label: __('Color By'),
+      value: colorBy,
+      onChange: colorBy => {
+        setAttributes({
+          ...attributes,
+          colorBy
+        });
+        if (colorBy === 'index' || colorBy === 'id') {
+          setAttributes({
+            ...attributes,
+            colorBy
+          });
+        }
+        if (colorBy === 'values') {
+          setAttributes({
+            ...attributes,
+            scheme: "blues",
+            colorBy
+          });
+        }
+      },
+      options: colorOptions
+    })));
+  }
+  return [...elements, React.createElement(PanelRow, null, React.createElement(SelectControl, {
+    multiple: false,
+    label: __('Color Scheme'),
+    value: scheme,
+    onChange: value => {
+      setAttributes({
+        ...attributes,
+        scheme: value
+      });
+    },
+    options: options
+  })), scheme == "plain_color" && React.createElement(PanelRow, null, React.createElement(PanelColorSettings, {
+    title: __('Color settings'),
+    colorSettings: [{
+      value: decodeURIComponent(barColor),
+      onChange: color => {
+        if (color) {
+          setAttributes({
+            ...attributes,
+            barColor: encodeURIComponent(color)
+          });
+        } else {
+          setAttributes({
+            ...attributes,
+            barColor: null
+          });
+        }
+      },
+      label: __('Plain color')
+    }]
+  })), scheme == "manual" && React.createElement(PanelRow, null, app != "csv" && useColors == "dimension" && colorBy == "index" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, catColors(dimension1)), app != "csv" && useColors == "dimension" && colorBy == "id" && dimension2 != "none" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, type == 'bar' && catColors(dimension2), type == 'line' && catColors(dimension2), type == 'pie' && combinedCatColors(dimension1, dimension2)), app != "csv" && useColors == "dimension" && swap && colorBy == "id" && dimension1 != "none" && dimension2 == "none" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, catColors(dimension1)), app != 'csv' && useColors === "measure" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Color By Measure")
+  }, measureColors()), app == "csv" && React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("Set Colors")
+  }, csvColors(colorBy)))];
+};
+/* harmony default export */ const build_ChartColors = ((/* unused pure expression or super */ null && (ChartColors)));
+;// ../../../packages/commons/build/ChartMeasures.js
+
+
+
+
+
+
+const ChartMeasures_defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const ChartMeasures = props => {
+  const {
+    onMeasuresChange,
+    onFormatChange,
+    onUseCustomAxisFormatChange,
+    onSetSingleMeasure,
+    onCustomLabelToggleChange,
+    onCustomLabelChange,
+    allMeasures,
+    setAttributes,
+    title,
+    attributes: {
+      panelStatus,
+      measures,
+      dimension1,
+      dimension2,
+      type,
+      app
+    }
+  } = props;
+  const MToggle = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    return React.createElement(ToggleControl, {
+      label: getTranslation(measure),
+      checked: userMeasure ? userMeasure.selected : false,
+      onChange: value => onMeasuresChange(measure.value)
+    });
+  };
+  const MCheckbox = ({
+    measure
+  }) => {
+    const userMeasure = measures[app] ? measures[app][measure.value] : {};
+    return React.createElement(CheckboxControl, {
+      label: getTranslation(measure),
+      checked: userMeasure ? userMeasure.selected : false,
+      onChange: value => onSetSingleMeasure(measure.value)
+    });
+  };
+  const MeasureOptions = ({
+    measure,
+    single
+  }) => {
+    return React.createElement(PanelRow, null, single && React.createElement(MCheckbox, {
+      measure: measure
+    }), !single && React.createElement(MToggle, {
+      measure: measure
+    }));
+  };
+  const countSelected = g => {
+    if (measures[app]) {
+      const mG = allMeasures.filter(f => getTranslation(f.group) === g);
+      let count = 0;
+      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
+        if (measures[app][k].selected) {
+          count++;
+        }
+      });
+      return count;
+    }
+    return 0;
+  };
+  const countTotal = g => {
+    if (g) {
+      return allMeasures.filter(f => getTranslation(f.group) === g).length;
+    }
+    return 0;
+  };
+  const getSelectedMeasures = () => {
+    if (measures[app] && allMeasures) {
+      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
+        return allMeasures.filter(m => m.value === k)[0];
+      }).filter(m => m);
+    }
+    return [];
+  };
+  const selectedMeasures = getSelectedMeasures();
+  return React.createElement(React.Fragment, null, React.createElement(PanelBody, {
+    title: title ? title : __("Measures"),
+    initialOpen: panelStatus["MEASURES"],
+    onToggle: e => togglePanel("MEASURES", panelStatus, setAttributes)
+  },
+  /*
+   Multiple measures conditions
+    Bar:
+   no dimensions selected
+   one dimension is selected
+   -  not available when second dimension gets selected
+    Line:
+     - Always multi measure as measures represents line series, one dimension should always be selected
+    Pie:
+        no dimensions selected
+         -  not available when any dimension is selected
+   */
+  (type == 'line' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+    return React.createElement(PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
+    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
+      single: false,
+      measure: m
+    }))));
+  }),
+  /*Single measure conditions
+  Bar:
+     2 dimensions selected
+  Line:
+      never
+  Pie:
+    any dimensions selected
+  */
+  (type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+    return React.createElement(PanelBody, {
+      initialOpen: panelStatus[g],
+      onToggle: e => togglePanel(g, panelStatus, setAttributes),
+      title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `
+    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
+      single: true,
+      measure: m
+    }))));
+  }), type == 'overlay' && allMeasures && React.createElement(SelectControl, {
+    label: "Measure",
+    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
+    options: [{
+      value: '',
+      label: 'Select Measure'
+    }, ...allMeasures],
+    onChange: measure => onSetSingleMeasure(measure),
+    __nextHasNoMarginBottom: true
+  }), type != 'overlay' && React.createElement(PanelBody, {
+    title: __("Format"),
+    initialOpen: panelStatus["FORMAT"],
+    onToggle: e => togglePanel("FORMAT", panelStatus, setAttributes)
+  }, React.createElement(Format, {
+    format: measures[app] && measures[app].format ? measures[app].format : ChartMeasures_defaultFormat,
+    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : ChartMeasures_defaultFormat,
+    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
+    onFormatChange: (format, field) => {
+      onFormatChange(format, field);
+    },
+    onUseCustomAxisFormatChange: value => {
+      onUseCustomAxisFormatChange(value);
+    }
+  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && React.createElement(PanelBody, {
+    title: __("Measure Label Customization"),
+    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
+    onToggle: e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
+  }, selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
+    return React.createElement(PanelBody, {
+      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
+      onToggle: e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
+      title: `${g}`
+    }, selectedMeasures.filter(f => getTranslation(f.group) === g).map(m => {
+      const userMeasure = measures[app] ? measures[app][m.value] : {};
+      return React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
+        label: getTranslation(m),
+        checked: userMeasure ? userMeasure.hasCustomLabel : false,
+        onChange: value => onCustomLabelToggleChange(m.value)
+      }), " "), userMeasure.hasCustomLabel && React.createElement(PanelRow, null, React.createElement(TextControl, {
+        label: __("Custom Label"),
+        value: userMeasure ? userMeasure.customLabel : "",
+        onChange: value => onCustomLabelChange(m.value, value)
+      })));
+    }));
+  })));
+};
+/* harmony default export */ const build_ChartMeasures = ((/* unused pure expression or super */ null && (ChartMeasures)));
+;// ../../../packages/commons/build/Constants.js
+const DEFAULT_FORMAT_SETTINGS = {
+  format: {
+    style: "percent",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  },
+  customFormat: {
+    style: "percent",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  },
+  useCustomAxisFormat: false
+};
+const BLOCKS_CATEGORY = 'wp-react-lib-blocks';
+const BLOCKS_NS = 'viz';
+;// ../../../packages/commons/build/CSVSourceConfig.js
+
+
+
+
+
+const CSVSourceConfig_defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const CSVConfig = ({
+  attributes: {
+    csv,
+    panelStatus,
+    measures,
+    type
+  },
+  setAttributes
+}) => {
+  const onFormatChange = (format, field) => {
+    const app = "csv";
+    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
+    if (!uMs[app]) {
+      uMs[app] = {
+        allowSelection: false,
+        format: Object.assign({}, CSVSourceConfig_defaultFormat),
+        customFormat: Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        }),
+        selected: false
+      };
+    }
+    uMs[app][field] = format;
+    setAttributes({
+      measures: uMs
+    });
+  };
+  const onUseCustomAxisFormatChange = value => {
+    const app = "csv";
+    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
+    if (uMs[app]) {
+      uMs[app].useCustomAxisFormat = value;
+      if (!uMs[app].customFormat) {
+        uMs[app].customFormat = Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        });
+      }
+      setAttributes({
+        measures: uMs
+      });
+    } else {
+      uMs[app] = {
+        allowSelection: false,
+        format: Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        }),
+        customFormat: Object.assign({}, {
+          ...CSVSourceConfig_defaultFormat
+        }),
+        selected: false
+      };
+      uMs[app].useCustomAxisFormat = value;
+      setAttributes({
+        measures: uMs
+      });
+    }
+  };
+  return [React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("CSV Configuration"),
+    onToggle: e => togglePanel("csv_cfg", panelStatus, setAttributes)
+  }, React.createElement(PanelRow, null, React.createElement(TextareaControl, {
+    label: __("CSV Data"),
+    value: csv,
+    onChange: csv => setAttributes({
+      csv
+    })
+  })), React.createElement(Format, {
+    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
+    format: measures["csv"] && measures["csv"].format ? measures["csv"].format : {},
+    customFormat: measures["csv"] && measures["csv"].customFormat ? measures["csv"].customFormat : {},
+    useCustomAxisFormat: measures["csv"] ? measures["csv"].useCustomAxisFormat : false,
+    onFormatChange: (newFormat, field) => {
+      onFormatChange(newFormat, field);
+    },
+    onUseCustomAxisFormatChange: value => {
+      onUseCustomAxisFormatChange(value);
+    }
+  }))];
+};
+/* harmony default export */ const CSVSourceConfig = ((/* unused pure expression or super */ null && (CSVConfig)));
+;// ../../../packages/commons/build/DataFilters.js
+
+
+
+const DataFilters = props => {
+  const updateFilterParam = (param, idx) => {
+    const {
+      attributes,
+      setAttributes,
+      allFilters
+    } = props;
+    const filters = attributes?.filters || [];
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    setAttributes({
+      filters: newFilters
+    });
+  };
+  const updateFilterValue = (value, idx) => {
+    const {
+      attributes,
+      setAttributes,
+      onChange
+    } = props;
+    const filters = attributes?.filters || [];
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    setAttributes({
+      filters: newFilters
+    });
+    onChange && onChange();
+  };
+  const addFilter = () => {
+    const {
+      attributes,
+      setAttributes,
+      allFilters
+    } = props;
+    const filters = attributes?.filters || [];
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    setAttributes({
+      filters: newFilters
+    });
+  };
+  const removeFilter = f => {
+    const {
+      attributes,
+      setAttributes
+    } = props;
+    const filters = attributes?.filters || [];
+    let newFilters = filters.slice(0, -1);
+    setAttributes({
+      filters: newFilters
+    });
+  };
+  const items = type => {
+    const values = props.allCategories ? props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      items = cat.items;
+    }
+    return items;
+  };
+  const FilterSelector = ({
+    param,
+    index,
+    options,
+    onUpdateFilterParam
+  }) => {
+    const sortedOptions = options.sort(function (a, b) {
+      var aLabel = a.label ? a.label.toLowerCase() : "";
+      var bLabel = b.label ? b.label.toLowerCase() : "";
+      return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+    });
+    return external_React_default().createElement(external_wp_components_.SelectControl, {
+      onChange: value => {
+        onUpdateFilterParam(value, index);
+      },
+      value: param,
+      options: sortedOptions
+    });
+  };
+  const CategoricalFilter = ({
+    value,
+    index,
+    items,
+    onUpdateFilterValue
+  }) => {
+    if (items) {
+      const sortedItems = items.sort(function (a, b) {
+        if (a.position !== undefined && b.position !== undefined) {
+          return a.position - b.position;
+        }
+        let aValue = a.value ? a.value.toLowerCase() : "";
+        let bValue = b.value ? b.value.toLowerCase() : "";
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      });
+      return sortedItems.map(v => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })));
+    } else {
+      return null;
+    }
+  };
+  const {
+    allFilters,
+    attributes
+  } = props;
+  const filters = attributes?.filters || [];
+  return external_React_default().createElement(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Filters")
+  }, filters.length > 0 && filters.map((f, index) => {
+    return external_React_default().createElement(external_wp_components_.PanelBody, {
+      initialOpen: true,
+      title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`)
+    }, external_React_default().createElement(FilterSelector, {
+      param: f.param,
+      index: index,
+      options: allFilters,
+      onUpdateFilterParam: updateFilterParam
+    }), external_React_default().createElement(CategoricalFilter, {
+      value: f.value,
+      index: index,
+      items: items(f.type),
+      onUpdateFilterValue: updateFilterValue
+    }));
+  }), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.Button, {
+    variant: "link",
+    onClick: addFilter
+  }, (0,external_wp_i18n_.__)("Add Filter")), external_React_default().createElement(external_wp_components_.Button, {
+    variant: "link",
+    onClick: removeFilter
+  }, (0,external_wp_i18n_.__)("Remove"))));
+};
+/* harmony default export */ const build_DataFilters = ((/* unused pure expression or super */ null && (DataFilters)));
+;// ../../../packages/commons/build/MapCSVSourceConfig.js
+
+
+
+const MapCSVSourceConfig = ({
+  attributes: {
+    app,
+    csv,
+    hasMultipleMeasures,
+    enableSummaryView
+  },
+  setAttributes
+}) => {
+  return [React.createElement(PanelBody, {
+    initialOpen: false,
+    title: __("CSV Configuration")
+  }, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
+    label: "Has Multiple Measures",
+    checked: hasMultipleMeasures,
+    onChange: () => setAttributes({
+      hasMultipleMeasures: !hasMultipleMeasures
+    })
+  })), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
+    label: __("CSV Data"),
+    value: csv,
+    onChange: csv => setAttributes({
+      csv
+    })
+  })))];
+};
+/* harmony default export */ const build_MapCSVSourceConfig = ((/* unused pure expression or super */ null && (MapCSVSourceConfig)));
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/lodash.isempty@4.4.0/node_modules/lodash.isempty/index.js
+var lodash_isempty = __webpack_require__(1299);
+;// ../../../packages/commons/build/MobileConfigUtils.js
+
+
+function extractAxisValues(csvData) {
+  const lines = csvData.split("\n");
+  const firstColumnValues = lines?.slice(1)?.map(row => {
+    return row.split(",")[0];
+  });
+  return firstColumnValues;
+}
+function transformDataToAppObject(data, appName, existingObject = {}) {
+  if (existingObject[appName] !== undefined) {
+    return existingObject;
+  }
+  existingObject[appName] = {};
+  data?.forEach(item => {
+    const key = item.value;
+    existingObject[appName][key] = {
+      selected: false,
+      format: {
+        style: "percent",
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+        currency: "USD"
+      },
+      hasCustomLabel: false,
+      customLabel: item.label || key
+    };
+  });
+  return existingObject;
+}
+function getSelectedItemsForApp(config, appName) {
+  const appConfig = config[appName];
+  if (!appConfig) return {};
+  const selectedEntries = {};
+  for (const key in appConfig) {
+    const value = appConfig[key];
+    if (value && typeof value === 'object' && value.selected === true) {
+      selectedEntries[key] = value;
+    }
+  }
+  return selectedEntries;
+}
+function getSelectedLabelsForApp(data, appName) {
+  const appData = data[appName];
+  if (!appData) {
+    return [];
+  }
+  return Object.keys(appData).filter(key => appData[key].selected) // Filter out the selected items
+  .map(key => {
+    return appData[key].hasCustomLabel ? appData[key].customLabel : appData[key].label;
+  });
+}
+function updateMeasureLabels(data, measures, app) {
+  transformDataToAppObject(data, app, measures);
+  const apiMeasures = getTranslatedOptions(data);
+  // for each api measure, find the corresponding measure in the measures array
+  // and add a label property to the measure in the measures array
+  apiMeasures?.forEach(apiMeasure => {
+    const measure = measures[app][apiMeasure.value];
+    if (measure) {
+      measure.label = apiMeasure.label;
+    }
+  });
+}
+;
+function getStoredOrSetItem(key, fallback, overwrite = false) {
+  const fallbackValue = fallback || [];
+  if (overwrite && !isEmpty(fallbackValue)) {
+    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  const storedItem = sessionStorage.getItem(key);
+  if (storedItem === null) {
+    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  const stored = JSON.parse(storedItem);
+  if (!stored) {
+    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
+    return fallbackValue;
+  }
+  return stored;
+}
+;// ../../../packages/commons/build/Tooltip.js
+
+
+
+const Tooltip = props => {
+  function repeat(times) {
+    return function (strs, ...substs) {
+      return cook(strs, ...substs).repeat(times);
+    };
+  }
+  function cook(strs, ...substs) {
+    return substs.reduce((prev, cur, i) => prev + cur + strs[i + 1], strs[0]);
+  }
+  const {
+    setAttributes,
+    attributes: {
+      tooltipHTML,
+      dimension1,
+      dimension2,
+      dimension3,
+      measures
+    },
+    allMeasures,
+    allDimensions,
+    type
+  } = props;
+  return [React.createElement(PanelBody, {
+    title: __("Variables")
+  }, React.createElement("div", null, allDimensions.filter(d => d.value === dimension1 || d.value === dimension2 || d.value === dimension3).map(d => React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, d.label, " -> ", "{", d.value, "}")))), React.createElement("div", null, allMeasures.map(m => React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, m.label, " -> ", "{", m.value, "}")))), dimension1 == "none" && dimension2 == "none" && React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, "Corresponding Population -> ", "{", "populationValue", "}")), type === "pie" && React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, "Value Percent -> ", '{valuePercent}')), React.createElement(PanelRow, null, React.createElement("span", {
+    style: {
+      fontSize: "11px"
+    }
+  }, "Category -> ", '{category}')))), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
+    label: __("Tooltip"),
+    value: tooltipHTML,
+    help: __("You can use variables {var_name}"),
+    onChange: tooltipHTML => setAttributes({
+      tooltipHTML
+    }),
+    rows: 10
+  }))];
+};
+/* harmony default export */ const build_Tooltip = ((/* unused pure expression or super */ null && (Tooltip)));
+;// ../../../packages/commons/build/types.js
+;
+var Allow;
+(function (Allow) {
+  Allow["Get"] = "GET";
+})(Allow || (Allow = {}));
+var MediaTaxonomy;
+(function (MediaTaxonomy) {
+  MediaTaxonomy["BreadCrumbs"] = "bread_crumbs";
+})(MediaTaxonomy || (MediaTaxonomy = {}));
+var CommentStatus;
+(function (CommentStatus) {
+  CommentStatus["Open"] = "open";
+})(CommentStatus || (CommentStatus = {}));
+var MediaType;
+(function (MediaType) {
+  MediaType["File"] = "file";
+})(MediaType || (MediaType = {}));
+var MIMEType;
+(function (MIMEType) {
+  MIMEType["ApplicationJSON"] = "application/json";
+})(MIMEType || (MIMEType = {}));
+var PingStatus;
+(function (PingStatus) {
+  PingStatus["Closed"] = "closed";
+})(PingStatus || (PingStatus = {}));
+var Status;
+(function (Status) {
+  Status["Inherit"] = "inherit";
+})(Status || (Status = {}));
+var Type;
+(function (Type) {
+  Type["Attachment"] = "attachment";
+})(Type || (Type = {}));
+;// ../../../packages/commons/build/icons/Generic.js
+
+
+const GenericIcon = () => external_React_default().createElement(external_wp_components_.Icon, {
+  icon: () => external_React_default().createElement("svg", {
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    xmlns: "http://www.w3.org/2000/svg",
+    role: "img",
+    "aria-hidden": "true",
+    focusable: "false"
+  }, external_React_default().createElement("path", {
+    d: "M19 6.5H5c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7c0-1.1-.9-2-2-2zm.5 9c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-7c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v7zM8 13h8v-1.5H8V13z"
+  }))
+});
+/* harmony default export */ const Generic = ((/* unused pure expression or super */ null && (GenericIcon)));
+;// ../../../packages/commons/build/icons/Chart.js
+
+
+const ChartIcon = () => {
+  return React.createElement(Icon, {
+    icon: () => React.createElement("svg", {
+      version: "1.1",
+      viewBox: "0 0 18.777 18.777"
+    }, React.createElement("g", null, React.createElement("g", null, React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M2.245,10.496H0.272C0.122,10.496,0,10.62,0,10.77v5.717c0,0.15,0.122,0.272,0.272,0.272h1.973\n\t\t\tc0.15,0,0.272-0.122,0.272-0.272V10.77C2.518,10.62,2.396,10.496,2.245,10.496z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M18.504,10.496h-1.973c-0.15,0-0.271,0.124-0.271,0.274v5.717c0,0.15,0.121,0.272,0.271,0.272\n\t\t\th1.973c0.152,0,0.273-0.122,0.273-0.272V10.77C18.777,10.62,18.656,10.496,18.504,10.496z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M5.907,7.228H3.934c-0.15,0-0.273,0.122-0.273,0.273v8.984c0,0.15,0.123,0.272,0.273,0.272h1.973\n\t\t\tc0.151,0,0.273-0.122,0.273-0.272V7.501C6.18,7.349,6.058,7.228,5.907,7.228z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M14.271,7.228h-1.973c-0.15,0-0.271,0.122-0.271,0.273v8.984c0,0.15,0.121,0.272,0.271,0.272h1.973\n\t\t\tc0.152,0,0.273-0.122,0.273-0.272V7.501C14.545,7.349,14.424,7.228,14.271,7.228z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M10.01,9.218H8.036c-0.15,0-0.272,0.123-0.272,0.272v6.994c0,0.15,0.122,0.272,0.272,0.272h1.974\n\t\t\tc0.152,0,0.273-0.122,0.273-0.272V9.49C10.283,9.341,10.162,9.218,10.01,9.218z"
+    }), React.createElement("path", {
+      style: {
+        "fill": "#030104;"
+      },
+      d: "M1.259,6.947c0.581,0,1.051-0.47,1.051-1.051c0-0.101-0.019-0.196-0.046-0.288l2.211-1.591\n\t\t\tc0.136,0.064,0.286,0.102,0.446,0.102c0.309,0,0.583-0.135,0.776-0.347L7.784,4.98c-0.012,0.062-0.02,0.126-0.02,0.19\n\t\t\tc0,0.58,0.471,1.051,1.051,1.051c0.559,0,1.012-0.438,1.044-0.989l2.814-0.823c0.191,0.262,0.498,0.435,0.848,0.435\n\t\t\tc0.232,0,0.443-0.077,0.617-0.205l2.365,1.604c-0.02,0.083-0.037,0.17-0.037,0.26c0,0.581,0.471,1.052,1.051,1.052\n\t\t\ts1.053-0.471,1.053-1.052s-0.473-1.051-1.053-1.051c-0.232,0-0.443,0.077-0.617,0.204l-2.363-1.601\n\t\t\tc0.02-0.084,0.035-0.17,0.035-0.26c0-0.581-0.469-1.051-1.051-1.051c-0.559,0-1.012,0.438-1.045,0.989L9.663,4.555\n\t\t\tC9.472,4.292,9.164,4.12,8.815,4.12c-0.259,0-0.492,0.096-0.675,0.251L5.968,3.112c0-0.015,0.004-0.028,0.004-0.042\n\t\t\tc0-0.581-0.47-1.052-1.051-1.052S3.87,2.488,3.87,3.069c0,0.158,0.038,0.306,0.1,0.441L1.855,5.032\n\t\t\tC1.686,4.914,1.481,4.845,1.259,4.845c-0.581,0-1.051,0.471-1.051,1.051C0.208,6.477,0.678,6.947,1.259,6.947z"
+    }))))
+  });
+};
+/* harmony default export */ const Chart = ((/* unused pure expression or super */ null && (ChartIcon)));
+;// ../../../packages/commons/build/icons/index.js
+
+
+;// ../../../packages/commons/build/hooks/useSetting.js
+
+const useSetting = setting => {
+  return (0,external_wp_data_.useSelect)(() => {
+    const settings = (0,external_wp_data_.select)('core/editor').getSettings();
+    return settings[setting];
+  }, []);
+};
+const useSettingWithFallback = (setting, fallback) => {
+  var _useSetting;
+  return (_useSetting = useSetting(setting)) !== null && _useSetting !== void 0 ? _useSetting : fallback;
+};
+;// ../../../packages/commons/build/hooks/index.js
+
+;// ../../../packages/commons/build/index.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
 /***/ 2716:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -17497,8 +21166,8 @@ const SaveComponent = props => {
 var external_wp_blockEditor_ = __webpack_require__(4715);
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
-var build = __webpack_require__(7965);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
 ;// ./child-pages-navigator/BlockEdit.tsx
 
 
@@ -18297,341 +21966,6 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
-
-/***/ }),
-
-/***/ 3188:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","editor"]
-var external_wp_editor_ = __webpack_require__(3656);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./data-labels/BlockSave.js
-
- // or wp.editor
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      measures,
-      height,
-      dimension1,
-      app,
-      format,
-      filters,
-      group,
-      valueType,
-      noDataMsg
-    }
-  } = props;
-  const blockProps = external_wp_blockEditor_.useBlockProps.save({
-    className: 'data label'
-  });
-  const levels = [dimension1];
-  const source = levels.filter(l => l != 'none' && l != null).join('/');
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    className: "viz-component",
-    "data-component": "datalabel",
-    "data-height": height,
-    "data-source": source,
-    "data-dimension1": dimension1,
-    "data-app": app,
-    "data-measures": encodeURIComponent(JSON.stringify(measures)),
-    "data-format": encodeURIComponent(JSON.stringify(format)),
-    "data-group": group,
-    "data-filters": encodeURIComponent(JSON.stringify(filters)),
-    "data-no-data-message": noDataMsg,
-    "data-value-type": valueType,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks.Content, {})
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-// EXTERNAL MODULE: ./commons/CSVSourceConfig.js
-var CSVSourceConfig = __webpack_require__(8119);
-// EXTERNAL MODULE: ./commons/Util.jsx
-var Util = __webpack_require__(434);
-// EXTERNAL MODULE: ./commons/Measures.jsx
-var Measures = __webpack_require__(1997);
-// EXTERNAL MODULE: ./commons/DataFilters.jsx
-var DataFilters = __webpack_require__(3845);
-;// ./data-labels/BlockEdit.js
-
-
-
-
-
-
-
-
-
-class BlockEdit extends commons/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    super.componentDidMount();
-  }
-  render() {
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        measures,
-        height,
-        dimension1,
-        app,
-        format,
-        filters,
-        group,
-        panelStatus,
-        valueType
-      }
-    } = this.props;
-    const {
-      dimensions
-    } = this.state;
-    let params = {};
-    filters.forEach(f => {
-      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
-    });
-    const divStyles = {
-      height: height + 'px',
-      width: '100%'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Chart Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          panelStatus: panelStatus['GROUP'],
-          onToggle: e => (0,Util/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(commons/* SizeConfig */.yr, {
-          setAttributes: setAttributes,
-          panelStatus: panelStatus,
-          height: height
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("API & Source"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                value: [app],
-                onChange: app => {
-                  setAttributes({
-                    app: app
-                  });
-                },
-                options: this.state.apps
-              })
-            })
-          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)(`Dimension`),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                label: (0,external_wp_i18n_.__)('Dimension'),
-                value: [dimension1],
-                onChange: value => {
-                  setAttributes({
-                    dimension1: value
-                  });
-                },
-                options: dimensions || []
-              })
-            })
-          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Measures/* default */.A, {
-            title: (0,external_wp_i18n_.__)(`Measure`),
-            onSetSingleMeasure: value => {
-              setAttributes({
-                measures: [value]
-              });
-            },
-            onFormatChange: value => {
-              setAttributes({
-                format: value
-              });
-            },
-            allMeasures: this.state.measures,
-            format: format,
-            measures: measures,
-            ...this.props
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("Types"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                label: (0,external_wp_i18n_.__)('Value Type'),
-                value: valueType,
-                onChange: value => {
-                  setAttributes({
-                    valueType: value
-                  });
-                },
-                options: [{
-                  label: 'First',
-                  value: 'first'
-                }, {
-                  label: 'Total',
-                  value: 'total'
-                }, {
-                  label: 'Minimum',
-                  value: 'min'
-                }, {
-                  label: 'Maximum',
-                  value: 'max'
-                }, {
-                  label: 'Average',
-                  value: 'avg'
-                }]
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(DataFilters/* default */.A, {
-            allFilters: this.state.filters,
-            allCategories: this.state.categories,
-            ...this.props
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
-      size: {
-        height
-      },
-      style: {
-        "margin": "auto",
-        width: "100%"
-      },
-      minHeight: "0",
-      minWidth: "50",
-      enable: {
-        top: false,
-        right: false,
-        bottom: true,
-        left: false,
-        topRight: false,
-        bottomRight: false,
-        bottomLeft: false,
-        topLeft: false
-      },
-      onResizeStop: (event, direction, elt, delta) => {
-        setAttributes({
-          height: parseInt(height + delta.height, 10)
-        });
-        toggleSelection(true);
-      },
-      onResizeStart: () => {
-        toggleSelection(false);
-      },
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-        className: className,
-        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-          ref: this.iframe,
-          style: divStyles,
-          scrolling: "no",
-          src: this.state.react_ui_url + "/embeddable/datalabel?"
-        })
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-      ...props
-    })
-  });
-};
-/* harmony default export */ const data_labels_BlockEdit = (Edit);
-// EXTERNAL MODULE: ./icons/index.js
-var icons = __webpack_require__(7552);
-;// ./data-labels/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/datalabel', {
-  title: (0,external_wp_i18n_.__)('Data Label'),
-  icon: icons/* Generic */.ck,
-  category: "wp-react-lib-blocks",
-  apiVersion: 2,
-  attributes: {
-    group: {
-      type: 'String',
-      default: 'default'
-    },
-    panelStatus: {
-      type: "Object",
-      default: {}
-    },
-    height: {
-      type: 'number',
-      default: 20
-    },
-    dimension1: {
-      type: 'String',
-      default: 'none'
-    },
-    app: {
-      type: 'String',
-      default: "csv"
-    },
-    params: {
-      type: Object,
-      default: {}
-    },
-    format: {
-      type: Object,
-      default: {
-        "style": "percent",
-        "minimumFractionDigits": 1,
-        "maximumFractionDigits": 1,
-        "currency": "USD"
-      }
-    },
-    measures: {
-      type: "Array",
-      default: []
-    },
-    _measures: {},
-    filters: {
-      type: "Array",
-      default: []
-    },
-    valueType: {
-      type: 'String',
-      default: 'first'
-    }
-  },
-  edit: data_labels_BlockEdit,
-  save: BlockSave
-});
 
 /***/ }),
 
@@ -19492,6 +22826,170 @@ const Edit = props => {
   edit: (0,external_wp_blockEditor_.withColors)('backgroundColor', {
     textColor: 'color'
   })(BlockEdit),
+  save: BlockSave
+});
+
+/***/ }),
+
+/***/ 3809:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./data-filters-apply/BlockSave.tsx
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      group,
+      app,
+      label
+    }
+  } = props;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    className: "viz-component",
+    "data-component": "dataFiltersApply",
+    "data-group": group,
+    "data-app": app,
+    "data-label": label
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
+;// ./data-filters-apply/BlockEdit.tsx
+
+
+
+
+
+
+class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+    this.iframe = external_React_default().createRef();
+  }
+  render() {
+    const {
+      isSelected,
+      setAttributes,
+      attributes: {
+        group,
+        app,
+        label
+      }
+    } = this.props;
+    const iframeStyles = {
+      height: '30px'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Filter Reset Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              value: group,
+              onChange: group => setAttributes({
+                group
+              })
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("API & Source"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              value: app,
+              onChange: app => {
+                setAttributes({
+                  app: app
+                });
+              },
+              options: this.state.apps
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("Labels"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Label'),
+              value: label,
+              onChange: label => setAttributes({
+                label
+              })
+            })
+          })
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+      children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+        ref: this.iframe,
+        scrolling: "no",
+        style: iframeStyles,
+        src: this.state.react_ui_url + "/embeddable/dataFiltersApply"
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
+    className: 'wp-react-component'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+      className: "iframe container",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+        ...props
+      })
+    })
+  });
+};
+/* harmony default export */ const data_filters_apply_BlockEdit = (Edit);
+;// ./data-filters-apply/index.js
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/data-filters-apply', {
+  title: (0,external_wp_i18n_.__)('Apply Button', 'wp-react-blocks-plugin'),
+  category: build/* BLOCKS_CATEGORY */._q,
+  icon: build/* GenericIcon */.Z7,
+  apiVersion: 2,
+  attributes: {
+    group: {
+      type: 'String',
+      default: "default"
+    },
+    app: {
+      type: 'String',
+      default: "csv"
+    },
+    label: {
+      type: 'String',
+      default: "Apply"
+    }
+  },
+  edit: data_filters_apply_BlockEdit,
   save: BlockSave
 });
 
@@ -20390,8 +23888,8 @@ const SaveComponent = props => {
 /* harmony default export */ const BlockSave = (SaveComponent);
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
-var build = __webpack_require__(7965);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
 ;// ./big-number-trend/BlockEdit.tsx
 
 
@@ -23418,166 +26916,6 @@ function arrayIncludesWith(array, value, comparator) {
 
 module.exports = arrayIncludesWith;
 
-
-/***/ }),
-
-/***/ 4620:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./data-filters-reset/BlockSave.js
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      group,
-      app,
-      resetLabel
-    }
-  } = props;
-  const divClass = {};
-  const divStyles = {};
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    className: "viz-component",
-    "data-component": "dataFiltersReset",
-    "data-group": group,
-    "data-app": app,
-    "data-reset-label": resetLabel
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-;// ./data-filters-reset/BlockEdit.js
-
-
-
-
-
-class BlockEdit extends commons/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-    this.iframe = React.createRef();
-  }
-  render() {
-    const {
-      isSelected,
-      setAttributes,
-      attributes: {
-        group,
-        app,
-        resetLabel
-      }
-    } = this.props;
-    const queryString = `data-group=${group}&data-app=${app}&data-reset-label=${resetLabel}`;
-    const iframeStyles = {
-      height: '30px'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Filter Reset Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("API & Source"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              value: app,
-              onChange: app => {
-                setAttributes({
-                  app: app
-                });
-              },
-              options: this.state.apps
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("Labels"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Reset Label'),
-              value: resetLabel,
-              onChange: resetLabel => setAttributes({
-                resetLabel
-              })
-            })
-          })
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-      children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-        ref: this.iframe,
-        scrolling: "no",
-        style: iframeStyles,
-        src: this.state.react_ui_url + "/embeddable/datafiltersreset"
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
-    className: 'wp-react-component'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-      className: "iframe container",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-        ...props
-      })
-    })
-  });
-};
-/* harmony default export */ const data_filters_reset_BlockEdit = (Edit);
-;// ./data-filters-reset/index.js
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/data-filters-reset', {
-  title: (0,external_wp_i18n_.__)('Data Filters Reset'),
-  category: "wp-react-lib-blocks",
-  apiVersion: 2,
-  attributes: {
-    group: {
-      type: 'String',
-      default: "default"
-    },
-    app: {
-      type: 'String',
-      default: "csv"
-    },
-    resetLabel: {
-      type: 'String',
-      default: "Reset All Filters"
-    }
-  },
-  edit: data_filters_reset_BlockEdit,
-  save: BlockSave
-});
 
 /***/ }),
 
@@ -30892,165 +34230,6 @@ module.exports = baseIsEqualDeep;
 
 /***/ }),
 
-/***/ 7321:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./data-filters-apply/BlockSave.js
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      group,
-      app,
-      label
-    }
-  } = props;
-  const divClass = {};
-  const divStyles = {};
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    className: "viz-component",
-    "data-component": "dataFiltersApply",
-    "data-group": group,
-    "data-app": app,
-    "data-label": label
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-;// ./data-filters-apply/BlockEdit.js
-
-
-
-
-
-class BlockEdit extends commons/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-    this.iframe = React.createRef();
-  }
-  render() {
-    const {
-      isSelected,
-      setAttributes,
-      attributes: {
-        group,
-        app,
-        label
-      }
-    } = this.props;
-    const iframeStyles = {
-      height: '30px'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Filter Reset Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("API & Source"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              value: app,
-              onChange: app => {
-                setAttributes({
-                  app: app
-                });
-              },
-              options: this.state.apps
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("Labels"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Label'),
-              value: label,
-              onChange: label => setAttributes({
-                label
-              })
-            })
-          })
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-      children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-        ref: this.iframe,
-        scrolling: "no",
-        style: iframeStyles,
-        src: this.state.react_ui_url + "/embeddable/dataFiltersApply"
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
-    className: 'wp-react-component'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-      className: "iframe container",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-        ...props
-      })
-    })
-  });
-};
-/* harmony default export */ const data_filters_apply_BlockEdit = (Edit);
-;// ./data-filters-apply/index.js
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/data-filters-apply', {
-  title: (0,external_wp_i18n_.__)('Apply Button', 'wp-react-blocks-plugin'),
-  category: "wp-react-lib-blocks",
-  apiVersion: 2,
-  attributes: {
-    group: {
-      type: 'String',
-      default: "default"
-    },
-    app: {
-      type: 'String',
-      default: "csv"
-    },
-    label: {
-      type: 'String',
-      default: "Apply"
-    }
-  },
-  edit: data_filters_apply_BlockEdit,
-  save: BlockSave
-});
-
-/***/ }),
-
 /***/ 7345:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -31984,3660 +35163,6 @@ module.exports = arrayEach;
 
 /***/ }),
 
-/***/ 7965:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  _q: () => (/* reexport */ BLOCKS_CATEGORY),
-  Rp: () => (/* reexport */ BLOCKS_NS),
-  TM: () => (/* reexport */ BlockEditWithAPIMetadata),
-  jb: () => (/* reexport */ BlockEditWithFilters),
-  BE: () => (/* reexport */ ComponentWithSettings),
-  M1: () => (/* reexport */ DataFilters),
-  yL: () => (/* reexport */ Format_Format),
-  ck: () => (/* reexport */ Generic),
-  I3: () => (/* reexport */ Measures),
-  yr: () => (/* reexport */ SizeConfig),
-  sC: () => (/* reexport */ APIutils_getTranslation),
-  oL: () => (/* reexport */ isSupersetAPI),
-  Pj: () => (/* reexport */ Util_togglePanel)
-});
-
-// UNUSED EXPORTS: APIConfig, Allow, CSVConfig, Chart, ChartColors, ChartMeasures, CommentStatus, DEFAULT_FORMAT_SETTINGS, MIMEType, MapCSVSourceConfig, MediaTaxonomy, MediaType, PingStatus, Status, Tooltip, Type, categorical, diverging, extractAxisValues, getSelectedLabelsForApp, getTranslatedOptions, panelFocus, sequential, transformDataToAppObject, updateMeasureLabels
-
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(1609);
-var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(6087);
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-;// ../../../packages/commons/build/Format.js
-
-
-
-const styles = [{
-  label: 'Decimal',
-  value: 'decimal'
-}, {
-  label: 'Compacted',
-  value: 'compacted'
-}, {
-  label: 'Currency',
-  value: 'currency'
-}, {
-  label: 'Percent',
-  value: 'percent'
-}];
-const currencies = [{
-  "label": "ADB Unit of Account (XUA)",
-  "value": "XUA"
-}, {
-  "label": "Afghani (AFN)",
-  "value": "AFN"
-}, {
-  "label": "Afghani (AFA)",
-  "value": "AFA"
-}, {
-  "label": "Algerian Dinar (DZD)",
-  "value": "DZD"
-}, {
-  "label": "Andorran Peseta (ADP)",
-  "value": "ADP"
-}, {
-  "label": "Argentine Peso (ARS)",
-  "value": "ARS"
-}, {
-  "label": "Armenian Dram (AMD)",
-  "value": "AMD"
-}, {
-  "label": "Aruban Florin (AWG)",
-  "value": "AWG"
-}, {
-  "label": "Austral (ARA)",
-  "value": "ARA"
-}, {
-  "label": "Australian Dollar (AUD)",
-  "value": "AUD"
-}, {
-  "label": "Azerbaijan Manat (AZN)",
-  "value": "AZN"
-}, {
-  "label": "Azerbaijan Manat (AYM)",
-  "value": "AYM"
-}, {
-  "label": "Azerbaijanian Manat (AZM)",
-  "value": "AZM"
-}, {
-  "label": "Bahamian Dollar (BSD)",
-  "value": "BSD"
-}, {
-  "label": "Bahraini Dinar (BHD)",
-  "value": "BHD"
-}, {
-  "label": "Baht (THB)",
-  "value": "THB"
-}, {
-  "label": "Balboa (PAB)",
-  "value": "PAB"
-}, {
-  "label": "Barbados Dollar (BBD)",
-  "value": "BBD"
-}, {
-  "label": "Belarusian Ruble (BYN)",
-  "value": "BYN"
-}, {
-  "label": "Belarusian Ruble (BYB)",
-  "value": "BYB"
-}, {
-  "label": "Belarusian Ruble (BYR)",
-  "value": "BYR"
-}, {
-  "label": "Belgian Franc (BEF)",
-  "value": "BEF"
-}, {
-  "label": "Belize Dollar (BZD)",
-  "value": "BZD"
-}, {
-  "label": "Bermudian Dollar (BMD)",
-  "value": "BMD"
-}, {
-  "label": "Bol√≠var (VEF)",
-  "value": "VEF"
-}, {
-  "label": "Bol√≠var Soberano (VES)",
-  "value": "VES"
-}, {
-  "label": "Bolivar (VEB)",
-  "value": "VEB"
-}, {
-  "label": "Bolivar (VEF)",
-  "value": "VEF"
-}, {
-  "label": "Bolivar Fuerte (VEF)",
-  "value": "VEF"
-}, {
-  "label": "Boliviano (BOB)",
-  "value": "BOB"
-}, {
-  "label": "Bond Markets Unit European Composite Unit (EURCO) (XBA)",
-  "value": "XBA"
-}, {
-  "label": "Bond Markets Unit European Monetary Unit (E.M.U.-6) (XBB)",
-  "value": "XBB"
-}, {
-  "label": "Bond Markets Unit European Unit of Account 17 (E.U.A.-17) (XBD)",
-  "value": "XBD"
-}, {
-  "label": "Bond Markets Unit European Unit of Account 9 (E.U.A.-9) (XBC)",
-  "value": "XBC"
-}, {
-  "label": "Brazilian Real (BRL)",
-  "value": "BRL"
-}, {
-  "label": "Brunei Dollar (BND)",
-  "value": "BND"
-}, {
-  "label": "Bulgarian Lev (BGN)",
-  "value": "BGN"
-}, {
-  "label": "Burundi Franc (BIF)",
-  "value": "BIF"
-}, {
-  "label": "Cabo Verde Escudo (CVE)",
-  "value": "CVE"
-}, {
-  "label": "Canadian Dollar (CAD)",
-  "value": "CAD"
-}, {
-  "label": "Cayman Islands Dollar (KYD)",
-  "value": "KYD"
-}, {
-  "label": "Cedi (GHC)",
-  "value": "GHC"
-}, {
-  "label": "CFA Franc BCEAO (XOF)",
-  "value": "XOF"
-}, {
-  "label": "CFA Franc BEAC (XAF)",
-  "value": "XAF"
-}, {
-  "label": "CFP Franc (XPF)",
-  "value": "XPF"
-}, {
-  "label": "Chilean Peso (CLP)",
-  "value": "CLP"
-}, {
-  "label": "Codes specifically reserved for testing purposes (XTS)",
-  "value": "XTS"
-}, {
-  "label": "Colombian Peso (COP)",
-  "value": "COP"
-}, {
-  "label": "Comorian Franc  (KMF)",
-  "value": "KMF"
-}, {
-  "label": "Congolese Franc (CDF)",
-  "value": "CDF"
-}, {
-  "label": "Convertible Franc (BEC)",
-  "value": "BEC"
-}, {
-  "label": "Convertible Mark (BAM)",
-  "value": "BAM"
-}, {
-  "label": "Cordoba (NIC)",
-  "value": "NIC"
-}, {
-  "label": "Cordoba Oro (NIO)",
-  "value": "NIO"
-}, {
-  "label": "Costa Rican Colon (CRC)",
-  "value": "CRC"
-}, {
-  "label": "Croatian Dinar (HRD)",
-  "value": "HRD"
-}, {
-  "label": "Croatian Kuna (HRK)",
-  "value": "HRK"
-}, {
-  "label": "Cruzado (BRC)",
-  "value": "BRC"
-}, {
-  "label": "Cruzeiro (BRB)",
-  "value": "BRB"
-}, {
-  "label": "Cruzeiro (BRE)",
-  "value": "BRE"
-}, {
-  "label": "Cruzeiro Real (BRR)",
-  "value": "BRR"
-}, {
-  "label": "Cuban Peso (CUP)",
-  "value": "CUP"
-}, {
-  "label": "Cyprus Pound (CYP)",
-  "value": "CYP"
-}, {
-  "label": "Czech Koruna (CZK)",
-  "value": "CZK"
-}, {
-  "label": "Dalasi (GMD)",
-  "value": "GMD"
-}, {
-  "label": "Danish Krone (DKK)",
-  "value": "DKK"
-}, {
-  "label": "Denar (MKD)",
-  "value": "MKD"
-}, {
-  "label": "Deutsche Mark (DEM)",
-  "value": "DEM"
-}, {
-  "label": "Dinar (BAD)",
-  "value": "BAD"
-}, {
-  "label": "Djibouti Franc (DJF)",
-  "value": "DJF"
-}, {
-  "label": "Dobra (STN)",
-  "value": "STN"
-}, {
-  "label": "Dobra (STD)",
-  "value": "STD"
-}, {
-  "label": "Dominican Peso (DOP)",
-  "value": "DOP"
-}, {
-  "label": "Dong (VND)",
-  "value": "VND"
-}, {
-  "label": "Drachma (GRD)",
-  "value": "GRD"
-}, {
-  "label": "East Caribbean Dollar (XCD)",
-  "value": "XCD"
-}, {
-  "label": "Egyptian Pound (EGP)",
-  "value": "EGP"
-}, {
-  "label": "Ekwele (GQE)",
-  "value": "GQE"
-}, {
-  "label": "El Salvador Colon (SVC)",
-  "value": "SVC"
-}, {
-  "label": "Ethiopian Birr (ETB)",
-  "value": "ETB"
-}, {
-  "label": "Euro (EUR)",
-  "value": "EUR"
-}, {
-  "label": "European Currency Unit (E.C.U) (XEU)",
-  "value": "XEU"
-}, {
-  "label": "Falkland Islands Pound (FKP)",
-  "value": "FKP"
-}, {
-  "label": "Fiji Dollar (FJD)",
-  "value": "FJD"
-}, {
-  "label": "Financial Franc (BEL)",
-  "value": "BEL"
-}, {
-  "label": "Financial Rand (ZAL)",
-  "value": "ZAL"
-}, {
-  "label": "Forint (HUF)",
-  "value": "HUF"
-}, {
-  "label": "French Franc (FRF)",
-  "value": "FRF"
-}, {
-  "label": "Georgian Coupon (GEK)",
-  "value": "GEK"
-}, {
-  "label": "Ghana Cedi (GHS)",
-  "value": "GHS"
-}, {
-  "label": "Ghana Cedi (GHP)",
-  "value": "GHP"
-}, {
-  "label": "Gibraltar Pound (GIP)",
-  "value": "GIP"
-}, {
-  "label": "Gold (XAU)",
-  "value": "XAU"
-}, {
-  "label": "Gold-Franc (XFO)",
-  "value": "XFO"
-}, {
-  "label": "Gourde (HTG)",
-  "value": "HTG"
-}, {
-  "label": "Guarani (PYG)",
-  "value": "PYG"
-}, {
-  "label": "Guinea Escudo (GWE)",
-  "value": "GWE"
-}, {
-  "label": "Guinea-Bissau Peso (GWP)",
-  "value": "GWP"
-}, {
-  "label": "Guinean Franc (GNF)",
-  "value": "GNF"
-}, {
-  "label": "Guyana Dollar (GYD)",
-  "value": "GYD"
-}, {
-  "label": "Hong Kong Dollar (HKD)",
-  "value": "HKD"
-}, {
-  "label": "Hryvnia (UAH)",
-  "value": "UAH"
-}, {
-  "label": "Iceland Krona (ISK)",
-  "value": "ISK"
-}, {
-  "label": "Indian Rupee (INR)",
-  "value": "INR"
-}, {
-  "label": "Inti (PEI)",
-  "value": "PEI"
-}, {
-  "label": "Iranian Rial (IRR)",
-  "value": "IRR"
-}, {
-  "label": "Iraqi Dinar (IQD)",
-  "value": "IQD"
-}, {
-  "label": "Irish Pound (IEP)",
-  "value": "IEP"
-}, {
-  "label": "Italian Lira (ITL)",
-  "value": "ITL"
-}, {
-  "label": "Jamaican Dollar (JMD)",
-  "value": "JMD"
-}, {
-  "label": "Jordanian Dinar (JOD)",
-  "value": "JOD"
-}, {
-  "label": "Karbovanet (UAK)",
-  "value": "UAK"
-}, {
-  "label": "Kenyan Shilling (KES)",
-  "value": "KES"
-}, {
-  "label": "Kina (PGK)",
-  "value": "PGK"
-}, {
-  "label": "Koruna (CSK)",
-  "value": "CSK"
-}, {
-  "label": "Krona A/53 (CSJ)",
-  "value": "CSJ"
-}, {
-  "label": "Kroon (EEK)",
-  "value": "EEK"
-}, {
-  "label": "Kuna (HRK)",
-  "value": "HRK"
-}, {
-  "label": "Kuwaiti Dinar (KWD)",
-  "value": "KWD"
-}, {
-  "label": "Kwacha (MWK)",
-  "value": "MWK"
-}, {
-  "label": "Kwanza (AOA)",
-  "value": "AOA"
-}, {
-  "label": "Kwanza (AOK)",
-  "value": "AOK"
-}, {
-  "label": "Kwanza Reajustado (AOR)",
-  "value": "AOR"
-}, {
-  "label": "Kyat (MMK)",
-  "value": "MMK"
-}, {
-  "label": "Kyat (BUK)",
-  "value": "BUK"
-}, {
-  "label": "Lao Kip (LAK)",
-  "value": "LAK"
-}, {
-  "label": "Lari (GEL)",
-  "value": "GEL"
-}, {
-  "label": "Latvian Lats (LVL)",
-  "value": "LVL"
-}, {
-  "label": "Latvian Ruble (LVR)",
-  "value": "LVR"
-}, {
-  "label": "Lebanese Pound (LBP)",
-  "value": "LBP"
-}, {
-  "label": "Lek (ALL)",
-  "value": "ALL"
-}, {
-  "label": "Lempira (HNL)",
-  "value": "HNL"
-}, {
-  "label": "Leone (SLL)",
-  "value": "SLL"
-}, {
-  "label": "Leu A/52 (ROK)",
-  "value": "ROK"
-}, {
-  "label": "Lev (BGL)",
-  "value": "BGL"
-}, {
-  "label": "Lev A/52 (BGJ)",
-  "value": "BGJ"
-}, {
-  "label": "Lev A/62 (BGK)",
-  "value": "BGK"
-}, {
-  "label": "Liberian Dollar (LRD)",
-  "value": "LRD"
-}, {
-  "label": "Libyan Dinar (LYD)",
-  "value": "LYD"
-}, {
-  "label": "Lilangeni (SZL)",
-  "value": "SZL"
-}, {
-  "label": "Lithuanian Litas (LTL)",
-  "value": "LTL"
-}, {
-  "label": "Loti (LSL)",
-  "value": "LSL"
-}, {
-  "label": "Loti (LSM)",
-  "value": "LSM"
-}, {
-  "label": "Luxembourg Convertible Franc (LUC)",
-  "value": "LUC"
-}, {
-  "label": "Luxembourg Financial Franc (LUL)",
-  "value": "LUL"
-}, {
-  "label": "Luxembourg Franc (LUF)",
-  "value": "LUF"
-}, {
-  "label": "Malagasy Ariary (MGA)",
-  "value": "MGA"
-}, {
-  "label": "Malagasy Franc (MGF)",
-  "value": "MGF"
-}, {
-  "label": "Malawi Kwacha (MWK)",
-  "value": "MWK"
-}, {
-  "label": "Malaysian Ringgit (MYR)",
-  "value": "MYR"
-}, {
-  "label": "Maldive Rupee (MVQ)",
-  "value": "MVQ"
-}, {
-  "label": "Mali Franc (MLF)",
-  "value": "MLF"
-}, {
-  "label": "Maltese Lira (MTL)",
-  "value": "MTL"
-}, {
-  "label": "Maltese Pound (MTP)",
-  "value": "MTP"
-}, {
-  "label": "Mark der DDR (DDM)",
-  "value": "DDM"
-}, {
-  "label": "Markka (FIM)",
-  "value": "FIM"
-}, {
-  "label": "Mauritius Rupee (MUR)",
-  "value": "MUR"
-}, {
-  "label": "Mexican Peso (MXN)",
-  "value": "MXN"
-}, {
-  "label": "Mexican Peso (MXP)",
-  "value": "MXP"
-}, {
-  "label": "Mexican Unidad de Inversion (UDI) (MXV)",
-  "value": "MXV"
-}, {
-  "label": "Moldovan Leu (MDL)",
-  "value": "MDL"
-}, {
-  "label": "Moroccan Dirham (MAD)",
-  "value": "MAD"
-}, {
-  "label": "Mozambique Escudo (MZE)",
-  "value": "MZE"
-}, {
-  "label": "Mozambique Metical (MZN)",
-  "value": "MZN"
-}, {
-  "label": "Mozambique Metical (MZM)",
-  "value": "MZM"
-}, {
-  "label": "Mvdol (BOV)",
-  "value": "BOV"
-}, {
-  "label": "Naira (NGN)",
-  "value": "NGN"
-}, {
-  "label": "Nakfa (ERN)",
-  "value": "ERN"
-}, {
-  "label": "Namibia Dollar (NAD)",
-  "value": "NAD"
-}, {
-  "label": "Nepalese Rupee (NPR)",
-  "value": "NPR"
-}, {
-  "label": "Netherlands Antillean Guilder (ANG)",
-  "value": "ANG"
-}, {
-  "label": "Netherlands Guilder (NLG)",
-  "value": "NLG"
-}, {
-  "label": "New Cruzado (BRN)",
-  "value": "BRN"
-}, {
-  "label": "New Dinar (YUM)",
-  "value": "YUM"
-}, {
-  "label": "New Israeli Sheqel (ILS)",
-  "value": "ILS"
-}, {
-  "label": "New Kwanza (AON)",
-  "value": "AON"
-}, {
-  "label": "New Romanian Leu  (RON)",
-  "value": "RON"
-}, {
-  "label": "New Taiwan Dollar (TWD)",
-  "value": "TWD"
-}, {
-  "label": "New Turkish Lira (TRY)",
-  "value": "TRY"
-}, {
-  "label": "New Yugoslavian Dinar (YUD)",
-  "value": "YUD"
-}, {
-  "label": "New Zaire (ZRN)",
-  "value": "ZRN"
-}, {
-  "label": "New Zealand Dollar (NZD)",
-  "value": "NZD"
-}, {
-  "label": "Ngultrum (BTN)",
-  "value": "BTN"
-}, {
-  "label": "No universal currency ()",
-  "value": ""
-}, {
-  "label": "North Korean Won (KPW)",
-  "value": "KPW"
-}, {
-  "label": "Norwegian Krone (NOK)",
-  "value": "NOK"
-}, {
-  "label": "Nuevo Sol  (PEN)",
-  "value": "PEN"
-}, {
-  "label": "Old Dong (VNC)",
-  "value": "VNC"
-}, {
-  "label": "Old Krona (ISJ)",
-  "value": "ISJ"
-}, {
-  "label": "Old Lek (ALK)",
-  "value": "ALK"
-}, {
-  "label": "Old Leu (ROL)",
-  "value": "ROL"
-}, {
-  "label": "Old Shekel (ILR)",
-  "value": "ILR"
-}, {
-  "label": "Old Shilling (UGW)",
-  "value": "UGW"
-}, {
-  "label": "Old Turkish Lira (TRL)",
-  "value": "TRL"
-}, {
-  "label": "Old Uruguay Peso (UYN)",
-  "value": "UYN"
-}, {
-  "label": "Ouguiya (MRU)",
-  "value": "MRU"
-}, {
-  "label": "Ouguiya (MRO)",
-  "value": "MRO"
-}, {
-  "label": "Pa'anga (TOP)",
-  "value": "TOP"
-}, {
-  "label": "Pakistan Rupee (PKR)",
-  "value": "PKR"
-}, {
-  "label": "Palladium (XPD)",
-  "value": "XPD"
-}, {
-  "label": "Pataca (MOP)",
-  "value": "MOP"
-}, {
-  "label": "Pathet Lao Kip (LAJ)",
-  "value": "LAJ"
-}, {
-  "label": "Peso (ARY)",
-  "value": "ARY"
-}, {
-  "label": "Peso Argentino (ARP)",
-  "value": "ARP"
-}, {
-  "label": "Peso boliviano (BOP)",
-  "value": "BOP"
-}, {
-  "label": "Peso Convertible (CUC)",
-  "value": "CUC"
-}, {
-  "label": "Peso Uruguayo (UYU)",
-  "value": "UYU"
-}, {
-  "label": "Philippine Peso (PHP)",
-  "value": "PHP"
-}, {
-  "label": "Platinum (XPT)",
-  "value": "XPT"
-}, {
-  "label": "Portuguese Escudo (PTE)",
-  "value": "PTE"
-}, {
-  "label": "Pound (ILP)",
-  "value": "ILP"
-}, {
-  "label": "Pound Sterling (GBP)",
-  "value": "GBP"
-}, {
-  "label": "Pula (BWP)",
-  "value": "BWP"
-}, {
-  "label": "Qatari Rial (QAR)",
-  "value": "QAR"
-}, {
-  "label": "Quetzal (GTQ)",
-  "value": "GTQ"
-}, {
-  "label": "Rand (ZAR)",
-  "value": "ZAR"
-}, {
-  "label": "Rhodesian Dollar (RHD)",
-  "value": "RHD"
-}, {
-  "label": "Rhodesian Dollar (ZWC)",
-  "value": "ZWC"
-}, {
-  "label": "Rial Omani (OMR)",
-  "value": "OMR"
-}, {
-  "label": "Riel (KHR)",
-  "value": "KHR"
-}, {
-  "label": "RINET Funds Code (XRE)",
-  "value": "XRE"
-}, {
-  "label": "Romanian Leu (RON)",
-  "value": "RON"
-}, {
-  "label": "Rouble (SUR)",
-  "value": "SUR"
-}, {
-  "label": "Rufiyaa (MVR)",
-  "value": "MVR"
-}, {
-  "label": "Rupiah (IDR)",
-  "value": "IDR"
-}, {
-  "label": "Russian Ruble (RUB)",
-  "value": "RUB"
-}, {
-  "label": "Russian Ruble (RUR)",
-  "value": "RUR"
-}, {
-  "label": "Rwanda Franc (RWF)",
-  "value": "RWF"
-}, {
-  "label": "Saint Helena Pound (SHP)",
-  "value": "SHP"
-}, {
-  "label": "Saudi Riyal (SAR)",
-  "value": "SAR"
-}, {
-  "label": "Schilling (ATS)",
-  "value": "ATS"
-}, {
-  "label": "SDR (Special Drawing Right) (XDR)",
-  "value": "XDR"
-}, {
-  "label": "Serbian Dinar (RSD)",
-  "value": "RSD"
-}, {
-  "label": "Serbian Dinar (CSD)",
-  "value": "CSD"
-}, {
-  "label": "Seychelles Rupee (SCR)",
-  "value": "SCR"
-}, {
-  "label": "Silver (XAG)",
-  "value": "XAG"
-}, {
-  "label": "Singapore Dollar (SGD)",
-  "value": "SGD"
-}, {
-  "label": "Slovak Koruna (SKK)",
-  "value": "SKK"
-}, {
-  "label": "Sol (PEN)",
-  "value": "PEN"
-}, {
-  "label": "Sol (PEH)",
-  "value": "PEH"
-}, {
-  "label": "Sol (PES)",
-  "value": "PES"
-}, {
-  "label": "Solomon Islands Dollar (SBD)",
-  "value": "SBD"
-}, {
-  "label": "Som (KGS)",
-  "value": "KGS"
-}, {
-  "label": "Somali Shilling (SOS)",
-  "value": "SOS"
-}, {
-  "label": "Somoni (TJS)",
-  "value": "TJS"
-}, {
-  "label": "South Sudanese Pound (SSP)",
-  "value": "SSP"
-}, {
-  "label": "Spanish Peseta (ESP)",
-  "value": "ESP"
-}, {
-  "label": "Spanish Peseta (ESA)",
-  "value": "ESA"
-}, {
-  "label": "Sri Lanka Rupee (LKR)",
-  "value": "LKR"
-}, {
-  "label": "Sucre (XSU)",
-  "value": "XSU"
-}, {
-  "label": "Sucre (ECS)",
-  "value": "ECS"
-}, {
-  "label": "Sudanese Dinar (SDD)",
-  "value": "SDD"
-}, {
-  "label": "Sudanese Pound (SDG)",
-  "value": "SDG"
-}, {
-  "label": "Sudanese Pound (SDP)",
-  "value": "SDP"
-}, {
-  "label": "Surinam Dollar (SRD)",
-  "value": "SRD"
-}, {
-  "label": "Surinam Guilder (SRG)",
-  "value": "SRG"
-}, {
-  "label": "Swedish Krona (SEK)",
-  "value": "SEK"
-}, {
-  "label": "Swiss Franc (CHF)",
-  "value": "CHF"
-}, {
-  "label": "Syli (GNE)",
-  "value": "GNE"
-}, {
-  "label": "Syli (GNS)",
-  "value": "GNS"
-}, {
-  "label": "Syrian Pound (SYP)",
-  "value": "SYP"
-}, {
-  "label": "Tajik Ruble (TJR)",
-  "value": "TJR"
-}, {
-  "label": "Taka (BDT)",
-  "value": "BDT"
-}, {
-  "label": "Tala (WST)",
-  "value": "WST"
-}, {
-  "label": "Talonas (LTT)",
-  "value": "LTT"
-}, {
-  "label": "Tanzanian Shilling (TZS)",
-  "value": "TZS"
-}, {
-  "label": "Tenge (KZT)",
-  "value": "KZT"
-}, {
-  "label": "Timor Escudo (TPE)",
-  "value": "TPE"
-}, {
-  "label": "Tolar (SIT)",
-  "value": "SIT"
-}, {
-  "label": "Trinidad and Tobago Dollar (TTD)",
-  "value": "TTD"
-}, {
-  "label": "Tugrik (MNT)",
-  "value": "MNT"
-}, {
-  "label": "Tunisian Dinar (TND)",
-  "value": "TND"
-}, {
-  "label": "Turkish Lira (TRY)",
-  "value": "TRY"
-}, {
-  "label": "Turkmenistan Manat (TMM)",
-  "value": "TMM"
-}, {
-  "label": "Turkmenistan New Manat (TMT)",
-  "value": "TMT"
-}, {
-  "label": "UAE Dirham (AED)",
-  "value": "AED"
-}, {
-  "label": "Uganda Shilling (UGX)",
-  "value": "UGX"
-}, {
-  "label": "Uganda Shilling (UGS)",
-  "value": "UGS"
-}, {
-  "label": "UIC-Franc (XFU)",
-  "value": "XFU"
-}, {
-  "label": "Unidad de Fomento (CLF)",
-  "value": "CLF"
-}, {
-  "label": "Unidad de Valor Constante (UVC) (ECV)",
-  "value": "ECV"
-}, {
-  "label": "Unidad de Valor Real (COU)",
-  "value": "COU"
-}, {
-  "label": "Unidad Previsional (UYW)",
-  "value": "UYW"
-}, {
-  "label": "Uruguay Peso en Unidades Indexadas (UI) (UYI)",
-  "value": "UYI"
-}, {
-  "label": "Uruguayan Peso (UYP)",
-  "value": "UYP"
-}, {
-  "label": "US Dollar (USD)",
-  "value": "USD"
-}, {
-  "label": "US Dollar (Next day) (USN)",
-  "value": "USN"
-}, {
-  "label": "US Dollar (Same day) (USS)",
-  "value": "USS"
-}, {
-  "label": "Uzbekistan Sum (UZS)",
-  "value": "UZS"
-}, {
-  "label": "Vatu (VUV)",
-  "value": "VUV"
-}, {
-  "label": "WIR Euro (CHE)",
-  "value": "CHE"
-}, {
-  "label": "WIR Franc (CHW)",
-  "value": "CHW"
-}, {
-  "label": "WIR Franc (for electronic) (CHC)",
-  "value": "CHC"
-}, {
-  "label": "Won (KRW)",
-  "value": "KRW"
-}, {
-  "label": "Yemeni Dinar (YDD)",
-  "value": "YDD"
-}, {
-  "label": "Yemeni Rial (YER)",
-  "value": "YER"
-}, {
-  "label": "Yen (JPY)",
-  "value": "JPY"
-}, {
-  "label": "Yuan Renminbi (CNY)",
-  "value": "CNY"
-}, {
-  "label": "Yugoslavian Dinar (YUN)",
-  "value": "YUN"
-}, {
-  "label": "Zaire (ZRZ)",
-  "value": "ZRZ"
-}, {
-  "label": "Zambian Kwacha (ZMW)",
-  "value": "ZMW"
-}, {
-  "label": "Zambian Kwacha (ZMK)",
-  "value": "ZMK"
-}, {
-  "label": "Zimbabwe Dollar (ZWL)",
-  "value": "ZWL"
-}, {
-  "label": "Zimbabwe Dollar (ZWD)",
-  "value": "ZWD"
-}, {
-  "label": "Zimbabwe Dollar (ZWR)",
-  "value": "ZWR"
-}, {
-  "label": "Zimbabwe Dollar (new) (ZWN)",
-  "value": "ZWN"
-}, {
-  "label": "Zimbabwe Dollar (old) (ZWD)",
-  "value": "ZWD"
-}, {
-  "label": "Zloty (PLN)",
-  "value": "PLN"
-}, {
-  "label": "Zloty (PLZ)",
-  "value": "PLZ"
-}];
-const DEFAULT_FORMAT = 'DEFAULT';
-const CUSTOM_FORMAT = 'CUSTOM';
-const Format_Format = ({
-  format,
-  title,
-  onFormatChange,
-  onUseCustomAxisFormatChange,
-  customFormat,
-  hiddenCustomAxisFormat,
-  useCustomAxisFormat
-}) => {
-  const onChangeFormat = (style, formatToUpdate) => {
-    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
-    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
-    onFormatChange(Object.assign({}, currentFormat, {
-      style
-    }), field);
-  };
-  const onDecimalChange = (value, formatToUpdate) => {
-    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
-    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
-    onFormatChange(Object.assign({}, currentFormat, {
-      minimumFractionDigits: value,
-      maximumFractionDigits: value
-    }), field);
-  };
-  const onCurrencyChange = (currency, formatToUpdate) => {
-    const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat;
-    const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat';
-    onFormatChange(Object.assign({}, currentFormat, {
-      currency
-    }), field);
-  };
-  return [external_React_default().createElement(external_wp_components_.PanelBody, {
-    initialOpen: true,
-    title: (0,external_wp_i18n_.__)("Default Format")
-  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    multiple: true,
-    label: (0,external_wp_i18n_.__)('Style', "dg"),
-    value: [format.style],
-    onChange: value => {
-      onChangeFormat(value, DEFAULT_FORMAT);
-    },
-    options: styles
-  })), external_React_default().createElement((external_React_default()).Fragment, null, format.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    label: (0,external_wp_i18n_.__)("Currency", "dg"),
-    onChange: value => {
-      onCurrencyChange(value, DEFAULT_FORMAT);
-    },
-    value: format.currency,
-    options: currencies
-  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
-    type: "number",
-    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
-    onChange: value => {
-      onDecimalChange(value, DEFAULT_FORMAT);
-    },
-    value: format.minimumFractionDigits
-  }))), external_React_default().createElement((external_React_default()).Fragment, null, !hiddenCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
-    label: (0,external_wp_i18n_.__)("Use Custom Axis Format", "dg"),
-    checked: useCustomAxisFormat,
-    onChange: value => onUseCustomAxisFormatChange?.(value)
-  }))), external_React_default().createElement((external_React_default()).Fragment, null, useCustomAxisFormat && external_React_default().createElement(external_wp_components_.PanelBody, {
-    initialOpen: true,
-    title: (0,external_wp_i18n_.__)("Custom Axis Format")
-  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    multiple: true,
-    label: (0,external_wp_i18n_.__)('Style', "dg"),
-    value: [customFormat.style],
-    onChange: value => {
-      onChangeFormat(value, CUSTOM_FORMAT);
-    },
-    options: styles
-  })), external_React_default().createElement((external_React_default()).Fragment, null, customFormat.style === "currency" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-    label: (0,external_wp_i18n_.__)("Currency", "dg"),
-    onChange: value => {
-      onCurrencyChange(value, CUSTOM_FORMAT);
-    },
-    value: customFormat.currency,
-    options: currencies
-  }))), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
-    type: "number",
-    label: (0,external_wp_i18n_.__)("Decimal Points", "dg"),
-    onChange: value => {
-      onDecimalChange(value, CUSTOM_FORMAT);
-    },
-    value: customFormat.minimumFractionDigits
-  }))))];
-};
-/* harmony default export */ const build_Format = (Format_Format);
-;// ../../../packages/commons/build/Util.js
-const Util_togglePanel = (name, panelStatus, setAttributes) => {
-  const newStatus = {
-    ...panelStatus
-  };
-  newStatus[name] = newStatus[name] == true ? false : true;
-  setAttributes({
-    panelStatus: newStatus
-  });
-};
-const panelFocus = (name, panelStatus, setAttributes) => {
-  const newStatus = {
-    ...panelStatus
-  };
-  newStatus[name] = newStatus[name] == true ? false : true;
-  setAttributes({
-    panelFocus: newStatus
-  });
-};
-/* harmony default export */ const Util = ({
-  togglePanel: Util_togglePanel,
-  panelFocus
-});
-;// ../../../packages/commons/build/APIutils.js
-const APIutils_getTranslatedOptions = options => {
-  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
-  if (options && options instanceof Array) {
-    return options.map(o => {
-      let {
-        label,
-        value,
-        labels
-      } = o;
-      if (labels && labels[currentLocale]) {
-        label = labels[currentLocale];
-      }
-      return {
-        ...o,
-        label,
-        value
-      };
-    });
-  }
-  return [];
-};
-const APIutils_getTranslation = translatable => {
-  const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase();
-  let {
-    label,
-    labels,
-    value
-  } = translatable;
-  if (labels && labels[currentLocale]) {
-    label = labels[currentLocale];
-  }
-  return label || value || translatable;
-};
-const isSupersetAPI = (app, apps) => {
-  if (app == 'csv' || !apps) {
-    return false;
-  }
-  const appObj = apps.filter(a => a.value == app)[0];
-  return appObj && appObj.settings && appObj.settings.metadata && appObj.settings.metadata.superset == 'true';
-};
-/* harmony default export */ const APIutils = ((/* unused pure expression or super */ null && (APIutils_getTranslatedOptions)));
-;// ../../../packages/commons/build/Measures.js
-
-
-
-
-
-
-const defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const Measures = props => {
-  const {
-    onMeasuresChange,
-    onFormatChange,
-    onUseCustomAxisFormatChange,
-    onSetSingleMeasure,
-    onCustomLabelToggleChange,
-    onCustomLabelChange,
-    allMeasures,
-    setAttributes,
-    title,
-    format,
-    attributes: {
-      panelStatus,
-      measures,
-      dimension1,
-      dimension2,
-      type,
-      app
-    }
-  } = props;
-  const MToggle = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    return external_React_default().createElement(external_wp_components_.ToggleControl, {
-      label: APIutils_getTranslation(measure),
-      checked: userMeasure ? userMeasure.selected : false,
-      onChange: value => onMeasuresChange?.(measure.value)
-    });
-  };
-  const MCheckbox = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    let isChecked;
-    if (measures instanceof Array) {
-      isChecked = measures.includes(measure.value);
-    } else {
-      isChecked = userMeasure ? userMeasure.selected : false;
-    }
-    return external_React_default().createElement(external_wp_components_.CheckboxControl, {
-      label: APIutils_getTranslation(measure),
-      checked: isChecked,
-      onChange: value => onSetSingleMeasure(measure.value)
-    });
-  };
-  const MeasureOptions = ({
-    measure,
-    single
-  }) => {
-    return external_React_default().createElement(external_wp_components_.PanelRow, null, single && external_React_default().createElement(MCheckbox, {
-      measure: measure
-    }), !single && external_React_default().createElement(MToggle, {
-      measure: measure
-    }));
-  };
-  const countSelected = g => {
-    if (measures[app]) {
-      const mG = allMeasures.filter(f => APIutils_getTranslation(f.group) === g);
-      let count = 0;
-      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
-        if (measures[app][k].selected) {
-          count++;
-        }
-      });
-      return count;
-    }
-    return 0;
-  };
-  const countTotal = g => {
-    if (g) {
-      return allMeasures.filter(f => APIutils_getTranslation(f.group) === g).length;
-    }
-    return 0;
-  };
-  const getSelectedMeasures = () => {
-    if (measures[app] && allMeasures) {
-      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
-        return allMeasures.filter(m => m.value === k)[0];
-      }).filter(m => m);
-    }
-    return [];
-  };
-  const selectedMeasures = getSelectedMeasures();
-  return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
-    title: title ? title : (0,external_wp_i18n_.__)("Measures"),
-    initialOpen: panelStatus["MEASURES"],
-    onToggle: e => Util_togglePanel("MEASURES", panelStatus, setAttributes)
-  },
-  /*
-   Multiple measures conditions
-    Bar:
-   no dimensions selected
-   one dimension is selected
-   -  not available when second dimension gets selected
-    Line:
-     - Always multi measure as measures represents line series, one dimension should always be selected
-    Pie:
-        no dimensions selected
-         -  not available when any dimension is selected
-   */
-  (type == 'line' || type == 'radar' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
-    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
-      single: false,
-      measure: m
-    }))));
-  }),
-  /*Single measure conditions
-  Bar:
-     2 dimensions selected
-  Line:
-      never
-  Pie:
-    any dimensions selected
-  */
-  (type == 'big-number' || type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => Util_togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
-    }, allMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(MeasureOptions, {
-      single: true,
-      measure: m
-    }))));
-  }), type == 'overlay' && allMeasures && external_React_default().createElement(external_wp_components_.SelectControl, {
-    label: "Measure",
-    // @ts-ignore
-    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
-    options: [{
-      value: '',
-      label: 'Select Measure'
-    }, ...allMeasures],
-    onChange: measure => onSetSingleMeasure(measure),
-    __nextHasNoMarginBottom: true
-  }), type != 'overlay' && external_React_default().createElement(external_wp_components_.PanelBody, {
-    title: (0,external_wp_i18n_.__)("Format"),
-    initialOpen: panelStatus["FORMAT"],
-    onToggle: e => Util_togglePanel("FORMAT", panelStatus, setAttributes)
-  }, external_React_default().createElement(build_Format, {
-    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
-    format: format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat),
-    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat,
-    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
-    onFormatChange: (format, field) => {
-      onFormatChange(format, field);
-    },
-    onUseCustomAxisFormatChange: value => {
-      onUseCustomAxisFormatChange?.(value);
-    }
-  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && external_React_default().createElement(external_wp_components_.PanelBody, {
-    title: (0,external_wp_i18n_.__)("Measure Label Customization"),
-    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
-    onToggle: e => Util_togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
-  }, selectedMeasures && [...new Set(selectedMeasures.map(p => APIutils_getTranslation(p.group)))].map(g => {
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
-      onToggle: e => Util_togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
-      title: `${g}`
-    }, selectedMeasures.filter(f => APIutils_getTranslation(f.group) === g).map(m => {
-      const userMeasure = measures[app] ? measures[app][m.value] : {};
-      return external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
-        label: APIutils_getTranslation(m),
-        checked: userMeasure ? userMeasure.hasCustomLabel : false,
-        onChange: value => onCustomLabelToggleChange?.(m.value)
-      }), " "), userMeasure.hasCustomLabel && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
-        label: (0,external_wp_i18n_.__)("Custom Label"),
-        value: userMeasure ? userMeasure.customLabel : "",
-        onChange: value => onCustomLabelChange?.(m.value, value)
-      })));
-    }));
-  })));
-};
-/* harmony default export */ const build_Measures = (Measures);
-;// ../../../packages/commons/build/APIConfig.js
-
-
-
-
-
-const APIConfig_defaultFormat = {
-  style: "percent",
-  minimumFractionDigits: 1,
-  maximumFractionDigits: 1,
-  currency: "USD"
-};
-const FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return external_React_default().createElement(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      if (a.position !== undefined && b.position !== undefined) {
-        return a.position - b.position;
-      }
-      let aValue = a.value ? a.value.toLowerCase() : "";
-      let bValue = b.value ? b.value.toLowerCase() : "";
-      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-    });
-    return sortedItems.map(v => external_React_default().createElement(external_wp_components_.PanelRow, null, " ", external_React_default().createElement(external_wp_components_.ToggleControl, {
-      label: v.value,
-      checked: value.indexOf(v.id) > -1,
-      onChange: e => {
-        onUpdateFilterValue(v.id, index);
-      }
-    })));
-  } else {
-    return null;
-  }
-};
-class APIConfig extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onMeasuresChange = this.onMeasuresChange.bind(this);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.onCustomLabelToggleChange = this.onCustomLabelToggleChange.bind(this);
-    this.onCustomLabelChange = this.onCustomLabelChange.bind(this);
-    this.onUseCustomAxisFormatChange = this.onUseCustomAxisFormatChange.bind(this);
-    //this.onCustomMeasureFieldChange = this.onCustomMeasureFieldChange.bind(this)
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  cleanSelection(prevState) {
-    const {
-      setAttributes
-    } = this.props;
-    setAttributes({
-      measures: [],
-      filters: []
-    });
-  }
-  updateFilterParam(param, idx) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  updateFilterValue(value, idx) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  setFilterValue(value, idx) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  addFilter() {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      value: []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  removeFilter(f) {
-    const {
-      attributes: {
-        filters
-      },
-      setAttributes,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    setAttributes({
-      filters: newFilters
-    });
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      setAttributes,
-      attributes: {
-        type,
-        colorBy,
-        dimension2,
-        types,
-        measures,
-        app
-      }
-    } = this.props;
-    const {
-      attributes: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-    const prevTypeObject = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null;
-    if (dimension2 != prevDimension2) {
-      //TODO ensure only one measure remains selected when selecting a second dimensions
-      const uMs = Object.assign({}, measures);
-      if (dimension2 != "none") {
-        let i = 0; //the idea is to keep one selected
-        if (uMs[app]) {
-          const selected = Object.keys(uMs[app]).map(k => uMs[app][k].selected).length;
-          if (selected > 1) {
-            Object.keys(uMs[app]).forEach(k => {
-              if (uMs[app][k].selected) {
-                uMs[app][k].prevSelected = true; //can be used to recover measures
-                uMs[app][k].selected = i > 0 ? false : true;
-              } else {
-                uMs[app][k].prevSelected = false;
-              }
-              i++;
-            });
-          }
-        }
-        setAttributes({
-          measures: uMs
-        });
-      }
-      if (dimension2 == "none" && uMs[app]) {
-        Object.keys(uMs[app]).forEach(k => {
-          if (uMs[app][k].prevSelected) {
-            uMs[app][k].selected = true; //can be used to recover measures
-            uMs[app][k].prevSelected = false;
-          }
-        });
-        setAttributes({
-          measures: uMs
-        });
-      }
-    }
-  }
-  onSetSingleMeasure(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (!uMs[app]) {
-      uMs[app] = {};
-    }
-    Object.keys(uMs[app]).filter(k => typeof uMs[app][k] !== "boolean").forEach(k => uMs[app][k].selected = false); //single selection all other should be unselected
-    if (uMs[app][value]) {
-      uMs[app][value].selected = uMs[app][value].selected ? false : true;
-    } else {
-      uMs[app][value] = {
-        selected: true,
-        format: APIConfig_defaultFormat
-      };
-    }
-    setAttributes({
-      measures: uMs
-    });
-  }
-  onFormatChange(format, field) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, {
-      ...measures
-    });
-    if (!uMs[app]) {
-      uMs[app] = {
-        allowSelection: false,
-        format: format,
-        customFormat: format,
-        selected: false
-      };
-    }
-    uMs[app][field] = format;
-    setAttributes({
-      measures: uMs
-    });
-  }
-  onUseCustomAxisFormatChange(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, {
-      ...measures
-    });
-    if (uMs[app]) {
-      uMs[app].useCustomAxisFormat = value;
-      setAttributes({
-        measures: uMs
-      });
-    } else {
-      uMs[app] = {
-        allowSelection: false,
-        format: APIConfig_defaultFormat,
-        customFormat: APIConfig_defaultFormat,
-        selected: false,
-        useCustomAxisFormat: value
-      };
-      setAttributes({
-        measures: uMs
-      });
-    }
-  }
-  /*
-    onCustomMeasureFieldChange(measureName, field, value) {
-           const {setAttributes, attributes: {measures}} = this.props
-        const uMs = Object.assign({}, {...measures})
-           if (uMs[measureName]) {
-            uMs[measureName][field] = value
-        } else {
-            uMs[measureName] = {allowSelection: false, field: value, selected: false}
-        }
-           setAttributes({measures: uMs})
-    }
-    */
-  onMeasuresChange(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (!uMs[app]) {
-      uMs[app] = {};
-    }
-    if (uMs[app][value]) {
-      uMs[app][value].selected = uMs[app][value].selected ? false : true;
-    } else {
-      uMs[app][value] = {
-        selected: true,
-        format: APIConfig_defaultFormat
-      };
-    }
-    setAttributes({
-      measures: uMs
-    });
-  }
-  onCustomLabelToggleChange(value) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (uMs[app] && uMs[app][value]) {
-      uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel ? false : true;
-      setAttributes({
-        measures: uMs
-      });
-    }
-  }
-  onCustomLabelChange(value, customLabel) {
-    const {
-      setAttributes,
-      attributes: {
-        app,
-        measures
-      }
-    } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
-      uMs[app][value].customLabel = customLabel;
-      setAttributes({
-        measures: uMs
-      });
-    }
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === "Boolean") {
-      items = [{
-        value: "Yes",
-        id: 1
-      }, {
-        value: "No",
-        id: 0
-      }];
-    } else if (cat) {
-      items = cat.items.map(item => ({
-        value: item.value,
-        id: item.id
-      }));
-    }
-    return items;
-  }
-  render() {
-    const {
-      allDimensions,
-      allFilters,
-      allMeasures,
-      setAttributes,
-      attributes: {
-        measures,
-        filters,
-        dimension1,
-        dimension2,
-        type,
-        types
-      }
-    } = this.props;
-    const currentType = types.filter(t => t.value === type).length > 0 ? types.filter(t => t.value === type)[0] : null;
-    return [external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)(type == "map" ? "Fields" : `Dimensions`)
-    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      multiple: false,
-      label: (0,external_wp_i18n_.__)(type == "map" ? "Matching Field" : "First Dimension"),
-      value: dimension1,
-      onChange: value => {
-        setAttributes({
-          dimension1: value,
-          dimension2: value == "none" ? "none" : dimension2
-        });
-      },
-      options: allDimensions
-    })), type != "line" && type != "radar" && external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      multiple: false,
-      label: (0,external_wp_i18n_.__)(type == "map" ? "Breakdown Field" : "Second Dimension"),
-      value: dimension2,
-      onChange: value => {
-        setAttributes({
-          dimension2: value
-        });
-      },
-      options: allDimensions,
-      disabled: dimension1 == "none"
-    }))), external_React_default().createElement(build_Measures, {
-      ...this.props,
-      onFormatChange: this.onFormatChange,
-      onUseCustomAxisFormatChange: this.onUseCustomAxisFormatChange,
-      onSetSingleMeasure: this.onSetSingleMeasure,
-      onMeasuresChange: this.onMeasuresChange,
-      onCustomLabelToggleChange: this.onCustomLabelToggleChange,
-      onCustomLabelChange: this.onCustomLabelChange,
-      currentType: currentType
-    }), external_React_default().createElement((external_React_default()).Fragment, null, external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Filters")
-    }, filters.map((f, index) => {
-      return external_React_default().createElement(external_wp_components_.PanelBody, {
-        initialOpen: true,
-        title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`)
-      }, external_React_default().createElement(FilterSelector, {
-        param: f.param,
-        index: index,
-        options: allFilters,
-        onUpdateFilterParam: this.updateFilterParam
-      }), external_React_default().createElement(CategoricalFilter, {
-        value: f.value,
-        index: index,
-        items: this.items(f.type),
-        onUpdateFilterValue: this.updateFilterValue
-      }));
-    }), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.Button, {
-      variant: "link",
-      onClick: this.addFilter
-    }, (0,external_wp_i18n_.__)("Add Filter")), external_React_default().createElement(external_wp_components_.Button, {
-      variant: "link",
-      onClick: this.removeFilter
-    }, (0,external_wp_i18n_.__)("Remove")))))];
-  }
-}
-/* harmony default export */ const build_APIConfig = ((/* unused pure expression or super */ null && (APIConfig)));
-// EXTERNAL MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_ = __webpack_require__(1455);
-var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
-// EXTERNAL MODULE: external ["wp","data"]
-var external_wp_data_ = __webpack_require__(7143);
-;// ../../../packages/commons/build/Blocks.js
-
-
-
-
-
-
-
-
-const SizeConfig = ({
-  height,
-  setAttributes,
-  panelStatus,
-  initialOpen
-}) => {
-  return external_React_default().createElement(external_wp_components_.PanelBody, {
-    initialOpen: panelStatus ? panelStatus["SIZE"] : initialOpen,
-    onToggle: () => Util_togglePanel("SIZE", panelStatus, setAttributes),
-    title: (0,external_wp_i18n_.__)("Size")
-  }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.TextControl, {
-    size: 10,
-    label: "Height",
-    value: height,
-    onChange: height => setAttributes({
-      height: height ? parseInt(height) : 0
-    })
-  })));
-};
-class ComponentWithSettings extends external_wp_element_.Component {
-  iframe;
-  unsubscribe;
-  constructor(props) {
-    super(props);
-    this.state = {
-      react_ui_url: '',
-      react_api_url: null,
-      apache_superset_url: null,
-      site_language: '',
-      current_language: ''
-    };
-    window.addEventListener("message", event => {
-      if (event.data.type === 'componentReady' && event.data.value === true) {
-        if (this.iframe.current) {
-          console.log("-----------Sending message -----------");
-          this.iframe.current.contentWindow?.postMessage({
-            messageType: 'component-attributes',
-            ...this.props.attributes
-          }, "*");
-        }
-      }
-    }, false);
-    this.iframe = external_React_default().createRef();
-    this.unsubscribe = (0,external_wp_data_.subscribe)(() => {
-      const newPreviewMode = (0,external_wp_data_.select)("core/editor").getDeviceType();
-      if (newPreviewMode !== this.state.previewMode) {
-        this.setState({
-          previewMode: newPreviewMode
-        });
-      }
-    });
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.iframe.current?.contentWindow) {
-      this.iframe.current.contentWindow.postMessage({
-        messageType: 'component-attributes',
-        ...this.props.attributes
-      }, "*");
-    }
-  }
-  componentDidMount() {
-    external_wp_apiFetch_default()({
-      path: '/dg/v1/settings'
-    }).then(data => {
-      this.setState({
-        react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
-        react_api_url: data["react_api_url"],
-        apache_superset_url: data["apache_superset_url"],
-        site_language: data["site_language"],
-        current_language: new URLSearchParams(document.location.search).get("edit_lang") || ''
-      });
-    });
-  }
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-}
-class BlockEditWithFilters extends ComponentWithSettings {
-  constructor(props) {
-    super(props);
-    this.state = {
-      react_ui_url: '',
-      react_api_url: null,
-      apache_superset_url: null,
-      site_language: '',
-      current_language: '',
-      taxonomyValues: [],
-      types: null,
-      taxonomies: null,
-      loading: true
-    };
-    this.onTypeChanged = this.onTypeChanged.bind(this);
-    this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this);
-    this.getTaxonomyValues = this.getTaxonomyValues.bind(this);
-    this.onCategoryChanged = this.onCategoryChanged.bind(this);
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      attributes: {
-        type,
-        taxonomy
-      }
-    } = this.props;
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-    if (prevProps.attributes) {
-      if (type != prevProps.attributes.type) {}
-      if (taxonomy != prevProps.attributes.taxonomy) {
-        this.getTaxonomyValues();
-      }
-    }
-  }
-  componentDidMount() {
-    super.componentDidMount();
-    this.getTypes();
-    this.getTaxonomies();
-    const {
-      attributes: {
-        taxonomy
-      }
-    } = this.props;
-    if (taxonomy != 'none') {
-      this.getTaxonomyValues();
-    }
-  }
-  onTypeChanged(value) {
-    const {
-      setAttributes
-    } = this.props;
-    setAttributes({
-      categories: []
-    });
-    setAttributes({
-      taxonomy: 'none'
-    });
-    setAttributes({
-      type: value
-    });
-  }
-  onTaxonomyChanged(value) {
-    const {
-      setAttributes
-    } = this.props;
-    setAttributes({
-      categories: []
-    });
-    setAttributes({
-      taxonomy: value
-    });
-  }
-  onCategoryChanged(checked, value) {
-    const {
-      setAttributes,
-      attributes: {
-        categories
-      }
-    } = this.props;
-    if (!checked) {
-      setAttributes({
-        categories: categories.filter(i => i != value)
-      });
-    } else {
-      let newCate = [...categories];
-      newCate.push(value);
-      setAttributes({
-        categories: newCate
-      });
-    }
-  }
-  getTaxonomyValues() {
-    const {
-      attributes: {
-        taxonomy
-      }
-    } = this.props;
-    external_wp_apiFetch_default()({
-      path: '/wp/v2/taxonomies/' + taxonomy + '?per_page=100'
-    }).then(data => {
-      this.setState({
-        taxonomyValues: data
-      });
-    });
-  }
-  getTaxonomies() {
-    external_wp_apiFetch_default()({
-      path: '/wp/v2/taxonomies?per_page=100'
-    }).then(data => {
-      this.setState({
-        taxonomies: data
-      });
-    });
-  }
-  getTypes() {
-    external_wp_apiFetch_default()({
-      path: '/wp/v2/types?per_page=100'
-    }).then(data => {
-      this.setState({
-        types: data,
-        loading: false
-      });
-    });
-  }
-  typeOptions() {
-    const {
-      types
-    } = this.state;
-    const typeOptions = types ? Object.keys(types).filter(k => ['page', 'attachment', 'wp_block'].indexOf(k) == -1).map(k => ({
-      slug: types[k].slug,
-      label: types[k].name,
-      value: types[k].rest_base
-    })) : [];
-    return typeOptions;
-  }
-  taxonomyOptions() {
-    const {
-      attributes: {
-        type
-      }
-    } = this.props;
-    const {
-      types,
-      taxonomies
-    } = this.state;
-    let slug;
-    if (types) {
-      slug = this.typeOptions().filter(t => t.value == type)[0].slug;
-      const taxonomyOptions = types && taxonomies ? Object.keys(taxonomies).filter(i => taxonomies[i].types.indexOf(slug) > -1).map(k => ({
-        label: types[slug].name + ' -> ' + taxonomies[k].name,
-        value: taxonomies[k].rest_base
-      })) : [];
-      return [{
-        label: 'None',
-        value: 'none'
-      }, ...taxonomyOptions];
-    } else {
-      return [];
-    }
-  }
-  categoriesOptions() {
-    const {
-      taxonomyValues
-    } = this.state;
-    const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({
-      label: t.name,
-      value: t.id
-    }));
-    return taxonomyValuesOptions || [];
-  }
-  renderFilters() {
-    const {
-      attributes: {
-        type,
-        taxonomy,
-        categories
-      }
-    } = this.props;
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      title: (0,external_wp_i18n_.__)("Filter")
-    }, external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      label: (0,external_wp_i18n_.__)("Post Type"),
-      options: this.typeOptions(),
-      value: type,
-      onChange: this.onTypeChanged
-    })), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.SelectControl, {
-      label: (0,external_wp_i18n_.__)("Use a taxonomy filter "),
-      options: this.taxonomyOptions(),
-      value: taxonomy,
-      onChange: this.onTaxonomyChanged
-    })), taxonomy != 'none' && this.categoriesOptions().length > 0 && this.categoriesOptions().map(o => {
-      return external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.CheckboxControl, {
-        label: o.label,
-        onChange: checked => this.onCategoryChanged(checked, o.value),
-        checked: categories.indexOf(o.value) > -1
-      }));
-    }));
-  }
-}
-class BlockEditWithAPIMetadata extends ComponentWithSettings {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    external_wp_apiFetch_default()({
-      path: '/dg/v1/settings'
-    }).then(settingsData => {
-      fetch(`/api/registry/eureka/apps`, {
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(response => response.json()).then(data => {
-        const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
-          label: a.name,
-          value: a.instance[0].vipAddress,
-          settings: a.instance[0]
-        })), {
-          label: 'CSV',
-          value: 'csv'
-        }] : [{
-          label: 'CSV',
-          value: 'csv'
-        }];
-        this.setState({
-          react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
-          react_api_url: settingsData["react_api_url"],
-          apache_superset_url: settingsData["apache_superset_url"],
-          site_language: settingsData["site_language"],
-          current_language: new URLSearchParams(document.location.search).get("edit_lang") || "",
-          apps
-        }, () => {
-          const {
-            app,
-            dvzProxyDatasetId
-          } = this.props.attributes;
-          if (isSupersetAPI(app, this.state.apps)) {
-            this.loadDatasets(app);
-          }
-          if (app && app != 'none') {
-            this.loadMetadata(app, dvzProxyDatasetId);
-          }
-        });
-      }).catch(() => {
-        console.log("Error when loading apps");
-      });
-    });
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-    const {
-      attributes: {
-        app,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    const {
-      attributes: {
-        dvzProxyDatasetId: prevDvzProxyDatasetId,
-        app: prevAPP
-      }
-    } = prevProps;
-    if (app != prevAPP) {
-      //if app changes we shoudl reload metadta
-      if (isSupersetAPI(app, this.state.apps)) {
-        //if app is superset proxy an additional step is added
-        this.loadDatasets(app);
-        if (dvzProxyDatasetId) {
-          this.loadMetadata(app, dvzProxyDatasetId);
-        }
-      } else {
-        this.loadMetadata(app, dvzProxyDatasetId);
-      }
-    } else {
-      //app wasn't changed
-      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
-        this.loadMetadata(app, dvzProxyDatasetId);
-      }
-    }
-  }
-  evictSuperSetCache() {
-    const {
-      app,
-      dvzProxyDatasetId
-    } = this.props.attributes;
-    fetch(`/api/${app}/cacheEvict?dvzProxyDatasetId=${dvzProxyDatasetId}`).then(() => {
-      this.loadMetadata(app, dvzProxyDatasetId);
-    });
-  }
-  loadDatasets(app) {
-    fetch(`/api/${app}/datasets`).then(response => {
-      if (!response.ok) {
-        throw new Error("HTTP status " + response.status);
-      }
-      return response.json();
-    }).then(data => {
-      this.setState({
-        datasets: data
-      });
-    }).catch(() => {
-      console.log("Error when loading datasets");
-    });
-  }
-  loadMetadata(app, dvzProxyDatasetId) {
-    if (app == 'csv') {
-      return;
-    }
-    const dimensionsUrl = `/api/${app}/dimensions${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    const measuresUrl = `/api/${app}/measures${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    const filtersUrl = `/api/${app}/filters${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    const categoriesUrl = `/api/${app}/categories${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`;
-    if (app != "csv") {
-      fetch(dimensionsUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        } else {
-          return response.json();
-        }
-      }).then(data => {
-        this.setState({
-          dimensions: [{
-            "label": (0,external_wp_i18n_.__)("None"),
-            "value": "none"
-          }, ...APIutils_getTranslatedOptions(data)]
-        });
-      }).catch(function () {
-        console.log("Error when loading dimensions");
-      });
-      fetch(filtersUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        return response.json();
-      }).then(data => {
-        const options = data.map(f => ({
-          ...f,
-          value: f.param
-        }));
-        this.setState({
-          filters: options
-        });
-      }).catch(function (response) {
-        console.log("Error when loading filters", response);
-      });
-      fetch(measuresUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        return response.json();
-      }).then(data => {
-        sessionStorage.setItem(`measures_${app}`, JSON.stringify(APIutils_getTranslatedOptions(data)));
-        debugger;
-        this.setState({
-          measures: APIutils_getTranslatedOptions(data)
-        });
-      }).catch(function () {
-        console.log("Error when loading measures");
-      });
-      fetch(categoriesUrl).then(response => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        return response.json();
-      }).then(data => {
-        sessionStorage.setItem(`categories_${app}`, JSON.stringify(data));
-        this.setState({
-          categories: APIutils_getTranslatedOptions(data)
-        });
-      }).catch(function (response) {
-        console.log("Error when getting categories", response);
-      });
-    }
-  }
-  fetchData(url, stateKey, transformData) {
-    fetch(url).then(response => {
-      if (!response.ok) {
-        throw new Error("HTTP status " + response.status);
-      }
-      return response.json();
-    }).then(data => {
-      // TODO: Check if the data is an array
-      // @ts-ignore
-      this.setState({
-        [stateKey]: transformData(data)
-      });
-    }).catch(() => {
-      console.log(`Error when loading ${stateKey}`);
-    });
-  }
-}
-/* harmony default export */ const Blocks = ((/* unused pure expression or super */ null && (SizeConfig)));
-// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.2/node_modules/papaparse/papaparse.min.js
-var papaparse_min = __webpack_require__(1926);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-;// ../../../packages/commons/build/ChartColors.js
-
-
-
-
-
-
-
-const OVERALL = 'Overall';
-const system = [{
-  value: "system",
-  label: 'System Colors'
-}, {
-  value: "manual",
-  label: 'Manual Colors'
-}];
-const categorical = [{
-  value: "nivo",
-  label: 'nivo'
-}, {
-  value: "category10",
-  label: 'category10'
-}, {
-  value: "accent",
-  label: 'Accent'
-}, {
-  value: "dark2",
-  label: 'dark2'
-}, {
-  value: "paired",
-  label: 'paired'
-}, {
-  value: "pastel1",
-  label: 'pastel1'
-}, {
-  value: "pastel2",
-  label: 'pastel2'
-}, {
-  value: "set1",
-  label: 'set1'
-}, {
-  value: "set2",
-  label: 'set2'
-}, {
-  value: "set3",
-  label: 'set3'
-}];
-const sequential = [{
-  value: "blues",
-  label: 'blues'
-}, {
-  value: "greens",
-  label: 'greens'
-}, {
-  value: "greys",
-  label: 'greys'
-}, {
-  value: "oranges",
-  label: 'oranges'
-}, {
-  value: "purples",
-  label: 'purples'
-}, {
-  value: "reds",
-  label: 'reds'
-}, {
-  value: "blue_green",
-  label: 'blue_green'
-}, {
-  value: "blue_purple",
-  label: 'blue_purple'
-}, {
-  value: "green_blue",
-  label: 'green_blue'
-}, {
-  value: "orange_red",
-  label: 'orange_red'
-}, {
-  value: "purple_blue_green",
-  label: 'purple_blue_green'
-}, {
-  value: "purple_blue",
-  label: 'purple_blue'
-}, {
-  value: "purple_red",
-  label: 'purple_red'
-}, {
-  value: "red_purple",
-  label: 'red_purple'
-}, {
-  value: "yellow_green_blue",
-  label: 'yellow_green_blue'
-}, {
-  value: "yellow_green",
-  label: 'yellow_green'
-}, {
-  value: "yellow_orange_brown",
-  label: 'yellow_orange_brown'
-}, {
-  value: "yellow_orange_red",
-  label: 'yellow_orange_brown'
-}];
-const diverging = [{
-  value: "brown_blueGreen",
-  label: 'brown_blueGreen'
-}, {
-  value: "purpleRed_green",
-  label: 'purpleRed_green'
-}, {
-  value: "pink_yellowGreen",
-  label: 'pink_yellowGreen'
-}, {
-  value: "purple_orange",
-  label: 'purple_orange'
-}, {
-  value: "red_blue",
-  label: 'red_blue'
-}, {
-  value: "red_grey",
-  label: 'red_grey'
-}, {
-  value: "red_yellow_blue",
-  label: 'red_yellow_blue'
-}, {
-  value: "red_yellow_green",
-  label: 'red_yellow_green'
-}, {
-  value: "spectral",
-  label: 'spectral'
-}];
-const plainColor = {
-  value: "plain_color",
-  label: 'Use Plain color'
-};
-const ChartColors = props => {
-  const {
-    allDimensions,
-    allFilters,
-    allMeasures,
-    allCategories,
-    allApps,
-    setAttributes,
-    attributes
-  } = props;
-  const {
-    swap,
-    measures,
-    manualColors,
-    scheme,
-    colorBy,
-    dimension1,
-    dimension2,
-    barColor,
-    type,
-    app,
-    csv,
-    includeOverall
-  } = attributes;
-  let l1Label = null;
-  let d2Label = null;
-  let d3Label = null;
-  const selectedMeasures = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : [];
-  let colorOptions = [];
-  if (app !== "csv") {
-    l1Label = dimension1 != 'none' && allDimensions ? '1st Dimension - ' + allDimensions.filter(d => d.value == dimension1)[0].label : null;
-    //if one dimensions is selected o
-    if (dimension2 == 'none' && selectedMeasures.length > 0) {
-      d2Label = __("Measure Labels");
-      d3Label = __("Measure Values");
-    } else if (dimension2 != 'none') {
-      //if two dimensions are selected show dimensions 1, dimensions 2 and values
-      d2Label = allDimensions ? '2nd Dimension - ' + allDimensions.filter(d => d.value == dimension2)[0].label : null;
-      d3Label = __("Measure Values");
-    }
-  } else {
-    //CSV Color Options
-    const data = Papa.parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-    l1Label = data.meta.fields && data.meta.fields.length > 0 ? '1st Column Values ' : null;
-    d2Label = __("Measure Columns Labels");
-    d3Label = __("Measure Columns Values");
-  }
-  if (type == 'bar') {
-    if (swap && dimension2 == "none" && selectedMeasures.length > 0) {
-      colorOptions = [];
-      if (l1Label) {
-        colorOptions.push({
-          label: l1Label,
-          value: 'id'
-        });
-        if (d2Label) {
-          colorOptions.push({
-            label: d2Label,
-            value: 'index'
-          });
-        }
-      } else {
-        if (d2Label) {
-          colorOptions.push({
-            label: d2Label,
-            value: 'id'
-          });
-        }
-        colorOptions.push({
-          label: "Measure Values",
-          value: 'values'
-        });
-      }
-    } else {
-      colorOptions = [];
-      if (l1Label && l1Label !== 'none') {
-        colorOptions.push({
-          label: l1Label,
-          value: 'index'
-        });
-      }
-      if (d2Label && d2Label !== 'none') {
-        colorOptions.push({
-          label: d2Label,
-          value: l1Label && l1Label !== 'none' ? 'id' : 'index'
-        });
-      }
-      if (d3Label && d3Label !== 'none') {
-        colorOptions.push({
-          label: d3Label,
-          value: 'values'
-        });
-      }
-    }
-  }
-  if (type == 'pie') {
-    if (dimension1 != 'none' && dimension2 == 'none' && colorBy != 'index') {
-      setAttributes({
-        ...attributes,
-        colorBy: 'index'
-      });
-      return null;
-    }
-    if (dimension1 != 'none' && dimension2 != 'none' && colorBy != 'id') {
-      setAttributes({
-        ...attributes,
-        colorBy: 'id'
-      });
-      return null;
-    }
-  }
-  let options = [];
-  if (colorBy === 'index' || colorBy === 'id') {
-    if (type == "bar") {
-      options = [...system, plainColor, ...categorical, ...sequential];
-    } else if (type == "line") {
-      options = [...system, plainColor, ...categorical];
-    } else {
-      options = [...system, ...categorical, ...sequential];
-    }
-  }
-  if (colorBy === 'values') {
-    options = [...sequential];
-  }
-  const [useColors, setUseColors] = useState("dimension");
-  useEffect(() => {
-    let nextUseColors = useColors;
-    if (app != "csv") {
-      // All conditions for coloring by measures
-      if (dimension2 == "none" && colorBy === "index" && swap || type == 'line' || dimension1 == "none" && dimension2 == "none") {
-        //Multi measure colored by first dimension but  swapped (Colored by Measure) or dimensionless bar charts
-        nextUseColors = "measure";
-      } else if (dimension2 == "none" && colorBy === "id" && !swap) {
-        //Multi Measure chart colored by  (Measure)
-        nextUseColors = "measure";
-      } else {
-        //colored by a dimensions
-        nextUseColors = "dimension";
-      }
-      if (prevStatus.current) {
-        if (nextUseColors == "dimension") {
-          if (prevStatus.current["scheme"] != scheme && scheme === "manual") {
-            initColors(colorBy === "index" ? dimension1 : dimension2);
-          }
-          if (prevStatus.current["colorBy"] != colorBy) {
-            initColors(colorBy === "index" ? dimension1 : dimension2);
-          }
-          if (prevStatus.current["dimension1"] != dimension1 || prevStatus.current["dimension2"] != dimension2) {
-            initColors(colorBy === "index" ? dimension1 : dimension2);
-          }
-        } else {
-          initMeasuresColors();
-        }
-      }
-      setUseColors(nextUseColors);
-    } else {
-      if (!manualColors["csv"]) {
-        setAttributes({
-          ...attributes,
-          manualColors: {
-            "csv": {}
-          },
-          colorBy: colorBy || ""
-        });
-      }
-    }
-    prevStatus.current = {
-      scheme,
-      colorBy: colorBy || "",
-      dimension1,
-      dimension2,
-      useColors,
-      app
-    };
-  }, [scheme, dimension1, dimension2, colorBy, swap, app, type]);
-  const prevStatus = useRef(undefined);
-  const updateColor = (value, color) => {
-    const newColors = Object.assign({}, manualColors);
-    newColors[app][value] = color;
-    setAttributes({
-      ...attributes,
-      manualColors: newColors,
-      colorBy: colorBy || ""
-    });
-  };
-  const initColors = dimension => {
-    const ds = allDimensions.filter(d => d.value == dimension);
-    const newColors = Object.assign({}, manualColors);
-    if (!newColors[app]) {
-      newColors[app] = {};
-    }
-    if (ds.length > 0) {
-      const {
-        type
-      } = ds[0];
-      const cat = allCategories.filter(a => a.type === type);
-      if (cat.length > 0) {
-        cat[0].items.forEach(item => {
-          if (!newColors[app][item.code]) {
-            newColors[app][item.code] = item.categoryStyle ? item.categoryStyle.color : "#eeeeee";
-          }
-        });
-      }
-      setAttributes({
-        ...attributes,
-        manualColors: newColors
-      });
-    }
-  };
-  const initMeasuresColors = () => {
-    const newColors = Object.assign({}, manualColors);
-    if (!newColors[app]) {
-      newColors[app] = {};
-    }
-    if (!allMeasures) {}
-    if (allMeasures) {
-      allMeasures.forEach(p => {
-        if (!newColors[app][p.value]) {
-          newColors[app][p.value] = p.styles ? p.styles.color : "#eeeeee";
-        }
-      });
-    }
-    setAttributes({
-      ...attributes,
-      manualColors: newColors
-    });
-  };
-  const combinedCatColors = (dimension1, dimension2) => {
-    if (manualColors[app]) {
-      const ds1 = allDimensions.filter(d => d.value == dimension1);
-      const ds2 = allDimensions.filter(d => d.value == dimension2);
-      if (ds1.length > 0 && ds2.length > 0) {
-        const {
-          type
-        } = ds1[0];
-        const {
-          type: type2
-        } = ds2[0];
-        const cat = allCategories.filter(a => a.type === type);
-        const cat2 = allCategories.filter(a => a.type === type2);
-        const list = [];
-        cat[0].items.sort((a, b) => {
-          var _a$position, _b$position;
-          return ((_a$position = a.position) !== null && _a$position !== void 0 ? _a$position : 0) - ((_b$position = b.position) !== null && _b$position !== void 0 ? _b$position : 0);
-        }).forEach(c1 => {
-          cat2[0].items.sort((a, b) => {
-            var _a$position2, _b$position2;
-            return ((_a$position2 = a.position) !== null && _a$position2 !== void 0 ? _a$position2 : 0) - ((_b$position2 = b.position) !== null && _b$position2 !== void 0 ? _b$position2 : 0);
-          }).forEach(c2 => {
-            list.push(React.createElement(PanelColorSettings, {
-              colorSettings: [{
-                value: manualColors[app][c1.value + ' - ' + c2.value],
-                onChange: color => {
-                  if (color) {
-                    updateColor(c1.value + ' - ' + c2.value, color);
-                  } else {
-                    updateColor(c1.value + ' - ' + c2.value, "#eeeeee");
-                  }
-                },
-                label: c1.value + ' - ' + c2.value
-              }]
-            }));
-          });
-        });
-        return list;
-      }
-    }
-    return null;
-  };
-  const catColors = dimension => {
-    if (manualColors[app]) {
-      const ds = allDimensions.filter(d => d.value == dimension);
-      if (ds.length > 0) {
-        const {
-          type
-        } = ds[0];
-        const cat = allCategories.filter(a => a.type === type);
-        if (cat && cat.length > 0) {
-          const list = cat[0].items.sort((a, b) => {
-            var _b$position3, _a$position3;
-            return ((_b$position3 = b.position) !== null && _b$position3 !== void 0 ? _b$position3 : 0) - ((_a$position3 = a.position) !== null && _a$position3 !== void 0 ? _a$position3 : 0);
-          }).map(item => {
-            return React.createElement(PanelColorSettings, {
-              colorSettings: [{
-                value: manualColors[app][item.code],
-                onChange: color => {
-                  if (color) {
-                    updateColor(item.code, color);
-                  } else {
-                    updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#eeeeee");
-                  }
-                },
-                label: getTranslation(item)
-              }]
-            });
-          });
-          const dimensions = [dimension1, dimension2].filter(f => f != '' && f != "none");
-          let selectedMeasures = [];
-          allMeasures.forEach(m => {
-            if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
-              selectedMeasures.push(m.value);
-            }
-          });
-          if (includeOverall) {
-            list.push(React.createElement(PanelColorSettings, {
-              colorSettings: [{
-                value: manualColors[app][OVERALL],
-                onChange: color => {
-                  if (color) {
-                    updateColor(OVERALL, color);
-                  } else {
-                    updateColor(OVERALL, "#eeeeee");
-                  }
-                },
-                label: __("Overall")
-              }]
-            }));
-          }
-          return list;
-        } else {
-          return null;
-        }
-      }
-    }
-    return null;
-  };
-  const measureColors = () => {
-    if (manualColors[app] && allMeasures && measures[app]) {
-      const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected);
-      if (selectedMeasures.length > 0) {
-        const list = selectedMeasures.sort((a, b) => b.position - a.position).map(item => {
-          return React.createElement(PanelColorSettings, {
-            colorSettings: [{
-              value: manualColors[app][item.value],
-              onChange: color => {
-                if (color) {
-                  updateColor(item.value, color);
-                } else {
-                  updateColor(item.value, item.styles ? item.styles.color : "#555555");
-                }
-              },
-              label: __(item.label)
-            }]
-          });
-        });
-        if (includeOverall && selectedMeasures.length == 1) {
-          list.push(React.createElement(PanelColorSettings, {
-            colorSettings: [{
-              value: manualColors[app][OVERALL],
-              onChange: color => {
-                if (color) {
-                  updateColor(OVERALL, color);
-                } else {
-                  updateColor(OVERALL, "#eeeeee");
-                }
-              },
-              label: __("Overall")
-            }]
-          }));
-        }
-        return list;
-      }
-    }
-    return null;
-  };
-  const csvColors = colorBy => {
-    const data = Papa.parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-    const values = [];
-    if (colorBy === "index" && type != 'line') {
-      const field = data.meta?.fields?.[0];
-      if (field) {
-        values.push(...data.data.map(d => d[field]));
-      }
-    }
-    if (colorBy === "id" || type == 'line') {
-      const fields = data.meta?.fields?.slice(1);
-      if (fields) {
-        // Convert string fields to numbers before pushing to values array
-        const numericFields = fields.map(field => Number(field));
-        values.push(...numericFields);
-      }
-    }
-    if (colorBy === "values") {
-      values.push(0, 100);
-    }
-    if (manualColors[app] && values) {
-      return values.map(v => {
-        return React.createElement(PanelColorSettings, {
-          colorSettings: [{
-            value: manualColors[app][v],
-            onChange: color => {
-              if (color) {
-                updateColor(v.toString(), color);
-              }
-            },
-            label: __(v.toString())
-          }]
-        });
-      });
-    }
-    return null;
-  };
-  const elements = [];
-  if (type == 'bar') {
-    elements.push(React.createElement(PanelRow, null, React.createElement(SelectControl, {
-      multiple: false,
-      label: __('Color By'),
-      value: colorBy,
-      onChange: colorBy => {
-        setAttributes({
-          ...attributes,
-          colorBy
-        });
-        if (colorBy === 'index' || colorBy === 'id') {
-          setAttributes({
-            ...attributes,
-            colorBy
-          });
-        }
-        if (colorBy === 'values') {
-          setAttributes({
-            ...attributes,
-            scheme: "blues",
-            colorBy
-          });
-        }
-      },
-      options: colorOptions
-    })));
-  }
-  return [...elements, React.createElement(PanelRow, null, React.createElement(SelectControl, {
-    multiple: false,
-    label: __('Color Scheme'),
-    value: scheme,
-    onChange: value => {
-      setAttributes({
-        ...attributes,
-        scheme: value
-      });
-    },
-    options: options
-  })), scheme == "plain_color" && React.createElement(PanelRow, null, React.createElement(PanelColorSettings, {
-    title: __('Color settings'),
-    colorSettings: [{
-      value: decodeURIComponent(barColor),
-      onChange: color => {
-        if (color) {
-          setAttributes({
-            ...attributes,
-            barColor: encodeURIComponent(color)
-          });
-        } else {
-          setAttributes({
-            ...attributes,
-            barColor: null
-          });
-        }
-      },
-      label: __('Plain color')
-    }]
-  })), scheme == "manual" && React.createElement(PanelRow, null, app != "csv" && useColors == "dimension" && colorBy == "index" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, catColors(dimension1)), app != "csv" && useColors == "dimension" && colorBy == "id" && dimension2 != "none" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, type == 'bar' && catColors(dimension2), type == 'line' && catColors(dimension2), type == 'pie' && combinedCatColors(dimension1, dimension2)), app != "csv" && useColors == "dimension" && swap && colorBy == "id" && dimension1 != "none" && dimension2 == "none" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, catColors(dimension1)), app != 'csv' && useColors === "measure" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Color By Measure")
-  }, measureColors()), app == "csv" && React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("Set Colors")
-  }, csvColors(colorBy)))];
-};
-/* harmony default export */ const build_ChartColors = ((/* unused pure expression or super */ null && (ChartColors)));
-;// ../../../packages/commons/build/ChartMeasures.js
-
-
-
-
-
-
-const ChartMeasures_defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const ChartMeasures = props => {
-  const {
-    onMeasuresChange,
-    onFormatChange,
-    onUseCustomAxisFormatChange,
-    onSetSingleMeasure,
-    onCustomLabelToggleChange,
-    onCustomLabelChange,
-    allMeasures,
-    setAttributes,
-    title,
-    attributes: {
-      panelStatus,
-      measures,
-      dimension1,
-      dimension2,
-      type,
-      app
-    }
-  } = props;
-  const MToggle = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    return React.createElement(ToggleControl, {
-      label: getTranslation(measure),
-      checked: userMeasure ? userMeasure.selected : false,
-      onChange: value => onMeasuresChange(measure.value)
-    });
-  };
-  const MCheckbox = ({
-    measure
-  }) => {
-    const userMeasure = measures[app] ? measures[app][measure.value] : {};
-    return React.createElement(CheckboxControl, {
-      label: getTranslation(measure),
-      checked: userMeasure ? userMeasure.selected : false,
-      onChange: value => onSetSingleMeasure(measure.value)
-    });
-  };
-  const MeasureOptions = ({
-    measure,
-    single
-  }) => {
-    return React.createElement(PanelRow, null, single && React.createElement(MCheckbox, {
-      measure: measure
-    }), !single && React.createElement(MToggle, {
-      measure: measure
-    }));
-  };
-  const countSelected = g => {
-    if (measures[app]) {
-      const mG = allMeasures.filter(f => getTranslation(f.group) === g);
-      let count = 0;
-      Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
-        if (measures[app][k].selected) {
-          count++;
-        }
-      });
-      return count;
-    }
-    return 0;
-  };
-  const countTotal = g => {
-    if (g) {
-      return allMeasures.filter(f => getTranslation(f.group) === g).length;
-    }
-    return 0;
-  };
-  const getSelectedMeasures = () => {
-    if (measures[app] && allMeasures) {
-      return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
-        return allMeasures.filter(m => m.value === k)[0];
-      }).filter(m => m);
-    }
-    return [];
-  };
-  const selectedMeasures = getSelectedMeasures();
-  return React.createElement(React.Fragment, null, React.createElement(PanelBody, {
-    title: title ? title : __("Measures"),
-    initialOpen: panelStatus["MEASURES"],
-    onToggle: e => togglePanel("MEASURES", panelStatus, setAttributes)
-  },
-  /*
-   Multiple measures conditions
-    Bar:
-   no dimensions selected
-   one dimension is selected
-   -  not available when second dimension gets selected
-    Line:
-     - Always multi measure as measures represents line series, one dimension should always be selected
-    Pie:
-        no dimensions selected
-         -  not available when any dimension is selected
-   */
-  (type == 'line' || type == 'bar' && dimension2 == 'none' || type == 'pie' && dimension1 == 'none' && dimension2 == 'none') && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
-    return React.createElement(PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${countTotal(g)} ) `
-    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
-      single: false,
-      measure: m
-    }))));
-  }),
-  /*Single measure conditions
-  Bar:
-     2 dimensions selected
-  Line:
-      never
-  Pie:
-    any dimensions selected
-  */
-  (type == 'bar' && dimension2 != 'none' || type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
-    return React.createElement(PanelBody, {
-      initialOpen: panelStatus[g],
-      onToggle: e => togglePanel(g, panelStatus, setAttributes),
-      title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `
-    }, allMeasures.filter(f => getTranslation(f.group) === g).map(m => React.createElement(PanelRow, null, React.createElement(MeasureOptions, {
-      single: true,
-      measure: m
-    }))));
-  }), type == 'overlay' && allMeasures && React.createElement(SelectControl, {
-    label: "Measure",
-    value: selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null,
-    options: [{
-      value: '',
-      label: 'Select Measure'
-    }, ...allMeasures],
-    onChange: measure => onSetSingleMeasure(measure),
-    __nextHasNoMarginBottom: true
-  }), type != 'overlay' && React.createElement(PanelBody, {
-    title: __("Format"),
-    initialOpen: panelStatus["FORMAT"],
-    onToggle: e => togglePanel("FORMAT", panelStatus, setAttributes)
-  }, React.createElement(Format, {
-    format: measures[app] && measures[app].format ? measures[app].format : ChartMeasures_defaultFormat,
-    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : ChartMeasures_defaultFormat,
-    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
-    onFormatChange: (format, field) => {
-      onFormatChange(format, field);
-    },
-    onUseCustomAxisFormatChange: value => {
-      onUseCustomAxisFormatChange(value);
-    }
-  }))), type != 'overlay' && selectedMeasures && selectedMeasures.length > 0 && React.createElement(PanelBody, {
-    title: __("Measure Label Customization"),
-    initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
-    onToggle: e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
-  }, selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
-    return React.createElement(PanelBody, {
-      initialOpen: panelStatus[g + "_LABEL_CUSTOMIZATION"],
-      onToggle: e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes),
-      title: `${g}`
-    }, selectedMeasures.filter(f => getTranslation(f.group) === g).map(m => {
-      const userMeasure = measures[app] ? measures[app][m.value] : {};
-      return React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
-        label: getTranslation(m),
-        checked: userMeasure ? userMeasure.hasCustomLabel : false,
-        onChange: value => onCustomLabelToggleChange(m.value)
-      }), " "), userMeasure.hasCustomLabel && React.createElement(PanelRow, null, React.createElement(TextControl, {
-        label: __("Custom Label"),
-        value: userMeasure ? userMeasure.customLabel : "",
-        onChange: value => onCustomLabelChange(m.value, value)
-      })));
-    }));
-  })));
-};
-/* harmony default export */ const build_ChartMeasures = ((/* unused pure expression or super */ null && (ChartMeasures)));
-;// ../../../packages/commons/build/Constants.js
-const DEFAULT_FORMAT_SETTINGS = {
-  format: {
-    style: "percent",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  },
-  customFormat: {
-    style: "percent",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  },
-  useCustomAxisFormat: false
-};
-const BLOCKS_CATEGORY = 'wp-react-lib-blocks';
-const BLOCKS_NS = 'viz';
-;// ../../../packages/commons/build/CSVSourceConfig.js
-
-
-
-
-
-const CSVSourceConfig_defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const CSVConfig = ({
-  attributes: {
-    csv,
-    panelStatus,
-    measures,
-    type
-  },
-  setAttributes
-}) => {
-  const onFormatChange = (format, field) => {
-    const app = "csv";
-    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
-    if (!uMs[app]) {
-      uMs[app] = {
-        allowSelection: false,
-        format: Object.assign({}, CSVSourceConfig_defaultFormat),
-        customFormat: Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        }),
-        selected: false
-      };
-    }
-    uMs[app][field] = format;
-    setAttributes({
-      measures: uMs
-    });
-  };
-  const onUseCustomAxisFormatChange = value => {
-    const app = "csv";
-    const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {};
-    if (uMs[app]) {
-      uMs[app].useCustomAxisFormat = value;
-      if (!uMs[app].customFormat) {
-        uMs[app].customFormat = Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        });
-      }
-      setAttributes({
-        measures: uMs
-      });
-    } else {
-      uMs[app] = {
-        allowSelection: false,
-        format: Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        }),
-        customFormat: Object.assign({}, {
-          ...CSVSourceConfig_defaultFormat
-        }),
-        selected: false
-      };
-      uMs[app].useCustomAxisFormat = value;
-      setAttributes({
-        measures: uMs
-      });
-    }
-  };
-  return [React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("CSV Configuration"),
-    onToggle: e => togglePanel("csv_cfg", panelStatus, setAttributes)
-  }, React.createElement(PanelRow, null, React.createElement(TextareaControl, {
-    label: __("CSV Data"),
-    value: csv,
-    onChange: csv => setAttributes({
-      csv
-    })
-  })), React.createElement(Format, {
-    hiddenCustomAxisFormat: type == 'radar' || type == 'big-number',
-    format: measures["csv"] && measures["csv"].format ? measures["csv"].format : {},
-    customFormat: measures["csv"] && measures["csv"].customFormat ? measures["csv"].customFormat : {},
-    useCustomAxisFormat: measures["csv"] ? measures["csv"].useCustomAxisFormat : false,
-    onFormatChange: (newFormat, field) => {
-      onFormatChange(newFormat, field);
-    },
-    onUseCustomAxisFormatChange: value => {
-      onUseCustomAxisFormatChange(value);
-    }
-  }))];
-};
-/* harmony default export */ const CSVSourceConfig = ((/* unused pure expression or super */ null && (CSVConfig)));
-;// ../../../packages/commons/build/DataFilters.js
-
-
-
-const DataFilters = props => {
-  const updateFilterParam = (param, idx) => {
-    const {
-      attributes,
-      setAttributes,
-      allFilters
-    } = props;
-    const filters = attributes?.filters || [];
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    setAttributes({
-      filters: newFilters
-    });
-  };
-  const updateFilterValue = (value, idx) => {
-    const {
-      attributes,
-      setAttributes,
-      onChange
-    } = props;
-    const filters = attributes?.filters || [];
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    setAttributes({
-      filters: newFilters
-    });
-    onChange && onChange();
-  };
-  const addFilter = () => {
-    const {
-      attributes,
-      setAttributes,
-      allFilters
-    } = props;
-    const filters = attributes?.filters || [];
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    setAttributes({
-      filters: newFilters
-    });
-  };
-  const removeFilter = f => {
-    const {
-      attributes,
-      setAttributes
-    } = props;
-    const filters = attributes?.filters || [];
-    let newFilters = filters.slice(0, -1);
-    setAttributes({
-      filters: newFilters
-    });
-  };
-  const items = type => {
-    const values = props.allCategories ? props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  };
-  const FilterSelector = ({
-    param,
-    index,
-    options,
-    onUpdateFilterParam
-  }) => {
-    const sortedOptions = options.sort(function (a, b) {
-      var aLabel = a.label ? a.label.toLowerCase() : "";
-      var bLabel = b.label ? b.label.toLowerCase() : "";
-      return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-    });
-    return external_React_default().createElement(external_wp_components_.SelectControl, {
-      onChange: value => {
-        onUpdateFilterParam(value, index);
-      },
-      value: param,
-      options: sortedOptions
-    });
-  };
-  const CategoricalFilter = ({
-    value,
-    index,
-    items,
-    onUpdateFilterValue
-  }) => {
-    if (items) {
-      const sortedItems = items.sort(function (a, b) {
-        if (a.position !== undefined && b.position !== undefined) {
-          return a.position - b.position;
-        }
-        let aValue = a.value ? a.value.toLowerCase() : "";
-        let bValue = b.value ? b.value.toLowerCase() : "";
-        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      });
-      return sortedItems.map(v => external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })));
-    } else {
-      return null;
-    }
-  };
-  const {
-    allFilters,
-    attributes
-  } = props;
-  const filters = attributes?.filters || [];
-  return external_React_default().createElement(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Filters")
-  }, filters.length > 0 && filters.map((f, index) => {
-    return external_React_default().createElement(external_wp_components_.PanelBody, {
-      initialOpen: true,
-      title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`)
-    }, external_React_default().createElement(FilterSelector, {
-      param: f.param,
-      index: index,
-      options: allFilters,
-      onUpdateFilterParam: updateFilterParam
-    }), external_React_default().createElement(CategoricalFilter, {
-      value: f.value,
-      index: index,
-      items: items(f.type),
-      onUpdateFilterValue: updateFilterValue
-    }));
-  }), external_React_default().createElement(external_wp_components_.PanelRow, null, external_React_default().createElement(external_wp_components_.Button, {
-    variant: "link",
-    onClick: addFilter
-  }, (0,external_wp_i18n_.__)("Add Filter")), external_React_default().createElement(external_wp_components_.Button, {
-    variant: "link",
-    onClick: removeFilter
-  }, (0,external_wp_i18n_.__)("Remove"))));
-};
-/* harmony default export */ const build_DataFilters = ((/* unused pure expression or super */ null && (DataFilters)));
-;// ../../../packages/commons/build/MapCSVSourceConfig.js
-
-
-
-const MapCSVSourceConfig = ({
-  attributes: {
-    app,
-    csv,
-    hasMultipleMeasures,
-    enableSummaryView
-  },
-  setAttributes
-}) => {
-  return [React.createElement(PanelBody, {
-    initialOpen: false,
-    title: __("CSV Configuration")
-  }, React.createElement(PanelRow, null, React.createElement(ToggleControl, {
-    label: "Has Multiple Measures",
-    checked: hasMultipleMeasures,
-    onChange: () => setAttributes({
-      hasMultipleMeasures: !hasMultipleMeasures
-    })
-  })), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
-    label: __("CSV Data"),
-    value: csv,
-    onChange: csv => setAttributes({
-      csv
-    })
-  })))];
-};
-/* harmony default export */ const build_MapCSVSourceConfig = ((/* unused pure expression or super */ null && (MapCSVSourceConfig)));
-// EXTERNAL MODULE: ../../../node_modules/.pnpm/lodash.isempty@4.4.0/node_modules/lodash.isempty/index.js
-var lodash_isempty = __webpack_require__(1299);
-;// ../../../packages/commons/build/MobileConfigUtils.js
-
-
-function extractAxisValues(csvData) {
-  const lines = csvData.split("\n");
-  const firstColumnValues = lines?.slice(1)?.map(row => {
-    return row.split(",")[0];
-  });
-  return firstColumnValues;
-}
-function transformDataToAppObject(data, appName, existingObject = {}) {
-  if (existingObject[appName] !== undefined) {
-    return existingObject;
-  }
-  existingObject[appName] = {};
-  data?.forEach(item => {
-    const key = item.value;
-    existingObject[appName][key] = {
-      selected: false,
-      format: {
-        style: "percent",
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-        currency: "USD"
-      },
-      hasCustomLabel: false,
-      customLabel: item.label || key
-    };
-  });
-  return existingObject;
-}
-function getSelectedItemsForApp(config, appName) {
-  const appConfig = config[appName];
-  if (!appConfig) return {};
-  const selectedEntries = {};
-  for (const key in appConfig) {
-    const value = appConfig[key];
-    if (value && typeof value === 'object' && value.selected === true) {
-      selectedEntries[key] = value;
-    }
-  }
-  return selectedEntries;
-}
-function getSelectedLabelsForApp(data, appName) {
-  const appData = data[appName];
-  if (!appData) {
-    return [];
-  }
-  return Object.keys(appData).filter(key => appData[key].selected) // Filter out the selected items
-  .map(key => {
-    return appData[key].hasCustomLabel ? appData[key].customLabel : appData[key].label;
-  });
-}
-function updateMeasureLabels(data, measures, app) {
-  transformDataToAppObject(data, app, measures);
-  const apiMeasures = getTranslatedOptions(data);
-  // for each api measure, find the corresponding measure in the measures array
-  // and add a label property to the measure in the measures array
-  apiMeasures?.forEach(apiMeasure => {
-    const measure = measures[app][apiMeasure.value];
-    if (measure) {
-      measure.label = apiMeasure.label;
-    }
-  });
-}
-;
-function getStoredOrSetItem(key, fallback, overwrite = false) {
-  const fallbackValue = fallback || [];
-  if (overwrite && !isEmpty(fallbackValue)) {
-    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
-    return fallbackValue;
-  }
-  const storedItem = sessionStorage.getItem(key);
-  if (storedItem === null) {
-    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
-    return fallbackValue;
-  }
-  const stored = JSON.parse(storedItem);
-  if (!stored) {
-    sessionStorage.setItem(key, JSON.stringify(fallbackValue));
-    return fallbackValue;
-  }
-  return stored;
-}
-;// ../../../packages/commons/build/Tooltip.js
-
-
-
-const Tooltip = props => {
-  function repeat(times) {
-    return function (strs, ...substs) {
-      return cook(strs, ...substs).repeat(times);
-    };
-  }
-  function cook(strs, ...substs) {
-    return substs.reduce((prev, cur, i) => prev + cur + strs[i + 1], strs[0]);
-  }
-  const {
-    setAttributes,
-    attributes: {
-      tooltipHTML,
-      dimension1,
-      dimension2,
-      dimension3,
-      measures
-    },
-    allMeasures,
-    allDimensions,
-    type
-  } = props;
-  return [React.createElement(PanelBody, {
-    title: __("Variables")
-  }, React.createElement("div", null, allDimensions.filter(d => d.value === dimension1 || d.value === dimension2 || d.value === dimension3).map(d => React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, d.label, " -> ", "{", d.value, "}")))), React.createElement("div", null, allMeasures.map(m => React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, m.label, " -> ", "{", m.value, "}")))), dimension1 == "none" && dimension2 == "none" && React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, "Corresponding Population -> ", "{", "populationValue", "}")), type === "pie" && React.createElement(React.Fragment, null, React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, "Value Percent -> ", '{valuePercent}')), React.createElement(PanelRow, null, React.createElement("span", {
-    style: {
-      fontSize: "11px"
-    }
-  }, "Category -> ", '{category}')))), React.createElement(PanelRow, null, React.createElement(TextareaControl, {
-    label: __("Tooltip"),
-    value: tooltipHTML,
-    help: __("You can use variables {var_name}"),
-    onChange: tooltipHTML => setAttributes({
-      tooltipHTML
-    }),
-    rows: 10
-  }))];
-};
-/* harmony default export */ const build_Tooltip = ((/* unused pure expression or super */ null && (Tooltip)));
-;// ../../../packages/commons/build/types.js
-;
-var Allow;
-(function (Allow) {
-  Allow["Get"] = "GET";
-})(Allow || (Allow = {}));
-var MediaTaxonomy;
-(function (MediaTaxonomy) {
-  MediaTaxonomy["BreadCrumbs"] = "bread_crumbs";
-})(MediaTaxonomy || (MediaTaxonomy = {}));
-var CommentStatus;
-(function (CommentStatus) {
-  CommentStatus["Open"] = "open";
-})(CommentStatus || (CommentStatus = {}));
-var MediaType;
-(function (MediaType) {
-  MediaType["File"] = "file";
-})(MediaType || (MediaType = {}));
-var MIMEType;
-(function (MIMEType) {
-  MIMEType["ApplicationJSON"] = "application/json";
-})(MIMEType || (MIMEType = {}));
-var PingStatus;
-(function (PingStatus) {
-  PingStatus["Closed"] = "closed";
-})(PingStatus || (PingStatus = {}));
-var Status;
-(function (Status) {
-  Status["Inherit"] = "inherit";
-})(Status || (Status = {}));
-var Type;
-(function (Type) {
-  Type["Attachment"] = "attachment";
-})(Type || (Type = {}));
-;// ../../../packages/commons/build/icons/Generic.js
-
-
-const Generic = () => external_React_default().createElement(external_wp_components_.Icon, {
-  icon: () => external_React_default().createElement("svg", {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 24 24",
-    xmlns: "http://www.w3.org/2000/svg",
-    role: "img",
-    "aria-hidden": "true",
-    focusable: "false"
-  }, external_React_default().createElement("path", {
-    d: "M19 6.5H5c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7c0-1.1-.9-2-2-2zm.5 9c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5v-7c0-.3.2-.5.5-.5h14c.3 0 .5.2.5.5v7zM8 13h8v-1.5H8V13z"
-  }))
-});
-/* harmony default export */ const icons_Generic = ((/* unused pure expression or super */ null && (Generic)));
-;// ../../../packages/commons/build/icons/Chart.js
-
-
-const Chart = () => {
-  return React.createElement(Icon, {
-    icon: () => React.createElement("svg", {
-      version: "1.1",
-      viewBox: "0 0 18.777 18.777"
-    }, React.createElement("g", null, React.createElement("g", null, React.createElement("path", {
-      style: {
-        "fill": "#030104;"
-      },
-      d: "M2.245,10.496H0.272C0.122,10.496,0,10.62,0,10.77v5.717c0,0.15,0.122,0.272,0.272,0.272h1.973\n\t\t\tc0.15,0,0.272-0.122,0.272-0.272V10.77C2.518,10.62,2.396,10.496,2.245,10.496z"
-    }), React.createElement("path", {
-      style: {
-        "fill": "#030104;"
-      },
-      d: "M18.504,10.496h-1.973c-0.15,0-0.271,0.124-0.271,0.274v5.717c0,0.15,0.121,0.272,0.271,0.272\n\t\t\th1.973c0.152,0,0.273-0.122,0.273-0.272V10.77C18.777,10.62,18.656,10.496,18.504,10.496z"
-    }), React.createElement("path", {
-      style: {
-        "fill": "#030104;"
-      },
-      d: "M5.907,7.228H3.934c-0.15,0-0.273,0.122-0.273,0.273v8.984c0,0.15,0.123,0.272,0.273,0.272h1.973\n\t\t\tc0.151,0,0.273-0.122,0.273-0.272V7.501C6.18,7.349,6.058,7.228,5.907,7.228z"
-    }), React.createElement("path", {
-      style: {
-        "fill": "#030104;"
-      },
-      d: "M14.271,7.228h-1.973c-0.15,0-0.271,0.122-0.271,0.273v8.984c0,0.15,0.121,0.272,0.271,0.272h1.973\n\t\t\tc0.152,0,0.273-0.122,0.273-0.272V7.501C14.545,7.349,14.424,7.228,14.271,7.228z"
-    }), React.createElement("path", {
-      style: {
-        "fill": "#030104;"
-      },
-      d: "M10.01,9.218H8.036c-0.15,0-0.272,0.123-0.272,0.272v6.994c0,0.15,0.122,0.272,0.272,0.272h1.974\n\t\t\tc0.152,0,0.273-0.122,0.273-0.272V9.49C10.283,9.341,10.162,9.218,10.01,9.218z"
-    }), React.createElement("path", {
-      style: {
-        "fill": "#030104;"
-      },
-      d: "M1.259,6.947c0.581,0,1.051-0.47,1.051-1.051c0-0.101-0.019-0.196-0.046-0.288l2.211-1.591\n\t\t\tc0.136,0.064,0.286,0.102,0.446,0.102c0.309,0,0.583-0.135,0.776-0.347L7.784,4.98c-0.012,0.062-0.02,0.126-0.02,0.19\n\t\t\tc0,0.58,0.471,1.051,1.051,1.051c0.559,0,1.012-0.438,1.044-0.989l2.814-0.823c0.191,0.262,0.498,0.435,0.848,0.435\n\t\t\tc0.232,0,0.443-0.077,0.617-0.205l2.365,1.604c-0.02,0.083-0.037,0.17-0.037,0.26c0,0.581,0.471,1.052,1.051,1.052\n\t\t\ts1.053-0.471,1.053-1.052s-0.473-1.051-1.053-1.051c-0.232,0-0.443,0.077-0.617,0.204l-2.363-1.601\n\t\t\tc0.02-0.084,0.035-0.17,0.035-0.26c0-0.581-0.469-1.051-1.051-1.051c-0.559,0-1.012,0.438-1.045,0.989L9.663,4.555\n\t\t\tC9.472,4.292,9.164,4.12,8.815,4.12c-0.259,0-0.492,0.096-0.675,0.251L5.968,3.112c0-0.015,0.004-0.028,0.004-0.042\n\t\t\tc0-0.581-0.47-1.052-1.051-1.052S3.87,2.488,3.87,3.069c0,0.158,0.038,0.306,0.1,0.441L1.855,5.032\n\t\t\tC1.686,4.914,1.481,4.845,1.259,4.845c-0.581,0-1.051,0.471-1.051,1.051C0.208,6.477,0.678,6.947,1.259,6.947z"
-    }))))
-  });
-};
-/* harmony default export */ const icons_Chart = ((/* unused pure expression or super */ null && (Chart)));
-;// ../../../packages/commons/build/icons/index.js
-
-
-;// ../../../packages/commons/build/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
 /***/ 8019:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -35728,6 +35253,531 @@ function insertWrapDetails(source, details) {
 
 module.exports = insertWrapDetails;
 
+
+/***/ }),
+
+/***/ 8039:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./downloads/BlockSave.tsx
+
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      type,
+      height,
+      checkPng,
+      checkJpg,
+      buttonLabel,
+      defaultFormat,
+      pngLabel,
+      jpgLabel,
+      pngText,
+      jpgText,
+      title,
+      sectionTitle,
+      style,
+      useTitle,
+      fontClass,
+      fontSize,
+      color,
+      tooltip,
+      downloadTooltip,
+      includeSourceURL,
+      sourceURLMarginLeft,
+      sourceURLMarginTop,
+      sourceURLFontSize
+    }
+  } = props;
+  const divClass = "";
+  const divStyles = {};
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    className: divClass,
+    style: divStyles,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+      "data-height": height,
+      className: "viz-component self-render-component",
+      "data-component": "download",
+      "data-check-png": checkPng,
+      "data-check-jpg": checkJpg,
+      "data-button-label": buttonLabel,
+      "data-default-format": defaultFormat,
+      "data-png-label": pngLabel,
+      "data-jpg-label": jpgLabel,
+      "data-png-text": pngText,
+      "data-jpg-text": jpgText,
+      "data-title": title,
+      "data-section-title": encodeURIComponent(`<p class="${fontClass}" style="font-size:${!fontClass ? fontSize : 'auto'};color:${color}">${sectionTitle}</p>`),
+      "data-style": style,
+      "data-use-title": useTitle,
+      "data-download-tooltip": encodeURIComponent(downloadTooltip),
+      "data-include-source-url": includeSourceURL,
+      "data-source-urlmargin-left": sourceURLMarginLeft,
+      "data-source-urlmargin-top": sourceURLMarginTop,
+      "data-source-urlfont-size": sourceURLFontSize,
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InnerBlocks.Content, {})
+    })
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
+;// ./downloads/BlockEdit.tsx
+
+
+
+
+
+
+class BlockEdit extends build/* ComponentWithSettings */.BE {
+  constructor(props) {
+    super(props);
+    this.iframe = external_React_default().createRef();
+  }
+  render() {
+    const {
+      className,
+      setAttributes,
+      fontSizes,
+      attributes: {
+        color,
+        type,
+        height,
+        checkPng,
+        checkJpg,
+        buttonLabel,
+        defaultFormat,
+        pngLabel,
+        jpgLabel,
+        pngText,
+        jpgText,
+        title,
+        useTitle,
+        sectionTitle,
+        style,
+        fontSize,
+        fontClass,
+        tooltip,
+        downloadTooltip,
+        includeSourceURL,
+        sourceURLMarginLeft,
+        sourceURLMarginTop,
+        sourceURLFontSize
+      }
+    } = this.props;
+    const titleStyle = {
+      fontSize: !fontClass ? fontSize : 'auto',
+      color: color !== null && color !== void 0 ? color : undefined
+    };
+    //migration code
+    if (tooltip != '') {
+      ;
+      setAttributes({
+        downloadTooltip: tooltip,
+        tooltip: ''
+      });
+      return null;
+    }
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Default Format"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+                children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("input", {
+                  type: "radio",
+                  id: "png",
+                  name: "png",
+                  checked: defaultFormat === 'PNG',
+                  value: "PNG",
+                  onChange: e => setAttributes({
+                    defaultFormat: e.target.value,
+                    checkPng: true
+                  })
+                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("label", {
+                  htmlFor: "PNG",
+                  children: "PNG"
+                })]
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+                children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("input", {
+                  type: "radio",
+                  id: "jpg",
+                  name: "jpg",
+                  checked: defaultFormat === 'JPG',
+                  value: "JPG",
+                  onChange: e => setAttributes({
+                    defaultFormat: e.target.value,
+                    checkJpg: true
+                  })
+                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("label", {
+                  htmlFor: "JPG",
+                  children: "JPG"
+                })]
+              })]
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Allowed Format"),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
+                label: "PNG",
+                checked: checkPng,
+                onChange: value => {
+                  setAttributes({
+                    checkPng: value,
+                    checkJpg: value == false ? true : checkJpg,
+                    defaultFormat: value == false && defaultFormat === 'PNG' ? 'JPG' : defaultFormat
+                  });
+                }
+              })
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
+                label: "JPG",
+                checked: checkJpg,
+                onChange: value => setAttributes({
+                  checkJpg: value,
+                  checkPng: value == false ? true : checkPng,
+                  defaultFormat: value == false && defaultFormat === 'JPG' ? 'PNG' : defaultFormat
+                })
+              })
+            })]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                label: (0,external_wp_i18n_.__)("Use Title"),
+                checked: useTitle,
+                onChange: () => setAttributes({
+                  useTitle: !useTitle
+                })
+              })
+            }), useTitle && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
+                  fontSizes: fontSizes,
+                  withSlider: true,
+                  fallbackFontSize: 14,
+                  value: fontSize,
+                  onChange: fontSize => {
+                    const current = fontSizes.filter(f => f.size === fontSize).shift();
+                    if (current) {
+                      setAttributes({
+                        fontClass: (0,external_wp_blockEditor_.getFontSizeClass)(current.slug),
+                        fontSize: fontSize?.toString()
+                      });
+                    } else {
+                      setAttributes({
+                        fontClass: '',
+                        fontSize: fontSize?.toString()
+                      });
+                    }
+                  }
+                })
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+                  colorSettings: [{
+                    value: color !== null && color !== void 0 ? color : undefined,
+                    onChange: color => {
+                      if (color) {
+                        setAttributes({
+                          color
+                        });
+                      } else {
+                        setAttributes({
+                          color: null
+                        });
+                      }
+                    },
+                    label: (0,external_wp_i18n_.__)('Text color')
+                  }]
+                })
+              })]
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                label: (0,external_wp_i18n_.__)("Use Light Style"),
+                checked: style === 'light',
+                onChange: () => setAttributes({
+                  style: style === 'light' ? 'heavy' : 'light'
+                })
+              })
+            })]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Button Label"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                value: buttonLabel,
+                onChange: buttonLabel => setAttributes({
+                  buttonLabel
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Drop Down Label"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                value: title,
+                onChange: title => setAttributes({
+                  title
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("PNG File Name"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                value: pngLabel,
+                onChange: pngLabel => setAttributes({
+                  pngLabel
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("JPG File Name"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                value: jpgLabel,
+                onChange: jpgLabel => setAttributes({
+                  jpgLabel
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("PNG Text"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                value: pngText,
+                onChange: pngText => setAttributes({
+                  pngText
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("JPG Text"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                value: jpgText,
+                onChange: jpgText => setAttributes({
+                  jpgText
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Tooltip"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+                value: downloadTooltip,
+                onChange: downloadTooltip => setAttributes({
+                  downloadTooltip
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Source URL"),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                label: (0,external_wp_i18n_.__)("Include Source URL"),
+                checked: includeSourceURL,
+                onChange: () => setAttributes({
+                  includeSourceURL: !includeSourceURL
+                })
+              })
+            }), includeSourceURL && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+                label: (0,external_wp_i18n_.__)('Margin Left'),
+                value: sourceURLMarginLeft,
+                onChange: sourceURLMarginLeft => setAttributes({
+                  sourceURLMarginLeft
+                }),
+                min: 0,
+                max: 300
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+                label: (0,external_wp_i18n_.__)('Margin Top'),
+                value: sourceURLMarginTop,
+                onChange: sourceURLMarginTop => setAttributes({
+                  sourceURLMarginTop
+                }),
+                min: 0,
+                max: 50
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+                label: (0,external_wp_i18n_.__)('Font Size'),
+                value: sourceURLFontSize,
+                onChange: sourceURLFontSize => setAttributes({
+                  sourceURLFontSize
+                }),
+                min: 8,
+                max: 24
+              })]
+            })]
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+        className: `${className} ${className.split('-').join(' ')}`,
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+          style: {
+            "display": "flex"
+          },
+          children: [useTitle && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+            style: {
+              flexGrow: "1"
+            },
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.RichText, {
+              tagName: "p",
+              style: titleStyle,
+              className: `download title ${fontClass ? fontClass : ''}`,
+              value: sectionTitle,
+              onChange: sectionTitle => setAttributes({
+                sectionTitle
+              }),
+              placeholder: (0,external_wp_i18n_.__)('Title...')
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+            style: !useTitle ? {
+              flexGrow: "1"
+            } : {},
+            children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+              width: "100%",
+              ref: this.iframe,
+              scrolling: "no",
+              src: this.state.react_ui_url + "/embeddable/download?"
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InnerBlocks, {})]
+      })]
+    });
+  }
+}
+const Edit = props => {
+  var _useSetting;
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
+  const fontSizes = (_useSetting = (0,build/* useSetting */.iK)('typography.fontSizes')) !== null && _useSetting !== void 0 ? _useSetting : [];
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+      fontSizes: fontSizes,
+      ...props
+    })
+  });
+};
+/* harmony default export */ const downloads_BlockEdit = (Edit);
+;// ./downloads/index.js
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/download', {
+  title: (0,external_wp_i18n_.__)('Download'),
+  icon: build/* GenericIcon */.Z7,
+  category: build/* BLOCKS_CATEGORY */._q,
+  attributes: {
+    defaultFormat: {
+      type: 'string',
+      default: 'PNG'
+    },
+    title: {
+      type: 'string',
+      default: "Set your chart download file type"
+    },
+    useTitle: {
+      type: 'Boolean',
+      default: false
+    },
+    style: {
+      type: 'String',
+      default: "heavy"
+    },
+    sectionTitle: {
+      type: 'string',
+      default: ""
+    },
+    buttonLabel: {
+      type: 'string',
+      default: "Download"
+    },
+    pngLabel: {
+      type: 'string',
+      default: 'export.png'
+    },
+    jpgLabel: {
+      type: 'string',
+      default: 'export.jpg'
+    },
+    pngText: {
+      type: 'string',
+      default: 'Download PNG'
+    },
+    jpgText: {
+      type: 'string',
+      default: 'Download JPG'
+    },
+    checkPng: {
+      type: 'boolean',
+      default: true
+    },
+    checkJpg: {
+      type: 'boolean',
+      default: false
+    },
+    height: {
+      type: 'Numeric',
+      default: 200
+    },
+    fontSize: {
+      type: 'string',
+      default: '24px'
+    },
+    fontClass: {
+      type: 'string',
+      default: '24px'
+    },
+    color: {
+      type: 'string',
+      default: '24px'
+    },
+    downloadTooltip: {
+      type: 'string',
+      default: "Click to select download format"
+    },
+    tooltip: {
+      type: 'string',
+      default: "Click to select download format"
+    },
+    includeSourceURL: {
+      type: 'boolean',
+      default: false
+    },
+    sourceURLMarginLeft: {
+      type: 'Numeric',
+      default: 70
+    },
+    sourceURLMarginTop: {
+      type: 'Numeric',
+      default: 10
+    },
+    sourceURLFontSize: {
+      type: 'Numeric',
+      default: 18
+    }
+  },
+  edit: downloads_BlockEdit,
+  save: BlockSave
+});
 
 /***/ }),
 
@@ -36020,8 +36070,8 @@ const SaveComponent = props => {
 /* harmony default export */ const BlockSave = (SaveComponent);
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
-var build = __webpack_require__(7965);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
 // EXTERNAL MODULE: external ["wp","apiFetch"]
 var external_wp_apiFetch_ = __webpack_require__(1455);
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_);
@@ -36933,7 +36983,10 @@ class DataLayerSetting extends external_wp_element_.Component {
         ...this.props,
         allMeasures: allMeasures,
         onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
+        onSetSingleMeasure: this.onSetSingleMeasure
+        // TODO: fix measures component
+        // @ts-ignore 
+        ,
         measures: layer.measures,
         format: layer.format
       })
@@ -37530,7 +37583,10 @@ class FlowLayerSetting extends external_wp_element_.Component {
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)((external_React_default()).Fragment, {
       children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
         onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
+        onSetSingleMeasure: this.onSetSingleMeasure
+        // TODO: fix measures component
+        // @ts-ignore 
+        ,
         measures: layer.measures,
         format: layer.format,
         ...this.props
@@ -38109,7 +38165,10 @@ class LatLongLayerSetting extends external_wp_element_.Component {
         })
       }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Measures */.I3, {
         onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
+        onSetSingleMeasure: this.onSetSingleMeasure
+        // TODO: fix measures component
+        // @ts-ignore 
+        ,
         measures: measures,
         format: format,
         ...this.props
@@ -39020,7 +39079,7 @@ const Edit = props => {
 
 (0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/new-d3-map', {
   title: (0,external_wp_i18n_.__)('D3 Map'),
-  icon: build/* Generic */.ck,
+  icon: build/* GenericIcon */.Z7,
   category: build/* BLOCKS_CATEGORY */._q,
   apiVersion: 2,
   attributes: {
@@ -39121,535 +39180,6 @@ const isSupersetAPI = (app, apps) => {
   return appObj && appObj.settings && appObj.settings.metadata && appObj.settings.metadata.superset == 'true';
 };
 /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = ((/* unused pure expression or super */ null && (getTranslatedOptions)));
-
-/***/ }),
-
-/***/ 8247:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external ["wp","editor"]
-var external_wp_editor_ = __webpack_require__(3656);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./downloads/BlockSave.js
- // or wp.editor
-
-const SaveComponent = props => {
-  const {
-    setAttributes,
-    attributes: {
-      type,
-      height,
-      checkPng,
-      checkJpg,
-      buttonLabel,
-      defaultFormat,
-      pngLabel,
-      jpgLabel,
-      pngText,
-      jpgText,
-      title,
-      sectionTitle,
-      style,
-      useTitle,
-      fontClass,
-      fontSize,
-      color,
-      tooltip,
-      downloadTooltip,
-      includeSourceURL,
-      sourceURLMarginLeft,
-      sourceURLMarginTop,
-      sourceURLFontSize
-    }
-  } = props;
-  const divClass = {};
-  const divStyles = {};
-  const titleStyle = {
-    'font-size': !fontClass ? fontSize : 'auto',
-    'color': color
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    className: divClass,
-    style: divStyles,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-      "data-height": height,
-      className: "viz-component self-render-component",
-      "data-component": "download",
-      "data-check-png": checkPng,
-      "data-check-jpg": checkJpg,
-      "data-button-label": buttonLabel,
-      "data-default-format": defaultFormat,
-      "data-png-label": pngLabel,
-      "data-jpg-label": jpgLabel,
-      "data-png-text": pngText,
-      "data-jpg-text": jpgText,
-      "data-title": title,
-      "data-section-title": encodeURIComponent(`<p class="${fontClass}" style="font-size:${!fontClass ? fontSize : 'auto'};color:${color}">${sectionTitle}</p>`),
-      "data-style": style,
-      "data-use-title": useTitle,
-      "data-download-tooltip": encodeURIComponent(downloadTooltip),
-      "data-include-source-url": includeSourceURL,
-      "data-source-urlmargin-left": sourceURLMarginLeft,
-      "data-source-urlmargin-top": sourceURLMarginTop,
-      "data-source-urlfont-size": sourceURLFontSize,
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks.Content, {})
-    })
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ./commons/index.js
-var commons = __webpack_require__(5452);
-;// ./downloads/BlockEdit.js
-
-
- // or wp.editor
-
-
-
-class BlockEdit extends commons/* ComponentWithSettings */.BE {
-  constructor(props) {
-    super(props);
-    this.iframe = React.createRef();
-  }
-  render() {
-    const {
-      className,
-      setAttributes,
-      fontSizes,
-      attributes: {
-        color,
-        type,
-        height,
-        checkPng,
-        checkJpg,
-        buttonLabel,
-        defaultFormat,
-        pngLabel,
-        jpgLabel,
-        pngText,
-        jpgText,
-        title,
-        useTitle,
-        sectionTitle,
-        style,
-        fontSize,
-        fontClass,
-        tooltip,
-        downloadTooltip,
-        includeSourceURL,
-        sourceURLMarginLeft,
-        sourceURLMarginTop,
-        sourceURLFontSize
-      }
-    } = this.props;
-    const titleStyle = {
-      'font-size': !fontClass ? fontSize : 'auto',
-      'color': color
-    };
-    //migration code
-    if (tooltip != '') {
-      ;
-      setAttributes({
-        downloadTooltip: tooltip,
-        tooltip: ''
-      });
-      return null;
-    }
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Default Format"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-                children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("input", {
-                  type: "radio",
-                  id: "png",
-                  name: "png",
-                  checked: defaultFormat === 'PNG',
-                  value: "PNG",
-                  onChange: () => setAttributes({
-                    defaultFormat: event.target.value,
-                    checkPng: true
-                  })
-                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("label", {
-                  for: "PNG",
-                  children: "PNG"
-                })]
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-                children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("input", {
-                  type: "radio",
-                  id: "jpg",
-                  name: "jpg",
-                  checked: defaultFormat === 'JPG',
-                  value: "JPG",
-                  onChange: () => setAttributes({
-                    defaultFormat: event.target.value,
-                    checkJpg: true
-                  })
-                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("label", {
-                  for: "JPG",
-                  children: "JPG"
-                })]
-              })]
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Allowed Format"),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
-                label: "PNG",
-                checked: checkPng,
-                onChange: value => {
-                  setAttributes({
-                    checkPng: value,
-                    checkJpg: value == false ? true : checkJpg,
-                    defaultFormat: value == false && defaultFormat === 'PNG' ? 'JPG' : defaultFormat
-                  });
-                }
-              })
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
-                label: "JPG",
-                checked: checkJpg,
-                onChange: value => setAttributes({
-                  checkJpg: value,
-                  checkPng: value == false ? true : checkPng,
-                  defaultFormat: value == false && defaultFormat === 'JPG' ? 'PNG' : defaultFormat
-                })
-              })
-            })]
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                label: (0,external_wp_i18n_.__)("Use Title"),
-                checked: useTitle,
-                onChange: () => setAttributes({
-                  useTitle: !useTitle
-                })
-              })
-            }), useTitle && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.FontSizePicker, {
-                  fontSizes: fontSizes,
-                  withSlider: true,
-                  fallbackFontSize: 14,
-                  value: fontSize,
-                  onChange: fontSize => {
-                    const current = fontSizes.filter(f => f.size === fontSize).shift();
-                    if (current) {
-                      setAttributes({
-                        fontClass: (0,external_wp_blockEditor_.getFontSizeClass)(current.slug),
-                        fontSize: fontSize
-                      });
-                    } else {
-                      setAttributes({
-                        fontClass: '',
-                        fontSize: fontSize
-                      });
-                    }
-                  }
-                })
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-                  colorSettings: [{
-                    value: color,
-                    onChange: color => {
-                      if (color) {
-                        setAttributes({
-                          color
-                        });
-                      } else {
-                        setAttributes({
-                          color: null
-                        });
-                      }
-                    },
-                    label: (0,external_wp_i18n_.__)('Text color')
-                  }]
-                })
-              })]
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                label: (0,external_wp_i18n_.__)("Use Light Style"),
-                checked: style === 'light',
-                onChange: () => setAttributes({
-                  style: style === 'light' ? 'heavy' : 'light'
-                })
-              })
-            })]
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Button Label"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                value: buttonLabel,
-                onChange: buttonLabel => setAttributes({
-                  buttonLabel
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Drop Down Label"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                value: title,
-                onChange: title => setAttributes({
-                  title
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("PNG File Name"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                value: pngLabel,
-                onChange: pngLabel => setAttributes({
-                  pngLabel
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("JPG File Name"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                value: jpgLabel,
-                onChange: jpgLabel => setAttributes({
-                  jpgLabel
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("PNG Text"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                value: pngText,
-                onChange: pngText => setAttributes({
-                  pngText
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("JPG Text"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                value: jpgText,
-                onChange: jpgText => setAttributes({
-                  jpgText
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Tooltip"),
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-                value: downloadTooltip,
-                onChange: downloadTooltip => setAttributes({
-                  downloadTooltip
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Source URL"),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                label: (0,external_wp_i18n_.__)("Include Source URL"),
-                checked: includeSourceURL,
-                onChange: () => setAttributes({
-                  includeSourceURL: !includeSourceURL
-                })
-              })
-            }), includeSourceURL && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-                label: (0,external_wp_i18n_.__)('Margin Left'),
-                value: sourceURLMarginLeft,
-                onChange: sourceURLMarginLeft => setAttributes({
-                  sourceURLMarginLeft
-                }),
-                min: 0,
-                max: 300
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-                label: (0,external_wp_i18n_.__)('Margin Top'),
-                value: sourceURLMarginTop,
-                onChange: sourceURLMarginTop => setAttributes({
-                  sourceURLMarginTop
-                }),
-                min: 0,
-                max: 50
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-                label: (0,external_wp_i18n_.__)('Font Size'),
-                value: sourceURLFontSize,
-                onChange: sourceURLFontSize => setAttributes({
-                  sourceURLFontSize
-                }),
-                min: 8,
-                max: 24
-              })]
-            })]
-          })]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-        className: `${className} ${className.split('-').join(' ')}`,
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-          style: {
-            "display": "flex"
-          },
-          children: [useTitle && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-            style: {
-              "flex-grow": "1"
-            },
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.RichText, {
-              tagName: "p",
-              style: titleStyle,
-              className: `download title ${fontClass ? fontClass : ''}`,
-              value: sectionTitle,
-              onChange: sectionTitle => setAttributes({
-                sectionTitle
-              }),
-              placeholder: (0,external_wp_i18n_.__)('Title...')
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-            style: !useTitle ? {
-              "flex-grow": "1"
-            } : {},
-            children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-              width: "100%",
-              ref: this.iframe,
-              scrolling: "no",
-              src: this.state.react_ui_url + "/embeddable/download?"
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks, {})]
-      })]
-    });
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
-  const fontSizes = external_wp_blockEditor_.useSetting ? (0,external_wp_blockEditor_.useSetting)('typography.fontSizes') : [];
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-      fontSizes: fontSizes,
-      ...props
-    })
-  });
-};
-/* harmony default export */ const downloads_BlockEdit = (Edit);
-// EXTERNAL MODULE: ./icons/index.js
-var icons = __webpack_require__(7552);
-;// ./downloads/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)("viz" + '/download', {
-  title: (0,external_wp_i18n_.__)('Download'),
-  icon: icons/* Generic */.ck,
-  category: "wp-react-lib-blocks",
-  attributes: {
-    defaultFormat: {
-      type: 'string',
-      default: 'PNG'
-    },
-    title: {
-      type: 'string',
-      default: "Set your chart download file type"
-    },
-    useTitle: {
-      type: 'Boolean',
-      default: false
-    },
-    style: {
-      type: 'String',
-      default: "heavy"
-    },
-    sectionTitle: {
-      type: 'string',
-      default: ""
-    },
-    buttonLabel: {
-      type: 'string',
-      default: "Download"
-    },
-    pngLabel: {
-      type: 'string',
-      default: 'export.png'
-    },
-    jpgLabel: {
-      type: 'string',
-      default: 'export.jpg'
-    },
-    pngText: {
-      type: 'string',
-      default: 'Download PNG'
-    },
-    jpgText: {
-      type: 'string',
-      default: 'Download JPG'
-    },
-    checkPng: {
-      type: 'boolean',
-      default: true
-    },
-    checkJpg: {
-      type: 'boolean',
-      default: false
-    },
-    height: {
-      type: 'Numeric',
-      default: 200
-    },
-    fontSize: {
-      type: 'string',
-      default: '24px'
-    },
-    fontClass: {
-      type: 'string',
-      default: '24px'
-    },
-    color: {
-      type: 'string',
-      default: '24px'
-    },
-    downloadTooltip: {
-      type: 'string',
-      default: "Click to select download format"
-    },
-    tooltip: {
-      type: 'string',
-      default: "Click to select download format"
-    },
-    includeSourceURL: {
-      type: 'boolean',
-      default: false
-    },
-    sourceURLMarginLeft: {
-      type: 'Numeric',
-      default: 70
-    },
-    sourceURLMarginTop: {
-      type: 'Numeric',
-      default: 10
-    },
-    sourceURLFontSize: {
-      type: 'Numeric',
-      default: 18
-    }
-  },
-  edit: downloads_BlockEdit,
-  save: BlockSave
-});
 
 /***/ }),
 
@@ -41305,6 +40835,332 @@ module.exports = replaceHolders;
 
 /***/ }),
 
+/***/ 9028:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./data-labels/BlockSave.tsx
+
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      measures,
+      height,
+      dimension1,
+      app,
+      format,
+      filters,
+      group,
+      valueType,
+      noDataMsg
+    }
+  } = props;
+  const blockProps = external_wp_blockEditor_.useBlockProps.save({
+    className: 'data label'
+  });
+  const levels = [dimension1];
+  const source = levels.filter(l => l != 'none' && l != null).join('/');
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    className: "viz-component",
+    "data-component": "datalabel",
+    "data-height": height,
+    "data-source": source,
+    "data-dimension1": dimension1,
+    "data-app": app,
+    "data-measures": encodeURIComponent(JSON.stringify(measures)),
+    "data-format": encodeURIComponent(JSON.stringify(format)),
+    "data-group": group,
+    "data-filters": encodeURIComponent(JSON.stringify(filters)),
+    "data-no-data-message": noDataMsg,
+    "data-value-type": valueType,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InnerBlocks.Content, {})
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
+;// ./data-labels/BlockEdit.tsx
+
+
+
+
+
+
+class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    super.componentDidMount();
+  }
+  render() {
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes: {
+        measures,
+        height,
+        dimension1,
+        app,
+        format,
+        filters,
+        group,
+        panelStatus,
+        valueType
+      }
+    } = this.props;
+    const {
+      dimensions
+    } = this.state;
+    let params = {};
+    filters.forEach(f => {
+      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
+    });
+    const divStyles = {
+      height: height + 'px',
+      width: '100%'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Chart Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: panelStatus['GROUP'],
+          opened: panelStatus['GROUP'],
+          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", panelStatus["GROUP"], setAttributes),
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              value: group,
+              onChange: group => setAttributes({
+                group
+              })
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* SizeConfig */.yr, {
+          setAttributes: setAttributes,
+          panelStatus: panelStatus,
+          height: parseInt(String(height), 10)
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("API & Source"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                value: app,
+                onChange: app => {
+                  setAttributes({
+                    app: app
+                  });
+                },
+                options: this.state.apps
+              })
+            })
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)(`Dimension`),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                label: (0,external_wp_i18n_.__)('Dimension'),
+                value: dimension1,
+                onChange: value => {
+                  setAttributes({
+                    dimension1: value
+                  });
+                },
+                options: dimensions || []
+              })
+            })
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Measures */.I3, {
+            ...this.props,
+            title: (0,external_wp_i18n_.__)(`Measure`),
+            onSetSingleMeasure: value => {
+              setAttributes({
+                measures: [value]
+              });
+            },
+            onFormatChange: value => {
+              setAttributes({
+                format: value
+              });
+            },
+            allMeasures: this.state.measures,
+            format: format
+            //TODO: fix this
+            // @ts-ignore
+            ,
+            measures: measures
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("Types"),
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                label: (0,external_wp_i18n_.__)('Value Type'),
+                value: valueType,
+                onChange: value => {
+                  setAttributes({
+                    valueType: value
+                  });
+                },
+                options: [{
+                  label: 'First',
+                  value: 'first'
+                }, {
+                  label: 'Total',
+                  value: 'total'
+                }, {
+                  label: 'Minimum',
+                  value: 'min'
+                }, {
+                  label: 'Maximum',
+                  value: 'max'
+                }, {
+                  label: 'Average',
+                  value: 'avg'
+                }]
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* DataFilters */.M1, {
+            ...this.props,
+            allFilters: this.state.filters,
+            allCategories: this.state.categories
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+      size: {
+        height
+      },
+      style: {
+        "margin": "auto",
+        width: "100%"
+      },
+      minHeight: "0",
+      minWidth: "50",
+      enable: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: false,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false
+      },
+      onResizeStop: (event, direction, elt, delta) => {
+        setAttributes({
+          height: parseInt(String(height), 10) + parseInt(String(delta.height), 10)
+        });
+        toggleSelection(true);
+      },
+      onResizeStart: () => {
+        toggleSelection(false);
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+        className: className,
+        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          style: divStyles,
+          scrolling: "no",
+          src: this.state.react_ui_url + "/embeddable/datalabel?"
+        })
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+      ...props
+    })
+  });
+};
+/* harmony default export */ const data_labels_BlockEdit = (Edit);
+;// ./data-labels/index.js
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/datalabel', {
+  title: (0,external_wp_i18n_.__)('Data Label'),
+  icon: build/* GenericIcon */.Z7,
+  category: build/* BLOCKS_CATEGORY */._q,
+  apiVersion: 2,
+  attributes: {
+    group: {
+      type: 'String',
+      default: 'default'
+    },
+    panelStatus: {
+      type: "Object",
+      default: {}
+    },
+    height: {
+      type: 'number',
+      default: 20
+    },
+    dimension1: {
+      type: 'String',
+      default: 'none'
+    },
+    app: {
+      type: 'String',
+      default: "csv"
+    },
+    params: {
+      type: Object,
+      default: {}
+    },
+    format: {
+      type: Object,
+      default: {
+        "style": "percent",
+        "minimumFractionDigits": 1,
+        "maximumFractionDigits": 1,
+        "currency": "USD"
+      }
+    },
+    measures: {
+      type: "Array",
+      default: []
+    },
+    _measures: {},
+    filters: {
+      type: "Array",
+      default: []
+    },
+    valueType: {
+      type: 'String',
+      default: 'first'
+    }
+  },
+  edit: data_labels_BlockEdit,
+  save: BlockSave
+});
+
+/***/ }),
+
 /***/ 9167:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -42249,6 +42105,169 @@ Object.defineProperty(exports, "__esModule", ({value:!0}));var env=__webpack_req
 
 /***/ }),
 
+/***/ 9676:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./data-filters-reset/BlockSave.tsx
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      group,
+      app,
+      resetLabel
+    }
+  } = props;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    className: "viz-component",
+    "data-component": "dataFiltersReset",
+    "data-group": group,
+    "data-app": app,
+    "data-reset-label": resetLabel
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 20 modules
+var build = __webpack_require__(2680);
+;// ./data-filters-reset/BlockEdit.tsx
+
+
+
+
+
+
+class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+    this.iframe = external_React_default().createRef();
+  }
+  render() {
+    const {
+      isSelected,
+      setAttributes,
+      attributes: {
+        group,
+        app,
+        resetLabel
+      }
+    } = this.props;
+    const queryString = `data-group=${group}&data-app=${app}&data-reset-label=${resetLabel}`;
+    const iframeStyles = {
+      height: '30px'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Filter Reset Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              value: group,
+              onChange: group => setAttributes({
+                group
+              })
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("API & Source"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              value: app,
+              onChange: app => {
+                setAttributes({
+                  app: app
+                });
+              },
+              options: this.state.apps
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("Labels"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Reset Label'),
+              value: resetLabel,
+              onChange: resetLabel => setAttributes({
+                resetLabel
+              })
+            })
+          })
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+      children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+        ref: this.iframe,
+        scrolling: "no",
+        style: iframeStyles,
+        src: this.state.react_ui_url + "/embeddable/datafiltersreset"
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
+    className: 'wp-react-component'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+      className: "iframe container",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+        ...props
+      })
+    })
+  });
+};
+/* harmony default export */ const data_filters_reset_BlockEdit = (Edit);
+;// ./data-filters-reset/index.js
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)("viz" + '/data-filters-reset', {
+  title: (0,external_wp_i18n_.__)('Data Filters Reset'),
+  category: "wp-react-lib-blocks",
+  apiVersion: 2,
+  attributes: {
+    group: {
+      type: 'String',
+      default: "default"
+    },
+    app: {
+      type: 'String',
+      default: "csv"
+    },
+    resetLabel: {
+      type: 'String',
+      default: "Reset All Filters"
+    }
+  },
+  edit: data_filters_reset_BlockEdit,
+  save: BlockSave
+});
+
+/***/ }),
+
 /***/ 9818:
 /***/ ((module, exports, __webpack_require__) => {
 
@@ -43051,7 +43070,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6427);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _icons_index_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7552);
-/* harmony import */ var _dg_data_viz_wp_commons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7965);
+/* harmony import */ var _dg_data_viz_wp_commons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2680);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5418);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(790);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
@@ -43338,11 +43357,11 @@ __webpack_require__(1784);
 __webpack_require__(9217);
 __webpack_require__(3662);
 __webpack_require__(9990);
-__webpack_require__(8247);
+__webpack_require__(8039);
 __webpack_require__(7090);
 __webpack_require__(542);
 __webpack_require__(2512);
-__webpack_require__(4620);
+__webpack_require__(9676);
 __webpack_require__(650);
 __webpack_require__(9845);
 __webpack_require__(4202);
@@ -43355,10 +43374,10 @@ __webpack_require__(6987);
 __webpack_require__(8401);
 __webpack_require__(2925);
 __webpack_require__(2644);
-__webpack_require__(3188);
+__webpack_require__(9028);
 __webpack_require__(860);
 __webpack_require__(4090);
-__webpack_require__(7321);
+__webpack_require__(3809);
 // require("../../../../custom/wp-customizer/blocks/index")
 /******/ })()
 ;
