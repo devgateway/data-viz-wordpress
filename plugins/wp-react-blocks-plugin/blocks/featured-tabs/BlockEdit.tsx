@@ -1,15 +1,16 @@
+import React from 'react';
 import { InspectorControls, PanelColorSettings, useBlockProps } from '@wordpress/block-editor';
-import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
+import { FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { BlockEditWithFilters, BlockEditWithFiltersState } from '@dg-data-viz/wp-commons';
+import { FeaturedTabsProps } from './types';
 
-import { BlockEditWithFilters } from '../commons';
-
-class BlockEdit extends BlockEditWithFilters {
-    constructor(props) {
+class BlockEdit extends BlockEditWithFilters<FeaturedTabsProps, BlockEditWithFiltersState> {
+    constructor(props: FeaturedTabsProps) {
         super(props);
     }
 
-    onChangeColor(i, value) {
+    onChangeColor(i: number, value: string) {
         const {
             setAttributes,
             attributes: {
@@ -17,7 +18,7 @@ class BlockEdit extends BlockEditWithFilters {
             },
         } = this.props;
 
-        const newColors = Object.assign({}, colors);
+        const newColors = { ...colors };
         newColors["color_" + i] = value;
 
         setAttributes({ "colors": newColors });
@@ -95,7 +96,7 @@ class BlockEdit extends BlockEditWithFilters {
 
                         <PanelBody title={__("Scroll")}>
                             <PanelRow>
-                                <p>{__("Use Scrolls","dg")}</p>
+                                <p>{__("Use Scrolls", "dg")}</p>
                                 <FormToggle
                                     checked={useScrolls}
                                     onChange={() => {
@@ -116,7 +117,11 @@ class BlockEdit extends BlockEditWithFilters {
                                         colorSettings={[
                                             {
                                                 value: colors[`color_${i}`],
-                                                onChange: (colorValue) => this.onChangeColor(i, colorValue),
+                                                onChange: (colorValue) => {
+                                                    if (colorValue) {
+                                                        this.onChangeColor(i, colorValue);
+                                                    }
+                                                },
                                                 label: __('Background Color'),
                                             }
                                         ]}
@@ -130,7 +135,7 @@ class BlockEdit extends BlockEditWithFilters {
 
                 <ResizableBox
                     size={{ height }}
-                    style={{"margin": "auto", width: "100%"}}
+                    style={{ "margin": "auto", width: "100%" }}
                     minHeight="150"
                     minWidth="250"
                     enable={{
@@ -145,7 +150,7 @@ class BlockEdit extends BlockEditWithFilters {
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: parseInt(String(height)) + parseInt(String(delta.height), 10),
                         });
                         toggleSelection(true);
                     }}
@@ -154,8 +159,8 @@ class BlockEdit extends BlockEditWithFilters {
                     }}
                 >
                     <div style={divStyles}>
-                        {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"}
-                                                            src={this.state.react_ui_url + "/embeddable/featuredtabs?" + queryString}/>}
+                        {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"} title="featured-tabs"
+                            src={this.state.react_ui_url + "/embeddable/featuredtabs?" + queryString} />}
 
                     </div>
                 </ResizableBox>
@@ -166,7 +171,7 @@ class BlockEdit extends BlockEditWithFilters {
 
 const Edit = (props) => {
     const blockProps = useBlockProps({ className: 'wp-react-component' });
-    return <div {...blockProps}><BlockEdit {...props}/></div>;
+    return <div {...blockProps}><BlockEdit {...props} /></div>;
 };
 
 export default Edit;
