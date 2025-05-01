@@ -1,15 +1,16 @@
+import React from 'react';
 import { ***REMOVED***, ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
-import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
+import { FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { ***REMOVED***, BlockEditWithFiltersState } from '@dg-data-viz/wp-commons';
+import { ***REMOVED*** } from './types';
 
-import { ***REMOVED*** } from '../commons';
-
-class BlockEdit extends ***REMOVED*** {
-    constructor(props) {
+class BlockEdit extends ***REMOVED***<***REMOVED***, BlockEditWithFiltersState> {
+    constructor(props: ***REMOVED***) {
         super(props);
     }
 
-    onChangeColor(i, value) {
+    onChangeColor(i: number, value: string) {
         const {
             setAttributes,
             attributes: {
@@ -17,7 +18,7 @@ class BlockEdit extends ***REMOVED*** {
             },
         } = this.props;
 
-        const newColors = Object.assign({}, colors);
+        const newColors = { ...colors };
         newColors["color_" + i] = value;
 
         setAttributes({ "colors": newColors });
@@ -95,7 +96,7 @@ class BlockEdit extends ***REMOVED*** {
 
                         <PanelBody title={__("Scroll")}>
                             <PanelRow>
-                                <p>{__("Use Scrolls","dg")}</p>
+                                <p>{__("Use Scrolls", "dg")}</p>
                                 <FormToggle
                                     checked={useScrolls}
                                     onChange={() => {
@@ -116,7 +117,11 @@ class BlockEdit extends ***REMOVED*** {
                                         colorSettings={[
                                             {
                                                 value: colors[`color_${i}`],
-                                                onChange: (colorValue) => this.onChangeColor(i, colorValue),
+                                                onChange: (colorValue) => {
+                                                    if (colorValue) {
+                                                        this.onChangeColor(i, colorValue);
+                                                    }
+                                                },
                                                 label: __('Background Color'),
                                             }
                                         ]}
@@ -130,7 +135,7 @@ class BlockEdit extends ***REMOVED*** {
 
                 <ResizableBox
                     size={{ height }}
-                    style={{"margin": "auto", width: "100%"}}
+                    style={{ "margin": "auto", width: "100%" }}
                     minHeight="150"
                     minWidth="250"
                     enable={{
@@ -145,7 +150,7 @@ class BlockEdit extends ***REMOVED*** {
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: parseInt(String(height)) + parseInt(String(delta.height), 10),
                         });
                         ***REMOVED***(true);
                     }}
@@ -154,8 +159,8 @@ class BlockEdit extends ***REMOVED*** {
                     }}
                 >
                     <div style={divStyles}>
-                        {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"}
-                                                            src={this.state.react_ui_url + "/embeddable/featuredtabs?" + queryString}/>}
+                        {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"} title="featured-tabs"
+                            src={this.state.react_ui_url + "/embeddable/featuredtabs?" + queryString} />}
 
                     </div>
                 </ResizableBox>
@@ -166,7 +171,7 @@ class BlockEdit extends ***REMOVED*** {
 
 const Edit = (props) => {
     const blockProps = useBlockProps({ className: 'wp-react-component' });
-    return <div {...blockProps}><BlockEdit {...props}/></div>;
+    return <div {...blockProps}><BlockEdit {...props} /></div>;
 };
 
 export default Edit;
