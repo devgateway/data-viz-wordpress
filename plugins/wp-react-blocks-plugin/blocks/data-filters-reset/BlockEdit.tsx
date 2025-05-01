@@ -1,14 +1,17 @@
+import React from 'react';
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, TextControl, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '../commons/index'
+import {BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState} from '@dg-data-viz/wp-commons';
+import { DataFiltersResetProps } from './types';
 
 
-class BlockEdit extends BlockEditWithAPIMetadata {
+class BlockEdit extends BlockEditWithAPIMetadata<DataFiltersResetProps, BlockEditWithAPIMetadataState> {
 
-    constructor(props) {
+    constructor(props: DataFiltersResetProps) {
         super(props);
         this.iframe = React.createRef();
+
     }
 
     render() {
