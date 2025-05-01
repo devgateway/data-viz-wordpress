@@ -1,10 +1,12 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
-import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox} from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import SizeConfig, {***REMOVED***} from "../commons";
+import React from 'react';
+import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
+import { FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import {  ***REMOVED*** } from './types';
+import { ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
 
-class BlockEdit extends ***REMOVED*** {
-    constructor(props) {
+class BlockEdit extends ***REMOVED***<***REMOVED***, BlockEditWithFiltersState> {
+    constructor(props: ***REMOVED***) {
         super(props);
 
     }
@@ -30,7 +32,7 @@ class BlockEdit extends ***REMOVED*** {
 
 
         const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-show-post-icons=${showIcons}&data-show-content-toggle=${***REMOVED***}&data-content-toggle-h-position=${contentToggleHPosition}`
-        const divStyles = {height: height + 'px', width: '100%'}
+        const divStyles = { height: height + 'px', width: '100%' }
         return (
             <div>
                 <***REMOVED***>
@@ -42,39 +44,37 @@ class BlockEdit extends ***REMOVED*** {
                             <PanelRow>
                                 <p>{__("Show Post Icon")}</p>
                                 <FormToggle
-                                    label={__("Show Post Icon")}
                                     checked={showIcons}
-                                    onChange={() => setAttributes({showIcons: !showIcons})}
+                                    onChange={() => setAttributes({ showIcons: !showIcons })}
                                 />
 
                             </PanelRow>
                             <PanelRow>
                                 <p>{__("Show Post Content in Same Page")}</p>
                                 <FormToggle
-                                    label={__("Show Post Content in Same Page")}
                                     checked={***REMOVED***}
-                                    onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}
+                                    onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })}
                                 />
 
                             </PanelRow>
                             {***REMOVED*** &&
-                            <PanelRow>
-                            <RangeControl
-                                label="Content Toggle Horizontal Position (%)"
-                                value={contentToggleHPosition}
-                                onChange={(contentToggleHPosition) => setAttributes({contentToggleHPosition})}
-                                min={0}
-                                max={100}
-                            />
-                        </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                        label="Content Toggle Horizontal Position (%)"
+                                        value={contentToggleHPosition}
+                                        onChange={(contentToggleHPosition) => setAttributes({ contentToggleHPosition })}
+                                        min={0}
+                                        max={100}
+                                    />
+                                </PanelRow>
                             }
-                            
+
                             <PanelRow>
 
                                 <RangeControl
                                     label="Items"
                                     value={count}
-                                    onChange={(count) => setAttributes({count})}
+                                    onChange={(count) => setAttributes({ count })}
                                     min={2}
                                     max={10}
                                 />
@@ -87,8 +87,8 @@ class BlockEdit extends ***REMOVED*** {
 
                 </***REMOVED***>
                 <ResizableBox
-                    size={{height}}
-                    style={{"margin": "auto", "width": "100%"}}
+                    size={{ height }}
+                    style={{ "margin": "auto", "width": "100%" }}
                     minHeight="250"
                     minWidth="500"
                     enable={{
@@ -103,7 +103,7 @@ class BlockEdit extends ***REMOVED*** {
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: parseInt(String(height)) + parseInt(String(delta.height)),
 
                         });
                         ***REMOVED***(true);
@@ -114,8 +114,8 @@ class BlockEdit extends ***REMOVED*** {
                 >
 
                     <div style={divStyles}>
-                        {this.state.react_ui_url&&<iframe style={divStyles} scrolling={"no"}
-                                 src={this.state.react_ui_url + "/embeddable/inlinelist?" + queryString}/>}
+                        {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"}
+                            src={this.state.react_ui_url + "/embeddable/inlinelist?" + queryString} />}
                     </div>
                 </ResizableBox>
             </div>
@@ -126,9 +126,8 @@ class BlockEdit extends ***REMOVED*** {
 
 
 const Edit = (props) => {
-    const blockProps = useBlockProps({className: 'wp-react-component'});
-    return <div {...blockProps}><BlockEdit {...props}/></div>;
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
+    return <div {...blockProps}><BlockEdit {...props} /></div>;
 
 }
 export default Edit;
-
