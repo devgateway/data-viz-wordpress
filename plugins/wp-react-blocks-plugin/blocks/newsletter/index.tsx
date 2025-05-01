@@ -1,5 +1,6 @@
-import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import React from 'react';
+import { __ } from '@wordpress/i18n';
+import { ***REMOVED*** } from '@wordpress/blocks';
 import {
     ***REMOVED***,
     ***REMOVED***,
@@ -7,11 +8,12 @@ import {
     useBlockProps,
     withColors
 } from '@wordpress/block-editor';
-import {Generic} from '../icons/index.js'
-import {Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
-import {***REMOVED***} from "../commons";
+import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
+import { ***REMOVED***, BlockEditWithFiltersState } from "@dg-data-viz/wp-commons";
+import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@dg-data-viz/wp-commons';
+import { ***REMOVED*** } from './type';
 
-const EditComponent = (props) => {
+const EditComponent = (props: ***REMOVED***) => {
     const {
         ***REMOVED***,
         ***REMOVED***,
@@ -27,7 +29,7 @@ const EditComponent = (props) => {
     } = props;
 
     let divClass;
-    let divStyles = {"text-align": alignment, "padding": '5px'};
+    let divStyles = { textAlign: alignment, padding: '5px' };
 
 
     if (***REMOVED*** != undefined) {
@@ -59,7 +61,7 @@ const EditComponent = (props) => {
                                 colorSettings={[
                                     {
                                         value: ***REMOVED***.color,
-                                        onChange: ***REMOVED***,
+                                        onChange: (color) => ***REMOVED***(color || ''),
                                         label: __('Background color')
                                     },
                                 ]}
@@ -70,50 +72,51 @@ const EditComponent = (props) => {
                         <PanelRow>
                             <TextControl
                                 value={list}
-                                onChange={(list) => props.setAttributes({list})}
-                                label={__("Mailchimp list id")}/>
+                                onChange={(list) => props.setAttributes({ list })}
+                                label={__("Mailchimp list id")} />
 
                         </PanelRow>
                         <PanelRow>
                             <TextControl
                                 value={tag}
-                                onChange={(tag) => props.setAttributes({tag})}
-                                label={__("Country TAG")}/>
+                                onChange={(tag) => props.setAttributes({ tag })}
+                                label={__("Country TAG")} />
 
                         </PanelRow>
                         <PanelRow>
                             <TextControl
                                 value={placeholder}
-                                onChange={(placeholder) => props.setAttributes({placeholder})}
-                                label={__("Input Placeholder")}/>
+                                onChange={(placeholder) => props.setAttributes({ placeholder })}
+                                label={__("Input Placeholder")} />
                         </PanelRow>
 
                         <PanelRow>
                             <TextControl
                                 value={label}
-                                onChange={(label) => props.setAttributes({label})}
-                                label={__("Submit Label")}/>
+                                onChange={(label) => props.setAttributes({ label })}
+                                label={__("Submit Label")} />
                         </PanelRow>
                         <PanelRow>
                             <TextControl
 
                                 value={***REMOVED***}
-                                onChange={(***REMOVED***) => props.setAttributes({***REMOVED***: ***REMOVED***})}
-                                label={__("Success Message")}/>
+                                onChange={(***REMOVED***) => props.setAttributes({ ***REMOVED***: ***REMOVED*** })}
+                                label={__("Success Message")} />
                         </PanelRow>
                         <PanelRow>
                             <TextControl
                                 value={***REMOVED***}
-                                onChange={(***REMOVED***) => props.setAttributes({***REMOVED***: ***REMOVED***})}
-                                label={__("Failure Message")}/>
+                                onChange={(***REMOVED***) => props.setAttributes({ ***REMOVED***: ***REMOVED*** })}
+                                label={__("Failure Message")} />
                         </PanelRow>
                     </PanelBody>
                 </Panel>
 
             </***REMOVED***>
-            <div {...blockProps}  >
-                <iframe  style={{width:'100%'}} scrolling={"no"}
-                        src={props.src + queryString}/>
+            {/* @ts-ignore */}
+            <div {...blockProps}>
+                <iframe style={{ width: '100%' }} scrolling={"no"}
+                    src={props.src + queryString} />
 
             </div>
 
@@ -121,7 +124,7 @@ const EditComponent = (props) => {
     );
 }
 const SaveComponent = (props) => {
-    const {setAttributes} = props;
+    const { setAttributes } = props;
     const {
         customBackgroundColor,
         ***REMOVED***,
@@ -143,25 +146,26 @@ const SaveComponent = (props) => {
         }
     );
     return (<div {...blockProps}>
-            <div {...props.attributes} className={"viz-component"} data-component={"newsletter"}></div>
-        </div>
+        <div {...props.attributes} className={"viz-component"} data-component={"newsletter"}></div>
+    </div>
 
 
     );
 }
 
-class ***REMOVED*** extends ***REMOVED*** {
+class ***REMOVED*** extends ***REMOVED***<***REMOVED***, BlockEditWithFiltersState> {
     render() {
         return <EditComponent
             src={this.state.react_ui_url + "/embeddable/newsletter?"} {...this.props}></EditComponent>
     }
 }
 
-***REMOVED***(process.env.BLOCKS_NS + '/newsletter',
+// @ts-ignore Types not available
+***REMOVED***(BLOCKS_NS + '/newsletter',
     {
         title: __('Newsletter Form'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             label: {
                 type: 'string',
@@ -173,8 +177,8 @@ class ***REMOVED*** extends ***REMOVED*** {
                 default: "Enter your email",
             }
             ,
-            ***REMOVED***: {type: 'string', default: "Thanks for submitting"},
-            ***REMOVED***: {type: 'string', default: "Something didn't go well, please try again later"},
+            ***REMOVED***: { type: 'string', default: "Thanks for submitting" },
+            ***REMOVED***: { type: 'string', default: "Something didn't go well, please try again later" },
             list: {
                 type: 'string',
                 default: "",
@@ -187,8 +191,8 @@ class ***REMOVED*** extends ***REMOVED*** {
 
         }
         ,
-        edit: withColors('***REMOVED***', {textColor: 'color'})(***REMOVED***),
+        edit: withColors('***REMOVED***', { textColor: 'color' })(***REMOVED***),
         save: SaveComponent,
     }
 )
-;
+    ;
