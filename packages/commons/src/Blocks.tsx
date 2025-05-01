@@ -12,10 +12,10 @@ export interface SizeConfigProps {
     height: number;
     setAttributes: (attributes: any) => void;
     panelStatus: any;
-    initialOpen: boolean;
+    initialOpen?: boolean;
 }
 
-export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen }: SizeConfigProps) => {
+export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen = false }: SizeConfigProps) => {
     return (<PanelBody initialOpen={panelStatus ? panelStatus["SIZE"] : initialOpen}
         onToggle={() => togglePanel("SIZE", panelStatus, setAttributes)}
         title={__("Size")}>
@@ -311,7 +311,7 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
 export type BlockEditWithAPIMetadataProps = {
     attributes: {
         app: string;
-        dvzProxyDatasetId: string;
+        dvzProxyDatasetId?: string;
     };
     setAttributes: (attributes: any) => void;
 }
@@ -442,7 +442,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
     }
 
 
-    loadMetadata(app: string, dvzProxyDatasetId: string) {
+    loadMetadata(app: string, dvzProxyDatasetId?: string) {
         if (app == 'csv') {
             return;
         }
