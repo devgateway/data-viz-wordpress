@@ -1,12 +1,25 @@
+import React from 'react';
 import {
-    ***REMOVED***, Button, PanelBody, PanelRow, RangeControl, SelectControl, TextControl
+    ***REMOVED***, 
+    PanelBody, 
+    PanelRow, 
+    SelectControl, 
 } from "@wordpress/components";
 import {***REMOVED***} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
-
 import Papa from 'papaparse'
+
+interface PatternsProps {
+    csv: string;
+    app: any;
+    ***REMOVED***: (property: string, value: any) => void;
+    patterns: any;
+    ***REMOVED***: string;
+    ***REMOVED***: string;
+}
+
 const ***REMOVED***="#000000"
-const Patterns = ({csv, app, ***REMOVED***, patterns, ***REMOVED***, ***REMOVED***}) => {
+const Patterns = ({csv, app, ***REMOVED***, patterns, ***REMOVED***, ***REMOVED***}: PatternsProps) => {
 
     const ***REMOVED*** = [
         {label: 'Lines', value: 'lines'},
@@ -16,11 +29,16 @@ const Patterns = ({csv, app, ***REMOVED***, patterns, ***REMOVED***, ***REMOVED*
 
     const data = Papa.parse(csv, {header: true, dynamicTyping: true});
 
-
-    const fieldsOptions = data ? data.meta.fields.map(f => {
+    const fieldsOptions = data?.meta?.fields ? data.meta.fields.map(f => {
         return {label: f, value: f}
     }) : []
-    const values = ***REMOVED*** != 'none' ? [...(new Set(data.data.filter(d => d[***REMOVED***] != null && d[***REMOVED***].toString().trim() !== "").map(d => d[***REMOVED***].toString().trim())))] : []
+    
+    const values = ***REMOVED*** !== 'none' && data?.data ? 
+        [...(new Set(data.data
+            .filter((d: any) => d[***REMOVED***] != null && d[***REMOVED***].toString().trim() !== "")
+            .map((d: any) => d[***REMOVED***].toString().trim())))] 
+        : []
+        
     return <PanelBody title={"Patterns"}>
         <PanelRow>
             <SelectControl

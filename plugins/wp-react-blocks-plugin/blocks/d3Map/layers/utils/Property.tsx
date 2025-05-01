@@ -1,3 +1,4 @@
+import React from 'react';
 import {PanelBody, PanelRow, SelectControl, TextControl, ToggleControl} from "@wordpress/components";
 
 const Property = ({features, ***REMOVED***, value, property, title, type = 'toggle'}) => {
@@ -5,7 +6,7 @@ const Property = ({features, ***REMOVED***, value, property, title, type = 'togg
     const properties = features && features.length > 0 ? features[0].properties : {}
     let attributes = Object.keys(properties)
     if (type == "toggle") {
-        return (<PanelBody initialOpen={"close"} title={title}>
+        return (<PanelBody initialOpen={false} title={title}>
 
             <PanelRow>
                 <ToggleControl
@@ -34,7 +35,8 @@ const Property = ({features, ***REMOVED***, value, property, title, type = 'togg
         return <PanelRow>
             <SelectControl
                 label={title}
-                value={[value]}
+                value={value}
+                multiple={false}
                 onChange={(value) => {
                     ***REMOVED***(property, value)
                 }}
