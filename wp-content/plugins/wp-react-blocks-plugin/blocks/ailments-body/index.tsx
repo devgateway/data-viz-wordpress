@@ -10,8 +10,8 @@ import {
 } from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
 import {Generic} from '../icons/index.js'
-import {***REMOVED***} from "@dg-data-viz/wordpress-commons";
-import { BLOCKS_CATEGORY, BLOCKS_NS } from '../constants';
+import {***REMOVED***} from "@dg-data-viz/wp-commons";
+import { BLOCKS_CATEGORY, BLOCKS_NS } from '../constants.js';
 
 interface ***REMOVED*** {
     ***REMOVED***: {
