@@ -1,4 +1,7 @@
-const SaveComponent = (props) => {
+import React from "react";
+import { ***REMOVED*** } from "./types";
+
+const SaveComponent = (props: { attributes: ***REMOVED*** }) => {
 
     const {
         attributes: {
@@ -21,9 +24,7 @@ const SaveComponent = (props) => {
             filterType,
             defaultValues,
             ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            ***REMOVED***, 
             hiddenFilters,
             ***REMOVED***,
             closeOnSelect,
@@ -31,15 +32,15 @@ const SaveComponent = (props) => {
             ascOrder,
             ***REMOVED***,
             ***REMOVED***,
-            autoApply
+            autoApply,
+            ***REMOVED***,
+            ***REMOVED***
         }
     } = props;
 
-    const divClass = {}
-    const divStyles = {}
 
-
-    return (<div className={"viz-component"}
+    return (
+    <div className={"viz-component"}
                  data-component={"filter"}
                  data-app={app}
                  data-dvz-proxy-dataset-id={***REMOVED***}
@@ -71,7 +72,8 @@ const SaveComponent = (props) => {
                  data-use-filter-items={***REMOVED***}
                  data-all-none-same-behaviour={***REMOVED***}
                  data-auto-apply={autoApply}>
-    </div>);
+    </div>)
+    ;
 }
 
 
