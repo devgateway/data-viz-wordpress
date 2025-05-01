@@ -394,6 +394,8 @@ export class LatLongLayerSetting extends Component<LatLongLayerSettingProps, Lat
             {pointStyleBy === 'measure' && <Measures
                 onFormatChange={this.onFormatChange}
                 onSetSingleMeasure={this.onSetSingleMeasure}
+                // TODO: fix measures component
+                // @ts-ignore 
                 measures={measures}
                 format={format}
                 {...this.props} />
