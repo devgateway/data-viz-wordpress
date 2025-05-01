@@ -1,5 +1,5 @@
 {
-  "name": "@dg-data-viz/wordpress-commons",
+  "name": "@dg-data-viz/wp-commons",
   "version": "1.1.0",
   "private": false,
   "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",

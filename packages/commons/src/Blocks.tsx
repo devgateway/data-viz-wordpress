@@ -12,10 +12,10 @@ export interface ***REMOVED*** {
     height: number;
     setAttributes: (attributes: any) => void;
     panelStatus: any;
-    initialOpen: boolean;
+    initialOpen?: boolean;
 }
 
-export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen }: ***REMOVED***) => {
+export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen = false }: ***REMOVED***) => {
     return (<PanelBody initialOpen={panelStatus ? panelStatus["SIZE"] : initialOpen}
         onToggle={() => togglePanel("SIZE", panelStatus, setAttributes)}
         title={__("Size")}>
@@ -311,7 +311,7 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
 export type BlockEditWithAPIMetadataProps = {
     attributes: {
         app: string;
-        ***REMOVED***: string;
+        ***REMOVED***?: string;
     };
     setAttributes: (attributes: any) => void;
 }
@@ -442,7 +442,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
     }
 
 
-    loadMetadata(app: string, ***REMOVED***: string) {
+    loadMetadata(app: string, ***REMOVED***?: string) {
         if (app == 'csv') {
             return;
         }
