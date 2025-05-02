@@ -32,7 +32,7 @@ export interface NewTimeLineConfig {
     connectorLineHeight: number;
     readMoreLabel: string;
     position: string;
-  
+    tooltipFontColor?: string;
 }
 
 export interface NewTimeLineBlockProps extends BlockEditProps<NewTimeLineAttributes> {
