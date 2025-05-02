@@ -1,16 +1,21 @@
+import React from 'react';
 import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
+import {BlockEditWithFilters, BlockEditWithFiltersState} from '@dg-data-viz/wp-commons';
+import { VerticalFeaturedTabsProps } from './types';
 
-import {BlockEditWithFilters} from '../commons'
 
 
-class BlockEdit extends BlockEditWithFilters {
-    constructor(props) {
+class BlockEdit extends BlockEditWithFilters<VerticalFeaturedTabsProps, BlockEditWithFiltersState> {
+    constructor(props: VerticalFeaturedTabsProps) {
         super(props);
     }
 
-    onChangeColor(i, value) {
+    onChangeColor(i: number, value: string | undefined) {
+        if (!value) {
+            return;
+        }
         const {
             setAttributes,
             attributes: {
@@ -126,8 +131,9 @@ class BlockEdit extends BlockEditWithFilters {
                         topLeft: false,
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
+                        const newHeight = parseInt(String(height)) + parseInt(String(delta.height));
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: newHeight,
                         });
                         toggleSelection(true);
                     }}
