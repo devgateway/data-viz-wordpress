@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons'
+import { BLOCKS_NS, BLOCKS_CATEGORY, GenericIcon } from '@dg-data-viz/wp-commons';
 
-***REMOVED***(process.env.BLOCKS_NS + '/redirect',
+***REMOVED***(BLOCKS_NS + '/redirect',
     {
-        title: __('Redirect'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        title: __('Redirect', 'dg'),
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             redirect_url: {
                 type: 'string',
