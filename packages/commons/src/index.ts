@@ -27,6 +27,10 @@ export {
     ChartColors
 } from './ChartColors';
 export {
+    ChartLegends,
+    type LegendProps as ChartLegendsProps
+} from './ChartLegends';
+export {
     ChartMeasures,
     type ChartMeasuresProps
 } from './ChartMeasures';
@@ -58,7 +62,9 @@ export {
     extractAxisValues,
     getSelectedLabelsForApp,
     transformDataToAppObject,
-    updateMeasureLabels
+    updateMeasureLabels,
+    getSelectedItemsForApp,
+    getStoredOrSetItem
 } from './MobileConfigUtils';
 export {
     Tooltip,

@@ -1,17 +1,24 @@
+import React from 'react';
 import {AnglePickerControl, PanelBody, PanelRow, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import ChartColors from "../commons/ChartColors.jsx"
-import ChartLegends from "../commons/ChartLegends.jsx";
-import Format from "./Format.jsx";
+import { Format, ChartColors, ChartLegends } from "@dg-data-viz/wp-commons";
 
-const PieOptions = (props) => {
+interface InfoProps {
+    setAttributes: (attributes: any) => void;
+    attributes: {
+        figure: string
+        app: string
+    };
+}
+
+const Info = (props: InfoProps) => {
     const {setAttributes, attributes: {figure}} = props;
     return [<PanelBody initialOpen={false}   title={__("Inf Graphic Options")}>
 
         <PanelRow>
             <SelectControl
                 label={__('Figure')}
-                value={[figure]} // e.g: value = [ 'a', 'c' ]
+                value={figure as "male" | "female"}
                 onChange={(value) => {
                     setAttributes({figure: value})
                 }}
@@ -22,10 +29,10 @@ const PieOptions = (props) => {
             />
         </PanelRow>
 
-        <ChartColors {...props}></ChartColors>
+        <ChartColors {...props as any}></ChartColors>
 
-        <Format {...props}></Format>
+        <Format {...props as any}></Format>
     </PanelBody>]
 }
 
-export default PieOptions
+export default Info;
