@@ -2,16 +2,16 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons'
+import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@dg-data-viz/wp-commons';
 
-registerBlockType(process.env.BLOCKS_NS + '/tabbed-posts',
+registerBlockType(BLOCKS_NS + '/tabbed-posts',
     {
         title: __('Tabbed Posts', "dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             count: {
-                type: 'Numeric',
+                type: 'number',
                 default: 3,
             },
             type: {
@@ -27,7 +27,7 @@ registerBlockType(process.env.BLOCKS_NS + '/tabbed-posts',
                 default: [],
             },
             height: {
-                type: 'Numeric',
+                type: 'number',
                 default: 700,
             },
             theme: {
