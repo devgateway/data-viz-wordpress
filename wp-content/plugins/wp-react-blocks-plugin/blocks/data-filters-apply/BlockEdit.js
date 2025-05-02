@@ -1,7 +1,7 @@
 import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, TextControl, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '../commons/index'
+import {BlockEditWithAPIMetadata} from '@dg-data-viz/wp-commons'
 
 
 class BlockEdit extends BlockEditWithAPIMetadata {

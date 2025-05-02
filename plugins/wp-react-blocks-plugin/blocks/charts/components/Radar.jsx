@@ -1,10 +1,8 @@
 import {PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import ChartColors from "../commons/ChartColors.jsx"
-import ChartLegends from '../commons/ChartLegends.jsx'
-import AxisConfig from './AxisConfig.jsx'
-import Labels from "./Labels.jsx"
-import Format from "./Format.jsx"
+import {ChartColors, ChartLegends, Format } from '@dg-data-viz/wp-commons';
+import AxisConfig from '../config/AxisConfig';
+import Labels from "./Labels";
 import Papa from 'papaparse'
 
 
