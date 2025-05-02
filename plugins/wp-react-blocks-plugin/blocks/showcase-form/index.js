@@ -2,13 +2,14 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from "../icons";
 import { withColors} from '@wordpress/block-editor';
-***REMOVED***(process.env.BLOCKS_NS + '/showcase',
+import { BLOCKS_NS, BLOCKS_CATEGORY, GenericIcon } from '@dg-data-viz/wp-commons';
+
+***REMOVED***(BLOCKS_NS + '/showcase',
     {
         title: __('Showcase Form',"dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             width: {
                 type: 'string',
@@ -35,8 +36,6 @@ import { withColors} from '@wordpress/block-editor';
             resetLabel: {type: 'string', default: 'Reset'},
             ***REMOVED***: {type: 'string', default: "Thanks for submitting"},
             ***REMOVED***: {type: 'string', default: "Something didn't go well, please try again later"},
-
-
         },
         edit: withColors('***REMOVED***', {textColor: 'color'})(BlockEdit),
         save: BlockSave
