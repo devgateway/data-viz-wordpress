@@ -388,3 +388,15 @@ export interface Menu {
     term_order:       string;
     icon_media_id?:    number;
 }
+
+export interface SearchResult {
+    id:      number;
+    title:   string;
+    url:     string;
+    type:    string;
+    subtype: string;
+    _links:  Links;
+    value:   string;
+}
+
+export type SearchResults = SearchResult[];
