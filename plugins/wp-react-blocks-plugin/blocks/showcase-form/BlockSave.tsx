@@ -1,9 +1,10 @@
+import React from 'react';
 import {
     ***REMOVED***
 } from '@wordpress/block-editor';
+import { ShowcaseFormBlockAttributes } from './types';
 
-const SaveComponent = (props) => {
-    const {setAttributes} = props;
+const SaveComponent = (props: {attributes: ShowcaseFormBlockAttributes}) => {
     const {
         customBackgroundColor,
         ***REMOVED***,

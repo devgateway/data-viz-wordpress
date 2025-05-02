@@ -1,19 +1,17 @@
+import React from 'react';
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED*** } from '@wordpress/blocks';
 import {
     ***REMOVED***,
     ***REMOVED***,
-    ***REMOVED***,
     useBlockProps,
-    withColors
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
-import Generic from "../icons";
-import { ***REMOVED*** } from "../commons";
+import { ShowcaseFormBlockProps } from './types';
+import { BlockEditWithFiltersState, ***REMOVED*** } from '@dg-data-viz/wp-commons';
 
 
-class EditComponent extends ***REMOVED*** {
-    constructor(props) {
+class EditComponent extends ***REMOVED***<ShowcaseFormBlockProps, BlockEditWithFiltersState> {
+    constructor(props: ShowcaseFormBlockProps) {
         super(props);
     }
 
@@ -40,7 +38,7 @@ class EditComponent extends ***REMOVED*** {
             },
         } = this.props;
         let divClass;
-        let divStyles = { "text-align": alignment, "margin": 'auto' };
+        let divStyles = { textAlign: alignment, margin: 'auto' };
         if (***REMOVED*** != undefined) {
             if (***REMOVED***.class != undefined) {
                 divClass = ***REMOVED***.class;
@@ -150,6 +148,7 @@ class EditComponent extends ***REMOVED*** {
                         </PanelRow>
                     </Panel>
                 </***REMOVED***>
+                {/* @ts-ignore */}
                 <div className={divClass} style={{ ...divStyles, width, height }}>
                     {this.state.react_ui_url && <iframe scrolling={"no"} style={{ width, height }}
                         src={this.state.react_ui_url + "/embeddable/showcaseForm?" + queryString} />}
@@ -163,7 +162,7 @@ class EditComponent extends ***REMOVED*** {
 }
 
 
-const Edit = (props) => {
+const Edit = (props: ShowcaseFormBlockProps) => {
     const blockProps = useBlockProps({ className: 'wp-react-component' });
     return <div {...blockProps}><EditComponent {...props} /></div>;
 
