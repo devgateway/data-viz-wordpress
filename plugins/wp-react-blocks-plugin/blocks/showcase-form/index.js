@@ -40,5 +40,4 @@ import { BLOCKS_NS, BLOCKS_CATEGORY, GenericIcon } from '@dg-data-viz/wp-commons
         edit: withColors('***REMOVED***', {textColor: 'color'})(BlockEdit),
         save: BlockSave
     }
-)
-;
+);
