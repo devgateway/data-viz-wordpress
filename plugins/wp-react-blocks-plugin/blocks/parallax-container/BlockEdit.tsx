@@ -1,23 +1,18 @@
-import {ColorPalette, InspectorControls, PanelColorSettings, useBlockProps, useSetting} from '@wordpress/block-editor';
+import React from 'react';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
-    __experimentalNumberControl as NumberControl,
-    __experimentalText as Text,
-    Button,
-    ButtonGroup,
     FontSizePicker,
     Panel,
     PanelBody,
     PanelRow,
     RangeControl,
     ResizableBox,
-    TextControl,
     ToggleControl
 } from '@wordpress/components'
-
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters, SizeConfig} from "../commons";
+import {BlockEditWithFilters, Post, SizeConfig } from '@dg-data-viz/wp-commons';
 import apiFetch from '@wordpress/api-fetch';
-import {useEffect} from "react";
+import { ParallaxContainerBlockProps, ParallaxContainerBlockState, ParallaxContainerConfiguration } from './types';
 
 const COLORS = ["#6acbd5", "#fcb535", "#f79132", "#e54957", "#0e5583", "#2fb2e4", "#fcb535"]
 const FontSelector = (props) => {
@@ -37,9 +32,9 @@ const FontSelector = (props) => {
     />
 }
 
-class BlockEdit extends BlockEditWithFilters {
+class BlockEdit extends BlockEditWithFilters<ParallaxContainerBlockProps, ParallaxContainerBlockState> {
 
-    constructor(props) {
+    constructor(props: ParallaxContainerBlockProps) {
         super(props);
         this.onCategoryChanged = this.onCategoryChanged.bind(this)
         this.onLoadPosts = this.onLoadPosts.bind(this)
@@ -52,7 +47,7 @@ class BlockEdit extends BlockEditWithFilters {
         this.onLoadPosts()
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: ParallaxContainerBlockProps, prevState: ParallaxContainerBlockState, snapshot) {
 
         super.componentDidUpdate(prevProps, prevState, snapshot)
         const {attributes: {taxonomy, categories}} = this.props;
@@ -75,26 +70,27 @@ class BlockEdit extends BlockEditWithFilters {
         let url = "/wp/v2/" + (type ? type : 'posts')
 
         url += (categories ? (taxonomy ? '?' + taxonomy : '&categories') + "=" + (categories ? categories : "") : '') //ids
-        apiFetch({path: url}).then((data) => {
+        apiFetch<Post[]>({path: url}).then((data) => {
             
             const newConfig = [...configuration]
-            data.forEach((post, i) => {
+            data.forEach((post: Post, i: number) => {
                 if (!newConfig[i]) {
-                    newConfig.push({})
-                    newConfig[i].offset = i
-                    newConfig[i].speed = 0
-                    newConfig[i].sticky = false
-                    newConfig[i].stickyStart = i
-                    newConfig[i].stickyEnd = i
-                    setAttributes({configuration: newConfig})
+                    const newConfigItem: ParallaxContainerConfiguration = {
+                        offset: i,
+                        speed: 0,
+                        sticky: false,
+                        stickyStart: i,
+                        stickyEnd: i,
+                        title: post.title.rendered
+                    }
+                    newConfig.push(newConfigItem);
                 }
-                newConfig[i].title = post.title.rendered
             })
             setAttributes({configuration: newConfig})
         })
     }
 
-    onCategoryChanged(checked, value) {
+    onCategoryChanged(checked: boolean, value: string) {
         super.onCategoryChanged(checked, value)
 
 
@@ -126,7 +122,9 @@ class BlockEdit extends BlockEditWithFilters {
                             <RangeControl
                                 isShiftStepEnabled={true}
                                 onChange={(scrolls) => {
-                                    setAttributes({scrolls: parseInt(scrolls)})
+                                    if (scrolls) {
+                                        setAttributes({scrolls})
+                                    }
 
                                 }}
                                 shiftStep={1}
@@ -153,8 +151,10 @@ class BlockEdit extends BlockEditWithFilters {
                                     label={__('Offset')}
                                     value={config.offset}
                                     onChange={(offset) => {
-                                        newConfig[i].offset = offset
-                                        setAttributes({config: newConfig})
+                                        if (offset) {
+                                            newConfig[i].offset = offset
+                                            setAttributes({config: newConfig})
+                                        }
                                     }}
                                     step={.1}
                                     min={0}
@@ -166,9 +166,10 @@ class BlockEdit extends BlockEditWithFilters {
                                     label={__('Speed')}
                                     value={config.speed}
                                     onChange={(speed) => {
-                                        newConfig[i].speed = speed
-
-                                        setAttributes({config: newConfig})
+                                        if (speed) {
+                                            newConfig[i].speed = speed
+                                            setAttributes({config: newConfig})
+                                        }
 
                                     }}
                                     step={.1}
@@ -192,8 +193,10 @@ class BlockEdit extends BlockEditWithFilters {
                                         label={__('Start')}
                                         value={newConfig[i].stickyStart}
                                         onChange={(stickyStart) => {
-                                            newConfig[i].stickyStart = stickyStart
-                                            setAttributes({config: newConfig})
+                                            if (stickyStart) {
+                                                newConfig[i].stickyStart = stickyStart
+                                                setAttributes({config: newConfig})
+                                            }
                                         }}
                                         step={1}
                                         min={0}
@@ -205,9 +208,10 @@ class BlockEdit extends BlockEditWithFilters {
                                         label={__('End')}
                                         value={newConfig[i].stickyEnd}
                                         onChange={(stickyEnd) => {
-                                            newConfig[i].stickyEnd = stickyEnd
-
-                                            setAttributes({config: newConfig})
+                                            if (stickyEnd) {
+                                                newConfig[i].stickyEnd = stickyEnd
+                                                setAttributes({config: newConfig})
+                                            }
                                         }}
                                         step={1}
                                         min={0}
@@ -238,7 +242,8 @@ class BlockEdit extends BlockEditWithFilters {
                     topLeft: false,
                 }}
                 onResizeStop={(event, direction, elt, delta) => {
-                    setAttributes({height: parseInt(height + delta.height, 10),});
+                    const newHeight = parseInt(String(height)) + parseInt(String(delta.height))
+                    setAttributes({height: newHeight});
                     toggleSelection(true);
                 }}
                 onResizeStart={() => {
@@ -256,8 +261,6 @@ class BlockEdit extends BlockEditWithFilters {
 
 const Edit = (props) => {
     const blockProps = useBlockProps({className: 'wp-react-component'});
-    const colorsFeature = useSetting('custom-font-sizes');
-    const colorsFeature2 = useSetting('editor-font-sizes');
 
     return <div {...blockProps}><BlockEdit {...props}/></div>;
 
