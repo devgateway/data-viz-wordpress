@@ -1,27 +1,29 @@
-import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
-import {CheckboxControl, Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import {ComponentWithSettings} from "../commons";
+import React from 'react';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { CheckboxControl, Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { ComponentWithSettings, SearchResult, SearchResults, Wp_Types } from "@dg-data-viz/wp-commons";
 import apiFetch from '@wordpress/api-fetch';
-import {Label, Search} from "semantic-ui-react";
+import { Label, Search } from "semantic-ui-react";
+import { PdfBlockProps, PdfBlockState } from './type';
 
 
-const resultRenderer = ({url, type, subtype, title}) => {
+const resultRenderer = ({ url, type, subtype, title }: SearchResult) => {
     return (<div className={"search result item"}>
         <div className={"subtype"}>{subtype}</div>
-        <div><Label content={title}/></div>
+        <div><Label content={title} /></div>
         <div><a href={url}>{url}</a></div>
     </div>)
 }
 
-class BlockEdit extends ComponentWithSettings {
-    constructor(props) {
+class BlockEdit extends ComponentWithSettings<PdfBlockProps, PdfBlockState> {
+    constructor(props: PdfBlockProps) {
         super(props);
         this.search = this.search.bind(this)
     }
 
-    search(e, data) {
-        const types = []
+    search(e, data: SearchResult) {
+        const types: string[] = []
         Object.keys(this.state.types).map(k => {
             const slug = this.state.types[k].slug
             if (this.props.attributes[slug] === true) {
@@ -29,16 +31,16 @@ class BlockEdit extends ComponentWithSettings {
             }
         })
 
-        apiFetch({path: '/wp/v2/search?per_page=5&search=' + data.value + '&subtype=' + types.join(',')}).then((data) => {
-            this.setState({results: data})
+        apiFetch<SearchResults>({ path: '/wp/v2/search?per_page=5&search=' + data.value + '&subtype=' + types.join(',') }).then((data) => {
+            this.setState({ results: data })
         });
 
     }
 
     componentDidMount() {
         super.componentDidMount();
-        apiFetch({path: '/wp/v2/types'}).then((data) => {
-            this.setState({types: data})
+        apiFetch<Wp_Types[]>({ path: '/wp/v2/types' }).then((data) => {
+            this.setState({ types: data })
         });
     }
 
@@ -59,36 +61,35 @@ class BlockEdit extends ComponentWithSettings {
 
 
         const queryString = `editing=true&data-type=${type}&data-button-label=${buttonLabel}&data-file-name=${fileName}`
-        const divStyles = {height: "60px"}
+        const divStyles = { height: "60px" }
         return (
 
             <div>
                 <InspectorControls>
                     <Panel>
-                        <PanelBody title={__("Button Label","dg")}>
+                        <PanelBody title={__("Button Label", "dg")}>
                             <PanelRow>
                                 <TextControl
                                     value={buttonLabel}
-                                    onChange={(buttonLabel) => setAttributes({buttonLabel})}
+                                    onChange={(buttonLabel) => setAttributes({ buttonLabel })}
                                 />
                             </PanelRow>
                         </PanelBody>
-                        <PanelBody title={__("Page or Post","dg")}>
+                        <PanelBody title={__("Page or Post", "dg")}>
                             <PanelRow>
                                 <Search fluid size={"mini"}
-                                        loading={false}
-                                        onResultSelect={(e, data) => {
-                                            setAttributes({url: data.result.url, title: data.result.title})
-                                        }
-                                        }
-                                        resultRenderer={resultRenderer}
-                                        onSearchChange={this.search}
-                                        results={this.state.results}
+                                    loading={false}
+                                    onResultSelect={(e, data) => {
+                                        setAttributes({ url: data.result.url, title: data.result.title })
+                                    }}
+                                    resultRenderer={(data) => resultRenderer(data as SearchResult)}
+                                    onSearchChange={(e, data) => this.search(e, data as SearchResult)}
+                                    results={this.state.results}
 
                                 />
                             </PanelRow>
                         </PanelBody>
-                        <PanelBody title={__("Search Options","dg")}>
+                        <PanelBody title={__("Search Options", "dg")}>
                             {this.state.types && Object.keys(this.state.types).map(k => {
                                 const f = this.state.types[k]
                                 if (["media", "blocks"].indexOf(f.rest_base) > -1) {
@@ -109,11 +110,11 @@ class BlockEdit extends ComponentWithSettings {
 
 
                         </PanelBody>
-                        <PanelBody title={__("PDF File Name","dg")}>
+                        <PanelBody title={__("PDF File Name", "dg")}>
                             <PanelRow>
                                 <TextControl
                                     value={fileName}
-                                    onChange={(fileName) => setAttributes({fileName})}
+                                    onChange={(fileName) => setAttributes({ fileName })}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -124,7 +125,7 @@ class BlockEdit extends ComponentWithSettings {
 
                 <div style={divStyles}>
                     <iframe style={divStyles} scrolling={"no"}
-                            src={this.state.react_ui_url + "/embeddable/downloadpdf?" + queryString}/>
+                        src={this.state.react_ui_url + "/embeddable/downloadpdf?" + queryString} />
                 </div>
 
             </div>
@@ -134,9 +135,9 @@ class BlockEdit extends ComponentWithSettings {
 }
 
 
-const Edit = (props) => {
+const Edit = (props: PdfBlockProps) => {
     const blockProps = useBlockProps();
-    return <div {...blockProps}><BlockEdit {...props}/></div>;
+    return <div {...blockProps}><BlockEdit {...props} /></div>;
 
 }
 export default Edit;
