@@ -1,13 +1,11 @@
 import {PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 import React, {useEffect} from 'react'
 import {__} from '@wordpress/i18n';
-import ChartColors from "../commons/ChartColors.jsx"
-import ChartLegends from '../commons/ChartLegends.jsx'
-import AxisConfig from './AxisConfig.jsx'
-import Labels from "./Labels.jsx"
-import Format from "./Format.jsx"
+import {ChartColors, ChartLegends, Format} from '@dg-data-viz/wp-commons';
+import AxisConfig from './config/AxisConfig'
+import Labels from "./components/Labels"
 import Papa from 'papaparse'
-import Sort from "./Sort.jsx"
+import Sort from "./components/Sort"
 
 
 const LineOptions = (props) => {
