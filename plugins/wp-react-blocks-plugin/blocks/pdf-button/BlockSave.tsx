@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * External dependencies
  */
@@ -9,12 +11,16 @@ import classnames from 'classnames';
 import {
     RichText,
     useBlockProps,
+    // @ts-ignore
     __experimentalGetBorderClassesAndStyles as getBorderClassesAndStyles,
+    // @ts-ignore
     __experimentalGetColorClassesAndStyles as getColorClassesAndStyles,
+    // @ts-ignore
     __experimentalGetSpacingClassesAndStyles as getSpacingClassesAndStyles,
 } from '@wordpress/block-editor';
+import { PdfButtonAttributes } from './types';
 
-export default function save( { attributes, className } ) {
+export default function save( { attributes, className }: { attributes: PdfButtonAttributes, className: string } ) {
     const {
         fontSize,
         linkTarget,
@@ -40,6 +46,7 @@ export default function save( { attributes, className } ) {
         {
             // For backwards compatibility add style that isn't provided via
             // block support.
+            // @ts-ignore
             'no-border-radius': style?.border?.radius === 0,
         }
     );
@@ -55,6 +62,7 @@ export default function save( { attributes, className } ) {
 
     const wrapperClasses = classnames( className, {
         [ `has-custom-width wp-block-button__width-${ width }` ]: width,
+        // @ts-ignore
         [ `has-custom-font-size` ]: fontSize || style?.typography?.fontSize,
     } );
 
