@@ -1,10 +1,11 @@
+import React from 'react';
 import {useBlockProps} from '@wordpress/block-editor';
-import {ComponentWithSettings} from "../commons";
-import {useDispatch, useSelect} from '@wordpress/data';
+import {ComponentWithSettings, SearchResult, SearchResults} from "@dg-data-viz/wp-commons";
+import {select, useDispatch, useSelect} from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
-import {arrowUp} from '@wordpress/icons';
-import {Container, Search} from "semantic-ui-react";
+import { Search} from "semantic-ui-react";
 import {__} from '@wordpress/i18n';
+import { RedirectBlockProps, RedirectBlockState } from './type';
 
 const Metadata = ({url}) => {
     const {editPost} = useDispatch('core/editor');
@@ -12,28 +13,29 @@ const Metadata = ({url}) => {
     if (url) {
         editPost({meta: {redirect_url: url}})
     }
-    const redirect_url = useSelect(select => {
+    const redirect_url = useSelect(() => {
         const meta= select('core/editor').getEditedPostAttribute('meta')
         if (meta){
             return meta.redirect_url
         }
         return null;
-    })
+    }, []);
+    
     return <h4 style={{"color": "#c66061"}}> {__("This page redirects to:","dg")} {redirect_url} </h4>
 }
 
 
-class BlockEdit extends ComponentWithSettings {
+class BlockEdit extends ComponentWithSettings<RedirectBlockProps, RedirectBlockState> {
 
-    constructor(props) {
+    constructor(props: RedirectBlockProps) {
         super(props);
         this.state = {results: [], search: ""}
         this.search = this.search.bind(this)
     }
 
-    search(e, search) {
+    search(e, search: SearchResult) {
         this.setState({search: search.value})
-        apiFetch({path: '/wp/v2/search?per_page=10&search=' + search.value}).then((posts) => {
+        apiFetch<SearchResults>({path: '/wp/v2/search?per_page=10&search=' + search.value}).then((posts) => {
 
             this.setState({results: posts});
         });
@@ -48,7 +50,7 @@ class BlockEdit extends ComponentWithSettings {
 
 
         const resultRenderer = ({type, subtype, url, title}) => {
-            return <div><span>{subtype} -> </span><span dangerouslySetInnerHTML={{ __html: title }} ></span><br></br>
+            return <div><span>{subtype} -&gt; </span><span dangerouslySetInnerHTML={{ __html: title }} ></span><br></br>
                 <a onClick={(e) => false}>{url}</a></div>
         }
 
@@ -57,15 +59,14 @@ class BlockEdit extends ComponentWithSettings {
             <div className={"viz redirect"}>
                 {isSelected ? <Search
                     fluid={true}
-                    aligned
                     icon={false}
                     placeholder={redirect_url ? redirect_url : 'Search...'}
                     onResultSelect={(e, data) => {
 
                         setAttributes({"redirect_url": data.result.url})
                     }}
-                    resultRenderer={resultRenderer}
-                    onSearchChange={this.search}
+                    resultRenderer={(data) => resultRenderer(data as SearchResult)}
+                    onSearchChange={(e, data) => this.search(e, data as SearchResult)}
                     results={this.state.results}
 
                 /> : null}
