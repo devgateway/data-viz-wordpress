@@ -1,19 +1,17 @@
+import React from 'react';
 import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
 import {
-    getColorClassName,
     InspectorControls,
     PanelColorSettings,
     useBlockProps,
-    withColors
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
-import Generic from "../icons";
-import { BlockEditWithFilters } from "../commons";
+import { ShowcaseFormBlockProps } from './types';
+import { BlockEditWithFiltersState, BlockEditWithFilters } from '@dg-data-viz/wp-commons';
 
 
-class EditComponent extends BlockEditWithFilters {
-    constructor(props) {
+class EditComponent extends BlockEditWithFilters<ShowcaseFormBlockProps, BlockEditWithFiltersState> {
+    constructor(props: ShowcaseFormBlockProps) {
         super(props);
     }
 
@@ -40,7 +38,7 @@ class EditComponent extends BlockEditWithFilters {
             },
         } = this.props;
         let divClass;
-        let divStyles = { "text-align": alignment, "margin": 'auto' };
+        let divStyles = { textAlign: alignment, margin: 'auto' };
         if (backgroundColor != undefined) {
             if (backgroundColor.class != undefined) {
                 divClass = backgroundColor.class;
@@ -150,6 +148,7 @@ class EditComponent extends BlockEditWithFilters {
                         </PanelRow>
                     </Panel>
                 </InspectorControls>
+                {/* @ts-ignore */}
                 <div className={divClass} style={{ ...divStyles, width, height }}>
                     {this.state.react_ui_url && <iframe scrolling={"no"} style={{ width, height }}
                         src={this.state.react_ui_url + "/embeddable/showcaseForm?" + queryString} />}
@@ -163,7 +162,7 @@ class EditComponent extends BlockEditWithFilters {
 }
 
 
-const Edit = (props) => {
+const Edit = (props: ShowcaseFormBlockProps) => {
     const blockProps = useBlockProps({ className: 'wp-react-component' });
     return <div {...blockProps}><EditComponent {...props} /></div>;
 
