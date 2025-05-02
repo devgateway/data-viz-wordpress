@@ -27,6 +27,10 @@ export {
     ChartColors
 } from './ChartColors';
 export {
+    ChartLegends,
+    type LegendProps as ***REMOVED***
+} from './ChartLegends';
+export {
     ChartMeasures,
     type ***REMOVED***
 } from './ChartMeasures';
@@ -58,6 +62,8 @@ export {
     ***REMOVED***,
     getSelectedLabelsForApp,
     transformDataToAppObject,
+    ***REMOVED***,
+    getSelectedItemsForApp,
     ***REMOVED***
 } from './***REMOVED***';
 export {

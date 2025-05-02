@@ -1,4 +1,4 @@
-import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {***REMOVED***, ***REMOVED***, useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -9,19 +9,21 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-
-import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
-import ***REMOVED*** from "../commons/***REMOVED***";
-import Tooltip from "../commons/Tooltip.jsx";
-import {togglePanel} from "../commons/Util";
-import Measures from "../commons/Measures";
-import {categorical, sequential, diverging} from "../commons/ChartColors";
-import {***REMOVED***} from "../commons/APIutils";
-import ChartLegends from "../commons/ChartLegends";
+import {
+    BlockEditWithAPIMetadata,
+    SizeConfig,
+    CSVConfig,
+    Tooltip,
+    togglePanel,
+    Measures,
+    ChartLegends,
+    DataFilters,
+    ***REMOVED***
+} from '@dg-data-viz/wp-commons';
+import {categorical, sequential, diverging} from "@dg-data-viz/wp-commons";
 import Papa from "papaparse";
-import DataFilters from "../commons/DataFilters";
+
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {

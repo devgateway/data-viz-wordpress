@@ -1,13 +1,12 @@
 import {PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import ChartColors from "../commons/ChartColors.jsx"
-import ChartLegends from '../commons/ChartLegends.jsx'
-import AxisConfig from './AxisConfig.jsx'
-import Labels from "./Labels.jsx"
-import LineOverlay from "./***REMOVED***.jsx";
-import ConfidenceIntervalConfig from "./ConfidenceIntervalConfig.jsx"
+import {ChartColors, ChartLegends} from '@dg-data-viz/wp-commons';
+import AxisConfig from '../config/AxisConfig';
+import Labels from "./Labels";
+import LineOverlay from "../config/***REMOVED***";
+import ConfidenceIntervalConfig from "../config/ConfidenceIntervalConfig";
 import Papa from 'papaparse'
-import ***REMOVED*** from "./***REMOVED***.jsx";
+import ***REMOVED*** from "./***REMOVED***";
 import Sort from "./Sort.jsx";
 
 const BarOptions = (props) => {

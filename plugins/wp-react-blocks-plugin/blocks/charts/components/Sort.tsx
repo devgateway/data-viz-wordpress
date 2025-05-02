@@ -1,7 +1,19 @@
+import React from 'react';
 import {PanelRow, RangeControl, TextControl, SelectControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-const Sort = (props) => {
+interface SortProps {
+    ***REMOVED***: () => void;
+    setAttributes: (attributes: any) => void;
+    options: {label: string; value: string}[];
+    attributes: {
+        app: string;
+        sort: string;
+        sortReverse: boolean;
+    };
+}
+
+const Sort = (props: SortProps) => {
     const {
         ***REMOVED***,
         setAttributes,
@@ -12,7 +24,7 @@ const Sort = (props) => {
         return [<PanelRow>
             <SelectControl
                 label={__('Sort Data: ', "dg")}
-                value={[sort]}
+                value={sort}
                 onChange={(sort) => {
                     setAttributes({sort})
 
@@ -29,7 +41,7 @@ const Sort = (props) => {
             <PanelRow>
                 <ToggleControl
                     label={__('Reverse Sort ', "dg")}
-                    value={[sortReverse]}
+                    value={sortReverse as any}
                     onChange={(sortReverse) => {
                         setAttributes({sortReverse})
 
