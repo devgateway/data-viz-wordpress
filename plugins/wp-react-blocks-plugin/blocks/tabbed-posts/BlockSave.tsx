@@ -1,6 +1,8 @@
-const SaveComponent = (props) => {
+import React from "react";
+import { TabbedPostsBlockAttributes } from "./types";
+
+const SaveComponent = (props: { attributes: TabbedPostsBlockAttributes }) => {
     const {
-        setAttributes,
         attributes: {
             count,
             type,
@@ -16,12 +18,11 @@ const SaveComponent = (props) => {
         },
     } = props;
 
-    const divClass = {}
     const divStyles = {}
 
-//const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-width=${width}&data-theme=${theme}&data-show-icons=${showIcons}&data-user-labels=${useLabels}`
-//data-theme=${theme}&data-show-icons=${showIcons}&data-show-labels=${useLabels}`
-    return (<div className={divClass} style={divStyles}>
+
+    return (
+        <div style={divStyles}>
             <div
                 data-items={count}
                 data-height={height}
