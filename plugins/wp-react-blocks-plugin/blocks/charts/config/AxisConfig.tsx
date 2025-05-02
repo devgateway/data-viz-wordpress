@@ -1,8 +1,39 @@
+import React from 'react';
 import {***REMOVED***, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/block-editor';
 
-const AxisConfig = (props) => {
+interface ***REMOVED*** {
+    ***REMOVED***: (value: boolean) => void;
+    isSelected: boolean;
+    setAttributes: (attributes: any) => void;
+    attributes: {
+        leftLegend: string;
+        offsetY: number;
+        tickColor: string;
+        tickRotation: number;
+        ***REMOVED***: boolean;
+        xLabelColor: string;
+        barLabelColor: string;
+        type: string;
+        rightLegend: string;
+        offsetRight: number;
+        showRightAxis: boolean;
+        bottomLegend: string;
+        offsetBottom: number;
+        showTickLine: boolean;
+        ***REMOVED***: boolean;
+        maxValue: string;
+        fixedMinValue: string;
+        fixedMaxValue: string;
+        ***REMOVED***: number;
+        ***REMOVED***: number;
+        offsetText: number;
+        minMaxClamp: boolean;
+    };
+}
+
+const AxisConfig = (props: ***REMOVED***) => {
 
     const {
         ***REMOVED***,

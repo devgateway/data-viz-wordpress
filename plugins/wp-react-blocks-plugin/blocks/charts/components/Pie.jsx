@@ -9,8 +9,7 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import ChartColors from "../commons/ChartColors.jsx"
-import ChartLegends from "../commons/ChartLegends.jsx";
+import {ChartColors, ChartLegends} from '@dg-data-viz/wp-commons';
 
 const PieOptions = (props) => {
 
@@ -77,7 +76,7 @@ const PieOptions = (props) => {
         <PanelBody initialOpen={false} title={__("Center Label")}>
             <PanelBody initialOpen={false} title={__("Variables")}>
                 <PanelRow>
-                    <span style={{"font-size": "11px"}}>Total Value -> {'{totalValue}'}</span>
+                    <span style={{fontSize: "11px"}}>Total Value -&gt; {'{totalValue}'}</span>
                 </PanelRow>
             </PanelBody>
             <PanelRow>
