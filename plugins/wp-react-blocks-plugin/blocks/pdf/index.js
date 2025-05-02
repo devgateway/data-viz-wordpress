@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons'
+import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@dg-data-viz/wp-commons';
 
-***REMOVED***(process.env.BLOCKS_NS + 'viz-components/pdf',
+***REMOVED***(BLOCKS_NS + 'viz-components/pdf',
     {
         title: __('PDF Export', "dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             buttonLabel: {
                 type: 'string',
