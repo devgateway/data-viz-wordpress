@@ -45,7 +45,7 @@ export type LegendProps = {
 }
 
 
-const ChartLegends = (props: LegendProps) => {
+export const ChartLegends = (props: LegendProps) => {
     const {
         setAttributes, legendPosition, attributes
     } = props;

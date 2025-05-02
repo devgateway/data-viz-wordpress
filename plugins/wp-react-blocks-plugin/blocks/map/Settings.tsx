@@ -3,7 +3,7 @@ import { Component } from "@wordpress/element"
 import { PanelColorSettings } from '@wordpress/block-editor'
 import { PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button, ButtonGroup, RangeControl, TextareaControl } from '@wordpress/components'
 import { __ } from '@wordpress/i18n';
-import { SizeConfig } from '../commons/index'
+import { SizeConfig } from '@dg-data-viz/wp-commons'
 import Format from "./Format"
 import { SettingsProps } from "./types";
 

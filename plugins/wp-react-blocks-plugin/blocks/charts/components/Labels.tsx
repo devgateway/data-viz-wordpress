@@ -1,10 +1,20 @@
+import React from "react";
 import {
   PanelRow,
   SelectControl,
 } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 
-const Labels = (props) => {
+interface LabelsProps {
+  setAttributes: (attributes: any) => void;
+  attributes: {
+    barLabelPosition: string;
+    lineLabelPosition: string;
+    type: string;
+  };
+}
+
+const Labels = (props: LabelsProps) => {
   const {
     setAttributes,
     attributes: {
@@ -20,7 +30,7 @@ const Labels = (props) => {
         <PanelRow>
           <SelectControl
             label={__("Bar Label Position", "dg")}
-            value={[barLabelPosition]}
+            value={barLabelPosition as "top" | "middle" | "none"}
             onChange={(barLabelPosition) => {
               setAttributes({ barLabelPosition: barLabelPosition });
             }}
@@ -38,7 +48,7 @@ const Labels = (props) => {
         <PanelRow>
           <SelectControl
             label={__("Point Label Position", "dg")}
-            value={[lineLabelPosition]}
+            value={lineLabelPosition as "top" | "none"}
             onChange={(position) => {
               setAttributes({ lineLabelPosition: position });
             }}

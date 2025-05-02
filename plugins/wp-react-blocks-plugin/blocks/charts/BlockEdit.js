@@ -13,14 +13,14 @@ import {
 
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import {BlockEditWithAPIMetadata, SizeConfig} from '@dg-data-viz/wp-commons'
 import CSVSourceConfig from "../commons/CSVSourceConfig";
 import APIConfig from "../commons/APIConfig";
 import Bar from "./Bar.jsx"
 import Pie from "./Pie.jsx"
 import Line from "./Line.jsx"
 import Bump from "./Bump.jsx"
-import Info from "./Info.jsx"
+import Info from "./components/Info.jsx"
 import MobileConfig from './MobileConfig.jsx';
 import Tooltip from "../commons/Tooltip.jsx";
 import {togglePanel} from "../commons/Util";

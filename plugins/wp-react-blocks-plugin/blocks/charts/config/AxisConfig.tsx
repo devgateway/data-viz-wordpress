@@ -1,8 +1,39 @@
+import React from 'react';
 import {AnglePickerControl, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {PanelColorSettings} from '@wordpress/block-editor';
 
-const AxisConfig = (props) => {
+interface AxisConfigProps {
+    toggleSelection: (value: boolean) => void;
+    isSelected: boolean;
+    setAttributes: (attributes: any) => void;
+    attributes: {
+        leftLegend: string;
+        offsetY: number;
+        tickColor: string;
+        tickRotation: number;
+        overrideTickColor: boolean;
+        xLabelColor: string;
+        barLabelColor: string;
+        type: string;
+        rightLegend: string;
+        offsetRight: number;
+        showRightAxis: boolean;
+        bottomLegend: string;
+        offsetBottom: number;
+        showTickLine: boolean;
+        highlightXAxisLine: boolean;
+        maxValue: string;
+        fixedMinValue: string;
+        fixedMaxValue: string;
+        yAxisTickValues: number;
+        xAxisTickValues: number;
+        offsetText: number;
+        minMaxClamp: boolean;
+    };
+}
+
+const AxisConfig = (props: AxisConfigProps) => {
 
     const {
         toggleSelection,
