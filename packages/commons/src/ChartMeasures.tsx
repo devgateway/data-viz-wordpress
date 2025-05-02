@@ -28,13 +28,12 @@ export type ***REMOVED*** = {
     attributes: {
         panelStatus: any;
         measures: Measure[];
-        dimension1: string;
-        dimension2: string;
+        dimension1: string | null;
+        dimension2: string | null;
         type: string;
         app: string;
     }
 }
-
 
 
 export const ChartMeasures = (props: ***REMOVED***) => {

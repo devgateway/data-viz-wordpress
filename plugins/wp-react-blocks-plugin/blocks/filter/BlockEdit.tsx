@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { BlockEditWithAPIMetadata } from '../commons/index'
-import { isSupersetAPI } from "../commons/APIutils";
-import DataFilters from "../commons/DataFilters";
+import { BlockEditWithAPIMetadata, isSupersetAPI } from '@dg-data-viz/wp-commons'
+import DataFilters from "@dg-data-viz/wp-commons";
 import { CategoricalFilterProps } from '../d3Map/layers/utils/types';
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'

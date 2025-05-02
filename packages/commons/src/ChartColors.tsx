@@ -48,11 +48,11 @@ export const diverging = [{value: "brown_blueGreen", label: 'brown_blueGreen'},
 const plainColor = {value: "plain_color", label: 'Use Plain color'};
 
 export type ***REMOVED*** = {
-    allDimensions: Dimension[];
-    allFilters: Filter[];
-    allMeasures: Measure[];
-    allCategories: Categories;
-    allApps: any[];
+    allDimensions?: Dimension[];
+    allFilters?: Filter[];
+    allMeasures?: Measure[];
+    allCategories?: Categories;
+    allApps?: any[];
    
     setAttributes: (attributes: {
         swap: boolean;
@@ -249,17 +249,17 @@ export const ChartColors = (props: ***REMOVED***) => {
 
     const initColors = (dimension: string) => {
         
-        const ds = allDimensions.filter(d => d.value == dimension)
+        const ds = allDimensions?.filter(d => d.value == dimension)
         const newColors = Object.assign({}, manualColors)
 
         if (!newColors[app]) {
             newColors[app] = {}
         }
 
-        if (ds.length > 0) {
+        if (ds && ds.length > 0) {
             const {type} = ds[0]
-            const cat = allCategories.filter(a => a.type === type)
-            if (cat.length > 0) {
+            const cat = allCategories?.filter(a => a.type === type)
+            if (cat && cat.length > 0) {
                 
                 cat[0].items.forEach(item => {
                     if (!newColors[app][item.code]) {
@@ -295,18 +295,18 @@ export const ChartColors = (props: ***REMOVED***) => {
     const ***REMOVED*** = (dimension1, dimension2) => {
         
         if (manualColors[app]) {
-            const ds1 = allDimensions.filter(d => d.value == dimension1)
-            const ds2 = allDimensions.filter(d => d.value == dimension2)
-            if (ds1.length > 0 && ds2.length > 0) {
+            const ds1 = allDimensions?.filter(d => d.value == dimension1)
+            const ds2 = allDimensions?.filter(d => d.value == dimension2)
+            if (ds1 && ds1.length > 0 && ds2 && ds2.length > 0) {
 
                 const {type} = ds1[0]
                 const {type: type2} = ds2[0]
 
-                const cat = allCategories.filter(a => a.type === type)
-                const cat2 = allCategories.filter(a => a.type === type2)
+                const cat = allCategories?.filter(a => a.type === type)
+                const cat2 = allCategories?.filter(a => a.type === type2)
                 const list: React.ReactNode[] = []
-                cat[0].items.sort((a, b) => (a.position ?? 0) - (b.position ?? 0)).forEach(c1 => {
-                    cat2[0].items.sort((a, b) => (a.position ?? 0) - (b.position ?? 0)).forEach(c2 => {
+                cat?.[0].items.sort((a, b) => (a.position ?? 0) - (b.position ?? 0)).forEach(c1 => {
+                    cat2?.[0].items.sort((a, b) => (a.position ?? 0) - (b.position ?? 0)).forEach(c2 => {
                         list.push(<***REMOVED***
                             colorSettings={[{
                                 value: manualColors[app][c1.value + ' - ' + c2.value],
@@ -332,10 +332,10 @@ export const ChartColors = (props: ***REMOVED***) => {
     const catColors = (dimension) => {
         
         if (manualColors[app]) {
-            const ds = allDimensions.filter(d => d.value == dimension)
-            if (ds.length > 0) {
+            const ds = allDimensions?.filter(d => d.value == dimension)
+            if (ds && ds.length > 0) {
                 const {type} = ds[0]
-                const cat = allCategories.filter(a => a.type === type)
+                const cat = allCategories?.filter(a => a.type === type)
                 if (cat && cat.length > 0) {
                     const list = cat[0].items.sort((a, b) => (b.position ?? 0) - (a.position ?? 0)).map(item => {
                         return <***REMOVED***
@@ -358,7 +358,7 @@ export const ChartColors = (props: ***REMOVED***) => {
 
                     let ***REMOVED***: string[] = []
 
-                    allMeasures.forEach(m => {
+                    allMeasures?.forEach(m => {
                         
                         if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
                             ***REMOVED***.push(m.value)

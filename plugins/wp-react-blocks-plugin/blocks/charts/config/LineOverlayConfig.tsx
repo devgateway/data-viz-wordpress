@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Button,
     ButtonGroup,
@@ -7,12 +8,17 @@ import {
     ***REMOVED***,
     TextControl
 } from '@wordpress/components';
-import {***REMOVED***} from '@wordpress/block-editor';
-import {__} from '@wordpress/i18n';
-import {togglePanel} from "../commons/Util";
-import ChartMeasures from "../commons/ChartMeasures";
+import { ***REMOVED*** } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { togglePanel, ChartMeasures, Measure, Category } from "@dg-data-viz/wp-commons";
 
-const ***REMOVED*** = (preFillCsv) => {
+interface Dimension {
+    value: string;
+    type: string;
+}
+
+
+const ***REMOVED*** = (preFillCsv: string) => {
     return {
         app: 'csv',
         lineColor: "#555555",
@@ -23,14 +29,38 @@ const ***REMOVED*** = (preFillCsv) => {
     }
 }
 
-const LineOverlay = (props) => {
+interface Overlay {
+    app: string;
+    lineColor: string;
+    ***REMOVED***: string;
+    tooltip: string;
+    title: string;
+    measure: string;
+}
+
+
+interface ***REMOVED*** {
+    setAttributes: (attributes: any) => void;
+    allDimensions: Dimension[];
+    allMeasures: Measure[];
+    allCategories: Category[];
+    apps: any[];
+    attributes: {
+        panelStatus: any;
+        overlays: Overlay[];
+        dimension1: string;
+        app: string;
+    }
+}
+
+const LineOverlay = (props: ***REMOVED***) => {
     const {
         setAttributes,
         allDimensions,
         allMeasures,
         allCategories,
         apps,
-        attributes: {panelStatus, overlays, dimension1, app}
+        attributes: { panelStatus, overlays, dimension1, app }
     } = props;
 
 
@@ -38,19 +68,23 @@ const LineOverlay = (props) => {
 
         let preFillCsv = ""
         if (app != "csv" && dimension1) {
+            // TODO: fix types for allDimensions and allCategories
+            // @ts-ignore
             const dimension = allDimensions.filter(d => d.value === dimension1).reduce(((a, b) => b), null)
+            // @ts-ignore
             const cat = allCategories.filter(c => c.type == dimension.type).reduce(((a, b) => b), null)
+            // @ts-ignore
             preFillCsv = cat ? cat.items.sort((s1, s2) => s1.position - s2.position).map(i => i.value).join(",\r\n") + "," : ""
         }
         const newOverlay = [...overlays, ***REMOVED***(preFillCsv)];
-        setAttributes({overlays: newOverlay});
+        setAttributes({ overlays: newOverlay });
     };
 
 
     const remove = () => {
         const newOverlay = [...overlays]
         newOverlay.pop()
-        setAttributes({overlays: newOverlay})
+        setAttributes({ overlays: newOverlay })
 
     }
 
@@ -58,19 +92,19 @@ const LineOverlay = (props) => {
         const newOverlay = [...overlays]
         newOverlay[idx][attribute] = value
 
-        setAttributes({overlays: newOverlay})
+        setAttributes({ overlays: newOverlay })
     }
 
     return <>{overlays && overlays.map((o, idx) => {
-        const ***REMOVED*** = {}
+        const ***REMOVED***: Record<any, any> = {}
         ***REMOVED***[o.app] = {}
-        ***REMOVED***[o.app][o.measure] = {selected: true}
-        return <PanelBody title={o.title} panelStatus={panelStatus['series_'] + idx}
-                          onToggle={e => togglePanel(panelStatus['series_'] + idx, panelStatus, setAttributes)}>
+        ***REMOVED***[o.app][o.measure] = { selected: true }
+        return <PanelBody title={o.title} initialOpen={panelStatus['series_'] + idx} opened={panelStatus['series_'] + idx}
+            onToggle={e => togglePanel(panelStatus['series_'] + idx, panelStatus, setAttributes)}>
 
             <PanelRow>
                 <SelectControl
-                    value={[o.app]} // e.g: value = [ 'a', 'c' ]
+                    value={o.app}
                     onChange={value => onChange(idx, "app", value)}
                     options={apps}
                 />
@@ -96,6 +130,9 @@ const LineOverlay = (props) => {
 
             {o.app != "csv" &&
                 <ChartMeasures
+                    onUseCustomAxisFormatChange={() => { }}
+                    onCustomLabelToggleChange={() => { }}
+                    ***REMOVED***={() => { }}
                     title={"Select Measure"}
                     ***REMOVED***={e => null}
                     ***REMOVED***={a => alert("format")}
@@ -104,7 +141,7 @@ const LineOverlay = (props) => {
                     setAttributes={setAttributes}
                     attributes={{
                         panelStatus,
-                        measures: ***REMOVED***,
+                        measures: ***REMOVED*** as any,
                         dimension1: null,
                         dimension2: null,
                         type: 'overlay',
@@ -121,7 +158,7 @@ const LineOverlay = (props) => {
                         {
                             value: o.lineColor,
                             onChange: (color) => {
-                                
+
                                 if (color) {
                                     onChange(idx, "lineColor", color)
                                 }
@@ -147,11 +184,11 @@ const LineOverlay = (props) => {
         <PanelRow>
             <ButtonGroup>
                 <Button isSecondary={true}
-                        onClick={add}>
+                    onClick={add}>
                     {__("Add Series")}
                 </Button>
                 <Button isSecondary={true}
-                        onClick={remove}>
+                    onClick={remove}>
                     {__("Remove Series")}
                 </Button>
             </ButtonGroup>
