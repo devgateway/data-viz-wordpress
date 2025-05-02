@@ -40,5 +40,4 @@ registerBlockType(BLOCKS_NS + '/showcase',
         edit: withColors('backgroundColor', {textColor: 'color'})(BlockEdit),
         save: BlockSave
     }
-)
-;
+);
