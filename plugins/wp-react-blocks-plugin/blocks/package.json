@@ -16,6 +16,7 @@
   "main": "build/index.js",
   "devDependencies": {
     "@babel/runtime": "^7.27.0",
+    "@types/lodash": "^4.17.16",
     "@types/lodash.isequal": "^4.5.8",
     "@types/papaparse": "^5.3.15",
     "@types/wordpress__block-editor": "^11.5.16",

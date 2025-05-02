@@ -34,6 +34,8 @@ export function transformDataToAppObject(data: any[], appName: string, existingO
   return existingObject;
 }
 
+
+
 export function getSelectedItemsForApp(config: Record<string, any>, appName: string) {
   const appConfig = config[appName];
   if (!appConfig) return {};
