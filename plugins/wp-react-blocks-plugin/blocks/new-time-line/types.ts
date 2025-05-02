@@ -32,7 +32,7 @@ export interface ***REMOVED*** {
     ***REMOVED***: number;
     readMoreLabel: string;
     position: string;
-  
+    ***REMOVED***?: string;
 }
 
 export interface NewTimeLineBlockProps extends ***REMOVED***<NewTimeLineAttributes> {
