@@ -1,15 +1,18 @@
-const SaveComponent = (props) => {
+import React from 'react';
+import { WrappedComponentAttributes } from './types';
+
+const SaveComponent = (props: { attributes: WrappedComponentAttributes }) => {
     const {
-        setAttributes, attributes: {
-            params, name,height
+        attributes: {
+            params, name, height
         },
     } = props;
 
 
-    const divClass = {}
     const divStyles = {}
 
-    return (<div className={divClass} style={divStyles}>
+    return (
+        <div style={divStyles}>
             <div
                 data-name={name}
                 data-height={height}

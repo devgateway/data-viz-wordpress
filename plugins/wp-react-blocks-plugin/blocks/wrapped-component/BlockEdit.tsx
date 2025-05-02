@@ -1,13 +1,15 @@
+import React from 'react';
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {
     Panel, PanelBody, PanelRow, TextControl, SelectControl, Icon, Button, ButtonGroup, ResizableBox
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '../commons/index'
+import {BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState} from '@dg-data-viz/wp-commons';
+import { WrappedComponentProps } from './types';
 
-class BlockEdit extends BlockEditWithAPIMetadata {
+class BlockEdit extends BlockEditWithAPIMetadata<WrappedComponentProps, BlockEditWithAPIMetadataState> {
 
-    constructor(props) {
+    constructor(props: WrappedComponentProps) {
         super(props);
         this.iframe = React.createRef();
         this.addParam = this.addParam.bind(this)
@@ -26,7 +28,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         setAttributes({attr: newAttr})
     }
 
-    updateParam(name, value, idx) {
+    updateParam(name: string, value: string, idx: number) {
         const {setAttributes, attributes: {attr}} = this.props;
 
         const newAttr = [...attr]
@@ -35,7 +37,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         setAttributes({attr: newAttr})
     }
 
-    deleteParam(idx) {
+    deleteParam(idx: number) {
         const {
             isSelected, setAttributes, attributes: {
                 name, attr
@@ -83,9 +85,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             </PanelRow>
                             <PanelRow>
                                 <ButtonGroup>
-                                    <Button primary onClick={this.addParam}>Add Param</Button>
+                                    <Button variant="primary" onClick={this.addParam}>Add Param</Button>
                                     {(idx == attr.length - 1) &&
-                                        <Button primary onClick={e => this.deleteParam(idx)}>Remove</Button>}
+                                        <Button variant="primary" onClick={e => this.deleteParam(idx)}>Remove</Button>}
                                 </ButtonGroup>
                             </PanelRow>
                         </PanelBody>
@@ -93,7 +95,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                     <PanelRow>
                         <ButtonGroup>
-                            {(attr.length == 0) && <Button primary onClick={this.addParam}>Add Param</Button>}
+                            {(attr.length == 0) && <Button variant="primary" onClick={this.addParam}>Add Param</Button>}
                         </ButtonGroup>
                     </PanelRow>
                 </PanelBody>
@@ -113,7 +115,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 topLeft: false,
             }}
             onResizeStop={(event, direction, elt, delta) => {
-                setAttributes({height: parseInt(height + delta.height, 10),});
+                const newHeight = parseInt(String(height)) + parseInt(String(delta.height));
+                setAttributes({height: newHeight});
                 toggleSelection(true);
             }}
             onResizeStart={() => {
