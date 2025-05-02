@@ -1,6 +1,8 @@
-const SaveComponent = (props) => {
+import React from 'react';
+import { PostCarouselAttributes } from './types';
+
+const SaveComponent = (props: { attributes: PostCarouselAttributes}) => {
     const {
-        setAttributes,
         attributes: {
             count,
             type,
@@ -12,16 +14,16 @@ const SaveComponent = (props) => {
         },
     } = props;
 
-    const divClass = {}
     const divStyles = {}
 
-    return (<div className={divClass} style={divStyles}>
+    return (
+        <div style={divStyles}>
             <div data-items={count} data-type={type} data-taxonomy={taxonomy} data-categories={categories.toString()}
-                 className={"viz-component"}
-                 data-height={height}
-                 data-component={"postsCarousel"}
-                 data-auto-switch={autoSwitch}
-                 data-interval={interval}>
+                className={"viz-component"}
+                data-height={height}
+                data-component={"postsCarousel"}
+                data-auto-switch={autoSwitch}
+                data-interval={interval}>
             </div>
         </div>
 
