@@ -1,4 +1,5 @@
-import {ColorPalette, InspectorControls, PanelColorSettings, useBlockProps, useSetting} from '@wordpress/block-editor';
+import React from 'react';
+import {ColorPalette, InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
     __experimentalText as Text,
@@ -13,10 +14,11 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components'
-
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters, SizeConfig} from "../commons";
+import {BlockEditWithFilters, SizeConfig, Post, BlockEditWithFiltersState } from "@dg-data-viz/wp-commons";
 import apiFetch from '@wordpress/api-fetch';
+import { TimeLineBlockProps } from './type';
+import { NewTimeLineConfig } from '../new-time-line/types';
 
 const COLORS = ["#6acbd5", "#fcb535", "#f79132", "#e54957", "#0e5583","#2fb2e4", "#fcb535"]
 const FontSelector = (props) => {
@@ -37,9 +39,9 @@ const FontSelector = (props) => {
     />
 }
 
-class BlockEdit extends BlockEditWithFilters {
+class BlockEdit extends BlockEditWithFilters<TimeLineBlockProps, BlockEditWithFiltersState> {
 
-    constructor(props) {
+    constructor(props: TimeLineBlockProps) {
         super(props);
         this.onCategoryChanged = this.onCategoryChanged.bind(this)
         this.onLoadPosts = this.onLoadPosts.bind(this)
@@ -69,7 +71,7 @@ class BlockEdit extends BlockEditWithFilters {
         url += (categories ? (taxonomy ? '?' + taxonomy : '&categories') + "=" + (categories ? categories : "") : '') //ids
 
 
-        apiFetch({path: url}).then((data) => {
+        apiFetch<Post[]>({path: url}).then((data) => {
             alert(data)
         })
     }
@@ -94,19 +96,19 @@ class BlockEdit extends BlockEditWithFilters {
                 taxonomy,
                 categories,
                 height = 450,
-                marginLeft,
-                marginBottom,
-                marginRight,
-                marginTop,
-                fontSize,
                 titleWidth,
+                titleHeight,
                 subtitleWidth,
+                subtitleHeight,
                 enableTitlePopup,
                 enableCirclePopup,
                 enableDefaultPopup,
                 closePopupOnMouseOut,
-                subtitleHeight,
-                titleHeight
+                marginLeft,
+                marginTop,
+                marginRight,
+                marginBottom,
+                fontSize
             },
         } = this.props;
 
@@ -114,7 +116,7 @@ class BlockEdit extends BlockEditWithFilters {
         const divStyles = {height: height + 'px', width: '100%'}
 
 
-        const newConfig = []
+        const newConfig: NewTimeLineConfig[] = []
         if (count) {
             Array.from(Array(count).keys()).forEach(i => {
                 if (!config[i]) {
@@ -155,8 +157,10 @@ class BlockEdit extends BlockEditWithFilters {
                                 <RangeControl
                                     isShiftStepEnabled={true}
                                     onChange={(count) => {
-                                        setAttributes({count: parseInt(count)})
-                                        setAttributes({config: newConfig})
+                                        if (count) {    
+                                            setAttributes({count})
+                                            setAttributes({config: newConfig})
+                                        }
                                     }}
                                     shiftStep={1}
                                     min={1}
@@ -172,24 +176,21 @@ class BlockEdit extends BlockEditWithFilters {
 
                             <PanelRow>
                             <ButtonGroup>
-                                <Button isPrimary={position == 'top'}
-                                        isSecondary={position != 'top'}
+                                <Button variant={position == 'top' ? 'primary' : 'secondary'}
                                         onClick={e => {
                                             setAttributes({position: "top"})
                                         }}>
                                     {__("Top")}
                                 </Button>
 
-                                <Button isPrimary={position == 'middle'}
-                                        isSecondary={position != 'middle'}
+                                <Button variant={position == 'middle' ? 'primary' : 'secondary'}
                                         onClick={e => {
                                             setAttributes({position: "middle"})
                                         }}>
                                     {__("Middle")}
                                 </Button>
 
-                                <Button isPrimary={position == 'bottom'}
-                                        isSecondary={position != 'bottom'}
+                                <Button variant={position == 'bottom' ? 'primary' : 'secondary'}
                                         onClick={e => {
                                             setAttributes({position: "bottom"})
                                         }}>
@@ -197,7 +198,6 @@ class BlockEdit extends BlockEditWithFilters {
                                 </Button>
                                 </ButtonGroup>
                             </PanelRow>
-                            <PanelRow></PanelRow>
                             <PanelRow>
                                 <RangeControl
                                     label={__('Line Width')}
@@ -214,9 +214,8 @@ class BlockEdit extends BlockEditWithFilters {
                             </PanelRow>
 
                             <PanelRow>
+                                <Text>{__("Line Color")}</Text>
                                 <ColorPalette
-
-                                    label="Line Color"
                                     value={lineColor}
                                     onChange={(value) => setAttributes({lineColor: value})}
                                 />
@@ -353,8 +352,10 @@ class BlockEdit extends BlockEditWithFilters {
                                             label={__('Circle Size')}
                                             value={newConfig[i].size}
                                             onChange={(size) => {
-                                                newConfig[i].size = size
-                                                setAttributes({config: newConfig})
+                                                if (size) {
+                                                    newConfig[i].size = size
+                                                    setAttributes({config: newConfig})
+                                                }
                                             }}
                                             min={0}
                                             max={100}
@@ -366,8 +367,10 @@ class BlockEdit extends BlockEditWithFilters {
                                             label={__('Title Offset')}
                                             value={newConfig[i].titleOffset}
                                             onChange={(offset) => {
-                                                newConfig[i].titleOffset = offset
-                                                setAttributes({config: newConfig})
+                                                if (offset) {
+                                                    newConfig[i].titleOffset = offset
+                                                    setAttributes({config: newConfig})
+                                                }
                                             }}
                                             min={-height}
                                             max={height}
@@ -380,8 +383,10 @@ class BlockEdit extends BlockEditWithFilters {
                                             label={__('Subtitle Offset')}
                                             value={newConfig[i].subtitleOffset}
                                             onChange={(offset) => {
-                                                newConfig[i].subtitleOffset = offset
-                                                setAttributes({config: newConfig})
+                                                if (offset) {
+                                                    newConfig[i].subtitleOffset = offset
+                                                    setAttributes({config: newConfig})
+                                                }
                                             }}
                                             min={-height}
                                             max={height}
@@ -404,8 +409,10 @@ class BlockEdit extends BlockEditWithFilters {
                                             label={__('Connector Line Height')}
                                             value={newConfig[i].connectorLineHeight}
                                             onChange={(connectorLineHeight) => {
-                                                newConfig[i].connectorLineHeight = connectorLineHeight
-                                                setAttributes({config: newConfig})
+                                                if (connectorLineHeight) {
+                                                    newConfig[i].connectorLineHeight = connectorLineHeight
+                                                    setAttributes({config: newConfig})
+                                                }
                                             }}
                                             min={0}
                                             max={height}
@@ -417,8 +424,7 @@ class BlockEdit extends BlockEditWithFilters {
                                     </PanelRow>
                                     <PanelRow >                                    
                                         <ButtonGroup>                                        
-                                            <Button isPrimary={newConfig[i].position == 'top'}
-                                                    isSecondary={newConfig[i].position != 'top'}
+                                            <Button variant={newConfig[i].position == 'top' ? 'primary' : 'secondary'}
                                                     onClick={e => {
                                                         newConfig[i].position = "top"
                                                         setAttributes({config: newConfig})
@@ -426,8 +432,7 @@ class BlockEdit extends BlockEditWithFilters {
                                                 {__("Top")}
                                             </Button>
 
-                                            <Button isPrimary={newConfig[i].position == 'bottom'}
-                                                    isSecondary={newConfig[i].position != 'bottom'}
+                                            <Button variant={newConfig[i].position == 'bottom' ? 'primary' : 'secondary'}
                                                     onClick={e => {
                                                         newConfig[i].position = "bottom"
                                                         setAttributes({config: newConfig})
@@ -443,36 +448,46 @@ class BlockEdit extends BlockEditWithFilters {
                                                             {
                                                                 value: newConfig[i].titleColor,
                                                                 onChange: (color) => {
-                                                                    newConfig[i].titleColor = color
-                                                                    setAttributes({config: newConfig})
+                                                                    if (color) {
+                                                                        newConfig[i].titleColor = color
+                                                                        setAttributes({config: newConfig})
+                                                                    }
                                                                 }, label: __("Title Color")
                                                             },
                                                             {
                                                                 value: newConfig[i].circleColor,
                                                                 onChange: (color) => {
-                                                                    newConfig[i].circleColor = color
-                                                                    setAttributes({config: newConfig})
+                                                                    if (color) {
+                                                                        newConfig[i].circleColor = color
+                                                                        setAttributes({config: newConfig})
+                                                                    }
                                                                 }, label: __("Circle Color")
                                                             },
                                                             {
                                                                 value: newConfig[i].lineColor,
                                                                 onChange: (color) => {
-                                                                    newConfig[i].lineColor = color
-                                                                    setAttributes({config: newConfig})
+                                                                    if (color) {
+                                                                        newConfig[i].lineColor = color
+                                                                        setAttributes({config: newConfig})
+                                                                    }
                                                                 }, label: __("Connector Line Color")
                                                             },
                                                             {
                                                                 value: newConfig[i].labelColor,
                                                                 onChange: (color) => {
-                                                                    newConfig[i].labelColor = color
-                                                                    setAttributes({config: newConfig})
+                                                                    if (color) {
+                                                                        newConfig[i].labelColor = color
+                                                                        setAttributes({config: newConfig})
+                                                                    }
                                                                 }, label: __("Subtitle Color")
                                                             },       
                                                             {
                                                                 value: newConfig[i].tooltipFontColor,
                                                                 onChange: (color) => {
-                                                                    newConfig[i].tooltipFontColor = color
-                                                                    setAttributes({config: newConfig})
+                                                                    if (color) {
+                                                                        newConfig[i].tooltipFontColor = color
+                                                                        setAttributes({config: newConfig})
+                                                                    }
                                                                 }, label: __("Tooltip Font Color")
                                                             }
                                                         ]}
@@ -502,8 +517,9 @@ class BlockEdit extends BlockEditWithFilters {
                         topLeft: false,
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
+                        const newHeight = parseInt(String(height)) + parseInt(String(delta.height));
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: newHeight,
                         });
                         toggleSelection(true);
                     }}
@@ -526,8 +542,6 @@ class BlockEdit extends BlockEditWithFilters {
 
 const Edit = (props) => {
     const blockProps = useBlockProps({className: 'wp-react-component'});
-    const colorsFeature = useSetting('custom-font-sizes');
-    const colorsFeature2 = useSetting('editor-font-sizes');
     
     return <div {...blockProps}><BlockEdit {...props}/></div>;
 
