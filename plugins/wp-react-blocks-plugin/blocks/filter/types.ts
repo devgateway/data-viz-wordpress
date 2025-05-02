@@ -16,7 +16,7 @@ export interface ***REMOVED*** {
     ***REMOVED***: boolean;
     ***REMOVED***: boolean;
     filterType: string;
-    defaultValues: string[] | number[];
+    defaultValues: string | number;
     ***REMOVED***: boolean;
     ***REMOVED***: string;
     hiddenFilters: string[];
@@ -31,6 +31,8 @@ export interface ***REMOVED*** {
     filters: Filter[];
     ***REMOVED***: string;
     ***REMOVED***: string;
+    dimension1: string;
+    dimension2: string;
 }
 
 export interface FilterProps {

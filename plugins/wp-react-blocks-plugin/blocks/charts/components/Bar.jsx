@@ -7,7 +7,7 @@ import LineOverlay from "../config/***REMOVED***";
 import ConfidenceIntervalConfig from "../config/ConfidenceIntervalConfig";
 import Papa from 'papaparse'
 import ***REMOVED*** from "./***REMOVED***";
-import Sort from "./Sort.jsx";
+import Sort from "./Sort";
 
 const BarOptions = (props) => {
     const {
