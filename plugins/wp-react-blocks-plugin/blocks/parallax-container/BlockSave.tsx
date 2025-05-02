@@ -1,15 +1,19 @@
-const SaveComponent = (props) => {
+import React from "react";
+import { ParallaxContainerBlockAttributes } from "./types";
+
+const SaveComponent = (props: { attributes: ParallaxContainerBlockAttributes }) => {
     const {
-        setAttributes, attributes: {
+        attributes: {
             count, type, taxonomy, categories, height, scrolls, horizontal
         },
     } = props;
 
 
-    const divClass = {}
+    const divClass = ""
     const divStyles = {}
 
-    return (<div className={divClass} style={divStyles}>
+    return (
+        <div className={divClass} style={divStyles}>
             <div
                 data-count={count}
                 data-type={type}
