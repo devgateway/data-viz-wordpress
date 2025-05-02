@@ -1,16 +1,21 @@
+import React from 'react';
 import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
+import {***REMOVED***, BlockEditWithFiltersState} from '@dg-data-viz/wp-commons';
+import { VerticalFeaturedTabsProps } from './types';
 
-import {***REMOVED***} from '../commons'
 
 
-class BlockEdit extends ***REMOVED*** {
-    constructor(props) {
+class BlockEdit extends ***REMOVED***<VerticalFeaturedTabsProps, BlockEditWithFiltersState> {
+    constructor(props: VerticalFeaturedTabsProps) {
         super(props);
     }
 
-    onChangeColor(i, value) {
+    onChangeColor(i: number, value: string | undefined) {
+        if (!value) {
+            return;
+        }
         const {
             setAttributes,
             attributes: {
@@ -126,8 +131,9 @@ class BlockEdit extends ***REMOVED*** {
                         topLeft: false,
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
+                        const newHeight = parseInt(String(height)) + parseInt(String(delta.height));
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: newHeight,
                         });
                         ***REMOVED***(true);
                     }}
