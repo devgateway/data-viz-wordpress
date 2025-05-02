@@ -1,3 +1,4 @@
+import React from 'react';
 import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
@@ -8,12 +9,12 @@ import {
     ToggleControl    
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, SizeConfig} from "../commons";
+import {***REMOVED***, BlockEditWithFiltersState, SizeConfig} from "@dg-data-viz/wp-commons";
+import { PostCarouselBlockProps } from './types';
 
+class BlockEdit extends ***REMOVED***< PostCarouselBlockProps, BlockEditWithFiltersState> {
 
-class BlockEdit extends ***REMOVED*** {
-
-    constructor(props) {
+    constructor(props: PostCarouselBlockProps) {
         super(props);
     }
 
@@ -61,7 +62,11 @@ class BlockEdit extends ***REMOVED*** {
                                 <PanelRow>
                                     <NumberControl
                                         value={interval}
-                                        onChange={(interval) => setAttributes({ interval })}
+                                        onChange={(interval) => {
+                                            if (interval) {
+                                                setAttributes({ interval : parseInt(interval, 10) })
+                                            }
+                                        }}
                                         label={__("Interval","dg")} />
                                 </PanelRow>
                             }
@@ -87,8 +92,9 @@ class BlockEdit extends ***REMOVED*** {
                         topLeft: false,
                     }}
                     onResizeStop={(event, direction, elt, delta) => {
+                        const newHeight = parseInt(String(height))+ parseInt(String(delta.height));
                         setAttributes({
-                            height: parseInt(height + delta.height, 10),
+                            height: newHeight,
                         });
                         ***REMOVED***(true);
                     }}
