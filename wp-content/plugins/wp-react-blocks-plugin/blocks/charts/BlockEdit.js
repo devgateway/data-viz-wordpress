@@ -13,7 +13,7 @@ import {
 
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import {BlockEditWithAPIMetadata, SizeConfig} from '@dg-data-viz/wp-commons'
 import CSVSourceConfig from "../commons/CSVSourceConfig";
 import APIConfig from "../commons/APIConfig";
 import Bar from "./Bar.jsx"

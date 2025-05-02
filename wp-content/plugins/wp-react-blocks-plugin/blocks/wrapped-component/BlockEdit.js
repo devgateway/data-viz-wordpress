@@ -3,7 +3,7 @@ import {
     Panel, PanelBody, PanelRow, TextControl, SelectControl, Icon, Button, ButtonGroup, ResizableBox
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '../commons/index'
+import {BlockEditWithAPIMetadata} from '@dg-data-viz/wp-commons'
 
 class BlockEdit extends BlockEditWithAPIMetadata {
 

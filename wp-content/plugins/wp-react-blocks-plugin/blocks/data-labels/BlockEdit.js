@@ -8,11 +8,11 @@ import {
     TextControl,
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import {BlockEditWithAPIMetadata, SizeConfig} from '@dg-data-viz/wp-commons'
 import CSVSourceConfig from "../commons/CSVSourceConfig";
 import {togglePanel} from "../commons/Util";
 import Measures from "../commons/Measures";
-import DataFilters from "../commons/DataFilters";
+import DataFilters from "@dg-data-viz/wp-commons";
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {

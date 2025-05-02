@@ -4,8 +4,8 @@ import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-import {BlockEditWithFilters} from '../commons/index.js'
-import {SizeConfig} from '../commons/index'
+import {BlockEditWithFilters} from '@dg-data-viz/wp-commons.js'
+import {SizeConfig} from '@dg-data-viz/wp-commons'
 
 
 class BlockEdit extends BlockEditWithFilters {

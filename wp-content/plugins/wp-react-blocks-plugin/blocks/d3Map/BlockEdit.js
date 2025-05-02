@@ -4,7 +4,7 @@ import {
 } from '@wordpress/components'
 
 import {__} from '@wordpress/i18n'
-import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '../commons/index'
+import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '@dg-data-viz/wp-commons'
 import LayerSettings from "./layers/Base";
 import LayerModel from "./layers/Model"
 import {togglePanel} from "../commons/Util";

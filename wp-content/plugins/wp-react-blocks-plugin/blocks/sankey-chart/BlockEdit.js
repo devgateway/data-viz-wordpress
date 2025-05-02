@@ -12,7 +12,7 @@ import {
 
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import {BlockEditWithAPIMetadata, SizeConfig} from '@dg-data-viz/wp-commons'
 import CSVSourceConfig from "../commons/CSVSourceConfig";
 import Tooltip from "../commons/Tooltip.jsx";
 import {togglePanel} from "../commons/Util";
@@ -21,7 +21,7 @@ import {categorical, sequential, diverging} from "../commons/ChartColors";
 import {getTranslation} from "../commons/APIutils";
 import ChartLegends from "../commons/ChartLegends";
 import Papa from "papaparse";
-import DataFilters from "../commons/DataFilters";
+import DataFilters from "@dg-data-viz/wp-commons";
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {

@@ -11,7 +11,7 @@ import {
     TextareaControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '../commons/index'
+import {BlockEditWithAPIMetadata} from '@dg-data-viz/wp-commons'
 import Format from '../charts/Format.jsx'
 import {useState} from "@wordpress/element";
 import {v4 as uuidv4} from "uuid";

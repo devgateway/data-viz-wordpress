@@ -11,10 +11,10 @@ import {
     TextareaControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import {BlockEditWithAPIMetadata, SizeConfig} from '@dg-data-viz/wp-commons'
 import {togglePanel} from "../commons/Util";
 import Measures from "../commons/Measures";
-import DataFilters from "../commons/DataFilters";
+import DataFilters from "@dg-data-viz/wp-commons";
 import {isSupersetAPI} from "../commons/APIutils";
 import Format from "../charts/Format.jsx";
 
