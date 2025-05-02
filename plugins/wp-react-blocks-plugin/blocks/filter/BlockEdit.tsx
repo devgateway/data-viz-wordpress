@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { BlockEditWithAPIMetadata, isSupersetAPI } from '@dg-data-viz/wp-commons'
-import DataFilters from "@dg-data-viz/wp-commons";
+import { BlockEditWithAPIMetadata, isSupersetAPI, DataFilters } from '@dg-data-viz/wp-commons'
 import { CategoricalFilterProps } from '../d3Map/layers/utils/types';
+import { FilterProps } from './types';
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'
 const HIGHEST_VALUE = 'HIGHEST_VALUE'
@@ -31,8 +31,8 @@ const ***REMOVED*** = ({ value, index, items, ***REMOVED*** }: CategoricalFilter
     }
 }
 
-class BlockEdit extends BlockEditWithAPIMetadata {
-    constructor(props) {
+class BlockEdit extends BlockEditWithAPIMetadata<FilterProps, any> {
+    constructor(props: FilterProps) {
         super(props);
         this.iframe = React.createRef();
         this.***REMOVED*** = this.***REMOVED***.bind(this)
@@ -40,7 +40,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         this.items = this.items.bind(this)
     }
 
-    ***REMOVED***(value, idx) {
+    ***REMOVED***(value: any, idx: number) {
         const { attributes: { hiddenFilters }, setAttributes } = this.props
         if (hiddenFilters.indexOf(value) > -1) {
             setAttributes({ hiddenFilters: hiddenFilters.filter(item => item !== value) })
@@ -54,7 +54,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const allCategories = this.state.categories
         const values = allCategories ? allCategories.filter(c => c.type === type) : []
         const cat = values.length > 0 ? values[0] : null
-        let items = []
+        let items: { value: string; id: boolean }[] = []
         if (type === 'Boolean') {
             items = [{ "value": "Yes", id: true }, { "value": "No", id: false }]
         } else if (cat) {
@@ -65,7 +65,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    ***REMOVED***(prevProps: FilterProps, prevState: any, snapshot: any) {
         super.***REMOVED***(prevProps, prevState, snapshot)
         const { setAttributes } = this.props
     }
@@ -138,7 +138,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                             <SelectControl
                                 label={__('Datasets')}
-                                value={[***REMOVED***]}
+                                value={***REMOVED***}
                                 onChange={(newDatasetId) => {
                                     setAttributes({
                                         ***REMOVED***: newDatasetId,
@@ -179,7 +179,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     <PanelRow>
                         <SelectControl
                             label={__('Default Value Criteria')}
-                            value={***REMOVED***}
+                            value={***REMOVED*** as "DEFAULT_VALUE_INPUT" | "LOWEST_VALUE" | "HIGHEST_VALUE"}
                             onChange={(***REMOVED***) => {
                                 setAttributes({ ***REMOVED***: ***REMOVED*** })
                             }}
@@ -201,7 +201,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     <PanelRow>
                         <SelectControl
                             label={__('Filter Type')}
-                            value={[isRange ? "range" : filterType]}
+                            value={isRange ? "range" : filterType as "range" | "multi-select" | "single-select"}
                             onChange={(filterType) => {
                                 setAttributes({ filterType: filterType, isRange: filterType == "range" })
                             }}
