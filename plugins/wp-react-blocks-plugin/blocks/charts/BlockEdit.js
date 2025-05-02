@@ -1,4 +1,4 @@
-import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps, InnerBlocks} from '@wordpress/block-editor';
 import {
     Button, ButtonGroup,
     Panel,
@@ -10,23 +10,16 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-
-import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '@dg-data-viz/wp-commons'
-import CSVSourceConfig from "../commons/CSVSourceConfig";
-import APIConfig from "../commons/APIConfig";
-import Bar from "./Bar.jsx"
-import Pie from "./Pie.jsx"
-import Line from "./Line.jsx"
-import Bump from "./Bump.jsx"
-import Info from "./components/Info.jsx"
-import MobileConfig from './MobileConfig.jsx';
-import Tooltip from "../commons/Tooltip.jsx";
-import {togglePanel} from "../commons/Util";
-import Radar from './Radar.jsx';
-import {DEFAULT_FORMAT_SETTINGS} from '../commons/Constants';
-import {isSupersetAPI} from "../commons/APIutils";
+import {BlockEditWithAPIMetadata, SizeConfig, CSVConfig, Tooltip, togglePanel, isSupersetAPI, DEFAULT_FORMAT_SETTINGS } from '@dg-data-viz/wp-commons'
+import Bar from "./components/Bar"
+import Pie from "./components/Pie"
+import Line from "./components/Line"
+import Bump from "./components/Bump"
+import Info from "./components/Info"
+import MobileConfig from './config/MobileConfig';
+import Radar from './components/Radar';
+
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
@@ -432,15 +425,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     <PanelBody initialOpen={false} title={__("Variables")}>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Value -> {'{value}'}</span>
+                                                                style={{"font-size": "11px"}}>Value -&gt; {'{value}'}</span>
                                                         </PanelRow>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Value Percent -> {'{valuePercent}'}</span>
+                                                                style={{"font-size": "11px"}}>Value Percent -&gt; {'{valuePercent}'}</span>
                                                         </PanelRow>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Category -> {'{category}'}</span>
+                                                                style={{"font-size": "11px"}}>Category -&gt; {'{category}'}</span>
                                                         </PanelRow>
                                                     </PanelBody>
                                                 }
