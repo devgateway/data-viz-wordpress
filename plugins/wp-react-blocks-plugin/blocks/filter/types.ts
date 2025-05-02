@@ -16,7 +16,7 @@ export interface FilterAttributes {
     useSingleColumn: boolean;
     enableTextSearch: boolean;
     filterType: string;
-    defaultValues: string[] | number[];
+    defaultValues: string | number;
     showNoDataOption: boolean;
     defaultValueCriteria: string;
     hiddenFilters: string[];
@@ -31,6 +31,8 @@ export interface FilterAttributes {
     filters: Filter[];
     booleanTrueLabel: string;
     booleanFalseLabel: string;
+    dimension1: string;
+    dimension2: string;
 }
 
 export interface FilterProps {
