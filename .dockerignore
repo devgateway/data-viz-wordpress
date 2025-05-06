@@ -1,10 +1,10 @@
 wp-theme/_functions.php
-wp-content/uploads
-wp-content/plugins
-wp-content/themes
-wp-content/languages
-wp-content/advanced-cache.php
 wp-content/debug.log
-node_modules
+wp-content/uploads
+node_modules/
+.git
+dist/
+build/
 
-
+# Log files
+*.log
