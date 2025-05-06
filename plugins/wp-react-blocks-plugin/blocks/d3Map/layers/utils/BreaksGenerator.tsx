@@ -1,0 +1,175 @@
+import React from 'react';
+import {Button, PanelBody, PanelRow, RangeControl, TextControl} from "@wordpress/components";
+import {***REMOVED***} from "@wordpress/block-editor";
+import {__} from '@wordpress/i18n';
+import * as ss from 'simple-statistics';
+
+interface ***REMOVED*** {
+    ***REMOVED***: (property: string, value: any) => void;
+    breaks: any[];
+    ***REMOVED***: string;
+    ***REMOVED***: string;
+    showSize: boolean;
+}
+
+interface Break {
+    start: number;
+    end: number;
+    color: string;
+    borderColor: string;
+    size: number;
+    type: 'lessThan' | 'graterThan';
+}
+
+
+const ***REMOVED*** = ({***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***, showSize}: ***REMOVED***) => {
+
+
+    const add = () => {
+        const ***REMOVED***: Break[] = breaks.filter(b => b.type == 'lessThan')
+        let ***REMOVED***: Break[] = breaks.filter(b => b.type == 'graterThan')
+        if (***REMOVED***.length === 0) {
+            ***REMOVED*** = [{
+                start: 0,
+                end: 1,
+                color: ***REMOVED***,
+                borderColor: ***REMOVED***,
+                size: 1,
+                type: 'graterThan'
+            }]
+        }
+        const newBreaks = [...***REMOVED***]
+        newBreaks.push({
+            start: 0,
+            end: 1,
+            color: ***REMOVED***,
+            borderColor: ***REMOVED***,
+            size: 1,
+            type: 'lessThan'
+        })
+        //keep grater than break at the end
+        ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
+    }
+
+    const update = (property, index, value) => {
+        const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
+        let ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')
+        const newBreaks = [...***REMOVED***]
+        newBreaks[index][property] = value
+
+        ***REMOVED***[0].end = ***REMOVED***[***REMOVED***.length - 1].end
+
+        ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
+    }
+
+    const remove = (index: number) => {
+        let ***REMOVED***: Break[] = breaks.filter(b => b.type == 'graterThan')
+        let ***REMOVED***: Break[] = breaks.filter(b => b.type == 'lessThan')
+        const newBreaks = [...***REMOVED***]
+        newBreaks.splice(index, 1)
+        
+        if (newBreaks.length > 0) {
+            ***REMOVED***[0].end = ***REMOVED***[newBreaks.length - 1].end
+        }
+        if (newBreaks.length == 0) {
+            ***REMOVED*** = []
+        }
+
+
+        ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
+    }
+
+    const ***REMOVED*** = (property: string, value: any) => {
+        
+        const ***REMOVED***: Break[] = breaks.filter(b => b.type == 'graterThan')[0]
+        const ***REMOVED***: Break[] = breaks.filter(b => b.type == 'lessThan')
+        ***REMOVED***[property] = value
+        ***REMOVED***("breaks", [...***REMOVED***, ***REMOVED***])
+    }
+
+    
+    return <>
+
+        <PanelRow>
+            <Button variant="primary" onClick={e => add()}>Add Break</Button>
+        </PanelRow>
+        {breaks.map((br, index) => {
+                if (br.type == 'lessThan') {
+                    return <PanelBody initialOpen={false} title={"Less than (" + br.end + ")"}>
+                        <PanelRow>
+                            <TextControl
+                                type={"number"}
+                                label={__("Value", "dg")}
+                                value={br.end}
+                                onChange={(value) => update("end", index, value)}
+                            />
+                        </PanelRow>
+                        {showSize && <PanelRow>
+                            <RangeControl
+                                label="Size"
+                                value={br.size}
+                                onChange={(value) => {
+                                    update("size", index, value)
+                                }}
+                                step={1}
+                                min={0}
+                                max={200}
+                            />
+                        </PanelRow>}
+
+                        <***REMOVED***
+                            title={__(`Fill Color`)}
+                            colorSettings={[{
+                                label: __(`Fill Color`),
+                                value: br.color,
+                                onChange: (fillColor) => {
+                                    update("color", index, fillColor)
+                                },
+                            }]}
+                        />
+
+
+                        <PanelRow>
+                            <Button variant="primary" onClick={e => remove(index)}>Remove This</Button>
+                        </PanelRow>
+                    </PanelBody>
+                }
+
+                if (br.type == 'graterThan') {
+                    return <PanelBody initialOpen={false} title={"Grater than (" + br.end + ")"}>
+                        {showSize && <PanelRow>
+                            <RangeControl
+                                label="Size"
+                                value={br.size}
+                                onChange={(value) => {
+                                    ***REMOVED***("size",  value)
+                                }}
+                                step={1}
+                                min={0}
+                                max={200}
+                            />
+                        </PanelRow>}
+                        <PanelRow>
+                            <***REMOVED***
+                                title={__(`Fill Color`)}
+                                colorSettings={[{
+                                    label: __(`Fill Color`),
+                                    value: br.color,
+                                    onChange: (fillColor) => {
+                                        ***REMOVED***("color", fillColor)
+                                    },
+                                }]}
+                            />
+
+                        </PanelRow>
+
+                    </PanelBody>
+                }
+            }
+        )}
+
+    </>
+}
+
+
+export default ***REMOVED***;
