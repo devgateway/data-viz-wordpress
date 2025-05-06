@@ -14,7 +14,7 @@ import {***REMOVED***} from '@wordpress/block-editor';
 export type ***REMOVED*** = 'left' | 'top' | 'right' | 'bottom';
 
 export type LegendProps = {
-    ***REMOVED***: ***REMOVED***;
+    ***REMOVED***?: ***REMOVED***;
     setAttributes: (attributes: {
         showLegends: boolean;
         ***REMOVED***: ***REMOVED***;
