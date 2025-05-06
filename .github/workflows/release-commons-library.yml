@@ -43,7 +43,7 @@ jobs:
 
       - name: Create Release
         working-directory: packages/commons
-        run: npm config set workspaces=false && npx semantic-release
+        run: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
