@@ -1,0 +1,360 @@
+// @ts-nocheck
+// TODO: Fix the types
+import React from 'react';
+import { PanelBody, PanelRow, RangeControl, TextControl, ToggleControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { ChartColors, ChartLegends } from '@dg-data-viz/wp-commons';
+import AxisConfig from '../config/AxisConfig';
+import Labels from "./Labels";
+import LineOverlay from "../config/***REMOVED***";
+import ConfidenceIntervalConfig from "../config/ConfidenceIntervalConfig";
+import Papa from 'papaparse'
+import ***REMOVED*** from "./***REMOVED***";
+import Sort from "./Sort";
+import { BarChartProps } from './chart-types';
+
+const BarOptions = (props: BarChartProps) => {
+  const {
+    apps,
+    setAttributes,
+    allDimensions,
+    allMeasures,
+    allCategories,
+    attributes: {
+      scheme,
+      app,
+      measures,
+      dimension1,
+      dimension2,
+      layout,
+      groupMode,
+      reverse,
+      colorBy,
+      ***REMOVED***,
+      valueScale,
+      maxValue,
+      swap,
+      csv,
+      fixedMaxValue,
+      fixedMinValue,
+      barPadding,
+      ***REMOVED***,
+      showGrid,
+      ***REMOVED***,
+      overallLabel,
+      ***REMOVED***,
+      ***REMOVED***,
+      showTickLine,
+      showRightAxis,
+      hiddenBars,
+      format,
+      ***REMOVED***,
+      ***REMOVED***,
+      ***REMOVED***,
+      ***REMOVED***,
+      groupTotalLabelOffset,
+      ***REMOVED***,
+      enableGridX,
+      enableGridY,
+      sort,
+      sortReverse,
+    }
+  } = props;
+
+  const getSeries = () => {
+    if (allCategories) {
+
+      let byDimension = false;
+      let ***REMOVED***: string | null = null;
+      if (dimension2 == "none" && colorBy === "index" && swap) { //Multi measure colored by first dimension but  swapped (Colored by Measure)
+        byDimension = true
+        ***REMOVED*** = dimension1
+
+      } else if (dimension2 == "none" && colorBy === "id" && !swap) {  //Multi Measure chart colored by second dimension (Measure)
+        byDimension = false
+      } else {
+
+        byDimension = true
+        ***REMOVED*** = colorBy == "index" ? dimension1 : dimension2
+
+      }
+
+      if (byDimension) {
+        const ds = allDimensions ? allDimensions.filter(d => d.value == ***REMOVED***) : [];
+        if (ds.length > 0) {
+          const { type } = ds[0]
+          const cat = allCategories.filter(a => a.type === type)
+          if (cat && cat.length > 0) {
+            return cat[0].items && cat[0]?.items.sort((a, b) => (b.position ?? 0) - (a.position ?? 0)).map(d => ({
+              value: d.value,
+              id: d.id,
+              code: d.code,
+              labels: d.labels
+            }))
+          }
+        }
+      } else {
+
+
+        return null
+      }
+    }
+    return null
+  }
+
+  const getCSVSeries = () => {
+    const data = Papa.parse(csv, { header: true, dynamicTyping: true });
+    let series: { id: string; value: string }[] = [];
+    const nonVarFields = data.meta?.fields?.filter(f => !f.startsWith('_')) ?? [];
+    if (nonVarFields.length > 1) {
+      series = []
+      const categoryField = nonVarFields[0]
+      data.data.forEach((item: any, i: number) => {
+        if (item[categoryField]) {
+          series.push({ id: item[categoryField], value: item[categoryField] })
+        }
+      })
+    }
+
+    return series;
+  }
+
+
+  let ***REMOVED***: string[] = []
+  if (allMeasures) {
+    allMeasures.forEach(m => {
+      if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
+        ***REMOVED***.push(m.value)
+      }
+    })
+  }
+  const series = app == 'csv' ? getCSVSeries() : getSeries();
+
+  return [
+    <PanelBody initialOpen={false} title={__("Bar Options")}>
+      <PanelBody initialOpen={false} title={__("Colors")}>
+        <ChartColors {...props}></ChartColors>
+      </PanelBody>
+      <PanelBody initialOpen={false} title={"Layout"}>
+        <PanelRow>
+          <ToggleControl
+            label={__("Grouped")}
+            checked={groupMode === "grouped"}
+            onChange={() =>
+              setAttributes({
+                groupMode: groupMode === "grouped" ? "stacked" : "grouped",
+              })
+            }
+          />
+        </PanelRow>
+        <PanelRow>
+          <ToggleControl
+            label={__("Symlog Scale")}
+            checked={valueScale === "symlog"}
+            onChange={() =>
+              setAttributes({
+                valueScale: valueScale === "linear" ? "symlog" : "linear",
+              })
+            }
+          />
+        </PanelRow>
+        <PanelRow>
+          <ToggleControl
+            label={__("Horizontal")}
+            checked={layout === "horizontal"}
+            onChange={(value) =>
+              setAttributes({
+                layout: layout === "horizontal" ? "vertical" : "horizontal",
+              })
+            }
+          />
+        </PanelRow>
+        <PanelRow>
+          <ToggleControl
+            label={__("Reverse")}
+            checked={reverse}
+            onChange={(value) => setAttributes({ reverse: !reverse })}
+          />
+        </PanelRow>
+
+        {app !== "csv" && <Sort ***REMOVED***={() => {}} options={[]} {...props}></Sort>}
+
+        {app !== "csv" &&
+          dimension1 != "none" &&
+          dimension2 == "none" &&
+          ***REMOVED***.length > 0 && (
+            <PanelRow>
+              <ToggleControl
+                label={__("Swap Values")}
+                checked={swap}
+                onChange={(swap) => setAttributes({ swap })}
+              />
+            </PanelRow>
+          )}
+        <PanelRow>
+          <ToggleControl
+            label={__("Enable Y Grid Lines")}
+            checked={enableGridY}
+            onChange={() => setAttributes({ enableGridY: !enableGridY })}
+          />
+        </PanelRow>
+        <PanelRow>
+          <ToggleControl
+            label={__("Enable X Grid Lines")}
+            checked={enableGridX}
+            onChange={() => setAttributes({ enableGridX: !enableGridX })}
+          />
+        </PanelRow>
+        {app !== "csv" && (
+          <>
+            <PanelRow>
+              <ToggleControl
+                label={__("Include Overall")}
+                checked={***REMOVED***}
+                onChange={(***REMOVED***) =>
+                  setAttributes({ ***REMOVED*** })
+                }
+              />
+            </PanelRow>
+            {***REMOVED*** && (
+              <PanelRow>
+                <TextControl
+                  label={__("Overall Label")}
+                  value={overallLabel}
+                  onChange={(overallLabel) => setAttributes({ overallLabel })}
+                />
+              </PanelRow>
+            )}
+          </>
+        )}
+        <PanelRow>
+          <ToggleControl
+            label={__("Display Group Total")}
+            checked={***REMOVED***}
+            onChange={(***REMOVED***) => {
+              if (!***REMOVED*** || ***REMOVED*** == "") {
+                setAttributes({
+                  ***REMOVED***,
+                  ***REMOVED***: allMeasures ? allMeasures[0].value : "",
+                });
+              } else {
+                setAttributes({ ***REMOVED*** });
+              }
+            }}
+          />
+        </PanelRow>
+
+        <Labels {...props}></Labels>
+      </PanelBody>
+
+      {***REMOVED*** && <***REMOVED*** {...props}></***REMOVED***>}
+
+      {getSeries() && (
+        <PanelBody initialOpen={false} title={__("Hidden Bars")}>
+          {getSeries()?.map((p) => (
+            <PanelRow key={p.value}>
+              <ToggleControl
+                label={p.value}
+                checked={
+                  hiddenBars.includes(p.value) ||
+                  (p.labels &&
+                    Object.values(p.labels).some((label) =>
+                      hiddenBars.includes(label)
+                    ))
+                }
+                onChange={() => {
+                  // Check if the bar or any of its labels is hidden
+                  const ***REMOVED*** = p.labels
+                    ? Object.values(p.labels).some((label) =>
+                      hiddenBars.includes(label)
+                    )
+                    : false;
+
+                  let updatedBars = [...hiddenBars];
+
+                  if (hiddenBars.includes(p.value) || ***REMOVED***) {
+                    // Remove the bar and its associated labels
+                    updatedBars = updatedBars.filter(
+                      (item) =>
+                        item !== p.value &&
+                        !(p.labels && Object.values(p.labels).includes(item))
+                    );
+                  } else {
+                    // Add the bar and its associated labels (if applicable)
+                    updatedBars = [
+                      ...new Set([
+                        ...updatedBars,
+                        p.value,
+                        ...(p.labels ? Object.values(p.labels) : []),
+                      ]),
+                    ];
+                  }
+                  console.log('updatedBars....', updatedBars);
+
+                  // Update the attributes
+                  setAttributes({ hiddenBars: updatedBars });
+                }}
+              />
+            </PanelRow>
+          ))}
+        </PanelBody>
+      )}
+      {series && <ConfidenceIntervalConfig series={series} {...props} />}
+
+      <AxisConfig {...props}></AxisConfig>
+
+      <PanelBody initialOpen={false} title={__("Padding")}>
+        <PanelRow>
+          <RangeControl
+            label={__(
+              "Bar Padding (Space between bars that are not in the same group)"
+            )}
+            value={barPadding}
+            ***REMOVED***={0.15}
+            onChange={(barPadding) => setAttributes({ barPadding })}
+            step={0.05}
+            min={0}
+            max={1}
+          />
+        </PanelRow>
+
+        <PanelRow>
+          <RangeControl
+            label={__(
+              "Bar Inner Padding (Space between bars in the same group)"
+            )}
+            value={***REMOVED***}
+            ***REMOVED***={0.75}
+            onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+            step={0.25}
+            min={0}
+            max={50}
+          />
+        </PanelRow>
+      </PanelBody>
+
+      <ChartLegends {...props}></ChartLegends>
+
+      <PanelBody initialOpen={false} title={__("Line Overlay")}>
+        <PanelRow>
+          <ToggleControl
+            label={__("Enable Overlay")}
+            checked={***REMOVED*** === true}
+            onChange={(value) =>
+              setAttributes({ ***REMOVED***: !***REMOVED*** })
+            }
+          />
+        </PanelRow>
+        {***REMOVED*** && (
+          <LineOverlay
+            allMeasures={allMeasures}
+            apps={apps}
+            {...props}
+          ></LineOverlay>
+        )}
+      </PanelBody>
+    </PanelBody>,
+  ];
+}
+
+export default BarOptions

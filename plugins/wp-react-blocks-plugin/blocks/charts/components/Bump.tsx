@@ -4,7 +4,11 @@ import {__} from '@wordpress/i18n';
 import {ChartColors, ChartLegends} from '@dg-data-viz/wp-commons';
 import AxisConfig from '../config/AxisConfig';
 
-const BumpOptions = (props) => {
+interface ***REMOVED*** {
+    setAttributes: (attributes: any) => void;
+    attributes: any;
+}
+const BumpOptions = (props: ***REMOVED***) => {
     const {setAttributes, attributes: {groupMode, colorBy}} = props;
     return [
 

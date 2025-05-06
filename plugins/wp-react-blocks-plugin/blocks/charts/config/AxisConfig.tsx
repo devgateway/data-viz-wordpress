@@ -4,8 +4,8 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/block-editor';
 
 interface ***REMOVED*** {
-    ***REMOVED***: (value: boolean) => void;
-    isSelected: boolean;
+    ***REMOVED***?: (value: boolean) => void;
+    isSelected?: boolean;
     setAttributes: (attributes: any) => void;
     attributes: {
         leftLegend: string;
