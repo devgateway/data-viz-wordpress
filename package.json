@@ -18,8 +18,5 @@
   ],
   "author": "Development Gateway",
   "license": "MIT",
-  "packageManager": "pnpm@10.10.0",
-  "devDependencies": {
-    "@semantic-release/changelog": "^6.0.3"
-  }
+  "packageManager": "pnpm@10.10.0"
 }
