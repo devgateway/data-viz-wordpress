@@ -14,7 +14,7 @@ import {PanelColorSettings} from '@wordpress/block-editor';
 export type LegendPosition = 'left' | 'top' | 'right' | 'bottom';
 
 export type LegendProps = {
-    legendPosition: LegendPosition;
+    legendPosition?: LegendPosition;
     setAttributes: (attributes: {
         showLegends: boolean;
         legendPosition: LegendPosition;

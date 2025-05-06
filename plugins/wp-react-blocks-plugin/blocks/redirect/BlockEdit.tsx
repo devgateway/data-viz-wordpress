@@ -1,7 +1,7 @@
 import React from 'react';
 import {useBlockProps} from '@wordpress/block-editor';
 import {ComponentWithSettings, SearchResult, SearchResults} from "@dg-data-viz/wp-commons";
-import {select, useDispatch, useSelect} from '@wordpress/data';
+import {useDispatch, useSelect} from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import { Search} from "semantic-ui-react";
 import {__} from '@wordpress/i18n';
@@ -13,7 +13,8 @@ const Metadata = ({url}) => {
     if (url) {
         editPost({meta: {redirect_url: url}})
     }
-    const redirect_url = useSelect(() => {
+    const redirect_url = useSelect((select) => {
+        // @ts-ignore
         const meta= select('core/editor').getEditedPostAttribute('meta')
         if (meta){
             return meta.redirect_url
