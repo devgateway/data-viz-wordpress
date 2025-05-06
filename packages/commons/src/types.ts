@@ -46,6 +46,9 @@ export interface Category {
 export interface CategoryItem {
     value: string;
     id: any;
+    code?: string;
+    labels?: Record<string, any>;
+    position?: number;
 }
 
 export type Categories = {

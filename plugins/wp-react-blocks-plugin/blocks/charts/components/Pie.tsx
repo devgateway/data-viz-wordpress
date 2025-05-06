@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     ***REMOVED***,
     Button,
@@ -6,10 +7,11 @@ import {
     PanelRow,
     RangeControl,
     ***REMOVED***,
-    ToggleControl
+    ToggleControl,
+    __experimentalText as Text,
 } from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import {ChartColors, ChartLegends} from '@dg-data-viz/wp-commons';
+import { __ } from '@wordpress/i18n';
+import { ChartColors, ChartLegends } from '@dg-data-viz/wp-commons';
 
 const PieOptions = (props) => {
 
@@ -30,44 +32,46 @@ const PieOptions = (props) => {
         }
     } = props;
 
-    
+
     return [<PanelBody initialOpen={false} title={__("Pie Options")}>
         <ChartColors {...props}></ChartColors>
-        <PanelRow title={"Start Angle"}>
-            <***REMOVED*** value={startAngle} onChange={value => setAttributes({startAngle: value})}/>
+        <PanelRow>
+            <Text>{__("Start Angle")}</Text>
+            <***REMOVED*** value={startAngle} onChange={value => setAttributes({ startAngle: value })} />
         </PanelRow>
-        <PanelRow title={"End Angle"}>
-            <***REMOVED*** value={endAngle} onChange={value => setAttributes({endAngle: value})}/>
+        <PanelRow>
+            <Text>{__("End Angle")}</Text>
+            <***REMOVED*** value={endAngle} onChange={value => setAttributes({ endAngle: value })} />
         </PanelRow>
         <PanelRow>
             <RangeControl
                 label={__('Slice Padding')}
                 value={slicePadding}
                 ***REMOVED***={1}
-                onChange={(slicePadding) => setAttributes({slicePadding})}
+                onChange={(slicePadding) => setAttributes({ slicePadding })}
                 step={0.5}
                 min={0}
-                max={20}/>
+                max={20} />
         </PanelRow>
 
         <PanelRow>
             <ToggleControl
                 label={__("Show Slice Labels")}
                 checked={showArcLabels}
-                onChange={() => setAttributes({showArcLabels: !showArcLabels})}/>
+                onChange={() => setAttributes({ showArcLabels: !showArcLabels })} />
         </PanelRow>
         <PanelRow>
             <ToggleControl
                 label={__("Show Link Labels")}
                 checked={***REMOVED***}
-                onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })} />
         </PanelRow>
-        
+
         <PanelRow>
             <ToggleControl
                 label={__("Show Percentage")}
                 checked={***REMOVED***}
-                onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })} />
         </PanelRow>
 
         <ChartLegends {...props}></ChartLegends>
@@ -76,7 +80,7 @@ const PieOptions = (props) => {
         <PanelBody initialOpen={false} title={__("Center Label")}>
             <PanelBody initialOpen={false} title={__("Variables")}>
                 <PanelRow>
-                    <span style={{fontSize: "11px"}}>Total Value -&gt; {'{totalValue}'}</span>
+                    <span style={{ fontSize: "11px" }}>Total Value -&gt; {'{totalValue}'}</span>
                 </PanelRow>
             </PanelBody>
             <PanelRow>
@@ -84,32 +88,30 @@ const PieOptions = (props) => {
                     label={__("Label")}
                     value={centerLabel}
                     help={__("You can use variables {var_name}.")}
-                    onChange={(centerLabel) => setAttributes({centerLabel})}
+                    onChange={(centerLabel) => setAttributes({ centerLabel })}
                 />
             </PanelRow>
             <PanelRow>
                 <RangeControl
                     label={__('Font Size')}
                     value={***REMOVED***}
-                    onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                    onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
                     min={0}
                     max={100}
                 />
             </PanelRow>
             <PanelRow>
                 <ButtonGroup>
-                    <Button isPrimary={centerLabelFontWeight == 'lighter'}
-                            isSecondary={centerLabelFontWeight != 'lighter'}
-                            onClick={e => setAttributes({centerLabelFontWeight: "lighter"})}>
+                    <Button variant={centerLabelFontWeight == 'lighter' ? 'primary' : 'secondary'}
+                        onClick={e => setAttributes({ centerLabelFontWeight: "lighter" })}>
                         {__("Lighter")}
                     </Button>
-                    <Button isPrimary={centerLabelFontWeight == 'normal'}
-                            isSecondary={centerLabelFontWeight != 'normal'}
-                            onClick={e => setAttributes({centerLabelFontWeight: "normal"})}>
+                    <Button variant={centerLabelFontWeight == 'normal' ? 'primary' : 'secondary'}
+                        onClick={e => setAttributes({ centerLabelFontWeight: "normal" })}>
                         {__("Normal")}
                     </Button>
-                    <Button isPrimary={centerLabelFontWeight == 'bold'} isSecondary={centerLabelFontWeight != 'bold'}
-                            onClick={e => setAttributes({centerLabelFontWeight: "bold"})}>
+                    <Button variant={centerLabelFontWeight == 'bold' ? 'primary' : 'secondary'}
+                        onClick={e => setAttributes({ centerLabelFontWeight: "bold" })}>
                         {__("Bold")}
                     </Button>
                 </ButtonGroup>
@@ -119,7 +121,7 @@ const PieOptions = (props) => {
                 <RangeControl
                     label={__('X Offset')}
                     value={***REMOVED***}
-                    onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                    onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
                     min={-100}
                     max={300}
                 />
@@ -129,7 +131,7 @@ const PieOptions = (props) => {
                 <RangeControl
                     label={__('Y Offset')}
                     value={***REMOVED***}
-                    onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                    onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
                     min={-100}
                     max={300}
                 />

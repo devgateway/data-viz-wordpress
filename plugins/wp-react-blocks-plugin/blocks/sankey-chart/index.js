@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons/index.js'
+import { BLOCKS_CATEGORY, BLOCKS_NS,  GenericIcon } from '@dg-data-viz/wp-commons';
 
-***REMOVED***(process.env.BLOCKS_NS + '/sankeychart',
+***REMOVED***(BLOCKS_NS + '/sankeychart',
     {
         title: __('Sankey Chart'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             group: {

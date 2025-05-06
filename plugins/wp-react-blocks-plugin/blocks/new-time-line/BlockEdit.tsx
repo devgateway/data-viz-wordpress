@@ -1,5 +1,6 @@
 import React from "react";
-import { ColorPalette, ***REMOVED***, ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
+// @ts-ignore
+import { ColorPalette, ***REMOVED***, ***REMOVED***, useBlockProps, useSetting } from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
     __experimentalText as Text,
@@ -14,7 +15,7 @@ import {
     TextControl
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n';
-import { useSetting, ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
+import { ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
 import apiFetch from '@wordpress/api-fetch';
 import { NewTimeLineAttributes, ***REMOVED*** } from "./types";
 import { NewTimeLineBlockProps } from "./types";
