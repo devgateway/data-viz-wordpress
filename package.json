@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "pnpm recursive run build"
-  }, 
+  },
   "keywords": [
     "wordpress",
     "data-viz",
@@ -18,5 +18,8 @@
   ],
   "author": "Development Gateway",
   "license": "MIT",
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3"
+  }
 }
