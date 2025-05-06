@@ -1,0 +1,429 @@
+import React, {useEffect, useId } from 'react';
+import {
+    Button,
+    PanelBody,
+    PanelRow,
+    RangeControl,
+    AnglePickerControl,
+    SelectControl,
+    TextControl,
+    ToggleControl, ButtonGroup
+} from "@wordpress/components";
+import {__} from '@wordpress/i18n';
+import {getJsonFiles} from "./utils/FileUtils";
+import {useState} from "@wordpress/element";
+import DataLayer from "./Data";
+import FlowLayer from "./Flow";
+import LatLongLayer from "./LatLong";
+import {
+    Media,
+    BlockEditWithAPIMetadata,
+    ComponentWithSettings,
+    togglePanel,
+    isSupersetAPI,
+    EurekaResponse,
+} from "@dg-data-viz/wp-commons";
+import Property from "./utils/Property";
+import {PanelColorSettings} from "@wordpress/block-editor";
+
+const typeOptions = [
+    {label: "Base", value: "base"},
+    {label: "Data Shape", value: "data"}, 
+    {label: "FLow layer ", value: "flow"},
+    {label: "Data Points ", value: "dataPoints"}
+]
+
+const toOptions = (files: Media[]) => {
+    return [{label: 'None', value: 'none'}, ...files.map(file => {
+        return {label: file.title.rendered, value: file.source_url}
+    })]
+}
+
+const Base = (props) => {
+    const {
+        onChange,
+        metadata,
+        layer,
+        layer: {name, shapeColor, labelFilter, type, file, app, labelField, visible}
+    } = props
+
+    const [files, setFiles] = useState<{label: string, value: string}[]>([])
+    const [features, setFeatures] = useState<Record<string, any>[]>([])
+
+
+    useEffect(() => {
+
+        getJsonFiles().then(files => {
+            setFiles(toOptions(files))
+
+        })
+    }, [])
+
+
+    useEffect(() => {
+
+        fetch(file).then(response => response.json()).then(data => {
+            setFeatures(data.features);
+        });
+    }, [layer.file])
+
+    const onChangeProperty = (atrr: string, value: any) => {
+
+
+        console.log("change attribute " + atrr + " to " + value)
+
+        const newLayer = {...layer}
+        newLayer[atrr] = value
+        onChange(newLayer)
+    }
+
+    const datasets = [{label: 'Select Dataset', value: '0'}]
+    if (metadata.datasets) {
+        metadata.datasets.forEach(d => {
+            datasets.push({label: d.label, value: d.id})
+        })
+    }
+
+    return [
+        <PanelRow>
+            <TextControl
+                type="text"
+                label={__("Name", "dg")}
+                onChange={name => onChangeProperty("name", name)}
+                value={name}
+            />
+        </PanelRow>,
+        <PanelRow>
+            <ToggleControl
+                label="Default visible"
+                checked={visible}
+                onChange={e => {
+                    onChangeProperty("visible", !visible)
+                }}
+            />
+        </PanelRow>,
+        <PanelRow>
+            <SelectControl
+                label={__("Type", "dg")}
+                value={type}
+                onChange={type => onChangeProperty("type", type)}
+                options={typeOptions}
+            />
+        </PanelRow>,
+        <>{type != 'dataPoints' && <PanelRow>
+            <SelectControl
+                multiple={false}
+                label="File"
+                onChange={file => onChangeProperty("file", file)}
+                value={file}
+                options={files}>
+            </SelectControl>
+        </PanelRow>
+        }</>,
+        <>
+            {type != 'dataPoints' && type != 'flow' && <PanelBody title={"Colors"} initialOpen={false}>
+                <PanelColorSettings
+                    title={__(`Fill Color`)}
+                    colorSettings={[{
+                        clearable: true,
+                        enableAlpha: true,
+                        value: layer.fillColor,
+                        label: __("Fill Color", "dg"),
+                        onChange: (fillColor) => {
+                            if (fillColor != null) {
+                                onChangeProperty("fillColor", fillColor)
+                            } else {
+                                onChangeProperty("fillColor", "transparent")
+                            }
+                        },
+                    }]}
+                />
+                <PanelColorSettings
+                    title={__(`Border Color`)}
+                    colorSettings={[{
+                        label: __("Border Color", "dg"),
+                        value: layer.borderColor,
+                        clearable: true,
+                        enableAlpha: true,
+                        onChange: (borderColor) => {
+                            onChangeProperty("borderColor", borderColor)
+                        },
+
+                    }]}
+                />
+
+                <PanelColorSettings
+                    title={__(`Label Color`)}
+                    colorSettings={[{
+                        clearable: true,
+                        enableAlpha: true,
+                        value: layer.labelColor,
+                        label: __("Label Color", "dg"),
+                        onChange: (labelColor) => {
+                            onChangeProperty("labelColor", labelColor)
+                        },
+
+                    }]}
+                />
+
+            </PanelBody>}
+        </>,
+        <>
+            {type != 'dataPoints' && type != 'flow' && <PanelBody title={"Labels"} initialOpen={false}>
+
+                <Property
+                    title={"Label Field"}
+                    property={"labelField"} value={labelField}
+                    onChangeProperty={onChangeProperty}
+                    features={features}/>
+
+
+                <PanelRow>
+                    <RangeControl
+                        label="Size"
+                        value={layer.labelFontSize}
+                        onChange={(labelFontSize) => onChangeProperty("labelFontSize", labelFontSize)}
+                        min={1}
+                        step={1}
+                        max={100}
+                    />
+                </PanelRow>
+
+                {labelField != 'none' && <PanelBody initialOpen={false} title={__("Labels")}>
+                    <PanelRow>
+                        <ToggleControl
+                            label={"None/All"}
+                            checked={labelFilter.length == 0}
+                            onChange={(checked) => {
+                                if (!checked) {
+                                    onChangeProperty("labelFilter", features.map(f => f.properties[labelField]))
+                                } else {
+                                    onChangeProperty("labelFilter", [])
+                                }
+
+                            }}
+                        />
+                    </PanelRow>
+                    {features && features.sort(f => f.properties[labelField]).map(feature => <>
+                        <PanelRow>
+                            <ToggleControl
+                                label={feature.properties[labelField]}
+                                checked={labelFilter.indexOf(feature.properties[labelField]) == -1}
+                                onChange={(selected) => {
+                                    onChangeProperty("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]))
+                                }}
+                            />
+                        </PanelRow>
+                        {(labelFilter.indexOf(feature.properties[labelField]) == -1) &&
+                            <PanelBody title={__("Rotation")} initialOpen={false}>
+                                <PanelRow>
+                                    <RangeControl
+                                        label="Offset X"
+                                        min={-500}
+                                        max={500}
+                                        value={layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0}
+                                        onChange={(offsetX) => onChangeProperty("labelSettings", {
+                                            ...layer.labelSettings,
+                                            [feature.properties[labelField] + "_offsetX"]: offsetX
+                                        })}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <RangeControl
+                                        label="Offset Y"
+                                        min={-500}
+                                        max={500}
+                                        value={layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0}
+                                        onChange={(offset) => onChangeProperty("labelSettings", {
+                                            ...layer.labelSettings,
+                                            [feature.properties[labelField] + "_offsetY"]: offset
+                                        })}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <AnglePickerControl label={"Rotation"}
+                                                        value={layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0}
+                                                        onChange={(rotation) => onChangeProperty("labelSettings", {
+                                                            ...layer.labelSettings,
+                                                            [feature.properties[labelField] + "_rotation"]: rotation
+                                                        })}>
+
+                                    </AnglePickerControl>
+                                </PanelRow>
+                            </PanelBody>}
+
+                    </>)}
+
+                </PanelBody>}
+            </PanelBody>
+
+            }  </>,
+
+        <React.Fragment>
+            {type == 'data' && <>
+                <DataLayer
+                    {...props}
+                    apps={metadata.apps}
+                    onChangeProperty={onChangeProperty}
+                    allDimensions={metadata.dimensions || []}
+                    allFilters={metadata.filters || []}
+                    allMeasures={metadata.measures || []}
+                    allCategories={metadata.categories || []}
+                    allApps={metadata.apps}
+                    features={features}
+                    layer={layer}
+                    allDatasets={datasets}>
+                </DataLayer>
+
+            </>}
+            {type == 'flow' && <>
+                <FlowLayer
+                    {...props}
+                    apps={metadata.apps}
+                    onChangeProperty={onChangeProperty}
+                    allDimensions={metadata.dimensions || []}
+                    allFilters={metadata.filters || []}
+                    allMeasures={metadata.measures || []}
+                    allCategories={metadata.categories || []}
+                    allApps={metadata.apps}
+                    features={features}
+                    layer={layer}
+                    allDatasets={datasets}
+                >
+                </FlowLayer>
+
+            </>}
+            {type == 'dataPoints' && <>
+                <LatLongLayer
+                    {...props}
+                    apps={metadata.apps}
+                    onChangeProperty={onChangeProperty}
+                    allDimensions={metadata.dimensions || []}
+                    allFilters={metadata.filters || []}
+                    allMeasures={metadata.measures || []}
+                    allCategories={metadata.categories || []}
+                    allApps={metadata.apps}
+                    allDatasets={datasets}
+                    features={features}
+                    layer={layer}
+                >
+                </LatLongLayer>
+
+            </>}
+        </React.Fragment>,
+
+
+    ]
+
+}
+
+interface LayerWithMetadataProps {
+    onChange: (layer: any) => void;
+    metadata?: any;
+    layer: any;
+    setAttributes: (attributes: any) => void;
+    onMoveLayer: (index: number, layer: any) => void;
+    panelStatus?: any;
+    onRemoveLayer: () => void;
+    attributes: any;
+}
+
+class LayerWithMetadata extends BlockEditWithAPIMetadata<LayerWithMetadataProps, any> {
+    constructor(props: LayerWithMetadataProps) {
+        super(props);
+    }
+
+
+    componentDidMount() {
+        const {layer: {name, type, file, app, dvzProxyDatasetId}} = this.props
+
+
+        fetch(`/api/registry/eureka/apps`, {
+            headers: {
+                'Accept': 'application/json',
+            },
+        })
+            .then(response => response.json() as Promise<EurekaResponse>)
+            .then(data => {
+                const apps = data.applications ? [...data.applications.application
+                    .filter(a => a.instance[0].metadata.type === 'data')
+                    .map(a => ({
+                        label: a.name, value: a.instance[0].vipAddress, settings: a.instance[0]
+                    })), {label: 'CSV', value: 'csv'}] : [{label: 'CSV', value: 'csv'}]
+
+                this.setState({...this.state, apps})
+
+                if (app && app != 'none') {
+                    if (isSupersetAPI(app, apps)) { //if app is superset proxy an additional step is added
+                        this.loadDatasets(app)
+                        if (dvzProxyDatasetId) {
+                            this.loadMetadata(app, dvzProxyDatasetId)
+                        }
+                    } else {
+                        this.loadMetadata(app);
+                    }
+                }
+
+            })
+            .catch(function (response) {
+                alert("error" + response)
+            })
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        super.componentDidUpdate(prevProps, prevState, snapshot)
+        const {layer: {app, dvzProxyDatasetId}} = this.props
+        const {layer: {app: prevAPP, dvzProxyDatasetId: prevDvzProxyDatasetId}} = prevProps
+
+        if (app != prevAPP) { //if app changes we shoudl reload metadta
+
+
+            if (isSupersetAPI(app, this.state.apps)) { //if app is superset proxy an additional step is added
+                this.loadDatasets(app)
+                if (dvzProxyDatasetId) {
+                    this.loadMetadata(app, dvzProxyDatasetId)
+                }
+            } else {
+                this.loadMetadata(app);
+            }
+        } else {//app wasn't changed
+
+            if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+                this.loadMetadata(app, dvzProxyDatasetId);
+            }
+
+        }
+    }
+
+    render() {
+        const {
+            setAttributes,
+            onMoveLayer,
+            panelStatus,
+            onRemoveLayer,
+            layer,
+            layer: {name, type, file, app}
+        } = this.props
+
+
+        console.log(this.state)
+
+        return <PanelBody
+            initialOpen={false}
+            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)}
+            title={__(`${name}`)}>
+
+            <Base {...this.props} metadata={this.state}></Base>
+            <PanelBody>
+                <ButtonGroup>
+                    <Button variant={"secondary"} type="button" onClick={onRemoveLayer}>Delete</Button>
+                    <Button variant={"secondary"} type="button" onClick={e => onMoveLayer(-1, layer)}>Up</Button>
+                    <Button variant={"secondary"} type="button" onClick={e => onMoveLayer(1, layer)}>Down</Button>
+                </ButtonGroup>
+            </PanelBody> 
+        </PanelBody>
+    }
+
+}
+
+export default LayerWithMetadata

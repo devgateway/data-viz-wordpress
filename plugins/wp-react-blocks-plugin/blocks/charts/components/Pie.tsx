@@ -1,0 +1,145 @@
+import React from 'react';
+import {
+    AnglePickerControl,
+    Button,
+    ButtonGroup,
+    PanelBody,
+    PanelRow,
+    RangeControl,
+    TextareaControl,
+    ToggleControl,
+    __experimentalText as Text,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { ChartColors, ChartLegends } from '@dg-data-viz/wp-commons';
+
+const PieOptions = (props) => {
+
+    const {
+        setAttributes, attributes: {
+            endAngle,
+            startAngle,
+            centerLabel,
+            showArcLabels,
+            format,
+            showArcLinkLabels,
+            slicePadding,
+            centerLabelFontWeight,
+            centerLabelFontSize,
+            centerLabelXOffset,
+            centerLabelYOffset,
+            showPercentage,
+        }
+    } = props;
+
+
+    return [<PanelBody initialOpen={false} title={__("Pie Options")}>
+        <ChartColors {...props}></ChartColors>
+        <PanelRow>
+            <Text>{__("Start Angle")}</Text>
+            <AnglePickerControl value={startAngle} onChange={value => setAttributes({ startAngle: value })} />
+        </PanelRow>
+        <PanelRow>
+            <Text>{__("End Angle")}</Text>
+            <AnglePickerControl value={endAngle} onChange={value => setAttributes({ endAngle: value })} />
+        </PanelRow>
+        <PanelRow>
+            <RangeControl
+                label={__('Slice Padding')}
+                value={slicePadding}
+                initialPosition={1}
+                onChange={(slicePadding) => setAttributes({ slicePadding })}
+                step={0.5}
+                min={0}
+                max={20} />
+        </PanelRow>
+
+        <PanelRow>
+            <ToggleControl
+                label={__("Show Slice Labels")}
+                checked={showArcLabels}
+                onChange={() => setAttributes({ showArcLabels: !showArcLabels })} />
+        </PanelRow>
+        <PanelRow>
+            <ToggleControl
+                label={__("Show Link Labels")}
+                checked={showArcLinkLabels}
+                onChange={() => setAttributes({ showArcLinkLabels: !showArcLinkLabels })} />
+        </PanelRow>
+
+        <PanelRow>
+            <ToggleControl
+                label={__("Show Percentage")}
+                checked={showPercentage}
+                onChange={() => setAttributes({ showPercentage: !showPercentage })} />
+        </PanelRow>
+
+        <ChartLegends {...props}></ChartLegends>
+
+
+        <PanelBody initialOpen={false} title={__("Center Label")}>
+            <PanelBody initialOpen={false} title={__("Variables")}>
+                <PanelRow>
+                    <span style={{ fontSize: "11px" }}>Total Value -&gt; {'{totalValue}'}</span>
+                </PanelRow>
+            </PanelBody>
+            <PanelRow>
+                <TextareaControl
+                    label={__("Label")}
+                    value={centerLabel}
+                    help={__("You can use variables {var_name}.")}
+                    onChange={(centerLabel) => setAttributes({ centerLabel })}
+                />
+            </PanelRow>
+            <PanelRow>
+                <RangeControl
+                    label={__('Font Size')}
+                    value={centerLabelFontSize}
+                    onChange={(centerLabelFontSize) => setAttributes({ centerLabelFontSize })}
+                    min={0}
+                    max={100}
+                />
+            </PanelRow>
+            <PanelRow>
+                <ButtonGroup>
+                    <Button variant={centerLabelFontWeight == 'lighter' ? 'primary' : 'secondary'}
+                        onClick={e => setAttributes({ centerLabelFontWeight: "lighter" })}>
+                        {__("Lighter")}
+                    </Button>
+                    <Button variant={centerLabelFontWeight == 'normal' ? 'primary' : 'secondary'}
+                        onClick={e => setAttributes({ centerLabelFontWeight: "normal" })}>
+                        {__("Normal")}
+                    </Button>
+                    <Button variant={centerLabelFontWeight == 'bold' ? 'primary' : 'secondary'}
+                        onClick={e => setAttributes({ centerLabelFontWeight: "bold" })}>
+                        {__("Bold")}
+                    </Button>
+                </ButtonGroup>
+            </PanelRow>
+
+            <PanelRow>
+                <RangeControl
+                    label={__('X Offset')}
+                    value={centerLabelXOffset}
+                    onChange={(centerLabelXOffset) => setAttributes({ centerLabelXOffset })}
+                    min={-100}
+                    max={300}
+                />
+            </PanelRow>
+
+            <PanelRow>
+                <RangeControl
+                    label={__('Y Offset')}
+                    value={centerLabelYOffset}
+                    onChange={(centerLabelYOffset) => setAttributes({ centerLabelYOffset })}
+                    min={-100}
+                    max={300}
+                />
+            </PanelRow>
+        </PanelBody>
+
+
+    </PanelBody>]
+}
+
+export default PieOptions
