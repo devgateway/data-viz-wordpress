@@ -14,11 +14,11 @@
  */
 function twentytwentytwo_register_block_patterns() {
 	$block_pattern_categories = array(
-		'featured' => array( 'label' => __( 'Featured', '***REMOVED***' ) ),
-		'footer'   => array( 'label' => __( 'Footers', '***REMOVED***' ) ),
-		'header'   => array( 'label' => __( 'Headers', '***REMOVED***' ) ),
-		'query'    => array( 'label' => __( 'Query', '***REMOVED***' ) ),
-		'pages'    => array( 'label' => __( 'Pages', '***REMOVED***' ) ),
+		'featured'              => array( 'label' => __( 'Featured', '***REMOVED***' ) ),
+		'footer'                => array( 'label' => __( 'Footers', '***REMOVED***' ) ),
+		'header'                => array( 'label' => __( 'Headers', '***REMOVED***' ) ),
+		'query'                 => array( 'label' => __( 'Query', '***REMOVED***' ) ),
+		'twentytwentytwo_pages' => array( 'label' => __( 'Pages', '***REMOVED***' ) ),
 	);
 
 	/**

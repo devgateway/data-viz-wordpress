@@ -67,6 +67,10 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
      */
     private $responseResourceOwnerId = 'id';
     /**
+     * @var string|null
+     */
+    private $pkceMethod = null;
+    /**
      * @param array $options
      * @param array $collaborators
      */
@@ -89,7 +93,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
      */
     protected function getConfigurableOptions()
     {
-        return \array_merge($this->***REMOVED***(), ['***REMOVED***', 'accessTokenResourceOwnerId', '***REMOVED***', 'responseError', 'responseCode', 'responseResourceOwnerId', 'scopes']);
+        return \array_merge($this->***REMOVED***(), ['***REMOVED***', 'accessTokenResourceOwnerId', '***REMOVED***', 'responseError', 'responseCode', 'responseResourceOwnerId', 'scopes', 'pkceMethod']);
     }
     /**
      * Returns all options that are required.
@@ -162,6 +166,13 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     protected function ***REMOVED***()
     {
         return $this->***REMOVED*** ?: parent::***REMOVED***();
+    }
+    /**
+     * @inheritdoc
+     */
+    protected function getPkceMethod()
+    {
+        return $this->pkceMethod ?: parent::getPkceMethod();
     }
     /**
      * @inheritdoc

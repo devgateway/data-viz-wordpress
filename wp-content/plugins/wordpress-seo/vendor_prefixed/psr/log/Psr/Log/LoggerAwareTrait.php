@@ -10,7 +10,7 @@ trait ***REMOVED***
     /**
      * The logger instance.
      *
-     * @var ***REMOVED***
+     * @var ***REMOVED***|null
      */
     protected $logger;
     /**

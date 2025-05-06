@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'About page links', '***REMOVED***' ),
-	'categories' => array( 'pages', 'buttons' ),
+	'categories' => array( 'twentytwentytwo_pages', 'buttons' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"10rem","bottom":"10rem"}}},"layout":{"inherit":false,"contentSize":"400px"}} -->
 					<div class="wp-block-group alignfull" style="padding-top:10rem;padding-bottom:10rem;"><!-- wp:image {"align":"center","width":100,"height":100,"sizeSlug":"full","***REMOVED***":"none","className":"is-style-rounded"} -->
 					<div class="wp-block-image is-style-rounded"><figure class="aligncenter size-full is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/icon-bird.jpg" alt="' . esc_attr__( 'Logo featuring a flying bird', '***REMOVED***' ) . '" width="100" height="100"/></figure></div>

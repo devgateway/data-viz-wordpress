@@ -3,6 +3,7 @@
 namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
 use YoastSEO_Vendor\GuzzleHttp\Psr7\Response;
+use YoastSEO_Vendor\GuzzleHttp\Utils;
 use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
@@ -13,36 +14,52 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  */
 final class EasyHandle
 {
-    /** @var resource cURL resource */
+    /**
+     * @var resource|\CurlHandle cURL resource
+     */
     public $handle;
-    /** @var ***REMOVED*** Where data is being written */
+    /**
+     * @var ***REMOVED*** Where data is being written
+     */
     public $sink;
-    /** @var array Received HTTP headers so far */
+    /**
+     * @var array Received HTTP headers so far
+     */
     public $headers = [];
-    /** @var ***REMOVED*** Received response (if any) */
+    /**
+     * @var ***REMOVED***|null Received response (if any)
+     */
     public $response;
-    /** @var ***REMOVED*** Request being sent */
+    /**
+     * @var ***REMOVED*** Request being sent
+     */
     public $request;
-    /** @var array Request options */
+    /**
+     * @var array Request options
+     */
     public $options = [];
-    /** @var int cURL error number (if any) */
+    /**
+     * @var int cURL error number (if any)
+     */
     public $errno = 0;
-    /** @var \Exception Exception during on_headers (if any) */
+    /**
+     * @var \Throwable|null Exception during on_headers (if any)
+     */
     public $***REMOVED***;
+    /**
+     * @var \Exception|null Exception during ***REMOVED*** (if any)
+     */
+    public $createResponseException;
     /**
      * Attach a response to the easy handle based on the received headers.
      *
-     * @throws \***REMOVED*** if no headers have been received.
+     * @throws \***REMOVED*** if no headers have been received or the first
+     *                           header line is invalid.
      */
-    public function ***REMOVED***()
+    public function ***REMOVED***() : void
     {
-        if (empty($this->headers)) {
-            throw new \***REMOVED***('No headers have been received');
-        }
-        // HTTP-version SP status-code SP reason-phrase
-        $startLine = \explode(' ', \array_shift($this->headers), 3);
-        $headers = \YoastSEO_Vendor\GuzzleHttp\headers_from_lines($this->headers);
-        $***REMOVED*** = \YoastSEO_Vendor\GuzzleHttp\normalize_header_keys($headers);
+        [$ver, $status, $reason, $headers] = \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***::parseHeaders($this->headers);
+        $***REMOVED*** = \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***($headers);
         if (!empty($this->options['decode_content']) && isset($***REMOVED***['content-encoding'])) {
             $headers['x-encoded-content-encoding'] = $headers[$***REMOVED***['content-encoding']];
             unset($headers[$***REMOVED***['content-encoding']]);
@@ -57,8 +74,15 @@ final class EasyHandle
             }
         }
         // Attach a response to the easy handle with the parsed headers.
-        $this->response = new \YoastSEO_Vendor\GuzzleHttp\Psr7\Response($startLine[1], $headers, $this->sink, \substr($startLine[0], 5), isset($startLine[2]) ? (string) $startLine[2] : null);
+        $this->response = new \YoastSEO_Vendor\GuzzleHttp\Psr7\Response($status, $headers, $this->sink, $ver, $reason);
     }
+    /**
+     * @param string $name
+     *
+     * @return void
+     *
+     * @throws \BadMethodCallException
+     */
     public function __get($name)
     {
         $msg = $name === 'handle' ? 'The EasyHandle has been released' : 'Invalid property: ' . $name;

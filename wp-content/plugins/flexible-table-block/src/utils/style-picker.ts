@@ -6,7 +6,7 @@ import type { Properties } from 'csstype';
 /**
  * Internal dependencies
  */
-import { FourCssValues, parseCssValue } from './helper';
+import { parseCssValue, type FourCssValues } from './helper';
 
 export interface ***REMOVED*** {
 	top: string;
@@ -30,7 +30,7 @@ export interface CrossProps {
 /**
  * Pick padding style as object from style object.
  *
- * @param  stylesObj styles object.
+ * @param stylesObj styles object.
  * @return padding styles object.
  */
 export function pickPadding( stylesObj: Properties ): ***REMOVED*** {
@@ -56,7 +56,7 @@ export function pickPadding( stylesObj: Properties ): ***REMOVED*** {
 /**
  * Pick border-width style as object from style object.
  *
- * @param  stylesObj styles object.
+ * @param stylesObj styles object.
  * @return border-width styles object.
  */
 export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
@@ -82,7 +82,7 @@ export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
 /**
  * Pick border-color style as object from style object.
  *
- * @param  stylesObj styles object.
+ * @param stylesObj styles object.
  * @return border-color styles object.
  */
 export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
@@ -108,7 +108,7 @@ export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
 /**
  * Pick border-style style as object from style object.
  *
- * @param  stylesObj styles object.
+ * @param stylesObj styles object.
  * @return border-style styles object.
  */
 export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
@@ -134,12 +134,12 @@ export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
 /**
  * Pick border-radius style as object from style object.
  *
- * @param  stylesObj                         styles object.
- * @param  stylesObj.borderRadius
- * @param  stylesObj.***REMOVED***
- * @param  stylesObj.***REMOVED***
- * @param  stylesObj.borderBottomRightRadius
- * @param  stylesObj.borderBottomLeftRadius
+ * @param stylesObj                         styles object.
+ * @param stylesObj.borderRadius
+ * @param stylesObj.***REMOVED***
+ * @param stylesObj.***REMOVED***
+ * @param stylesObj.borderBottomRightRadius
+ * @param stylesObj.borderBottomLeftRadius
  * @return border-radius styles object.
  */
 export function ***REMOVED***( stylesObj: Properties ): CornerProps {
@@ -164,7 +164,7 @@ export function ***REMOVED***( stylesObj: Properties ): CornerProps {
 /**
  * Pick border-spacing style as object from style object.
  *
- * @param  stylesObj styles object.
+ * @param stylesObj styles object.
  * @return border-spacing styles object.
  */
 export function ***REMOVED***( stylesObj: Properties ): CrossProps {

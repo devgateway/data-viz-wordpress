@@ -39,7 +39,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      *
      * @return string
      */
-    public function ***REMOVED***();
+    public function ***REMOVED***() : string;
     /**
      * Return an instance with the specific request-target.
      *
@@ -54,16 +54,16 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      *
      * @link http://tools.ietf.org/html/rfc7230#section-5.3 (for the various
      *     request-target forms allowed in request messages)
-     * @param mixed $requestTarget
+     * @param string $requestTarget
      * @return static
      */
-    public function ***REMOVED***($requestTarget);
+    public function ***REMOVED***(string $requestTarget) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Retrieves the HTTP method of the request.
      *
      * @return string Returns the request method.
      */
-    public function getMethod();
+    public function getMethod() : string;
     /**
      * Return an instance with the provided HTTP method.
      *
@@ -79,7 +79,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @return static
      * @throws \InvalidArgumentException for invalid HTTP methods.
      */
-    public function withMethod($method);
+    public function withMethod(string $method) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
     /**
      * Retrieves the URI instance.
      *
@@ -89,7 +89,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @return UriInterface Returns a UriInterface instance
      *     representing the URI of the request.
      */
-    public function getUri();
+    public function getUri() : \YoastSEO_Vendor\Psr\Http\Message\UriInterface;
     /**
      * Returns an instance with the provided URI.
      *
@@ -120,5 +120,5 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @param bool $preserveHost Preserve the original state of the Host header.
      * @return static
      */
-    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, $preserveHost = \false);
+    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, bool $preserveHost = \false) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 }

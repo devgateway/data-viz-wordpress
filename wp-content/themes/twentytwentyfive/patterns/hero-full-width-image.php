@@ -30,7 +30,7 @@
 			<!-- wp:buttons -->
 			<div class="wp-block-buttons">
 				<!-- wp:button -->
-				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button"><?php echo esc_html_x( 'Learn More', 'Sample hero button', '***REMOVED***' ); ?></a></div>
+				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button"><?php esc_html_e( 'Learn more', '***REMOVED***' ); ?></a></div>
 				<!-- /wp:button -->
 			</div>
 			<!-- /wp:buttons -->

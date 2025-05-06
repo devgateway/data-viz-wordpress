@@ -29,7 +29,7 @@ class Logger implements ***REMOVED*** {
 		/**
 		 * Gives the possibility to set override the logger interface.
 		 *
-		 * @api \YoastSEO_Vendor\Psr\Log\***REMOVED*** $logger Instance of NullLogger.
+		 * @param ***REMOVED*** $logger Instance of NullLogger.
 		 *
 		 * @return ***REMOVED*** The logger object.
 		 */

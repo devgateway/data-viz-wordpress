@@ -2,22 +2,7 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Exception;
 
-use Throwable;
-if (\interface_exists(\Throwable::class)) {
-    interface ***REMOVED*** extends \Throwable
-    {
-    }
-} else {
-    /**
-     * @method string getMessage()
-     * @method \Throwable|null getPrevious()
-     * @method mixed getCode()
-     * @method string getFile()
-     * @method int getLine()
-     * @method array getTrace()
-     * @method string ***REMOVED***()
-     */
-    interface ***REMOVED***
-    {
-    }
+use YoastSEO_Vendor\Psr\Http\Client\ClientExceptionInterface;
+interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Client\ClientExceptionInterface
+{
 }

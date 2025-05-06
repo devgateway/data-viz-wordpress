@@ -2,33 +2,31 @@
  * Internal dependencies
  */
 import type {
-	STICKY_CONTROLS,
 	CAPTION_SIDE_CONTROLS,
 	CELL_TAG_CONTROLS,
 	CELL_SCOPE_CONTROLS,
-	TEXT_ALIGNMENT_CONTROLS,
-	VERTICAL_ALIGNMENT_CONTROLS,
 	CORNER_CONTROLS,
 	DIRECTION_CONTROLS,
 	SIDE_CONTROLS,
-	BORDER_STYLE_CONTROLS,
 	CONTENT_JUSTIFY_CONTROLS,
 	BORDER_COLLAPSE_CONTROLS,
+	STICKY_CONTROLS,
 } from './constants';
 
+type NestedObject = {
+	[ key: string ]: NestedObject | null | undefined;
+};
+
 // Controls Attributes value types
-export type StickyValue = typeof STICKY_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof CAPTION_SIDE_CONTROLS[ number ][ 'value' ];
-export type CellTagValue = typeof CELL_TAG_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof CELL_SCOPE_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof TEXT_ALIGNMENT_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof VERTICAL_ALIGNMENT_CONTROLS[ number ][ 'value' ];
-export type CornerValue = typeof CORNER_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof DIRECTION_CONTROLS[ number ][ 'value' ];
-export type SideValue = typeof SIDE_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof BORDER_STYLE_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof CONTENT_JUSTIFY_CONTROLS[ number ][ 'value' ];
-export type ***REMOVED*** = typeof BORDER_COLLAPSE_CONTROLS[ number ][ 'value' ];
+export type ***REMOVED*** = ( typeof CAPTION_SIDE_CONTROLS )[ number ][ 'value' ];
+export type CellTagValue = ( typeof CELL_TAG_CONTROLS )[ number ][ 'value' ];
+export type ***REMOVED*** = ( typeof CELL_SCOPE_CONTROLS )[ number ][ 'value' ];
+export type CornerValue = ( typeof CORNER_CONTROLS )[ number ][ 'value' ];
+export type ***REMOVED*** = ( typeof DIRECTION_CONTROLS )[ number ][ 'value' ];
+export type SideValue = ( typeof SIDE_CONTROLS )[ number ][ 'value' ];
+export type ***REMOVED*** = ( typeof CONTENT_JUSTIFY_CONTROLS )[ number ][ 'value' ];
+export type ***REMOVED*** = ( typeof BORDER_COLLAPSE_CONTROLS )[ number ][ 'value' ];
+export type StickyValue = ( typeof STICKY_CONTROLS )[ number ][ 'value' ];
 
 // Table section name types
 export type SectionName = 'head' | 'body' | 'foot';
@@ -61,11 +59,12 @@ export interface ***REMOVED*** extends ***REMOVED*** {
 	isScrollOnPc: boolean;
 	***REMOVED***: boolean;
 	***REMOVED***: boolean;
-	sticky: StickyValue | undefined;
+	sticky: StickyValue;
 	tableStyles?: string;
 	captionStyles?: string;
 	captionSide: ***REMOVED***;
-	caption: string;
+	caption?: string;
+	style: NestedObject;
 }
 
 // Core Table Block attributes
@@ -81,6 +80,7 @@ export interface CoreTableBlockAttributes {
 	}[];
 	***REMOVED***: boolean;
 	caption: string;
+	style: NestedObject;
 }
 
 export interface CoreTableCell {

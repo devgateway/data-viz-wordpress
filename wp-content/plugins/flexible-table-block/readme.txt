@@ -2,10 +2,10 @@
 Contributors: wildworks, Toro_Unit
 Tags: gutenberg, block, table
 Donate link: https://www.paypal.me/thamanoJP
-Requires at least: 5.9
-Tested up to: 6.2
-Stable tag: 2.9.1
-Requires PHP: 7.3
+Requires at least: 6.6
+Tested up to: 6.7
+Stable tag: 3.5.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,7 @@ You can merge or split cells from multiple selected cells.
 
 **Flexible Styling**
 
-You can set various styles for each tag of table, cell, and caption indivisually.
+You can set various styles for each tag of table, cell, and caption individually.
 
 **Advanced UI**
 
@@ -41,6 +41,54 @@ The breakpoints for switching between Desktop and mobile can be changed freely.
 4. Responsive Support
 
 == Changelog ==
+
+= 3.5.0 =
+* Tested to WordPress 6.8
+* Drop support for WP 6.5
+* Enhancement: Replace deprecated UI with recommended UI
+
+= 3.4.0 =
+* Tested to WordPress 6.7
+* Drop support for WordPress 6.4
+* Add: Caption toolbar button
+* Enhancement: Update icons
+* Enhancement: Improve accessibility
+* Enhancement: Improve hint text
+* Enhancement: Add box-sizing
+
+= 3.3.0 =
+* Tested to WordPress 6.6
+* Drop support for WordPress 6.3
+* Enhancement: Support content only mode
+* Enhancement: Update API version from 2 to 3
+
+= 3.2.0 =
+* Tested to WordPress 6.5
+* Drop support for WordPress 6.2
+* Enhancement: Polish block sidebar UI
+* Enhancement: Polish UI in Global Setting modal
+
+= 3.1.0 =
+* Tested to WordPress 6.4
+* Drop support for WordPress 6.1
+* Enhancement: Use Snackbar component instead of window.alert
+* Fix: Some block styles are not carried over when transforming the block
+
+= 3.0.1 =
+* Fix: Keyboard controls don't work within the link control popover
+* Fix: Tab key focus doesn't work when cell text contains footnote links
+* Enhancement: Release cell selection when the block is unselected
+
+= 3.0.0 =
+* Tested to WordPress 6.3
+* Fix: Missing top border in the block sidebar
+* Fix: Some grammatical errors
+* Fix: Incorrect pixel value in description about breakpoint
+* Fix: Popovers in Global Settings modal are not showing in the Site Editor
+* Fix: Cursor style when mousing over RichText in the cell
+* Clean: Remove link to wiki page in help modal
+* Drop support for WordPress 5.9, 6.0
+* Drop support for PHP7.3
 
 = 2.9.1 =
 * Enhancement: Adjust tab width in global setting modal

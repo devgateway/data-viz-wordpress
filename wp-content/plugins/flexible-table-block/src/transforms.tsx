@@ -1,23 +1,13 @@
 /**
- * External dependencies
- */
-import { mapValues } from 'lodash';
-
-/**
  * WordPress dependencies
  */
-import {
-	createBlock,
-	// @ts-ignore: has no exported member
-	store as blocksStore,
-} from '@wordpress/blocks';
+import { createBlock, store as blocksStore, type ***REMOVED*** } from '@wordpress/blocks';
 import { select } from '@wordpress/data';
-import type { ***REMOVED*** } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
  */
-import { ***REMOVED***, toVirtualRows, ***REMOVED***, VCell } from './utils/table-state';
+import { ***REMOVED***, toVirtualRows, ***REMOVED***, type VCell } from './utils/table-state';
 import { ***REMOVED*** } from './utils/helper';
 import type { ***REMOVED***, CoreTableCell, CoreTableBlockAttributes } from './***REMOVED***';
 
@@ -32,7 +22,7 @@ const transforms: Transforms = {
 			type: 'block',
 			blocks: [ 'core/table' ],
 			transform: ( attributes ) => {
-				const { ***REMOVED***, head, body, foot, caption } = attributes;
+				const { ***REMOVED***, head, body, foot, caption, style } = attributes;
 
 				// Mapping rowspan and colspan properties.
 				const ***REMOVED*** = ( section: { cells: CoreTableCell[] }[] ) => {
@@ -63,6 +53,7 @@ const transforms: Transforms = {
 					foot: ***REMOVED***( foot ),
 					***REMOVED***,
 					caption,
+					style,
 				} );
 			},
 		},
@@ -99,26 +90,35 @@ const transforms: Transforms = {
 				}
 
 				// Convert to core table block attributes.
-				const ***REMOVED***: any = mapValues( vTable, ( vSection ) => {
-					if ( ! vSection.length ) return [];
-					return vSection.map( ( { cells } ) => ( {
-						cells: cells
-							// Delete cells marked as deletion.
-							.filter( ( cell ) => ! cell.isHidden )
-							// Keep only the properties needed.
-							.map( ( cell ) => ( {
-								content: cell.content,
-								tag: 'head' === cell.sectionName ? 'th' : 'td',
-								rowspan: ***REMOVED*** ? ***REMOVED***( cell.rowSpan ) : undefined,
-								colspan: ***REMOVED*** ? ***REMOVED***( cell.colSpan ) : undefined,
-							} ) ),
-					} ) );
-				} );
+				const ***REMOVED*** = Object.entries( vTable ).reduce(
+					( ***REMOVED***: any, [ sectionName, section ] ) => {
+						if ( ! section.length ) {
+							return ***REMOVED***;
+						}
+
+						const newSection = section.map( ( { cells } ) => ( {
+							cells: cells
+								// Delete cells marked as deletion.
+								.filter( ( cell ) => ! cell.isHidden )
+								// Keep only the properties needed.
+								.map( ( cell ) => ( {
+									content: cell.content,
+									tag: 'head' === cell.sectionName ? 'th' : 'td',
+									rowspan: ***REMOVED*** ? ***REMOVED***( cell.rowSpan ) : undefined,
+									colspan: ***REMOVED*** ? ***REMOVED***( cell.colSpan ) : undefined,
+								} ) ),
+						} ) );
+						***REMOVED***[ sectionName ] = newSection;
+						return ***REMOVED***;
+					},
+					{}
+				);
 
 				return createBlock( 'core/table', {
 					...***REMOVED***,
 					***REMOVED***: attributes.***REMOVED***,
 					caption: attributes.caption,
+					style: attributes.style,
 				} );
 			},
 		},

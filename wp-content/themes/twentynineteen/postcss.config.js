@@ -8,6 +8,8 @@ module.exports = {
 
 module.exports = {
     plugins: [
-        ***REMOVED***(/* pluginOptions */)
+        ***REMOVED***({
+            disablePolyfillReadyClass: true
+        })
     ]
 };

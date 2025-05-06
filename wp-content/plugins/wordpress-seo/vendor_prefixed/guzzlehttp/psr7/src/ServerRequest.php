@@ -1,5 +1,6 @@
 <?php
 
+declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
@@ -50,12 +51,12 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
     /**
      * @param string                               $method       HTTP method
      * @param string|UriInterface                  $uri          URI
-     * @param array                                $headers      Request headers
+     * @param (string|string[])[]                  $headers      Request headers
      * @param string|resource|***REMOVED***|null $body         Request body
      * @param string                               $version      Protocol version
      * @param array                                $serverParams Typically the $_SERVER superglobal
      */
-    public function __construct($method, $uri, array $headers = [], $body = null, $version = '1.1', array $serverParams = [])
+    public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1', array $serverParams = [])
     {
         $this->serverParams = $serverParams;
         parent::__construct($method, $uri, $headers, $body, $version);
@@ -63,13 +64,11 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
     /**
      * Return an UploadedFile instance array.
      *
-     * @param array $files A array which respect $_FILES structure
-     *
-     * @return array
+     * @param array $files An array which respect $_FILES structure
      *
      * @throws InvalidArgumentException for unrecognized values
      */
-    public static function ***REMOVED***(array $files)
+    public static function ***REMOVED***(array $files) : array
     {
         $normalized = [];
         foreach ($files as $key => $value) {
@@ -94,7 +93,7 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
      *
      * @param array $value $_FILES struct
      *
-     * @return array|UploadedFileInterface
+     * @return UploadedFileInterface|UploadedFileInterface[]
      */
     private static function createUploadedFileFromSpec(array $value)
     {
@@ -109,15 +108,13 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
      * Loops through all nested files and returns a normalized array of
      * UploadedFileInterface instances.
      *
-     * @param array $files
-     *
      * @return UploadedFileInterface[]
      */
-    private static function normalizeNestedFileSpec(array $files = [])
+    private static function normalizeNestedFileSpec(array $files = []) : array
     {
         $***REMOVED*** = [];
         foreach (\array_keys($files['tmp_name']) as $key) {
-            $spec = ['tmp_name' => $files['tmp_name'][$key], 'size' => $files['size'][$key], 'error' => $files['error'][$key], 'name' => $files['name'][$key], 'type' => $files['type'][$key]];
+            $spec = ['tmp_name' => $files['tmp_name'][$key], 'size' => $files['size'][$key] ?? null, 'error' => $files['error'][$key] ?? null, 'name' => $files['name'][$key] ?? null, 'type' => $files['type'][$key] ?? null];
             $***REMOVED***[$key] = self::createUploadedFileFromSpec($spec);
         }
         return $***REMOVED***;
@@ -129,12 +126,10 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
      * $_COOKIE
      * $_FILES
      * $_SERVER
-     *
-     * @return ServerRequestInterface
      */
-    public static function fromGlobals()
+    public static function fromGlobals() : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface
     {
-        $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         $headers = \getallheaders();
         $uri = self::***REMOVED***();
         $body = new \YoastSEO_Vendor\GuzzleHttp\Psr7\CachingStream(new \YoastSEO_Vendor\GuzzleHttp\Psr7\***REMOVED***('php://input', 'r+'));
@@ -142,29 +137,27 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
         $serverRequest = new \YoastSEO_Vendor\GuzzleHttp\Psr7\ServerRequest($method, $uri, $headers, $body, $protocol, $_SERVER);
         return $serverRequest->***REMOVED***($_COOKIE)->***REMOVED***($_GET)->***REMOVED***($_POST)->***REMOVED***(self::***REMOVED***($_FILES));
     }
-    private static function extractHostAndPortFromAuthority($authority)
+    private static function extractHostAndPortFromAuthority(string $authority) : array
     {
         $uri = 'http://' . $authority;
         $parts = \parse_url($uri);
         if (\false === $parts) {
             return [null, null];
         }
-        $host = isset($parts['host']) ? $parts['host'] : null;
-        $port = isset($parts['port']) ? $parts['port'] : null;
+        $host = $parts['host'] ?? null;
+        $port = $parts['port'] ?? null;
         return [$host, $port];
     }
     /**
      * Get a Uri populated with values from $_SERVER.
-     *
-     * @return UriInterface
      */
-    public static function ***REMOVED***()
+    public static function ***REMOVED***() : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {
         $uri = new \YoastSEO_Vendor\GuzzleHttp\Psr7\Uri('');
         $uri = $uri->withScheme(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http');
         $hasPort = \false;
         if (isset($_SERVER['HTTP_HOST'])) {
-            list($host, $port) = self::extractHostAndPortFromAuthority($_SERVER['HTTP_HOST']);
+            [$host, $port] = self::extractHostAndPortFromAuthority($_SERVER['HTTP_HOST']);
             if ($host !== null) {
                 $uri = $uri->withHost($host);
             }
@@ -194,86 +187,59 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
         }
         return $uri;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***()
+    public function ***REMOVED***() : array
     {
         return $this->serverParams;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***()
+    public function ***REMOVED***() : array
     {
         return $this->uploadedFiles;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***(array $uploadedFiles)
+    public function ***REMOVED***(array $uploadedFiles) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface
     {
         $new = clone $this;
         $new->uploadedFiles = $uploadedFiles;
         return $new;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***()
+    public function ***REMOVED***() : array
     {
         return $this->cookieParams;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***(array $cookies)
+    public function ***REMOVED***(array $cookies) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface
     {
         $new = clone $this;
         $new->cookieParams = $cookies;
         return $new;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***()
+    public function ***REMOVED***() : array
     {
         return $this->queryParams;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***(array $query)
+    public function ***REMOVED***(array $query) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface
     {
         $new = clone $this;
         $new->queryParams = $query;
         return $new;
     }
     /**
-     * {@inheritdoc}
+     * @return array|object|null
      */
     public function getParsedBody()
     {
         return $this->parsedBody;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***($data)
+    public function ***REMOVED***($data) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface
     {
         $new = clone $this;
         $new->parsedBody = $data;
         return $new;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttributes()
+    public function getAttributes() : array
     {
         return $this->attributes;
     }
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function getAttribute($attribute, $default = null)
     {
@@ -282,19 +248,13 @@ class ServerRequest extends \YoastSEO_Vendor\GuzzleHttp\Psr7\Request implements 
         }
         return $this->attributes[$attribute];
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function withAttribute($attribute, $value)
+    public function withAttribute($attribute, $value) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface
     {
         $new = clone $this;
         $new->attributes[$attribute] = $value;
         return $new;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function ***REMOVED***($attribute)
+    public function ***REMOVED***($attribute) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface
     {
         if (\false === \array_key_exists($attribute, $this->attributes)) {
             return $this;

@@ -9,11 +9,23 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  */
 class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***
 {
-    public function __construct($message, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response = null, \Exception $previous = null, array $***REMOVED*** = [])
+    public function __construct(string $message, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response, \Throwable $previous = null, array $***REMOVED*** = [])
     {
-        if (null === $response) {
-            @\trigger_error('Instantiating the ' . __CLASS__ . ' class without a Response is deprecated since version 6.3 and will be removed in 7.0.', \E_USER_DEPRECATED);
-        }
         parent::__construct($message, $request, $response, $previous, $***REMOVED***);
+    }
+    /**
+     * Current exception and the ones that extend it will always have a response.
+     */
+    public function hasResponse() : bool
+    {
+        return \true;
+    }
+    /**
+     * This function narrows the return type from the parent class and does not allow it to be nullable.
+     */
+    public function getResponse() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    {
+        /** @var ***REMOVED*** */
+        return parent::getResponse();
     }
 }

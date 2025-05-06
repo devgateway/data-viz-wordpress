@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit61c7f72a5d76a6a96ee3c8825ef2f87a
+class ComposerStaticInit1154382d6cf53296b4cc0a1243973e35
 {
     public static $***REMOVED*** = array (
         'e' => 
@@ -22,14 +22,25 @@ class ComposerStaticInit61c7f72a5d76a6a96ee3c8825ef2f87a
 
     public static $classMap = array (
         'Composer\\***REMOVED***' => __DIR__ . '/..' . '/composer/***REMOVED***.php',
+        'enshrined\\svgSanitize\\***REMOVED***\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/***REMOVED***/Resolver.php',
+        'enshrined\\svgSanitize\\***REMOVED***\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/***REMOVED***/Subject.php',
+        'enshrined\\svgSanitize\\***REMOVED***\\Usage' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/***REMOVED***/Usage.php',
+        'enshrined\\svgSanitize\\Exceptions\\***REMOVED***' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Exceptions/***REMOVED***.php',
+        'enshrined\\svgSanitize\\Helper' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Helper.php',
+        'enshrined\\svgSanitize\\Sanitizer' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Sanitizer.php',
+        'enshrined\\svgSanitize\\data\\***REMOVED***' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/***REMOVED***.php',
+        'enshrined\\svgSanitize\\data\\AllowedTags' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedTags.php',
+        'enshrined\\svgSanitize\\data\\***REMOVED***' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/***REMOVED***.php',
+        'enshrined\\svgSanitize\\data\\TagInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/TagInterface.php',
+        'enshrined\\svgSanitize\\data\\XPath' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/XPath.php',
     );
 
     public static function ***REMOVED***(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->***REMOVED*** = ComposerStaticInit61c7f72a5d76a6a96ee3c8825ef2f87a::$***REMOVED***;
-            $loader->***REMOVED*** = ComposerStaticInit61c7f72a5d76a6a96ee3c8825ef2f87a::$***REMOVED***;
-            $loader->classMap = ComposerStaticInit61c7f72a5d76a6a96ee3c8825ef2f87a::$classMap;
+            $loader->***REMOVED*** = ComposerStaticInit1154382d6cf53296b4cc0a1243973e35::$***REMOVED***;
+            $loader->***REMOVED*** = ComposerStaticInit1154382d6cf53296b4cc0a1243973e35::$***REMOVED***;
+            $loader->classMap = ComposerStaticInit1154382d6cf53296b4cc0a1243973e35::$classMap;
 
         }, null, ClassLoader::class);
     }

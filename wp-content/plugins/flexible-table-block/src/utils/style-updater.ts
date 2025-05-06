@@ -6,8 +6,7 @@ import type { Properties } from 'csstype';
 /**
  * Internal dependencies
  */
-import { pickBy, omit, mapValues } from 'lodash';
-import { ***REMOVED*** } from './helper';
+import { ***REMOVED***, ***REMOVED*** } from './helper';
 import type { CornerProps, ***REMOVED*** } from './style-picker';
 
 function getCssPropertyWithFourDirection(
@@ -43,175 +42,205 @@ function getCssPropertyWithFourDirection(
 /**
  * Update padding style of styles object.
  *
- * @param  styles Styles object.
- * @param  values padding values object.
+ * @param styles Styles object.
+ * @param values padding values object.
  * @return  New Styles object.
  */
 export function updatePadding(
 	styles: Properties,
 	values: Partial< ***REMOVED*** > | undefined
 ): Properties {
-	if ( ! values ) return styles;
+	if ( ! values ) {
+		return styles;
+	}
 
-	const ***REMOVED*** = 'padding';
-	const { top, right, bottom, left } = mapValues( pickBy( values ), ( value ) =>
-		***REMOVED***( value )
-	);
-	const newValues = {
-		paddingTop: top,
-		paddingRight: right,
-		paddingBottom: bottom,
-		paddingLeft: left,
-	};
+	const top = values.top ? ***REMOVED***( values.top ) : undefined;
+	const right = values.right ? ***REMOVED***( values.right ) : undefined;
+	const bottom = values.bottom ? ***REMOVED***( values.bottom ) : undefined;
+	const left = values.left ? ***REMOVED***( values.left ) : undefined;
 
-	const newStyles = omit( styles, [ ***REMOVED***, ...Object.keys( newValues ) ] );
+	const { padding, paddingTop, paddingRight, paddingBottom, paddingLeft, ...newStyles } = styles;
 
-	if ( ! top || ! right || ! bottom || ! right ) {
-		return pickBy( {
+	if ( ! top || ! right || ! bottom || ! left ) {
+		return {
 			...newStyles,
-			...newValues,
-		} );
+			...***REMOVED***( {
+				paddingTop: top,
+				paddingRight: right,
+				paddingBottom: bottom,
+				paddingLeft: left,
+			} ),
+		};
 	}
 
 	return {
 		...newStyles,
-		...getCssPropertyWithFourDirection( ***REMOVED***, top, right, bottom, left ),
+		...getCssPropertyWithFourDirection( 'padding', top, right, bottom, left ),
 	};
 }
 
 /**
  * Update border-width style of styles object.
  *
- * @param  styles Styles object.
- * @param  values border-width values object.
+ * @param styles Styles object.
+ * @param values border-width values object.
  * @return  New Styles object.
  */
 export function ***REMOVED***(
 	styles: Properties,
 	values: Partial< ***REMOVED*** > | undefined
 ): Properties {
-	if ( ! values ) return styles;
+	if ( ! values ) {
+		return styles;
+	}
 
-	const ***REMOVED*** = 'borderWidth';
-	const { top, right, bottom, left } = mapValues( pickBy( values ), ( value ) =>
-		***REMOVED***( value )
-	);
+	const top = values.top ? ***REMOVED***( values.top ) : undefined;
+	const right = values.right ? ***REMOVED***( values.right ) : undefined;
+	const bottom = values.bottom ? ***REMOVED***( values.bottom ) : undefined;
+	const left = values.left ? ***REMOVED***( values.left ) : undefined;
 
-	const newValues = {
-		***REMOVED***: top,
-		***REMOVED***: right,
-		***REMOVED***: bottom,
-		***REMOVED***: left,
-	};
+	const {
+		borderWidth,
+		***REMOVED***,
+		***REMOVED***,
+		***REMOVED***,
+		***REMOVED***,
+		...newStyles
+	} = styles;
 
-	const newStyles = omit( styles, [ ***REMOVED***, ...Object.keys( newValues ) ] );
-
-	if ( ! top || ! right || ! bottom || ! right ) {
-		return pickBy( {
+	if ( ! top || ! right || ! bottom || ! left ) {
+		return {
 			...newStyles,
-			...newValues,
-		} );
+			...***REMOVED***( {
+				***REMOVED***: top,
+				***REMOVED***: right,
+				***REMOVED***: bottom,
+				***REMOVED***: left,
+			} ),
+		};
 	}
 
 	return {
 		...newStyles,
-		...getCssPropertyWithFourDirection( ***REMOVED***, top, right, bottom, left ),
+		...getCssPropertyWithFourDirection( 'borderWidth', top, right, bottom, left ),
 	};
 }
 
 /**
  * Update border-style style of styles object.
  *
- * @param  styles Styles object.
- * @param  values border-style values object.
+ * @param styles Styles object.
+ * @param values border-style values object.
  * @return New Styles object.
  */
 export function ***REMOVED***(
 	styles: Properties,
 	values: Partial< ***REMOVED*** > | undefined
 ): Properties {
-	if ( ! values ) return styles;
+	if ( ! values ) {
+		return styles;
+	}
 
-	const ***REMOVED*** = 'borderStyle';
-	const { top, right, bottom, left } = pickBy( values );
-	const newValues = {
-		***REMOVED***: top,
-		***REMOVED***: right,
-		***REMOVED***: bottom,
-		***REMOVED***: left,
-	};
+	const top = values.top ?? undefined;
+	const right = values.right ?? undefined;
+	const bottom = values.bottom ?? undefined;
+	const left = values.left ?? undefined;
 
-	const newStyles = omit( styles, [ ***REMOVED***, ...Object.keys( newValues ) ] );
+	const {
+		borderStyle,
+		***REMOVED***,
+		***REMOVED***,
+		***REMOVED***,
+		***REMOVED***,
+		...newStyles
+	} = styles;
 
-	if ( ! top || ! right || ! bottom || ! right ) {
-		return pickBy( {
+	if ( ! top || ! right || ! bottom || ! left ) {
+		return {
 			...newStyles,
-			...newValues,
-		} );
+			...***REMOVED***( {
+				***REMOVED***: top,
+				***REMOVED***: right,
+				***REMOVED***: bottom,
+				***REMOVED***: left,
+			} ),
+		};
 	}
 
 	return {
 		...newStyles,
-		...getCssPropertyWithFourDirection( ***REMOVED***, top, right, bottom, left ),
+		...getCssPropertyWithFourDirection( 'borderStyle', top, right, bottom, left ),
 	};
 }
 
 /**
- * Update border-scoloryle style of styles object.
+ * Update border-color style of styles object.
  *
- * @param  styles Styles object.
- * @param  values border-color values object.
+ * @param styles Styles object.
+ * @param values border-color values object.
  * @return New Styles object.
  */
 export function ***REMOVED***(
 	styles: Properties,
 	values: Partial< ***REMOVED*** > | undefined
 ): Properties {
-	if ( ! values ) return styles;
+	if ( ! values ) {
+		return styles;
+	}
 
-	const ***REMOVED*** = 'borderColor';
-	const { top, right, bottom, left } = pickBy( values );
-	const newValues = {
-		***REMOVED***: top,
-		***REMOVED***: right,
-		***REMOVED***: bottom,
-		***REMOVED***: left,
-	};
+	const top = values.top ?? undefined;
+	const right = values.right ?? undefined;
+	const bottom = values.bottom ?? undefined;
+	const left = values.left ?? undefined;
 
-	const newStyles = omit( styles, [ ***REMOVED***, ...Object.keys( newValues ) ] );
+	const {
+		borderColor,
+		***REMOVED***,
+		***REMOVED***,
+		***REMOVED***,
+		***REMOVED***,
+		...newStyles
+	} = styles;
 
-	if ( ! top || ! right || ! bottom || ! right ) {
-		return pickBy( {
+	if ( ! top || ! right || ! bottom || ! left ) {
+		return {
 			...newStyles,
-			...newValues,
-		} );
+			...***REMOVED***( {
+				***REMOVED***: top,
+				***REMOVED***: right,
+				***REMOVED***: bottom,
+				***REMOVED***: left,
+			} ),
+		};
 	}
 
 	return {
 		...newStyles,
-		...getCssPropertyWithFourDirection( ***REMOVED***, top, right, bottom, left ),
+		...getCssPropertyWithFourDirection( 'borderColor', top, right, bottom, left ),
 	};
 }
 
 /**
  * Update border-spacing style of styles object.
  *
- * @param  styles            Styles object.
- * @param  values            border-spacing values object.
- * @param  values.horizontal
- * @param  values.vertical
+ * @param styles            Styles object.
+ * @param values            border-spacing values object.
+ * @param values.horizontal
+ * @param values.vertical
  * @return New Styles object.
  */
 export function ***REMOVED***(
 	styles: Properties,
 	values: { horizontal?: string; vertical?: string } | undefined
 ): Properties {
-	if ( ! values ) return styles;
+	if ( ! values ) {
+		return styles;
+	}
 
-	const newStyles = omit( styles, [ 'borderSpacing' ] );
-	const { horizontal, vertical } = mapValues( pickBy( values ), ( value ) =>
-		***REMOVED***( value )
-	);
+	const { borderSpacing, ...newStyles } = styles;
+
+	const horizontal = values.horizontal ? ***REMOVED***( values.horizontal ) : undefined;
+	const vertical = values.vertical ? ***REMOVED***( values.vertical ) : undefined;
 
 	if ( horizontal === undefined && vertical === undefined ) {
 		return newStyles;
@@ -232,41 +261,48 @@ export function ***REMOVED***(
 /**
  * Update border-radius style of styles object.
  *
- * @param  styles Styles object.
- * @param  values border-radius values object.
+ * @param styles Styles object.
+ * @param values border-radius values object.
  * @return  New Styles object.
  */
 export function ***REMOVED***(
 	styles: Properties,
 	values: Partial< CornerProps > | undefined
 ): Properties {
-	if ( ! values ) return styles;
+	if ( ! values ) {
+		return styles;
+	}
 
-	const ***REMOVED*** = 'borderRadius';
-	const { topLeft, topRight, bottomRight, bottomLeft } = mapValues( pickBy( values ), ( value ) =>
-		***REMOVED***( value )
-	);
+	const topLeft = values?.topLeft ? ***REMOVED***( values.topLeft ) : undefined;
+	const topRight = values?.topRight ? ***REMOVED***( values.topRight ) : undefined;
+	const bottomRight = values?.bottomRight ? ***REMOVED***( values.bottomRight ) : undefined;
+	const bottomLeft = values?.bottomLeft ? ***REMOVED***( values.bottomLeft ) : undefined;
 
-	const newValues = {
-		***REMOVED***: topLeft,
-		***REMOVED***: topRight,
-		borderBottomRightRadius: bottomRight,
-		borderBottomLeftRadius: bottomLeft,
-	};
-
-	const newStyles = omit( styles, [ ***REMOVED***, ...Object.keys( newValues ) ] );
+	const {
+		borderRadius,
+		***REMOVED***,
+		***REMOVED***,
+		borderBottomRightRadius,
+		borderBottomLeftRadius,
+		...newStyles
+	} = styles;
 
 	if ( ! topLeft || ! topRight || ! bottomRight || ! bottomLeft ) {
-		return pickBy( {
+		return {
 			...newStyles,
-			...newValues,
-		} );
+			...***REMOVED***( {
+				***REMOVED***: topLeft,
+				***REMOVED***: topRight,
+				borderBottomRightRadius: bottomRight,
+				borderBottomLeftRadius: bottomLeft,
+			} ),
+		};
 	}
 
 	return {
 		...newStyles,
 		...getCssPropertyWithFourDirection(
-			***REMOVED***,
+			'borderRadius',
 			topLeft,
 			topRight,
 			bottomRight,

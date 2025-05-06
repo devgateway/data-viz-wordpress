@@ -42,7 +42,7 @@ class Settings {
 			'type'    => 'boolean',
 			'default' => false,
 		),
-		// Show global setting link to non-***REMOVED*** users.
+		// Show Global setting button to non-***REMOVED*** users.
 		'show_global_setting'   => array(
 			'type'    => 'boolean',
 			'default' => false,

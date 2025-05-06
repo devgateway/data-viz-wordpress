@@ -1,0 +1,133 @@
+import React from 'react';
+import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
+import { FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import {  ***REMOVED*** } from './types';
+import { ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
+
+class BlockEdit extends ***REMOVED***<***REMOVED***, BlockEditWithFiltersState> {
+    constructor(props: ***REMOVED***) {
+        super(props);
+
+    }
+
+    render() {
+        const {
+            className, isSelected,
+            ***REMOVED***,
+            setAttributes,
+            attributes: {
+                count,
+                type,
+                taxonomy,
+                categories,
+                height,
+                width,
+                showIcons,
+                ***REMOVED***,
+                contentToggleHPosition,
+                panelStatus
+            },
+        } = this.props;
+
+
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-show-post-icons=${showIcons}&data-show-content-toggle=${***REMOVED***}&data-content-toggle-h-position=${contentToggleHPosition}`
+        const divStyles = { height: height + 'px', width: '100%' }
+        return (
+            <div>
+                <***REMOVED***>
+                    <Panel>
+                        <SizeConfig height={height} panelStatus={panelStatus} setAttributes={setAttributes}></SizeConfig>
+
+                        <PanelBody title={__("Visibility")}>
+
+                            <PanelRow>
+                                <p>{__("Show Post Icon")}</p>
+                                <FormToggle
+                                    checked={showIcons}
+                                    onChange={() => setAttributes({ showIcons: !showIcons })}
+                                />
+
+                            </PanelRow>
+                            <PanelRow>
+                                <p>{__("Show Post Content in Same Page")}</p>
+                                <FormToggle
+                                    checked={***REMOVED***}
+                                    onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })}
+                                />
+
+                            </PanelRow>
+                            {***REMOVED*** &&
+                                <PanelRow>
+                                    <RangeControl
+                                        label="Content Toggle Horizontal Position (%)"
+                                        value={contentToggleHPosition}
+                                        onChange={(contentToggleHPosition) => setAttributes({ contentToggleHPosition })}
+                                        min={0}
+                                        max={100}
+                                    />
+                                </PanelRow>
+                            }
+
+                            <PanelRow>
+
+                                <RangeControl
+                                    label="Items"
+                                    value={count}
+                                    onChange={(count) => setAttributes({ count })}
+                                    min={2}
+                                    max={10}
+                                />
+
+                            </PanelRow>
+                        </PanelBody>
+                        {this.renderFilters()}
+                    </Panel>
+
+
+                </***REMOVED***>
+                <ResizableBox
+                    size={{ height }}
+                    style={{ "margin": "auto", "width": "100%" }}
+                    minHeight="250"
+                    minWidth="500"
+                    enable={{
+                        top: false,
+                        right: false,
+                        bottom: true,
+                        left: false,
+                        topRight: false,
+                        bottomRight: false,
+                        bottomLeft: false,
+                        topLeft: false,
+                    }}
+                    onResizeStop={(event, direction, elt, delta) => {
+                        setAttributes({
+                            height: parseInt(String(height)) + parseInt(String(delta.height)),
+
+                        });
+                        ***REMOVED***(true);
+                    }}
+                    onResizeStart={() => {
+                        ***REMOVED***(false);
+                    }}
+                >
+
+                    <div style={divStyles}>
+                        {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"}
+                            src={this.state.react_ui_url + "/embeddable/inlinelist?" + queryString} />}
+                    </div>
+                </ResizableBox>
+            </div>
+        );
+
+    }
+}
+
+
+const Edit = (props) => {
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
+    return <div {...blockProps}><BlockEdit {...props} /></div>;
+
+}
+export default Edit;

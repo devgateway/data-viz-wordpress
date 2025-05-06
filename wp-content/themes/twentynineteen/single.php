@@ -27,8 +27,7 @@ get_header();
 					// Parent post navigation.
 					the_post_navigation(
 						array(
-							/* translators: %s: Parent post link. */
-							'prev_text' => sprintf( __( '<span class="meta-nav">Published in</span><span class="post-title">%s</span>', '***REMOVED***' ), '%title' ),
+							'prev_text' => _x( '<span class="meta-nav">Published in</span><br><span class="post-title">%title</span>', 'Parent post link', '***REMOVED***' ),
 						)
 					);
 				} elseif ( is_singular( 'post' ) ) {
@@ -36,9 +35,11 @@ get_header();
 					the_post_navigation(
 						array(
 							'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next Post', '***REMOVED***' ) . '</span> ' .
+								/* translators: Hidden accessibility text. */
 								'<span class="screen-reader-text">' . __( 'Next post:', '***REMOVED***' ) . '</span> <br/>' .
 								'<span class="post-title">%title</span>',
 							'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous Post', '***REMOVED***' ) . '</span> ' .
+								/* translators: Hidden accessibility text. */
 								'<span class="screen-reader-text">' . __( 'Previous post:', '***REMOVED***' ) . '</span> <br/>' .
 								'<span class="post-title">%title</span>',
 						)

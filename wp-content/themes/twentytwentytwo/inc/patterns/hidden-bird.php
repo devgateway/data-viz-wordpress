@@ -8,7 +8,7 @@
 return array(
 	'title'    => __( 'Heading and bird image', '***REMOVED***' ),
 	'inserter' => false,
-	'content'  => '<!-- wp:image {"align":"wide","sizeSlug":"full","***REMOVED***":"none"} -->
-					<figure class="wp-block-image alignwide size-full"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-transparent-d.png" alt="' . esc_attr__( 'Illustration of a bird flying.', '***REMOVED***' ) . '"/></figure>
+	'content'  => '<!-- wp:image {"align":"wide","width":2000,"height":474,"sizeSlug":"full","***REMOVED***":"none"} -->
+					<figure class="wp-block-image alignwide size-full is-resized"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-transparent-d.png" alt="' . esc_attr__( 'Illustration of a bird flying.', '***REMOVED***' ) . '" width="2000" height="474"/></figure>
 					<!-- /wp:image -->',
 );
