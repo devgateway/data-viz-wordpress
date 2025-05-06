@@ -187,7 +187,8 @@ export const ChartLegends = (props: LegendProps) => {
                     title={__('Legends text color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#000000"),
+                            // Ensure ***REMOVED*** is encoded before decoding to avoid runtime errors.
+                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED***(***REMOVED***(***REMOVED***)) : "#000000"),
 
                             onChange: (color) => {
 
