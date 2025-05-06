@@ -1,5 +1,5 @@
-import {PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 import React, {useEffect} from 'react'
+import {PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {ChartColors, ChartLegends, Format } from '@dg-data-viz/wp-commons';
 import AxisConfig from '../config/AxisConfig';
@@ -52,11 +52,11 @@ const LineOptions = (props) => {
       }
     }, [dimension2]);
 
-    let measuresOptions = []
+    let measuresOptions: {value: string, label: string}[] = []
     if (app == 'csv') {
         const data = Papa.parse(csv, {header: true, dynamicTyping: true});
         measuresOptions.push({value: '', label: ''})
-        data.meta.fields.forEach((field, i) => {
+        data.meta?.fields?.forEach((field, i) => {
             if (i !== 0) {
                 measuresOptions.push({value: field, label: field})
             }
@@ -117,7 +117,7 @@ const LineOptions = (props) => {
                 <PanelRow>
                     <SelectControl
                         label={__('Shading Criteria')}
-                        value={[areaShadingCriteria]}
+                        value={areaShadingCriteria}
                         onChange={(areaShadingCriteria) => {
                             setAttributes({areaShadingCriteria})
                         }}
@@ -133,7 +133,7 @@ const LineOptions = (props) => {
                             <SelectControl
                                 style={{width: 150}}
                                 label={__('Area Lower Bound')}
-                                value={[areaLowerBound]}
+                                value={areaLowerBound}
                                 onChange={(areaLowerBound) => {
                                     setAttributes({areaLowerBound})
                                 }}
@@ -144,7 +144,7 @@ const LineOptions = (props) => {
                             <SelectControl
                                 style={{width: 150}}
                                 label={__('Area Upper Bound')}
-                                value={[areaUpperBound]}
+                                value={areaUpperBound}
                                 onChange={(areaUpperBound) => {
                                     setAttributes({areaUpperBound})
                                 }}

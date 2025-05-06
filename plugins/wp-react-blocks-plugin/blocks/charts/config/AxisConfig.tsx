@@ -4,8 +4,8 @@ import {__} from '@wordpress/i18n';
 import {PanelColorSettings} from '@wordpress/block-editor';
 
 interface AxisConfigProps {
-    toggleSelection: (value: boolean) => void;
-    isSelected: boolean;
+    toggleSelection?: (value: boolean) => void;
+    isSelected?: boolean;
     setAttributes: (attributes: any) => void;
     attributes: {
         leftLegend: string;
