@@ -1,0 +1,37 @@
+import React from "react";
+import { ParallaxContainerBlockAttributes } from "./types";
+
+const SaveComponent = (props: { attributes: ParallaxContainerBlockAttributes }) => {
+    const {
+        attributes: {
+            count, type, taxonomy, categories, height, scrolls, horizontal
+        },
+    } = props;
+
+
+    const divClass = ""
+    const divStyles = {}
+
+    return (
+        <div className={divClass} style={divStyles}>
+            <div
+                data-count={count}
+                data-type={type}
+                data-horizontal={horizontal}
+                data-taxonomy={taxonomy}
+                data-categories={categories.toString()}
+                className={"viz-component"}
+                data-height={height}
+                data-scrolls={scrolls}
+                data-configuration={encodeURIComponent(JSON.stringify(props.attributes.configuration))}
+                data-component={"parallaxContainer"}>
+            </div>
+
+        </div>
+
+
+    );
+}
+
+
+export default SaveComponent

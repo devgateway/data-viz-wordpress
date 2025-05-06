@@ -1,0 +1,4 @@
+packages:
+- packages/*
+- plugins/**
+- '!plugins/wp-react-custom-multilang/**'
