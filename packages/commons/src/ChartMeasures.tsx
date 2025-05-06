@@ -171,7 +171,7 @@ export const ChartMeasures = (props: ChartMeasuresProps) => {
                 return (<PanelBody
                     initialOpen={panelStatus[g]}
                     onToggle={e => togglePanel(g, panelStatus, setAttributes)}
-                    title={`${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `}>
+                    title={`${g} (${countSelected(g)} / ${allMeasures.filter(f => getTranslation(f.group) === g).length} ) `}>
 
                     {allMeasures.filter(f => getTranslation(f.group) === g)
                         .map(m => <PanelRow>
