@@ -1,0 +1,63 @@
+{
+  "name": "@dg-data-viz/wp-commons",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
+  "author": "Sebastian Dimunzio",
+  "maintainers": [
+    "Sebastian Dimunzio",
+    "Timothy Mugo"
+  ],
+  "keywords": [
+    "react",
+    "WordPress",
+    "block",
+    "data-viz",
+    "data-viz-wordpress"
+  ],
+  "homepage": "https://github.com/devgateway/data-viz-wordpress",
+  "repository": "git+https://github.com/devgateway/data-viz-wordpress",
+  "bugs": {
+    "url": "https://github.com/devgateway/data-viz-wordpress/issues"
+  },
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "module": "build/index.js",
+  "files": [
+    "build"
+  ],
+  "***REMOVED***": {
+    "@babel/runtime": "^7.27.0",
+    "@types/lodash.isempty": "^4.4.9",
+    "@types/papaparse": "^5.3.15",
+    "@types/react": "18.3.1",
+    "@types/wordpress__block-editor": "^11.5.16",
+    "@wordpress/scripts": "^30.15.0",
+    "dotenv": "^16.5.0",
+    "dotenv-webpack": "^8.1.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "format:js": "wp-scripts format-js",
+    "lint:js": "wp-scripts lint-js",
+    "start": "tsc -w"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^7.22.0",
+    "@wordpress/data": "^10.22.0",
+    "lodash.isempty": "^4.4.0",
+    "papaparse": "^5.5.2",
+    "@wordpress/block-editor": "^14.17.0",
+    "@wordpress/components": "^29.8.0",
+    "@wordpress/editor": "^14.22.0",
+    "@wordpress/element": "^6.22.0",
+    "@wordpress/i18n": "^5.22.0",
+    "@wordpress/icons": "^10.22.0",
+    "classnames": "^2.5.1"
+  },
+  "***REMOVED***": {
+    "react": "18.3.1"
+  }
+}
