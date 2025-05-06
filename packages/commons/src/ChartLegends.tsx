@@ -187,7 +187,8 @@ export const ChartLegends = (props: LegendProps) => {
                     title={__('Legends text color')}
                     colorSettings={[
                         {
-                            value: decodeURIComponent(legendLabelColor ? legendLabelColor : "#000000"),
+                            // Ensure legendLabelColor is encoded before decoding to avoid runtime errors.
+                            value: decodeURIComponent(legendLabelColor ? encodeURIComponent(decodeURIComponent(legendLabelColor)) : "#000000"),
 
                             onChange: (color) => {
 
