@@ -44,7 +44,8 @@
     "build": "tsc -b",
     "format:js": "wp-scripts format-js",
     "lint:js": "wp-scripts lint-js",
-    "start": "tsc -w"
+    "start": "tsc -w",
+    "release": "semantic-release"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.22.0",
