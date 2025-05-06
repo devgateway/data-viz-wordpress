@@ -500,7 +500,6 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 })
                 .then(data => {
                     sessionStorage.setItem(`measures_${app}`, JSON.stringify(getTranslatedOptions(data)))
-                    debugger
                     this.setState({ measures: getTranslatedOptions(data) })
                 })
                 .catch(function () {
