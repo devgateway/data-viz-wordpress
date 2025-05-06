@@ -1,5 +1,5 @@
 {
-  "apiVersion": 2,
+  "apiVersion": 3,
   "name": "flexible-table-block/table",
   "title": "Flexible Table",
   "category": "text",
@@ -8,7 +8,7 @@
     "cell",
     "data"
   ],
-  "description": "Create flexible configuration table.",
+  "description": "Create a flexible configuration table.",
   "textdomain": "flexible-table-block",
   "attributes": {
     "contentJustification": {
@@ -46,7 +46,8 @@
     "caption": {
       "type": "string",
       "source": "html",
-      "selector": "figcaption"
+      "selector": "figcaption",
+      "__experimentalRole": "content"
     },
     "captionStyles": {
       "type": "string",
@@ -68,7 +69,8 @@
           "query": {
             "content": {
               "type": "string",
-              "source": "html"
+              "source": "html",
+              "__experimentalRole": "content"
             },
             "styles": {
               "type": "string",
@@ -133,7 +135,8 @@
           "query": {
             "content": {
               "type": "string",
-              "source": "html"
+              "source": "html",
+              "__experimentalRole": "content"
             },
             "styles": {
               "type": "string",
@@ -198,7 +201,8 @@
           "query": {
             "content": {
               "type": "string",
-              "source": "html"
+              "source": "html",
+              "__experimentalRole": "content"
             },
             "styles": {
               "type": "string",
@@ -274,10 +278,16 @@
       "__experimentalTextTransform": true,
       "__experimentalFontStyle": true,
       "__experimentalFontWeight": true,
-      "__experimentalLetterSpacing": true
+      "__experimentalLetterSpacing": true,
+      "__experimentalDefaultControls": {
+        "fontSize": false
+      }
     },
     "spacing": {
-      "margin": true
+      "margin": true,
+      "__experimentalDefaultControls": {
+        "margin": false
+      }
     },
     "__experimentalSelector": ".wp-block-flexible-table-block-table > table"
   },

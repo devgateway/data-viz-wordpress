@@ -8,8 +8,8 @@ import type { Property } from 'csstype';
  * WordPress dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
-import { registerStore } from '@wordpress/data';
-import type { Notice as NoticeType } from '@wordpress/components';
+import { createReduxStore, register } from '@wordpress/data';
+import type { NoticeProps } from '@wordpress/components/build-types/notice/types';
 
 /**
  * Internal dependencies
@@ -17,7 +17,7 @@ import type { Notice as NoticeType } from '@wordpress/components';
 import { STORE_NAME, REST_API_ROUTE } from './constants';
 
 export interface ApiResponse {
-	status?: NoticeType.Props[ 'status' ];
+	status?: NoticeProps[ 'status' ];
 	message?: string;
 	options?: StoreOptions;
 	// eslint-disable-next-line camelcase
@@ -112,13 +112,14 @@ const resolvers = {
 	},
 };
 
-// TODO: Deprecated and should be replaced by register
-registerStore( STORE_NAME, {
+const store = createReduxStore( STORE_NAME, {
 	reducer,
 	controls,
 	selectors,
 	resolvers,
 	actions,
 } );
+
+register( store );
 
 export { STORE_NAME };
