@@ -1,1 +1,2 @@
-export * from './useSetting';
+// @ts-ignore
+// export * from './useSetting';

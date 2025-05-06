@@ -500,7 +500,6 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 })
                 .then(data => {
                     ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(***REMOVED***(data)))
-                    debugger
                     this.setState({ measures: ***REMOVED***(data) })
                 })
                 .catch(function () {

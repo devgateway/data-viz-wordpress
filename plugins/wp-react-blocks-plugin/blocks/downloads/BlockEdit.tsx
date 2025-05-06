@@ -6,6 +6,8 @@ import {
     RichText,
     useBlockProps,
     InnerBlocks,
+    // @ts-ignore
+    useSetting
 } from '@wordpress/block-editor';
 import {
     ***REMOVED***,
@@ -19,7 +21,7 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ComponentWithSettings, ComponentWithSettingsState, useSetting} from "@dg-data-viz/wp-commons";
+import {ComponentWithSettings, ComponentWithSettingsState} from "@dg-data-viz/wp-commons";
 import {***REMOVED***} from './types';
 
 class BlockEdit extends ComponentWithSettings<***REMOVED***, ComponentWithSettingsState> {
