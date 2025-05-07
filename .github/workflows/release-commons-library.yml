@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - "packages/commons/**"
+      - ".changeset/**"
+      - "package.json"
     branches:
       - main
 
@@ -47,8 +49,8 @@ jobs:
         with:
           commit: "chore(release): update version"
           title: "chore(release): update version"
-          publish: pnpm run ci:publish
-
+          publish: pnpm exec changeset publish --git-tag
+          version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
