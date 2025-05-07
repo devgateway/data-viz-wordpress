@@ -19,5 +19,8 @@
   ],
   "author": "Development Gateway",
   "license": "MIT",
-  "***REMOVED***": "pnpm@10.10.0"
+  "***REMOVED***": "pnpm@10.10.0",
+  "***REMOVED***": {
+    "@changesets/cli": "^2.29.3"
+  }
 }
