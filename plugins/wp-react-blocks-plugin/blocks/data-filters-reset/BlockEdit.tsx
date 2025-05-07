@@ -2,7 +2,7 @@ import React from 'react';
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, TextControl, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState} from '@dg-data-viz/wp-commons';
+import {BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState} from '@devgateway/dvz-wp-commons';
 import { DataFiltersResetProps } from './types';
 
 

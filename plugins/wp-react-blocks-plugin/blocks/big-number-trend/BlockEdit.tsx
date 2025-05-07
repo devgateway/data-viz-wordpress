@@ -21,7 +21,7 @@ import {
     isSupersetAPI,
     Format,
     togglePanel,
-} from '@dg-data-viz/wp-commons';
+} from '@devgateway/dvz-wp-commons';
 import { BigNumberTrendProps } from './types';
 
 class BlockEdit extends BlockEditWithAPIMetadata<BigNumberTrendProps, any> {

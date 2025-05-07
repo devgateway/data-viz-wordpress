@@ -13,7 +13,7 @@ import { RichTextToolbarButton } from '@wordpress/block-editor';
 import { speak } from '@wordpress/a11y';
 import { info as linkIcon } from '@wordpress/icons';
 import { Button, Modal, Panel, PanelBody, PanelRow, Popover, TextareaControl } from '@wordpress/components';
-import { BLOCKS_NS } from '@dg-data-viz/wp-commons';
+import { BLOCKS_NS } from '@devgateway/dvz-wp-commons';
 
 const name = BLOCKS_NS + '/info-tooltip';
 const reference = {

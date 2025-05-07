@@ -16,7 +16,7 @@ import {
     togglePanel,
     Measures,
     DataFilters
-} from '@dg-data-viz/wp-commons';
+} from '@devgateway/dvz-wp-commons';
 import { DataLabelsProps } from './types';
 
 class BlockEdit extends BlockEditWithAPIMetadata<DataLabelsProps, BlockEditWithAPIMetadataState> {

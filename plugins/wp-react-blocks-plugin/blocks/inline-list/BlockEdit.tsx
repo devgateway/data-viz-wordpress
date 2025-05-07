@@ -3,7 +3,7 @@ import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import {  InlineListProps } from './types';
-import { BlockEditWithFilters, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
+import { BlockEditWithFilters, BlockEditWithFiltersState, SizeConfig } from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends BlockEditWithFilters<InlineListProps, BlockEditWithFiltersState> {
     constructor(props: InlineListProps) {

@@ -10,7 +10,7 @@ import {
 } from '@wordpress/components';
 import { PanelColorSettings } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { togglePanel, ChartMeasures, Measure, Category } from "@dg-data-viz/wp-commons";
+import { togglePanel, ChartMeasures, Measure, Category } from "@devgateway/dvz-wp-commons";
 
 interface Dimension {
     value: string;

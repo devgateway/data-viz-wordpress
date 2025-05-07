@@ -1,6 +1,6 @@
 import React from 'react';
 import {useBlockProps} from '@wordpress/block-editor';
-import {ComponentWithSettings, SearchResult, SearchResults} from "@dg-data-viz/wp-commons";
+import {ComponentWithSettings, SearchResult, SearchResults} from "@devgateway/dvz-wp-commons";
 import {useDispatch, useSelect} from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import { Search} from "semantic-ui-react";

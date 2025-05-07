@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { BlockEditWithAPIMetadata, isSupersetAPI, DataFilters } from '@dg-data-viz/wp-commons'
+import { BlockEditWithAPIMetadata, isSupersetAPI, DataFilters } from '@devgateway/dvz-wp-commons'
 import { CategoricalFilterProps } from '../d3Map/layers/utils/types';
 import { FilterProps } from './types';
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'

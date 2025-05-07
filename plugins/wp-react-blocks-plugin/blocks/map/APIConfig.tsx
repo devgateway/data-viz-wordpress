@@ -11,7 +11,7 @@ import {
 import Measures from './Measures'
 import { CategoricalFilterProps, FilterSelectorProps } from '../d3Map/layers/utils/types';
 import { APIConfigProps, APIConfigState } from './types';
-import { CategoryItem } from '@dg-data-viz/wp-commons';
+import { CategoryItem } from '@devgateway/dvz-wp-commons';
 
 const FilterSelector = ({ param, index, options, onUpdateFilterParam }: FilterSelectorProps) => {
     const sortedOptions = options?.sort(function (a, b) {

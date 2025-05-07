@@ -1,7 +1,7 @@
 import React from 'react';
 import {AnglePickerControl, PanelBody, PanelRow, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import { Format, ChartColors, ChartLegends } from "@dg-data-viz/wp-commons";
+import { Format, ChartColors, ChartLegends } from "@devgateway/dvz-wp-commons";
 
 interface InfoProps {
     setAttributes: (attributes: any) => void;

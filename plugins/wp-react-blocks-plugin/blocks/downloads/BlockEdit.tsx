@@ -21,7 +21,7 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ComponentWithSettings, ComponentWithSettingsState} from "@dg-data-viz/wp-commons";
+import {ComponentWithSettings, ComponentWithSettingsState} from "@devgateway/dvz-wp-commons";
 import {DownloadsProps} from './types';
 
 class BlockEdit extends ComponentWithSettings<DownloadsProps, ComponentWithSettingsState> {
