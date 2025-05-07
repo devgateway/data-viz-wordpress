@@ -1,4 +1,4 @@
-import { ComponentWithSettingsProps, BlockEditWithFiltersState } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettingsProps, BlockEditWithFiltersState } from "@devgateway/dvz-wp-commons";
 
 export interface TabbedPostsBlockAttributes {
     panelStatus: boolean;

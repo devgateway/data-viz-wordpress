@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentWithSettings } from '@dg-data-viz/wp-commons';
+import { ComponentWithSettings } from '@devgateway/dvz-wp-commons';
 import { PageModulesBlockProps, PageModulesBlockState } from './types';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, ResizableBox, TextControl } from '@wordpress/components';

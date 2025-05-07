@@ -1,4 +1,4 @@
-import { Filter } from '@dg-data-viz/wp-commons';
+import { Filter } from '@devgateway/dvz-wp-commons';
 
 export interface FilterAttributes {
     group: string;

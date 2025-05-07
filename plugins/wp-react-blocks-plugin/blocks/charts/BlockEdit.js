@@ -11,7 +11,7 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig, CSVConfig, Tooltip, togglePanel, isSupersetAPI, DEFAULT_FORMAT_SETTINGS } from '@dg-data-viz/wp-commons'
+import {BlockEditWithAPIMetadata, SizeConfig, CSVConfig, Tooltip, togglePanel, isSupersetAPI, DEFAULT_FORMAT_SETTINGS } from '@devgateway/dvz-wp-commons'
 import Bar from "./components/Bar"
 import Pie from "./components/Pie"
 import Line from "./components/Line"

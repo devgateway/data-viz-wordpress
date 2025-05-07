@@ -2,7 +2,7 @@ import React from 'react';
 import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters, BlockEditWithFiltersState} from '@dg-data-viz/wp-commons';
+import {BlockEditWithFilters, BlockEditWithFiltersState} from '@devgateway/dvz-wp-commons';
 import { VerticalFeaturedTabsProps } from './types';
 
 

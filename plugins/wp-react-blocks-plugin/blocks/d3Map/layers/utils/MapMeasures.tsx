@@ -1,7 +1,7 @@
 import React from 'react';
 import {__} from '@wordpress/i18n';
 import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
-import {getTranslation, Format, togglePanel, Measure} from '@dg-data-viz/wp-commons'
+import {getTranslation, Format, togglePanel, Measure} from '@devgateway/dvz-wp-commons'
 
 const defaultFormat = {
     "style": "percent",

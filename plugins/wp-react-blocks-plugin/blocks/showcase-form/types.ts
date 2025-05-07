@@ -1,4 +1,4 @@
-import { ComponentWithSettingsProps } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettingsProps } from "@devgateway/dvz-wp-commons";
 
 export interface ShowcaseFormBlockAttributes {
     organization: string;

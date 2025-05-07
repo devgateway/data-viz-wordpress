@@ -1,4 +1,4 @@
-import { BlockEditWithAPIMetadataState, Category, Dimension, Filter, Measure, Taxonomy } from "@dg-data-viz/wp-commons";
+import { BlockEditWithAPIMetadataState, Category, Dimension, Filter, Measure, Taxonomy } from "@devgateway/dvz-wp-commons";
 import { BlockEditProps } from "@wordpress/blocks";
 
 export interface SettingsAttributes {
