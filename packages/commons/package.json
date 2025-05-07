@@ -1,9 +1,10 @@
 {
-  "name": "@dg-data-viz/wp-commons",
+  "name": "@devgateway/dvz-wp-commons",
   "version": "1.0.0",
   "private": false,
   "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
   "author": "Sebastian Dimunzio",
+  "license": "MIT",
   "maintainers": [
     "Sebastian Dimunzio",
     "Timothy Mugo"
@@ -24,7 +25,9 @@
   "types": "build/index.d.ts",
   "module": "build/index.js",
   "files": [
-    "build"
+    "build",
+    "LICENSE",
+    "README.md"
   ],
   "publishConfig": {
     "access": "public",

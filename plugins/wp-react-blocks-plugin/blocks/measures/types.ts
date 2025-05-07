@@ -1,4 +1,4 @@
-import { BlockEditWithAPIMetadataProps } from "@dg-data-viz/wp-commons";
+import { BlockEditWithAPIMetadataProps } from "@devgateway/dvz-wp-commons";
 import { ***REMOVED*** } from "@wordpress/blocks";
 
 export interface MeasureGroup {

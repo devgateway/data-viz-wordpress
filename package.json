@@ -5,7 +5,8 @@
   "description": "Wordpress Repository for Data Viz that contains plugins and blocks for the Data Viz plugin",
   "workspaces": [
     "packages/*",
-    "plugins/*/*"
+    "plugins/*/*",
+    "!plugins/wp-react-custom-multilang/**"
   ],
   "scripts": {
     "build": "pnpm recursive run build"

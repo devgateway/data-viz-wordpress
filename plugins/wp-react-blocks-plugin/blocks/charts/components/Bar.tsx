@@ -3,7 +3,7 @@
 import React from 'react';
 import { PanelBody, PanelRow, RangeControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ChartColors, ChartLegends } from '@dg-data-viz/wp-commons';
+import { ChartColors, ChartLegends } from '@devgateway/dvz-wp-commons';
 import AxisConfig from '../config/AxisConfig';
 import Labels from "./Labels";
 import LineOverlay from "../config/***REMOVED***";

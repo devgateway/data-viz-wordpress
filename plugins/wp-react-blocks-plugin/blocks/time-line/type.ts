@@ -1,4 +1,4 @@
-import { ComponentWithSettingsProps } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettingsProps } from "@devgateway/dvz-wp-commons";
 import { ***REMOVED*** } from "../new-time-line/types";
 export interface TimeLineBlockAttributes {
     fontColor: string;

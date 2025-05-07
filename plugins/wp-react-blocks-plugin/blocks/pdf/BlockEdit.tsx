@@ -2,7 +2,7 @@ import React from 'react';
 import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
 import { ***REMOVED***, Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings, SearchResult, SearchResults, Wp_Types } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettings, SearchResult, SearchResults, Wp_Types } from "@devgateway/dvz-wp-commons";
 import apiFetch from '@wordpress/api-fetch';
 import { Label, Search } from "semantic-ui-react";
 import { PdfBlockProps, PdfBlockState } from './type';
