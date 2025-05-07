@@ -1,4 +1,4 @@
-import { ComponentWithSettingsProps, ComponentWithSettingsState } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettingsProps, ComponentWithSettingsState } from "@devgateway/dvz-wp-commons";
 
 export type PageModulesBlockAttributes = {
     count: number;

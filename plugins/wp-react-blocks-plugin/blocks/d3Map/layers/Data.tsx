@@ -16,7 +16,7 @@ import Measures from './utils/MapMeasures'
 import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import ***REMOVED*** from "./utils/***REMOVED***";
-import { isSupersetAPI, Format, Measure, Category, Filter, Dimension, Application } from "@dg-data-viz/wp-commons";
+import { isSupersetAPI, Format, Measure, Category, Filter, Dimension, Application } from "@devgateway/dvz-wp-commons";
 import { CategoricalFilterProps, ***REMOVED*** } from "./utils/types";
 
 

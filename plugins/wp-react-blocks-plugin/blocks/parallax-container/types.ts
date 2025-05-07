@@ -1,4 +1,4 @@
-import { BlockEditWithFiltersState, Categories, ComponentWithSettingsProps, Post } from "@dg-data-viz/wp-commons";
+import { BlockEditWithFiltersState, Categories, ComponentWithSettingsProps, Post } from "@devgateway/dvz-wp-commons";
 
 export type ParallaxContainerConfiguration = {
     offset: number;

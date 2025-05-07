@@ -3,7 +3,7 @@ import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor'
 import { Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl } from '@wordpress/components'
 import { ***REMOVED*** } from '@wordpress/block-editor'
 import { __ } from '@wordpress/i18n';
-import { BlockEditWithAPIMetadata, ***REMOVED***, Media, Taxonomy, isSupersetAPI } from '@dg-data-viz/wp-commons';
+import { BlockEditWithAPIMetadata, ***REMOVED***, Media, Taxonomy, isSupersetAPI } from '@devgateway/dvz-wp-commons';
 import APIConfig from "./APIConfig"
 import LegendBreaks from "./LegendBreaks"
 import MapSymbols from "./Symbols"

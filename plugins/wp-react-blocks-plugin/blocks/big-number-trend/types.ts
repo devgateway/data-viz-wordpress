@@ -1,5 +1,5 @@
-import { Measure } from "@dg-data-viz/wp-commons";
-import { Filter } from "@dg-data-viz/wp-commons";
+import { Measure } from "@devgateway/dvz-wp-commons";
+import { Filter } from "@devgateway/dvz-wp-commons";
 
 export interface ***REMOVED*** {
     className: string;

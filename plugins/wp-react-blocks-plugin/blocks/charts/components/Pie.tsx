@@ -11,7 +11,7 @@ import {
     __experimentalText as Text,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ChartColors, ChartLegends } from '@dg-data-viz/wp-commons';
+import { ChartColors, ChartLegends } from '@devgateway/dvz-wp-commons';
 
 const PieOptions = (props) => {
 

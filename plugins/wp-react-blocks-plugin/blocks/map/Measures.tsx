@@ -1,7 +1,7 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
 import { ***REMOVED***, PanelBody, PanelRow, ToggleControl, TextControl } from '@wordpress/components';
-import { Measure, ***REMOVED*** } from '@dg-data-viz/wp-commons';
+import { Measure, ***REMOVED*** } from '@devgateway/dvz-wp-commons';
 
 interface MeasuresProps {
     // TODO: Check the type

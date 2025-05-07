@@ -92,8 +92,8 @@ importers:
 
   plugins/wp-react-blocks-plugin/blocks:
     dependencies:
-      '@dg-data-viz/wp-commons':
-        specifier: workspace:*
+      '@devgateway/dvz-wp-commons':
+        specifier: workspace:@devgateway/dvz-wp-commons@*
         version: link:../../../packages/commons
       '@types/react':
         specifier: '18'

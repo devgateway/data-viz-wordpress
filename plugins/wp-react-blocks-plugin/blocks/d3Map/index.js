@@ -2,8 +2,8 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon } from "@dg-data-viz/wp-commons";
-import { BLOCKS_NS, BLOCKS_CATEGORY } from "@dg-data-viz/wp-commons";
+import { GenericIcon } from "@devgateway/dvz-wp-commons";
+import { BLOCKS_NS, BLOCKS_CATEGORY } from "@devgateway/dvz-wp-commons";
 
 ***REMOVED***(BLOCKS_NS + '/new-d3-map',
     {

@@ -11,7 +11,7 @@ import {
 import Measures from './Measures'
 import { CategoricalFilterProps, ***REMOVED*** } from '../d3Map/layers/utils/types';
 import { ***REMOVED***, ***REMOVED*** } from './types';
-import { CategoryItem } from '@dg-data-viz/wp-commons';
+import { CategoryItem } from '@devgateway/dvz-wp-commons';
 
 const ***REMOVED*** = ({ param, index, options, ***REMOVED*** }: ***REMOVED***) => {
     const sortedOptions = options?.sort(function (a, b) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PanelBody, PanelRow, RangeControl, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { Measure, Format } from "@dg-data-viz/wp-commons";
+import { Measure, Format } from "@devgateway/dvz-wp-commons";
 import Papa, { ParseResult } from "papaparse";
 
 interface GroupTotalSettingProps {

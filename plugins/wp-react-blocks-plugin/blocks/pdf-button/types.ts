@@ -1,8 +1,8 @@
-import { Wp_Types } from "@dg-data-viz/wp-commons";
+import { Wp_Types } from "@devgateway/dvz-wp-commons";
 
-import { SearchResults } from "@dg-data-viz/wp-commons";
+import { SearchResults } from "@devgateway/dvz-wp-commons";
 
-import { ComponentWithSettingsProps } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettingsProps } from "@devgateway/dvz-wp-commons";
 import { BlockInstance } from "@wordpress/blocks";
 
 export interface ***REMOVED*** {

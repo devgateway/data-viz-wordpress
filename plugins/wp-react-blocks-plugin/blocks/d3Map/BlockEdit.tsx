@@ -4,7 +4,7 @@ import {
     Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl, Button
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n'
-import { BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, togglePanel } from '@dg-data-viz/wp-commons';
+import { BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, togglePanel } from '@devgateway/dvz-wp-commons';
 import LayerSettings from "./layers/Base";
 import { D3MapProps } from './layers/utils/types';
 import LayerModel from './layers/Model';

@@ -2,7 +2,7 @@ import React from 'react';
 import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
 import { FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED***, SizeConfig } from '@dg-data-viz/wp-commons'
+import { ***REMOVED***, SizeConfig } from '@devgateway/dvz-wp-commons'
 import { TabbedPostsBlockProps, TabbedPostsBlockState } from './types';
 
 class BlockEdit extends ***REMOVED***<TabbedPostsBlockProps, TabbedPostsBlockState> {
