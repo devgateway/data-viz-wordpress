@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.0.3
+
+### Patch Changes
+
+- [`69daf22`](https://github.com/devgateway/data-viz-wordpress/commit/***REMOVED***) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - Internal changes: Update CI
+
 ## 1.0.2
 
 ### Patch Changes
