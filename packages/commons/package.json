@@ -1,6 +1,6 @@
 {
   "name": "@devgateway/dvz-wp-commons",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": false,
   "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
   "author": "Sebastian Dimunzio",
@@ -55,7 +55,7 @@
     "lint:js": "wp-scripts lint-js",
     "start": "tsc -w",
     "publish": "pnpm build && pnpm publish",
-    "ci:publish": "pnpm publish" 
+    "ci:publish": "pnpm publish"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.22.0",
