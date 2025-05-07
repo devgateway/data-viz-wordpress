@@ -9,7 +9,12 @@
     "!plugins/wp-react-custom-multilang/**"
   ],
   "scripts": {
-    "build": "pnpm recursive run build"
+    "build": "pnpm recursive run build",
+    "version": "changeset version",
+    "release": "changeset publish",
+    "publish:next": "changeset publish --next",
+    "publish:dev": "changeset publish --dev",
+    "publish:ci": "changeset publish --ci"
   },
   "keywords": [
     "wordpress",
