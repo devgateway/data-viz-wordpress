@@ -42,13 +42,14 @@ jobs:
 
 
       - name: Create Release
-        working-directory: packages/commons
-        run: pnpm run release
+        uses: changesets/action@v1
+        id: release
+        with:
+          commit: "chore(release): update version"
+          title: "chore(release): update version"
+          publish: pnpm run ci:publish
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        
-  
-  
-  
- 
+          
