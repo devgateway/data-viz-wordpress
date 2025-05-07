@@ -34,7 +34,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "***REMOVED***": {
-    "@anolilab/semantic-release-pnpm": "^1.1.10",
     "@babel/runtime": "^7.27.0",
     "@semantic-release/changelog": "^6.0.3",
     "@types/lodash.isempty": "^4.4.9",
