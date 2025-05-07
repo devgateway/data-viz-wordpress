@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.0.3
+
+### Patch Changes
+
+- [`69daf22`](https://github.com/devgateway/data-viz-wordpress/commit/69daf2207789b4eea4a9317844f29ec00a8b8d34) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Internal changes: Update CI
+
 ## 1.0.2
 
 ### Patch Changes
