@@ -3,7 +3,7 @@ import {Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, R
 
 import {__} from '@wordpress/i18n';
 
-import {BlockEditWithAPIMetadata, ComponentWithSettings} from '@dg-data-viz/wp-commons'
+import {BlockEditWithAPIMetadata, ComponentWithSettings} from '@devgateway/dvz-wp-commons'
 
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'

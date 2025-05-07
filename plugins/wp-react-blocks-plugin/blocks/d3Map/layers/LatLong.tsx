@@ -14,9 +14,9 @@ import { PanelColorSettings } from "@wordpress/block-editor";
 import BreaksGenerator from "./utils/BreaksGenerator";
 import isEqual from 'lodash.isequal';
 import { FilterSelectorProps, CategoricalFilterProps } from "./utils/types";
-import { Application, Measures } from "@dg-data-viz/wp-commons";
-import { Category } from "@dg-data-viz/wp-commons";
-import { Dimension, Filter, Measure, isSupersetAPI } from "@dg-data-viz/wp-commons";
+import { Application, Measures } from "@devgateway/dvz-wp-commons";
+import { Category } from "@devgateway/dvz-wp-commons";
+import { Dimension, Filter, Measure, isSupersetAPI } from "@devgateway/dvz-wp-commons";
 
 const compareJsonProps = (p1: Record<string, any>, p2: Record<string, any>) => {
     return isEqual(p1, p2);

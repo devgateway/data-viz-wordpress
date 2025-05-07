@@ -2,7 +2,7 @@ import { InspectorControls, useBlockProps} from '@wordpress/block-editor'
 import { Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl} from '@wordpress/components'
 import { PanelColorSettings } from '@wordpress/block-editor'
 import { __ } from '@wordpress/i18n'
-import { BlockEditWithAPIMetadata } from '@dg-data-viz/wp-commons'
+import { BlockEditWithAPIMetadata } from '@devgateway/dvz-wp-commons'
 import APIConfig from "./APIConfig"
 import MapCSVSourceConfig from "../commons/MapCSVSourceConfig"
 import LegendBreaks from "./LegendBreaks"

@@ -1,7 +1,7 @@
 import React from 'react';
 import {PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ChartColors, ChartLegends, Format } from '@dg-data-viz/wp-commons';
+import {ChartColors, ChartLegends, Format } from '@devgateway/dvz-wp-commons';
 import AxisConfig from '../config/AxisConfig';
 import Labels from "./Labels";
 import Papa from 'papaparse'

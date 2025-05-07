@@ -15,7 +15,7 @@ import {
   getSelectedItemsForApp,
   getSelectedLabelsForApp,
   updateMeasureLabels
-} from "@dg-data-viz/wp-commons";
+} from "@devgateway/dvz-wp-commons";
 import { IntervalsSectionProps, MarginSectionProps, MobileConfigProps, PaddingSectionProps, TitleSectionProps } from "./types";
 
 // TODO: Find the types for the props

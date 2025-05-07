@@ -2,7 +2,7 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@dg-data-viz/wp-commons';
+import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons';
 
 registerBlockType(BLOCKS_NS + '/tabbed-posts',
     {

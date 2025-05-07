@@ -12,11 +12,11 @@ import {
     TextareaControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '@dg-data-viz/wp-commons'
+import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
 import CSVSourceConfig from "../commons/CSVSourceConfig";
 import {togglePanel} from "../commons/Util";
 import Measures from "../commons/Measures";
-import DataFilters from "@dg-data-viz/wp-commons";
+import DataFilters from "@devgateway/dvz-wp-commons";
 import {isSupersetAPI} from "../commons/APIutils";
 import Format from "../charts/Format.jsx";
 

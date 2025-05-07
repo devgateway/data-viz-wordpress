@@ -32,7 +32,7 @@
     "start": "wp-scripts start"
   },
   "dependencies": {
-    "@dg-data-viz/wp-commons": "workspace:*",
+    "@devgateway/dvz-wp-commons": "workspace:*",
     "@types/react": "18",
     "@wordpress/api-fetch": "^7.22.0",
     "@wordpress/block-editor": "^14.17.0",

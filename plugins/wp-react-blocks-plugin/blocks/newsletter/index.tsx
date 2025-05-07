@@ -9,8 +9,8 @@ import {
     withColors
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
-import { BlockEditWithFilters, BlockEditWithFiltersState } from "@dg-data-viz/wp-commons";
-import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@dg-data-viz/wp-commons';
+import { BlockEditWithFilters, BlockEditWithFiltersState } from "@devgateway/dvz-wp-commons";
+import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@devgateway/dvz-wp-commons';
 import { NewsletterBlockProps } from './type';
 
 const EditComponent = (props: NewsletterBlockProps) => {
