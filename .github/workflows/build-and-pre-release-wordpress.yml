@@ -5,6 +5,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - ".changeset/**"
+      - "package.json"
+      - ".github/**"
 
 permissions:
   contents: write
