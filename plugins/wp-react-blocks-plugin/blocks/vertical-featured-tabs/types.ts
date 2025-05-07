@@ -1,4 +1,4 @@
-import { Categories, ComponentWithSettingsProps } from "@dg-data-viz/wp-commons";
+import { Categories, ComponentWithSettingsProps } from "@devgateway/dvz-wp-commons";
 
 export interface VerticalFeaturedTabsAttributes {
     count: number;

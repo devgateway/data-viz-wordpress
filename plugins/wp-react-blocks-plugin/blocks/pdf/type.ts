@@ -1,4 +1,4 @@
-import { ComponentWithSettingsProps, ComponentWithSettingsState, SearchResults, Wp_Types } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettingsProps, ComponentWithSettingsState, SearchResults, Wp_Types } from "@devgateway/dvz-wp-commons";
 
 export interface ***REMOVED*** {
     url: string;

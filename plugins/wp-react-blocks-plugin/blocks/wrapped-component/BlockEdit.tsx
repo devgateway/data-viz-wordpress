@@ -4,7 +4,7 @@ import {
     Panel, PanelBody, PanelRow, TextControl, SelectControl, Icon, Button, ButtonGroup, ResizableBox
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState} from '@dg-data-viz/wp-commons';
+import {BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState} from '@devgateway/dvz-wp-commons';
 import { WrappedComponentProps } from './types';
 
 class BlockEdit extends BlockEditWithAPIMetadata<WrappedComponentProps, BlockEditWithAPIMetadataState> {

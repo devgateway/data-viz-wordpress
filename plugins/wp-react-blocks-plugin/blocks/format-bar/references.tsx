@@ -9,7 +9,7 @@ import {
     slice,
     useAnchorRef
 } from '@wordpress/rich-text';
-import { BLOCKS_NS, GenericIcon, BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, BLOCKS_CATEGORY } from '@dg-data-viz/wp-commons';
+import { BLOCKS_NS, GenericIcon, BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons';
 import {***REMOVED***} from '@wordpress/blocks';
 import {***REMOVED***, RichTextToolbarButton} from '@wordpress/block-editor';
 import {speak} from '@wordpress/a11y';

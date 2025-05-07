@@ -1,4 +1,4 @@
-import { Media } from '@dg-data-viz/wp-commons';
+import { Media } from '@devgateway/dvz-wp-commons';
 import apiFetch from '@wordpress/api-fetch';
 
 export const getJsonFiles = () => {

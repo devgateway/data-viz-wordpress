@@ -1,4 +1,4 @@
-import { Category, Dimension, Measure } from "@dg-data-viz/wp-commons";
+import { Category, Dimension, Measure } from "@devgateway/dvz-wp-commons";
 
 export interface MobileConfigSectionProps<T> {
     setAttributes: (attributes: any) => void;

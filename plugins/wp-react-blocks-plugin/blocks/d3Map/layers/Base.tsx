@@ -22,7 +22,7 @@ import {
     togglePanel,
     isSupersetAPI,
     ***REMOVED***,
-} from "@dg-data-viz/wp-commons";
+} from "@devgateway/dvz-wp-commons";
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
 

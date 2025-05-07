@@ -2,7 +2,7 @@ import {***REMOVED***} from '@wordpress/blocks';
 import EditComponent from './BlockEdit';
 import SaveComponent from './BlockSave';
 import { __ } from '@wordpress/i18n';
-import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@dg-data-viz/wp-commons';
+import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@devgateway/dvz-wp-commons';
 
 ***REMOVED***(BLOCKS_NS + '/page-gallery',
     {

@@ -9,8 +9,8 @@ import {
     withColors
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
-import { ***REMOVED***, BlockEditWithFiltersState } from "@dg-data-viz/wp-commons";
-import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@dg-data-viz/wp-commons';
+import { ***REMOVED***, BlockEditWithFiltersState } from "@devgateway/dvz-wp-commons";
+import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@devgateway/dvz-wp-commons';
 import { ***REMOVED*** } from './type';
 
 const EditComponent = (props: ***REMOVED***) => {

@@ -22,7 +22,7 @@ import {
     Filter,
     Measure,
     Format
-} from '@dg-data-viz/wp-commons'
+} from '@devgateway/dvz-wp-commons'
 
 
 interface ***REMOVED*** {

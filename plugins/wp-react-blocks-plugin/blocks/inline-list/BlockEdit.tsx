@@ -3,7 +3,7 @@ import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
 import { FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import {  ***REMOVED*** } from './types';
-import { ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
+import { ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends ***REMOVED***<***REMOVED***, BlockEditWithFiltersState> {
     constructor(props: ***REMOVED***) {

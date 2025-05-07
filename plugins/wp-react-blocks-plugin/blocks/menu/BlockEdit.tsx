@@ -13,7 +13,7 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { Menu, ComponentWithSettings, ComponentWithSettingsState } from '@dg-data-viz/wp-commons';
+import { Menu, ComponentWithSettings, ComponentWithSettingsState } from '@devgateway/dvz-wp-commons';
 import { ***REMOVED***, ***REMOVED*** } from './types';
 
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
