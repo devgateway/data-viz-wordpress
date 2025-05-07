@@ -4,8 +4,8 @@ import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
 import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-import {***REMOVED***} from '@dg-data-viz/wp-commons.js'
-import {SizeConfig} from '@dg-data-viz/wp-commons'
+import {***REMOVED***} from '@devgateway/dvz-wp-commons.js'
+import {SizeConfig} from '@devgateway/dvz-wp-commons'
 
 
 class BlockEdit extends ***REMOVED*** {

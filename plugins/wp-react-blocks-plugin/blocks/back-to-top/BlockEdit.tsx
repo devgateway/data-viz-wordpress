@@ -7,7 +7,7 @@ import {
     TextControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettings } from "@devgateway/dvz-wp-commons";
 import {***REMOVED***} from '@wordpress/block-editor';
 
 interface ***REMOVED*** {

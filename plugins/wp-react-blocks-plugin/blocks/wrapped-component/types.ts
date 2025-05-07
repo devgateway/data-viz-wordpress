@@ -1,4 +1,4 @@
-import { BlockEditWithAPIMetadataProps } from "@dg-data-viz/wp-commons";
+import { BlockEditWithAPIMetadataProps } from "@devgateway/dvz-wp-commons";
 
 export interface WrappedComponentAttributes {
     name: string;

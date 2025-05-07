@@ -15,7 +15,7 @@ import {
   getSelectedItemsForApp,
   getSelectedLabelsForApp,
   ***REMOVED***
-} from "@dg-data-viz/wp-commons";
+} from "@devgateway/dvz-wp-commons";
 import { IntervalsSectionProps, ***REMOVED***, ***REMOVED***, ***REMOVED***, ***REMOVED*** } from "./types";
 
 // TODO: Find the types for the props

@@ -15,7 +15,7 @@ import {
     TextControl
 } from '@wordpress/components'
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@dg-data-viz/wp-commons';
+import { ***REMOVED***, BlockEditWithFiltersState, SizeConfig } from '@devgateway/dvz-wp-commons';
 import apiFetch from '@wordpress/api-fetch';
 import { NewTimeLineAttributes, ***REMOVED*** } from "./types";
 import { NewTimeLineBlockProps } from "./types";

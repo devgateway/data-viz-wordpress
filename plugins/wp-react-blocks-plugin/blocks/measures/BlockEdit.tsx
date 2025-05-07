@@ -12,7 +12,7 @@ import {
     ***REMOVED***
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, Format, Group, Measure } from '@dg-data-viz/wp-commons';
+import { BlockEditWithAPIMetadata, BlockEditWithAPIMetadataState, Format, Group, Measure } from '@devgateway/dvz-wp-commons';
 import { v4 as uuidv4 } from "uuid";
 import { ***REMOVED*** } from './types';
 

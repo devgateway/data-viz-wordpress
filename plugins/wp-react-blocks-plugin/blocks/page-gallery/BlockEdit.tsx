@@ -2,7 +2,7 @@ import React from 'react';
 import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, RangeControl, ResizableBox } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED***, BlockEditWithFiltersState } from '@dg-data-viz/wp-commons';
+import { ***REMOVED***, BlockEditWithFiltersState } from '@devgateway/dvz-wp-commons';
 import { PageGalleryBlockProps } from './types';
 
 const EditComponent = (props: PageGalleryBlockProps) => {

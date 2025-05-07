@@ -15,7 +15,7 @@ import {
     ToggleControl
 } from '@wordpress/components'
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, SizeConfig, Post, BlockEditWithFiltersState } from "@dg-data-viz/wp-commons";
+import {***REMOVED***, SizeConfig, Post, BlockEditWithFiltersState } from "@devgateway/dvz-wp-commons";
 import apiFetch from '@wordpress/api-fetch';
 import { ***REMOVED*** } from './type';
 import { ***REMOVED*** } from '../new-time-line/types';

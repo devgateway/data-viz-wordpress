@@ -1,4 +1,4 @@
-import { ComponentWithSettingsState, Menu } from "@dg-data-viz/wp-commons";
+import { ComponentWithSettingsState, Menu } from "@devgateway/dvz-wp-commons";
 import { ***REMOVED*** } from "@wordpress/blocks";
 
 export interface ***REMOVED*** {
