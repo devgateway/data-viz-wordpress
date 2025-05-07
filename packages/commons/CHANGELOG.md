@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.0.5
+
+### Patch Changes
+
+- [`7b045c3`](https://github.com/devgateway/data-viz-wordpress/commit/7b045c3b73f5492d439a713138716e9891a50e53) Thanks [@timothygachengo](https://github.com/timothygachengo)! - chore(DVIZ-32): update Node.js setup and refine workflow caching. Remove publish command in the commons package to prevent double releases
+
 ## 1.0.4
 
 ### Patch Changes
