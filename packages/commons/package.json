@@ -53,9 +53,7 @@
     "build": "tsc -b",
     "format:js": "wp-scripts format-js",
     "lint:js": "wp-scripts lint-js",
-    "start": "tsc -w",
-    "publish": "pnpm build && pnpm publish",
-    "ci:publish": "pnpm publish"
+    "start": "tsc -w"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.22.0",
