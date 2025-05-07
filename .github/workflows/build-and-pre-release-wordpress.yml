@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - ".changeset/**"
       - "package.json"
+      - ".github/**"
 
 permissions:
   contents: write
