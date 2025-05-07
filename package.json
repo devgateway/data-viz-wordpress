@@ -19,5 +19,8 @@
   ],
   "author": "Development Gateway",
   "license": "MIT",
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.3"
+  }
 }
