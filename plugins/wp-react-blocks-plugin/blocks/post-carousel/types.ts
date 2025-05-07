@@ -1,4 +1,4 @@
-import { BlockEditWithFiltersProps } from "@dg-data-viz/wp-commons";
+import { BlockEditWithFiltersProps } from "@devgateway/dvz-wp-commons";
 
 export interface PostCarouselAttributes {
     count,

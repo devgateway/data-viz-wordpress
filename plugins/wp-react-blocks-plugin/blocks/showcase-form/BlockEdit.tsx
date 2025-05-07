@@ -7,7 +7,7 @@ import {
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
 import { ShowcaseFormBlockProps } from './types';
-import { BlockEditWithFiltersState, BlockEditWithFilters } from '@dg-data-viz/wp-commons';
+import { BlockEditWithFiltersState, BlockEditWithFilters } from '@devgateway/dvz-wp-commons';
 
 
 class EditComponent extends BlockEditWithFilters<ShowcaseFormBlockProps, BlockEditWithFiltersState> {

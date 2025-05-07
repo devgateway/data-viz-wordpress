@@ -20,8 +20,8 @@ import {
     ChartLegends,
     DataFilters,
     getTranslation
-} from '@dg-data-viz/wp-commons';
-import {categorical, sequential, diverging} from "@dg-data-viz/wp-commons";
+} from '@devgateway/dvz-wp-commons';
+import {categorical, sequential, diverging} from "@devgateway/dvz-wp-commons";
 import Papa from "papaparse";
 
 

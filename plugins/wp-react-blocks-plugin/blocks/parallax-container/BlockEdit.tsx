@@ -10,7 +10,7 @@ import {
     ToggleControl
 } from '@wordpress/components'
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters, Post, SizeConfig } from '@dg-data-viz/wp-commons';
+import {BlockEditWithFilters, Post, SizeConfig } from '@devgateway/dvz-wp-commons';
 import apiFetch from '@wordpress/api-fetch';
 import { ParallaxContainerBlockProps, ParallaxContainerBlockState, ParallaxContainerConfiguration } from './types';
 

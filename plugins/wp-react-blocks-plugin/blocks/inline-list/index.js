@@ -2,7 +2,7 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { BLOCKS_NS, BLOCKS_CATEGORY, GenericIcon } from '@dg-data-viz/wp-commons';
+import { BLOCKS_NS, BLOCKS_CATEGORY, GenericIcon } from '@devgateway/dvz-wp-commons';
 
 registerBlockType(`${BLOCKS_NS}/inline-list`,
     {

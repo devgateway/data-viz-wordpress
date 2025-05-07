@@ -14,7 +14,7 @@ import {
 import Measures from './utils/MapMeasures'
 import Property from "./utils/Property";
 import BreaksGenerator from "./utils/BreaksGenerator";
-import {Application, Category, Dimension, Filter, Format, isSupersetAPI, Measure} from "@dg-data-viz/wp-commons";
+import {Application, Category, Dimension, Filter, Format, isSupersetAPI, Measure} from "@devgateway/dvz-wp-commons";
 import {PanelColorSettings} from "@wordpress/block-editor";
 import { FilterSelectorProps, CategoricalFilterProps } from "./utils/types";
 

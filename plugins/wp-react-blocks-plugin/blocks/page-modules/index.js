@@ -1,6 +1,6 @@
 import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
-import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from '@dg-data-viz/wp-commons';
+import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from '@devgateway/dvz-wp-commons';
 import Edit from './BlockEdit';
 import SaveComponent from './BlockSave';
 

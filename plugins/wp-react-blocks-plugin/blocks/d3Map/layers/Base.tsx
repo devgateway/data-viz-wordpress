@@ -22,7 +22,7 @@ import {
     togglePanel,
     isSupersetAPI,
     EurekaResponse,
-} from "@dg-data-viz/wp-commons";
+} from "@devgateway/dvz-wp-commons";
 import Property from "./utils/Property";
 import {PanelColorSettings} from "@wordpress/block-editor";
 

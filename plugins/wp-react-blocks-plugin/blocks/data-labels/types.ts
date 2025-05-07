@@ -1,4 +1,4 @@
-import { Filter, Measure } from "@dg-data-viz/wp-commons";
+import { Filter, Measure } from "@devgateway/dvz-wp-commons";
 
 export interface DataLabelsAttributes {
     group: string;

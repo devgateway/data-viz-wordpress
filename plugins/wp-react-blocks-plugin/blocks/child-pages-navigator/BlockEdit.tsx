@@ -4,7 +4,7 @@ import { Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, 
 
 import { __ } from '@wordpress/i18n';
 
-import { BlockEditWithAPIMetadata, ComponentWithSettings } from '@dg-data-viz/wp-commons'
+import { BlockEditWithAPIMetadata, ComponentWithSettings } from '@devgateway/dvz-wp-commons'
 import { ChildPagesNavigatorProps } from './types';
 
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'

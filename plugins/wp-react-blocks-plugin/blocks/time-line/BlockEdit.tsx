@@ -15,7 +15,7 @@ import {
     ToggleControl
 } from '@wordpress/components'
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters, SizeConfig, Post, BlockEditWithFiltersState } from "@dg-data-viz/wp-commons";
+import {BlockEditWithFilters, SizeConfig, Post, BlockEditWithFiltersState } from "@devgateway/dvz-wp-commons";
 import apiFetch from '@wordpress/api-fetch';
 import { TimeLineBlockProps } from './type';
 import { NewTimeLineConfig } from '../new-time-line/types';
