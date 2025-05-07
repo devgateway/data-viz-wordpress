@@ -1,5 +1,6 @@
 {
     "$schema": "https://json.schemastore.org/semantic-release.json",
+    "extends": ["semantic-release-monorepo"],
     "branches": [
         "main",
         "release/v2",
@@ -13,13 +14,6 @@
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",
         "@semantic-release/changelog",
-        "@semantic-release/github",
-        [
-            "@semantic-release/exec",
-            {
-              "prepareCmd": "pnpm version ${nextRelease.version} --git-tag-version=false",
-              "publishCmd": "pnpm publish --no-git-checks"
-            }
-          ]
+        "@semantic-release/github"
     ]
 }
