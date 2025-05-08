@@ -1,29 +1,29 @@
 <?php
 /**
- * Plugin Name: React Components
- * Plugin URI: https://github.com/devgateway/wp-rteact-lib
- * Description: Custom UI Components for viz.
- * Version: 0.1.2
- * Author: Sebastian Dimunzio
+ * Plugin Name: Custom React Components
+ * Plugin URI: https://github.com/devgateway/data-viz-wordpress.git
+ * Description: Custom UI Components for data viz. These components are project specific.
+ * Version: 1.0.0
+ * Author: Timothy Mugo
   * @package dg
  */
 defined( 'ABSPATH' ) || exit;
 
-function add_custom_block_categories( $categories, $post ) {
+function add_customizer_block_categories( $categories, $post ) {
 	return array_merge(
 		$categories,
 		array(
 			array(
-				'slug' => 'wp-react-lib-blocks',
-				'title' => __( 'React Blocks', 'wp-react-lib-blocks' ),
+				'slug' => 'wp-customizer-react-blocks',
+				'title' => __( 'Customizer React Blocks', 'wp-customizer-react-blocks' ),
 			),
 		)
 	);
 }
-add_filter( 'block_categories', 'add_custom_block_categories', 10, 2);
+add_filter( 'block_categories', 'add_customizer_block_categories', 10, 2);
 
 
-function register_scripts(){
+function wp_customizer_register_scripts(){
 wp_register_script( 'dummy-handle-header2', '' );
 
 
@@ -37,14 +37,16 @@ wp_enqueue_script( 'dummy-handle-header2' );
                 window._page_locale="'.wpm_get_language().'" ;' );
             }else{
              wp_add_inline_script( 'dummy-handle-header2', '
-                console.log("---------- en ----------") ;
-                console.log("---------- en ----------") ;
                 window._user_locale="en" ;
                 window._page_locale="en" ;' );
 
             }
 
 }
-add_action( 'admin_enqueue_scripts', 'register_scripts' );
+add_action( 'admin_enqueue_scripts', 'wp_customizer_register_scripts' );
+
+
+
 
 include 'blocks/index.php';
+
