@@ -2,7 +2,7 @@
   "name": "template-js",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build",
     "format:js": "wp-scripts format-js",
