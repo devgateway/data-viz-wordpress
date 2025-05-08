@@ -1,4 +1,4 @@
-name: Release Commons Library
+name: Release NPM Packages
 
 
 on:
@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - "packages/commons/**"
+      - "packages/create-wp-customizer/**"
       - ".changeset/**"
       - "package.json"
     branches:
