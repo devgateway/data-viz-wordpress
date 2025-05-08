@@ -22,7 +22,7 @@ permissions:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release-commons-library:
+  release-packages:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -48,8 +48,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
-        working-directory: packages/commons
+      - name: Build packages
         run: pnpm build
 
 
