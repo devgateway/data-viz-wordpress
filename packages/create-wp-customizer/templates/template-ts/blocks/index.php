@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
  * Load all translations for our plugin from the MO file.
 */
 
-function wp_customizer_react_lib_init() {
+function wp_customizer_init() {
 
 
 
@@ -37,7 +37,7 @@ function wp_customizer_react_lib_init() {
             filemtime( plugin_dir_path( __FILE__ ) . 'style.css' )
         );
 
-        register_block_type( 'wp-react-lib/wp-react-lib-blocks', array(
+        register_block_type('wp-react-lib/wp-customizer-blocks', array(
             'editor_script' => 'wp-customizer-block-editor-js',
             'editor_style'  => 'wp-customizer-block-editor-css',
             'style'  => 'wp-customizer-block-block-styles'
@@ -54,4 +54,4 @@ function wp_customizer_react_lib_init() {
 }
 
 
-add_action( 'init', 'wp_react_lib_init');
+add_action( 'init', 'wp_customizer_init');
