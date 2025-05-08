@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'node:url';
 import mri from 'mri';
 import colors from 'picocolors';
-import * as prompts from '@clack/prompts'
+import * as prompts from '@clack/prompts';
 
 const {
   blue,
@@ -47,44 +47,55 @@ function isEmpty(path: string) {
 const template = argv.template || 'template-js';
 
 const main = async () => {
+  try {
+    const help = argv.help
+    if (help) {
+      console.log(helpMessage)
+      return
+    }
 
-  const help = argv.help
-  if (help) {
-    console.log(helpMessage)
-    return
+    const cancel = () => {
+      console.log(yellow('Operation cancelled.'));
+      process.exit(0);
+    }
+
+    const result = await prompts.select({
+      message: 'Select a template',
+      options: [
+        { value: 'template-js', label: 'template-js' },
+        { value: 'template-ts', label: 'template-ts' },
+      ],
+      initialValue: template
+    });
+
+    if (prompts.isCancel(result)) {
+      cancel();
+    }
+
+    const templatePath = path.join(__dirname, '..', 'templates', result.toString());
+
+    const projectName = await prompts.text({
+      message: 'Enter the project name',
+      defaultValue: argv.name,
+    })
+
+    if (prompts.isCancel(projectName)) {
+      cancel();
+    }
+
+    const projectPath = path.join(cwd, projectName.toString());
+
+    if (fs.existsSync(projectPath)) {
+      cancel()
+    }
+
+    fs.cpSync(templatePath, projectPath, { recursive: true });
+
+    console.log(`Project ${greenBright(projectName.toString())} created successfully`);
+  } catch (error) {
+    console.error(yellow('An error occurred:'), error instanceof Error ? error.message : error);
+    process.exit(1);
   }
-
-  const cancel = () => prompts.cancel('Operation cancelled')
-
-  const result = await prompts.select({
-    message: 'Select a template',
-    options: [
-      { value: 'template-js', label: 'template-js' },
-      { value: 'template-ts', label: 'template-ts' },
-    ],
-    initialValue: template
-  });
-
-  const templatePath = path.join(__dirname, '..', 'templates', result.toString());
-
-  if (!isEmpty(templatePath)) {
-    cancel()
-  }
-
-  const projectName = await prompts.text({
-    message: 'Enter the project name',
-    defaultValue: argv.name,
-  })
-
-  const projectPath = path.join(cwd, projectName.toString());
-
-  if (fs.existsSync(projectPath)) {
-    cancel()
-  }
-
-  fs.cpSync(templatePath, projectPath, { recursive: true });
-
-  console.log(`Project ${greenBright(projectName.toString())} created successfully`);
 }
 
 main()
