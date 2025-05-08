@@ -3,8 +3,8 @@ wp-content/debug.log
 wp-content/uploads
 node_modules/
 .git
-dist/
+dist
 build/
-
+packages/create-wp-customizer/
 # Log files
 *.log

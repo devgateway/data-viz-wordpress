@@ -47,8 +47,4 @@ wp_enqueue_script( 'dummy-handle-header2' );
 }
 add_action( 'admin_enqueue_scripts', 'register_scripts' );
 
-
-
-
 include 'blocks/index.php';
-
