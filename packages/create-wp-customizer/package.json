@@ -1,0 +1,46 @@
+{
+  "name": "@devgateway/create-wp-customizer",
+  "version": "1.0.0",
+  "description": "Create a new Data Viz WordPress Customizer project",
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "index.js",
+    "dist",
+    "templates/*"
+  ],
+  "scripts": {
+    "build": "unbuild --minify",
+    "dev": "unbuild --watch",
+    "typecheck": "tsc --noEmit",
+    "link:package": "pnpm build && pnpm link --global"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bin": {
+    "create-wp-customizer": "./index.js"
+  },
+  "***REMOVED***": {
+    "@clack/prompts": "^0.10.1",
+    "@types/cross-spawn": "^6.0.6",
+    "@types/node": "^22.15.16",
+    "cross-spawn": "^7.0.6",
+    "mri": "^1.2.0",
+    "picocolors": "^1.1.1",
+    "typescript": "^5.8.3",
+    "unbuild": "^3.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:devgateway/data-viz-wordpress.git",
+    "directory": "packages/create-wp-customizer"
+  },
+  "bugs": {
+    "url": "https://github.com/devgateway/data-viz-wordpress/issues"
+  },
+  "homepage": "https://github.com/devgateway/data-viz-wordpress/tree/main/packages/create-wp-customizer#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}
