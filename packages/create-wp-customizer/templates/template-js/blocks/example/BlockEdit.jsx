@@ -8,7 +8,7 @@ const BlockEdit = (props) => {
     <div {...useBlockProps()}>
         <InspectorControls>
             <PanelBody title={__('Example Block', 'wp-customizer-react-blocks')} initialOpen={true}>
-                <TextControl label={__('Text', 'wp-customizer-react-blocks')} value={props.attributes.text} onChange={props.setAttributes.bind(this)} />
+                <TextControl label={__('Text', 'wp-customizer-react-blocks')} value={props.attributes.text} onChange={(newText) => props.setAttributes({ text: newText })} />
             </PanelBody>
         </InspectorControls>
     </div>
