@@ -34,7 +34,7 @@ COPY wp-theme wp-content/themes/dg-semantic
 
 # Create a tarball of the wp-content directory
 RUN chown -R 82:82 wp-content \
-  && tar -caf /wp-content.tgz wp-content
+  && tar -caf /wp-content.tgz --exclude="**/node_modules" wp-content
 
 FROM wordpress:6.8.0-fpm-alpine AS runtime
 COPY ./custom/custom.ini /usr/local/etc/php/conf.d/
