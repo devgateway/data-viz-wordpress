@@ -1,0 +1,45 @@
+{
+  "name": "@devgateway/upgrade-wp-customizer",
+  "version": "1.0.0",
+  "description": "Upgrade a WordPress Customizer project",
+  "main": "index.js",
+  "type": "module",
+  "keywords": [
+    "wordpress",
+    "customizer",
+    "upgrade",
+    "devgateway"
+  ],
+  "files": [
+    "index.js",
+    "dist",
+    "templates",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devgateway/data-viz-wordpress.git",
+    "directory": "packages/upgrade-wp-customizer"
+  },
+  "homepage": "https://github.com/devgateway/data-viz-wordpress/tree/main/packages/upgrade-wp-customizer#readme",
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --watch",
+    "typecheck": "tsc --noEmit",
+    "link:package": "pnpm build && pnpm link --global"
+  },
+  "bin": "./index.js",
+  "author": "Timothy Mugo",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "***REMOVED***": {
+    "@babel/parser": "^7.27.2",
+    "@clack/prompts": "^0.10.1",
+    "@types/node": "^22.15.16",
+    "picocolors": "^1.1.1",
+    "typescript": "^5.8.3",
+    "unbuild": "^3.5.0"
+  }
+}

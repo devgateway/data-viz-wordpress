@@ -1,5 +1,5 @@
 {
-  "name": "wp-customizer-react-blocks",
+  "name": "wp-customizer-blocks",
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
@@ -10,9 +10,13 @@
     "packages-update": "wp-scripts packages-update",
     "start": "wp-scripts start"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "wordpress",
+    "customizer",
+    "blocks"
+  ],
+  "author": "DevGateway",
+  "license": "MIT",
   "dependencies": {
     "@wordpress/a11y": "^4.22.0",
     "@wordpress/api-fetch": "^7.22.0",
