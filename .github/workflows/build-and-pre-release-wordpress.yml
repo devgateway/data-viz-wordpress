@@ -9,7 +9,8 @@ on:
       - ".changeset/**"
       - "package.json"
       - ".github/**"
-      - "packages/create-wp-customizer/**"
+      - "packages/**"
+      - "!packages/commons/**"
 
 permissions:
   contents: write
