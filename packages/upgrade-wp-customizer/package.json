@@ -6,7 +6,8 @@
   "type": "module",
   "files": [
     "index.js",
-    "dist"
+    "dist",
+    "templates"
   ],
   "scripts": {
     "build": "unbuild",
@@ -27,5 +28,8 @@
     "picocolors": "^1.1.1",
     "typescript": "^5.8.3",
     "unbuild": "^3.5.0"
+  },
+  "dependencies": {
+    "@devgateway/dvz-wp-commons": "^1.0.5"
   }
 }
