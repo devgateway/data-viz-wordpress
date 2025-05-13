@@ -1,5 +1,11 @@
 # @devgateway/upgrade-wp-customizer
 
+## 1.0.1
+
+### Patch Changes
+
+- [#23](https://github.com/devgateway/data-viz-wordpress/pull/23) [`599ef82`](https://github.com/devgateway/data-viz-wordpress/commit/599ef8241283219e1e31e2f641acca035fbb7e9f) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - Fix file path in npm assets
+
 ## 1.0.0
 
 ### Patch Changes
