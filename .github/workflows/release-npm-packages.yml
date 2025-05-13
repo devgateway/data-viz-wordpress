@@ -5,8 +5,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "packages/commons/**"
-      - "packages/create-wp-customizer/**"
+      - "packages/**"
       - ".changeset/**"
       - "package.json"
     branches:
