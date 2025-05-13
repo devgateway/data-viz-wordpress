@@ -184,6 +184,12 @@ function ***REMOVED***(src: string, dest: string, ***REMOVED*** = false) {
   for (const entry of entries) {
     // Skip node_modules, .git, and other system folders
     if (entry.name === 'node_modules' || entry.name === '.git') continue;
+    if (entry.name === '_gitignore') {
+      const srcPath = path.join(src, entry.name);
+      const destPath = path.join(dest, '.gitignore');
+      fs.renameSync(srcPath, destPath);
+      continue;
+    }
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
     if (entry.isDirectory()) {
@@ -219,6 +225,22 @@ function migrateBlocksIndexRequiresToImports(blocksDir: string) {
       // Replace require('./...') or require("./...") with import './...'
       content = content.replace(/require\((['"])(\.\/[^'"]+)\1\)/g, 'import $1$2$1');
       fs.writeFileSync(filePath, content, 'utf8');
+    }
+  }
+}
+
+function deleteUnusedFilesInRoot(rootDir: string) {
+  const entries = [
+    "Dockerfile",
+    "compile.txt"
+  ]
+
+  for (const entry of entries) {
+    const fullPath = path.join(rootDir, entry);
+    if (fs.statSync(fullPath).isDirectory()) {
+      deleteUnusedFilesInRoot(fullPath);
+    } else {
+      fs.rmSync(fullPath);
     }
   }
 }
@@ -267,9 +289,21 @@ async function main() {
   const templateDir = path.resolve(__dirname, '../template');
   ***REMOVED***(templateDir, DEFAULT_SRC);
 
-  // Migrate blocks/index.js and blocks/index.jsx requires to imports
+  // Rename _gitignore to .gitignore in blocks directory if it exists
   const blocksDir = path.join(DEFAULT_SRC, 'blocks');
+
+  // Migrate blocks/index.js and blocks/index.jsx requires to imports
   migrateBlocksIndexRequiresToImports(blocksDir);
+
+  // Rename blocks/index.jsx to blocks/index.js if it exists
+  const indexJsxPath = path.join(blocksDir, 'index.jsx');
+  const indexJsPath = path.join(blocksDir, 'index.js');
+  if (fs.existsSync(indexJsxPath)) {
+    fs.renameSync(indexJsxPath, indexJsPath);
+  }
+
+  // Delete unused files in root
+  deleteUnusedFilesInRoot(DEFAULT_SRC);
 
   ***REMOVED***(DEFAULT_SRC);
   outro(green(`Migration complete. Files updated in: ${DEFAULT_SRC}`));
@@ -309,7 +343,7 @@ async function main() {
       outro(red('Failed to install dependencies in blocks directory. Please run the install command manually inside the blocks directory.'));
     }
   } else {
-    outro('Skipped dependency installation. Please install dependencies and @devgateway/dvz-wp-commons manually in the blocks directory.');
+    outro(yellow('Skipped dependency installation. Please install dependencies and @devgateway/dvz-wp-commons manually in the blocks directory.'));
   }
 }
 
