@@ -1,0 +1,31 @@
+{
+  "name": "@devgateway/upgrade-wp-customizer",
+  "version": "1.0.0",
+  "description": "Upgrade a WordPress Customizer project",
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --watch",
+    "typecheck": "tsc --noEmit",
+    "link:package": "pnpm build && pnpm link --global"
+  },
+  "bin": {
+    "upgrade-wp-customizer": "./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "***REMOVED***": {
+    "@babel/parser": "^7.27.2",
+    "@clack/prompts": "^0.10.1",
+    "@types/node": "^22.15.16",
+    "picocolors": "^1.1.1",
+    "typescript": "^5.8.3",
+    "unbuild": "^3.5.0"
+  }
+}
