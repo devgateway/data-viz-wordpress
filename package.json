@@ -20,7 +20,8 @@
     "wordpress",
     "data-viz",
     "data-viz-wordpress",
-    "dg-data-viz"
+    "dg-data-viz",
+    "devgateway"
   ],
   "author": "Development Gateway",
   "license": "MIT",
