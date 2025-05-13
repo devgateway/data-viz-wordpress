@@ -1,5 +1,11 @@
 # @devgateway/create-wp-customizer
 
+## 1.0.2
+
+### Patch Changes
+
+- [#25](https://github.com/devgateway/data-viz-wordpress/pull/25) [`26f4520`](https://github.com/devgateway/data-viz-wordpress/commit/26f45202fbab8047fc6a9eadaab0d9ed6e5f0822) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - Update Default Templates
+
 ## 1.0.1
 
 ### Patch Changes
