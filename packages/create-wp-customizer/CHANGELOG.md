@@ -1,5 +1,12 @@
 # @devgateway/create-wp-customizer
 
+## 1.0.1
+
+### Patch Changes
+
+- [#18](https://github.com/devgateway/data-viz-wordpress/pull/18) [`e9d753d`](https://github.com/devgateway/data-viz-wordpress/commit/e9d753d7f2a589a998b789a6a2805b0a516da64d) Thanks [@***REMOVED***](https://github.com/***REMOVED***)!
+  - Fix typescript output for `@devgateway/create-wp-customizer`
+
 ## 1.0.0
 
 ### Patch Changes
