@@ -3,8 +3,7 @@ import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor'
 import { Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl } from '@wordpress/components'
 import { ***REMOVED*** } from '@wordpress/block-editor'
 import { __ } from '@wordpress/i18n';
-import { BlockEditWithAPIMetadata, ***REMOVED***, Media, Taxonomy, isSupersetAPI } from '@devgateway/dvz-wp-commons';
-import APIConfig from "./APIConfig"
+import { BlockEditWithAPIMetadata, ***REMOVED***, Media, Taxonomy, isSupersetAPI, APIConfig } from '@devgateway/dvz-wp-commons';
 import LegendBreaks from "./LegendBreaks"
 import MapSymbols from "./Symbols"
 import Tooltips from "./Tooltips"
@@ -511,14 +510,16 @@ class BlockEdit extends BlockEditWithAPIMetadata<MapBlockProps, MapBlockState> {
 
                 </PanelBody>
                 {app != 'csv' &&
+                //
                     <APIConfig
                         {...this.props}
                         setAttributes={setAttributes}
+                        // @ts-ignore TODO: fix this
                         attributes={{
                             ...this.props.attributes,
                             categories: [],
                             types: [],
-                            type: ''
+                            type: '',
                         }}
                         allDimensions={this.state.dimensions || []}
                         allFilters={this.state.filters || []}
