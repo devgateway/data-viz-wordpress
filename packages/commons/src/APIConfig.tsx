@@ -489,5 +489,3 @@ export class APIConfig extends Component<APIConfigProps> {
     ];
   }
 }
-
-export default APIConfig;
