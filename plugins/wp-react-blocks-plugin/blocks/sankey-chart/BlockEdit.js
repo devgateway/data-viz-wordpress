@@ -274,8 +274,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         }
 
                         {app == 'csv' &&
-                        <CSVSourceConfig {...this.props}>
-                        </CSVSourceConfig>}
+                        <CSVConfig {...this.props}>
+                        </CSVConfig>}
 
                         <PanelBody initialOpen={false} title={__("Options")}>
                             <PanelBody initialOpen={false} title={__("Layout")}>
