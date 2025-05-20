@@ -57,7 +57,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
         super.***REMOVED***(prevProps, prevState, snapshot);
     }
-    
+
 
     render() {
         console.log("apps", this.state.apps)
@@ -322,7 +322,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     })
                                                 })
                                                 setAttributes({
-                                                    app: app                                                   
+                                                    app: app
                                                 })
 
                                             }}
@@ -360,7 +360,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                                       </PanelRow>
                                     }
-                                  
+
                                 </PanelBody>
                                 {app != 'csv' && <APIConfig
                                     allDimensions={this.state.dimensions}
@@ -371,8 +371,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     {...this.props}>
                                 </APIConfig>}
                                 {app == 'csv' &&
-                                    <***REMOVED*** {...this.props}>
-                                    </***REMOVED***>}
+                                    <CSVConfig {...this.props}>
+                                    </CSVConfig>}
 
 
                                 {type === "bar" && <Bar {...this.props}
