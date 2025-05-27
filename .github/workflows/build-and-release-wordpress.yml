@@ -30,11 +30,11 @@ jobs:
           dry_run: "true"
 
   build-and-push-docker-image:
-    needs: prepare-a-pre-release
+    needs: prepare-a-release
     runs-on: ubuntu-latest
     outputs:
-      new_version: ${{ needs.prepare-a-pre-release.outputs.new_version }}
-      new_tag: ${{ needs.prepare-a-pre-release.outputs.new_tag }}
+      new_version: ${{ needs.prepare-a-release.outputs.new_version }}
+      new_tag: ${{ needs.prepare-a-release.outputs.new_tag }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -63,10 +63,10 @@ jobs:
           context: .
           push: true
           build-args: |
-            VERSION=${{ needs.prepare-a-pre-release.outputs.new_version }}
-            TAG=${{ needs.prepare-a-pre-release.outputs.new_tag }}
+            VERSION=${{ needs.prepare-a-release.outputs.new_version }}
+            TAG=${{ needs.prepare-a-release.outputs.new_tag }}
           tags: |
-            ${{ vars.DOCKER_REGISTRY }}/data-viz/wordpress:v${{ needs.prepare-a-pre-release.outputs.new_version }}
+            ${{ vars.DOCKER_REGISTRY }}/data-viz/wordpress:v${{ needs.prepare-a-release.outputs.new_version }}
 
   release-on-github:
     needs: build-and-push-docker-image
