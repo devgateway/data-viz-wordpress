@@ -1,5 +1,11 @@
 # @devgateway/upgrade-wp-customizer
 
+## 1.0.2
+
+### Patch Changes
+
+- [#30](https://github.com/devgateway/data-viz-wordpress/pull/30) [`457fed6`](https://github.com/devgateway/data-viz-wordpress/commit/457fed61e0f378fe84f41678e3ff37b8fc26c41b) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - Fix Deletion logic in the script
+
 ## 1.0.1
 
 ### Patch Changes
