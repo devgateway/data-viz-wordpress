@@ -95,7 +95,7 @@ function isValidAST(code: string, filePath: string): boolean {
       sourceType: 'module',
       plugins: [
         'jsx',
-        'typescript' 
+        'typescript'
       ],
     });
     return true;
@@ -231,16 +231,32 @@ function migrateBlocksIndexRequiresToImports(blocksDir: string) {
 
 function deleteUnusedFilesInRoot(rootDir: string) {
   const entries = [
-    "Dockerfile",
-    "compile.txt"
-  ]
+    'Dockerfile',
+    'compile.txt'
+  ];
 
   for (const entry of entries) {
     const fullPath = path.join(rootDir, entry);
-    if (fs.statSync(fullPath).isDirectory()) {
-      deleteUnusedFilesInRoot(fullPath);
-    } else {
-      fs.rmSync(fullPath);
+
+    try {
+      // statSync will throw if path doesn't exist
+      const stats = fs.statSync(fullPath);
+
+      if (stats.isDirectory()) {
+        fs.rmSync(fullPath, { recursive: true, force: true });
+        console.log(`🗑️  Directory removed: ${fullPath}`);
+      } else {
+        fs.rmSync(fullPath, { force: true });
+        console.log(`🗑️  File removed: ${fullPath}`);
+      }
+    } catch (err: any) {
+      if (err.code === 'ENOENT') {
+        // file/directory does not exist
+        console.log(`ℹ️  Not found, skipping: ${fullPath}`);
+      } else {
+        // some other error (e.g. permission denied)
+        console.error(`❌  Failed to remove ${fullPath}:`, err);
+      }
     }
   }
 }
@@ -347,4 +363,4 @@ async function main() {
   }
 }
 
-main(); 
+main();
