@@ -67,6 +67,7 @@ jobs:
             TAG=${{ needs.prepare-a-release.outputs.new_tag }}
           tags: |
             ${{ vars.DOCKER_REGISTRY }}/data-viz/wordpress:v${{ needs.prepare-a-release.outputs.new_version }}
+            ${{ vars.DOCKER_REGISTRY }}/data-viz/wordpress:latest
 
   release-on-github:
     needs: build-and-push-docker-image
