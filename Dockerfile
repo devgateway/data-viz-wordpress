@@ -25,7 +25,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
   --mount=type=bind,source=packages/commons/package.json,target=packages/commons/package.json \
   pnpm install --frozen-lockfile
 
-RUN pnpm --filter "@devgateway/upgrade-wp-customizer,@devgateway/create-wp-customizer" build
+RUN pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
 COPY wp-content wp-content
