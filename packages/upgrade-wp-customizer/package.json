@@ -1,6 +1,6 @@
 {
   "name": "@devgateway/upgrade-wp-customizer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Upgrade a WordPress Customizer project",
   "main": "index.js",
   "type": "module",
