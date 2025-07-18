@@ -519,6 +519,14 @@ registerBlockType(BLOCKS_NS + '/chart',
                     tabletMaxTickLength: 25,
                     mobileXAxisTextRotationModified: false,
                     tabletXAxisTextRotationModified: false,
+                    mobileMarginBottom: 25,
+                    mobileMarginLeft: 25,
+                    mobileMarginRight: 25,
+                    mobileMarginTop: 25,
+                    tabletMarginBottom: 25,
+                    tabletMarginLeft: 25,
+                    tabletMarginRight: 25,
+                    tabletMarginTop: 25
                 }
             },
             reverseLegend: {
@@ -529,11 +537,15 @@ registerBlockType(BLOCKS_NS + '/chart',
                 type: 'string',
                 default: '',
             },
-            sort2Dimension: {
+            sortSecondDimension: {
                 type: 'string',
                 default: 'none',
             },
             sortReverse: {
+                type: 'Boolean',
+                default: false
+            },
+            sortReverseSecondDimension: {
                 type: 'Boolean',
                 default: false
             },
@@ -585,7 +597,15 @@ registerBlockType(BLOCKS_NS + '/chart',
             previewMode: {
                 type: "string",
                 default: "Desktop"
-            }
+            },
+            waitForFilters: {
+                type: "Boolean",
+                default: false
+            },
+            lineCurve: {
+                type: "string",
+                default: "linear"
+            },
         },
         edit: BlockEdit,
         save: BlockSave,
