@@ -1,4 +1,3 @@
-import React, {useEffect, useId } from 'react';
 import {
     Button,
     PanelBody,
@@ -10,30 +9,27 @@ import {
     ToggleControl, ButtonGroup
 } from "@wordpress/components";
 import {__} from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
 import {getJsonFiles} from "./utils/FileUtils";
+import {useEffect} from "react";
 import {useState} from "@wordpress/element";
 import DataLayer from "./Data";
 import FlowLayer from "./Flow";
 import LatLongLayer from "./LatLong";
-import {
-    Media,
-    BlockEditWithAPIMetadata,
-    ComponentWithSettings,
-    togglePanel,
-    isSupersetAPI,
-    ***REMOVED***,
-} from "@devgateway/dvz-wp-commons";
+import {BlockEditWithAPIMetadata, ComponentWithSettings, togglePanel, isSupersetAPI } from "@devgateway/dvz-wp-commons";
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
 
+
+
 const typeOptions = [
     {label: "Base", value: "base"},
-    {label: "Data Shape", value: "data"}, 
+    {label: "Data Shape", value: "data"},
     {label: "FLow layer ", value: "flow"},
     {label: "Data Points ", value: "dataPoints"}
 ]
 
-const toOptions = (files: Media[]) => {
+const toOptions = (files) => {
     return [{label: 'None', value: 'none'}, ...files.map(file => {
         return {label: file.title.rendered, value: file.source_url}
     })]
@@ -44,11 +40,11 @@ const Base = (props) => {
         onChange,
         metadata,
         layer,
-        layer: {name, shapeColor, labelFilter, type, file, app, labelField, visible}
+        layer: {name, shapeColor, labelFilter, type, file, app, labelField, visible, ***REMOVED***}
     } = props
 
-    const [files, setFiles] = useState<{label: string, value: string}[]>([])
-    const [features, setFeatures] = useState<Record<string, any>[]>([])
+    const [files, setFiles] = useState([])
+    const [features, setFeatures] = useState([])
 
 
     useEffect(() => {
@@ -67,13 +63,25 @@ const Base = (props) => {
         });
     }, [layer.file])
 
-    const ***REMOVED*** = (atrr: string, value: any) => {
+    const ***REMOVED*** = (...args) => {
+        const [atrr, value] = args
+        if (Array.isArray(atrr)) {
+            ***REMOVED***(...args)
+        } else {
+            console.log("change attribute " + atrr + " to " + value)
+            const newLayer = {...layer}
+            newLayer[atrr] = value
+            onChange(newLayer)
+        }
+    }
 
-
-        console.log("change attribute " + atrr + " to " + value)
-
+    const ***REMOVED*** = (...propValues) => {
         const newLayer = {...layer}
-        newLayer[atrr] = value
+        propValues.forEach(pv => {
+            const [prop, value] = pv
+            console.log("change property " + prop + " to " + value)
+            newLayer[prop] = value
+        })
         onChange(newLayer)
     }
 
@@ -87,7 +95,7 @@ const Base = (props) => {
     return [
         <PanelRow>
             <TextControl
-                type="text"
+                type={"String"}
                 label={__("Name", "dg")}
                 onChange={name => ***REMOVED***("name", name)}
                 value={name}
@@ -112,7 +120,7 @@ const Base = (props) => {
         </PanelRow>,
         <>{type != 'dataPoints' && <PanelRow>
             <SelectControl
-                multiple={false}
+                type={"String"}
                 label="File"
                 onChange={file => ***REMOVED***("file", file)}
                 value={file}
@@ -128,7 +136,6 @@ const Base = (props) => {
                         clearable: true,
                         enableAlpha: true,
                         value: layer.fillColor,
-                        label: __("Fill Color", "dg"),
                         onChange: (fillColor) => {
                             if (fillColor != null) {
                                 ***REMOVED***("fillColor", fillColor)
@@ -141,7 +148,6 @@ const Base = (props) => {
                 <***REMOVED***
                     title={__(`Border Color`)}
                     colorSettings={[{
-                        label: __("Border Color", "dg"),
                         value: layer.borderColor,
                         clearable: true,
                         enableAlpha: true,
@@ -154,12 +160,11 @@ const Base = (props) => {
 
                 <***REMOVED***
                     title={__(`Label Color`)}
+                    label="Color"
                     colorSettings={[{
                         clearable: true,
                         enableAlpha: true,
-                        value: layer.labelColor,
-                        label: __("Label Color", "dg"),
-                        onChange: (labelColor) => {
+                        value: layer.labelColor, onChange: (labelColor) => {
                             ***REMOVED***("labelColor", labelColor)
                         },
 
@@ -186,6 +191,13 @@ const Base = (props) => {
                         min={1}
                         step={1}
                         max={100}
+                    />
+                </PanelRow>
+                <PanelRow>
+                    <ToggleControl
+                        label="Hide labels at low zoom"
+                        checked={***REMOVED***}
+                        onChange={(***REMOVED***) => ***REMOVED***("***REMOVED***", ***REMOVED***)}
                     />
                 </PanelRow>
 
@@ -317,19 +329,8 @@ const Base = (props) => {
 
 }
 
-interface LayerWithMetadataProps {
-    onChange: (layer: any) => void;
-    metadata?: any;
-    layer: any;
-    setAttributes: (attributes: any) => void;
-    onMoveLayer: (index: number, layer: any) => void;
-    panelStatus?: any;
-    onRemoveLayer: () => void;
-    attributes: any;
-}
-
-class ***REMOVED*** extends BlockEditWithAPIMetadata<LayerWithMetadataProps, any> {
-    constructor(props: LayerWithMetadataProps) {
+class ***REMOVED*** extends BlockEditWithAPIMetadata {
+    constructor(props) {
         super(props);
     }
 
@@ -343,7 +344,7 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata<LayerWithMetadataProps, any
                 'Accept': 'application/json',
             },
         })
-            .then(response => response.json() as Promise<***REMOVED***>)
+            .then(response => response.json())
             .then(data => {
                 const apps = data.applications ? [...data.applications.application
                     .filter(a => a.instance[0].metadata.type === 'data')
@@ -411,16 +412,18 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata<LayerWithMetadataProps, any
         return <PanelBody
             initialOpen={false}
             onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)}
-            title={__(`${name}`)}>
+            title={__("Layers")}>
 
             <Base {...this.props} metadata={this.state}></Base>
             <PanelBody>
                 <ButtonGroup>
-                    <Button variant={"secondary"} type="button" onClick={onRemoveLayer}>Delete</Button>
-                    <Button variant={"secondary"} type="button" onClick={e => onMoveLayer(-1, layer)}>Up</Button>
-                    <Button variant={"secondary"} type="button" onClick={e => onMoveLayer(1, layer)}>Down</Button>
+                    <Button variant={"secondary"} type onClick={onRemoveLayer}>Delete</Button>
+                    <Button variant={"secondary"} type onClick={e => onMoveLayer(-1, layer)}>Up</Button>
+                    <Button variant={"secondary"} type onClick={e => onMoveLayer(1, layer)}>Down</Button>
                 </ButtonGroup>
-            </PanelBody> 
+            </PanelBody>
+            <PanelRow>
+            </PanelRow>
         </PanelBody>
     }
 

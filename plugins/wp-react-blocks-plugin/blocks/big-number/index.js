@@ -2,13 +2,12 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons/index.js'
-import { BLOCKS_NS, BLOCKS_CATEGORY } from '../constants';
+import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@devgateway/dvz-wp-commons";
 
 ***REMOVED***(BLOCKS_NS + '/bignumber',
     {
         title: __('Big Number'),
-        icon: Generic,
+        icon: GenericIcon,
         category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
@@ -35,7 +34,7 @@ import { BLOCKS_NS, BLOCKS_CATEGORY } from '../constants';
             csv: {
                 type: "String",
                 default: "Amount \n20000"
-            },    
+            },
             params: {
                 type: Object,
                 default: {}
@@ -88,6 +87,14 @@ import { BLOCKS_NS, BLOCKS_CATEGORY } from '../constants';
                 type: 'string',
                 default: "#5a5d68",
             },
+            ***REMOVED***: {
+                type: "Boolean",
+                default: false
+            },
+            noDataText: {
+                type: 'string',
+                default: '-'
+            }
         },
 
         edit: BlockEdit,
