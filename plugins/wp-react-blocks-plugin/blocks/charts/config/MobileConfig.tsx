@@ -105,6 +105,119 @@ const MarginSection = ({
 
 const ***REMOVED*** = ({
   setAttributes,
+  attributes: { ***REMOVED*** },
+}) => {
+  const {
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***,
+    ***REMOVED***
+  } = ***REMOVED***;
+
+  return (
+    <>
+      <PanelBody initialOpen={false} title={__("Mobile Margins")}>
+        <PanelRow>
+          <RangeControl
+            label={__(
+              "Mobile Margin Bottom (space between chart area and bottom border)"
+            )}
+            value={***REMOVED***}
+            onChange={(marginBottom) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  ***REMOVED***: marginBottom,
+                },
+              })
+            }
+            min={-500}
+            max={500}
+          />
+        </PanelRow>
+        <PanelRow>
+          <RangeControl
+            label={__(
+              "Mobile Margin Left (space between chart area and left border)"
+            )}
+            value={***REMOVED***}
+            onChange={(marginLeft) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  ***REMOVED***: marginLeft
+                },
+              })
+            }
+            step={1}
+            min={-500}
+            max={500}
+          />
+        </PanelRow>
+        <PanelRow>
+          <RangeControl
+            label={__("Mobile Margin Right")}
+            value={***REMOVED***}
+            onChange={(marginRight) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  ***REMOVED***: marginRight,
+                },
+              })
+            }
+            min={-500}
+            max={500}
+          />
+        </PanelRow>
+        <PanelRow>
+          <RangeControl
+            label={__("Mobile Margin Top")}
+            value={***REMOVED***}
+            onChange={(marginTop) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  ***REMOVED***: marginTop,
+                },
+              })
+            }
+            min={-500}
+            max={500}
+          />
+        </PanelRow>
+      </PanelBody>
+
+      <PanelBody initialOpen={false} title={__("Tablet Margins")}>
+        <PanelRow>
+          <RangeControl
+            label={__(
+              "Tablet Margin Bottom (space between chart area and bottom border)"
+            )}
+            value={***REMOVED***}
+            onChange={(marginBottom) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  ***REMOVED***: marginBottom,
+                },
+              })
+            }
+            min={-500}
+            max={500}
+          />
+        </PanelRow>
+      </PanelBody>
+    </>
+  );
+};
+
+const ***REMOVED*** = ({
+  setAttributes,
   attributes: { ***REMOVED***, barPadding, ***REMOVED*** },
 }: ***REMOVED***) => {
   return (
@@ -292,6 +405,105 @@ const ***REMOVED*** = ({
   );
 };
 
+const RadarSection = (props) => {
+  const {
+    setAttributes,
+    attributes: { ***REMOVED*** },
+  } = props;
+  return (
+    <PanelBody initialOpen={false} title={__("Radar Settings")}>
+      <PanelBody initialOpen={false} title={__("Tablet")}>
+        <PanelRow>
+          <RangeControl
+            label={__("Tablet Y Axis Line Height")}
+            value={
+              !***REMOVED***?.tabletYAxisLineHeight
+                ? 12
+                : ***REMOVED***.tabletYAxisLineHeight
+            }
+            onChange={(value) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  tabletYAxisLineHeight: value,
+                },
+              })
+            }
+            min={0}
+            max={500}
+          />
+        </PanelRow>
+        <PanelRow>
+          <RangeControl
+            label={__("Tablet Max Tick Word Length")}
+            value={
+              !***REMOVED***?.***REMOVED***
+                ? 25
+                : ***REMOVED***.***REMOVED***
+            }
+            onChange={(value) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  ***REMOVED***: value,
+                },
+              })
+            }
+            min={0}
+            max={500}
+          />
+        </PanelRow>
+
+      </PanelBody>
+      <PanelBody initialOpen={false} title={__("Mobile")}>
+        <PanelRow>
+          <RangeControl
+            label={__("Mobile Y Axis Line Height")}
+            value={
+              !***REMOVED***?.mobileYAxisLineHeight
+                ? 12
+                : ***REMOVED***.mobileYAxisLineHeight
+            }
+            onChange={(value) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  mobileYAxisLineHeight: value,
+                },
+              })
+            }
+            min={0}
+            max={500}
+          />
+        </PanelRow>
+        <PanelRow>
+          <RangeControl
+            label={__("Mobile Max Tick Word Length.")}
+            value={
+              !***REMOVED***?.***REMOVED***
+                ? 25
+                : ***REMOVED***.***REMOVED***
+            }
+            onChange={(value) =>
+              setAttributes({
+                ***REMOVED***: {
+                  ...***REMOVED***,
+                  ***REMOVED***: value,
+                },
+              })
+            }
+            min={0}
+            max={500}
+          />
+        </PanelRow>
+      </PanelBody>
+      <PanelBody initialOpen={false} title={__("Margins")}>
+        <***REMOVED*** {...props} />
+      </PanelBody>
+    </PanelBody>
+  );
+};
+
 const MobileConfig = (props: ***REMOVED***) => {
   const {
     setAttributes,
@@ -326,7 +538,7 @@ const MobileConfig = (props: ***REMOVED***) => {
     const updatedMobileCustomization = { ...***REMOVED*** };
 
     // Type guard to check if the property exists on the object
-    if ('yAxisIntervalUserModified' in ***REMOVED*** && 
+    if ('yAxisIntervalUserModified' in ***REMOVED*** &&
         !***REMOVED***.yAxisIntervalUserModified) {
       // Type guard to ensure we can assign to this property
       if ('***REMOVED***' in updatedMobileCustomization) {
@@ -334,7 +546,7 @@ const MobileConfig = (props: ***REMOVED***) => {
       }
     }
 
-    if ('xAxisIntervalUserModified' in ***REMOVED*** && 
+    if ('xAxisIntervalUserModified' in ***REMOVED*** &&
         !***REMOVED***.xAxisIntervalUserModified) {
       // Type guard to ensure we can assign to this property
       if ('***REMOVED***' in updatedMobileCustomization) {
@@ -342,7 +554,7 @@ const MobileConfig = (props: ***REMOVED***) => {
       }
     }
 
-    if ('mobileXAxisTextRotationModified' in ***REMOVED*** && 
+    if ('mobileXAxisTextRotationModified' in ***REMOVED*** &&
         !***REMOVED***.mobileXAxisTextRotationModified) {
       // Type guard to ensure we can assign to this property
       if ('mobileXAxisTextRotation' in updatedMobileCustomization) {
@@ -350,7 +562,7 @@ const MobileConfig = (props: ***REMOVED***) => {
       }
     }
 
-    if ('tabletXAxisTextRotationModified' in ***REMOVED*** && 
+    if ('tabletXAxisTextRotationModified' in ***REMOVED*** &&
         !***REMOVED***.tabletXAxisTextRotationModified) {
       // Type guard to ensure we can assign to this property
       if ('tabletXAxisTextRotation' in updatedMobileCustomization) {
@@ -425,8 +637,10 @@ useEffect(() => {
     return true;
   };
 
+  const isBarOrLineOrPieOrRadar = ["bar", "line", "pie", "radar"].includes(type);
   const ***REMOVED*** = ["bar", "line", "pie"].includes(type);
 
+  const isRadar = type === "radar";
   const isBarOrLine = ["bar", "line"].includes(type);
   return (
     <PanelBody
@@ -444,7 +658,7 @@ useEffect(() => {
         />
       </PanelRow>
       {/* @ts-ignore */}
-      {***REMOVED*** && ***REMOVED***?.***REMOVED*** && (
+      {isBarOrLineOrPieOrRadar && ***REMOVED***?.***REMOVED*** && (
         <>
           {isBarOrLine && (
             <>
@@ -637,7 +851,9 @@ useEffect(() => {
             </>
           )}
           {/* @ts-ignore */}
-          <MarginSection {...props} />
+          { isRadar && <RadarSection {...props} />}
+          {/* @ts-ignore */}
+          { ***REMOVED***  && <MarginSection {...props} />}
           {/* @ts-ignore */}
           {type === "bar" && <***REMOVED*** {...props} />}
         </>
