@@ -6,5 +6,9 @@ node_modules/
 dist
 build
 packages/create-wp-customizer/
+packages/upgrade-wp-customizer/
 # Log files
 *.log
+.vscode/
+.github/
+.idea/
