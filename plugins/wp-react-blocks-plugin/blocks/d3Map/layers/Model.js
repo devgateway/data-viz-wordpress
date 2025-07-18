@@ -1,3 +1,6 @@
+import {PanelBody, PanelRow} from "@wordpress/components";
+
+
 export const Model = {
 
     id: Date.now(),
@@ -22,13 +25,15 @@ export const Model = {
     borderColor: '#000000',
     ***REMOVED***: '#000000',
     ***REMOVED***: '#000000',
-    markSizeScale: 2,
+    markSizeScale: 8,
     ***REMOVED***: 2,
     ***REMOVED***: 1,
 
     labelColor: '#000000',
     ***REMOVED***: '#000000',
     labelFontSize: 2,
+    ***REMOVED***: false,
+    ***REMOVED***: null,
 
     labelFilter: [],
     labelSettings: {},
@@ -38,6 +43,7 @@ export const Model = {
     //type:'shape', //shape layer user will select file and data source
     //type:'data', //will select data source and symbols + symbols configuration
     useBreaks: false,
+    useGradients: false,
     usePattern: false,
     pointStyleBy: 'none',
     format: {
@@ -55,6 +61,8 @@ export const Model = {
     ***REMOVED***: [],
     tooltip: "Value {value}",
     breaks: [],
+    ***REMOVED***: 'blues',
+    ***REMOVED***: false,
     ***REMOVED***: {},
     visible: true,
     ***REMOVED***: 'origin',
@@ -62,6 +70,9 @@ export const Model = {
     ***REMOVED***: 'none',
     ***REMOVED***: '',
     offsetPixels: 10,
+    ***REMOVED***: true,
+    ***REMOVED***: true,
+    ***REMOVED***: false
 }
 
 
