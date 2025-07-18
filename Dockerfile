@@ -36,7 +36,7 @@ COPY wp-theme wp-content/themes/dg-semantic
 RUN chown -R 82:82 wp-content \
   && tar -caf /wp-content.tgz --exclude="**/node_modules" wp-content
 
-FROM wordpress:6.8.1-fpm-alpine AS runtime
+FROM wordpress:6.8.2-fpm-alpine AS runtime
 COPY ./custom/custom.ini /usr/local/etc/php/conf.d/
 COPY --from=builder /wp-content.tgz /tmp
 COPY --chmod=755 wordpress.sh /usr/local/sbin/
