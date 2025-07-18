@@ -3,16 +3,31 @@ import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import { GenericIcon } from "@devgateway/dvz-wp-commons";
-import { BLOCKS_NS, BLOCKS_CATEGORY } from "@devgateway/dvz-wp-commons";
 
-***REMOVED***(BLOCKS_NS + '/new-d3-map',
+***REMOVED***(process.env.BLOCKS_NS + '/new-d3-map',
     {
         title: __('D3 Map'),
         icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
 
+            identifier: {
+                type: 'Numeric',
+                default: 0
+            },
+            k: {
+                type: 'Numeric',
+                default: 1
+            },
+            x: {
+                type: 'Numeric',
+                default: 1
+            },
+            y: {
+                type: 'Numeric',
+                default: 1
+            },
             height: {
                 type: 'Numeric',
                 default: 500
@@ -53,7 +68,15 @@ import { BLOCKS_NS, BLOCKS_CATEGORY } from "@devgateway/dvz-wp-commons";
             ***REMOVED***: {
                 type: "Boolean",
                 default: false
-            }          
+            }   ,
+            ***REMOVED***: {
+                type: 'String',
+                default: ""
+            },
+            ***REMOVED***: {
+                type: "Boolean",
+                default: false
+            },
         },
         edit: BlockEdit,
         save: BlockSave,
