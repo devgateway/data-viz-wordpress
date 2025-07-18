@@ -1,3 +1,6 @@
+import {PanelBody, PanelRow} from "@wordpress/components";
+
+
 export const Model = {
 
     id: Date.now(),
@@ -22,13 +25,15 @@ export const Model = {
     borderColor: '#000000',
     markBorderColor: '#000000',
     markBorderColor2: '#000000',
-    markSizeScale: 2,
+    markSizeScale: 8,
     markSizeScale2: 2,
     markerLabelSize: 1,
 
     labelColor: '#000000',
     markLabelColor: '#000000',
     labelFontSize: 2,
+    showDim2OnLegends: false,
+    dim2LegendLabel: null,
 
     labelFilter: [],
     labelSettings: {},
@@ -38,6 +43,7 @@ export const Model = {
     //type:'shape', //shape layer user will select file and data source
     //type:'data', //will select data source and symbols + symbols configuration
     useBreaks: false,
+    useGradients: false,
     usePattern: false,
     pointStyleBy: 'none',
     format: {
@@ -55,6 +61,8 @@ export const Model = {
     pointDimensionStyles: [],
     tooltip: "Value {value}",
     breaks: [],
+    gradientScheme: 'blues',
+    gradientReverse: false,
     customMeasuresLabels: {},
     visible: true,
     flowValuesFrom: 'origin',
@@ -62,6 +70,9 @@ export const Model = {
     flowDestination: 'none',
     dvzProxyDatasetId: '',
     offsetPixels: 10,
+    patternsVisible: true,
+    colorLayerVisible: true,
+    hideLabelsAtLowZoom: false
 }
 
 

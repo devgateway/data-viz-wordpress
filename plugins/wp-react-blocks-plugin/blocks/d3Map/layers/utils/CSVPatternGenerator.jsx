@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     AnglePickerControl, Button, PanelBody, PanelRow, RangeControl, SelectControl, TextControl
 } from "@wordpress/components";
@@ -6,55 +5,34 @@ import {PanelColorSettings} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
 
 import Papa from 'papaparse'
+const defaultPatternColor="#000000"
+const Patterns = ({csv, app, onChangeProperty, patterns, patternDiscriminator, defaultFillColor}) => {
 
-const defaultPatternColor = "#000000"
-const Patterns = ({
-                      allCategories,
-                      allDimensions,
-                      app,
-                      onChangeProperty,
-                      patterns,
-                      patternDiscriminator,
-                      patternDiscriminatorLabel,
-                      defaultFillColor
-                  }) => {
+    const patternsOptions = [
+        {label: 'Lines', value: 'lines'},
+        {label: 'Dots', value: 'dots'},
+        {label: 'Squares', value: 'squares'},
+        {label: 'Triangle', value: 'triangle'}]
 
-    const patternsOptions = [{label: 'Lines', value: 'lines'}, {label: 'Dots', value: 'dots'}, {
-        label: 'Squares',
-        value: 'squares'
-    }, {label: 'Triangle', value: 'triangle'}]
+    const data = Papa.parse(csv, {header: true, dynamicTyping: true});
 
 
-    const dims = allDimensions ? allDimensions : []
-
-    const cats = patternDiscriminator && allCategories ? allCategories.filter(c => c.type.toUpperCase() == patternDiscriminator.toUpperCase()) : []
-
-    console.log(cats)
-
-    const items = cats.length > 0 ? cats[0].items : []
-    const values = items.map(i => i.value)
-
-    
-
+    const fieldsOptions = data ? data.meta.fields.map(f => {
+        return {label: f, value: f}
+    }) : []
+    const values = patternDiscriminator != 'none' ? [...(new Set(data.data.filter(d => d[patternDiscriminator] != null && d[patternDiscriminator].toString().trim() !== "").map(d => d[patternDiscriminator].toString().trim())))] : []
     return <PanelBody title={"Patterns"}>
         <PanelRow>
             <SelectControl
                 label={__("Discriminator")}
                 value={patternDiscriminator}
+
                 onChange={(v) => {
                     onChangeProperty('patternDiscriminator', v)
                 }}
-                options={[...dims]}/>
+                options={[{label: "None", value: "none"}, ...fieldsOptions]}/>
         </PanelRow>
-        <PanelRow>
-            <TextControl
-                label={__("Label")}
-                value={patternDiscriminatorLabel}
-                onChange={(v) => {
-                    onChangeProperty('patternDiscriminatorLabel', v)
-                }}
-            ></TextControl>
-        </PanelRow>
+
         {values.map(field => <PanelBody title={field}>
             <PanelRow>
                 <SelectControl
