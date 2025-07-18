@@ -1,4 +1,3 @@
-import React from 'react';
 import { InspectorControls, PanelColorSettings, useBlockProps } from '@wordpress/block-editor';
 import {
     Panel,
@@ -9,6 +8,7 @@ import {
     TextControl,
     FontSizePicker,
     __experimentalText as Text,
+    ToggleControl,
     TextareaControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -16,40 +16,16 @@ import {
     BlockEditWithAPIMetadata,
     SizeConfig,
     togglePanel,
-    Measures,
-    DataFilters,
     isSupersetAPI,
-    Filter,
-    Measure,
-    Format
+    Format,
+    Measures,
+    CSVConfig as CSVSourceConfig,
+    DataFilters
 } from '@devgateway/dvz-wp-commons'
 
 
-interface BigNumberProps {
-    className: string;
-    isSelected: boolean;
-    toggleSelection: (selected: boolean) => void;
-    setAttributes: (attributes: any) => void;
-    attributes: {
-        measures: Measure[];
-        height: number;
-        app: string;
-        format: string;
-        filters: Filter[];
-        group: string;
-        panelStatus: Record<string, boolean>;
-        dvzProxyDatasetId: string;
-        label: string;
-        numberFontSize: number;
-        numberColor: string;
-        labelFontSize: number;
-        labelColor: string;
-        csv: string;
-        type: string;
-    };
-}
 
-class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
+class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
     }
@@ -72,12 +48,16 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
                 panelStatus,
                 dvzProxyDatasetId,
                 label,
-                numberFontSize,
-                numberColor,
+                bigNumberFontSize,
+                percentFontSize,
                 labelFontSize,
-                labelColor,
+                textColor,
+                dimension1,
+                showPercentageChange,
                 csv,
-                type
+                type,
+                waitForFilters,
+                noDataText
             }
         } = this.props;
 
@@ -100,8 +80,7 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
             <InspectorControls>
                 <Panel header={__("Chart Configuration")}>
                     <PanelBody
-                        initialOpen={panelStatus['GROUP']}
-                        opened={panelStatus['GROUP']}
+                        panelStatus={panelStatus['GROUP']}
                         onToggle={e => togglePanel("GROUP", panelStatus, setAttributes)}
                         title={__("Group")}>
                         <PanelRow>
@@ -111,16 +90,22 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
                                 onChange={(group) => setAttributes({ group })}
                             />
                         </PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                                label={__('Wait For Filters')}
+                                checked={waitForFilters}
+                                onChange={() => setAttributes({ waitForFilters: !waitForFilters })}
+                            />
+                        </PanelRow>
                     </PanelBody>
                     <SizeConfig setAttributes={setAttributes} panelStatus={panelStatus}
-                        height={height} initialOpen={panelStatus['GROUP']}></SizeConfig>
+                        height={height}></SizeConfig>
 
                     <>
                         <PanelBody initialOpen={false} title={__("API & Source")}>
                             <PanelRow>
                                 <SelectControl
-                                    value={app}
-                                    multiple={false}
+                                    value={[app]}
                                     onChange={(app) => {
                                         setAttributes({
                                             app: app
@@ -133,9 +118,8 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
 
                             {isSupersetAPI(app, this.state.apps) && <PanelRow>
                                 <SelectControl
-                                    multiple={false}
                                     label={__('Datasets')}
-                                    value={dvzProxyDatasetId}
+                                    value={[dvzProxyDatasetId]}
                                     onChange={(newDatasetId) => {
                                         setAttributes({
                                             dvzProxyDatasetId: newDatasetId
@@ -149,29 +133,22 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
                             }
                         </PanelBody>
 
-
-                        {app != 'csv' && <Measures
-                            title={__(`Measure`)}
-                            onSetSingleMeasure={value => {
-                                setAttributes({ measures: [value] })
-                            }}
-                            onFormatChange={value => {
-                                setAttributes({ format: value })
-                            }}
-                            allMeasures={this.state.measures}
-                            format={format}
-                            attributes={{
-                                panelStatus: panelStatus,
-                                measures: measures,
-                                dimension1: '',
-                                dimension2: '',
-                                type: type,
-                                app: app
-                            }}
-                            setAttributes={setAttributes}
-                        />
+                        {app != 'csv' &&
+                            <PanelBody initialOpen={false} title={__("Dimensions")}>
+                                <PanelRow>
+                                    <SelectControl
+                                        label={__("First Dimension")}
+                                        value={[dimension1]}
+                                        onChange={(value) => {
+                                            setAttributes({
+                                                dimension1: value
+                                            });
+                                        }}
+                                        options={this.state.dimensions}
+                                    />
+                                </PanelRow>
+                            </PanelBody>
                         }
-
                         {app == 'csv' &&
                             <>
                                 <PanelBody initialOpen={false} title={__("CSV Configuration")}
@@ -201,6 +178,23 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
                             </>
                         }
 
+                        {app != 'csv' &&
+                            <Measures
+                                title={__(`Measure`)}
+                                onSetSingleMeasure={value => {
+                                    setAttributes({ measures: [value] })
+                                }}
+                                onFormatChange={value => {
+                                    setAttributes({ format: value })
+                                }}
+                                allMeasures={this.state.measures}
+                                format={format}
+                                measures={measures}
+                                {...this.props} />
+                        }
+
+
+
                         <DataFilters
                             allFilters={this.state.filters}
                             allCategories={this.state.categories}
@@ -208,22 +202,68 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
 
                     </>
                     <PanelBody title={__('Settings')} initialOpen={false}>
+                        <br></br>
+                        <PanelRow>
+                            <ToggleControl label={__('Show Percentage Change')}
+                                checked={showPercentageChange}
+                                onChange={(showPercentageChange) => setAttributes({ showPercentageChange })} />
+
+                        </PanelRow>
+                        <PanelBody initialOpen={true} title={__("Label")}>
+                            {app != 'csv' &&
+                                <>
+                                    <div style={{ "font-weight": "bold", "font-size": "11px" }}>Variables:<br></br></div>
+                                    <PanelRow>
+                                        <div>
+                                            {this.state.dimensions &&
+                                                this.state.dimensions.filter(d => (d.value === dimension1))
+                                                    .map(d => <PanelRow>
+                                                        <span style={{ "font-size": "11px", "margin-left": "20px" }}>{d.label} -&gt; {"{"}{d.value}{"}"}</span>
+                                                    </PanelRow>)}
+                                        </div>
+                                    </PanelRow>
+                                </>
+                            }
+
+                            <PanelRow>
+                                <TextareaControl
+                                    label={__('Label Text')}
+                                    value={label}
+                                    onChange={(label) => setAttributes({ label })}
+                                    help={__("You can use variables {var_name}")}
+                                    rows={5}
+                                />
+                            </PanelRow>
+                        </PanelBody>
+
                         <PanelRow>
                             <TextControl
-                                label={__('Label')}
-                                value={label}
-                                onChange={(label) => setAttributes({ label })}
+                                label={__('No Data Text')}
+                                value={noDataText}
+                                onChange={(noDataText) => setAttributes({ noDataText })}
                             />
                         </PanelRow>
+
                         <PanelRow>
-                            <Text>{__("Number Font Size")}</Text>
+                            <Text>{__("Big Number Font Size")}</Text>
                         </PanelRow>
                         <FontSizePicker
                             fontSizes={[]}
-                            value={numberFontSize}
+                            value={bigNumberFontSize}
                             fallbackFontSize={14}
                             onChange={(newFontSize) => {
-                                setAttributes({ numberFontSize: newFontSize })
+                                setAttributes({ bigNumberFontSize: newFontSize })
+                            }}
+                        />
+                        <PanelRow>
+                            <Text>{__("Percent Change Font Size")}</Text>
+                        </PanelRow>
+                        <FontSizePicker
+                            fontSizes={[]}
+                            value={percentFontSize}
+                            fallbackFontSize={14}
+                            onChange={(newFontSize) => {
+                                setAttributes({ percentFontSize: newFontSize })
                             }}
                         />
                         <PanelRow>
@@ -241,18 +281,11 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
                         <PanelColorSettings title={__('Color Settings')}
                             colorSettings={[
                                 {
-                                    value: numberColor,
+                                    value: textColor,
                                     onChange: (color) => {
-                                        setAttributes({ numberColor: color })
+                                        setAttributes({ textColor: color })
                                     },
-                                    label: __("Number Color")
-                                },
-                                {
-                                    value: labelColor,
-                                    onChange: (color) => {
-                                        setAttributes({ labelColor: color })
-                                    },
-                                    label: __("Label Color")
+                                    label: __("Text Color")
                                 }
                             ]}
                         />
@@ -276,7 +309,7 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
             }}
             onResizeStop={(event, direction, elt, delta) => {
                 setAttributes({
-                    height: parseInt(String(height), 10) + parseInt(String(delta.height), 10),
+                    height: parseInt(height + delta.height, 10),
                 });
                 toggleSelection(true);
             }}
@@ -286,7 +319,7 @@ class BlockEdit extends BlockEditWithAPIMetadata<BigNumberProps, any> {
 
             <div className={className}>
                 {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
-                    src={this.state.react_ui_url + "/embeddable/bignumber?"} />}
+                    src={this.state.react_ui_url + "/embeddable/bignumbertrend?"} />}
 
             </div>
         </ResizableBox>
