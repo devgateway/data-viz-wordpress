@@ -1,8 +1,6 @@
-import React from 'react';
 import {useBlockProps} from '@wordpress/block-editor';
-import { D3MapProps } from './layers/utils/types';
 
-const SaveComponent = (props: D3MapProps) => {
+const SaveComponent = (props) => {
 
     const {
         attributes: {
@@ -14,6 +12,7 @@ const SaveComponent = (props: D3MapProps) => {
             mapPosition,
             projection,
             zoomEnabled,
+            ***REMOVED***,
             ***REMOVED***
         }
     } = props;
@@ -36,6 +35,7 @@ const SaveComponent = (props: D3MapProps) => {
              data-zoom-enabled={zoomEnabled}
              data-rotation-enabled={***REMOVED***}
              data-layers={***REMOVED***(JSON.stringify(layers))}
+             data-wait-for-filters={***REMOVED***}
              >
         </div>
     );

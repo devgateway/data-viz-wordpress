@@ -519,6 +519,14 @@ import { BLOCKS_CATEGORY, BLOCKS_NS,  ChartIcon } from '@devgateway/dvz-wp-comm
                     ***REMOVED***: 25,
                     mobileXAxisTextRotationModified: false,
                     tabletXAxisTextRotationModified: false,
+                    ***REMOVED***: 25,
+                    ***REMOVED***: 25,
+                    ***REMOVED***: 25,
+                    ***REMOVED***: 25,
+                    ***REMOVED***: 25,
+                    ***REMOVED***: 25,
+                    ***REMOVED***: 25,
+                    ***REMOVED***: 25
                 }
             },
             reverseLegend: {
@@ -534,6 +542,10 @@ import { BLOCKS_CATEGORY, BLOCKS_NS,  ChartIcon } from '@devgateway/dvz-wp-comm
                 default: 'none',
             },
             sortReverse: {
+                type: 'Boolean',
+                default: false
+            },
+            sortReverseSecondDimension: {
                 type: 'Boolean',
                 default: false
             },
@@ -585,7 +597,15 @@ import { BLOCKS_CATEGORY, BLOCKS_NS,  ChartIcon } from '@devgateway/dvz-wp-comm
             previewMode: {
                 type: "string",
                 default: "Desktop"
-            }
+            },
+            ***REMOVED***: {
+                type: "Boolean",
+                default: false
+            },
+            lineCurve: {
+                type: "string",
+                default: "linear"
+            },
         },
         edit: BlockEdit,
         save: BlockSave,

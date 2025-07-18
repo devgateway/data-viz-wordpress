@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     ***REMOVED***, Button, PanelBody, PanelRow, RangeControl, SelectControl, TextControl
 } from "@wordpress/components";
