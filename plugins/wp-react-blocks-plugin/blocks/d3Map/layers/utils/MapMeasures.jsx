@@ -1,7 +1,9 @@
 import {__} from '@wordpress/i18n';
 import {***REMOVED***, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 
-import { Format, togglePanel, ***REMOVED***} from '@devgateway/dvz-wp-commons'
+import Format from '../../../charts/Format.jsx'
+import {togglePanel} from "../../../commons/Util";
+import {***REMOVED***} from "../../../commons/APIutils";
 
 const defaultFormat = {
     "style": "percent",

@@ -108,6 +108,7 @@ const SaveComponent = (props) => {
             sort,
             sortReverse,
             ***REMOVED***,
+            sortReverseSecondDimension,
             radarCurve,
             ***REMOVED***,
             ***REMOVED***,
@@ -121,7 +122,11 @@ const SaveComponent = (props) => {
             ***REMOVED***,
             ***REMOVED***,
             ***REMOVED***,
-            previewMode
+            previewMode,
+            ***REMOVED***,
+            lineCurve,
+            ***REMOVED***,
+            numberOfLegendColumns
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -239,7 +244,8 @@ const SaveComponent = (props) => {
              data-reverse-legend={reverseLegend}
              data-sort={sort}
              data-sort-reverse={sortReverse}
-             data-***REMOVED***={***REMOVED***}
+             data-sort-second-dimension={***REMOVED***}
+             data-sort-reverse-second-dimension={sortReverseSecondDimension}
              data-radar-curve={radarCurve}
              data-radar-fill-opacity={***REMOVED***}
              data-radar-border-width={***REMOVED***}
@@ -253,6 +259,10 @@ const SaveComponent = (props) => {
              data-show-percentage={***REMOVED***}
              data-preview-mode={previewMode}
              data-mobile-customization={***REMOVED***(JSON.stringify(***REMOVED***))}
+             data-wait-for-filters={***REMOVED***}
+             data-line-curve={lineCurve}
+             data-show-legends-in-columns={***REMOVED***}
+             data-number-of-legend-columns={numberOfLegendColumns}
              >
             <InnerBlocks.Content/>
         </div>

@@ -2,13 +2,13 @@ import { __ } from '@wordpress/i18n';
 import { ***REMOVED*** } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon } from "@devgateway/dvz-wp-commons";
+import { Generic } from "../icons";
 
 
 ***REMOVED***(process.env.BLOCKS_NS + '/posts-with-filters',
     {
         title: __('Posts with Filters', "dg"),
-        icon: GenericIcon,
+        icon: Generic,
         category: process.env.BLOCKS_CATEGORY,
         attributes: {
             className: {
