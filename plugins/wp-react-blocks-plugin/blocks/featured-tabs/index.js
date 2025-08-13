@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@devgateway/dvz-wp-commons';
+import {Generic} from '../icons'
 
-***REMOVED***(`${BLOCKS_NS}/featured-tabs`,
+***REMOVED***(`${process.env.BLOCKS_NS}/featured-tabs`,
     {
         title: __('Featured Tabs'),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'Numeric',

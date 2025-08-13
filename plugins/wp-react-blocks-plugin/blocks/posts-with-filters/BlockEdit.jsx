@@ -14,10 +14,12 @@ import {
     SearchControl,
     SelectControl,
     __experimentalDivider as Divider,
+    __experimentalScrollable as Scrollable,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings } from "@devgateway/dvz-wp-commons";
+import { ComponentWithSettings } from "../commons";
 import apiFetch from '@wordpress/api-fetch';
+import { ***REMOVED*** } from './utils';
 
 
 class ***REMOVED*** extends ComponentWithSettings {
@@ -42,16 +44,14 @@ class ***REMOVED*** extends ComponentWithSettings {
 
     ***REMOVED***() {
 
-        apiFetch({
-            path: '/wp/v2/categories',
-            method: 'GET',
-        }).then(categories => {
+        ***REMOVED***().then(categories => {
             const ***REMOVED*** = [];
             categories.forEach(category => {
                 ***REMOVED***.push({ label: category.name, value: category.id });
             });
             this.setState({ categories: ***REMOVED*** });
         });
+
     }
 
     getCategories() {
@@ -63,7 +63,6 @@ class ***REMOVED*** extends ComponentWithSettings {
     }
 
     render() {
-        console.log(this.state);
         const {
             setAttributes,
             ***REMOVED***,
@@ -117,6 +116,7 @@ class ***REMOVED*** extends ComponentWithSettings {
                                                         onChange={(***REMOVED***) => this.setState({ ***REMOVED*** })}
                                                         placeholder={__("Search categories...")}
                                                     />
+                                                    <Scrollable style={{ maxHeight: '240px', padding: '10px 0', margin: '12px 0' }}>
                                                     {***REMOVED***.map(category => (
                                                         <***REMOVED***
                                                             label={category.label}
@@ -133,6 +133,9 @@ class ***REMOVED*** extends ComponentWithSettings {
                                                             }}
                                                         />
                                                     ))}
+                                                    </Scrollable>
+                                                    <div style={{ display: 'flex', height: '8px' }}></div>
+
 
                                                     <TextControl
                                                         label={__("Category Placeholder")}
@@ -162,7 +165,7 @@ class ***REMOVED*** extends ComponentWithSettings {
                                                         help={__("Select the category that has the countries")}
                                                         value={***REMOVED***}
                                                         onChange={(***REMOVED***) => {
-                                                            setAttributes({ ***REMOVED*** });
+                                                            setAttributes({ ***REMOVED***: parseInt(***REMOVED***) });
                                                         }}
                                                     />
 
