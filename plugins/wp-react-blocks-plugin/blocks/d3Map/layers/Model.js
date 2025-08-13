@@ -37,7 +37,7 @@ export const Model = {
 
     labelFilter: [],
     labelSettings: {},
-
+    minLabelZoomVisible:3,
     labelField: 'none',
     type: 'base', //base layer user will select only a file
     //type:'shape', //shape layer user will select file and data source

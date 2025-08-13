@@ -2,14 +2,14 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon } from '@devgateway/dvz-wp-commons';
-import { BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons';
+import {Generic} from "../icons";
 
-registerBlockType(BLOCKS_NS + '/time-line',
+
+registerBlockType(process.env.BLOCKS_NS + '/time-line',
     {
         title: __('Time Line',"dg"),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'numeric',
