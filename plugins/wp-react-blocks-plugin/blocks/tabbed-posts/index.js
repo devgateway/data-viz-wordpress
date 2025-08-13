@@ -2,16 +2,16 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons';
+import {Generic} from '../icons'
 
-***REMOVED***(BLOCKS_NS + '/tabbed-posts',
+***REMOVED***(process.env.BLOCKS_NS + '/tabbed-posts',
     {
         title: __('Tabbed Posts', "dg"),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         attributes: {
             count: {
-                type: 'number',
+                type: 'Numeric',
                 default: 3,
             },
             type: {
@@ -27,7 +27,7 @@ import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-comm
                 default: [],
             },
             height: {
-                type: 'number',
+                type: 'Numeric',
                 default: 700,
             },
             theme: {

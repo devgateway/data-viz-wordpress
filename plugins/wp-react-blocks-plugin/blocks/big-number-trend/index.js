@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@devgateway/dvz-wp-commons";
+import {Generic} from '../icons/index.js'
 
-***REMOVED***(BLOCKS_NS + '/***REMOVED***',
+***REMOVED***(process.env.BLOCKS_NS + '/***REMOVED***',
     {
         title: __('Big Number Trend'),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             type: {
@@ -38,7 +38,7 @@ import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@devgateway/dvz-wp-comm
             csv: {
                 type: "String",
                 default: "Year,Amount \n2019,20000 \n2018,10000"
-            },
+            },           
             params: {
                 type: Object,
                 default: {}
@@ -52,7 +52,7 @@ import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@devgateway/dvz-wp-comm
                     "currency": "USD"
                 }
             },
-
+            
             measures: {
                 type: "Array",
                 default: []
@@ -75,7 +75,7 @@ import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@devgateway/dvz-wp-comm
             label: {
                 type: 'String',
                 default: "# of animals"
-            },
+            },           
             textColor: {
                 type: 'string',
                 default: "#5a5d68",
@@ -87,11 +87,11 @@ import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@devgateway/dvz-wp-comm
             labelFontSize: {
                 type: 'Numeric',
                 default: 14
-            },
+            },           
             ***REMOVED***: {
                 type: 'Numeric',
                 default: 14
-            },
+            },                   
             ***REMOVED***: {
                 type: 'Boolean',
                 default: false

@@ -16,10 +16,12 @@ import {useState} from "@wordpress/element";
 import DataLayer from "./Data";
 import FlowLayer from "./Flow";
 import LatLongLayer from "./LatLong";
-import {BlockEditWithAPIMetadata, ComponentWithSettings, togglePanel, isSupersetAPI } from "@devgateway/dvz-wp-commons";
+import {BlockEditWithAPIMetadata, ComponentWithSettings} from "../../commons";
 import Property from "./utils/Property";
-import {***REMOVED***} from "@wordpress/block-editor";
 
+import {***REMOVED***} from "@wordpress/block-editor";
+import {togglePanel} from "../../commons/Util";
+import {isSupersetAPI} from "../../commons/APIutils";
 
 
 const typeOptions = [
@@ -193,13 +195,18 @@ const Base = (props) => {
                         max={100}
                     />
                 </PanelRow>
+
                 <PanelRow>
-                    <ToggleControl
-                        label="Hide labels at low zoom"
-                        checked={***REMOVED***}
+                    <RangeControl
+                        label="Min Zoom Level (-1 disabled)"
+                        value={layer.***REMOVED***}
                         onChange={(***REMOVED***) => ***REMOVED***("***REMOVED***", ***REMOVED***)}
+                        min={-1}
+                        step={1}
+                        max={100}
                     />
                 </PanelRow>
+
 
                 {labelField != 'none' && <PanelBody initialOpen={false} title={__("Labels")}>
                     <PanelRow>
@@ -411,8 +418,8 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
 
         return <PanelBody
             initialOpen={false}
-            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)}
-            title={__("Layers")}>
+            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)} title={__("Layers")}
+            title={__(`${name}`)}>
 
             <Base {...this.props} metadata={this.state}></Base>
             <PanelBody>
