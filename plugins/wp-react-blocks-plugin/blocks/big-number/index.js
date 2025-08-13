@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from "@devgateway/dvz-wp-commons";
+import {Generic} from '../icons/index.js'
 
-registerBlockType(BLOCKS_NS + '/bignumber',
+registerBlockType(process.env.BLOCKS_NS + '/bignumber',
     {
         title: __('Big Number'),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             type: {
@@ -34,7 +34,7 @@ registerBlockType(BLOCKS_NS + '/bignumber',
             csv: {
                 type: "String",
                 default: "Amount \n20000"
-            },
+            },    
             params: {
                 type: Object,
                 default: {}
