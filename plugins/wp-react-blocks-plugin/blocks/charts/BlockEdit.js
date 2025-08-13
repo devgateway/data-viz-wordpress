@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps, InnerBlocks} from '@wordpress/block-editor';
+import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
 import {
     Button, ButtonGroup,
     Panel,
@@ -10,16 +10,23 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig, CSVConfig, Tooltip, togglePanel, isSupersetAPI, DEFAULT_FORMAT_SETTINGS, APIConfig } from '@devgateway/dvz-wp-commons'
-import Bar from "./components/Bar"
-import Pie from "./components/Pie"
-import Line from "./components/Line"
-import Bump from "./components/Bump"
-import Info from "./components/Info"
-import MobileConfig from './config/MobileConfig';
-import Radar from './components/Radar';
 
+import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
+import {__} from '@wordpress/i18n';
+import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import ***REMOVED*** from "../commons/***REMOVED***";
+import APIConfig from "../commons/APIConfig";
+import Bar from "./Bar.jsx"
+import Pie from "./Pie.jsx"
+import Line from "./Line.jsx"
+import Bump from "./Bump.jsx"
+import Info from "./Info.jsx"
+import MobileConfig from './MobileConfig.jsx';
+import Tooltip from "../commons/Tooltip.jsx";
+import {togglePanel} from "../commons/Util";
+import Radar from './Radar.jsx';
+import {DEFAULT_FORMAT_SETTINGS} from '../commons/Constants';
+import {isSupersetAPI} from "../commons/APIutils";
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
@@ -57,7 +64,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
         super.***REMOVED***(prevProps, prevState, snapshot);
     }
-
+    
 
     render() {
         console.log("apps", this.state.apps)
@@ -165,6 +172,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 enableGridX,
                 minMaxClamp,
                 ***REMOVED***,
+                ***REMOVED***,
                 ***REMOVED***
             }
         } = this.props;
@@ -231,6 +239,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     label={__('Name')}
                                     value={group}
                                     onChange={(group) => setAttributes({group})}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Wait For Filters')}
+                                    checked={***REMOVED***}
+                                    onChange={() => setAttributes({***REMOVED***:!***REMOVED***})}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -322,7 +337,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     })
                                                 })
                                                 setAttributes({
-                                                    app: app
+                                                    app: app                                                   
                                                 })
 
                                             }}
@@ -360,7 +375,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                                       </PanelRow>
                                     }
-
+                                  
                                 </PanelBody>
                                 {app != 'csv' && <APIConfig
                                     allDimensions={this.state.dimensions}
@@ -371,8 +386,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     {...this.props}>
                                 </APIConfig>}
                                 {app == 'csv' &&
-                                    <CSVConfig {...this.props}>
-                                    </CSVConfig>}
+                                    <***REMOVED*** {...this.props}>
+                                    </***REMOVED***>}
 
 
                                 {type === "bar" && <Bar {...this.props}
@@ -425,15 +440,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     <PanelBody initialOpen={false} title={__("Variables")}>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Value -&gt; {'{value}'}</span>
+                                                                style={{"font-size": "11px"}}>Value -> {'{value}'}</span>
                                                         </PanelRow>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Value Percent -&gt; {'{valuePercent}'}</span>
+                                                                style={{"font-size": "11px"}}>Value Percent -> {'{valuePercent}'}</span>
                                                         </PanelRow>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Category -&gt; {'{category}'}</span>
+                                                                style={{"font-size": "11px"}}>Category -> {'{category}'}</span>
                                                         </PanelRow>
                                                     </PanelBody>
                                                 }
