@@ -12,16 +12,12 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {
-    BlockEditWithAPIMetadata,
-    SizeConfig,
-    togglePanel,
-    isSupersetAPI,
-    Format,
-    Measures,
-    CSVConfig as CSVSourceConfig,
-    DataFilters
-} from '@devgateway/dvz-wp-commons'
+import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import {togglePanel} from "../commons/Util";
+import Measures from "../commons/Measures";
+import DataFilters from "../commons/DataFilters";
+import {isSupersetAPI} from "../commons/APIutils";
+import Format from "../charts/Format.jsx";
 
 
 class BlockEdit extends BlockEditWithAPIMetadata {
@@ -50,7 +46,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 numberFontSize,
                 numberColor,
                 labelFontSize,
-                labelColor,
+                labelColor, 
                 csv,
                 type,
                 waitForFilters,
@@ -93,7 +89,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     checked={waitForFilters}
                                     onChange={() => setAttributes({waitForFilters:!waitForFilters})}
                                 />
-                            </PanelRow>
+                            </PanelRow>	
                    </PanelBody>
                    <SizeConfig setAttributes={setAttributes} panelStatus={panelStatus}
                        height={height}></SizeConfig>

@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { BLOCKS_NS, BLOCKS_CATEGORY, GenericIcon } from '@devgateway/dvz-wp-commons';
+import {Generic} from '../icons/index.js'
 
-registerBlockType(BLOCKS_NS + '/datalabel',
+registerBlockType(process.env.BLOCKS_NS + '/datalabel',
     {
         title: __('Data Label'),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             group: {
