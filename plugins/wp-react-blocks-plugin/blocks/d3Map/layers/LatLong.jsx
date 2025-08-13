@@ -16,7 +16,7 @@ import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
-import {isSupersetAPI} from "@devgateway/dvz-wp-commons";
+import {isSupersetAPI} from "../../commons/APIutils";
 
 const ***REMOVED*** = (p1, p2) => {
     return JSON.stringify(p1) === JSON.stringify(p2)
@@ -258,7 +258,7 @@ export class ***REMOVED*** extends Component {
                     onChange={(csv) => ***REMOVED***("csv", csv)}
                 />
             </PanelRow>}
-            {app != 'csv' &&
+            {app != 'csv' && 
             <>
             <PanelRow>
                 <SelectControl
@@ -274,9 +274,9 @@ export class ***REMOVED*** extends Component {
             <PanelRow>
                 <SelectControl
                     label={'Second Dimension'}
-                    value={[dimension2]}
+                    value={[dimension2]} 
                     onChange={(value) => {
-                        ***REMOVED***("dimension2", value)
+                        ***REMOVED***("dimension2", value)                       
                     }}
                     options={allDimensions}
                 />
@@ -328,7 +328,7 @@ export class ***REMOVED*** extends Component {
                 </PanelBody>}
             </React.Fragment>,
 
-            <PanelBody initialOpen={false} title={"Symbols and Styles"}>
+            <PanelBody initialOpen={false} title={"Symbols and Styles"}>                 
                <PanelRow>
                         <ToggleControl
                             label={__("Show 2nd Dimension on Legends")}
@@ -337,7 +337,7 @@ export class ***REMOVED*** extends Component {
                                 ***REMOVED***("***REMOVED***", ***REMOVED***)
                             }}
                         />
-                </PanelRow>
+                </PanelRow>  
                 {***REMOVED*** &&
                     <PanelRow>
                         <TextControl
@@ -349,7 +349,7 @@ export class ***REMOVED*** extends Component {
                             placeholder={__("e.g. 'Region'")}
                         />
                     </PanelRow>
-                }
+                }                          
                 <PanelRow>
                     <SelectControl
                       label={"Color by"}
@@ -410,7 +410,7 @@ export class ***REMOVED*** extends Component {
                     />
                 </PanelRow>
               </PanelBody>
-
+              
               <PanelBody initialOpen={true} title={"Breaks"}>
                 {pointStyleBy === 'measure' &&
                     <***REMOVED***
@@ -426,8 +426,8 @@ export class ***REMOVED*** extends Component {
                         format={format}
                         ***REMOVED***={***REMOVED***} breaks={breaks}
                         />
-                }
-
+                }  
+               
                 {pointStyleBy  === 'dimension' && ***REMOVED*** && ***REMOVED***.map(field => <PanelBody initialOpen={false} title={field}>
                     <PanelRow>
                         <RangeControl
@@ -468,7 +468,7 @@ export class ***REMOVED*** extends Component {
                           }]}
                         />
                     </PanelRow>
-
+                    
                 </PanelBody>)
                 }
                 </PanelBody>

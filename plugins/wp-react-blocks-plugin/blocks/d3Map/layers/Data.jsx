@@ -16,7 +16,8 @@ import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
-import {Format, isSupersetAPI} from "@devgateway/dvz-wp-commons";
+import Format from '../../charts/Format.jsx'
+import {isSupersetAPI} from "../../commons/APIutils";
 import ***REMOVED*** from "./utils/***REMOVED***";
 
 
@@ -68,7 +69,7 @@ export class ***REMOVED*** extends Component {
         }
     }
 
-
+    
 
 
 
@@ -104,7 +105,7 @@ export class ***REMOVED*** extends Component {
                 features.forEach(f => {
                     if (f.properties[***REMOVED***]) {
                         generatedCSV = generatedCSV + f.properties[***REMOVED***] + ', \n'
-                    }
+                    }          
                 })
             }
 
@@ -255,17 +256,17 @@ export class ***REMOVED*** extends Component {
                 onMoveLayer,
                 ***REMOVED***,
                 ***REMOVED***,
-                ***REMOVED***
+                ***REMOVED***                       
             }
         } = this.props
 
-
-
+        
+        
 
         let ***REMOVED*** = ""
         let ***REMOVED*** = ""
 
-
+        
 
         if (app != 'csv') {
             const theMeasure = measures ? measures[0] : null
@@ -288,8 +289,8 @@ export class ***REMOVED*** extends Component {
                 <SelectControl
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {
-                       ***REMOVED***("app", app)
+                    onChange={(app) => {  
+                       ***REMOVED***("app", app)                            
                     }}
                     options={apps}
                 />
@@ -551,7 +552,7 @@ export class ***REMOVED*** extends Component {
                     />
                     </PanelRow>
 
-
+                       
 
                 {usePattern && <***REMOVED*** allCategories={allCategories} allDimensions={allDimensions}
                     ***REMOVED***={fillColor} ***REMOVED***={***REMOVED***}

@@ -2,12 +2,12 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { GenericIcon } from "@devgateway/dvz-wp-commons";
+import Generic from "../icons";
 
 ***REMOVED***(process.env.BLOCKS_NS + '/new-d3-map',
     {
         title: __('D3 Map'),
-        icon: GenericIcon,
+        icon: Generic,
         category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
