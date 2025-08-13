@@ -1,5 +1,5 @@
-import {useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-
+import {useBlockProps} from '@wordpress/block-editor';
+import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 const SaveComponent = (props) => {
     const {attributes: {
             measures,
@@ -111,6 +111,7 @@ const SaveComponent = (props) => {
              data-label-text-color={***REMOVED***}
              data-label-orientation={***REMOVED***}
              data-manual-colors={***REMOVED***(JSON.stringify(manualColors))}
+             data-no-data-message={noDataMsg}
              data-csv={csv}
 
 >

@@ -16,7 +16,8 @@ import Property from "./utils/Property";
 import ***REMOVED*** from "./utils/***REMOVED***";
 import {***REMOVED***} from "@wordpress/block-editor";
 import ***REMOVED*** from "./utils/***REMOVED***";
-import {Format, isSupersetAPI} from "@devgateway/dvz-wp-commons";
+import Format from '../../charts/Format.jsx';
+import {isSupersetAPI} from "../../commons/APIutils";
 
 const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -83,7 +84,7 @@ export class ***REMOVED*** extends Component {
                 markFillColor,
                 ***REMOVED***,
                 markSizeScale,
-                tooltip
+                tooltip                
             }
         } = this.props
 
@@ -266,13 +267,13 @@ export class ***REMOVED*** extends Component {
 
 
         debugger;
-
+        
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {
+                    onChange={(app) => {                       
                         ***REMOVED***("app", app)
                     }}
                     options={apps}
@@ -466,14 +467,16 @@ export class ***REMOVED*** extends Component {
                 <PanelBody title={__("Breaks")}>
 
                     <***REMOVED***
-                        showSize={***REMOVED***}
+                        showSize={true}
                         ***REMOVED***={true}
                         app={app}
                         csv={csv}
                         filters={filters}
                         ***REMOVED***={***REMOVED***}
                         measures={measures}
+                        filters={filters}
                         ***REMOVED***={flowOrigin+"/"+***REMOVED***}
+                        showSize={***REMOVED***}
                         ***REMOVED***={***REMOVED***}
                         ***REMOVED***={markFillColor}
                         format={format}
