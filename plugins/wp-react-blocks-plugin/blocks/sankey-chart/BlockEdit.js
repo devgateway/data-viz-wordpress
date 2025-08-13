@@ -1,4 +1,4 @@
-import {InspectorControls, PanelColorSettings, useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -9,21 +9,19 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import {
-    BlockEditWithAPIMetadata,
-    SizeConfig,
-    CSVConfig,
-    Tooltip,
-    togglePanel,
-    Measures,
-    ChartLegends,
-    DataFilters,
-    getTranslation
-} from '@devgateway/dvz-wp-commons';
-import {categorical, sequential, diverging} from "@devgateway/dvz-wp-commons";
-import Papa from "papaparse";
 
+import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
+import {__} from '@wordpress/i18n';
+import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import CSVSourceConfig from "../commons/CSVSourceConfig";
+import Tooltip from "../commons/Tooltip.jsx";
+import {togglePanel} from "../commons/Util";
+import Measures from "../commons/Measures";
+import {categorical, sequential, diverging} from "../commons/ChartColors";
+import {getTranslation} from "../commons/APIutils";
+import ChartLegends from "../commons/ChartLegends";
+import Papa from "papaparse";
+import DataFilters from "../commons/DataFilters";
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
@@ -274,8 +272,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         }
 
                         {app == 'csv' &&
-                        <CSVConfig {...this.props}>
-                        </CSVConfig>}
+                        <CSVSourceConfig {...this.props}>
+                        </CSVSourceConfig>}
 
                         <PanelBody initialOpen={false} title={__("Options")}>
                             <PanelBody initialOpen={false} title={__("Layout")}>

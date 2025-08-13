@@ -2,13 +2,14 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { BLOCKS_CATEGORY, BLOCKS_NS, GenericIcon } from '@devgateway/dvz-wp-commons';
+import {Generic} from "../icons";
 
-registerBlockType(BLOCKS_NS+'/post-carousel',
+
+registerBlockType(process.env.BLOCKS_NS+'/post-carousel',
     {
         title: __('Posts Carousel',"dg"),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'Numeric',
