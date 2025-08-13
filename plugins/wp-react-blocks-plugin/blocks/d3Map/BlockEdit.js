@@ -2,11 +2,12 @@ import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-edit
 import {
     Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl, Button
 } from '@wordpress/components'
+
 import {__} from '@wordpress/i18n'
-import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig, togglePanel} from '@devgateway/dvz-wp-commons'
+import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '../commons/index'
 import LayerSettings from "./layers/Base";
 import LayerModel from "./layers/Model"
-
+import {togglePanel} from "../commons/Util";
 
 class BlockEdit extends ComponentWithSettings {
     constructor(props) {
@@ -45,7 +46,7 @@ class BlockEdit extends ComponentWithSettings {
         const model = {...LayerModel}
         model.id = Date.now()
         newLayers.push(model)
-
+        
         setAttributes({layers: newLayers})
     }
 
@@ -113,7 +114,7 @@ class BlockEdit extends ComponentWithSettings {
                                     checked={***REMOVED***}
                                     onChange={() => setAttributes({***REMOVED***:!***REMOVED***})}
                                 />
-                    </PanelRow>
+                    </PanelRow>	
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus["SIZE"]}
                            onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
