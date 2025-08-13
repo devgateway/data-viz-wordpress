@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { BLOCKS_CATEGORY, BLOCKS_NS,  ChartIcon } from '@devgateway/dvz-wp-commons';
+import {Chart} from '../icons/index.js'
 
-***REMOVED***(BLOCKS_NS + '/chart',
+***REMOVED***(process.env.BLOCKS_NS + '/chart',
     {
         title: __('Data Chart'),
-        icon: ChartIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Chart,
+        category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             height: {
@@ -115,6 +115,14 @@ import { BLOCKS_CATEGORY, BLOCKS_NS,  ChartIcon } from '@devgateway/dvz-wp-comm
             showLegends: {
                 type: 'boolean',
                 default: true
+            },
+            ***REMOVED***: {
+                type: 'boolean',
+                default: false
+            },
+            numberOfLegendColumns: {
+                type: 'Numeric',
+                default: 4
             },
             legendLabel: {
                 type: 'String',

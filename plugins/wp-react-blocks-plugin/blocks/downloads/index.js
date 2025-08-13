@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {***REMOVED***} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { BLOCKS_NS, BLOCKS_CATEGORY,GenericIcon } from '@devgateway/dvz-wp-commons';
+import {Generic} from '../icons'
 
-***REMOVED***(BLOCKS_NS + '/download',
+***REMOVED***(process.env.BLOCKS_NS + '/download',
     {
         title: __('Download'),
-        icon: GenericIcon,
-        category: BLOCKS_CATEGORY,
+        icon: Generic,
+        category: process.env.BLOCKS_CATEGORY,
         attributes: {
             defaultFormat: {
                 type: 'string',
