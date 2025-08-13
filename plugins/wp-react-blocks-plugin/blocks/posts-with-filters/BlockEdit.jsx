@@ -14,10 +14,12 @@ import {
     SearchControl,
     SelectControl,
     __experimentalDivider as Divider,
+    __experimentalScrollable as Scrollable,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings } from "@devgateway/dvz-wp-commons";
+import { ComponentWithSettings } from "../commons";
 import apiFetch from '@wordpress/api-fetch';
+import { fetchAllCategories } from './utils';
 
 
 class BlockEditComponent extends ComponentWithSettings {
@@ -42,16 +44,14 @@ class BlockEditComponent extends ComponentWithSettings {
 
     getSystemCategories() {
 
-        apiFetch({
-            path: '/wp/v2/categories',
-            method: 'GET',
-        }).then(categories => {
+        fetchAllCategories().then(categories => {
             const categoriesList = [];
             categories.forEach(category => {
                 categoriesList.push({ label: category.name, value: category.id });
             });
             this.setState({ categories: categoriesList });
         });
+
     }
 
     getCategories() {
@@ -63,7 +63,6 @@ class BlockEditComponent extends ComponentWithSettings {
     }
 
     render() {
-        console.log(this.state);
         const {
             setAttributes,
             toggleSelection,
@@ -117,6 +116,7 @@ class BlockEditComponent extends ComponentWithSettings {
                                                         onChange={(categorySearch) => this.setState({ categorySearch })}
                                                         placeholder={__("Search categories...")}
                                                     />
+                                                    <Scrollable style={{ maxHeight: '240px', padding: '10px 0', margin: '12px 0' }}>
                                                     {filteredCategories.map(category => (
                                                         <CheckboxControl
                                                             label={category.label}
@@ -133,6 +133,9 @@ class BlockEditComponent extends ComponentWithSettings {
                                                             }}
                                                         />
                                                     ))}
+                                                    </Scrollable>
+                                                    <div style={{ display: 'flex', height: '8px' }}></div>
+
 
                                                     <TextControl
                                                         label={__("Category Placeholder")}
@@ -162,7 +165,7 @@ class BlockEditComponent extends ComponentWithSettings {
                                                         help={__("Select the category that has the countries")}
                                                         value={countryCategory}
                                                         onChange={(countryCategory) => {
-                                                            setAttributes({ countryCategory });
+                                                            setAttributes({ countryCategory: parseInt(countryCategory) });
                                                         }}
                                                     />
 
