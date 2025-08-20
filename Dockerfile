@@ -29,13 +29,16 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
   --mount=type=bind,source=packages/commons/package.json,target=packages/commons/package.json \
   pnpm install --frozen-lockfile
 
-# Organize WordPress files to the container
-COPY wp-content wp-content
-COPY plugins wp-content/plugins
-COPY wp-theme wp-content/themes/dg-semantic
-
 # Build the plugins
 RUN pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
+
+# Organize WordPress files to the container
+COPY wp-content wp-content
+COPY wp-theme wp-content/themes/dg-semantic
+
+# Copy built plugins from workspace into wp-content so built assets are included
+RUN mkdir -p wp-content/plugins \
+  && cp -a plugins/. wp-content/plugins/
 
 # Create a tarball of the wp-content directory
 RUN chown -R 82:82 wp-content \
