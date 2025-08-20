@@ -4,7 +4,6 @@ wp-content/uploads
 node_modules/
 .git
 dist
-build/
 packages/create-wp-customizer/
 packages/upgrade-wp-customizer/
 # Log files
