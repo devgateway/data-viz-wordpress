@@ -20,8 +20,6 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 FROM base AS builder
 
 ENV NODE_ENV=production
-ENV BLOCKS_CATEGORY=wp-react-lib-blocks
-ENV BLOCKS_NS=viz
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
   --mount=type=bind,source=package.json,target=package.json \
@@ -30,7 +28,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
   pnpm install --frozen-lockfile
 
 # Build the plugins
-RUN pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
+RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
+pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
 COPY wp-content wp-content
