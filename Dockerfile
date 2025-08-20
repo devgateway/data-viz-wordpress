@@ -19,6 +19,10 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 
 FROM base AS builder
 
+ENV NODE_ENV=production
+ENV BLOCKS_CATEGORY=wp-react-lib-blocks
+ENV BLOCKS_NS=viz
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
   --mount=type=bind,source=package.json,target=package.json \
   --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
