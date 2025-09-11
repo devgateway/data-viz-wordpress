@@ -24,7 +24,7 @@ const BreaksGenerator = ({
     const DEFAULT_POINT_SIZE = 8;
     const generate = (pretty, nBreaks = 4) => {
         //eslint-disable-next-line
-
+        debugger;
 
         const newBreaks = []
         const queryString = filters.map(f => f.param + "=" + f.value.map(v => v).toString()).join('&')
@@ -53,7 +53,7 @@ const BreaksGenerator = ({
             naturalBreaks.push(pretty ? prettyRound(clusters[clusters.length - 1].slice(-1)[0]) : clusters[clusters.length - 1].slice(-1)[0]);
 
             //eslint-disable-next-line
-
+            debugger;
             for (let i = 0; i < naturalBreaks.length - 2; i++) {
 
                 newBreaks.push({
@@ -70,7 +70,7 @@ const BreaksGenerator = ({
             let borderColor = defaultBorderColor
 
             let size = DEFAULT_POINT_SIZE
-
+            debugger;
 
             if (currentGraterThan.length > 0) {
                 color = currentGraterThan[0].color
@@ -92,7 +92,7 @@ const BreaksGenerator = ({
     }
     const add = () => {
         //eslint-disable-next-line
-
+        debugger;
         const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
         let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
 
@@ -122,7 +122,7 @@ const BreaksGenerator = ({
 
     const update = (property, index, value) => {
         //eslint-disable-next-line
-
+        debugger;
         const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
         let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
         const newBreaks = [...lessThanBreaks]
@@ -133,7 +133,7 @@ const BreaksGenerator = ({
 
     const remove = (index) => {
         //eslint-disable-next-line
-
+        debugger;
         let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
         let lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
         const newBreaks = [...lessThanBreaks]
@@ -152,7 +152,7 @@ const BreaksGenerator = ({
 
     const updateGraterThan = (property, value) => {
         //eslint-disable-next-line
-
+        debugger;
         const graterThanBreak = breaks.filter(b => b.type == 'graterThan')[0]
         const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
         graterThanBreak[property] = value
