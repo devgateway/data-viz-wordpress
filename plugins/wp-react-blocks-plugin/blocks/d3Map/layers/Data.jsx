@@ -348,13 +348,25 @@ export class DataLayerSetting extends Component {
                 />
 
             </PanelRow>
-            {app != 'csv' && allMeasures && allMeasures.map(m => <PanelRow><p
-                style={{
-                    "margin-top": "calc(8px)",
-                    "font-size": "12px",
-                    "font-style": "normal",
-                    "color": "rgb(117, 117, 117)"
-                }}>{"{" + m.value + "}"}</p></PanelRow>)}
+            <PanelRow>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    <strong>{__("You can use the following variables", "dg")}</strong>
+                    {app != 'csv' && allMeasures && allMeasures.map(m =><div  style={{
+                        "margin-top": "calc(8px)",
+                        "font-size": "12px",
+                        "font-style": "normal",
+                        "color": "rgb(117, 117, 117)"
+                    }}>
+                        {"{" + m.value + "}"}</div>)}
+
+                    {jsonFields.map(m => <div style={{
+                        "margin-top": "calc(8px)",
+                        "font-size": "12px",
+                        "font-style": "normal",
+                        "color": "rgb(117, 117, 117)"
+                    }}>{"{" + m + "}"}</div>)}
+                </div>
+            </PanelRow>
         </PanelBody>,
             <React.Fragment>
                 {app != 'csv' && <Measures
