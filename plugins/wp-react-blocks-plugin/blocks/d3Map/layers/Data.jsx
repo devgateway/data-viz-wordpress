@@ -343,7 +343,6 @@ export class DataLayerSetting extends Component {
                 <TextareaControl
                     label={__("Tooltip")}
                     value={tooltip}
-                    help={__("You can use variables {var_name}")}
                     onChange={(tooltip) => onChangeProperty("tooltip", tooltip)}
                     rows={10}
                 />
