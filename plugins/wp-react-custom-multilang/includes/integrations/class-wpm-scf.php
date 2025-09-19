@@ -397,7 +397,7 @@ class WPM_SCF {
 
 		if ( $cache_data == false  ) {
 
-			// phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery --Reason This code is already called under added_post_meta hook, which is causing the infinite loop, so using manul query to get the results
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery --Reason This code is already called under added_post_meta hook, which is causing the infinite loop, so using manul query to get the results
 			$meta_value =	$wpdb->get_results( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s AND post_id = %d ORDER BY meta_id", $meta_key, $post_id ) );
 
 			if ( $meta_key == self::SMART_CF_SETTINGS ) {
@@ -429,7 +429,7 @@ class WPM_SCF {
 
 		if ( $meta_value == false  ) {
 
-			// phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery --Reason This code is already called under added_post_meta hook, which is causing the infinite loop, so using manul query to get the results
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery --Reason This code is already called under added_post_meta hook, which is causing the infinite loop, so using manul query to get the results
 			$meta_value =	$wpdb->get_results( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->termmeta} WHERE meta_key = %s AND term_id = %d ORDER BY meta_id", $meta_key, $term_id ) );
 			wp_cache_set( $cache_key, $meta_value, $cache_group );
 

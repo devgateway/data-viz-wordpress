@@ -74,7 +74,7 @@ export interface Group {
 
 export interface Styles {
     textColor:       string | null;
-    ***REMOVED***: string | null;
+    backgroundColor: string | null;
     className:       string | null;
     color:           string;
 }
@@ -180,11 +180,11 @@ export interface Collection {
     href: string;
 }
 
-export interface ***REMOVED*** {
-    applications: ***REMOVED***;
+export interface EurekaResponse {
+    applications: ApplicationsClass;
 }
 
-export interface ***REMOVED*** {
+export interface ApplicationsClass {
     versions__delta: string;
     apps__hashcode:  string;
     application:     Application[];
@@ -202,36 +202,36 @@ export interface Instance {
     app:                           string;
     ipAddr:                        string;
     status:                        string;
-    ***REMOVED***:              string;
+    overriddenStatus:              string;
     port:                          Port;
     securePort:                    Port;
     countryId:                     number;
-    ***REMOVED***:                ***REMOVED***;
+    dataCenterInfo:                DataCenterInfo;
     leaseInfo:                     LeaseInfo;
     metadata:                      Metadata;
     homePageUrl:                   string;
     statusPageUrl:                 string;
-    ***REMOVED***:                string;
+    healthCheckUrl:                string;
     vipAddress:                    string;
-    ***REMOVED***:              string;
+    secureVipAddress:              string;
     isCoordinatingDiscoveryServer: string;
-    ***REMOVED***:          string;
-    ***REMOVED***:            string;
+    lastUpdatedTimestamp:          string;
+    lastDirtyTimestamp:            string;
     actionType:                    string;
 }
 
-export interface ***REMOVED*** {
+export interface DataCenterInfo {
     "@class": string;
     name:     string;
 }
 
 export interface LeaseInfo {
     renewalIntervalInSecs: number;
-    ***REMOVED***:        number;
+    durationInSecs:        number;
     registrationTimestamp: number;
-    ***REMOVED***:  number;
-    ***REMOVED***:     number;
-    ***REMOVED***:    number;
+    lastRenewalTimestamp:  number;
+    evictionTimestamp:     number;
+    serviceUpTimestamp:    number;
 }
 
 export interface Metadata {
@@ -362,7 +362,7 @@ export interface MetaFields {
 }
 
 export enum MIMEType {
-    ***REMOVED*** = "application/json",
+    ApplicationJSON = "application/json",
 }
 
 export enum PingStatus {

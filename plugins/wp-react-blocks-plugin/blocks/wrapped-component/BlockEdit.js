@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {
     Panel, PanelBody, PanelRow, TextControl, SelectControl, Icon, Button, ButtonGroup, ResizableBox
 } from '@wordpress/components';
@@ -49,12 +49,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
     render() {
         const {
-            isSelected, ***REMOVED***, setAttributes, attributes: {
+            isSelected, toggleSelection, setAttributes, attributes: {
                 height, name, attr
             }
         } = this.props;
         const divStyles = {height: height + 'px', width: '100%'}
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
             <Panel header={__("Wrapped Settings")}>
                 <PanelBody>
                     <PanelRow>
@@ -98,7 +98,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </PanelRow>
                 </PanelBody>
             </Panel>
-        </***REMOVED***>), (<ResizableBox
+        </InspectorControls>), (<ResizableBox
             size={{height}}
             style={{"margin": "auto", width: "100%"}}
             minHeight="50"
@@ -114,10 +114,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }}
             onResizeStop={(event, direction, elt, delta) => {
                 setAttributes({height: parseInt(height + delta.height, 10),});
-                ***REMOVED***(true);
+                toggleSelection(true);
             }}
             onResizeStart={() => {
-                ***REMOVED***(false);
+                toggleSelection(false);
             }}>
             <div style={divStyles}>
                 {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}

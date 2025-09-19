@@ -2,7 +2,7 @@
 /**
  * WPM Translation functions
  *
- * Functions for translation, set translations to ***REMOVED*** arrays.
+ * Functions for translation, set translations to multidimensional arrays.
  *
  * @author   Valentyn Riaboshtan
  * @category      Core
@@ -33,7 +33,7 @@ function wpm_translate_url( $url, $language = '' ) {
 	$options       = wpm_get_lang_option();
 
 	if ( $language ) {
-		//phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ( ( $language === $user_language ) && ( ! is_admin() || is_front_ajax() ) && ! isset( $_GET['lang'] ) ) || ! isset( $options[ $language ] ) ) {
 			return $url;
 		}
@@ -49,7 +49,7 @@ function wpm_translate_url( $url, $language = '' ) {
 	$default_uri = str_replace( $host, '', $url );
 	$default_uri = $default_uri ? $default_uri : '/';
 	$languages   = wpm_get_languages();
-	$parts       = explode( '/', ltrim( ***REMOVED***( $default_uri ), '/' ) );
+	$parts       = explode( '/', ltrim( trailingslashit( $default_uri ), '/' ) );
 	$url_lang    = $parts[0];
 
 	if ( isset( $languages[ $url_lang ] ) ) {
@@ -127,7 +127,7 @@ function wpm_translate_string( $string, $language = '' ) {
 }
 
 /**
- * Translate ***REMOVED*** array with multilingual strings
+ * Translate multidimensional array with multilingual strings
  *
  * @param        $value
  * @param string $language
@@ -183,7 +183,7 @@ function wpm_string_to_ml_array( $string ) {
 }
 
 /**
- * Transform ***REMOVED*** array with multilingual strings to ***REMOVED*** array with multilingual arrays
+ * Transform multidimensional array with multilingual strings to multidimensional array with multilingual arrays
  *
  * @param $value
  *
@@ -229,7 +229,7 @@ function wpm_ml_array_to_string( $strings ) {
 }
 
 /**
- * Transform ***REMOVED*** array with multilingual arrays to ***REMOVED*** array with multilingual strings
+ * Transform multidimensional array with multilingual arrays to multidimensional array with multilingual strings
  *
  * @param $value
  *
@@ -250,7 +250,7 @@ function wpm_ml_value_to_string( $value ) {
 }
 
 /**
- * Set new value to ***REMOVED*** array with multilingual arrays by config
+ * Set new value to multidimensional array with multilingual arrays by config
  *
  * @param        $localize_array
  * @param mixed  $value
@@ -412,7 +412,7 @@ function wpm_untranslate_post( $post ) {
 		$cache_key 	= 'wpm_posts_by_id_key';
 		$orig_post 		= wp_cache_get($cache_key);
 		if( false === $orig_post ){
-			//phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery
+			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$orig_post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID = %d;", $post->ID ) );
 			wp_cache_set( $cache_key, $orig_post );
 		}

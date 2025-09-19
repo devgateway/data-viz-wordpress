@@ -18,7 +18,7 @@ function show_customization_settings($request)
 
     $results = array();
     $current_name = wpm_translate_value(get_option('blogname'));
-    $current_description = wpm_translate_value(get_option('***REMOVED***'));
+    $current_description = wpm_translate_value(get_option('blogdescription'));
     $current_logo = intval(get_option('site_logo', 0));
     $current_site_icon = intval(get_option('site_icon', 0));
 
@@ -50,7 +50,7 @@ function show_customization_settings($request)
                     $results['name'] = $changes->blogname->value;
                 }
 
-                $results['description'] = $changes->***REMOVED***->value;
+                $results['description'] = $changes->blogdescription->value;
                 $results['site_logo'] = $changes->{'dg-semantic::custom_logo'}->value;
                 $results['site_icon'] = $changes->site_icon->value;
                 //$results['raw']=$changes;

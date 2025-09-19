@@ -1,7 +1,7 @@
-import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {
     Button,
-    ***REMOVED***,
+    CheckboxControl,
     FormToggle,
     Panel,
     PanelBody,
@@ -11,11 +11,11 @@ import {
     TextControl, ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '../commons'
+import {BlockEditWithFilters} from '../commons'
 import {MediaUpload} from "@wordpress/media-utils";
 
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends BlockEditWithFilters {
 
     constructor(props) {
         super(props);
@@ -40,12 +40,12 @@ class BlockEdit extends ***REMOVED*** {
 
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
         this.getPosts()
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {
             setAttributes,
             attributes: {
@@ -56,7 +56,7 @@ class BlockEdit extends ***REMOVED*** {
             },
         } = this.props;
 
-        super.***REMOVED***(prevProps, prevState, snapshot)
+        super.componentDidUpdate(prevProps, prevState, snapshot)
 
         if (prevProps.attributes) {
             if (type != prevProps.attributes.type ||
@@ -73,7 +73,7 @@ class BlockEdit extends ***REMOVED*** {
         const {
             className,
             isSelected,
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 type,
@@ -89,7 +89,7 @@ class BlockEdit extends ***REMOVED*** {
 
             },
         } = this.props;
-        const ***REMOVED*** = () => (
+        const MyFormFileUpload = () => (
 
 
             <MediaUpload
@@ -114,7 +114,7 @@ class BlockEdit extends ***REMOVED*** {
 
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel header={__("Tabs Configuration")}>
 
                         <PanelBody title={__("Style")}>
@@ -175,8 +175,8 @@ class BlockEdit extends ***REMOVED*** {
                         </PanelBody>
 
                     </Panel>
-                </***REMOVED***>
-                <***REMOVED***></***REMOVED***>
+                </InspectorControls>
+                <MyFormFileUpload></MyFormFileUpload>
             </div>
         );
 

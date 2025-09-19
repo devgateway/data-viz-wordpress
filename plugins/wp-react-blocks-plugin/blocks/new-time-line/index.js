@@ -1,11 +1,11 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from "../icons";
 
 
-***REMOVED***(process.env.BLOCKS_NS + '/new-time-line',
+registerBlockType(process.env.BLOCKS_NS + '/new-time-line',
     {
         title: __('New Time Line',"dg"),
         icon: Generic,
@@ -84,9 +84,9 @@ import {Generic} from "../icons";
                         titleColor: "#6acbd5",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more"
                     },
@@ -96,9 +96,9 @@ import {Generic} from "../icons";
                         titleColor: "#fcb535",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more"
                     },
@@ -108,9 +108,9 @@ import {Generic} from "../icons";
                         titleColor: "#f79132",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more"
                     },
@@ -120,9 +120,9 @@ import {Generic} from "../icons";
                         titleColor: "#f79132",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more"
                     }, {
@@ -131,9 +131,9 @@ import {Generic} from "../icons";
                         titleColor: "#e54957",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more"
                     }, {
@@ -142,9 +142,9 @@ import {Generic} from "../icons";
                         titleColor: "#0e5583",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more"
                     }, {
@@ -153,9 +153,9 @@ import {Generic} from "../icons";
                         titleColor: "#2fb2e4",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more"
                     },
@@ -165,9 +165,9 @@ import {Generic} from "../icons";
                         titleColor: "#fcb535",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more"
                     }],

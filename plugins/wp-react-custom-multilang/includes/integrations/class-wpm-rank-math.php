@@ -224,7 +224,7 @@ class WPM_Rank_Math {
 							$cache_key 				=	'wpm_rankmath_term_meta_'.$meta_id;
 							$term_meta 				=	wp_cache_get( $cache_key );
 							if ( $term_meta === false ){
-								// phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery
+								// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 								$term_meta 				= $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->termmeta} WHERE meta_id = %d", $meta_id ) );
 								wp_cache_set( $cache_key, $term_meta );
 							}

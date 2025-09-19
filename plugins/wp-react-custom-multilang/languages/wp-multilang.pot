@@ -18,10 +18,10 @@ msgstr ""
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
 "_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
-"X-Poedit-***REMOVED***-1: .idea\n"
-"X-Poedit-***REMOVED***-2: assets\n"
-"X-Poedit-***REMOVED***-3: vendor\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: .idea\n"
+"X-Poedit-SearchPathExcluded-2: assets\n"
+"X-Poedit-SearchPathExcluded-3: vendor\n"
 
 #: includes/admin/class-wpm-admin-edit-menus.php:38
 #: includes/admin/class-wpm-admin-menus.php:160

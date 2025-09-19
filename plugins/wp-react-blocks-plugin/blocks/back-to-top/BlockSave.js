@@ -5,7 +5,7 @@ const SaveComponent = (props) => {
             buttonLabel,
             height,
             width,
-            ***REMOVED***,
+            backgroundColor,
             fontColor
         },
     } = props;
@@ -18,7 +18,7 @@ const SaveComponent = (props) => {
                  data-button-label={buttonLabel}
                  data-height={height}
                  data-width={width}
-                 data-background-color={***REMOVED***}
+                 data-background-color={backgroundColor}
                  data-font-color={fontColor}
                  data-component={"backToTop"}>
             </div>

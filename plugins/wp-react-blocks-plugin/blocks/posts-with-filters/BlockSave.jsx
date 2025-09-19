@@ -7,16 +7,16 @@ const BlockSave = (props) => {
     attributes: {
       className,
       height,
-      ***REMOVED***,
+      showPagination,
       postsPerPage,
       showFilters,
-      ***REMOVED***,
-      ***REMOVED***,
+      showDateFilter,
+      showCategoryFilter,
       categories,
-      ***REMOVED***,
-      ***REMOVED***,
-      ***REMOVED***,
-      ***REMOVED***,
+      categoryPlaceholder,
+      showCountryFilter,
+      countryCategory,
+      countryPlaceholder,
     }
   } = props;
   const blockProps = useBlockProps.save({
@@ -26,18 +26,18 @@ const BlockSave = (props) => {
     <div
       {...blockProps}
       className={"viz-component"}
-      data-component={"***REMOVED***"}
+      data-component={"postswithFilters"}
       data-height={height}
-      data-show-pagination={***REMOVED***}
+      data-show-pagination={showPagination}
       data-show-posts-per-page={postsPerPage}
       data-show-filters={showFilters}
-      data-show-date-filter={***REMOVED***}
-      data-show-category-filter={***REMOVED***}
-      data-categories={***REMOVED***(JSON.stringify(categories))}
-      data-category-placeholder={***REMOVED***}
-      data-show-country-filter={***REMOVED***}
-      data-country-category={***REMOVED***}
-      data-country-placeholder={***REMOVED***}
+      data-show-date-filter={showDateFilter}
+      data-show-category-filter={showCategoryFilter}
+      data-categories={encodeURIComponent(JSON.stringify(categories))}
+      data-category-placeholder={categoryPlaceholder}
+      data-show-country-filter={showCountryFilter}
+      data-country-category={countryCategory}
+      data-country-placeholder={countryPlaceholder}
     >
       <InnerBlocks.Content />
     </div>

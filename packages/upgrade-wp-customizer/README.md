@@ -1,6 +1,6 @@
 # @devgateway/upgrade-wp-customizer
 
-Upgrade and modernize your WordPress Customizer projects to use the latest block-based structure and best practices, with automated code ***REMOVED*** and dependency management.
+Upgrade and modernize your WordPress Customizer projects to use the latest block-based structure and best practices, with automated code transformations and dependency management.
 
 ## Features
 

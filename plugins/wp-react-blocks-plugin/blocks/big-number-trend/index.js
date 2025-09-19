@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons/index.js'
 
-***REMOVED***(process.env.BLOCKS_NS + '/***REMOVED***',
+registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
     {
         title: __('Big Number Trend'),
         icon: Generic,
@@ -62,14 +62,14 @@ import {Generic} from '../icons/index.js'
                 type: "Array",
                 default: []
             },
-            ***REMOVED***: {
+            dvzProxyDatasetId: {
                 type: 'String',
                 default: ""
             },
             types: {
                 type: "Array",
                 default: [
-                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, ***REMOVED***: false}}
+                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, singleDimension: false}}
                 ]
             },
             label: {
@@ -80,7 +80,7 @@ import {Generic} from '../icons/index.js'
                 type: 'string',
                 default: "#5a5d68",
             },
-            ***REMOVED***: {
+            bigNumberFontSize: {
                 type: 'Numeric',
                 default: 24
             },
@@ -88,15 +88,15 @@ import {Generic} from '../icons/index.js'
                 type: 'Numeric',
                 default: 14
             },           
-            ***REMOVED***: {
+            percentFontSize: {
                 type: 'Numeric',
                 default: 14
             },                   
-            ***REMOVED***: {
+            showPercentageChange: {
                 type: 'Boolean',
                 default: false
             },
-             ***REMOVED***: {
+             waitForFilters: {
                 type: "Boolean",
                 default: false
             },

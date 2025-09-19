@@ -1,25 +1,25 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import {
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
+    getColorClassName,
+    InspectorControls,
+    PanelColorSettings,
     useBlockProps,
     withColors
 } from '@wordpress/block-editor';
 import {Generic} from '../icons/index.js'
 import {Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
-import {***REMOVED***} from "../commons";
+import {BlockEditWithFilters} from "../commons";
 
 const EditComponent = (props) => {
     const {
-        ***REMOVED***,
-        ***REMOVED***,
+        backgroundColor,
+        setBackgroundColor,
         attributes: {
             label,
             placeholder,
-            ***REMOVED***,
-            ***REMOVED***,
+            successMessage,
+            failureMessage,
             alignment,
             list,
             tag
@@ -30,11 +30,11 @@ const EditComponent = (props) => {
     let divStyles = {"text-align": alignment, "padding": '5px'};
 
 
-    if (***REMOVED*** != undefined) {
-        if (***REMOVED***.class != undefined) {
-            divClass = ***REMOVED***.class;
+    if (backgroundColor != undefined) {
+        if (backgroundColor.class != undefined) {
+            divClass = backgroundColor.class;
         } else {
-            divStyles['background-color'] = ***REMOVED***.color;
+            divStyles['background-color'] = backgroundColor.color;
         }
     }
 
@@ -46,20 +46,20 @@ const EditComponent = (props) => {
     );
 
 
-    const queryString = `editing=true&label=${label}&list=${list}&tag=${tag}&placeholder=${placeholder}&***REMOVED***=${***REMOVED***}&***REMOVED***=${***REMOVED***}&alignment=${alignment}`;
+    const queryString = `editing=true&label=${label}&list=${list}&tag=${tag}&placeholder=${placeholder}&successmessage=${successMessage}&failuremessage=${failureMessage}&alignment=${alignment}`;
 
     return (
         <div>
-            <***REMOVED***>
+            <InspectorControls>
                 <Panel header="Block Settings">
                     <PanelBody>
                         <PanelRow>
-                            <***REMOVED***
+                            <PanelColorSettings
                                 title={__('Color settings')}
                                 colorSettings={[
                                     {
-                                        value: ***REMOVED***.color,
-                                        onChange: ***REMOVED***,
+                                        value: backgroundColor.color,
+                                        onChange: setBackgroundColor,
                                         label: __('Background color')
                                     },
                                 ]}
@@ -97,20 +97,20 @@ const EditComponent = (props) => {
                         <PanelRow>
                             <TextControl
 
-                                value={***REMOVED***}
-                                onChange={(***REMOVED***) => props.setAttributes({***REMOVED***: ***REMOVED***})}
+                                value={successMessage}
+                                onChange={(successMessage) => props.setAttributes({successMessage: successMessage})}
                                 label={__("Success Message")}/>
                         </PanelRow>
                         <PanelRow>
                             <TextControl
-                                value={***REMOVED***}
-                                onChange={(***REMOVED***) => props.setAttributes({***REMOVED***: ***REMOVED***})}
+                                value={failureMessage}
+                                onChange={(failureMessage) => props.setAttributes({failureMessage: failureMessage})}
                                 label={__("Failure Message")}/>
                         </PanelRow>
                     </PanelBody>
                 </Panel>
 
-            </***REMOVED***>
+            </InspectorControls>
             <div {...blockProps}  >
                 <iframe  style={{width:'100%'}} scrolling={"no"}
                         src={props.src + queryString}/>
@@ -124,12 +124,12 @@ const SaveComponent = (props) => {
     const {setAttributes} = props;
     const {
         customBackgroundColor,
-        ***REMOVED***,
+        backgroundColor,
         alignment
     } = props.attributes;
 
 
-    const divClass = ***REMOVED***('background-color', ***REMOVED***);
+    const divClass = getColorClassName('background-color', backgroundColor);
 
     const divStyles = {
         "background-color": customBackgroundColor,
@@ -150,14 +150,14 @@ const SaveComponent = (props) => {
     );
 }
 
-class ***REMOVED*** extends ***REMOVED*** {
+class EditWithSettings extends BlockEditWithFilters {
     render() {
         return <EditComponent
             src={this.state.react_ui_url + "/embeddable/newsletter?"} {...this.props}></EditComponent>
     }
 }
 
-***REMOVED***(process.env.BLOCKS_NS + '/newsletter',
+registerBlockType(process.env.BLOCKS_NS + '/newsletter',
     {
         title: __('Newsletter Form'),
         icon: Generic,
@@ -173,8 +173,8 @@ class ***REMOVED*** extends ***REMOVED*** {
                 default: "Enter your email",
             }
             ,
-            ***REMOVED***: {type: 'string', default: "Thanks for submitting"},
-            ***REMOVED***: {type: 'string', default: "Something didn't go well, please try again later"},
+            successMessage: {type: 'string', default: "Thanks for submitting"},
+            failureMessage: {type: 'string', default: "Something didn't go well, please try again later"},
             list: {
                 type: 'string',
                 default: "",
@@ -187,7 +187,7 @@ class ***REMOVED*** extends ***REMOVED*** {
 
         }
         ,
-        edit: withColors('***REMOVED***', {textColor: 'color'})(***REMOVED***),
+        edit: withColors('backgroundColor', {textColor: 'color'})(EditWithSettings),
         save: SaveComponent,
     }
 )

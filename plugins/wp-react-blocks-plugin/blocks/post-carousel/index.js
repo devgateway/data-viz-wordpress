@@ -1,11 +1,11 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from "../icons";
 
 
-***REMOVED***(process.env.BLOCKS_NS+'/post-carousel',
+registerBlockType(process.env.BLOCKS_NS+'/post-carousel',
     {
         title: __('Posts Carousel',"dg"),
         icon: Generic,

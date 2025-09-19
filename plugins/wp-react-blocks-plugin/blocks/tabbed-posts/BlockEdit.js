@@ -1,30 +1,30 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 
 
 import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-import {***REMOVED***} from '../commons/index.js'
+import {BlockEditWithFilters} from '../commons/index.js'
 import {SizeConfig} from '../commons/index'
 
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends BlockEditWithFilters {
 
     constructor(props) {
         super(props);
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
-        const ***REMOVED*** = this.state?.previewMode;
-        if (***REMOVED*** !== prevState.previewMode) {
-            this.props.setAttributes({previewMode: ***REMOVED***});
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const newPreviewMode = this.state?.previewMode;
+        if (newPreviewMode !== prevState.previewMode) {
+            this.props.setAttributes({previewMode: newPreviewMode});
         }
     }
 
     render() {
         const {
             className, isSelected,
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 panelStatus,
@@ -47,7 +47,7 @@ class BlockEdit extends ***REMOVED*** {
         const divStyles = {height: `${height}px`, width: '100%'}
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel>
                         <PanelBody title={__("Visibility","dg")}>
                             <PanelRow>
@@ -96,7 +96,7 @@ class BlockEdit extends ***REMOVED*** {
                         </SizeConfig>
                         {this.renderFilters()}
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
 
                 <ResizableBox
                     size={{height}}
@@ -117,10 +117,10 @@ class BlockEdit extends ***REMOVED*** {
                         setAttributes({
                             height: parseInt(height + delta.height, 10),
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}>
                     <div style={divStyles}>
                         {this.state.react_ui_url&&<iframe style={divStyles} scrolling={"no"}

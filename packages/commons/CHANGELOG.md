@@ -1,28 +1,35 @@
 # @devgateway/dvz-wp-commons
 
+## 1.1.0
+
+### Minor Changes
+
+- [#45](https://github.com/devgateway/data-viz-wordpress/pull/45) [`bb51401`](https://github.com/devgateway/data-viz-wordpress/commit/bb51401482f77e9f275c454ba0d7dab8231c269b) Thanks [@timothygachengo](https://github.com/timothygachengo)! - - Update licenses
+  - Internal improvements
+
 ## 1.0.5
 
 ### Patch Changes
 
-- [`7b045c3`](https://github.com/devgateway/data-viz-wordpress/commit/7b045c3b73f5492d439a713138716e9891a50e53) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - chore(DVIZ-32): update Node.js setup and refine workflow caching. Remove publish command in the commons package to prevent double releases
+- [`7b045c3`](https://github.com/devgateway/data-viz-wordpress/commit/7b045c3b73f5492d439a713138716e9891a50e53) Thanks [@timothygachengo](https://github.com/timothygachengo)! - chore(DVIZ-32): update Node.js setup and refine workflow caching. Remove publish command in the commons package to prevent double releases
 
 ## 1.0.4
 
 ### Patch Changes
 
-- [#12](https://github.com/devgateway/data-viz-wordpress/pull/12) [`fda7d1f`](https://github.com/devgateway/data-viz-wordpress/commit/fda7d1f8502b6b45c2f18221b472c8ddf97cbfb0) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - Internal Update: Update CI
+- [#12](https://github.com/devgateway/data-viz-wordpress/pull/12) [`fda7d1f`](https://github.com/devgateway/data-viz-wordpress/commit/fda7d1f8502b6b45c2f18221b472c8ddf97cbfb0) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Internal Update: Update CI
 
 ## 1.0.3
 
 ### Patch Changes
 
-- [`69daf22`](https://github.com/devgateway/data-viz-wordpress/commit/***REMOVED***) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - Internal changes: Update CI
+- [`69daf22`](https://github.com/devgateway/data-viz-wordpress/commit/69daf2207789b4eea4a9317844f29ec00a8b8d34) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Internal changes: Update CI
 
 ## 1.0.2
 
 ### Patch Changes
 
-- [#8](https://github.com/devgateway/data-viz-wordpress/pull/8) [`0556d82`](https://github.com/devgateway/data-viz-wordpress/commit/0556d828488e20405e29ed6dde0e01f54e364f12) Thanks [@***REMOVED***](https://github.com/***REMOVED***)! - # Changelog
+- [#8](https://github.com/devgateway/data-viz-wordpress/pull/8) [`0556d82`](https://github.com/devgateway/data-viz-wordpress/commit/0556d828488e20405e29ed6dde0e01f54e364f12) Thanks [@timothygachengo](https://github.com/timothygachengo)! - # Changelog
 
   ### ⚙️ Miscellaneous Tasks
 

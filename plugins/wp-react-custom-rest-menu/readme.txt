@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: ***REMOVED***, alebarbieri, ***REMOVED***, raik, ***REMOVED***, Trollhag, fifciuu
+Contributors: ClaudioLaBarbera, alebarbieri, joshuaslatedesign, raik, beltranrengifo, Trollhag, fifciuu
 Tags: api, json, json-rest-api, menu-routes, menus, REST, wp-api, wp-rest-api, v2
 Requires at least: 4.4
 Tested up to: 5.3.2

@@ -9,8 +9,8 @@ export default class ConfidenceIntervalConfig extends Component {
     }
  
     setFieldData(serieId, serieLabel, dataField, value) { 
-         const { attributes: { ***REMOVED*** }, setAttributes } = this.props
-        const newConfidenceIntervals = ***REMOVED***.slice()
+         const { attributes: { confidenceIntervals }, setAttributes } = this.props
+        const newConfidenceIntervals = confidenceIntervals.slice()
         let current = newConfidenceIntervals.filter(c => c.serieId == serieId)[0]
          if (!current) {
             current = {serieId,serieLabel}
@@ -18,7 +18,7 @@ export default class ConfidenceIntervalConfig extends Component {
             newConfidenceIntervals.push(current)
         }
         current[dataField] = value
-        setAttributes({ ***REMOVED***: newConfidenceIntervals });
+        setAttributes({ confidenceIntervals: newConfidenceIntervals });
     }
    
      render() {    
@@ -27,14 +27,14 @@ export default class ConfidenceIntervalConfig extends Component {
         series,
         setAttributes,
         attributes: {
-            ***REMOVED***        
+            confidenceIntervals        
         }
     }= this.props;
 
     return [
         <PanelBody initialOpen={false}  title={__("Confidence Intervals")} initialOpen={false}>
             {series && series.map(s=>{
-            const current = ***REMOVED***.filter(c => c.serieId == s.id)[0]
+            const current = confidenceIntervals.filter(c => c.serieId == s.id)[0]
              
              return (<>
              <PanelRow> <label>{s.value} </label></PanelRow>
