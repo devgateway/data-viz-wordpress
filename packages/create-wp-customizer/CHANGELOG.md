@@ -1,5 +1,12 @@
 # @devgateway/create-wp-customizer
 
+## 1.1.0
+
+### Minor Changes
+
+- [#45](https://github.com/devgateway/data-viz-wordpress/pull/45) [`bb51401`](https://github.com/devgateway/data-viz-wordpress/commit/bb51401482f77e9f275c454ba0d7dab8231c269b) Thanks [@timothygachengo](https://github.com/timothygachengo)! - - Update licenses
+  - Internal improvements
+
 ## 1.0.2
 
 ### Patch Changes
