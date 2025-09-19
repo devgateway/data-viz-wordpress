@@ -100,7 +100,7 @@ class WPM_Admin_Notices {
 	 */
 	public static function hide_notices() {
 		if ( isset( $_GET['wpm-hide-notice'], $_GET['_wpm_notice_nonce']  ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 			if ( ! wp_verify_nonce( $_GET['_wpm_notice_nonce'], 'wpm_hide_notices_nonce' ) ) {
 				wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'wp-multilang' ) );
 			}
@@ -109,7 +109,7 @@ class WPM_Admin_Notices {
 				wp_die( esc_html__( 'Cheatin&#8217; huh?', 'wp-multilang' ) );
 			}
 
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 			$hide_notice = sanitize_text_field( $_GET['wpm-hide-notice'] );
 			self::remove_notice( $hide_notice );
 			do_action( 'wpm_hide_' . $hide_notice . '_notice' );
@@ -178,7 +178,7 @@ class WPM_Admin_Notices {
 	public static function update_notice() {
 		if ( version_compare( get_option( 'wpm_db_version' ), WPM_VERSION, '<' ) ) {
 			$updater = new WPM_Background_Updater();
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( ! empty( $_GET['do_update_wpm'] ) || $updater->is_updating() ) {
 				include 'views/html-notice-updating.php';
 			} else {

@@ -1,6 +1,6 @@
 import {PanelRow, RangeControl, TextControl, SelectControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import ***REMOVED*** from "../commons/APIutils";
+import getTranslatedOptions from "../commons/APIutils";
 
 const Sort = (props) => {
     const {
@@ -11,7 +11,7 @@ const Sort = (props) => {
             sortReverse,
             dimension1,
             dimension2,
-            ***REMOVED***,
+            sortSecondDimension,
             sortReverseSecondDimension,
             type
 
@@ -20,7 +20,7 @@ const Sort = (props) => {
 
 
     //The following code will be used to sort stacked bar's slices https://devgateway.atlassian.net/browse/TCDIKE-767
-    let ***REMOVED*** = []
+    let sortBySliceOptions = []
     debugger;
     if (dimension2 && allCategories) {
 
@@ -28,7 +28,7 @@ const Sort = (props) => {
 
         if (target && target.items) {
             debugger;
-            ***REMOVED*** = ***REMOVED***(target.items)
+            sortBySliceOptions = getTranslatedOptions(target.items)
                 .map(item => {
                     return ({label: "Value of " + item.label, value: item.value})
                 })
@@ -38,22 +38,22 @@ const Sort = (props) => {
     }
 
 
-    let ***REMOVED***;
+    let firtDimSortItems;
 
     if (type == 'line') {
-        ***REMOVED*** = [
+        firtDimSortItems = [
             {label: __('Default', "dg"), value: 'default'},
-            {label: __('***REMOVED*** ', "dg"), value: '***REMOVED***'},
+            {label: __('Alphabetically ', "dg"), value: 'alphabetically'},
             {label: __('By Date ', "dg"), value: 'date'}
         ];
 
     } else {
-        ***REMOVED*** = [
+        firtDimSortItems = [
             {label: __('Default', "dg"), value: 'default'},
-            {label: __('***REMOVED*** ', "dg"), value: '***REMOVED***'},
+            {label: __('Alphabetically ', "dg"), value: 'alphabetically'},
             {label: __('By Date ', "dg"), value: 'date'},
             {label: __('Value (Group/Bar/Total)', "dg"), value: 'values'},
-            ...***REMOVED***
+            ...sortBySliceOptions
 
         ];
     }
@@ -69,7 +69,7 @@ const Sort = (props) => {
                         setAttributes({sort})
 
                     }}
-                    options={props.options || ***REMOVED***}
+                    options={props.options || firtDimSortItems}
                 />
             </PanelRow>
             <PanelRow>
@@ -86,14 +86,14 @@ const Sort = (props) => {
                 <PanelRow>
                     <SelectControl
                         label={__('Bar/Slice Sort: ', "dg")}
-                        value={[***REMOVED***]}
-                        onChange={(***REMOVED***) => {
-                            setAttributes({***REMOVED***})
+                        value={[sortSecondDimension]}
+                        onChange={(sortSecondDimension) => {
+                            setAttributes({sortSecondDimension})
 
                         }}
                         options={props.options ||
                             [{label: __('Default', "dg"), value: 'default'},
-                                {label: __('***REMOVED*** ', "dg"), value: '***REMOVED***'},
+                                {label: __('Alphabetically ', "dg"), value: 'alphabetically'},
                                 {label: __('By Date ', "dg"), value: 'date'}
 
                             ]

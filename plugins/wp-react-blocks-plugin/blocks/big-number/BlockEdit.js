@@ -1,4 +1,4 @@
-import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -6,9 +6,9 @@ import {
     ResizableBox,
     SelectControl,
     TextControl,
-    ***REMOVED***,
+    FontSizePicker,
     __experimentalText as Text,
-    ***REMOVED***,
+    TextareaControl,
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
@@ -25,14 +25,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         super(props);
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***()
+    componentDidMount() {
+        super.componentDidMount()
     }
 
     render() {
         const {
             className, isSelected,
-            ***REMOVED***, setAttributes,
+            toggleSelection, setAttributes,
             attributes: {
                 measures,
                 height,
@@ -41,15 +41,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 filters,
                 group,
                 panelStatus,
-                ***REMOVED***,
+                dvzProxyDatasetId,
                 label,
-                ***REMOVED***,
+                numberFontSize,
                 numberColor,
                 labelFontSize,
                 labelColor, 
                 csv,
                 type,
-                ***REMOVED***,
+                waitForFilters,
                 noDataText
            }
         } = this.props;
@@ -70,7 +70,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const divStyles = {height: height + 'px', width: '100%'}
 
        return ([isSelected && (
-           <***REMOVED***>
+           <InspectorControls>
                <Panel header={__("Chart Configuration")}>
                    <PanelBody
                        panelStatus={panelStatus['GROUP']}
@@ -86,8 +86,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                          <PanelRow>
                                 <ToggleControl
                                     label={__('Wait For Filters')}
-                                    checked={***REMOVED***}
-                                    onChange={() => setAttributes({***REMOVED***:!***REMOVED***})}
+                                    checked={waitForFilters}
+                                    onChange={() => setAttributes({waitForFilters:!waitForFilters})}
                                 />
                             </PanelRow>	
                    </PanelBody>
@@ -112,10 +112,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                            {isSupersetAPI(app, this.state.apps) && <PanelRow>
                                <SelectControl
                                    label={__('Datasets')}
-                                   value={[***REMOVED***]}
+                                   value={[dvzProxyDatasetId]}
                                    onChange={(newDatasetId) => {
                                        setAttributes({
-                                           ***REMOVED***: newDatasetId
+                                           dvzProxyDatasetId: newDatasetId
                                        })
 
                                        this.loadMetadata(app, newDatasetId)
@@ -129,10 +129,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                        {app != 'csv' && <Measures
                            title={__(`Measure`)}
-                           ***REMOVED***={value => {
+                           onSetSingleMeasure={value => {
                                setAttributes({ measures: [value] })
                            }}
-                           ***REMOVED***={value => {
+                           onFormatChange={value => {
                                setAttributes({ format: value })
                            }}
                            allMeasures={this.state.measures}
@@ -146,7 +146,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                <PanelBody initialOpen={false} title={__("CSV Configuration")}
                                    onToggle={e => togglePanel("csv_cfg", panelStatus, setAttributes)}>
                                    <PanelRow>
-                                       <***REMOVED***
+                                       <TextareaControl
                                            label={__("CSV Data")}
                                            value={csv}
                                            onChange={(csv) => setAttributes({ csv })}
@@ -157,8 +157,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                        hiddenCustomAxisFormat={type == 'radar' || type == 'big-number'}
                                        format={format}
                                        customFormat={{}}
-                                       ***REMOVED***={false}
-                                       ***REMOVED***={(newFormat, field) => {
+                                       useCustomAxisFormat={false}
+                                       onFormatChange={(newFormat, field) => {
                                            console.log("newFormat", newFormat)
                                            setAttributes({ format: newFormat })
                                        }}
@@ -194,27 +194,27 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                        <PanelRow>
                            <Text>{__("Number Font Size")}</Text>
                        </PanelRow>
-                       <***REMOVED***
+                       <FontSizePicker
                            fontSizes={[]}
-                           value={***REMOVED***}
-                           ***REMOVED***={14}
+                           value={numberFontSize}
+                           fallbackFontSize={14}
                            onChange={(newFontSize) => {
-                               setAttributes({ ***REMOVED***: newFontSize })
+                               setAttributes({ numberFontSize: newFontSize })
                            }}
                        />
                        <PanelRow>
                            <Text>{__("Label Font Size")}</Text>
                        </PanelRow>
-                       <***REMOVED***
+                       <FontSizePicker
                            fontSizes={[]}
                            value={labelFontSize}
-                           ***REMOVED***={14}
+                           fallbackFontSize={14}
                            onChange={(newFontSize) => {
                                setAttributes({ labelFontSize: newFontSize })
                            }}
                        />
 
-                       <***REMOVED*** title={__('Color Settings')}
+                       <PanelColorSettings title={__('Color Settings')}
                            colorSettings={[
                                {
                                    value: numberColor,
@@ -234,7 +234,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                        />
                    </PanelBody>
                </Panel>
-           </***REMOVED***>),
+           </InspectorControls>),
            (<ResizableBox
                size={{ height }}
                style={{ "margin": "auto", width: "100%" }}
@@ -254,10 +254,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                    setAttributes({
                        height: parseInt(height + delta.height, 10),
                    });
-                   ***REMOVED***(true);
+                   toggleSelection(true);
                }}
                onResizeStart={() => {
-                   ***REMOVED***(false);
+                   toggleSelection(false);
                }}>
 
                <div className={className}>

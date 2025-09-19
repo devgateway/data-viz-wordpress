@@ -2,7 +2,7 @@ import {Component} from "@wordpress/element";
 import {__} from '@wordpress/i18n';
 import {
     Button,
-    ***REMOVED***,
+    CheckboxControl,
     PanelBody,
     PanelRow,
     SelectControl,
@@ -11,7 +11,7 @@ import {
 } from '@wordpress/components';
 import Measures from './Measures.jsx'
 
-const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
+const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
     const sortedOptions = options.sort(function(a,b) {
         var aLabel= a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
@@ -19,11 +19,11 @@ const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     });
 
     return <SelectControl onChange={(value) => {
-        ***REMOVED***(value, index)
+        onUpdateFilterParam(value, index)
     }} value={param} options={sortedOptions}/>
 }
 
-const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
+const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
     if (items) {
         const sortedItems = items.sort(function(a,b) {
             /*
@@ -35,7 +35,7 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
         });
         return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
                                                         onChange={e => {
-                                                            ***REMOVED***(v.id, index)
+                                                            onUpdateFilterValue(v.id, index)
                                                         }}/></PanelRow>)
     } else {
         return null;
@@ -43,21 +43,21 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
 }
 
 /*let types = [
-    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, ***REMOVED***: false}},
-    {label: 'Pie', value: 'pie', supports: {singleMeasure: true, ***REMOVED***: false}},
-    {label: 'Line', value: 'line', supports: {singleMeasure: false, ***REMOVED***: true}},
-    {label: 'Map', value: 'map', supports: {singleMeasure: true, ***REMOVED***: false}}]*/
+    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, singleDimension: false}},
+    {label: 'Pie', value: 'pie', supports: {singleMeasure: true, singleDimension: false}},
+    {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
+    {label: 'Map', value: 'map', supports: {singleMeasure: true, singleDimension: false}}]*/
 
 export class APIConfig extends Component {
     constructor(props) {
         super(props);
 
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onMeasuresChange = this.onMeasuresChange.bind(this)
+        this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this)
         this.addFilter = this.addFilter.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.updateFilterParam = this.updateFilterParam.bind(this)
+        this.updateFilterValue = this.updateFilterValue.bind(this)
+        this.setFilterValue = this.setFilterValue.bind(this)
         this.removeFilter = this.removeFilter.bind(this)
         this.items = this.items.bind(this)
 
@@ -70,12 +70,12 @@ export class APIConfig extends Component {
         }
     }
 
-    ***REMOVED***(prevState) {
+    cleanSelection(prevState) {
         const {setAttributes} = this.props
         setAttributes({measures: [], filters: []})
     }
 
-    ***REMOVED***(param, idx) {
+    updateFilterParam(param, idx) {
         const {attributes: {filters}, setAttributes, allFilters} = this.props
         const newFilters = filters.slice()
         const selected = allFilters.filter(f => f.param === param)[0]
@@ -84,7 +84,7 @@ export class APIConfig extends Component {
 
     }
 
-    ***REMOVED***(value, idx) {
+    updateFilterValue(value, idx) {
         const {attributes: {filters}, setAttributes, allFilters} = this.props
         const selected = filters[idx]
         let values = selected.value
@@ -99,7 +99,7 @@ export class APIConfig extends Component {
         setAttributes({filters: newFilters})
     }
 
-    ***REMOVED***(value, idx) {
+    setFilterValue(value, idx) {
         const {attributes: {filters}, setAttributes, allFilters} = this.props
         const selected = filters[idx]
         let values = selected.value
@@ -130,37 +130,37 @@ export class APIConfig extends Component {
 
 
 
-    ***REMOVED***(prevProps) {
+    componentDidUpdate(prevProps) {
 
         const {setAttributes, attributes: {type, dimension2, types}} = this.props
-        const {attributes: {type: prevType, dimension2:***REMOVED***}} = prevProps
+        const {attributes: {type: prevType, dimension2:prevDimension2}} = prevProps
 
 
-        const ***REMOVED*** = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null
+        const prevTypeObject = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null
         const currentType = types.filter(t => t.value === type).length > 0 ? types.filter(t => t.value === type)[0] : null
 
         if (type != prevType && currentType) {
-            if (***REMOVED***.supports.singleMeasure != currentType.supports.singleMeasure || (currentType.supports.singleMeasure == false && dimension2 != "none")) {
+            if (prevTypeObject.supports.singleMeasure != currentType.supports.singleMeasure || (currentType.supports.singleMeasure == false && dimension2 != "none")) {
                 setAttributes({measures: [], filters: []})
             } else {
                 setAttributes({filters: []})
             }
         }
 
-        if (dimension2!=***REMOVED*** && currentType && currentType.supports.singleMeasure == false){
+        if (dimension2!=prevDimension2 && currentType && currentType.supports.singleMeasure == false){
             setAttributes({measures: []})
         }
 
     }
 
 
-    ***REMOVED***(value) {
+    onSetSingleMeasure(value) {
         const {setAttributes} = this.props
         setAttributes({measures: [value]})
 
     }
 
-    ***REMOVED***(value) {
+    onMeasuresChange(value) {
         const {setAttributes, attributes: {measures}} = this.props
         if (measures.indexOf(value) > -1) {
             setAttributes({measures: measures.filter(d => d != value)})
@@ -225,17 +225,17 @@ export class APIConfig extends Component {
                         />
                     </PanelRow>
                 </PanelBody>,
-                <Measures ***REMOVED***={this.***REMOVED***} ***REMOVED***={this.***REMOVED***} {...this.props} currentType={currentType}/>,
+                <Measures onSetSingleMeasure={this.onSetSingleMeasure} onMeasuresChange={this.onMeasuresChange} {...this.props} currentType={currentType}/>,
                 <>
                  <PanelBody initialOpen={false} title={__("Filters")}>
                     {filters.map((f, index) => {
 
                         return (
                             <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
-                                <***REMOVED*** param={f.param} index={index} options={allFilters}
-                                                ***REMOVED***={this.***REMOVED***}/>
-                                {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
-                                                    ***REMOVED***={this.***REMOVED***}/>}
+                                <FilterSelector param={f.param} index={index} options={allFilters}
+                                                onUpdateFilterParam={this.updateFilterParam}/>
+                                {<CategoricalFilter value={f.value} index={index} items={this.items(f.type)}
+                                                    onUpdateFilterValue={this.updateFilterValue}/>}
                             </PanelBody>)
                     })}
 

@@ -2,13 +2,13 @@ export {
     APIConfig
 } from './APIConfig';
 export {
-    ***REMOVED***,
-    ***REMOVED***,
+    getTranslatedOptions,
+    getTranslation,
     isSupersetAPI
 } from './APIutils';
 export {
     BlockEditWithAPIMetadata,
-    ***REMOVED***,
+    BlockEditWithFilters,
     type BlockEditWithFiltersState,
     type BlockEditWithAPIMetadataState,
     type BlockEditWithAPIMetadataProps,
@@ -17,22 +17,22 @@ export {
     type ComponentWithSettingsProps,
     type ComponentWithSettingsState,
     SizeConfig,
-    type ***REMOVED***
+    type SizeConfigProps
 } from './Blocks';
 export {
     categorical,
     sequential,
     diverging,
-    type ***REMOVED***,
+    type ChartColorsProps,
     ChartColors
 } from './ChartColors';
 export {
     ChartLegends,
-    type LegendProps as ***REMOVED***
+    type LegendProps as ChartLegendsProps
 } from './ChartLegends';
 export {
     ChartMeasures,
-    type ***REMOVED***
+    type ChartMeasuresProps
 } from './ChartMeasures';
 export {
     DEFAULT_FORMAT_SETTINGS,
@@ -41,31 +41,31 @@ export {
 } from './Constants';
 export {
     CSVConfig
-} from './***REMOVED***';
+} from './CSVSourceConfig';
 export {
     DataFilters,
-    type ***REMOVED***
+    type DataFiltersProps
 } from './DataFilters';
 export {
     Format,
     type FormatProps
 } from './Format';
 export {
-    ***REMOVED***,
+    MapCSVSourceConfig,
     type MapCSVSourceConfigProps
-} from './***REMOVED***';
+} from './MapCSVSourceConfig';
 export {
     Measures,
     type MeasuresProps
 } from './Measures';
 export {
-    ***REMOVED***,
+    extractAxisValues,
     getSelectedLabelsForApp,
     transformDataToAppObject,
-    ***REMOVED***,
+    updateMeasureLabels,
     getSelectedItemsForApp,
-    ***REMOVED***
-} from './***REMOVED***';
+    getStoredOrSetItem
+} from './MobileConfigUtils';
 export {
     Tooltip,
 } from './Tooltip';

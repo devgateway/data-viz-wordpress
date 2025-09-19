@@ -139,7 +139,7 @@ function wpm_set_alternate_links() {
 	$hreflangs = apply_filters( 'wpm_alternate_links', $hreflangs, wpm_get_current_url() );
 
 	$hreflangs_escaped = implode( '', $hreflangs );
-	//phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- all html inside this variable already escaped above in $hreflangs_escaped variable
+	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- all html inside this variable already escaped above in $hreflangs_escaped variable
 	echo $hreflangs_escaped;
 }
 
@@ -238,7 +238,7 @@ function wpm_media_gallery( $html, $attr, $instance ) {
 		'columns'    => 3,
 		'size'       => 'thumbnail',
 		'include'    => '',
-		//phpcs:ignore ***REMOVED***.Performance.WPQueryParams.PostNotIn_exclude
+		//phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 		'exclude'    => '',
 		'link'       => ''
 	), $attr, 'gallery' );
@@ -252,9 +252,9 @@ function wpm_media_gallery( $html, $attr, $instance ) {
 		foreach ( $_attachments as $key => $val ) {
 			$attachments[$val->ID] = wpm_translate_post( $_attachments[$key] );
 		}
-	//phpcs:ignore ***REMOVED***.Performance.WPQueryParams.PostNotIn_exclude
+	//phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 	} elseif ( ! empty( $atts['exclude'] ) ) {
-		//phpcs:ignore ***REMOVED***.Performance.WPQueryParams.PostNotIn_exclude
+		//phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 		$attachments = get_children( array( 'post_parent' => $id, 'exclude' => $atts['exclude'], 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
 	} else {
 		$attachments = get_children( array( 'post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $atts['order'], 'orderby' => $atts['orderby'] ) );
@@ -410,7 +410,7 @@ function wpm_admin_language_switcher() {
 		'lang'      => wpm_get_language(),
 	);
 
-	//phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Escaping is done in the respective template file
+	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Escaping is done in the respective template file
 	echo wpm_get_template( 'admin-language-switcher', '', '', $args );
 }
 
@@ -425,7 +425,7 @@ function wpm_admin_language_switcher_customizer() {
 		'lang'      => wpm_get_language(),
 	);
 
-	//phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Escaping is done in the respective template file
+	//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Escaping is done in the respective template file
 	echo wpm_get_template( 'admin-language-switcher', 'customizer', '', $args );
 }
 

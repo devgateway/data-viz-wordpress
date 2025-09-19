@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, PanelBody, PanelRow, SelectControl, TextControl} from '@wordpress/components';
+import {CheckboxControl, PanelBody, PanelRow, SelectControl, TextControl} from '@wordpress/components';
 import {Component} from '@wordpress/element'
 import apiFetch from '@wordpress/api-fetch';
 import {togglePanel} from "./Util";
 
-import {***REMOVED***} from './APIutils'
+import {getTranslatedOptions} from './APIutils'
 import {isSupersetAPI} from "./APIutils";
 
 
@@ -32,8 +32,8 @@ export class ComponentWithSettings extends Component {
             react_ui_url: ''
         }
 
-        window.***REMOVED***("message", (event) => {
-            if (event.data.type === '***REMOVED***' && event.data.value === true) {
+        window.addEventListener("message", (event) => {
+            if (event.data.type === 'componentReady' && event.data.value === true) {
                 if (this.iframe.current) {
                     console.log("-----------Sending message -----------")
                     this.iframe.current.contentWindow.postMessage(({messageType: 'component-attributes', ...this.props.attributes}), "*")
@@ -42,72 +42,72 @@ export class ComponentWithSettings extends Component {
         }, false);
         this.iframe = React.createRef();
         this.unsubscribe = wp.data.subscribe(() => {
-            const ***REMOVED*** = wp.data.select("core/editor").getDeviceType();
-            if (***REMOVED*** !== this.state.previewMode) {
-                this.setState({previewMode: ***REMOVED*** });
+            const newPreviewMode = wp.data.select("core/editor").getDeviceType();
+            if (newPreviewMode !== this.state.previewMode) {
+                this.setState({previewMode: newPreviewMode });
             }
         });
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.iframe.current?.contentWindow) {
             this.iframe.current.contentWindow.postMessage(({messageType: 'component-attributes', ...this.props.attributes}), "*")
         }
     }
 
-    ***REMOVED***() {
+    componentDidMount() {
         apiFetch({path: '/dg/v1/settings'}).then((data) => {
             this.setState({
                 react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
                 react_api_url: data["react_api_url"],
                 apache_superset_url: data["apache_superset_url"],
                 site_language: data["site_language"],
-                current_language: new ***REMOVED***(document.location.search).get("edit_lang")
+                current_language: new URLSearchParams(document.location.search).get("edit_lang")
             });
         });
     }
 
-    ***REMOVED***() {
+    componentWillUnmount() {
         if (this.unsubscribe) {
             this.unsubscribe();
         }
     }
 }
-export class ***REMOVED*** extends ComponentWithSettings {
+export class BlockEditWithFilters extends ComponentWithSettings {
 
     constructor(props) {
         super(props);
         this.state = {
-            ***REMOVED***: [], types: null, taxonomies: null, loading: true
+            taxonomyValues: [], types: null, taxonomies: null, loading: true
         }
         this.onTypeChanged = this.onTypeChanged.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this)
+        this.getTaxonomyValues = this.getTaxonomyValues.bind(this)
+        this.onCategoryChanged = this.onCategoryChanged.bind(this)
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {
             setAttributes, attributes: {
                 type, taxonomy, count
             },
         } = this.props;
 
-        super.***REMOVED***(prevProps, prevState, snapshot)
+        super.componentDidUpdate(prevProps, prevState, snapshot)
         if (prevProps.attributes) {
             if (type != prevProps.attributes.type) {
 
             }
             if (taxonomy != prevProps.attributes.taxonomy) {
-                this.***REMOVED***()
+                this.getTaxonomyValues()
 
             }
         }
 
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***()
+    componentDidMount() {
+        super.componentDidMount()
         this.getTypes();
         this.getTaxonomies()
 
@@ -119,7 +119,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
 
 
         if (taxonomy != 'none') {
-            this.***REMOVED***()
+            this.getTaxonomyValues()
 
         }
 
@@ -132,14 +132,14 @@ export class ***REMOVED*** extends ComponentWithSettings {
         setAttributes({type: value})
     }
 
-    ***REMOVED***(value) {
+    onTaxonomyChanged(value) {
         const {setAttributes} = this.props
         setAttributes({categories: []})
         setAttributes({taxonomy: value})
 
     }
 
-    ***REMOVED***(checked, value) {
+    onCategoryChanged(checked, value) {
 
         const {setAttributes, attributes: {categories}} = this.props
         if (!checked) {
@@ -152,7 +152,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
 
     }
 
-    ***REMOVED***() {
+    getTaxonomyValues() {
         const {
             setAttributes, attributes: {
                 type, taxonomy, count
@@ -163,7 +163,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
             path: '/wp/v2/' + taxonomy + '?per_page=100',
         }).then(data => {
 
-            this.setState({***REMOVED***: data});
+            this.setState({taxonomyValues: data});
         });
     }
 
@@ -195,7 +195,7 @@ export class ***REMOVED*** extends ComponentWithSettings {
                 count, type, taxonomy, category
             },
         } = this.props;
-        const {types, taxonomies, ***REMOVED***} = this.state
+        const {types, taxonomies, taxonomyValues} = this.state
         const typeOptions = types ? Object.keys(types)
             .filter(k => ['page', 'attachment', 'wp_block']
                 .indexOf(k) == -1).map(k => ({
@@ -206,31 +206,31 @@ export class ***REMOVED*** extends ComponentWithSettings {
 
     }
 
-    ***REMOVED***() {
+    taxonomyOptions() {
         const {
             attributes: {
                 type,
             },
         } = this.props;
-        const {types, taxonomies, ***REMOVED***} = this.state
+        const {types, taxonomies, taxonomyValues} = this.state
         let slug;
         if (types) {
             slug = this.typeOptions().filter(t => t.value == type)[0].slug
 
-            const ***REMOVED*** = types && taxonomies ? Object.keys(taxonomies)
+            const taxonomyOptions = types && taxonomies ? Object.keys(taxonomies)
                 .filter(i => taxonomies[i].types.indexOf(slug) > -1).map(k => ({
                     label: types[slug].name + ' -> ' + taxonomies[k].name, value: taxonomies[k].rest_base
                 })) : []
 
-            return [{label: 'None', value: 'none'}, ...***REMOVED***]
+            return [{label: 'None', value: 'none'}, ...taxonomyOptions]
         } else {
             return []
         }
     }
 
-    ***REMOVED***() {
-        const {types, taxonomies, ***REMOVED***} = this.state
-        const taxonomyValuesOptions = ***REMOVED*** && ***REMOVED***.map(t => ({label: t.name, value: t.id}))
+    categoriesOptions() {
+        const {types, taxonomies, taxonomyValues} = this.state
+        const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({label: t.name, value: t.id}))
         return taxonomyValuesOptions
     }
 
@@ -251,15 +251,15 @@ export class ***REMOVED*** extends ComponentWithSettings {
             </PanelRow>
             <PanelRow>
 
-                <SelectControl label={__("Use a taxonomy filter ")} options={this.***REMOVED***()}
+                <SelectControl label={__("Use a taxonomy filter ")} options={this.taxonomyOptions()}
                                value={taxonomy}
-                               onChange={this.***REMOVED***}
+                               onChange={this.onTaxonomyChanged}
                 />
             </PanelRow>
-            {taxonomy != 'none' && this.***REMOVED***().map(o => {
-                return <PanelRow><***REMOVED***
+            {taxonomy != 'none' && this.categoriesOptions().map(o => {
+                return <PanelRow><CheckboxControl
                     label={o.label}
-                    onChange={(checked) => this.***REMOVED***(checked, o.value)}
+                    onChange={(checked) => this.onCategoryChanged(checked, o.value)}
                     checked={categories.indexOf(o.value) > -1}
                 /></PanelRow>
             })}
@@ -274,7 +274,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
         super(props);
     }
 
-    ***REMOVED***() {
+    componentDidMount() {
         apiFetch({
             path: '/dg/v1/settings'
         }).then((settingsData) => {
@@ -300,18 +300,18 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                         react_api_url: settingsData["react_api_url"],
                         apache_superset_url: settingsData["apache_superset_url"],
                         site_language: settingsData["site_language"],
-                        current_language: new ***REMOVED***(document.location.search).get("edit_lang"),
+                        current_language: new URLSearchParams(document.location.search).get("edit_lang"),
                         apps
                     }, () => {
 
-                        const {app, ***REMOVED***} = this.props.attributes;
+                        const {app, dvzProxyDatasetId} = this.props.attributes;
 
                         if (isSupersetAPI(app, this.state.apps)) {
                             this.loadDatasets(app)
                         }
 
                         if (app && app != 'none') {
-                            this.loadMetadata(app, ***REMOVED***);
+                            this.loadMetadata(app, dvzProxyDatasetId);
                         }
                     });
                 })
@@ -321,17 +321,17 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
         });
     }
 
-    ***REMOVED***(prevProps) {
-        super.***REMOVED***(prevProps);
+    componentDidUpdate(prevProps) {
+        super.componentDidUpdate(prevProps);
         const {
             attributes: {
                 app,
-                ***REMOVED***
+                dvzProxyDatasetId
             }
         } = this.props;
         const {
             attributes: {
-                ***REMOVED***: prevDvzProxyDatasetId,
+                dvzProxyDatasetId: prevDvzProxyDatasetId,
                 app: prevAPP
             }
         } = prevProps;
@@ -342,26 +342,26 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
 
             if (isSupersetAPI(app, this.state.apps)) { //if app is superset proxy an additional step is added
                 this.loadDatasets(app)
-                if (***REMOVED***) {
-                    this.loadMetadata(app, ***REMOVED***)
+                if (dvzProxyDatasetId) {
+                    this.loadMetadata(app, dvzProxyDatasetId)
                 }
             } else {
                 this.loadMetadata(app);
             }
         } else {//app wasn't changed
 
-            if (***REMOVED*** != prevDvzProxyDatasetId) {
-                this.loadMetadata(app, ***REMOVED***);
+            if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+                this.loadMetadata(app, dvzProxyDatasetId);
             }
 
         }
     }
 
 
-    ***REMOVED***() {
-        const {app, ***REMOVED***} = this.props.attributes;
-        fetch(`/api/${app}/cacheEvict?***REMOVED***=${***REMOVED***}`).then(() => {
-            this.loadMetadata(app, ***REMOVED***)
+    evictSuperSetCache() {
+        const {app, dvzProxyDatasetId} = this.props.attributes;
+        fetch(`/api/${app}/cacheEvict?dvzProxyDatasetId=${dvzProxyDatasetId}`).then(() => {
+            this.loadMetadata(app, dvzProxyDatasetId)
         })
 
     }
@@ -386,16 +386,16 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
     }
 
 
-    loadMetadata(app, ***REMOVED***) {
+    loadMetadata(app, dvzProxyDatasetId) {
         if (app == 'csv') {
             return;
         }
 
 
-        const dimensionsUrl = `/api/${app}/dimensions${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
-        const measuresUrl = `/api/${app}/measures${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
-        const filtersUrl = `/api/${app}/filters${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
-        const categoriesUrl = `/api/${app}/categories${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
+        const dimensionsUrl = `/api/${app}/dimensions${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
+        const measuresUrl = `/api/${app}/measures${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
+        const filtersUrl = `/api/${app}/filters${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
+        const categoriesUrl = `/api/${app}/categories${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
 
         if (app != "csv") {
             fetch(dimensionsUrl)
@@ -410,7 +410,7 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                 .then(data => {
 
                     this.setState({
-                        dimensions: [{"label": __("None"), "value": "none"}, ...***REMOVED***(data)]
+                        dimensions: [{"label": __("None"), "value": "none"}, ...getTranslatedOptions(data)]
                     })
                 })
                 .catch(function (response) {
@@ -443,8 +443,8 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     return response.json()
                 })
                 .then(data => {
-                    ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(***REMOVED***(data)))
-                    this.setState({measures: ***REMOVED***(data)})
+                    sessionStorage.setItem(`measures_${app}`, JSON.stringify(getTranslatedOptions(data)))
+                    this.setState({measures: getTranslatedOptions(data)})
                 })
                 .catch(function (response) {
                     console.log("Error when loading measures")
@@ -458,8 +458,8 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     return response.json()
                 })
                 .then(data => {
-                        ***REMOVED***.setItem(`categories_${app}`, JSON.stringify(data))
-                        this.setState({categories: ***REMOVED***(data)})
+                        sessionStorage.setItem(`categories_${app}`, JSON.stringify(data))
+                        this.setState({categories: getTranslatedOptions(data)})
                     }
                 )
                 .catch(function (response) {

@@ -1,11 +1,11 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
 
 
-***REMOVED***(process.env.BLOCKS_NS + '/measures',
+registerBlockType(process.env.BLOCKS_NS + '/measures',
     {
         title: __('Measures'),
         icon: Generic,
@@ -20,7 +20,7 @@ import Generic from "../icons";
                 type: 'String',
                 default: "My Measures"
             },
-            ***REMOVED***: {
+            measuresGroups: {
                 type: 'object',
                 default: {}
             },

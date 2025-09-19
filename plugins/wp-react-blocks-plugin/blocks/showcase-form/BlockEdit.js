@@ -1,18 +1,18 @@
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED*** } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 import {
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
+    getColorClassName,
+    InspectorControls,
+    PanelColorSettings,
     useBlockProps,
     withColors
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
 import Generic from "../icons";
-import { ***REMOVED*** } from "../commons";
+import { BlockEditWithFilters } from "../commons";
 
 
-class EditComponent extends ***REMOVED*** {
+class EditComponent extends BlockEditWithFilters {
     constructor(props) {
         super(props);
     }
@@ -20,9 +20,9 @@ class EditComponent extends ***REMOVED*** {
     render() {
         const {
             src,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            backgroundColor,
+            setBackgroundColor,
+            toggleSelection,
             setAttributes,
             attributes: {
                 organization,
@@ -32,8 +32,8 @@ class EditComponent extends ***REMOVED*** {
                 message,
                 submitLabel,
                 resetLabel,
-                ***REMOVED***,
-                ***REMOVED***,
+                successMessage,
+                failureMessage,
                 width,
                 height,
                 alignment
@@ -41,28 +41,28 @@ class EditComponent extends ***REMOVED*** {
         } = this.props;
         let divClass;
         let divStyles = { "text-align": alignment, "margin": 'auto' };
-        if (***REMOVED*** != undefined) {
-            if (***REMOVED***.class != undefined) {
-                divClass = ***REMOVED***.class;
+        if (backgroundColor != undefined) {
+            if (backgroundColor.class != undefined) {
+                divClass = backgroundColor.class;
             } else {
-                divStyles['background-color'] = ***REMOVED***.color;
+                divStyles['background-color'] = backgroundColor.color;
             }
         }
 
-        const queryString = `editing=true&organization=${organization}&name=${name}&email=${email}&country=${country}&message=${message}&submitlabel=${submitLabel}&resetlabel=${resetLabel}&***REMOVED***=${***REMOVED***}&***REMOVED***=${***REMOVED***}&width=${width}&height=${height}&alignment=${alignment}`;
+        const queryString = `editing=true&organization=${organization}&name=${name}&email=${email}&country=${country}&message=${message}&submitlabel=${submitLabel}&resetlabel=${resetLabel}&successmessage=${successMessage}&failuremessage=${failureMessage}&width=${width}&height=${height}&alignment=${alignment}`;
 
 
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel header="Block Settings">
 
-                        <***REMOVED***
+                        <PanelColorSettings
                             title={__('Color settings',"dg")}
                             colorSettings={[
                                 {
-                                    value: ***REMOVED***.color,
-                                    onChange: ***REMOVED***,
+                                    value: backgroundColor.color,
+                                    onChange: setBackgroundColor,
                                     label: __('Background color',"dg")
                                 },
                             ]}
@@ -135,21 +135,21 @@ class EditComponent extends ***REMOVED*** {
                             <PanelBody>
                                 <TextControl
 
-                                    value={***REMOVED***}
-                                    onChange={(***REMOVED***) => this.props.setAttributes({ ***REMOVED***: ***REMOVED*** })}
+                                    value={successMessage}
+                                    onChange={(successMessage) => this.props.setAttributes({ successMessage: successMessage })}
                                     label={"Success Message"} />
                             </PanelBody>
                         </PanelRow>
                         <PanelRow>
                             <PanelBody>
                                 <TextControl
-                                    value={***REMOVED***}
-                                    onChange={(***REMOVED***) => this.props.setAttributes({ ***REMOVED***: ***REMOVED*** })}
+                                    value={failureMessage}
+                                    onChange={(failureMessage) => this.props.setAttributes({ failureMessage: failureMessage })}
                                     label={"Failure Message "} />
                             </PanelBody>
                         </PanelRow>
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
                 <div className={divClass} style={{ ...divStyles, width, height }}>
                     {this.state.react_ui_url && <iframe scrolling={"no"} style={{ width, height }}
                         src={this.state.react_ui_url + "/embeddable/showcaseForm?" + queryString} />}

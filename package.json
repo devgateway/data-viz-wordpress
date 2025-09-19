@@ -26,8 +26,8 @@
   ],
   "author": "Development Gateway",
   "license": "GPL-2.0-or-later",
-  "***REMOVED***": "pnpm@10.10.0",
-  "***REMOVED***": {
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.29.3"
   }

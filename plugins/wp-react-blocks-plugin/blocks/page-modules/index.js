@@ -1,6 +1,6 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {registerBlockType} from '@wordpress/blocks';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Generic} from '../icons/index.js'
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
 import {ComponentWithSettings} from "../commons";
@@ -24,26 +24,26 @@ class Edit extends ComponentWithSettings {
         super(props);
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
     }
 
-    ***REMOVED***() {
+    componentWillUnmount() {
         if (this.unsubscribe) {
             this.unsubscribe()
         }
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
-        const ***REMOVED*** = this.state?.previewMode ?? 'Desktop';
-        if (***REMOVED*** !== prevState.previewMode) {
-            this.props.setAttributes({previewMode: ***REMOVED***})
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const newPreviewMode = this.state?.previewMode ?? 'Desktop';
+        if (newPreviewMode !== prevState.previewMode) {
+            this.props.setAttributes({previewMode: newPreviewMode})
         }
     }
 
     render() {
-        const {attributes: {width, height, navLabel, topTopLabel, previewMode}, ***REMOVED***, setAttributes} = this.props;
-        const urlParams = new ***REMOVED***(window.location.search);
+        const {attributes: {width, height, navLabel, topTopLabel, previewMode}, toggleSelection, setAttributes} = this.props;
+        const urlParams = new URLSearchParams(window.location.search);
         const parent = urlParams.get('post');
         const queryString = `editing=true&parent=${parent}&data-nav-label=${navLabel}&data-to-top-label=${topTopLabel}&data-preview-mode=${previewMode}`;
         const divClass = ""
@@ -52,7 +52,7 @@ class Edit extends ComponentWithSettings {
         return (
             <div>
 
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel header={__("Configuration","dg")}>
                         <PanelBody title={__("Labels","dg")}>
                             <PanelRow>
@@ -74,7 +74,7 @@ class Edit extends ComponentWithSettings {
                             </PanelRow>
                         </PanelBody>
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
                 <ResizableBox
                     size={{height}}
                     style={{"margin": "auto", width: "100%"}}
@@ -95,10 +95,10 @@ class Edit extends ComponentWithSettings {
                             height: parseInt(height + delta.height, 10),
 
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}
                 >
 
@@ -116,7 +116,7 @@ class Edit extends ComponentWithSettings {
     }
 }
 
-***REMOVED***(`${process.env.BLOCKS_NS}/page-modules`,
+registerBlockType(`${process.env.BLOCKS_NS}/page-modules`,
     {
         title: __('Page Modules',"dg"),
         icon: Generic,

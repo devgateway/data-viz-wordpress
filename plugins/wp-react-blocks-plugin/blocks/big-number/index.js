@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons/index.js'
 
-***REMOVED***(process.env.BLOCKS_NS + '/bignumber',
+registerBlockType(process.env.BLOCKS_NS + '/bignumber',
     {
         title: __('Big Number'),
         icon: Generic,
@@ -57,21 +57,21 @@ import {Generic} from '../icons/index.js'
                 type: "Array",
                 default: []
             },
-            ***REMOVED***: {
+            dvzProxyDatasetId: {
                 type: 'String',
                 default: ""
             },
             types: {
                 type: "Array",
                 default: [
-                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, ***REMOVED***: false}}
+                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, singleDimension: false}}
                 ]
             },
             label: {
                 type: 'String',
                 default: "# of animals"
             },
-            ***REMOVED***: {
+            numberFontSize: {
                 type: 'Numeric',
                 default: 24
             },
@@ -87,7 +87,7 @@ import {Generic} from '../icons/index.js'
                 type: 'string',
                 default: "#5a5d68",
             },
-            ***REMOVED***: {
+            waitForFilters: {
                 type: "Boolean",
                 default: false
             },

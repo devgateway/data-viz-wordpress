@@ -8,7 +8,7 @@ jQuery(document).ready(function($){
 
 		if ( confirm(wpm_reset_settings_params.wpm_confirm_reset ) ) {
 			
-			e.***REMOVED***();
+			e.preventDefault();
 			let button = $(this);
 
 			let data = {

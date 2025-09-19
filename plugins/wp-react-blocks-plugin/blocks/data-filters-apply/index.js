@@ -1,9 +1,9 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 
-***REMOVED***(process.env.BLOCKS_NS + '/data-filters-apply',
+registerBlockType(process.env.BLOCKS_NS + '/data-filters-apply',
     {
         title: __('Apply Button', 'wp-react-blocks-plugin'),
         category: process.env.BLOCKS_CATEGORY,

@@ -1,6 +1,6 @@
 import {PanelBody, PanelRow, SelectControl, TextControl, ToggleControl} from "@wordpress/components";
 
-const Property = ({features, ***REMOVED***, value, property, title, type = 'toggle'}) => {
+const Property = ({features, onChangeProperty, value, property, title, type = 'toggle'}) => {
 
     const properties = features && features.length > 0 ? features[0].properties : {}
     let attributes = Object.keys(properties)
@@ -12,7 +12,7 @@ const Property = ({features, ***REMOVED***, value, property, title, type = 'togg
                     label={"None"}
                     checked={value == "none"}
                     onChange={(value) => {
-                        ***REMOVED***(property, "none")
+                        onChangeProperty(property, "none")
                     }}/>
             </PanelRow>
             {attributes.map(k => {
@@ -21,7 +21,7 @@ const Property = ({features, ***REMOVED***, value, property, title, type = 'togg
                         label={k}
                         checked={value == k}
                         onChange={(value) => {
-                            ***REMOVED***(property, value ? k : "none")
+                            onChangeProperty(property, value ? k : "none")
                         }}
                     >
 
@@ -36,7 +36,7 @@ const Property = ({features, ***REMOVED***, value, property, title, type = 'togg
                 label={title}
                 value={[value]}
                 onChange={(value) => {
-                    ***REMOVED***(property, value)
+                    onChangeProperty(property, value)
                 }}
                 options={[{label: "None", value: 'none'}, ...attributes.map(k => ({label: k, value: k}))]}>
             </SelectControl>

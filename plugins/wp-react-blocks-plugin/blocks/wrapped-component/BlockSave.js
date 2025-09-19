@@ -14,7 +14,7 @@ const SaveComponent = (props) => {
                 data-name={name}
                 data-height={height}
                 className={"viz-component"}
-                data-params={***REMOVED***(JSON.stringify(params))}
+                data-params={encodeURIComponent(JSON.stringify(params))}
                 data-component={"wrapped"}>
             </div>
 

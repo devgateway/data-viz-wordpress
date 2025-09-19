@@ -1,16 +1,16 @@
 import {__} from '@wordpress/i18n';
 import {useState} from "@wordpress/element";
 import {
-    ***REMOVED***,
+    getTextContent,
     insertObject,
-    ***REMOVED***,
+    registerFormatType,
     removeFormat,
     slice,
     useAnchorRef
 } from '@wordpress/rich-text';
 
-import {***REMOVED***} from '@wordpress/blocks';
-import {***REMOVED***, RichTextToolbarButton} from '@wordpress/block-editor';
+import {registerBlockType} from '@wordpress/blocks';
+import {InspectorControls, RichTextToolbarButton} from '@wordpress/block-editor';
 import {speak} from '@wordpress/a11y';
 import {tag as linkIcon} from '@wordpress/icons';
 import {Generic} from '../icons'
@@ -21,7 +21,7 @@ import {
     PanelBody,
     PanelRow,
     Popover,
-    ***REMOVED***,
+    TextareaControl,
     TextControl,
     ToggleControl,
     SelectControl
@@ -53,7 +53,7 @@ const PopUI = ({onClose, onCancel, value}) => {
     const [link, setLink] = useState("")
     const [updateRefs, setUpdateRefs] = useState(false)
 
-    let ***REMOVED*** = 1;
+    let suggestedIndex = 1;
     let isBefore = false;
     const currentPos = value.start
 
@@ -66,7 +66,7 @@ const PopUI = ({onClose, onCancel, value}) => {
 
     const [index, setIndex] = useState(max)
 
-    return <Modal title={__("Reference")} ***REMOVED***={e => onCancel()}>
+    return <Modal title={__("Reference")} onRequestClose={e => onCancel()}>
 
         <TextControl value={index} label={__("Index")}
                      onChange={(value) => setIndex(value)}>
@@ -78,11 +78,11 @@ const PopUI = ({onClose, onCancel, value}) => {
                                         setUpdateRefs(!updateRefs)
                                     }
                                     }></ToggleControl>}
-        <***REMOVED***
+        <TextareaControl
             label={__("Description")}
             help={__("Enter reference description ")}
-            value={***REMOVED***(text)}
-            onChange={(value) => setText(***REMOVED***(value))}
+            value={decodeURIComponent(text)}
+            onChange={(value) => setText(encodeURIComponent(value))}
         />
         <TextControl value={link} label={__("URL")}
                      onChange={(value) => setLink(value)}
@@ -115,8 +115,8 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
                 <PanelBody>
                     <form
                         onSubmit={(event) => {
-                            const ***REMOVED*** = value.replacements.slice();
-                            ***REMOVED***[value.start] = {
+                            const newReplacements = value.replacements.slice();
+                            newReplacements[value.start] = {
                                 type: name,
                                 attributes: {
                                     ...activeObjectAttributes,
@@ -130,10 +130,10 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
 
                             onChange({
                                 ...value,
-                                replacements: ***REMOVED***,
+                                replacements: newReplacements,
                             });
                             onClose()
-                            event.***REMOVED***();
+                            event.preventDefault();
                         }}
                     >
                         <PanelRow>
@@ -147,11 +147,11 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
 
                         </PanelRow>
                         <PanelRow>
-                            <***REMOVED***
+                            <TextareaControl
                                 className="block-editor-format-toolbar__image-container-value"
 
                                 label={__("Description")}
-                                value={***REMOVED***(content)}
+                                value={decodeURIComponent(content)}
                                 onChange={(content) => setContent(content)}
                             />
                         </PanelRow>
@@ -184,10 +184,10 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
 
 function edit(props) {
     const {
-        ***REMOVED***,
+        isObjectActive,
         isActive,
         activeObjectAttributes,
-        ***REMOVED***,
+        activeAttributes,
         value,
         onChange,
         onFocus,
@@ -201,16 +201,16 @@ function edit(props) {
     });
     const [showInline, setShowInline] = useState(true);
 
-    const [isModalOpen, ***REMOVED***] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     function openModal() {
-        ***REMOVED***(true);
+        setIsModalOpen(true);
     }
 
     function closeModal(referenceText, referenceLInk, updateRefs, index) {
         
-        const text = ***REMOVED***(slice(value));
+        const text = getTextContent(slice(value));
         const obj = insertObject(value, {
             type: name,
             attributes: {
@@ -227,14 +227,14 @@ function edit(props) {
         );
 
 
-        ***REMOVED***(false);
+        setIsModalOpen(false);
     }
 
     function onCancel() {
-        ***REMOVED***(false);
+        setIsModalOpen(false);
     }
 
-    function ***REMOVED***() {
+    function onRemoveFormat() {
         onChange(removeFormat(value, name));
         speak(__('Link removed.'), 'assertive');
     }
@@ -247,11 +247,11 @@ function edit(props) {
                 title={__('Reference')}
                 isActive={isActive}
                 onClick={openModal}
-                isActive={***REMOVED***}
+                isActive={isObjectActive}
                 shortcutType="primaryShift"
-                ***REMOVED***="e"/>
+                shortcutCharacter="e"/>
             {isModalOpen && <PopUI value={value} onCancel={onCancel} onClose={closeModal}/>}
-            {***REMOVED*** && <InlineUI value={value}
+            {isObjectActive && <InlineUI value={value}
                                          onClose={e => {
                                              setShowInline(false)
                                          }}
@@ -263,7 +263,7 @@ function edit(props) {
     );
 }
 
-***REMOVED***(name, reference);
+registerFormatType(name, reference);
 
 
 
@@ -291,7 +291,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const queryString = `data-group=${group}&data-app=${app}&data-reset-label=${resetLabel}&editing=true`
         const iframeStyles = {height: '65px'}
 
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
             <Panel header={__("References List")}>
                 <PanelBody >
                     <PanelRow>
@@ -317,7 +317,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 </PanelBody>
             </Panel>
                 
-            </***REMOVED***>),
+            </InspectorControls>),
                 (<div>
 
                         {this.state.react_ui_url &&
@@ -349,7 +349,7 @@ const BlockSave = (props) => {
     </div>)
 }
 
-***REMOVED***(process.env.BLOCKS_NS + '/reference-lists',
+registerBlockType(process.env.BLOCKS_NS + '/reference-lists',
     {
         title: __('References List'),
         icon: Generic,

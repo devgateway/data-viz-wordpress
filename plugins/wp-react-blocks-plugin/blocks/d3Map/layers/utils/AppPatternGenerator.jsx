@@ -1,24 +1,24 @@
 import {
-    ***REMOVED***, Button, PanelBody, PanelRow, RangeControl, SelectControl, TextControl
+    AnglePickerControl, Button, PanelBody, PanelRow, RangeControl, SelectControl, TextControl
 } from "@wordpress/components";
-import {***REMOVED***} from "@wordpress/block-editor";
+import {PanelColorSettings} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
 
 import Papa from 'papaparse'
 
-const ***REMOVED*** = "#000000"
+const defaultPatternColor = "#000000"
 const Patterns = ({
                       allCategories,
                       allDimensions,
                       app,
-                      ***REMOVED***,
+                      onChangeProperty,
                       patterns,
-                      ***REMOVED***,
+                      patternDiscriminator,
                       patternDiscriminatorLabel,
-                      ***REMOVED***
+                      defaultFillColor
                   }) => {
 
-    const ***REMOVED*** = [{label: 'Lines', value: 'lines'}, {label: 'Dots', value: 'dots'}, {
+    const patternsOptions = [{label: 'Lines', value: 'lines'}, {label: 'Dots', value: 'dots'}, {
         label: 'Squares',
         value: 'squares'
     }, {label: 'Triangle', value: 'triangle'}]
@@ -26,7 +26,7 @@ const Patterns = ({
 
     const dims = allDimensions ? allDimensions : []
 
-    const cats = ***REMOVED*** && allCategories ? allCategories.filter(c => c.type.toUpperCase() == ***REMOVED***.toUpperCase()) : []
+    const cats = patternDiscriminator && allCategories ? allCategories.filter(c => c.type.toUpperCase() == patternDiscriminator.toUpperCase()) : []
 
     console.log(cats)
 
@@ -39,9 +39,9 @@ const Patterns = ({
         <PanelRow>
             <SelectControl
                 label={__("Discriminator")}
-                value={***REMOVED***}
+                value={patternDiscriminator}
                 onChange={(v) => {
-                    ***REMOVED***('***REMOVED***', v)
+                    onChangeProperty('patternDiscriminator', v)
                 }}
                 options={[...dims]}/>
         </PanelRow>
@@ -50,7 +50,7 @@ const Patterns = ({
                 label={__("Label")}
                 value={patternDiscriminatorLabel}
                 onChange={(v) => {
-                    ***REMOVED***('patternDiscriminatorLabel', v)
+                    onChangeProperty('patternDiscriminatorLabel', v)
                 }}
             ></TextControl>
         </PanelRow>
@@ -60,24 +60,24 @@ const Patterns = ({
                     label={"Symbol"}
                     value={patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none'}
                     onChange={(v) => {
-                        ***REMOVED***('patterns', {...patterns, [field + '_symbol']: v})
+                        onChangeProperty('patterns', {...patterns, [field + '_symbol']: v})
                     }}
-                    options={[{label: "None", value: "none"}, ...***REMOVED***]}/>
+                    options={[{label: "None", value: "none"}, ...patternsOptions]}/>
             </PanelRow>
             <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__(`Color`)}
                     colorSettings={[{
-                        value: patterns[field + '_color'] ? patterns[field + '_color'] : ***REMOVED***,
+                        value: patterns[field + '_color'] ? patterns[field + '_color'] : defaultPatternColor,
                         label: __('Fill Color'),
                         onChange: (color) => {
-                            ***REMOVED***('patterns', {...patterns, [field + '_color']: color})
+                            onChangeProperty('patterns', {...patterns, [field + '_color']: color})
                         },
                     }]}
                 />
             </PanelRow>
             <PanelRow>
-                <***REMOVED*** label={__("Rotation")} onChange={value => ***REMOVED***('patterns', {
+                <AnglePickerControl label={__("Rotation")} onChange={value => onChangeProperty('patterns', {
                     ...patterns, [field + '_rotation']: value
                 })} value={patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0}/>
             </PanelRow>

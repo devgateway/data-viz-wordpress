@@ -21,7 +21,7 @@ const RadarChart = (props) => {
             groupMode,
             reverse,
             colorBy,
-            ***REMOVED***,
+            lineLayerEnabled,
             valueScale,
             maxValue,
             swap,
@@ -29,30 +29,30 @@ const RadarChart = (props) => {
             fixedMaxValue,
             fixedMinValue,
             barPadding,
-            ***REMOVED***,
+            barLabelPosition,
             showGrid,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            includeOverall,
+            barInnerPadding,
+            highlightXAxisLine,
             showTickLine,
             showRightAxis,
             enableArea,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            areaShadingCriteria,
+            areaLowerBound,
+            areaUpperBound,
             showPoints,
             enableGridY,
             enableGridX
         }
     } = props;
 
-    let ***REMOVED*** = []
+    let measuresOptions = []
     if (app == 'csv') {
         const data = Papa.parse(csv, {header: true, dynamicTyping: true});
-        ***REMOVED***.push({value: '', label: ''})
+        measuresOptions.push({value: '', label: ''})
         data.meta.fields.forEach((field, i) => {
             if (i !== 0) {
-                ***REMOVED***.push({value: field, label: field})
+                measuresOptions.push({value: field, label: field})
             }
         })
     } else {
@@ -65,7 +65,7 @@ const RadarChart = (props) => {
                 return (a.label > b.label) ? 1 : -1
             })
 
-            ***REMOVED*** = [{value: '', label: ''}, ...list]
+            measuresOptions = [{value: '', label: ''}, ...list]
         }
     }
 
@@ -106,9 +106,9 @@ const RadarChart = (props) => {
                     <PanelRow>
                         <SelectControl
                             label={__('Shading Criteria')}
-                            value={[***REMOVED***]}
-                            onChange={(***REMOVED***) => {
-                                setAttributes({***REMOVED***})
+                            value={[areaShadingCriteria]}
+                            onChange={(areaShadingCriteria) => {
+                                setAttributes({areaShadingCriteria})
                             }}
                             options={[{value: "DEFAULT", label: "default"}, {
                                 value: "CUSTOM_BETWEEN_TWO_LINES",
@@ -116,28 +116,28 @@ const RadarChart = (props) => {
                             }]}
                         />
                     </PanelRow>
-                    {***REMOVED*** == "CUSTOM_BETWEEN_TWO_LINES" &&
+                    {areaShadingCriteria == "CUSTOM_BETWEEN_TWO_LINES" &&
                         <>
                             <PanelRow>
                                 <SelectControl
                                     style={{width: 150}}
                                     label={__('Area Lower Bound')}
-                                    value={[***REMOVED***]}
-                                    onChange={(***REMOVED***) => {
-                                        setAttributes({***REMOVED***})
+                                    value={[areaLowerBound]}
+                                    onChange={(areaLowerBound) => {
+                                        setAttributes({areaLowerBound})
                                     }}
-                                    options={***REMOVED***}
+                                    options={measuresOptions}
                                 />
                             </PanelRow>
                             <PanelRow>
                                 <SelectControl
                                     style={{width: 150}}
                                     label={__('Area Upper Bound')}
-                                    value={[***REMOVED***]}
-                                    onChange={(***REMOVED***) => {
-                                        setAttributes({***REMOVED***})
+                                    value={[areaUpperBound]}
+                                    onChange={(areaUpperBound) => {
+                                        setAttributes({areaUpperBound})
                                     }}
-                                    options={***REMOVED***}
+                                    options={measuresOptions}
                                 />
                             </PanelRow>
                         </>

@@ -1,7 +1,7 @@
 import {PanelRow, SelectControl, ToggleControl, PanelBody} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-const ***REMOVED*** = [{value: "blues", label: 'blues'}, {value: "greens", label: 'greens'}, {
+const sequentialColors = [{value: "blues", label: 'blues'}, {value: "greens", label: 'greens'}, {
     value: "greys", label: 'greys'
 }, {value: "oranges", label: 'oranges'}, {value: "purples", label: 'purples'}, {
     value: "reds", label: 'reds'
@@ -17,31 +17,31 @@ const ***REMOVED*** = [{value: "blues", label: 'blues'}, {value: "greens", label
     value: "yellow_orange_red", label: 'yellow_orange_red'
 }]
 
-const ***REMOVED*** = (props) => {
+const GradientGenerator = (props) => {
     const {
-        ***REMOVED***, ***REMOVED***, ***REMOVED***
+        onChangeProperty, gradientScheme, gradientReverse
     } = props;
 
     return <PanelBody>
             <PanelRow>
                 <ToggleControl
                     label="Reverse Gradient"
-                    checked={***REMOVED***}
+                    checked={gradientReverse}
                     onChange={e => {
-                        ***REMOVED***("***REMOVED***", !***REMOVED***)}}
+                        onChangeProperty("gradientReverse", !gradientReverse)}}
                 />
                 </PanelRow>
             <PanelRow>
             <SelectControl
                 label={__('Gradient Color Scheme')}
-                value={***REMOVED***}
+                value={gradientScheme}
                 onChange={(value) => {
-                    ***REMOVED***("***REMOVED***", value)
+                    onChangeProperty("gradientScheme", value)
                 }}
-                options={***REMOVED***}
+                options={sequentialColors}
             />
         </PanelRow>
     </PanelBody>
 }
 
-export default ***REMOVED***
+export default GradientGenerator

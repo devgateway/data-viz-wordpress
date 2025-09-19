@@ -48,7 +48,7 @@ function ensureDirSync(dir: string) {
   }
 }
 
-function ***REMOVED***(content: string) {
+function insertBlocksImport(content: string) {
   // Only insert if not already present
   if (BLOCKS_IMPORT_REGEX.test(content)) return content;
   // Insert after the last import (or at the top if no imports)
@@ -61,7 +61,7 @@ function ***REMOVED***(content: string) {
   }
 }
 
-function ***REMOVED***(content: string) {
+function transformImports(content: string) {
   // Replace commons and icons import paths (non-default)
   let newContent = content.replace(COMMONS_REGEX, COMMONS_REPLACEMENT);
 
@@ -84,7 +84,7 @@ function ***REMOVED***(content: string) {
     newContent = newContent.replace(BLOCKS_NS_REGEX, 'BLOCKS_NS').replace(BLOCKS_CATEGORY_REGEX, 'BLOCKS_CATEGORY');
   }
   if (replaced) {
-    newContent = ***REMOVED***(newContent);
+    newContent = insertBlocksImport(newContent);
   }
   return newContent;
 }
@@ -114,7 +114,7 @@ function mergeFile(srcFile: string, templateFile: string | null, destFile: strin
     content = fs.readFileSync(srcFile, 'utf8');
   }
   if ([".js", ".jsx", ".ts", ".tsx"].includes(ext)) {
-    const transformed = ***REMOVED***(content);
+    const transformed = transformImports(content);
     if (isValidAST(transformed, destFile)) {
       fs.writeFileSync(destFile, transformed, 'utf8');
     } else {
@@ -129,30 +129,30 @@ function mergeDirs(srcDir: string, templateDir: string, destDir: string) {
   ensureDirSync(destDir);
   // Collect all unique file/directory names from both src and template
   const srcEntries = fs.existsSync(srcDir) ? fs.readdirSync(srcDir) : [];
-  const ***REMOVED*** = fs.existsSync(templateDir) ? fs.readdirSync(templateDir) : [];
-  const allEntries = Array.from(new Set([...srcEntries, ...***REMOVED***]));
+  const templateEntries = fs.existsSync(templateDir) ? fs.readdirSync(templateDir) : [];
+  const allEntries = Array.from(new Set([...srcEntries, ...templateEntries]));
 
   for (const entry of allEntries) {
     const srcPath = path.join(srcDir, entry);
     const templatePath = path.join(templateDir, entry);
     const destPath = path.join(destDir, entry);
     const srcExists = fs.existsSync(srcPath);
-    const ***REMOVED*** = fs.existsSync(templatePath);
-    const isDir = (srcExists && fs.statSync(srcPath).isDirectory()) || (***REMOVED*** && fs.statSync(templatePath).isDirectory());
+    const templateExists = fs.existsSync(templatePath);
+    const isDir = (srcExists && fs.statSync(srcPath).isDirectory()) || (templateExists && fs.statSync(templatePath).isDirectory());
     if (isDir) {
       mergeDirs(srcPath, templatePath, destPath);
     } else {
-      mergeFile(srcPath, ***REMOVED*** ? templatePath : null, destPath);
+      mergeFile(srcPath, templateExists ? templatePath : null, destPath);
     }
   }
 }
 
-function ***REMOVED***(filePath: string) {
+function mergeFileInPlace(filePath: string) {
   const ext = path.extname(filePath);
   if (!fs.existsSync(filePath)) return;
   let content = fs.readFileSync(filePath, 'utf8');
   if ([".js", ".jsx", ".ts", ".tsx"].includes(ext)) {
-    const transformed = ***REMOVED***(content);
+    const transformed = transformImports(content);
     if (isValidAST(transformed, filePath)) {
       fs.writeFileSync(filePath, transformed, 'utf8');
     } else {
@@ -161,21 +161,21 @@ function ***REMOVED***(filePath: string) {
   }
 }
 
-function ***REMOVED***(dir: string) {
+function migrateDirInPlace(dir: string) {
   if (!fs.existsSync(dir)) return;
   const entries = fs.readdirSync(dir);
   for (const entry of entries) {
     if (entry === 'node_modules' || entry === '.git') continue;
     const fullPath = path.join(dir, entry);
     if (fs.statSync(fullPath).isDirectory()) {
-      ***REMOVED***(fullPath);
+      migrateDirInPlace(fullPath);
     } else {
-      ***REMOVED***(fullPath);
+      mergeFileInPlace(fullPath);
     }
   }
 }
 
-function ***REMOVED***(src: string, dest: string, ***REMOVED*** = false) {
+function copyDirRecursive(src: string, dest: string, parentIsBlocksRoot = false) {
   if (!fs.existsSync(src)) return;
   ensureDirSync(dest);
   const entries = fs.readdirSync(src, { withFileTypes: true });
@@ -193,11 +193,11 @@ function ***REMOVED***(src: string, dest: string, ***REMOVED*** = false) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
     if (entry.isDirectory()) {
-      ***REMOVED***(srcPath, destPath, isBlocksRoot);
+      copyDirRecursive(srcPath, destPath, isBlocksRoot);
     } else {
       // If at the root of blocks and file is index.js and index.jsx exists, skip copying index.js
       if (
-        ***REMOVED*** &&
+        parentIsBlocksRoot &&
         entry.name === 'index.js' &&
         fs.existsSync(path.join(dest, 'index.jsx'))
       ) {
@@ -205,7 +205,7 @@ function ***REMOVED***(src: string, dest: string, ***REMOVED*** = false) {
       }
       // If at the root of blocks and file is index.js or index.jsx and already exists, skip (but only if not index.js with index.jsx present)
       if (
-        ***REMOVED*** &&
+        parentIsBlocksRoot &&
         (entry.name === 'index.js' || entry.name === 'index.jsx') &&
         fs.existsSync(destPath)
       ) {
@@ -270,7 +270,7 @@ async function main() {
     if (fs.existsSync(BACKUP_DIR)) {
       fs.rmSync(BACKUP_DIR, { recursive: true, force: true });
     }
-    ***REMOVED***(DEFAULT_SRC, BACKUP_DIR);
+    copyDirRecursive(DEFAULT_SRC, BACKUP_DIR);
   }
 
   // Check if git directory is dirty
@@ -303,7 +303,7 @@ async function main() {
 
   // Copy template contents into the project being upgraded
   const templateDir = path.resolve(__dirname, '../template');
-  ***REMOVED***(templateDir, DEFAULT_SRC);
+  copyDirRecursive(templateDir, DEFAULT_SRC);
 
   // Rename _gitignore to .gitignore in blocks directory if it exists
   const blocksDir = path.join(DEFAULT_SRC, 'blocks');
@@ -321,7 +321,7 @@ async function main() {
   // Delete unused files in root
   deleteUnusedFilesInRoot(DEFAULT_SRC);
 
-  ***REMOVED***(DEFAULT_SRC);
+  migrateDirInPlace(DEFAULT_SRC);
   outro(green(`Migration complete. Files updated in: ${DEFAULT_SRC}`));
 
   // Remove backup after successful migration

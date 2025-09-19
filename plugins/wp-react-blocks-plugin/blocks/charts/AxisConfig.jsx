@@ -1,18 +1,18 @@
-import {***REMOVED***, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
+import {AnglePickerControl, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/block-editor';
+import {PanelColorSettings} from '@wordpress/block-editor';
 
 const AxisConfig = (props) => {
 
     const {
-        ***REMOVED***,
+        toggleSelection,
         setAttributes,
         attributes: {
             leftLegend,
             offsetY,
             tickColor,
             tickRotation,
-            ***REMOVED***,
+            overrideTickColor,
             xLabelColor,
             barLabelColor,
             type,
@@ -22,12 +22,12 @@ const AxisConfig = (props) => {
             bottomLegend,
             offsetBottom,
             showTickLine,
-            ***REMOVED***,
+            highlightXAxisLine,
             maxValue,
             fixedMinValue,
             fixedMaxValue,
-            ***REMOVED***,
-            ***REMOVED***,
+            yAxisTickValues,
+            xAxisTickValues,
             offsetText,
             minMaxClamp
         }
@@ -38,8 +38,8 @@ const AxisConfig = (props) => {
         <PanelRow>
             <ToggleControl
                 label={__("Highlight X Axis Line")}
-                checked={***REMOVED***}
-                onChange={(***REMOVED***) => setAttributes({***REMOVED***})}/>
+                checked={highlightXAxisLine}
+                onChange={(highlightXAxisLine) => setAttributes({highlightXAxisLine})}/>
         </PanelRow>
         <PanelRow>
             <ToggleControl
@@ -50,19 +50,19 @@ const AxisConfig = (props) => {
             {showTickLine && <PanelRow>
                 <ToggleControl
                     label={__("Change Stick Color")}
-                    checked={***REMOVED*** === true}
-                    onChange={(value) => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                    checked={overrideTickColor === true}
+                    onChange={(value) => setAttributes({overrideTickColor: !overrideTickColor})}/>
             </PanelRow>}
 
-            {showTickLine && ***REMOVED*** && <PanelRow>
-                <***REMOVED***
+            {showTickLine && overrideTickColor && <PanelRow>
+                <PanelColorSettings
                     title={__("Stick Color")}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(tickColor ? tickColor : "#FFFFFF"),
+                            value: decodeURIComponent(tickColor ? tickColor : "#FFFFFF"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({tickColor: ***REMOVED***(color)})
+                                    setAttributes({tickColor: encodeURIComponent(color)})
                                 } else {
                                     setAttributes({tickColor: null})
                                 }
@@ -75,7 +75,7 @@ const AxisConfig = (props) => {
             </PanelRow>}
 
             <PanelRow>
-                <***REMOVED*** label={__("X Axis Text Rotation")} value={tickRotation}
+                <AnglePickerControl label={__("X Axis Text Rotation")} value={tickRotation}
                                     onChange={value => setAttributes({tickRotation: value})}/>
             </PanelRow>
 
@@ -90,14 +90,14 @@ const AxisConfig = (props) => {
             </PanelRow>
 
             <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('X Axis Text Color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(xLabelColor ? xLabelColor : "#000000"),
+                            value: decodeURIComponent(xLabelColor ? xLabelColor : "#000000"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({xLabelColor: ***REMOVED***(color)})
+                                    setAttributes({xLabelColor: encodeURIComponent(color)})
                                 } else {
                                     setAttributes({xLabelColor: null})
                                 }
@@ -108,14 +108,14 @@ const AxisConfig = (props) => {
                 />
             </PanelRow>
             {type=='bar'&& <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Bar Text Color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(barLabelColor ? barLabelColor : "#000000"),
+                            value: decodeURIComponent(barLabelColor ? barLabelColor : "#000000"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({barLabelColor: ***REMOVED***(color)})
+                                    setAttributes({barLabelColor: encodeURIComponent(color)})
                                 } else {
                                     setAttributes({barLabelColor: null})
                                 }
@@ -145,8 +145,8 @@ const AxisConfig = (props) => {
             type === "bar" && <PanelRow>
                 <RangeControl
                     label={__('Number of Intervals')}
-                    value={***REMOVED***}
-                    onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                    value={xAxisTickValues}
+                    onChange={(xAxisTickValues) => setAttributes({ xAxisTickValues })}
                     min={0}
                     max={50}
                 />
@@ -173,8 +173,8 @@ const AxisConfig = (props) => {
             <PanelRow>
                 <RangeControl
                     label={__('Number of Intervals')}
-                    value={***REMOVED***}
-                    onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                    value={yAxisTickValues}
+                    onChange={(yAxisTickValues) => setAttributes({ yAxisTickValues })}
                     min={0}
                     max={50}
                 />

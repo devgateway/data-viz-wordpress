@@ -1,21 +1,21 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED***, PanelBody, PanelRow, SelectControl, TextControl } from '@wordpress/components';
+import { CheckboxControl, PanelBody, PanelRow, SelectControl, TextControl } from '@wordpress/components';
 import { Component } from '@wordpress/element'
 import apiFetch from '@wordpress/api-fetch';
 import { togglePanel } from './Util';
-import { ***REMOVED***, isSupersetAPI } from './APIutils'
+import { getTranslatedOptions, isSupersetAPI } from './APIutils'
 import { subscribe, select } from '@wordpress/data';
-import { DgSettings, ***REMOVED***, Taxonomies, Taxonomy, Wp_Types } from './types';
+import { DgSettings, EurekaResponse, Taxonomies, Taxonomy, Wp_Types } from './types';
 
-export interface ***REMOVED*** {
+export interface SizeConfigProps {
     height: number;
     setAttributes: (attributes: any) => void;
     panelStatus: any;
     initialOpen?: boolean;
 }
 
-export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen = false }: ***REMOVED***) => {
+export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen = false }: SizeConfigProps) => {
     return (<PanelBody initialOpen={panelStatus ? panelStatus["SIZE"] : initialOpen}
         onToggle={() => togglePanel("SIZE", panelStatus, setAttributes)}
         title={__("Size")}>
@@ -45,7 +45,7 @@ export type ComponentWithSettingsState = {
 }
 
 export class ComponentWithSettings<T extends ComponentWithSettingsProps, U extends ComponentWithSettingsState> extends Component<T, U> {
-    iframe: React.RefObject<***REMOVED***>;
+    iframe: React.RefObject<HTMLIFrameElement>;
     unsubscribe: () => void;
 
     constructor(props: T) {
@@ -58,9 +58,9 @@ export class ComponentWithSettings<T extends ComponentWithSettingsProps, U exten
             current_language: '',
         } as U
 
-        window.***REMOVED***("message", (event) => {
+        window.addEventListener("message", (event) => {
 
-            if (event.data.type === '***REMOVED***' && event.data.value === true) {
+            if (event.data.type === 'componentReady' && event.data.value === true) {
                 if (this.iframe.current) {
                     console.log("-----------Sending message -----------")
                     this.iframe.current.contentWindow?.postMessage(({ messageType: 'component-attributes', ...this.props.attributes }), "*")
@@ -69,32 +69,32 @@ export class ComponentWithSettings<T extends ComponentWithSettingsProps, U exten
         }, false);
         this.iframe = React.createRef();
         this.unsubscribe = subscribe(() => {
-            const ***REMOVED*** = select("core/editor").getDeviceType();
-            if (***REMOVED*** !== this.state.previewMode) {
-                this.setState({previewMode: ***REMOVED*** });
+            const newPreviewMode = select("core/editor").getDeviceType();
+            if (newPreviewMode !== this.state.previewMode) {
+                this.setState({previewMode: newPreviewMode });
             }
         });
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.iframe.current?.contentWindow) {
             this.iframe.current.contentWindow.postMessage(({messageType: 'component-attributes', ...this.props.attributes}), "*")
         }
     }
 
-    ***REMOVED***() {
+    componentDidMount() {
         apiFetch<DgSettings>({ path: '/dg/v1/settings' }).then((data) => {
             this.setState({
                 react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
                 react_api_url: data["react_api_url"],
                 apache_superset_url: data["apache_superset_url"],
                 site_language: data["site_language"],
-                current_language: new ***REMOVED***(document.location.search).get("edit_lang") || ''
+                current_language: new URLSearchParams(document.location.search).get("edit_lang") || ''
             });
         });
     }
 
-    ***REMOVED***() {
+    componentWillUnmount() {
         if (this.unsubscribe) {
             this.unsubscribe();
         }
@@ -108,13 +108,13 @@ export type BlockEditWithFiltersProps = {
 
 
 export interface BlockEditWithFiltersState extends ComponentWithSettingsState {
-    ***REMOVED***: Taxonomy[] | null;
+    taxonomyValues: Taxonomy[] | null;
     types: Wp_Types[] | null;
     taxonomies: Taxonomies | null;
     loading: boolean;
 }
 
-export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFiltersProps, S extends BlockEditWithFiltersState = BlockEditWithFiltersState> extends ComponentWithSettings<T, S> {
+export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEditWithFiltersProps, S extends BlockEditWithFiltersState = BlockEditWithFiltersState> extends ComponentWithSettings<T, S> {
 
     constructor(props: T) {
         super(props);
@@ -124,38 +124,38 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
             apache_superset_url: null,
             site_language: '',
             current_language: '',
-            ***REMOVED***: [],
+            taxonomyValues: [],
             types: null,
             taxonomies: null,
             loading: true
         } as unknown as S;
         this.onTypeChanged = this.onTypeChanged.bind(this);
-        this.***REMOVED*** = this.***REMOVED***.bind(this);
-        this.***REMOVED*** = this.***REMOVED***.bind(this);
-        this.***REMOVED*** = this.***REMOVED***.bind(this);
+        this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this);
+        this.getTaxonomyValues = this.getTaxonomyValues.bind(this);
+        this.onCategoryChanged = this.onCategoryChanged.bind(this);
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {
             attributes: {
                 type, taxonomy },
         } = this.props;
 
-        super.***REMOVED***(prevProps, prevState, snapshot)
+        super.componentDidUpdate(prevProps, prevState, snapshot)
         if (prevProps.attributes) {
             if (type != prevProps.attributes.type) {
 
             }
             if (taxonomy != prevProps.attributes.taxonomy) {
-                this.***REMOVED***()
+                this.getTaxonomyValues()
 
             }
         }
 
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***()
+    componentDidMount() {
+        super.componentDidMount()
         this.getTypes();
         this.getTaxonomies()
 
@@ -166,7 +166,7 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
 
 
         if (taxonomy != 'none') {
-            this.***REMOVED***()
+            this.getTaxonomyValues()
 
         }
 
@@ -179,14 +179,14 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
         setAttributes({ type: value })
     }
 
-    ***REMOVED***(value) {
+    onTaxonomyChanged(value) {
         const { setAttributes } = this.props
         setAttributes({ categories: [] })
         setAttributes({ taxonomy: value })
 
     }
 
-    ***REMOVED***(checked, value) {
+    onCategoryChanged(checked, value) {
 
         const { setAttributes, attributes: { categories } } = this.props
         if (!checked) {
@@ -199,7 +199,7 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
 
     }
 
-    ***REMOVED***() {
+    getTaxonomyValues() {
         const {
             attributes: {
                 taxonomy },
@@ -209,7 +209,7 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
             path: '/wp/v2/taxonomies/' + taxonomy + '?per_page=100',
         }).then(data => {
 
-            this.setState({ ***REMOVED***: data });
+            this.setState({ taxonomyValues: data });
         });
     }
 
@@ -246,7 +246,7 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
 
     }
 
-    ***REMOVED***() {
+    taxonomyOptions() {
         const {
             attributes: {
                 type,
@@ -257,20 +257,20 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
         if (types) {
             slug = this.typeOptions().filter(t => t.value == type)[0].slug
 
-            const ***REMOVED*** = types && taxonomies ? Object.keys(taxonomies)
+            const taxonomyOptions = types && taxonomies ? Object.keys(taxonomies)
                 .filter(i => taxonomies[i].types.indexOf(slug) > -1).map(k => ({
                     label: types[slug].name + ' -> ' + taxonomies[k].name, value: taxonomies[k].rest_base
                 })) : []
 
-            return [{ label: 'None', value: 'none' }, ...***REMOVED***]
+            return [{ label: 'None', value: 'none' }, ...taxonomyOptions]
         } else {
             return []
         }
     }
 
-    ***REMOVED***() {
-        const { ***REMOVED*** } = this.state
-        const taxonomyValuesOptions = ***REMOVED*** && ***REMOVED***.map(t => ({ label: t.name, value: t.id }))
+    categoriesOptions() {
+        const { taxonomyValues } = this.state
+        const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({ label: t.name, value: t.id }))
         return taxonomyValuesOptions || []
     }
 
@@ -291,15 +291,15 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
             </PanelRow>
             <PanelRow>
 
-                <SelectControl label={__("Use a taxonomy filter ")} options={this.***REMOVED***()}
+                <SelectControl label={__("Use a taxonomy filter ")} options={this.taxonomyOptions()}
                     value={taxonomy}
-                    onChange={this.***REMOVED***}
+                    onChange={this.onTaxonomyChanged}
                 />
             </PanelRow>
-            {(taxonomy != 'none' && this.***REMOVED***().length > 0) && this.***REMOVED***().map(o => {
-                return <PanelRow><***REMOVED***
+            {(taxonomy != 'none' && this.categoriesOptions().length > 0) && this.categoriesOptions().map(o => {
+                return <PanelRow><CheckboxControl
                     label={o.label}
-                    onChange={(checked) => this.***REMOVED***(checked, o.value)}
+                    onChange={(checked) => this.onCategoryChanged(checked, o.value)}
                     checked={categories.indexOf(o.value) > -1}
                 /></PanelRow>
             })}
@@ -311,7 +311,7 @@ export class ***REMOVED***<T extends BlockEditWithFiltersProps = BlockEditWithFi
 export type BlockEditWithAPIMetadataProps = {
     attributes: {
         app: string;
-        ***REMOVED***?: string;
+        dvzProxyDatasetId?: string;
     };
     setAttributes: (attributes: any) => void;
 }
@@ -331,7 +331,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
         super(props);
     }
 
-    ***REMOVED***() {
+    componentDidMount() {
         apiFetch<DgSettings>({
             path: '/dg/v1/settings'
         }).then((settingsData) => {
@@ -340,7 +340,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                     'Accept': 'application/json',
                 },
             })
-                .then((response: Response) => response.json() as Promise<***REMOVED***>)
+                .then((response: Response) => response.json() as Promise<EurekaResponse>)
                 .then(data => {
                     const apps = data.applications ? [...data.applications.application
                         .filter(a => a.instance[0].metadata.type === 'data')
@@ -357,18 +357,18 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                         react_api_url: settingsData["react_api_url"],
                         apache_superset_url: settingsData["apache_superset_url"],
                         site_language: settingsData["site_language"],
-                        current_language: new ***REMOVED***(document.location.search).get("edit_lang") || "",
+                        current_language: new URLSearchParams(document.location.search).get("edit_lang") || "",
                         apps
                     }, () => {
 
-                        const { app, ***REMOVED*** } = this.props.attributes;
+                        const { app, dvzProxyDatasetId } = this.props.attributes;
 
                         if (isSupersetAPI(app, this.state.apps)) {
                             this.loadDatasets(app)
                         }
 
                         if (app && app != 'none') {
-                            this.loadMetadata(app, ***REMOVED***);
+                            this.loadMetadata(app, dvzProxyDatasetId);
                         }
                     });
                 })
@@ -377,17 +377,17 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 });
         });
     }
-    ***REMOVED***(prevProps: BlockEditWithAPIMetadataProps, prevState: any, snapshot?: any) {
-        super.***REMOVED***(prevProps, prevState, snapshot);
+    componentDidUpdate(prevProps: BlockEditWithAPIMetadataProps, prevState: any, snapshot?: any) {
+        super.componentDidUpdate(prevProps, prevState, snapshot);
         const {
             attributes: {
                 app,
-                ***REMOVED***
+                dvzProxyDatasetId
             }
         } = this.props;
         const {
             attributes: {
-                ***REMOVED***: prevDvzProxyDatasetId,
+                dvzProxyDatasetId: prevDvzProxyDatasetId,
                 app: prevAPP
             }
         } = prevProps;
@@ -398,26 +398,26 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
 
             if (isSupersetAPI(app, this.state.apps)) { //if app is superset proxy an additional step is added
                 this.loadDatasets(app)
-                if (***REMOVED***) {
-                    this.loadMetadata(app, ***REMOVED***)
+                if (dvzProxyDatasetId) {
+                    this.loadMetadata(app, dvzProxyDatasetId)
                 }
             } else {
-                this.loadMetadata(app, ***REMOVED***);
+                this.loadMetadata(app, dvzProxyDatasetId);
             }
         } else {//app wasn't changed
 
-            if (***REMOVED*** != prevDvzProxyDatasetId) {
-                this.loadMetadata(app, ***REMOVED***);
+            if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+                this.loadMetadata(app, dvzProxyDatasetId);
             }
 
         }
     }
 
 
-    ***REMOVED***() {
-        const { app, ***REMOVED*** } = this.props.attributes;
-        fetch(`/api/${app}/cacheEvict?***REMOVED***=${***REMOVED***}`).then(() => {
-            this.loadMetadata(app, ***REMOVED***)
+    evictSuperSetCache() {
+        const { app, dvzProxyDatasetId } = this.props.attributes;
+        fetch(`/api/${app}/cacheEvict?dvzProxyDatasetId=${dvzProxyDatasetId}`).then(() => {
+            this.loadMetadata(app, dvzProxyDatasetId)
         })
 
     }
@@ -442,16 +442,16 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
     }
 
 
-    loadMetadata(app: string, ***REMOVED***?: string) {
+    loadMetadata(app: string, dvzProxyDatasetId?: string) {
         if (app == 'csv') {
             return;
         }
 
 
-        const dimensionsUrl = `/api/${app}/dimensions${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
-        const measuresUrl = `/api/${app}/measures${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
-        const filtersUrl = `/api/${app}/filters${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
-        const categoriesUrl = `/api/${app}/categories${***REMOVED*** ? `?***REMOVED***=${***REMOVED***}` : ''}`
+        const dimensionsUrl = `/api/${app}/dimensions${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
+        const measuresUrl = `/api/${app}/measures${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
+        const filtersUrl = `/api/${app}/filters${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
+        const categoriesUrl = `/api/${app}/categories${dvzProxyDatasetId ? `?dvzProxyDatasetId=${dvzProxyDatasetId}` : ''}`
 
         if (app != "csv") {
             fetch(dimensionsUrl)
@@ -466,7 +466,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 .then(data => {
 
                     this.setState({
-                        dimensions: [{ "label": __("None"), "value": "none" }, ...***REMOVED***(data)]
+                        dimensions: [{ "label": __("None"), "value": "none" }, ...getTranslatedOptions(data)]
                     })
                 })
                 .catch(function () {
@@ -499,8 +499,8 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                     return response.json()
                 })
                 .then(data => {
-                    ***REMOVED***.setItem(`measures_${app}`, JSON.stringify(***REMOVED***(data)))
-                    this.setState({ measures: ***REMOVED***(data) })
+                    sessionStorage.setItem(`measures_${app}`, JSON.stringify(getTranslatedOptions(data)))
+                    this.setState({ measures: getTranslatedOptions(data) })
                 })
                 .catch(function () {
                     console.log("Error when loading measures")
@@ -514,8 +514,8 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                     return response.json()
                 })
                 .then(data => {
-                    ***REMOVED***.setItem(`categories_${app}`, JSON.stringify(data))
-                    this.setState({ categories: ***REMOVED***(data) })
+                    sessionStorage.setItem(`categories_${app}`, JSON.stringify(data))
+                    this.setState({ categories: getTranslatedOptions(data) })
                 }
                 )
                 .catch(function (response) {
