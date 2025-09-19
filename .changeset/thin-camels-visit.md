@@ -4,4 +4,5 @@
 "@devgateway/dvz-wp-commons": minor
 ---
 
-Update licenses
+- Update licenses
+- Internal improvements
