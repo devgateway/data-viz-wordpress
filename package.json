@@ -24,7 +24,7 @@
     "devgateway"
   ],
   "author": "Development Gateway",
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "***REMOVED***": "pnpm@10.10.0",
   "***REMOVED***": {
     "@changesets/changelog-github": "^0.5.1",
