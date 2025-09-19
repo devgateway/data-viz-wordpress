@@ -1,10 +1,10 @@
-import {ColorPalette, ***REMOVED***, ***REMOVED***, useBlockProps, useSetting} from '@wordpress/block-editor';
+import {ColorPalette, InspectorControls, PanelColorSettings, useBlockProps, useSetting} from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
     __experimentalText as Text,
     Button,
     ButtonGroup,
-    ***REMOVED***,
+    FontSizePicker,
     Panel,
     PanelBody,
     PanelRow,
@@ -15,7 +15,7 @@ import {
 } from '@wordpress/components'
 
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, SizeConfig} from "../commons";
+import {BlockEditWithFilters, SizeConfig} from "../commons";
 import apiFetch from '@wordpress/api-fetch';
 
 const COLORS = ["#6acbd5", "#fcb535", "#f79132", "#e54957", "#0e5583","#2fb2e4", "#fcb535"]
@@ -27,28 +27,28 @@ const FontSelector = (props) => {
             fontSize      
         },
     } = props;
-    return <***REMOVED***
+    return <FontSizePicker
         fontSizes={[]}
         value={fontSize}
-        ***REMOVED***={14}
+        fallbackFontSize={14}
         onChange={(newFontSize) => {
             setAttributes({fontSize: newFontSize})            
         }}
     />
 }
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends BlockEditWithFilters {
 
     constructor(props) {
         super(props);
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onCategoryChanged = this.onCategoryChanged.bind(this)
         this.onLoadPosts = this.onLoadPosts.bind(this)
     }
 
 
     onLoadPosts() {
         const {
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 fontColor,
@@ -74,15 +74,15 @@ class BlockEdit extends ***REMOVED*** {
         })
     }
 
-    ***REMOVED***(checked, value) {
-        super.***REMOVED***(checked, value)
+    onCategoryChanged(checked, value) {
+        super.onCategoryChanged(checked, value)
 
 
     }
 
     render() {
         const {
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 lineWidth,
@@ -104,7 +104,7 @@ class BlockEdit extends ***REMOVED*** {
             },
         } = this.props;
 
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-config=${***REMOVED***(JSON.stringify(config))}&data-csv-line-color=${***REMOVED***(lineColor)}&data-position=${position}&data-line-width=${lineWidth}&data-margin-left=${marginLeft}&data-margin-top=${marginTop}&data-margin-right=${marginRight}&data-margin-bottom=${marginBottom}&data-font-size=${fontSize}&data-title-width=${titleWidth}&data-subtitle-width=${subtitleWidth}`
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-config=${encodeURIComponent(JSON.stringify(config))}&data-csv-line-color=${encodeURIComponent(lineColor)}&data-position=${position}&data-line-width=${lineWidth}&data-margin-left=${marginLeft}&data-margin-top=${marginTop}&data-margin-right=${marginRight}&data-margin-bottom=${marginBottom}&data-font-size=${fontSize}&data-title-width=${titleWidth}&data-subtitle-width=${subtitleWidth}`
         const divStyles = {height: height + 'px', width: '100%'}
 
 
@@ -118,9 +118,9 @@ class BlockEdit extends ***REMOVED*** {
                         labelColor: "#000000",
                         titleColor: COLORS[i] || "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: (i % 2 > 0) ? 120 : -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: (i % 2 > 0) ? "bottom" : "top",
                         readMoreLabel: "read more"
                     })
@@ -134,7 +134,7 @@ class BlockEdit extends ***REMOVED*** {
 
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel header={__("Settings")}>
                         <SizeConfig initialOpen={false} setAttributes={setAttributes} height={height} panelStatus={this.props.attributes.panelStatus}></SizeConfig>
 
@@ -148,7 +148,7 @@ class BlockEdit extends ***REMOVED*** {
 
                             <PanelRow>
                                 <NumberControl
-                                    ***REMOVED***={true}
+                                    isShiftStepEnabled={true}
                                     onChange={(count) => {
                                         setAttributes({count: parseInt(count)})
                                         setAttributes({config: newConfig})
@@ -302,9 +302,9 @@ class BlockEdit extends ***REMOVED*** {
                                     <PanelRow>
                                         <RangeControl
                                             label={__('Subtitle Offset')}
-                                            value={newConfig[i].***REMOVED***}
+                                            value={newConfig[i].subtitleOffset}
                                             onChange={(offset) => {
-                                                newConfig[i].***REMOVED*** = offset
+                                                newConfig[i].subtitleOffset = offset
                                                 setAttributes({config: newConfig})
                                             }}
                                             min={-height}
@@ -338,9 +338,9 @@ class BlockEdit extends ***REMOVED*** {
                                     <PanelRow>
                                         <RangeControl
                                             label={__('Connector Line Height')}
-                                            value={newConfig[i].***REMOVED***}
-                                            onChange={(***REMOVED***) => {
-                                                newConfig[i].***REMOVED*** = ***REMOVED***
+                                            value={newConfig[i].connectorLineHeight}
+                                            onChange={(connectorLineHeight) => {
+                                                newConfig[i].connectorLineHeight = connectorLineHeight
                                                 setAttributes({config: newConfig})
                                             }}
                                             min={0}
@@ -374,7 +374,7 @@ class BlockEdit extends ***REMOVED*** {
                                         <br></br>
                                     </PanelRow>
 
-                                    <***REMOVED*** title={__('Color Settings')}
+                                    <PanelColorSettings title={__('Color Settings')}
                                                         colorSettings={[
                                                             {
                                                                 value: newConfig[i].circleColor,
@@ -413,7 +413,7 @@ class BlockEdit extends ***REMOVED*** {
                         </PanelBody>
 
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
 
 
                 <ResizableBox
@@ -434,10 +434,10 @@ class BlockEdit extends ***REMOVED*** {
                         setAttributes({
                             height: parseInt(height + delta.height, 10),
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}>
                     <div style={divStyles}>
                         {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
@@ -456,7 +456,7 @@ class BlockEdit extends ***REMOVED*** {
 const Edit = (props) => {
     const blockProps = useBlockProps({className: 'wp-react-component'});
     const colorsFeature = useSetting('custom-font-sizes');
-    const ***REMOVED*** = useSetting('editor-font-sizes');
+    const colorsFeature2 = useSetting('editor-font-sizes');
     
     return <div {...blockProps}><BlockEdit {...props}/></div>;
 

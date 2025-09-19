@@ -15,39 +15,39 @@ const SaveComponent = (props) => {
             layout,
             group,
             noDataMessage,
-            ***REMOVED***,
+            tooltipEnabled,
             tooltipEnableMarkdown,
             csv,
             sort,
             nodeThickness,
             nodeOpacity,
-            ***REMOVED***,
-            ***REMOVED***,
+            nodeHoverOpacity,
+            nodeInnerPadding,
             nodeSpacing,
             nodeHoverOthersOpacity,
-            ***REMOVED***,
-            ***REMOVED***,
+            nodeBorderWidth,
+            nodeBorderRadius,
             linkOpacity,
-            ***REMOVED***,
+            linkHoverOpacity,
             linkHoverOthersOpacity,
             linkContract,
-            ***REMOVED***,
+            enableLinkGradient,
             enableLabels,
             labelPosition,
             labelPadding,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            useCustomLabelColor,
+            labelTextColor,
+            labelOrientation,
             showLegends,
-            ***REMOVED***,
+            legendPosition,
             marginLeft,
             marginRight,
             marginBottom,
             marginTop,
             legendLabel,
-            ***REMOVED***,
+            useLabelBackground,
             useCheckBoxBackground,
-            ***REMOVED***,
+            legendLabelColor,
             reverseLegend,
             manualColors,
             noDataMsg
@@ -74,43 +74,43 @@ const SaveComponent = (props) => {
              data-margin-right={marginRight}
              data-margin-bottom={marginBottom}
              data-show-legends={showLegends}
-             data-legend-position={***REMOVED***}
+             data-legend-position={legendPosition}
              data-app={app}
-             data-measures={***REMOVED***(JSON.stringify(measures))}
-             data-format={***REMOVED***(JSON.stringify(format))}
-             data-tooltip-html={***REMOVED***(tooltipHTML)}
+             data-measures={encodeURIComponent(JSON.stringify(measures))}
+             data-format={encodeURIComponent(JSON.stringify(format))}
+             data-tooltip-html={encodeURIComponent(tooltipHTML)}
              data-layout={layout}
              data-group={group}
-             data-filters={***REMOVED***(JSON.stringify(filters))}
+             data-filters={encodeURIComponent(JSON.stringify(filters))}
              data-no-data-message={noDataMessage}
              data-legend-label={legendLabel}
-             data-tooltip-enabled={***REMOVED***}
-             data-use-label-background={***REMOVED***}
+             data-tooltip-enabled={tooltipEnabled}
+             data-use-label-background={useLabelBackground}
              data-use-check-box-background={useCheckBoxBackground}
-             data-legend-label-color={***REMOVED***}
+             data-legend-label-color={legendLabelColor}
              data-tooltip-enable-markdown={tooltipEnableMarkdown}
              data-reverse-legend={reverseLegend}
              data-sort={sort}
              data-node-thickness={nodeThickness}
              data-node-opacity={nodeOpacity}
-             data-node-hover-opacity={***REMOVED***}
-             data-node-inner-padding={***REMOVED***}
+             data-node-hover-opacity={nodeHoverOpacity}
+             data-node-inner-padding={nodeInnerPadding}
              data-node-spacing={nodeSpacing}
              data-node-hover-others-opacity={nodeHoverOthersOpacity}
-             data-node-border-width={***REMOVED***}
-             data-node-border-radius={***REMOVED***}
+             data-node-border-width={nodeBorderWidth}
+             data-node-border-radius={nodeBorderRadius}
              data-link-opacity={linkOpacity}
-             data-link-hover-opacity={***REMOVED***}
+             data-link-hover-opacity={linkHoverOpacity}
              data-link-hover-others-opacity={linkHoverOthersOpacity}
              data-link-contract={linkContract}
-             data-enable-link-gradient={***REMOVED***}
+             data-enable-link-gradient={enableLinkGradient}
              data-enable-labels={enableLabels}
              data-label-position={labelPosition}
              data-label-padding={labelPadding}
-             data-use-custom-label-color={***REMOVED***}
-             data-label-text-color={***REMOVED***}
-             data-label-orientation={***REMOVED***}
-             data-manual-colors={***REMOVED***(JSON.stringify(manualColors))}
+             data-use-custom-label-color={useCustomLabelColor}
+             data-label-text-color={labelTextColor}
+             data-label-orientation={labelOrientation}
+             data-manual-colors={encodeURIComponent(JSON.stringify(manualColors))}
              data-no-data-message={noDataMsg}
              data-csv={csv}
 

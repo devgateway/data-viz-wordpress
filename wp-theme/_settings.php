@@ -104,7 +104,7 @@ function wp_react_menu_setting_section_header()
 function wp_react_ui_menu_type_callback()
 {
     ?>
-    <label for="droid-***REMOVED***">
+    <label for="droid-identification">
         <select id="react_ui_menu_type" class="regular-text" type="text" name="react_ui_menu_type">
             <option value="classic" <?php echo(get_option('react_ui_menu_type') == 'classic' ? 'selected' : '') ?>>
                 Classic
@@ -127,7 +127,7 @@ function wp_react_search_setting_section_header()
 function wp_react_ui_callback()
 {
     ?>
-    <label for="droid-***REMOVED***">
+    <label for="droid-identification">
         <input id="react_ui_url" class="regular-text" type="text" name="react_ui_url"
                value="<?php echo(get_option('react_ui_url')) ?>">
     </label>
@@ -136,7 +136,7 @@ function wp_react_ui_callback()
 function wp_react_api_url_callback()
 {
     ?>
-    <label for="droid-***REMOVED***">
+    <label for="droid-identification">
         <input
             id="react_api_url"
             class="regular-text" type="text" name="react_api_url"
@@ -147,7 +147,7 @@ function wp_react_api_url_callback()
 function wp_apache_superset_url_callback()
 {
     ?>
-    <label for="droid-***REMOVED***">
+    <label for="droid-identification">
         <input
             id="apache_superset_url"
             class="regular-text" type="text" name="apache_superset_url"
@@ -158,7 +158,7 @@ function wp_apache_superset_url_callback()
 function wp_react_ui_search_type_callback()
 {
     ?>
-    <label for="droid-***REMOVED***">
+    <label for="droid-identification">
         <select id="react_ui_search_type" class="regular-text" type="text" name="react_ui_search_type">
             <option value="inline" <?php echo(get_option('react_ui_search_type') == 'inline' ? 'selected' : '') ?>>
                 Inline
@@ -190,7 +190,7 @@ function show_ui_setting($request)
     );
 
     $current_name = wpm_translate_value(get_option('blogname'));
-    $current_description = wpm_translate_value(get_option('***REMOVED***'));
+    $current_description = wpm_translate_value(get_option('blogdescription'));
     $current_logo = intval(get_option('site_logo', 0));
     $current_site_icon = intval(get_option('site_icon', 0));
     $settings['name'] = $current_name;
@@ -217,8 +217,8 @@ function show_ui_setting($request)
                 $settings['name'] = $changes->blogname->value;
             }
 
-            if (isset($changes->***REMOVED***->value)) {
-                $settings['description'] = $changes->***REMOVED***->value;
+            if (isset($changes->blogdescription->value)) {
+                $settings['description'] = $changes->blogdescription->value;
             }
 
             if (isset($changes->{'dg-semantic::custom_logo'}->value)) {

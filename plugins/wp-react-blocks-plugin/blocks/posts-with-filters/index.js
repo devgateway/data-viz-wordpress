@@ -1,11 +1,11 @@
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED*** } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import { Generic } from "../icons";
 
 
-***REMOVED***(process.env.BLOCKS_NS + '/posts-with-filters',
+registerBlockType(process.env.BLOCKS_NS + '/posts-with-filters',
     {
         title: __('Posts with Filters', "dg"),
         icon: Generic,
@@ -19,7 +19,7 @@ import { Generic } from "../icons";
                 type: "number",
                 default: 300
             },
-            ***REMOVED***: {
+            showPagination: {
                 type: "boolean",
                 default: false
             },
@@ -31,11 +31,11 @@ import { Generic } from "../icons";
                 type: "boolean",
                 default: false
             },
-            ***REMOVED***: {
+            showDateFilter: {
                 type: "boolean",
                 default: false
             },
-            ***REMOVED***: {
+            showCategoryFilter: {
                 type: "boolean",
                 default: false
             },
@@ -43,19 +43,19 @@ import { Generic } from "../icons";
                 type: "array",
                 default: []
             },
-            ***REMOVED***: {
+            categoryPlaceholder: {
                 type: "string",
                 default: "All Categories"
             },
-            ***REMOVED***: {
+            showCountryFilter: {
                 type: "boolean",
                 default: false
             },
-            ***REMOVED***: {
+            countryCategory: {
                 type: "number",
                 default: null
             },
-            ***REMOVED***: {
+            countryPlaceholder: {
                 type: "string",
                 default: "All Countries"
             }

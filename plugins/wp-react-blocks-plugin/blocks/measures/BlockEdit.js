@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {
     __experimentalDivider as Divider,
     Button,
@@ -8,7 +8,7 @@ import {
     SelectControl,
     TextControl,
     ToggleControl,
-    ***REMOVED***
+    TextareaControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata} from '../commons/index'
@@ -39,19 +39,19 @@ const Group = ({
                    allMeasures,
                    measures,
                    idx,
-                   ***REMOVED***,
+                   defaultSelected,
                    label,
                    format,
                    leftTitle,
                    rightTitle,
                    customTooltip,
                    onLabelChange,
-                   ***REMOVED***,
-                   ***REMOVED***,
-                   ***REMOVED***,
-                   ***REMOVED***,
+                   onFormatChange,
+                   onMeasureChange,
+                   onLeftTitleChange,
+                   onRightTitleChange,
                    onDefaultSelectedChanged,
-                   ***REMOVED***,
+                   onCsvMeasureChanged,
                    onCustomTooltipChange
                }) => {
     const groups = getGroups(allMeasures)
@@ -70,8 +70,8 @@ const Group = ({
         <PanelRow>
             <ToggleControl
                 label="Default Selected"
-                checked={***REMOVED***}
-                onChange={() => onDefaultSelectedChanged(idx, !***REMOVED***)}
+                checked={defaultSelected}
+                onChange={() => onDefaultSelectedChanged(idx, !defaultSelected)}
             />
         </PanelRow>
 
@@ -80,7 +80,7 @@ const Group = ({
             return (<PanelBody title={g.label}>{allMeasures.filter(m => m.group == g).map(m =>
                 <PanelRow>
                     <MToggle label={m.label} checked={measures[m.value] && measures[m.value].selected}
-                             onChange={value => ***REMOVED***(idx, m.value, value)}>
+                             onChange={value => onMeasureChange(idx, m.value, value)}>
 
                     </MToggle>
                 </PanelRow>
@@ -91,18 +91,18 @@ const Group = ({
         }
         {app == 'csv' && <PanelBody title={"Fields "}>
             <TextControl value={Object.keys(measures).join(',')} label={__("CSV Fields")}
-                         onChange={value => ***REMOVED***(idx, value)}></TextControl>
+                         onChange={value => onCsvMeasureChanged(idx, value)}></TextControl>
 
         </PanelBody>}
         <PanelBody title={__("Format")}>
-            <Format format={format} ***REMOVED***={format => ***REMOVED***(idx, format)}></Format>
+            <Format format={format} onFormatChange={format => onFormatChange(idx, format)}></Format>
 
         </PanelBody>
         <PanelBody title={__("Legends")}>
             <PanelRow>
                 <TextControl
                     label={__("Y Left Title")}
-                    onChange={title => ***REMOVED***(idx, title)}
+                    onChange={title => onLeftTitleChange(idx, title)}
                     value={leftTitle}
                 />
 
@@ -110,7 +110,7 @@ const Group = ({
             <PanelRow>
                 <TextControl
                     label={__("Y Right Title")}
-                    onChange={title => ***REMOVED***(idx, title)}
+                    onChange={title => onRightTitleChange(idx, title)}
                     value={rightTitle}
                 />
             </PanelRow>
@@ -118,7 +118,7 @@ const Group = ({
         </PanelBody>
         <PanelBody initialOpen={false} title={__("Custom Tooltip")}>
             <PanelRow>
-                <***REMOVED***
+                <TextareaControl
                     label={__("Tooltip")}
                     value={customTooltip}
                     help={__("This tooltip overrides the tooltip configured in the chart. You can use the dimensions and measures selected in the chart as variables e.g {var_name}.")}
@@ -139,12 +139,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         this.addGroup = this.addGroup.bind(this)
         this.removeGroup = this.removeGroup.bind(this)
         this.onLabelChange = this.onLabelChange.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onFormatChange = this.onFormatChange.bind(this)
+        this.onMeasureChange = this.onMeasureChange.bind(this)
         this.onDefaultSelectedChanged = this.onDefaultSelectedChanged.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onRightTitleChange = this.onRightTitleChange.bind(this)
+        this.onLeftTitleChange = this.onLeftTitleChange.bind(this)
+        this.onCsvMeasureChanged = this.onCsvMeasureChanged.bind(this)
         this.onCustomTooltipChange = this.onCustomTooltipChange.bind(this)
 
     }
@@ -153,16 +153,16 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const {
             setAttributes,
             attributes: {
-                ***REMOVED***,
+                measuresGroups,
                 app,
             }
         } = this.props;
 
 
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
         newGroups[app].pop()
 
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
     }
 
     addGroup() {
@@ -170,12 +170,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const {
             setAttributes,
             attributes: {
-                ***REMOVED***,
+                measuresGroups,
                 app,
             }
         } = this.props;
 
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
         if (!newGroups[app]) {
             newGroups[app] = []
         }
@@ -192,7 +192,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 "customTooltip": ""
             }
         })
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
     }
 
     onLabelChange(idx, label) {
@@ -201,42 +201,42 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
         newGroups[app][idx].label = label
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
     }
 
-    ***REMOVED***(idx, leftTitle) {
+    onLeftTitleChange(idx, leftTitle) {
         const {
             isSelected,
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
 
         newGroups[app][idx].leftTitle = leftTitle
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
     }
 
-    ***REMOVED***(idx, rightTitle) {
+    onRightTitleChange(idx, rightTitle) {
         const {
             isSelected,
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
 
         newGroups[app][idx].rightTitle = rightTitle
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
     }
 
     onCustomTooltipChange(idx, customTooltip) {
@@ -245,38 +245,38 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
         newGroups[app][idx].customTooltip = customTooltip
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
     }
 
-    ***REMOVED***(idx, format) {
+    onFormatChange(idx, format) {
         const {
             isSelected,
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
         newGroups[app][idx].format = format
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
     }
 
-    ***REMOVED***(idx, fields) {
+    onCsvMeasureChanged(idx, fields) {
         const {
             isSelected,
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
 
         newGroups[app][idx].measures = {}
         fields.split(",").forEach(measure => {
@@ -286,27 +286,27 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         })
 
 
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
 
     }
 
-    ***REMOVED***(idx, measure, selected) {
+    onMeasureChange(idx, measure, selected) {
         const {
             isSelected,
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
-        const newGroups = {...***REMOVED***}
+        const newGroups = {...measuresGroups}
 
         if (!newGroups[app][idx].measures[measure]) {
             newGroups[app][idx].measures[measure] = {}
         }
 
         newGroups[app][idx].measures[measure] = {selected}
-        setAttributes({***REMOVED***: newGroups})
+        setAttributes({measuresGroups: newGroups})
 
     }
 
@@ -315,14 +315,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             setAttributes,
             attributes: {
                 app,
-                ***REMOVED***,
+                measuresGroups,
             }
         } = this.props;
 
-        const newGroups = {...***REMOVED***}
-        newGroups[app].forEach(g => g.***REMOVED*** = false)
-        newGroups[app][idx].***REMOVED*** = value
-        setAttributes({***REMOVED***: newGroups})
+        const newGroups = {...measuresGroups}
+        newGroups[app].forEach(g => g.defaultSelected = false)
+        newGroups[app][idx].defaultSelected = value
+        setAttributes({measuresGroups: newGroups})
     }
 
     render() {
@@ -332,16 +332,16 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             attributes: {
                 group,
                 label,
-                ***REMOVED***,
+                measuresGroups,
                 app,
             }
         } = this.props;
         const iframeStyles = {height: '65px', width: '100%'}
         const queryString = ``
-        const ***REMOVED*** = ***REMOVED***[app] ? ***REMOVED***[app] : [];
+        const selectableGroups = measuresGroups[app] ? measuresGroups[app] : [];
 
 
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
                 <Panel header={__("Measures Configuration")}>
                     <PanelBody initialOpen={false} title={__("Group")}>
                         <PanelRow>
@@ -377,14 +377,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                     {app != 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
 
-                        {this.state.measures && ***REMOVED***.map(g =>
+                        {this.state.measures && selectableGroups.map(g =>
                             <Group
                                 app={app}
-                                ***REMOVED***={this.***REMOVED***}
-                                ***REMOVED***={this.***REMOVED***}
+                                onMeasureChange={this.onMeasureChange}
+                                onFormatChange={this.onFormatChange}
                                 onLabelChange={this.onLabelChange}
-                                ***REMOVED***={this.***REMOVED***}
-                                ***REMOVED***={this.***REMOVED***}
+                                onLeftTitleChange={this.onLeftTitleChange}
+                                onRightTitleChange={this.onRightTitleChange}
                                 onDefaultSelectedChanged={this.onDefaultSelectedChanged}
                                 onCustomTooltipChange={this.onCustomTooltipChange}
                                 allMeasures={this.state.measures} {...g}/>)}
@@ -402,13 +402,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                     {app == 'csv' && <PanelBody initialOpen={false} title={__("Groups")}>
 
-                        {***REMOVED***.map(g => <Group
+                        {selectableGroups.map(g => <Group
                             app={app}
-                            ***REMOVED***={this.***REMOVED***}
-                            ***REMOVED***={this.***REMOVED***}
+                            onCsvMeasureChanged={this.onCsvMeasureChanged}
+                            onFormatChange={this.onFormatChange}
                             onLabelChange={this.onLabelChange}
-                            ***REMOVED***={this.***REMOVED***}
-                            ***REMOVED***={this.***REMOVED***}
+                            onLeftTitleChange={this.onLeftTitleChange}
+                            onRightTitleChange={this.onRightTitleChange}
                             onDefaultSelectedChanged={this.onDefaultSelectedChanged}
                             onCustomTooltipChange={this.onCustomTooltipChange}
                             {...g}/>
@@ -424,7 +424,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelRow>
                     </PanelBody>}
                 </Panel>
-            </***REMOVED***>),
+            </InspectorControls>),
 
                 (<div>
 

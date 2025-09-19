@@ -37,7 +37,7 @@ class WPM_Settings_Auto_Translate extends WPM_Settings_Page {
 
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			$dir_path = plugin_dir_url(__DIR__);
-			wp_enqueue_script( 'wpm_translation_settings', wpm_asset_path( 'scripts/wpm-***REMOVED***-script' . $suffix . '.js' ), array( 'jquery' ), WPM_VERSION, true );
+			wp_enqueue_script( 'wpm_translation_settings', wpm_asset_path( 'scripts/wpm-autotranslation-script' . $suffix . '.js' ), array( 'jquery' ), WPM_VERSION, true );
 		}
 	}
 

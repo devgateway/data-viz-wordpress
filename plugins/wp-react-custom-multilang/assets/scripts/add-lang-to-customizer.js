@@ -5,7 +5,7 @@
  * Copyright (c) 2016 XWP (https://make.xwp.co/)
  */
 /* global wp, jQuery */
-/* exported ***REMOVED*** */
+/* exported PluginCustomizer */
 var WPMLang = (function (api, $) {
   'use strict';
 

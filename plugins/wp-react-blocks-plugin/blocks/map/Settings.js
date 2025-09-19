@@ -1,6 +1,6 @@
 import { Component } from "@wordpress/element"
-import {***REMOVED*** } from '@wordpress/block-editor'
-import { PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button, ButtonGroup, RangeControl, ***REMOVED***} from '@wordpress/components'
+import {PanelColorSettings } from '@wordpress/block-editor'
+import { PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button, ButtonGroup, RangeControl, TextareaControl} from '@wordpress/components'
 import { __ } from '@wordpress/i18n';
 import {SizeConfig } from '../commons/index'
 import Format from "./Format"
@@ -13,31 +13,31 @@ export default class Settings  extends Component{
         const {setAttributes, attributes: {
                 height,
                 app,
-                ***REMOVED***,
+                nationalAverageLabel,
                 zoomEnabled,
                 mapCenter,
-                ***REMOVED***,
+                mapLabelShowValue,
                 showTooltip,
-                ***REMOVED***,
+                measureSelectorLabel,
                 valueFormat,
-                ***REMOVED***,
-                ***REMOVED***,
+                showOverallValue,
+                showNoDataLabel,
                 group,
                 tooltipTheme,
-                ***REMOVED***,
-                ***REMOVED***,
+                labelFontColor,
+                labelFontWeight,
                 labelFontSize,
-                ***REMOVED***,
-                ***REMOVED***,
+                legendFontSize,
+                legendFontWeight,
                 legendTitle,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
+                tooltipFontSize,
+                showAdminUnitLabel,
+                highlightedLocation,
+                showNoDataTooltip,
+                pointLabelColor,
+                pointLabelFormat,
                 highlightedLocLabelFormat,
-                ***REMOVED***,
+                labelsExclusionList,
                 noDataText
             },
             locations
@@ -55,11 +55,11 @@ export default class Settings  extends Component{
                     <PanelRow>
                         <TextControl
                             label={__('Measure Selector Label')}
-                            value={***REMOVED***}
-                            onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                            value={measureSelectorLabel}
+                            onChange={(measureSelectorLabel) => setAttributes({ measureSelectorLabel })}
                         />
                     </PanelRow>
-                    {(***REMOVED*** || showTooltip) &&
+                    {(mapLabelShowValue || showTooltip) &&
                         <PanelRow>
                             <TextControl
                                 placeholder={__('#({value},2,{measure})')}
@@ -72,32 +72,32 @@ export default class Settings  extends Component{
                    <PanelRow>
                    <SelectControl
                                 label={__('Show Admin Unit Label')}
-                                value={[***REMOVED***]}
+                                value={[showAdminUnitLabel]}
                                 onChange={(value) => {
-                                    setAttributes({ ***REMOVED***: value })
+                                    setAttributes({ showAdminUnitLabel: value })
                                 }}
                                 options={[{ label: 'Only if admin unit has data', value: 'ifUnitHasData'}, {label: 'Do not show', value: 'doNotShow' }, {label: 'Show All', value: 'showAll' }]}/>
                    </PanelRow>
-                   {(***REMOVED*** == 'ifUnitHasData' || ***REMOVED*** == 'showAll') &&
+                   {(showAdminUnitLabel == 'ifUnitHasData' || showAdminUnitLabel == 'showAll') &&
                      <PanelRow>
-                     <***REMOVED***
+                     <TextareaControl
                          label={__("Do not show these labels(use comma to separate) ")}
-                         value={***REMOVED***}
-                         onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                         value={labelsExclusionList}
+                         onChange={(labelsExclusionList) => setAttributes({ labelsExclusionList })}
                      />
                     </PanelRow>
                    }
                     <PanelRow>
                         <ToggleControl
                             label="Map Label: Show Value"
-                            checked={***REMOVED***}
-                            onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })} />
+                            checked={mapLabelShowValue}
+                            onChange={() => setAttributes({ mapLabelShowValue: !mapLabelShowValue })} />
                     </PanelRow>
                     <PanelRow>
                         <ToggleControl
                             label='Show "No Data" Label'
-                            checked={***REMOVED***}
-                            onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })} />
+                            checked={showNoDataLabel}
+                            onChange={() => setAttributes({ showNoDataLabel: !showNoDataLabel })} />
                     </PanelRow>    
                     <PanelRow>
                     <RangeControl
@@ -110,32 +110,32 @@ export default class Settings  extends Component{
                     </PanelRow>
                     <PanelRow>
                      <ButtonGroup>
-                     <Button isPrimary={***REMOVED*** == 'lighter'} isSecondary={***REMOVED*** != 'lighter'}
-                            onClick={e => setAttributes({***REMOVED***: "lighter"})}>
+                     <Button isPrimary={labelFontWeight == 'lighter'} isSecondary={labelFontWeight != 'lighter'}
+                            onClick={e => setAttributes({labelFontWeight: "lighter"})}>
                         {__("Lighter")}
                     </Button>
-                     <Button isPrimary={***REMOVED*** == 'normal'}
-                            isSecondary={***REMOVED*** != 'normal'}
-                            onClick={e => setAttributes({***REMOVED***: "normal"})}>
+                     <Button isPrimary={labelFontWeight == 'normal'}
+                            isSecondary={labelFontWeight != 'normal'}
+                            onClick={e => setAttributes({labelFontWeight: "normal"})}>
                         {__("Normal")}
                     </Button>   
-                    <Button isPrimary={***REMOVED*** == 'bold'} isSecondary={***REMOVED*** != 'bold'}
-                            onClick={e => setAttributes({***REMOVED***: "bold"})}>
+                    <Button isPrimary={labelFontWeight == 'bold'} isSecondary={labelFontWeight != 'bold'}
+                            onClick={e => setAttributes({labelFontWeight: "bold"})}>
                         {__("Bold")}
                     </Button>                                                    
                     </ButtonGroup>                                                        
                 </PanelRow>
                 <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Label font color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#f0f0f1"),
+                            value: decodeURIComponent(labelFontColor ? labelFontColor : "#f0f0f1"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({labelFontColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: null})
+                                    setAttributes({labelFontColor: null})
                                 }
                             },
                             label: __("")
@@ -146,16 +146,16 @@ export default class Settings  extends Component{
                 </PanelRow>  
                 </PanelBody>  
                 <PanelBody title={__("Point Settings")} initialOpen={false}><PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Label font color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#f0f0f1"),
+                            value: decodeURIComponent(pointLabelColor ? pointLabelColor : "#f0f0f1"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({pointLabelColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: null})
+                                    setAttributes({pointLabelColor: null})
                                 }
                             },
                             label: __("")
@@ -168,8 +168,8 @@ export default class Settings  extends Component{
                             <TextControl
                                 placeholder={__('#({value},2)')}
                                 label={__('Point Label')}
-                                value={***REMOVED***}
-                                onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                value={pointLabelFormat}
+                                onChange={(pointLabelFormat) => setAttributes({ pointLabelFormat })}
                             />
                         </PanelRow> 
                 </PanelBody> 
@@ -184,25 +184,25 @@ export default class Settings  extends Component{
                 <PanelRow>
                     <RangeControl
                         label={__('Legend Font Size')}
-                        value={***REMOVED***}
-                        onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                        value={legendFontSize}
+                        onChange={(legendFontSize) => setAttributes({ legendFontSize })}
                         min={0}
                         max={20} />
                 </PanelRow>
                 <PanelRow>
                 <ButtonGroup>
                     <label style={{fontSize:'13px'}} className="components-base-control__label">Font Weight </label> <br></br>
-                    <Button isPrimary={***REMOVED*** == 'lighter'} isSecondary={***REMOVED*** != 'lighter'}
-                        onClick={e => setAttributes({ ***REMOVED***: "lighter" })}>
+                    <Button isPrimary={legendFontWeight == 'lighter'} isSecondary={legendFontWeight != 'lighter'}
+                        onClick={e => setAttributes({ legendFontWeight: "lighter" })}>
                         {__("Lighter")}
                     </Button>
-                    <Button isPrimary={***REMOVED*** == 'normal'}
-                        isSecondary={***REMOVED*** != 'normal'}
-                        onClick={e => setAttributes({ ***REMOVED***: "normal" })}>
+                    <Button isPrimary={legendFontWeight == 'normal'}
+                        isSecondary={legendFontWeight != 'normal'}
+                        onClick={e => setAttributes({ legendFontWeight: "normal" })}>
                         {__("Normal")}
                     </Button>
-                    <Button isPrimary={***REMOVED*** == 'bold'} isSecondary={***REMOVED*** != 'bold'}
-                        onClick={e => setAttributes({ ***REMOVED***: "bold" })}>
+                    <Button isPrimary={legendFontWeight == 'bold'} isSecondary={legendFontWeight != 'bold'}
+                        onClick={e => setAttributes({ legendFontWeight: "bold" })}>
                         {__("Bold")}
                     </Button>
                 </ButtonGroup>
@@ -221,16 +221,16 @@ export default class Settings  extends Component{
                 <PanelRow>
                 <ToggleControl
                     label="Show Overall/National Value"
-                    checked={***REMOVED***}
-                    onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })}
+                    checked={showOverallValue}
+                    onChange={() => setAttributes({ showOverallValue: !showOverallValue })}
                 />                        
                </PanelRow>
-               {***REMOVED*** &&
+               {showOverallValue &&
                   <PanelRow>
                         <TextControl
                             label={__('Overall Average Label')}
-                            value={***REMOVED***}
-                            onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                            value={nationalAverageLabel}
+                            onChange={(nationalAverageLabel) => setAttributes({ nationalAverageLabel })}
                         />
                     </PanelRow>
                   }
@@ -241,15 +241,15 @@ export default class Settings  extends Component{
                         <PanelRow>
                             <SelectControl
                                 label={__('Highlighted Location')}
-                                value={[***REMOVED***]}
+                                value={[highlightedLocation]}
                                 onChange={(value) => {
-                                    setAttributes({ ***REMOVED***: value })
+                                    setAttributes({ highlightedLocation: value })
                                 }}
                                 options={[{label:'None', value: ''}, ...locations]}/>
                         </PanelRow>
                         }
 
-                       {***REMOVED*** &&
+                       {highlightedLocation &&
                        <PanelRow>
                          <TextControl
                            placeholder={__('{locationName} - Score: #({value},2)')}

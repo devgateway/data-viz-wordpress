@@ -1,4 +1,4 @@
-import { ***REMOVED***, useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -7,7 +7,7 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { ComponentWithSettings } from "../commons";
-import {***REMOVED***} from '@wordpress/block-editor';
+import {PanelColorSettings} from '@wordpress/block-editor';
 
 class BlockEdit extends ComponentWithSettings {
     constructor(props) { 
@@ -21,16 +21,16 @@ class BlockEdit extends ComponentWithSettings {
                 buttonLabel,
                 height,
                 width,
-                ***REMOVED***,
+                backgroundColor,
                 fontColor
             },
         } = this.props;
         
-        const queryString = `editing=true&data-button-label=${buttonLabel}&data-height=${height}&data-width=${width}&data-background-color=${***REMOVED***}&data-font-color=${fontColor}`
+        const queryString = `editing=true&data-button-label=${buttonLabel}&data-height=${height}&data-width=${width}&data-background-color=${backgroundColor}&data-font-color=${fontColor}`
         const divStyles = { height: height + 'px', width: width + 'px' }       
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel header={__("Back To Top Configuration","dg")}>
                         <PanelBody>
                             <PanelRow>
@@ -56,16 +56,16 @@ class BlockEdit extends ComponentWithSettings {
                                 />
                             </PanelRow>*/}
                             <PanelRow>
-                                <***REMOVED***
+                                <PanelColorSettings
                                     title={__('Color settings','dg')}
                                     colorSettings={[
                                         {
-                                            value: ***REMOVED***(***REMOVED***),
+                                            value: decodeURIComponent(backgroundColor),
                                             onChange: (color) => {
                                                 if (color) {
-                                                    setAttributes({ ***REMOVED***: ***REMOVED***(color) })
+                                                    setAttributes({ backgroundColor: encodeURIComponent(color) })
                                                 } else {
-                                                    setAttributes({ ***REMOVED***: null })
+                                                    setAttributes({ backgroundColor: null })
                                                 }
                                             },
                                             label: __('Background Color','dg')
@@ -74,14 +74,14 @@ class BlockEdit extends ComponentWithSettings {
                                 />
                             </PanelRow>
                             <PanelRow>
-                                <***REMOVED***
+                                <PanelColorSettings
                                     title={__('Color settings','dg')}
                                     colorSettings={[
                                         {
-                                            value: ***REMOVED***(fontColor),
+                                            value: decodeURIComponent(fontColor),
                                             onChange: (color) => {
                                                 if (color) {
-                                                    setAttributes({ fontColor: ***REMOVED***(color) })
+                                                    setAttributes({ fontColor: encodeURIComponent(color) })
                                                 } else {
                                                     setAttributes({ fontColor: null })
                                                 }
@@ -94,7 +94,7 @@ class BlockEdit extends ComponentWithSettings {
                         </PanelBody>
                         
                    </Panel>
-                </***REMOVED***>
+                </InspectorControls>
                 <div style={divStyles}>
                         {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"}
                             src={this.state.react_ui_url + "/embeddable/backtotop?" + queryString} />}

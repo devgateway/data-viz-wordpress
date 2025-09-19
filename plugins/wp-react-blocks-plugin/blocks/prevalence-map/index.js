@@ -1,9 +1,9 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import {
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
+    getColorClassName,
+    InspectorControls,
+    PanelColorSettings,
     useBlockProps,
     withColors
 } from '@wordpress/block-editor';
@@ -13,9 +13,9 @@ import {Generic} from "../icons";
 const EditComponent = (props) => {
 
     const {
-        ***REMOVED***,
-        ***REMOVED***,
-        ***REMOVED***,
+        backgroundColor,
+        setBackgroundColor,
+        toggleSelection,
         setAttributes,
         attributes: {
             width,
@@ -25,29 +25,29 @@ const EditComponent = (props) => {
     } = props;
 
      const blockProps = useBlockProps({className: 'wp-react-component'});
-    const ***REMOVED*** = newAlignment => {
+    const onChangeAlignment = newAlignment => {
         props.setAttributes({alignment: newAlignment});
     };
     let divClass;
     let divStyles = {"text-align":alignment};
-    if (***REMOVED*** != undefined) {
-        if (***REMOVED***.class != undefined) {
-            divClass = ***REMOVED***.class;
+    if (backgroundColor != undefined) {
+        if (backgroundColor.class != undefined) {
+            divClass = backgroundColor.class;
         } else {
-            divStyles['background-color'] = ***REMOVED***.color;
+            divStyles['background-color'] = backgroundColor.color;
         }
     }
 
     return (
         <div>
-            <***REMOVED***>
+            <InspectorControls>
                 <Panel header="Block Settings">
-                    <***REMOVED***
+                    <PanelColorSettings
                         title={__('Color settings',"dg")}
                         colorSettings={[
                             {
-                                value: ***REMOVED***.color,
-                                onChange: ***REMOVED***,
+                                value: backgroundColor.color,
+                                onChange: setBackgroundColor,
                                 label: __('Background color',"dg")
                             },
                         ]}
@@ -55,16 +55,16 @@ const EditComponent = (props) => {
                     {/*
                     <PanelBody title="Alignment"  initialOpen={true}>
                         <PanelRow>
-                            <***REMOVED***
+                            <AlignmentToolbar
                                 label={"Alignment"}
                                 value={alignment}
-                                onChange={***REMOVED***}
+                                onChange={onChangeAlignment}
                             />
                         </PanelRow>
                     </PanelBody>
                        */}
                 </Panel>
-            </***REMOVED***>
+            </InspectorControls>
             <div {...blockProps} >
                 <ResizableBox
                     size={{
@@ -89,10 +89,10 @@ const EditComponent = (props) => {
                             height: parseInt(height + delta.height, 10),
                             width: parseInt(width + delta.width, 10),
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}
                 >
                     <div className={divClass} style={{...divStyles, width, height}}>
@@ -113,10 +113,10 @@ const SaveComponent = (props) => {
         width,
         height,
         customBackgroundColor,
-        ***REMOVED***,
+        backgroundColor,
     } = props.attributes;
 
-    const divClass = ***REMOVED***('background-color', ***REMOVED***);
+    const divClass = getColorClassName('background-color', backgroundColor);
     const divStyles = {width, height, "background-color": customBackgroundColor};
 
     return (<div className={divClass} style={divStyles}>
@@ -126,7 +126,7 @@ const SaveComponent = (props) => {
 
     );
 }
-***REMOVED***(process.env.BLOCKS_NS+'/illicit-map', {
+registerBlockType(process.env.BLOCKS_NS+'/illicit-map', {
     title: __('Illicit Map',"dg"),
     icon: Generic,
     category: process.env.BLOCKS_CATEGORY,
@@ -139,11 +139,11 @@ const SaveComponent = (props) => {
             type: 'Numeric',
             default: 400,
         },
-        ***REMOVED***: {
+        backgroundColor: {
             type: 'string'
         },
 
     },
-    edit: withColors('***REMOVED***', {textColor: 'color'})(EditComponent),
+    edit: withColors('backgroundColor', {textColor: 'color'})(EditComponent),
     save: SaveComponent,
 });

@@ -1,9 +1,9 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl} from '@wordpress/components';
+import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl} from '@wordpress/components';
 
 import Format from '../charts/Format.jsx'
 import {togglePanel} from "./Util";
-import {***REMOVED***} from "./APIutils";
+import {getTranslation} from "./APIutils";
 
 const defaultFormat = {
     "style": "percent",
@@ -15,12 +15,12 @@ const defaultFormat = {
 
 const Measures = (props) => {
     const {
-        ***REMOVED***,
-        ***REMOVED***,
+        onMeasuresChange,
+        onFormatChange,
         onUseCustomAxisFormatChange,
-        ***REMOVED***,
+        onSetSingleMeasure,
         onCustomLabelToggleChange,
-        ***REMOVED***,
+        onCustomLabelChange,
         allMeasures,
         setAttributes,
         title,
@@ -40,9 +40,9 @@ const Measures = (props) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
 
         return (<ToggleControl
-            label={***REMOVED***(measure)}
+            label={getTranslation(measure)}
             checked={userMeasure ? userMeasure.selected : false}
-            onChange={(value) => ***REMOVED***(measure.value)}/>)
+            onChange={(value) => onMeasuresChange(measure.value)}/>)
     }
 
     const MCheckbox = ({measure}) => {
@@ -54,14 +54,14 @@ const Measures = (props) => {
             isChecked = userMeasure ? userMeasure.selected : false
         }
 
-        return <***REMOVED***
-            label={***REMOVED***(measure)}
+        return <CheckboxControl
+            label={getTranslation(measure)}
             checked={isChecked}
-            onChange={(value) => ***REMOVED***(measure.value)}/>
+            onChange={(value) => onSetSingleMeasure(measure.value)}/>
     }
 
 
-    const ***REMOVED*** = ({measure, single}) => {
+    const MeasureOptions = ({measure, single}) => {
         return <PanelRow>
             {single && <MCheckbox measure={measure}></MCheckbox>}
             {!single && <MToggle measure={measure}></MToggle>}
@@ -71,7 +71,7 @@ const Measures = (props) => {
 
     const countSelected = (g) => {
         if (measures[app]) {
-            const mG = allMeasures.filter(f => ***REMOVED***(f.group) === g)
+            const mG = allMeasures.filter(f => getTranslation(f.group) === g)
             let count = 0
             Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
                 if (measures[app][k].selected) {
@@ -84,13 +84,13 @@ const Measures = (props) => {
     }
     const countTotal = (g) => {
         if (g) {
-            return allMeasures.filter(f => ***REMOVED***(f.group) === g).length
+            return allMeasures.filter(f => getTranslation(f.group) === g).length
         }
 
         return 0
     }
 
-    const ***REMOVED*** = () => {
+    const getSelectedMeasures = () => {
         if (measures[app] && allMeasures) {
             return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
                 return allMeasures.filter(m => m.value === k)[0]
@@ -100,7 +100,7 @@ const Measures = (props) => {
     }
 
    
-    const ***REMOVED*** = ***REMOVED***()
+    const selectedMeasures = getSelectedMeasures()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
                         onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
 
@@ -121,13 +121,13 @@ const Measures = (props) => {
             ((type == 'radar') ||
                 (type == 'line' && dimension2 == 'none') ||
                 (type == 'bar' && dimension2 == 'none') ||
-                (type == 'pie' && dimension1 == 'none' && dimension2 == 'none')) && allMeasures && [...new Set(allMeasures.map(p => ***REMOVED***(p.group)))].map(g => {
+                (type == 'pie' && dimension1 == 'none' && dimension2 == 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody initialOpen={panelStatus[g]}
                                        onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                                        title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
-                            {allMeasures.filter(f => ***REMOVED***(f.group) === g)
+                            {allMeasures.filter(f => getTranslation(f.group) === g)
                                 .map(m => <PanelRow>
-                                    <***REMOVED*** single={false} measure={m}></***REMOVED***>
+                                    <MeasureOptions single={false} measure={m}></MeasureOptions>
                                 </PanelRow>)}
                         </PanelBody>
 
@@ -147,15 +147,15 @@ const Measures = (props) => {
             any dimensions selected
 
         */
-            ((type=='big-number') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => ***REMOVED***(p.group)))].map(g => {
+            ((type=='big-number') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody
                         initialOpen={panelStatus[g]}
                         onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                         title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
 
-                        {allMeasures.filter(f => ***REMOVED***(f.group) === g)
+                        {allMeasures.filter(f => getTranslation(f.group) === g)
                             .map(m => <PanelRow>
-                                <***REMOVED*** single={true} measure={m}></***REMOVED***>
+                                <MeasureOptions single={true} measure={m}></MeasureOptions>
                             </PanelRow>)}
 
                     </PanelBody>
@@ -168,9 +168,9 @@ const Measures = (props) => {
         {
             (type == 'overlay') && allMeasures && <SelectControl
                 label="Measure"
-                value={***REMOVED*** && ***REMOVED***[0] ? ***REMOVED***[0].value : null}
+                value={selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null}
                 options={[{value: '', label: 'Select Measure'}, ...allMeasures]}
-                onChange={(measure) => ***REMOVED***(measure)}
+                onChange={(measure) => onSetSingleMeasure(measure)}
                 __nextHasNoMarginBottom
             />
 
@@ -183,9 +183,9 @@ const Measures = (props) => {
                 hiddenCustomAxisFormat={type=='radar' || type=='big-number'}              
                 format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
-                ***REMOVED***={measures[app] ? measures[app].***REMOVED*** : false}
-                ***REMOVED***={(format, field) => {
-                    ***REMOVED***(format, field)
+                useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}
+                onFormatChange={(format, field) => {
+                    onFormatChange(format, field)
                 }}
                 onUseCustomAxisFormatChange={value => {
                     onUseCustomAxisFormatChange(value)
@@ -195,27 +195,27 @@ const Measures = (props) => {
         </PanelBody>}
 
     </PanelBody>
-        {(type != 'overlay') && ***REMOVED*** && ***REMOVED***.length > 0 &&
+        {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
             <PanelBody title={__("Measure Label Customization")}
                        initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
                        onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
 
-                {***REMOVED*** && [...new Set(***REMOVED***.map(p => ***REMOVED***(p.group)))].map(g => {
+                {selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
                         return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
                                            onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
                                            title={`${g}`}>
-                                {***REMOVED***.filter(f => ***REMOVED***(f.group) === g)
+                                {selectedMeasures.filter(f => getTranslation(f.group) === g)
                                     .map(m => {
                                         const userMeasure = measures[app] ? measures[app][m.value] : {}
                                         return (<><PanelRow><ToggleControl
-                                            label={***REMOVED***(m)}
-                                            checked={userMeasure ? userMeasure.***REMOVED*** : false}
+                                            label={getTranslation(m)}
+                                            checked={userMeasure ? userMeasure.hasCustomLabel : false}
                                             onChange={(value) => onCustomLabelToggleChange(m.value)}/> </PanelRow>
-                                            {userMeasure.***REMOVED*** &&
+                                            {userMeasure.hasCustomLabel &&
                                                 <PanelRow>
                                                     <TextControl label={__("Custom Label")}
                                                                  value={userMeasure ? userMeasure.customLabel : ""}
-                                                                 onChange={(value) => ***REMOVED***(m.value, value)}/>
+                                                                 onChange={(value) => onCustomLabelChange(m.value, value)}/>
                                                 </PanelRow>
                                             }
                                         </>)

@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons/index.js'
 
-***REMOVED***(process.env.BLOCKS_NS + '/sankeychart',
+registerBlockType(process.env.BLOCKS_NS + '/sankeychart',
     {
         title: __('Sankey Chart'),
         icon: Generic,
@@ -43,7 +43,7 @@ import {Generic} from '../icons/index.js'
                 type: 'String',
                 default: 'none'
             },
-            ***REMOVED***: {
+            legendPosition: {
                 type: 'String',
                 default: "top"
             },
@@ -122,7 +122,7 @@ import {Generic} from '../icons/index.js'
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            useLabelBackground: {
                 type: "Boolean",
                 default: false
             },
@@ -130,9 +130,9 @@ import {Generic} from '../icons/index.js'
                 type: "Boolean",
                 default: true
             },
-            ***REMOVED***: {
+            legendLabelColor: {
                 type: "String",
-                default: ***REMOVED***("#000000")
+                default: encodeURIComponent("#000000")
             },
             noDataMessage: {
                 type: 'String',
@@ -142,7 +142,7 @@ import {Generic} from '../icons/index.js'
                 type: 'Object',
                 default: {}
             },
-            ***REMOVED***: {
+            tooltipEnabled: {
                 type: "Boolean",
                 default: true
             },
@@ -167,7 +167,7 @@ import {Generic} from '../icons/index.js'
                 type: "Numeric",
                 default: 0.75
             },
-            ***REMOVED***: {
+            nodeHoverOpacity: {
                 type: "Numeric",
                 default: 1
             },
@@ -179,15 +179,15 @@ import {Generic} from '../icons/index.js'
                 type: "Numeric",
                 default: 12
             },
-            ***REMOVED***: {
+            nodeInnerPadding: {
                 type: "Numeric",
                 default: 0
             },
-            ***REMOVED***: {
+            nodeBorderWidth: {
                 type: "Numeric",
                 default: 1
             },
-            ***REMOVED***: {
+            nodeBorderRadius: {
                 type: "Numeric",
                 default: 1
             },
@@ -195,7 +195,7 @@ import {Generic} from '../icons/index.js'
                 type: "Numeric",
                 default: 0.25
             },
-            ***REMOVED***: {
+            linkHoverOpacity: {
                 type: "Numeric",
                 default: 0.6
             },
@@ -207,7 +207,7 @@ import {Generic} from '../icons/index.js'
                 type: "Numeric",
                 default: 5
             },
-            ***REMOVED***: {
+            enableLinkGradient: {
                 type: "Boolean",
                 default: false
             },
@@ -223,15 +223,15 @@ import {Generic} from '../icons/index.js'
                 type: "Numeric",
                 default: 9
             },
-            ***REMOVED***: {
+            useCustomLabelColor: {
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            labelTextColor: {
                 type: "String",
                 default: '#999'
             },
-            ***REMOVED***: {
+            labelOrientation: {
                 type: "String",
                 default: 'horizontal'
             }

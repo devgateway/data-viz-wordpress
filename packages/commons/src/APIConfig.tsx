@@ -18,7 +18,7 @@ const defaultFormat = {
   currency: "USD",
 };
 
-const ***REMOVED*** = ({ param, index, options, ***REMOVED*** }) => {
+const FilterSelector = ({ param, index, options, onUpdateFilterParam }) => {
   const sortedOptions = options.sort(function (a, b) {
     var aLabel = a.label ? a.label.toLowerCase() : "";
     var bLabel = b.label ? b.label.toLowerCase() : "";
@@ -28,7 +28,7 @@ const ***REMOVED*** = ({ param, index, options, ***REMOVED*** }) => {
   return (
     <SelectControl
       onChange={(value) => {
-        ***REMOVED***(value, index);
+        onUpdateFilterParam(value, index);
       }}
       value={param}
       options={sortedOptions}
@@ -36,7 +36,7 @@ const ***REMOVED*** = ({ param, index, options, ***REMOVED*** }) => {
   );
 };
 
-const ***REMOVED*** = ({ value, index, items, ***REMOVED*** }) => {
+const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
   if (items) {
     const sortedItems = items.sort(function (a, b) {
       if (a.position !== undefined && b.position !== undefined) {
@@ -54,7 +54,7 @@ const ***REMOVED*** = ({ value, index, items, ***REMOVED*** }) => {
           label={v.value}
           checked={value.indexOf(v.id) > -1}
           onChange={(e) => {
-            ***REMOVED***(v.id, index);
+            onUpdateFilterValue(v.id, index);
           }}
         />
       </PanelRow>
@@ -65,12 +65,12 @@ const ***REMOVED*** = ({ value, index, items, ***REMOVED*** }) => {
 };
 
 /*let types = [
-    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, ***REMOVED***: false}},
-    {label: 'Pie', value: 'pie', supports: {singleMeasure: true, ***REMOVED***: false}},
-    {label: 'Line', value: 'line', supports: {singleMeasure: false, ***REMOVED***: true}},
-    {label: 'Map', value: 'map', supports: {singleMeasure: true, ***REMOVED***: false}}]*/
+    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, singleDimension: false}},
+    {label: 'Pie', value: 'pie', supports: {singleMeasure: true, singleDimension: false}},
+    {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
+    {label: 'Map', value: 'map', supports: {singleMeasure: true, singleDimension: false}}]*/
 
-type ***REMOVED*** = {
+type APIConfigProps = {
   allDimensions: Dimension[];
   allFilters: Filter[];
   allMeasures: Measure[];
@@ -90,28 +90,28 @@ type ***REMOVED*** = {
     barColor: string;
     app: string;
     csv: string;
-    ***REMOVED***: boolean;
+    includeOverall: boolean;
     types: any[];
   }
 };
 
 
-export class APIConfig extends Component<***REMOVED***> {
-  constructor(props: ***REMOVED***) {
+export class APIConfig extends Component<APIConfigProps> {
+  constructor(props: APIConfigProps) {
     super(props);
 
-    this.***REMOVED*** = this.***REMOVED***.bind(this);
-    this.***REMOVED*** = this.***REMOVED***.bind(this);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
     this.addFilter = this.addFilter.bind(this);
-    this.***REMOVED*** = this.***REMOVED***.bind(this);
-    this.***REMOVED*** = this.***REMOVED***.bind(this);
-    this.***REMOVED*** = this.***REMOVED***.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
     this.items = this.items.bind(this);
 
-    this.***REMOVED*** = this.***REMOVED***.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
     this.onCustomLabelToggleChange = this.onCustomLabelToggleChange.bind(this);
-    this.***REMOVED*** = this.***REMOVED***.bind(this);
+    this.onCustomLabelChange = this.onCustomLabelChange.bind(this);
     this.onUseCustomAxisFormatChange =
       this.onUseCustomAxisFormatChange.bind(this);
     //this.onCustomMeasureFieldChange = this.onCustomMeasureFieldChange.bind(this)
@@ -124,12 +124,12 @@ export class APIConfig extends Component<***REMOVED***> {
     };
   }
 
-  ***REMOVED***(prevState) {
+  cleanSelection(prevState) {
     const { setAttributes } = this.props;
     setAttributes({ measures: [], filters: [] });
   }
 
-  ***REMOVED***(param, idx) {
+  updateFilterParam(param, idx) {
     const {
       attributes: { filters },
       setAttributes,
@@ -141,7 +141,7 @@ export class APIConfig extends Component<***REMOVED***> {
     setAttributes({ filters: newFilters });
   }
 
-  ***REMOVED***(value, idx) {
+  updateFilterValue(value, idx) {
     const {
       attributes: { filters },
       setAttributes,
@@ -160,7 +160,7 @@ export class APIConfig extends Component<***REMOVED***> {
     setAttributes({ filters: newFilters });
   }
 
-  ***REMOVED***(value, idx) {
+  setFilterValue(value, idx) {
     const {
       attributes: { filters },
       setAttributes,
@@ -204,20 +204,20 @@ export class APIConfig extends Component<***REMOVED***> {
     setAttributes({ filters: newFilters });
   }
 
-  ***REMOVED***(prevProps) {
+  componentDidUpdate(prevProps) {
     const {
       setAttributes,
       attributes: { type, colorBy, dimension2, types, measures, app },
     } = this.props;
     const {
-      attributes: { type: prevType, dimension2: ***REMOVED*** },
+      attributes: { type: prevType, dimension2: prevDimension2 },
     } = prevProps;
-    const ***REMOVED*** =
+    const prevTypeObject =
       types.filter((t) => t.value === prevType).length > 0
         ? types.filter((t) => t.value === prevType)[0]
         : null;
 
-    if (dimension2 != ***REMOVED***) {
+    if (dimension2 != prevDimension2) {
       //TODO ensure only one measure remains selected when selecting a second dimensions
       const uMs = Object.assign({}, measures);
       if (dimension2 != "none") {
@@ -254,7 +254,7 @@ export class APIConfig extends Component<***REMOVED***> {
     }
   }
 
-  ***REMOVED***(value) {
+  onSetSingleMeasure(value) {
     const {
       setAttributes,
       attributes: { app, measures },
@@ -276,7 +276,7 @@ export class APIConfig extends Component<***REMOVED***> {
     setAttributes({ measures: uMs });
   }
 
-  ***REMOVED***(format, field) {
+  onFormatChange(format, field) {
     const {
       setAttributes,
       attributes: { app, measures },
@@ -284,7 +284,7 @@ export class APIConfig extends Component<***REMOVED***> {
     const uMs = Object.assign({}, { ...measures });
     if (!uMs[app]) {
       uMs[app] = {
-        ***REMOVED***: false,
+        allowSelection: false,
         format: format,
         customFormat: format,
         selected: false,
@@ -302,15 +302,15 @@ export class APIConfig extends Component<***REMOVED***> {
     } = this.props;
     const uMs = Object.assign({}, { ...measures });
     if (uMs[app]) {
-      uMs[app].***REMOVED*** = value;
+      uMs[app].useCustomAxisFormat = value;
       setAttributes({ measures: uMs });
     } else {
       uMs[app] = {
-        ***REMOVED***: false,
+        allowSelection: false,
         format: defaultFormat,
         customFormat: defaultFormat,
         selected: false,
-        ***REMOVED***: value,
+        useCustomAxisFormat: value,
       };
       setAttributes({ measures: uMs });
     }
@@ -324,13 +324,13 @@ export class APIConfig extends Component<***REMOVED***> {
         if (uMs[measureName]) {
             uMs[measureName][field] = value
         } else {
-            uMs[measureName] = {***REMOVED***: false, field: value, selected: false}
+            uMs[measureName] = {allowSelection: false, field: value, selected: false}
         }
 
         setAttributes({measures: uMs})
     }
     */
-  ***REMOVED***(value: string) {
+  onMeasuresChange(value: string) {
     const {
       setAttributes,
       attributes: { app, measures },
@@ -357,21 +357,21 @@ export class APIConfig extends Component<***REMOVED***> {
     const uMs = Object.assign({}, measures);
 
     if (uMs[app] && uMs[app][value]) {
-      uMs[app][value].***REMOVED*** = uMs[app][value].***REMOVED***
+      uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel
         ? false
         : true;
       setAttributes({ measures: uMs });
     }
   }
 
-  ***REMOVED***(value: string, customLabel: string) {
+  onCustomLabelChange(value: string, customLabel: string) {
     const {
       setAttributes,
       attributes: { app, measures },
     } = this.props;
     const uMs = Object.assign({}, measures);
 
-    if (uMs[app] && uMs[app][value] && uMs[app][value].***REMOVED***) {
+    if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
       uMs[app][value].customLabel = customLabel;
       setAttributes({ measures: uMs });
     }
@@ -444,12 +444,12 @@ export class APIConfig extends Component<***REMOVED***> {
       </PanelBody>,
       <Measures
       {...this.props}
-        ***REMOVED***={this.***REMOVED***}
+        onFormatChange={this.onFormatChange}
         onUseCustomAxisFormatChange={this.onUseCustomAxisFormatChange}
-        ***REMOVED***={this.***REMOVED***}
-        ***REMOVED***={this.***REMOVED***}
+        onSetSingleMeasure={this.onSetSingleMeasure}
+        onMeasuresChange={this.onMeasuresChange}
         onCustomLabelToggleChange={this.onCustomLabelToggleChange}
-        ***REMOVED***={this.***REMOVED***}
+        onCustomLabelChange={this.onCustomLabelChange}
         currentType={currentType}
       />,
 
@@ -458,18 +458,18 @@ export class APIConfig extends Component<***REMOVED***> {
           {filters.map((f, index) => {
             return (
               <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
-                <***REMOVED***
+                <FilterSelector
                   param={f.param}
                   index={index}
                   options={allFilters}
-                  ***REMOVED***={this.***REMOVED***}
+                  onUpdateFilterParam={this.updateFilterParam}
                 />
                 {
-                  <***REMOVED***
+                  <CategoricalFilter
                     value={f.value}
                     index={index}
                     items={this.items(f.type)}
-                    ***REMOVED***={this.***REMOVED***}
+                    onUpdateFilterValue={this.updateFilterValue}
                   />
                 }
               </PanelBody>

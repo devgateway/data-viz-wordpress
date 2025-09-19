@@ -1,16 +1,16 @@
 import React from 'react';
-import {PanelRow, PanelBody, ***REMOVED***} from '@wordpress/components';
+import {PanelRow, PanelBody, TextareaControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
 export const Tooltip = (props) => {
 
     function repeat(times: number) {
-        return function (strs: ***REMOVED***, ...substs: any[]) {
+        return function (strs: TemplateStringsArray, ...substs: any[]) {
             return cook(strs, ...substs).repeat(times);
         };
     }
 
-    function cook(strs: ***REMOVED***, ...substs: any[]) {
+    function cook(strs: TemplateStringsArray, ...substs: any[]) {
         return substs.reduce(
             (prev,cur,i) => prev+cur+strs[i+1],
             strs[0]
@@ -37,7 +37,7 @@ export const Tooltip = (props) => {
                 </div>
                 {dimension1 == "none" && dimension2 == "none" &&
                      <PanelRow>
-                            <span style={{fontSize :"11px"}}>Corresponding Population -&gt; {"{"}***REMOVED***{"}"}</span>
+                            <span style={{fontSize :"11px"}}>Corresponding Population -&gt; {"{"}populationValue{"}"}</span>
                       </PanelRow>
                 }  
             {type === "pie" &&
@@ -52,7 +52,7 @@ export const Tooltip = (props) => {
             }
             </PanelBody>,
         <PanelRow>
-            <***REMOVED***
+            <TextareaControl
                 label={__("Tooltip")}
                 value={tooltipHTML}
                 help={__("You can use variables {var_name}")}

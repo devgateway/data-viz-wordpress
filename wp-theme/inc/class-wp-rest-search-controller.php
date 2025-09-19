@@ -109,7 +109,7 @@ class My_REST_Posts_Controller {
  
         $schema = $this->get_item_schema( $request );
  
-        // We are also renaming the fields to more ***REMOVED*** names.
+        // We are also renaming the fields to more understandable names.
         if ( isset( $schema['properties']['id'] ) ) {
             $post_data['id'] = (int) $post->ID;
         }

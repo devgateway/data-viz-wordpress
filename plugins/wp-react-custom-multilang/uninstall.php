@@ -24,5 +24,5 @@ if ( get_option( 'wpm_uninstall_translations', 'no' ) === 'yes' ) {
 } // End if().
 
 
-//phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching --Reason Reason We are just cleaning the data that has been changed by our plugin
+//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching --Reason Reason We are just cleaning the data that has been changed by our plugin
 $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'wpm_%';" );

@@ -1,11 +1,11 @@
-import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-import {***REMOVED***} from '../commons'
+import {BlockEditWithFilters} from '../commons'
 
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends BlockEditWithFilters {
     constructor(props) {
         super(props);
     }
@@ -24,23 +24,23 @@ class BlockEdit extends ***REMOVED*** {
         setAttributes({"colors": newColors})
     }
 
-    ***REMOVED***() {
+    componentWillUnmount() {
         if (this.unsubscribe) {
             this.unsubscribe()
         }
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
-        const ***REMOVED*** = this.state?.previewMode
-        if (***REMOVED*** !== prevState.previewMode) {
-            this.props.setAttributes({previewMode: ***REMOVED***})
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const newPreviewMode = this.state?.previewMode
+        if (newPreviewMode !== prevState.previewMode) {
+            this.props.setAttributes({previewMode: newPreviewMode})
         }
     }
 
     render() {
         const {
             className, isSelected,
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 count,
@@ -56,12 +56,12 @@ class BlockEdit extends ***REMOVED*** {
         } = this.props;
 
         const colorsParams = Object.keys(colors).map(k => colors[k]).join(",")
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${***REMOVED***(colorsParams)}&data-read-more-label=${readMoreLabel}&data-preview-mode=${previewMode}`
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${encodeURIComponent(colorsParams)}&data-read-more-label=${readMoreLabel}&data-preview-mode=${previewMode}`
         const divStyles = {height: `${height}px`, width: "100%"}
         return (
             <div>
 
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel header={__("Tabs Configuration")}>
                         <PanelBody title={__("Items & Labels")}>
                             <PanelRow>
@@ -89,7 +89,7 @@ class BlockEdit extends ***REMOVED*** {
                         <PanelBody title={__("Colors")}>
                             {new Array(count).fill(1).map((v, i) =>
                                 <PanelRow key={i}>
-                                    <***REMOVED***
+                                    <PanelColorSettings
                                         title={__(`Color Settings  ${i + 1}`)}
                                         colorSettings={[
                                             {
@@ -100,7 +100,7 @@ class BlockEdit extends ***REMOVED*** {
                                         ]}
                                     >
 
-                                    </***REMOVED***>
+                                    </PanelColorSettings>
                                 </PanelRow>
                             )}
 
@@ -108,7 +108,7 @@ class BlockEdit extends ***REMOVED*** {
 
                     </Panel>
 
-                </***REMOVED***>
+                </InspectorControls>
 
                 <ResizableBox
                     size={{height}}
@@ -129,10 +129,10 @@ class BlockEdit extends ***REMOVED*** {
                         setAttributes({
                             height: parseInt(height + delta.height, 10),
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}>
 
                 <div style={divStyles}>

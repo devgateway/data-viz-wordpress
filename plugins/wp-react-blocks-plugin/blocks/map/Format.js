@@ -2,7 +2,7 @@ import {PanelRow, SelectControl,PanelBody, TextControl} from '@wordpress/compone
 import {__} from '@wordpress/i18n';
 
 const Format = (props) => {
-    const {***REMOVED***, setAttributes, attributes: {decimals, formatStyle, currency}} = props;
+    const {toggleSelection, setAttributes, attributes: {decimals, formatStyle, currency}} = props;
 
     return [
     <PanelBody title={"Format Configuration"} initialOpen={false}>

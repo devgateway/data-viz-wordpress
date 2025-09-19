@@ -18,15 +18,15 @@ import {
 } from '@wordpress/components';
 import {
     BlockControls,
-    ***REMOVED***,
+    InspectorControls,
     RichText,
     useBlockProps,
-    __experimentalUseBorderProps as ***REMOVED***,
+    __experimentalUseBorderProps as useBorderProps,
     __experimentalUseColorProps as useColorProps,
-    __experimentalGetSpacingClassesAndStyles as ***REMOVED***,
+    __experimentalGetSpacingClassesAndStyles as useSpacingProps,
     __experimentalLinkControl as LinkControl,
 } from '@wordpress/block-editor';
-import { ***REMOVED***, ***REMOVED*** } from '@wordpress/keycodes';
+import { displayShortcut, isKeyboardEvent } from '@wordpress/keycodes';
 import { link, linkOff } from '@wordpress/icons';
 import { createBlock } from '@wordpress/blocks';
 
@@ -86,7 +86,7 @@ function ButtonEdit( props ) {
         [ setAttributes ]
     );
 
-    function ***REMOVED***( value ) {
+    function onToggleOpenInNewTab( value ) {
         const newLinkTarget = value ? '_blank' : undefined;
 
         let updatedRel = rel;
@@ -108,28 +108,28 @@ function ButtonEdit( props ) {
     }
 
     function onKeyDown( event ) {
-        if ( ***REMOVED***.primary( event, 'k' ) ) {
+        if ( isKeyboardEvent.primary( event, 'k' ) ) {
             startEditing( event );
-        } else if ( ***REMOVED***.primaryShift( event, 'k' ) ) {
+        } else if ( isKeyboardEvent.primaryShift( event, 'k' ) ) {
             unlink();
             richTextRef.current?.focus();
         }
     }
 
-    const borderProps = ***REMOVED***( attributes );
+    const borderProps = useBorderProps( attributes );
     const colorProps = useColorProps( attributes );
-    const spacingProps = ***REMOVED***( attributes );
+    const spacingProps = useSpacingProps( attributes );
     const ref = useRef();
     const richTextRef = useRef();
     const blockProps = useBlockProps( { ref, onKeyDown } );
 
-    const [ isEditingURL, ***REMOVED*** ] = useState( false );
+    const [ isEditingURL, setIsEditingURL ] = useState( false );
     const isURLSet = !! url;
     const opensInNewTab = linkTarget === '_blank';
 
     function startEditing( event ) {
-        event.***REMOVED***();
-        ***REMOVED***( true );
+        event.preventDefault();
+        setIsEditingURL( true );
     }
 
     function unlink() {
@@ -138,12 +138,12 @@ function ButtonEdit( props ) {
             linkTarget: undefined,
             rel: undefined,
         } );
-        ***REMOVED***( false );
+        setIsEditingURL( false );
     }
 
     useEffect( () => {
         if ( ! isSelected ) {
-            ***REMOVED***( false );
+            setIsEditingURL( false );
         }
     }, [ isSelected ] );
 
@@ -196,7 +196,7 @@ function ButtonEdit( props ) {
                         name="link"
                         icon={ link }
                         title={ __( 'Link',"dg") }
-                        shortcut={ ***REMOVED***.primary( 'k' ) }
+                        shortcut={ displayShortcut.primary( 'k' ) }
                         onClick={ startEditing }
                     />
                 ) }
@@ -205,7 +205,7 @@ function ButtonEdit( props ) {
                         name="link"
                         icon={ linkOff }
                         title={ __( 'Unlink' ,"dg") }
-                        shortcut={ ***REMOVED***.primaryShift( 'k' ) }
+                        shortcut={ displayShortcut.primaryShift( 'k' ) }
                         onClick={ unlink }
                         isActive={ true }
                     />
@@ -215,7 +215,7 @@ function ButtonEdit( props ) {
                 <Popover
                     position="bottom center"
                     onClose={ () => {
-                        ***REMOVED***( false );
+                        setIsEditingURL( false );
                         richTextRef.current?.focus();
                     } }
                     anchorRef={ ref?.current }
@@ -226,35 +226,35 @@ function ButtonEdit( props ) {
                         value={ { url, opensInNewTab } }
                         onChange={ ( {
                                          url: newURL = '',
-                                         opensInNewTab: ***REMOVED***,
+                                         opensInNewTab: newOpensInNewTab,
                                      } ) => {
                             setAttributes( { url: newURL } );
 
-                            if ( opensInNewTab !== ***REMOVED*** ) {
-                                ***REMOVED***( ***REMOVED*** );
+                            if ( opensInNewTab !== newOpensInNewTab ) {
+                                onToggleOpenInNewTab( newOpensInNewTab );
                             }
                         } }
                         onRemove={ () => {
                             unlink();
                             richTextRef.current?.focus();
                         } }
-                        ***REMOVED***={ isEditingURL }
+                        forceIsEditingLink={ isEditingURL }
                     />
                 </Popover>
             ) }
-            <***REMOVED***>
+            <InspectorControls>
                 <WidthPanel
                     selectedWidth={ width }
                     setAttributes={ setAttributes }
                 />
-            </***REMOVED***>
-            <***REMOVED*** __experimentalGroup="advanced">
+            </InspectorControls>
+            <InspectorControls __experimentalGroup="advanced">
                 <TextControl
                     label={ __( 'Link rel',"dg" ) }
                     value={ rel || '' }
                     onChange={ onSetLinkRel }
                 />
-            </***REMOVED***>
+            </InspectorControls>
         </>
     );
 }

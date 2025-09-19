@@ -43,7 +43,7 @@ class WPM_AJAX {
 	 * Set WPM AJAX constant and headers.
 	 */
 	public static function define_ajax() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
 		if ( ! empty( $_GET['wpm-ajax'] ) ) {
 			if ( ! wp_doing_ajax() ) {
 				define( 'DOING_AJAX', true );
@@ -53,7 +53,7 @@ class WPM_AJAX {
 			}
 			// Turn off display_errors during AJAX events to prevent malformed JSON
 			if ( ! WP_DEBUG || ( WP_DEBUG && ! WP_DEBUG_DISPLAY ) ) {
-				// phpcs:ignore Squiz.PHP.***REMOVED***.Discouraged --Reason Turn off display_errors during AJAX events to prevent malformed JSON
+				// phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged --Reason Turn off display_errors during AJAX events to prevent malformed JSON
 				@ini_set( 'display_errors', 0 );
 			}
 			$GLOBALS['wpdb']->hide_errors();
@@ -78,9 +78,9 @@ class WPM_AJAX {
 	public static function do_wpm_ajax() {
 		global $wp_query;
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
 		if ( ! empty( $_GET['wpm-ajax'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended, 	WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- this is a dependent function and its all security measurament is done wherever it has been used.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, 	WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- this is a dependent function and its all security measurament is done wherever it has been used.
 			$wp_query->set( 'wpm-ajax', sanitize_text_field( $_GET['wpm-ajax'] ) );
 		}
 
@@ -138,7 +138,7 @@ class WPM_AJAX {
 		unset( $options[ $language ] );
 
 		global $wpdb;
-		//phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching -- Reason: using WP bulit in function updates the option of current language which does not work for our plugin in this case
+		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: using WP bulit in function updates the option of current language which does not work for our plugin in this case
 		$wpdb->update( $wpdb->options, array( 'option_value' => maybe_serialize( $options ) ), array( 'option_name' => 'wpm_languages' ) );
 
 		die();
@@ -273,9 +273,9 @@ class WPM_AJAX {
 		}
 		
 		if ( isset( $_POST['message'] ) && isset( $_POST['email'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 			$message        = sanitize_textarea_field( $_POST['message'] ); 
-		    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+		    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 		    $email          = sanitize_email( $_POST['email'] );   
 		                            
 		    if(function_exists('wp_get_current_user')){
@@ -327,9 +327,9 @@ class WPM_AJAX {
 			wp_die( -1 );
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Security measurament is done below in this function with nonce key wpm_feedback_nonce.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Security measurament is done below in this function with nonce key wpm_feedback_nonce.
 		if( isset( $_POST['data'] ) ) {
-	        // phpcs:ignore WordPress.Security.***REMOVED***.Missing, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: Sanitization is handled below in this function
+	        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Sanitization is handled below in this function
 	        parse_str( $_POST['data'], $data );
 	    }
 
@@ -392,13 +392,13 @@ class WPM_AJAX {
             wp_die( -1 ); 
         }
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
         if ( !wp_verify_nonce( $_POST['wpm_security_nonce'], 'wpm_security_nonce' ) ){
            wp_die( -1 );  
         }
                         
     	$name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
         $email   = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
         $website = isset( $_POST['website'] ) ? sanitize_text_field( wp_unslash( $_POST['website'] ) ) : '';
         
@@ -435,7 +435,7 @@ class WPM_AJAX {
             wp_die( -1 ); 
         }
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
         if ( ! wp_verify_nonce( $_POST['wpm_admin_settings_nonce'], 'wpm_admin_settings_nonce' ) ) {
            wp_die( -1 );  
         } 
@@ -460,18 +460,18 @@ class WPM_AJAX {
             wp_die( -1 ); 
         }
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
         if ( !wp_verify_nonce( $_POST['wpm_admin_settings_nonce'], 'wpm_admin_settings_nonce' ) ){
            wp_die( -1 );  
         } 
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 	    if ( isset ( $_POST['email'] ) && ! empty( $_POST['email'] ) ){
 			global $current_user;
 			$api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
 		    $api_params = array(
 		        'name' => sanitize_text_field($current_user->display_name),
-		        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+		        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 		        'email'=> sanitize_email( $_POST['email'] ),
 		        'website'=> sanitize_url( get_site_url() ),
 		        'type'=> 'wpmultilang'
@@ -493,24 +493,24 @@ class WPM_AJAX {
 	 * @since 2.4.9
 	 * */
 	public static function block_lang_switcher(){  
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used.
         if ( ! isset( $_POST['security'] ) ){
             wp_die( -1 ); 
         }
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used.
         if ( !wp_verify_nonce( $_POST['security'], 'wpm_ajax_security_nonce' ) ) {
            wp_die( -1 );  
         } 
 
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used.
         if( empty( $_POST['current_url'] ) ) {
         	wp_die( -1 );  
         }
 
         $all_languages = wpm_get_languages();
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 		$current_url = sanitize_url($_POST['current_url']);
 
 		$translated_urls = array();

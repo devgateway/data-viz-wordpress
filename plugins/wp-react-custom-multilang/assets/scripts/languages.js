@@ -72,8 +72,8 @@
 
     $(document).on('init_select2', '.wpm-flags', function(){
       $(this).select2({
-        ***REMOVED***: formatState,
-        ***REMOVED***: formatState
+        templateResult: formatState,
+        templateSelection: formatState
       });
     });
 

@@ -39,15 +39,15 @@ class BlockEdit extends ComponentWithSettings {
         });
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
     }
 
     render() {
         const {isSelected, setAttributes, attributes: {redirect_url}} = this.props;
 
 
-        const ***REMOVED*** = ({type, subtype, url, title}) => {
+        const resultRenderer = ({type, subtype, url, title}) => {
             return <div><span>{subtype} -> </span><span dangerouslySetInnerHTML={{ __html: title }} ></span><br></br>
                 <a onClick={(e) => false}>{url}</a></div>
         }
@@ -60,12 +60,12 @@ class BlockEdit extends ComponentWithSettings {
                     aligned
                     icon={false}
                     placeholder={redirect_url ? redirect_url : 'Search...'}
-                    ***REMOVED***={(e, data) => {
+                    onResultSelect={(e, data) => {
 
                         setAttributes({"redirect_url": data.result.url})
                     }}
-                    ***REMOVED***={***REMOVED***}
-                    ***REMOVED***={this.search}
+                    resultRenderer={resultRenderer}
+                    onSearchChange={this.search}
                     results={this.state.results}
 
                 /> : null}

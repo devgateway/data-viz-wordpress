@@ -1,27 +1,27 @@
 import {Component} from "@wordpress/element";
 import {__} from '@wordpress/i18n';
 import {
-    ***REMOVED***,
+    AnglePickerControl,
     Button,
-    ***REMOVED***,
+    CheckboxControl,
     PanelBody,
     PanelRow,
     RangeControl,
     SelectControl,
-    ***REMOVED***,
+    TextareaControl,
     TextControl,
     ToggleControl
 } from '@wordpress/components';
 import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
-import {***REMOVED***} from "@wordpress/block-editor";
-import ***REMOVED*** from "./utils/***REMOVED***";
+import {PanelColorSettings} from "@wordpress/block-editor";
+import BreaksGenerator from "./utils/BreaksGenerator";
 import {isSupersetAPI} from "../../commons/APIutils";
 
-const ***REMOVED*** = (p1, p2) => {
+const compareJsonProps = (p1, p2) => {
     return JSON.stringify(p1) === JSON.stringify(p2)
 }
-const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
+const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
     const sortedOptions = options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
@@ -29,11 +29,11 @@ const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     });
 
     return <SelectControl onChange={(value) => {
-        ***REMOVED***(value, index)
+        onUpdateFilterParam(value, index)
     }} value={param} options={sortedOptions}/>
 }
 
-const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
+const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             /*
@@ -45,44 +45,44 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
         });
         return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
                                                               onChange={e => {
-                                                                  ***REMOVED***(v.id, index)
+                                                                  onUpdateFilterValue(v.id, index)
                                                               }}/></PanelRow>)
     } else {
         return null;
     }
 }
 
-export class ***REMOVED*** extends Component {
+export class DataLayerSetting extends Component {
     constructor(props) {
         super(props);
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this)
         this.addFilter = this.addFilter.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.updateFilterParam = this.updateFilterParam.bind(this)
+        this.updateFilterValue = this.updateFilterValue.bind(this)
+        this.setFilterValue = this.setFilterValue.bind(this)
         this.removeFilter = this.removeFilter.bind(this)
         this.items = this.items.bind(this)
         this.getCSValue = this.getCSValue.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onFormatChange = this.onFormatChange.bind(this)
         this.state = {
             measures: [], dimensions: [], filters: [], categories: []
         }
     }
 
 
-    ***REMOVED***(format) {
-        const {***REMOVED***} = this.props
-        ***REMOVED***("format", format);
+    onFormatChange(format) {
+        const {onChangeProperty} = this.props
+        onChangeProperty("format", format);
     }
 
     getCSValue() {
-        const {apps, features, layer: {csv, ***REMOVED***}} = this.props
+        const {apps, features, layer: {csv, featureJoinAttribute}} = this.props
         if (csv == '') {
             let generatedCSV = 'Latitude,Longitude,value\n'
             if (features && features.length > 0) {
                 features.forEach(f => {
-                    if (f.properties[***REMOVED***]) {
-                        generatedCSV = generatedCSV + f.properties[***REMOVED***] + ', \n'
+                    if (f.properties[featureJoinAttribute]) {
+                        generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n'
                     }
 
                 })
@@ -93,30 +93,30 @@ export class ***REMOVED*** extends Component {
         return csv
     }
 
-    ***REMOVED***(prevState) {
+    cleanSelection(prevState) {
 
-        const {***REMOVED***} = this.props
-        ***REMOVED***("measures", [])
-        ***REMOVED***("filters", [])
+        const {onChangeProperty} = this.props
+        onChangeProperty("measures", [])
+        onChangeProperty("filters", [])
 
         //setAttributes({measures: [], filters: []})
     }
 
-    ***REMOVED***(param, idx) {
+    updateFilterParam(param, idx) {
 
-        const {layer: {filters}, ***REMOVED***, allFilters} = this.props
+        const {layer: {filters}, onChangeProperty, allFilters} = this.props
         const newFilters = filters.slice()
         const selected = allFilters.filter(f => f.param === param)[0]
         newFilters[idx] = {...selected, value: []}
         // setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
 
 
     }
 
-    ***REMOVED***(value, idx) {
+    updateFilterValue(value, idx) {
 
-        const {layer: {filters}, ***REMOVED***} = this.props
+        const {layer: {filters}, onChangeProperty} = this.props
         const selected = filters[idx]
         let values = selected.value
         if (values.indexOf(value) > -1) {
@@ -128,25 +128,25 @@ export class ***REMOVED*** extends Component {
         const newFilters = filters.slice()
         newFilters[idx].value = values
         // setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
     }
 
-    ***REMOVED***(value, idx) {
+    setFilterValue(value, idx) {
 
-        const {layer: {filters}, ***REMOVED***} = this.props
+        const {layer: {filters}, onChangeProperty} = this.props
         const selected = filters[idx]
         let values = selected.value
         values = value.split(",")
         const newFilters = filters.slice()
         newFilters[idx].value = values
         //setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
 
     }
 
     addFilter() {
 
-        const {layer: {filters}, ***REMOVED***, allFilters} = this.props
+        const {layer: {filters}, onChangeProperty, allFilters} = this.props
         let index = filters.length > allFilters.length ? allFilters.length : filters.length
         const newFilter = (allFilters && allFilters.length > 0) ? {
             ...allFilters[index], "value": []
@@ -154,29 +154,29 @@ export class ***REMOVED*** extends Component {
         let newFilters = filters.slice()
         newFilters.push(newFilter)
         //setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
     }
 
     removeFilter(f) {
-        const {layer: {filters}, ***REMOVED***, allFilters} = this.props
+        const {layer: {filters}, onChangeProperty, allFilters} = this.props
         let newFilters = filters.slice(0, -1)
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
     }
 
 
-    ***REMOVED***(prevProps) {
-        const {***REMOVED***, allCategories, layer: {type, dimension2, types}} = this.props
-        const {allCategories: ***REMOVED***, layer: {type: prevType, dimension2: ***REMOVED***}} = prevProps
-        if (!***REMOVED***(allCategories, ***REMOVED***)) {
+    componentDidUpdate(prevProps) {
+        const {onChangeProperty, allCategories, layer: {type, dimension2, types}} = this.props
+        const {allCategories: prevAllCategories, layer: {type: prevType, dimension2: prevDimension2}} = prevProps
+        if (!compareJsonProps(allCategories, prevAllCategories)) {
 
-            ***REMOVED***("allCategories", allCategories)
+            onChangeProperty("allCategories", allCategories)
         }
     }
 
 
-    ***REMOVED***(value) {
-        const {***REMOVED***} = this.props
-        ***REMOVED***("measures", [value])
+    onSetSingleMeasure(value) {
+        const {onChangeProperty} = this.props
+        onChangeProperty("measures", [value])
     }
 
     items(type) {
@@ -195,37 +195,37 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, allCategories, allDatasets, features, apps, layer, layer: {
+            onChangeProperty, allDimensions, allFilters, allMeasures, allCategories, allDatasets, features, apps, layer, layer: {
                 app,
                 csv,
                 measures,
                 filters,
                 format,
-                ***REMOVED***,
-                ***REMOVED***,
+                featureJoinAttribute,
+                apiJoinAttribute,
                 dimension1,
                 type,
-                ***REMOVED***,
+                useCentroidPoint,
                 fillColor,
                 borderColor,
                 useBreaks,
                 breaks,
                 pointStyleBy,
                 dimension2,
-                ***REMOVED*** = [],
+                pointDimensionStyles = [],
                 markFillColor,
-                ***REMOVED***,
+                markBorderColor,
                 markSizeScale,
                 tooltip,
                 visible = true,
-                ***REMOVED***,
-                ***REMOVED***
+                dvzProxyDatasetId,
+                showDim2OnLegends
             }
         } = this.props
 
         const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : []
         const items = cats.length > 0 ? cats[0].items : []
-        const ***REMOVED*** = items.map(i => i.value)
+        const dimensionValues = items.map(i => i.value)
 
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
@@ -233,7 +233,7 @@ export class ***REMOVED*** extends Component {
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
                     onChange={(app) => {
-                        ***REMOVED***("app", app)
+                        onChangeProperty("app", app)
                     }}
                     options={apps}
                 />
@@ -242,9 +242,9 @@ export class ***REMOVED*** extends Component {
             {isSupersetAPI(app, apps) && <PanelRow>
                 <SelectControl
                     label={__('Datasets')}
-                    value={[***REMOVED***]}
+                    value={[dvzProxyDatasetId]}
                     onChange={(newDatasetId) => {
-                        ***REMOVED***("***REMOVED***", newDatasetId)
+                        onChangeProperty("dvzProxyDatasetId", newDatasetId)
                     }}
                     options={allDatasets}
                 />
@@ -252,10 +252,10 @@ export class ***REMOVED*** extends Component {
             }
 
             {app == 'csv' && <PanelRow>
-                <***REMOVED***
+                <TextareaControl
                     label={__("CSV Data")}
                     value={this.getCSValue(csv)}
-                    onChange={(csv) => ***REMOVED***("csv", csv)}
+                    onChange={(csv) => onChangeProperty("csv", csv)}
                 />
             </PanelRow>}
             {app != 'csv' && 
@@ -263,9 +263,9 @@ export class ***REMOVED*** extends Component {
             <PanelRow>
                 <SelectControl
                     label={'Dimension'}
-                    value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
+                    value={[apiJoinAttribute]} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
-                        ***REMOVED***("***REMOVED***", value)
+                        onChangeProperty("apiJoinAttribute", value)
                     }}
                     options={allDimensions}
                 />
@@ -276,7 +276,7 @@ export class ***REMOVED*** extends Component {
                     label={'Second Dimension'}
                     value={[dimension2]} 
                     onChange={(value) => {
-                        ***REMOVED***("dimension2", value)                       
+                        onChangeProperty("dimension2", value)                       
                     }}
                     options={allDimensions}
                 />
@@ -285,11 +285,11 @@ export class ***REMOVED*** extends Component {
             }
 
             <PanelRow>
-                <***REMOVED***
+                <TextareaControl
                     label={__("Tooltip")}
                     value={tooltip}
                     help={__(`You can use the following variables: `)}
-                    onChange={(tooltip) => ***REMOVED***("tooltip", tooltip)}
+                    onChange={(tooltip) => onChangeProperty("tooltip", tooltip)}
                     rows={10}
                 />
 
@@ -314,10 +314,10 @@ export class ***REMOVED*** extends Component {
                     {filters.map((f, index) => {
 
                         return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
-                            <***REMOVED*** param={f.param} index={index} options={allFilters}
-                                            ***REMOVED***={this.***REMOVED***}/>
-                            {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
-                                                ***REMOVED***={this.***REMOVED***}/>}
+                            <FilterSelector param={f.param} index={index} options={allFilters}
+                                            onUpdateFilterParam={this.updateFilterParam}/>
+                            {<CategoricalFilter value={f.value} index={index} items={this.items(f.type)}
+                                                onUpdateFilterValue={this.updateFilterValue}/>}
                         </PanelBody>)
                     })}
 
@@ -332,19 +332,19 @@ export class ***REMOVED*** extends Component {
                <PanelRow>
                         <ToggleControl
                             label={__("Show 2nd Dimension on Legends")}
-                            checked={***REMOVED***}
-                            onChange={(***REMOVED***) => {
-                                ***REMOVED***("***REMOVED***", ***REMOVED***)
+                            checked={showDim2OnLegends}
+                            onChange={(showDim2OnLegends) => {
+                                onChangeProperty("showDim2OnLegends", showDim2OnLegends)
                             }}
                         />
                 </PanelRow>  
-                {***REMOVED*** &&
+                {showDim2OnLegends &&
                     <PanelRow>
                         <TextControl
                             label={__("2nd Dimension Legend Label")}
-                            value={layer.***REMOVED*** ? layer.***REMOVED*** : ''}
-                            onChange={(***REMOVED***) => {
-                                ***REMOVED***("***REMOVED***", ***REMOVED***)
+                            value={layer.dim2LegendLabel ? layer.dim2LegendLabel : ''}
+                            onChange={(dim2LegendLabel) => {
+                                onChangeProperty("dim2LegendLabel", dim2LegendLabel)
                             }}
                             placeholder={__("e.g. 'Region'")}
                         />
@@ -355,14 +355,14 @@ export class ***REMOVED*** extends Component {
                       label={"Color by"}
                       value={pointStyleBy ? pointStyleBy : 'none'}
                       onChange={(v) => {
-                          ***REMOVED***('pointStyleBy', v)
+                          onChangeProperty('pointStyleBy', v)
                       }}
                       options={[{label: "None", value: "none"}, {label: "Dimension", value: "dimension"}, {label: "Measure", value: "measure"}]}/>
                 </PanelRow>
 
                {pointStyleBy === 'measure' && <Measures
-                    ***REMOVED***={this.***REMOVED***}
-                    ***REMOVED***={this.***REMOVED***}
+                    onFormatChange={this.onFormatChange}
+                    onSetSingleMeasure={this.onSetSingleMeasure}
                     measures={layer.measures}
                     format={layer.format}
                     {...this.props}/>}
@@ -374,7 +374,7 @@ export class ***REMOVED*** extends Component {
                         label={__(`Default Points Size`)}
                         value={markSizeScale}
                         onChange={(value) => {
-                            ***REMOVED***("markSizeScale", value)
+                            onChangeProperty("markSizeScale", value)
                         }}
                         step={1}
                         min={0}
@@ -382,28 +382,28 @@ export class ***REMOVED*** extends Component {
                     />
                 </PanelRow>
                 <PanelRow>
-                    <***REMOVED***
+                    <PanelColorSettings
                         title={__(`Default Fill Color`)}
                         value={markFillColor}
                         colorSettings={[{
                             clearable: true,
                             enableAlpha: true,
                             value: markFillColor, onChange: (markFillColor) => {
-                                ***REMOVED***("markFillColor", markFillColor)
+                                onChangeProperty("markFillColor", markFillColor)
                             },
 
                         }]}
                     />
                 </PanelRow>
                 <PanelRow>
-                    <***REMOVED***
+                    <PanelColorSettings
                         title={__(`Default Border Color`)}
                         value={borderColor}
                         colorSettings={[{
                             clearable: true,
                             enableAlpha: true,
-                            value: ***REMOVED***, onChange: (borderColor) => {
-                                ***REMOVED***("***REMOVED***", borderColor)
+                            value: markBorderColor, onChange: (borderColor) => {
+                                onChangeProperty("markBorderColor", borderColor)
                             },
 
                         }]}
@@ -413,28 +413,28 @@ export class ***REMOVED*** extends Component {
               
               <PanelBody initialOpen={true} title={"Breaks"}>
                 {pointStyleBy === 'measure' &&
-                    <***REMOVED***
+                    <BreaksGenerator
                         app={app}
                         csv={csv}
-                        ***REMOVED***={***REMOVED***}
+                        dvzProxyDatasetId={dvzProxyDatasetId}
                         measures={measures}
                         filters={filters}
-                        ***REMOVED***={***REMOVED***}
-                        showSize={***REMOVED***}
-                        ***REMOVED***={***REMOVED***}
-                        ***REMOVED***={markFillColor}
+                        apiJoinAttribute={apiJoinAttribute}
+                        showSize={useCentroidPoint}
+                        defaultBorderColor={markBorderColor}
+                        defaultFillColor={markFillColor}
                         format={format}
-                        ***REMOVED***={***REMOVED***} breaks={breaks}
+                        onChangeProperty={onChangeProperty} breaks={breaks}
                         />
                 }  
                
-                {pointStyleBy  === 'dimension' && ***REMOVED*** && ***REMOVED***.map(field => <PanelBody initialOpen={false} title={field}>
+                {pointStyleBy  === 'dimension' && showDim2OnLegends && dimensionValues.map(field => <PanelBody initialOpen={false} title={field}>
                     <PanelRow>
                         <RangeControl
                           label={__(`Point Size`)}
-                          value={***REMOVED***[field + '_size'] ? ***REMOVED***[field + '_size'] : markSizeScale}
+                          value={pointDimensionStyles[field + '_size'] ? pointDimensionStyles[field + '_size'] : markSizeScale}
                           onChange={(v) => {
-                              ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_size']: v})
+                              onChangeProperty('pointDimensionStyles', {...pointDimensionStyles, [field + '_size']: v})
                           }}
                           step={1}
                           min={0}
@@ -442,28 +442,28 @@ export class ***REMOVED*** extends Component {
                         />
                     </PanelRow>
                     <PanelRow>
-                        <***REMOVED***
+                        <PanelColorSettings
                           title={__(`Point Fill Color`)}
-                          value={***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : markFillColor}
+                          value={pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor}
                           colorSettings={[{
                               clearable: true,
                               enableAlpha: true,
-                              value: ***REMOVED***[field + '_color'] ? ***REMOVED***[field + '_color'] : markFillColor, onChange: (v) => {
-                                  ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_color']: v})
+                              value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor, onChange: (v) => {
+                                  onChangeProperty('pointDimensionStyles', {...pointDimensionStyles, [field + '_color']: v})
                               },
 
                           }]}
                         />
                     </PanelRow>
                     <PanelRow>
-                        <***REMOVED***
+                        <PanelColorSettings
                           title={__(`Point Border Color`)}
-                          value={***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : ***REMOVED***}
+                          value={pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor}
                           colorSettings={[{
                               clearable: true,
                               enableAlpha: true,
-                              value: ***REMOVED***[field + '_border'] ? ***REMOVED***[field + '_border'] : ***REMOVED***, onChange: (v) => {
-                                  ***REMOVED***('***REMOVED***', {...***REMOVED***, [field + '_border']: v})
+                              value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor, onChange: (v) => {
+                                  onChangeProperty('pointDimensionStyles', {...pointDimensionStyles, [field + '_border']: v})
                               },
                           }]}
                         />
@@ -477,4 +477,4 @@ export class ***REMOVED*** extends Component {
     }
 
 }
-export default ***REMOVED***;
+export default DataLayerSetting;

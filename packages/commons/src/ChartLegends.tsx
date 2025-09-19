@@ -9,37 +9,37 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/block-editor';
+import {PanelColorSettings} from '@wordpress/block-editor';
 
-export type ***REMOVED*** = 'left' | 'top' | 'right' | 'bottom';
+export type LegendPosition = 'left' | 'top' | 'right' | 'bottom';
 
 export type LegendProps = {
-    ***REMOVED***?: ***REMOVED***;
+    legendPosition?: LegendPosition;
     setAttributes: (attributes: {
         showLegends: boolean;
-        ***REMOVED***: ***REMOVED***;
+        legendPosition: LegendPosition;
         marginLeft: number;
         marginRight: number;
         marginBottom: number;
         marginTop: number;
         legendLabel: string;
-        ***REMOVED***: boolean;
+        useLabelBackground: boolean;
         useCheckBoxBackground: boolean;
-        ***REMOVED***: string | null;
+        legendLabelColor: string | null;
         reverseLegend: boolean;
     }) => void;
 
     attributes: {
         showLegends: boolean;
-        ***REMOVED***: ***REMOVED***;
+        legendPosition: LegendPosition;
         marginLeft: number;
         marginRight: number;
         marginBottom: number;
         marginTop: number;
         legendLabel: string;
-        ***REMOVED***: boolean;
+        useLabelBackground: boolean;
         useCheckBoxBackground: boolean;
-        ***REMOVED***: string;
+        legendLabelColor: string;
         reverseLegend: boolean;
     }
 }
@@ -47,7 +47,7 @@ export type LegendProps = {
 
 export const ChartLegends = (props: LegendProps) => {
     const {
-        setAttributes, ***REMOVED***, attributes
+        setAttributes, legendPosition, attributes
     } = props;
 
     const {
@@ -57,9 +57,9 @@ export const ChartLegends = (props: LegendProps) => {
         marginBottom,
         marginTop,
         legendLabel,
-        ***REMOVED***,
+        useLabelBackground,
         useCheckBoxBackground,
-        ***REMOVED***,
+        legendLabelColor,
         reverseLegend
     } = attributes;
 
@@ -83,7 +83,7 @@ export const ChartLegends = (props: LegendProps) => {
                 <RangeControl
                     label={__('Margin Left (Space between chart area and left border)')}
                     value={marginLeft}
-                    ***REMOVED***={0}
+                    initialPosition={0}
                     onChange={(marginLeft) => {
                         if (marginLeft) {
                             setAttributes({...attributes, marginLeft})
@@ -140,8 +140,8 @@ export const ChartLegends = (props: LegendProps) => {
                 </PanelRow>
             }
             {showLegends && <PanelRow>
-                <ToggleControl label={__("Use Label Background")} checked={***REMOVED***}
-                               onChange={() => setAttributes({...attributes, ***REMOVED***: !***REMOVED***})}></ToggleControl>
+                <ToggleControl label={__("Use Label Background")} checked={useLabelBackground}
+                               onChange={() => setAttributes({...attributes, useLabelBackground: !useLabelBackground})}></ToggleControl>
 
             </PanelRow>
             }
@@ -155,20 +155,20 @@ export const ChartLegends = (props: LegendProps) => {
            
              {showLegends && <PanelRow>
                 <ButtonGroup>
-                    <Button variant={***REMOVED*** == 'left' ? 'primary' : 'secondary'}
-                            onClick={() => setAttributes({...attributes, ***REMOVED***: "left"})}>
+                    <Button variant={legendPosition == 'left' ? 'primary' : 'secondary'}
+                            onClick={() => setAttributes({...attributes, legendPosition: "left"})}>
                         {__("Left")}
                     </Button>
-                    <Button variant={***REMOVED*** == 'top' ? 'primary' : 'secondary'}
-                            onClick={() => setAttributes({...attributes, ***REMOVED***: "top"})}>
+                    <Button variant={legendPosition == 'top' ? 'primary' : 'secondary'}
+                            onClick={() => setAttributes({...attributes, legendPosition: "top"})}>
                         {__("Top")}
                     </Button>
-                    <Button variant={***REMOVED*** == 'right' ? 'primary' : 'secondary'}
-                            onClick={() => setAttributes({...attributes, ***REMOVED***: "right"})}>
+                    <Button variant={legendPosition == 'right' ? 'primary' : 'secondary'}
+                            onClick={() => setAttributes({...attributes, legendPosition: "right"})}>
                         {__("Right")}
                     </Button>
-                    <Button variant={***REMOVED*** == 'bottom' ? 'primary' : 'secondary'}
-                            onClick={() => setAttributes({...attributes, ***REMOVED***: "bottom"})}>
+                    <Button variant={legendPosition == 'bottom' ? 'primary' : 'secondary'}
+                            onClick={() => setAttributes({...attributes, legendPosition: "bottom"})}>
                         {__("Bottom")}
                     </Button>
                 </ButtonGroup>
@@ -183,19 +183,19 @@ export const ChartLegends = (props: LegendProps) => {
             </PanelRow>
             }
             {showLegends && <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Legends text color')}
                     colorSettings={[
                         {
-                            // Ensure ***REMOVED*** is encoded before decoding to avoid runtime errors.
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED***(***REMOVED***(***REMOVED***)) : "#000000"),
+                            // Ensure legendLabelColor is encoded before decoding to avoid runtime errors.
+                            value: decodeURIComponent(legendLabelColor ? encodeURIComponent(decodeURIComponent(legendLabelColor)) : "#000000"),
 
                             onChange: (color) => {
 
                                 if (color) {
-                                    setAttributes({...attributes, ***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({...attributes, legendLabelColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({...attributes, ***REMOVED***: null})
+                                    setAttributes({...attributes, legendLabelColor: null})
                                 }
                             },
 

@@ -1,4 +1,4 @@
-import {***REMOVED***, InspectorAdvancedControls} from '@wordpress/block-editor';
+import {InspectorControls, InspectorAdvancedControls} from '@wordpress/block-editor';
 import {Button, ButtonGroup, Panel, PanelBody, PanelRow, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {addFilter} from '@wordpress/hooks';
@@ -8,7 +8,7 @@ import classnames from 'classnames'
 
 const allowedBlocks = ['core/paragraph','core/paragraph'];
 
-const withFontSettingsClass = createHigherOrderComponent((***REMOVED***) => {
+const withFontSettingsClass = createHigherOrderComponent((BlockListBlock) => {
 
 
     return (props) => {
@@ -28,7 +28,7 @@ const withFontSettingsClass = createHigherOrderComponent((***REMOVED***) => {
             className = classnames(className, "has-condensed-text")
         }
         return <Fragment>
-            <***REMOVED*** {...props} className={className}/>
+            <BlockListBlock {...props} className={className}/>
         </Fragment>
     };
 }, 'withClientIdClassName');
@@ -70,7 +70,7 @@ function addAttributes(settings, name) {
  *
  * @return {Object} extraProps Modified block element.
  */
-function ***REMOVED***(extraProps, blockType, attributes) {
+function applyExtraClass(extraProps, blockType, attributes) {
 
     if (allowedBlocks.includes(blockType.name)) {
         const {weight, condensed} = attributes;
@@ -85,7 +85,7 @@ function ***REMOVED***(extraProps, blockType, attributes) {
     return extraProps
 }
 
-const ***REMOVED*** = createHigherOrderComponent((BlockEdit) => {
+const withAdvancedControls = createHigherOrderComponent((BlockEdit) => {
     return (props) => {
 
         const {
@@ -103,7 +103,7 @@ const ***REMOVED*** = createHigherOrderComponent((BlockEdit) => {
         return (
             <Fragment>
                 <BlockEdit {...props}/>
-                {isSelected && allowedBlocks.includes(name) && <***REMOVED***>
+                {isSelected && allowedBlocks.includes(name) && <InspectorControls>
                     <Panel header={__("Font Settings","dg")}>
                         <PanelBody>
                             <PanelRow>
@@ -128,29 +128,29 @@ const ***REMOVED*** = createHigherOrderComponent((BlockEdit) => {
                             </PanelRow>
                         </PanelBody>
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
                 }
 
             </Fragment>
         );
     };
-}, '***REMOVED***');
+}, 'withAdvancedControls');
 
 
 addFilter(
-    'blocks.***REMOVED***',
+    'blocks.registerBlockType',
     'dg/custom-font-setting-attributes',
     addAttributes
 );
 addFilter(
     'editor.BlockEdit',
     'dg/custom-font-settings',
-    ***REMOVED***
+    withAdvancedControls
 );
 addFilter(
-    'blocks.***REMOVED***.extraProps',
-    'dg/***REMOVED***',
-    ***REMOVED***
+    'blocks.getSaveContent.extraProps',
+    'dg/applyExtraClass',
+    applyExtraClass
 );
 
-addFilter('editor.***REMOVED***', 'dg/with-font-setting-class-name', withFontSettingsClass);
+addFilter('editor.BlockListBlock', 'dg/with-font-setting-class-name', withFontSettingsClass);

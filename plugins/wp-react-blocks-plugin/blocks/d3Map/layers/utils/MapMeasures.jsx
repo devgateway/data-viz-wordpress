@@ -1,9 +1,9 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
+import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 
 import Format from '../../../charts/Format.jsx'
 import {togglePanel} from "../../../commons/Util";
-import {***REMOVED***} from "../../../commons/APIutils";
+import {getTranslation} from "../../../commons/APIutils";
 
 const defaultFormat = {
     "style": "percent",
@@ -15,9 +15,9 @@ const defaultFormat = {
 
 const Measures = (props) => {
     const {
-        ***REMOVED***,
-        ***REMOVED***,
-        ***REMOVED***,
+        onMeasuresChange,
+        onFormatChange,
+        onSetSingleMeasure,
         allMeasures,
         setAttributes,
         panelStatus,
@@ -32,10 +32,10 @@ const Measures = (props) => {
     const MCheckbox = ({measure}) => {
 
         const userMeasure = measures ? measures[measure.value] : {}
-        return <***REMOVED***
-            label={***REMOVED***(measure)}
+        return <CheckboxControl
+            label={getTranslation(measure)}
             checked={measures.indexOf(measure.value) > -1}
-            onChange={(value) => ***REMOVED***(measure.value)}/>
+            onChange={(value) => onSetSingleMeasure(measure.value)}/>
     }
 
 
@@ -48,12 +48,12 @@ const Measures = (props) => {
     }
 
     return <PanelBody initialOpen={false} title={__("Measures")}>
-        {allMeasures && [...new Set(allMeasures.map(p => ***REMOVED***(p.group)))].map(g => {
+        {allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
             return (<PanelBody
                 initialOpen={false}
                 onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                 title={`${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group.label === g).length} ) `}>
-                {allMeasures.filter(f => ***REMOVED***(f.group) === g)
+                {allMeasures.filter(f => getTranslation(f.group) === g)
                     .map(m => <PanelRow>
                         <PanelRow>
                             <MCheckbox measure={m}></MCheckbox>
@@ -65,8 +65,8 @@ const Measures = (props) => {
         <Format
             format={format ? format : defaultFormat}
             hiddenCustomAxisFormat={true}
-            ***REMOVED***={format => {
-                ***REMOVED***(format)
+            onFormatChange={format => {
+                onFormatChange(format)
             }}>
         </Format>
 

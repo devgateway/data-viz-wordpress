@@ -1,10 +1,10 @@
 import {PanelBody, PanelRow, SelectControl} from '@wordpress/components';
-import {***REMOVED***} from '@wordpress/block-editor';
+import {PanelColorSettings} from '@wordpress/block-editor';
 import {__} from '@wordpress/i18n';
 import {useEffect} from "react";
 import Papa from 'papaparse'
 import {useRef, useState} from "@wordpress/element";
-import {***REMOVED***} from "./APIutils";
+import {getTranslation} from "./APIutils";
 
 const OVERALL = 'Overall';
 const system = [{value: "system", label: 'System Colors'}, {value: "manual", label: 'Manual Colors'}]
@@ -60,7 +60,7 @@ const ChartColors = (props) => {
             type,
             app,
             csv,
-            ***REMOVED***
+            includeOverall
         }
     } = props;
 
@@ -70,7 +70,7 @@ const ChartColors = (props) => {
     let d3Label
 
 
-    const ***REMOVED*** = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : []
+    const selectedMeasures = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : []
 
     let colorOptions = []
 
@@ -78,7 +78,7 @@ const ChartColors = (props) => {
     if (app !== "csv") {
         l1Label = dimension1 != 'none' && allDimensions ? '1st Dimension - ' + allDimensions.filter(d => d.value == dimension1)[0].label : null
         //if one dimensions is selected o
-        if (dimension2 == 'none' && ***REMOVED***.length > 0) {
+        if (dimension2 == 'none' && selectedMeasures.length > 0) {
             d2Label = __("Measure Labels")
             d3Label = __("Measure Values")
         } else if (dimension2 != 'none') {
@@ -97,7 +97,7 @@ const ChartColors = (props) => {
 
 
     if (type == 'bar' || type == 'line') {
-        if (swap && dimension2 == "none" && ***REMOVED***.length > 0) {
+        if (swap && dimension2 == "none" && selectedMeasures.length > 0) {
             colorOptions = []
             if (l1Label) {
                 colorOptions.push({label: l1Label, value: 'id'})
@@ -179,7 +179,7 @@ const ChartColors = (props) => {
                         initColors(colorBy === "index" ? dimension1 : dimension2)
                     }
                 } else {
-                    ***REMOVED***()
+                    initMeasuresColors()
                 }
 
             }
@@ -228,7 +228,7 @@ const ChartColors = (props) => {
 
     }
 
-    const ***REMOVED*** = () => {
+    const initMeasuresColors = () => {
         
         const newColors = Object.assign({}, manualColors)
         if (!newColors[app]) {
@@ -247,7 +247,7 @@ const ChartColors = (props) => {
         setAttributes({manualColors: newColors})
     }
 
-    const ***REMOVED*** = (dimension1, dimension2) => {
+    const combinedCatColors = (dimension1, dimension2) => {
         
         if (manualColors[app]) {
             const ds1 = allDimensions.filter(d => d.value == dimension1)
@@ -262,7 +262,7 @@ const ChartColors = (props) => {
                 const list = []
                 cat[0].items.sort((a, b) => a.position - b.position).forEach(c1 => {
                     cat2[0].items.sort((a, b) => a.position - b.position).forEach(c2 => {
-                        list.push(<***REMOVED***
+                        list.push(<PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][c1.value + ' - ' + c2.value],
                                 onChange: (color) => {
@@ -294,7 +294,7 @@ const ChartColors = (props) => {
 
                 if (cat && cat.length > 0) {
                     const list = cat[0].items.filter(c => c.code !== null && c.code !== undefined && c.code !== "").sort((a, b) => b.position - a.position).map(item => {
-                        return <***REMOVED***
+                        return <PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][item.code],
                                 onChange: (color) => {
@@ -303,7 +303,7 @@ const ChartColors = (props) => {
                                     } else {
                                         updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#eeeeee")
                                     }
-                                }, label: ***REMOVED***(item)
+                                }, label: getTranslation(item)
                             }]}
                         />
 
@@ -312,17 +312,17 @@ const ChartColors = (props) => {
                     const dimensions = [dimension1, dimension2].filter(f => f != '' && f != "none");
 
 
-                    let ***REMOVED*** = []
+                    let selectedMeasures = []
 
                     allMeasures.forEach(m => {
                         
                         if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
-                            ***REMOVED***.push(m.value)
+                            selectedMeasures.push(m.value)
                         }
                     })
 
-                    if (***REMOVED***) {
-                        list.push(<***REMOVED***
+                    if (includeOverall) {
+                        list.push(<PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][OVERALL],
                                 onChange: (color) => {
@@ -349,12 +349,12 @@ const ChartColors = (props) => {
         
         if (manualColors[app] && allMeasures && measures[app]) {
             
-            const ***REMOVED*** = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected)
-             if (***REMOVED***.length > 0) {
+            const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected)
+             if (selectedMeasures.length > 0) {
 
-                const list = ***REMOVED***.sort((a, b) => b.position - a.position)
+                const list = selectedMeasures.sort((a, b) => b.position - a.position)
                     .map(item => {
-                        return <***REMOVED***
+                        return <PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][item.value], onChange: (color) => {
                                     if (color) {
@@ -367,8 +367,8 @@ const ChartColors = (props) => {
                         />
                     })
 
-                if (***REMOVED*** && ***REMOVED***.length == 1) {
-                    list.push(<***REMOVED***
+                if (includeOverall && selectedMeasures.length == 1) {
+                    list.push(<PanelColorSettings
                         colorSettings={[{
                             value: manualColors[app][OVERALL], onChange: (color) => {
                                 if (color) {
@@ -406,7 +406,7 @@ const ChartColors = (props) => {
 
         if (manualColors[app] && values) {
             return values.map(v => {
-                return <***REMOVED***
+                return <PanelColorSettings
                     colorSettings={[{
                         value: manualColors[app][v],
 
@@ -459,12 +459,12 @@ const ChartColors = (props) => {
 
 
         (scheme == "plain_color") && <PanelRow>
-            <***REMOVED***
+            <PanelColorSettings
                 title={__('Color settings')}
                 colorSettings={[{
-                    value: ***REMOVED***(barColor), onChange: (color) => {
+                    value: decodeURIComponent(barColor), onChange: (color) => {
                         if (color) {
-                            setAttributes({barColor: ***REMOVED***(color)})
+                            setAttributes({barColor: encodeURIComponent(color)})
                         } else {
                             setAttributes({barColor: null})
                         }
@@ -484,7 +484,7 @@ const ChartColors = (props) => {
 
                     {type == 'bar' && catColors(dimension2)}
                     {type == 'line' && catColors(dimension2)}
-                    {type == 'pie' && ***REMOVED***(dimension1, dimension2)}
+                    {type == 'pie' && combinedCatColors(dimension1, dimension2)}
                 </PanelBody>}
 
 
