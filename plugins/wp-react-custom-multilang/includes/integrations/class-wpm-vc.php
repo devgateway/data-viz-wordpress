@@ -64,14 +64,14 @@ class WPM_VC {
 	public function enqueue_js_frontend() {
 		wpm_enqueue_js( "
 			$( '#vc_vendor_wpm_langs_front' ).change( function () {
-				vc.***REMOVED***();
+				vc.closeActivePanel();
 				$( '#vc_logo' ).addClass( 'vc_ui-wp-spinner' );
 				window.location.href = $( this ).val();
 			} );
 			
-			var ***REMOVED*** = vc.***REMOVED***.prototype.getContent;
-			vc.***REMOVED***.prototype.getContent = function () {
-				var content = ***REMOVED***();
+			var nativeGetContent = vc.ShortcodesBuilder.prototype.getContent;
+			vc.ShortcodesBuilder.prototype.getContent = function () {
+				var content = nativeGetContent();
 				$( '#content' ).val( content );
 				return content;
 			};
@@ -160,7 +160,7 @@ class WPM_VC {
 		// If translate data is not present then get default value
 		if ( empty( $current_value ) ) {
 
-			// phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching -- Reason Using built function doesn't work in our case, so added manual query
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason Using built function doesn't work in our case, so added manual query
 			$current_value 	=	$wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s AND post_id = %d", $key, $this->object_id ) );
 			
 			if ( ! empty( $current_value ) ) {

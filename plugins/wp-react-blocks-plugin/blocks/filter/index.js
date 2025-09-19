@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
 
-***REMOVED***(process.env.BLOCKS_NS + '/filter',
+registerBlockType(process.env.BLOCKS_NS + '/filter',
     {
         title: __('Data Filter'),
         icon: Generic,
@@ -68,15 +68,15 @@ import Generic from "../icons";
                 type: 'String',
                 default: "End",
             },
-            ***REMOVED***: {
+            useSingleColumn: {
                 type: 'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            enableTextSearch: {
                 type: 'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            showNoDataOption: {
                 type: 'Boolean',
                 default: true
             },
@@ -88,15 +88,15 @@ import Generic from "../icons";
                 type: 'String',
                 default: ""
             },
-            ***REMOVED***: {
+            defaultValueCriteria: {
                 type: 'String',
                 default: "DEFAULT_VALUE_INPUT"
             },
-            ***REMOVED***: {
+            booleanTrueLabel: {
                 type: 'String',
                 default: "Yes",
             },
-            ***REMOVED***: {
+            booleanFalseLabel: {
                 type: 'String',
                 default: "No",
             },
@@ -104,11 +104,11 @@ import Generic from "../icons";
                 type: "Array",
                 default: []
             },
-            ***REMOVED***: {
+            allNoneSameBehaviour: {
                 type: 'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            alphabeticalSort: {
                 type: 'Boolean',
                 default: true
             },
@@ -120,11 +120,11 @@ import Generic from "../icons";
                 type: 'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            useFilterItems: {
                 type: 'Boolean',
                 default: true
             },
-            ***REMOVED***: {
+            dvzProxyDatasetId: {
                 type: 'String',
                 default: ""
             },

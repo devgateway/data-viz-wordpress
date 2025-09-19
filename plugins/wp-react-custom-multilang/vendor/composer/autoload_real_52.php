@@ -5,7 +5,7 @@
 class ComposerAutoloaderInit794e245d030e2f79e42ae6a75890e637 {
 	private static $loader;
 
-	public static function ***REMOVED***($class) {
+	public static function loadClassLoader($class) {
 		if ('xrstf_Composer52_ClassLoader' === $class) {
 			require dirname(__FILE__).'/ClassLoader52.php';
 		}
@@ -19,9 +19,9 @@ class ComposerAutoloaderInit794e245d030e2f79e42ae6a75890e637 {
 			return self::$loader;
 		}
 
-		spl_autoload_register(array('ComposerAutoloaderInit794e245d030e2f79e42ae6a75890e637', '***REMOVED***'), true /*, true */);
+		spl_autoload_register(array('ComposerAutoloaderInit794e245d030e2f79e42ae6a75890e637', 'loadClassLoader'), true /*, true */);
 		self::$loader = $loader = new xrstf_Composer52_ClassLoader();
-		spl_autoload_unregister(array('ComposerAutoloaderInit794e245d030e2f79e42ae6a75890e637', '***REMOVED***'));
+		spl_autoload_unregister(array('ComposerAutoloaderInit794e245d030e2f79e42ae6a75890e637', 'loadClassLoader'));
 
 		$vendorDir = dirname(dirname(__FILE__));
 		$baseDir   = dirname($vendorDir);

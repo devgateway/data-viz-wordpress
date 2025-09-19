@@ -1,5 +1,5 @@
 {
-    "***REMOVED***": {
+    "compilerOptions": {
         "target": "ESNext",
         "useDefineForClassFields": true,
         "lib": [
@@ -12,9 +12,9 @@
         "outDir": "./build",
         "declaration": true,
         /* Bundler mode */
-        "***REMOVED***": "bundler",
-        "***REMOVED***": true,
-        "***REMOVED***": true,
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
         "noEmit": false,
         "jsx": "react",
         "strict": true,

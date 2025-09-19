@@ -1,4 +1,4 @@
-import {***REMOVED***, PanelBody, PanelRow, SelectControl} from '@wordpress/components';
+import {AnglePickerControl, PanelBody, PanelRow, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import ChartColors from "../commons/ChartColors.jsx"
 import ChartLegends from "../commons/ChartLegends.jsx";

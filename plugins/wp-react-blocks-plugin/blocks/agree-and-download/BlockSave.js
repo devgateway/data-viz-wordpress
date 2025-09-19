@@ -30,7 +30,7 @@ const SaveComponent = (props) => {
                  data-cancel={cancel}
                  data-post-type={type}
                  className={"viz-component"}
-                 data-component={"***REMOVED***"}>
+                 data-component={"agreeAndDownload"}>
 
                 </div>
         </div>

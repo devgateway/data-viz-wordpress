@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 	
 	$(document).on('click', '#wpm-send-support-query', function(e){
-		e.***REMOVED***();   
+		e.preventDefault();   
 		var message     = $("#wpm_query_message").val();  
 		var email       = $("#wp_query_email").val();  
 

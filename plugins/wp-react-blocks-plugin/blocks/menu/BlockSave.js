@@ -17,7 +17,7 @@ const SaveComponent = (props) => {
 
     return (<div className={"viz-component"}
                  data-component={"menu"}
-                 data-icon={***REMOVED***(icon)}
+                 data-icon={encodeURIComponent(icon)}
                  data-icon-media-id={icon_media_id}
                  data-name={name}
                  data-label={label}

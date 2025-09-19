@@ -3,7 +3,7 @@ import {
     PanelBody,
     PanelRow,
     RangeControl,
-    ***REMOVED***,
+    AnglePickerControl,
     SelectControl,
     TextControl,
     ToggleControl, ButtonGroup
@@ -19,7 +19,7 @@ import LatLongLayer from "./LatLong";
 import {BlockEditWithAPIMetadata, ComponentWithSettings} from "../../commons";
 import Property from "./utils/Property";
 
-import {***REMOVED***} from "@wordpress/block-editor";
+import {PanelColorSettings} from "@wordpress/block-editor";
 import {togglePanel} from "../../commons/Util";
 import {isSupersetAPI} from "../../commons/APIutils";
 
@@ -42,7 +42,7 @@ const Base = (props) => {
         onChange,
         metadata,
         layer,
-        layer: {name, shapeColor, labelFilter, type, file, app, labelField, visible, ***REMOVED***}
+        layer: {name, shapeColor, labelFilter, type, file, app, labelField, visible, hideLabelsAtLowZoom}
     } = props
 
     const [files, setFiles] = useState([])
@@ -65,10 +65,10 @@ const Base = (props) => {
         });
     }, [layer.file])
 
-    const ***REMOVED*** = (...args) => {
+    const onChangeProperty = (...args) => {
         const [atrr, value] = args
         if (Array.isArray(atrr)) {
-            ***REMOVED***(...args)
+            onChangeProperties(...args)
         } else {
             console.log("change attribute " + atrr + " to " + value)
             const newLayer = {...layer}
@@ -77,7 +77,7 @@ const Base = (props) => {
         }
     }
 
-    const ***REMOVED*** = (...propValues) => {
+    const onChangeProperties = (...propValues) => {
         const newLayer = {...layer}
         propValues.forEach(pv => {
             const [prop, value] = pv
@@ -99,7 +99,7 @@ const Base = (props) => {
             <TextControl
                 type={"String"}
                 label={__("Name", "dg")}
-                onChange={name => ***REMOVED***("name", name)}
+                onChange={name => onChangeProperty("name", name)}
                 value={name}
             />
         </PanelRow>,
@@ -108,7 +108,7 @@ const Base = (props) => {
                 label="Default visible"
                 checked={visible}
                 onChange={e => {
-                    ***REMOVED***("visible", !visible)
+                    onChangeProperty("visible", !visible)
                 }}
             />
         </PanelRow>,
@@ -116,7 +116,7 @@ const Base = (props) => {
             <SelectControl
                 label={__("Type", "dg")}
                 value={type}
-                onChange={type => ***REMOVED***("type", type)}
+                onChange={type => onChangeProperty("type", type)}
                 options={typeOptions}
             />
         </PanelRow>,
@@ -124,7 +124,7 @@ const Base = (props) => {
             <SelectControl
                 type={"String"}
                 label="File"
-                onChange={file => ***REMOVED***("file", file)}
+                onChange={file => onChangeProperty("file", file)}
                 value={file}
                 options={files}>
             </SelectControl>
@@ -132,7 +132,7 @@ const Base = (props) => {
         }</>,
         <>
             {type != 'dataPoints' && type != 'flow' && <PanelBody title={"Colors"} initialOpen={false}>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__(`Fill Color`)}
                     colorSettings={[{
                         clearable: true,
@@ -140,34 +140,34 @@ const Base = (props) => {
                         value: layer.fillColor,
                         onChange: (fillColor) => {
                             if (fillColor != null) {
-                                ***REMOVED***("fillColor", fillColor)
+                                onChangeProperty("fillColor", fillColor)
                             } else {
-                                ***REMOVED***("fillColor", "transparent")
+                                onChangeProperty("fillColor", "transparent")
                             }
                         },
                     }]}
                 />
-                <***REMOVED***
+                <PanelColorSettings
                     title={__(`Border Color`)}
                     colorSettings={[{
                         value: layer.borderColor,
                         clearable: true,
                         enableAlpha: true,
                         onChange: (borderColor) => {
-                            ***REMOVED***("borderColor", borderColor)
+                            onChangeProperty("borderColor", borderColor)
                         },
 
                     }]}
                 />
 
-                <***REMOVED***
+                <PanelColorSettings
                     title={__(`Label Color`)}
                     label="Color"
                     colorSettings={[{
                         clearable: true,
                         enableAlpha: true,
                         value: layer.labelColor, onChange: (labelColor) => {
-                            ***REMOVED***("labelColor", labelColor)
+                            onChangeProperty("labelColor", labelColor)
                         },
 
                     }]}
@@ -181,7 +181,7 @@ const Base = (props) => {
                 <Property
                     title={"Label Field"}
                     property={"labelField"} value={labelField}
-                    ***REMOVED***={***REMOVED***}
+                    onChangeProperty={onChangeProperty}
                     features={features}/>
 
 
@@ -189,7 +189,7 @@ const Base = (props) => {
                     <RangeControl
                         label="Size"
                         value={layer.labelFontSize}
-                        onChange={(labelFontSize) => ***REMOVED***("labelFontSize", labelFontSize)}
+                        onChange={(labelFontSize) => onChangeProperty("labelFontSize", labelFontSize)}
                         min={1}
                         step={1}
                         max={100}
@@ -199,8 +199,8 @@ const Base = (props) => {
                 <PanelRow>
                     <RangeControl
                         label="Min Zoom Level (-1 disabled)"
-                        value={layer.***REMOVED***}
-                        onChange={(***REMOVED***) => ***REMOVED***("***REMOVED***", ***REMOVED***)}
+                        value={layer.minLabelZoomVisible}
+                        onChange={(minLabelZoomVisible) => onChangeProperty("minLabelZoomVisible", minLabelZoomVisible)}
                         min={-1}
                         step={1}
                         max={100}
@@ -215,9 +215,9 @@ const Base = (props) => {
                             checked={labelFilter.length == 0}
                             onChange={(checked) => {
                                 if (!checked) {
-                                    ***REMOVED***("labelFilter", features.map(f => f.properties[labelField]))
+                                    onChangeProperty("labelFilter", features.map(f => f.properties[labelField]))
                                 } else {
-                                    ***REMOVED***("labelFilter", [])
+                                    onChangeProperty("labelFilter", [])
                                 }
 
                             }}
@@ -229,7 +229,7 @@ const Base = (props) => {
                                 label={feature.properties[labelField]}
                                 checked={labelFilter.indexOf(feature.properties[labelField]) == -1}
                                 onChange={(selected) => {
-                                    ***REMOVED***("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]))
+                                    onChangeProperty("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]))
                                 }}
                             />
                         </PanelRow>
@@ -241,7 +241,7 @@ const Base = (props) => {
                                         min={-500}
                                         max={500}
                                         value={layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0}
-                                        onChange={(offsetX) => ***REMOVED***("labelSettings", {
+                                        onChange={(offsetX) => onChangeProperty("labelSettings", {
                                             ...layer.labelSettings,
                                             [feature.properties[labelField] + "_offsetX"]: offsetX
                                         })}
@@ -253,21 +253,21 @@ const Base = (props) => {
                                         min={-500}
                                         max={500}
                                         value={layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0}
-                                        onChange={(offset) => ***REMOVED***("labelSettings", {
+                                        onChange={(offset) => onChangeProperty("labelSettings", {
                                             ...layer.labelSettings,
                                             [feature.properties[labelField] + "_offsetY"]: offset
                                         })}
                                     />
                                 </PanelRow>
                                 <PanelRow>
-                                    <***REMOVED*** label={"Rotation"}
+                                    <AnglePickerControl label={"Rotation"}
                                                         value={layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0}
-                                                        onChange={(rotation) => ***REMOVED***("labelSettings", {
+                                                        onChange={(rotation) => onChangeProperty("labelSettings", {
                                                             ...layer.labelSettings,
                                                             [feature.properties[labelField] + "_rotation"]: rotation
                                                         })}>
 
-                                    </***REMOVED***>
+                                    </AnglePickerControl>
                                 </PanelRow>
                             </PanelBody>}
 
@@ -283,7 +283,7 @@ const Base = (props) => {
                 <DataLayer
                     {...props}
                     apps={metadata.apps}
-                    ***REMOVED***={***REMOVED***}
+                    onChangeProperty={onChangeProperty}
                     allDimensions={metadata.dimensions || []}
                     allFilters={metadata.filters || []}
                     allMeasures={metadata.measures || []}
@@ -299,7 +299,7 @@ const Base = (props) => {
                 <FlowLayer
                     {...props}
                     apps={metadata.apps}
-                    ***REMOVED***={***REMOVED***}
+                    onChangeProperty={onChangeProperty}
                     allDimensions={metadata.dimensions || []}
                     allFilters={metadata.filters || []}
                     allMeasures={metadata.measures || []}
@@ -316,7 +316,7 @@ const Base = (props) => {
                 <LatLongLayer
                     {...props}
                     apps={metadata.apps}
-                    ***REMOVED***={***REMOVED***}
+                    onChangeProperty={onChangeProperty}
                     allDimensions={metadata.dimensions || []}
                     allFilters={metadata.filters || []}
                     allMeasures={metadata.measures || []}
@@ -336,14 +336,14 @@ const Base = (props) => {
 
 }
 
-class ***REMOVED*** extends BlockEditWithAPIMetadata {
+class LayerWithMetadata extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
     }
 
 
-    ***REMOVED***() {
-        const {layer: {name, type, file, app, ***REMOVED***}} = this.props
+    componentDidMount() {
+        const {layer: {name, type, file, app, dvzProxyDatasetId}} = this.props
 
 
         fetch(`/api/registry/eureka/apps`, {
@@ -364,8 +364,8 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
                 if (app && app != 'none') {
                     if (isSupersetAPI(app, apps)) { //if app is superset proxy an additional step is added
                         this.loadDatasets(app)
-                        if (***REMOVED***) {
-                            this.loadMetadata(app, ***REMOVED***)
+                        if (dvzProxyDatasetId) {
+                            this.loadMetadata(app, dvzProxyDatasetId)
                         }
                     } else {
                         this.loadMetadata(app);
@@ -378,26 +378,26 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
             })
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
-        super.***REMOVED***(prevProps, prevState, snapshot)
-        const {layer: {app, ***REMOVED***}} = this.props
-        const {layer: {app: prevAPP, ***REMOVED***: prevDvzProxyDatasetId}} = prevProps
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        super.componentDidUpdate(prevProps, prevState, snapshot)
+        const {layer: {app, dvzProxyDatasetId}} = this.props
+        const {layer: {app: prevAPP, dvzProxyDatasetId: prevDvzProxyDatasetId}} = prevProps
 
         if (app != prevAPP) { //if app changes we shoudl reload metadta
 
 
             if (isSupersetAPI(app, this.state.apps)) { //if app is superset proxy an additional step is added
                 this.loadDatasets(app)
-                if (***REMOVED***) {
-                    this.loadMetadata(app, ***REMOVED***)
+                if (dvzProxyDatasetId) {
+                    this.loadMetadata(app, dvzProxyDatasetId)
                 }
             } else {
                 this.loadMetadata(app);
             }
         } else {//app wasn't changed
 
-            if (***REMOVED*** != prevDvzProxyDatasetId) {
-                this.loadMetadata(app, ***REMOVED***);
+            if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+                this.loadMetadata(app, dvzProxyDatasetId);
             }
 
         }
@@ -436,4 +436,4 @@ class ***REMOVED*** extends BlockEditWithAPIMetadata {
 
 }
 
-export default ***REMOVED***
+export default LayerWithMetadata

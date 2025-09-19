@@ -1,5 +1,5 @@
 {
-    "***REMOVED***": {
+    "compilerOptions": {
         "useDefineForClassFields": true,
         "lib": [
             "ES2020",
@@ -11,8 +11,8 @@
         "skipLibCheck": true,
         "outDir": "./dist",
         "declaration": true,
-        "***REMOVED***": "bundler",
-        "***REMOVED***": true,
+        "moduleResolution": "bundler",
+        "isolatedModules": true,
         "noEmit": false,
         "strict": true,
         "noFallthroughCasesInSwitch": true,

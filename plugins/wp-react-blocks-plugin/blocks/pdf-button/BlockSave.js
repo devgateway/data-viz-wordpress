@@ -53,13 +53,13 @@ export default function save( { attributes, className } ) {
     // if it had already been assigned, for the sake of backward-compatibility.
     // A title will no longer be assigned for new or updated button block links.
 
-    const ***REMOVED*** = classnames( className, {
+    const wrapperClasses = classnames( className, {
         [ `has-custom-width wp-block-button__width-${ width }` ]: width,
         [ `has-custom-font-size` ]: fontSize || style?.typography?.fontSize,
     } );
 
     return (
-        <div { ...useBlockProps.save( { className: ***REMOVED*** } ) }>
+        <div { ...useBlockProps.save( { className: wrapperClasses } ) }>
             <RichText.Content
                 tagName="a"
                 className={ buttonClasses }

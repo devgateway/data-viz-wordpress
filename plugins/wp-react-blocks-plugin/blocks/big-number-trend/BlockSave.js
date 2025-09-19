@@ -11,14 +11,14 @@ const SaveComponent = (props) => {
             filters,
             group,            
             noDataMsg,
-            ***REMOVED***,
-            ***REMOVED***,
+            dvzProxyDatasetId,
+            bigNumberFontSize,
             labelFontSize,
-            ***REMOVED***,
+            percentFontSize,
             textColor,            
             label,
-            ***REMOVED***,
-            ***REMOVED***,
+            showPercentageChange,
+            waitForFilters,
             noDataText
         }
     } = props;
@@ -31,25 +31,25 @@ const SaveComponent = (props) => {
 
     return (
         <div {...blockProps} className={"viz-component"}
-             data-component={"***REMOVED***"}
+             data-component={"bignumbertrend"}
              data-height={height}
              data-source={source}
              data-app={app}
              data-csv={csv}
-             data-dvz-proxy-dataset-id={***REMOVED***}
-             data-measures={***REMOVED***(JSON.stringify(measures))}
+             data-dvz-proxy-dataset-id={dvzProxyDatasetId}
+             data-measures={encodeURIComponent(JSON.stringify(measures))}
              data-dimension1={dimension1}
-             data-format={***REMOVED***(JSON.stringify(format))}
+             data-format={encodeURIComponent(JSON.stringify(format))}
              data-group={group}
-             data-filters={***REMOVED***(JSON.stringify(filters))}
+             data-filters={encodeURIComponent(JSON.stringify(filters))}
              data-no-data-message={noDataMsg}
-             data-big-number-font-size={***REMOVED***}
+             data-big-number-font-size={bigNumberFontSize}
              data-label-font-size={labelFontSize}
-             data-percent-font-size={***REMOVED***}
-             data-text-color={***REMOVED***(textColor)}            
+             data-percent-font-size={percentFontSize}
+             data-text-color={encodeURIComponent(textColor)}            
              data-label={label}            
-             data-show-percentage-change={***REMOVED***}
-             data-wait-for-filters={***REMOVED***}
+             data-show-percentage-change={showPercentageChange}
+             data-wait-for-filters={waitForFilters}
              data-no-data-text={noDataText}
              >
             <InnerBlocks.Content/>

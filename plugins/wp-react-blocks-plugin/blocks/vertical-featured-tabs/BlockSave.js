@@ -19,11 +19,11 @@ const SaveComponent = (props) => {
     return (<div className={divClass} style={divStyles}>
                 <div data-count={count}
                      data-height={height}
-                     data-colors={***REMOVED***(JSON.stringify(colors))}
+                     data-colors={encodeURIComponent(JSON.stringify(colors))}
                      data-type={type}
                      data-taxonomy={taxonomy}
                      data-cover-width={coverWidth}
-                     data-categories={***REMOVED***(JSON.stringify(categories))}
+                     data-categories={encodeURIComponent(JSON.stringify(categories))}
                      className={"viz-component"}
                      data-read-more-label={readMoreLabel}
                      data-component={"verticalTabs"}

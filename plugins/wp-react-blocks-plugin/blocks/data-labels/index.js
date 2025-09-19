@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons/index.js'
 
-***REMOVED***(process.env.BLOCKS_NS + '/datalabel',
+registerBlockType(process.env.BLOCKS_NS + '/datalabel',
     {
         title: __('Data Label'),
         icon: Generic,

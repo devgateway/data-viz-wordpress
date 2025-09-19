@@ -1,10 +1,10 @@
-import { ***REMOVED***, useBlockProps} from '@wordpress/block-editor'
+import { InspectorControls, useBlockProps} from '@wordpress/block-editor'
 import { Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl} from '@wordpress/components'
-import { ***REMOVED*** } from '@wordpress/block-editor'
+import { PanelColorSettings } from '@wordpress/block-editor'
 import { __ } from '@wordpress/i18n'
 import { BlockEditWithAPIMetadata } from '../commons/index'
 import APIConfig from "./APIConfig"
-import ***REMOVED*** from "../commons/***REMOVED***"
+import MapCSVSourceConfig from "../commons/MapCSVSourceConfig"
 import LegendBreaks from "./LegendBreaks"
 import MapSymbols from "./Symbols"
 import Tooltips from "./Tooltips"
@@ -15,24 +15,24 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     constructor() {
         super();
         this.state = {
-            ***REMOVED***: [],
+            taxonomyValues: [],
             types: 'media',
             taxonomies: null,
             loading: true
         }
 
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onFileTypeChanged = this.onFileTypeChanged.bind(this)
         this.getLayerColor = this.getLayerColor.bind(this)
         this.setLayerColor = this.setLayerColor.bind(this)
         this.toggleLayer = this.toggleLayer.bind(this)
         this.getValue = this.getValue.bind(this)
         this.setValue = this.setValue.bind(this)
         this.updateLocationsAndCSV = this.updateLocationsAndCSV.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.extractFeatures = this.extractFeatures.bind(this)
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
         this.getTaxonomies()
         const {
             attributes: {
@@ -40,18 +40,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             },
         } = this.props;
         if (mainLayerId) {
-            this.***REMOVED***(this.props.attributes.mainLayerId)
+            this.getFileMetaData(this.props.attributes.mainLayerId)
         } else if (this.props.attributes.mapFile){
             this.getFile("/"+ this.props.attributes.mapFile)
         }
 
         this.getMapFiles()
-        this.***REMOVED***();
+        this.updateMapPosition();
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {attributes: {fileType}} = this.props;
-        super.***REMOVED***(prevProps, prevState, snapshot)
+        super.componentDidUpdate(prevProps, prevState, snapshot)
         if (prevProps.attributes) {
             if (fileType != prevProps.attributes.fileType) {
                 this.getMapFiles()
@@ -61,11 +61,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
     shouldComponentUpdate(nextProps, nextState) {
         try {
-            const ***REMOVED*** = JSON.parse(this.props.attributes.mapPosition)
+            const currentPosition = JSON.parse(this.props.attributes.mapPosition)
         const nextPosition = JSON.parse(nextProps.attributes.mapPosition)
-        if (***REMOVED***.x !== nextPosition.x ||
-            ***REMOVED***.y !== nextPosition.y ||
-            ***REMOVED***.k !== nextPosition.k) {
+        if (currentPosition.x !== nextPosition.x ||
+            currentPosition.y !== nextPosition.y ||
+            currentPosition.k !== nextPosition.k) {
             return false
         }
         } catch (error) {
@@ -81,11 +81,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }).then(data => {
             this.setState({
                 taxonomies: data,
-            }, this.***REMOVED***(data));
+            }, this.getTaxonomyValues(data));
         });
     }
 
-    ***REMOVED***(taxonomies) {
+    getTaxonomyValues(taxonomies) {
         const typesList = []
         if (taxonomies) {
             const txs = Object.keys(taxonomies)
@@ -104,8 +104,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             wp.apiFetch({
                 path: '/wp/v2/' + t.value + '?per_page=100',
             }).then(data => {
-                const ***REMOVED*** = [...this.state.***REMOVED***, ...data]
-                this.setState({***REMOVED***: ***REMOVED***});
+                const newTaxonomyValues = [...this.state.taxonomyValues, ...data]
+                this.setState({taxonomyValues: newTaxonomyValues});
             });
         })
     }
@@ -117,10 +117,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
              taxonomy},
      } = this.props;
 
-        const ***REMOVED*** = taxonomy != 'none' && fileType!= 'none' ? `&${taxonomy}=${fileType}` :''
+        const fileTypeFilter = taxonomy != 'none' && fileType!= 'none' ? `&${taxonomy}=${fileType}` :''
         const mapFiles = [{value:'',  label: 'None'}]
         wp.apiFetch({
-            path: '/wp/v2/media?per_page=100&mime_type=application/json' + ***REMOVED***,
+            path: '/wp/v2/media?per_page=100&mime_type=application/json' + fileTypeFilter,
         }).then(json => {
             if (json) {
                 json.forEach(f => {
@@ -132,7 +132,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         });
     }
 
-    ***REMOVED***(id) {
+    getFileMetaData(id) {
         fetch('/wp/wp-json/wp/v2/media/' + id)
         .then(response => response.json())
         .then(json => {
@@ -157,20 +157,20 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         });
     }
 
-    ***REMOVED***() {
-        const {***REMOVED***} = this.state
-        const taxonomyValuesOptions = ***REMOVED*** && ***REMOVED***.map(t => ({label: t.name, value: t.id, taxonomy: t.taxonomy}))
+    taxonomyValueOptions() {
+        const {taxonomyValues} = this.state
+        const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({label: t.name, value: t.id, taxonomy: t.taxonomy}))
 
         return [{label: 'None', value: 'none', taxonomy: 'none'}, ...taxonomyValuesOptions]
     }
 
-    ***REMOVED***(data) {
+    getCollectionField(data) {
         const topology = data ? data : this.state.layerData;
         if (topology && topology.objects) {
             const fields = Object.keys(topology.objects)
             for (let index in fields) {
                 const field = fields[index]
-                if (topology.objects[field].type == '***REMOVED***') {
+                if (topology.objects[field].type == 'GeometryCollection') {
                     return field
                 }
             }
@@ -179,9 +179,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         return "collection"
     }
 
-    ***REMOVED***() {
+    mappingFieldOptions() {
         const mappingFields = []
-        const features = this.***REMOVED***()
+        const features = this.extractFeatures()
         const geometry = features[0]
         if (geometry) {
             Object.keys(geometry.properties).map(k => {
@@ -192,18 +192,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
        return [{label: 'None', value: 'none'}, ...mappingFields]
     }
 
-    ***REMOVED***(value) {
+    onFileTypeChanged(value) {
         const {setAttributes} = this.props
-        const ***REMOVED*** = this.***REMOVED***()
-        const taxonomyValue = ***REMOVED***.filter(t => t.value == value)[0]
+        const taxonomyValues = this.taxonomyValueOptions()
+        const taxonomyValue = taxonomyValues.filter(t => t.value == value)[0]
         setAttributes({fileType: value, taxonomy: taxonomyValue ? taxonomyValue.taxonomy : 'none'})
     }
 
-    ***REMOVED***() {
+    extractFeatures() {
         const {layerData} = this.state;
-        const ***REMOVED*** = this.***REMOVED***()
-        if (layerData && layerData.objects && layerData.objects[***REMOVED***] && layerData.objects[***REMOVED***].geometries){
-            return layerData.objects[***REMOVED***].geometries
+        const collectionName = this.getCollectionField()
+        if (layerData && layerData.objects && layerData.objects[collectionName] && layerData.objects[collectionName].geometries){
+            return layerData.objects[collectionName].geometries
         } else if(layerData && layerData.features) {
             return layerData.features
         }
@@ -214,7 +214,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     updateLocationsAndCSV(layerData, field) {
         const {setAttributes, attributes: {csv, mappingField}} = this.props;
          const selectedField = field || mappingField
-         const features = this.***REMOVED***()
+         const features = this.extractFeatures()
          if (selectedField) {
             const locations = []
             features.forEach(g => {
@@ -226,8 +226,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
             this.setState({ locations: locations })
 
-            const ***REMOVED*** = csv == null || csv.trim().length == 0 || csv.trim() == 'name,value'
-            if (***REMOVED***) {
+            const csvFieldIsBlank = csv == null || csv.trim().length == 0 || csv.trim() == 'name,value'
+            if (csvFieldIsBlank) {
                 let text = 'name,value\n'
                 locations.forEach(loc => {
                     text += loc.value + ',1\n'
@@ -238,9 +238,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 
 
-    ***REMOVED***() {
+    updateMapPosition() {
         const {setAttributes} = this.props;
-        window.***REMOVED***("message",
+        window.addEventListener("message",
             (event) => {
                 if (event.data.type == 'map') {
                     const iframeOrigin = event.origin.split(':')[0]
@@ -285,7 +285,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
            }
         }
 
-        return ***REMOVED***(color)
+        return decodeURIComponent(color)
     }
 
     setLayerColor(value, field,color) {
@@ -296,7 +296,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         if (enabledLayers) {
             const values = [...enabledLayers]
             const index = values.findIndex(l => l.id == value)
-            values[index][field] = color ? ***REMOVED***(color) : ***REMOVED***('#f8f8f8')
+            values[index][field] = color ? encodeURIComponent(color) : encodeURIComponent('#f8f8f8')
             setAttributes({enabledLayers: values})
         }
     }
@@ -323,7 +323,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     render() {
         const {
             className, isSelected,
-            ***REMOVED***, setAttributes, attributes: {
+            toggleSelection, setAttributes, attributes: {
                 height,
                 app,
                 dimension1,
@@ -336,20 +336,20 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 mapCenter,
                 enabledLayers,
                 mapType,
-                ***REMOVED***,
+                aggregationFormula,
                 zoomLevelToShowPoints,
-                ***REMOVED***,
+                defaultPointColor,
                 zoomOnFilter,
-                ***REMOVED***,
+                zoomOnFilterField,
                 showShadingLayerLabels,
-                ***REMOVED***
+                dvzProxyDatasetId
             }
         } = this.props;
 
         const {mapFiles} = this.state;
         const levels = [dimension1, dimension2]
         const source = levels.filter(l => l != 'none' && l != null).join('/')
-        const ***REMOVED*** = legendBreaks.filter(b => b.min || b.max);
+        const validLegendBreaks = legendBreaks.filter(b => b.min || b.max);
         let params = {}
         filters.forEach(f => {
             if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0)
@@ -365,7 +365,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         const divStyles = { height: height + 'px', width: '100%' };
 
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
             <Panel header={__("Map Configuration")}>
             <PanelBody initialOpen={false} title={__("Map Type")}>
             <PanelRow>
@@ -383,9 +383,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     <PanelBody initialOpen={true} title={__("Map Layers")}>
                    <PanelRow>
                      <SelectControl label={__("Layers Filter")}
-                     options={this.***REMOVED***()}
+                     options={this.taxonomyValueOptions()}
                             value={fileType}
-                            onChange={this.***REMOVED***}
+                            onChange={this.onFileTypeChanged}
                             style={{width: "150px"}}
                        />
                     </PanelRow>
@@ -403,7 +403,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             {enabledLayers.findIndex(l => l.id == file.value) > -1 &&
                             <>
                             <PanelRow>
-                                <***REMOVED***
+                                <PanelColorSettings
                                     title={__(`Background Color`)}
                                     colorSettings={[
                                         {
@@ -431,7 +431,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             value={[mainLayerId]}
                             onChange={(value) => {
                                 setAttributes({ mainLayerId: value })
-                                this.***REMOVED***(value)
+                                this.getFileMetaData(value)
                             }}
                             options={ this.state.mapFiles ? this.state.mapFiles.filter(m => !m.value || enabledLayers.findIndex(l => l.id == m.value) > -1) : []}
                         />
@@ -453,7 +453,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             setAttributes({ mappingField: value, mapLabelField: value})
                             this.updateLocationsAndCSV(this.state.layerData, value)
                         }}
-                        options={this.***REMOVED***()}
+                        options={this.mappingFieldOptions()}
                         />
                     </PanelRow>
                     <PanelRow>
@@ -487,10 +487,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                      {isSupersetAPI(app, this.state.apps) &&   <PanelRow>
                                                             <SelectControl
                                                                 label={__('Datasets')}
-                                                                value={[***REMOVED***]}
+                                                                value={[dvzProxyDatasetId]}
                                                                 onChange={(newDatasetId)   => {
                                                                     setAttributes({
-                                                                        ***REMOVED***: newDatasetId,
+                                                                        dvzProxyDatasetId: newDatasetId,
                                                                         dimension1: 'none',
                                                                         dimension2: 'none',
                                                                         dimension3: 'none',	
@@ -519,8 +519,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 }
 
                 {app == 'csv' &&
-                    <***REMOVED*** {...this.props}>
-                    </***REMOVED***>
+                    <MapCSVSourceConfig {...this.props}>
+                    </MapCSVSourceConfig>
                 }
                 <Settings {...this.props} locations = {this.state.locations}> </Settings>
                 <LegendBreaks {...this.props} allMeasures={this.state.measures || []} app = {app}/>
@@ -529,16 +529,16 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 {mapType == "POINTS_MAP" &&
                 <PanelBody title="Point Map Config">
                      <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Default Point Color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#f0f0f1"),
+                            value: decodeURIComponent(defaultPointColor ? defaultPointColor : "#f0f0f1"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({defaultPointColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: null})
+                                    setAttributes({defaultPointColor: null})
                                 }
                             },
                             label: __("")
@@ -550,9 +550,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                      <PanelRow>
                         <SelectControl
                             label={__('Aggregation Formula')}
-                            value={[***REMOVED***]}
+                            value={[aggregationFormula]}
                             onChange={(value) => {
-                                setAttributes({ ***REMOVED***: value })
+                                setAttributes({ aggregationFormula: value })
                             }}
                             options={[{label:'Count',value: 'COUNT'}, {label:'Sum',value: 'SUM'}]}
                         />
@@ -573,15 +573,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                   <PanelRow>
                             <TextControl
                                 label={__('Zoom on filter data field')}
-                                value={***REMOVED***}
-                                onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                value={zoomOnFilterField}
+                                onChange={(zoomOnFilterField) => setAttributes({ zoomOnFilterField })}
                             />
                         </PanelRow>
                         }
                 </PanelBody>
               }
             </Panel>
-        </***REMOVED***>),
+        </InspectorControls>),
 
         (
             <ResizableBox
@@ -603,10 +603,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     setAttributes({
                         height: parseInt(height + delta.height, 10),
                     });
-                    ***REMOVED***(true);
+                    toggleSelection(true);
                 }}
                 onResizeStart={() => {
-                    ***REMOVED***(false);
+                    toggleSelection(false);
                 }}>
 
                 <div>

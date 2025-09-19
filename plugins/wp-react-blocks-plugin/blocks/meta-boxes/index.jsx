@@ -1,15 +1,15 @@
-import { ***REMOVED*** } from "@wordpress/blocks";
+import { registerBlockType } from "@wordpress/blocks";
 import { TextControl } from "@wordpress/components";
-import { useEntityProp, ***REMOVED*** } from "@wordpress/core-data";
+import { useEntityProp, useEntityRecords } from "@wordpress/core-data";
 import { useBlockProps } from "@wordpress/block-editor";
 import { useDispatch, useSelect } from "@wordpress/data";
 
-***REMOVED***("myguten/meta-block", {
+registerBlockType("myguten/meta-block", {
   title: "Meta Block",
   edit: ({ setAttributes, attributes }) => {
     const blockProps = useBlockProps();
     const postType = useSelect(
-      (select) => select("core/editor").***REMOVED***(),
+      (select) => select("core/editor").getCurrentPostType(),
       []
     );
 
@@ -19,8 +19,8 @@ import { useDispatch, useSelect } from "@wordpress/data";
     );
     const { editPost } = useDispatch("core/editor");
     const [meta, setMeta] = useEntityProp("postType", postType, "meta");
-    const ***REMOVED*** = meta["myguten_meta_block_field"];
-    const ***REMOVED*** = (newValue) => {
+    const metaFieldValue = meta["myguten_meta_block_field"];
+    const updateMetaValue = (newValue) => {
       editPost({ meta: { ...meta, myguten_meta_block_field: newValue } });
       //setMeta( { ...meta, myguten_meta_block_field: newValue } );
     };
@@ -29,8 +29,8 @@ import { useDispatch, useSelect } from "@wordpress/data";
       <div {...blockProps}>
         <TextControl
           label="Meta Block Field"
-          value={***REMOVED***}
-          onChange={***REMOVED***}
+          value={metaFieldValue}
+          onChange={updateMetaValue}
         />
       </div>
     );

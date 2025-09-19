@@ -1,10 +1,10 @@
-import {ColorPalette, ***REMOVED***, ***REMOVED***, useBlockProps, useSetting} from '@wordpress/block-editor';
+import {ColorPalette, InspectorControls, PanelColorSettings, useBlockProps, useSetting} from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
     __experimentalText as Text,
     Button,
     ButtonGroup,
-    ***REMOVED***,
+    FontSizePicker,
     Panel,
     PanelBody,
     PanelRow,
@@ -15,7 +15,7 @@ import {
 } from '@wordpress/components'
 
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, SizeConfig} from "../commons";
+import {BlockEditWithFilters, SizeConfig} from "../commons";
 import apiFetch from '@wordpress/api-fetch';
 import {useEffect} from "react";
 
@@ -27,38 +27,38 @@ const FontSelector = (props) => {
             fontSize
         },
     } = props;
-    return <***REMOVED***
+    return <FontSizePicker
         fontSizes={[]}
         value={fontSize}
-        ***REMOVED***={14}
+        fallbackFontSize={14}
         onChange={(newFontSize) => {
             setAttributes({fontSize: newFontSize})
         }}
     />
 }
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends BlockEditWithFilters {
 
     constructor(props) {
         super(props);
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onCategoryChanged = this.onCategoryChanged.bind(this)
         this.onLoadPosts = this.onLoadPosts.bind(this)
         this.iframe = React.createRef();
     }
 
 
-    ***REMOVED***() {
-        super.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
         this.onLoadPosts()
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
 
-        super.***REMOVED***(prevProps, prevState, snapshot)
+        super.componentDidUpdate(prevProps, prevState, snapshot)
         const {attributes: {taxonomy, categories}} = this.props;
-        const {attributes: {taxonomy: prevTaxonomy, categories: ***REMOVED***}} = prevProps;
+        const {attributes: {taxonomy: prevTaxonomy, categories: prevCategories}} = prevProps;
 
-        if (taxonomy !== prevTaxonomy || categories !== ***REMOVED***) {
+        if (taxonomy !== prevTaxonomy || categories !== prevCategories) {
             this.onLoadPosts()
         }
     }
@@ -94,15 +94,15 @@ class BlockEdit extends ***REMOVED*** {
         })
     }
 
-    ***REMOVED***(checked, value) {
-        super.***REMOVED***(checked, value)
+    onCategoryChanged(checked, value) {
+        super.onCategoryChanged(checked, value)
 
 
     }
 
     render() {
         const {
-            ***REMOVED***, setAttributes, attributes: {
+            toggleSelection, setAttributes, attributes: {
                 horizontal, panelStatus, scrolls, configuration, count, height = 768
             },
         } = this.props;
@@ -114,7 +114,7 @@ class BlockEdit extends ***REMOVED*** {
 
 
         return (<div>
-            <***REMOVED***>
+            <InspectorControls>
                 <Panel header={__("Settings")}>
                     <SizeConfig initialOpen={false} setAttributes={setAttributes} height={height}
                                 panelStatus={panelStatus}></SizeConfig>
@@ -124,7 +124,7 @@ class BlockEdit extends ***REMOVED*** {
                     <PanelBody title={__("Settings")}>
                         <PanelRow>
                             <RangeControl
-                                ***REMOVED***={true}
+                                isShiftStepEnabled={true}
                                 onChange={(scrolls) => {
                                     setAttributes({scrolls: parseInt(scrolls)})
 
@@ -221,7 +221,7 @@ class BlockEdit extends ***REMOVED*** {
 
 
                 </Panel>
-            </***REMOVED***>
+            </InspectorControls>
 
             <ResizableBox
                 size={{height}}
@@ -239,14 +239,14 @@ class BlockEdit extends ***REMOVED*** {
                 }}
                 onResizeStop={(event, direction, elt, delta) => {
                     setAttributes({height: parseInt(height + delta.height, 10),});
-                    ***REMOVED***(true);
+                    toggleSelection(true);
                 }}
                 onResizeStart={() => {
-                    ***REMOVED***(false);
+                    toggleSelection(false);
                 }}>
                 <div style={divStyles}>
                     {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
-                                                        src={this.state.react_ui_url + "/embeddable/***REMOVED***?" + queryString}/>}
+                                                        src={this.state.react_ui_url + "/embeddable/parallaxContainer?" + queryString}/>}
                 </div>
             </ResizableBox>
         </div>);
@@ -257,7 +257,7 @@ class BlockEdit extends ***REMOVED*** {
 const Edit = (props) => {
     const blockProps = useBlockProps({className: 'wp-react-component'});
     const colorsFeature = useSetting('custom-font-sizes');
-    const ***REMOVED*** = useSetting('editor-font-sizes');
+    const colorsFeature2 = useSetting('editor-font-sizes');
 
     return <div {...blockProps}><BlockEdit {...props}/></div>;
 

@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
         content += '</div>';
 
 	    $(document).on("submit", "#wpm-news-letter-form", function(e){
-	      e.***REMOVED***(); 
+	      e.preventDefault(); 
 	      
 	      var $form = $(this),
 	      name = $form.find('input[name="wpm_subscriber_name"]').val(),

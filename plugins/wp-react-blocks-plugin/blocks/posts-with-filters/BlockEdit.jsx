@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-    ***REMOVED***,
+    InspectorControls,
 } from '@wordpress/block-editor';
 import {
-    ***REMOVED***,
+    CheckboxControl,
     Panel,
     PanelBody,
     PanelRow,
@@ -19,37 +19,37 @@ import {
 import { __ } from '@wordpress/i18n';
 import { ComponentWithSettings } from "../commons";
 import apiFetch from '@wordpress/api-fetch';
-import { ***REMOVED*** } from './utils';
+import { fetchAllCategories } from './utils';
 
 
-class ***REMOVED*** extends ComponentWithSettings {
+class BlockEditComponent extends ComponentWithSettings {
 
     constructor(props) {
         super(props);
         this.iframe = React.createRef();
         this.state = {
             categories: [],
-            ***REMOVED***: null,
-            ***REMOVED***: '',
+            countryCategory: null,
+            categorySearch: '',
             ...this.state
         };
         window.wp = window.wp || {};
 
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***();
-        this.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
+        this.getSystemCategories();
     }
 
-    ***REMOVED***() {
+    getSystemCategories() {
 
-        ***REMOVED***().then(categories => {
-            const ***REMOVED*** = [];
+        fetchAllCategories().then(categories => {
+            const categoriesList = [];
             categories.forEach(category => {
-                ***REMOVED***.push({ label: category.name, value: category.id });
+                categoriesList.push({ label: category.name, value: category.id });
             });
-            this.setState({ categories: ***REMOVED*** });
+            this.setState({ categories: categoriesList });
         });
 
     }
@@ -65,28 +65,28 @@ class ***REMOVED*** extends ComponentWithSettings {
     render() {
         const {
             setAttributes,
-            ***REMOVED***,
+            toggleSelection,
             attributes: {
                 height,
-                ***REMOVED***,
+                showPagination,
                 postsPerPage,
                 showFilters,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
+                showDateFilter,
+                showCategoryFilter,
+                showCountryFilter,
                 categories,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***
+                categoryPlaceholder,
+                countryCategory,
+                countryPlaceholder
             }
         } = this.props;
-        const ***REMOVED*** = this.state.categories;
-        const ***REMOVED*** = ***REMOVED***.filter(category =>
-            category.label.toLowerCase().includes(this.state.***REMOVED***.toLowerCase())
+        const systemCategories = this.state.categories;
+        const filteredCategories = systemCategories.filter(category =>
+            category.label.toLowerCase().includes(this.state.categorySearch.toLowerCase())
         );
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel>
                         <PanelBody title={__("Filters")}>
                             <PanelRow>
@@ -100,25 +100,25 @@ class ***REMOVED*** extends ComponentWithSettings {
                                         <>
                                             <ToggleControl
                                                 label={__("Show Year Filter")}
-                                                checked={***REMOVED***}
-                                                onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                                checked={showDateFilter}
+                                                onChange={(showDateFilter) => setAttributes({ showDateFilter })}
                                             />
                                             <ToggleControl
                                                 label={__("Show Category Filter")}
-                                                checked={***REMOVED***}
-                                                onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                                checked={showCategoryFilter}
+                                                onChange={(showCategoryFilter) => setAttributes({ showCategoryFilter })}
                                             />
-                                            {***REMOVED*** && (
+                                            {showCategoryFilter && (
                                                 <>
                                                     <SearchControl
                                                         label={__("Search Categories")}
-                                                        value={this.state.***REMOVED***}
-                                                        onChange={(***REMOVED***) => this.setState({ ***REMOVED*** })}
+                                                        value={this.state.categorySearch}
+                                                        onChange={(categorySearch) => this.setState({ categorySearch })}
                                                         placeholder={__("Search categories...")}
                                                     />
                                                     <Scrollable style={{ maxHeight: '240px', padding: '10px 0', margin: '12px 0' }}>
-                                                    {***REMOVED***.map(category => (
-                                                        <***REMOVED***
+                                                    {filteredCategories.map(category => (
+                                                        <CheckboxControl
                                                             label={category.label}
                                                             checked={categories.indexOf(category.value) > -1}
                                                             onChange={() => {
@@ -139,22 +139,22 @@ class ***REMOVED*** extends ComponentWithSettings {
 
                                                     <TextControl
                                                         label={__("Category Placeholder")}
-                                                        value={***REMOVED***}
-                                                        onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                                        value={categoryPlaceholder}
+                                                        onChange={(categoryPlaceholder) => setAttributes({ categoryPlaceholder })}
                                                     />
                                                 </>
                                             )}
 
-                                            {***REMOVED*** && <Divider />}
+                                            {showCountryFilter && <Divider />}
 
                                             <ToggleControl
                                                 label={__("Show Country Filter")}
-                                                checked={***REMOVED***}
-                                                onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                                checked={showCountryFilter}
+                                                onChange={(showCountryFilter) => setAttributes({ showCountryFilter })}
                                             />
 
                                             {/* Select the Category that has the countries */}
-                                            {***REMOVED*** && (
+                                            {showCountryFilter && (
                                                 <>
                                                     <SelectControl
                                                         label={__("Country Category")}
@@ -163,16 +163,16 @@ class ***REMOVED*** extends ComponentWithSettings {
                                                             value: category.value
                                                         }))}
                                                         help={__("Select the category that has the countries")}
-                                                        value={***REMOVED***}
-                                                        onChange={(***REMOVED***) => {
-                                                            setAttributes({ ***REMOVED***: parseInt(***REMOVED***) });
+                                                        value={countryCategory}
+                                                        onChange={(countryCategory) => {
+                                                            setAttributes({ countryCategory: parseInt(countryCategory) });
                                                         }}
                                                     />
 
                                                     <TextControl
                                                         label={__("Country Placeholder")}
-                                                        value={***REMOVED***}
-                                                        onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                                        value={countryPlaceholder}
+                                                        onChange={(countryPlaceholder) => setAttributes({ countryPlaceholder })}
                                                     />
 
                                                 </>
@@ -189,10 +189,10 @@ class ***REMOVED*** extends ComponentWithSettings {
                                 <div>
                                     <ToggleControl
                                         label={__("Show Pagination Options")}
-                                        checked={***REMOVED***}
-                                        onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+                                        checked={showPagination}
+                                        onChange={(showPagination) => setAttributes({ showPagination })}
                                     />
-                                    {***REMOVED*** && (
+                                    {showPagination && (
 
                                         <RangeControl
                                             label={__("Posts per page")}
@@ -209,7 +209,7 @@ class ***REMOVED*** extends ComponentWithSettings {
                             </PanelRow>
                         </PanelBody>
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
 
                 <ResizableBox
                     size={{ height }}
@@ -231,10 +231,10 @@ class ***REMOVED*** extends ComponentWithSettings {
                             height: parseInt(height + delta.height, 10),
 
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}
                 >
                     <div>
@@ -243,7 +243,7 @@ class ***REMOVED*** extends ComponentWithSettings {
                             ref={this.iframe}
                             scrolling={"no"}
                             height={height}
-                            src={this.state.react_ui_url + "/embeddable/***REMOVED***"} />}
+                            src={this.state.react_ui_url + "/embeddable/postswithFilters"} />}
                     </div>
 
                 </ResizableBox>
@@ -264,4 +264,4 @@ class ***REMOVED*** extends ComponentWithSettings {
 //     );
 // };
 
-export default ***REMOVED***;
+export default BlockEditComponent;

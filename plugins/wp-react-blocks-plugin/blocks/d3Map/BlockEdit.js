@@ -1,4 +1,4 @@
-import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor'
+import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor'
 import {
     Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl, Button
 } from '@wordpress/components'
@@ -18,17 +18,17 @@ class BlockEdit extends ComponentWithSettings {
         this.onMoveLayer = this.onMoveLayer.bind(this)
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {attributes: {app}} = this.props
-        super.***REMOVED***(prevProps, prevState, snapshot);
+        super.componentDidUpdate(prevProps, prevState, snapshot);
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
         const {setAttributes} = this.props;
         setAttributes({identifier: Math.ceil(Math.random() * 100000000)})//set a random id to identify each of the maps on the page
 
-        window.***REMOVED***("message", (event) => {
+        window.addEventListener("message", (event) => {
             if (event.data.type == `d3_map_${this.props.attributes.identifier}`) {
                 const iframeOrigin = event.origin.split(':')[1]
                 const parentOrigin = window.location.origin.split(':')[1]
@@ -84,18 +84,18 @@ class BlockEdit extends ComponentWithSettings {
 
     render() {
         const {
-            className, isSelected, ***REMOVED***, setAttributes, attributes: {
+            className, isSelected, toggleSelection, setAttributes, attributes: {
                 projection,
-                panelStatus, mapPosition, height, width, group, ***REMOVED***, layers = [],
-                ***REMOVED***,
+                panelStatus, mapPosition, height, width, group, backGroundColor, layers = [],
+                rotationEnabled,
                 zoomEnabled,
-                ***REMOVED***
+                waitForFilters
             }
         } = this.props;
 
 
         const divStyles = {height: height + 'px', width: '100%'};
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
             <Panel header={__("Map Configuration")}>
                 <PanelBody
                     initialOpen={false}//{false}//{panelStatus['GROUP']}
@@ -111,8 +111,8 @@ class BlockEdit extends ComponentWithSettings {
                      <PanelRow>
                                 <ToggleControl
                                     label={__('Wait For Filters')}
-                                    checked={***REMOVED***}
-                                    onChange={() => setAttributes({***REMOVED***:!***REMOVED***})}
+                                    checked={waitForFilters}
+                                    onChange={() => setAttributes({waitForFilters:!waitForFilters})}
                                 />
                     </PanelRow>	
                 </PanelBody>
@@ -166,16 +166,16 @@ class BlockEdit extends ComponentWithSettings {
                                     value: "geoEqualEarth"
                                 },
                                 {
-                                    label: "***REMOVED***",
-                                    value: "***REMOVED***"
+                                    label: "geoNaturalEarth1",
+                                    value: "geoNaturalEarth1"
                                 },
                                 {
                                     label: "geoAzimuthalEqualArea",
                                     value: "geoAzimuthalEqualArea"
                                 },
                                 {
-                                    label: "***REMOVED***",
-                                    value: "***REMOVED***"
+                                    label: "geoOrthographic",
+                                    value: "geoOrthographic"
                                 }]}
                         />
 
@@ -183,8 +183,8 @@ class BlockEdit extends ComponentWithSettings {
                     </PanelRow>
 
                     <PanelRow>
-                        <ToggleControl label={__('Enable Rotation')} checked={***REMOVED***}
-                                       onChange={e => setAttributes({***REMOVED***: !***REMOVED***})}></ToggleControl>
+                        <ToggleControl label={__('Enable Rotation')} checked={rotationEnabled}
+                                       onChange={e => setAttributes({rotationEnabled: !rotationEnabled})}></ToggleControl>
                     </PanelRow>
                     <PanelRow>
                         <ToggleControl label={__('Enable Zoom Controls')} checked={zoomEnabled}
@@ -197,17 +197,17 @@ class BlockEdit extends ComponentWithSettings {
                     title={__("Colors")}>
 
 
-                    <***REMOVED***
+                    <PanelColorSettings
                         title={__('Background')}
                         colorSettings={[{
                             clearable: true,
                             enableAlpha: true,
-                            value: ***REMOVED***(***REMOVED***),
+                            value: decodeURIComponent(backGroundColor),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({backGroundColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: "#FFFFFF"})
+                                    setAttributes({backGroundColor: "#FFFFFF"})
                                 }
                             },
                             label: __('Background Color')
@@ -233,7 +233,7 @@ class BlockEdit extends ComponentWithSettings {
 
                 </PanelBody>
             </Panel>
-        </***REMOVED***>),
+        </InspectorControls>),
 
             (<div style={{margin: "auto", width: "100%"}}>
                 <ResizableBox
@@ -257,10 +257,10 @@ class BlockEdit extends ComponentWithSettings {
                         setAttributes({
                             height: parseInt(height + delta.height, 10), width: parseInt(width + delta.width, 10),
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}>
 
 

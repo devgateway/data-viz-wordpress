@@ -2,7 +2,7 @@ const SaveComponent = (props) => {
 
     const {
         attributes: {
-            ***REMOVED***,
+            measuresGroups,
             group,
             label,
             app,
@@ -15,7 +15,7 @@ const SaveComponent = (props) => {
                  data-app={app}
                  data-label={label}
                  data-group={group}
-                 data-measures-groups={***REMOVED***(JSON.stringify(***REMOVED***))}>
+                 data-measures-groups={encodeURIComponent(JSON.stringify(measuresGroups))}>
     </div>);
 }
 

@@ -18,11 +18,11 @@ const SaveComponent = (props) => {
             fontSize,
             titleWidth,
             subtitleWidth,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            enableCirclePopup,
+            enableTitlePopup,
+            enableDefaultPopup,
+            closePopupOnMouseOut,
+            subtitleHeight,
             titleHeight
         },
     } = props;
@@ -36,8 +36,8 @@ const SaveComponent = (props) => {
                  className={"viz-component"}
                  data-height={height}
                  data-component={"timeLine"}
-                 data-config={***REMOVED***(JSON.stringify(config))}
-                 data-csv-line-color={***REMOVED***(lineColor)}
+                 data-config={encodeURIComponent(JSON.stringify(config))}
+                 data-csv-line-color={encodeURIComponent(lineColor)}
                  data-position={position}
                  data-line-width={lineWidth}
                  data-margin-left={marginLeft}
@@ -48,11 +48,11 @@ const SaveComponent = (props) => {
                  data-title-width={titleWidth}
                  data-title-height={titleHeight}
                  data-subtitle-width={subtitleWidth}
-                 data-subtitle-height={***REMOVED***}
-                 data-enable-title-popup={***REMOVED***}
-                 data-enable-circle-popup={***REMOVED***}
-                 data-enable-default-popup={***REMOVED***}
-                 data-close-popup-on-mouse-out={***REMOVED***}>
+                 data-subtitle-height={subtitleHeight}
+                 data-enable-title-popup={enableTitlePopup}
+                 data-enable-circle-popup={enableCirclePopup}
+                 data-enable-default-popup={enableDefaultPopup}
+                 data-close-popup-on-mouse-out={closePopupOnMouseOut}>
             </div>
 
         </div>

@@ -14,7 +14,7 @@
     "url": "https://github.com/devgateway/tobacco-control-dashboard/issues"
   },
   "main": "build/index.js",
-  "***REMOVED***": {
+  "devDependencies": {
     "@babel/runtime": "^7.27.0",
     "@types/lodash": "^4.17.16",
     "@types/lodash.isequal": "^4.5.8",

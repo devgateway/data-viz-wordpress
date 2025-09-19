@@ -1,6 +1,6 @@
 {
   "name": "@devgateway/upgrade-wp-customizer",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Upgrade a WordPress Customizer project",
   "main": "index.js",
   "type": "module",
@@ -34,7 +34,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "***REMOVED***": {
+  "devDependencies": {
     "@babel/parser": "^7.27.2",
     "@clack/prompts": "^0.10.1",
     "@types/node": "^22.15.16",

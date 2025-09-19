@@ -22,11 +22,11 @@ const SaveComponent = (props) => {
             fontSize,
             color,
             tooltip,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***
+            downloadTooltip,
+            includeSourceURL,
+            sourceURLMarginLeft,
+            sourceURLMarginTop,
+            sourceURLFontSize
         },
     } = props;
 
@@ -51,14 +51,14 @@ const SaveComponent = (props) => {
                      data-png-text={pngText}
                      data-jpg-text={jpgText}
                      data-title={title}
-                     data-section-title={***REMOVED***(`<p class="${fontClass}" style="font-size:${(!fontClass)?fontSize:'auto'};color:${color}">${sectionTitle}</p>`)}
+                     data-section-title={encodeURIComponent(`<p class="${fontClass}" style="font-size:${(!fontClass)?fontSize:'auto'};color:${color}">${sectionTitle}</p>`)}
                      data-style={style}
                      data-use-title={useTitle}
-                     data-download-tooltip={***REMOVED***(***REMOVED***)}
-                     data-include-source-url={***REMOVED***}
-                     data-source-urlmargin-left={***REMOVED***}			
-			         data-source-urlmargin-top={***REMOVED***}
-			         data-source-urlfont-size={***REMOVED***}>
+                     data-download-tooltip={encodeURIComponent(downloadTooltip)}
+                     data-include-source-url={includeSourceURL}
+                     data-source-urlmargin-left={sourceURLMarginLeft}			
+			         data-source-urlmargin-top={sourceURLMarginTop}
+			         data-source-urlfont-size={sourceURLFontSize}>
                     <InnerBlocks.Content />
                 </div>
         </div>
