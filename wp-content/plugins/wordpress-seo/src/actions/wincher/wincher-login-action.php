@@ -51,7 +51,7 @@ class Wincher_Login_Action {
 	/**
 	 * Authenticates with Wincher to request the necessary tokens.
 	 *
-	 * @param string $code       The ***REMOVED*** code to use to request a token with.
+	 * @param string $code       The authentication code to use to request a token with.
 	 * @param string $website_id The website id associated with the code.
 	 *
 	 * @return object The response object.

@@ -201,7 +201,7 @@ class Stream
                 $this->sftp = self::$instances[$host][$port][$user][(string) $pass];
             } else {
                 $this->sftp = new SFTP($host, $port);
-                $this->sftp->***REMOVED***();
+                $this->sftp->disableStatCache();
                 if (isset($this->notification) && is_callable($this->notification)) {
                     /* if !is_callable($this->notification) we could do this:
 
@@ -300,7 +300,7 @@ class Stream
         $result = $this->sftp->get($this->path, false, $this->pos, $count);
         if (isset($this->notification) && is_callable($this->notification)) {
             if ($result === false) {
-                call_user_func($this->notification, STREAM_NOTIFY_FAILURE, STREAM_NOTIFY_SEVERITY_ERR, $this->sftp->***REMOVED***(), NET_SFTP_OPEN, 0, 0);
+                call_user_func($this->notification, STREAM_NOTIFY_FAILURE, STREAM_NOTIFY_SEVERITY_ERR, $this->sftp->getLastSFTPError(), NET_SFTP_OPEN, 0, 0);
                 return 0;
             }
             // seems that PHP calls stream_read in 8k chunks
@@ -332,7 +332,7 @@ class Stream
         $result = $this->sftp->put($this->path, $data, SFTP::SOURCE_STRING, $this->pos);
         if (isset($this->notification) && is_callable($this->notification)) {
             if (!$result) {
-                call_user_func($this->notification, STREAM_NOTIFY_FAILURE, STREAM_NOTIFY_SEVERITY_ERR, $this->sftp->***REMOVED***(), NET_SFTP_OPEN, 0, 0);
+                call_user_func($this->notification, STREAM_NOTIFY_FAILURE, STREAM_NOTIFY_SEVERITY_ERR, $this->sftp->getLastSFTPError(), NET_SFTP_OPEN, 0, 0);
                 return 0;
             }
             // seems that PHP splits up strings into 8k blocks before calling stream_write

@@ -85,7 +85,7 @@
 	$themes_directory_name    = basename( $themes_directory );
 	$theme_candidate_basename = basename( dirname( $fs_root_path ) ) . '/' . basename( $fs_root_path );
 
-	if ( $file_path == fs_normalize_path( realpath( ***REMOVED***( $themes_directory ) . $theme_candidate_basename . '/' . basename( $file_path ) ) )
+	if ( $file_path == fs_normalize_path( realpath( trailingslashit( $themes_directory ) . $theme_candidate_basename . '/' . basename( $file_path ) ) )
 	) {
 		$this_sdk_relative_path = '../' . $themes_directory_name . '/' . $theme_candidate_basename;
 		$is_theme               = true;
@@ -425,7 +425,7 @@
 			define( 'WP_FS__SDK_VERSION', $this_sdk_version );
 		}
 
-		$plugins_or_theme_dir_path = fs_normalize_path( ***REMOVED***( $is_theme ?
+		$plugins_or_theme_dir_path = fs_normalize_path( trailingslashit( $is_theme ?
             $themes_directory :
 			WP_PLUGIN_DIR ) );
 
@@ -473,7 +473,7 @@
 				while ( '/' !== $partial_path_left &&
 				        ( false === $realpath || $file_path !== fs_normalize_path( $realpath ) )
 				) {
-                    $partial_path_right     = ***REMOVED***( basename( $partial_path_left ) ) . $partial_path_right;
+                    $partial_path_right     = trailingslashit( basename( $partial_path_left ) ) . $partial_path_right;
                     $partial_path_left_prev = $partial_path_left;
                     $partial_path_left      = dirname( $partial_path_left_prev );
 

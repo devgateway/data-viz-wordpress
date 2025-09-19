@@ -22,10 +22,10 @@
 			<?php if ( ! empty( $blog_info ) ) : ?>
 				<a class="site-name" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>,
 			<?php endif; ?>
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', '***REMOVED***' ) ); ?>" class="imprint">
+			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentynineteen' ) ); ?>" class="imprint">
 				<?php
 				/* translators: %s: WordPress. */
-				printf( __( 'Proudly powered by %s.', '***REMOVED***' ), 'WordPress' );
+				printf( __( 'Proudly powered by %s.', 'twentynineteen' ), 'WordPress' );
 				?>
 			</a>
 			<?php
@@ -34,7 +34,7 @@
 			}
 			?>
 			<?php if ( has_nav_menu( 'footer' ) ) : ?>
-				<nav class="footer-navigation" aria-label="<?php esc_attr_e( 'Footer Menu', '***REMOVED***' ); ?>">
+				<nav class="footer-navigation" aria-label="<?php esc_attr_e( 'Footer Menu', 'twentynineteen' ); ?>">
 					<?php
 					wp_nav_menu(
 						array(

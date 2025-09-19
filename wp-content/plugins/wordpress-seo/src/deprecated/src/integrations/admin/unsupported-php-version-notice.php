@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * @package Yoast\WP\SEO\Integrations\Admin
  *
  * @deprecated 25.0
- * @***REMOVED***
+ * @codeCoverageIgnore
  */
 class Unsupported_PHP_Version_Notice implements Integration_Interface {
 
@@ -19,7 +19,7 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface {
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @deprecated 25.0
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array<string> The array of conditionals.
 	 */
@@ -34,7 +34,7 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface {
 	 * Register hooks.
 	 *
 	 * @deprecated 25.0
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface {
 	 * Checks the current PHP version.
 	 *
 	 * @deprecated 25.0
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class Unsupported_PHP_Version_Notice implements Integration_Interface {
 	 * Composes the body of the message to display.
 	 *
 	 * @deprecated 25.0
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The message to display.
 	 */

@@ -131,7 +131,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			'yoast-first-time-configuration-notice'
 		);
 
-		//phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output from present() is considered safe.
+		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
 		echo $notice->present();
 
 		// Enable permanently dismissing the notice.

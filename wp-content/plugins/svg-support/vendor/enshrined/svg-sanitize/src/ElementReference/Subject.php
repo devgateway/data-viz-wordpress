@@ -1,5 +1,5 @@
 <?php
-namespace enshrined\svgSanitize\***REMOVED***;
+namespace enshrined\svgSanitize\ElementReference;
 
 class Subject
 {
@@ -16,23 +16,23 @@ class Subject
     /**
      * @var Usage[]
      */
-    protected $***REMOVED*** = [];
+    protected $usedInCollection = [];
 
     /**
      * @var int
      */
-    protected $***REMOVED***;
+    protected $useNestingLimit;
 
     /**
      * Subject constructor.
      *
      * @param \DOMElement $element
-     * @param int         $***REMOVED***
+     * @param int         $useNestingLimit
      */
-    public function __construct(\DOMElement $element, $***REMOVED***)
+    public function __construct(\DOMElement $element, $useNestingLimit)
     {
         $this->element = $element;
-        $this->***REMOVED*** = $***REMOVED***;
+        $this->useNestingLimit = $useNestingLimit;
     }
 
     /**
@@ -55,12 +55,12 @@ class Subject
      * @param array $subjects   Previously processed subjects
      * @param int   $level      The current level of nesting.
      * @return bool
-     * @throws \enshrined\svgSanitize\Exceptions\***REMOVED***
+     * @throws \enshrined\svgSanitize\Exceptions\NestingException
      */
-    public function ***REMOVED***(array $subjects = [], $level = 1)
+    public function hasInfiniteLoop(array $subjects = [], $level = 1)
     {
-        if ($level > $this->***REMOVED***) {
-            throw new \enshrined\svgSanitize\Exceptions\***REMOVED***('Nesting level too high, aborting', 1570713498, null, $this->getElement());
+        if ($level > $this->useNestingLimit) {
+            throw new \enshrined\svgSanitize\Exceptions\NestingException('Nesting level too high, aborting', 1570713498, null, $this->getElement());
         }
 
         if (in_array($this, $subjects, true)) {
@@ -68,7 +68,7 @@ class Subject
         }
         $subjects[] = $this;
         foreach ($this->useCollection as $usage) {
-            if ($usage->getSubject()->***REMOVED***($subjects, $level + 1)) {
+            if ($usage->getSubject()->hasInfiniteLoop($subjects, $level + 1)) {
                 return true;
             }
         }
@@ -81,7 +81,7 @@ class Subject
     public function addUse(Subject $subject)
     {
         if ($subject === $this) {
-            throw new \***REMOVED***('Cannot add self usage', 1570713416);
+            throw new \LogicException('Cannot add self usage', 1570713416);
         }
         $identifier = $subject->getElementId();
         if (isset($this->useCollection[$identifier])) {
@@ -97,14 +97,14 @@ class Subject
     public function addUsedIn(Subject $subject)
     {
         if ($subject === $this) {
-            throw new \***REMOVED***('Cannot add self as usage', 1570713417);
+            throw new \LogicException('Cannot add self as usage', 1570713417);
         }
         $identifier = $subject->getElementId();
-        if (isset($this->***REMOVED***[$identifier])) {
-            $this->***REMOVED***[$identifier]->increment();
+        if (isset($this->usedInCollection[$identifier])) {
+            $this->usedInCollection[$identifier]->increment();
             return;
         }
-        $this->***REMOVED***[$identifier] = new Usage($subject);
+        $this->usedInCollection[$identifier] = new Usage($subject);
     }
 
     /**
@@ -127,7 +127,7 @@ class Subject
     public function countUsedIn()
     {
         $count = 0;
-        foreach ($this->***REMOVED*** as $usedIn) {
+        foreach ($this->usedInCollection as $usedIn) {
             $count += $usedIn->getCount() * max(1, $usedIn->getSubject()->countUsedIn());
         }
         return $count;
@@ -145,7 +145,7 @@ class Subject
             return $usage->getSubject()->getElement();
         }, $this->useCollection);
 
-        $this->***REMOVED*** = [];
+        $this->usedInCollection = [];
         $this->useCollection = [];
 
         return $elements;

@@ -4,7 +4,7 @@ const { createElement, Fragment, useState } = wp.element;
 const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
 
-function ***REMOVED***(props) {
+function CheckBoxCustom(props) {
     const [isChecked, setIsChecked] = useState(props.meta.inline_featured_image);
     const {
         meta,
@@ -12,7 +12,7 @@ function ***REMOVED***(props) {
     } = props;
 
     return createElement(
-        wp.components.***REMOVED***,
+        wp.components.CheckboxControl,
         {
             label: "Render this SVG inline (Advanced)",
             checked: isChecked,
@@ -25,7 +25,7 @@ function ***REMOVED***(props) {
     );
 }
 
-const ***REMOVED*** = compose([
+const composedCheckBox = compose([
     withSelect((select) => {
         const currentMeta = select('core/editor').getCurrentPostAttribute('meta');
         const editedMeta = select('core/editor').getEditedPostAttribute('meta');
@@ -42,27 +42,27 @@ const ***REMOVED*** = compose([
             dispatch('core/editor').editPost({ meta });
         },
     })),
-])(***REMOVED***);
+])(CheckBoxCustom);
 
-function wrapPostFeaturedImage(***REMOVED***) {
+function wrapPostFeaturedImage(OriginalComponent) {
     return function(props) {
         return createElement(
             Fragment,
             {},
             '',
             createElement(
-                ***REMOVED***,
+                OriginalComponent,
                 props
             ),
             createElement(
-                ***REMOVED***
+                composedCheckBox
             )
         );
     }
 }
 
 wp.hooks.addFilter(
-    'editor.***REMOVED***',
+    'editor.PostFeaturedImage',
     'bodhi-svgs-featured-image/render-inline-image-checkbox',
     wrapPostFeaturedImage
 );

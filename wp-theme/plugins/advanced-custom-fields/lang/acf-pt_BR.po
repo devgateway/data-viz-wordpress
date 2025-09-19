@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields PRO 5.4\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2017-11-22 09:03-0200\n"
 "PO-Revision-Date: 2018-02-06 10:06+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: acf.php\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:67
 msgid "Advanced Custom Fields"
@@ -303,7 +303,7 @@ msgstr "Status"
 #: includes/admin/admin-field-groups.php:607
 msgid "Customise WordPress with powerful, professional and intuitive fields."
 msgstr ""
-"Personalize o WordPress com campos ***REMOVED*** profissionais, poderosos e "
+"Personalize o WordPress com campos personalizados profissionais, poderosos e "
 "intuitivos."
 
 #: includes/admin/admin-field-groups.php:609
@@ -389,7 +389,7 @@ msgstr "Ferramentas"
 #: includes/admin/admin.php:113
 #: includes/admin/views/field-group-options.php:118
 msgid "Custom Fields"
-msgstr "Campos ***REMOVED***"
+msgstr "Campos Personalizados"
 
 #: includes/admin/install-network.php:88 includes/admin/install.php:70
 #: includes/admin/install.php:121
@@ -704,7 +704,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crie um conjunto de regras para determinar quais telas de edição utilizarão "
-"estes campos ***REMOVED***"
+"estes campos personalizados"
 
 #: includes/admin/views/field-group-options.php:23
 msgid "Style"
@@ -736,7 +736,7 @@ msgstr "Lateral"
 
 #: includes/admin/views/field-group-options.php:55
 msgid "Label placement"
-msgstr "***REMOVED*** do rótulo"
+msgstr "Posicionamento do rótulo"
 
 #: includes/admin/views/field-group-options.php:62
 #: includes/fields/class-acf-field-tab.php:106
@@ -750,7 +750,7 @@ msgstr "Alinhado à Esquerda"
 
 #: includes/admin/views/field-group-options.php:70
 msgid "Instruction placement"
-msgstr "***REMOVED*** das instruções"
+msgstr "Posicionamento das instruções"
 
 #: includes/admin/views/field-group-options.php:77
 msgid "Below labels"
@@ -944,7 +944,7 @@ msgid ""
 "Before you start using the new awesome features, please update your database "
 "to the newest version."
 msgstr ""
-"Antes de começar a utilizar as novas e incríveis ***REMOVED***, por favor "
+"Antes de começar a utilizar as novas e incríveis funcionalidades, por favor "
 "atualize seus banco de dados para a versão mais recente."
 
 #: includes/admin/views/install-notice.php:31
@@ -1032,7 +1032,7 @@ msgid ""
 msgstr ""
 "Ao redefinir a arquitetura de dados promovemos mais autonomia aos sub "
 "campos, que podem agora funcionar de forma mais independente e serem "
-"arrastados e ***REMOVED*** entre diferentes campos."
+"arrastados e reposicionados entre diferentes campos."
 
 #: includes/admin/views/settings-info.php:39
 msgid "Goodbye Add-ons. Hello PRO"
@@ -1046,7 +1046,7 @@ msgstr "Apresentando o ACF PRO"
 msgid ""
 "We're changing the way premium functionality is delivered in an exciting way!"
 msgstr ""
-"Estamos mudando a forma como as ***REMOVED*** premium são ***REMOVED*** "
+"Estamos mudando a forma como as funcionalidades premium são disponibilizadas "
 "para um modo ainda melhor!"
 
 #: includes/admin/views/settings-info.php:46
@@ -1057,12 +1057,12 @@ msgid ""
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
 "Todos os 4 add-ons premium foram combinados na nova <a href=“%s”>versão Pro "
-"do ACF</a>. Com licenças pessoais e para ***REMOVED***, as ***REMOVED*** "
+"do ACF</a>. Com licenças pessoais e para desenvolvedores, as funcionalidades "
 "premium estão mais acessíveis do que nunca!"
 
 #: includes/admin/views/settings-info.php:50
 msgid "Powerful Features"
-msgstr "***REMOVED*** poderosas"
+msgstr "Funcionalidades poderosas"
 
 #: includes/admin/views/settings-info.php:51
 msgid ""
@@ -1070,7 +1070,7 @@ msgid ""
 "layouts, a beautiful gallery field and the ability to create extra admin "
 "options pages!"
 msgstr ""
-"O ACF PRO contém ***REMOVED*** incríveis como o campo de dados "
+"O ACF PRO contém funcionalidades incríveis como o campo de dados "
 "repetitivos, layouts de conteúdo flexíveis, um belíssimo campo de galeria e "
 "a capacidade de criar páginas de opções adicionais!"
 
@@ -1078,7 +1078,7 @@ msgstr ""
 #, php-format
 msgid "Read more about <a href=\"%s\">ACF PRO features</a>."
 msgstr ""
-"Leia mais sobre as <a href=“%s”>***REMOVED*** do ACF PRO</a> (em inglês)."
+"Leia mais sobre as <a href=“%s”>funcionalidades do ACF PRO</a> (em inglês)."
 
 #: includes/admin/views/settings-info.php:56
 msgid "Easy Upgrading"
@@ -1132,7 +1132,7 @@ msgstr "JSON Local"
 #: includes/admin/views/settings-info.php:82
 msgid "New auto export to JSON feature improves speed"
 msgstr ""
-"Melhor performance com a nova ***REMOVED*** de exportação automática para "
+"Melhor performance com a nova funcionalidade de exportação automática para "
 "JSON"
 
 #: includes/admin/views/settings-info.php:88
@@ -1154,7 +1154,7 @@ msgstr "Troca de XML para JSON"
 #: includes/admin/views/settings-info.php:94
 msgid "Import / Export now uses JSON in favour of XML"
 msgstr ""
-"As ***REMOVED*** de Importar/ Exportar agora utilizam JSON ao invés de XML"
+"As funcionalidades de Importar/ Exportar agora utilizam JSON ao invés de XML"
 
 #: includes/admin/views/settings-info.php:98
 msgid "New Forms"
@@ -1187,7 +1187,7 @@ msgid ""
 "Field group settings have been added for label placement and instruction "
 "placement"
 msgstr ""
-"Opções de ***REMOVED*** do rótulo e da instrução foram adicionadas aos "
+"Opções de posicionamento do rótulo e da instrução foram adicionadas aos "
 "grupos de campos"
 
 #: includes/admin/views/settings-info.php:122
@@ -1522,7 +1522,7 @@ msgstr "Permitir personalização"
 
 #: includes/fields/class-acf-field-checkbox.php:358
 msgid "Allow 'custom' values to be added"
-msgstr "Permite adicionar valores ***REMOVED***"
+msgstr "Permite adicionar valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:364
 msgid "Save Custom"
@@ -1530,7 +1530,7 @@ msgstr "Salvar personalização"
 
 #: includes/fields/class-acf-field-checkbox.php:369
 msgid "Save 'custom' values to the field's choices"
-msgstr "Salva valores ***REMOVED*** nas opções do campo"
+msgstr "Salva valores personalizados nas opções do campo"
 
 #: includes/fields/class-acf-field-checkbox.php:376
 #: includes/fields/class-acf-field-select.php:378
@@ -2087,12 +2087,12 @@ msgstr "Controla como as novas linhas são renderizadas"
 #: includes/fields/class-acf-field-message.php:115
 #: includes/fields/class-acf-field-textarea.php:144
 msgid "Automatically add paragraphs"
-msgstr "Adicionar parágrafos ***REMOVED***"
+msgstr "Adicionar parágrafos automaticamente"
 
 #: includes/fields/class-acf-field-message.php:116
 #: includes/fields/class-acf-field-textarea.php:145
 msgid "Automatically add &lt;br&gt;"
-msgstr "Adicionar &lt;br&gt; ***REMOVED***"
+msgstr "Adicionar &lt;br&gt; automaticamente"
 
 #: includes/fields/class-acf-field-message.php:117
 #: includes/fields/class-acf-field-textarea.php:146
@@ -2236,7 +2236,7 @@ msgstr "Outro"
 msgid "Add 'other' choice to allow for custom values"
 msgstr ""
 "Adicionar uma opção ‘Outro’ para permitir a inserção de valores "
-"***REMOVED***"
+"personalizados"
 
 #: includes/fields/class-acf-field-radio.php:265
 msgid "Save Other"
@@ -2245,7 +2245,7 @@ msgstr "Salvar Outro"
 #: includes/fields/class-acf-field-radio.php:270
 msgid "Save 'other' values to the field's choices"
 msgstr ""
-"Salvar os valores ***REMOVED*** inseridos na opção ‘Outros’ na lista de "
+"Salvar os valores personalizados inseridos na opção ‘Outros’ na lista de "
 "escolhas do campo"
 
 #: includes/fields/class-acf-field-range.php:25
@@ -2422,7 +2422,7 @@ msgstr "Aba"
 
 #: includes/fields/class-acf-field-tab.php:102
 msgid "Placement"
-msgstr "***REMOVED***"
+msgstr "Posicionamento"
 
 #: includes/fields/class-acf-field-tab.php:115
 msgid ""
@@ -2648,7 +2648,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "Mostrar Botões de Upload de Mídia?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:453
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "Atrasar a inicialização?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:454
@@ -2762,7 +2762,7 @@ msgstr "Visualizando a parte pública do site (front-end)"
 
 #: includes/locations/class-acf-location-current-user.php:99
 msgid "Viewing back end"
-msgstr "Visualizando a parte ***REMOVED*** do site (back-end)"
+msgstr "Visualizando a parte administrativa do site (back-end)"
 
 #: includes/locations/class-acf-location-nav-menu-item.php:27
 msgid "Menu Item"
@@ -2891,7 +2891,7 @@ msgid ""
 "No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
 "Custom Field Group</a>"
 msgstr ""
-"Nenhum Grupo de Campos ***REMOVED*** encontrado para esta página de opções. "
+"Nenhum Grupo de Campos Personalizados encontrado para esta página de opções. "
 "<a href=\"%s\">Criar um Grupo de Campos Personalizado</a>"
 
 #: pro/admin/admin-settings-updates.php:78
@@ -3251,8 +3251,8 @@ msgstr ""
 "href=“%s”>detalhes e preços</a>."
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"
@@ -3278,7 +3278,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "The tab field will display incorrectly when added to a Table style "
 #~ "repeater field or flexible content field layout"
 #~ msgstr ""
-#~ "O campo Aba será exibido ***REMOVED*** quando adicionado em um layout do "
+#~ "O campo Aba será exibido incorretamente quando adicionado em um layout do "
 #~ "tipo Tabela de campos repetidores ou de conteúdos flexíveis"
 
 #~ msgid ""

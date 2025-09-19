@@ -26,27 +26,27 @@ abstract class BuiltInStandardAttributes
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
             'country-name' => ['optional' => true] + CountryName::MAP,
-            '***REMOVED***-domain-name' => ['optional' => true] + AdministrationDomainName::MAP,
+            'administration-domain-name' => ['optional' => true] + AdministrationDomainName::MAP,
             'network-address' => [
                 'constant' => 0,
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP,
+            ] + NetworkAddress::MAP,
             'terminal-identifier' => [
                 'constant' => 1,
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP,
+            ] + TerminalIdentifier::MAP,
             'private-domain-name' => [
                 'constant' => 2,
                 'optional' => true,
                 'explicit' => true
-            ] + ***REMOVED***::MAP,
+            ] + PrivateDomainName::MAP,
             'organization-name' => [
                 'constant' => 3,
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP,
+            ] + OrganizationName::MAP,
             'numeric-user-identifier' => [
                 'constant' => 4,
                 'optional' => true,
@@ -57,7 +57,7 @@ abstract class BuiltInStandardAttributes
                 'optional' => true,
                 'implicit' => true
             ] + PersonalName::MAP,
-            '***REMOVED***-unit-names' => [
+            'organizational-unit-names' => [
                 'constant' => 6,
                 'optional' => true,
                 'implicit' => true

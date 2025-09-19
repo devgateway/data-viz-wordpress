@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Conditionals\XMLRPC_Conditional;
 /**
  * Noindexes the xmlrpc.php file and all ways to request it.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded -- Known false positive with acronyms. Fix expected in YoastCS 3.x.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Known false positive with acronyms. Fix expected in YoastCS 3.x.
  */
 class XMLRPC implements Integration_Interface {
 
@@ -34,7 +34,7 @@ class XMLRPC implements Integration_Interface {
 	/**
 	 * Sets a noindex, follow x-robots-tag header on all XMLRPC requests.
 	 *
-	 * @***REMOVED*** Basically impossible to test from the command line.
+	 * @codeCoverageIgnore Basically impossible to test from the command line.
 	 *
 	 * @param array $methods The methods.
 	 *

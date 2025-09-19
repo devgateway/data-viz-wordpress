@@ -463,7 +463,7 @@ class ACF_Admin_Tool_Export extends ACF_Admin_Tool {
 			$a.on('click', function( e ){
 				
 				// prevent default
-				e.***REMOVED***();
+				e.preventDefault();
 				
 				
 				// select

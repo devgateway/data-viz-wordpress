@@ -10,8 +10,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Delicious Brains <mayday@***REMOVED***.com>\n"
-"Language-Team: Delicious Brains <mayday@***REMOVED***.com>\n"
+"Last-Translator: Delicious Brains <mayday@bettersearchreplace.com>\n"
+"Language-Team: Delicious Brains <mayday@bettersearchreplace.com>\n"
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Country: United States\n"
@@ -141,7 +141,7 @@ msgid "Help"
 msgstr ""
 
 #: templates/bsr-help.php:26
-msgid "Help & ***REMOVED***"
+msgid "Help & Troubleshooting"
 msgstr ""
 
 #: templates/bsr-help.php:35
@@ -267,7 +267,7 @@ msgid "Upgrade Now"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://***REMOVED***.com"
+msgid "https://bettersearchreplace.com"
 msgstr ""
 
 #. Description of the plugin/theme

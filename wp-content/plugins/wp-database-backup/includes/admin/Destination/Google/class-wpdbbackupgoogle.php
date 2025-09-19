@@ -9,14 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-add_action( 'wp_db_backup_completed', array( '***REMOVED***', 'wp_db_backup_completed' ) );
+add_action( 'wp_db_backup_completed', array( 'WPDBBackupGoogle', 'wp_db_backup_completed' ) );
 
 /**
- * ***REMOVED*** Class.
+ * WPDBBackupGoogle Class.
  *
- * @class ***REMOVED***
+ * @class WPDBBackupGoogle
  */
-class ***REMOVED*** {
+class WPDBBackupGoogle {
 
 /**
  * Process the database backup and upload to Google Drive.
@@ -46,8 +46,8 @@ public static function wp_db_backup_completed( &$args ) {
 
         $client = new Google_Client();
         $client->setClientId( $client_id );
-        $client->***REMOVED***( $client_secret );
-        $client->***REMOVED***( site_url() . '/wp-admin/admin.php?page=wp-database-backup&action=auth' );
+        $client->setClientSecret( $client_secret );
+        $client->setRedirectUri( site_url() . '/wp-admin/admin.php?page=wp-database-backup&action=auth' );
         $client->setScopes( array( 'https://www.googleapis.com/auth/drive' ) );
 
         $service = new Google_DriveService( $client );
@@ -59,12 +59,12 @@ public static function wp_db_backup_completed( &$args ) {
         } else {
             $access_token = get_option( 'wpdb_google_drive_token' );
         }
-        $client->***REMOVED***( $access_token );
+        $client->setAccessToken( $access_token );
 
         // Upload file to Google Drive
         $file = new Google_DriveFile();
         $file->setTitle( $args[0] );
-        $file->***REMOVED***( 'WP Database Backup : DB backup file - ' . site_url() );
+        $file->setDescription( 'WP Database Backup : DB backup file - ' . site_url() );
         $file->setMimeType( 'application/gzip' );
 
         // Uploading chunked file so CPU and memory usage doesn't go 100%

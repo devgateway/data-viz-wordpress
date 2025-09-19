@@ -87,7 +87,7 @@ HTML;
 			    $modal           = $(modalHtml),
 			    $sendButton      = $modal.find('.button-send-license-key'),
 			    $emailInput      = $modal.find('input.email-address'),
-			    $***REMOVED*** = $modal.find('.license-resend-message'),
+			    $feedbackMessage = $modal.find('.license-resend-message'),
 			    isFreemium       = <?php echo json_encode( $is_freemium ) ?>,
 			    userEmail        = <?php echo json_encode( $email ) ?>,
 			    moduleID         = '<?php echo $fs->get_id() ?>',
@@ -98,30 +98,30 @@ HTML;
 
 			function registerEventHandlers() {
 				$('a.show-license-resend-modal-<?php echo $fs->get_unique_affix() ?>').click(function (evt) {
-					evt.***REMOVED***();
+					evt.preventDefault();
 
 					showModal();
 				});
 
 				if (isFreemium) {
 					$modal.on('change', 'input[type=radio][name=email-address]', function () {
-						***REMOVED***();
+						updateButtonState();
 					});
 
 					$modal.on('focus', 'input.email-address', function () {
 						// Check custom email radio button on email input focus.
 						$($modal.find('input[type=radio]')[1]).prop('checked', true);
 
-						***REMOVED***();
+						updateButtonState();
 					});
 				}
 
-				$modal.on('input ***REMOVED***', 'input.email-address', function () {
-					***REMOVED***();
+				$modal.on('input propertychange', 'input.email-address', function () {
+					updateButtonState();
 				});
 
 				$modal.on('blur', 'input.email-address', function () {
-					***REMOVED***();
+					updateButtonState();
 				});
 
 				$modal.on('click', '.fs-close', function (){
@@ -130,7 +130,7 @@ HTML;
 				});
 
 				$modal.on('click', '.button', function (evt) {
-					evt.***REMOVED***();
+					evt.preventDefault();
 
 					if ($(this).hasClass('disabled')) {
 						return;
@@ -204,7 +204,7 @@ HTML;
 			}
 
 			function resetButton() {
-				***REMOVED***();
+				updateButtonState();
 				$sendButton.text(<?php echo json_encode($send_button_text) ?>);
 			}
 
@@ -226,7 +226,7 @@ HTML;
 				return email;
 			}
 
-			function ***REMOVED***() {
+			function updateButtonState() {
 				/**
 				 * If email address is not empty, enable the send license key button.
 				 */
@@ -238,12 +238,12 @@ HTML;
 			}
 
 			function hideError() {
-				$***REMOVED***.hide();
+				$feedbackMessage.hide();
 			}
 
 			function showError(msg) {
-				$***REMOVED***.find(' > p').html(msg);
-				$***REMOVED***.show();
+				$feedbackMessage.find(' > p').html(msg);
+				$feedbackMessage.show();
 			}
 		});
 	})(jQuery);

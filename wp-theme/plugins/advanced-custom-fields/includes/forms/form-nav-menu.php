@@ -351,7 +351,7 @@ class acf_form_nav_menu {
 		
 		
 		// decode json
-		var json = $form.***REMOVED***();
+		var json = $form.serializeArray();
 		var json2 = [];
 		
 		

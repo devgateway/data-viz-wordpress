@@ -28,7 +28,7 @@ abstract class PublicKeyInfo
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'publicKeyAlgorithm' => AlgorithmIdentifier::MAP,
             'publicKey' => ['type' => ASN1::TYPE_BIT_STRING]
         ]
     ];

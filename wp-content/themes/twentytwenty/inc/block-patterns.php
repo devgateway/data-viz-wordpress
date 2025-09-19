@@ -71,7 +71,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 					'<h2 class="has-text-align-center">' . esc_html__( 'The Museum', 'twentytwenty' ) . '</h2>',
 					'<!-- /wp:heading -->',
 					'<!-- wp:paragraph {"align":"center"} -->',
-					'<p class="has-text-align-center">' . esc_html__( 'Award-winning exhibitions featuring ***REMOVED***-renowned artists.', 'twentytwenty' ) . '</p>',
+					'<p class="has-text-align-center">' . esc_html__( 'Award-winning exhibitions featuring internationally-renowned artists.', 'twentytwenty' ) . '</p>',
 					'<!-- /wp:paragraph -->',
 					'<!-- wp:buttons {"align":"center"} -->',
 					'<div class="wp-block-buttons aligncenter"><!-- wp:button {"className":"is-style-outline"} -->',
@@ -111,7 +111,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'content'       => implode(
 				'',
 				array(
-					'<!-- wp:group {"align":"wide","***REMOVED***":"primary"} -->',
+					'<!-- wp:group {"align":"wide","backgroundColor":"primary"} -->',
 					'<div class="wp-block-group alignwide has-primary-background-color has-background"><div class="wp-block-group__inner-container"><!-- wp:columns -->',
 					'<div class="wp-block-columns"><!-- wp:column -->',
 					'<div class="wp-block-column"><!-- wp:paragraph {"align":"center","textColor":"background","fontSize":"large"} -->',
@@ -194,7 +194,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 					'<h2 class="has-text-align-center">' . esc_html__( 'The Premier Destination for Modern Art in Sweden', 'twentytwenty' ) . '</h2>',
 					'<!-- /wp:heading -->',
 					'<!-- wp:paragraph {"dropCap":true} -->',
-					'<p class="has-drop-cap">' . esc_html__( 'With seven floors of striking architecture, UMoMA shows exhibitions of international contemporary art, sometimes along with art historical ***REMOVED***. Existential, political, and philosophical issues are intrinsic to our program. As visitor, you are invited to guided tours artist talks, lectures, film screenings, and other events with free admission.', 'twentytwenty' ) . '</p>',
+					'<p class="has-drop-cap">' . esc_html__( 'With seven floors of striking architecture, UMoMA shows exhibitions of international contemporary art, sometimes along with art historical retrospectives. Existential, political, and philosophical issues are intrinsic to our program. As visitor, you are invited to guided tours artist talks, lectures, film screenings, and other events with free admission.', 'twentytwenty' ) . '</p>',
 					'<!-- /wp:paragraph -->',
 				)
 			),

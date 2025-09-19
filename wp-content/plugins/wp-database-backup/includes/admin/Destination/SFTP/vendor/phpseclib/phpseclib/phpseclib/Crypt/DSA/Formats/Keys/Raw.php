@@ -64,7 +64,7 @@ abstract class Raw
      * @param string $password optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $p, BigInteger $q, BigInteger $g, BigInteger $y, BigInteger $x, $password = '')
+    public static function savePrivateKey(BigInteger $p, BigInteger $q, BigInteger $g, BigInteger $y, BigInteger $x, $password = '')
     {
         return compact('p', 'q', 'g', 'y', 'x');
     }

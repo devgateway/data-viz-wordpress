@@ -19,16 +19,16 @@
 class xrstf_Composer52_ClassLoader {
 	private $prefixes              = array();
 	private $fallbackDirs          = array();
-	private $***REMOVED***        = false;
+	private $useIncludePath        = false;
 	private $classMap              = array();
 	private $classMapAuthoratative = false;
-	private $***REMOVED***       = false;
+	private $allowUnderscore       = false;
 
 	/**
 	 * @param boolean $flag  true to allow class names with a leading underscore, false to disable
 	 */
-	public function ***REMOVED***($flag) {
-		$this->***REMOVED*** = (boolean) $flag;
+	public function setAllowUnderscore($flag) {
+		$this->allowUnderscore = (boolean) $flag;
 	}
 
 	/**
@@ -60,7 +60,7 @@ class xrstf_Composer52_ClassLoader {
 	/**
 	 * @return array
 	 */
-	public function ***REMOVED***() {
+	public function getFallbackDirs() {
 		return $this->fallbackDirs;
 	}
 
@@ -145,10 +145,10 @@ class xrstf_Composer52_ClassLoader {
 	/**
 	 * Turns on searching the include path for class files.
 	 *
-	 * @param bool $***REMOVED***
+	 * @param bool $useIncludePath
 	 */
-	public function ***REMOVED***($***REMOVED***) {
-		$this->***REMOVED*** = $***REMOVED***;
+	public function setUseIncludePath($useIncludePath) {
+		$this->useIncludePath = $useIncludePath;
 	}
 
 	/**
@@ -157,8 +157,8 @@ class xrstf_Composer52_ClassLoader {
 	 *
 	 * @return bool
 	 */
-	public function ***REMOVED***() {
-		return $this->***REMOVED***;
+	public function getUseIncludePath() {
+		return $this->useIncludePath;
 	}
 
 	/**
@@ -224,7 +224,7 @@ class xrstf_Composer52_ClassLoader {
 			}
 		}
 
-		if ($this->***REMOVED*** && $file = self::***REMOVED***($classPath)) {
+		if ($this->useIncludePath && $file = self::resolveIncludePath($classPath)) {
 			return $file;
 		}
 
@@ -246,7 +246,7 @@ class xrstf_Composer52_ClassLoader {
 		$className = str_replace('_', DIRECTORY_SEPARATOR, $className);
 
 		// restore the prefix
-		if ($this->***REMOVED*** && DIRECTORY_SEPARATOR === $className[0]) {
+		if ($this->allowUnderscore && DIRECTORY_SEPARATOR === $className[0]) {
 			$className[0] = '_';
 		}
 
@@ -255,7 +255,7 @@ class xrstf_Composer52_ClassLoader {
 		return $classPath;
 	}
 
-	public static function ***REMOVED***($classPath) {
+	public static function resolveIncludePath($classPath) {
 		$paths = explode(PATH_SEPARATOR, get_include_path());
 
 		foreach ($paths as $path) {

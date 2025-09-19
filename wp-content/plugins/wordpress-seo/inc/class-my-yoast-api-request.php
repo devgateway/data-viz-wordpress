@@ -48,7 +48,7 @@ class WPSEO_MyYoast_Api_Request {
 	/**
 	 * Constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $url  The request url.
 	 * @param array  $args The request arguments.
@@ -97,7 +97,7 @@ class WPSEO_MyYoast_Api_Request {
 	/**
 	 * Performs the request using WordPress internals.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $url               The request URL.
 	 * @param array  $request_arguments The request arguments.
@@ -172,7 +172,7 @@ class WPSEO_MyYoast_Api_Request {
 	/**
 	 * Retrieves the request body based on URL or access token support.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The request body.
 	 */
@@ -183,7 +183,7 @@ class WPSEO_MyYoast_Api_Request {
 	/**
 	 * Wraps the get current user id function.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return int The user id.
 	 */
@@ -194,7 +194,7 @@ class WPSEO_MyYoast_Api_Request {
 	/**
 	 * Retrieves the installed addons as http headers.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The installed addon versions.
 	 */

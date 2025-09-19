@@ -7,24 +7,24 @@
 				isDark = 127 > lum,
 				textColor = ! isDark ? 'var(--global--color-dark-gray)' : 'var(--global--color-light-gray)',
 				tableColor = ! isDark ? 'var(--global--color-light-gray)' : 'var(--global--color-dark-gray)',
-				stylesheetID = '***REMOVED***-customizer-inline-styles',
+				stylesheetID = 'twentytwentyone-customizer-inline-styles',
 				stylesheet,
 				styles;
 
 			// Modify the html & body classes depending on whether this is a dark background or not.
 			if ( isDark ) {
 				document.body.classList.add( 'is-dark-theme' );
-				document.***REMOVED***.classList.add( 'is-dark-theme' );
+				document.documentElement.classList.add( 'is-dark-theme' );
 				document.body.classList.remove( 'is-light-theme' );
-				document.***REMOVED***.classList.remove( 'is-light-theme' );
-				document.***REMOVED***.classList.remove( 'respect-color-scheme-preference' );
+				document.documentElement.classList.remove( 'is-light-theme' );
+				document.documentElement.classList.remove( 'respect-color-scheme-preference' );
 			} else {
 				document.body.classList.remove( 'is-dark-theme' );
-				document.***REMOVED***.classList.remove( 'is-dark-theme' );
+				document.documentElement.classList.remove( 'is-dark-theme' );
 				document.body.classList.add( 'is-light-theme' );
-				document.***REMOVED***.classList.add( 'is-light-theme' );
+				document.documentElement.classList.add( 'is-light-theme' );
 				if ( wp.customize( 'respect_user_color_preference' ).get() ) {
-					document.***REMOVED***.classList.add( 'respect-color-scheme-preference' );
+					document.documentElement.classList.add( 'respect-color-scheme-preference' );
 				}
 			}
 

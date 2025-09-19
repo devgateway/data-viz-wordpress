@@ -93,10 +93,10 @@ if ( defined('ACF_EXPERIMENTAL_ESC_HTML') && ACF_EXPERIMENTAL_ESC_HTML ) {
 	 */
 	
 	function _acf_kses_allowed_html( $tags, $context ) {
-		global $***REMOVED***;
+		global $allowedposttags;
 		
 		if( $context === 'acf' ) {
-			return $***REMOVED***;
+			return $allowedposttags;
 		}
 		return $tags;
 	}
@@ -121,8 +121,8 @@ if ( defined('ACF_EXPERIMENTAL_ESC_HTML') && ACF_EXPERIMENTAL_ESC_HTML ) {
 		
 		// Encode "<script" tags to invalidate DOM elements.
 		if( strpos($string, '<script') !== false ) {
-			$string = str_replace('<script', ***REMOVED***('<script'), $string);
-			$string = str_replace('</script', ***REMOVED***('</script'), $string);
+			$string = str_replace('<script', htmlspecialchars('<script'), $string);
+			$string = str_replace('</script', htmlspecialchars('</script'), $string);
 		}
 		return $string;
 	}
@@ -204,7 +204,7 @@ function acf_get_text_input( $attrs = array() ) {
 		'type' => 'text'
 	));
 	if ( isset( $attrs['value'] ) && is_string( $attrs['value'] ) ) {
-		$attrs['value'] = ***REMOVED***( $attrs['value'] );
+		$attrs['value'] = htmlspecialchars( $attrs['value'] );
 	}
 	return sprintf( '<input %s/>', acf_esc_attrs( $attrs ) );
 }

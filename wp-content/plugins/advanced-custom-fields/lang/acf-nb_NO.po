@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgid ""
 "verification."
 msgstr ""
 "ACF klarte ikke fullføre validering fordi den oppgitte noncen feilet "
-"***REMOVED***."
+"verifiseringen."
 
 #: includes/validation.php:131
 msgid ""
@@ -53,13 +53,13 @@ msgstr "Oppdater kilde"
 #: includes/admin/views/acf-post-type/advanced-settings.php:850
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:810
 msgid "By default only admin users can edit this setting."
-msgstr "Som standard kan bare ***REMOVED*** redigere denne innstillingen."
+msgstr "Som standard kan bare administratorer redigere denne innstillingen."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:848
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:808
 msgid "By default only super admin users can edit this setting."
 msgstr ""
-"Som standard kan bare ***REMOVED*** redigere denne innstillingen."
+"Som standard kan bare superadministratorer redigere denne innstillingen."
 
 #: includes/admin/views/acf-field-group/field.php:322
 msgid "Close and Add Field"
@@ -637,7 +637,7 @@ msgstr "Ikon for kaffe"
 
 #: includes/fields/class-acf-field-icon_picker.php:473
 msgid "Code Standards Icon"
-msgstr "Ikon for ***REMOVED***"
+msgstr "Ikon for kodestandarder"
 
 #: includes/fields/class-acf-field-icon_picker.php:472
 msgid "Cloud Upload Icon"
@@ -664,8 +664,8 @@ msgid "Button Icon"
 msgstr "Ikon for knapp"
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
-msgstr "Ikon for ***REMOVED***"
+msgid "Businessperson Icon"
+msgstr "Ikon for businessperson"
 
 #: includes/fields/class-acf-field-icon_picker.php:449
 msgid "Tracking Icon"
@@ -3513,11 +3513,11 @@ msgstr "Menyikon"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:778
 msgid "The position in the sidebar menu in the admin dashboard."
-msgstr "Plassering i sidemenyen i ***REMOVED***."
+msgstr "Plassering i sidemenyen i kontrollpanelet."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:777
 msgid "Menu Position"
-msgstr "***REMOVED***"
+msgstr "Menyplassering"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:759
 msgid ""
@@ -4471,7 +4471,7 @@ msgstr "Etiketter"
 
 #: includes/admin/post-types/admin-field-group.php:279
 msgid "Field Settings Tabs"
-msgstr "Faner for ***REMOVED***"
+msgstr "Faner for feltinnstillinger"
 
 #. Author URI of the plugin
 #: acf.php
@@ -4582,7 +4582,7 @@ msgid ""
 msgstr ""
 "ACF bruker <a href=\"%s\" target=\"_blank\">feltgrupper</a> for å gruppere "
 "egendefinerte felter sammen og så kobler sammen de feltene på "
-"***REMOVED***."
+"redigeringsbildene."
 
 #: includes/admin/views/acf-field-group/list-empty.php:12
 msgid "Add Your First Field Group"
@@ -4626,11 +4626,11 @@ msgstr "Opprettet %1$s kl %2$s"
 
 #: includes/acf-field-group-functions.php:497
 msgid "Group Settings"
-msgstr "***REMOVED***"
+msgstr "Gruppeinnstillinger"
 
 #: includes/acf-field-group-functions.php:495
 msgid "Location Rules"
-msgstr "***REMOVED***"
+msgstr "Lokasjonsregler"
 
 #. translators: %s url to field types list
 #: includes/admin/views/acf-field-group/fields.php:73
@@ -4804,7 +4804,7 @@ msgstr "Vise i REST API"
 
 #: includes/fields/class-acf-field-color_picker.php:156
 msgid "Enable Transparency"
-msgstr "Aktiver ***REMOVED***"
+msgstr "Aktiver gjennomsiktighet"
 
 #: includes/fields/class-acf-field-color_picker.php:175
 msgid "RGBA Array"
@@ -5019,7 +5019,7 @@ msgstr "Oversikt"
 #. translators: %s the name of the location type
 #: includes/locations.php:38
 msgid "Location type \"%s\" is already registered."
-msgstr "***REMOVED*** \"%s\" er allerede registrert."
+msgstr "Lokasjonstypen \"%s\" er allerede registrert."
 
 #. translators: %s class name for a location that could not be found
 #: includes/locations.php:26
@@ -5053,7 +5053,7 @@ msgstr "Kommentar"
 
 #: includes/locations/class-acf-location-post-format.php:22
 msgid "Post Format"
-msgstr "***REMOVED***"
+msgstr "Innleggsformat"
 
 #: includes/locations/class-acf-location-nav-menu-item.php:22
 msgid "Menu Item"
@@ -5061,7 +5061,7 @@ msgstr "Menypunkt"
 
 #: includes/locations/class-acf-location-post-status.php:22
 msgid "Post Status"
-msgstr "***REMOVED***"
+msgstr "Innleggsstatus"
 
 #: includes/acf-wp-functions.php:74
 #: includes/locations/class-acf-location-nav-menu.php:89
@@ -5070,7 +5070,7 @@ msgstr "Menyer"
 
 #: includes/locations/class-acf-location-nav-menu.php:80
 msgid "Menu Locations"
-msgstr "***REMOVED***"
+msgstr "Menylokasjoner"
 
 #: includes/locations/class-acf-location-nav-menu.php:22
 msgid "Menu"
@@ -5159,7 +5159,7 @@ msgstr "Innleggsmal"
 
 #: includes/locations/class-acf-location-post-category.php:22
 msgid "Post Category"
-msgstr "***REMOVED***"
+msgstr "Innleggskategori"
 
 #: includes/locations/class-acf-location-attachment.php:84
 msgid "All %s formats"
@@ -5246,12 +5246,12 @@ msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
 "options will be used (the one with the lowest order number)"
 msgstr ""
-"Om flere feltgrupper kommer på samme ***REMOVED***, vil den første "
+"Om flere feltgrupper kommer på samme redigeringsskjerm, vil den første "
 "gruppens innstillinger bli brukt (den med laveste rekkefølgenummer)"
 
 #: includes/admin/views/acf-field-group/options.php:195
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
-msgstr "<b>Velg</b> elementer for å <b>skjule</b> dem på ***REMOVED***."
+msgstr "<b>Velg</b> elementer for å <b>skjule</b> dem på redigeringsskjermen."
 
 #: includes/admin/views/acf-field-group/options.php:194
 msgid "Hide on screen"
@@ -5259,7 +5259,7 @@ msgstr "Skjul på skjerm"
 
 #: includes/admin/views/acf-field-group/options.php:186
 msgid "Send Trackbacks"
-msgstr "Send ***REMOVED***"
+msgstr "Send tilbakesporinger"
 
 #: includes/admin/post-types/admin-taxonomy.php:126
 #: includes/admin/views/acf-field-group/options.php:185
@@ -5275,7 +5275,7 @@ msgstr "Kategorier"
 #: includes/admin/views/acf-field-group/options.php:182
 #: includes/admin/views/acf-post-type/advanced-settings.php:28
 msgid "Page Attributes"
-msgstr "***REMOVED***"
+msgstr "Sideattributter"
 
 #: includes/admin/views/acf-field-group/options.php:181
 msgid "Format"
@@ -5320,7 +5320,7 @@ msgstr "Permalenke"
 
 #: includes/admin/views/acf-field-group/options.php:250
 msgid "Shown in field group list"
-msgstr "Vist i ***REMOVED***"
+msgstr "Vist i feltgruppeliste"
 
 #: includes/admin/views/acf-field-group/options.php:157
 msgid "Field groups with a lower order will appear first"
@@ -5344,7 +5344,7 @@ msgstr "Instruksjonsplassering"
 
 #: includes/admin/views/acf-field-group/options.php:122
 msgid "Label Placement"
-msgstr "***REMOVED***"
+msgstr "Etikettplassering"
 
 #: includes/admin/views/acf-field-group/options.php:110
 msgid "Side"
@@ -5425,7 +5425,7 @@ msgstr "Felttype"
 
 #: includes/admin/views/acf-field-group/field.php:183
 msgid "Single word, no spaces. Underscores and dashes allowed"
-msgstr "Enkelt ord, ingen mellomrom. ***REMOVED*** og bindestreker tillatt"
+msgstr "Enkelt ord, ingen mellomrom. Understrekning og bindestreker tillatt"
 
 #: includes/admin/views/acf-field-group/field.php:182
 msgid "Field Name"
@@ -5433,7 +5433,7 @@ msgstr "Feltnavn"
 
 #: includes/admin/views/acf-field-group/field.php:170
 msgid "This is the name which will appear on the EDIT page"
-msgstr "Dette er navnet som vil vises på ***REMOVED***"
+msgstr "Dette er navnet som vil vises på redigeringssiden"
 
 #: includes/admin/views/acf-field-group/field.php:169
 #: includes/admin/views/browse-fields-modal.php:69
@@ -5511,7 +5511,7 @@ msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
 msgstr ""
-"Det er sterkt anbefalt at du ***REMOVED*** databasen før du fortsetter. "
+"Det er sterkt anbefalt at du sikkerhetskopierer databasen før du fortsetter. "
 "Er du sikker på at du vil kjøre oppdateringen nå?"
 
 #: includes/admin/views/upgrade/network.php:116
@@ -5523,7 +5523,7 @@ msgstr "Vennligst velg minst ett nettsted å oppgradere."
 msgid ""
 "Database Upgrade complete. <a href=\"%s\">Return to network dashboard</a>"
 msgstr ""
-"***REMOVED*** fullført. <a href=\"%s\">Tilbake til ***REMOVED*** "
+"Databaseoppgradering fullført. <a href=\"%s\">Tilbake til kontrollpanelet "
 "for nettverket</a>"
 
 #: includes/admin/views/upgrade/network.php:79
@@ -5533,7 +5533,7 @@ msgstr "Nettstedet er oppdatert"
 #. translators: %1 current db version, %2 available db version
 #: includes/admin/views/upgrade/network.php:77
 msgid "Site requires database upgrade from %1$s to %2$s"
-msgstr "Nettstedet krever ***REMOVED*** fra %1$s til %2$s"
+msgstr "Nettstedet krever databaseoppgradering fra %1$s til %2$s"
 
 #: includes/admin/views/upgrade/network.php:34
 #: includes/admin/views/upgrade/network.php:45
@@ -5622,7 +5622,7 @@ msgstr "Feil filtype"
 
 #: includes/admin/tools/class-acf-admin-tool-import.php:158
 msgid "Error uploading file. Please try again"
-msgstr "***REMOVED***. Vennligst forsøk på nytt"
+msgstr "Filopplastingsfeil. Vennligst forsøk på nytt"
 
 #: includes/admin/tools/class-acf-admin-tool-import.php:47
 msgid ""
@@ -5782,7 +5782,7 @@ msgstr "Ingen vekslefelt er tilgjengelige"
 
 #: includes/admin/post-types/admin-field-group.php:87
 msgid "Field group title is required"
-msgstr "***REMOVED*** er obligatorisk"
+msgstr "Feltgruppetittel er obligatorisk"
 
 #: includes/admin/post-types/admin-field-group.php:86
 msgid "This field cannot be moved until its changes have been saved"
@@ -6073,7 +6073,7 @@ msgstr "Tekstområde"
 
 #: includes/fields/class-acf-field-checkbox.php:421
 msgid "Prepend an extra checkbox to toggle all choices"
-msgstr "Legg en ekstra ***REMOVED*** foran for å veksle alle valg "
+msgstr "Legg en ekstra avkryssningsboks foran for å veksle alle valg "
 
 #: includes/fields/class-acf-field-checkbox.php:383
 msgid "Save 'custom' values to the field's choices"
@@ -6135,7 +6135,7 @@ msgstr "Term-objekt"
 
 #: includes/fields/class-acf-field-taxonomy.php:662
 msgid "Load value from posts terms"
-msgstr "Last verdi fra ***REMOVED***"
+msgstr "Last verdi fra innleggstermer"
 
 #: includes/fields/class-acf-field-taxonomy.php:661
 msgid "Load Terms"
@@ -6172,7 +6172,7 @@ msgstr "Flervalg"
 #: includes/fields/class-acf-field-checkbox.php:22
 #: includes/fields/class-acf-field-taxonomy.php:694
 msgid "Checkbox"
-msgstr "***REMOVED***"
+msgstr "Avkrysningsboks"
 
 #: includes/fields/class-acf-field-taxonomy.php:693
 msgid "Multiple Values"
@@ -6531,7 +6531,7 @@ msgstr "Endepunkt"
 #: includes/admin/views/acf-field-group/options.php:130
 #: includes/fields/class-acf-field-tab.php:112
 msgid "Left aligned"
-msgstr "***REMOVED***"
+msgstr "Venstrejustert"
 
 #: includes/admin/views/acf-field-group/options.php:129
 #: includes/fields/class-acf-field-tab.php:111
@@ -6582,7 +6582,7 @@ msgstr "Trinnstørrelse"
 #: includes/fields/class-acf-field-number.php:143
 #: includes/fields/class-acf-field-range.php:184
 msgid "Maximum Value"
-msgstr "***REMOVED***"
+msgstr "Maksimumsverdi"
 
 #: includes/fields/class-acf-field-number.php:133
 #: includes/fields/class-acf-field-range.php:173
@@ -6681,12 +6681,12 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "TinyMCE vil ikke bli initialisert før dette feltet er klikket"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
-msgstr "Forsinke ***REMOVED***"
+msgid "Delay Initialization"
+msgstr "Forsinke initialisering"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
 msgid "Show Media Upload Buttons"
-msgstr "Vis ***REMOVED*** for mediefiler"
+msgstr "Vis opplastingsknapper for mediefiler"
 
 #: includes/fields/class-acf-field-wysiwyg.php:339
 msgid "Toolbar"
@@ -6735,7 +6735,7 @@ msgstr "La være tom for ingen begrensning"
 #: includes/fields/class-acf-field-text.php:115
 #: includes/fields/class-acf-field-textarea.php:113
 msgid "Character Limit"
-msgstr "***REMOVED***"
+msgstr "Tegnbegrensing"
 
 #: includes/fields/class-acf-field-email.php:144
 #: includes/fields/class-acf-field-number.php:194
@@ -6818,7 +6818,7 @@ msgstr "Innleggs-ID"
 #: includes/fields/class-acf-field-post_object.php:401
 #: includes/fields/class-acf-field-relationship.php:615
 msgid "Post Object"
-msgstr "***REMOVED***"
+msgstr "Innleggsobjekt"
 
 #: includes/fields/class-acf-field-relationship.php:648
 msgid "Maximum Posts"
@@ -7089,7 +7089,7 @@ msgstr "Formatet som er brukt ved lagring av verdi"
 
 #: includes/fields/class-acf-field-date_picker.php:189
 msgid "Save Format"
-msgstr "***REMOVED***"
+msgstr "Lagringsformat"
 
 #: includes/fields/class-acf-field-date_picker.php:61
 msgctxt "Date Picker JS weekHeader"
@@ -7178,7 +7178,7 @@ msgstr "Standardverdi"
 
 #: includes/fields/class-acf-field-true_false.php:126
 msgid "Displays text alongside the checkbox"
-msgstr "Viser tekst ved siden av ***REMOVED***"
+msgstr "Viser tekst ved siden av avkrysingsboksen"
 
 #: includes/fields/class-acf-field-message.php:23
 #: includes/fields/class-acf-field-message.php:87
@@ -7284,7 +7284,7 @@ msgstr "Søk"
 
 #: includes/fields/class-acf-field-google-map.php:57
 msgid "Sorry, this browser does not support geolocation"
-msgstr "Beklager, denne nettleseren støtter ikke ***REMOVED***"
+msgstr "Beklager, denne nettleseren støtter ikke geolokalisering"
 
 #: includes/fields/class-acf-field-google-map.php:22
 msgid "Google Map"
@@ -7431,8 +7431,8 @@ msgstr "Tilpass WordPress med kraftfulle, profesjonelle og intuitive felt"
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93
@@ -7535,7 +7535,7 @@ msgstr ""
 
 #: pro/admin/admin-updates.php:52
 msgid "<b>Error</b>. Could not connect to update server"
-msgstr "<b>Feil</b>. Kan ikke koble til ***REMOVED***"
+msgstr "<b>Feil</b>. Kan ikke koble til oppdateringsserveren"
 
 #: pro/admin/admin-updates.php:212
 msgid ""
@@ -7763,7 +7763,7 @@ msgstr "Legg til galleri"
 
 #: pro/fields/class-acf-field-gallery.php:508
 msgid "Bulk actions"
-msgstr "***REMOVED***"
+msgstr "Massehandlinger"
 
 #: pro/fields/class-acf-field-gallery.php:509
 msgid "Sort by date uploaded"
@@ -7944,7 +7944,7 @@ msgstr "Aktiver lisens"
 
 #: pro/admin/views/html-settings-updates.php:16
 msgid "License Information"
-msgstr "***REMOVED***"
+msgstr "Lisensinformasjon"
 
 #: pro/admin/views/html-settings-updates.php:34
 msgid ""
@@ -7986,7 +7986,7 @@ msgstr "Oppdatering tilgjengelig"
 
 #: pro/admin/views/html-settings-updates.php:98
 msgid "Upgrade Notice"
-msgstr "***REMOVED***"
+msgstr "Oppgraderingsvarsel"
 
 #: pro/admin/views/html-settings-updates.php:126
 msgid "Check For Updates"

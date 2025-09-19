@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 /**
  * Class WPSEO_Frontend
  *
- * @***REMOVED*** Because of deprecation.
+ * @codeCoverageIgnore Because of deprecation.
  */
 class WPSEO_Frontend {
 

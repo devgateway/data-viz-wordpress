@@ -14,11 +14,11 @@
  */
 function twentytwentytwo_register_block_patterns() {
 	$block_pattern_categories = array(
-		'featured'              => array( 'label' => __( 'Featured', '***REMOVED***' ) ),
-		'footer'                => array( 'label' => __( 'Footers', '***REMOVED***' ) ),
-		'header'                => array( 'label' => __( 'Headers', '***REMOVED***' ) ),
-		'query'                 => array( 'label' => __( 'Query', '***REMOVED***' ) ),
-		'twentytwentytwo_pages' => array( 'label' => __( 'Pages', '***REMOVED***' ) ),
+		'featured'              => array( 'label' => __( 'Featured', 'twentytwentytwo' ) ),
+		'footer'                => array( 'label' => __( 'Footers', 'twentytwentytwo' ) ),
+		'header'                => array( 'label' => __( 'Headers', 'twentytwentytwo' ) ),
+		'query'                 => array( 'label' => __( 'Query', 'twentytwentytwo' ) ),
+		'twentytwentytwo_pages' => array( 'label' => __( 'Pages', 'twentytwentytwo' ) ),
 	);
 
 	/**
@@ -127,7 +127,7 @@ function twentytwentytwo_register_block_patterns() {
 		$pattern_file = get_theme_file_path( '/inc/patterns/' . $block_pattern . '.php' );
 
 		register_block_pattern(
-			'***REMOVED***/' . $block_pattern,
+			'twentytwentytwo/' . $block_pattern,
 			require $pattern_file
 		);
 	}

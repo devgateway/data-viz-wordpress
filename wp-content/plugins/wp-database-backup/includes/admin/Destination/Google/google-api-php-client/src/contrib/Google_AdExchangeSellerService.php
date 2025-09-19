@@ -79,7 +79,7 @@
      * @param string $adClientId Ad client for which to list ad units.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param bool ***REMOVED*** Whether to include inactive ad units. Default: true.
+     * @opt_param bool includeInactive Whether to include inactive ad units. Default: true.
      * @opt_param string maxResults The maximum number of ad units to include in the response, used for paging.
      * @opt_param string pageToken A continuation token, used to page through ad units. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @return Google_AdUnits
@@ -97,17 +97,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "customchannels" collection of methods.
    * Typical usage is:
    *  <code>
    *   $adexchangesellerService = new Google_AdExchangeSellerService(...);
-   *   $***REMOVED*** = $adexchangesellerService->***REMOVED***;
+   *   $customchannels = $adexchangesellerService->customchannels;
    *  </code>
    */
   class Google_AdunitsCustomchannelsServiceResource extends Google_ServiceResource {
 
     /**
-     * List all custom channels which the specified ad unit belongs to. (***REMOVED***.list)
+     * List all custom channels which the specified ad unit belongs to. (customchannels.list)
      *
      * @param string $adClientId Ad client which contains the ad unit.
      * @param string $adUnitId Ad unit for which to list custom channels.
@@ -130,25 +130,25 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "customchannels" collection of methods.
    * Typical usage is:
    *  <code>
    *   $adexchangesellerService = new Google_AdExchangeSellerService(...);
-   *   $***REMOVED*** = $adexchangesellerService->***REMOVED***;
+   *   $customchannels = $adexchangesellerService->customchannels;
    *  </code>
    */
   class Google_CustomchannelsServiceResource extends Google_ServiceResource {
 
     /**
-     * Get the specified custom channel from the specified ad client. (***REMOVED***.get)
+     * Get the specified custom channel from the specified ad client. (customchannels.get)
      *
      * @param string $adClientId Ad client which contains the custom channel.
-     * @param string $***REMOVED*** Custom channel to retrieve.
+     * @param string $customChannelId Custom channel to retrieve.
      * @param array $optParams Optional parameters.
      * @return Google_CustomChannel
      */
-    public function get($adClientId, $***REMOVED***, $optParams = array()) {
-      $params = array('adClientId' => $adClientId, '***REMOVED***' => $***REMOVED***);
+    public function get($adClientId, $customChannelId, $optParams = array()) {
+      $params = array('adClientId' => $adClientId, 'customChannelId' => $customChannelId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
@@ -159,7 +159,7 @@
     }
     /**
      * List all custom channels in the specified ad client for this Ad Exchange account.
-     * (***REMOVED***.list)
+     * (customchannels.list)
      *
      * @param string $adClientId Ad client for which to list custom channels.
      * @param array $optParams Optional parameters.
@@ -168,7 +168,7 @@
      * @opt_param string pageToken A continuation token, used to page through custom channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @return Google_CustomChannels
      */
-    public function ***REMOVED***($adClientId, $optParams = array()) {
+    public function listCustomchannels($adClientId, $optParams = array()) {
       $params = array('adClientId' => $adClientId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -194,16 +194,16 @@
      * List all ad units in the specified custom channel. (adunits.list)
      *
      * @param string $adClientId Ad client which contains the custom channel.
-     * @param string $***REMOVED*** Custom channel for which to list ad units.
+     * @param string $customChannelId Custom channel for which to list ad units.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param bool ***REMOVED*** Whether to include inactive ad units. Default: true.
+     * @opt_param bool includeInactive Whether to include inactive ad units. Default: true.
      * @opt_param string maxResults The maximum number of ad units to include in the response, used for paging.
      * @opt_param string pageToken A continuation token, used to page through ad units. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @return Google_AdUnits
      */
-    public function listCustomchannelsAdunits($adClientId, $***REMOVED***, $optParams = array()) {
-      $params = array('adClientId' => $adClientId, '***REMOVED***' => $***REMOVED***);
+    public function listCustomchannelsAdunits($adClientId, $customChannelId, $optParams = array()) {
+      $params = array('adClientId' => $adClientId, 'customChannelId' => $customChannelId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
@@ -295,7 +295,7 @@
      * @opt_param string pageToken A continuation token, used to page through saved reports. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @return Google_SavedReports
      */
-    public function ***REMOVED***($optParams = array()) {
+    public function listReportsSaved($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -327,7 +327,7 @@
      * @opt_param string pageToken A continuation token, used to page through URL channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @return Google_UrlChannels
      */
-    public function ***REMOVED***($adClientId, $optParams = array()) {
+    public function listUrlchannels($adClientId, $optParams = array()) {
       $params = array('adClientId' => $adClientId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -357,30 +357,30 @@ class Google_AdExchangeSellerService extends Google_Service {
   public $adclients;
   public $adunits;
   public $adunits_customchannels;
-  public $***REMOVED***;
+  public $customchannels;
   public $customchannels_adunits;
   public $reports;
   public $reports_saved;
   public $urlchannels;
   /**
-   * Constructs the internal ***REMOVED*** of the ***REMOVED*** service.
+   * Constructs the internal representation of the AdExchangeSeller service.
    *
    * @param Google_Client $client
    */
   public function __construct(Google_Client $client) {
-    $this->servicePath = '***REMOVED***/v1/';
+    $this->servicePath = 'adexchangeseller/v1/';
     $this->version = 'v1';
-    $this->serviceName = '***REMOVED***';
+    $this->serviceName = 'adexchangeseller';
 
     $client->addService($this->serviceName, $this->version);
-    $this->adclients = new Google_AdclientsServiceResource($this, $this->serviceName, 'adclients', json_decode('{"methods": {"list": {"id": "***REMOVED***.adclients.list", "path": "adclients", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "AdClients"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
-    $this->adunits = new Google_AdunitsServiceResource($this, $this->serviceName, 'adunits', json_decode('{"methods": {"get": {"id": "***REMOVED***.adunits.get", "path": "adclients/{adClientId}/adunits/{adUnitId}", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "adUnitId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "AdUnit"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}, "list": {"id": "***REMOVED***.adunits.list", "path": "adclients/{adClientId}/adunits", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "boolean", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "AdUnits"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
-    $this->adunits_customchannels = new Google_AdunitsCustomchannelsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"list": {"id": "***REMOVED***.adunits.***REMOVED***.list", "path": "adclients/{adClientId}/adunits/{adUnitId}/***REMOVED***", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "adUnitId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_CustomchannelsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "***REMOVED***.***REMOVED***.get", "path": "adclients/{adClientId}/***REMOVED***/{***REMOVED***}", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CustomChannel"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}, "list": {"id": "***REMOVED***.***REMOVED***.list", "path": "adclients/{adClientId}/***REMOVED***", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
-    $this->customchannels_adunits = new Google_CustomchannelsAdunitsServiceResource($this, $this->serviceName, 'adunits', json_decode('{"methods": {"list": {"id": "***REMOVED***.***REMOVED***.adunits.list", "path": "adclients/{adClientId}/***REMOVED***/{***REMOVED***}/adunits", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "boolean", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "AdUnits"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
-    $this->reports = new Google_ReportsServiceResource($this, $this->serviceName, 'reports', json_decode('{"methods": {"generate": {"id": "***REMOVED***.reports.generate", "path": "reports", "httpMethod": "GET", "parameters": {"dimension": {"type": "string", "repeated": true, "location": "query"}, "endDate": {"type": "string", "required": true, "location": "query"}, "filter": {"type": "string", "repeated": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "50000", "location": "query"}, "metric": {"type": "string", "repeated": true, "location": "query"}, "sort": {"type": "string", "repeated": true, "location": "query"}, "startDate": {"type": "string", "required": true, "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "5000", "location": "query"}}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"], "supportsMediaDownload": true}}}', true));
-    $this->reports_saved = new Google_ReportsSavedServiceResource($this, $this->serviceName, 'saved', json_decode('{"methods": {"generate": {"id": "***REMOVED***.reports.saved.generate", "path": "reports/{savedReportId}", "httpMethod": "GET", "parameters": {"locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "50000", "location": "query"}, "savedReportId": {"type": "string", "required": true, "location": "path"}, "startIndex": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "5000", "location": "query"}}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}, "list": {"id": "***REMOVED***.reports.saved.list", "path": "reports/saved", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "SavedReports"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
-    $this->urlchannels = new Google_UrlchannelsServiceResource($this, $this->serviceName, 'urlchannels', json_decode('{"methods": {"list": {"id": "***REMOVED***.urlchannels.list", "path": "adclients/{adClientId}/urlchannels", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "UrlChannels"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
+    $this->adclients = new Google_AdclientsServiceResource($this, $this->serviceName, 'adclients', json_decode('{"methods": {"list": {"id": "adexchangeseller.adclients.list", "path": "adclients", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "AdClients"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
+    $this->adunits = new Google_AdunitsServiceResource($this, $this->serviceName, 'adunits', json_decode('{"methods": {"get": {"id": "adexchangeseller.adunits.get", "path": "adclients/{adClientId}/adunits/{adUnitId}", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "adUnitId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "AdUnit"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}, "list": {"id": "adexchangeseller.adunits.list", "path": "adclients/{adClientId}/adunits", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "includeInactive": {"type": "boolean", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "AdUnits"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
+    $this->adunits_customchannels = new Google_AdunitsCustomchannelsServiceResource($this, $this->serviceName, 'customchannels', json_decode('{"methods": {"list": {"id": "adexchangeseller.adunits.customchannels.list", "path": "adclients/{adClientId}/adunits/{adUnitId}/customchannels", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "adUnitId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "CustomChannels"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
+    $this->customchannels = new Google_CustomchannelsServiceResource($this, $this->serviceName, 'customchannels', json_decode('{"methods": {"get": {"id": "adexchangeseller.customchannels.get", "path": "adclients/{adClientId}/customchannels/{customChannelId}", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "customChannelId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CustomChannel"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}, "list": {"id": "adexchangeseller.customchannels.list", "path": "adclients/{adClientId}/customchannels", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "CustomChannels"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
+    $this->customchannels_adunits = new Google_CustomchannelsAdunitsServiceResource($this, $this->serviceName, 'adunits', json_decode('{"methods": {"list": {"id": "adexchangeseller.customchannels.adunits.list", "path": "adclients/{adClientId}/customchannels/{customChannelId}/adunits", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "customChannelId": {"type": "string", "required": true, "location": "path"}, "includeInactive": {"type": "boolean", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "AdUnits"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
+    $this->reports = new Google_ReportsServiceResource($this, $this->serviceName, 'reports', json_decode('{"methods": {"generate": {"id": "adexchangeseller.reports.generate", "path": "reports", "httpMethod": "GET", "parameters": {"dimension": {"type": "string", "repeated": true, "location": "query"}, "endDate": {"type": "string", "required": true, "location": "query"}, "filter": {"type": "string", "repeated": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "50000", "location": "query"}, "metric": {"type": "string", "repeated": true, "location": "query"}, "sort": {"type": "string", "repeated": true, "location": "query"}, "startDate": {"type": "string", "required": true, "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "5000", "location": "query"}}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"], "supportsMediaDownload": true}}}', true));
+    $this->reports_saved = new Google_ReportsSavedServiceResource($this, $this->serviceName, 'saved', json_decode('{"methods": {"generate": {"id": "adexchangeseller.reports.saved.generate", "path": "reports/{savedReportId}", "httpMethod": "GET", "parameters": {"locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "50000", "location": "query"}, "savedReportId": {"type": "string", "required": true, "location": "path"}, "startIndex": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "5000", "location": "query"}}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}, "list": {"id": "adexchangeseller.reports.saved.list", "path": "reports/saved", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "SavedReports"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
+    $this->urlchannels = new Google_UrlchannelsServiceResource($this, $this->serviceName, 'urlchannels', json_decode('{"methods": {"list": {"id": "adexchangeseller.urlchannels.list", "path": "adclients/{adClientId}/urlchannels", "httpMethod": "GET", "parameters": {"adClientId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "10000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "UrlChannels"}, "scopes": ["https://www.googleapis.com/auth/adexchange.seller", "https://www.googleapis.com/auth/adexchange.seller.readonly"]}}}', true));
 
   }
 }
@@ -392,7 +392,7 @@ class Google_AdClient extends Google_Model {
   public $id;
   public $kind;
   public $productCode;
-  public $***REMOVED***;
+  public $supportsReporting;
   public function setArcOptIn( $arcOptIn) {
     $this->arcOptIn = $arcOptIn;
   }
@@ -411,17 +411,17 @@ class Google_AdClient extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $productCode) {
+  public function setProductCode( $productCode) {
     $this->productCode = $productCode;
   }
-  public function ***REMOVED***() {
+  public function getProductCode() {
     return $this->productCode;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSupportsReporting( $supportsReporting) {
+    $this->supportsReporting = $supportsReporting;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSupportsReporting() {
+    return $this->supportsReporting;
   }
 }
 
@@ -451,10 +451,10 @@ class Google_AdClients extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -523,10 +523,10 @@ class Google_AdUnits extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -563,10 +563,10 @@ class Google_CustomChannel extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***(Google_CustomChannelTargetingInfo $targetingInfo) {
+  public function setTargetingInfo(Google_CustomChannelTargetingInfo $targetingInfo) {
     $this->targetingInfo = $targetingInfo;
   }
-  public function ***REMOVED***() {
+  public function getTargetingInfo() {
     return $this->targetingInfo;
   }
 }
@@ -576,16 +576,16 @@ class Google_CustomChannelTargetingInfo extends Google_Model {
   public $description;
   public $location;
   public $siteLanguage;
-  public function ***REMOVED***( $adsAppearOn) {
+  public function setAdsAppearOn( $adsAppearOn) {
     $this->adsAppearOn = $adsAppearOn;
   }
-  public function ***REMOVED***() {
+  public function getAdsAppearOn() {
     return $this->adsAppearOn;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setLocation( $location) {
@@ -594,10 +594,10 @@ class Google_CustomChannelTargetingInfo extends Google_Model {
   public function getLocation() {
     return $this->location;
   }
-  public function ***REMOVED***( $siteLanguage) {
+  public function setSiteLanguage( $siteLanguage) {
     $this->siteLanguage = $siteLanguage;
   }
-  public function ***REMOVED***() {
+  public function getSiteLanguage() {
     return $this->siteLanguage;
   }
 }
@@ -628,10 +628,10 @@ class Google_CustomChannels extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -643,7 +643,7 @@ class Google_Report extends Google_Model {
   public $headers;
   public $kind;
   public $rows;
-  public $***REMOVED***;
+  public $totalMatchedRows;
   public $totals;
   public $warnings;
   public function setAverages(/* array(Google_string) */ $averages) {
@@ -673,11 +673,11 @@ class Google_Report extends Google_Model {
   public function getRows() {
     return $this->rows;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalMatchedRows( $totalMatchedRows) {
+    $this->totalMatchedRows = $totalMatchedRows;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTotalMatchedRows() {
+    return $this->totalMatchedRows;
   }
   public function setTotals(/* array(Google_string) */ $totals) {
     $this->assertIsArray($totals, 'Google_string', __METHOD__);
@@ -769,10 +769,10 @@ class Google_SavedReports extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -827,10 +827,10 @@ class Google_UrlChannels extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }

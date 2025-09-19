@@ -22,7 +22,7 @@ if ( ! class_exists( 'acf_field_text' ) ) :
 			$this->label         = __( 'Text', 'acf' );
 			$this->description   = __( 'A basic text input, useful for storing single string values.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-text.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/text/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/text/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'default_value' => '',
 				'maxlength'     => '',
@@ -74,7 +74,7 @@ if ( ! class_exists( 'acf_field_text' ) ) :
 			$html .= '<div class="acf-input-wrap">' . acf_get_text_input( acf_filter_attrs( $input_attrs ) ) . '</div>';
 
 			// Display.
-			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- only safe HTML output generated and escaped by functions above.
+			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- only safe HTML output generated and escaped by functions above.
 		}
 
 

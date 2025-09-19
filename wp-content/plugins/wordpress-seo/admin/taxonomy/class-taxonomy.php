@@ -104,7 +104,7 @@ class WPSEO_Taxonomy {
 	private function show_internet_explorer_notice() {
 		$product_title = YoastSEO()->helpers->product->get_product_name();
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $product_title is hardcoded.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
 		echo '<div class="inside">';
 
@@ -116,7 +116,7 @@ class WPSEO_Taxonomy {
 			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
 			'</a>'
 		);
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped above.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 		echo new Alert_Presenter( $content );
 
 		echo '</div></div>';
@@ -155,11 +155,11 @@ class WPSEO_Taxonomy {
 
 			/**
 			 * Remove the emoji script as it is incompatible with both React and any
-			 * ***REMOVED*** fields.
+			 * contenteditable fields.
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-			$asset_manager->localize_script( 'term-edit', '***REMOVED***', WPSEO_Utils::get_admin_l10n() );
+			$asset_manager->localize_script( 'term-edit', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 			$script_data = [
 				'analysis'              => [
@@ -185,7 +185,7 @@ class WPSEO_Taxonomy {
 				'isTerm'                => true,
 				'postId'                => $tag_id,
 				'termType'              => $this->get_taxonomy(),
-				'***REMOVED***'     => wp_create_nonce( 'wpseo-keyword-usage' ),
+				'usedKeywordsNonce'     => wp_create_nonce( 'wpseo-keyword-usage' ),
 			];
 
 			/**
@@ -198,7 +198,7 @@ class WPSEO_Taxonomy {
 			$term_information->set_term( get_term_by( 'id', $tag_id, $this::get_taxonomy() ) );
 			$script_data = array_merge_recursive( $term_information->get_legacy_site_information(), $script_data );
 
-			$asset_manager->localize_script( 'term-edit', '***REMOVED***', $script_data );
+			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();
 		}
 
@@ -226,9 +226,9 @@ class WPSEO_Taxonomy {
 		/* Create post array with only our values. */
 		$new_meta_data = [];
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce is already checked by WordPress before executing this action.
 			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
-				// phpcs:ignore WordPress.Security.***REMOVED***.Missing,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: $data is getting sanitized later.
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $data is getting sanitized later.
 				$data                  = wp_unslash( $_POST[ $key ] );
 				$new_meta_data[ $key ] = ( $key !== 'wpseo_canonical' ) ? WPSEO_Utils::sanitize_text_field( $data ) : WPSEO_Utils::sanitize_url( $data );
 			}
@@ -391,9 +391,9 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	private static function get_taxonomy() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['taxonomy'] ) && is_string( $_GET['taxonomy'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) );
 		}
 		return '';
@@ -405,9 +405,9 @@ class WPSEO_Taxonomy {
 	 * @return int|null the tag ID if it exists, null otherwise.
 	 */
 	private static function get_tag_id() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['tag_ID'] ) && is_string( $_GET['tag_ID'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, We are casting to an integer.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are casting to an integer.
 			$tag_id = (int) wp_unslash( $_GET['tag_ID'] );
 			if ( $tag_id > 0 ) {
 				return $tag_id;

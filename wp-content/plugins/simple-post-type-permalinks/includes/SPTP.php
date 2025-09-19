@@ -2,9 +2,9 @@
 
 namespace SPTP;
 
-require SPTP_PATH . '/includes/***REMOVED***.php';
+require SPTP_PATH . '/includes/Psr4AutoloaderClass.php';
 
-$loader = new ***REMOVED***;
+$loader = new Psr4AutoloaderClass;
 $loader->register();
 $loader->addNamespace( 'SPTP', SPTP_PATH . '/includes' );
 

@@ -884,7 +884,7 @@ function acf_get_field_group_style( $field_group ) {
 		'the_content'		=> '#postdivrich',
 		'excerpt'			=> '#postexcerpt',
 		'custom_fields'		=> '#postcustom',
-		'discussion'		=> '#***REMOVED***',
+		'discussion'		=> '#commentstatusdiv',
 		'comments'			=> '#commentsdiv',
 		'slug'				=> '#slugdiv',
 		'author'			=> '#authordiv',

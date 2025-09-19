@@ -3,23 +3,23 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Stream that when read returns bytes for a streaming multipart or
  * multipart/form-data stream.
  */
-final class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class MultipartStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
-    use ***REMOVED***;
+    use StreamDecoratorTrait;
     /** @var string */
     private $boundary;
-    /** @var ***REMOVED*** */
+    /** @var StreamInterface */
     private $stream;
     /**
      * @param array  $elements Array of associative arrays, each containing a
      *                         required "name" key mapping to the form field,
      *                         name, a required "contents" key mapping to a
-     *                         ***REMOVED***/resource/string, an optional
+     *                         StreamInterface/resource/string, an optional
      *                         "headers" associative array of custom headers,
      *                         and an optional "filename" key mapping to a
      *                         string to send as the filename in the part.
@@ -56,7 +56,7 @@ final class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVE
     /**
      * Create the aggregate stream that will be used to upload the POST data
      */
-    protected function createStream(array $elements = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    protected function createStream(array $elements = []) : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
     {
         $stream = new \YoastSEO_Vendor\GuzzleHttp\Psr7\AppendStream();
         foreach ($elements as $element) {
@@ -91,9 +91,9 @@ final class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVE
     /**
      * @param string[] $headers
      *
-     * @return array{0: ***REMOVED***, 1: string[]}
+     * @return array{0: StreamInterface, 1: string[]}
      */
-    private function createElement(string $name, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, ?string $filename, array $headers) : array
+    private function createElement(string $name, \YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, ?string $filename, array $headers) : array
     {
         // Set a default content-disposition header if one was no provided
         $disposition = self::getHeader($headers, 'content-disposition');
@@ -119,9 +119,9 @@ final class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVE
      */
     private static function getHeader(array $headers, string $key) : ?string
     {
-        $***REMOVED*** = \strtolower($key);
+        $lowercaseHeader = \strtolower($key);
         foreach ($headers as $k => $v) {
-            if (\strtolower((string) $k) === $***REMOVED***) {
+            if (\strtolower((string) $k) === $lowercaseHeader) {
                 return $v;
             }
         }

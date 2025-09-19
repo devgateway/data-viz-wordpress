@@ -106,7 +106,7 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	}
 
 	/**
-	 * String ***REMOVED*** of object.
+	 * String representation of object.
 	 *
 	 * {@internal This magic method is only "magic" as of PHP 7.4 in which the magic method was introduced.}
 	 *
@@ -117,7 +117,7 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	 *
 	 * @return array The data to be serialized.
 	 */
-	public function __serialize() { // phpcs:ignore ***REMOVED***.FunctionNameRestrictions.***REMOVED***.__serializeFound
+	public function __serialize() { // phpcs:ignore PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__serializeFound
 
 		$data = [
 			'status' => $this->status,
@@ -141,14 +141,14 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	 *
 	 * @return void
 	 */
-	public function __unserialize( $data ) { // phpcs:ignore ***REMOVED***.FunctionNameRestrictions.***REMOVED***.__unserializeFound
+	public function __unserialize( $data ) { // phpcs:ignore PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__unserializeFound
 
 		$this->set_sitemap( $data['xml'] );
 		$this->set_status( $data['status'] );
 	}
 
 	/**
-	 * String ***REMOVED*** of object.
+	 * String representation of object.
 	 *
 	 * {@internal The magic methods take precedence over the Serializable interface.
 	 * This means that in practice, this method will now only be called on PHP < 7.4.
@@ -164,7 +164,7 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	 *
 	 * @since 5.1.0
 	 *
-	 * @return string The string ***REMOVED*** of the object or null in C-format.
+	 * @return string The string representation of the object or null in C-format.
 	 */
 	public function serialize() {
 
@@ -188,7 +188,7 @@ class WPSEO_Sitemap_Cache_Data implements Serializable, WPSEO_Sitemap_Cache_Data
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param string $data The string ***REMOVED*** of the object in C or O-format.
+	 * @param string $data The string representation of the object in C or O-format.
 	 *
 	 * @return void
 	 */

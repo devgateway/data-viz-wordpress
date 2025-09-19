@@ -9,7 +9,7 @@ use WPSEO_Primary_Term;
 use Yoast\WP\SEO\Conditionals\Primary_Category_Conditional;
 
 /**
- * Adds ***REMOVED*** to the front end for the primary category.
+ * Adds customizations to the front end for the primary category.
  */
 class Primary_Category implements Integration_Interface {
 
@@ -59,7 +59,7 @@ class Primary_Category implements Integration_Interface {
 	/**
 	 * Get the id of the primary category.
 	 *
-	 * @***REMOVED*** It justs wraps a dependency.
+	 * @codeCoverageIgnore It justs wraps a dependency.
 	 *
 	 * @param WP_Post $post The post in question.
 	 *

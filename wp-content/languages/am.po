@@ -761,7 +761,7 @@ msgstr "የጥያቄ ምልልስ"
 
 #: wp-includes/blocks/query/block.json
 msgctxt "block description"
-msgid "An advanced block that allows displaying post types based on different query parameters and visual ***REMOVED***."
+msgid "An advanced block that allows displaying post types based on different query parameters and visual configurations."
 msgstr "በተለያዩ የጥያቄ መለኪያዎች እና የእይታ ውቅሮች ላይ በመመስረት የልጥፍ ዓይነቶችን ለማሳየት የሚያስችል የላቀ ብሎክ።"
 
 #: wp-includes/blocks/quote/block.json
@@ -1981,7 +1981,7 @@ msgid "Please enter your username or email address. You will receive an email me
 msgstr "እባክዎ የተጠቃሚ ስምዎን ወይም የኢሜይል አድራሻዎን ያስገቡ ። የይለፍ ቃልዎን እንዴት መቀየር እንደሚቻል መመሪያዎችን የያዘ የኢሜይል መልዕክት ይቀበላሉ ።"
 
 #: wp-login.php:641
-msgid "Please verify that the <strong>***REMOVED*** email</strong> for this website is still correct."
+msgid "Please verify that the <strong>administration email</strong> for this website is still correct."
 msgstr "እባክዎ ይህን ያረጋግጡ <strong>አስተዳደር ኢሜይል</strong>  ለዚህ ድረ ገጽ አሁንም ትክክል መሆኑ።"
 
 #: wp-includes/widgets/class-wp-widget-links.php:161
@@ -2160,15 +2160,15 @@ msgstr "የተጠቃሚው ዩአርኤል።"
 
 #. translators: %s: Admin email address.
 #: wp-login.php:664
-msgid "Current ***REMOVED*** email: %s"
+msgid "Current administration email: %s"
 msgstr "የአሁን አስተዳደር ኢሜይል ፥ %s"
 
 #: wp-login.php:638
-msgid "***REMOVED*** email verification"
+msgid "Administration email verification"
 msgstr "የአስተዳደር ኢሜይል ማረጋገጫ"
 
 #: wp-login.php:609
-msgid "Confirm your ***REMOVED*** email"
+msgid "Confirm your administration email"
 msgstr "የአስተዳደር ኢሜይልዎን ያረጋግጡ"
 
 #: wp-signup.php:848
@@ -2911,7 +2911,7 @@ msgstr "ሜታ"
 
 #. translators: %s: Site address.
 #: wp-signup.php:831
-msgid "***REMOVED***! Your new site, %s, is almost ready."
+msgid "Congratulations! Your new site, %s, is almost ready."
 msgstr "እንኳን ደስ አለዎት! አድሱ ጣቢያዎ %s ዝግጁ ሊሆን ትንሽ ቀርቶታል።"
 
 #: wp-includes/widgets/class-wp-widget-archives.php:225
@@ -6143,11 +6143,11 @@ msgid "The sidebar the widget belongs to."
 msgstr "የጎን አሞሌው ልፋቱ የ.... ነው ። "
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-widgets-controller.php:823
-msgid "HTML ***REMOVED*** of the widget."
+msgid "HTML representation of the widget."
 msgstr "ኤችቲኤምኤል ለጠገብ ውክልና ። "
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-widgets-controller.php:829
-msgid "HTML ***REMOVED*** of the widget admin form."
+msgid "HTML representation of the widget admin form."
 msgstr "Html ውክልናው የስፋቱ አስተዳዳሪ ቅጽ ። "
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-widgets-controller.php:835
@@ -6155,7 +6155,7 @@ msgid "Instance settings of the widget, if supported."
 msgstr "ከተደገፉ ፣ የማስፋቱ አብነት ቅንጅቶች ። "
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-widgets-controller.php:841
-msgid "Base64 encoded ***REMOVED*** of the instance settings."
+msgid "Base64 encoded representation of the instance settings."
 msgstr "መሰረት64 የ አብነት ቅንጅቶች የተከተተ ውክልና ። "
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-widgets-controller.php:846
@@ -10247,7 +10247,7 @@ msgstr "አስተያየቶች የሉም "
 msgid "Enter your password to view comments."
 msgstr "አስተያየቶችን ለማየት የይለፍ ቃልዎን ያስገቡ። "
 
-#. translators: User role for ***REMOVED***.
+#. translators: User role for administrators.
 #: wp-includes/capabilities.php:1082
 msgctxt "User role"
 msgid "Administrator"
@@ -14170,7 +14170,7 @@ msgstr "የቆዩ ፖስቶች"
 
 #. translators: 1: Script name, 2: wp_enqueue_scripts
 #: wp-includes/functions.wp-scripts.php:311
-msgid "Do not deregister the %1$s script in the ***REMOVED*** area. To target the front-end theme, use the %2$s hook."
+msgid "Do not deregister the %1$s script in the administration area. To target the front-end theme, use the %2$s hook."
 msgstr "አስተዳዳሪ ክልል ውስጥ %1$s ስክሪፕት አትመዝግብ። የገጽታውን ዋና ግንባር ለመድረስ %2$s ማያያዢያ ተጠቀም።"
 
 #. translators: New user notification email. 1: User login, 2: User IP address,
@@ -15251,7 +15251,7 @@ msgid "You must supply a future date to schedule."
 msgstr "የወደፊት ቀን በፕሮግራምህ መሠረት ማቅረብ አለብህ ።"
 
 #: wp-includes/class-wp-customize-manager.php:3140
-msgid "There was an ***REMOVED*** problem. Please reload and try again."
+msgid "There was an authentication problem. Please reload and try again."
 msgstr "የማረጋገጫ ችግር ነበር ። እባክዎ እንደገና ይጫኑ እና እንደገና ይሞክሩ ።"
 
 #: wp-includes/class-wp-customize-manager.php:3150
@@ -17373,10 +17373,10 @@ msgstr "ዘመናዊ"
 msgid "Block pattern category \"%s\" not found."
 msgstr "የ\"%s\" ምድብ አግድ አልተገኘም።"
 
-#. translators: Documentation about ***REMOVED***.
+#. translators: Documentation about troubleshooting.
 #: wp-includes/class-wp-fatal-error-handler.php:196
-msgid "https://wordpress.org/support/article/faq-***REMOVED***/"
-msgstr "https://wordpress.org/support/article/faq-***REMOVED***/"
+msgid "https://wordpress.org/support/article/faq-troubleshooting/"
+msgstr "https://wordpress.org/support/article/faq-troubleshooting/"
 
 #. translators: Documentation explaining HTTPS and why it should be used.
 #: wp-includes/functions.php:8166
@@ -17937,7 +17937,7 @@ msgid "About WordPress"
 msgstr "ስለ ወርድፕረስ"
 
 #: wp-includes/class-wp-fatal-error-handler.php:197
-msgid "Learn more about ***REMOVED*** WordPress."
+msgid "Learn more about troubleshooting WordPress."
 msgstr "ወርድፕረስ ለመጠገን ተጨማሪ ይወቁ ። "
 
 #. translators: %s: Plugin name.

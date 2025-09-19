@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Editors\Domain\Analysis_Features;
 
 /**
@@ -26,9 +26,9 @@ class Analysis_Features_List {
 	}
 
 	/**
-	 * Parses the feature list to a legacy ready array ***REMOVED***.
+	 * Parses the feature list to a legacy ready array representation.
 	 *
-	 * @return array<string, bool> The list presented as a key value ***REMOVED***.
+	 * @return array<string, bool> The list presented as a key value representation.
 	 */
 	public function parse_to_legacy_array(): array {
 		$array = [];
@@ -40,9 +40,9 @@ class Analysis_Features_List {
 	}
 
 	/**
-	 * Parses the feature list to an array ***REMOVED***.
+	 * Parses the feature list to an array representation.
 	 *
-	 * @return array<string, bool> The list presented as a key value ***REMOVED***.
+	 * @return array<string, bool> The list presented as a key value representation.
 	 */
 	public function to_array(): array {
 		$array = [];

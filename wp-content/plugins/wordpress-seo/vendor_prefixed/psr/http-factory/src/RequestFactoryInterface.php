@@ -12,7 +12,7 @@ interface RequestFactoryInterface
      *     the value is a string, the factory MUST create a UriInterface
      *     instance based on it.
      *
-     * @return ***REMOVED***
+     * @return RequestInterface
      */
-    public function createRequest(string $method, $uri) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function createRequest(string $method, $uri) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 }

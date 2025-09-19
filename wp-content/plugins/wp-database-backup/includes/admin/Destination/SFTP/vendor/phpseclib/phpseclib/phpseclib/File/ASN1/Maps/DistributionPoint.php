@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * DistributionPoint
  *
  * PHP version 5
  *
@@ -16,16 +16,16 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * DistributionPoint
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class DistributionPoint
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => [
+            'distributionPoint' => [
                 'constant' => 0,
                 'optional' => true,
                 'explicit' => true

@@ -6,7 +6,7 @@
  */
 
 /**
- * Registers the regular admin menu and network admin menu ***REMOVED***.
+ * Registers the regular admin menu and network admin menu implementations.
  */
 class WPSEO_Menu implements WPSEO_WordPress_Integration {
 
@@ -59,9 +59,9 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function load_page() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 			$this->show_page( $page );
 		}

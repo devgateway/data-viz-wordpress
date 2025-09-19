@@ -1,6 +1,6 @@
 <?php
 
-// @phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Jetpack;
@@ -27,7 +27,7 @@ class Jetpack_Markdown implements Integration_Data_Provider_Interface {
 	 */
 	public function to_array(): array {
 		return [
-			'***REMOVED***' => $this->is_enabled(),
+			'markdownEnabled' => $this->is_enabled(),
 		];
 	}
 
@@ -38,7 +38,7 @@ class Jetpack_Markdown implements Integration_Data_Provider_Interface {
 	 */
 	public function to_legacy_array(): array {
 		return [
-			'***REMOVED***' => $this->is_enabled(),
+			'markdownEnabled' => $this->is_enabled(),
 		];
 	}
 

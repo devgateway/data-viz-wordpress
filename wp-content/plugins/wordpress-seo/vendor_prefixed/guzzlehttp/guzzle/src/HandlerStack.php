@@ -2,9 +2,9 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Creates a composed Guzzle handler function by stacking middlewares on top of
  * an HTTP handler function.
@@ -14,15 +14,15 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 class HandlerStack
 {
     /**
-     * @var (callable(***REMOVED***, array): ***REMOVED***)|null
+     * @var (callable(RequestInterface, array): PromiseInterface)|null
      */
     private $handler;
     /**
-     * @var array{(callable(callable(***REMOVED***, array): ***REMOVED***): callable), (string|null)}[]
+     * @var array{(callable(callable(RequestInterface, array): PromiseInterface): callable), (string|null)}[]
      */
     private $stack = [];
     /**
-     * @var (callable(***REMOVED***, array): ***REMOVED***)|null
+     * @var (callable(RequestInterface, array): PromiseInterface)|null
      */
     private $cached;
     /**
@@ -36,7 +36,7 @@ class HandlerStack
      * The returned handler stack can be passed to a client in the "handler"
      * option.
      *
-     * @param (callable(***REMOVED***, array): ***REMOVED***)|null $handler HTTP handler function to use with the stack. If no
+     * @param (callable(RequestInterface, array): PromiseInterface)|null $handler HTTP handler function to use with the stack. If no
      *                                                                            handler is provided, the best handler for your
      *                                                                            system will be utilized.
      */
@@ -50,7 +50,7 @@ class HandlerStack
         return $stack;
     }
     /**
-     * @param (callable(***REMOVED***, array): ***REMOVED***)|null $handler Underlying HTTP handler.
+     * @param (callable(RequestInterface, array): PromiseInterface)|null $handler Underlying HTTP handler.
      */
     public function __construct(callable $handler = null)
     {
@@ -59,15 +59,15 @@ class HandlerStack
     /**
      * Invokes the handler stack as a composed handler
      *
-     * @return ***REMOVED***|***REMOVED***
+     * @return ResponseInterface|PromiseInterface
      */
-    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options)
+    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options)
     {
         $handler = $this->resolve();
         return $handler($request, $options);
     }
     /**
-     * Dumps a string ***REMOVED*** of the stack.
+     * Dumps a string representation of the stack.
      *
      * @return string
      */
@@ -94,7 +94,7 @@ class HandlerStack
     /**
      * Set the HTTP handler that actually returns a promise.
      *
-     * @param callable(***REMOVED***, array): ***REMOVED*** $handler Accepts a request and array of options and
+     * @param callable(RequestInterface, array): PromiseInterface $handler Accepts a request and array of options and
      *                                                                     returns a Promise.
      */
     public function setHandler(callable $handler) : void
@@ -172,16 +172,16 @@ class HandlerStack
     /**
      * Compose the middleware and handler into a single callable function.
      *
-     * @return callable(***REMOVED***, array): ***REMOVED***
+     * @return callable(RequestInterface, array): PromiseInterface
      */
     public function resolve() : callable
     {
         if ($this->cached === null) {
             if (($prev = $this->handler) === null) {
-                throw new \***REMOVED***('No handler has been specified');
+                throw new \LogicException('No handler has been specified');
             }
             foreach (\array_reverse($this->stack) as $fn) {
-                /** @var callable(***REMOVED***, array): ***REMOVED*** $prev */
+                /** @var callable(RequestInterface, array): PromiseInterface $prev */
                 $prev = $fn[0]($prev);
             }
             $this->cached = $prev;

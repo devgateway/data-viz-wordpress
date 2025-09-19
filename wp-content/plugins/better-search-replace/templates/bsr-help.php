@@ -2,7 +2,7 @@
 /**
  * Displays the "System Info" tab.
  *
- * @link       https://***REMOVED***.com
+ * @link       https://bettersearchreplace.com
  * @since      1.1
  *
  * @package    Better_Search_Replace
@@ -12,7 +12,7 @@
 // Prevent direct access.
 if ( ! defined( 'BSR_PATH' ) ) exit;
 
-$bsr_docs_url    = 'https://***REMOVED***.com/docs/';
+$bsr_docs_url    = 'https://bettersearchreplace.com/docs/';
 $bsr_support_url = 'https://wordpress.org/support/plugin/better-search-replace';
 ?>
 
@@ -23,7 +23,7 @@ $bsr_support_url = 'https://wordpress.org/support/plugin/better-search-replace';
 		<div class="panel">
 
 			<div class="panel-header">
-				<h3><?php _e( 'Help & ***REMOVED***', 'better-search-replace' ); ?></h3>
+				<h3><?php _e( 'Help & Troubleshooting', 'better-search-replace' ); ?></h3>
 			</div>
 
 			<div class="panel-content">
@@ -41,7 +41,7 @@ $bsr_support_url = 'https://wordpress.org/support/plugin/better-search-replace';
 						<?php
 						printf(
 							__( '<a href="%s" style="font-weight:bold;" target="_blank">Upgrade</a> to gain access to premium features and priority email support.', 'better-search-replace' ),
-							'https://***REMOVED***.com/better-search-replace/upgrade/?utm_source=insideplugin&utm_medium=web&utm_content=help-tab&utm_campaign=bsr-to-migrate'
+							'https://deliciousbrains.com/better-search-replace/upgrade/?utm_source=insideplugin&utm_medium=web&utm_content=help-tab&utm_campaign=bsr-to-migrate'
 						);
 						?>
 					</p>
@@ -49,7 +49,7 @@ $bsr_support_url = 'https://wordpress.org/support/plugin/better-search-replace';
 						<?php
 						printf(
 							__( 'Found a bug or have a feature request? Please submit an issue on <a href="%s">GitHub</a>!', 'better-search-replace' ),
-							'https://github.com/***REMOVED***/better-search-replace'
+							'https://github.com/deliciousbrains/better-search-replace'
 						);
 						?>
 					</p>

@@ -84,7 +84,7 @@ class Website extends Abstract_Schema_Piece {
 		 */
 		$search_url = \apply_filters( 'wpseo_json_ld_search_url', $this->context->site_url . '?s={search_term_string}' );
 
-		$data['***REMOVED***'][] = [
+		$data['potentialAction'][] = [
 			'@type'       => 'SearchAction',
 			'target'      => [
 				'@type'       => 'EntryPoint',

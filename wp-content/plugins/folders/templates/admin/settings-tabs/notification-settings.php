@@ -22,7 +22,7 @@ if($setting_page == "notification-settings") {
                 $("#remove_users-options").select2({
                     tags: false,
                     multiple: true,
-                    ***REMOVED***: 2,
+                    minimumInputLength: 2,
                     minimumResultsForSearch: 10,
                     placeholder: "Search User",
                     ajax: {
@@ -31,15 +31,15 @@ if($setting_page == "notification-settings") {
                         type: "POST",
                         quietMillis: 50,
                         data: function (params) {
-                            var ***REMOVED*** = {
+                            var queryParameters = {
                                 action: 'folders_search_for_users',
                                 search: params.term,
                                 nonce: "<?php echo esc_attr(wp_create_nonce("search_folder_user")) ?>",
                                 paged: 0
                             }
-                            return ***REMOVED***;
+                            return queryParameters;
                         },
-                        ***REMOVED***: function (result) {
+                        processResults: function (result) {
                             console.log(result);
                             if(result.status) {
                                 return {
@@ -182,7 +182,7 @@ if($setting_page == "notification-settings") {
                         </svg>
                         <div class="pro-user-title"><?php esc_html_e("Get notified whenever changes are made to Pages, Posts, Plugins, or Media Files", "folders") ?></div>
                         <div class="pro-user-desc"></div>
-                        <a href="<?php echo esc_url($this->***REMOVED***()) ?>" target="_blank">
+                        <a href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" target="_blank">
                             <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.9998 3.75C17.9998 4.44031 17.4401 5 16.7498 5C16.7421 5 16.7356 4.99603 16.7278 4.99594L15.1491 13.6803C15.0623 14.1531 14.6498 14.5 14.1654 14.5H3.83418C3.35105 14.5 2.93668 14.1544 2.85043 13.6791L1.27199 4.99688C1.26418 4.99688 1.25762 5 1.22168 5C0.531367 5 -0.0283203 4.44031 -0.0283203 3.75C-0.0283203 3.05969 0.559492 2.5 1.22168 2.5C1.88387 2.5 2.47168 3.05969 2.47168 3.75C2.47168 4.03119 2.36165 4.27781 2.2049 4.48656L5.00584 6.72719C5.50302 7.125 6.24021 6.96294 6.5249 6.39344L8.3249 2.79344C7.97168 2.57313 7.72168 2.19813 7.72168 1.75C7.72168 1.05969 8.30918 0.5 8.9998 0.5C9.69043 0.5 10.2217 1.05969 10.2217 1.75C10.2217 2.19813 9.97284 2.57313 9.61855 2.79375L11.4186 6.39375C11.7033 6.96313 12.4407 7.125 12.9376 6.7275L15.7386 4.48688C15.6092 4.27813 15.4998 4.00313 15.4998 3.75C15.4998 3.05938 16.0592 2.5 16.7498 2.5C17.4404 2.5 17.9998 3.05938 17.9998 3.75Z" fill="white"></path>
                             </svg>

@@ -151,10 +151,10 @@ if ( ! class_exists( 'acf_admin_field_group' ) ) :
 			acf_localize_data(
 				array(
 					'fieldTypes'          => acf_get_field_types_info(),
-					'***REMOVED***' => acf_get_field_categories_i18n(),
-					'PROUpgradeURL'       => acf_add_url_utm_tags( 'https://www.***REMOVED***.com/pro/', 'ACF upgrade', 'field-type-selection' ),
+					'fieldCategoriesL10n' => acf_get_field_categories_i18n(),
+					'PROUpgradeURL'       => acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/pro/', 'ACF upgrade', 'field-type-selection' ),
 					'PROFieldTypes'       => acf_get_pro_field_types(),
-					'***REMOVED***'    => array(
+					'PROLocationTypes'    => array(
 						'block'        => esc_html__( 'Block', 'acf' ),
 						'options_page' => esc_html__( 'Options Page', 'acf' ),
 					),
@@ -330,11 +330,11 @@ if ( ! class_exists( 'acf_admin_field_group' ) ) :
 			acf_disable_filters();
 
 			// save fields.
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing -- Validated by WordPress.
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- Validated by WordPress.
 			if ( ! empty( $_POST['acf_fields'] ) ) {
 
 				// loop.
-				foreach ( $_POST['acf_fields'] as $field ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Sanitized when saved.
+				foreach ( $_POST['acf_fields'] as $field ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized when saved.
 
 					if ( ! isset( $field['key'] ) ) {
 						continue;
@@ -389,7 +389,7 @@ if ( ! class_exists( 'acf_admin_field_group' ) ) :
 			// save field group.
 			acf_update_field_group( $_POST['acf_field_group'] );
 			// phpcs:enable WordPress.Security.ValidatedSanitizedInput
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 			return $post_id;
 		}
@@ -456,7 +456,7 @@ if ( ! class_exists( 'acf_admin_field_group' ) ) :
 			}
 
 			// validate rule.
-			$rule = acf_validate_location_rule( acf_sanitize_request_args( $_POST['rule'] ) ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- values not saved.
+			$rule = acf_validate_location_rule( acf_sanitize_request_args( $_POST['rule'] ) ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- values not saved.
 
 			acf_get_view(
 				'acf-field-group/location-rule',
@@ -519,7 +519,7 @@ if ( ! class_exists( 'acf_admin_field_group' ) ) :
 			// Disable filters to ensure ACF loads raw data from DB.
 			acf_disable_filters();
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing
+			// phpcs:disable WordPress.Security.NonceVerification.Missing
 			$args = acf_parse_args(
 				$_POST,
 				array(
@@ -529,7 +529,7 @@ if ( ! class_exists( 'acf_admin_field_group' ) ) :
 					'field_group_id' => 0,
 				)
 			);
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 			// Verify nonce.
 			if ( ! wp_verify_nonce( $args['nonce'], 'acf_nonce' ) ) {
@@ -567,7 +567,7 @@ if ( ! class_exists( 'acf_admin_field_group' ) ) :
 						/* translators: Confirmation message once a field has been moved to a different field group. */
 						acf_punctify( __( 'The %1$s field can now be found in the %2$s field group', 'acf' ) ),
 						esc_html( $field['label'] ),
-						$link  //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+						$link  //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					) . '</p>' .
 					'<a href="#" class="button button-primary acf-close-popup">' . esc_html__( 'Close Modal', 'acf' ) . '</a>';
 				die();

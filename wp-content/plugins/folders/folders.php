@@ -61,7 +61,7 @@ if(!function_exists("folders_clear_all_caches")) {
                 if (method_exists('WpeCommon', 'purge_varnish_cache')) {
                     //WpeCommon::purge_varnish_cache();
                 }
-            } else if (method_exists('***REMOVED***', 'deleteCache') && !empty($wp_fastest_cache)) {
+            } else if (method_exists('WpFastestCache', 'deleteCache') && !empty($wp_fastest_cache)) {
                 $wp_fastest_cache->deleteCache();
             } else if (function_exists('rocket_clean_domain')) {
                 rocket_clean_domain();
@@ -69,9 +69,9 @@ if(!function_exists("folders_clear_all_caches")) {
                 if (function_exists('run_rocket_sitemap_preload')) {
                     run_rocket_sitemap_preload();
                 }
-            } else if (class_exists("***REMOVED***") && method_exists("***REMOVED***", "clearall")) {
-                ***REMOVED***::clearall();
-            } else if (class_exists("LiteSpeed_Cache_API") && method_exists("***REMOVED***", "purge_all")) {
+            } else if (class_exists("autoptimizeCache") && method_exists("autoptimizeCache", "clearall")) {
+                autoptimizeCache::clearall();
+            } else if (class_exists("LiteSpeed_Cache_API") && method_exists("autoptimizeCache", "purge_all")) {
                 LiteSpeed_Cache_API::purge_all();
             }
 

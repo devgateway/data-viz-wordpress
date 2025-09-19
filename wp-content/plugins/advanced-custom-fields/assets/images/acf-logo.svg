@@ -7,9 +7,9 @@
 <path opacity="0.05" d="M15.4044 24.6581H11.3744L10.7156 26.3516H7.63153L12.3512 14.6875H14.4081L19.3155 26.3554H16.0594L15.4034 24.6581H15.4044ZM12.5199 21.7709L12.4189 22.0343H14.3754L14.3077 21.8365L13.3967 19.3353L12.5199 21.7709Z" fill="#002447"/>
 <path d="M14.6412 24.6581H10.6178L9.9595 26.3516H6.875L11.5951 14.6875H13.6521L18.5594 26.3554H15.3048L14.6412 24.6581ZM11.7634 21.7709L11.6629 22.0343H13.6194L13.5511 21.8365L12.6407 19.3353L11.7638 21.7709H11.7634Z" fill="white"/>
 <defs>
-<***REMOVED*** id="paint0_radial_117_9708" cx="0" cy="0" r="1" gradientUnits="***REMOVED***" ***REMOVED***="rotate(45) scale(56.5685)">
+<radialGradient id="paint0_radial_117_9708" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="rotate(45) scale(56.5685)">
 <stop stop-color="#0ECAD4"/>
 <stop offset="1" stop-color="#006BD6"/>
-</***REMOVED***>
+</radialGradient>
 </defs>
 </svg>

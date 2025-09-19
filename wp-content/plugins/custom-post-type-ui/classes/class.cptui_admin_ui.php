@@ -310,7 +310,7 @@ class cptui_admin_ui {
 	 * @return string $value Visually hidden text meant for screen readers.
 	 */
 	public function get_hidden_text( $text = '' ) {
-		return '<span class="***REMOVED***">' . $text . '</span>';
+		return '<span class="visuallyhidden">' . $text . '</span>';
 	}
 
 	/**

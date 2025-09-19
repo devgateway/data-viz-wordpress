@@ -29,7 +29,7 @@ abstract class DHParameter
         'children' => [
             'prime' => ['type' => ASN1::TYPE_INTEGER],
             'base' => ['type' => ASN1::TYPE_INTEGER],
-            '***REMOVED***' => [
+            'privateValueLength' => [
                 'type' => ASN1::TYPE_INTEGER,
                 'optional' => true
             ]

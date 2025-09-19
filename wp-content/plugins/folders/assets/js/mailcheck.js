@@ -11,11 +11,11 @@
  */
 
 var Mailcheck = {
-    ***REMOVED***: 2,
-    ***REMOVED***: 2,
-    ***REMOVED***: 2,
+    domainThreshold: 2,
+    secondLevelThreshold: 2,
+    topLevelThreshold: 2,
 
-    ***REMOVED***: ['msn.com', 'bellsouth.net',
+    defaultDomains: ['msn.com', 'bellsouth.net',
         'telus.net', 'comcast.net', 'optusnet.com.au',
         'earthlink.net', 'qq.com', 'sky.com', 'icloud.com',
         'mac.com', 'sympatico.ca', 'googlemail.com',
@@ -34,33 +34,33 @@ var Mailcheck = {
         "in", "net", "net.au", "info", "biz", "mil", "co.jp", "sg", "hu", "uk", "io", "ai", "co.in"],
 
     run: function(opts) {
-        opts.domains = opts.domains || Mailcheck.***REMOVED***;
-        opts.***REMOVED*** = opts.***REMOVED*** || Mailcheck.defaultSecondLevelDomains;
-        opts.***REMOVED*** = opts.***REMOVED*** || Mailcheck.defaultTopLevelDomains;
-        opts.***REMOVED*** = opts.***REMOVED*** || Mailcheck.sift4Distance;
+        opts.domains = opts.domains || Mailcheck.defaultDomains;
+        opts.secondLevelDomains = opts.secondLevelDomains || Mailcheck.defaultSecondLevelDomains;
+        opts.topLevelDomains = opts.topLevelDomains || Mailcheck.defaultTopLevelDomains;
+        opts.distanceFunction = opts.distanceFunction || Mailcheck.sift4Distance;
 
-        var ***REMOVED*** = function(result){ return result; };
-        var ***REMOVED*** = opts.suggested || ***REMOVED***;
-        var emptyCallback = opts.empty || ***REMOVED***;
+        var defaultCallback = function(result){ return result; };
+        var suggestedCallback = opts.suggested || defaultCallback;
+        var emptyCallback = opts.empty || defaultCallback;
 
-        var result = Mailcheck.suggest(Mailcheck.encodeEmail(opts.email), opts.domains, opts.***REMOVED***, opts.***REMOVED***, opts.***REMOVED***);
+        var result = Mailcheck.suggest(Mailcheck.encodeEmail(opts.email), opts.domains, opts.secondLevelDomains, opts.topLevelDomains, opts.distanceFunction);
 
-        return result ? ***REMOVED***(result) : emptyCallback();
+        return result ? suggestedCallback(result) : emptyCallback();
     },
 
-    suggest: function(email, domains, ***REMOVED***, ***REMOVED***, ***REMOVED***) {
+    suggest: function(email, domains, secondLevelDomains, topLevelDomains, distanceFunction) {
         email = email.toLowerCase();
 
         var emailParts = this.splitEmail(email);
 
-        if (***REMOVED*** && ***REMOVED***) {
+        if (secondLevelDomains && topLevelDomains) {
             // If the email is a valid 2nd-level + top-level, do not suggest anything.
-            if (***REMOVED***.indexOf(emailParts.***REMOVED***) !== -1 && ***REMOVED***.indexOf(emailParts.***REMOVED***) !== -1) {
+            if (secondLevelDomains.indexOf(emailParts.secondLevelDomain) !== -1 && topLevelDomains.indexOf(emailParts.topLevelDomain) !== -1) {
                 return false;
             }
         }
 
-        var closestDomain = this.***REMOVED***(emailParts.domain, domains, ***REMOVED***, this.***REMOVED***);
+        var closestDomain = this.findClosestDomain(emailParts.domain, domains, distanceFunction, this.domainThreshold);
 
         if (closestDomain) {
             if (closestDomain == emailParts.domain) {
@@ -73,22 +73,22 @@ var Mailcheck = {
         }
 
         // The email address does not closely match one of the supplied domains
-        var closestSecondLevelDomain = this.***REMOVED***(emailParts.***REMOVED***, ***REMOVED***, ***REMOVED***, this.***REMOVED***);
-        var closestTopLevelDomain    = this.***REMOVED***(emailParts.***REMOVED***, ***REMOVED***, ***REMOVED***, this.***REMOVED***);
+        var closestSecondLevelDomain = this.findClosestDomain(emailParts.secondLevelDomain, secondLevelDomains, distanceFunction, this.secondLevelThreshold);
+        var closestTopLevelDomain    = this.findClosestDomain(emailParts.topLevelDomain, topLevelDomains, distanceFunction, this.topLevelThreshold);
 
         if (emailParts.domain) {
             closestDomain = emailParts.domain;
             var rtrn = false;
 
-            if(closestSecondLevelDomain && closestSecondLevelDomain != emailParts.***REMOVED***) {
+            if(closestSecondLevelDomain && closestSecondLevelDomain != emailParts.secondLevelDomain) {
                 // The email address may have a mispelled second-level domain; return a suggestion
-                closestDomain = closestDomain.replace(emailParts.***REMOVED***, closestSecondLevelDomain);
+                closestDomain = closestDomain.replace(emailParts.secondLevelDomain, closestSecondLevelDomain);
                 rtrn = true;
             }
 
-            if(closestTopLevelDomain && closestTopLevelDomain != emailParts.***REMOVED*** && emailParts.***REMOVED*** !== '') {
+            if(closestTopLevelDomain && closestTopLevelDomain != emailParts.topLevelDomain && emailParts.secondLevelDomain !== '') {
                 // The email address may have a mispelled top-level domain; return a suggestion
-                closestDomain = closestDomain.replace(new RegExp(emailParts.***REMOVED*** + "$"), closestTopLevelDomain);
+                closestDomain = closestDomain.replace(new RegExp(emailParts.topLevelDomain + "$"), closestTopLevelDomain);
                 rtrn = true;
             }
 
@@ -104,8 +104,8 @@ var Mailcheck = {
         return false;
     },
 
-    ***REMOVED***: function(domain, domains, ***REMOVED***, threshold) {
-        threshold = threshold || this.***REMOVED***;
+    findClosestDomain: function(domain, domains, distanceFunction, threshold) {
+        threshold = threshold || this.topLevelThreshold;
         var dist;
         var minDist = Infinity;
         var closestDomain = null;
@@ -113,15 +113,15 @@ var Mailcheck = {
         if (!domain || !domains) {
             return false;
         }
-        if(!***REMOVED***) {
-            ***REMOVED*** = this.sift4Distance;
+        if(!distanceFunction) {
+            distanceFunction = this.sift4Distance;
         }
 
         for (var i = 0; i < domains.length; i++) {
             if (domain === domains[i]) {
                 return domain;
             }
-            dist = ***REMOVED***(domain, domains[i]);
+            dist = distanceFunction(domain, domains[i]);
             if (dist < minDist) {
                 minDist = dist;
                 closestDomain = domains[i];
@@ -159,8 +159,8 @@ var Mailcheck = {
         var c2 = 0;  //cursor for string 2
         var lcss = 0;  //largest common subsequence
         var local_cs = 0; //local common substring
-        var trans = 0;  //number of ***REMOVED*** ('ab' vs 'ba')
-        var offset_arr=[];  //offset pair array, for computing the ***REMOVED***
+        var trans = 0;  //number of transpositions ('ab' vs 'ba')
+        var offset_arr=[];  //offset pair array, for computing the transpositions
 
         while ((c1 < l1) && (c2 < l2)) {
             if (s1.charAt(c1) == s2.charAt(c2)) {
@@ -201,7 +201,7 @@ var Mailcheck = {
                 lcss+=local_cs;
                 local_cs=0;
                 if (c1!=c2) {
-                    c1=c2=Math.min(c1,c2);  //using min allows the computation of ***REMOVED***
+                    c1=c2=Math.min(c1,c2);  //using min allows the computation of transpositions
                 }
                 //if matching characters are found, remove 1 from both cursors (they get incremented at the end of the loop)
                 //so that we can have only one code block handling matches
@@ -220,7 +220,7 @@ var Mailcheck = {
             }
             c1++;
             c2++;
-            // this covers the case where the last match is on the last token in list, so that it can compute ***REMOVED*** correctly
+            // this covers the case where the last match is on the last token in list, so that it can compute transpositions correctly
             if ((c1 >= l1) || (c2 >= l2)) {
                 lcss+=local_cs;
                 local_cs=0;
@@ -228,7 +228,7 @@ var Mailcheck = {
             }
         }
         lcss+=local_cs;
-        return Math.round(Math.max(l1,l2)- lcss +trans); //add the cost of ***REMOVED*** to the final result
+        return Math.round(Math.max(l1,l2)- lcss +trans); //add the cost of transpositions to the final result
     },
 
     splitEmail: function(email) {
@@ -266,8 +266,8 @@ var Mailcheck = {
         }
 
         return {
-            ***REMOVED***: tld,
-            ***REMOVED***: sld,
+            topLevelDomain: tld,
+            secondLevelDomain: sld,
             domain: domain,
             address: parts.join('@')
         };
@@ -334,13 +334,13 @@ if (typeof window !== 'undefined' && window.jQuery) {
 
 (function ($, window, document, undefined) {
 
-    var pluginName = "***REMOVED***";
+    var pluginName = "emailautocomplete";
     var defaults = {
         suggClass: "eac-sugg",
         domains: ["yahoo.com" ,"hotmail.com" ,"gmail.com" ,"me.com" ,"aol.com" ,"mac.com" ,"live.com" ,"comcast.net" ,"googlemail.com" ,"msn.com" ,"hotmail.co.uk" ,"yahoo.com" ,"facebook.com" ,"verizon.net" ,"sbcglobal.net" ,"att.net" ,"gmx.com" ,"outlook.com" ,"icloud.com", "premio.io", "protonmail.com"]
     };
 
-    function ***REMOVED***(elem, options) {
+    function EmailAutocomplete(elem, options) {
         this.$field = $(elem);
         this.options = $.extend(true, {}, defaults, options); //we want deep extend
         this._defaults = defaults;
@@ -348,7 +348,7 @@ if (typeof window !== 'undefined' && window.jQuery) {
         this.init();
     }
 
-    ***REMOVED***.prototype = {
+    EmailAutocomplete.prototype = {
         init: function () {
 
             //shim indexOf
@@ -357,7 +357,7 @@ if (typeof window !== 'undefined' && window.jQuery) {
             }
 
             //this will be calculated upon keyup
-            this.***REMOVED*** = null;
+            this.fieldLeftOffset = null;
 
             //wrap our field
             var $wrap = $("<div class='eac-input-wrap' />").css({
@@ -395,7 +395,7 @@ if (typeof window !== 'undefined' && window.jQuery) {
             }).insertAfter(this.$field);
 
             //bind events and handlers
-            this.$field.on("keyup.eac", $.proxy(this.***REMOVED***, this));
+            this.$field.on("keyup.eac", $.proxy(this.displaySuggestion, this));
 
             this.$field.on("blur.eac", $.proxy(this.autocomplete, this));
 
@@ -405,10 +405,10 @@ if (typeof window !== 'undefined' && window.jQuery) {
                 }
                 if ( e.which === 9 && !this.$field.hasClass('email-focus')) {
                     this.$field.addClass('email-focus');
-                    e.***REMOVED***();
+                    e.preventDefault();
                 }else {
                     if ( e.which === 32 ){
-                        e.***REMOVED***();
+                        e.preventDefault();
                     }
                     this.$field.removeClass('email-focus');
                 }
@@ -451,14 +451,14 @@ if (typeof window !== 'undefined' && window.jQuery) {
         /**
          * Displays the suggestion, handler for field keyup event
          */
-        ***REMOVED***: function (e) {
+        displaySuggestion: function (e) {
             this.val = this.$field.val();
             this.suggestion = this.suggest(this.val);
 
             if (!this.suggestion.length) {
                 this.$suggOverlay.text("");
             } else {
-                e.***REMOVED***();
+                e.preventDefault();
             }
 
             //update with new suggestion
@@ -466,8 +466,8 @@ if (typeof window !== 'undefined' && window.jQuery) {
             this.$cval.text(this.val);
 
             // get input padding, border and margin to offset text
-            if(this.***REMOVED*** === null){
-                this.***REMOVED*** = (this.$field.outerWidth(true) - this.$field.width()) / 2;
+            if(this.fieldLeftOffset === null){
+                this.fieldLeftOffset = (this.$field.outerWidth(true) - this.$field.width()) / 2;
             }
 
             //find width of current input val so we can offset the suggestion text
@@ -475,7 +475,7 @@ if (typeof window !== 'undefined' && window.jQuery) {
 
             if(this.$field.outerWidth() > cvalWidth){
                 //offset our suggestion container
-                this.$suggOverlay.css('left', this.***REMOVED*** + cvalWidth + "px");
+                this.$suggOverlay.css('left', this.fieldLeftOffset + cvalWidth + "px");
             }
         },
 
@@ -519,7 +519,7 @@ if (typeof window !== 'undefined' && window.jQuery) {
     $.fn[pluginName] = function (options) {
         return this.each(function () {
             if (!$.data(this, "yz_" + pluginName)) {
-                $.data(this, "yz_" + pluginName, new ***REMOVED***(this, options));
+                $.data(this, "yz_" + pluginName, new EmailAutocomplete(this, options));
             }
         });
     };

@@ -25,7 +25,7 @@
 		<p class="upgrade-offer-text"><?php _e( 'Get up to <span>50% off</span> your first year!', 'better-search-replace' ); ?></p>
 
 		<div class="button-row">
-			<a href="https://***REMOVED***.com/better-search-replace/upgrade/?utm_source=insideplugin&utm_medium=web&utm_content=sidebar&utm_campaign=bsr-to-migrate
+			<a href="https://deliciousbrains.com/better-search-replace/upgrade/?utm_source=insideplugin&utm_medium=web&utm_content=sidebar&utm_campaign=bsr-to-migrate
 " class="button button-primary button-sm" target="_blank"><?php _e( 'Upgrade Now', 'better-search-replace' ); ?></a>
 		</div>
 	</div>

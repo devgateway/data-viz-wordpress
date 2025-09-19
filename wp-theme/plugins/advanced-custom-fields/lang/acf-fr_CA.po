@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.8.8\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2020-04-23 20:16-0400\n"
 "PO-Revision-Date: 2020-04-23 21:07-0400\n"
 "Last-Translator: Berenger Zyla <hello@berengerzyla.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 # @ acf
 #: acf.php:68
@@ -383,7 +383,7 @@ msgstr "Localisé dans : %s"
 #: includes/admin/admin-field-groups.php:463
 #: includes/admin/admin-field-groups.php:672
 msgid "Sync available"
-msgstr "***REMOVED*** disponible"
+msgstr "Synchronisation disponible"
 
 #: includes/admin/admin-field-groups.php:466
 msgid "Sync"
@@ -604,7 +604,7 @@ msgstr[1] "%s groupes de champs importés"
 
 #: includes/admin/views/field-group-field-conditional-logic.php:25
 msgid "Conditional Logic"
-msgstr "Logique ***REMOVED***"
+msgstr "Logique conditionnelle"
 
 #: includes/admin/views/field-group-field-conditional-logic.php:51
 msgid "Show this field if"
@@ -960,7 +960,7 @@ msgid ""
 "Database Upgrade complete. <a href=\"%s\">Return to network dashboard</a>"
 msgstr ""
 "Mise à niveau de la base de données effectuée. <a href=\"%s\">Retourner au "
-"panneau d’***REMOVED*** du réseau</a>"
+"panneau d’administration du réseau</a>"
 
 #: includes/admin/views/html-admin-page-upgrade-network.php:113
 msgid "Please select at least one site to upgrade."
@@ -1259,10 +1259,10 @@ msgstr ""
 
 #: includes/admin/views/settings-info.php:92
 msgid ""
-"New auto export to JSON feature improves speed and allows for ***REMOVED***."
+"New auto export to JSON feature improves speed and allows for syncronisation."
 msgstr ""
 "La nouvelle fonctionnalité d’export automatique en JSON améliore la rapidité "
-"et simplifie la ***REMOVED***."
+"et simplifie la synchronisation."
 
 #: includes/admin/views/settings-info.php:96
 msgid "Easy Import / Export"
@@ -1288,7 +1288,7 @@ msgstr ""
 
 #: includes/admin/views/settings-info.php:106
 msgid "More Customization"
-msgstr "Encore plus de ***REMOVED***"
+msgstr "Encore plus de Personnalisation"
 
 #: includes/admin/views/settings-info.php:107
 msgid ""
@@ -1296,7 +1296,7 @@ msgid ""
 "customization."
 msgstr ""
 "De nouveaux filtres et actions PHP (et JS) ont été ajoutés afin de vous "
-"permettre plus de ***REMOVED***."
+"permettre plus de personnalisation."
 
 #: includes/admin/views/settings-info.php:111
 msgid "Fresh UI"
@@ -2380,12 +2380,12 @@ msgstr "Comment sont interprétés les sauts de lignes"
 #: includes/fields/class-acf-field-message.php:115
 #: includes/fields/class-acf-field-textarea.php:144
 msgid "Automatically add paragraphs"
-msgstr "Ajouter des paragraphes ***REMOVED***"
+msgstr "Ajouter des paragraphes automatiquement"
 
 #: includes/fields/class-acf-field-message.php:116
 #: includes/fields/class-acf-field-textarea.php:145
 msgid "Automatically add &lt;br&gt;"
-msgstr "Ajouter &lt;br&gt; ***REMOVED***"
+msgstr "Ajouter &lt;br&gt; automatiquement"
 
 # @ acf
 #: includes/fields/class-acf-field-message.php:117
@@ -2963,8 +2963,8 @@ msgid "Show Media Upload Buttons?"
 msgstr "Afficher le bouton d‘ajout de média?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:429
-msgid "Delay ***REMOVED***?"
-msgstr "Retarder l’***REMOVED***?"
+msgid "Delay initialization?"
+msgstr "Retarder l’initialisation?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:430
 msgid "TinyMCE will not be initialized until field is clicked"
@@ -3057,7 +3057,7 @@ msgstr "Rôle de l’utilisateur courant"
 
 #: includes/locations/class-acf-location-current-user-role.php:75
 msgid "Super Admin"
-msgstr "Super ***REMOVED***"
+msgstr "Super Administrateur"
 
 #: includes/locations/class-acf-location-current-user.php:20
 msgid "Current User"
@@ -3073,7 +3073,7 @@ msgstr "Est dans le site"
 
 #: includes/locations/class-acf-location-current-user.php:71
 msgid "Viewing back end"
-msgstr "Est dans l’interface d’***REMOVED***"
+msgstr "Est dans l’interface d’administration"
 
 #: includes/locations/class-acf-location-nav-menu-item.php:20
 msgid "Menu Item"
@@ -3623,14 +3623,14 @@ msgstr "Élaboré"
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Description of the plugin/theme
 msgid "Customize WordPress with powerful, professional and intuitive fields."
 msgstr ""
 "Personnalisez WordPress avec des champs intuitifs, puissants et "
-"***REMOVED***."
+"professionnels."
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"

@@ -1,14 +1,14 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Analytics_4;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4;
 
 use Google\Site_Kit\Core\Modules\Module;
 use Google\Site_Kit\Core\Modules\Modules;
 use Google\Site_Kit\Modules\Analytics_4;
 use Google\Site_Kit\Plugin;
 use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\Row;
-use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\***REMOVED***;
+use Google\Site_Kit_Dependencies\Google\Service\AnalyticsData\RunReportResponse;
 use WP_REST_Response;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Failed_Request_Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Analytics_4\Invalid_Request_Exception;
@@ -125,7 +125,7 @@ class Site_Kit_Analytics_4_Adapter {
 		];
 
 		if ( ! empty( $parameters->get_dimension_filters() ) ) {
-			$api_parameters['***REMOVED***'] = $parameters->get_dimension_filters();
+			$api_parameters['dimensionFilters'] = $parameters->get_dimension_filters();
 		}
 
 		if ( ! empty( $parameters->get_dimensions() ) ) {
@@ -141,8 +141,8 @@ class Site_Kit_Analytics_4_Adapter {
 		}
 
 		if ( ! empty( $parameters->get_compare_start_date() && ! empty( $parameters->get_compare_end_date() ) ) ) {
-			$api_parameters['***REMOVED***'] = $parameters->get_compare_start_date();
-			$api_parameters['***REMOVED***']   = $parameters->get_compare_end_date();
+			$api_parameters['compareStartDate'] = $parameters->get_compare_start_date();
+			$api_parameters['compareEndDate']   = $parameters->get_compare_end_date();
 		}
 
 		return $api_parameters;
@@ -151,13 +151,13 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Parses a response for a Site Kit API request that requests daily data for Analytics 4.
 	 *
-	 * @param ***REMOVED*** $response The response to parse.
+	 * @param RunReportResponse $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	private function parse_daily_response( ***REMOVED*** $response ): Data_Container {
+	private function parse_daily_response( RunReportResponse $response ): Data_Container {
 		if ( ! $this->is_daily_request( $response ) ) {
 			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
 		}
@@ -167,12 +167,12 @@ class Site_Kit_Analytics_4_Adapter {
 		foreach ( $response->getRows() as $daily_traffic ) {
 			$traffic_data = new Traffic_Data();
 
-			foreach ( $response->***REMOVED***() as $key => $metric ) {
+			foreach ( $response->getMetricHeaders() as $key => $metric ) {
 
 				// As per https://developers.google.com/analytics/devguides/reporting/data/v1/basics#read_the_response,
 				// the order of the columns is consistent in the request, header, and rows.
 				// So we can use the key of the header to get the correct metric value from the row.
-				$metric_value = $daily_traffic->***REMOVED***()[ $key ]->getValue();
+				$metric_value = $daily_traffic->getMetricValues()[ $key ]->getValue();
 
 				if ( $metric->getName() === 'sessions' ) {
 					$traffic_data->set_sessions( (int) $metric_value );
@@ -182,8 +182,8 @@ class Site_Kit_Analytics_4_Adapter {
 				}
 			}
 
-			// Since we're here, we know that the first dimension is date, so we know that ***REMOVED***[0]->value is a date.
-			$data_container->add_data( new Daily_Traffic_Data( $daily_traffic->***REMOVED***()[0]->getValue(), $traffic_data ) );
+			// Since we're here, we know that the first dimension is date, so we know that dimensionValues[0]->value is a date.
+			$data_container->add_data( new Daily_Traffic_Data( $daily_traffic->getDimensionValues()[0]->getValue(), $traffic_data ) );
 		}
 
 		return $data_container;
@@ -192,13 +192,13 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Parses a response for a Site Kit API request for Analytics 4 that compares data ranges.
 	 *
-	 * @param ***REMOVED*** $response The response to parse.
+	 * @param RunReportResponse $response The response to parse.
 	 *
 	 * @return Data_Container The parsed response.
 	 *
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
-	private function parse_comparison_response( ***REMOVED*** $response ): Data_Container {
+	private function parse_comparison_response( RunReportResponse $response ): Data_Container {
 		if ( ! $this->is_comparison_request( $response ) ) {
 			throw new Invalid_Request_Exception( 'Unexpected parameters for the request' );
 		}
@@ -211,12 +211,12 @@ class Site_Kit_Analytics_4_Adapter {
 			$traffic_data = new Traffic_Data();
 
 			// Loop through all the metrics of the date range.
-			foreach ( $response->***REMOVED***() as $key => $metric ) {
+			foreach ( $response->getMetricHeaders() as $key => $metric ) {
 
 				// As per https://developers.google.com/analytics/devguides/reporting/data/v1/basics#read_the_response,
 				// the order of the columns is consistent in the request, header, and rows.
 				// So we can use the key of the header to get the correct metric value from the row.
-				$metric_value = $date_range_row->***REMOVED***()[ $key ]->getValue();
+				$metric_value = $date_range_row->getMetricValues()[ $key ]->getValue();
 
 				if ( $metric->getName() === 'sessions' ) {
 					$traffic_data->set_sessions( (int) $metric_value );
@@ -253,7 +253,7 @@ class Site_Kit_Analytics_4_Adapter {
 	 * @throws Invalid_Request_Exception When the request is invalid due to unexpected parameters.
 	 */
 	private function get_period( Row $date_range_row ): string {
-		foreach ( $date_range_row->***REMOVED***() as $dimension_value ) {
+		foreach ( $date_range_row->getDimensionValues() as $dimension_value ) {
 			if ( $dimension_value->getValue() === 'date_range_0' ) {
 				return Comparison_Traffic_Data::CURRENT_PERIOD_KEY;
 			}
@@ -268,23 +268,23 @@ class Site_Kit_Analytics_4_Adapter {
 	/**
 	 * Checks the response of the request to detect if it's a comparison request.
 	 *
-	 * @param ***REMOVED*** $response The response.
+	 * @param RunReportResponse $response The response.
 	 *
 	 * @return bool Whether it's a comparison request.
 	 */
-	private function is_comparison_request( ***REMOVED*** $response ): bool {
-		return \count( $response->***REMOVED***() ) === 1 && $response->***REMOVED***()[0]->getName() === 'dateRange';
+	private function is_comparison_request( RunReportResponse $response ): bool {
+		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'dateRange';
 	}
 
 	/**
 	 * Checks the response of the request to detect if it's a daily request.
 	 *
-	 * @param ***REMOVED*** $response The response.
+	 * @param RunReportResponse $response The response.
 	 *
 	 * @return bool Whether it's a daily request.
 	 */
-	private function is_daily_request( ***REMOVED*** $response ): bool {
-		return \count( $response->***REMOVED***() ) === 1 && $response->***REMOVED***()[0]->getName() === 'date';
+	private function is_daily_request( RunReportResponse $response ): bool {
+		return \count( $response->getDimensionHeaders() ) === 1 && $response->getDimensionHeaders()[0]->getName() === 'date';
 	}
 
 	/**
@@ -304,7 +304,7 @@ class Site_Kit_Analytics_4_Adapter {
 			throw new Failed_Request_Exception( \wp_kses_post( $response->as_error()->get_error_message() ), (int) $error_status_code );
 		}
 
-		if ( ! \is_a( $response->get_data(), ***REMOVED***::class ) ) {
+		if ( ! \is_a( $response->get_data(), RunReportResponse::class ) ) {
 			throw new Unexpected_Response_Exception();
 		}
 	}

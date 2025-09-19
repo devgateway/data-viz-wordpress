@@ -50,7 +50,7 @@ if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
 	 */
 	function twentytwentyfive_enqueue_styles() {
 		wp_enqueue_style(
-			'***REMOVED***-style',
+			'twentytwentyfive-style',
 			get_parent_theme_file_uri( 'style.css' ),
 			array(),
 			wp_get_theme()->get( 'Version' )
@@ -73,7 +73,7 @@ if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
 			'core/list',
 			array(
 				'name'         => 'checkmark-list',
-				'label'        => __( 'Checkmark', '***REMOVED***' ),
+				'label'        => __( 'Checkmark', 'twentytwentyfive' ),
 				'inline_style' => '
 				ul.is-style-checkmark-list {
 					list-style-type: "\2713";
@@ -102,16 +102,16 @@ if ( ! function_exists( 'twentytwentyfive_pattern_categories' ) ) :
 		register_block_pattern_category(
 			'twentytwentyfive_page',
 			array(
-				'label'       => __( 'Pages', '***REMOVED***' ),
-				'description' => __( 'A collection of full page layouts.', '***REMOVED***' ),
+				'label'       => __( 'Pages', 'twentytwentyfive' ),
+				'description' => __( 'A collection of full page layouts.', 'twentytwentyfive' ),
 			)
 		);
 
 		register_block_pattern_category(
 			'twentytwentyfive_post-format',
 			array(
-				'label'       => __( 'Post formats', '***REMOVED***' ),
-				'description' => __( 'A collection of post format patterns.', '***REMOVED***' ),
+				'label'       => __( 'Post formats', 'twentytwentyfive' ),
+				'description' => __( 'A collection of post format patterns.', 'twentytwentyfive' ),
 			)
 		);
 	}
@@ -129,9 +129,9 @@ if ( ! function_exists( 'twentytwentyfive_register_block_bindings' ) ) :
 	 */
 	function twentytwentyfive_register_block_bindings() {
 		register_block_bindings_source(
-			'***REMOVED***/format',
+			'twentytwentyfive/format',
 			array(
-				'label'              => _x( 'Post format name', 'Label for the block binding placeholder in the editor', '***REMOVED***' ),
+				'label'              => _x( 'Post format name', 'Label for the block binding placeholder in the editor', 'twentytwentyfive' ),
 				'get_value_callback' => 'twentytwentyfive_format_binding',
 			)
 		);

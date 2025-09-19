@@ -7,14 +7,14 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\User_Meta\Application\Additional_Contactmethods_Collector;
 
 /**
- * Handles registering and saving additional ***REMOVED*** for users.
+ * Handles registering and saving additional contactmethods for users.
  */
 class Additional_Contactmethods_Integration implements Integration_Interface {
 
 	use No_Conditionals;
 
 	/**
-	 * The additional ***REMOVED*** collector.
+	 * The additional contactmethods collector.
 	 *
 	 * @var Additional_Contactmethods_Collector
 	 */
@@ -23,7 +23,7 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @param Additional_Contactmethods_Collector $additional_contactmethods_collector The additional ***REMOVED*** collector.
+	 * @param Additional_Contactmethods_Collector $additional_contactmethods_collector The additional contactmethods collector.
 	 */
 	public function __construct( Additional_Contactmethods_Collector $additional_contactmethods_collector ) {
 		$this->additional_contactmethods_collector = $additional_contactmethods_collector;
@@ -40,22 +40,22 @@ class Additional_Contactmethods_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Updates the ***REMOVED*** with an additional set of social profiles.
+	 * Updates the contactmethods with an additional set of social profiles.
 	 *
-	 * These are used with the Facebook author, rel="author", Twitter cards ***REMOVED***, but also in the `sameAs` schema attributes.
+	 * These are used with the Facebook author, rel="author", Twitter cards implementation, but also in the `sameAs` schema attributes.
 	 *
-	 * @param array<string, string> $***REMOVED*** Currently set ***REMOVED***.
+	 * @param array<string, string> $contactmethods Currently set contactmethods.
 	 *
-	 * @return array<string, string> ***REMOVED*** with added ***REMOVED***.
+	 * @return array<string, string> Contactmethods with added contactmethods.
 	 */
-	public function update_contactmethods( $***REMOVED*** ) {
+	public function update_contactmethods( $contactmethods ) {
 		$additional_contactmethods = $this->additional_contactmethods_collector->get_additional_contactmethods_objects();
 
-		return \array_merge( ( $***REMOVED*** ?? [] ), $additional_contactmethods );
+		return \array_merge( ( $contactmethods ?? [] ), $additional_contactmethods );
 	}
 
 	/**
-	 * Returns a check value, which will stop empty ***REMOVED*** from going into the database.
+	 * Returns a check value, which will stop empty contactmethods from going into the database.
 	 *
 	 * @param bool|null $check      Whether to allow updating metadata for the given type.
 	 * @param int       $object_id  ID of the object metadata is for.

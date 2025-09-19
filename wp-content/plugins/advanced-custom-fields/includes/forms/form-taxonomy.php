@@ -254,7 +254,7 @@ if ( ! class_exists( 'acf_form_taxonomy' ) ) :
 		
 		// if not valid, stop event and allow validation to continue
 		if( !valid ) {
-			e.***REMOVED***();
+			e.preventDefault();
 			e.stopImmediatePropagation();
 		}
 	});

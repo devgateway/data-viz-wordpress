@@ -5,7 +5,7 @@ namespace YoastSEO_Vendor\GuzzleHttp\Cookie;
 /**
  * Persists cookies in the client session
  */
-class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
+class SessionCookieJar extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
 {
     /**
      * @var string session key
@@ -14,20 +14,20 @@ class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
     /**
      * @var bool Control whether to persist session cookies or not.
      */
-    private $***REMOVED***;
+    private $storeSessionCookies;
     /**
-     * Create a new ***REMOVED*** object
+     * Create a new SessionCookieJar object
      *
      * @param string $sessionKey          Session key name to store the cookie
      *                                    data in session
-     * @param bool   $***REMOVED*** Set to true to store session cookies
+     * @param bool   $storeSessionCookies Set to true to store session cookies
      *                                    in the cookie jar.
      */
-    public function __construct(string $sessionKey, bool $***REMOVED*** = \false)
+    public function __construct(string $sessionKey, bool $storeSessionCookies = \false)
     {
         parent::__construct();
         $this->sessionKey = $sessionKey;
-        $this->***REMOVED*** = $***REMOVED***;
+        $this->storeSessionCookies = $storeSessionCookies;
         $this->load();
     }
     /**
@@ -45,7 +45,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
         $json = [];
         /** @var SetCookie $cookie */
         foreach ($this as $cookie) {
-            if (\YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar::shouldPersist($cookie, $this->***REMOVED***)) {
+            if (\YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
                 $json[] = $cookie->toArray();
             }
         }
@@ -65,7 +65,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar
                 $this->setCookie(new \YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie($cookie));
             }
         } elseif (\strlen($data)) {
-            throw new \***REMOVED***('Invalid cookie data');
+            throw new \RuntimeException('Invalid cookie data');
         }
     }
 }

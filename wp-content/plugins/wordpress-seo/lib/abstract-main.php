@@ -7,7 +7,7 @@ use WPSEO_Utils;
 use Yoast\WP\Lib\Dependency_Injection\Container_Registry;
 use Yoast\WP\SEO\Exceptions\Forbidden_Property_Mutation_Exception;
 use Yoast\WP\SEO\Loader;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Abstract class to extend for the main class in a plugin.
@@ -17,7 +17,7 @@ abstract class Abstract_Main {
 	/**
 	 * The DI container.
 	 *
-	 * @var ***REMOVED***|null
+	 * @var ContainerInterface|null
 	 */
 	protected $container;
 
@@ -116,7 +116,7 @@ abstract class Abstract_Main {
 	 *
 	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
 	 */
-	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.***REMOVED*** -- __set must have a name and value - PHPCS #3715.
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
 		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
 	}
 
@@ -137,7 +137,7 @@ abstract class Abstract_Main {
 	/**
 	 * Loads the DI container.
 	 *
-	 * @return ***REMOVED***|null The DI container.
+	 * @return ContainerInterface|null The DI container.
 	 *
 	 * @throws Exception If something goes wrong generating the DI container.
 	 */

@@ -1,12 +1,12 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Introductions\***REMOVED***\Wistia_Embed_Permission_Repository;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
@@ -76,7 +76,7 @@ class Post_Site_Information extends Base_Site_Information {
 		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
 
 		$data = [
-			'***REMOVED***'            => $dismissed_alerts,
+			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'metabox'                    => [
 				'search_url'    => $this->search_url(),
@@ -97,7 +97,7 @@ class Post_Site_Information extends Base_Site_Information {
 		$dismissed_alerts = $this->alert_dismissal_action->all_dismissed();
 
 		$data = [
-			'***REMOVED***'            => $dismissed_alerts,
+			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => $this->short_link_helper->get( 'https://yoa.st/webinar-intro-block-editor' ),
 			'search_url'                 => $this->search_url(),
 			'post_edit_url'              => $this->edit_url(),

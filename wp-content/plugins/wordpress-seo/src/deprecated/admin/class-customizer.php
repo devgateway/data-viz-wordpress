@@ -8,7 +8,7 @@
 /**
  * Class with functionality to support WP SEO settings in WordPress Customizer.
  *
- * @***REMOVED***
+ * @codeCoverageIgnore
  * @deprecated 22.8
  */
 class WPSEO_Customizer {
@@ -25,7 +25,7 @@ class WPSEO_Customizer {
 	/**
 	 * Construct Method.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 * @deprecated 22.8
 	 */
 	public function __construct() {
@@ -35,7 +35,7 @@ class WPSEO_Customizer {
 	/**
 	 * Function to support WordPress Customizer.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 * @deprecated 22.8
 	 *
 	 * @param WP_Customize_Manager $wp_customize Manager class instance.
@@ -49,7 +49,7 @@ class WPSEO_Customizer {
 	/**
 	 * Returns whether or not the breadcrumbs are active.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 * @deprecated 22.8
 	 *
 	 * @return void
@@ -61,7 +61,7 @@ class WPSEO_Customizer {
 	/**
 	 * Returns whether or not to show the breadcrumbs blog show option.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 * @deprecated 22.8
 	 *
 	 * @return void

@@ -9,12 +9,12 @@
  */
 
 ?>
-<nav id="site-navigation" class="main-navigation" aria-label="<?php esc_attr_e( 'Top Menu', '***REMOVED***' ); ?>">
+<nav id="site-navigation" class="main-navigation" aria-label="<?php esc_attr_e( 'Top Menu', 'twentyseventeen' ); ?>">
 	<button class="menu-toggle" aria-controls="top-menu" aria-expanded="false">
 		<?php
 		echo twentyseventeen_get_svg( array( 'icon' => 'bars' ) );
 		echo twentyseventeen_get_svg( array( 'icon' => 'close' ) );
-		_e( 'Menu', '***REMOVED***' );
+		_e( 'Menu', 'twentyseventeen' );
 		?>
 	</button>
 
@@ -31,7 +31,7 @@
 		<a href="#content" class="menu-scroll-down"><?php echo twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ); ?><span class="screen-reader-text">
 			<?php
 			/* translators: Hidden accessibility text. */
-			_e( 'Scroll down to content', '***REMOVED***' );
+			_e( 'Scroll down to content', 'twentyseventeen' );
 			?>
 		</span></a>
 	<?php endif; ?>

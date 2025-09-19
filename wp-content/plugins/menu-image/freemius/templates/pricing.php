@@ -46,7 +46,7 @@
 		$context_params['home_url'] = home_url();
 	}
 
-	if ( $fs->is_payments_sandbox() ) // Append plugin secure token for sandbox mode ***REMOVED***.)
+	if ( $fs->is_payments_sandbox() ) // Append plugin secure token for sandbox mode authentication.)
 	{
 		$context_params['sandbox'] = FS_Security::instance()->get_secure_token(
 			$fs->get_plugin(),
@@ -76,7 +76,7 @@
 	}
 ?>
 	<div id="fs_pricing" class="wrap fs-section fs-full-size-wrapper">
-        <div id="fs_pricing_wrapper" data-public-url="<?php echo ***REMOVED***( dirname( $pricing_js_url ) ) ?>"></div>
+        <div id="fs_pricing_wrapper" data-public-url="<?php echo trailingslashit( dirname( $pricing_js_url ) ) ?>"></div>
         <?php
         $pricing_config = array_merge( array(
             'contact_url'            => $fs->contact_url(),

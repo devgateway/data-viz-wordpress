@@ -211,7 +211,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		$child_object_ids = \array_merge( [ $term_id ], \wp_list_pluck( $child_terms, 'object_id' ) );
 
 		// Get the term-taxonomy id's for the term and its children.
-		// phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery,WordPress.DB.***REMOVED***.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$term_taxonomy_ids = $wpdb->get_col(
 			$wpdb->prepare(
 				'SELECT term_taxonomy_id
@@ -228,7 +228,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 		}
 
 		// Get the (post) object id's that are attached to the term.
-		// phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery,WordPress.DB.***REMOVED***.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->get_col(
 			$wpdb->prepare(
 				'SELECT DISTINCT object_id

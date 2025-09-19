@@ -8,8 +8,8 @@ const DEFAULT_PRECISION: number = 4;
 // Array with four values for CSS
 export type FourCssValues = [ string, string, string, string ];
 
-// ***REMOVED*** function option
-interface ***REMOVED*** {
+// sanitizeUnitValue function option
+interface SanitizeOptions {
 	minNum?: number;
 	maxNum?: number;
 	precision?: number;
@@ -21,15 +21,15 @@ interface ***REMOVED*** {
  * @param object Nested object.
  * @return Object cleaned from falsy values.
  */
-export function ***REMOVED***( object: {} ): {} | undefined {
+export function cleanEmptyObject( object: {} ): {} | undefined {
 	if ( object === null || typeof object !== 'object' || Array.isArray( object ) ) {
 		return object;
 	}
 
-	const ***REMOVED*** = Object.entries( object )
-		.map( ( [ key, value ] ) => [ key, ***REMOVED***( value ) ] )
+	const cleanedNestedObjects = Object.entries( object )
+		.map( ( [ key, value ] ) => [ key, cleanEmptyObject( value ) ] )
 		.filter( ( [ , value ] ) => value !== undefined );
-	return ! ***REMOVED***.length ? undefined : Object.fromEntries( ***REMOVED*** );
+	return ! cleanedNestedObjects.length ? undefined : Object.fromEntries( cleanedNestedObjects );
 }
 
 /**
@@ -65,9 +65,9 @@ export function parseCssValue( cssValue: string ): FourCssValues {
  * @param options.precision Precision.
  * @return Sanitized UnitControl value.
  */
-export function ***REMOVED***(
+export function sanitizeUnitValue(
 	initialValue: PropertyValue< string | number > | undefined,
-	options?: ***REMOVED***
+	options?: SanitizeOptions
 ): string {
 	const value: string = String( initialValue ).trim();
 	let num: number = parseFloat( value );
@@ -140,7 +140,7 @@ export function toInteger( value: number | string | undefined, defaultValue = 0 
  * @param rowColSpan rowspan/colspan value.
  * @return normalized rowspan/colspan value.
  */
-export function ***REMOVED***( rowColSpan: any ) {
+export function normalizeRowColSpan( rowColSpan: any ) {
 	const parsedValue = parseInt( rowColSpan, 10 );
 	if ( ! Number.isInteger( parsedValue ) ) {
 		return undefined;

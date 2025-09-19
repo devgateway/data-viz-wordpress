@@ -21,7 +21,7 @@
             }
         });
         $(document).on("click", ".close-undo-box", function(e){
-            e.***REMOVED***();
+            e.preventDefault();
             $("#name-change-success").removeClass("active");
         });
     });

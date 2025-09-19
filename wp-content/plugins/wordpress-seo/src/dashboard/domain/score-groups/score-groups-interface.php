@@ -1,9 +1,9 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Domain\Score_Groups;
 
 /**
- * This interface describes a score group ***REMOVED***.
+ * This interface describes a score group implementation.
  */
 interface Score_Groups_Interface {
 

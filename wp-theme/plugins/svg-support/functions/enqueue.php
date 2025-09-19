@@ -79,7 +79,7 @@ function bodhi_svgs_inline() {
 				// use custom class if set
 				$css_target_array = array(
 					'Bodhi' => 'img.'. $bodhi_svgs_options['css_target'],
-					'***REMOVED***' => $bodhi_svgs_options['css_target']
+					'ForceInlineSVG' => $bodhi_svgs_options['css_target']
 				);
 
 			} else {
@@ -87,7 +87,7 @@ function bodhi_svgs_inline() {
 				// set default class
 				$css_target_array = array(
 					'Bodhi' => 'img.style-svg',
-					'***REMOVED***' => 'style-svg'
+					'ForceInlineSVG' => 'style-svg'
 				);
 
 			}
@@ -142,7 +142,7 @@ function bodhi_svgs_inline() {
 		wp_enqueue_script( 'bodhi_svg_inline' );
 
 		wp_localize_script( 'bodhi_svg_inline', 'cssTarget', $css_target_array );
-		wp_localize_script( 'bodhi_svg_inline', '***REMOVED***', $force_inline_svg_active );
+		wp_localize_script( 'bodhi_svg_inline', 'ForceInlineSVGActive', $force_inline_svg_active );
 
 	}
 

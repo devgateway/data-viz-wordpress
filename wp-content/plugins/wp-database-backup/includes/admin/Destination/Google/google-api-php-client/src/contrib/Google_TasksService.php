@@ -313,7 +313,7 @@ class Google_TasksService extends Google_Service {
   public $tasklists;
   public $tasks;
   /**
-   * Constructs the internal ***REMOVED*** of the Tasks service.
+   * Constructs the internal representation of the Tasks service.
    *
    * @param Google_Client $client
    */
@@ -446,10 +446,10 @@ class Google_TaskLinks extends Google_Model {
   public $description;
   public $link;
   public $type;
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setLink( $link) {
@@ -537,10 +537,10 @@ class Google_TaskLists extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -571,10 +571,10 @@ class Google_Tasks extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }

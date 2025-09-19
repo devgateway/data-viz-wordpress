@@ -4,9 +4,9 @@ Welcome to the official Advanced Custom Fields repository on GitHub. ACF is a Wo
 
 ## Documentation
 
-Do you need help getting started with ACF, or do you have questions about one of the ACF features? You can [search through our documentation here](https://www.***REMOVED***.com/resources/). If you don't find the answers you're looking for, you can start a new forum thread in the [support forum](https://support.***REMOVED***.com/) or contact our [support team](https://www.***REMOVED***.com/contact/)
+Do you need help getting started with ACF, or do you have questions about one of the ACF features? You can [search through our documentation here](https://www.advancedcustomfields.com/resources/). If you don't find the answers you're looking for, you can start a new forum thread in the [support forum](https://support.advancedcustomfields.com/) or contact our [support team](https://www.advancedcustomfields.com/contact/)
 
-If you've got feedback or a feature suggestion for ACF, please use our [feedback board](https://www.***REMOVED***.com/feedback/)
+If you've got feedback or a feature suggestion for ACF, please use our [feedback board](https://www.advancedcustomfields.com/feedback/)
 
 ## Support
 
@@ -16,7 +16,7 @@ Support can take place in the appropriate channels:
 * Community forum
 * Email based ticket system 
 
-These channels can be accessed from our [support website](https://support.***REMOVED***.com/).
+These channels can be accessed from our [support website](https://support.advancedcustomfields.com/).
 
 ## Contributing
 
@@ -24,4 +24,4 @@ If you have a patch, or stumbled upon an issue with ACF core, you can contribute
 
 ## Translations
 
-If you're looking to translate ACF, you can submit new PRO translations via a PR on this repo. Any strings from the free version are imported from [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/). For more information, please view our [translation guide](https://www.***REMOVED***.com/resources/how-to-help-translate-acf-into-other-languages/)
+If you're looking to translate ACF, you can submit new PRO translations via a PR on this repo. Any strings from the free version are imported from [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/). For more information, please view our [translation guide](https://www.advancedcustomfields.com/resources/how-to-help-translate-acf-into-other-languages/)

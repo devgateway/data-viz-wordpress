@@ -33,9 +33,9 @@ trait Fingerprint
      * for invalid values.
      * @return mixed
      */
-    public function ***REMOVED***($algorithm = 'md5')
+    public function getFingerprint($algorithm = 'md5')
     {
-        $type = self::***REMOVED***('Keys', 'OpenSSH', 'savePublicKey');
+        $type = self::validatePlugin('Keys', 'OpenSSH', 'savePublicKey');
         if ($type === false) {
             return false;
         }

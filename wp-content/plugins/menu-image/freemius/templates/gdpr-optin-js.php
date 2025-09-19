@@ -18,17 +18,17 @@
 <script type="text/javascript">
     (function( $ ) {
         $( document ).ready(function() {
-            var $***REMOVED*** = $( 'div[data-id^="gdpr_optin_actions"]' );
-            if ( 0 === $***REMOVED***.length ) {
+            var $gdprOptinNotice = $( 'div[data-id^="gdpr_optin_actions"]' );
+            if ( 0 === $gdprOptinNotice.length ) {
                 return;
             }
 
-            $***REMOVED***.on( 'click', '.button', function() {
+            $gdprOptinNotice.on( 'click', '.button', function() {
                 var
                     $this          = $( this ),
-                    ***REMOVED*** = $this.hasClass( 'allow-marketing' ),
+                    allowMarketing = $this.hasClass( 'allow-marketing' ),
                     cursor         = $this.css( 'cursor' ),
-                    $products      = $***REMOVED***.find( 'span[data-plugin-id]' ),
+                    $products      = $gdprOptinNotice.find( 'span[data-plugin-id]' ),
                     pluginIDs      = [],
                     ajaxUrl        = <?php echo Freemius::ajax_url() ?>;
 
@@ -46,19 +46,19 @@
                     }),
                     method    : 'POST',
                     data      : {
-                        is_marketing_allowed: ***REMOVED***,
+                        is_marketing_allowed: allowMarketing,
                         plugin_ids          : pluginIDs
                     },
                     beforeSend: function() {
                         $this.text( <?php fs_json_encode_echo_inline( 'Thanks, please wait', 'thanks-please-wait', $fs->get_slug() ) ?> + '...' );
                         $this.css({'cursor': 'wait'});
 
-                        $***REMOVED***.find( '.button' ).addClass( 'disabled' );
+                        $gdprOptinNotice.find( '.button' ).addClass( 'disabled' );
                     },
                     complete  : function() {
                         $this.css({'cursor': cursor});
 
-                        $***REMOVED***.remove();
+                        $gdprOptinNotice.remove();
                     }
                 });
             });

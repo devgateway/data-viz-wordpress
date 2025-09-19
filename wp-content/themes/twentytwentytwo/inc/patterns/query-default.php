@@ -3,7 +3,7 @@
  * Default posts block pattern
  */
 return array(
-	'title'      => __( 'Default posts', '***REMOVED***' ),
+	'title'      => __( 'Default posts', 'twentytwentytwo' ),
 	'categories' => array( 'query' ),
 	'blockTypes' => array( 'core/query' ),
 	'content'    => '<!-- wp:query {"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":""},"align":"wide","layout":{"inherit":true}} -->
@@ -39,7 +39,7 @@ return array(
 					<!-- /wp:group -->
 					<!-- /wp:post-template -->
 
-					<!-- wp:query-pagination {"***REMOVED***":"arrow","align":"wide","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+					<!-- wp:query-pagination {"paginationArrow":"arrow","align":"wide","layout":{"type":"flex","justifyContent":"space-between"}} -->
 					<!-- wp:query-pagination-previous {"fontSize":"small"} /-->
 
 					<!-- wp:query-pagination-numbers /-->

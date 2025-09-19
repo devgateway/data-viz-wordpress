@@ -15,18 +15,18 @@
 
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "chromeosdevices" collection of methods.
    * Typical usage is:
    *  <code>
    *   $adminService = new Google_DirectoryService(...);
-   *   $***REMOVED*** = $adminService->***REMOVED***;
+   *   $chromeosdevices = $adminService->chromeosdevices;
    *  </code>
    */
   class Google_ChromeosdevicesServiceResource extends Google_ServiceResource {
 
 
     /**
-     * Retrieve Chrome OS Device (***REMOVED***.get)
+     * Retrieve Chrome OS Device (chromeosdevices.get)
      *
      * @param string $customerId Immutable id of the Google Apps account
      * @param string $deviceId Immutable id of Chrome OS Device
@@ -46,7 +46,7 @@
       }
     }
     /**
-     * Retrieve all Chrome OS Devices of a customer (paginated) (***REMOVED***.list)
+     * Retrieve all Chrome OS Devices of a customer (paginated) (chromeosdevices.list)
      *
      * @param string $customerId Immutable id of the Google Apps account
      * @param array $optParams Optional parameters.
@@ -59,7 +59,7 @@
      * @opt_param string sortOrder Whether to return results in ascending or descending order. Only of use when orderBy is also used
      * @return Google_ChromeOsDevices
      */
-    public function ***REMOVED***($customerId, $optParams = array()) {
+    public function listChromeosdevices($customerId, $optParams = array()) {
       $params = array('customerId' => $customerId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -70,7 +70,7 @@
       }
     }
     /**
-     * Update Chrome OS Device. This method supports patch semantics. (***REMOVED***.patch)
+     * Update Chrome OS Device. This method supports patch semantics. (chromeosdevices.patch)
      *
      * @param string $customerId Immutable id of the Google Apps account
      * @param string $deviceId Immutable id of Chrome OS Device
@@ -91,7 +91,7 @@
       }
     }
     /**
-     * Update Chrome OS Device (***REMOVED***.update)
+     * Update Chrome OS Device (chromeosdevices.update)
      *
      * @param string $customerId Immutable id of the Google Apps account
      * @param string $deviceId Immutable id of Chrome OS Device
@@ -279,7 +279,7 @@
      * @param array $optParams Optional parameters.
      * @return Google_Aliases
      */
-    public function ***REMOVED***($groupKey, $optParams = array()) {
+    public function listGroupsAliases($groupKey, $optParams = array()) {
       $params = array('groupKey' => $groupKey);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -485,7 +485,7 @@
      * @opt_param string sortOrder Whether to return results in ascending or descending order. Only of use when orderBy is also used
      * @return Google_MobileDevices
      */
-    public function ***REMOVED***($customerId, $optParams = array()) {
+    public function listMobiledevices($customerId, $optParams = array()) {
       $params = array('customerId' => $customerId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -812,7 +812,7 @@
      * @param array $optParams Optional parameters.
      * @return Google_Aliases
      */
-    public function ***REMOVED***($userKey, $optParams = array()) {
+    public function listUsersAliases($userKey, $optParams = array()) {
       $params = array('userKey' => $userKey);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -916,7 +916,7 @@
  * @author Google, Inc.
  */
 class Google_DirectoryService extends Google_Service {
-  public $***REMOVED***;
+  public $chromeosdevices;
   public $groups;
   public $groups_aliases;
   public $members;
@@ -926,7 +926,7 @@ class Google_DirectoryService extends Google_Service {
   public $users_aliases;
   public $users_photos;
   /**
-   * Constructs the internal ***REMOVED*** of the Directory service.
+   * Constructs the internal representation of the Directory service.
    *
    * @param Google_Client $client
    */
@@ -936,11 +936,11 @@ class Google_DirectoryService extends Google_Service {
     $this->serviceName = 'admin';
 
     $client->addService($this->serviceName, $this->version);
-    $this->***REMOVED*** = new Google_ChromeosdevicesServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "directory.***REMOVED***.get", "path": "customer/{customerId}/devices/chromeos/{deviceId}", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "deviceId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos", "https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly"]}, "list": {"id": "directory.***REMOVED***.list", "path": "customer/{customerId}/devices/chromeos", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "orderBy": {"type": "string", "enum": ["***REMOVED***", "annotatedUser", "lastSync", "notes", "serialNumber", "status", "***REMOVED***"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}, "query": {"type": "string", "location": "query"}, "sortOrder": {"type": "string", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos", "https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly"]}, "patch": {"id": "directory.***REMOVED***.patch", "path": "customer/{customerId}/devices/chromeos/{deviceId}", "httpMethod": "PATCH", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "deviceId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos"]}, "update": {"id": "directory.***REMOVED***.update", "path": "customer/{customerId}/devices/chromeos/{deviceId}", "httpMethod": "PUT", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "deviceId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos"]}}}', true));
+    $this->chromeosdevices = new Google_ChromeosdevicesServiceResource($this, $this->serviceName, 'chromeosdevices', json_decode('{"methods": {"get": {"id": "directory.chromeosdevices.get", "path": "customer/{customerId}/devices/chromeos/{deviceId}", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "deviceId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}}, "response": {"$ref": "ChromeOsDevice"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos", "https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly"]}, "list": {"id": "directory.chromeosdevices.list", "path": "customer/{customerId}/devices/chromeos", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "orderBy": {"type": "string", "enum": ["annotatedLocation", "annotatedUser", "lastSync", "notes", "serialNumber", "status", "supportEndDate"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}, "query": {"type": "string", "location": "query"}, "sortOrder": {"type": "string", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "ChromeOsDevices"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos", "https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly"]}, "patch": {"id": "directory.chromeosdevices.patch", "path": "customer/{customerId}/devices/chromeos/{deviceId}", "httpMethod": "PATCH", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "deviceId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}}, "request": {"$ref": "ChromeOsDevice"}, "response": {"$ref": "ChromeOsDevice"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos"]}, "update": {"id": "directory.chromeosdevices.update", "path": "customer/{customerId}/devices/chromeos/{deviceId}", "httpMethod": "PUT", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "deviceId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}}, "request": {"$ref": "ChromeOsDevice"}, "response": {"$ref": "ChromeOsDevice"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.chromeos"]}}}', true));
     $this->groups = new Google_GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"delete": {"id": "directory.groups.delete", "path": "groups/{groupKey}", "httpMethod": "DELETE", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group"]}, "get": {"id": "directory.groups.get", "path": "groups/{groupKey}", "httpMethod": "GET", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Group"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.readonly"]}, "insert": {"id": "directory.groups.insert", "path": "groups", "httpMethod": "POST", "request": {"$ref": "Group"}, "response": {"$ref": "Group"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group"]}, "list": {"id": "directory.groups.list", "path": "groups", "httpMethod": "GET", "parameters": {"customer": {"type": "string", "location": "query"}, "domain": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "userKey": {"type": "string", "location": "query"}}, "response": {"$ref": "Groups"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.readonly"]}, "patch": {"id": "directory.groups.patch", "path": "groups/{groupKey}", "httpMethod": "PATCH", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Group"}, "response": {"$ref": "Group"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group"]}, "update": {"id": "directory.groups.update", "path": "groups/{groupKey}", "httpMethod": "PUT", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Group"}, "response": {"$ref": "Group"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group"]}}}', true));
     $this->groups_aliases = new Google_GroupsAliasesServiceResource($this, $this->serviceName, 'aliases', json_decode('{"methods": {"delete": {"id": "directory.groups.aliases.delete", "path": "groups/{groupKey}/aliases/{alias}", "httpMethod": "DELETE", "parameters": {"alias": {"type": "string", "required": true, "location": "path"}, "groupKey": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group"]}, "insert": {"id": "directory.groups.aliases.insert", "path": "groups/{groupKey}/aliases", "httpMethod": "POST", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Alias"}, "response": {"$ref": "Alias"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group"]}, "list": {"id": "directory.groups.aliases.list", "path": "groups/{groupKey}/aliases", "httpMethod": "GET", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Aliases"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.readonly"]}}}', true));
     $this->members = new Google_MembersServiceResource($this, $this->serviceName, 'members', json_decode('{"methods": {"delete": {"id": "directory.members.delete", "path": "groups/{groupKey}/members/{memberKey}", "httpMethod": "DELETE", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}, "memberKey": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.member"]}, "get": {"id": "directory.members.get", "path": "groups/{groupKey}/members/{memberKey}", "httpMethod": "GET", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}, "memberKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Member"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.member", "https://www.googleapis.com/auth/admin.directory.group.member.readonly", "https://www.googleapis.com/auth/admin.directory.group.readonly"]}, "insert": {"id": "directory.members.insert", "path": "groups/{groupKey}/members", "httpMethod": "POST", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Member"}, "response": {"$ref": "Member"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.member"]}, "list": {"id": "directory.members.list", "path": "groups/{groupKey}/members", "httpMethod": "GET", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "roles": {"type": "string", "location": "query"}}, "response": {"$ref": "Members"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.member", "https://www.googleapis.com/auth/admin.directory.group.member.readonly", "https://www.googleapis.com/auth/admin.directory.group.readonly"]}, "patch": {"id": "directory.members.patch", "path": "groups/{groupKey}/members/{memberKey}", "httpMethod": "PATCH", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}, "memberKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Member"}, "response": {"$ref": "Member"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.member"]}, "update": {"id": "directory.members.update", "path": "groups/{groupKey}/members/{memberKey}", "httpMethod": "PUT", "parameters": {"groupKey": {"type": "string", "required": true, "location": "path"}, "memberKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Member"}, "response": {"$ref": "Member"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/admin.directory.group.member"]}}}', true));
-    $this->mobiledevices = new Google_MobiledevicesServiceResource($this, $this->serviceName, 'mobiledevices', json_decode('{"methods": {"action": {"id": "directory.mobiledevices.action", "path": "customer/{customerId}/devices/mobile/{resourceId}/action", "httpMethod": "POST", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "resourceId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile", "https://www.googleapis.com/auth/admin.directory.device.mobile.action"]}, "delete": {"id": "directory.mobiledevices.delete", "path": "customer/{customerId}/devices/mobile/{resourceId}", "httpMethod": "DELETE", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "resourceId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile"]}, "get": {"id": "directory.mobiledevices.get", "path": "customer/{customerId}/devices/mobile/{resourceId}", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}, "resourceId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MobileDevice"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile", "https://www.googleapis.com/auth/admin.directory.device.mobile.action", "https://www.googleapis.com/auth/admin.directory.device.mobile.readonly"]}, "list": {"id": "directory.mobiledevices.list", "path": "customer/{customerId}/devices/mobile", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "orderBy": {"type": "string", "enum": ["deviceId", "email", "lastSync", "model", "name", "os", "status", "type"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}, "query": {"type": "string", "location": "query"}, "sortOrder": {"type": "string", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "MobileDevices"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile", "https://www.googleapis.com/auth/admin.directory.device.mobile.action", "https://www.googleapis.com/auth/admin.directory.device.mobile.readonly"]}}}', true));
+    $this->mobiledevices = new Google_MobiledevicesServiceResource($this, $this->serviceName, 'mobiledevices', json_decode('{"methods": {"action": {"id": "directory.mobiledevices.action", "path": "customer/{customerId}/devices/mobile/{resourceId}/action", "httpMethod": "POST", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "resourceId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "MobileDeviceAction"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile", "https://www.googleapis.com/auth/admin.directory.device.mobile.action"]}, "delete": {"id": "directory.mobiledevices.delete", "path": "customer/{customerId}/devices/mobile/{resourceId}", "httpMethod": "DELETE", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "resourceId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile"]}, "get": {"id": "directory.mobiledevices.get", "path": "customer/{customerId}/devices/mobile/{resourceId}", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}, "resourceId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MobileDevice"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile", "https://www.googleapis.com/auth/admin.directory.device.mobile.action", "https://www.googleapis.com/auth/admin.directory.device.mobile.readonly"]}, "list": {"id": "directory.mobiledevices.list", "path": "customer/{customerId}/devices/mobile", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "orderBy": {"type": "string", "enum": ["deviceId", "email", "lastSync", "model", "name", "os", "status", "type"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["BASIC", "FULL"], "location": "query"}, "query": {"type": "string", "location": "query"}, "sortOrder": {"type": "string", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "MobileDevices"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.device.mobile", "https://www.googleapis.com/auth/admin.directory.device.mobile.action", "https://www.googleapis.com/auth/admin.directory.device.mobile.readonly"]}}}', true));
     $this->orgunits = new Google_OrgunitsServiceResource($this, $this->serviceName, 'orgunits', json_decode('{"methods": {"delete": {"id": "directory.orgunits.delete", "path": "customer/{customerId}/orgunits{/orgUnitPath*}", "httpMethod": "DELETE", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "orgUnitPath": {"type": "string", "required": true, "repeated": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.orgunit"]}, "get": {"id": "directory.orgunits.get", "path": "customer/{customerId}/orgunits{/orgUnitPath*}", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "orgUnitPath": {"type": "string", "required": true, "repeated": true, "location": "path"}}, "response": {"$ref": "OrgUnit"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.orgunit", "https://www.googleapis.com/auth/admin.directory.orgunit.readonly"]}, "insert": {"id": "directory.orgunits.insert", "path": "customer/{customerId}/orgunits", "httpMethod": "POST", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "OrgUnit"}, "response": {"$ref": "OrgUnit"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.orgunit"]}, "list": {"id": "directory.orgunits.list", "path": "customer/{customerId}/orgunits", "httpMethod": "GET", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "orgUnitPath": {"type": "string", "default": "", "location": "query"}, "type": {"type": "string", "enum": ["all", "children"], "location": "query"}}, "response": {"$ref": "OrgUnits"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.orgunit", "https://www.googleapis.com/auth/admin.directory.orgunit.readonly"]}, "patch": {"id": "directory.orgunits.patch", "path": "customer/{customerId}/orgunits{/orgUnitPath*}", "httpMethod": "PATCH", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "orgUnitPath": {"type": "string", "required": true, "repeated": true, "location": "path"}}, "request": {"$ref": "OrgUnit"}, "response": {"$ref": "OrgUnit"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.orgunit"]}, "update": {"id": "directory.orgunits.update", "path": "customer/{customerId}/orgunits{/orgUnitPath*}", "httpMethod": "PUT", "parameters": {"customerId": {"type": "string", "required": true, "location": "path"}, "orgUnitPath": {"type": "string", "required": true, "repeated": true, "location": "path"}}, "request": {"$ref": "OrgUnit"}, "response": {"$ref": "OrgUnit"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.orgunit"]}}}', true));
     $this->users = new Google_UsersServiceResource($this, $this->serviceName, 'users', json_decode('{"methods": {"delete": {"id": "directory.users.delete", "path": "users/{userKey}", "httpMethod": "DELETE", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user"]}, "get": {"id": "directory.users.get", "path": "users/{userKey}", "httpMethod": "GET", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "User"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user", "https://www.googleapis.com/auth/admin.directory.user.readonly"]}, "insert": {"id": "directory.users.insert", "path": "users", "httpMethod": "POST", "request": {"$ref": "User"}, "response": {"$ref": "User"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user"]}, "list": {"id": "directory.users.list", "path": "users", "httpMethod": "GET", "parameters": {"customer": {"type": "string", "location": "query"}, "domain": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "maximum": "500", "location": "query"}, "orderBy": {"type": "string", "enum": ["email", "familyName", "givenName"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "query": {"type": "string", "location": "query"}, "showDeleted": {"type": "string", "location": "query"}, "sortOrder": {"type": "string", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "Users"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user", "https://www.googleapis.com/auth/admin.directory.user.readonly"]}, "makeAdmin": {"id": "directory.users.makeAdmin", "path": "users/{userKey}/makeAdmin", "httpMethod": "POST", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "UserMakeAdmin"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user"]}, "patch": {"id": "directory.users.patch", "path": "users/{userKey}", "httpMethod": "PATCH", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "User"}, "response": {"$ref": "User"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user"]}, "undelete": {"id": "directory.users.undelete", "path": "users/{userKey}/undelete", "httpMethod": "POST", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "UserUndelete"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user"]}, "update": {"id": "directory.users.update", "path": "users/{userKey}", "httpMethod": "PUT", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "User"}, "response": {"$ref": "User"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user"]}}}', true));
     $this->users_aliases = new Google_UsersAliasesServiceResource($this, $this->serviceName, 'aliases', json_decode('{"methods": {"delete": {"id": "directory.users.aliases.delete", "path": "users/{userKey}/aliases/{alias}", "httpMethod": "DELETE", "parameters": {"alias": {"type": "string", "required": true, "location": "path"}, "userKey": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user", "https://www.googleapis.com/auth/admin.directory.user.alias"]}, "insert": {"id": "directory.users.aliases.insert", "path": "users/{userKey}/aliases", "httpMethod": "POST", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Alias"}, "response": {"$ref": "Alias"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user", "https://www.googleapis.com/auth/admin.directory.user.alias"]}, "list": {"id": "directory.users.aliases.list", "path": "users/{userKey}/aliases", "httpMethod": "GET", "parameters": {"userKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Aliases"}, "scopes": ["https://www.googleapis.com/auth/admin.directory.user", "https://www.googleapis.com/auth/admin.directory.user.alias", "https://www.googleapis.com/auth/admin.directory.user.alias.readonly", "https://www.googleapis.com/auth/admin.directory.user.readonly"]}}}', true));
@@ -974,10 +974,10 @@ class Google_Alias extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***($primaryEmail) {
+  public function setPrimaryEmail($primaryEmail) {
     $this->primaryEmail = $primaryEmail;
   }
-  public function ***REMOVED***() {
+  public function getPrimaryEmail() {
     return $this->primaryEmail;
   }
 }
@@ -1003,13 +1003,13 @@ class Google_Aliases extends Google_Model {
 }
 
 class Google_ChromeOsDevice extends Google_Model {
-  public $***REMOVED***;
+  public $annotatedLocation;
   public $annotatedUser;
   public $bootMode;
   public $deviceId;
-  public $***REMOVED***;
+  public $firmwareVersion;
   public $kind;
-  public $***REMOVED***;
+  public $lastEnrollmentTime;
   public $lastSync;
   public $macAddress;
   public $meid;
@@ -1018,21 +1018,21 @@ class Google_ChromeOsDevice extends Google_Model {
   public $orderNumber;
   public $orgUnitPath;
   public $osVersion;
-  public $***REMOVED***;
+  public $platformVersion;
   public $serialNumber;
   public $status;
-  public $***REMOVED***;
+  public $supportEndDate;
   public $willAutoRenew;
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotatedLocation($annotatedLocation) {
+    $this->annotatedLocation = $annotatedLocation;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAnnotatedLocation() {
+    return $this->annotatedLocation;
   }
-  public function ***REMOVED***($annotatedUser) {
+  public function setAnnotatedUser($annotatedUser) {
     $this->annotatedUser = $annotatedUser;
   }
-  public function ***REMOVED***() {
+  public function getAnnotatedUser() {
     return $this->annotatedUser;
   }
   public function setBootMode($bootMode) {
@@ -1047,11 +1047,11 @@ class Google_ChromeOsDevice extends Google_Model {
   public function getDeviceId() {
     return $this->deviceId;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFirmwareVersion($firmwareVersion) {
+    $this->firmwareVersion = $firmwareVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFirmwareVersion() {
+    return $this->firmwareVersion;
   }
   public function setKind($kind) {
     $this->kind = $kind;
@@ -1059,11 +1059,11 @@ class Google_ChromeOsDevice extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function setLastEnrollmentTime($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLastEnrollmentTime($lastEnrollmentTime) {
+    $this->lastEnrollmentTime = $lastEnrollmentTime;
   }
   public function getLastEnrollmentTime() {
-    return $this->***REMOVED***;
+    return $this->lastEnrollmentTime;
   }
   public function setLastSync($lastSync) {
     $this->lastSync = $lastSync;
@@ -1095,16 +1095,16 @@ class Google_ChromeOsDevice extends Google_Model {
   public function getNotes() {
     return $this->notes;
   }
-  public function ***REMOVED***($orderNumber) {
+  public function setOrderNumber($orderNumber) {
     $this->orderNumber = $orderNumber;
   }
-  public function ***REMOVED***() {
+  public function getOrderNumber() {
     return $this->orderNumber;
   }
-  public function ***REMOVED***($orgUnitPath) {
+  public function setOrgUnitPath($orgUnitPath) {
     $this->orgUnitPath = $orgUnitPath;
   }
-  public function ***REMOVED***() {
+  public function getOrgUnitPath() {
     return $this->orgUnitPath;
   }
   public function setOsVersion($osVersion) {
@@ -1113,16 +1113,16 @@ class Google_ChromeOsDevice extends Google_Model {
   public function getOsVersion() {
     return $this->osVersion;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPlatformVersion($platformVersion) {
+    $this->platformVersion = $platformVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPlatformVersion() {
+    return $this->platformVersion;
   }
-  public function ***REMOVED***($serialNumber) {
+  public function setSerialNumber($serialNumber) {
     $this->serialNumber = $serialNumber;
   }
-  public function ***REMOVED***() {
+  public function getSerialNumber() {
     return $this->serialNumber;
   }
   public function setStatus($status) {
@@ -1131,16 +1131,16 @@ class Google_ChromeOsDevice extends Google_Model {
   public function getStatus() {
     return $this->status;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSupportEndDate($supportEndDate) {
+    $this->supportEndDate = $supportEndDate;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSupportEndDate() {
+    return $this->supportEndDate;
   }
-  public function ***REMOVED***($willAutoRenew) {
+  public function setWillAutoRenew($willAutoRenew) {
     $this->willAutoRenew = $willAutoRenew;
   }
-  public function ***REMOVED***() {
+  public function getWillAutoRenew() {
     return $this->willAutoRenew;
   }
 }
@@ -1148,15 +1148,15 @@ class Google_ChromeOsDevice extends Google_Model {
 class Google_ChromeOsDevices extends Google_Model {
   protected $__chromeosdevicesType = 'Google_ChromeOsDevice';
   protected $__chromeosdevicesDataType = 'array';
-  public $***REMOVED***;
+  public $chromeosdevices;
   public $kind;
   public $nextPageToken;
-  public function ***REMOVED***(/* array(Google_ChromeOsDevice) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_ChromeOsDevice', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setChromeosdevices(/* array(Google_ChromeOsDevice) */ $chromeosdevices) {
+    $this->assertIsArray($chromeosdevices, 'Google_ChromeOsDevice', __METHOD__);
+    $this->chromeosdevices = $chromeosdevices;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getChromeosdevices() {
+    return $this->chromeosdevices;
   }
   public function setKind($kind) {
     $this->kind = $kind;
@@ -1164,10 +1164,10 @@ class Google_ChromeOsDevices extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***($nextPageToken) {
+  public function setNextPageToken($nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -1180,11 +1180,11 @@ class Google_Group extends Google_Model {
   public $id;
   public $kind;
   public $name;
-  public $***REMOVED***;
-  public function ***REMOVED***($adminCreated) {
+  public $nonEditableAliases;
+  public function setAdminCreated($adminCreated) {
     $this->adminCreated = $adminCreated;
   }
-  public function ***REMOVED***() {
+  public function getAdminCreated() {
     return $this->adminCreated;
   }
   public function setAliases(/* array(Google_string) */ $aliases) {
@@ -1194,10 +1194,10 @@ class Google_Group extends Google_Model {
   public function getAliases() {
     return $this->aliases;
   }
-  public function ***REMOVED***($description) {
+  public function setDescription($description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setEmail($email) {
@@ -1224,12 +1224,12 @@ class Google_Group extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function setNonEditableAliases(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNonEditableAliases(/* array(Google_string) */ $nonEditableAliases) {
+    $this->assertIsArray($nonEditableAliases, 'Google_string', __METHOD__);
+    $this->nonEditableAliases = $nonEditableAliases;
   }
   public function getNonEditableAliases() {
-    return $this->***REMOVED***;
+    return $this->nonEditableAliases;
   }
 }
 
@@ -1252,10 +1252,10 @@ class Google_Groups extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***($nextPageToken) {
+  public function setNextPageToken($nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -1317,10 +1317,10 @@ class Google_Members extends Google_Model {
   public function getMembers() {
     return $this->members;
   }
-  public function ***REMOVED***($nextPageToken) {
+  public function setNextPageToken($nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -1342,11 +1342,11 @@ class Google_MobileDevice extends Google_Model {
   public $status;
   public $type;
   public $userAgent;
-  public function ***REMOVED***(/* array(Google_MobileDeviceApplications) */ $applications) {
+  public function setApplications(/* array(Google_MobileDeviceApplications) */ $applications) {
     $this->assertIsArray($applications, 'Google_MobileDeviceApplications', __METHOD__);
     $this->applications = $applications;
   }
-  public function ***REMOVED***() {
+  public function getApplications() {
     return $this->applications;
   }
   public function setDeviceId($deviceId) {
@@ -1447,16 +1447,16 @@ class Google_MobileDeviceApplications extends Google_Model {
   public $permission;
   public $versionCode;
   public $versionName;
-  public function ***REMOVED***($displayName) {
+  public function setDisplayName($displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
-  public function ***REMOVED***($packageName) {
+  public function setPackageName($packageName) {
     $this->packageName = $packageName;
   }
-  public function ***REMOVED***() {
+  public function getPackageName() {
     return $this->packageName;
   }
   public function setPermission(/* array(Google_string) */ $permission) {
@@ -1466,16 +1466,16 @@ class Google_MobileDeviceApplications extends Google_Model {
   public function getPermission() {
     return $this->permission;
   }
-  public function ***REMOVED***($versionCode) {
+  public function setVersionCode($versionCode) {
     $this->versionCode = $versionCode;
   }
-  public function ***REMOVED***() {
+  public function getVersionCode() {
     return $this->versionCode;
   }
-  public function ***REMOVED***($versionName) {
+  public function setVersionName($versionName) {
     $this->versionName = $versionName;
   }
-  public function ***REMOVED***() {
+  public function getVersionName() {
     return $this->versionName;
   }
 }
@@ -1492,38 +1492,38 @@ class Google_MobileDevices extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(/* array(Google_MobileDevice) */ $mobiledevices) {
+  public function setMobiledevices(/* array(Google_MobileDevice) */ $mobiledevices) {
     $this->assertIsArray($mobiledevices, 'Google_MobileDevice', __METHOD__);
     $this->mobiledevices = $mobiledevices;
   }
-  public function ***REMOVED***() {
+  public function getMobiledevices() {
     return $this->mobiledevices;
   }
-  public function ***REMOVED***($nextPageToken) {
+  public function setNextPageToken($nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
 
 class Google_OrgUnit extends Google_Model {
-  public $***REMOVED***;
+  public $blockInheritance;
   public $description;
   public $kind;
   public $name;
   public $orgUnitPath;
-  public $***REMOVED***;
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $parentOrgUnitPath;
+  public function setBlockInheritance($blockInheritance) {
+    $this->blockInheritance = $blockInheritance;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getBlockInheritance() {
+    return $this->blockInheritance;
   }
-  public function ***REMOVED***($description) {
+  public function setDescription($description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setKind($kind) {
@@ -1538,17 +1538,17 @@ class Google_OrgUnit extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***($orgUnitPath) {
+  public function setOrgUnitPath($orgUnitPath) {
     $this->orgUnitPath = $orgUnitPath;
   }
-  public function ***REMOVED***() {
+  public function getOrgUnitPath() {
     return $this->orgUnitPath;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setParentOrgUnitPath($parentOrgUnitPath) {
+    $this->parentOrgUnitPath = $parentOrgUnitPath;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getParentOrgUnitPath() {
+    return $this->parentOrgUnitPath;
   }
 }
 
@@ -1556,19 +1556,19 @@ class Google_OrgUnits extends Google_Model {
   public $kind;
   protected $__organizationUnitsType = 'Google_OrgUnit';
   protected $__organizationUnitsDataType = 'array';
-  public $***REMOVED***;
+  public $organizationUnits;
   public function setKind($kind) {
     $this->kind = $kind;
   }
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(/* array(Google_OrgUnit) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_OrgUnit', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOrganizationUnits(/* array(Google_OrgUnit) */ $organizationUnits) {
+    $this->assertIsArray($organizationUnits, 'Google_OrgUnit', __METHOD__);
+    $this->organizationUnits = $organizationUnits;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOrganizationUnits() {
+    return $this->organizationUnits;
   }
 }
 
@@ -1595,14 +1595,14 @@ class Google_User extends Google_Model {
   public $includeInGlobalAddressList;
   public $ipWhitelisted;
   public $isAdmin;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $isDelegatedAdmin;
+  public $isMailboxSetup;
   public $kind;
   public $lastLoginTime;
   protected $__nameType = 'Google_UserName';
   protected $__nameDataType = '';
   public $name;
-  public $***REMOVED***;
+  public $nonEditableAliases;
   public $orgUnitPath;
   protected $__organizationsType = 'Google_UserOrganization';
   protected $__organizationsDataType = 'array';
@@ -1616,8 +1616,8 @@ class Google_User extends Google_Model {
   protected $__relationsDataType = 'array';
   public $relations;
   public $suspended;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $suspensionReason;
+  public $thumbnailPhotoUrl;
   public function setAddresses(/* array(Google_UserAddress) */ $addresses) {
     $this->assertIsArray($addresses, 'Google_UserAddress', __METHOD__);
     $this->addresses = $addresses;
@@ -1625,10 +1625,10 @@ class Google_User extends Google_Model {
   public function getAddresses() {
     return $this->addresses;
   }
-  public function ***REMOVED***($agreedToTerms) {
+  public function setAgreedToTerms($agreedToTerms) {
     $this->agreedToTerms = $agreedToTerms;
   }
-  public function ***REMOVED***() {
+  public function getAgreedToTerms() {
     return $this->agreedToTerms;
   }
   public function setAliases(/* array(Google_string) */ $aliases) {
@@ -1644,10 +1644,10 @@ class Google_User extends Google_Model {
   public function getChangePasswordAtNextLogin() {
     return $this->changePasswordAtNextLogin;
   }
-  public function ***REMOVED***($creationTime) {
+  public function setCreationTime($creationTime) {
     $this->creationTime = $creationTime;
   }
-  public function ***REMOVED***() {
+  public function getCreationTime() {
     return $this->creationTime;
   }
   public function setCustomerId($customerId) {
@@ -1663,17 +1663,17 @@ class Google_User extends Google_Model {
   public function getEmails() {
     return $this->emails;
   }
-  public function ***REMOVED***(/* array(Google_UserExternalId) */ $externalIds) {
+  public function setExternalIds(/* array(Google_UserExternalId) */ $externalIds) {
     $this->assertIsArray($externalIds, 'Google_UserExternalId', __METHOD__);
     $this->externalIds = $externalIds;
   }
-  public function ***REMOVED***() {
+  public function getExternalIds() {
     return $this->externalIds;
   }
-  public function ***REMOVED***($hashFunction) {
+  public function setHashFunction($hashFunction) {
     $this->hashFunction = $hashFunction;
   }
-  public function ***REMOVED***() {
+  public function getHashFunction() {
     return $this->hashFunction;
   }
   public function setId($id) {
@@ -1695,10 +1695,10 @@ class Google_User extends Google_Model {
   public function getIncludeInGlobalAddressList() {
     return $this->includeInGlobalAddressList;
   }
-  public function ***REMOVED***($ipWhitelisted) {
+  public function setIpWhitelisted($ipWhitelisted) {
     $this->ipWhitelisted = $ipWhitelisted;
   }
-  public function ***REMOVED***() {
+  public function getIpWhitelisted() {
     return $this->ipWhitelisted;
   }
   public function setIsAdmin($isAdmin) {
@@ -1707,17 +1707,17 @@ class Google_User extends Google_Model {
   public function getIsAdmin() {
     return $this->isAdmin;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIsDelegatedAdmin($isDelegatedAdmin) {
+    $this->isDelegatedAdmin = $isDelegatedAdmin;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIsDelegatedAdmin() {
+    return $this->isDelegatedAdmin;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIsMailboxSetup($isMailboxSetup) {
+    $this->isMailboxSetup = $isMailboxSetup;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIsMailboxSetup() {
+    return $this->isMailboxSetup;
   }
   public function setKind($kind) {
     $this->kind = $kind;
@@ -1725,10 +1725,10 @@ class Google_User extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***($lastLoginTime) {
+  public function setLastLoginTime($lastLoginTime) {
     $this->lastLoginTime = $lastLoginTime;
   }
-  public function ***REMOVED***() {
+  public function getLastLoginTime() {
     return $this->lastLoginTime;
   }
   public function setName(Google_UserName $name) {
@@ -1737,24 +1737,24 @@ class Google_User extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function setNonEditableAliases(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNonEditableAliases(/* array(Google_string) */ $nonEditableAliases) {
+    $this->assertIsArray($nonEditableAliases, 'Google_string', __METHOD__);
+    $this->nonEditableAliases = $nonEditableAliases;
   }
   public function getNonEditableAliases() {
-    return $this->***REMOVED***;
+    return $this->nonEditableAliases;
   }
-  public function ***REMOVED***($orgUnitPath) {
+  public function setOrgUnitPath($orgUnitPath) {
     $this->orgUnitPath = $orgUnitPath;
   }
-  public function ***REMOVED***() {
+  public function getOrgUnitPath() {
     return $this->orgUnitPath;
   }
-  public function ***REMOVED***(/* array(Google_UserOrganization) */ $organizations) {
+  public function setOrganizations(/* array(Google_UserOrganization) */ $organizations) {
     $this->assertIsArray($organizations, 'Google_UserOrganization', __METHOD__);
     $this->organizations = $organizations;
   }
-  public function ***REMOVED***() {
+  public function getOrganizations() {
     return $this->organizations;
   }
   public function setPassword($password) {
@@ -1770,10 +1770,10 @@ class Google_User extends Google_Model {
   public function getPhones() {
     return $this->phones;
   }
-  public function ***REMOVED***($primaryEmail) {
+  public function setPrimaryEmail($primaryEmail) {
     $this->primaryEmail = $primaryEmail;
   }
-  public function ***REMOVED***() {
+  public function getPrimaryEmail() {
     return $this->primaryEmail;
   }
   public function setRelations(/* array(Google_UserRelation) */ $relations) {
@@ -1789,17 +1789,17 @@ class Google_User extends Google_Model {
   public function getSuspended() {
     return $this->suspended;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSuspensionReason($suspensionReason) {
+    $this->suspensionReason = $suspensionReason;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSuspensionReason() {
+    return $this->suspensionReason;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setThumbnailPhotoUrl($thumbnailPhotoUrl) {
+    $this->thumbnailPhotoUrl = $thumbnailPhotoUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getThumbnailPhotoUrl() {
+    return $this->thumbnailPhotoUrl;
   }
 }
 
@@ -1807,14 +1807,14 @@ class Google_UserAddress extends Google_Model {
   public $country;
   public $countryCode;
   public $customType;
-  public $***REMOVED***;
+  public $extendedAddress;
   public $formatted;
   public $locality;
   public $poBox;
   public $postalCode;
   public $primary;
   public $region;
-  public $***REMOVED***;
+  public $sourceIsStructured;
   public $streetAddress;
   public $type;
   public function setCountry($country) {
@@ -1823,10 +1823,10 @@ class Google_UserAddress extends Google_Model {
   public function getCountry() {
     return $this->country;
   }
-  public function ***REMOVED***($countryCode) {
+  public function setCountryCode($countryCode) {
     $this->countryCode = $countryCode;
   }
-  public function ***REMOVED***() {
+  public function getCountryCode() {
     return $this->countryCode;
   }
   public function setCustomType($customType) {
@@ -1835,11 +1835,11 @@ class Google_UserAddress extends Google_Model {
   public function getCustomType() {
     return $this->customType;
   }
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setExtendedAddress($extendedAddress) {
+    $this->extendedAddress = $extendedAddress;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getExtendedAddress() {
+    return $this->extendedAddress;
   }
   public function setFormatted($formatted) {
     $this->formatted = $formatted;
@@ -1877,16 +1877,16 @@ class Google_UserAddress extends Google_Model {
   public function getRegion() {
     return $this->region;
   }
-  public function setSourceIsStructured($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSourceIsStructured($sourceIsStructured) {
+    $this->sourceIsStructured = $sourceIsStructured;
   }
   public function getSourceIsStructured() {
-    return $this->***REMOVED***;
+    return $this->sourceIsStructured;
   }
-  public function ***REMOVED***($streetAddress) {
+  public function setStreetAddress($streetAddress) {
     $this->streetAddress = $streetAddress;
   }
-  public function ***REMOVED***() {
+  public function getStreetAddress() {
     return $this->streetAddress;
   }
   public function setType($type) {
@@ -1953,17 +1953,17 @@ class Google_UserExternalId extends Google_Model {
 }
 
 class Google_UserIm extends Google_Model {
-  public $***REMOVED***;
+  public $customProtocol;
   public $customType;
   public $im;
   public $primary;
   public $protocol;
   public $type;
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCustomProtocol($customProtocol) {
+    $this->customProtocol = $customProtocol;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCustomProtocol() {
+    return $this->customProtocol;
   }
   public function setCustomType($customType) {
     $this->customType = $customType;
@@ -2061,10 +2061,10 @@ class Google_UserOrganization extends Google_Model {
   public function getDepartment() {
     return $this->department;
   }
-  public function ***REMOVED***($description) {
+  public function setDescription($description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setDomain($domain) {
@@ -2180,10 +2180,10 @@ class Google_UserPhoto extends Google_Model {
   public function getPhotoData() {
     return $this->photoData;
   }
-  public function ***REMOVED***($primaryEmail) {
+  public function setPrimaryEmail($primaryEmail) {
     $this->primaryEmail = $primaryEmail;
   }
-  public function ***REMOVED***() {
+  public function getPrimaryEmail() {
     return $this->primaryEmail;
   }
   public function setWidth($width) {
@@ -2220,10 +2220,10 @@ class Google_UserRelation extends Google_Model {
 
 class Google_UserUndelete extends Google_Model {
   public $orgUnitPath;
-  public function ***REMOVED***($orgUnitPath) {
+  public function setOrgUnitPath($orgUnitPath) {
     $this->orgUnitPath = $orgUnitPath;
   }
-  public function ***REMOVED***() {
+  public function getOrgUnitPath() {
     return $this->orgUnitPath;
   }
 }
@@ -2241,10 +2241,10 @@ class Google_Users extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***($nextPageToken) {
+  public function setNextPageToken($nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTrigger_event($trigger_event) {

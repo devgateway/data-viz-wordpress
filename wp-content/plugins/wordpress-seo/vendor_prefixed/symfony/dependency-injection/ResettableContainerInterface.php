@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection;
 
 /**
  * ResettableContainerInterface defines additional resetting functionality
@@ -17,14 +17,14 @@ namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***;
  *
  * @author Christophe Coevoet <stof@notk.org>
  */
-interface ResettableContainerInterface extends \YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***
+interface ResettableContainerInterface extends \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface
 {
     /**
      * Resets shared services from the container.
      *
      * The container is not intended to be used again after being reset in a normal workflow. This method is
      * meant as a way to release references for ref-counting.
-     * A subsequent call to ***REMOVED***::get will recreate a new instance of the shared service.
+     * A subsequent call to ContainerInterface::get will recreate a new instance of the shared service.
      */
     public function reset();
 }

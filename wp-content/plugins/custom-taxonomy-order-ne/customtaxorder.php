@@ -21,7 +21,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-***REMOVED*** or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -237,7 +237,7 @@ function customtaxorder_wp_get_object_terms_order_filter( $terms ) {
 			}
 		}
 
-		// Sort children after the ancestor, by using a float with "ancestor.***REMOVED***", traversing all parents.
+		// Sort children after the ancestor, by using a float with "ancestor.childchildchild", traversing all parents.
 		foreach ($terms as $term) {
 			if ( ! $term->parent == 0 ) {
 				$ancestors = get_ancestors( $term->term_id, $term->taxonomy, 'taxonomy' );
@@ -508,9 +508,9 @@ add_action( 'wp_initialize_site', 'customtaxorder_wp_initialize_site' );
 
 if ( is_admin() ) {
 	// Admin functions
-	require_once 'admin-***REMOVED***.php';
+	require_once 'admin-customtaxorder.php';
 	// Settingspage
-	require_once 'page-***REMOVED***.php';
+	require_once 'page-customtaxorder.php';
 }
 // functions for sorting taxonomies
 require_once 'taxonomies.php';

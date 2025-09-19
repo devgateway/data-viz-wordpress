@@ -726,9 +726,9 @@ class Akismet_Admin {
 		$servers = $ips = array();
 
 		// Some web hosts may disable this function
-		if ( function_exists('***REMOVED***') ) {	
+		if ( function_exists('gethostbynamel') ) {	
 			
-			$ips = ***REMOVED***( 'rest.akismet.com' );
+			$ips = gethostbynamel( 'rest.akismet.com' );
 			if ( $ips && is_array($ips) && count($ips) ) {
 				$api_key = Akismet::get_api_key();
 				
@@ -771,7 +771,7 @@ class Akismet_Admin {
 			$response = wp_remote_get( 'http://rest.akismet.com/1.1/test' );
 		}
 
-		$debug[ '***REMOVED***' ]  = function_exists('***REMOVED***') ? 'exists' : 'not here';
+		$debug[ 'gethostbynamel' ]  = function_exists('gethostbynamel') ? 'exists' : 'not here';
 		$debug[ 'Servers' ]         = $servers;
 		$debug[ 'Test Connection' ] = $response;
 		
@@ -1176,7 +1176,7 @@ class Akismet_Admin {
 			if ( count( $responses ) > 1 ) {
 				// Due to a quirk in how Jetpack does multi-calls, the response order
 				// can't be trusted to match the call order. It's a good thing our
-				// return values can be mostly ***REMOVED*** from each other.
+				// return values can be mostly differentiated from each other.
 				$first_response_value = array_shift( $responses[0] );
 				$second_response_value = array_shift( $responses[1] );
 				

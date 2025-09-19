@@ -60,7 +60,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 
 		try {
 			$type = self::truncate_type( $type, $prefix, $postfix );
-		} catch ( ***REMOVED*** $exception ) {
+		} catch ( OutOfBoundsException $exception ) {
 			// Maybe do something with the exception, for now just mark as invalid.
 			return false;
 		}
@@ -85,7 +85,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 *
 	 * @return string The type with a safe length to use
 	 *
-	 * @throws ***REMOVED*** When there is less than 15 characters of space for a key that is originally longer.
+	 * @throws OutOfRangeException When there is less than 15 characters of space for a key that is originally longer.
 	 */
 	public static function truncate_type( $type, $prefix = '', $postfix = '' ) {
 		/*
@@ -104,10 +104,10 @@ class WPSEO_Sitemaps_Cache_Validator {
 				/*
 				 * If this happens the most likely cause is a page number that is too high.
 				 *
-				 * So this would not happen ***REMOVED***.
-				 * Either by trying to cause a high server load, finding backdoors or ***REMOVED***.
+				 * So this would not happen unintentionally.
+				 * Either by trying to cause a high server load, finding backdoors or misconfiguration.
 				 */
-				throw new ***REMOVED***(
+				throw new OutOfRangeException(
 					__(
 						'Trying to build the sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
 						'wordpress-seo'
@@ -189,8 +189,8 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
 
 		// Delete transients.
-		//phpcs:disable WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching -- We need to use a direct query here.
-		//phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		$wpdb->query(
 			$wpdb->prepare(
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.

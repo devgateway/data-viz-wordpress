@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2018-09-06 12:21+1000\n"
 "PO-Revision-Date: 2019-07-29 14:31+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:80
 msgid "Advanced Custom Fields"
@@ -123,7 +123,7 @@ msgstr[2] "Nieaktywnych <span class=\"count\">(%s)</span>"
 #: includes/admin/admin-field-group.php:69
 #: includes/admin/admin-field-group.php:71
 msgid "Field group updated."
-msgstr "Grupa pól została ***REMOVED***."
+msgstr "Grupa pól została zaktualizowana."
 
 #: includes/admin/admin-field-group.php:70
 msgid "Field group deleted."
@@ -147,7 +147,7 @@ msgstr "Grupa pól została zaplanowana na."
 
 #: includes/admin/admin-field-group.php:77
 msgid "Field group draft updated."
-msgstr "Szkic grupy pól został ***REMOVED***."
+msgstr "Szkic grupy pól został zaktualizowany."
 
 #: includes/admin/admin-field-group.php:153
 msgid "The string \"field_\" may not be used at the start of a field name"
@@ -266,20 +266,20 @@ msgstr[2] "Grup pól %s zostały zduplikowane."
 #: includes/admin/admin-field-groups.php:227
 #, php-format
 msgid "Field group synchronised. %s"
-msgstr "Grupa pól została ***REMOVED***. %s"
+msgstr "Grupa pól została zsynchronizowana. %s"
 
 #: includes/admin/admin-field-groups.php:231
 #, php-format
 msgid "%s field group synchronised."
 msgid_plural "%s field groups synchronised."
-msgstr[0] "%s grupa pól została ***REMOVED***."
-msgstr[1] "%s grupy pól zostały ***REMOVED***."
-msgstr[2] "%s grup pól zostało ***REMOVED***."
+msgstr[0] "%s grupa pól została zsynchronizowana."
+msgstr[1] "%s grupy pól zostały zsynchronizowane."
+msgstr[2] "%s grup pól zostało zsynchronizowanych."
 
 #: includes/admin/admin-field-groups.php:394
 #: includes/admin/admin-field-groups.php:557
 msgid "Sync available"
-msgstr "***REMOVED*** możliwa"
+msgstr "Synchronizacja możliwa"
 
 #: includes/admin/admin-field-groups.php:507 includes/forms/form-front.php:38
 #: pro/fields/class-acf-field-gallery.php:370
@@ -302,7 +302,7 @@ msgstr "Status"
 #: includes/admin/admin-field-groups.php:607
 msgid "Customise WordPress with powerful, professional and intuitive fields."
 msgstr ""
-"Dostosuj WordPressa korzystając z potężnych, ***REMOVED*** i intuicyjnych "
+"Dostosuj WordPressa korzystając z potężnych, profesjonalnych i intuicyjnych "
 "pól."
 
 #: includes/admin/admin-field-groups.php:609
@@ -371,7 +371,7 @@ msgstr "Synchronizuj grupę pól"
 #: includes/admin/admin-field-groups.php:767
 #: includes/admin/admin-field-groups.php:797
 msgid "Sync"
-msgstr "***REMOVED***"
+msgstr "Synchronizacja"
 
 #: includes/admin/admin-field-groups.php:779
 msgid "Apply"
@@ -438,9 +438,9 @@ msgstr "Nie zaznaczono żadnej grupy pól"
 #, php-format
 msgid "Exported 1 field group."
 msgid_plural "Exported %s field groups."
-msgstr[0] "***REMOVED*** 1 grupę pól."
-msgstr[1] "***REMOVED*** %s grupy pól."
-msgstr[2] "***REMOVED*** %s grup pól."
+msgstr[0] "Wyeksportowano 1 grupę pól."
+msgstr[1] "Wyeksportowano %s grupy pól."
+msgstr[2] "Wyeksportowano %s grup pól."
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:241
 #: includes/admin/tools/class-acf-admin-tool-export.php:269
@@ -457,7 +457,7 @@ msgstr ""
 "Wybierz grupy pól, które chcesz wyeksportować, a następnie wybierz metodę "
 "eksportu. Użyj przycisku pobierania aby wyeksportować do pliku .json, który "
 "można następnie zaimportować do innej instalacji ACF. Użyj przycisku generuj "
-"do ***REMOVED*** ustawień do kodu PHP, który można umieścić w motywie."
+"do wyeksportowania ustawień do kodu PHP, który można umieścić w motywie."
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:341
 msgid "Export File"
@@ -879,13 +879,13 @@ msgid ""
 "Are you sure you wish to run the updater now?"
 msgstr ""
 "Zdecydowanie zaleca się wykonanie kopii zapasowej bazy danych przed "
-"***REMOVED***. Czy na pewno chcesz uruchomić aktualizacje teraz?"
+"kontynuowaniem. Czy na pewno chcesz uruchomić aktualizacje teraz?"
 
 #: includes/admin/views/html-admin-page-upgrade-network.php:144
 #: includes/admin/views/html-admin-page-upgrade.php:31
 #, php-format
 msgid "Upgrading data to version %s"
-msgstr "***REMOVED*** danych do wersji %s"
+msgstr "Aktualizowanie danych do wersji %s"
 
 #: includes/admin/views/html-admin-page-upgrade-network.php:167
 msgid "Upgrade complete."
@@ -958,7 +958,7 @@ msgid ""
 "latest version."
 msgstr ""
 "Upewnij się także, że wszystkie dodatki premium (%s) zostały wcześniej "
-"***REMOVED*** do najnowszych wersji."
+"zaktualizowane do najnowszych wersji."
 
 #: includes/admin/views/settings-addons.php:17
 msgid "Download & Install"
@@ -1023,7 +1023,7 @@ msgid ""
 "independently from their parents. This allows you to drag and drop fields in "
 "and out of parent fields!"
 msgstr ""
-"***REMOVED*** architektury danych pozwoliła polom podrzędnym być "
+"Przeprojektowanie architektury danych pozwoliła polom podrzędnym być "
 "niezależnymi od swoich rodziców. Pozwala to na przeciąganie i upuszczanie "
 "pól pomiędzy rodzicami!"
 
@@ -1039,7 +1039,7 @@ msgstr "Przedstawiamy ACF PRO"
 msgid ""
 "We're changing the way premium functionality is delivered in an exciting way!"
 msgstr ""
-"Zmieniliśmy sposób ***REMOVED*** wersji premium - teraz jest dostarczana w "
+"Zmieniliśmy sposób funkcjonowania wersji premium - teraz jest dostarczana w "
 "ekscytujący sposób!"
 
 #: includes/admin/views/settings-info.php:43
@@ -1050,7 +1050,7 @@ msgid ""
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
 "Wszystkie 4 dodatki premium zostały połączone w nową <a href=\"%s\">wersję "
-"Pro ACF</a>. W obu licencjach, osobistej i ***REMOVED***, funkcjonalność "
+"Pro ACF</a>. W obu licencjach, osobistej i deweloperskiej, funkcjonalność "
 "premium jest bardziej przystępna niż kiedykolwiek wcześniej!"
 
 #: includes/admin/views/settings-info.php:47
@@ -1065,7 +1065,7 @@ msgid ""
 msgstr ""
 "ACF PRO zawiera zaawansowane funkcje, takie jak powtarzalne dane, elastyczne "
 "układy treści, piękne galerie i możliwość tworzenia dodatkowych stron opcji "
-"***REMOVED***!"
+"administracyjnych!"
 
 #: includes/admin/views/settings-info.php:49
 #, php-format
@@ -1153,9 +1153,9 @@ msgstr "Lokalny JSON"
 
 #: includes/admin/views/settings-info.php:95
 msgid ""
-"New auto export to JSON feature improves speed and allows for ***REMOVED***."
+"New auto export to JSON feature improves speed and allows for syncronisation."
 msgstr ""
-"Nowy ***REMOVED*** eksport do JSON ma poprawioną szybkość i pozwala na "
+"Nowy zautomatyzowany eksport do JSON ma poprawioną szybkość i pozwala na "
 "synchronizację."
 
 #: includes/admin/views/settings-info.php:99
@@ -1182,14 +1182,14 @@ msgstr ""
 
 #: includes/admin/views/settings-info.php:109
 msgid "More Customization"
-msgstr "Więcej ***REMOVED***"
+msgstr "Więcej dostosowywania"
 
 #: includes/admin/views/settings-info.php:110
 msgid ""
 "New PHP (and JS) actions and filters have been added to allow for more "
 "customization."
 msgstr ""
-"Dodano nowe akcje i filtry PHP (i JS), aby poszerzyć zakres ***REMOVED***."
+"Dodano nowe akcje i filtry PHP (i JS), aby poszerzyć zakres personalizacji."
 
 #: includes/admin/views/settings-info.php:114
 msgid "Fresh UI"
@@ -1636,19 +1636,19 @@ msgstr "Dodaj nowy wybór"
 
 #: includes/fields/class-acf-field-checkbox.php:353
 msgid "Allow Custom"
-msgstr "Zezwól na ***REMOVED***"
+msgstr "Zezwól na niestandardowe"
 
 #: includes/fields/class-acf-field-checkbox.php:358
 msgid "Allow 'custom' values to be added"
-msgstr "Zezwalaj na dodawanie \"***REMOVED***\" wartości"
+msgstr "Zezwalaj na dodawanie \"niestandardowych\" wartości"
 
 #: includes/fields/class-acf-field-checkbox.php:364
 msgid "Save Custom"
-msgstr "Zapisz ***REMOVED***"
+msgstr "Zapisz niestandardowe"
 
 #: includes/fields/class-acf-field-checkbox.php:369
 msgid "Save 'custom' values to the field's choices"
-msgstr "Zapisz \"***REMOVED***\" wartości tego pola wyboru"
+msgstr "Zapisz \"niestandardowe\" wartości tego pola wyboru"
 
 #: includes/fields/class-acf-field-checkbox.php:381
 #: includes/fields/class-acf-field-select.php:369
@@ -1733,7 +1733,7 @@ msgstr "Wyświetlany format przy edycji wpisu"
 #: includes/fields/class-acf-field-time_picker.php:117
 #: includes/fields/class-acf-field-time_picker.php:132
 msgid "Custom:"
-msgstr "***REMOVED***:"
+msgstr "Niestandardowe:"
 
 #: includes/fields/class-acf-field-date_picker.php:199
 msgid "Save Format"
@@ -2005,7 +2005,7 @@ msgstr "Mapa Google"
 
 #: includes/fields/class-acf-field-google-map.php:59
 msgid "Sorry, this browser does not support geolocation"
-msgstr "Przepraszamy, ta przeglądarka nie obsługuje ***REMOVED***"
+msgstr "Przepraszamy, ta przeglądarka nie obsługuje geolokalizacji"
 
 #: includes/fields/class-acf-field-google-map.php:165
 msgid "Clear location"
@@ -2477,7 +2477,7 @@ msgstr "Szukam&hellip;"
 #: includes/fields/class-acf-field-select.php:122
 msgctxt "Select2 JS load_fail"
 msgid "Loading failed"
-msgstr "Ładowanie zakończone ***REMOVED***"
+msgstr "Ładowanie zakończone niepowodzeniem"
 
 #: includes/fields/class-acf-field-select.php:397
 #: includes/fields/class-acf-field-true_false.php:144
@@ -2723,7 +2723,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "Wyświetlić przyciski Dodawania mediów?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:429
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "Opóźnić inicjowanie?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:430
@@ -2746,7 +2746,7 @@ msgstr "Aktualizuj"
 
 #: includes/forms/form-front.php:104
 msgid "Post updated"
-msgstr "Wpis ***REMOVED***"
+msgstr "Wpis zaktualizowany"
 
 #: includes/forms/form-front.php:230
 msgid "Spam Detected"
@@ -3009,7 +3009,7 @@ msgstr "Wyświetl"
 
 #: pro/fields/class-acf-field-clone.php:830
 msgid "Specify the style used to render the clone field"
-msgstr "Określ styl ***REMOVED*** do stosowania w klonowanych polach"
+msgstr "Określ styl wykorzystywany do stosowania w klonowanych polach"
 
 #: pro/fields/class-acf-field-clone.php:835
 msgid "Group (displays selected fields in a group within this field)"
@@ -3266,7 +3266,7 @@ msgstr "Opcje"
 
 #: pro/options-page.php:82
 msgid "Options Updated"
-msgstr "Ustawienia zostały ***REMOVED***"
+msgstr "Ustawienia zostały zaktualizowane"
 
 #: pro/updates.php:97
 #, php-format
@@ -3280,8 +3280,8 @@ msgstr ""
 "się ze <a href=\"%s\">szczegółami i cennikiem</a>."
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"
@@ -3302,7 +3302,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "database to the newest version."
 #~ msgstr ""
 #~ "Zanim zaczniesz korzystać z niesamowitych funkcji prosimy o "
-#~ "***REMOVED*** bazy danych do najnowszej wersji."
+#~ "zaktualizowanie bazy danych do najnowszej wersji."
 
 #~ msgid ""
 #~ "To help make upgrading easy, <a href=\"%s\">login to your store account</"
@@ -3327,7 +3327,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "New auto export to JSON feature allows field settings to be version "
 #~ "controlled"
 #~ msgstr ""
-#~ "Nowy ***REMOVED*** eksport do JSON pozwala na wersjonowanie ustawień pól"
+#~ "Nowy zautomatyzowany eksport do JSON pozwala na wersjonowanie ustawień pól"
 
 #~ msgid "Swapped XML for JSON"
 #~ msgstr "Zmiana XML na JSON"
@@ -3591,8 +3591,8 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgid "Advanced Custom Fields Pro"
 #~ msgstr "Advanced Custom Fields Pro"
 
-#~ msgid "http://www.***REMOVED***.com/"
-#~ msgstr "http://www.***REMOVED***.com/"
+#~ msgid "http://www.advancedcustomfields.com/"
+#~ msgstr "http://www.advancedcustomfields.com/"
 
 #~ msgid "elliot condon"
 #~ msgstr "elliot condon"
@@ -3643,7 +3643,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Pole powtarzalne"
 
 #~ msgid "Custom field updated."
-#~ msgstr "Włąsne pole zostało ***REMOVED***."
+#~ msgstr "Włąsne pole zostało zaktualizowane."
 
 #~ msgid "Custom field deleted."
 #~ msgstr "Własne pole zostało usunięte."
@@ -3712,7 +3712,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Klucz licencji nie został rozpoznany"
 
 #~ msgid "Advanced Custom Fields Settings"
-#~ msgstr "Ustawienia ***REMOVED*** własnych pól"
+#~ msgstr "Ustawienia zaawansowanych własnych pól"
 
 #~ msgid "Activation Code"
 #~ msgstr "Kod aktywacyjny"
@@ -3731,7 +3731,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "on multiple sites."
 #~ msgstr ""
 #~ "Dodatki można odblokować kupując kod aktywacyjny. Każdy kod aktywacyjny "
-#~ "może być ***REMOVED*** na dowolnej liczbie stron."
+#~ "może być wykorzystywany na dowolnej liczbie stron."
 
 #~ msgid "Export Field Groups to XML"
 #~ msgstr "Eksportuj Grupy pól do XML"
@@ -3756,7 +3756,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Zainstaluj wtyczkę importu WP, jeśli zostaniesz o to poproszony"
 
 #~ msgid "Upload and import your exported .xml file"
-#~ msgstr "Wgraj i zaimportuj ***REMOVED*** wcześniej plik .xml"
+#~ msgstr "Wgraj i zaimportuj wyeksportowany wcześniej plik .xml"
 
 #~ msgid "Select your user and ignore Import Attachments"
 #~ msgstr "Wybierz użytkownika i ignoruj Importowanie załączników"
@@ -3857,10 +3857,10 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "niebieski : Niebieski"
 
 #~ msgid "File Updated."
-#~ msgstr "Plik został ***REMOVED***."
+#~ msgstr "Plik został zaktualizowany."
 
 #~ msgid "Media attachment updated."
-#~ msgstr "Załącznik został ***REMOVED***."
+#~ msgstr "Załącznik został zaktualizowany."
 
 #~ msgid "Add Selected Files"
 #~ msgstr "Dodaj zaznaczone pliki"
@@ -3894,7 +3894,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Zalecana jest miniatura."
 
 #~ msgid "Image Updated"
-#~ msgstr "Zdjęcie zostało ***REMOVED***."
+#~ msgstr "Zdjęcie zostało zaktualizowane."
 
 #~ msgid "Grid"
 #~ msgstr "Siatka"
@@ -3906,7 +3906,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "To zdjęcie już jest w galerii."
 
 #~ msgid "Image Updated."
-#~ msgstr "Zdjęcie zostało ***REMOVED***."
+#~ msgstr "Zdjęcie zostało zaktualizowane."
 
 #~ msgid "No images selected"
 #~ msgstr "Nie wybrano obrazków"
@@ -4028,7 +4028,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "activation code can be used on multiple sites."
 #~ msgstr ""
 #~ "Pola specjalne można odblokować kupując kod aktywacyjny. Każdy kod "
-#~ "aktywacyjny może być ***REMOVED*** wielokrotnie."
+#~ "aktywacyjny może być wykorzystywany wielokrotnie."
 
 #~ msgid "Visit the Plugin Store"
 #~ msgstr "Odwiedź sklep wtyczki"
@@ -4057,7 +4057,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "be used on multiple sites."
 #~ msgstr ""
 #~ "Pola specjalne można odblokować kupując kod aktywacyjny. Każdy kod "
-#~ "aktywacyjny może być ***REMOVED*** wielokrotnie."
+#~ "aktywacyjny może być wykorzystywany wielokrotnie."
 
 #~ msgid "Select which ACF groups to export"
 #~ msgstr "Wybierz, które grupy chcesz wyeksportować"

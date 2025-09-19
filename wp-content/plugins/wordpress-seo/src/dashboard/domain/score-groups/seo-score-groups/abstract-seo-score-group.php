@@ -1,6 +1,6 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups;
 
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Abstract_Score_Group;

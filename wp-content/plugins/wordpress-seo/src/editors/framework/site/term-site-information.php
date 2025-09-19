@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use WP_Taxonomy;
@@ -93,9 +93,9 @@ class Term_Site_Information extends Base_Site_Information {
 	 */
 	private function base_url_for_js(): string {
 		$base_url = \home_url( '/', null );
-		if ( ! $this->options_helper->get( '***REMOVED***', false ) ) {
+		if ( ! $this->options_helper->get( 'stripcategorybase', false ) ) {
 			if ( $this->taxonomy->rewrite ) {
-				$base_url = \***REMOVED***( $base_url . $this->taxonomy->rewrite['slug'] );
+				$base_url = \trailingslashit( $base_url . $this->taxonomy->rewrite['slug'] );
 			}
 		}
 

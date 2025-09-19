@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Portfolio single post template
- * Slug: ***REMOVED***/template-single-portfolio
+ * Slug: twentytwentyfour/template-single-portfolio
  * Template Types: posts, single
  * Viewport width: 1400
  * Inserter: no
@@ -19,7 +19,7 @@
 
 	<!-- wp:post-featured-image {"align":"wide","style":{"spacing":{"margin":{"bottom":"var:preset|spacing|20"}}}} /-->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"constrained","***REMOVED***":"left"}} -->
+	<!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"left"}} -->
 	<div class="wp-block-group alignwide">
 		<!-- wp:template-part {"slug":"post-meta"} /-->
 	</div>

@@ -136,7 +136,7 @@ the Free Software Foundation, either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-***REMOVED*** or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 Twenty Twenty is derived from the Chaplin Theme, Copyright 2019 Anders Norén
@@ -145,7 +145,7 @@ Chaplin Theme is distributed under the terms of the GNU GPL version 2.0
 Twenty Twenty bundles the following third-party resources:
 
 Illustrations by Tammie Lister
-License: Creative Commons Zero (CC0), https://***REMOVED***.org/publicdomain/zero/1.0/
+License: Creative Commons Zero (CC0), https://creativecommons.org/publicdomain/zero/1.0/
 
 Inter Font
 Copyright (c) 2016-2019 The Inter Project Authors (me@rsms.me)
@@ -153,7 +153,7 @@ License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
 Source: https://rsms.me/inter/
 
 Bespoke Icons Created For Twenty Twenty
-License: Creative Commons Zero (CC0), https://***REMOVED***.org/publicdomain/zero/1.0/
+License: Creative Commons Zero (CC0), https://creativecommons.org/publicdomain/zero/1.0/
 List of bespoke icons:
 - Search icon
 - Menu icon
@@ -177,7 +177,7 @@ Source: WordPress Social Link Block (See wp-includes\blocks\social-link.php)
 Code from Twenty Nineteen
 Copyright (c) 2018-2025 WordPress.org
 License: GPLv2
-Source: https://wordpress.org/themes/***REMOVED***/
+Source: https://wordpress.org/themes/twentynineteen/
 Included as part of the following classes and functions:
 - TwentyTwenty_SVG_Icons
 - twentytwenty_the_theme_svg()
@@ -187,7 +187,7 @@ Included as part of the following classes and functions:
 Code from Twenty Seventeen
 Copyright (c) 2016-2025 WordPress.org
 License: GPLv2
-Source: https://wordpress.org/themes/***REMOVED***/
+Source: https://wordpress.org/themes/twentyseventeen/
 Included as part of the following classes and functions:
 - twentytwenty_unique_id()
 

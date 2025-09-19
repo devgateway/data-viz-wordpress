@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * PublicKeyLoader
  *
  * Returns a PublicKey or PrivateKey object.
  *
@@ -16,15 +16,15 @@ namespace phpseclib3\Crypt;
 use phpseclib3\Crypt\Common\AsymmetricKey;
 use phpseclib3\Crypt\Common\PrivateKey;
 use phpseclib3\Crypt\Common\PublicKey;
-use phpseclib3\Exception\***REMOVED***;
+use phpseclib3\Exception\NoKeyLoadedException;
 use phpseclib3\File\X509;
 
 /**
- * ***REMOVED***
+ * PublicKeyLoader
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class PublicKeyLoader
 {
     /**
      * Loads a public or private key
@@ -37,17 +37,17 @@ abstract class ***REMOVED***
     {
         try {
             return EC::load($key, $password);
-        } catch (***REMOVED*** $e) {
+        } catch (NoKeyLoadedException $e) {
         }
 
         try {
             return RSA::load($key, $password);
-        } catch (***REMOVED*** $e) {
+        } catch (NoKeyLoadedException $e) {
         }
 
         try {
             return DSA::load($key, $password);
-        } catch (***REMOVED*** $e) {
+        } catch (NoKeyLoadedException $e) {
         }
 
         try {
@@ -60,7 +60,7 @@ abstract class ***REMOVED***
         } catch (\Exception $e) {
         }
 
-        throw new ***REMOVED***('Unable to read key');
+        throw new NoKeyLoadedException('Unable to read key');
     }
 
     /**
@@ -70,11 +70,11 @@ abstract class ***REMOVED***
      * @param string|array $key
      * @param string $password optional
      */
-    public static function ***REMOVED***($key, $password = false)
+    public static function loadPrivateKey($key, $password = false)
     {
         $key = self::load($key, $password);
         if (!$key instanceof PrivateKey) {
-            throw new ***REMOVED***('The key that was loaded was not a private key');
+            throw new NoKeyLoadedException('The key that was loaded was not a private key');
         }
         return $key;
     }
@@ -89,7 +89,7 @@ abstract class ***REMOVED***
     {
         $key = self::load($key);
         if (!$key instanceof PublicKey) {
-            throw new ***REMOVED***('The key that was loaded was not a public key');
+            throw new NoKeyLoadedException('The key that was loaded was not a public key');
         }
         return $key;
     }
@@ -100,11 +100,11 @@ abstract class ***REMOVED***
      * @return AsymmetricKey
      * @param string|array $key
      */
-    public static function ***REMOVED***($key)
+    public static function loadParameters($key)
     {
         $key = self::load($key);
         if (!$key instanceof PrivateKey && !$key instanceof PublicKey) {
-            throw new ***REMOVED***('The key that was loaded was not a parameter');
+            throw new NoKeyLoadedException('The key that was loaded was not a parameter');
         }
         return $key;
     }

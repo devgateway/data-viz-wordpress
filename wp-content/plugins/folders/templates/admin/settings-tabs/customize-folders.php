@@ -13,7 +13,7 @@
                 ?>
                 <tr>
                     <td width="255px" class="no-padding">
-                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                             <label for="new_folder_color" ><b>"New Folder"</b> button color <button type="button" class="upgrade-link" ><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button></label>
                         </a>
                     </td>
@@ -36,7 +36,7 @@
                                 </li>
                             <?php } ?>
                             <li>
-                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                     <span class="color-box"><span class="gradient"></span> <span class="color-box-area"><?php echo esc_html_e("Custom", "folders") ?></span></span>
                                     <span class="upgrade-link"><?php echo esc_html_e("Upgrade to Pro", "folders") ?></span>
                                 </a>
@@ -53,7 +53,7 @@
                 ?>
                 <tr>
                     <td class="no-padding">
-                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                             <label for="bulk_organize_button_color" ><b>"Bulk Organize"</b> button color <button type="button" class="upgrade-link" ><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button></label>
                         </a>
                     </td>
@@ -76,7 +76,7 @@
                                 </li>
                             <?php } ?>
                             <li>
-                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                     <span class="color-box"><span class="gradient"></span> <span class="color-box-area"><?php echo esc_html_e("Custom", "folders") ?></span></span>
                                     <span class="upgrade-link"><?php echo esc_html_e("Upgrade to Pro", "folders") ?></span>
                                 </a>
@@ -90,7 +90,7 @@
                 ?>
                 <tr>
                     <td class="no-padding">
-                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                             <label for="media_replace_button" ><b>"Replace File"</b> media library button <button type="button" class="upgrade-link" ><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button></label>
                         </a>
                     </td>
@@ -113,7 +113,7 @@
                                 </li>
                             <?php } ?>
                             <li>
-                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                     <span class="color-box"><span class="gradient"></span> <span class="color-box-area"><?php echo esc_html_e("Custom", "folders") ?></span></span>
                                     <span class="upgrade-link"><?php echo esc_html_e("Upgrade to Pro", "folders") ?></span>
                                 </a>
@@ -127,7 +127,7 @@
                 ?>
                 <tr>
                     <td class="no-padding">
-                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                             <label for="dropdown_color" ><?php echo esc_html_e("Dropdown color", "folders") ?> <button type="button" class="upgrade-link" ><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button></label>
                         </a>
                     </td>
@@ -150,7 +150,7 @@
                                 </li>
                             <?php } ?>
                             <li>
-                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                     <span class="color-box"><span class="gradient"></span> <span class="color-box-area"><?php echo esc_html_e("Custom", "folders") ?></span></span>
                                     <span class="upgrade-link"><?php echo esc_html_e("Upgrade to Pro", "folders") ?></span>
                                 </a>
@@ -164,7 +164,7 @@
                 ?>
                 <tr>
                     <td class="no-padding">
-                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                        <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                             <label for="folder_bg_color" ><?php echo esc_html_e("Folders background color", "folders") ?> <button type="button" class="upgrade-link" ><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button></label>
                         </a>
                     </td>
@@ -187,7 +187,7 @@
                                 </li>
                             <?php } ?>
                             <li>
-                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                <a class="upgrade-box-link d-block" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                     <span class="color-box"><span class="gradient"></span> <span class="color-box-area"><?php echo esc_html_e("Custom", "folders") ?></span></span>
                                     <span class="upgrade-link"><?php echo esc_html_e("Upgrade to Pro", "folders") ?></span>
                                 </a>
@@ -219,7 +219,7 @@
                             </div>
                         </div>
                         <div class="clear"></div>
-                        <a href="<?php echo esc_url($this->***REMOVED***()) ?>" class="custom-icon-color-link"><?php esc_html_e("Add more colors (Pro)", "folders"); ?></a>
+                        <a href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" class="custom-icon-color-link"><?php esc_html_e("Add more colors (Pro)", "folders"); ?></a>
                     </td>
                 </tr>
                 <?php
@@ -233,7 +233,7 @@
                             <?php if ($setting_font !== false && $setting_font != "" && !in_array($setting_font, ["Arial", "Tahoma", "Verdana", "Helvetica", "Times New Roman", "Trebuchet MS", "Georgia", "System Stack"])) {
                                 esc_html_e("Folders font", 'folders');
                             } else { ?>
-                                <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                     <?php esc_html_e('Folders font', 'folders'); ?> <button type="button" class="upgrade-link" ><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button>
                                 </a>
                             <?php } ?>
@@ -271,7 +271,7 @@
                     <td class="no-padding">
                         <label for="folder_size" >
                             <?php if ($folder_size === false || intval($folder_size) === 16) { ?>
-                                <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                     <?php esc_html_e('Folders size', 'folders'); ?> <button type="button" class="upgrade-link" ><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button>
                                 </a>
                             <?php } else { ?>
@@ -335,7 +335,7 @@
                     <td colspan="3" style="padding: 15px 20px 15px 0">
                         <input type="hidden" name="customize_folders[show_in_page]" value="hide">
                         <?php if ($show_folder === false || $show_folder === "hide") { ?>
-                            <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                            <a class="upgrade-box-link" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                 <label for="" class="custom-checkbox send-user-to-pro">
                                     <input disabled type="checkbox" class="sr-only" name="customize_folders[show_in_page]" id="show_in_page" value="on" <?php checked($show_in_page, "show") ?>>
                                     <span></span>
@@ -345,7 +345,7 @@
                                     <span class="folder-tooltip" data-title="<?php esc_html_e("The list of your folders will also appear at the top of the page, e.g. under 'Media library'.", "folders"); ?>">
                                                         <span class="dashicons dashicons-editor-help"></span>
                                                     </span>
-                                    <button type="button" class="upgrade-link" href="<?php echo esc_url($this->***REMOVED***()) ?>"><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button>
+                                    <button type="button" class="upgrade-link" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>"><?php esc_html_e("Upgrade to Pro", 'folders'); ?></button>
                                 </label>
                             </a>
                         <?php } else { ?>

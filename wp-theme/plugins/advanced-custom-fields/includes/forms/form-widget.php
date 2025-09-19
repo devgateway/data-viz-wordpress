@@ -292,7 +292,7 @@ class acf_form_widget {
 		
 		// if not valid, stop event and allow validation to continue
 		if( !valid ) {
-			e.***REMOVED***();
+			e.preventDefault();
 			e.stopImmediatePropagation();
 		}
 	});

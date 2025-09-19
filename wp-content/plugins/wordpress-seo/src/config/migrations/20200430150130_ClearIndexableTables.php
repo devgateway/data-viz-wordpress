@@ -6,9 +6,9 @@ use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
 
 /**
- * Class ***REMOVED***.
+ * Class ClearIndexableTables.
  */
-class ***REMOVED*** extends Migration {
+class ClearIndexableTables extends Migration {
 
 	/**
 	 * The plugin this migration belongs to.

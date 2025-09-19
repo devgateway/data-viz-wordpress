@@ -1,19 +1,19 @@
 import {
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
+    getFontSizeClass,
+    InspectorControls,
+    PanelColorSettings,
     RichText,
     useBlockProps,
     useSetting
 } from '@wordpress/block-editor';
 import {
-    ***REMOVED***,
-    ***REMOVED***,
+    CheckboxControl,
+    FontSizePicker,
     Panel,
     PanelBody,
     PanelRow,
     RangeControl,
-    ***REMOVED***,
+    TextareaControl,
     TextControl,
     ToggleControl
 } from '@wordpress/components';
@@ -53,11 +53,11 @@ class BlockEdit extends ComponentWithSettings {
                 fontSize,
                 fontClass,
                 tooltip,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***
+                downloadTooltip,
+                includeSourceURL,
+                sourceURLMarginLeft,
+                sourceURLMarginTop,
+                sourceURLFontSize
             },
         } = this.props;
 
@@ -69,14 +69,14 @@ class BlockEdit extends ComponentWithSettings {
         //migration code
         if (tooltip != '') {
             ;
-            setAttributes({***REMOVED***: tooltip, tooltip: ''})
+            setAttributes({downloadTooltip: tooltip, tooltip: ''})
             return null;
         }
 
         return (
 
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel>
                         <PanelBody title={__("Default Format")}>
                             <PanelRow>
@@ -101,7 +101,7 @@ class BlockEdit extends ComponentWithSettings {
                         </PanelBody>
                         <PanelBody title={__("Allowed Format")}>
                             <PanelRow>
-                                <***REMOVED***
+                                <CheckboxControl
                                     label="PNG"
                                     checked={checkPng}
                                     onChange={(value) => {
@@ -113,7 +113,7 @@ class BlockEdit extends ComponentWithSettings {
                                     }}/>
                             </PanelRow>
                             <PanelRow>
-                                <***REMOVED***
+                                <CheckboxControl
                                     label="JPG"
                                     checked={checkJpg}
                                     onChange={(value) =>
@@ -135,26 +135,26 @@ class BlockEdit extends ComponentWithSettings {
                             </PanelRow>
                             {useTitle && <PanelBody>
                                 <PanelRow>
-                                    <***REMOVED***
+                                    <FontSizePicker
                                         fontSizes={fontSizes}
                                         withSlider={true}
-                                        ***REMOVED***={14}
+                                        fallbackFontSize={14}
                                         value={fontSize}
                                         onChange={(fontSize) => {
                                             const current = fontSizes.filter(f => f.size === fontSize).shift()
                                             if (current) {
                                                 setAttributes({
-                                                    fontClass: ***REMOVED***(current.slug),
+                                                    fontClass: getFontSizeClass(current.slug),
                                                     fontSize: fontSize
                                                 })
                                             } else {
                                                 setAttributes({fontClass: '', fontSize: fontSize})
                                             }
                                         }}>
-                                    </***REMOVED***>
+                                    </FontSizePicker>
                                 </PanelRow>
                                 <PanelRow>
-                                    <***REMOVED***
+                                    <PanelColorSettings
                                         colorSettings={[
                                             {
                                                 value: color,
@@ -235,39 +235,39 @@ class BlockEdit extends ComponentWithSettings {
                         </PanelBody>
                         <PanelBody title={__("Tooltip")}>
                             <PanelRow>
-                                <***REMOVED***
-                                    value={***REMOVED***}
-                                    onChange={(***REMOVED***) => setAttributes({***REMOVED***})}/>
+                                <TextareaControl
+                                    value={downloadTooltip}
+                                    onChange={(downloadTooltip) => setAttributes({downloadTooltip})}/>
                             </PanelRow>
                         </PanelBody>
                         <PanelBody title={__("Source URL")}>
                             <PanelRow>
                                 <ToggleControl
                                     label={__("Include Source URL")}
-                                    checked={***REMOVED***}
-                                    onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                                    checked={includeSourceURL}
+                                    onChange={() => setAttributes({includeSourceURL: !includeSourceURL})}/>
                             </PanelRow>
-                            {***REMOVED*** &&
+                            {includeSourceURL &&
                                 <>
                                     <RangeControl
                                         label={__('Margin Left')}
-                                        value={***REMOVED***}
-                                        onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                        value={sourceURLMarginLeft}
+                                        onChange={(sourceURLMarginLeft) => setAttributes({sourceURLMarginLeft})}
                                         min={0}
                                         max={300}
                                     />
 
                                     <RangeControl
                                         label={__('Margin Top')}
-                                        value={***REMOVED***}
-                                        onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                        value={sourceURLMarginTop}
+                                        onChange={(sourceURLMarginTop) => setAttributes({sourceURLMarginTop})}
                                         min={0}
                                         max={50}
                                     />
                                     <RangeControl
                                         label={__('Font Size')}
-                                        value={***REMOVED***}
-                                        onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                        value={sourceURLFontSize}
+                                        onChange={(sourceURLFontSize) => setAttributes({sourceURLFontSize})}
                                         min={8}
                                         max={24}
                                     />
@@ -275,7 +275,7 @@ class BlockEdit extends ComponentWithSettings {
                             }
                         </PanelBody>
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
 
                 <div className={`${className} ${className.split('-').join(' ')}`} >
 

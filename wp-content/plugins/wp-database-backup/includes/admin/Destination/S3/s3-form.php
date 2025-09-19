@@ -14,7 +14,7 @@ if ( true === isset( $_POST['wpdb_amazon_s3'] ) && 'Y' === $_POST['wpdb_amazon_s
 	if ( ! isset( $_POST['wpdbbackup_update_amazon_setting'] ) ) {
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
-	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_amazon_setting']) , 'wpdbbackup-update-amazon-setting' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_amazon_setting']) , 'wpdbbackup-update-amazon-setting' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
 
@@ -51,13 +51,13 @@ if($wp_db_backup_destination_s3==1 && !empty($wpdb_dest_amazon_s3_bucket) && !em
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h4 class="panel-title">
-			<a data-toggle="collapse" data-parent="#accordion" href="#***REMOVED***">
+			<a data-toggle="collapse" data-parent="#accordion" href="#collapseAmazon">
 				<h2><?php echo esc_html__('Amazon S3', 'wpdbbkp') ?> <?php echo wp_kses_post($wpdbbkp_amazon_s3_status);?> <span class="dashicons dashicons-admin-generic"></span></h2>
 
 			</a>
 		</h4>
 	</div>
-	<div id="***REMOVED***" class="panel-collapse collapse">
+	<div id="collapseAmazon" class="panel-collapse collapse">
 		<div class="panel-body">
 			<?php
 			echo esc_html( $update_msg );
@@ -113,7 +113,7 @@ if($wp_db_backup_destination_s3==1 && !empty($wpdb_dest_amazon_s3_bucket) && !em
 					<div class="col-sm-6">
 
 						<input type="text" id="wpdb_dest_amazon_s3_bucket" class="form-control" name="wpdb_dest_amazon_s3_bucket" value="<?php echo esc_html( get_option( 'wpdb_dest_amazon_s3_bucket' ) ); ?>" size="25" placeholder="<?php esc_attr_e('Buket name','wpdbbkp');?>">
-						<a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/***REMOVED***.html" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
+						<a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
 					</div>
 				</div>
 
@@ -121,7 +121,7 @@ if($wp_db_backup_destination_s3==1 && !empty($wpdb_dest_amazon_s3_bucket) && !em
 					<label class="col-sm-2" for="wpdb_dest_amazon_s3_bucket_key"><?php echo esc_html__('Key', 'wpdbbkp') ?></label>
 					<div class="col-sm-6">
 						<input type="text" id="wpdb_dest_amazon_s3_bucket_key" class="form-control" name="wpdb_dest_amazon_s3_bucket_key" value="<?php echo esc_html( get_option( 'wpdb_dest_amazon_s3_bucket_key' ) ); ?>" size="25" placeholder="<?php esc_attr_e('your access key id','wpdbbkp');?>">
-						<a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/***REMOVED***.html" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
+						<a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
 					</div>
 				</div>
 
@@ -129,7 +129,7 @@ if($wp_db_backup_destination_s3==1 && !empty($wpdb_dest_amazon_s3_bucket) && !em
 					<label class="col-sm-2" for="wpdb_dest_amazon_s3_bucket_secret"><?php echo esc_html__('Secret', 'wpdbbkp') ?></label>
 					<div class="col-sm-6">
 						<input type="text" id="wpdb_dest_amazon_s3_bucket_secret" class="form-control" name="wpdb_dest_amazon_s3_bucket_secret" value="<?php echo esc_html( get_option( 'wpdb_dest_amazon_s3_bucket_secret' ) ); ?>" size="25" placeholder="<?php esc_attr_e('your secret access key','wpdbbkp');?>">
-						<a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/***REMOVED***.html" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
+						<a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
 					</div>
 				</div>
 

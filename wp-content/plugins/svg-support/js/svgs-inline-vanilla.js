@@ -1,31 +1,31 @@
 /* eslint-env browser */
-/* global svgSettings, ***REMOVED***, cssTarget, frontSanitizationEnabled, DOMPurify */
+/* global svgSettings, ForceInlineSVGActive, cssTarget, frontSanitizationEnabled, DOMPurify */
 
-document.***REMOVED***("***REMOVED***", function(event) {
+document.addEventListener("DOMContentLoaded", function(event) {
 
     let bodhisvgsReplacements = 0;
     let target;
 
     // Function to replace the img tag with the SVG
-    function ***REMOVED***(img) {
+    function bodhisvgsReplace(img) {
         // Ensure it's an image
         if (img.nodeName !== 'IMG') {
             return;
         }
 
-        const ***REMOVED*** = img.classList.contains(target);
-        const ***REMOVED*** = img.parentElement.classList.contains(target);
+        const hasTargetClass = img.classList.contains(target);
+        const parentHasTargetClass = img.parentElement.classList.contains(target);
         const insideTargetContainer = img.closest('.' + target) !== null;
         
         // First check if we should process at all
-        if (***REMOVED*** !== 'true' && !***REMOVED*** && !insideTargetContainer) {
+        if (ForceInlineSVGActive !== 'true' && !hasTargetClass && !insideTargetContainer) {
             return;
         }
 
         // If skip nested is enabled, only skip if:
         // 1. Image doesn't have target class AND
         // 2. Image's parent is not the target container but is inside one
-        if (svgSettings.skipNested && !***REMOVED*** && !***REMOVED*** && insideTargetContainer) {
+        if (svgSettings.skipNested && !hasTargetClass && !parentHasTargetClass && insideTargetContainer) {
             return;
         }
 
@@ -38,17 +38,17 @@ document.***REMOVED***("***REMOVED***", function(event) {
             return;
         }
 
-        var xmlHttp = new ***REMOVED***();
-        xmlHttp.***REMOVED*** = function() {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                 var data = xmlHttp.responseText;
 
                 // Parse the returned data to extract the SVG
                 let parser = new DOMParser();
-                const doc = parser.***REMOVED***(data, 'text/html');
+                const doc = parser.parseFromString(data, 'text/html');
 
                 // Get the SVG tag from the parsed data
-                var svg = doc.***REMOVED***('svg')[0];
+                var svg = doc.getElementsByTagName('svg')[0];
 
                 var svgID = svg.id;
 
@@ -70,7 +70,7 @@ document.***REMOVED***("***REMOVED***", function(event) {
                 }
 
                 // Remove any invalid XML tags as per http://validator.w3.org
-                svg.***REMOVED***('xmlns:a');
+                svg.removeAttribute('xmlns:a');
 
                 // If sanitization is enabled, sanitize the SVG code
                 if (frontSanitizationEnabled === 'on' && svg.outerHTML !== "") {
@@ -92,14 +92,14 @@ document.***REMOVED***("***REMOVED***", function(event) {
     }
 
     // Function to iterate over nodes and replace images
-    function ***REMOVED***(node) {
+    function bodhisvgsIterator(node) {
         if (node.childNodes.length > 0) {
             for (var i = 0; i < node.childNodes.length; i++) {
                 if (node.childNodes[i].nodeName === 'IMG') {
                     var img = node.childNodes[i];
-                    ***REMOVED***(img);
+                    bodhisvgsReplace(img);
                 } else {
-                    ***REMOVED***(node.childNodes[i]);
+                    bodhisvgsIterator(node.childNodes[i]);
                 }
             }
         }
@@ -108,13 +108,13 @@ document.***REMOVED***("***REMOVED***", function(event) {
     // Wrap in IIFE so that it can be called again later as bodhisvgsInlineSupport();
     (bodhisvgsInlineSupport = function() {
         // If force inline SVG option is active then add class
-        if (***REMOVED*** === 'true') {
-            var allImages = document.***REMOVED***('img');
+        if (ForceInlineSVGActive === 'true') {
+            var allImages = document.getElementsByTagName('img');
             for (var i = 0; i < allImages.length; i++) {
                 if (typeof allImages[i].src !== 'undefined') {
                     if (allImages[i].src.match(/\.(svg)/)) {
-                        if (!allImages[i].classList.contains(cssTarget.***REMOVED***)) {
-                            allImages[i].classList.add(cssTarget.***REMOVED***);
+                        if (!allImages[i].classList.contains(cssTarget.ForceInlineSVG)) {
+                            allImages[i].classList.add(cssTarget.ForceInlineSVG);
                         }
                     }
                 }
@@ -141,8 +141,8 @@ document.***REMOVED***("***REMOVED***", function(event) {
         };
 
         // Set target before we use it
-        if (***REMOVED*** === 'true') {
-            target = cssTarget.Bodhi !== 'img.' ? cssTarget.***REMOVED*** : 'style-svg';
+        if (ForceInlineSVGActive === 'true') {
+            target = cssTarget.Bodhi !== 'img.' ? cssTarget.ForceInlineSVG : 'style-svg';
         } else {
             target = cssTarget.Bodhi !== 'img.' ? cssTarget.Bodhi : 'style-svg';
         }
@@ -155,11 +155,11 @@ document.***REMOVED***("***REMOVED***", function(event) {
         }
 
         // Replace images with SVGs based on the target class
-        document.***REMOVED***('.' + target).forEach(function(element) {
+        document.querySelectorAll('.' + target).forEach(function(element) {
             if (element.nodeName === 'IMG') {
-                ***REMOVED***(element);
+                bodhisvgsReplace(element);
             } else {
-                ***REMOVED***(element);
+                bodhisvgsIterator(element);
             }
         });
 

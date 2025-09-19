@@ -17,7 +17,7 @@
 
 /**
  * HTTP Request to be executed by apiIO classes. Upon execution, the
- * ***REMOVED***, ***REMOVED*** and responseBody will be filled in.
+ * responseHttpCode, responseHeaders and responseBody will be filled in.
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
@@ -34,20 +34,20 @@ class Google_HttpRequest {
 
   protected $url;
   protected $requestMethod;
-  protected $***REMOVED***;
+  protected $requestHeaders;
   protected $postBody;
   protected $userAgent;
 
-  protected $***REMOVED***;
-  protected $***REMOVED***;
+  protected $responseHttpCode;
+  protected $responseHeaders;
   protected $responseBody;
   
   public $accessKey;
 
   public function __construct($url, $method = 'GET', $headers = array(), $postBody = null) {
     $this->setUrl($url);
-    $this->***REMOVED***($method);
-    $this->***REMOVED***($headers);
+    $this->setRequestMethod($method);
+    $this->setRequestHeaders($headers);
     $this->setPostBody($postBody);
 
     global $apiConfig;
@@ -76,7 +76,7 @@ class Google_HttpRequest {
    * url used by the OAuth signing class to calculate the signature
    * @return array Query parameters in the query string.
    */
-  public function ***REMOVED***() {
+  public function getQueryParams() {
     if ($pos = strpos($this->url, '?')) {
       $queryStr = substr($this->url, $pos + 1);
       $params = array();
@@ -89,28 +89,28 @@ class Google_HttpRequest {
   /**
    * @return string HTTP Response Code.
    */
-  public function ***REMOVED***() {
-    return (int) $this->***REMOVED***;
+  public function getResponseHttpCode() {
+    return (int) $this->responseHttpCode;
   }
 
   /**
-   * @param int $***REMOVED*** HTTP Response Code.
+   * @param int $responseHttpCode HTTP Response Code.
    */
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setResponseHttpCode($responseHttpCode) {
+    $this->responseHttpCode = $responseHttpCode;
   }
 
   /**
-   * @return $***REMOVED*** (array) HTTP Response Headers.
+   * @return $responseHeaders (array) HTTP Response Headers.
    */
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getResponseHeaders() {
+    return $this->responseHeaders;
   }
 
   /**
    * @return string HTTP Response Body
    */
-  public function ***REMOVED***() {
+  public function getResponseBody() {
     return $this->responseBody;
   }
 
@@ -118,13 +118,13 @@ class Google_HttpRequest {
    * @param array $headers The HTTP response headers
    * to be normalized.
    */
-  public function ***REMOVED***($headers) {
+  public function setResponseHeaders($headers) {
     $headers = Google_Utils::normalize($headers);
-    if ($this->***REMOVED***) {
-      $headers = array_merge($this->***REMOVED***, $headers);
+    if ($this->responseHeaders) {
+      $headers = array_merge($this->responseHeaders, $headers);
     }
 
-    $this->***REMOVED*** = $headers;
+    $this->responseHeaders = $headers;
   }
 
   /**
@@ -132,16 +132,16 @@ class Google_HttpRequest {
    * @return array|boolean Returns the requested HTTP header or
    * false if unavailable.
    */
-  public function ***REMOVED***($key) {
-    return isset($this->***REMOVED***[$key])
-        ? $this->***REMOVED***[$key]
+  public function getResponseHeader($key) {
+    return isset($this->responseHeaders[$key])
+        ? $this->responseHeaders[$key]
         : false;
   }
 
   /**
    * @param string $responseBody The HTTP response body.
    */
-  public function ***REMOVED***($responseBody) {
+  public function setResponseBody($responseBody) {
     $this->responseBody = $responseBody;
   }
 
@@ -156,15 +156,15 @@ class Google_HttpRequest {
   /**
    * @return string $method HTTP Request Method.
    */
-  public function ***REMOVED***() {
+  public function getRequestMethod() {
     return $this->requestMethod;
   }
 
   /**
    * @return array $headers HTTP Request Headers.
    */
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getRequestHeaders() {
+    return $this->requestHeaders;
   }
 
   /**
@@ -172,9 +172,9 @@ class Google_HttpRequest {
    * @return array|boolean Returns the requested HTTP header or
    * false if unavailable.
    */
-  public function ***REMOVED***($key) {
-    return isset($this->***REMOVED***[$key])
-        ? $this->***REMOVED***[$key]
+  public function getRequestHeader($key) {
+    return isset($this->requestHeaders[$key])
+        ? $this->requestHeaders[$key]
         : false;
   }
 
@@ -206,7 +206,7 @@ class Google_HttpRequest {
    * it to upper-case, as required by HTTP.
    *
    */
-  public function ***REMOVED***($method) {
+  public function setRequestMethod($method) {
     $this->requestMethod = strtoupper($method);
   }
 
@@ -214,12 +214,12 @@ class Google_HttpRequest {
    * @param array $headers The HTTP request headers
    * to be set and normalized.
    */
-  public function ***REMOVED***($headers) {
+  public function setRequestHeaders($headers) {
     $headers = Google_Utils::normalize($headers);
-    if ($this->***REMOVED***) {
-      $headers = array_merge($this->***REMOVED***, $headers);
+    if ($this->requestHeaders) {
+      $headers = array_merge($this->requestHeaders, $headers);
     }
-    $this->***REMOVED*** = $headers;
+    $this->requestHeaders = $headers;
   }
 
   /**
@@ -257,8 +257,8 @@ class Google_HttpRequest {
       $key .= $this->accessKey;
     }
 
-    if (isset($this->***REMOVED***['authorization'])) {
-      $key .= $this->***REMOVED***['authorization'];
+    if (isset($this->requestHeaders['authorization'])) {
+      $key .= $this->requestHeaders['authorization'];
     }
 
     return md5($key);
@@ -266,10 +266,10 @@ class Google_HttpRequest {
 
   public function getParsedCacheControl() {
     $parsed = array();
-    $***REMOVED*** = $this->***REMOVED***('cache-control');
-    if ($***REMOVED***) {
-      $***REMOVED*** = str_replace(', ', '&', $***REMOVED***);
-      parse_str($***REMOVED***, $parsed);
+    $rawCacheControl = $this->getResponseHeader('cache-control');
+    if ($rawCacheControl) {
+      $rawCacheControl = str_replace(', ', '&', $rawCacheControl);
+      parse_str($rawCacheControl, $parsed);
     }
 
     return $parsed;
@@ -277,7 +277,7 @@ class Google_HttpRequest {
 
   /**
    * @param string $id
-   * @return string A string ***REMOVED*** of the HTTP Request.
+   * @return string A string representation of the HTTP Request.
    */
   public function toBatchString($id) {
     $str = '';
@@ -289,8 +289,8 @@ class Google_HttpRequest {
     $str .= "\n";
 
     $path = parse_url($this->getUrl(), PHP_URL_PATH);
-    $str .= $this->***REMOVED***() . ' ' . $path . " HTTP/1.1\n";
-    foreach($this->***REMOVED***() as $key => $val) {
+    $str .= $this->getRequestMethod() . ' ' . $path . " HTTP/1.1\n";
+    foreach($this->getRequestHeaders() as $key => $val) {
       $str .= $key . ': ' . $val . "\n";
     }
 

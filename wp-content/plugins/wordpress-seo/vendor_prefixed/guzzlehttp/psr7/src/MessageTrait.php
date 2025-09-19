@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Trait implementing functionality common to requests and responses.
  */
@@ -16,13 +16,13 @@ trait MessageTrait
     private $headerNames = [];
     /** @var string */
     private $protocol = '1.1';
-    /** @var ***REMOVED***|null */
+    /** @var StreamInterface|null */
     private $stream;
-    public function ***REMOVED***() : string
+    public function getProtocolVersion() : string
     {
         return $this->protocol;
     }
-    public function ***REMOVED***($version) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withProtocolVersion($version) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface
     {
         if ($this->protocol === $version) {
             return $this;
@@ -52,10 +52,10 @@ trait MessageTrait
     {
         return \implode(', ', $this->getHeader($header));
     }
-    public function withHeader($header, $value) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withHeader($header, $value) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface
     {
         $this->assertHeader($header);
-        $value = $this->***REMOVED***($value);
+        $value = $this->normalizeHeaderValue($value);
         $normalized = \strtolower($header);
         $new = clone $this;
         if (isset($new->headerNames[$normalized])) {
@@ -65,10 +65,10 @@ trait MessageTrait
         $new->headers[$header] = $value;
         return $new;
     }
-    public function ***REMOVED***($header, $value) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withAddedHeader($header, $value) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface
     {
         $this->assertHeader($header);
-        $value = $this->***REMOVED***($value);
+        $value = $this->normalizeHeaderValue($value);
         $normalized = \strtolower($header);
         $new = clone $this;
         if (isset($new->headerNames[$normalized])) {
@@ -80,7 +80,7 @@ trait MessageTrait
         }
         return $new;
     }
-    public function withoutHeader($header) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withoutHeader($header) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface
     {
         $normalized = \strtolower($header);
         if (!isset($this->headerNames[$normalized])) {
@@ -91,14 +91,14 @@ trait MessageTrait
         unset($new->headers[$header], $new->headerNames[$normalized]);
         return $new;
     }
-    public function getBody() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function getBody() : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
     {
         if (!$this->stream) {
             $this->stream = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::streamFor('');
         }
         return $this->stream;
     }
-    public function withBody(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $body) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withBody(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $body) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface
     {
         if ($body === $this->stream) {
             return $this;
@@ -117,7 +117,7 @@ trait MessageTrait
             // Numeric array keys are converted to int by PHP.
             $header = (string) $header;
             $this->assertHeader($header);
-            $value = $this->***REMOVED***($value);
+            $value = $this->normalizeHeaderValue($value);
             $normalized = \strtolower($header);
             if (isset($this->headerNames[$normalized])) {
                 $header = $this->headerNames[$normalized];
@@ -133,7 +133,7 @@ trait MessageTrait
      *
      * @return string[]
      */
-    private function ***REMOVED***($value) : array
+    private function normalizeHeaderValue($value) : array
     {
         if (!\is_array($value)) {
             return $this->trimAndValidateHeaderValues([$value]);

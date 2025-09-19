@@ -13,7 +13,7 @@ body {
 	font-size: 1em;
 	line-height: $font__line-height-body;
 	margin: 0;
-	text-rendering: ***REMOVED***;
+	text-rendering: optimizeLegibility;
 }
 
 button,
@@ -25,7 +25,7 @@ textarea {
 	@include font-family( $font__body );
 	font-weight: 400;
 	line-height: $font__line-height-body;
-	text-rendering: ***REMOVED***;
+	text-rendering: optimizeLegibility;
 }
 
 @import "headings";

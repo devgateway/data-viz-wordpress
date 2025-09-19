@@ -10,7 +10,7 @@ namespace YoastSEO_Vendor\Psr\Log;
  * is a good way to avoid littering your code with `if ($this->logger) { }`
  * blocks.
  */
-class NullLogger extends \YoastSEO_Vendor\Psr\Log\***REMOVED***
+class NullLogger extends \YoastSEO_Vendor\Psr\Log\AbstractLogger
 {
     /**
      * Logs with an arbitrary level.

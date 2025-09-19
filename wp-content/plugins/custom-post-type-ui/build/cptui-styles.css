@@ -182,7 +182,7 @@
     height: 20px;
     width: 20px; }
 
-.***REMOVED*** {
+.visuallyhidden {
   position: absolute;
   left: -10000px;
   top: auto;
@@ -365,4 +365,4 @@
   #cptui_debug_info_email {
     width: 100%; } }
 
-/*# ***REMOVED***=cptui-styles.css.map */
+/*# sourceMappingURL=cptui-styles.css.map */

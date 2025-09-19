@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound -- template include file
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template include file
 $field_groups     = acf_get_field_groups();
 $num_field_groups = 0;
 if ( is_array( $field_groups ) ) {
@@ -33,7 +33,7 @@ if ( $is_subfield ) {
 	<a href="#" class="acf-btn acf-btn-secondary add-field"><i class="acf-icon acf-icon-plus"></i><?php esc_html_e( 'Add Field', 'acf' ); ?></a>
 </div>
 <?php } ?>
-<?php //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- fixed string output ?>
+<?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed string output ?>
 <div class="acf-field-list-wrap<?php echo $wrapper_class; ?>">
 
 	<ul class="acf-hl acf-thead">
@@ -55,7 +55,7 @@ if ( $is_subfield ) {
 		<li class="li-field-type"><?php esc_html_e( 'Type', 'acf' ); ?></li>
 	</ul>
 
-	<?php //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- fixed string output ?>
+	<?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- fixed string output ?>
 	<div class="acf-field-list<?php echo $wrapper_class; ?>">
 
 		<div class="no-fields-message">
@@ -71,7 +71,7 @@ if ( $is_subfield ) {
 						sprintf(
 							/* translators: %s url to field types list */
 							__( 'Choose from over 30 field types. <a href="%s" target="_blank">Learn more</a>.', 'acf' ),
-							acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/', 'docs', 'empty-field-group', 'field-types' )
+							acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/', 'docs', 'empty-field-group', 'field-types' )
 						)
 					);
 					?>

@@ -13,7 +13,7 @@ msgstr ""
 
 #. Description of the theme
 msgid "Our 2019 default theme is designed to show off the power of the block editor. It features custom styles for all the default blocks, and is built so that what you see in the editor looks like what you'll see on your website. Twenty Nineteen is designed to be adaptable to a wide range of websites, whether you’re running a photo blog, launching a new business, or supporting a non-profit. Featuring ample whitespace and modern sans-serif headlines paired with classic serif body text, it's built to be beautiful on all screen sizes."
-msgstr "Ons 2019 standaardtema is ontwerp om die krag van die ***REMOVED*** ten toon te stel. Dit sluit in unieke style vir al die standaard blokke, en is gebou sodat wat jy in die skryfpaneel sien, lyk soos wat jy sal sien op jou webblad. Twenty Nineteen is ontwerp om aanpasbaar te wees tot 'n wye reeks webwerwe, of jy 'n foto blog bedryf, 'n nuwe besigheid loods, of 'n nie-winsgewende organisasie ondersteun. Met baie witspasie en moderne sans-serif opskrifte gepaar met klassieke serif inhoudsteks is dit gebou om mooi te wees op alle skermgroottes."
+msgstr "Ons 2019 standaardtema is ontwerp om die krag van die blokskryfpaneel ten toon te stel. Dit sluit in unieke style vir al die standaard blokke, en is gebou sodat wat jy in die skryfpaneel sien, lyk soos wat jy sal sien op jou webblad. Twenty Nineteen is ontwerp om aanpasbaar te wees tot 'n wye reeks webwerwe, of jy 'n foto blog bedryf, 'n nuwe besigheid loods, of 'n nie-winsgewende organisasie ondersteun. Met baie witspasie en moderne sans-serif opskrifte gepaar met klassieke serif inhoudsteks is dit gebou om mooi te wees op alle skermgroottes."
 
 #. Theme Name of the theme
 msgid "Twenty Nineteen"
@@ -342,21 +342,21 @@ msgstr "Lewer kommentaar"
 msgid "Join the Conversation"
 msgstr "Sluit aan by die Gesprek"
 
-#: classes/class-***REMOVED***-walker-comment.php:94
+#: classes/class-twentynineteen-walker-comment.php:94
 msgid "Your comment is awaiting moderation."
 msgstr "Jou kommentaar wag op goedkeuring."
 
-#: classes/class-***REMOVED***-walker-comment.php:87
+#: classes/class-twentynineteen-walker-comment.php:87
 msgid "Edit"
 msgstr "Wysig"
 
 #. translators: 1: Comment date, 2: Comment time.
-#: classes/class-***REMOVED***-walker-comment.php:79
+#: classes/class-twentynineteen-walker-comment.php:79
 msgid "%1$s at %2$s"
 msgstr "%1$s om %2$s"
 
 #. translators: %s: Comment author link.
-#: classes/class-***REMOVED***-walker-comment.php:59
+#: classes/class-twentynineteen-walker-comment.php:59
 msgid "%s <span class=\"screen-reader-text says\">says:</span>"
 msgstr "%s <span class=\"screen-reader-text says\">sê:</span>"
 
@@ -369,8 +369,8 @@ msgid "Oops! That page can&rsquo;t be found."
 msgstr "Oeps! Daardie bladsy kon nie gevind word nie."
 
 #. Theme URI of the theme
-msgid "https://wordpress.org/themes/***REMOVED***/"
-msgstr "https://wordpress.org/themes/***REMOVED***/"
+msgid "https://wordpress.org/themes/twentynineteen/"
+msgstr "https://wordpress.org/themes/twentynineteen/"
 
 #. Author of the theme
 msgid "the WordPress team"

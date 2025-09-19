@@ -79,7 +79,7 @@ final class PublicKey extends DSA implements Common\PublicKey
      */
     public function toString($type, array $options = [])
     {
-        $type = self::***REMOVED***('Keys', $type, 'savePublicKey');
+        $type = self::validatePlugin('Keys', $type, 'savePublicKey');
 
         return $type::savePublicKey($this->p, $this->q, $this->g, $this->y, $options);
     }

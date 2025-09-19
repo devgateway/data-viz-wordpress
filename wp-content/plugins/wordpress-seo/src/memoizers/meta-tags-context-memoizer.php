@@ -91,7 +91,7 @@ class Meta_Tags_Context_Memoizer {
 
 			$old_wp_query = $wp_query;
 			$old_post     = $post;
-			// phpcs:ignore WordPress.WP.***REMOVED***.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
+			// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
 			\wp_reset_query();
 
 			$indexable = $this->repository->for_current_page();

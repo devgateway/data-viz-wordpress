@@ -60,7 +60,7 @@ abstract class PuTTY
     public static function setVersion($version)
     {
         if ($version != 2 && $version != 3) {
-            throw new \***REMOVED***('Only supported versions are 2 and 3');
+            throw new \RuntimeException('Only supported versions are 2 and 3');
         }
         self::$version = $version;
     }
@@ -96,7 +96,7 @@ abstract class PuTTY
     private static function generateV3Key($password, $flavour, $memory, $passes, $salt)
     {
         if (!function_exists('sodium_crypto_pwhash')) {
-            throw new \***REMOVED***('sodium_crypto_pwhash needs to exist for Argon2 password hasing');
+            throw new \RuntimeException('sodium_crypto_pwhash needs to exist for Argon2 password hasing');
         }
 
         switch ($flavour) {
@@ -182,7 +182,7 @@ abstract class PuTTY
         }
         $version = (int) Strings::shift($key[0], 3); // should be either "2: " or "3: 0" prior to int casting
         if ($version != 2 && $version != 3) {
-            throw new \***REMOVED***('Only v2 and v3 PuTTY private keys are supported');
+            throw new \RuntimeException('Only v2 and v3 PuTTY private keys are supported');
         }
         $components['type'] = $type = rtrim($key[0]);
         if (!in_array($type, static::$types)) {
@@ -202,7 +202,7 @@ abstract class PuTTY
         extract(unpack('Nlength', Strings::shift($public, 4)));
         $newtype = Strings::shift($public, $length);
         if ($newtype != $type) {
-            throw new \***REMOVED***('The binary type does not match the human readable type field');
+            throw new \RuntimeException('The binary type does not match the human readable type field');
         }
 
         $components['public'] = $public;
@@ -232,7 +232,7 @@ abstract class PuTTY
                         break;
                     case 2:
                         $symkey = self::generateV2Key($password, 32);
-                        $symiv = str_repeat("\0", $crypto->***REMOVED***() >> 3);
+                        $symiv = str_repeat("\0", $crypto->getBlockLength() >> 3);
                         $hashkey .= $password;
                 }
         }
@@ -253,7 +253,7 @@ abstract class PuTTY
         if ($encryption != 'none') {
             $crypto->setKey($symkey);
             $crypto->setIV($symiv);
-            $crypto->***REMOVED***();
+            $crypto->disablePadding();
             $private = $crypto->decrypt($private);
         }
 
@@ -281,7 +281,7 @@ abstract class PuTTY
      * @param array $options optional
      * @return string
      */
-    protected static function ***REMOVED***($public, $private, $type, $password, array $options = [])
+    protected static function wrapPrivateKey($public, $private, $type, $password, array $options = [])
     {
         $encryption = (!empty($password) || is_string($password)) ? 'aes256-cbc' : 'none';
         $comment = isset($options['comment']) ? $options['comment'] : self::$comment;
@@ -331,7 +331,7 @@ abstract class PuTTY
                     break;
                 case 2:
                     $symkey = self::generateV2Key($password, 32);
-                    $symiv = str_repeat("\0", $crypto->***REMOVED***() >> 3);
+                    $symiv = str_repeat("\0", $crypto->getBlockLength() >> 3);
                     $hashkey = 'putty-private-key-file-mac-key' . $password;
 
                     $hash = new Hash('sha1');
@@ -340,7 +340,7 @@ abstract class PuTTY
 
             $crypto->setKey($symkey);
             $crypto->setIV($symiv);
-            $crypto->***REMOVED***();
+            $crypto->disablePadding();
             $private = $crypto->encrypt($private);
             $mac = $hash->hash($source);
         }

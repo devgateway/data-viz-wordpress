@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2024-05-22T11:47:45+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: pt_AO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3747,7 +3747,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crie um conjunto de regras para determinar em que ecrãs de edição serão "
-"utilizados estes campos ***REMOVED*** avançados"
+"utilizados estes campos personalizados avançados"
 
 #: includes/admin/views/acf-field-group/locations.php:9
 msgid "Rules"
@@ -3888,7 +3888,7 @@ msgstr "Actualizar base de dados"
 #: includes/admin/views/acf-field-group/options.php:175
 #: includes/admin/views/acf-post-type/advanced-settings.php:30
 msgid "Custom Fields"
-msgstr "Campos ***REMOVED***"
+msgstr "Campos personalizados"
 
 #: includes/admin/post-types/admin-field-group.php:584
 msgid "Move Field"
@@ -4303,11 +4303,11 @@ msgstr ""
 
 #: includes/fields/class-acf-field-checkbox.php:388
 msgid "Save 'custom' values to the field's choices"
-msgstr "Guarda valores ***REMOVED*** nas opções do campo"
+msgstr "Guarda valores personalizados nas opções do campo"
 
 #: includes/fields/class-acf-field-checkbox.php:377
 msgid "Allow 'custom' values to be added"
-msgstr "Permite adicionar valores ***REMOVED***"
+msgstr "Permite adicionar valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:36
 msgid "Add new choice"
@@ -4444,7 +4444,7 @@ msgstr "Guardar 'outros' valores nas opções do campo"
 #: includes/fields/class-acf-field-radio.php:246
 msgid "Add 'other' choice to allow for custom values"
 msgstr ""
-"Adicionar opção 'outros' para permitir a inserção de valores ***REMOVED***"
+"Adicionar opção 'outros' para permitir a inserção de valores personalizados"
 
 #: includes/admin/views/global/navigation.php:196
 msgid "Other"
@@ -4907,7 +4907,7 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr ""
 
 #: includes/fields/class-acf-field-wysiwyg.php:370
-msgid "Delay ***REMOVED***"
+msgid "Delay Initialization"
 msgstr ""
 
 #: includes/fields/class-acf-field-wysiwyg.php:359
@@ -5296,12 +5296,12 @@ msgstr "Sem formatação"
 #: includes/fields/class-acf-field-message.php:102
 #: includes/fields/class-acf-field-textarea.php:163
 msgid "Automatically add &lt;br&gt;"
-msgstr "Adicionar &lt;br&gt; ***REMOVED***"
+msgstr "Adicionar &lt;br&gt; automaticamente"
 
 #: includes/fields/class-acf-field-message.php:101
 #: includes/fields/class-acf-field-textarea.php:162
 msgid "Automatically add paragraphs"
-msgstr "Adicionar parágrafos ***REMOVED***"
+msgstr "Adicionar parágrafos automaticamente"
 
 #: includes/fields/class-acf-field-message.php:97
 #: includes/fields/class-acf-field-textarea.php:158
@@ -5665,8 +5665,8 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93

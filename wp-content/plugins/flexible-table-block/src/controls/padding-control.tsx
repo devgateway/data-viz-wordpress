@@ -20,7 +20,7 @@ import {
 	__experimentalVStack as VStack,
 	__experimentalText as Text,
 	__experimentalUnitControl as UnitControl,
-	__experimentalUseCustomUnits as ***REMOVED***,
+	__experimentalUseCustomUnits as useCustomUnits,
 } from '@wordpress/components';
 import { useInstanceId } from '@wordpress/compose';
 
@@ -28,9 +28,9 @@ import { useInstanceId } from '@wordpress/compose';
  * Internal dependencies
  */
 import { PADDING_UNITS, SIDE_CONTROLS } from '../constants';
-import { ***REMOVED*** } from '../utils/helper';
-import { ***REMOVED*** } from './indicator-control';
-import type { SideValue } from '../***REMOVED***';
+import { sanitizeUnitValue } from '../utils/helper';
+import { SideIndicatorControl } from './indicator-control';
+import type { SideValue } from '../BlockAttributes';
 
 const DEFAULT_VALUES = {
 	top: '',
@@ -53,14 +53,14 @@ type Props = {
 
 type ValuesKey = keyof typeof DEFAULT_VALUES;
 
-export default function ***REMOVED***( {
+export default function PaddingControl( {
 	label = __( 'Padding', 'flexible-table-block' ),
 	help,
 	onChange,
 	values: valuesProp,
 }: Props ) {
 	const values = { ...DEFAULT_VALUES, ...valuesProp };
-	const instanceId = useInstanceId( ***REMOVED***, 'ftb-padding-control' );
+	const instanceId = useInstanceId( PaddingControl, 'ftb-padding-control' );
 	const headingId = `${ instanceId }-heading`;
 
 	const isMixed = ! (
@@ -69,7 +69,7 @@ export default function ***REMOVED***( {
 		values.top === values.left
 	);
 
-	const paddingUnits = ***REMOVED***( { ***REMOVED***: PADDING_UNITS } );
+	const paddingUnits = useCustomUnits( { availableUnits: PADDING_UNITS } );
 
 	const [ isLinked, setIsLinked ] = useState< boolean >( true );
 	const [ side, setSide ] = useState< SideValue | undefined >( undefined );
@@ -78,7 +78,7 @@ export default function ***REMOVED***( {
 		? __( 'Unlink sides', 'flexible-table-block' )
 		: __( 'Link sides', 'flexible-table-block' );
 
-	const ***REMOVED***: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
+	const allInputPlaceholder: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
 	const allInputValue: string | 0 = isMixed ? '' : values.top;
 
 	const toggleLinked = () => {
@@ -94,20 +94,20 @@ export default function ***REMOVED***( {
 
 	const handleOnFocus = ( focusSide: SideValue ) => setSide( focusSide );
 
-	const ***REMOVED*** = ( inputValue: string | undefined ) => {
-		const ***REMOVED*** = ***REMOVED***( inputValue );
+	const handleOnChangeAll = ( inputValue: string | undefined ) => {
+		const sanitizedValue = sanitizeUnitValue( inputValue );
 		onChange( {
-			top: ***REMOVED***,
-			right: ***REMOVED***,
-			bottom: ***REMOVED***,
-			left: ***REMOVED***,
+			top: sanitizedValue,
+			right: sanitizedValue,
+			bottom: sanitizedValue,
+			left: sanitizedValue,
 		} );
 	};
 
-	const ***REMOVED*** = ( inputValue: string | undefined, targetSide: SideValue ) => {
+	const handleOnChange = ( inputValue: string | undefined, targetSide: SideValue ) => {
 		onChange( {
 			...values,
-			[ targetSide ]: ***REMOVED***( inputValue ),
+			[ targetSide ]: sanitizeUnitValue( inputValue ),
 		} );
 	};
 
@@ -126,13 +126,13 @@ export default function ***REMOVED***( {
 				</Flex>
 				<HStack alignment="center" justify="space-between" style={ { minHeight: '40px' } }>
 					<HStack justify="start">
-						<***REMOVED*** sides={ side === undefined ? undefined : [ side ] } />
+						<SideIndicatorControl sides={ side === undefined ? undefined : [ side ] } />
 						{ isLinked && (
 							<div>
 								<UnitControl
-									placeholder={ ***REMOVED*** }
+									placeholder={ allInputPlaceholder }
 									aria-label={ __( 'All', 'flexible-table-block' ) }
-									onChange={ ***REMOVED*** }
+									onChange={ handleOnChangeAll }
 									value={ allInputValue }
 									units={ paddingUnits }
 									size="__unstable-large"
@@ -159,7 +159,7 @@ export default function ***REMOVED***( {
 									};
 								}
 								if ( value === 'right' ) {
-									return { gridColumn: 2, display: 'flex', ***REMOVED***: 'flex-end' };
+									return { gridColumn: 2, display: 'flex', justifyContent: 'flex-end' };
 								}
 								return { gridRow: 2 };
 							};
@@ -170,7 +170,7 @@ export default function ***REMOVED***( {
 										value={ values[ item.value as ValuesKey ] }
 										units={ paddingUnits }
 										onFocus={ () => handleOnFocus( item.value ) }
-										onChange={ ( value ) => ***REMOVED***( value, item.value ) }
+										onChange={ ( value ) => handleOnChange( value, item.value ) }
 										size="__unstable-large"
 										__unstableInputWidth="100px"
 									/>

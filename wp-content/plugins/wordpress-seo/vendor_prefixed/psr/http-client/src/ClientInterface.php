@@ -2,18 +2,18 @@
 
 namespace YoastSEO_Vendor\Psr\Http\Client;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-interface ***REMOVED***
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
+interface ClientInterface
 {
     /**
      * Sends a PSR-7 request and returns a PSR-7 response.
      *
-     * @param ***REMOVED*** $request
+     * @param RequestInterface $request
      *
-     * @return ***REMOVED***
+     * @return ResponseInterface
      *
      * @throws \Psr\Http\Client\ClientExceptionInterface If an error happens while processing the request.
      */
-    public function sendRequest(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function sendRequest(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 }

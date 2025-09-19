@@ -67,12 +67,12 @@ class Schema_Accessibility_Feature implements Integration_Interface {
 			return $piece;
 		}
 
-		if ( isset( $piece['***REMOVED***'] ) ) {
-			$piece['***REMOVED***'][] = '***REMOVED***';
+		if ( isset( $piece['accessibilityFeature'] ) ) {
+			$piece['accessibilityFeature'][] = 'tableOfContents';
 		}
 		else {
-			$piece['***REMOVED***'] = [
-				'***REMOVED***',
+			$piece['accessibilityFeature'] = [
+				'tableOfContents',
 			];
 		}
 		return $piece;

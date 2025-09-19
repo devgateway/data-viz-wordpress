@@ -74,7 +74,7 @@ class Addon_Activate_Action {
 	/**
 	 * Requires the files needed from WordPress itself.
 	 *
-	 * @***REMOVED*** Only loads a WordPress file.
+	 * @codeCoverageIgnore Only loads a WordPress file.
 	 *
 	 * @return void
 	 */

@@ -32,10 +32,10 @@ $apiConfig = array(
     // The developer key, you get this at https://code.google.com/apis/console
     'developer_key' => '',
   
-    // Site name to show in the Google's OAuth 1 ***REMOVED*** screen.
+    // Site name to show in the Google's OAuth 1 authentication screen.
     'site_name' => 'www.example.org',
 
-    // Which ***REMOVED***, Storage and HTTP IO classes to use.
+    // Which Authentication, Storage and HTTP IO classes to use.
     'authClass'    => 'Google_OAuth2',
     'ioClass'      => 'Google_CurlIO',
     'cacheClass'   => 'Google_FileCache',
@@ -74,7 +74,7 @@ $apiConfig = array(
           )
       ),
       'plus' => array('scope' => 'https://www.googleapis.com/auth/plus.login'),
-      '***REMOVED***' => array('scope' => 'https://www.googleapis.com/auth/***REMOVED***'),
+      'siteVerification' => array('scope' => 'https://www.googleapis.com/auth/siteverification'),
       'tasks' => array('scope' => 'https://www.googleapis.com/auth/tasks'),
       'urlshortener' => array('scope' => 'https://www.googleapis.com/auth/urlshortener')
     )

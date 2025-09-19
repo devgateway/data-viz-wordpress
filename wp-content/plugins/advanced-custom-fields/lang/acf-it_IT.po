@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,14 +55,14 @@ msgstr "Aggiorna fonte"
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:810
 msgid "By default only admin users can edit this setting."
 msgstr ""
-"Per impostazione predefinita, solo gli utenti ***REMOVED*** possono "
+"Per impostazione predefinita, solo gli utenti amministratori possono "
 "modificare questa impostazione."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:848
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:808
 msgid "By default only super admin users can edit this setting."
 msgstr ""
-"Per impostazione predefinita, solo gli utenti super-***REMOVED*** possono "
+"Per impostazione predefinita, solo gli utenti super-amministratori possono "
 "modificare questa impostazione."
 
 #: includes/admin/views/acf-field-group/field.php:322
@@ -441,7 +441,7 @@ msgstr "Icona inverti verticalmente"
 
 #: includes/fields/class-acf-field-icon_picker.php:577
 msgid "Flip Horizontal Icon"
-msgstr "Icona inverti ***REMOVED***"
+msgstr "Icona inverti orizzontalmente"
 
 #: includes/fields/class-acf-field-icon_picker.php:575
 msgid "Crop Icon"
@@ -514,7 +514,7 @@ msgstr "Icona uscita"
 
 #: includes/fields/class-acf-field-icon_picker.php:543
 msgid "Excerpt View Icon"
-msgstr "Icona ***REMOVED*** riassunto"
+msgstr "Icona visualizzazione riassunto"
 
 #: includes/fields/class-acf-field-icon_picker.php:542
 msgid "Embed Video Icon"
@@ -566,7 +566,7 @@ msgstr "Icona LTR"
 
 #: includes/fields/class-acf-field-icon_picker.php:508
 msgid "Custom Character Icon"
-msgstr "Icona carattere ***REMOVED***"
+msgstr "Icona carattere personalizzato"
 
 #: includes/fields/class-acf-field-icon_picker.php:500
 msgid "Edit Page Icon"
@@ -582,7 +582,7 @@ msgstr "Icona coscia di pollo"
 
 #: includes/fields/class-acf-field-icon_picker.php:493
 msgid "Database View Icon"
-msgstr "Icona ***REMOVED*** database"
+msgstr "Icona visualizzazione database"
 
 #: includes/fields/class-acf-field-icon_picker.php:492
 msgid "Database Remove Icon"
@@ -685,7 +685,7 @@ msgid "Button Icon"
 msgstr "Icona pulsante"
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr "Icona persona d'affari"
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -1206,7 +1206,7 @@ msgstr "Icona scollega"
 
 #: includes/fields/class-acf-field-icon_picker.php:531
 msgid "Underline Icon"
-msgstr "Icona ***REMOVED***"
+msgstr "Icona sottolineatura"
 
 #: includes/fields/class-acf-field-icon_picker.php:529
 msgid "Text Color Icon"
@@ -1520,7 +1520,7 @@ msgid ""
 "The available icons matching your search query have been updated in the icon "
 "picker below."
 msgstr ""
-"Le icone disponibili che ***REMOVED*** alla tua query di ricerca sono state "
+"Le icone disponibili che corrispondenti alla tua query di ricerca sono state "
 "caricate nel selettore delle icone qui sotto."
 
 #: includes/fields/class-acf-field-icon_picker.php:284
@@ -1610,11 +1610,11 @@ msgstr "Modal del tipo di campo abilitato"
 
 #: includes/class-acf-site-health.php:664
 msgid "Admin UI Enabled"
-msgstr "Interfaccia utente dell'***REMOVED*** abilitata"
+msgstr "Interfaccia utente dell'amministratore abilitata"
 
 #: includes/class-acf-site-health.php:655
 msgid "Block Preloading Enabled"
-msgstr "***REMOVED*** del blocco abilitato"
+msgstr "Precaricamento del blocco abilitato"
 
 #: includes/class-acf-site-health.php:643
 msgid "Blocks Per ACF Block Version"
@@ -1765,7 +1765,7 @@ msgid ""
 "This section contains debug information about your ACF configuration which "
 "can be useful to provide to support."
 msgstr ""
-"Questa sezione contiene informazioni di debug sulla tua ***REMOVED*** di "
+"Questa sezione contiene informazioni di debug sulla tua configurazione di "
 "ACF che possono essere utili per fornirti supporto."
 
 #: includes/assets.php:373
@@ -1789,7 +1789,7 @@ msgstr ""
 
 #: includes/admin/views/escaped-html-notice.php:25
 msgid "Dismiss permanently"
-msgstr "Ignora ***REMOVED***"
+msgstr "Ignora definitivamente"
 
 #: includes/admin/views/acf-field-group/field.php:220
 msgid "Instructions for content editors. Shown when submitting data."
@@ -1985,7 +1985,7 @@ msgstr ""
 #: includes/admin/views/escaped-html-notice.php:27
 msgid "Please contact your site administrator or developer for more details."
 msgstr ""
-"Contatta l'***REMOVED*** o lo sviluppatore del tuo sito per ulteriori "
+"Contatta l'amministratore o lo sviluppatore del tuo sito per ulteriori "
 "dettagli."
 
 #: includes/admin/views/escaped-html-notice.php:5
@@ -2034,7 +2034,7 @@ msgid ""
 "and sub-pages."
 msgstr ""
 "Le <a href=\"%s\" target=\"_blank\">pagine opzioni</a> di ACF sono pagine di "
-"***REMOVED*** ***REMOVED*** per gestire impostazioni globali attraverso "
+"amministrazione personalizzate per gestire impostazioni globali attraverso "
 "dei campi. Puoi creare più pagine e sottopagine."
 
 #: includes/admin/views/global/header.php:35
@@ -2116,7 +2116,7 @@ msgstr "è sviluppato e manutenuto da"
 #: includes/admin/admin-internal-post-type.php:313
 msgid "Add this %s to the location rules of the selected field groups."
 msgstr ""
-"Aggiungi questo/a %s alle regole di ***REMOVED*** dei gruppi di campi "
+"Aggiungi questo/a %s alle regole di posizionamento dei gruppi di campi "
 "selezionati."
 
 #. translators: %s the URL to ACF's bidirectional relationship documentation
@@ -2132,7 +2132,7 @@ msgstr ""
 "nei campi di destinazione per ogni valore selezionato per questo campo, "
 "aggiungendo o rimuovendo l'ID dell'articolo, l'ID della tassonomia o l'ID "
 "dell'utente dell'elemento che si sta aggiornando. Per ulteriori informazioni "
-"leggi la <a href=\"%s\" target=\"_blank\">***REMOVED***</a>."
+"leggi la <a href=\"%s\" target=\"_blank\">documentazione</a>."
 
 #: includes/acf-bidirectional-functions.php:248
 msgid ""
@@ -2317,7 +2317,7 @@ msgid ""
 "The taxonomy key must only contain lower case alphanumeric characters, "
 "underscores or dashes."
 msgstr ""
-"La chiave della tassonomia deve contenere ***REMOVED*** caratteri "
+"La chiave della tassonomia deve contenere esclusivamente caratteri "
 "alfanumerici minuscoli, trattini bassi e trattini."
 
 #: includes/post-types/class-acf-taxonomy.php:251
@@ -2411,7 +2411,7 @@ msgid ""
 "The post type key must only contain lower case alphanumeric characters, "
 "underscores or dashes."
 msgstr ""
-"La chiave del post type deve ***REMOVED*** contenere solo caratteri "
+"La chiave del post type deve necessariamente contenere solo caratteri "
 "alfanumerici minuscoli, trattini bassi o trattini."
 
 #: includes/post-types/class-acf-post-type.php:328
@@ -2446,7 +2446,7 @@ msgstr ""
 #: includes/fields/class-acf-field-url.php:20
 msgid "A text input specifically designed for storing web addresses."
 msgstr ""
-"Un campo di testo progettato ***REMOVED*** per memorizzare indirizzi web."
+"Un campo di testo progettato specificamente per memorizzare indirizzi web."
 
 #: includes/fields/class-acf-field-icon_picker.php:56
 #: includes/fields/class-acf-field-url.php:19
@@ -2468,7 +2468,7 @@ msgid ""
 "using the field settings."
 msgstr ""
 "Un'interfaccia utente interattiva per selezionare un orario. Il formato "
-"dell'orario può essere ***REMOVED*** utilizzando le impostazioni del campo."
+"dell'orario può essere personalizzato utilizzando le impostazioni del campo."
 
 #: includes/fields/class-acf-field-textarea.php:23
 msgid "A basic textarea input for storing paragraphs of text."
@@ -2506,7 +2506,7 @@ msgid ""
 "editing. Includes options to search and filter."
 msgstr ""
 "Un'interfaccia a due colonne per selezionare uno o più articoli, pagine o "
-"post type ***REMOVED*** per creare una relazione con l'elemento che stai "
+"post type personalizzati per creare una relazione con l'elemento che stai "
 "attualmente modificando. Include opzioni per cercare e per filtrare."
 
 #: includes/fields/class-acf-field-range.php:23
@@ -2531,7 +2531,7 @@ msgid ""
 "An interactive and customizable UI for picking one or many posts, pages or "
 "post type items with the option to search. "
 msgstr ""
-"Un'interfaccia utente interattiva e ***REMOVED*** per selezionare uno o "
+"Un'interfaccia utente interattiva e personalizzabile per selezionare uno o "
 "più articoli, pagine o elementi post type con la possibilità di effettuare "
 "una ricerca. "
 
@@ -2551,7 +2551,7 @@ msgid ""
 "items or archive URLs, with the option to search."
 msgstr ""
 "Un menu a discesa interattivo per selezionare uno o più articoli, pagine, "
-"elementi post type ***REMOVED*** o URL di archivi con la possibilità di "
+"elementi post type personalizzati o URL di archivi con la possibilità di "
 "effettuare una ricerca."
 
 #: includes/fields/class-acf-field-oembed.php:24
@@ -2602,7 +2602,7 @@ msgid ""
 "Google Maps API key and additional configuration to display correctly."
 msgstr ""
 "Un'interfaccia utente interattiva per selezionare un luogo utilizzando "
-"Google Maps. Richiede una chiave API di Google Maps e una ***REMOVED*** "
+"Google Maps. Richiede una chiave API di Google Maps e una configurazione "
 "aggiuntiva per essere visualizzata correttamente."
 
 #: includes/fields/class-acf-field-file.php:24
@@ -2614,7 +2614,7 @@ msgstr ""
 #: includes/fields/class-acf-field-email.php:23
 msgid "A text input specifically designed for storing email addresses."
 msgstr ""
-"Un campo di testo pensato ***REMOVED*** per memorizzare indirizzi email."
+"Un campo di testo pensato specificamente per memorizzare indirizzi email."
 
 #: includes/fields/class-acf-field-date_time_picker.php:24
 msgid ""
@@ -2622,7 +2622,7 @@ msgid ""
 "customized using the field settings."
 msgstr ""
 "Un'interfaccia utente interattiva per scegliere una data e un orario. Il "
-"formato della data restituito può essere ***REMOVED*** utilizzando le "
+"formato della data restituito può essere personalizzato utilizzando le "
 "impostazioni del campo."
 
 #: includes/fields/class-acf-field-date_picker.php:24
@@ -2631,7 +2631,7 @@ msgid ""
 "customized using the field settings."
 msgstr ""
 "Un'interfaccia utente interattiva per scegliere una data. Il formato della "
-"data restituito può essere ***REMOVED*** utilizzando le impostazioni del "
+"data restituito può essere personalizzato utilizzando le impostazioni del "
 "campo."
 
 #: includes/fields/class-acf-field-color_picker.php:24
@@ -2661,7 +2661,7 @@ msgid ""
 "Allows you to group and organize custom fields into collapsable panels that "
 "are shown while editing content. Useful for keeping large datasets tidy."
 msgstr ""
-"Ti permette di raggruppare e organizzare i campi ***REMOVED*** in pannelli "
+"Ti permette di raggruppare e organizzare i campi personalizzati in pannelli "
 "richiudibili che sono mostrati durante la modifica del contenuto. Utile per "
 "mantenere in ordine grandi insiemi di dati."
 
@@ -2788,7 +2788,7 @@ msgstr "Aggiungi tassonomia"
 #: includes/admin/views/acf-taxonomy/list-empty.php:14
 msgid "Create custom taxonomies to classify post type content"
 msgstr ""
-"Crea tassonomie ***REMOVED*** per classificare il contenuto del post type"
+"Crea tassonomie personalizzate per classificare il contenuto del post type"
 
 #: includes/admin/views/acf-taxonomy/list-empty.php:13
 msgid "Add Your First Taxonomy"
@@ -2803,7 +2803,7 @@ msgstr ""
 msgid "Makes a taxonomy visible on the frontend and in the admin dashboard."
 msgstr ""
 "Rendi una tassonomia visibile sul frontend e nella bacheca di "
-"***REMOVED***."
+"amministrazione."
 
 #: includes/admin/views/acf-taxonomy/basic-settings.php:91
 msgid "One or many post types that can be classified with this taxonomy."
@@ -2829,7 +2829,7 @@ msgstr "Generi"
 msgid ""
 "Optional custom controller to use instead of `WP_REST_Terms_Controller `."
 msgstr ""
-"Controllore ***REMOVED*** opzionale da utilizzare invece di "
+"Controllore personalizzato opzionale da utilizzare invece di "
 "`WP_REST_Terms_Controller `."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1175
@@ -2887,7 +2887,7 @@ msgstr ""
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:915
 msgid "Show Admin Column"
-msgstr "Mostra colonna ***REMOVED***"
+msgstr "Mostra colonna amministratore"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:902
 msgid "Show the taxonomy in the quick/bulk edit panel."
@@ -2927,7 +2927,7 @@ msgstr "Nessun meta box"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:751
 msgid "Custom Meta Box"
-msgstr "Meta box ***REMOVED***"
+msgstr "Meta box personalizzato"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:768
 msgid ""
@@ -3158,7 +3158,7 @@ msgid ""
 "JavaScript is disabled. Only used on non-hierarchical taxonomies."
 msgstr ""
 "Assegna il testo \"Scegli tra i più utilizzati\" nel meta box nel caso in "
-"cui JavaScript sia disabilitato. È utilizzato ***REMOVED*** per le "
+"cui JavaScript sia disabilitato. È utilizzato esclusivamente per le "
 "tassonomie non gerarchiche."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:442
@@ -3180,7 +3180,7 @@ msgid ""
 "disabled. Only used on non-hierarchical taxonomies"
 msgstr ""
 "Assegna il testo per aggiungere o rimuovere elementi utilizzato nel meta box "
-"nel caso in cui JavaScript sia disabilitato. È utilizzato ***REMOVED*** per "
+"nel caso in cui JavaScript sia disabilitato. È utilizzato esclusivamente per "
 "le tassonomie non gerarchiche."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:416
@@ -3202,7 +3202,7 @@ msgid ""
 "Only used on non-hierarchical taxonomies."
 msgstr ""
 "Assegna il testo per separare gli elementi con le virgole utilizzato nel "
-"meta box della tassonomia. È utilizzato ***REMOVED*** per le tassonomie non "
+"meta box della tassonomia. È utilizzato esclusivamente per le tassonomie non "
 "gerarchiche."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:390
@@ -3221,7 +3221,7 @@ msgstr "Tag popolari"
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:365
 msgid "Assigns popular items text. Only used for non-hierarchical taxonomies."
 msgstr ""
-"Assegna il testo per gli elementi popolari. È utilizzato ***REMOVED*** per "
+"Assegna il testo per gli elementi popolari. È utilizzato esclusivamente per "
 "le tassonomie non gerarchiche."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:364
@@ -3262,7 +3262,7 @@ msgstr "Categoria genitore"
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:297
 msgid "Assigns parent item text. Only used on hierarchical taxonomies."
 msgstr ""
-"Assegna il testo per l'elemento genitore. Utilizzato ***REMOVED*** per le "
+"Assegna il testo per l'elemento genitore. Utilizzato esclusivamente per le "
 "tassonomie gerarchiche."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:296
@@ -3323,7 +3323,7 @@ msgstr "Visualizza tag"
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:217
 msgid "In the admin bar to view term during editing."
 msgstr ""
-"Nella barra di ***REMOVED*** per visualizzare il termine durante la "
+"Nella barra di amministrazione per visualizzare il termine durante la "
 "modifica."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:198
@@ -3370,7 +3370,7 @@ msgstr "Descrizione del termine"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:76
 msgid "Single word, no spaces. Underscores and dashes allowed."
-msgstr "Singola parola, nessun spazio. ***REMOVED*** e trattini consentiti."
+msgstr "Singola parola, nessun spazio. Sottolineatura e trattini consentiti."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:75
 msgid "Term Slug"
@@ -3417,7 +3417,7 @@ msgid ""
 "Expand the functionality of WordPress beyond standard posts and pages with "
 "custom post types."
 msgstr ""
-"Espandi la funzionalità di WordPress con i post type ***REMOVED***, andando "
+"Espandi la funzionalità di WordPress con i post type personalizzati, andando "
 "oltre gli articoli e le pagine standard."
 
 #: includes/admin/views/acf-post-type/list-empty.php:12
@@ -3432,7 +3432,7 @@ msgstr "So cosa sto facendo, mostrami tutte le opzioni."
 #: includes/admin/views/acf-post-type/basic-settings.php:135
 #: includes/admin/views/acf-taxonomy/basic-settings.php:134
 msgid "Advanced Configuration"
-msgstr "***REMOVED*** avanzata"
+msgstr "Configurazione avanzata"
 
 #: includes/admin/views/acf-post-type/basic-settings.php:123
 msgid "Hierarchical post types can have descendants (like pages)."
@@ -3448,7 +3448,7 @@ msgstr "Gerarchico"
 
 #: includes/admin/views/acf-post-type/basic-settings.php:107
 msgid "Visible on the frontend and in the admin dashboard."
-msgstr "Visibile sul frontend e sulla bacheca di ***REMOVED***."
+msgstr "Visibile sul frontend e sulla bacheca di amministrazione."
 
 #: includes/admin/views/acf-post-type/basic-settings.php:106
 #: includes/admin/views/acf-taxonomy/basic-settings.php:106
@@ -3489,7 +3489,7 @@ msgstr "Etichetta plurale"
 msgid ""
 "Optional custom controller to use instead of `WP_REST_Posts_Controller`."
 msgstr ""
-"Controllore ***REMOVED*** opzionale da utilizzare invece di "
+"Controllore personalizzato opzionale da utilizzare invece di "
 "`WP_REST_Posts_Controller`."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1312
@@ -3546,7 +3546,7 @@ msgstr "Nessun supporto per la variabile della query"
 #: includes/admin/views/acf-post-type/advanced-settings.php:1214
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1051
 msgid "Custom Query Variable"
-msgstr "Variabile ***REMOVED*** della query"
+msgstr "Variabile personalizzata della query"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1211
 msgid ""
@@ -3575,7 +3575,7 @@ msgstr "Interrogabile pubblicamente tramite query"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1163
 msgid "Custom slug for the Archive URL."
-msgstr "Slug ***REMOVED*** per l'URL dell'archivio."
+msgstr "Slug personalizzato per l'URL dell'archivio."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1162
 msgid "Archive Slug"
@@ -3586,7 +3586,7 @@ msgid ""
 "Has an item archive that can be customized with an archive template file in "
 "your theme."
 msgstr ""
-"Ha un elemento archivio che può essere ***REMOVED*** con un file template "
+"Ha un elemento archivio che può essere personalizzato con un file template "
 "dell'archivio nel tuo tema."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1148
@@ -3644,7 +3644,7 @@ msgid ""
 "Rewrite the URL using a custom slug defined in the input below. Your "
 "permalink structure will be"
 msgstr ""
-"Riscrivi l'URL utilizzando uno slug ***REMOVED*** definito nel campo qui "
+"Riscrivi l'URL utilizzando uno slug personalizzato definito nel campo qui "
 "sotto. La tua struttura del permalink sarà"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1045
@@ -3655,7 +3655,7 @@ msgstr "Nessun permalink (evita la riscrittura dell'URL)"
 #: includes/admin/views/acf-post-type/advanced-settings.php:1044
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:934
 msgid "Custom Permalink"
-msgstr "Permalink ***REMOVED***"
+msgstr "Permalink personalizzato"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1043
 #: includes/admin/views/acf-post-type/advanced-settings.php:1213
@@ -3696,7 +3696,7 @@ msgstr "Si può esportare"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:978
 msgid "Optionally provide a plural to be used in capabilities."
-msgstr "Fornisci, ***REMOVED***, un plurale da utilizzare nelle capacità."
+msgstr "Fornisci, facoltativamente, un plurale da utilizzare nelle capacità."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:977
 msgid "Plural Capability Name"
@@ -3748,15 +3748,15 @@ msgstr "Supporto per i menu"
 #: includes/admin/views/acf-post-type/advanced-settings.php:896
 msgid "Appears as an item in the 'New' menu in the admin bar."
 msgstr ""
-"Appare come un elemento nel menu \"Nuovo\" nella barra di ***REMOVED***."
+"Appare come un elemento nel menu \"Nuovo\" nella barra di amministrazione."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:895
 msgid "Show In Admin Bar"
-msgstr "Mostra nella barra di ***REMOVED***"
+msgstr "Mostra nella barra di amministrazione"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:861
 msgid "Custom Meta Box Callback"
-msgstr "Callback ***REMOVED*** per il meta box"
+msgstr "Callback personalizzata per il meta box"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:822
 #: includes/fields/class-acf-field-icon_picker.php:611
@@ -3766,7 +3766,7 @@ msgstr "Icona del menu"
 #: includes/admin/views/acf-post-type/advanced-settings.php:778
 msgid "The position in the sidebar menu in the admin dashboard."
 msgstr ""
-"La posizione nel menu nella barra laterale nella bacheca di ***REMOVED***."
+"La posizione nel menu nella barra laterale nella bacheca di amministrazione."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:777
 msgid "Menu Position"
@@ -3779,31 +3779,31 @@ msgid ""
 "a submenu item under it."
 msgstr ""
 "Per impostazione predefinita il post type otterrà un nuovo elemento di primo "
-"livello nel menu di ***REMOVED***. Se imposti qui un elemento di primo "
+"livello nel menu di amministrazione. Se imposti qui un elemento di primo "
 "livello esistente, il post type sarà aggiunto come elemento del suo "
 "sottomenu."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:758
 msgid "Admin Menu Parent"
-msgstr "Elemento genitore nel menu di ***REMOVED***"
+msgstr "Elemento genitore nel menu di amministrazione"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:739
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:734
 msgid "Admin editor navigation in the sidebar menu."
 msgstr ""
-"Elemento di navigazione nel menu di ***REMOVED*** nella barra laterale."
+"Elemento di navigazione nel menu di amministrazione nella barra laterale."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:738
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:733
 msgid "Show In Admin Menu"
-msgstr "Mostra nel menu di ***REMOVED***"
+msgstr "Mostra nel menu di amministrazione"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:725
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:719
 msgid "Items can be edited and managed in the admin dashboard."
 msgstr ""
 "Gli elementi possono essere modificati e gestiti nella bacheca di "
-"***REMOVED***."
+"amministrazione."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:724
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:718
@@ -4138,9 +4138,9 @@ msgid ""
 msgstr ""
 "Aggiunge elementi \"Archivio del post type\" con quest'etichetta alla lista "
 "di articoli mostrati quando si aggiungono elementi ad un menu esistente in "
-"un tipo di articolo ***REMOVED*** quando sono abilitati gli archivi. Appare "
+"un tipo di articolo personalizzato quando sono abilitati gli archivi. Appare "
 "solamente durante la modifica dei menu in modalità \"Anteprima\" e se è "
-"stato fornito uno slug ***REMOVED*** dell'archivio."
+"stato fornito uno slug personalizzato dell'archivio."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:346
 msgid "Archives Nav Menu"
@@ -4279,7 +4279,7 @@ msgid ""
 "Appears in the admin bar in the 'All Posts' view, provided the post type "
 "supports archives and the home page is not an archive of that post type."
 msgstr ""
-"Appare nella barra di ***REMOVED*** nella vista \"Tutti gli articoli\", "
+"Appare nella barra di amministrazione nella vista \"Tutti gli articoli\", "
 "purché il post type supporti gli archivi e la homepage non sia un archivio "
 "di quel post type."
 
@@ -4294,7 +4294,7 @@ msgstr "Visualizza l'articolo"
 #: includes/admin/views/acf-post-type/advanced-settings.php:165
 msgid "In the admin bar to view item when editing it."
 msgstr ""
-"Nella barra di ***REMOVED*** per visualizzare l'elemento durante la sua "
+"Nella barra di amministrazione per visualizzare l'elemento durante la sua "
 "modifica."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:164
@@ -4341,7 +4341,7 @@ msgstr "Tutti gli articoli"
 #: includes/admin/views/acf-post-type/advanced-settings.php:225
 #: includes/admin/views/acf-post-type/advanced-settings.php:245
 msgid "In the post type submenu in the admin dashboard."
-msgstr "Nel sotto menu del post type nella bacheca di ***REMOVED***."
+msgstr "Nel sotto menu del post type nella bacheca di amministrazione."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:124
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:176
@@ -4357,7 +4357,7 @@ msgstr "Tutti/e gli/le %s"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:105
 msgid "Admin menu name for the post type."
-msgstr "Nome del post type nel menu di ***REMOVED***."
+msgstr "Nome del post type nel menu di amministrazione."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:104
 msgid "Menu Name"
@@ -4385,7 +4385,7 @@ msgstr "Un riassunto descrittivo del post type."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:48
 msgid "Add Custom"
-msgstr "Aggiungi un'opzione ***REMOVED***"
+msgstr "Aggiungi un'opzione personalizzata"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:42
 msgid "Enable various features in the content editor."
@@ -4477,7 +4477,7 @@ msgstr ""
 "caricamento più veloci, controllo di versione e impostazioni o campi "
 "dinamici. Devi semplicemente copiare e incollare il seguente codice nel file "
 "functions.php del tuo tema, oppure includerlo tramite un file esterno, per "
-"poi disattivare o eliminare gli elementi dal pannello di ***REMOVED*** di "
+"poi disattivare o eliminare gli elementi dal pannello di amministrazione di "
 "ACF."
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:353
@@ -4767,7 +4767,7 @@ msgstr "REST API"
 #: includes/acf-internal-post-type-functions.php:537
 #: includes/acf-internal-post-type-functions.php:564
 msgid "Permissions"
-msgstr "***REMOVED***"
+msgstr "Autorizzazioni"
 
 #: includes/acf-internal-post-type-functions.php:507
 #: includes/acf-internal-post-type-functions.php:536
@@ -4843,16 +4843,16 @@ msgstr "Aggiungi mostra/nascondi tutti"
 
 #: includes/fields/class-acf-field-checkbox.php:379
 msgid "Save Custom Values"
-msgstr "Salva valori ***REMOVED***"
+msgstr "Salva valori personalizzati"
 
 #: includes/fields/class-acf-field-checkbox.php:368
 msgid "Allow Custom Values"
-msgstr "Consenti valori ***REMOVED***"
+msgstr "Consenti valori personalizzati"
 
 #: includes/fields/class-acf-field-checkbox.php:134
 msgid "Checkbox custom values cannot be empty. Uncheck any empty values."
 msgstr ""
-"I valori ***REMOVED*** del checkbox non possono essere vuoti. Deseleziona "
+"I valori personalizzati del checkbox non possono essere vuoti. Deseleziona "
 "tutti i valori vuoti."
 
 #: includes/admin/views/global/navigation.php:253
@@ -4900,7 +4900,7 @@ msgid ""
 "fields together, and then attach those fields to edit screens."
 msgstr ""
 "ACF utilizza <a href=\"%s\" target=\"_blank\">i gruppi di campi</a> per "
-"raggruppare i campi ***REMOVED*** ed aggiungerli alle schermate di modifica."
+"raggruppare i campi personalizzati ed aggiungerli alle schermate di modifica."
 
 #: includes/admin/views/acf-field-group/list-empty.php:12
 msgid "Add Your First Field Group"
@@ -4948,7 +4948,7 @@ msgstr "Impostazioni gruppo"
 
 #: includes/acf-field-group-functions.php:495
 msgid "Location Rules"
-msgstr "Regole di ***REMOVED***"
+msgstr "Regole di posizionamento"
 
 #. translators: %s url to field types list
 #: includes/admin/views/acf-field-group/fields.php:73
@@ -4964,8 +4964,8 @@ msgid ""
 "Get started creating new custom fields for your posts, pages, custom post "
 "types and other WordPress content."
 msgstr ""
-"Inizia a creare nuovi campi ***REMOVED*** per i tuoi articoli, le tue "
-"pagine, i tuoi post type ***REMOVED*** e altro contenuto di WordPress."
+"Inizia a creare nuovi campi personalizzati per i tuoi articoli, le tue "
+"pagine, i tuoi post type personalizzati e altro contenuto di WordPress."
 
 #: includes/admin/views/acf-field-group/fields.php:64
 msgid "Add Your First Field"
@@ -5060,7 +5060,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields PRO."
 msgstr ""
 "Advanced Custom Fields e Advanced Custom Fields PRO non dovrebbero essere "
-"attivi ***REMOVED***. Abbiamo ***REMOVED*** disattivato Advanced "
+"attivi contemporaneamente. Abbiamo automaticamente disattivato Advanced "
 "Custom Fields PRO."
 
 #: acf.php:560
@@ -5069,7 +5069,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields."
 msgstr ""
 "Advanced Custom Fields e Advanced Custom Fields PRO non dovrebbero essere "
-"attivi ***REMOVED***. Abbiamo ***REMOVED*** disattivato Advanced "
+"attivi contemporaneamente. Abbiamo automaticamente disattivato Advanced "
 "Custom Fields."
 
 #. translators: %1 plugin name, %2 the URL to the documentation on this error
@@ -5291,7 +5291,7 @@ msgid ""
 "<a href=\"%s\" target=\"_blank\">Help Desk</a>. The support professionals on "
 "our Help Desk will assist with your more in depth, technical challenges."
 msgstr ""
-"<a href=\"%s\" target=\"_blank\">Help Desk</a>. I ***REMOVED*** del nostro "
+"<a href=\"%s\" target=\"_blank\">Help Desk</a>. I professionisti del nostro "
 "Help Desk ti assisteranno per problematiche tecniche."
 
 #: includes/admin/admin.php:158
@@ -5310,8 +5310,8 @@ msgid ""
 "documentation contains references and guides for most situations you may "
 "encounter."
 msgstr ""
-"<a href=\"%s\" target=\"_blank\">***REMOVED***</a>. La nostra estesa "
-"***REMOVED*** contiene riferimenti e guide per la maggior parte delle "
+"<a href=\"%s\" target=\"_blank\">Documentazione</a>. La nostra estesa "
+"documentazione contiene riferimenti e guide per la maggior parte delle "
 "situazioni che potresti incontrare."
 
 #: includes/admin/admin.php:151
@@ -5344,7 +5344,7 @@ msgid ""
 msgstr ""
 "Prima di creare il tuo primo gruppo di campi, ti raccomandiamo di leggere la "
 "nostra guida <a href=\"%s\" target=\"_blank\">Getting started</a> per "
-"***REMOVED*** con la filosofia del plugin e le buone pratiche da adottare."
+"familiarizzare con la filosofia del plugin e le buone pratiche da adottare."
 
 #: includes/admin/admin.php:134
 msgid ""
@@ -5353,9 +5353,9 @@ msgid ""
 "display custom field values in any theme template file."
 msgstr ""
 "Il plugin Advanced Custom Fields fornisce un costruttore visuale di moduli "
-"per ***REMOVED*** le schermate di modifica di WordPress con campi "
-"aggiuntivi, ed un'intuitiva API per la ***REMOVED*** dei campi "
-"***REMOVED*** in qualunque file di template di un tema."
+"per personalizzare le schermate di modifica di WordPress con campi "
+"aggiuntivi, ed un'intuitiva API per la visualizzazione dei campi "
+"personalizzati in qualunque file di template di un tema."
 
 #: includes/admin/admin.php:131 includes/admin/admin.php:133
 msgid "Overview"
@@ -5774,7 +5774,7 @@ msgstr "Tipo di campo"
 
 #: includes/admin/views/acf-field-group/field.php:183
 msgid "Single word, no spaces. Underscores and dashes allowed"
-msgstr "Singola parola, nessun spazio. ***REMOVED*** e trattini consentiti"
+msgstr "Singola parola, nessun spazio. Sottolineatura e trattini consentiti"
 
 #: includes/admin/views/acf-field-group/field.php:182
 msgid "Field Name"
@@ -5918,7 +5918,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crea un insieme di regole per determinare in quali schermate di modifica "
-"saranno usati i campi ***REMOVED*** avanzati"
+"saranno usati i campi personalizzati avanzati"
 
 #: includes/admin/views/acf-field-group/locations.php:9
 msgid "Rules"
@@ -5939,7 +5939,7 @@ msgid ""
 "to another ACF installation. Generate PHP to export to PHP code which you "
 "can place in your theme."
 msgstr ""
-"Seleziona gli elementi che vorresti esportare e ***REMOVED*** il metodo di "
+"Seleziona gli elementi che vorresti esportare e successivamente il metodo di "
 "esportazioni. \"Esporta come JSON\" per esportare il tutto in un file .json "
 "che potrai poi importare in un'altra installazione di ACF. \"Genera PHP\" "
 "per esportare in codice PHP da poter inserire nel tuo tema."
@@ -6014,7 +6014,7 @@ msgstr "Supporta"
 #: includes/admin/admin.php:355
 #: includes/admin/views/browse-fields-modal.php:102
 msgid "Documentation"
-msgstr "***REMOVED***"
+msgstr "Documentazione"
 
 #: includes/admin/post-types/admin-field-groups.php:90
 #: includes/admin/post-types/admin-post-types.php:110
@@ -6030,7 +6030,7 @@ msgstr "Descrizione"
 #: includes/admin/admin-internal-post-type-list.php:414
 #: includes/admin/admin-internal-post-type-list.php:832
 msgid "Sync available"
-msgstr "***REMOVED*** disponibile"
+msgstr "Sincronizzazione disponibile"
 
 #. translators: %s number of field groups synchronized
 #: includes/admin/post-types/admin-field-groups.php:374
@@ -6066,7 +6066,7 @@ msgstr "Aggiorna il database"
 #: includes/admin/views/acf-field-group/options.php:175
 #: includes/admin/views/acf-post-type/advanced-settings.php:30
 msgid "Custom Fields"
-msgstr "Campi ***REMOVED***"
+msgstr "Campi personalizzati"
 
 #: includes/admin/post-types/admin-field-group.php:609
 msgid "Move Field"
@@ -6126,7 +6126,7 @@ msgstr "Selezionato"
 
 #: includes/admin/post-types/admin-field-group.php:90
 msgid "Move Custom Field"
-msgstr "Sposta campo ***REMOVED***"
+msgstr "Sposta campo personalizzato"
 
 #: includes/admin/post-types/admin-field-group.php:89
 msgid "No toggle fields available"
@@ -6276,7 +6276,7 @@ msgstr "Il valore contiene"
 
 #: includes/admin/post-types/admin-field-group.php:108
 msgid "Value matches pattern"
-msgstr "Il valore ha ***REMOVED*** con il pattern"
+msgstr "Il valore ha corrispondenza con il pattern"
 
 #: includes/admin/post-types/admin-field-group.php:107
 msgid "Value is not equal to"
@@ -6433,11 +6433,11 @@ msgstr ""
 
 #: includes/fields/class-acf-field-checkbox.php:383
 msgid "Save 'custom' values to the field's choices"
-msgstr "Salva i valori '***REMOVED***' per le scelte del campo"
+msgstr "Salva i valori 'personalizzati' per le scelte del campo"
 
 #: includes/fields/class-acf-field-checkbox.php:372
 msgid "Allow 'custom' values to be added"
-msgstr "Consenti l'aggiunta di valori '***REMOVED***'"
+msgstr "Consenti l'aggiunta di valori 'personalizzati'"
 
 #: includes/fields/class-acf-field-checkbox.php:35
 msgid "Add new choice"
@@ -6573,7 +6573,7 @@ msgstr "Salvare gli 'altri' valori nelle scelte del campo"
 
 #: includes/fields/class-acf-field-radio.php:243
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Aggiungi scelta 'altro' per consentire valori ***REMOVED***"
+msgstr "Aggiungi scelta 'altro' per consentire valori personalizzati"
 
 #: includes/admin/views/global/navigation.php:199
 msgid "Other"
@@ -6733,7 +6733,7 @@ msgstr "Inserisci 1 o più caratteri"
 #: includes/fields/class-acf-field-select.php:89
 msgctxt "Select2 JS matches_0"
 msgid "No matches found"
-msgstr "Nessuna ***REMOVED*** trovata"
+msgstr "Nessuna corrispondenza trovata"
 
 #. translators: %d - number of results available in select field
 #: includes/fields/class-acf-field-select.php:88
@@ -6895,7 +6895,7 @@ msgstr "Allineato in alto"
 
 #: includes/fields/class-acf-field-tab.php:107
 msgid "Placement"
-msgstr "***REMOVED***"
+msgstr "Posizionamento"
 
 #: includes/fields/class-acf-field-tab.php:23
 msgid "Tab"
@@ -7038,8 +7038,8 @@ msgstr ""
 "TinyMCE non sarà inizializzato fino a quando non verrà fatto clic sul campo"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
-msgstr "Ritarda ***REMOVED***"
+msgid "Delay Initialization"
+msgstr "Ritarda inizializzazione"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
 msgid "Show Media Upload Buttons"
@@ -7254,7 +7254,7 @@ msgstr "Seleziona tipo di articolo"
 
 #: includes/fields/class-acf-field-relationship.php:78
 msgid "No matches found"
-msgstr "Nessuna ***REMOVED*** trovata"
+msgstr "Nessuna corrispondenza trovata"
 
 #: includes/fields/class-acf-field-relationship.php:77
 msgid "Loading"
@@ -7420,12 +7420,12 @@ msgstr "Nessuna formattazione"
 #: includes/fields/class-acf-field-message.php:103
 #: includes/fields/class-acf-field-textarea.php:161
 msgid "Automatically add &lt;br&gt;"
-msgstr "Aggiungi ***REMOVED*** &lt;br&gt;"
+msgstr "Aggiungi automaticamente &lt;br&gt;"
 
 #: includes/fields/class-acf-field-message.php:102
 #: includes/fields/class-acf-field-textarea.php:160
 msgid "Automatically add paragraphs"
-msgstr "Aggiungi ***REMOVED*** paragrafi"
+msgstr "Aggiungi automaticamente paragrafi"
 
 #: includes/fields/class-acf-field-message.php:98
 #: includes/fields/class-acf-field-textarea.php:156
@@ -7579,7 +7579,7 @@ msgstr "Blocco"
 #: includes/fields/class-acf-field-group.php:408
 msgid "Specify the style used to render the selected fields"
 msgstr ""
-"Specifica lo stile utilizzato per la ***REMOVED*** dei campi selezionati"
+"Specifica lo stile utilizzato per la visualizzazione dei campi selezionati"
 
 #: includes/fields.php:330 includes/fields/class-acf-field-button-group.php:204
 #: includes/fields/class-acf-field-checkbox.php:405
@@ -7644,7 +7644,7 @@ msgstr "Cerca"
 
 #: includes/fields/class-acf-field-google-map.php:57
 msgid "Sorry, this browser does not support geolocation"
-msgstr "Purtroppo questo browser non supporta la ***REMOVED***"
+msgstr "Purtroppo questo browser non supporta la geolocalizzazione"
 
 #: includes/fields/class-acf-field-google-map.php:22
 msgid "Google Map"
@@ -7676,7 +7676,7 @@ msgstr "Formato di ritorno"
 #: includes/fields/class-acf-field-time_picker.php:113
 #: includes/fields/class-acf-field-time_picker.php:129
 msgid "Custom:"
-msgstr "***REMOVED***:"
+msgstr "Personalizzato:"
 
 #: includes/fields/class-acf-field-date_picker.php:171
 #: includes/fields/class-acf-field-date_time_picker.php:171
@@ -7688,7 +7688,7 @@ msgstr "Il formato visualizzato durante la modifica di un articolo"
 #: includes/fields/class-acf-field-date_time_picker.php:170
 #: includes/fields/class-acf-field-time_picker.php:105
 msgid "Display Format"
-msgstr "Formato di ***REMOVED***"
+msgstr "Formato di visualizzazione"
 
 #: includes/fields/class-acf-field-time_picker.php:22
 msgid "Time Picker"
@@ -7791,8 +7791,8 @@ msgstr "Personalizza WordPress con campi potenti, professionali e intuitivi."
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93
@@ -7890,8 +7890,8 @@ msgid ""
 "No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
 "Custom Field Group</a>"
 msgstr ""
-"Nessun Field Group ***REMOVED*** trovato in questa Pagina Opzioni. <a "
-"href=\"%s\">Crea un Field Group ***REMOVED***</a>"
+"Nessun Field Group personalizzato trovato in questa Pagina Opzioni. <a "
+"href=\"%s\">Crea un Field Group personalizzato</a>"
 
 #: pro/admin/admin-updates.php:52
 msgid "<b>Error</b>. Could not connect to update server"

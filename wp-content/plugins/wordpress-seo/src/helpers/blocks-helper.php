@@ -19,7 +19,7 @@ class Blocks_Helper {
 	/**
 	 * Constructs a Blocks_Helper instance.
 	 *
-	 * @***REMOVED*** It handles dependencies.
+	 * @codeCoverageIgnore It handles dependencies.
 	 *
 	 * @param Post_Helper $post The post helper.
 	 */
@@ -63,7 +63,7 @@ class Blocks_Helper {
 	/**
 	 * Checks if the installation has blocks support.
 	 *
-	 * @***REMOVED*** It only checks if a WordPress function exists.
+	 * @codeCoverageIgnore It only checks if a WordPress function exists.
 	 *
 	 * @return bool True when function parse_blocks exists.
 	 */

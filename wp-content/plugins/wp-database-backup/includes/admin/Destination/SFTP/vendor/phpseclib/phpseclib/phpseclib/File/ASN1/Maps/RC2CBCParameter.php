@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * RC2CBCParameter
  *
  * PHP version 5
  *
@@ -16,18 +16,18 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * RC2CBCParameter
  *
  * from https://tools.ietf.org/html/rfc2898#appendix-A.3
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class RC2CBCParameter
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => [
+            'rc2ParametersVersion' => [
                 'type' => ASN1::TYPE_INTEGER,
                 'optional' => true
             ],

@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -9,7 +9,7 @@ import {
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
-import ***REMOVED*** from "../commons/***REMOVED***";
+import CSVSourceConfig from "../commons/CSVSourceConfig";
 import {togglePanel} from "../commons/Util";
 import Measures from "../commons/Measures";
 import DataFilters from "../commons/DataFilters";
@@ -19,14 +19,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         super(props);
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***()
+    componentDidMount() {
+        super.componentDidMount()
     }
 
     render() {
         const {
             className, isSelected,
-            ***REMOVED***, setAttributes,
+            toggleSelection, setAttributes,
             attributes: {
                 measures,
                 height,
@@ -50,7 +50,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const divStyles = {height: height + 'px', width: '100%'}
 
         return ([isSelected && (
-            <***REMOVED***>
+            <InspectorControls>
                 <Panel header={__("Chart Configuration")}>
                     <PanelBody
                       panelStatus={panelStatus['GROUP']}
@@ -96,10 +96,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         {app != 'csv' &&  <Measures
                               title={__(`Measure`)}
-                              ***REMOVED***={value => {
+                              onSetSingleMeasure={value => {
                                   setAttributes({measures: [value]})
                               }}
-                              ***REMOVED***={value => {
+                              onFormatChange={value => {
                                   setAttributes({format: value})
                               }}
                               allMeasures={this.state.measures}
@@ -134,7 +134,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                     </>
                 </Panel>
-            </***REMOVED***>),
+            </InspectorControls>),
               (<ResizableBox
                   size={{height}}
                   style={{"margin": "auto", width: "100%"}}
@@ -154,10 +154,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                       setAttributes({
                           height: parseInt(height + delta.height, 10),
                       });
-                      ***REMOVED***(true);
+                      toggleSelection(true);
                   }}
                   onResizeStart={() => {
-                      ***REMOVED***(false);
+                      toggleSelection(false);
                   }}>
 
                     <div className={className}>

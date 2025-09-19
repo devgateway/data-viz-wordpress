@@ -17,8 +17,8 @@ namespace ParagonIE\ConstantTime;
  *  copies or substantial portions of the Software.
  *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF ***REMOVED***,
- *  FITNESS FOR A PARTICULAR PURPOSE AND ***REMOVED***. IN NO EVENT SHALL THE
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -60,7 +60,7 @@ abstract class Base32Hex extends Base32
      * @param int $src
      * @return int
      */
-    protected static function ***REMOVED***(int $src): int
+    protected static function decode5BitsUpper(int $src): int
     {
         $ret = -1;
 
@@ -99,7 +99,7 @@ abstract class Base32Hex extends Base32
      * @param int $src
      * @return string
      */
-    protected static function ***REMOVED***(int $src): string
+    protected static function encode5BitsUpper(int $src): string
     {
         $src += 0x30;
 

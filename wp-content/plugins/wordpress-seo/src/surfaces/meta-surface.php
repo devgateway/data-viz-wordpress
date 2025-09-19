@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Surfaces\Values\Meta;
 use Yoast\WP\SEO\Wrappers\WP_Rewrite_Wrapper;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Meta_Surface class.
@@ -21,7 +21,7 @@ class Meta_Surface {
 	/**
 	 * The container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	private $container;
 
@@ -56,14 +56,14 @@ class Meta_Surface {
 	/**
 	 * Meta_Surface constructor.
 	 *
-	 * @param ***REMOVED***         $container            The DI container.
+	 * @param ContainerInterface         $container            The DI container.
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
 	 * @param Indexable_Repository       $indexable_repository The indexable repository.
 	 * @param WP_Rewrite_Wrapper         $wp_rewrite_wrapper   The WP rewrite wrapper.
 	 * @param Indexable_Helper           $indexable_helper     The indexable helper.
 	 */
 	public function __construct(
-		***REMOVED*** $container,
+		ContainerInterface $container,
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		Indexable_Repository $indexable_repository,
 		WP_Rewrite_Wrapper $wp_rewrite_wrapper,

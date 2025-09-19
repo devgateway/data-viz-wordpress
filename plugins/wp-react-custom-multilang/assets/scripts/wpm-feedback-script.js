@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
     wpm_deactivate_link_url = wpm_deactivate_link.attr('href');
 
     wpm_deactivate_link.click(function (e) {
-        e.***REMOVED***();
+        e.preventDefault();
         // only show feedback form once per 30 days
         var c_value = wpm_admin_get_cookie("wpm_hide_deactivate_feedback");
 
@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
     });
     // send form or close it
     $('#wpm-reloaded-feedback-content .button').click(function (e) {
-        e.***REMOVED***();
+        e.preventDefault();
         // set cookie for 30 days
         var exdate = new Date();
         exdate.setSeconds(exdate.getSeconds() + 2592000);

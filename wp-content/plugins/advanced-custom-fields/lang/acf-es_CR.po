@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2024-05-22T11:47:45+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: es_CR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3177,7 +3177,7 @@ msgid ""
 msgstr ""
 "Antes de crear su primer grupo de campos le recomendamos que primero lea "
 "nuestra <a href=\"%s\" target=\"_blank\">guía de primeros pasos</a> para "
-"***REMOVED*** con la filosofía y buenas prácticas del plugin."
+"familiarizarse con la filosofía y buenas prácticas del plugin."
 
 #: includes/admin/admin.php:134
 msgid ""
@@ -3187,7 +3187,7 @@ msgid ""
 msgstr ""
 "El plugin Advanced Custom Fields ofrece un constructor visual con el que "
 "personalizar las pantallas de WordPress con campos adicionales, y una API "
-"intuitiva parra mostrar valores de campos ***REMOVED*** en cualquier "
+"intuitiva parra mostrar valores de campos personalizados en cualquier "
 "archivo de plantilla de cualquier tema."
 
 #: includes/admin/admin.php:131 includes/admin/admin.php:133
@@ -3333,7 +3333,7 @@ msgstr "Rol del usuario actual"
 #: includes/locations/class-acf-location-page-template.php:73
 #: includes/locations/class-acf-location-post-template.php:85
 msgid "Default Template"
-msgstr "Plantilla ***REMOVED***"
+msgstr "Plantilla predeterminada"
 
 #: includes/locations/class-acf-location-post-template.php:22
 msgid "Post Template"
@@ -3673,7 +3673,7 @@ msgstr "Mostrar este grupo de campos si"
 #: includes/admin/views/upgrade/upgrade.php:93
 #: includes/ajax/class-acf-ajax-upgrade.php:34
 msgid "No updates available."
-msgstr "No hay ***REMOVED*** disponibles."
+msgstr "No hay actualizaciones disponibles."
 
 #. translators: %s the url to the field group page.
 #: includes/admin/views/upgrade/upgrade.php:32
@@ -3764,7 +3764,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crea un conjunto de reglas para determinar qué pantallas de edición "
-"utilizarán estos campos ***REMOVED***"
+"utilizarán estos campos personalizados"
 
 #: includes/admin/views/acf-field-group/locations.php:9
 msgid "Rules"
@@ -3905,7 +3905,7 @@ msgstr "Actualizar base de datos"
 #: includes/admin/views/acf-field-group/options.php:175
 #: includes/admin/views/acf-post-type/advanced-settings.php:30
 msgid "Custom Fields"
-msgstr "Campos ***REMOVED***"
+msgstr "Campos personalizados"
 
 #: includes/admin/post-types/admin-field-group.php:584
 msgid "Move Field"
@@ -4318,11 +4318,11 @@ msgstr ""
 
 #: includes/fields/class-acf-field-checkbox.php:388
 msgid "Save 'custom' values to the field's choices"
-msgstr "Guardar los valores «***REMOVED***» a las opciones del campo"
+msgstr "Guardar los valores «personalizados» a las opciones del campo"
 
 #: includes/fields/class-acf-field-checkbox.php:377
 msgid "Allow 'custom' values to be added"
-msgstr "Permite añadir valores ***REMOVED***"
+msgstr "Permite añadir valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:36
 msgid "Add new choice"
@@ -4458,7 +4458,7 @@ msgstr "Guardar los valores de 'otros' en las opciones del campo"
 
 #: includes/fields/class-acf-field-radio.php:246
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Añade la opción 'otros' para permitir valores ***REMOVED***"
+msgstr "Añade la opción 'otros' para permitir valores personalizados"
 
 #: includes/admin/views/global/navigation.php:196
 msgid "Other"
@@ -4923,7 +4923,7 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "TinyMCE no se inicializará hasta que se haga clic en el campo"
 
 #: includes/fields/class-acf-field-wysiwyg.php:370
-msgid "Delay ***REMOVED***"
+msgid "Delay Initialization"
 msgstr ""
 
 #: includes/fields/class-acf-field-wysiwyg.php:359
@@ -5681,8 +5681,8 @@ msgstr "Personaliza WordPress con campos potentes, profesionales e intuitivos."
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93

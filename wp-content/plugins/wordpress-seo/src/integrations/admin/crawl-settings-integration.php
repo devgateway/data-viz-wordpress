@@ -108,7 +108,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Page is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Page is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' ) {
 			return;
 		}
@@ -232,7 +232,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		}
 
 		if ( ! empty( $warning ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in Alert_Presenter.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in Alert_Presenter.
 			echo new Alert_Presenter( $warning, 'warning' );
 		}
 
@@ -245,9 +245,9 @@ class Crawl_Settings_Integration implements Integration_Interface {
 
 		$setting_prefix = WPSEO_Option::ALLOW_KEY_PREFIX;
 		$toggles        = [
-			// phpcs:ignore WordPress.WP.I18n.***REMOVED*** -- Reason: text is originally from Yoast SEO.
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
 			'on'  => \__( 'Allow Control', 'wordpress-seo' ),
-			// phpcs:ignore WordPress.WP.I18n.***REMOVED*** -- Reason: text is originally from Yoast SEO.
+			// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
 			'off' => \__( 'Disable', 'wordpress-seo' ),
 		];
 

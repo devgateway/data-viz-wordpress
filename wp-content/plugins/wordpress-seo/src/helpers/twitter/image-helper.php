@@ -19,7 +19,7 @@ class Image_Helper {
 	/**
 	 * Image_Helper constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Base_Image_Helper $image The image helper.
 	 */

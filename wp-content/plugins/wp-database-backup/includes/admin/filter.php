@@ -30,7 +30,7 @@ function wp_db_backup_upgrader_pre_install( $response, $hook_extra ) {
  * @return string
  */
 function wp_db_filter_data( $string ) {
-	$search  = array( 'animation-name', 'alert(', 'style=', '***REMOVED***' );
+	$search  = array( 'animation-name', 'alert(', 'style=', 'onanimationstart' );
 	$replace = array( '', '', '', '' );
 	$result  = str_replace( $search, $replace, $string );
 	return $result;
@@ -41,9 +41,9 @@ add_action( 'wp_ajax_wpdbbkp_email_unsubscribe', 'wpdbbkp_unsubcribe_email_notif
 add_action( 'wp_ajax_nopriv_wpdbbkp_email_unsubscribe', 'wpdbbkp_unsubcribe_email_notification' );
 
 function wpdbbkp_unsubcribe_email_notification(){
-	if(isset($_GET['unsubscribe_token'])){ // phpcs:ignore	WordPress.Security.***REMOVED***.Recommended -- unsubscribe_token is doing the job of nonce.
+	if(isset($_GET['unsubscribe_token'])){ // phpcs:ignore	WordPress.Security.NonceVerification.Recommended -- unsubscribe_token is doing the job of nonce.
 		$saved_token=get_option('wpdbbkp_unsubscribe_token',false);
-		if($saved_token && $saved_token==$_GET['unsubscribe_token']){ 		// phpcs:ignore	WordPress.Security.***REMOVED***.Recommended -- unsubscribe_token is doing the job of nonce.
+		if($saved_token && $saved_token==$_GET['unsubscribe_token']){ 		// phpcs:ignore	WordPress.Security.NonceVerification.Recommended -- unsubscribe_token is doing the job of nonce.
 			$current_status = get_option( 'wp_db_backup_destination_Email',false);
 			if($current_status == 1){
 				update_option('wp_db_backup_destination_Email', 0 , false);

@@ -1,13 +1,13 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Configuration;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Stores and retrieves the Site Kit consent status.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Site_Kit_Consent_Repository implements Site_Kit_Consent_Repository_Interface {
 

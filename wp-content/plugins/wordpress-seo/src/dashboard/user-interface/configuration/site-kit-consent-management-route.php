@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Configuration;
 
 use Exception;
@@ -7,7 +7,7 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  *
  * @makePublic
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Site_Kit_Consent_Management_Route implements Route_Interface {
 

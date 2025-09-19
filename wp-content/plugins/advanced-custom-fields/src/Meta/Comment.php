@@ -2,7 +2,7 @@
 /**
  * Adds support for saving/retrieving values from comment meta.
  *
- * @package    ***REMOVED***
+ * @package    AdvancedCustomFields
  * @subpackage Meta
  * @author     WP Engine
  */

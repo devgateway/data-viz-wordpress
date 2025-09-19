@@ -69,7 +69,7 @@ abstract class XML
         $xpath = new \DOMXPath($dom);
         $keys = ['modulus', 'exponent', 'p', 'q', 'dp', 'dq', 'inverseq', 'd'];
         foreach ($keys as $key) {
-            // $dom->***REMOVED***($key) is case-sensitive
+            // $dom->getElementsByTagName($key) is case-sensitive
             $temp = $xpath->query("//*[translate(local-name(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='$key']");
             if (!$temp->length) {
                 continue;
@@ -80,7 +80,7 @@ abstract class XML
                     $components['modulus'] = $value;
                     break;
                 case 'exponent':
-                    $components['***REMOVED***'] = $value;
+                    $components['publicExponent'] = $value;
                     break;
                 case 'p':
                     $components['primes'][1] = $value;
@@ -98,7 +98,7 @@ abstract class XML
                     $components['coefficients'][2] = $value;
                     break;
                 case 'd':
-                    $components['***REMOVED***'] = $value;
+                    $components['privateExponent'] = $value;
             }
         }
 
@@ -110,7 +110,7 @@ abstract class XML
             }
         }
 
-        if (isset($components['modulus']) && isset($components['***REMOVED***'])) {
+        if (isset($components['modulus']) && isset($components['publicExponent'])) {
             if (count($components) == 3) {
                 $components['isPublicKey'] = true;
             }
@@ -132,7 +132,7 @@ abstract class XML
      * @param string $password optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '')
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '')
     {
         if (count($primes) != 2) {
             throw new \InvalidArgumentException('XML does not support multi-prime RSA keys');

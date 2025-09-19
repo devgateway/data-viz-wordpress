@@ -9,10 +9,10 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
  *
  * @final
  */
-class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\PromisorInterface
 {
     private $pending = [];
-    private $***REMOVED*** = 0;
+    private $nextPendingIndex = 0;
     /** @var \Iterator|null */
     private $iterable;
     /** @var callable|int|null */
@@ -60,7 +60,7 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         }
     }
     /** @psalm-suppress InvalidNullableReturnType */
-    public function promise() : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function promise() : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         if ($this->aggregate) {
             return $this->aggregate;
@@ -82,7 +82,7 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     {
         $this->mutex = \false;
         $this->aggregate = new \YoastSEO_Vendor\GuzzleHttp\Promise\Promise(function () : void {
-            if ($this->***REMOVED***()) {
+            if ($this->checkIfFinished()) {
                 return;
             }
             \reset($this->pending);
@@ -100,7 +100,7 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         $clearFn = function () : void {
             $this->iterable = $this->concurrency = $this->pending = null;
             $this->onFulfilled = $this->onRejected = null;
-            $this->***REMOVED*** = 0;
+            $this->nextPendingIndex = 0;
         };
         $this->aggregate->then($clearFn, $clearFn);
     }
@@ -108,7 +108,7 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     {
         if (!$this->concurrency) {
             // Add all pending promises.
-            while ($this->addPending() && $this->***REMOVED***()) {
+            while ($this->addPending() && $this->advanceIterator()) {
             }
             return;
         }
@@ -125,7 +125,7 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         // not advance the iterator after adding the first promise. This
         // helps work around issues with generators that might not have the
         // next value to yield until promise callbacks are called.
-        while (--$concurrency && $this->***REMOVED***() && $this->addPending()) {
+        while (--$concurrency && $this->advanceIterator() && $this->addPending()) {
         }
     }
     private function addPending() : bool
@@ -137,7 +137,7 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         $key = $this->iterable->key();
         // Iterable keys may not be unique, so we use a counter to
         // guarantee uniqueness
-        $idx = $this->***REMOVED***++;
+        $idx = $this->nextPendingIndex++;
         $this->pending[$idx] = $promise->then(function ($value) use($idx, $key) : void {
             if ($this->onFulfilled) {
                 ($this->onFulfilled)($value, $key, $this->aggregate);
@@ -151,7 +151,7 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         });
         return \true;
     }
-    private function ***REMOVED***() : bool
+    private function advanceIterator() : bool
     {
         // Place a lock on the iterator so that we ensure to not recurse,
         // preventing fatal generator errors.
@@ -179,12 +179,12 @@ class EachPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         // Only refill pending promises if we are not locked, preventing the
         // EachPromise to recursively invoke the provided iterator, which
         // cause a fatal error: "Cannot resume an already running generator"
-        if ($this->***REMOVED***() && !$this->***REMOVED***()) {
+        if ($this->advanceIterator() && !$this->checkIfFinished()) {
             // Add more pending promises if possible.
             $this->refillPending();
         }
     }
-    private function ***REMOVED***() : bool
+    private function checkIfFinished() : bool
     {
         if (!$this->pending && !$this->iterable->valid()) {
             // Resolve the promise if there's nothing left to do.

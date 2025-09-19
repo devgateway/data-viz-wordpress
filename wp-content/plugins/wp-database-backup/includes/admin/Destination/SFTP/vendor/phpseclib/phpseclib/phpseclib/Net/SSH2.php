@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of SSHv2.
+ * Pure-PHP implementation of SSHv2.
  *
  * PHP version 5
  *
@@ -24,7 +24,7 @@
  * <?php
  *    include 'vendor/autoload.php';
  *
- *    $key = \phpseclib3\Crypt\***REMOVED***::load('...', '(optional) password');
+ *    $key = \phpseclib3\Crypt\PublicKeyLoader::load('...', '(optional) password');
  *
  *    $ssh = new \phpseclib3\Net\SSH2('www.domain.tld');
  *    if (!$ssh->login('username', $key)) {
@@ -72,7 +72,7 @@ use phpseclib3\Math\BigInteger;
 use phpseclib3\System\SSH\Agent;
 
 /**
- * Pure-PHP ***REMOVED*** of SSHv2.
+ * Pure-PHP implementation of SSHv2.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -222,7 +222,7 @@ class SSH2
     /**
      * Key Exchange Algorithms
      *
-     * @see self::***REMOVED***()
+     * @see self::getKexAlgorithims()
      * @var array|false
      */
     private $kex_algorithms = false;
@@ -230,7 +230,7 @@ class SSH2
     /**
      * Key Exchange Algorithm
      *
-     * @see self::***REMOVED***()
+     * @see self::getMethodsNegotiated()
      * @var string|false
      */
     private $kex_algorithm = false;
@@ -407,7 +407,7 @@ class SSH2
      *
      * @var string|null
      */
-    private $***REMOVED***;
+    private $decryptFixedPart;
 
     /**
      * Server to Client Length Encryption Object
@@ -448,7 +448,7 @@ class SSH2
      *
      * @var string|null
      */
-    private $***REMOVED***;
+    private $encryptFixedPart;
 
     /**
      * Client to Server Length Encryption Object
@@ -750,7 +750,7 @@ class SSH2
      * @see self::read()
      * @var string
      */
-    private $***REMOVED*** = '';
+    private $interactiveBuffer = '';
 
     /**
      * Current log size
@@ -819,7 +819,7 @@ class SSH2
     /**
      * Flag to suppress stderr from output
      *
-     * @see self::***REMOVED***()
+     * @see self::enableQuietMode()
      */
     private $quiet_mode = false;
 
@@ -872,10 +872,10 @@ class SSH2
      * Banner Message
      *
      * Quoting from the RFC, "in some jurisdictions, sending a warning message before
-     * ***REMOVED*** may be relevant for getting legal protection."
+     * authentication may be relevant for getting legal protection."
      *
      * @see self::_filter()
-     * @see self::***REMOVED***()
+     * @see self::getBannerMessage()
      * @var string
      */
     private $banner_message = '';
@@ -933,8 +933,8 @@ class SSH2
     /**
      * Number of columns for terminal window size
      *
-     * @see self::***REMOVED***()
-     * @see self::***REMOVED***()
+     * @see self::getWindowColumns()
+     * @see self::setWindowColumns()
      * @see self::setWindowSize()
      * @var int
      */
@@ -953,7 +953,7 @@ class SSH2
     /**
      * Crypto Engine
      *
-     * @see self::***REMOVED***()
+     * @see self::setCryptoEngine()
      * @see self::_key_exchange()
      * @var int
      */
@@ -975,7 +975,7 @@ class SSH2
     private static $connections;
 
     /**
-     * Send the ***REMOVED*** string first?
+     * Send the identification string first?
      *
      * @var bool
      */
@@ -1017,7 +1017,7 @@ class SSH2
     protected $preferred_signature_format = false;
 
     /**
-     * ***REMOVED*** Credentials
+     * Authentication Credentials
      *
      * @var array
      */
@@ -1031,7 +1031,7 @@ class SSH2
     private $term = 'vt100';
 
     /**
-     * The ***REMOVED*** methods that may productively continue ***REMOVED***.
+     * The authentication methods that may productively continue authentication.
      *
      * @see https://tools.ietf.org/html/rfc4252#section-5.1
      * @var array|null
@@ -1081,7 +1081,7 @@ class SSH2
     private $regenerate_decompression_context = false;
 
     /**
-     * Smart multi-factor ***REMOVED*** flag
+     * Smart multi-factor authentication flag
      *
      * @var bool
      */
@@ -1224,16 +1224,16 @@ class SSH2
      *
      * @param int $engine
      */
-    public static function ***REMOVED***($engine)
+    public static function setCryptoEngine($engine)
     {
         self::$crypto_engine = $engine;
     }
 
     /**
-     * Send ***REMOVED*** String First
+     * Send Identification String First
      *
      * https://tools.ietf.org/html/rfc4253#section-4.2 says "when the connection has been established,
-     * both sides MUST send an ***REMOVED*** string". It does not say which side sends it first. In
+     * both sides MUST send an identification string". It does not say which side sends it first. In
      * theory it shouldn't matter but it is a fact of life that some SSH servers are simply buggy
      *
      */
@@ -1243,10 +1243,10 @@ class SSH2
     }
 
     /**
-     * Send ***REMOVED*** String Last
+     * Send Identification String Last
      *
      * https://tools.ietf.org/html/rfc4253#section-4.2 says "when the connection has been established,
-     * both sides MUST send an ***REMOVED*** string". It does not say which side sends it first. In
+     * both sides MUST send an identification string". It does not say which side sends it first. In
      * theory it shouldn't matter but it is a fact of life that some SSH servers are simply buggy
      *
      */
@@ -1263,7 +1263,7 @@ class SSH2
      * it shouldn't matter but it is a fact of life that some SSH servers are simply buggy
      *
      */
-    public function ***REMOVED***()
+    public function sendKEXINITFirst()
     {
         $this->send_kex_first = true;
     }
@@ -1276,7 +1276,7 @@ class SSH2
      * it shouldn't matter but it is a fact of life that some SSH servers are simply buggy
      *
      */
-    public function ***REMOVED***()
+    public function sendKEXINITLast()
     {
         $this->send_kex_first = false;
     }
@@ -1311,7 +1311,7 @@ class SSH2
      * Connect to an SSHv2 server
      *
      * @throws \UnexpectedValueException on receipt of unexpected packets
-     * @throws \***REMOVED*** on other errors
+     * @throws \RuntimeException on other errors
      */
     private function connect()
     {
@@ -1329,7 +1329,7 @@ class SSH2
             $start = microtime(true);
             // with stream_select a timeout of 0 means that no timeout takes place;
             // with fsockopen a timeout of 0 means that you instantly timeout
-            // to resolve this ***REMOVED*** a timeout of 100,000 will be used for fsockopen if timeout is 0
+            // to resolve this incompatibility a timeout of 100,000 will be used for fsockopen if timeout is 0
             $this->fsock = @fsockopen($this->host, $this->port, $errno, $errstr, $this->curTimeout == 0 ? 100000 : $this->curTimeout);
             if (!$this->fsock) {
                 $host = $this->host . ':' . $this->port;
@@ -1340,7 +1340,7 @@ class SSH2
             if ($this->curTimeout) {
                 $this->curTimeout -= $elapsed;
                 if ($this->curTimeout < 0) {
-                    throw new \***REMOVED***('Connection timed out whilst attempting to open socket connection');
+                    throw new \RuntimeException('Connection timed out whilst attempting to open socket connection');
                 }
             }
         }
@@ -1364,7 +1364,7 @@ class SSH2
             while (true) {
                 if ($this->curTimeout) {
                     if ($this->curTimeout < 0) {
-                        throw new \***REMOVED***('Connection timed out whilst receiving server ***REMOVED*** string');
+                        throw new \RuntimeException('Connection timed out whilst receiving server identification string');
                     }
                     $read = [$this->fsock];
                     $write = $except = null;
@@ -1372,7 +1372,7 @@ class SSH2
                     $sec = (int) floor($this->curTimeout);
                     $usec = (int) (1000000 * ($this->curTimeout - $sec));
                     if (static::stream_select($read, $write, $except, $sec, $usec) === false) {
-                        throw new \***REMOVED***('Connection timed out whilst receiving server ***REMOVED*** string');
+                        throw new \RuntimeException('Connection timed out whilst receiving server identification string');
                     }
                     $elapsed = microtime(true) - $start;
                     $this->curTimeout -= $elapsed;
@@ -1380,7 +1380,7 @@ class SSH2
 
                 $temp = stream_get_line($this->fsock, 255, "\n");
                 if ($temp === false) {
-                    throw new \***REMOVED***('Error reading from socket');
+                    throw new \RuntimeException('Error reading from socket');
                 }
                 if (strlen($temp) == 255) {
                     continue;
@@ -1390,7 +1390,7 @@ class SSH2
 
                 // quoting RFC4253, "Implementers who wish to maintain
                 // compatibility with older, undocumented versions of this protocol may
-                // want to process the ***REMOVED*** string without expecting the
+                // want to process the identification string without expecting the
                 // presence of the carriage return character for reasons described in
                 // Section 5 of this document."
 
@@ -1430,7 +1430,7 @@ class SSH2
         // https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/1334916 for more info.
         // https://lists.ubuntu.com/archives/oneiric-changes/2011-July/005772.html discusses
         // when consolekit was incorporated.
-        // https://marc.info/?l=openssh-unix-dev&m=***REMOVED***&w=2 discusses some of the
+        // https://marc.info/?l=openssh-unix-dev&m=163409903417589&w=2 discusses some of the
         // issues with how Ubuntu incorporated consolekit
         $pattern = '#^SSH-2\.0-OpenSSH_([\d.]+)[^ ]* Ubuntu-.*$#';
         $match = preg_match($pattern, $this->server_identifier, $matches);
@@ -1503,7 +1503,7 @@ class SSH2
      * @return bool
      * @param string|bool $kexinit_payload_server optional
      * @throws \UnexpectedValueException on receipt of unexpected packets
-     * @throws \***REMOVED*** on other errors
+     * @throws \RuntimeException on other errors
      * @throws \phpseclib3\Exception\NoSupportedAlgorithmsException when none of the algorithms phpseclib has loaded are compatible
      */
     private function key_exchange($kexinit_payload_server = false)
@@ -1538,7 +1538,7 @@ class SSH2
 
         $kex_algorithms = array_merge($kex_algorithms, array('ext-info-c'));
 
-        // some SSH servers have buggy ***REMOVED*** of some of the above algorithms
+        // some SSH servers have buggy implementations of some of the above algorithms
         switch (true) {
             case $this->server_identifier == 'SSH-2.0-SSHD':
             case substr($this->server_identifier, 0, 13) == 'SSH-2.0-DLINK':
@@ -1635,15 +1635,15 @@ class SSH2
         // we don't initialize any crypto-objects, yet - we do that, later. for now, we need the lengths to make the
         // diffie-hellman key exchange as fast as possible
         $decrypt = self::array_intersect_first($s2c_encryption_algorithms, $this->encryption_algorithms_server_to_client);
-        $***REMOVED*** = $this->encryption_algorithm_to_key_size($decrypt);
-        if ($***REMOVED*** === null) {
+        $decryptKeyLength = $this->encryption_algorithm_to_key_size($decrypt);
+        if ($decryptKeyLength === null) {
             $this->disconnect_helper(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
             throw new NoSupportedAlgorithmsException('No compatible server to client encryption algorithms found');
         }
 
         $encrypt = self::array_intersect_first($c2s_encryption_algorithms, $this->encryption_algorithms_client_to_server);
-        $***REMOVED*** = $this->encryption_algorithm_to_key_size($encrypt);
-        if ($***REMOVED*** === null) {
+        $encryptKeyLength = $this->encryption_algorithm_to_key_size($encrypt);
+        if ($encryptKeyLength === null) {
             $this->disconnect_helper(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
             throw new NoSupportedAlgorithmsException('No compatible client to server encryption algorithms found');
         }
@@ -1664,13 +1664,13 @@ class SSH2
         $mac_algorithm_out = self::array_intersect_first($c2s_mac_algorithms, $this->mac_algorithms_client_to_server);
         if ($mac_algorithm_out === false) {
             $this->disconnect_helper(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
-            throw new NoSupportedAlgorithmsException('No compatible client to server message ***REMOVED*** algorithms found');
+            throw new NoSupportedAlgorithmsException('No compatible client to server message authentication algorithms found');
         }
 
         $mac_algorithm_in = self::array_intersect_first($s2c_mac_algorithms, $this->mac_algorithms_server_to_client);
         if ($mac_algorithm_in === false) {
             $this->disconnect_helper(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
-            throw new NoSupportedAlgorithmsException('No compatible server to client message ***REMOVED*** algorithms found');
+            throw new NoSupportedAlgorithmsException('No compatible server to client message authentication algorithms found');
         }
 
         $compression_map = [
@@ -1724,8 +1724,8 @@ class SSH2
                 'Curve25519' :
                 substr($this->kex_algorithm, 10);
             $ourPrivate = EC::createKey($curve);
-            $***REMOVED*** = $ourPrivate->getPublicKey()->getEncodedCoordinates();
-            $***REMOVED*** = 'NET_SSH2_MSG_KEX_ECDH_INIT';
+            $ourPublicBytes = $ourPrivate->getPublicKey()->getEncodedCoordinates();
+            $clientKexInitMessage = 'NET_SSH2_MSG_KEX_ECDH_INIT';
             $serverKexReplyMessage = 'NET_SSH2_MSG_KEX_ECDH_REPLY';
         } else {
             if (strpos($this->kex_algorithm, 'diffie-hellman-group-exchange') === 0) {
@@ -1741,7 +1741,7 @@ class SSH2
                     $dh_group_sizes_packed
                 );
                 $this->send_binary_packet($packet);
-                $this->***REMOVED***('UNKNOWN (34)', 'NET_SSH2_MSG_KEXDH_GEX_REQUEST');
+                $this->updateLogHistory('UNKNOWN (34)', 'NET_SSH2_MSG_KEXDH_GEX_REQUEST');
 
                 $response = $this->get_binary_packet();
 
@@ -1750,7 +1750,7 @@ class SSH2
                     $this->disconnect_helper(NET_SSH2_DISCONNECT_PROTOCOL_ERROR);
                     throw new \UnexpectedValueException('Expected SSH_MSG_KEX_DH_GEX_GROUP');
                 }
-                $this->***REMOVED***('NET_SSH2_MSG_KEXDH_REPLY', 'NET_SSH2_MSG_KEXDH_GEX_GROUP');
+                $this->updateLogHistory('NET_SSH2_MSG_KEXDH_REPLY', 'NET_SSH2_MSG_KEXDH_GEX_GROUP');
                 $prime = new BigInteger($primeBytes, -256);
                 $g = new BigInteger($gBytes, -256);
 
@@ -1760,32 +1760,32 @@ class SSH2
                     $gBytes
                 );
 
-                $params = DH::***REMOVED***($prime, $g);
-                $***REMOVED*** = 'NET_SSH2_MSG_KEXDH_GEX_INIT';
+                $params = DH::createParameters($prime, $g);
+                $clientKexInitMessage = 'NET_SSH2_MSG_KEXDH_GEX_INIT';
                 $serverKexReplyMessage = 'NET_SSH2_MSG_KEXDH_GEX_REPLY';
             } else {
-                $params = DH::***REMOVED***($this->kex_algorithm);
-                $***REMOVED*** = 'NET_SSH2_MSG_KEXDH_INIT';
+                $params = DH::createParameters($this->kex_algorithm);
+                $clientKexInitMessage = 'NET_SSH2_MSG_KEXDH_INIT';
                 $serverKexReplyMessage = 'NET_SSH2_MSG_KEXDH_REPLY';
             }
 
-            $keyLength = min($kexHash->***REMOVED***(), max($***REMOVED***, $***REMOVED***));
+            $keyLength = min($kexHash->getLengthInBytes(), max($encryptKeyLength, $decryptKeyLength));
 
             $ourPrivate = DH::createKey($params, 16 * $keyLength); // 2 * 8 * $keyLength
             $ourPublic = $ourPrivate->getPublicKey()->toBigInteger();
-            $***REMOVED*** = $ourPublic->toBytes(true);
+            $ourPublicBytes = $ourPublic->toBytes(true);
         }
 
-        $data = pack('CNa*', constant($***REMOVED***), strlen($***REMOVED***), $***REMOVED***);
+        $data = pack('CNa*', constant($clientKexInitMessage), strlen($ourPublicBytes), $ourPublicBytes);
 
         $this->send_binary_packet($data);
 
-        switch ($***REMOVED***) {
+        switch ($clientKexInitMessage) {
             case 'NET_SSH2_MSG_KEX_ECDH_INIT':
-                $this->***REMOVED***('NET_SSH2_MSG_KEXDH_INIT', 'NET_SSH2_MSG_KEX_ECDH_INIT');
+                $this->updateLogHistory('NET_SSH2_MSG_KEXDH_INIT', 'NET_SSH2_MSG_KEX_ECDH_INIT');
                 break;
             case 'NET_SSH2_MSG_KEXDH_GEX_INIT':
-                $this->***REMOVED***('UNKNOWN (32)', 'NET_SSH2_MSG_KEXDH_GEX_INIT');
+                $this->updateLogHistory('UNKNOWN (32)', 'NET_SSH2_MSG_KEXDH_GEX_INIT');
         }
 
         $response = $this->get_binary_packet();
@@ -1793,7 +1793,7 @@ class SSH2
         list(
             $type,
             $server_public_host_key,
-            $***REMOVED***,
+            $theirPublicBytes,
             $this->signature
         ) = Strings::unpackSSH2('Csss', $response);
 
@@ -1803,21 +1803,21 @@ class SSH2
         }
         switch ($serverKexReplyMessage) {
             case 'NET_SSH2_MSG_KEX_ECDH_REPLY':
-                $this->***REMOVED***('NET_SSH2_MSG_KEXDH_REPLY', 'NET_SSH2_MSG_KEX_ECDH_REPLY');
+                $this->updateLogHistory('NET_SSH2_MSG_KEXDH_REPLY', 'NET_SSH2_MSG_KEX_ECDH_REPLY');
                 break;
             case 'NET_SSH2_MSG_KEXDH_GEX_REPLY':
-                $this->***REMOVED***('UNKNOWN (33)', 'NET_SSH2_MSG_KEXDH_GEX_REPLY');
+                $this->updateLogHistory('UNKNOWN (33)', 'NET_SSH2_MSG_KEXDH_GEX_REPLY');
         }
 
         $this->server_public_host_key = $server_public_host_key;
         list($public_key_format) = Strings::unpackSSH2('s', $server_public_host_key);
         if (strlen($this->signature) < 4) {
-            throw new \***REMOVED***('The signature needs at least four bytes');
+            throw new \LengthException('The signature needs at least four bytes');
         }
         $temp = unpack('Nlength', substr($this->signature, 0, 4));
         $this->signature_format = substr($this->signature, 4, $temp['length']);
 
-        $keyBytes = DH::computeSecret($ourPrivate, $***REMOVED***);
+        $keyBytes = DH::computeSecret($ourPrivate, $theirPublicBytes);
         if (($keyBytes & "\xFF\x80") === "\x00\x00") {
             $keyBytes = substr($keyBytes, 1);
         } elseif (($keyBytes[0] & "\x80") === "\x80") {
@@ -1835,8 +1835,8 @@ class SSH2
         $this->exchange_hash .= $exchange_hash_rfc4419;
         $this->exchange_hash .= Strings::packSSH2(
             's3',
-            $***REMOVED***,
-            $***REMOVED***,
+            $ourPublicBytes,
+            $theirPublicBytes,
             $keyBytes
         );
 
@@ -1861,7 +1861,7 @@ class SSH2
                 case $server_host_key_algorithm != 'rsa-sha2-256' && $server_host_key_algorithm != 'rsa-sha2-512':
                 case $this->signature_format != 'ssh-rsa':
                     $this->disconnect_helper(NET_SSH2_DISCONNECT_HOST_KEY_NOT_VERIFIABLE);
-                    throw new \***REMOVED***('Server Host Key Algorithm Mismatch (' . $this->signature_format . ' vs ' . $server_host_key_algorithm . ')');
+                    throw new \RuntimeException('Server Host Key Algorithm Mismatch (' . $this->signature_format . ' vs ' . $server_host_key_algorithm . ')');
             }
         }
 
@@ -1886,12 +1886,12 @@ class SSH2
         $this->encrypt = self::encryption_algorithm_to_crypt_instance($encrypt);
         if ($this->encrypt) {
             if (self::$crypto_engine) {
-                $this->encrypt->***REMOVED***(self::$crypto_engine);
+                $this->encrypt->setPreferredEngine(self::$crypto_engine);
             }
             if ($this->encrypt->getBlockLengthInBytes()) {
                 $this->encrypt_block_size = $this->encrypt->getBlockLengthInBytes();
             }
-            $this->encrypt->***REMOVED***();
+            $this->encrypt->disablePadding();
 
             if ($this->encrypt->usesIV()) {
                 $iv = $kexHash->hash($keyBytes . $this->exchange_hash . 'A' . $this->session_id);
@@ -1905,7 +1905,7 @@ class SSH2
                 case 'aes128-gcm@openssh.com':
                 case 'aes256-gcm@openssh.com':
                     $nonce = $kexHash->hash($keyBytes . $this->exchange_hash . 'A' . $this->session_id);
-                    $this->***REMOVED*** = substr($nonce, 0, 4);
+                    $this->encryptFixedPart = substr($nonce, 0, 4);
                     $this->encryptInvocationCounter = substr($nonce, 4, 8);
                     // fall-through
                 case 'chacha20-poly1305@openssh.com':
@@ -1915,28 +1915,28 @@ class SSH2
             }
 
             $key = $kexHash->hash($keyBytes . $this->exchange_hash . 'C' . $this->session_id);
-            while ($***REMOVED*** > strlen($key)) {
+            while ($encryptKeyLength > strlen($key)) {
                 $key .= $kexHash->hash($keyBytes . $this->exchange_hash . $key);
             }
             switch ($encrypt) {
                 case 'chacha20-poly1305@openssh.com':
-                    $***REMOVED*** = 32;
+                    $encryptKeyLength = 32;
                     $this->lengthEncrypt = self::encryption_algorithm_to_crypt_instance($encrypt);
                     $this->lengthEncrypt->setKey(substr($key, 32, 32));
             }
-            $this->encrypt->setKey(substr($key, 0, $***REMOVED***));
+            $this->encrypt->setKey(substr($key, 0, $encryptKeyLength));
             $this->encryptName = $encrypt;
         }
 
         $this->decrypt = self::encryption_algorithm_to_crypt_instance($decrypt);
         if ($this->decrypt) {
             if (self::$crypto_engine) {
-                $this->decrypt->***REMOVED***(self::$crypto_engine);
+                $this->decrypt->setPreferredEngine(self::$crypto_engine);
             }
             if ($this->decrypt->getBlockLengthInBytes()) {
                 $this->decrypt_block_size = $this->decrypt->getBlockLengthInBytes();
             }
-            $this->decrypt->***REMOVED***();
+            $this->decrypt->disablePadding();
 
             if ($this->decrypt->usesIV()) {
                 $iv = $kexHash->hash($keyBytes . $this->exchange_hash . 'B' . $this->session_id);
@@ -1951,7 +1951,7 @@ class SSH2
                 case 'aes256-gcm@openssh.com':
                     // see https://tools.ietf.org/html/rfc5647#section-7.1
                     $nonce = $kexHash->hash($keyBytes . $this->exchange_hash . 'B' . $this->session_id);
-                    $this->***REMOVED*** = substr($nonce, 0, 4);
+                    $this->decryptFixedPart = substr($nonce, 0, 4);
                     $this->decryptInvocationCounter = substr($nonce, 4, 8);
                     // fall-through
                 case 'chacha20-poly1305@openssh.com':
@@ -1961,16 +1961,16 @@ class SSH2
             }
 
             $key = $kexHash->hash($keyBytes . $this->exchange_hash . 'D' . $this->session_id);
-            while ($***REMOVED*** > strlen($key)) {
+            while ($decryptKeyLength > strlen($key)) {
                 $key .= $kexHash->hash($keyBytes . $this->exchange_hash . $key);
             }
             switch ($decrypt) {
                 case 'chacha20-poly1305@openssh.com':
-                    $***REMOVED*** = 32;
+                    $decryptKeyLength = 32;
                     $this->lengthDecrypt = self::encryption_algorithm_to_crypt_instance($decrypt);
                     $this->lengthDecrypt->setKey(substr($key, 32, 32));
             }
-            $this->decrypt->setKey(substr($key, 0, $***REMOVED***));
+            $this->decrypt->setKey(substr($key, 0, $decryptKeyLength));
             $this->decryptName = $decrypt;
         }
 
@@ -1989,41 +1989,41 @@ class SSH2
         }
 
         if (!$this->encrypt->usesNonce()) {
-            list($this->hmac_create, $***REMOVED***) = self::mac_algorithm_to_hash_instance($mac_algorithm_out);
+            list($this->hmac_create, $createKeyLength) = self::mac_algorithm_to_hash_instance($mac_algorithm_out);
         } else {
             $this->hmac_create = new \stdClass();
             $this->hmac_create_name = $mac_algorithm_out;
             //$mac_algorithm_out = 'none';
-            $***REMOVED*** = 0;
+            $createKeyLength = 0;
         }
 
         if ($this->hmac_create instanceof Hash) {
             $key = $kexHash->hash($keyBytes . $this->exchange_hash . 'E' . $this->session_id);
-            while ($***REMOVED*** > strlen($key)) {
+            while ($createKeyLength > strlen($key)) {
                 $key .= $kexHash->hash($keyBytes . $this->exchange_hash . $key);
             }
-            $this->hmac_create->setKey(substr($key, 0, $***REMOVED***));
+            $this->hmac_create->setKey(substr($key, 0, $createKeyLength));
             $this->hmac_create_name = $mac_algorithm_out;
             $this->hmac_create_etm = preg_match('#-etm@openssh\.com$#', $mac_algorithm_out);
         }
 
         if (!$this->decrypt->usesNonce()) {
-            list($this->hmac_check, $***REMOVED***) = self::mac_algorithm_to_hash_instance($mac_algorithm_in);
-            $this->hmac_size = $this->hmac_check->***REMOVED***();
+            list($this->hmac_check, $checkKeyLength) = self::mac_algorithm_to_hash_instance($mac_algorithm_in);
+            $this->hmac_size = $this->hmac_check->getLengthInBytes();
         } else {
             $this->hmac_check = new \stdClass();
             $this->hmac_check_name = $mac_algorithm_in;
             //$mac_algorithm_in = 'none';
-            $***REMOVED*** = 0;
+            $checkKeyLength = 0;
             $this->hmac_size = 0;
         }
 
         if ($this->hmac_check instanceof Hash) {
             $key = $kexHash->hash($keyBytes . $this->exchange_hash . 'F' . $this->session_id);
-            while ($***REMOVED*** > strlen($key)) {
+            while ($checkKeyLength > strlen($key)) {
                 $key .= $kexHash->hash($keyBytes . $this->exchange_hash . $key);
             }
-            $this->hmac_check->setKey(substr($key, 0, $***REMOVED***));
+            $this->hmac_check->setKey(substr($key, 0, $checkKeyLength));
             $this->hmac_check_name = $mac_algorithm_in;
             $this->hmac_check_etm = preg_match('#-etm@openssh\.com$#', $mac_algorithm_in);
         }
@@ -2195,7 +2195,7 @@ class SSH2
     {
         $this->auth[] = func_get_args();
 
-        // try logging with 'none' as an ***REMOVED*** method first since that's what
+        // try logging with 'none' as an authentication method first since that's what
         // PuTTY does
         if (substr($this->server_identifier, 0, 15) != 'SSH-2.0-CoreFTP' && $this->auth_methods_to_continue === null) {
             if ($this->sublogin($username)) {
@@ -2311,7 +2311,7 @@ class SSH2
      * @param string|AsymmetricKey|array[]|Agent|null ...$args
      * @return bool
      * @throws \UnexpectedValueException on receipt of unexpected packets
-     * @throws \***REMOVED*** on other errors
+     * @throws \RuntimeException on other errors
      */
     private function login_helper($username, $password = null)
     {
@@ -2440,15 +2440,15 @@ class SSH2
         list($type) = Strings::unpackSSH2('C', $response);
         switch ($type) {
             case NET_SSH2_MSG_USERAUTH_PASSWD_CHANGEREQ: // in theory, the password can be changed
-                $this->***REMOVED***('UNKNOWN (60)', 'NET_SSH2_MSG_USERAUTH_PASSWD_CHANGEREQ');
+                $this->updateLogHistory('UNKNOWN (60)', 'NET_SSH2_MSG_USERAUTH_PASSWD_CHANGEREQ');
 
                 list($message) = Strings::unpackSSH2('s', $response);
                 $this->errors[] = 'SSH_MSG_USERAUTH_PASSWD_CHANGEREQ: ' . $message;
 
                 return $this->disconnect_helper(NET_SSH2_DISCONNECT_AUTH_CANCELLED_BY_USER);
             case NET_SSH2_MSG_USERAUTH_FAILURE:
-                // can we use keyboard-interactive ***REMOVED***?  if not then either the login is bad or the server employees
-                // multi-factor ***REMOVED***
+                // can we use keyboard-interactive authentication?  if not then either the login is bad or the server employees
+                // multi-factor authentication
                 list($auth_methods, $partial_success) = Strings::unpackSSH2('Lb', $response);
                 $this->auth_methods_to_continue = $auth_methods;
                 if (!$partial_success && in_array('keyboard-interactive', $auth_methods)) {
@@ -2468,7 +2468,7 @@ class SSH2
     }
 
     /**
-     * Login via keyboard-interactive ***REMOVED***
+     * Login via keyboard-interactive authentication
      *
      * See {@link http://tools.ietf.org/html/rfc4256 RFC4256} for details.  This is not a full-featured keyboard-interactive authenticator.
      *
@@ -2497,7 +2497,7 @@ class SSH2
      *
      * @param string|array ...$responses
      * @return bool
-     * @throws \***REMOVED*** on connection error
+     * @throws \RuntimeException on connection error
      */
     private function keyboard_interactive_process(...$responses)
     {
@@ -2546,7 +2546,7 @@ class SSH2
                 if (strlen($this->last_interactive_response)) {
                     $this->last_interactive_response = '';
                 } else {
-                    $this->***REMOVED***('UNKNOWN (60)', 'NET_SSH2_MSG_USERAUTH_INFO_REQUEST');
+                    $this->updateLogHistory('UNKNOWN (60)', 'NET_SSH2_MSG_USERAUTH_INFO_REQUEST');
                 }
 
                 if (!count($responses) && $num_prompts) {
@@ -2567,7 +2567,7 @@ class SSH2
 
                 $this->send_binary_packet($packet, $logged);
 
-                $this->***REMOVED***('UNKNOWN (61)', 'NET_SSH2_MSG_USERAUTH_INFO_RESPONSE');
+                $this->updateLogHistory('UNKNOWN (61)', 'NET_SSH2_MSG_USERAUTH_INFO_RESPONSE');
 
                 /*
                    After receiving the response, the server MUST send either an
@@ -2598,7 +2598,7 @@ class SSH2
     private function ssh_agent_login($username, Agent $agent)
     {
         $this->agent = $agent;
-        $keys = $agent->***REMOVED***();
+        $keys = $agent->requestIdentities();
         foreach ($keys as $key) {
             if ($this->privatekey_login($username, $key)) {
                 return true;
@@ -2617,7 +2617,7 @@ class SSH2
      * @param string $username
      * @param \phpseclib3\Crypt\Common\PrivateKey $privatekey
      * @return bool
-     * @throws \***REMOVED*** on connection error
+     * @throws \RuntimeException on connection error
      */
     private function privatekey_login($username, PrivateKey $privatekey)
     {
@@ -2645,7 +2645,7 @@ class SSH2
                     $signatureType = 'ssh-rsa';
             }
         } elseif ($publickey instanceof EC) {
-            $privatekey = $privatekey->***REMOVED***('SSH2');
+            $privatekey = $privatekey->withSignatureFormat('SSH2');
             $curveName = $privatekey->getCurve();
             switch ($curveName) {
                 case 'Ed25519':
@@ -2668,10 +2668,10 @@ class SSH2
                     if (is_array($curveName)) {
                         throw new UnsupportedCurveException('Specified Curves are not supported by SSH2');
                     }
-                    throw new UnsupportedCurveException('Named Curve of ' . $curveName . ' is not supported by phpseclib3\'s SSH2 ***REMOVED***');
+                    throw new UnsupportedCurveException('Named Curve of ' . $curveName . ' is not supported by phpseclib3\'s SSH2 implementation');
             }
         } elseif ($publickey instanceof DSA) {
-            $privatekey = $privatekey->***REMOVED***('SSH2');
+            $privatekey = $privatekey->withSignatureFormat('SSH2');
             $hash = 'sha1';
             $signatureType = 'ssh-dss';
         } else {
@@ -2708,14 +2708,14 @@ class SSH2
             case NET_SSH2_MSG_USERAUTH_PK_OK:
                 // we'll just take it on faith that the public key blob and the public key algorithm name are as
                 // they should be
-                $this->***REMOVED***('UNKNOWN (60)', 'NET_SSH2_MSG_USERAUTH_PK_OK');
+                $this->updateLogHistory('UNKNOWN (60)', 'NET_SSH2_MSG_USERAUTH_PK_OK');
                 break;
             case NET_SSH2_MSG_USERAUTH_SUCCESS:
                 $this->bitmap |= self::MASK_LOGIN;
                 return true;
             default:
                 $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
-                throw new ConnectionClosedException('Unexpected response to publickey ***REMOVED*** pt 1');
+                throw new ConnectionClosedException('Unexpected response to publickey authentication pt 1');
         }
 
         $packet = $part1 . chr(1) . $part2;
@@ -2733,7 +2733,7 @@ class SSH2
         list($type) = Strings::unpackSSH2('C', $response);
         switch ($type) {
             case NET_SSH2_MSG_USERAUTH_FAILURE:
-                // either the login is bad or the server employs multi-factor ***REMOVED***
+                // either the login is bad or the server employs multi-factor authentication
                 list($auth_methods) = Strings::unpackSSH2('L', $response);
                 $this->auth_methods_to_continue = $auth_methods;
                 return false;
@@ -2743,7 +2743,7 @@ class SSH2
         }
 
         $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
-        throw new ConnectionClosedException('Unexpected response to publickey ***REMOVED*** pt 2');
+        throw new ConnectionClosedException('Unexpected response to publickey authentication pt 2');
     }
 
     /**
@@ -2799,7 +2799,7 @@ class SSH2
      * @param string $command
      * @return string|bool
      * @psalm-return ($callback is callable ? bool : string|bool)
-     * @throws \***REMOVED*** on connection error
+     * @throws \RuntimeException on connection error
      */
     public function exec($command, callable $callback = null)
     {
@@ -2807,12 +2807,12 @@ class SSH2
         $this->is_timeout = false;
         $this->stdErrorLog = '';
 
-        if (!$this->***REMOVED***()) {
+        if (!$this->isAuthenticated()) {
             return false;
         }
 
         //if ($this->isPTYOpen()) {
-        //    throw new \***REMOVED***('If you want to run multiple exec()\'s you will need to disable (and re-enable if appropriate) a PTY for each one.');
+        //    throw new \RuntimeException('If you want to run multiple exec()\'s you will need to disable (and re-enable if appropriate) a PTY for each one.');
         //}
 
         $this->openChannel(self::CHANNEL_EXEC);
@@ -2838,7 +2838,7 @@ class SSH2
             $this->channel_status[self::CHANNEL_EXEC] = NET_SSH2_MSG_CHANNEL_REQUEST;
             if (!$this->get_channel_packet(self::CHANNEL_EXEC)) {
                 $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
-                throw new \***REMOVED***('Unable to request pseudo-terminal');
+                throw new \RuntimeException('Unable to request pseudo-terminal');
             }
         }
 
@@ -2900,7 +2900,7 @@ class SSH2
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getOpenChannelCount()
     {
         return $this->channelCount;
     }
@@ -2915,13 +2915,13 @@ class SSH2
     protected function openChannel($channel, $skip_extended = false)
     {
         if (isset($this->channel_status[$channel]) && $this->channel_status[$channel] != NET_SSH2_MSG_CHANNEL_CLOSE) {
-            throw new \***REMOVED***('Please close the channel (' . $channel . ') before trying to open it again');
+            throw new \RuntimeException('Please close the channel (' . $channel . ') before trying to open it again');
         }
 
         $this->channelCount++;
 
         if ($this->channelCount > 1 && $this->errorOnMultipleChannels) {
-            throw new \***REMOVED***("Ubuntu's OpenSSH from 5.8 to 6.9 doesn't work with multiple channels");
+            throw new \RuntimeException("Ubuntu's OpenSSH from 5.8 to 6.9 doesn't work with multiple channels");
         }
 
         // RFC4254 defines the (client) window size as "bytes the other party can send before it must wait for the window to
@@ -2961,11 +2961,11 @@ class SSH2
      * @return bool
      * @throws InsufficientSetupException if not authenticated
      * @throws \UnexpectedValueException on receipt of unexpected packets
-     * @throws \***REMOVED*** on other errors
+     * @throws \RuntimeException on other errors
      */
     public function openShell()
     {
-        if (!$this->***REMOVED***()) {
+        if (!$this->isAuthenticated()) {
             throw new InsufficientSetupException('Operation disallowed prior to login()');
         }
 
@@ -2991,7 +2991,7 @@ class SSH2
         $this->channel_status[self::CHANNEL_SHELL] = NET_SSH2_MSG_CHANNEL_REQUEST;
 
         if (!$this->get_channel_packet(self::CHANNEL_SHELL)) {
-            throw new \***REMOVED***('Unable to request pty');
+            throw new \RuntimeException('Unable to request pty');
         }
 
         $packet = Strings::packSSH2(
@@ -3005,7 +3005,7 @@ class SSH2
 
         $response = $this->get_channel_packet(self::CHANNEL_SHELL);
         if ($response === false) {
-            throw new \***REMOVED***('Unable to request shell');
+            throw new \RuntimeException('Unable to request shell');
         }
 
         $this->channel_status[self::CHANNEL_SHELL] = NET_SSH2_MSG_CHANNEL_DATA;
@@ -3117,12 +3117,12 @@ class SSH2
      * @param int $mode One of the self::READ_* constants
      * @param int|null $channel Channel id returned by self::getInteractiveChannelId()
      * @return string|bool|null
-     * @throws \***REMOVED*** on connection error
+     * @throws \RuntimeException on connection error
      * @throws InsufficientSetupException on unexpected channel status, possibly due to closure
      */
     public function read($expect = '', $mode = self::READ_SIMPLE, $channel = null)
     {
-        if (!$this->***REMOVED***()) {
+        if (!$this->isAuthenticated()) {
             throw new InsufficientSetupException('Operation disallowed prior to login()');
         }
 
@@ -3137,7 +3137,7 @@ class SSH2
             if ($channel != self::CHANNEL_SHELL) {
                 throw new InsufficientSetupException('Data is not available on channel');
             } elseif (!$this->openShell()) {
-                throw new \***REMOVED***('Unable to initiate an interactive shell session');
+                throw new \RuntimeException('Unable to initiate an interactive shell session');
             }
         }
 
@@ -3148,19 +3148,19 @@ class SSH2
         $match = $expect;
         while (true) {
             if ($mode == self::READ_REGEX) {
-                preg_match($expect, substr($this->***REMOVED***, -1024), $matches);
+                preg_match($expect, substr($this->interactiveBuffer, -1024), $matches);
                 $match = isset($matches[0]) ? $matches[0] : '';
             }
-            $pos = strlen($match) ? strpos($this->***REMOVED***, $match) : false;
+            $pos = strlen($match) ? strpos($this->interactiveBuffer, $match) : false;
             if ($pos !== false) {
-                return Strings::shift($this->***REMOVED***, $pos + strlen($match));
+                return Strings::shift($this->interactiveBuffer, $pos + strlen($match));
             }
             $response = $this->get_channel_packet($channel);
             if ($response === true) {
-                return Strings::shift($this->***REMOVED***, strlen($this->***REMOVED***));
+                return Strings::shift($this->interactiveBuffer, strlen($this->interactiveBuffer));
             }
 
-            $this->***REMOVED*** .= $response;
+            $this->interactiveBuffer .= $response;
         }
     }
 
@@ -3178,12 +3178,12 @@ class SSH2
      * @param string $cmd
      * @param int|null $channel Channel id returned by self::getInteractiveChannelId()
      * @return void
-     * @throws \***REMOVED*** on connection error
+     * @throws \RuntimeException on connection error
      * @throws InsufficientSetupException on unexpected channel status, possibly due to closure
      */
     public function write($cmd, $channel = null)
     {
-        if (!$this->***REMOVED***()) {
+        if (!$this->isAuthenticated()) {
             throw new InsufficientSetupException('Operation disallowed prior to login()');
         }
 
@@ -3195,7 +3195,7 @@ class SSH2
             if ($channel != self::CHANNEL_SHELL) {
                 throw new InsufficientSetupException('Data is not available on channel');
             } elseif (!$this->openShell()) {
-                throw new \***REMOVED***('Unable to initiate an interactive shell session');
+                throw new \RuntimeException('Unable to initiate an interactive shell session');
             }
         }
 
@@ -3207,7 +3207,7 @@ class SSH2
      *
      * Right now only one subsystem at a time is supported. To support multiple subsystem's stopSubsystem() could accept
      * a string that contained the name of the subsystem, but at that point, only one subsystem of each type could be opened.
-     * To support multiple subsystem's of the same name maybe it'd be best if ***REMOVED***() generated a new channel id and
+     * To support multiple subsystem's of the same name maybe it'd be best if startSubsystem() generated a new channel id and
      * returns that and then that that was passed into stopSubsystem() but that'll be saved for a future date and implemented
      * if there's sufficient demand for such a feature.
      *
@@ -3215,7 +3215,7 @@ class SSH2
      * @param string $subsystem
      * @return bool
      */
-    public function ***REMOVED***($subsystem)
+    public function startSubsystem($subsystem)
     {
         $this->openChannel(self::CHANNEL_SUBSYSTEM);
 
@@ -3245,7 +3245,7 @@ class SSH2
     /**
      * Stops a subsystem.
      *
-     * @see self::***REMOVED***()
+     * @see self::startSubsystem()
      * @return bool
      */
     public function stopSubsystem()
@@ -3331,7 +3331,7 @@ class SSH2
      *
      * @return bool
      */
-    public function ***REMOVED***()
+    public function isAuthenticated()
     {
         return (bool) ($this->bitmap & self::MASK_LOGIN);
     }
@@ -3364,7 +3364,7 @@ class SSH2
      */
     public function isInteractiveChannelOpen($channel)
     {
-        return $this->***REMOVED***() && $this->is_channel_status_data($channel);
+        return $this->isAuthenticated() && $this->is_channel_status_data($channel);
     }
 
     /**
@@ -3388,7 +3388,7 @@ class SSH2
      */
     public function ping()
     {
-        if (!$this->***REMOVED***()) {
+        if (!$this->isAuthenticated()) {
             if (!empty($this->auth)) {
                 return $this->reconnect();
             }
@@ -3397,7 +3397,7 @@ class SSH2
 
         try {
             $this->openChannel(self::CHANNEL_KEEP_ALIVE);
-        } catch (\***REMOVED*** $e) {
+        } catch (\RuntimeException $e) {
             return $this->reconnect();
         }
 
@@ -3521,7 +3521,7 @@ class SSH2
                 case 'aes128-gcm@openssh.com':
                 case 'aes256-gcm@openssh.com':
                     $this->decrypt->setNonce(
-                        $this->***REMOVED*** .
+                        $this->decryptFixedPart .
                         $this->decryptInvocationCounter
                     );
                     Strings::increment_str($this->decryptInvocationCounter);
@@ -3542,7 +3542,7 @@ class SSH2
                 case 'chacha20-poly1305@openssh.com':
                     // This should be impossible, but we are checking anyway to narrow the type for Psalm.
                     if (!($this->decrypt instanceof ChaCha20)) {
-                        throw new \***REMOVED***('$this->decrypt is not a ' . ChaCha20::class);
+                        throw new \LogicException('$this->decrypt is not a ' . ChaCha20::class);
                     }
 
                     $nonce = pack('N2', 0, $this->get_seq_no);
@@ -3560,10 +3560,10 @@ class SSH2
 
                     $this->decrypt->setNonce($nonce);
                     $this->decrypt->setCounter(0);
-                    // this is the same approach that's implemented in Salsa20::***REMOVED***()
+                    // this is the same approach that's implemented in Salsa20::createPoly1305Key()
                     // but we don't want to use the same AEAD construction that RFC8439 describes
                     // for ChaCha20-Poly1305 so we won't rely on it (see Salsa20::poly1305())
-                    $this->decrypt->***REMOVED***(
+                    $this->decrypt->setPoly1305Key(
                         $this->decrypt->encrypt(str_repeat("\0", 32))
                     );
                     $this->decrypt->setAAD($aad);
@@ -3592,7 +3592,7 @@ class SSH2
 
         if (strlen($raw) < 5) {
             $this->bitmap = 0;
-            throw new \***REMOVED***('Plaintext is too short');
+            throw new \RuntimeException('Plaintext is too short');
         }
         extract(unpack('Npacket_length/Cpadding_length', Strings::shift($raw, 5)));
         /**
@@ -3620,7 +3620,7 @@ class SSH2
             $hmac = stream_get_contents($this->fsock, $this->hmac_size);
             if ($hmac === false || strlen($hmac) != $this->hmac_size) {
                 $this->disconnect_helper(NET_SSH2_DISCONNECT_MAC_ERROR);
-                throw new \***REMOVED***('Error reading socket');
+                throw new \RuntimeException('Error reading socket');
             }
 
             $reconstructed = !$this->hmac_check_etm ?
@@ -3630,19 +3630,19 @@ class SSH2
                 $this->hmac_check->setNonce("\0\0\0\0" . pack('N', $this->get_seq_no));
                 if ($hmac != $this->hmac_check->hash($reconstructed)) {
                     $this->disconnect_helper(NET_SSH2_DISCONNECT_MAC_ERROR);
-                    throw new \***REMOVED***('Invalid UMAC');
+                    throw new \RuntimeException('Invalid UMAC');
                 }
             } else {
                 if ($hmac != $this->hmac_check->hash(pack('Na*', $this->get_seq_no, $reconstructed))) {
                     $this->disconnect_helper(NET_SSH2_DISCONNECT_MAC_ERROR);
-                    throw new \***REMOVED***('Invalid HMAC');
+                    throw new \RuntimeException('Invalid HMAC');
                 }
             }
         }
 
         switch ($this->decompress) {
             case self::NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH:
-                if (!$this->***REMOVED***()) {
+                if (!$this->isAuthenticated()) {
                     break;
                 }
                 // fall-through
@@ -3717,7 +3717,7 @@ class SSH2
         }
 
         // quoting <http://tools.ietf.org/html/rfc4253#section-6.1>,
-        // "***REMOVED*** SHOULD check that the packet length is reasonable"
+        // "implementations SHOULD check that the packet length is reasonable"
         // PuTTY uses 0x9000 as the actual max packet size and so to shall we
         // don't do this when GCM mode is used since GCM mode doesn't encrypt the length
         if ($remaining_length < -$this->decrypt_block_size || $remaining_length > 0x9000 || $remaining_length % $this->decrypt_block_size != 0) {
@@ -3726,7 +3726,7 @@ class SSH2
                 $this->reset_connection(NET_SSH2_DISCONNECT_KEY_EXCHANGE_FAILED);
                 return false;
             }
-            throw new \***REMOVED***('Invalid size');
+            throw new \RuntimeException('Invalid size');
         }
 
         if ($adjustLength) {
@@ -3738,7 +3738,7 @@ class SSH2
             $temp = stream_get_contents($this->fsock, $remaining_length);
             if ($temp === false || feof($this->fsock)) {
                 $this->disconnect_helper(NET_SSH2_DISCONNECT_CONNECTION_LOST);
-                throw new \***REMOVED***('Error reading from socket');
+                throw new \RuntimeException('Error reading from socket');
             }
             $buffer .= $temp;
             $remaining_length -= strlen($temp);
@@ -3788,14 +3788,14 @@ class SSH2
         }
 
         // see http://tools.ietf.org/html/rfc4252#section-5.4; only called when the encryption has been activated and when we haven't already logged in
-        if (($this->bitmap & self::MASK_CONNECTED) && !$this->***REMOVED***() && !is_bool($payload) && ord($payload[0]) == NET_SSH2_MSG_USERAUTH_BANNER) {
+        if (($this->bitmap & self::MASK_CONNECTED) && !$this->isAuthenticated() && !is_bool($payload) && ord($payload[0]) == NET_SSH2_MSG_USERAUTH_BANNER) {
             Strings::shift($payload, 1);
             list($this->banner_message) = Strings::unpackSSH2('s', $payload);
             $payload = $this->get_binary_packet();
         }
 
         // only called when we've already logged in
-        if (($this->bitmap & self::MASK_CONNECTED) && $this->***REMOVED***()) {
+        if (($this->bitmap & self::MASK_CONNECTED) && $this->isAuthenticated()) {
             if (is_bool($payload)) {
                 return $payload;
             }
@@ -3829,7 +3829,7 @@ class SSH2
 
                     try {
                         $this->send_binary_packet(pack('C', NET_SSH2_MSG_REQUEST_FAILURE));
-                    } catch (\***REMOVED*** $e) {
+                    } catch (\RuntimeException $e) {
                         return $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
                     }
 
@@ -3881,7 +3881,7 @@ class SSH2
 
                             try {
                                 $this->send_binary_packet($packet);
-                            } catch (\***REMOVED*** $e) {
+                            } catch (\RuntimeException $e) {
                                 return $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
                             }
                     }
@@ -3907,7 +3907,7 @@ class SSH2
      * Suppress stderr from output
      *
      */
-    public function ***REMOVED***()
+    public function enableQuietMode()
     {
         $this->quiet_mode = true;
     }
@@ -3918,7 +3918,7 @@ class SSH2
      * Show stderr in output
      *
      */
-    public function ***REMOVED***()
+    public function disableQuietMode()
     {
         $this->quiet_mode = false;
     }
@@ -3926,11 +3926,11 @@ class SSH2
     /**
      * Returns whether Quiet Mode is enabled or not
      *
-     * @see self::***REMOVED***()
-     * @see self::***REMOVED***()
+     * @see self::enableQuietMode()
+     * @see self::disableQuietMode()
      * @return bool
      */
-    public function ***REMOVED***()
+    public function isQuietModeEnabled()
     {
         return $this->quiet_mode;
     }
@@ -3986,7 +3986,7 @@ class SSH2
      * @param int $client_channel
      * @param bool $skip_extended
      * @return mixed
-     * @throws \***REMOVED*** on connection error
+     * @throws \RuntimeException on connection error
      */
     protected function get_channel_packet($client_channel, $skip_extended = false)
     {
@@ -4121,11 +4121,11 @@ class SSH2
                                 return $result;
                             case NET_SSH2_MSG_CHANNEL_OPEN_FAILURE:
                                 $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
-                                throw new \***REMOVED***('Unable to open channel');
+                                throw new \RuntimeException('Unable to open channel');
                             default:
                                 if ($client_channel == $channel) {
                                     $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
-                                    throw new \***REMOVED***('Unexpected response to open request');
+                                    throw new \RuntimeException('Unexpected response to open request');
                                 }
                                 return $this->get_channel_packet($client_channel, $skip_extended);
                         }
@@ -4142,7 +4142,7 @@ class SSH2
                                 return $this->get_channel_packet($client_channel, $skip_extended);
                             default:
                                 $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
-                                throw new \***REMOVED***('Unable to fulfill channel request');
+                                throw new \RuntimeException('Unable to fulfill channel request');
                         }
                     case NET_SSH2_MSG_CHANNEL_CLOSE:
                         if ($client_channel == $channel && $type == NET_SSH2_MSG_CHANNEL_CLOSE) {
@@ -4200,7 +4200,7 @@ class SSH2
                     break;
                 default:
                     $this->disconnect_helper(NET_SSH2_DISCONNECT_BY_APPLICATION);
-                    throw new \***REMOVED***("Error reading channel data ($type)");
+                    throw new \RuntimeException("Error reading channel data ($type)");
             }
         }
     }
@@ -4228,7 +4228,7 @@ class SSH2
 
         switch ($this->compress) {
             case self::NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH:
-                if (!$this->***REMOVED***()) {
+                if (!$this->isAuthenticated()) {
                     break;
                 }
                 // fall-through
@@ -4281,7 +4281,7 @@ class SSH2
                 case 'aes128-gcm@openssh.com':
                 case 'aes256-gcm@openssh.com':
                     $this->encrypt->setNonce(
-                        $this->***REMOVED*** .
+                        $this->encryptFixedPart .
                         $this->encryptInvocationCounter
                     );
                     Strings::increment_str($this->encryptInvocationCounter);
@@ -4291,7 +4291,7 @@ class SSH2
                 case 'chacha20-poly1305@openssh.com':
                     // This should be impossible, but we are checking anyway to narrow the type for Psalm.
                     if (!($this->encrypt instanceof ChaCha20)) {
-                        throw new \***REMOVED***('$this->encrypt is not a ' . ChaCha20::class);
+                        throw new \LogicException('$this->encrypt is not a ' . ChaCha20::class);
                     }
 
                     $nonce = pack('N2', 0, $this->send_seq_no);
@@ -4302,10 +4302,10 @@ class SSH2
                     $length = $this->lengthEncrypt->encrypt($packet & "\xFF\xFF\xFF\xFF");
 
                     $this->encrypt->setCounter(0);
-                    // this is the same approach that's implemented in Salsa20::***REMOVED***()
+                    // this is the same approach that's implemented in Salsa20::createPoly1305Key()
                     // but we don't want to use the same AEAD construction that RFC8439 describes
                     // for ChaCha20-Poly1305 so we won't rely on it (see Salsa20::poly1305())
-                    $this->encrypt->***REMOVED***(
+                    $this->encrypt->setPoly1305Key(
                         $this->encrypt->encrypt(str_repeat("\0", 32))
                     );
                     $this->encrypt->setAAD($length);
@@ -4350,7 +4350,7 @@ class SSH2
             $message = $sent === false ?
                 'Unable to write ' . strlen($packet) . ' bytes' :
                 "Only $sent of " . strlen($packet) . " bytes were sent";
-            throw new \***REMOVED***($message);
+            throw new \RuntimeException($message);
         }
     }
 
@@ -4392,7 +4392,7 @@ class SSH2
      */
     protected function append_log_helper($constant, $message_number, $message, array &$message_number_log, array &$message_log, &$log_size, &$realtime_log_file, &$realtime_log_wrap, &$realtime_log_size)
     {
-        // remove the byte identifying the message type from all but the first two messages (ie. the ***REMOVED*** strings)
+        // remove the byte identifying the message type from all but the first two messages (ie. the identification strings)
         if (strlen($message_number) > 2) {
             Strings::shift($message);
         }
@@ -4676,7 +4676,7 @@ class SSH2
     private function on_channel_open()
     {
         if (isset($this->agent)) {
-            $this->agent->***REMOVED***($this);
+            $this->agent->registerChannelOpen($this);
         }
     }
 
@@ -4723,7 +4723,7 @@ class SSH2
     }
 
     /**
-     * Return the server ***REMOVED***.
+     * Return the server identification.
      *
      * @return string|false
      */
@@ -4739,7 +4739,7 @@ class SSH2
      *
      * @return array
      */
-    public function ***REMOVED***()
+    public function getServerAlgorithms()
     {
         $this->connect();
 
@@ -4839,7 +4839,7 @@ class SSH2
             'aes192-ctr',     // RECOMMENDED       AES with 192-bit key
             'aes256-ctr',     // RECOMMENDED       AES with 256-bit key
 
-            // from <https://github.com/openssh/openssh-portable/blob/001aa55/PROTOCOL.***REMOVED***>:
+            // from <https://github.com/openssh/openssh-portable/blob/001aa55/PROTOCOL.chacha20poly1305>:
             // one of the big benefits of chacha20-poly1305 is speed. the problem is...
             // libsodium doesn't generate the poly1305 keys in the way ssh does and openssl's PHP bindings don't even
             // seem to support poly1305 currently. so even if libsodium or openssl are being used for the chacha20
@@ -5104,11 +5104,11 @@ class SSH2
      * Returns the banner message.
      *
      * Quoting from the RFC, "in some jurisdictions, sending a warning message before
-     * ***REMOVED*** may be relevant for getting legal protection."
+     * authentication may be relevant for getting legal protection."
      *
      * @return string
      */
-    public function ***REMOVED***()
+    public function getBannerMessage()
     {
         return $this->banner_message;
     }
@@ -5120,7 +5120,7 @@ class SSH2
      * is recommended.  Returns false if the server signature is not signed correctly with the public host key.
      *
      * @return string|false
-     * @throws \***REMOVED*** on badly formatted keys
+     * @throws \RuntimeException on badly formatted keys
      * @throws \phpseclib3\Exception\NoSupportedAlgorithmsException when the key isn't in a supported format
      */
     public function getServerPublicHostKey()
@@ -5146,7 +5146,7 @@ class SSH2
             case 'ecdsa-sha2-nistp384':
             case 'ecdsa-sha2-nistp521':
                 $key = EC::loadFormat('OpenSSH', $server_public_host_key)
-                    ->***REMOVED***('SSH2');
+                    ->withSignatureFormat('SSH2');
                 switch ($this->signature_format) {
                     case 'ssh-ed25519':
                         $hash = 'sha512';
@@ -5164,7 +5164,7 @@ class SSH2
                 break;
             case 'ssh-dss':
                 $key = DSA::loadFormat('OpenSSH', $server_public_host_key)
-                    ->***REMOVED***('SSH2')
+                    ->withSignatureFormat('SSH2')
                     ->withHash('sha1');
                 break;
             case 'ssh-rsa':
@@ -5220,7 +5220,7 @@ class SSH2
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getWindowColumns()
     {
         return $this->windowColumns;
     }
@@ -5240,7 +5240,7 @@ class SSH2
      *
      * @param int $value
      */
-    public function ***REMOVED***($value)
+    public function setWindowColumns($value)
     {
         $this->windowColumns = $value;
     }
@@ -5272,7 +5272,7 @@ class SSH2
      *
      * @return string
      */
-    #[\***REMOVED***]
+    #[\ReturnTypeWillChange]
     public function __toString()
     {
         return $this->getResourceId();
@@ -5313,7 +5313,7 @@ class SSH2
      *
      * @return array<string, SSH2>
      */
-    public static function ***REMOVED***()
+    public static function getConnections()
     {
         if (!class_exists('WeakReference')) {
             /** @var array<string, SSH2> */
@@ -5332,7 +5332,7 @@ class SSH2
      * @param string $old
      * @param string $new
      */
-    private function ***REMOVED***($old, $new)
+    private function updateLogHistory($old, $new)
     {
         if (defined('NET_SSH2_LOGGING') && NET_SSH2_LOGGING == self::LOG_COMPLEX) {
             $this->message_number_log[count($this->message_number_log) - 1] = str_replace(
@@ -5344,7 +5344,7 @@ class SSH2
     }
 
     /**
-     * Return the list of ***REMOVED*** methods that may productively continue ***REMOVED***.
+     * Return the list of authentication methods that may productively continue authentication.
      *
      * @see https://tools.ietf.org/html/rfc4252#section-5.1
      * @return array|null
@@ -5355,17 +5355,17 @@ class SSH2
     }
 
     /**
-     * Enables "smart" multi-factor ***REMOVED*** (MFA)
+     * Enables "smart" multi-factor authentication (MFA)
      */
-    public function ***REMOVED***()
+    public function enableSmartMFA()
     {
         $this->smartMFA = true;
     }
 
     /**
-     * Disables "smart" multi-factor ***REMOVED*** (MFA)
+     * Disables "smart" multi-factor authentication (MFA)
      */
-    public function ***REMOVED***()
+    public function disableSmartMFA()
     {
         $this->smartMFA = false;
     }

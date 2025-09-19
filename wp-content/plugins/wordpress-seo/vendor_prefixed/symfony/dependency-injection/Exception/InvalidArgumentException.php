@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception;
 
 /**
  * Base InvalidArgumentException for Dependency Injection component.
  *
- * @author Bulat Shakirzyanov <bulat@***REMOVED***.com>
+ * @author Bulat Shakirzyanov <bulat@theopenskyproject.com>
  */
-class InvalidArgumentException extends \InvalidArgumentException implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***
+class InvalidArgumentException extends \InvalidArgumentException implements \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ExceptionInterface
 {
 }

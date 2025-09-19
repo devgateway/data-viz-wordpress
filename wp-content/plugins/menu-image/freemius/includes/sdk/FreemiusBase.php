@@ -6,7 +6,7 @@
 	 * not use this file except in compliance with the License. You may obtain
 	 * a copy of the License at
 	 *
-	 *     http://***REMOVED***.com/licenses/gpl-v2/
+	 *     http://choosealicense.com/licenses/gpl-v2/
 	 *
 	 * Unless required by applicable law or agreed to in writing, software
 	 * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -39,7 +39,7 @@
 		'InvalidArgumentException',
 		'ArgumentNotExistException',
 		'EmptyArgumentException',
-		'***REMOVED***'
+		'OAuthException'
 	);
 
 	foreach ( $exceptions as $e ) {
@@ -118,7 +118,7 @@
                        ( ( false === strpos( $pPath, '.' ) ) ? '.' . self::FORMAT : '' ) . $query;
             }
 
-            abstract function MakeRequest( $***REMOVED***, $pMethod = 'GET', $pParams = array() );
+            abstract function MakeRequest( $pCanonizedPath, $pMethod = 'GET', $pParams = array() );
 
             /**
              * @param string $pPath
@@ -162,11 +162,11 @@
              *   `_` instead of `/`
              *   No padded =
              *
-             * @param string $input ***REMOVED***() string
+             * @param string $input Base64UrlEncoded() string
              *
              * @return string
              */
-            protected static function ***REMOVED***( $input ) {
+            protected static function Base64UrlDecode( $input ) {
                 /**
                  * IMPORTANT NOTE:
                  * This is a hack suggested by @otto42 and @greenshady from
@@ -194,7 +194,7 @@
              *
              * @return string Base64 encoded string
              */
-            protected static function ***REMOVED***( $input ) {
+            protected static function Base64UrlEncode( $input ) {
                 /**
                  * IMPORTANT NOTE:
                  * This is a hack suggested by @otto42 and @greenshady from

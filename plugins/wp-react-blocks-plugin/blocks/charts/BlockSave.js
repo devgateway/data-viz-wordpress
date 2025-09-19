@@ -2,7 +2,7 @@ import {useBlockProps} from '@wordpress/block-editor';
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 const SaveComponent = (props) => {
     const {
-        ***REMOVED***, setAttributes, attributes: {
+        toggleSelection, setAttributes, attributes: {
             height,
             width,
             type,
@@ -15,11 +15,11 @@ const SaveComponent = (props) => {
             dimension2,
             dimension3,
             dualMode,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            toggleInfoLabel,
+            toggleChartLabel,
+            dataSourceLabel,
             dataSource,
-            ***REMOVED***,
+            legendPosition,
             marginLeft,
             marginTop,
             marginRight,
@@ -41,11 +41,11 @@ const SaveComponent = (props) => {
             layout,
             reverse,
             offsetY,
-            ***REMOVED***,
+            csvLineLayerData,
             csvLineColor,
-            ***REMOVED***,
+            csvLineTooltip,
             csvLineTitle,
-            ***REMOVED***,
+            lineLayerEnabled,
             group,
             maxValue,
             valueScale,
@@ -53,22 +53,22 @@ const SaveComponent = (props) => {
             swap,
             noDataMessage,
             barColor,
-            ***REMOVED***,
+            overrideTickColor,
             fixedMaxValue,
             fixedMinValue,
             barPadding,
-            ***REMOVED***,
-            ***REMOVED***,
+            barLabelPosition,
+            lineLabelPosition,
             showGrid,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            includeOverall,
+            tooltipEnabled,
+            barInnerPadding,
+            useLabelBackground,
             useCheckBoxBackground,
             xLabelColor = "#000000",
             barLabelColor = "#000000",
-            ***REMOVED*** = "#000000",
-            ***REMOVED***,
+            legendLabelColor = "#000000",
+            highlightXAxisLine,
             showTickLine,
             manualColors,
             showRightAxis,
@@ -77,28 +77,28 @@ const SaveComponent = (props) => {
             offsetBottom,
             hiddenBars,
             enableArea,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            areaShadingCriteria,
+            areaLowerBound,
+            areaUpperBound,
             showPoints,
-            ***REMOVED***,
+            confidenceIntervals,
             centerLabel,
             showArcLabels,
-            ***REMOVED***,
+            showArcLinkLabels,
             slicePadding,
             centerLabelFontWeight,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            centerLabelFontSize,
+            centerLabelXOffset,
+            centerLabelYOffset,
+            groupTotalMeasure,
+            showGroupTotal,
+            groupTotalFormat,
             groupTotalFixedPosition,
-            ***REMOVED***,
+            groupTotalLabel,
             groupTotalLabelOffset,
             tooltipEnableMarkdown,
-            ***REMOVED***,
-            ***REMOVED***,
+            xAxisTickValues,
+            yAxisTickValues,
             enableGridY,
             enableGridX,
             overallLabel,
@@ -107,25 +107,25 @@ const SaveComponent = (props) => {
             reverseLegend,
             sort,
             sortReverse,
-            ***REMOVED***,
+            sortSecondDimension,
             sortReverseSecondDimension,
             radarCurve,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            radarFillOpacity,
+            radarBorderWidth,
+            radarGridLevels,
+            radarGridShape,
+            radarGridLabelOffset,
+            radarEnableDots,
             radarDotSize,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            radarEnableDotLabel,
+            radarDotLabelOffset,
+            mobileCustomization,
+            dvzProxyDatasetId,
+            showPercentage,
             previewMode,
-            ***REMOVED***,
+            waitForFilters,
             lineCurve,
-            ***REMOVED***,
+            showLegendsInColumns,
             numberOfLegendColumns
         }
     } = props;
@@ -142,7 +142,7 @@ const SaveComponent = (props) => {
              data-height={height}
              data-type={type}
              data-source={source}
-             data-dvz-proxy-dataset-id={***REMOVED***}
+             data-dvz-proxy-dataset-id={dvzProxyDatasetId}
              data-dimension1={dimension1}
              data-dimension2={dimension2}
              data-dimension3={dimension3}
@@ -152,116 +152,116 @@ const SaveComponent = (props) => {
              data-left-legend={leftLegend}
              data-dualMode={dualMode}
              data-bottom-legend={bottomLegend}
-             data-toggle-info-label={***REMOVED***}
-             data-toggle-chart-label={***REMOVED***}
-             data-data-source-label={***REMOVED***}
+             data-toggle-info-label={toggleInfoLabel}
+             data-toggle-chart-label={toggleChartLabel}
+             data-data-source-label={dataSourceLabel}
              data-chart-data-source={dataSource}
              data-margin-left={marginLeft}
              data-margin-top={marginTop}
              data-margin-right={marginRight}
              data-margin-bottom={marginBottom}
              data-show-legends={showLegends}
-             data-legend-position={***REMOVED***}
+             data-legend-position={legendPosition}
              data-app={app}
              data-tick-rotation={tickRotation}
              data-offset-text={offsetText}
              data-tick-color={tickColor}
-             data-line-layer-enabled={***REMOVED***}
-             data-measures={***REMOVED***(JSON.stringify(measures))}
-             data-format={***REMOVED***(JSON.stringify(format))}
+             data-line-layer-enabled={lineLayerEnabled}
+             data-measures={encodeURIComponent(JSON.stringify(measures))}
+             data-format={encodeURIComponent(JSON.stringify(format))}
              data-decimals={decimals}
              data-currency={currency}
              data-csv={csv}
-             data-tooltip-html={***REMOVED***(tooltipHTML)}
+             data-tooltip-html={encodeURIComponent(tooltipHTML)}
              data-start-angle={startAngle}
              data-end-angle={endAngle}
              data-layout={layout}
              data-reverse={reverse}
              data-offset-y={offsetY}
-            //data-csv-line-layer-data={***REMOVED***}
+            //data-csv-line-layer-data={csvLineLayerData}
             //data-csv-line-color={csvLineColor}
-            // data-csv-line-tooltip={***REMOVED***}
+            // data-csv-line-tooltip={csvLineTooltip}
             //data-csv-line-title={csvLineTitle}
              data-group={group}
              data-max-value={maxValue}
              data-value-scale={valueScale}
-             data-filters={***REMOVED***(JSON.stringify(filters))}
+             data-filters={encodeURIComponent(JSON.stringify(filters))}
              data-swap={swap}
              data-no-data-message={noDataMessage}
              data-legend-label={legendLabel}
              data-bar-color={barColor}
-             data-override-tick-color={***REMOVED***}
+             data-override-tick-color={overrideTickColor}
              data-fixed-min-value={fixedMinValue}
              data-fixed-max-value={fixedMaxValue}
              data-bar-padding={barPadding}
-             data-bar-label-position={***REMOVED***}
-             data-line-label-position={***REMOVED***}
+             data-bar-label-position={barLabelPosition}
+             data-line-label-position={lineLabelPosition}
              data-show-grid={showGrid}
-             data-include-overall={***REMOVED***}
-             data-tooltip-enabled={***REMOVED***}
+             data-include-overall={includeOverall}
+             data-tooltip-enabled={tooltipEnabled}
              data-x-label-color={xLabelColor}
              data-bar-label-color={barLabelColor}
-             data-bar-inner-padding={***REMOVED***}
-             data-use-label-background={***REMOVED***}
+             data-bar-inner-padding={barInnerPadding}
+             data-use-label-background={useLabelBackground}
              data-use-check-box-background={useCheckBoxBackground}
-             data-legend-label-color={***REMOVED***}
-             data-highlight-xaxis-line={***REMOVED***}
+             data-legend-label-color={legendLabelColor}
+             data-highlight-xaxis-line={highlightXAxisLine}
              data-show-tick-line={showTickLine}
              data-show-right-axis={showRightAxis}
              data-right-legend={rightLegend}
              data-offset-right={offsetRight}
              data-offset-bottom={offsetBottom}
              data-enable-area={enableArea}
-             data-area-shading-criteria={***REMOVED***}
-             data-area-lower-bound={***REMOVED***}
-             data-area-upper-bound={***REMOVED***}
+             data-area-shading-criteria={areaShadingCriteria}
+             data-area-lower-bound={areaLowerBound}
+             data-area-upper-bound={areaUpperBound}
              data-show-points={showPoints}
              data-hidden-bars={hiddenBars.join(',')}
-             data-confidence-intervals={***REMOVED***(JSON.stringify(***REMOVED***))}
-             data-manual-colors={***REMOVED***(JSON.stringify(manualColors))}
-             data-group-total-measure={***REMOVED***}
-             data-show-group-total={***REMOVED***}
+             data-confidence-intervals={encodeURIComponent(JSON.stringify(confidenceIntervals))}
+             data-manual-colors={encodeURIComponent(JSON.stringify(manualColors))}
+             data-group-total-measure={groupTotalMeasure}
+             data-show-group-total={showGroupTotal}
              data-group-total-label-offset={groupTotalLabelOffset}
-             data-group-total-format={***REMOVED***(JSON.stringify(***REMOVED***))}
+             data-group-total-format={encodeURIComponent(JSON.stringify(groupTotalFormat))}
              data-group-total-fixed-position={groupTotalFixedPosition}
-             data-group-total-label={***REMOVED***}
+             data-group-total-label={groupTotalLabel}
              data-show-arc-labels={showArcLabels}
-             data-show-arc-link-labels={***REMOVED***}
+             data-show-arc-link-labels={showArcLinkLabels}
              data-slice-padding={slicePadding}
              data-center-label={centerLabel}
              data-center-label-font-weight={centerLabelFontWeight}
-             data-center-label-font-size={***REMOVED***}
-             data-center-label-xoffset={***REMOVED***}
-             data-center-label-yoffset={***REMOVED***}
+             data-center-label-font-size={centerLabelFontSize}
+             data-center-label-xoffset={centerLabelXOffset}
+             data-center-label-yoffset={centerLabelYOffset}
              data-tooltip-enable-markdown={tooltipEnableMarkdown}
-             data-y-axis-tick-values={***REMOVED***}
-             data-x-axis-tick-values={***REMOVED***}
+             data-y-axis-tick-values={yAxisTickValues}
+             data-x-axis-tick-values={xAxisTickValues}
              data-enable-grid-y={enableGridY}
              data-enable-grid-x={enableGridX}
              data-overall-label={overallLabel}
-             data-overlays={***REMOVED***(JSON.stringify(overlays))}
+             data-overlays={encodeURIComponent(JSON.stringify(overlays))}
              data-min-max-clamp={minMaxClamp}
              data-reverse-legend={reverseLegend}
              data-sort={sort}
              data-sort-reverse={sortReverse}
-             data-sort-second-dimension={***REMOVED***}
+             data-sort-second-dimension={sortSecondDimension}
              data-sort-reverse-second-dimension={sortReverseSecondDimension}
              data-radar-curve={radarCurve}
-             data-radar-fill-opacity={***REMOVED***}
-             data-radar-border-width={***REMOVED***}
-             data-radar-grid-levels={***REMOVED***}
-             data-radar-grid-shape={***REMOVED***}
-             data-radar-grid-label-offset={***REMOVED***}
-             data-radar-enable-dots={***REMOVED***}
+             data-radar-fill-opacity={radarFillOpacity}
+             data-radar-border-width={radarBorderWidth}
+             data-radar-grid-levels={radarGridLevels}
+             data-radar-grid-shape={radarGridShape}
+             data-radar-grid-label-offset={radarGridLabelOffset}
+             data-radar-enable-dots={radarEnableDots}
              data-radar-dot-size={radarDotSize}
-             data-radar-enable-dot-label={***REMOVED***}
-             data-radar-dot-label-offset={***REMOVED***}
-             data-show-percentage={***REMOVED***}
+             data-radar-enable-dot-label={radarEnableDotLabel}
+             data-radar-dot-label-offset={radarDotLabelOffset}
+             data-show-percentage={showPercentage}
              data-preview-mode={previewMode}
-             data-mobile-customization={***REMOVED***(JSON.stringify(***REMOVED***))}
-             data-wait-for-filters={***REMOVED***}
+             data-mobile-customization={encodeURIComponent(JSON.stringify(mobileCustomization))}
+             data-wait-for-filters={waitForFilters}
              data-line-curve={lineCurve}
-             data-show-legends-in-columns={***REMOVED***}
+             data-show-legends-in-columns={showLegendsInColumns}
              data-number-of-legend-columns={numberOfLegendColumns}
              >
             <InnerBlocks.Content/>

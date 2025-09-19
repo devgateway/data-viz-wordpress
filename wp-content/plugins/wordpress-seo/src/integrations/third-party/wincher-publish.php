@@ -105,7 +105,7 @@ class Wincher_Publish implements Integration_Interface {
 	 * Determines whether the current request is a REST request.
 	 *
 	 * @deprecated 23.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether the request is a REST request.
 	 */

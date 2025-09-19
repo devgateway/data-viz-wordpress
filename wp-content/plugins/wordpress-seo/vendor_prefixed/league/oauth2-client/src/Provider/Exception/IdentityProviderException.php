@@ -38,7 +38,7 @@ class IdentityProviderException extends \Exception
      *
      * @return mixed
      */
-    public function ***REMOVED***()
+    public function getResponseBody()
     {
         return $this->response;
     }

@@ -14,7 +14,7 @@ namespace YoastSEO_Vendor\Psr\Http\Message;
  * @link http://www.ietf.org/rfc/rfc7230.txt
  * @link http://www.ietf.org/rfc/rfc7231.txt
  */
-interface ***REMOVED***
+interface MessageInterface
 {
     /**
      * Retrieves the HTTP protocol version as a string.
@@ -23,7 +23,7 @@ interface ***REMOVED***
      *
      * @return string HTTP protocol version.
      */
-    public function ***REMOVED***() : string;
+    public function getProtocolVersion() : string;
     /**
      * Return an instance with the specified HTTP protocol version.
      *
@@ -37,7 +37,7 @@ interface ***REMOVED***
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function ***REMOVED***(string $version) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withProtocolVersion(string $version) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
     /**
      * Retrieves all message header values.
      *
@@ -123,7 +123,7 @@ interface ***REMOVED***
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function withHeader(string $name, $value) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withHeader(string $name, $value) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
     /**
      * Return an instance with the specified header appended with the given value.
      *
@@ -140,7 +140,7 @@ interface ***REMOVED***
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    public function ***REMOVED***(string $name, $value) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withAddedHeader(string $name, $value) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
     /**
      * Return an instance without the specified header.
      *
@@ -153,25 +153,25 @@ interface ***REMOVED***
      * @param string $name Case-insensitive header field name to remove.
      * @return static
      */
-    public function withoutHeader(string $name) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withoutHeader(string $name) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
     /**
      * Gets the body of the message.
      *
-     * @return ***REMOVED*** Returns the body as a stream.
+     * @return StreamInterface Returns the body as a stream.
      */
-    public function getBody() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function getBody() : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
     /**
      * Return an instance with the specified message body.
      *
-     * The body MUST be a ***REMOVED*** object.
+     * The body MUST be a StreamInterface object.
      *
      * This method MUST be implemented in such a way as to retain the
      * immutability of the message, and MUST return a new instance that has the
      * new body stream.
      *
-     * @param ***REMOVED*** $body Body.
+     * @param StreamInterface $body Body.
      * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
-    public function withBody(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $body) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withBody(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $body) : \YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
 }

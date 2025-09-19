@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.9.0 Formal\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2020-08-13 16:34+0200\n"
 "PO-Revision-Date: 2020-08-17 12:33+0200\n"
 "Last-Translator: Ralf Koller <r.koller@gmail.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 # @ acf
 #: acf.php:68
@@ -409,7 +409,7 @@ msgstr "Diff laden"
 #: includes/admin/admin-field-groups.php:195
 #: includes/admin/admin-field-groups.php:529
 msgid "Sync changes"
-msgstr "Änderungen ***REMOVED***"
+msgstr "Änderungen synchronisieren"
 
 # @ acf
 #: includes/admin/admin-field-groups.php:259
@@ -454,12 +454,12 @@ msgstr "Befindet sich in: %s"
 #: includes/admin/admin-field-groups.php:465
 #: includes/admin/admin-field-groups.php:683
 msgid "Sync available"
-msgstr "***REMOVED*** verfügbar"
+msgstr "Synchronisierung verfügbar"
 
 # @ acf
 #: includes/admin/admin-field-groups.php:468
 msgid "Sync"
-msgstr "***REMOVED***"
+msgstr "Synchronisieren"
 
 #: includes/admin/admin-field-groups.php:469
 msgid "Review changes"
@@ -504,8 +504,8 @@ msgstr[1] "%s Feldgruppen dupliziert."
 #, php-format
 msgid "Field group synchronised."
 msgid_plural "%s field groups synchronised."
-msgstr[0] "Feldgruppe ***REMOVED***."
-msgstr[1] "%s Feldgruppen ***REMOVED***."
+msgstr[0] "Feldgruppe synchronisiert."
+msgstr[1] "%s Feldgruppen synchronisiert."
 
 # @ acf
 #: includes/admin/admin-field-groups.php:790
@@ -606,7 +606,7 @@ msgid ""
 msgstr ""
 "<a href=\"%s\" target=\"_blank\">Diskussionen</a>. Wir haben in unseren "
 "Foren eine aktive und freundliche Community, die Ihnen vielleicht behilflich "
-"sein kann sich in der ACF-Welt ***REMOVED***."
+"sein kann sich in der ACF-Welt zurechtzufinden."
 
 #: includes/admin/admin.php:159
 #, php-format
@@ -615,7 +615,7 @@ msgid ""
 "our Help Desk will assist with your more in depth, technical challenges."
 msgstr ""
 "<a href=\"%s\" target=\"_blank\">Help Desk</a>. Die Support-Experten unseres "
-"Help Desks werden Ihnen bei tiefer gehenden technischen ***REMOVED*** "
+"Help Desks werden Ihnen bei tiefer gehenden technischen Herausforderungen "
 "helfend zur Seite stehen."
 
 # @ acf
@@ -687,7 +687,7 @@ msgstr ""
 "das Exportformat. Benutzen Sie den „Datei exportieren“-Button, um eine JSON-"
 "Datei zu generieren, welche Sie im Anschluss in eine andere ACF-Installation "
 "importieren können. Verwenden Sie den „PHP erstellen“-Button, um den "
-"***REMOVED*** PHP-Code in ihr Theme einfügen zu können."
+"resultierenden PHP-Code in ihr Theme einfügen zu können."
 
 # @ acf
 #: includes/admin/tools/class-acf-admin-tool-export.php:341
@@ -705,13 +705,13 @@ msgid ""
 msgstr ""
 "Der nachfolgende Code kann dazu verwendet werden eine lokale Version der "
 "ausgewählten Feldgruppe(n) zu registrieren. Eine lokale Feldgruppe bietet "
-"viele Vorteile; schnellere Ladezeiten, ***REMOVED*** sowie dynamische "
+"viele Vorteile; schnellere Ladezeiten, Versionskontrolle sowie dynamische "
 "Felder und Einstellungen. Kopieren Sie einfach folgenden Code und füge ihn "
 "in die functions.php oder eine externe Datei in Ihrem Theme ein."
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:446
 msgid "Copy to clipboard"
-msgstr "In die ***REMOVED*** kopieren"
+msgstr "In die Zwischenablage kopieren"
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:483
 msgid "Copied"
@@ -838,12 +838,12 @@ msgstr "Löschen"
 # @ acf
 #: includes/admin/views/field-group-field.php:65
 msgid "Field Label"
-msgstr "***REMOVED***"
+msgstr "Feldbeschriftung"
 
 # @ acf
 #: includes/admin/views/field-group-field.php:66
 msgid "This is the name which will appear on the EDIT page"
-msgstr "Dieser Name wird in der ***REMOVED*** eines Beitrags angezeigt"
+msgstr "Dieser Name wird in der Bearbeitungsansicht eines Beitrags angezeigt"
 
 # @ acf
 #: includes/admin/views/field-group-field.php:75
@@ -871,7 +871,7 @@ msgstr "Anweisungen"
 #: includes/admin/views/field-group-field.php:97
 msgid "Instructions for authors. Shown when submitting data"
 msgstr ""
-"Anweisungen für die Autoren. Sie werden in der ***REMOVED*** angezeigt"
+"Anweisungen für die Autoren. Sie werden in der Bearbeitungsansicht angezeigt"
 
 # @ acf
 #: includes/admin/views/field-group-field.php:106
@@ -1018,7 +1018,7 @@ msgstr "Platzierung der Anweisungen"
 # @ acf
 #: includes/admin/views/field-group-options.php:77
 msgid "Below labels"
-msgstr "Unterhalb der ***REMOVED***"
+msgstr "Unterhalb der Beschriftungen"
 
 # @ acf
 #: includes/admin/views/field-group-options.php:78
@@ -1113,7 +1113,7 @@ msgstr "Verstecken"
 #: includes/admin/views/field-group-options.php:129
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr ""
-"<strong>Wählen</strong> Sie die Elemente, welche in der ***REMOVED*** "
+"<strong>Wählen</strong> Sie die Elemente, welche in der Bearbeitungsansicht "
 "<strong>verborgen</strong> werden sollen."
 
 # @ acf
@@ -1122,7 +1122,7 @@ msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
 "options will be used (the one with the lowest order number)"
 msgstr ""
-"Werden in der ***REMOVED*** mehrere Feldgruppen angezeigt, werden die "
+"Werden in der Bearbeitungsansicht mehrere Feldgruppen angezeigt, werden die "
 "Optionen der ersten Feldgruppe verwendet (die mit der niedrigsten Nummer in "
 "der Reihe)"
 
@@ -1164,7 +1164,7 @@ msgstr "Die Website ist aktuell"
 msgid ""
 "Database Upgrade complete. <a href=\"%s\">Return to network dashboard</a>"
 msgstr ""
-"Upgrade der Datenbank ***REMOVED***. <a href=\"%s\">Zum Netzwerk Dashboard</"
+"Upgrade der Datenbank fertiggestellt. <a href=\"%s\">Zum Netzwerk Dashboard</"
 "a>"
 
 #: includes/admin/views/html-admin-page-upgrade-network.php:113
@@ -1179,7 +1179,7 @@ msgid ""
 "Are you sure you wish to run the updater now?"
 msgstr ""
 "Es wird dringend empfohlen, dass Sie ihre Datenbank sichern, bevor Sie "
-"fortfahren. Sind sie sicher, dass Sie jetzt die ***REMOVED*** durchführen "
+"fortfahren. Sind sie sicher, dass Sie jetzt die Aktualisierung durchführen "
 "wollen?"
 
 # @ acf
@@ -1197,7 +1197,7 @@ msgstr "Upgrade abgeschlossen."
 #: includes/admin/views/html-admin-page-upgrade-network.php:161
 #: includes/admin/views/html-admin-page-upgrade.php:65
 msgid "Upgrade failed."
-msgstr "Upgrade ***REMOVED***."
+msgstr "Upgrade fehlgeschlagen."
 
 # @ acf
 #: includes/admin/views/html-admin-page-upgrade.php:30
@@ -1215,7 +1215,7 @@ msgstr ""
 #: includes/admin/views/html-admin-page-upgrade.php:94
 #: includes/ajax/class-acf-ajax-upgrade.php:32
 msgid "No updates available."
-msgstr "Keine ***REMOVED*** verfügbar."
+msgstr "Keine Aktualisierungen verfügbar."
 
 #: includes/admin/views/html-admin-tools.php:21
 msgid "Back to all tools"
@@ -1259,13 +1259,13 @@ msgstr "Es ist ein Upgrade der Datenbank erforderlich"
 #: includes/admin/views/html-notice-upgrade.php:22
 #, php-format
 msgid "Thank you for updating to %s v%s!"
-msgstr "Danke für die ***REMOVED*** auf %s v%s!"
+msgstr "Danke für die Aktualisierung auf %s v%s!"
 
 #: includes/admin/views/html-notice-upgrade.php:22
 msgid ""
 "This version contains improvements to your database and requires an upgrade."
 msgstr ""
-"Die vorliegende Version enthält ***REMOVED*** für deine Datenbank und "
+"Die vorliegende Version enthält Verbesserungen für deine Datenbank und "
 "erfordert ein Upgrade."
 
 #: includes/admin/views/html-notice-upgrade.php:24
@@ -1427,18 +1427,18 @@ msgstr "Überprüfung erfolgreich"
 #: includes/assets.php:359 includes/validation.php:285
 #: includes/validation.php:296
 msgid "Validation failed"
-msgstr "Überprüfung ***REMOVED***"
+msgstr "Überprüfung fehlgeschlagen"
 
 # @ acf
 #: includes/assets.php:360
 msgid "1 field requires attention"
-msgstr "Für 1 Feld ist eine ***REMOVED*** notwendig"
+msgstr "Für 1 Feld ist eine Aktualisierung notwendig"
 
 # @ acf
 #: includes/assets.php:361
 #, php-format
 msgid "%d fields require attention"
-msgstr "Für %d Felder ist eine ***REMOVED*** notwendig"
+msgstr "Für %d Felder ist eine Aktualisierung notwendig"
 
 # @ acf
 #: includes/assets.php:364 includes/forms/form-comment.php:166
@@ -1522,7 +1522,7 @@ msgid ""
 "Define an endpoint for the previous accordion to stop. This accordion will "
 "not be visible."
 msgstr ""
-"Definiert einen Endpunkt an dem das ***REMOVED*** Akkordeon endet. Dieses "
+"Definiert einen Endpunkt an dem das vorangegangene Akkordeon endet. Dieses "
 "abschließende Akkordeon wird nicht sichtbar sein."
 
 #: includes/fields/class-acf-field-button-group.php:24
@@ -1757,14 +1757,14 @@ msgstr "W"
 #: includes/fields/class-acf-field-date_time_picker.php:183
 #: includes/fields/class-acf-field-time_picker.php:109
 msgid "Display Format"
-msgstr "***REMOVED***"
+msgstr "Darstellungsformat"
 
 # @ acf
 #: includes/fields/class-acf-field-date_picker.php:179
 #: includes/fields/class-acf-field-date_time_picker.php:184
 #: includes/fields/class-acf-field-time_picker.php:110
 msgid "The format displayed when editing a post"
-msgstr "Das Format für die Anzeige in der ***REMOVED***"
+msgstr "Das Format für die Anzeige in der Bearbeitungsansicht"
 
 #: includes/fields/class-acf-field-date_picker.php:187
 #: includes/fields/class-acf-field-date_picker.php:218
@@ -1777,7 +1777,7 @@ msgstr "Individuelles Format:"
 
 #: includes/fields/class-acf-field-date_picker.php:197
 msgid "Save Format"
-msgstr "***REMOVED***"
+msgstr "Speicherformat"
 
 #: includes/fields/class-acf-field-date_picker.php:198
 msgid "The format used when saving a value"
@@ -1901,7 +1901,7 @@ msgstr "E-Mail"
 #: includes/fields/class-acf-field-textarea.php:111
 #: includes/fields/class-acf-field-url.php:109
 msgid "Placeholder Text"
-msgstr "***REMOVED***"
+msgstr "Platzhaltertext"
 
 # @ acf
 #: includes/fields/class-acf-field-email.php:128
@@ -1911,7 +1911,7 @@ msgstr "***REMOVED***"
 #: includes/fields/class-acf-field-textarea.php:112
 #: includes/fields/class-acf-field-url.php:110
 msgid "Appears within the input"
-msgstr "***REMOVED*** solange keine Eingabe im Feld vorgenommen wurde"
+msgstr "Platzhaltertext solange keine Eingabe im Feld vorgenommen wurde"
 
 # @ acf
 #: includes/fields/class-acf-field-email.php:136
@@ -2472,7 +2472,7 @@ msgstr "Weitere"
 #: includes/fields/class-acf-field-radio.php:259
 msgid "Add 'other' choice to allow for custom values"
 msgstr ""
-"Das Hinzufügen der Auswahlmöglichkeit ‚Weitere‘ erlaubt ***REMOVED*** "
+"Das Hinzufügen der Auswahlmöglichkeit ‚Weitere‘ erlaubt benutzerdefinierte "
 "Werte"
 
 # @ acf
@@ -2644,7 +2644,7 @@ msgstr "Suchen&hellip;"
 #: includes/fields/class-acf-field-select.php:122
 msgctxt "Select2 JS load_fail"
 msgid "Loading failed"
-msgstr "Laden ***REMOVED***"
+msgstr "Laden fehlgeschlagen"
 
 #: includes/fields/class-acf-field-select.php:259 includes/media.php:54
 msgctxt "verb"
@@ -2685,7 +2685,7 @@ msgid ""
 "Define an endpoint for the previous tabs to stop. This will start a new "
 "group of tabs."
 msgstr ""
-"Definiert einen Endpunkt an dem die ***REMOVED*** Tabs enden. Das ist der "
+"Definiert einen Endpunkt an dem die vorangegangenen Tabs enden. Das ist der "
 "Startpunkt für eine neue Gruppe an Tabs."
 
 #: includes/fields/class-acf-field-taxonomy.php:711
@@ -2799,7 +2799,7 @@ msgstr "Text einzeilig"
 #: includes/fields/class-acf-field-text.php:131
 #: includes/fields/class-acf-field-textarea.php:120
 msgid "Character Limit"
-msgstr "***REMOVED***"
+msgstr "Zeichenbegrenzung"
 
 # @ acf
 #: includes/fields/class-acf-field-text.php:132
@@ -2880,7 +2880,7 @@ msgstr "Nach Rolle filtern"
 # @ acf
 #: includes/fields/class-acf-field-user.php:59
 msgid "All user roles"
-msgstr "Alle ***REMOVED***"
+msgstr "Alle Benutzerrollen"
 
 # @ acf
 #: includes/fields/class-acf-field-user.php:84
@@ -2919,7 +2919,7 @@ msgstr "Text"
 
 #: includes/fields/class-acf-field-wysiwyg.php:322
 msgid "Click to initialize TinyMCE"
-msgstr "Klicken um TinyMCE zu ***REMOVED***"
+msgstr "Klicken um TinyMCE zu initialisieren"
 
 # @ acf
 #: includes/fields/class-acf-field-wysiwyg.php:375
@@ -2944,7 +2944,7 @@ msgstr "Nur Text"
 # @ acf
 #: includes/fields/class-acf-field-wysiwyg.php:389
 msgid "Toolbar"
-msgstr "***REMOVED***"
+msgstr "Werkzeugleiste"
 
 # @ acf
 #: includes/fields/class-acf-field-wysiwyg.php:404
@@ -2952,8 +2952,8 @@ msgid "Show Media Upload Buttons?"
 msgstr "Button zum Hochladen von Medien anzeigen?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:414
-msgid "Delay ***REMOVED***?"
-msgstr "***REMOVED*** verzögern?"
+msgid "Delay initialization?"
+msgstr "Initialisierung verzögern?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:415
 msgid "TinyMCE will not be initialized until field is clicked"
@@ -3131,17 +3131,17 @@ msgstr "Unterseite (mit übergeordneter Seite)"
 # @ acf
 #: includes/locations/class-acf-location-post-category.php:20
 msgid "Post Category"
-msgstr "***REMOVED***"
+msgstr "Beitragskategorie"
 
 # @ acf
 #: includes/locations/class-acf-location-post-format.php:20
 msgid "Post Format"
-msgstr "***REMOVED***"
+msgstr "Beitragsformat"
 
 # @ acf
 #: includes/locations/class-acf-location-post-status.php:20
 msgid "Post Status"
-msgstr "***REMOVED***"
+msgstr "Beitragsstatus"
 
 # @ acf
 #: includes/locations/class-acf-location-post-taxonomy.php:20
@@ -3156,7 +3156,7 @@ msgstr "Beitrags-Template"
 # @ acf
 #: includes/locations/class-acf-location-user-form.php:20
 msgid "User Form"
-msgstr "***REMOVED***"
+msgstr "Benutzerformular"
 
 # @ acf
 #: includes/locations/class-acf-location-user-form.php:67
@@ -3244,14 +3244,14 @@ msgstr ""
 # @ acf
 #: pro/admin/admin-updates.php:118 pro/admin/views/html-settings-updates.php:13
 msgid "Updates"
-msgstr "***REMOVED***"
+msgstr "Aktualisierungen"
 
 #: pro/admin/admin-updates.php:191
 msgid ""
 "<b>Error</b>. Could not authenticate update package. Please check again or "
 "deactivate and reactivate your ACF PRO license."
 msgstr ""
-"<b>Fehler</b>. Das ***REMOVED*** konnte nicht ***REMOVED*** werden. "
+"<b>Fehler</b>. Das Aktualisierungspaket konnte nicht authentifiziert werden. "
 "Bitte probieren Sie es nochmal oder deaktivieren und reaktivieren Sie ihre "
 "ACF PRO-Lizenz."
 
@@ -3267,7 +3267,7 @@ msgstr "Lizenz aktivieren"
 
 #: pro/admin/views/html-settings-updates.php:17
 msgid "License Information"
-msgstr "***REMOVED***"
+msgstr "Lizenzinformation"
 
 #: pro/admin/views/html-settings-updates.php:20
 #, php-format
@@ -3276,7 +3276,7 @@ msgid ""
 "licence key, please see <a href=\"%s\" target=\"_blank\">details & pricing</"
 "a>."
 msgstr ""
-"Um die Aktualisierungsfähigkeit ***REMOVED*** geben Sie bitte unten Ihren "
+"Um die Aktualisierungsfähigkeit freizuschalten geben Sie bitte unten Ihren "
 "Lizenzschlüssel ein. Falls Sie keinen besitzen sollten informieren Sie sich "
 "bitte hier hinsichtlich <a href=\"%s\" target=\"_blank\">Preisen und aller "
 "weiteren Details</a>."
@@ -3304,7 +3304,7 @@ msgstr "Aktuellste Version"
 # @ acf
 #: pro/admin/views/html-settings-updates.php:84
 msgid "Update Available"
-msgstr "***REMOVED*** verfügbar"
+msgstr "Aktualisierung verfügbar"
 
 # @ acf
 #: pro/admin/views/html-settings-updates.php:92
@@ -3316,7 +3316,7 @@ msgstr "Plugin aktualisieren"
 msgid "Please enter your license key above to unlock updates"
 msgstr ""
 "Bitte geben Sie oben Ihren Lizenzschlüssel ein um die "
-"Aktualisierungsfähigkeit ***REMOVED***"
+"Aktualisierungsfähigkeit freizuschalten"
 
 # @ acf
 #: pro/admin/views/html-settings-updates.php:100
@@ -3391,11 +3391,11 @@ msgstr "Nahtlos (ersetzt dieses Feld mit den ausgewählten Feldern)"
 #: pro/fields/class-acf-field-clone.php:857
 #, php-format
 msgid "Labels will be displayed as %s"
-msgstr "***REMOVED*** werden als %s angezeigt"
+msgstr "Beschriftungen werden als %s angezeigt"
 
 #: pro/fields/class-acf-field-clone.php:860
 msgid "Prefix Field Labels"
-msgstr "Präfix für ***REMOVED***"
+msgstr "Präfix für Feldbeschriftungen"
 
 #: pro/fields/class-acf-field-clone.php:871
 #, php-format
@@ -3561,7 +3561,7 @@ msgstr "Länge"
 
 #: pro/fields/class-acf-field-gallery.php:362
 msgid "Caption"
-msgstr "***REMOVED***"
+msgstr "Bildunterschrift"
 
 #: pro/fields/class-acf-field-gallery.php:371
 msgid "Alt Text"
@@ -3575,7 +3575,7 @@ msgstr "Zur Galerie hinzufügen"
 # @ acf
 #: pro/fields/class-acf-field-gallery.php:491
 msgid "Bulk actions"
-msgstr "***REMOVED***"
+msgstr "Massenverarbeitung"
 
 # @ acf
 #: pro/fields/class-acf-field-gallery.php:492
@@ -3695,8 +3695,8 @@ msgid ""
 "\">Updates</a> page. If you don't have a licence key, please see <a href=\"%s"
 "\">details & pricing</a>."
 msgstr ""
-"Um die Aktualisierungsfähigkeit ***REMOVED*** geben Sie bitte Ihren "
-"Lizenzschlüssel auf der <a href=\"%s\">***REMOVED***</a> Seite ein. Falls "
+"Um die Aktualisierungsfähigkeit freizuschalten geben Sie bitte Ihren "
+"Lizenzschlüssel auf der <a href=\"%s\">Aktualisierungen</a> Seite ein. Falls "
 "Sie keinen besitzen informieren Sie sich bitte hier hinsichtlich der <a href="
 "\"%s\" target=\"_blank\">Preise und Einzelheiten</a>."
 
@@ -3719,14 +3719,14 @@ msgstr "Ein zufälliges Hero-Bild anzeigen."
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 # @ acf
 #. Description of the plugin/theme
 msgid "Customize WordPress with powerful, professional and intuitive fields."
 msgstr ""
-"WordPress durch leistungsfähige, ***REMOVED*** und zugleich intuitive "
+"WordPress durch leistungsfähige, professionelle und zugleich intuitive "
 "Felder erweitern."
 
 #. Author of the plugin/theme
@@ -3762,14 +3762,14 @@ msgstr "Elliot Condon"
 
 # @ acf
 #~ msgid "Synchronise field group"
-#~ msgstr "***REMOVED*** Feldgruppe"
+#~ msgstr "Synchronisiere Feldgruppe"
 
 #~ msgid "Apply"
 #~ msgstr "Anwenden"
 
 # @ acf
 #~ msgid "Bulk Actions"
-#~ msgstr "***REMOVED***"
+#~ msgstr "Massenverarbeitung"
 
 # @ acf
 #~ msgid "Info"
@@ -3794,7 +3794,7 @@ msgstr "Elliot Condon"
 
 # @ acf
 #~ msgid "A Smoother Experience"
-#~ msgstr "Eine ***REMOVED*** Erfahrung"
+#~ msgstr "Eine reibungslosere Erfahrung"
 
 # @ acf
 #~ msgid "Improved Usability"
@@ -3807,7 +3807,7 @@ msgstr "Elliot Condon"
 #~ "taxonomy and select."
 #~ msgstr ""
 #~ "Durch die Einführung der beliebten Select2 Bibliothek wurde sowohl die "
-#~ "Benutzerfreundlichkeit als auch die ***REMOVED*** einiger Feldtypen wie "
+#~ "Benutzerfreundlichkeit als auch die Geschwindigkeit einiger Feldtypen wie "
 #~ "Beitrags-Objekte, Seiten-Links, Taxonomien sowie von Auswahl-Feldern "
 #~ "signifikant verbessert."
 
@@ -3835,7 +3835,7 @@ msgstr "Elliot Condon"
 #~ "independently from their parents. This allows you to drag and drop fields "
 #~ "in and out of parent fields!"
 #~ msgstr ""
-#~ "Die Neugestaltung der ***REMOVED*** erlaubt es, dass Unterfelder "
+#~ "Die Neugestaltung der Datenarchitektur erlaubt es, dass Unterfelder "
 #~ "unabhängig von ihren übergeordneten Feldern existieren können. Dies "
 #~ "ermöglicht, dass Felder per Drag-and-Drop, in und aus ihren "
 #~ "übergeordneten Feldern verschoben werden können!"
@@ -3864,13 +3864,13 @@ msgstr "Elliot Condon"
 #~ "premium functionality is more affordable and accessible than ever before!"
 #~ msgstr ""
 #~ "Alle vier, vormals separat erhältlichen, Premium-Add-ons wurden in der "
-#~ "neuen <a href=\"%s\">Pro-Version von ACF</a> ***REMOVED***. Besagte "
+#~ "neuen <a href=\"%s\">Pro-Version von ACF</a> zusammengefasst. Besagte "
 #~ "Premium-Funktionalität, erhältlich in einer Einzel- sowie einer "
-#~ "Entwickler-Lizenz, ist somit ***REMOVED*** denn je!"
+#~ "Entwickler-Lizenz, ist somit erschwinglicher denn je!"
 
 # @ acf
 #~ msgid "Powerful Features"
-#~ msgstr "***REMOVED*** Funktionen"
+#~ msgstr "Leistungsstarke Funktionen"
 
 # @ acf
 #~ msgid ""
@@ -3878,7 +3878,7 @@ msgstr "Elliot Condon"
 #~ "content layouts, a beautiful gallery field and the ability to create "
 #~ "extra admin options pages!"
 #~ msgstr ""
-#~ "ACF PRO enthält ***REMOVED*** Funktionen wie wiederholbare Daten, "
+#~ "ACF PRO enthält leistungsstarke Funktionen wie wiederholbare Daten, "
 #~ "Flexible Inhalte-Layouts, ein wunderschönes Galerie-Feld sowie die "
 #~ "Möglichkeit zusätzliche Options-Seiten im Admin-Bereich zu erstellen!"
 
@@ -3889,7 +3889,7 @@ msgstr "Elliot Condon"
 
 # @ acf
 #~ msgid "Easy Upgrading"
-#~ msgstr "Kinderleichte ***REMOVED***"
+#~ msgstr "Kinderleichte Aktualisierung"
 
 #~ msgid ""
 #~ "Upgrading to ACF PRO is easy. Simply purchase a license online and "
@@ -3965,10 +3965,10 @@ msgstr "Elliot Condon"
 # @ acf
 #~ msgid ""
 #~ "New auto export to JSON feature improves speed and allows for "
-#~ "***REMOVED***."
+#~ "syncronisation."
 #~ msgstr ""
-#~ "Ein neuer automatischer Export nach JSON verbessert die ***REMOVED*** "
-#~ "und erlaubt die ***REMOVED***."
+#~ "Ein neuer automatischer Export nach JSON verbessert die Geschwindigkeit "
+#~ "und erlaubt die Synchronisation."
 
 # @ acf
 #~ msgid "Easy Import / Export"
@@ -4022,7 +4022,7 @@ msgstr "Elliot Condon"
 #~ "Instructions Placement and Description."
 #~ msgstr ""
 #~ "Die Feldgruppen wurden um die Einstellungen für das Aktivieren und "
-#~ "Deaktivieren der Gruppe, die Platzierung von ***REMOVED*** und "
+#~ "Deaktivieren der Gruppe, die Platzierung von Beschriftungen und "
 #~ "Anweisungen sowie eine Beschreibung erweitert."
 
 # @ acf
@@ -4078,7 +4078,7 @@ msgstr "Elliot Condon"
 
 # @ acf
 #~ msgid "Shown when entering data"
-#~ msgstr "Legt fest welche Maße die Vorschau in der ***REMOVED*** hat"
+#~ msgstr "Legt fest welche Maße die Vorschau in der Bearbeitungsansicht hat"
 
 #~ msgid "Testimonial"
 #~ msgstr "Testimonial"
@@ -4100,8 +4100,8 @@ msgstr "Elliot Condon"
 # @ acf
 #~ msgid "%s field group synchronised."
 #~ msgid_plural "%s field groups synchronised."
-#~ msgstr[0] "%s Feldgruppe ***REMOVED***."
-#~ msgstr[1] "%s Feldgruppen ***REMOVED***."
+#~ msgstr[0] "%s Feldgruppe synchronisiert."
+#~ msgstr[1] "%s Feldgruppen synchronisiert."
 
 # @ acf
 #~ msgid "<b>Error</b>. Could not load add-ons list"
@@ -4130,7 +4130,7 @@ msgstr "Elliot Condon"
 #~ msgstr ""
 #~ "Wir haben den Aktualisierungsprozess so einfach wie möglich gehalten; <a "
 #~ "href=\"%s\">melden Sie sich mit Ihrem Store-Account an</a> und fordern "
-#~ "Sie ein ***REMOVED*** von ACF PRO an!"
+#~ "Sie ein Gratisexemplar von ACF PRO an!"
 
 # @ acf
 #~ msgid "Under the Hood"
@@ -4138,7 +4138,7 @@ msgstr "Elliot Condon"
 
 # @ acf
 #~ msgid "Smarter field settings"
-#~ msgstr "***REMOVED*** Feld-Einstellungen"
+#~ msgstr "Intelligentere Feld-Einstellungen"
 
 # @ acf
 #~ msgid "ACF now saves its field settings as individual post objects"
@@ -4147,14 +4147,14 @@ msgstr "Elliot Condon"
 
 # @ acf
 #~ msgid "Better version control"
-#~ msgstr "Verbesserte ***REMOVED***"
+#~ msgstr "Verbesserte Versionskontrolle"
 
 # @ acf
 #~ msgid ""
 #~ "New auto export to JSON feature allows field settings to be version "
 #~ "controlled"
 #~ msgstr ""
-#~ "Die neue JSON Export Funktionalität erlaubt die ***REMOVED*** von "
+#~ "Die neue JSON Export Funktionalität erlaubt die Versionskontrolle von "
 #~ "Feld-Einstellungen"
 
 # @ acf
@@ -4197,7 +4197,7 @@ msgstr "Elliot Condon"
 #~ msgid "New archives group in page_link field selection"
 #~ msgstr ""
 #~ "Im neuen Seitenlink-Feld werden alle Archiv-URL's der verfügbaren Custom "
-#~ "Post Types in einer Options-Gruppe ***REMOVED***"
+#~ "Post Types in einer Options-Gruppe zusammengefasst"
 
 # @ acf
 #~ msgid "Better Options Pages"
@@ -4281,7 +4281,7 @@ msgstr "Elliot Condon"
 #~ "together."
 #~ msgstr ""
 #~ "Mit \"Tab Feldern\" können Felder für eine bessere Struktur im Editor in "
-#~ "Tabs ***REMOVED*** werden."
+#~ "Tabs zusammengefasst werden."
 
 # @ acf
 #~ msgid ""
@@ -4291,7 +4291,7 @@ msgstr "Elliot Condon"
 #~ msgstr ""
 #~ "Alle Felder, die auf dieses \"Tab Feld\" folgen (oder bis ein weiteres "
 #~ "\"Tab Feld\" definiert ist), werden in einem Tab mit dem Namen dieses "
-#~ "Felds ***REMOVED***."
+#~ "Felds zusammengefasst."
 
 # @ acf
 #~ msgid "Getting Started"
@@ -4310,7 +4310,7 @@ msgstr "Elliot Condon"
 #~ msgstr "Aktionen"
 
 #~ msgid "How to"
-#~ msgstr "***REMOVED***"
+#~ msgstr "Kurzanleitungen"
 
 # @ acf
 #~ msgid "Tutorials"
@@ -4321,7 +4321,7 @@ msgstr "Elliot Condon"
 
 #~ msgid "Term meta upgrade not possible (termmeta table does not exist)"
 #~ msgstr ""
-#~ "Term Meta-***REMOVED*** war nicht möglich (die termmeta-Tabelle "
+#~ "Term Meta-Aktualisierung war nicht möglich (die termmeta-Tabelle "
 #~ "existiert nicht)"
 
 # @ acf
@@ -4330,8 +4330,8 @@ msgstr "Elliot Condon"
 
 #~ msgid "1 field requires attention."
 #~ msgid_plural "%d fields require attention."
-#~ msgstr[0] "Ein Feld bedarf Ihrer ***REMOVED***."
-#~ msgstr[1] "%d Felder bedürfen Ihrer ***REMOVED***."
+#~ msgstr[0] "Ein Feld bedarf Ihrer Aufmerksamkeit."
+#~ msgstr[1] "%d Felder bedürfen Ihrer Aufmerksamkeit."
 
 #~ msgid ""
 #~ "Error validating ACF PRO license URL (website does not match). Please re-"
@@ -4342,7 +4342,7 @@ msgstr "Elliot Condon"
 
 # @ acf
 #~ msgid "'How to' guides"
-#~ msgstr "***REMOVED***"
+#~ msgstr "Kurzanleitungen"
 
 # @ acf
 #~ msgid "Created by"
@@ -4388,7 +4388,7 @@ msgstr "Elliot Condon"
 #~ "The following sites require a DB upgrade. Check the ones you want to "
 #~ "update and then click “Upgrade Database”."
 #~ msgstr ""
-#~ "Die folgenden Seiten erfordern eine Datenbank- ***REMOVED***. Markieren "
+#~ "Die folgenden Seiten erfordern eine Datenbank- Aktualisierung. Markieren "
 #~ "Sie die gewünschten Seiten und klicken \\\"Aktualisiere Datenbank\\\"."
 
 # @ acf
@@ -4398,7 +4398,7 @@ msgstr "Elliot Condon"
 # @ acf
 #~ msgid "<b>Connection Error</b>. Sorry, please try again"
 #~ msgstr ""
-#~ "<b>***REMOVED***</b>. ***REMOVED***, versuchen Sie es bitte später "
+#~ "<b>Verbindungsfehler</b>. Entschuldigung, versuchen Sie es bitte später "
 #~ "noch einmal"
 
 # @ acf
@@ -4449,8 +4449,8 @@ msgstr "Elliot Condon"
 #~ "To unlock updates, please enter your license key below. If you don't have "
 #~ "a licence key, please see"
 #~ msgstr ""
-#~ "Um die ***REMOVED***-Fähigkeit ***REMOVED***, tragen Sie bitte Ihren "
-#~ "Lizenzschlüssel im ***REMOVED*** Feld ein. Sollten Sie noch keinen "
+#~ "Um die Aktualisierungs-Fähigkeit freizuschalten, tragen Sie bitte Ihren "
+#~ "Lizenzschlüssel im darunterliegenden Feld ein. Sollten Sie noch keinen "
 #~ "Lizenzschlüssel besitzen, informieren Sie sich bitte hier über die"
 
 # @ acf
@@ -4463,8 +4463,8 @@ msgstr "Elliot Condon"
 #~ "\">Updates</a> page. If you don't have a licence key, please see <a href="
 #~ "\"%s\">details & pricing</a>"
 #~ msgstr ""
-#~ "Um die ***REMOVED*** ***REMOVED***, tragen Sie bitte Ihren "
-#~ "Lizenzschlüssel auf der <a href=\"%s\">***REMOVED***</a>-Seite ein. "
+#~ "Um die Aktualisierungen freizuschalten, tragen Sie bitte Ihren "
+#~ "Lizenzschlüssel auf der <a href=\"%s\">Aktualisierungen</a>-Seite ein. "
 #~ "Sollten Sie noch keinen Lizenzschlüssel besitzen, informieren Sie sich "
 #~ "bitte hier über die <a href=\"%s\">Details und Preise</a>"
 
@@ -4473,8 +4473,8 @@ msgstr "Elliot Condon"
 #~ msgstr "Advanced Custom Fields Pro"
 
 # @ acf
-#~ msgid "http://www.***REMOVED***.com/"
-#~ msgstr "http://www.***REMOVED***.com/"
+#~ msgid "http://www.advancedcustomfields.com/"
+#~ msgstr "http://www.advancedcustomfields.com/"
 
 # @ acf
 #~ msgid "elliot condon"
@@ -4493,7 +4493,7 @@ msgstr "Elliot Condon"
 #~ msgstr "Optionen speichern"
 
 #~ msgid "Sync Available"
-#~ msgstr "***REMOVED*** verfügbar"
+#~ msgstr "Synchronisierung verfügbar"
 
 # @ acf
 #~ msgid ""

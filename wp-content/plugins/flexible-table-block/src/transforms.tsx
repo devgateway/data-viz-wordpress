@@ -1,19 +1,19 @@
 /**
  * WordPress dependencies
  */
-import { createBlock, store as blocksStore, type ***REMOVED*** } from '@wordpress/blocks';
+import { createBlock, store as blocksStore, type TransformBlock } from '@wordpress/blocks';
 import { select } from '@wordpress/data';
 
 /**
  * Internal dependencies
  */
-import { ***REMOVED***, toVirtualRows, ***REMOVED***, type VCell } from './utils/table-state';
-import { ***REMOVED*** } from './utils/helper';
-import type { ***REMOVED***, CoreTableCell, CoreTableBlockAttributes } from './***REMOVED***';
+import { splitMergedCell, toVirtualRows, toVirtualTable, type VCell } from './utils/table-state';
+import { normalizeRowColSpan } from './utils/helper';
+import type { BlockAttributes, CoreTableCell, CoreTableBlockAttributes } from './BlockAttributes';
 
 interface Transforms {
-	readonly from: ReadonlyArray< ***REMOVED***< CoreTableBlockAttributes > >;
-	readonly to: ReadonlyArray< ***REMOVED***< ***REMOVED*** > >;
+	readonly from: ReadonlyArray< TransformBlock< CoreTableBlockAttributes > >;
+	readonly to: ReadonlyArray< TransformBlock< BlockAttributes > >;
 }
 
 const transforms: Transforms = {
@@ -22,10 +22,10 @@ const transforms: Transforms = {
 			type: 'block',
 			blocks: [ 'core/table' ],
 			transform: ( attributes ) => {
-				const { ***REMOVED***, head, body, foot, caption, style } = attributes;
+				const { hasFixedLayout, head, body, foot, caption, style } = attributes;
 
 				// Mapping rowspan and colspan properties.
-				const ***REMOVED*** = ( section: { cells: CoreTableCell[] }[] ) => {
+				const convertedSections = ( section: { cells: CoreTableCell[] }[] ) => {
 					if ( ! section.length ) {
 						return section;
 					}
@@ -39,8 +39,8 @@ const transforms: Transforms = {
 								return {
 									content,
 									tag,
-									colSpan: ***REMOVED***( colspan ),
-									rowSpan: ***REMOVED***( rowspan ),
+									colSpan: normalizeRowColSpan( colspan ),
+									rowSpan: normalizeRowColSpan( rowspan ),
 								};
 							} ),
 						};
@@ -48,10 +48,10 @@ const transforms: Transforms = {
 				};
 
 				return createBlock( 'flexible-table-block/table', {
-					head: ***REMOVED***( head ),
-					body: ***REMOVED***( body ),
-					foot: ***REMOVED***( foot ),
-					***REMOVED***,
+					head: convertedSections( head ),
+					body: convertedSections( body ),
+					foot: convertedSections( foot ),
+					hasFixedLayout,
 					caption,
 					style,
 				} );
@@ -69,31 +69,31 @@ const transforms: Transforms = {
 					getBlockType,
 				} = select( blocksStore );
 				const blockType = getBlockType( 'core/table' );
-				const ***REMOVED*** =
+				const hasRowColSpanSupport =
 					!! blockType.attributes.head.query.cells.query.rowspan &&
 					!! blockType.attributes.head.query.cells.query.colspan;
 
 				// Create virtual object array with the cells placed in positions based on how they actually look.
-				let vTable = ***REMOVED***( attributes );
+				let vTable = toVirtualTable( attributes );
 
 				// Find rowspan & colspan cells.
 				const vRows = toVirtualRows( vTable );
-				const ***REMOVED*** = vRows
+				const rowColSpanCells = vRows
 					.reduce( ( cells: VCell[], row ) => cells.concat( row.cells ), [] )
 					.filter( ( { rowSpan, colSpan } ) => rowSpan > 1 || colSpan > 1 );
 
 				// Split the found rowspan and colspan cells If the core table block doesn't support it.
-				if ( ***REMOVED***.length && ! ***REMOVED*** ) {
-					***REMOVED***.forEach( ( cell ) => {
-						vTable = ***REMOVED***( vTable, cell );
+				if ( rowColSpanCells.length && ! hasRowColSpanSupport ) {
+					rowColSpanCells.forEach( ( cell ) => {
+						vTable = splitMergedCell( vTable, cell );
 					} );
 				}
 
 				// Convert to core table block attributes.
-				const ***REMOVED*** = Object.entries( vTable ).reduce(
-					( ***REMOVED***: any, [ sectionName, section ] ) => {
+				const sectionAttributes = Object.entries( vTable ).reduce(
+					( coreTableAttributes: any, [ sectionName, section ] ) => {
 						if ( ! section.length ) {
-							return ***REMOVED***;
+							return coreTableAttributes;
 						}
 
 						const newSection = section.map( ( { cells } ) => ( {
@@ -104,19 +104,19 @@ const transforms: Transforms = {
 								.map( ( cell ) => ( {
 									content: cell.content,
 									tag: 'head' === cell.sectionName ? 'th' : 'td',
-									rowspan: ***REMOVED*** ? ***REMOVED***( cell.rowSpan ) : undefined,
-									colspan: ***REMOVED*** ? ***REMOVED***( cell.colSpan ) : undefined,
+									rowspan: hasRowColSpanSupport ? normalizeRowColSpan( cell.rowSpan ) : undefined,
+									colspan: hasRowColSpanSupport ? normalizeRowColSpan( cell.colSpan ) : undefined,
 								} ) ),
 						} ) );
-						***REMOVED***[ sectionName ] = newSection;
-						return ***REMOVED***;
+						coreTableAttributes[ sectionName ] = newSection;
+						return coreTableAttributes;
 					},
 					{}
 				);
 
 				return createBlock( 'core/table', {
-					...***REMOVED***,
-					***REMOVED***: attributes.***REMOVED***,
+					...sectionAttributes,
+					hasFixedLayout: attributes.hasFixedLayout,
 					caption: attributes.caption,
 					style: attributes.style,
 				} );

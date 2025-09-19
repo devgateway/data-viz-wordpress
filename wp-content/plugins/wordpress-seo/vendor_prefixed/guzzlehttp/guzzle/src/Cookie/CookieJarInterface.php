@@ -2,21 +2,21 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Cookie;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Stores HTTP cookies.
  *
  * It extracts cookies from HTTP requests, and returns them in HTTP responses.
- * ***REMOVED*** instances automatically expire contained cookies when
+ * CookieJarInterface instances automatically expire contained cookies when
  * necessary. Subclasses are also responsible for storing and retrieving
  * cookies from a file, database, etc.
  *
  * @see https://docs.python.org/2/library/cookielib.html Inspiration
  *
- * @extends \***REMOVED***<SetCookie>
+ * @extends \IteratorAggregate<SetCookie>
  */
-interface ***REMOVED*** extends \Countable, \***REMOVED***
+interface CookieJarInterface extends \Countable, \IteratorAggregate
 {
     /**
      * Create a request with added cookie headers.
@@ -24,18 +24,18 @@ interface ***REMOVED*** extends \Countable, \***REMOVED***
      * If no matching cookies are found in the cookie jar, then no Cookie
      * header is added to the request and the same request is returned.
      *
-     * @param ***REMOVED*** $request Request object to modify.
+     * @param RequestInterface $request Request object to modify.
      *
-     * @return ***REMOVED*** returns the modified request.
+     * @return RequestInterface returns the modified request.
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withCookieHeader(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
     /**
      * Extract cookies from an HTTP response and store them in the CookieJar.
      *
-     * @param ***REMOVED***  $request  Request that was sent
-     * @param ***REMOVED*** $response Response that was received
+     * @param RequestInterface  $request  Request that was sent
+     * @param ResponseInterface $response Response that was received
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) : void;
+    public function extractCookies(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response) : void;
     /**
      * Sets a cookie in the cookie jar.
      *
@@ -66,7 +66,7 @@ interface ***REMOVED*** extends \Countable, \***REMOVED***
      * field set to true. To be called when the user agent shuts down according
      * to RFC 2965.
      */
-    public function ***REMOVED***() : void;
+    public function clearSessionCookies() : void;
     /**
      * Converts the cookie jar to an array.
      */

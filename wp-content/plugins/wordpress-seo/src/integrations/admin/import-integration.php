@@ -138,7 +138,7 @@ class Import_Integration implements Integration_Interface {
 		 */
 		$data = \apply_filters( 'wpseo_importing_data', $data );
 
-		$this->asset_manager->localize_script( 'import', '***REMOVED***', $data );
+		$this->asset_manager->localize_script( 'import', 'yoastImportData', $data );
 	}
 
 	/**

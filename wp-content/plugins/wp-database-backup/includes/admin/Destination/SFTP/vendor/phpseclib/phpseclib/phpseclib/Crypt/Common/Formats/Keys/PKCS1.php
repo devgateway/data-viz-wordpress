@@ -52,7 +52,7 @@ abstract class PKCS1 extends PKCS
      * @return int
      * @throws \UnexpectedValueException if the block cipher mode is unsupported
      */
-    private static function ***REMOVED***($mode)
+    private static function getEncryptionMode($mode)
     {
         switch ($mode) {
             case 'CBC':
@@ -72,18 +72,18 @@ abstract class PKCS1 extends PKCS
      * @return string
      * @throws \UnexpectedValueException if the encryption algorithm is unsupported
      */
-    private static function ***REMOVED***($algo)
+    private static function getEncryptionObject($algo)
     {
         $modes = '(CBC|ECB|CFB|OFB|CTR)';
         switch (true) {
             case preg_match("#^AES-(128|192|256)-$modes$#", $algo, $matches):
-                $cipher = new AES(self::***REMOVED***($matches[2]));
+                $cipher = new AES(self::getEncryptionMode($matches[2]));
                 $cipher->setKeyLength($matches[1]);
                 return $cipher;
             case preg_match("#^DES-EDE3-$modes$#", $algo, $matches):
-                return new TripleDES(self::***REMOVED***($matches[1]));
+                return new TripleDES(self::getEncryptionMode($matches[1]));
             case preg_match("#^DES-$modes$#", $algo, $matches):
-                return new DES(self::***REMOVED***($matches[1]));
+                return new DES(self::getEncryptionMode($matches[1]));
             default:
                 throw new UnsupportedAlgorithmException($algo . ' is not a supported algorithm');
         }
@@ -97,7 +97,7 @@ abstract class PKCS1 extends PKCS
      * @param int $length
      * @return string
      */
-    private static function ***REMOVED***($password, $iv, $length)
+    private static function generateSymmetricKey($password, $iv, $length)
     {
         $symkey = '';
         $iv = substr($iv, 0, 8);
@@ -131,8 +131,8 @@ abstract class PKCS1 extends PKCS
            DES-EDE3-CBC as an algorithm, however, is not discussed anywhere, near as I can tell.
            DES-CBC and DES-EDE are discussed in RFC1423, however, DES-EDE3-CBC isn't, nor is its key derivation
            function.  As is, the definitive authority on this encoding scheme isn't the IETF but rather OpenSSL's
-           own ***REMOVED***.  ie. the ***REMOVED*** *is* the standard and any bugs that may exist in that
-           ***REMOVED*** are part of the standard, as well.
+           own implementation.  ie. the implementation *is* the standard and any bugs that may exist in that
+           implementation are part of the standard, as well.
 
            * OpenSSL is the de facto standard.  It's utilized by OpenSSH and other projects */
         if (preg_match('#DEK-Info: (.+),(.+)#', $key, $matches)) {
@@ -143,8 +143,8 @@ abstract class PKCS1 extends PKCS
             if ($ciphertext === false) {
                 $ciphertext = $key;
             }
-            $crypto = self::***REMOVED***($matches[1]);
-            $crypto->setKey(self::***REMOVED***($password, $iv, $crypto->getKeyLength() >> 3));
+            $crypto = self::getEncryptionObject($matches[1]);
+            $crypto->setKey(self::generateSymmetricKey($password, $iv, $crypto->getKeyLength() >> 3));
             $crypto->setIV($iv);
             $key = $crypto->decrypt($ciphertext);
         } else {
@@ -170,7 +170,7 @@ abstract class PKCS1 extends PKCS
      * @param array $options optional
      * @return string
      */
-    protected static function ***REMOVED***($key, $type, $password, array $options = [])
+    protected static function wrapPrivateKey($key, $type, $password, array $options = [])
     {
         if (empty($password) || !is_string($password)) {
             return "-----BEGIN $type PRIVATE KEY-----\r\n" .
@@ -178,16 +178,16 @@ abstract class PKCS1 extends PKCS
                    "-----END $type PRIVATE KEY-----";
         }
 
-        $***REMOVED*** = isset($options['***REMOVED***']) ? $options['***REMOVED***'] : self::$defaultEncryptionAlgorithm;
+        $encryptionAlgorithm = isset($options['encryptionAlgorithm']) ? $options['encryptionAlgorithm'] : self::$defaultEncryptionAlgorithm;
 
-        $cipher = self::***REMOVED***($***REMOVED***);
-        $iv = Random::string($cipher->***REMOVED***() >> 3);
-        $cipher->setKey(self::***REMOVED***($password, $iv, $cipher->getKeyLength() >> 3));
+        $cipher = self::getEncryptionObject($encryptionAlgorithm);
+        $iv = Random::string($cipher->getBlockLength() >> 3);
+        $cipher->setKey(self::generateSymmetricKey($password, $iv, $cipher->getKeyLength() >> 3));
         $cipher->setIV($iv);
         $iv = strtoupper(Strings::bin2hex($iv));
         return "-----BEGIN $type PRIVATE KEY-----\r\n" .
                "Proc-Type: 4,ENCRYPTED\r\n" .
-               "DEK-Info: " . $***REMOVED*** . ",$iv\r\n" .
+               "DEK-Info: " . $encryptionAlgorithm . ",$iv\r\n" .
                "\r\n" .
                chunk_split(Strings::base64_encode($cipher->encrypt($key)), 64) .
                "-----END $type PRIVATE KEY-----";

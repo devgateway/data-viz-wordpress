@@ -32,7 +32,7 @@ final class PublicKey extends DH
      */
     public function toString($type, array $options = [])
     {
-        $type = self::***REMOVED***('Keys', $type, 'savePublicKey');
+        $type = self::validatePlugin('Keys', $type, 'savePublicKey');
 
         return $type::savePublicKey($this->prime, $this->base, $this->publicKey, $options);
     }

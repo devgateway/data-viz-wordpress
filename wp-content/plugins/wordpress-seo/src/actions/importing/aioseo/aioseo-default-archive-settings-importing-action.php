@@ -1,12 +1,12 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 /**
  * Importing action for AIOSEO default archive settings data.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
 
@@ -40,7 +40,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	protected $settings_tab = 'archives';
 
 	/**
-	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data ***REMOVED*** method.
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 				'yoast_name'       => 'title-author-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/author/***REMOVED***'             => [
+			'/author/metaDescription'             => [
 				'yoast_name'       => 'metadesc-author-wpseo',
 				'transform_method' => 'simple_import',
 			],
@@ -58,7 +58,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 				'yoast_name'       => 'title-archive-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/date/***REMOVED***'               => [
+			'/date/metaDescription'               => [
 				'yoast_name'       => 'metadesc-archive-wpseo',
 				'transform_method' => 'simple_import',
 			],

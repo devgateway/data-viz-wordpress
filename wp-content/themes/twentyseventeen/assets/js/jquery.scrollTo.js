@@ -3,7 +3,7 @@
  * Copyright (c) 2007 Ariel Flesler - aflesler ○ gmail • com | https://github.com/flesler
  * Licensed under MIT
  * https://github.com/flesler/jquery.scrollTo
- * @***REMOVED*** Lightweight, cross-browser and highly customizable animated scrolling with jQuery
+ * @projectDescription Lightweight, cross-browser and highly customizable animated scrolling with jQuery
  * @author Ariel Flesler
  * @version 2.1.3
  */
@@ -178,7 +178,7 @@
 
 		var size = 'client' + Dim,
 			doc = elem.ownerDocument || elem.document,
-			html = doc.***REMOVED***,
+			html = doc.documentElement,
 			body = doc.body;
 
 		return Math.max(html[scroll], body[scroll]) - Math.min(html[size], body[size]);

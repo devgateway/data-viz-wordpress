@@ -69,7 +69,7 @@ if ( isset( $_POST['submitrobots'] ) ) {
 	}
 }
 
-if ( isset( $_POST['***REMOVED***'] ) ) {
+if ( isset( $_POST['submithtaccess'] ) ) {
 	if ( ! current_user_can( 'edit_files' ) ) {
 		$die_msg = sprintf(
 			/* translators: %s expands to ".htaccess". */
@@ -108,7 +108,7 @@ echo '<h2>robots.txt</h2>';
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( $home_path ) ) {
-		echo '<form action="', esc_url( $action_url ), '" method="post" id="***REMOVED***">';
+		echo '<form action="', esc_url( $action_url ), '" method="post" id="robotstxtcreateform">';
 		wp_nonce_field( 'wpseo_create_robots', '_wpnonce', true, true );
 		echo '<p>';
 		printf(
@@ -218,7 +218,7 @@ if ( ! WPSEO_Utils::is_nginx() ) {
 			echo '</label>';
 			echo '<textarea class="large-text code" rows="15" name="htaccessnew" id="htaccessnew">', esc_textarea( $contentht ), '</textarea><br/>';
 			printf(
-				'<div class="submit"><input class="button" type="submit" name="***REMOVED***" value="%s" /></div>',
+				'<div class="submit"><input class="button" type="submit" name="submithtaccess" value="%s" /></div>',
 				sprintf(
 					/* translators: %s expands to ".htaccess". */
 					esc_attr__( 'Save changes to %s', 'wordpress-seo' ),

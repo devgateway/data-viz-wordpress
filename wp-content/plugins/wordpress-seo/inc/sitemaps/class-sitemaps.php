@@ -377,7 +377,7 @@ class WPSEO_Sitemaps {
 
 			try {
 				$links = $provider->get_sitemap_links( $type, $entries_per_page, $this->current_page );
-			} catch ( ***REMOVED*** $exception ) {
+			} catch ( OutOfBoundsException $exception ) {
 				$this->bad_sitemap = true;
 
 				return;
@@ -474,7 +474,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function output() {
 		$this->send_headers();
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Escaping sitemap as either xml or html results in empty document.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping sitemap as either xml or html results in empty document.
 		echo $this->renderer->get_output( $this->sitemap );
 	}
 
@@ -542,8 +542,8 @@ class WPSEO_Sitemaps {
 					]
 				);
 
-				//phpcs:disable WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching -- We need to use a direct query here.
-				//phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 				$dates = $wpdb->get_results(
 					//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 					$wpdb->prepare(

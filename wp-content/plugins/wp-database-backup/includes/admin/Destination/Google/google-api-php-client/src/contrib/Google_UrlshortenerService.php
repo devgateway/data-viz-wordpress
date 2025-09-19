@@ -18,8 +18,8 @@
    * The "url" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_UrlshortenerService(...);
-   *   $url = $***REMOVED***->url;
+   *   $urlshortenerService = new Google_UrlshortenerService(...);
+   *   $url = $urlshortenerService->url;
    *  </code>
    */
   class Google_UrlServiceResource extends Google_ServiceResource {
@@ -98,7 +98,7 @@
 class Google_UrlshortenerService extends Google_Service {
   public $url;
   /**
-   * Constructs the internal ***REMOVED*** of the Urlshortener service.
+   * Constructs the internal representation of the Urlshortener service.
    *
    * @param Google_Client $client
    */
@@ -129,7 +129,7 @@ class Google_AnalyticsSnapshot extends Google_Model {
   protected $__referrersType = 'Google_StringCount';
   protected $__referrersDataType = 'array';
   public $referrers;
-  public $***REMOVED***;
+  public $shortUrlClicks;
   public function setBrowsers(/* array(Google_StringCount) */ $browsers) {
     $this->assertIsArray($browsers, 'Google_StringCount', __METHOD__);
     $this->browsers = $browsers;
@@ -144,10 +144,10 @@ class Google_AnalyticsSnapshot extends Google_Model {
   public function getCountries() {
     return $this->countries;
   }
-  public function ***REMOVED***( $longUrlClicks) {
+  public function setLongUrlClicks( $longUrlClicks) {
     $this->longUrlClicks = $longUrlClicks;
   }
-  public function ***REMOVED***() {
+  public function getLongUrlClicks() {
     return $this->longUrlClicks;
   }
   public function setPlatforms(/* array(Google_StringCount) */ $platforms) {
@@ -164,11 +164,11 @@ class Google_AnalyticsSnapshot extends Google_Model {
   public function getReferrers() {
     return $this->referrers;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setShortUrlClicks( $shortUrlClicks) {
+    $this->shortUrlClicks = $shortUrlClicks;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getShortUrlClicks() {
+    return $this->shortUrlClicks;
   }
 }
 
@@ -299,10 +299,10 @@ class Google_UrlHistory extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -311,10 +311,10 @@ class Google_UrlHistory extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {

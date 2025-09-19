@@ -48,7 +48,7 @@ class WPSEO_Admin_Pages {
 	 * @return void
 	 */
 	public function init() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		// Don't load the scripts for the following pages.
@@ -75,7 +75,7 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_style( 'admin-css' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 		if ( $page === 'wpseo_licenses' ) {
 			$this->asset_manager->enqueue_style( 'tailwind' );
@@ -96,16 +96,16 @@ class WPSEO_Admin_Pages {
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'***REMOVED***'                => $dismissed_alerts,
+			'dismissedAlerts'                => $dismissed_alerts,
 			'isRtl'                          => is_rtl(),
 			'isPremium'                      => YoastSEO()->helpers->product->is_premium(),
-			'***REMOVED***'              => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'currentPromotions'              => YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 			'webinarIntroFirstTimeConfigUrl' => $this->get_webinar_shortlink(),
 			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
 			'pluginUrl'                      => plugins_url( '', WPSEO_FILE ),
 		];
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 
 		if ( in_array( $page, [ WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_workouts' ], true ) ) {
@@ -118,7 +118,7 @@ class WPSEO_Admin_Pages {
 			$this->enqueue_tools_scripts();
 		}
 
-		$this->asset_manager->localize_script( 'settings', '***REMOVED***', $script_data );
+		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();
 	}
 
@@ -128,7 +128,7 @@ class WPSEO_Admin_Pages {
 	 * @return void
 	 */
 	private function enqueue_tools_scripts() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$tool = isset( $_GET['tool'] ) && is_string( $_GET['tool'] ) ? sanitize_text_field( wp_unslash( $_GET['tool'] ) ) : '';
 
 		if ( empty( $tool ) ) {

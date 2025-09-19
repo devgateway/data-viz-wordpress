@@ -124,7 +124,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Hooks into WordPress.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -421,7 +421,7 @@ class WPSEO_Addon_Manager {
 					'<a href="' . esc_url( WPSEO_Shortlinker::get( $addon_link ) ) . '">',
 					'</a>'
 				)
-				// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output is escaped above.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is escaped above.
 				. $sale_copy
 				. '</strong>';
 		}
@@ -490,7 +490,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Removes the site information transients.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -706,7 +706,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves the current sites from the API.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool|stdClass Object when request is successful. False if not.
 	 */
@@ -722,7 +722,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves the transient value with the site information.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return stdClass|false The transient value.
 	 */
@@ -731,9 +731,9 @@ class WPSEO_Addon_Manager {
 
 		// Force re-check on license & dashboard pages.
 		$current_page = null;
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, We are only strictly comparing and thus no need to sanitize.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing and thus no need to sanitize.
 			$current_page = wp_unslash( $_GET['page'] );
 		}
 
@@ -754,7 +754,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Sets the site information transient.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param stdClass $site_information The site information to save.
 	 *
@@ -768,7 +768,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Retrieves all installed WordPress plugins.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The plugins.
 	 */
@@ -783,7 +783,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Checks if the given plugin file belongs to an active plugin.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $plugin_file The file path to the plugin.
 	 *
@@ -796,7 +796,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Returns an object with no subscriptions.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return stdClass Site information.
 	 */
@@ -829,7 +829,7 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass Mapped subscription.
 	 */
 	protected function map_subscription( $subscription ) {
-		// phpcs:disable WordPress.***REMOVED***.***REMOVED***.UsedPropertyNotSnakeCase -- Not our properties.
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.
 		return (object) [
 			'renewal_url' => $subscription->renewalUrl,
 			'expiry_date' => $subscription->expiryDate,

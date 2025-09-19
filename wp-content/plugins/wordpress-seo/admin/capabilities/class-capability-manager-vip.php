@@ -6,7 +6,7 @@
  */
 
 /**
- * VIP ***REMOVED*** of the Capability Manager.
+ * VIP implementation of the Capability Manager.
  */
 final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manager {
 

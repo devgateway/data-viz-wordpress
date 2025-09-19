@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, ResizableBox} from '@wordpress/components';
 
 import {__} from '@wordpress/i18n';
@@ -16,10 +16,10 @@ class BlockEdit extends ComponentWithSettings {
         super(props);
     }
 
-    ***REMOVED***() {
+    componentDidMount() {
         const {setAttributes,attributes: {name, showIcons, showLabels}} = this.props;
-        super.***REMOVED***();
-        const urlParams = new ***REMOVED***(window.location.search);
+        super.componentDidMount();
+        const urlParams = new URLSearchParams(window.location.search);
         const parent = urlParams.get('post');
         setAttributes({parent: parent})
     }
@@ -28,7 +28,7 @@ class BlockEdit extends ComponentWithSettings {
         const {
             className,
             isSelected,
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 height,
@@ -40,7 +40,7 @@ class BlockEdit extends ComponentWithSettings {
 
         const iframeStyles = {height: height+'px', width:'100%'}
 
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
             <Panel header={__("Menu Configuration")}>
                 <PanelBody>
                     <PanelRow>
@@ -66,7 +66,7 @@ class BlockEdit extends ComponentWithSettings {
                     </PanelRow>
                 </PanelBody>
             </Panel>
-        </***REMOVED***>),
+        </InspectorControls>),
             (<ResizableBox
                 size={{height}}
                 style={{"margin": "auto", width: "100%"}}
@@ -86,10 +86,10 @@ class BlockEdit extends ComponentWithSettings {
                     setAttributes({
                         height: parseInt(height + delta.height, 10),
                     });
-                    ***REMOVED***(true);
+                    toggleSelection(true);
                 }}
                 onResizeStart={() => {
-                    ***REMOVED***(false);
+                    toggleSelection(false);
                 }}>
 
                 <div>
@@ -98,7 +98,7 @@ class BlockEdit extends ComponentWithSettings {
                         <iframe ref={this.iframe}
                                 scrolling={"no"}
                                 style={iframeStyles}
-                                src={this.state.react_ui_url + "/embeddable/***REMOVED***"}/>}
+                                src={this.state.react_ui_url + "/embeddable/childPagesMenu"}/>}
                 </div>
                 </ResizableBox>
             )]);

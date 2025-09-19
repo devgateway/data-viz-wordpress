@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
 class First_Time_Configuration_Action {
 
 	/**
-	 * The fields for the site ***REMOVED*** payload.
+	 * The fields for the site representation payload.
 	 */
 	public const SITE_REPRESENTATION_FIELDS = [
 		'company_or_person',
@@ -51,7 +51,7 @@ class First_Time_Configuration_Action {
 	}
 
 	/**
-	 * Stores the values for the site ***REMOVED***.
+	 * Stores the values for the site representation.
 	 *
 	 * @param array $params The values to store.
 	 *

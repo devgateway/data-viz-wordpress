@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Meta value object.
@@ -64,7 +64,7 @@ class Meta {
 	/**
 	 * The container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
@@ -107,9 +107,9 @@ class Meta {
 	 * Create a meta value object.
 	 *
 	 * @param Meta_Tags_Context  $context   The indexable presentation.
-	 * @param ***REMOVED*** $container The DI container.
+	 * @param ContainerInterface $container The DI container.
 	 */
-	public function __construct( Meta_Tags_Context $context, ***REMOVED*** $container ) {
+	public function __construct( Meta_Tags_Context $context, ContainerInterface $container ) {
 		$this->container = $container;
 		$this->context   = $context;
 
@@ -235,7 +235,7 @@ class Meta {
 	 *
 	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
 	 */
-	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.***REMOVED*** -- __set must have a name and value - PHPCS #3715.
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
 		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
 	}
 

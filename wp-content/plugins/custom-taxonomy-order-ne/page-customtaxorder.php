@@ -20,7 +20,7 @@ function customtaxorder_subpage() {
 
 	if ( ! empty( $taxonomies ) ) {
 		foreach ( $taxonomies as $taxonomy ) {
-			$com_page = '***REMOVED***-' . $taxonomy->name;
+			$com_page = 'customtaxorder-' . $taxonomy->name;
 			if ( ! isset($options[$taxonomy->name]) ) {
 				$options[$taxonomy->name] = 0; // default if not set in options yet
 			}
@@ -46,11 +46,11 @@ function customtaxorder_subpage() {
 	}
 
 	?>
-	<div class="wrap ***REMOVED*** wrap-***REMOVED***">
-		<div id="icon-***REMOVED***"></div>
+	<div class="wrap customtaxorder wrap-customtaxorder">
+		<div id="icon-customtaxorder"></div>
 
 	<?php
-	if ( $this_page === '***REMOVED***' ) {
+	if ( $this_page === 'customtaxorder' ) {
 		// Main admin page with just a set of links to the taxonomy pages.
 		?>
 		<h1>Custom Taxonomy Order</h1>
@@ -65,7 +65,7 @@ function customtaxorder_subpage() {
 			$taxonomies = customtaxorder_sort_taxonomies( $taxonomies );
 			echo '
 				<li class="lineitem">
-					<a href="' . admin_url( 'admin.php?page=***REMOVED***-taxonomies' ) . '">' . esc_html__('Taxonomies', 'custom-taxonomy-order-ne') . '</a>
+					<a href="' . admin_url( 'admin.php?page=customtaxorder-taxonomies' ) . '">' . esc_html__('Taxonomies', 'custom-taxonomy-order-ne') . '</a>
 				</li>
 				';
 			foreach ( $taxonomies as $taxonomy ) {
@@ -76,7 +76,7 @@ function customtaxorder_subpage() {
 				$tax_name = $taxonomy->name;
 				echo '
 				<li class="lineitem">
-					<a href="' . esc_url( admin_url( 'admin.php?page=***REMOVED***-' . $tax_name ) ) . '">' . esc_html( $tax_label ) . '</a> &nbsp;(' . esc_html( $tax_name ) . ')
+					<a href="' . esc_url( admin_url( 'admin.php?page=customtaxorder-' . $tax_name ) ) . '">' . esc_html( $tax_label ) . '</a> &nbsp;(' . esc_html( $tax_name ) . ')
 				</li>
 				';
 			}
@@ -93,7 +93,7 @@ function customtaxorder_subpage() {
 	$settings = ''; // The input and text for the taxonomy that's shown.
 	if ( ! empty( $taxonomies ) ) {
 		foreach ( $taxonomies as $taxonomy ) {
-			$com_page = '***REMOVED***-' . $taxonomy->name;
+			$com_page = 'customtaxorder-' . $taxonomy->name;
 			if ( ! isset($options[$taxonomy->name]) ) {
 				$options[$taxonomy->name] = 0; // default if not set in options yet
 			}
@@ -168,7 +168,7 @@ function customtaxorder_subpage() {
 				<div class="widget order-widget">
 					<h2 class="widget-top"><?php echo esc_html( $tax_label ) ?> | <small><?php esc_html_e('Order the terms by dragging and dropping them into the desired order.', 'custom-taxonomy-order-ne') ?></small></h2>
 					<div class="misc-pub-section">
-						<input type="button" name="***REMOVED***-toggle-slug" id="***REMOVED***-toggle-slug" class="btn button" value="<?php esc_attr_e('Toggle Slugs', 'custom-taxonomy-order-ne'); ?>" />
+						<input type="button" name="customtaxorder-toggle-slug" id="customtaxorder-toggle-slug" class="btn button" value="<?php esc_attr_e('Toggle Slugs', 'custom-taxonomy-order-ne'); ?>" />
 						<ul id="custom-order-list">
 							<?php foreach ( $terms as $term ) { ?>
 							<li id="id_<?php echo (int) $term->term_id; ?>" data-slug="<?php echo esc_attr( $term->slug ); ?>" data-term-order="<?php echo (int) $term->term_order; ?>" class="lineitem"><?php echo esc_html( $term->name ); ?>
@@ -274,7 +274,7 @@ function customtaxorder_update_order() {
 
 		if ( ! empty( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy ) {
-				$com_page = '***REMOVED***-' . $taxonomy->name;
+				$com_page = 'customtaxorder-' . $taxonomy->name;
 				if ( $this_page === $com_page ) {
 
 					// For this taxonomy, set your finegrained capability with this custom filter.
@@ -290,7 +290,7 @@ function customtaxorder_update_order() {
 
 			$parent_id_order = 0;
 			if ( isset($_POST['hidden-parent-id-order']) && $_POST['hidden-parent-id-order'] > 0 ) {
-				$parent_id_order = (int) $_POST['hidden-parent-id-order'] + 1; // Not sure if we really need this parent_id_order to be added since we use the funny floats of ancestor.***REMOVED***.
+				$parent_id_order = (int) $_POST['hidden-parent-id-order'] + 1; // Not sure if we really need this parent_id_order to be added since we use the funny floats of ancestor.childchildchild.
 			}
 			$new_order = $_POST['hidden-custom-order'];
 			$submitted_ids = explode(',', $new_order);
@@ -357,7 +357,7 @@ function customtaxorder_update_settings() {
 
 		if ( ! empty( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy ) {
-				$com_page = '***REMOVED***-' . $taxonomy->name;
+				$com_page = 'customtaxorder-' . $taxonomy->name;
 				if ( $this_page === $com_page && $tax_name === $taxonomy->name ) {
 
 					// For this taxonomy, set your finegrained capability with this custom filter.

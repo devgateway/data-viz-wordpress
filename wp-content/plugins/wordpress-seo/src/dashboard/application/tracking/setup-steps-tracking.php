@@ -1,8 +1,8 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Application\Tracking;
 
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Tracking\Setup_Steps_Tracking_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository_Interface;
 
 /**
  * Tracks the setup steps.
@@ -77,9 +77,9 @@ class Setup_Steps_Tracking {
 	 */
 	public function to_array(): array {
 		return [
-			'***REMOVED***'               => $this->get_setup_widget_loaded(),
+			'setupWidgetLoaded'               => $this->get_setup_widget_loaded(),
 			'firstInteractionStage'           => $this->get_first_interaction_stage(),
-			'***REMOVED***'            => $this->get_last_interaction_stage(),
+			'lastInteractionStage'            => $this->get_last_interaction_stage(),
 			'setupWidgetTemporarilyDismissed' => $this->get_setup_widget_temporarily_dismissed(),
 			'setupWidgetPermanentlyDismissed' => $this->get_setup_widget_permanently_dismissed(),
 		];

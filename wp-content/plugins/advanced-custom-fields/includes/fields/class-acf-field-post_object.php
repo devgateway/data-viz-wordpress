@@ -16,7 +16,7 @@ if ( ! class_exists( 'acf_field_post_object' ) ) :
 			$this->category      = 'relational';
 			$this->description   = __( 'An interactive and customizable UI for picking one or many posts, pages or post type items with the option to search. ', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-post-object.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/post-object/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/post-object/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'post_type'            => array(),
 				'taxonomy'             => array(),

@@ -19,7 +19,7 @@ class Meta_Helper {
 	 *            the results for get_post_meta(), get_post_custom() and the likes. That
 	 *            would have been the preferred solution.}}
 	 *
-	 * @***REMOVED*** We have to write test when this method contains own code.
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @param string $key    Internal key of the value to get (without prefix).
 	 * @param int    $postid Post ID of the post to get the value for.

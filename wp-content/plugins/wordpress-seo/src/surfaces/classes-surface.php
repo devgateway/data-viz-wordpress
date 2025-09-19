@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Surfaces;
 
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Classes_Surface.
@@ -14,16 +14,16 @@ class Classes_Surface {
 	/**
 	 * The dependency injection container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	public $container;
 
 	/**
 	 * Loader constructor.
 	 *
-	 * @param ***REMOVED*** $container The dependency injection container.
+	 * @param ContainerInterface $container The dependency injection container.
 	 */
-	public function __construct( ***REMOVED*** $container ) {
+	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
 	}
 

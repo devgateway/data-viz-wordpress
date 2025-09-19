@@ -25,8 +25,8 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 			'isMultisite'     => is_multisite(),
 			'siteLanguage'    => get_bloginfo( 'language' ),
 			'gmt_offset'      => get_option( 'gmt_offset' ),
-			'***REMOVED***'  => get_option( 'timezone_string' ),
-			'***REMOVED***' => get_option( 'yoast_migrations_free' ),
+			'timezoneString'  => get_option( 'timezone_string' ),
+			'migrationStatus' => get_option( 'yoast_migrations_free' ),
 			'countPosts'      => $this->get_post_count( 'post' ),
 			'countPages'      => $this->get_post_count( 'page' ),
 		];

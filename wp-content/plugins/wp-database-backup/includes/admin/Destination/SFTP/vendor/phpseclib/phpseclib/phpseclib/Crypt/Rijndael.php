@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of Rijndael.
+ * Pure-PHP implementation of Rijndael.
  *
- * Uses mcrypt, if available/possible, and an internal ***REMOVED***, otherwise.
+ * Uses mcrypt, if available/possible, and an internal implementation, otherwise.
  *
  * PHP version 5
  *
- * If {@link self::***REMOVED***() ***REMOVED***()} isn't called, it'll be assumed to be 128 bits.  If
+ * If {@link self::setBlockLength() setBlockLength()} isn't called, it'll be assumed to be 128 bits.  If
  * {@link self::setKeyLength() setKeyLength()} isn't called, it'll be calculated from
  * {@link self::setKey() setKey()}.  ie. if the key is 128-bits, the key length will be 128-bits.  If it's
  * 136-bits it'll be null-padded to 192-bits and 192 bits will be the key length until
  * {@link self::setKey() setKey()} is called, again, at which point, it'll be recalculated.
  *
- * Not all Rijndael ***REMOVED*** may support 160-bits or 224-bits as the block length / key length.  mcrypt, for example,
+ * Not all Rijndael implementations may support 160-bits or 224-bits as the block length / key length.  mcrypt, for example,
  * does not.  AES, itself, only supports block lengths of 128 and key lengths of 128, 192, and 256.
  * {@link http://csrc.nist.gov/archive/aes/rijndael/Rijndael-ammended.pdf#page=10 Rijndael-ammended.pdf#page=10} defines the
  * algorithm for block lengths of 192 and 256 but not for block lengths / key lengths of 160 and 224.  Indeed, 160 and 224
@@ -32,7 +32,7 @@
  *
  *    $rijndael = new \phpseclib3\Crypt\Rijndael('ctr');
  *
- *    $rijndael->setKey('***REMOVED***');
+ *    $rijndael->setKey('abcdefghijklmnop');
  *
  *    $size = 10 * 1024;
  *    $plaintext = '';
@@ -55,12 +55,12 @@ namespace phpseclib3\Crypt;
 use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Crypt\Common\BlockCipher;
 use phpseclib3\Exception\BadDecryptionException;
-use phpseclib3\Exception\***REMOVED***;
+use phpseclib3\Exception\BadModeException;
 use phpseclib3\Exception\InconsistentSetupException;
 use phpseclib3\Exception\InsufficientSetupException;
 
 /**
- * Pure-PHP ***REMOVED*** of Rijndael.
+ * Pure-PHP implementation of Rijndael.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -105,7 +105,7 @@ class Rijndael extends BlockCipher
      *    derive this from $block_size or vice versa, but that'd mean we'd have to do multiple shift operations, so in lieu
      *    of that, we'll just precompute it once.}
      *
-     * @see self::***REMOVED***()
+     * @see self::setBlockLength()
      * @var int
      */
     private $Nb = 4;
@@ -166,7 +166,7 @@ class Rijndael extends BlockCipher
         parent::__construct($mode);
 
         if ($this->mode == self::MODE_STREAM) {
-            throw new ***REMOVED***('Block ciphers cannot be ran in stream mode');
+            throw new BadModeException('Block ciphers cannot be ran in stream mode');
         }
     }
 
@@ -176,17 +176,17 @@ class Rijndael extends BlockCipher
      * Valid key lengths are 128, 160, 192, 224, and 256.
      *
      * Note: phpseclib extends Rijndael (and AES) for using 160- and 224-bit keys but they are officially not defined
-     *       and the most (if not all) ***REMOVED*** are not able using 160/224-bit keys but round/pad them up to
+     *       and the most (if not all) implementations are not able using 160/224-bit keys but round/pad them up to
      *       192/256 bits as, for example, mcrypt will do.
      *
-     *       That said, if you want be compatible with other Rijndael and AES ***REMOVED***,
+     *       That said, if you want be compatible with other Rijndael and AES implementations,
      *       you should not setKeyLength(160) or setKeyLength(224).
      *
      * Additional: In case of 160- and 224-bit keys, phpseclib will/can, for that reason, not use
      *             the mcrypt php extension, even if available.
      *             This results then in slower encryption.
      *
-     * @throws \***REMOVED*** if the key length is invalid
+     * @throws \LengthException if the key length is invalid
      * @param int $length
      */
     public function setKeyLength($length)
@@ -200,7 +200,7 @@ class Rijndael extends BlockCipher
                 $this->key_length = $length >> 3;
                 break;
             default:
-                throw new \***REMOVED***('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes 128, 160, 192, 224 or 256 bits are supported');
+                throw new \LengthException('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes 128, 160, 192, 224 or 256 bits are supported');
         }
 
         parent::setKeyLength($length);
@@ -213,7 +213,7 @@ class Rijndael extends BlockCipher
      *
      * @see setKeyLength()
      * @param string $key
-     * @throws \***REMOVED*** if the key length isn't supported
+     * @throws \LengthException if the key length isn't supported
      */
     public function setKey($key)
     {
@@ -225,7 +225,7 @@ class Rijndael extends BlockCipher
             case 32:
                 break;
             default:
-                throw new \***REMOVED***('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 20, 24, 28 or 32 are supported');
+                throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 20, 24, 28 or 32 are supported');
         }
 
         parent::setKey($key);
@@ -238,7 +238,7 @@ class Rijndael extends BlockCipher
      *
      * @param int $length
      */
-    public function ***REMOVED***($length)
+    public function setBlockLength($length)
     {
         switch ($length) {
             case 128:
@@ -248,7 +248,7 @@ class Rijndael extends BlockCipher
             case 256:
                 break;
             default:
-                throw new \***REMOVED***('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes 128, 160, 192, 224 or 256 bits are supported');
+                throw new \LengthException('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes 128, 160, 192, 224 or 256 bits are supported');
         }
 
         $this->Nb = $length >> 5;
@@ -266,7 +266,7 @@ class Rijndael extends BlockCipher
      * @param int $engine
      * @return bool
      */
-    protected function ***REMOVED***($engine)
+    protected function isValidEngineHelper($engine)
     {
         switch ($engine) {
             case self::ENGINE_LIBSODIUM:
@@ -300,7 +300,7 @@ class Rijndael extends BlockCipher
                 }
         }
 
-        return parent::***REMOVED***($engine);
+        return parent::isValidEngineHelper($engine);
     }
 
     /**
@@ -336,9 +336,9 @@ class Rijndael extends BlockCipher
         }
 
         // fips-197.pdf#page=19, "Figure 5. Pseudo Code for the Cipher", states that this loop has four components -
-        // subBytes, shiftRows, mixColumns, and addRoundKey. fips-197.pdf#page=30, "***REMOVED*** Suggestions Regarding
-        // Various Platforms" suggests that performs enhanced ***REMOVED*** are described in Rijndael-ammended.pdf.
-        // Rijndael-ammended.pdf#page=20, "***REMOVED*** aspects / 32-bit processor", discusses such an optimization.
+        // subBytes, shiftRows, mixColumns, and addRoundKey. fips-197.pdf#page=30, "Implementation Suggestions Regarding
+        // Various Platforms" suggests that performs enhanced implementations are described in Rijndael-ammended.pdf.
+        // Rijndael-ammended.pdf#page=20, "Implementation aspects / 32-bit processor", discusses such an optimization.
         // Unfortunately, the description given there is not quite correct.  Per aes.spec.v316.pdf#page=19 [1],
         // equation (7.4.7) is supposed to use addition instead of subtraction, so we'll do that here, as well.
 
@@ -648,7 +648,7 @@ class Rijndael extends BlockCipher
      * Provides the mixColumns and sboxes tables
      *
      * @see self::encryptBlock()
-     * @see self::***REMOVED***()
+     * @see self::setupInlineCrypt()
      * @see self::subWord()
      * @return array &$tables
      */
@@ -736,7 +736,7 @@ class Rijndael extends BlockCipher
      * Provides the inverse mixColumns and inverse sboxes tables
      *
      * @see self::decryptBlock()
-     * @see self::***REMOVED***()
+     * @see self::setupInlineCrypt()
      * @see self::setupKey()
      * @return array &$tables
      */
@@ -818,9 +818,9 @@ class Rijndael extends BlockCipher
     /**
      * Setup the performance-optimized function for de/encrypt()
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::***REMOVED***()
+     * @see \phpseclib3\Crypt\Common\SymmetricKey::setupInlineCrypt()
      */
-    protected function ***REMOVED***()
+    protected function setupInlineCrypt()
     {
         $w  = $this->w;
         $dw = $this->dw;
@@ -1000,7 +1000,7 @@ class Rijndael extends BlockCipher
         switch ($this->engine) {
             case self::ENGINE_LIBSODIUM:
                 if ($this->oldtag === false) {
-                    throw new InsufficientSetupException('***REMOVED*** Tag has not been set');
+                    throw new InsufficientSetupException('Authentication Tag has not been set');
                 }
                 if (strlen($this->oldtag) != 16) {
                     break;
@@ -1013,7 +1013,7 @@ class Rijndael extends BlockCipher
                 return $plaintext;
             case self::ENGINE_OPENSSL_GCM:
                 if ($this->oldtag === false) {
-                    throw new InsufficientSetupException('***REMOVED*** Tag has not been set');
+                    throw new InsufficientSetupException('Authentication Tag has not been set');
                 }
                 $plaintext = openssl_decrypt(
                     $ciphertext,

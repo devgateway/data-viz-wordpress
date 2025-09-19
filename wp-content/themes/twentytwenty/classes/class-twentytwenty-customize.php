@@ -28,7 +28,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 			 * Site Title & Description.
 			 * */
 			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
-			$wp_customize->get_setting( '***REMOVED***' )->transport = 'postMessage';
+			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
 			$wp_customize->selective_refresh->add_partial(
 				'blogname',
@@ -39,7 +39,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 			);
 
 			$wp_customize->selective_refresh->add_partial(
-				'***REMOVED***',
+				'blogdescription',
 				array(
 					'selector'        => '.site-description',
 					'render_callback' => 'twentytwenty_customize_partial_blogdescription',
@@ -134,7 +134,7 @@ if ( ! class_exists( 'TwentyTwenty_Customize' ) ) {
 			);
 
 			/**
-			 * ***REMOVED*** for the accent color.
+			 * Implementation for the accent color.
 			 * This is different to all other color options because of the accessibility enhancements.
 			 * The control is a hue-only colorpicker, and there is a separate setting that holds values
 			 * for other colors calculated based on the selected hue and various background-colors on the page.

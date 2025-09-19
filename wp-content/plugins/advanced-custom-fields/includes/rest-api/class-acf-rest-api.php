@@ -187,7 +187,7 @@ class ACF_Rest_Api {
 	 * Load field values into the requested object. This method is not a part of any public API and is only public as
 	 * it is required by WordPress.
 	 *
-	 * @param array           $object          An array ***REMOVED*** of the post, term, or user object.
+	 * @param array           $object          An array representation of the post, term, or user object.
 	 * @param string          $field_name
 	 * @param WP_REST_Request $request
 	 * @param string          $object_sub_type Note that this isn't the same as $this->object_type. This variable is

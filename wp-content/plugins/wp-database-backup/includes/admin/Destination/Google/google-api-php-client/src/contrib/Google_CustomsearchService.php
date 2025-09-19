@@ -18,8 +18,8 @@
    * The "cse" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_CustomsearchService(...);
-   *   $cse = $***REMOVED***->cse;
+   *   $customsearchService = new Google_CustomsearchService(...);
+   *   $cse = $customsearchService->cse;
    *  </code>
    */
   class Google_CseServiceResource extends Google_ServiceResource {
@@ -46,7 +46,7 @@
      * @opt_param string hl Sets the user interface language.
      * @opt_param string hq Appends the extra query terms to the query.
      * @opt_param string imgColorType Returns black and white, grayscale, or color images: mono, gray, and color.
-     * @opt_param string ***REMOVED*** Returns images of a specific dominant color: yellow, green, teal, blue, purple, pink, white, gray, black and brown.
+     * @opt_param string imgDominantColor Returns images of a specific dominant color: yellow, green, teal, blue, purple, pink, white, gray, black and brown.
      * @opt_param string imgSize Returns images of a specified size, where size can be one of: icon, small, medium, large, xlarge, xxlarge, and huge.
      * @opt_param string imgType Returns images of a type, which can be one of: clipart, face, lineart, news, and photo.
      * @opt_param string linkSite Specifies that all search results should contain a link to a particular URL
@@ -59,7 +59,7 @@
      * @opt_param string safe Search safety level
      * @opt_param string searchType Specifies the search type: image.
      * @opt_param string siteSearch Specifies all search results should be pages from a given site
-     * @opt_param string ***REMOVED*** Controls whether to include or exclude results from the site named in the as_sitesearch parameter
+     * @opt_param string siteSearchFilter Controls whether to include or exclude results from the site named in the as_sitesearch parameter
      * @opt_param string sort The sort expression to apply to the results
      * @opt_param string start The index of the first result to return
      * @return Google_Search
@@ -93,7 +93,7 @@
 class Google_CustomsearchService extends Google_Service {
   public $cse;
   /**
-   * Constructs the internal ***REMOVED*** of the Customsearch service.
+   * Constructs the internal representation of the Customsearch service.
    *
    * @param Google_Client $client
    */
@@ -103,7 +103,7 @@ class Google_CustomsearchService extends Google_Service {
     $this->serviceName = 'customsearch';
 
     $client->addService($this->serviceName, $this->version);
-    $this->cse = new Google_CseServiceResource($this, $this->serviceName, 'cse', json_decode('{"methods": {"list": {"id": "search.cse.list", "path": "v1", "httpMethod": "GET", "parameters": {"c2coff": {"type": "string", "location": "query"}, "cr": {"type": "string", "location": "query"}, "cref": {"type": "string", "location": "query"}, "cx": {"type": "string", "location": "query"}, "dateRestrict": {"type": "string", "location": "query"}, "exactTerms": {"type": "string", "location": "query"}, "excludeTerms": {"type": "string", "location": "query"}, "fileType": {"type": "string", "location": "query"}, "filter": {"type": "string", "enum": ["0", "1"], "location": "query"}, "gl": {"type": "string", "location": "query"}, "googlehost": {"type": "string", "location": "query"}, "highRange": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "hq": {"type": "string", "location": "query"}, "imgColorType": {"type": "string", "enum": ["color", "gray", "mono"], "location": "query"}, "***REMOVED***": {"type": "string", "enum": ["black", "blue", "brown", "gray", "green", "pink", "purple", "teal", "white", "yellow"], "location": "query"}, "imgSize": {"type": "string", "enum": ["huge", "icon", "large", "medium", "small", "xlarge", "xxlarge"], "location": "query"}, "imgType": {"type": "string", "enum": ["clipart", "face", "lineart", "news", "photo"], "location": "query"}, "linkSite": {"type": "string", "location": "query"}, "lowRange": {"type": "string", "location": "query"}, "lr": {"type": "string", "enum": ["lang_ar", "lang_bg", "lang_ca", "lang_cs", "lang_da", "lang_de", "lang_el", "lang_en", "lang_es", "lang_et", "lang_fi", "lang_fr", "lang_hr", "lang_hu", "lang_id", "lang_is", "lang_it", "lang_iw", "lang_ja", "lang_ko", "lang_lt", "lang_lv", "lang_nl", "lang_no", "lang_pl", "lang_pt", "lang_ro", "lang_ru", "lang_sk", "lang_sl", "lang_sr", "lang_sv", "lang_tr", "lang_zh-CN", "lang_zh-TW"], "location": "query"}, "num": {"type": "integer", "default": "10", "format": "uint32", "location": "query"}, "orTerms": {"type": "string", "location": "query"}, "q": {"type": "string", "required": true, "location": "query"}, "relatedSite": {"type": "string", "location": "query"}, "rights": {"type": "string", "location": "query"}, "safe": {"type": "string", "default": "off", "enum": ["high", "medium", "off"], "location": "query"}, "searchType": {"type": "string", "enum": ["image"], "location": "query"}, "siteSearch": {"type": "string", "location": "query"}, "***REMOVED***": {"type": "string", "enum": ["e", "i"], "location": "query"}, "sort": {"type": "string", "location": "query"}, "start": {"type": "integer", "format": "uint32", "location": "query"}}, "response": {"$ref": "Search"}}}}', true));
+    $this->cse = new Google_CseServiceResource($this, $this->serviceName, 'cse', json_decode('{"methods": {"list": {"id": "search.cse.list", "path": "v1", "httpMethod": "GET", "parameters": {"c2coff": {"type": "string", "location": "query"}, "cr": {"type": "string", "location": "query"}, "cref": {"type": "string", "location": "query"}, "cx": {"type": "string", "location": "query"}, "dateRestrict": {"type": "string", "location": "query"}, "exactTerms": {"type": "string", "location": "query"}, "excludeTerms": {"type": "string", "location": "query"}, "fileType": {"type": "string", "location": "query"}, "filter": {"type": "string", "enum": ["0", "1"], "location": "query"}, "gl": {"type": "string", "location": "query"}, "googlehost": {"type": "string", "location": "query"}, "highRange": {"type": "string", "location": "query"}, "hl": {"type": "string", "location": "query"}, "hq": {"type": "string", "location": "query"}, "imgColorType": {"type": "string", "enum": ["color", "gray", "mono"], "location": "query"}, "imgDominantColor": {"type": "string", "enum": ["black", "blue", "brown", "gray", "green", "pink", "purple", "teal", "white", "yellow"], "location": "query"}, "imgSize": {"type": "string", "enum": ["huge", "icon", "large", "medium", "small", "xlarge", "xxlarge"], "location": "query"}, "imgType": {"type": "string", "enum": ["clipart", "face", "lineart", "news", "photo"], "location": "query"}, "linkSite": {"type": "string", "location": "query"}, "lowRange": {"type": "string", "location": "query"}, "lr": {"type": "string", "enum": ["lang_ar", "lang_bg", "lang_ca", "lang_cs", "lang_da", "lang_de", "lang_el", "lang_en", "lang_es", "lang_et", "lang_fi", "lang_fr", "lang_hr", "lang_hu", "lang_id", "lang_is", "lang_it", "lang_iw", "lang_ja", "lang_ko", "lang_lt", "lang_lv", "lang_nl", "lang_no", "lang_pl", "lang_pt", "lang_ro", "lang_ru", "lang_sk", "lang_sl", "lang_sr", "lang_sv", "lang_tr", "lang_zh-CN", "lang_zh-TW"], "location": "query"}, "num": {"type": "integer", "default": "10", "format": "uint32", "location": "query"}, "orTerms": {"type": "string", "location": "query"}, "q": {"type": "string", "required": true, "location": "query"}, "relatedSite": {"type": "string", "location": "query"}, "rights": {"type": "string", "location": "query"}, "safe": {"type": "string", "default": "off", "enum": ["high", "medium", "off"], "location": "query"}, "searchType": {"type": "string", "enum": ["image"], "location": "query"}, "siteSearch": {"type": "string", "location": "query"}, "siteSearchFilter": {"type": "string", "enum": ["e", "i"], "location": "query"}, "sort": {"type": "string", "location": "query"}, "start": {"type": "integer", "format": "uint32", "location": "query"}}, "response": {"$ref": "Search"}}}}', true));
 
   }
 }
@@ -165,10 +165,10 @@ class Google_Promotion extends Google_Model {
   public function getBodyLines() {
     return $this->bodyLines;
   }
-  public function ***REMOVED***( $displayLink) {
+  public function setDisplayLink( $displayLink) {
     $this->displayLink = $displayLink;
   }
-  public function ***REMOVED***() {
+  public function getDisplayLink() {
     return $this->displayLink;
   }
   public function setHtmlTitle( $htmlTitle) {
@@ -269,7 +269,7 @@ class Google_Query extends Google_Model {
   public $hl;
   public $hq;
   public $imgColorType;
-  public $***REMOVED***;
+  public $imgDominantColor;
   public $imgSize;
   public $imgType;
   public $inputEncoding;
@@ -277,14 +277,14 @@ class Google_Query extends Google_Model {
   public $linkSite;
   public $lowRange;
   public $orTerms;
-  public $***REMOVED***;
+  public $outputEncoding;
   public $relatedSite;
   public $rights;
   public $safe;
   public $searchTerms;
   public $searchType;
   public $siteSearch;
-  public $***REMOVED***;
+  public $siteSearchFilter;
   public $sort;
   public $startIndex;
   public $startPage;
@@ -314,10 +314,10 @@ class Google_Query extends Google_Model {
   public function getCx() {
     return $this->cx;
   }
-  public function ***REMOVED***( $dateRestrict) {
+  public function setDateRestrict( $dateRestrict) {
     $this->dateRestrict = $dateRestrict;
   }
-  public function ***REMOVED***() {
+  public function getDateRestrict() {
     return $this->dateRestrict;
   }
   public function setDisableCnTwTranslation( $disableCnTwTranslation) {
@@ -332,10 +332,10 @@ class Google_Query extends Google_Model {
   public function getExactTerms() {
     return $this->exactTerms;
   }
-  public function ***REMOVED***( $excludeTerms) {
+  public function setExcludeTerms( $excludeTerms) {
     $this->excludeTerms = $excludeTerms;
   }
-  public function ***REMOVED***() {
+  public function getExcludeTerms() {
     return $this->excludeTerms;
   }
   public function setFileType( $fileType) {
@@ -380,17 +380,17 @@ class Google_Query extends Google_Model {
   public function getHq() {
     return $this->hq;
   }
-  public function ***REMOVED***( $imgColorType) {
+  public function setImgColorType( $imgColorType) {
     $this->imgColorType = $imgColorType;
   }
-  public function ***REMOVED***() {
+  public function getImgColorType() {
     return $this->imgColorType;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setImgDominantColor( $imgDominantColor) {
+    $this->imgDominantColor = $imgDominantColor;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getImgDominantColor() {
+    return $this->imgDominantColor;
   }
   public function setImgSize( $imgSize) {
     $this->imgSize = $imgSize;
@@ -404,10 +404,10 @@ class Google_Query extends Google_Model {
   public function getImgType() {
     return $this->imgType;
   }
-  public function ***REMOVED***( $inputEncoding) {
+  public function setInputEncoding( $inputEncoding) {
     $this->inputEncoding = $inputEncoding;
   }
-  public function ***REMOVED***() {
+  public function getInputEncoding() {
     return $this->inputEncoding;
   }
   public function setLanguage( $language) {
@@ -434,16 +434,16 @@ class Google_Query extends Google_Model {
   public function getOrTerms() {
     return $this->orTerms;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOutputEncoding( $outputEncoding) {
+    $this->outputEncoding = $outputEncoding;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOutputEncoding() {
+    return $this->outputEncoding;
   }
-  public function ***REMOVED***( $relatedSite) {
+  public function setRelatedSite( $relatedSite) {
     $this->relatedSite = $relatedSite;
   }
-  public function ***REMOVED***() {
+  public function getRelatedSite() {
     return $this->relatedSite;
   }
   public function setRights( $rights) {
@@ -458,10 +458,10 @@ class Google_Query extends Google_Model {
   public function getSafe() {
     return $this->safe;
   }
-  public function ***REMOVED***( $searchTerms) {
+  public function setSearchTerms( $searchTerms) {
     $this->searchTerms = $searchTerms;
   }
-  public function ***REMOVED***() {
+  public function getSearchTerms() {
     return $this->searchTerms;
   }
   public function setSearchType( $searchType) {
@@ -476,11 +476,11 @@ class Google_Query extends Google_Model {
   public function getSiteSearch() {
     return $this->siteSearch;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSiteSearchFilter( $siteSearchFilter) {
+    $this->siteSearchFilter = $siteSearchFilter;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSiteSearchFilter() {
+    return $this->siteSearchFilter;
   }
   public function setSort( $sort) {
     $this->sort = $sort;
@@ -506,10 +506,10 @@ class Google_Query extends Google_Model {
   public function getTitle() {
     return $this->title;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
 }
@@ -519,7 +519,7 @@ class Google_Result extends Google_Model {
   public $displayLink;
   public $fileFormat;
   public $formattedUrl;
-  public $***REMOVED***;
+  public $htmlFormattedUrl;
   public $htmlSnippet;
   public $htmlTitle;
   protected $__imageType = 'Google_ResultImage';
@@ -540,10 +540,10 @@ class Google_Result extends Google_Model {
   public function getCacheId() {
     return $this->cacheId;
   }
-  public function ***REMOVED***( $displayLink) {
+  public function setDisplayLink( $displayLink) {
     $this->displayLink = $displayLink;
   }
-  public function ***REMOVED***() {
+  public function getDisplayLink() {
     return $this->displayLink;
   }
   public function setFileFormat( $fileFormat) {
@@ -552,22 +552,22 @@ class Google_Result extends Google_Model {
   public function getFileFormat() {
     return $this->fileFormat;
   }
-  public function ***REMOVED***( $formattedUrl) {
+  public function setFormattedUrl( $formattedUrl) {
     $this->formattedUrl = $formattedUrl;
   }
-  public function ***REMOVED***() {
+  public function getFormattedUrl() {
     return $this->formattedUrl;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHtmlFormattedUrl( $htmlFormattedUrl) {
+    $this->htmlFormattedUrl = $htmlFormattedUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getHtmlFormattedUrl() {
+    return $this->htmlFormattedUrl;
   }
-  public function ***REMOVED***( $htmlSnippet) {
+  public function setHtmlSnippet( $htmlSnippet) {
     $this->htmlSnippet = $htmlSnippet;
   }
-  public function ***REMOVED***() {
+  public function getHtmlSnippet() {
     return $this->htmlSnippet;
   }
   public function setHtmlTitle( $htmlTitle) {
@@ -631,9 +631,9 @@ class Google_ResultImage extends Google_Model {
   public $byteSize;
   public $contextLink;
   public $height;
-  public $***REMOVED***;
+  public $thumbnailHeight;
   public $thumbnailLink;
-  public $***REMOVED***;
+  public $thumbnailWidth;
   public $width;
   public function setByteSize( $byteSize) {
     $this->byteSize = $byteSize;
@@ -641,10 +641,10 @@ class Google_ResultImage extends Google_Model {
   public function getByteSize() {
     return $this->byteSize;
   }
-  public function ***REMOVED***( $contextLink) {
+  public function setContextLink( $contextLink) {
     $this->contextLink = $contextLink;
   }
-  public function ***REMOVED***() {
+  public function getContextLink() {
     return $this->contextLink;
   }
   public function setHeight( $height) {
@@ -653,23 +653,23 @@ class Google_ResultImage extends Google_Model {
   public function getHeight() {
     return $this->height;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setThumbnailHeight( $thumbnailHeight) {
+    $this->thumbnailHeight = $thumbnailHeight;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getThumbnailHeight() {
+    return $this->thumbnailHeight;
   }
-  public function ***REMOVED***( $thumbnailLink) {
+  public function setThumbnailLink( $thumbnailLink) {
     $this->thumbnailLink = $thumbnailLink;
   }
-  public function ***REMOVED***() {
+  public function getThumbnailLink() {
     return $this->thumbnailLink;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setThumbnailWidth( $thumbnailWidth) {
+    $this->thumbnailWidth = $thumbnailWidth;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getThumbnailWidth() {
+    return $this->thumbnailWidth;
   }
   public function setWidth( $width) {
     $this->width = $width;
@@ -682,10 +682,10 @@ class Google_ResultImage extends Google_Model {
 class Google_ResultLabels extends Google_Model {
   public $displayName;
   public $name;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setName( $name) {
@@ -712,7 +712,7 @@ class Google_Search extends Google_Model {
   public $queries;
   protected $__searchInformationType = 'Google_SearchSearchInformation';
   protected $__searchInformationDataType = '';
-  public $***REMOVED***;
+  public $searchInformation;
   protected $__spellingType = 'Google_SearchSpelling';
   protected $__spellingDataType = '';
   public $spelling;
@@ -751,11 +751,11 @@ class Google_Search extends Google_Model {
   public function getQueries() {
     return $this->queries;
   }
-  public function ***REMOVED***(Google_SearchSearchInformation $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSearchInformation(Google_SearchSearchInformation $searchInformation) {
+    $this->searchInformation = $searchInformation;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSearchInformation() {
+    return $this->searchInformation;
   }
   public function setSpelling(Google_SearchSpelling $spelling) {
     $this->spelling = $spelling;
@@ -772,15 +772,15 @@ class Google_Search extends Google_Model {
 }
 
 class Google_SearchSearchInformation extends Google_Model {
-  public $***REMOVED***;
+  public $formattedSearchTime;
   public $formattedTotalResults;
   public $searchTime;
   public $totalResults;
-  public function setFormattedSearchTime( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFormattedSearchTime( $formattedSearchTime) {
+    $this->formattedSearchTime = $formattedSearchTime;
   }
   public function getFormattedSearchTime() {
-    return $this->***REMOVED***;
+    return $this->formattedSearchTime;
   }
   public function setFormattedTotalResults( $formattedTotalResults) {
     $this->formattedTotalResults = $formattedTotalResults;
@@ -794,28 +794,28 @@ class Google_SearchSearchInformation extends Google_Model {
   public function getSearchTime() {
     return $this->searchTime;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
 }
 
 class Google_SearchSpelling extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $correctedQuery;
+  public $htmlCorrectedQuery;
+  public function setCorrectedQuery( $correctedQuery) {
+    $this->correctedQuery = $correctedQuery;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCorrectedQuery() {
+    return $this->correctedQuery;
   }
-  public function setHtmlCorrectedQuery( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHtmlCorrectedQuery( $htmlCorrectedQuery) {
+    $this->htmlCorrectedQuery = $htmlCorrectedQuery;
   }
   public function getHtmlCorrectedQuery() {
-    return $this->***REMOVED***;
+    return $this->htmlCorrectedQuery;
   }
 }
 

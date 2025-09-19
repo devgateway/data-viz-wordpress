@@ -35,11 +35,11 @@ class  WCP_Forms
     public static function get_form_html($option_data="", $post_type = "")
     {
         ob_start();
-        $***REMOVED*** = get_option('customize_folders');
-        $showInPage       = !isset($***REMOVED***['use_shortcuts']) ? "yes" : $***REMOVED***['use_shortcuts'];
+        $customizeFolders = get_option('customize_folders');
+        $showInPage       = !isset($customizeFolders['use_shortcuts']) ? "yes" : $customizeFolders['use_shortcuts'];
 
-        $***REMOVED*** = get_option("customize_folders");
-        if (isset($***REMOVED***['show_folder_in_settings']) && $***REMOVED***['show_folder_in_settings'] == "yes") {
+        $customizeFolders = get_option("customize_folders");
+        if (isset($customizeFolders['show_folder_in_settings']) && $customizeFolders['show_folder_in_settings'] == "yes") {
             $upgradeURL = admin_url("options-general.php?page=wcp_folders_settings&setting_page=upgrade-to-pro");
         } else {
             $upgradeURL = admin_url("admin.php?page=folders-upgrade-to-pro");
@@ -50,7 +50,7 @@ class  WCP_Forms
         if ($oldStatus === false) {
             // $isOld = true;
         }
-        $customSort = isset($***REMOVED***['force_sorting'])?$***REMOVED***['force_sorting']:"off";
+        $customSort = isset($customizeFolders['force_sorting'])?$customizeFolders['force_sorting']:"off";
         $currentSort = "";
         if($customSort != "on") {
             $customSort = "off";
@@ -63,7 +63,7 @@ class  WCP_Forms
                 <div class="plugin-title">
                     <?php esc_html_e("Folders", 'folders'); ?>
                     <span class="folder-loader-ajax">
-                        <svg id="***REMOVED***" fill="#F51366" class="animated" xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
+                        <svg id="successAnimation" fill="#F51366" class="animated" xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
                             <path id="successAnimationResult" fill="#D8D8D8" d="M35,60 C21.1928813,60 10,48.8071187 10,35 C10,21.1928813 21.1928813,10 35,10 C48.8071187,10 60,21.1928813 60,35 C60,48.8071187 48.8071187,60 35,60 Z M23.6332378,33.2260427 L22.3667622,34.7739573 L34.1433655,44.40936 L47.776114,27.6305926 L46.223886,26.3694074 L33.8566345,41.59064 L23.6332378,33.2260427 Z"></path>
                             <circle id="successAnimationCircle" cx="35" cy="35" r="24" stroke="#979797" stroke-width="2" stroke-linecap="round" fill="transparent"></circle>
                             <polyline id="successAnimationCheck" stroke="#979797" stroke-width="2" points="23 34 34 43 47 27" fill="transparent"></polyline>

@@ -61,7 +61,7 @@ class Article extends Abstract_Schema_Piece {
 			$data['dateModified'] = $this->helpers->date->format( $this->context->post->post_modified_gmt );
 		}
 
-		$data['***REMOVED***'] = [ '@id' => $this->context->main_schema_id ];
+		$data['mainEntityOfPage'] = [ '@id' => $this->context->main_schema_id ];
 		$data['wordCount']        = $this->word_count( $this->context->post->post_content, $this->context->post->post_title );
 
 		if ( $this->context->post->comment_status === 'open' ) {
@@ -117,7 +117,7 @@ class Article extends Abstract_Schema_Piece {
 		 */
 		$taxonomy = \apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
 
-		return $this->add_terms( $data, '***REMOVED***', $taxonomy );
+		return $this->add_terms( $data, 'articleSection', $taxonomy );
 	}
 
 	/**
@@ -178,13 +178,13 @@ class Article extends Abstract_Schema_Piece {
 	 */
 	private function add_potential_action( $data ) {
 		/**
-		 * Filter: 'wpseo_schema_article_potential_action_target' - Allows filtering of the schema Article ***REMOVED*** target.
+		 * Filter: 'wpseo_schema_article_potential_action_target' - Allows filtering of the schema Article potentialAction target.
 		 *
-		 * @param array $targets The URLs for the Article ***REMOVED*** target.
+		 * @param array $targets The URLs for the Article potentialAction target.
 		 */
 		$targets = \apply_filters( 'wpseo_schema_article_potential_action_target', [ $this->context->canonical . '#respond' ] );
 
-		$data['***REMOVED***'][] = [
+		$data['potentialAction'][] = [
 			'@type'  => 'CommentAction',
 			'name'   => 'Comment',
 			'target' => $targets,

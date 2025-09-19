@@ -440,7 +440,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'href'  => 'https://search.google.com/search-console/links/drilldown?resource_id=' . rawurlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
 			],
 			[
-				'id'    => 'wpseo-***REMOVED***',
+				'id'    => 'wpseo-structureddata',
 				'title' => __( 'Google Rich Results Test', 'wordpress-seo' ),
 				'href'  => 'https://search.google.com/test/rich-results?url=' . $encoded_url,
 			],

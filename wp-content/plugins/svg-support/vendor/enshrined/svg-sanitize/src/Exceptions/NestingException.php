@@ -3,7 +3,7 @@ namespace enshrined\svgSanitize\Exceptions;
 
 use Exception;
 
-class ***REMOVED*** extends \Exception
+class NestingException extends \Exception
 {
     /**
      * @var \DOMElement
@@ -11,7 +11,7 @@ class ***REMOVED*** extends \Exception
     protected $element;
 
     /**
-     * ***REMOVED*** constructor.
+     * NestingException constructor.
      *
      * @param string           $message
      * @param int              $code

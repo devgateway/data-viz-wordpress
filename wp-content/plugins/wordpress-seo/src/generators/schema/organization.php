@@ -53,7 +53,7 @@ class Organization extends Abstract_Schema_Piece {
 		}
 
 		if ( \is_array( $this->context->schema_page_type ) && \in_array( 'ProfilePage', $this->context->schema_page_type, true ) ) {
-			$organization['***REMOVED***'] = [
+			$organization['mainEntityOfPage'] = [
 				'@id' => $this->context->main_schema_id,
 			];
 		}

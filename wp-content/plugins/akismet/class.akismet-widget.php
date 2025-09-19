@@ -4,7 +4,7 @@
  */
 
 // We plan to gradually remove all of the disabled lint rules below.
-// phpcs:disable WordPress.Security.EscapeOutput.***REMOVED***
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 
 class Akismet_Widget extends WP_Widget {
 
@@ -57,7 +57,7 @@ class Akismet_Widget extends WP_Widget {
 				color: var(--akismet-color-white);
 				cursor: pointer;
 				display: block;
-				font-family: -apple-system, ***REMOVED***, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+				font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
 				font-weight: 500;
 				padding: 12px;
 				text-align: center;
@@ -65,7 +65,7 @@ class Akismet_Widget extends WP_Widget {
 				transition: all 0.2s ease;
 			}
 
-			/* Extra specificity to deal with ***REMOVED*** focus style */
+			/* Extra specificity to deal with TwentyTwentyOne focus style */
 			.widget .a-stats a.a-stats__link:focus {
 				background: var(--akismet-color-mid-green);
 				color: var(--akismet-color-white);

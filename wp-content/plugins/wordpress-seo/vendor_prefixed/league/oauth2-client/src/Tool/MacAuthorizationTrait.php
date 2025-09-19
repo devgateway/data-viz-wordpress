@@ -15,11 +15,11 @@
 namespace YoastSEO_Vendor\League\OAuth2\Client\Tool;
 
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use YoastSEO_Vendor\League\OAuth2\Client\Token\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 /**
  * Enables `MAC` header authorization for providers.
  *
- * @link http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05 Message ***REMOVED*** Code (MAC) Tokens
+ * @link http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05 Message Authentication Code (MAC) Tokens
  */
 trait MacAuthorizationTrait
 {
@@ -38,7 +38,7 @@ trait MacAuthorizationTrait
      * @param  string $nonce
      * @return string
      */
-    protected abstract function ***REMOVED***($id, $ts, $nonce);
+    protected abstract function getMacSignature($id, $ts, $nonce);
     /**
      * Returns a new random string to use as the state parameter in an
      * authorization flow.
@@ -46,16 +46,16 @@ trait MacAuthorizationTrait
      * @param  int $length Length of the random string to be generated.
      * @return string
      */
-    protected abstract function ***REMOVED***($length = 32);
+    protected abstract function getRandomState($length = 32);
     /**
      * Returns the authorization headers for the 'mac' grant.
      *
-     * @param  ***REMOVED***|string|null $token Either a string or an access token instance
+     * @param  AccessTokenInterface|string|null $token Either a string or an access token instance
      * @return array
-     * @***REMOVED***
+     * @codeCoverageIgnore
      *
      * @todo This is currently untested and provided only as an example. If you
-     * complete the ***REMOVED***, please create a pull request for
+     * complete the implementation, please create a pull request for
      * https://github.com/thephpleague/oauth2-client
      */
     protected function getAuthorizationHeaders($token = null)
@@ -65,8 +65,8 @@ trait MacAuthorizationTrait
         }
         $ts = \time();
         $id = $this->getTokenId($token);
-        $nonce = $this->***REMOVED***(16);
-        $mac = $this->***REMOVED***($id, $ts, $nonce);
+        $nonce = $this->getRandomState(16);
+        $mac = $this->getMacSignature($id, $ts, $nonce);
         $parts = [];
         foreach (\compact('id', 'ts', 'nonce', 'mac') as $key => $value) {
             $parts[] = \sprintf('%s="%s"', $key, $value);

@@ -20,9 +20,9 @@ namespace phpseclib3\Crypt\EC\Formats\Keys;
 
 use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
-use phpseclib3\Crypt\EC\BaseCurves\Montgomery as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
 use phpseclib3\Crypt\EC\BaseCurves\Prime as PrimeCurve;
-use phpseclib3\Crypt\EC\BaseCurves\***REMOVED*** as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
 use phpseclib3\Exception\BadConfigurationException;
 use phpseclib3\Exception\UnsupportedCurveException;
 use phpseclib3\Math\BigInteger;
@@ -71,12 +71,12 @@ abstract class XML
 
         $use_errors = libxml_use_internal_errors(true);
 
-        $temp = self::***REMOVED***($key, 'http://www.w3.org/2009/xmldsig11#');
+        $temp = self::isolateNamespace($key, 'http://www.w3.org/2009/xmldsig11#');
         if ($temp) {
             $key = $temp;
         }
 
-        $temp = self::***REMOVED***($key, 'http://www.w3.org/2001/04/xmldsig-more#');
+        $temp = self::isolateNamespace($key, 'http://www.w3.org/2001/04/xmldsig-more#');
         if ($temp) {
             $key = $temp;
         }
@@ -92,12 +92,12 @@ abstract class XML
         }
         $xpath = new \DOMXPath($dom);
         libxml_use_internal_errors($use_errors);
-        $curve = self::***REMOVED***($xpath);
+        $curve = self::loadCurveByParam($xpath);
 
         $pubkey = self::query($xpath, 'publickey', 'Public Key is not present');
 
         $QA = self::query($xpath, 'ecdsakeyvalue')->length ?
-            self::***REMOVED***($xpath, $curve) :
+            self::extractPointRFC4050($xpath, $curve) :
             self::extractPoint("\0" . $pubkey, $curve);
 
         libxml_use_internal_errors($use_errors);
@@ -127,7 +127,7 @@ abstract class XML
         }
 
         if (!$result->length) {
-            throw new \***REMOVED***($error);
+            throw new \RuntimeException($error);
         }
         return $decode ? self::decodeValue($result->item(0)->textContent) : $result->item(0)->textContent;
     }
@@ -138,7 +138,7 @@ abstract class XML
      * @param string $xml
      * @param string $ns
      */
-    private static function ***REMOVED***($xml, $ns)
+    private static function isolateNamespace($xml, $ns)
     {
         $dom = new \DOMDocument();
         if (!$dom->loadXML($xml)) {
@@ -152,7 +152,7 @@ abstract class XML
         $node = $nodes->item(0);
         $ns_name = $node->lookupPrefix($ns);
         if ($ns_name) {
-            $node->***REMOVED***($ns, $ns_name);
+            $node->removeAttributeNS($ns, $ns_name);
         }
         return $dom->saveXML($node);
     }
@@ -174,22 +174,22 @@ abstract class XML
      * @param \phpseclib3\Crypt\EC\BaseCurves\Base $curve
      * @return object[]
      */
-    private static function ***REMOVED***(\DOMXPath $xpath, BaseCurve $curve)
+    private static function extractPointRFC4050(\DOMXPath $xpath, BaseCurve $curve)
     {
         $x = self::query($xpath, 'publickey/x');
         $y = self::query($xpath, 'publickey/y');
         if (!$x->length || !$x->item(0)->hasAttribute('Value')) {
-            throw new \***REMOVED***('Public Key / X coordinate not found');
+            throw new \RuntimeException('Public Key / X coordinate not found');
         }
         if (!$y->length || !$y->item(0)->hasAttribute('Value')) {
-            throw new \***REMOVED***('Public Key / Y coordinate not found');
+            throw new \RuntimeException('Public Key / Y coordinate not found');
         }
         $point = [
-            $curve->***REMOVED***(new BigInteger($x->item(0)->getAttribute('Value'))),
-            $curve->***REMOVED***(new BigInteger($y->item(0)->getAttribute('Value')))
+            $curve->convertInteger(new BigInteger($x->item(0)->getAttribute('Value'))),
+            $curve->convertInteger(new BigInteger($y->item(0)->getAttribute('Value')))
         ];
         if (!$curve->verifyPoint($point)) {
-            throw new \***REMOVED***('Unable to verify that point exists on curve');
+            throw new \RuntimeException('Unable to verify that point exists on curve');
         }
         return $point;
     }
@@ -201,7 +201,7 @@ abstract class XML
      * @param \DomXPath $xpath
      * @return \phpseclib3\Crypt\EC\BaseCurves\Base|false
      */
-    private static function ***REMOVED***(\DOMXPath $xpath)
+    private static function loadCurveByParam(\DOMXPath $xpath)
     {
         $namedCurve = self::query($xpath, 'namedcurve');
         if ($namedCurve->length == 1) {
@@ -219,14 +219,14 @@ abstract class XML
             return new $curve();
         }
 
-        $params = self::query($xpath, '***REMOVED***');
+        $params = self::query($xpath, 'explicitparams');
         if ($params->length) {
             return self::loadCurveByParamRFC4050($xpath);
         }
 
         $params = self::query($xpath, 'ecparameters');
         if (!$params->length) {
-            throw new \***REMOVED***('No parameters are present');
+            throw new \RuntimeException('No parameters are present');
         }
 
         $fieldTypes = [
@@ -258,7 +258,7 @@ abstract class XML
             case 'prime-field':
                 $curve = new PrimeCurve();
                 $curve->setModulo(new BigInteger($p, 256));
-                $curve->***REMOVED***(
+                $curve->setCoefficients(
                     new BigInteger($a, 256),
                     new BigInteger($b, 256)
                 );
@@ -284,7 +284,7 @@ abstract class XML
     private static function loadCurveByParamRFC4050(\DOMXPath $xpath)
     {
         $fieldTypes = [
-            'prime-field' => ['***REMOVED***/p'],
+            'prime-field' => ['primefieldparamstype/p'],
             'unknown' => []
         ];
 
@@ -300,10 +300,10 @@ abstract class XML
             break;
         }
 
-        $a = self::query($xpath, '***REMOVED***/a', 'A coefficient is not present', false);
-        $b = self::query($xpath, '***REMOVED***/b', 'B coefficient is not present', false);
-        $x = self::query($xpath, '***REMOVED***/basepoint/ecpointtype/x', 'Base Point X is not present', false);
-        $y = self::query($xpath, '***REMOVED***/basepoint/ecpointtype/y', 'Base Point Y is not present', false);
+        $a = self::query($xpath, 'curveparamstype/a', 'A coefficient is not present', false);
+        $b = self::query($xpath, 'curveparamstype/b', 'B coefficient is not present', false);
+        $x = self::query($xpath, 'basepointparams/basepoint/ecpointtype/x', 'Base Point X is not present', false);
+        $y = self::query($xpath, 'basepointparams/basepoint/ecpointtype/y', 'Base Point Y is not present', false);
         $order = self::query($xpath, 'order', 'Order is not present', false);
 
         switch ($type) {
@@ -315,7 +315,7 @@ abstract class XML
 
                 $a = str_replace(["\r", "\n", ' ', "\t"], '', $a);
                 $b = str_replace(["\r", "\n", ' ', "\t"], '', $b);
-                $curve->***REMOVED***(
+                $curve->setCoefficients(
                     new BigInteger($a),
                     new BigInteger($b)
                 );
@@ -350,7 +350,7 @@ abstract class XML
     /**
      * Uses the XML syntax specified in https://tools.ietf.org/html/rfc4050
      */
-    public static function ***REMOVED***()
+    public static function enableRFC4050Syntax()
     {
         self::$rfc4050 = true;
     }
@@ -358,7 +358,7 @@ abstract class XML
     /**
      * Uses the XML syntax specified in https://www.w3.org/TR/xmldsig-core/#sec-ECParameters
      */
-    public static function ***REMOVED***()
+    public static function disableRFC4050Syntax()
     {
         self::$rfc4050 = false;
     }
@@ -375,8 +375,8 @@ abstract class XML
     {
         self::initialize_static_variables();
 
-        if ($curve instanceof ***REMOVED*** || $curve instanceof ***REMOVED***) {
-            throw new UnsupportedCurveException('***REMOVED*** and Montgomery Curves are not supported');
+        if ($curve instanceof TwistedEdwardsCurve || $curve instanceof MontgomeryCurve) {
+            throw new UnsupportedCurveException('TwistedEdwards and Montgomery Curves are not supported');
         }
 
         if (empty(static::$namespace)) {
@@ -388,7 +388,7 @@ abstract class XML
 
         if (self::$rfc4050) {
             return '<' . $pre . 'ECDSAKeyValue xmlns' . $post . '="http://www.w3.org/2001/04/xmldsig-more#">' . "\r\n" .
-                   self::***REMOVED***($curve, $pre, $options) . "\r\n" .
+                   self::encodeXMLParameters($curve, $pre, $options) . "\r\n" .
                    '<' . $pre . 'PublicKey>' . "\r\n" .
                    '<' . $pre . 'X Value="' . $publicKey[0] . '" />' . "\r\n" .
                    '<' . $pre . 'Y Value="' . $publicKey[1] . '" />' . "\r\n" .
@@ -399,7 +399,7 @@ abstract class XML
         $publicKey = "\4" . $publicKey[0]->toBytes() . $publicKey[1]->toBytes();
 
         return '<' . $pre . 'ECDSAKeyValue xmlns' . $post . '="http://www.w3.org/2009/xmldsig11#">' . "\r\n" .
-               self::***REMOVED***($curve, $pre, $options) . "\r\n" .
+               self::encodeXMLParameters($curve, $pre, $options) . "\r\n" .
                '<' . $pre . 'PublicKey>' . Strings::base64_encode($publicKey) . '</' . $pre . 'PublicKey>' . "\r\n" .
                '</' . $pre . 'ECDSAKeyValue>';
     }
@@ -412,26 +412,26 @@ abstract class XML
      * @param array $options optional
      * @return string|false
      */
-    private static function ***REMOVED***(BaseCurve $curve, $pre, array $options = [])
+    private static function encodeXMLParameters(BaseCurve $curve, $pre, array $options = [])
     {
-        $result = self::***REMOVED***($curve, true, $options);
+        $result = self::encodeParameters($curve, true, $options);
 
         if (isset($result['namedCurve'])) {
             $namedCurve = '<' . $pre . 'NamedCurve URI="urn:oid:' . self::$curveOIDs[$result['namedCurve']] . '" />';
             return self::$rfc4050 ?
-                '<***REMOVED***>' . str_replace('URI', 'URN', $namedCurve) . '</***REMOVED***>' :
+                '<DomainParameters>' . str_replace('URI', 'URN', $namedCurve) . '</DomainParameters>' :
                 $namedCurve;
         }
 
         if (self::$rfc4050) {
-            $xml = '<' . $pre . '***REMOVED***>' . "\r\n" .
+            $xml = '<' . $pre . 'ExplicitParams>' . "\r\n" .
                   '<' . $pre . 'FieldParams>' . "\r\n";
-            $temp = $result['***REMOVED***'];
+            $temp = $result['specifiedCurve'];
             switch ($temp['fieldID']['fieldType']) {
                 case 'prime-field':
-                    $xml .= '<' . $pre . '***REMOVED***>' . "\r\n" .
+                    $xml .= '<' . $pre . 'PrimeFieldParamsType>' . "\r\n" .
                            '<' . $pre . 'P>' . $temp['fieldID']['parameters'] . '</' . $pre . 'P>' . "\r\n" .
-                           '</' . $pre . '***REMOVED***>' . "\r\n";
+                           '</' . $pre . 'PrimeFieldParamsType>' . "\r\n";
                     $a = $curve->getA();
                     $b = $curve->getB();
                     list($x, $y) = $curve->getBasePoint();
@@ -440,11 +440,11 @@ abstract class XML
                     throw new UnsupportedCurveException('Field Type of ' . $temp['fieldID']['fieldType'] . ' is not supported');
             }
             $xml .= '</' . $pre . 'FieldParams>' . "\r\n" .
-                   '<' . $pre . '***REMOVED***>' . "\r\n" .
+                   '<' . $pre . 'CurveParamsType>' . "\r\n" .
                    '<' . $pre . 'A>' . $a . '</' . $pre . 'A>' . "\r\n" .
                    '<' . $pre . 'B>' . $b . '</' . $pre . 'B>' . "\r\n" .
-                   '</' . $pre . '***REMOVED***>' . "\r\n" .
-                   '<' . $pre . '***REMOVED***>' . "\r\n" .
+                   '</' . $pre . 'CurveParamsType>' . "\r\n" .
+                   '<' . $pre . 'BasePointParams>' . "\r\n" .
                    '<' . $pre . 'BasePoint>' . "\r\n" .
                    '<' . $pre . 'ECPointType>' . "\r\n" .
                    '<' . $pre . 'X>' . $x . '</' . $pre . 'X>' . "\r\n" .
@@ -452,16 +452,16 @@ abstract class XML
                    '</' . $pre . 'ECPointType>' . "\r\n" .
                    '</' . $pre . 'BasePoint>' . "\r\n" .
                    '<' . $pre . 'Order>' . $curve->getOrder() . '</' . $pre . 'Order>' . "\r\n" .
-                   '</' . $pre . '***REMOVED***>' . "\r\n" .
-                   '</' . $pre . '***REMOVED***>' . "\r\n";
+                   '</' . $pre . 'BasePointParams>' . "\r\n" .
+                   '</' . $pre . 'ExplicitParams>' . "\r\n";
 
             return $xml;
         }
 
-        if (isset($result['***REMOVED***'])) {
+        if (isset($result['specifiedCurve'])) {
             $xml = '<' . $pre . 'ECParameters>' . "\r\n" .
                    '<' . $pre . 'FieldID>' . "\r\n";
-            $temp = $result['***REMOVED***'];
+            $temp = $result['specifiedCurve'];
             switch ($temp['fieldID']['fieldType']) {
                 case 'prime-field':
                     $xml .= '<' . $pre . 'Prime>' . "\r\n" .

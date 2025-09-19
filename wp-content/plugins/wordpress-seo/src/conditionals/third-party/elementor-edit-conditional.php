@@ -33,17 +33,17 @@ class Elementor_Edit_Conditional implements Conditional {
 	 * @return bool True when the GET action is 'elementor'.
 	 */
 	private function is_elementor_get_action(): bool {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( ! isset( $_GET['action'] ) ) {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( ! \is_string( $_GET['action'] ) ) {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, we are only strictly comparing.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
 		return \wp_unslash( $_GET['action'] ) === 'elementor';
 	}
 
@@ -53,17 +53,17 @@ class Elementor_Edit_Conditional implements Conditional {
 	 * @return bool True when the POST action is 'wpseo_elementor_save'.
 	 */
 	private function is_yoast_save_post_action(): bool {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 		if ( ! isset( $_POST['action'] ) ) {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 		if ( ! \is_string( $_POST['action'] ) ) {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, we are only strictly comparing.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
 		return \wp_unslash( $_POST['action'] ) === 'wpseo_elementor_save';
 	}
 }

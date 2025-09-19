@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Conditionals\No_Conditionals;
  * Class to manage the integration with Yoast Duplicate Post.
  *
  * @deprecated 23.4
- * @***REMOVED***
+ * @codeCoverageIgnore
  */
 class Duplicate_Post_Integration implements Integration_Interface {
 
@@ -20,7 +20,7 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	 * This is the place to register hooks and filters.
 	 *
 	 * @deprecated 23.4
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class Duplicate_Post_Integration implements Integration_Interface {
 	 * Filters out the Zapier meta when you copy a post with Yoast Duplicate Post.
 	 *
 	 * @deprecated 23.4
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $meta_excludelist The current excludelist of meta fields.
 	 *

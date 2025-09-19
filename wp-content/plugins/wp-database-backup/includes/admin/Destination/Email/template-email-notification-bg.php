@@ -16,7 +16,7 @@ if(!$unsub_token){
 $message = '<div bgcolor="#e3e3e3" style="font-family:Arial;color:#707070;font-size:12px;background-color:#e3e3e3;margin:0;padding:0px">
 <div align="center" style="font-family:Arial;width:600px;background-color:#ffffff;margin:0 auto;padding:0px">
     <div style="font-family:Arial;border-bottom-color:#cccccc;border-bottom-width:1px;border-bottom-style:solid;background-color:#eee;margin:0px;padding:4px">
-       <a href="https://backupforwp.com/"><img src="'. esc_url( WPDB_PLUGIN_URL.'/assets/images/wp-database-backup.png') /* phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** */ .'" alt="Backup for WP" /></a>
+       <a href="https://backupforwp.com/"><img src="'. esc_url( WPDB_PLUGIN_URL.'/assets/images/wp-database-backup.png') /* phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */ .'" alt="Backup for WP" /></a>
     </div>
 
     <div align="left" style="font-family:Arial;text-align:left;margin:0px;padding:10px">
@@ -36,7 +36,7 @@ $message = '<div bgcolor="#e3e3e3" style="font-family:Arial;color:#707070;font-s
                     <tr style="font-family:Arial;margin:0px;padding:0px">
 					<td style="font-family:Arial;margin:0px;padding:2px 5px;border:1px solid #007bad;text-align:right">1</td>
                     <td style="font-family:Arial;margin:0px;padding:2px 5px;border:1px solid #007bad">' . esc_html($filename) . '</td>
-                    <td style="font-family:Arial;margin:0px;padding:2px 5px;border:1px solid #007bad">' . esc_html(***REMOVED***::wp_db_backup_format_bytes( $filesize )) . '</td>
+                    <td style="font-family:Arial;margin:0px;padding:2px 5px;border:1px solid #007bad">' . esc_html(WPDBBackupEmail::wp_db_backup_format_bytes( $filesize )) . '</td>
 
                 </tr>
 
@@ -46,8 +46,8 @@ $message = '<div bgcolor="#e3e3e3" style="font-family:Arial;color:#707070;font-s
     '.esc_html__('Thank you for using WP Database Backup Plugin.','wpdbbkp').'
     <br>
        '.esc_html__('If you like','wpdbbkp').'
-     <b>'.esc_html__('WP Database Backup','wpdbbkp').'</b> '.esc_html__('please leave us a','wpdbbkp').' <a href="http://wordpress.org/support/view/plugin-reviews/wp-database-backup" title="Rating" target="_blank" data-***REMOVED***="'.esc_url('https://www.google.com/url?hl=en&amp;q=http://wordpress.org/support/view/plugin-reviews/wp-database-backup&amp;source=gmail&amp;ust=***REMOVED***&amp;usg=AFQjCNHxdc3F079wMTbRqbs8hw7tYkR6ww').'">'.esc_html__('rating','wpdbbkp').' </a>
-      '.esc_html__('on','wpdbbkp').' <a href="http://wordpress.org/support/view/plugin-reviews/wp-database-backup" title="'.esc_attr__('Rating','wpdbbkp').'" target="_blank" data-***REMOVED***="'.esc_url('https://www.google.com/url?hl=en&amp;q=http://wordpress.org/support/view/plugin-reviews/wp-database-backup&amp;source=gmail&amp;ust=***REMOVED***&amp;usg=AFQjCNHxdc3F079wMTbRqbs8hw7tYkR6ww').'">'.esc_attr__('WordPress.org','wpdbbkp').'</a>
+     <b>'.esc_html__('WP Database Backup','wpdbbkp').'</b> '.esc_html__('please leave us a','wpdbbkp').' <a href="http://wordpress.org/support/view/plugin-reviews/wp-database-backup" title="Rating" target="_blank" data-saferedirecturl="'.esc_url('https://www.google.com/url?hl=en&amp;q=http://wordpress.org/support/view/plugin-reviews/wp-database-backup&amp;source=gmail&amp;ust=1466360448038000&amp;usg=AFQjCNHxdc3F079wMTbRqbs8hw7tYkR6ww').'">'.esc_html__('rating','wpdbbkp').' </a>
+      '.esc_html__('on','wpdbbkp').' <a href="http://wordpress.org/support/view/plugin-reviews/wp-database-backup" title="'.esc_attr__('Rating','wpdbbkp').'" target="_blank" data-saferedirecturl="'.esc_url('https://www.google.com/url?hl=en&amp;q=http://wordpress.org/support/view/plugin-reviews/wp-database-backup&amp;source=gmail&amp;ust=1466360448038000&amp;usg=AFQjCNHxdc3F079wMTbRqbs8hw7tYkR6ww').'">'.esc_attr__('WordPress.org','wpdbbkp').'</a>
 
 </div>
     </div>

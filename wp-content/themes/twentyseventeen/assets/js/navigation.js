@@ -6,16 +6,16 @@
  */
 
 (function( $ ) {
-	var masthead, menuToggle, ***REMOVED***, ***REMOVED***;
+	var masthead, menuToggle, siteNavContain, siteNavigation;
 
-	function ***REMOVED***( container ) {
+	function initMainNavigation( container ) {
 
 		// Add dropdown toggle that displays child menu items.
-		var ***REMOVED*** = $( '<button />', { 'class': 'dropdown-toggle', 'aria-expanded': false })
+		var dropdownToggle = $( '<button />', { 'class': 'dropdown-toggle', 'aria-expanded': false })
 			.append( twentyseventeenScreenReaderText.icon )
 			.append( $( '<span />', { 'class': 'screen-reader-text', text: twentyseventeenScreenReaderText.expand }) );
 
-		container.find( '.menu-item-has-children > a, .page_item_has_children > a' ).after( ***REMOVED*** );
+		container.find( '.menu-item-has-children > a, .page_item_has_children > a' ).after( dropdownToggle );
 
 		// Set the active submenu dropdown toggle button initial state.
 		container.find( '.current-menu-ancestor > button' )
@@ -28,24 +28,24 @@
 
 		container.find( '.dropdown-toggle' ).on( 'click', function( e ) {
 			var _this = $( this ),
-				***REMOVED*** = _this.find( '.screen-reader-text' );
+				screenReaderSpan = _this.find( '.screen-reader-text' );
 
-			e.***REMOVED***();
+			e.preventDefault();
 			_this.toggleClass( 'toggled-on' );
 			_this.next( '.children, .sub-menu' ).toggleClass( 'toggled-on' );
 
 			_this.attr( 'aria-expanded', _this.attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' );
 
-			***REMOVED***.text( ***REMOVED***.text() === twentyseventeenScreenReaderText.expand ? twentyseventeenScreenReaderText.collapse : twentyseventeenScreenReaderText.expand );
+			screenReaderSpan.text( screenReaderSpan.text() === twentyseventeenScreenReaderText.expand ? twentyseventeenScreenReaderText.collapse : twentyseventeenScreenReaderText.expand );
 		});
 	}
 
-	***REMOVED***( $( '.main-navigation' ) );
+	initMainNavigation( $( '.main-navigation' ) );
 
 	masthead       = $( '#masthead' );
 	menuToggle     = masthead.find( '.menu-toggle' );
-	***REMOVED*** = masthead.find( '.main-navigation' );
-	***REMOVED*** = masthead.find( '.main-navigation > div > ul' );
+	siteNavContain = masthead.find( '.main-navigation' );
+	siteNavigation = masthead.find( '.main-navigation > div > ul' );
 
 	// Enable menuToggle.
 	(function() {
@@ -58,16 +58,16 @@
 		// Add an initial value for the attribute.
 		menuToggle.attr( 'aria-expanded', 'false' );
 
-		menuToggle.on( 'click.***REMOVED***', function() {
-			***REMOVED***.toggleClass( 'toggled-on' );
+		menuToggle.on( 'click.twentyseventeen', function() {
+			siteNavContain.toggleClass( 'toggled-on' );
 
-			$( this ).attr( 'aria-expanded', ***REMOVED***.hasClass( 'toggled-on' ) );
+			$( this ).attr( 'aria-expanded', siteNavContain.hasClass( 'toggled-on' ) );
 		});
 	})();
 
 	// Fix sub-menus for touch devices and better focus for hidden submenu items for accessibility.
 	(function() {
-		if ( ! ***REMOVED***.length || ! ***REMOVED***.children().length ) {
+		if ( ! siteNavigation.length || ! siteNavigation.children().length ) {
 			return;
 		}
 
@@ -75,34 +75,34 @@
 		function toggleFocusClassTouchScreen() {
 			if ( 'none' === $( '.menu-toggle' ).css( 'display' ) ) {
 
-				$( document.body ).on( 'touchstart.***REMOVED***', function( e ) {
+				$( document.body ).on( 'touchstart.twentyseventeen', function( e ) {
 					if ( ! $( e.target ).closest( '.main-navigation li' ).length ) {
 						$( '.main-navigation li' ).removeClass( 'focus' );
 					}
 				});
 
-				***REMOVED***.find( '.menu-item-has-children > a, .page_item_has_children > a' )
-					.on( 'touchstart.***REMOVED***', function( e ) {
+				siteNavigation.find( '.menu-item-has-children > a, .page_item_has_children > a' )
+					.on( 'touchstart.twentyseventeen', function( e ) {
 						var el = $( this ).parent( 'li' );
 
 						if ( ! el.hasClass( 'focus' ) ) {
-							e.***REMOVED***();
+							e.preventDefault();
 							el.toggleClass( 'focus' );
 							el.siblings( '.focus' ).removeClass( 'focus' );
 						}
 					});
 
 			} else {
-				***REMOVED***.find( '.menu-item-has-children > a, .page_item_has_children > a' ).unbind( 'touchstart.***REMOVED***' );
+				siteNavigation.find( '.menu-item-has-children > a, .page_item_has_children > a' ).unbind( 'touchstart.twentyseventeen' );
 			}
 		}
 
 		if ( 'ontouchstart' in window ) {
-			$( window ).on( 'resize.***REMOVED***', toggleFocusClassTouchScreen );
+			$( window ).on( 'resize.twentyseventeen', toggleFocusClassTouchScreen );
 			toggleFocusClassTouchScreen();
 		}
 
-		***REMOVED***.find( 'a' ).on( 'focus.***REMOVED*** blur.***REMOVED***', function() {
+		siteNavigation.find( 'a' ).on( 'focus.twentyseventeen blur.twentyseventeen', function() {
 			$( this ).parents( '.menu-item, .page_item' ).toggleClass( 'focus' );
 		});
 	})();

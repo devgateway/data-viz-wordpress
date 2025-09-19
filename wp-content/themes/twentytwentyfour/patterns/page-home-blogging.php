@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Blogging home
- * Slug: ***REMOVED***/page-home-blogging
+ * Slug: twentytwentyfour/page-home-blogging
  * Categories: twentytwentyfour_page
  * Keywords: page, starter
  * Post Types: page, wp_template
@@ -10,7 +10,7 @@
  */
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/text-centered-statement-small"}	/-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-centered-statement-small"}	/-->
 
 <!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"0","bottom":"0"},"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignwide" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
@@ -26,7 +26,7 @@
 			<!-- wp:query {"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true}} -->
 			<div class="wp-block-query">
 				<!-- wp:post-template -->
-				<!-- wp:group {"tagName":"article","layout":{"type":"flex","orientation":"vertical","***REMOVED***":"stretch"}} -->
+				<!-- wp:group {"tagName":"article","layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
 				<article class="wp-block-group">
 					<!-- wp:post-featured-image /-->
 
@@ -45,7 +45,7 @@
 				<!-- /wp:spacer -->
 				<!-- /wp:post-template -->
 
-				<!-- wp:query-pagination {"***REMOVED***":"arrow","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+				<!-- wp:query-pagination {"paginationArrow":"arrow","layout":{"type":"flex","justifyContent":"space-between"}} -->
 				<!-- wp:query-pagination-previous /-->
 
 				<!-- wp:query-pagination-numbers /-->
@@ -54,7 +54,7 @@
 				<!-- /wp:query-pagination -->
 
 				<!-- wp:query-no-results -->
-				<!-- wp:pattern {"slug":"***REMOVED***/hidden-no-results"} /-->
+				<!-- wp:pattern {"slug":"twentytwentyfour/hidden-no-results"} /-->
 				<!-- /wp:query-no-results -->
 			</div>
 			<!-- /wp:query -->
@@ -81,4 +81,4 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pattern {"slug":"***REMOVED***/cta-subscribe-centered"}	/-->
+<!-- wp:pattern {"slug":"twentytwentyfour/cta-subscribe-centered"}	/-->

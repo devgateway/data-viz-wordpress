@@ -30,7 +30,7 @@ class Indexing_Controls implements Integration_Interface {
 	/**
 	 * The constructor.
 	 *
-	 * @***REMOVED*** Sets the dependencies.
+	 * @codeCoverageIgnore Sets the dependencies.
 	 *
 	 * @param Robots_Helper $robots The robots helper.
 	 */
@@ -43,7 +43,7 @@ class Indexing_Controls implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class Indexing_Controls implements Integration_Interface {
 	/**
 	 * Sets the x-robots-tag to noindex follow.
 	 *
-	 * @***REMOVED*** Too difficult to test.
+	 * @codeCoverageIgnore Too difficult to test.
 	 *
 	 * @return bool
 	 */

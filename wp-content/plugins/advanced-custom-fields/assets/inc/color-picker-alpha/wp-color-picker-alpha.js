@@ -10,23 +10,23 @@
  */
 
 ( function ( $, undef ) {
-	var ***REMOVED*** = {
+	var wpColorPickerAlpha = {
 		'version': 302,
 	};
 
 	// Always try to use the last version of this script.
 	if (
-		'***REMOVED***' in window &&
-		'version' in window.***REMOVED***
+		'wpColorPickerAlpha' in window &&
+		'version' in window.wpColorPickerAlpha
 	) {
-		var version = parseInt( window.***REMOVED***.version, 10 );
-		if ( ! isNaN( version ) && version >= ***REMOVED***.version ) {
+		var version = parseInt( window.wpColorPickerAlpha.version, 10 );
+		if ( ! isNaN( version ) && version >= wpColorPickerAlpha.version ) {
 			return;
 		}
 	}
 
 	// Prevent multiple initiations
-	if ( Color.fn.***REMOVED***( 'to_s' ) ) {
+	if ( Color.fn.hasOwnProperty( 'to_s' ) ) {
 		return;
 	}
 
@@ -50,10 +50,10 @@
 	};
 
 	// Register the global variable.
-	window.***REMOVED*** = ***REMOVED***;
+	window.wpColorPickerAlpha = wpColorPickerAlpha;
 
 	// Background image encoded
-	var ***REMOVED*** =
+	var backgroundImage =
 		'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAAHnlligAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAHJJREFUeNpi+P///4EDBxiAGMgCCCAGFB5AADGCRBgYDh48CCRZIJS9vT2QBAggFBkmBiSAogxFBiCAoHogAKIKAlBUYTELAiAmEtABEECk20G6BOmuIl0CIMBQ/IEMkO0myiSSraaaBhZcbkUOs0HuBwDplz5uFJ3Z4gAAAABJRU5ErkJggg==';
 
 	/**
@@ -86,8 +86,8 @@
 			}
 
 			if ( this.alphaOptions.alphaEnabled ) {
-				color = color.to_s( this.alphaOptions.***REMOVED*** );
-				if ( ! this.alphaOptions.***REMOVED*** ) {
+				color = color.to_s( this.alphaOptions.alphaColorType );
+				if ( ! this.alphaOptions.alphaColorWithSpace ) {
 					color = color.replace( /\s+/g, '' );
 				}
 				return color;
@@ -113,12 +113,12 @@
 			// We make sure there are all options
 			$.extend( {}, this.alphaOptions, {
 				alphaEnabled: false,
-				***REMOVED***: 130,
+				alphaCustomWidth: 130,
 				alphaReset: false,
-				***REMOVED***: 'hex',
-				***REMOVED***: false,
-				***REMOVED***: false,
-				***REMOVED***: 100,
+				alphaColorType: 'hex',
+				alphaColorWithSpace: false,
+				alphaSkipDebounce: false,
+				alphaDebounceTimeout: 100,
 			} );
 
 			this._super();
@@ -137,7 +137,7 @@
 					var val = input.val(),
 						color = new Color( val ),
 						val = val.replace( /^(#|(rgb|hsl)a?)/, '' ),
-						type = self.alphaOptions.***REMOVED***;
+						type = self.alphaOptions.alphaColorType;
 
 					input.removeClass( 'iris-error' );
 
@@ -168,8 +168,8 @@
 
 			input.on( 'change', callback );
 
-			if( ! self.alphaOptions.***REMOVED*** ) {
-				input.on( 'keyup', self._debounce( callback, self.alphaOptions.***REMOVED*** ) );
+			if( ! self.alphaOptions.alphaSkipDebounce ) {
+				input.on( 'keyup', self._debounce( callback, self.alphaOptions.alphaDebounceTimeout ) );
 			}
 
 			// If we initialized hidden, show on first focus. The rest is up to you.
@@ -194,14 +194,14 @@
 				// Create Alpha controls
 				var self = this,
 					stripAlpha = self.controls.strip.clone( false, false ),
-					***REMOVED*** = stripAlpha.find( '.iris-slider-offset' ),
+					stripAlphaSlider = stripAlpha.find( '.iris-slider-offset' ),
 					controls = {
 						stripAlpha: stripAlpha,
-						***REMOVED***: ***REMOVED***,
+						stripAlphaSlider: stripAlphaSlider,
 					};
 
 				stripAlpha.addClass( 'iris-strip-alpha' );
-				***REMOVED***.addClass( 'iris-slider-offset-alpha' );
+				stripAlphaSlider.addClass( 'iris-slider-offset-alpha' );
 				stripAlpha.appendTo( self.picker.find( '.iris-picker-inner' ) );
 
 				// Push new controls
@@ -210,7 +210,7 @@
 				} );
 
 				// Create slider
-				self.controls.***REMOVED***.slider( {
+				self.controls.stripAlphaSlider.slider( {
 					orientation: 'vertical',
 					min: 0,
 					max: 100,
@@ -313,10 +313,10 @@
 
 				self.options.color = self._getColor();
 				// Generate background slider alpha, only for CSS3.
-				controls.stripAlpha.css( {'background' : 'linear-gradient(to bottom, ' + gradient.join( ', ' ) + '), url(' + ***REMOVED*** + ')' } );
+				controls.stripAlpha.css( {'background' : 'linear-gradient(to bottom, ' + gradient.join( ', ' ) + '), url(' + backgroundImage + ')' } );
 				// Update alpha value
 				if ( active ) {
-					controls.***REMOVED***.slider( 'value', alpha );
+					controls.stripAlphaSlider.slider( 'value', alpha );
 				}
 
 				if ( ! self._color.error ) {
@@ -442,11 +442,11 @@
 				color = ( el.data( 'defaultColor' ) || el.val() ),
 				options = {
 					alphaEnabled: ( el.data( 'alphaEnabled' ) || false ),
-					***REMOVED***: 130,
+					alphaCustomWidth: 130,
 					alphaReset: false,
-					***REMOVED***: 'rgb',
-					***REMOVED***: false,
-					***REMOVED***: ( !!el.data( '***REMOVED***' ) || false ),
+					alphaColorType: 'rgb',
+					alphaColorWithSpace: false,
+					alphaSkipDebounce: ( !!el.data( 'alphaSkipDebounce' ) || false ),
 				};
 
 			if ( options.alphaEnabled ) {
@@ -457,16 +457,16 @@
 				return options;
 			}
 
-			options.***REMOVED*** = ( color && color.match( /\s/ ) );
+			options.alphaColorWithSpace = ( color && color.match( /\s/ ) );
 
 			$.each( options, function ( name, defaultValue ) {
 				var value = ( el.data( name ) || defaultValue );
 				switch ( name ) {
-					case '***REMOVED***':
+					case 'alphaCustomWidth':
 						value = ( value ? parseInt( value, 10 ) : 0 );
 						value = ( isNaN( value ) ? defaultValue : value );
 						break;
-					case '***REMOVED***':
+					case 'alphaColorType':
 						if ( ! value.match( /^(hex|(rgb|hsl)a?)$/ ) ) {
 							if ( color && color.match( /^#/ ) ) {
 								value = 'hex';
@@ -524,11 +524,11 @@
 				isDeprecated = self.toggler.is( 'a' );
 
 			this.alphaOptions.defaultWidth = el.width();
-			if ( this.alphaOptions.***REMOVED*** ) {
+			if ( this.alphaOptions.alphaCustomWidth ) {
 				el.width(
 					parseInt(
 						this.alphaOptions.defaultWidth +
-							this.alphaOptions.***REMOVED***,
+							this.alphaOptions.alphaCustomWidth,
 						10
 					)
 				);
@@ -536,7 +536,7 @@
 
 			self.toggler.css( {
 				'position': 'relative',
-				'background-image': 'url(' + ***REMOVED*** + ')',
+				'background-image': 'url(' + backgroundImage + ')',
 			} );
 
 			if ( isDeprecated ) {
@@ -585,7 +585,7 @@
 				change: function ( event, ui ) {
 					self.colorAlpha.css( {
 						'background-color': ui.color.to_s(
-							self.alphaOptions.***REMOVED***
+							self.alphaOptions.alphaColorType
 						),
 					} );
 
@@ -606,7 +606,7 @@
 			 * @return {void}
 			 */
 			self.wrap.on( 'click.wpcolorpicker', function ( event ) {
-				event.***REMOVED***();
+				event.stopPropagation();
 			} );
 
 			/**

@@ -240,7 +240,7 @@ fieldset .cptui-help {
   width: 20px;
 }
 
-.***REMOVED*** {
+.visuallyhidden {
   position: absolute;
   left: -10000px;
   top: auto;

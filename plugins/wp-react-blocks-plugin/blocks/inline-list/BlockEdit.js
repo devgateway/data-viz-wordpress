@@ -1,9 +1,9 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import SizeConfig, {***REMOVED***} from "../commons";
+import SizeConfig, {BlockEditWithFilters} from "../commons";
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends BlockEditWithFilters {
     constructor(props) {
         super(props);
 
@@ -12,7 +12,7 @@ class BlockEdit extends ***REMOVED*** {
     render() {
         const {
             className, isSelected,
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 count,
@@ -22,18 +22,18 @@ class BlockEdit extends ***REMOVED*** {
                 height,
                 width,
                 showIcons,
-                ***REMOVED***,
+                showContentToggle,
                 contentToggleHPosition,
                 panelStatus
             },
         } = this.props;
 
 
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-show-post-icons=${showIcons}&data-show-content-toggle=${***REMOVED***}&data-content-toggle-h-position=${contentToggleHPosition}`
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-show-post-icons=${showIcons}&data-show-content-toggle=${showContentToggle}&data-content-toggle-h-position=${contentToggleHPosition}`
         const divStyles = {height: height + 'px', width: '100%'}
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel>
                         <SizeConfig height={height} panelStatus={panelStatus} setAttributes={setAttributes}></SizeConfig>
 
@@ -52,12 +52,12 @@ class BlockEdit extends ***REMOVED*** {
                                 <p>{__("Show Post Content in Same Page")}</p>
                                 <FormToggle
                                     label={__("Show Post Content in Same Page")}
-                                    checked={***REMOVED***}
-                                    onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}
+                                    checked={showContentToggle}
+                                    onChange={() => setAttributes({showContentToggle: !showContentToggle})}
                                 />
 
                             </PanelRow>
-                            {***REMOVED*** &&
+                            {showContentToggle &&
                             <PanelRow>
                             <RangeControl
                                 label="Content Toggle Horizontal Position (%)"
@@ -85,7 +85,7 @@ class BlockEdit extends ***REMOVED*** {
                     </Panel>
 
 
-                </***REMOVED***>
+                </InspectorControls>
                 <ResizableBox
                     size={{height}}
                     style={{"margin": "auto", "width": "100%"}}
@@ -106,10 +106,10 @@ class BlockEdit extends ***REMOVED*** {
                             height: parseInt(height + delta.height, 10),
 
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}
                 >
 

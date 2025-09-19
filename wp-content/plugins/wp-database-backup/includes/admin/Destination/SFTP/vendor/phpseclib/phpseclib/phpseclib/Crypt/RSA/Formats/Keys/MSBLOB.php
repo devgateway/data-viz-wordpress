@@ -32,7 +32,7 @@ abstract class MSBLOB
      * Public/Private Key Pair
      *
      */
-    const ***REMOVED*** = 0x7;
+    const PRIVATEKEYBLOB = 0x7;
     /**
      * Public Key
      *
@@ -42,7 +42,7 @@ abstract class MSBLOB
      * Public Key
      *
      */
-    const ***REMOVED*** = 0xA;
+    const PUBLICKEYBLOBEX = 0xA;
     /**
      * RSA public key exchange algorithm
      *
@@ -86,7 +86,7 @@ abstract class MSBLOB
             throw new \UnexpectedValueException('Key appears to be malformed');
         }
 
-        // ***REMOVED***  ***REMOVED***
+        // PUBLICKEYSTRUC  publickeystruc
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa387453(v=vs.85).aspx
         extract(unpack('atype/aversion/vreserved/Valgo', Strings::shift($key, 8)));
         /**
@@ -97,10 +97,10 @@ abstract class MSBLOB
          */
         switch (ord($type)) {
             case self::PUBLICKEYBLOB:
-            case self::***REMOVED***:
+            case self::PUBLICKEYBLOBEX:
                 $publickey = true;
                 break;
-            case self::***REMOVED***:
+            case self::PRIVATEKEYBLOB:
                 $publickey = false;
                 break;
             default:
@@ -142,7 +142,7 @@ abstract class MSBLOB
             throw new \UnexpectedValueException('Key appears to be malformed');
         }
 
-        $components[$components['isPublicKey'] ? '***REMOVED***' : '***REMOVED***'] = new BigInteger(strrev($pubexp), 256);
+        $components[$components['isPublicKey'] ? 'publicExponent' : 'privateExponent'] = new BigInteger(strrev($pubexp), 256);
         // BYTE modulus[rsapubkey.bitlen/8]
         $components['modulus'] = new BigInteger(strrev(Strings::shift($key, $bitlen / 8)), 256);
 
@@ -162,11 +162,11 @@ abstract class MSBLOB
         $components['exponents'][] = new BigInteger(strrev(Strings::shift($key, $bitlen / 16)), 256);
         // BYTE coefficient[rsapubkey.bitlen/16]
         $components['coefficients'] = [2 => new BigInteger(strrev(Strings::shift($key, $bitlen / 16)), 256)];
-        if (isset($components['***REMOVED***'])) {
-            $components['***REMOVED***'] = $components['***REMOVED***'];
+        if (isset($components['privateExponent'])) {
+            $components['publicExponent'] = $components['privateExponent'];
         }
-        // BYTE ***REMOVED***[rsapubkey.bitlen/8]
-        $components['***REMOVED***'] = new BigInteger(strrev(Strings::shift($key, $bitlen / 8)), 256);
+        // BYTE privateExponent[rsapubkey.bitlen/8]
+        $components['privateExponent'] = new BigInteger(strrev(Strings::shift($key, $bitlen / 8)), 256);
 
         return $components;
     }
@@ -183,7 +183,7 @@ abstract class MSBLOB
      * @param string $password optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '')
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '')
     {
         if (count($primes) != 2) {
             throw new \InvalidArgumentException('MSBLOB does not support multi-prime RSA keys');
@@ -195,7 +195,7 @@ abstract class MSBLOB
 
         $n = strrev($n->toBytes());
         $e = str_pad(strrev($e->toBytes()), 4, "\0");
-        $key = pack('aavV', chr(self::***REMOVED***), chr(2), 0, self::CALG_RSA_KEYX);
+        $key = pack('aavV', chr(self::PRIVATEKEYBLOB), chr(2), 0, self::CALG_RSA_KEYX);
         $key .= pack('VVa*', self::RSA2, 8 * strlen($n), $e);
         $key .= $n;
         $key .= strrev($primes[1]->toBytes());

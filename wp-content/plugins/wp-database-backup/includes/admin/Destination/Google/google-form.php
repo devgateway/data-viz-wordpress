@@ -16,7 +16,7 @@ if ( isset( $_POST['wpdb_google_drive'] ) && 'Y' === $_POST['wpdb_google_drive']
 	if ( ! isset( $_POST['wpdbbackup_update_google_setting'] ) ) {
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
-	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_google_setting'] ) , 'wpdbbackup-update-google-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_google_setting'] ) , 'wpdbbackup-update-google-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
 	$client_id     = '';
@@ -47,8 +47,8 @@ if ( isset( $_POST['wpdb_google_drive'] ) && 'Y' === $_POST['wpdb_google_drive']
 		$client = new Google_Client();
 		// Get your credentials from the APIs Console.
 		$client->setClientId( $client_id );
-		$client->***REMOVED***( $client_secret );
-		$client->***REMOVED***( site_url() . '/wp-admin/admin.php?page=wp-database-backup&action=auth' );
+		$client->setClientSecret( $client_secret );
+		$client->setRedirectUri( site_url() . '/wp-admin/admin.php?page=wp-database-backup&action=auth' );
 		$client->setScopes( array( 'https://www.googleapis.com/auth/drive' ) );
 
 		$service = new Google_DriveService( $client );
@@ -90,12 +90,12 @@ if(!empty($wpdb_dest_google_auth_code) && !empty($wpdb_dest_google_client_key) &
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h4 class="panel-title">
-			<a data-toggle="collapse" data-parent="#accordion" href="#***REMOVED***">
+			<a data-toggle="collapse" data-parent="#accordion" href="#collapsegoogle">
 				<h2><?php echo esc_html__('Google drive', 'wpdbbkp'); ?><?php echo wp_kses_post($wpdbbkp_gdrive_status);?> <span class="dashicons dashicons-admin-generic"></span></h2>
 			</a>
 		</h4>
 	</div>
-	<div id="***REMOVED***" class="panel-collapse collapse">
+	<div id="collapsegoogle" class="panel-collapse collapse">
 		<div class="panel-body">
 			<?php echo esc_html( $update_msg ); ?>
 			<form  class="form-group" name="googledrive" method="post" action="">

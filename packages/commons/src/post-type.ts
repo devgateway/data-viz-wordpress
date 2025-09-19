@@ -28,7 +28,7 @@ export interface Post {
     class_list:      string[];
     acf:             any[];
     yoast_head:      string;
-    yoast_head_json: ***REMOVED***;
+    yoast_head_json: PostYoastHeadJSON;
     meta_fields:     { [key: string]: string[] };
     meta_fields_2:   { [key: string]: string[] };
     _links:          PostLinks;
@@ -38,9 +38,9 @@ export interface PostLinks {
     self:                  Self[];
     collection:            About[];
     about:                 About[];
-    author:                ***REMOVED***[];
-    replies:               ***REMOVED***[];
-    "version-history":     ***REMOVED***[];
+    author:                PostAuthorElement[];
+    replies:               PostAuthorElement[];
+    "version-history":     PostVersionHistory[];
     "predecessor-version": PostPredecessorVersion[];
     "wp:attachment":       About[];
     "wp:term":             WpTerm[];
@@ -48,7 +48,7 @@ export interface PostLinks {
 }
 
 
-export interface ***REMOVED*** {
+export interface PostAuthorElement {
     embeddable: boolean;
     href:       string;
 }
@@ -60,7 +60,7 @@ export interface PostPredecessorVersion {
 }
 
 
-export interface ***REMOVED*** {
+export interface PostVersionHistory {
     count: number;
     href:  string;
 }
@@ -89,7 +89,7 @@ export interface PostMeta {
     footnotes:                string;
 }
 
-export interface ***REMOVED*** {
+export interface PostYoastHeadJSON {
     title?:                  string;
     robots?:                 PostRobots;
     canonical?:              string;
@@ -105,7 +105,7 @@ export interface ***REMOVED*** {
     twitter_card?:           string;
     twitter_creator?:        string;
     twitter_site?:           string;
-    twitter_misc?:           ***REMOVED***;
+    twitter_misc?:           PostTwitterMisc;
     schema?:                 PostSchema;
     og_description?:        string;
 }
@@ -135,16 +135,16 @@ export interface PostGraph {
     "@type":             string;
     "@id":               string;
     isPartOf?:           Breadcrumb;
-    author?:             ***REMOVED***;
+    author?:             GraphAuthorClass;
     headline?:           string;
     datePublished?:      Date;
     dateModified?:       Date;
-    ***REMOVED***?:   Breadcrumb;
+    mainEntityOfPage?:   Breadcrumb;
     wordCount?:          number;
     commentCount?:       number;
     publisher?:          Breadcrumb;
     inLanguage?:         string;
-    ***REMOVED***?:    ***REMOVED***[];
+    potentialAction?:    PotentialAction[];
     url?:                string;
     name?:               string;
     description?:        string;
@@ -152,15 +152,15 @@ export interface PostGraph {
     logo?:               PostImage;
     image?:              PostImage;
     sameAs?:             string[];
-    ***REMOVED***?:     string[];
+    articleSection?:     string[];
     breadcrumb?:         Breadcrumb;
-    ***REMOVED***?:    ***REMOVED***[];
+    itemListElement?:    ItemListElement[];
     thumbnailUrl?:       string;
-    ***REMOVED***?: Breadcrumb;
+    primaryImageOfPage?: Breadcrumb;
     contentUrl?:         string;
 }
 
-export interface ***REMOVED*** {
+export interface GraphAuthorClass {
     name:  string;
     "@id": string;
 }
@@ -181,7 +181,7 @@ export interface PostImage {
 }
 
 
-export interface ***REMOVED*** {
+export interface ItemListElement {
     "@type":  string;
     position: number;
     name:     string;
@@ -189,14 +189,14 @@ export interface ***REMOVED*** {
 }
 
 
-export interface ***REMOVED*** {
-    "@type":        ***REMOVED***;
+export interface PotentialAction {
+    "@type":        PotentialActionType;
     name?:          string;
     target:         string[] | TargetClass;
     "query-input"?: QueryInput;
 }
 
-export enum ***REMOVED*** {
+export enum PotentialActionType {
     CommentAction = "CommentAction",
     ReadAction = "ReadAction",
     SearchAction = "SearchAction",
@@ -213,7 +213,7 @@ export interface TargetClass {
     urlTemplate: string;
 }
 
-export interface ***REMOVED*** {
+export interface PostTwitterMisc {
     "Written by":         string;
     "Est. reading time"?: string;
 }

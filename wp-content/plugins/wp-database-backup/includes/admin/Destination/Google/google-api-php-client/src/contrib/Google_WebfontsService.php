@@ -18,8 +18,8 @@
    * The "webfonts" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_WebfontsService(...);
-   *   $webfonts = $***REMOVED***->webfonts;
+   *   $webfontsService = new Google_WebfontsService(...);
+   *   $webfonts = $webfontsService->webfonts;
    *  </code>
    */
   class Google_WebfontsServiceResource extends Google_ServiceResource {
@@ -61,7 +61,7 @@
 class Google_WebfontsService extends Google_Service {
   public $webfonts;
   /**
-   * Constructs the internal ***REMOVED*** of the Webfonts service.
+   * Constructs the internal representation of the Webfonts service.
    *
    * @param Google_Client $client
    */
@@ -104,10 +104,10 @@ class Google_Webfont extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $lastModified) {
+  public function setLastModified( $lastModified) {
     $this->lastModified = $lastModified;
   }
-  public function ***REMOVED***() {
+  public function getLastModified() {
     return $this->lastModified;
   }
   public function setSubsets(/* array(Google_string) */ $subsets) {

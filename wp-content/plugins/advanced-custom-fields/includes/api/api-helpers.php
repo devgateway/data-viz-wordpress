@@ -2337,7 +2337,7 @@ function acf_upload_files( $ancestors = array() ) {
 		return;
 	}
 
-	$file = acf_sanitize_files_array( $_FILES['acf'] ); // phpcs:disable WordPress.Security.***REMOVED***.Missing -- Verified upstream.
+	$file = acf_sanitize_files_array( $_FILES['acf'] ); // phpcs:disable WordPress.Security.NonceVerification.Missing -- Verified upstream.
 
 	// walk through ancestors.
 	if ( ! empty( $ancestors ) ) {
@@ -2543,12 +2543,12 @@ function acf_maybe_get( $array = array(), $key = 0, $default = null ) {
 
 function acf_maybe_get_POST( $key = '', $default = null ) {
 
-	return isset( $_POST[ $key ] ) ? acf_sanitize_request_args( $_POST[ $key ] ) : $default; // phpcs:ignore WordPress.Security.***REMOVED***.Recommended, WordPress.Security.***REMOVED***.Missing -- Checked elsewhere.
+	return isset( $_POST[ $key ] ) ? acf_sanitize_request_args( $_POST[ $key ] ) : $default; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- Checked elsewhere.
 }
 
 function acf_maybe_get_GET( $key = '', $default = null ) {
 
-	return isset( $_GET[ $key ] ) ? acf_sanitize_request_args( $_GET[ $key ] ) : $default; // phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Checked elsewhere.
+	return isset( $_GET[ $key ] ) ? acf_sanitize_request_args( $_GET[ $key ] ) : $default; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Checked elsewhere.
 }
 
 /**
@@ -2911,7 +2911,7 @@ function acf_validate_attachment( $attachment, $field, $context = 'prepare' ) {
 	} elseif ( $context == 'prepare' ) {
 		$use_path       = isset( $attachment['filename'] ) ? $attachment['filename'] : $attachment['url'];
 		$file['type']   = pathinfo( $use_path, PATHINFO_EXTENSION );
-		$file['size']   = acf_maybe_get( $attachment, '***REMOVED***', 0 );
+		$file['size']   = acf_maybe_get( $attachment, 'filesizeInBytes', 0 );
 		$file['width']  = acf_maybe_get( $attachment, 'width', 0 );
 		$file['height'] = acf_maybe_get( $attachment, 'height', 0 );
 
@@ -3292,10 +3292,10 @@ function acf_is_ajax( $action = '' ) {
 		$is_ajax = true;
 	}
 
-	// phpcs:disable WordPress.Security.***REMOVED***.Missing
+	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	// check $action
 	if ( $action && acf_maybe_get( $_POST, 'action' ) !== $action ) {
-	// phpcs:enable WordPress.Security.***REMOVED***.Missing
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
 		$is_ajax = false;
 	}
 
@@ -3724,10 +3724,10 @@ function acf_encrypt( $data = '' ) {
 	// generate a key
 	$key = wp_hash( 'acf_encrypt' );
 
-	// Generate an ***REMOVED*** vector
+	// Generate an initialization vector
 	$iv = openssl_random_pseudo_bytes( openssl_cipher_iv_length( 'aes-256-cbc' ) );
 
-	// Encrypt the data using AES 256 encryption in CBC mode using our encryption key and ***REMOVED*** vector.
+	// Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
 	$encrypted_data = openssl_encrypt( $data, 'aes-256-cbc', $key, 0, $iv );
 
 	// The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
@@ -3960,7 +3960,7 @@ function acf_is_block_editor() {
  * @return array The WordPress reserved terms list.
  */
 function acf_get_wp_reserved_terms() {
-	return array( 'action', 'attachment', 'attachment_id', 'author', 'author_name', 'calendar', 'cat', 'category', 'category__and', 'category__in', 'category__not_in', 'category_name', 'comments_per_page', 'comments_popup', 'custom', 'customize_messenger_channel', 'customized', 'cpage', 'day', 'debug', 'embed', 'error', 'exact', 'feed', 'fields', 'hour', 'link', 'link_category', 'm', 'minute', 'monthnum', 'more', 'name', 'nav_menu', 'nonce', 'nopaging', 'offset', 'order', 'orderby', 'p', 'page', 'page_id', 'paged', 'pagename', 'pb', 'perm', 'post', 'post__in', 'post__not_in', 'post_format', 'post_mime_type', 'post_status', 'post_tag', 'post_type', 'posts', 'posts_per_archive_page', 'posts_per_page', 'preview', 'robots', 's', 'search', 'second', 'sentence', 'showposts', 'static', 'status', 'subpost', 'subpost_id', 'tag', 'tag__and', 'tag__in', 'tag__not_in', 'tag_id', 'tag_slug__and', 'tag_slug__in', 'taxonomy', 'tb', 'term', 'terms', 'theme', 'themes', 'title', 'type', 'types', 'w', 'withcomments', '***REMOVED***', 'year' );
+	return array( 'action', 'attachment', 'attachment_id', 'author', 'author_name', 'calendar', 'cat', 'category', 'category__and', 'category__in', 'category__not_in', 'category_name', 'comments_per_page', 'comments_popup', 'custom', 'customize_messenger_channel', 'customized', 'cpage', 'day', 'debug', 'embed', 'error', 'exact', 'feed', 'fields', 'hour', 'link', 'link_category', 'm', 'minute', 'monthnum', 'more', 'name', 'nav_menu', 'nonce', 'nopaging', 'offset', 'order', 'orderby', 'p', 'page', 'page_id', 'paged', 'pagename', 'pb', 'perm', 'post', 'post__in', 'post__not_in', 'post_format', 'post_mime_type', 'post_status', 'post_tag', 'post_type', 'posts', 'posts_per_archive_page', 'posts_per_page', 'preview', 'robots', 's', 'search', 'second', 'sentence', 'showposts', 'static', 'status', 'subpost', 'subpost_id', 'tag', 'tag__and', 'tag__in', 'tag__not_in', 'tag_id', 'tag_slug__and', 'tag_slug__in', 'taxonomy', 'tb', 'term', 'terms', 'theme', 'themes', 'title', 'type', 'types', 'w', 'withcomments', 'withoutcomments', 'year' );
 }
 
 /**

@@ -57,7 +57,7 @@ class Missing_Indexables_Collector implements WPSEO_Collection {
 		 *
 		 * @internal
 		 * @param Indexation_Action_Interface $actions This filter expects a list of Indexation_Action_Interface instances
-		 *                                             and expects only Indexation_Action_Interface ***REMOVED*** to be
+		 *                                             and expects only Indexation_Action_Interface implementations to be
 		 *                                             added to the list.
 		 */
 		$indexing_actions = (array) \apply_filters( 'wpseo_indexable_collector_add_indexation_actions', $this->indexation_actions );

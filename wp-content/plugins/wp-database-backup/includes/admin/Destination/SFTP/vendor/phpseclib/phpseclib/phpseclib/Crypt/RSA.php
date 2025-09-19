@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP PKCS#1 (v2.1) compliant ***REMOVED*** of RSA.
+ * Pure-PHP PKCS#1 (v2.1) compliant implementation of RSA.
  *
  * PHP version 5
  *
@@ -62,7 +62,7 @@ use phpseclib3\Exception\UnsupportedAlgorithmException;
 use phpseclib3\Math\BigInteger;
 
 /**
- * Pure-PHP PKCS#1 compliant ***REMOVED*** of RSA.
+ * Pure-PHP PKCS#1 compliant implementation of RSA.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -147,14 +147,14 @@ abstract class RSA extends AsymmetricKey
      *
      * @var int
      */
-    protected $***REMOVED*** = self::ENCRYPTION_OAEP;
+    protected $encryptionPadding = self::ENCRYPTION_OAEP;
 
     /**
      * Signature padding mode
      *
      * @var int
      */
-    protected $***REMOVED*** = self::SIGNATURE_PSS;
+    protected $signaturePadding = self::SIGNATURE_PSS;
 
     /**
      * Length of hash function output
@@ -218,14 +218,14 @@ abstract class RSA extends AsymmetricKey
      * @var int
      * @link http://en.wikipedia.org/wiki/65537_%28number%29
      */
-    private static $***REMOVED*** = 65537;
+    private static $defaultExponent = 65537;
 
     /**
      * Enable Blinding?
      *
      * @var bool
      */
-    protected static $***REMOVED*** = true;
+    protected static $enableBlinding = true;
 
     /**
      * OpenSSL configuration file name.
@@ -254,7 +254,7 @@ abstract class RSA extends AsymmetricKey
      *
      * @var \phpseclib3\Math\BigInteger
      */
-    protected $***REMOVED***;
+    protected $publicExponent;
 
     /**
      * Sets the public exponent for key generation
@@ -265,7 +265,7 @@ abstract class RSA extends AsymmetricKey
      */
     public static function setExponent($val)
     {
-        self::$***REMOVED*** = $val;
+        self::$defaultExponent = $val;
     }
 
     /**
@@ -275,7 +275,7 @@ abstract class RSA extends AsymmetricKey
      *
      * @param int $val
      */
-    public static function ***REMOVED***($val)
+    public static function setSmallestPrime($val)
     {
         self::$smallestPrime = $val;
     }
@@ -287,7 +287,7 @@ abstract class RSA extends AsymmetricKey
      *
      * @param string $val
      */
-    public static function ***REMOVED***($val)
+    public static function setOpenSSLConfigPath($val)
     {
         self::$configFile = $val;
     }
@@ -304,9 +304,9 @@ abstract class RSA extends AsymmetricKey
     {
         self::initialize_static_variables();
 
-        $class = new \***REMOVED***(static::class);
+        $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
-            throw new \***REMOVED***('createKey() should not be called from final classes (' . static::class . ')');
+            throw new \RuntimeException('createKey() should not be called from final classes (' . static::class . ')');
         }
 
         $regSize = $bits >> 1; // divide by two to see how many bits P and Q would be
@@ -317,7 +317,7 @@ abstract class RSA extends AsymmetricKey
             $num_primes = 2;
         }
 
-        if ($num_primes == 2 && $bits >= 384 && self::$***REMOVED*** == 65537) {
+        if ($num_primes == 2 && $bits >= 384 && self::$defaultExponent == 65537) {
             if (!isset(self::$engines['PHP'])) {
                 self::useBestEngine();
             }
@@ -341,7 +341,7 @@ abstract class RSA extends AsymmetricKey
 
         static $e;
         if (!isset($e)) {
-            $e = new BigInteger(self::$***REMOVED***);
+            $e = new BigInteger(self::$defaultExponent);
         }
 
         $n = clone self::$one;
@@ -363,7 +363,7 @@ abstract class RSA extends AsymmetricKey
                     list($min) = $min->divide($n);
                     $min = $min->add(self::$one);
                     list($max) = $max->divide($n);
-                    $primes[$i] = BigInteger::***REMOVED***($min, $max);
+                    $primes[$i] = BigInteger::randomRangePrime($min, $max);
                 }
 
                 // the first coefficient is calculated differently from the rest
@@ -376,7 +376,7 @@ abstract class RSA extends AsymmetricKey
 
                 $temp = $primes[$i]->subtract(self::$one);
 
-                // textbook RSA ***REMOVED*** use Euler's totient function instead of the least common multiple.
+                // textbook RSA implementations use Euler's totient function instead of the least common multiple.
                 // see http://en.wikipedia.org/wiki/Euler%27s_totient_function
                 $lcm['top'] = $lcm['top']->multiply($temp);
                 $lcm['bottom'] = $lcm['bottom'] === false ? $temp : $lcm['bottom']->gcd($temp);
@@ -400,19 +400,19 @@ abstract class RSA extends AsymmetricKey
         // RSAPrivateKey ::= SEQUENCE {
         //     version           Version,
         //     modulus           INTEGER,  -- n
-        //     ***REMOVED***    INTEGER,  -- e
-        //     ***REMOVED***   INTEGER,  -- d
+        //     publicExponent    INTEGER,  -- e
+        //     privateExponent   INTEGER,  -- d
         //     prime1            INTEGER,  -- p
         //     prime2            INTEGER,  -- q
         //     exponent1         INTEGER,  -- d mod (p-1)
         //     exponent2         INTEGER,  -- d mod (q-1)
         //     coefficient       INTEGER,  -- (inverse of q) mod p
-        //     ***REMOVED***   ***REMOVED*** OPTIONAL
+        //     otherPrimeInfos   OtherPrimeInfos OPTIONAL
         // }
         $privatekey = new PrivateKey();
         $privatekey->modulus = $n;
         $privatekey->k = $bits >> 3;
-        $privatekey->***REMOVED*** = $e;
+        $privatekey->publicExponent = $e;
         $privatekey->exponent = $d;
         $privatekey->primes = $primes;
         $privatekey->exponents = $exponents;
@@ -423,7 +423,7 @@ abstract class RSA extends AsymmetricKey
         $publickey->modulus = $n;
         $publickey->k = $bits >> 3;
         $publickey->exponent = $e;
-        $publickey->***REMOVED*** = $e;
+        $publickey->publicExponent = $e;
         $publickey->isPublic = true;
         */
 
@@ -442,14 +442,14 @@ abstract class RSA extends AsymmetricKey
             new PrivateKey();
 
         $key->modulus = $components['modulus'];
-        $key->***REMOVED*** = $components['***REMOVED***'];
-        $key->k = $key->modulus->***REMOVED***();
+        $key->publicExponent = $components['publicExponent'];
+        $key->k = $key->modulus->getLengthInBytes();
 
-        if ($components['isPublicKey'] || !isset($components['***REMOVED***'])) {
-            $key->exponent = $key->***REMOVED***;
+        if ($components['isPublicKey'] || !isset($components['privateExponent'])) {
+            $key->exponent = $key->publicExponent;
         } else {
-            $key->***REMOVED*** = $components['***REMOVED***'];
-            $key->exponent = $key->***REMOVED***;
+            $key->privateExponent = $components['privateExponent'];
+            $key->exponent = $key->privateExponent;
             $key->primes = $components['primes'];
             $key->exponents = $components['exponents'];
             $key->coefficients = $components['coefficients'];
@@ -471,7 +471,7 @@ abstract class RSA extends AsymmetricKey
                 $key = $key->withMGFHash($components['MGFHash']);
             }
             if (isset($components['saltLength'])) {
-                $key = $key->***REMOVED***($components['saltLength']);
+                $key = $key->withSaltLength($components['saltLength']);
             }
         }
 
@@ -499,9 +499,9 @@ abstract class RSA extends AsymmetricKey
     {
         parent::__construct();
 
-        $this->hLen = $this->hash->***REMOVED***();
+        $this->hLen = $this->hash->getLengthInBytes();
         $this->mgfHash = new Hash('sha256');
-        $this->mgfHLen = $this->mgfHash->***REMOVED***();
+        $this->mgfHLen = $this->mgfHash->getLengthInBytes();
     }
 
     /**
@@ -520,7 +520,7 @@ abstract class RSA extends AsymmetricKey
         }
         $x = $x->toBytes();
         if (strlen($x) > $xLen) {
-            throw new \***REMOVED***('Resultant string length out of range');
+            throw new \OutOfRangeException('Resultant string length out of range');
         }
         return str_pad($x, $xLen, chr(0), STR_PAD_LEFT);
     }
@@ -545,7 +545,7 @@ abstract class RSA extends AsymmetricKey
      *
      * @param string $m
      * @param int $emLen
-     * @throws \***REMOVED*** if the intended encoded message length is too short
+     * @throws \LengthException if the intended encoded message length is too short
      * @return string
      */
     protected function emsa_pkcs1_v1_5_encode($m, $emLen)
@@ -586,7 +586,7 @@ abstract class RSA extends AsymmetricKey
         $tLen = strlen($t);
 
         if ($emLen < $tLen + 11) {
-            throw new \***REMOVED***('Intended encoded message length too short');
+            throw new \LengthException('Intended encoded message length too short');
         }
 
         $ps = str_repeat(chr(0xFF), $emLen - $tLen - 3);
@@ -645,7 +645,7 @@ abstract class RSA extends AsymmetricKey
         $tLen = strlen($t);
 
         if ($emLen < $tLen + 11) {
-            throw new \***REMOVED***('Intended encoded message length too short');
+            throw new \LengthException('Intended encoded message length too short');
         }
 
         $ps = str_repeat(chr(0xFF), $emLen - $tLen - 3);
@@ -720,7 +720,7 @@ abstract class RSA extends AsymmetricKey
                     'The only supported hash algorithms are: md2, md5, sha1, sha256, sha384, sha512, sha224, sha512/224, sha512/256'
                 );
         }
-        $new->hLen = $new->hash->***REMOVED***();
+        $new->hLen = $new->hash->getLengthInBytes();
 
         return $new;
     }
@@ -755,7 +755,7 @@ abstract class RSA extends AsymmetricKey
                     'The only supported hash algorithms are: md2, md5, sha1, sha256, sha384, sha512, sha224, sha512/224, sha512/256'
                 );
         }
-        $new->mgfHLen = $new->mgfHash->***REMOVED***();
+        $new->mgfHLen = $new->mgfHash->getLengthInBytes();
 
         return $new;
     }
@@ -781,7 +781,7 @@ abstract class RSA extends AsymmetricKey
      *
      * @param int $sLen
      */
-    public function ***REMOVED***($sLen)
+    public function withSaltLength($sLen)
     {
         $new = clone $this;
         $new->sLen = $sLen;
@@ -841,43 +841,43 @@ abstract class RSA extends AsymmetricKey
             self::ENCRYPTION_PKCS1,
             self::ENCRYPTION_NONE
         ];
-        $***REMOVED*** = 0;
+        $encryptedCount = 0;
         $selected = 0;
         foreach ($masks as $mask) {
             if ($padding & $mask) {
                 $selected = $mask;
-                $***REMOVED***++;
+                $encryptedCount++;
             }
         }
-        if ($***REMOVED*** > 1) {
+        if ($encryptedCount > 1) {
             throw new InconsistentSetupException('Multiple encryption padding modes have been selected; at most only one should be selected');
         }
-        $***REMOVED*** = $selected;
+        $encryptionPadding = $selected;
 
         $masks = [
             self::SIGNATURE_PSS,
             self::SIGNATURE_RELAXED_PKCS1,
             self::SIGNATURE_PKCS1
         ];
-        $***REMOVED*** = 0;
+        $signatureCount = 0;
         $selected = 0;
         foreach ($masks as $mask) {
             if ($padding & $mask) {
                 $selected = $mask;
-                $***REMOVED***++;
+                $signatureCount++;
             }
         }
-        if ($***REMOVED*** > 1) {
+        if ($signatureCount > 1) {
             throw new InconsistentSetupException('Multiple signature padding modes have been selected; at most only one should be selected');
         }
-        $***REMOVED*** = $selected;
+        $signaturePadding = $selected;
 
         $new = clone $this;
-        if ($***REMOVED***) {
-            $new->***REMOVED*** = $***REMOVED***;
+        if ($encryptedCount) {
+            $new->encryptionPadding = $encryptionPadding;
         }
-        if ($***REMOVED***) {
-            $new->***REMOVED*** = $***REMOVED***;
+        if ($signatureCount) {
+            $new->signaturePadding = $signaturePadding;
         }
         return $new;
     }
@@ -888,7 +888,7 @@ abstract class RSA extends AsymmetricKey
      */
     public function getPadding()
     {
-        return $this->***REMOVED*** | $this->***REMOVED***;
+        return $this->signaturePadding | $this->encryptionPadding;
     }
 
     /**
@@ -899,7 +899,7 @@ abstract class RSA extends AsymmetricKey
      * multi-prime RSA nor is it used if the key length is outside of the range
      * supported by OpenSSL
      *
-     * @see self::***REMOVED***()
+     * @see self::useInternalEngine()
      * @see self::useBestEngine()
      * @return string
      */
@@ -908,7 +908,7 @@ abstract class RSA extends AsymmetricKey
         if (!isset(self::$engines['PHP'])) {
             self::useBestEngine();
         }
-        return self::$engines['OpenSSL'] && self::$***REMOVED*** == 65537 ?
+        return self::$engines['OpenSSL'] && self::$defaultExponent == 65537 ?
             'OpenSSL' :
             'PHP';
     }
@@ -917,17 +917,17 @@ abstract class RSA extends AsymmetricKey
      * Enable RSA Blinding
      *
      */
-    public static function ***REMOVED***()
+    public static function enableBlinding()
     {
-        static::$***REMOVED*** = true;
+        static::$enableBlinding = true;
     }
 
     /**
      * Disable RSA Blinding
      *
      */
-    public static function ***REMOVED***()
+    public static function disableBlinding()
     {
-        static::$***REMOVED*** = false;
+        static::$enableBlinding = false;
     }
 }

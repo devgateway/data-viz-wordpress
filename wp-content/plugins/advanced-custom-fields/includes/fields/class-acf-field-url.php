@@ -19,7 +19,7 @@ if ( ! class_exists( 'acf_field_url' ) ) :
 			$this->label         = __( 'URL', 'acf' );
 			$this->description   = __( 'A text input specifically designed for storing web addresses.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-url.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/url/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/url/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'default_value' => '',
 				'placeholder'   => '',
@@ -65,7 +65,7 @@ if ( ! class_exists( 'acf_field_url' ) ) :
 			$html .= '</div>';
 
 			// return
-			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- safe HTML, escaped by acf_get_text_input.
+			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- safe HTML, escaped by acf_get_text_input.
 		}
 
 

@@ -18,22 +18,22 @@
    * The "datasets" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BigqueryService(...);
-   *   $datasets = $***REMOVED***->datasets;
+   *   $bigqueryService = new Google_BigqueryService(...);
+   *   $datasets = $bigqueryService->datasets;
    *  </code>
    */
   class Google_DatasetsServiceResource extends Google_ServiceResource {
 
     /**
      * Deletes the dataset specified by datasetId value. Before you can delete a dataset, you must
-     * delete all its tables, either manually or by specifying ***REMOVED***. Immediately after
+     * delete all its tables, either manually or by specifying deleteContents. Immediately after
      * deletion, you can create another dataset with the same name. (datasets.delete)
      *
      * @param string $projectId Project ID of the dataset being deleted
      * @param string $datasetId Dataset ID of dataset being deleted
      * @param array $optParams Optional parameters.
      *
-     * @opt_param bool ***REMOVED*** If True, delete all the tables in the dataset. If False and the dataset contains tables, the request will fail. Default is False
+     * @opt_param bool deleteContents If True, delete all the tables in the dataset. If False and the dataset contains tables, the request will fail. Default is False
      */
     public function delete($projectId, $datasetId, $optParams = array()) {
       $params = array('projectId' => $projectId, 'datasetId' => $datasetId);
@@ -148,8 +148,8 @@
    * The "jobs" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BigqueryService(...);
-   *   $jobs = $***REMOVED***->jobs;
+   *   $bigqueryService = new Google_BigqueryService(...);
+   *   $jobs = $bigqueryService->jobs;
    *  </code>
    */
   class Google_JobsServiceResource extends Google_ServiceResource {
@@ -173,7 +173,7 @@
       }
     }
     /**
-     * Retrieves the results of a query job. (jobs.***REMOVED***)
+     * Retrieves the results of a query job. (jobs.getQueryResults)
      *
      * @param string $projectId Project ID of the query job
      * @param string $jobId Job ID of the query job
@@ -185,10 +185,10 @@
      * @opt_param string timeoutMs How long to wait for the query to complete, in milliseconds, before returning. Default is to return immediately. If the timeout passes before the job completes, the request will fail with a TIMEOUT error
      * @return Google_GetQueryResultsResponse
      */
-    public function ***REMOVED***($projectId, $jobId, $optParams = array()) {
+    public function getQueryResults($projectId, $jobId, $optParams = array()) {
       $params = array('projectId' => $projectId, 'jobId' => $jobId);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('getQueryResults', array($params));
       if ($this->useObjects()) {
         return new Google_GetQueryResultsResponse($data);
       } else {
@@ -261,8 +261,8 @@
    * The "projects" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BigqueryService(...);
-   *   $projects = $***REMOVED***->projects;
+   *   $bigqueryService = new Google_BigqueryService(...);
+   *   $projects = $bigqueryService->projects;
    *  </code>
    */
   class Google_ProjectsServiceResource extends Google_ServiceResource {
@@ -292,8 +292,8 @@
    * The "tabledata" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BigqueryService(...);
-   *   $tabledata = $***REMOVED***->tabledata;
+   *   $bigqueryService = new Google_BigqueryService(...);
+   *   $tabledata = $bigqueryService->tabledata;
    *  </code>
    */
   class Google_TabledataServiceResource extends Google_ServiceResource {
@@ -327,8 +327,8 @@
    * The "tables" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BigqueryService(...);
-   *   $tables = $***REMOVED***->tables;
+   *   $bigqueryService = new Google_BigqueryService(...);
+   *   $tables = $bigqueryService->tables;
    *  </code>
    */
   class Google_TablesServiceResource extends Google_ServiceResource {
@@ -472,7 +472,7 @@ class Google_BigqueryService extends Google_Service {
   public $tabledata;
   public $tables;
   /**
-   * Constructs the internal ***REMOVED*** of the Bigquery service.
+   * Constructs the internal representation of the Bigquery service.
    *
    * @param Google_Client $client
    */
@@ -482,8 +482,8 @@ class Google_BigqueryService extends Google_Service {
     $this->serviceName = 'bigquery';
 
     $client->addService($this->serviceName, $this->version);
-    $this->datasets = new Google_DatasetsServiceResource($this, $this->serviceName, 'datasets', json_decode('{"methods": {"delete": {"id": "bigquery.datasets.delete", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "DELETE", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "boolean", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "get": {"id": "bigquery.datasets.get", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "GET", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "insert": {"id": "bigquery.datasets.insert", "path": "projects/{projectId}/datasets", "httpMethod": "POST", "parameters": {"projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Dataset"}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "list": {"id": "bigquery.datasets.list", "path": "projects/{projectId}/datasets", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DatasetList"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "patch": {"id": "bigquery.datasets.patch", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "PATCH", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Dataset"}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "update": {"id": "bigquery.datasets.update", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "PUT", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Dataset"}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}}}', true));
-    $this->jobs = new Google_JobsServiceResource($this, $this->serviceName, 'jobs', json_decode('{"methods": {"get": {"id": "bigquery.jobs.get", "path": "projects/{projectId}/jobs/{jobId}", "httpMethod": "GET", "parameters": {"jobId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Job"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "***REMOVED***": {"id": "bigquery.jobs.***REMOVED***", "path": "projects/{projectId}/queries/{jobId}", "httpMethod": "GET", "parameters": {"jobId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}, "startIndex": {"type": "string", "format": "uint64", "location": "query"}, "timeoutMs": {"type": "integer", "format": "uint32", "location": "query"}}, "response": {"$ref": "GetQueryResultsResponse"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "insert": {"id": "bigquery.jobs.insert", "path": "projects/{projectId}/jobs", "httpMethod": "POST", "parameters": {"projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Job"}, "response": {"$ref": "Job"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform", "https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "***REMOVED***": true, "mediaUpload": {"accept": ["application/octet-stream"], "protocols": {"simple": {"multipart": true, "path": "/upload/bigquery/v2/projects/{projectId}/jobs"}, "resumable": {"multipart": true, "path": "/resumable/upload/bigquery/v2/projects/{projectId}/jobs"}}}}, "list": {"id": "bigquery.jobs.list", "path": "projects/{projectId}/jobs", "httpMethod": "GET", "parameters": {"allUsers": {"type": "boolean", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "minimal"], "location": "query"}, "stateFilter": {"type": "string", "enum": ["done", "pending", "running"], "repeated": true, "location": "query"}}, "response": {"$ref": "JobList"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "query": {"id": "bigquery.jobs.query", "path": "projects/{projectId}/queries", "httpMethod": "POST", "parameters": {"projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "QueryRequest"}, "response": {"$ref": "QueryResponse"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}}}', true));
+    $this->datasets = new Google_DatasetsServiceResource($this, $this->serviceName, 'datasets', json_decode('{"methods": {"delete": {"id": "bigquery.datasets.delete", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "DELETE", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "deleteContents": {"type": "boolean", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "get": {"id": "bigquery.datasets.get", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "GET", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "insert": {"id": "bigquery.datasets.insert", "path": "projects/{projectId}/datasets", "httpMethod": "POST", "parameters": {"projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Dataset"}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "list": {"id": "bigquery.datasets.list", "path": "projects/{projectId}/datasets", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DatasetList"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "patch": {"id": "bigquery.datasets.patch", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "PATCH", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Dataset"}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "update": {"id": "bigquery.datasets.update", "path": "projects/{projectId}/datasets/{datasetId}", "httpMethod": "PUT", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Dataset"}, "response": {"$ref": "Dataset"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}}}', true));
+    $this->jobs = new Google_JobsServiceResource($this, $this->serviceName, 'jobs', json_decode('{"methods": {"get": {"id": "bigquery.jobs.get", "path": "projects/{projectId}/jobs/{jobId}", "httpMethod": "GET", "parameters": {"jobId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Job"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "getQueryResults": {"id": "bigquery.jobs.getQueryResults", "path": "projects/{projectId}/queries/{jobId}", "httpMethod": "GET", "parameters": {"jobId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}, "startIndex": {"type": "string", "format": "uint64", "location": "query"}, "timeoutMs": {"type": "integer", "format": "uint32", "location": "query"}}, "response": {"$ref": "GetQueryResultsResponse"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "insert": {"id": "bigquery.jobs.insert", "path": "projects/{projectId}/jobs", "httpMethod": "POST", "parameters": {"projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Job"}, "response": {"$ref": "Job"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform", "https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaUpload": true, "mediaUpload": {"accept": ["application/octet-stream"], "protocols": {"simple": {"multipart": true, "path": "/upload/bigquery/v2/projects/{projectId}/jobs"}, "resumable": {"multipart": true, "path": "/resumable/upload/bigquery/v2/projects/{projectId}/jobs"}}}}, "list": {"id": "bigquery.jobs.list", "path": "projects/{projectId}/jobs", "httpMethod": "GET", "parameters": {"allUsers": {"type": "boolean", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "minimal"], "location": "query"}, "stateFilter": {"type": "string", "enum": ["done", "pending", "running"], "repeated": true, "location": "query"}}, "response": {"$ref": "JobList"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "query": {"id": "bigquery.jobs.query", "path": "projects/{projectId}/queries", "httpMethod": "POST", "parameters": {"projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "QueryRequest"}, "response": {"$ref": "QueryResponse"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}}}', true));
     $this->projects = new Google_ProjectsServiceResource($this, $this->serviceName, 'projects', json_decode('{"methods": {"list": {"id": "bigquery.projects.list", "path": "projects", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "ProjectList"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}}}', true));
     $this->tabledata = new Google_TabledataServiceResource($this, $this->serviceName, 'tabledata', json_decode('{"methods": {"list": {"id": "bigquery.tabledata.list", "path": "projects/{projectId}/datasets/{datasetId}/tables/{tableId}/data", "httpMethod": "GET", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}, "startIndex": {"type": "string", "format": "uint64", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "TableDataList"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}}}', true));
     $this->tables = new Google_TablesServiceResource($this, $this->serviceName, 'tables', json_decode('{"methods": {"delete": {"id": "bigquery.tables.delete", "path": "projects/{projectId}/datasets/{datasetId}/tables/{tableId}", "httpMethod": "DELETE", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "get": {"id": "bigquery.tables.get", "path": "projects/{projectId}/datasets/{datasetId}/tables/{tableId}", "httpMethod": "GET", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "insert": {"id": "bigquery.tables.insert", "path": "projects/{projectId}/datasets/{datasetId}/tables", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "list": {"id": "bigquery.tables.list", "path": "projects/{projectId}/datasets/{datasetId}/tables", "httpMethod": "GET", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "projectId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "TableList"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "patch": {"id": "bigquery.tables.patch", "path": "projects/{projectId}/datasets/{datasetId}/tables/{tableId}", "httpMethod": "PATCH", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}, "update": {"id": "bigquery.tables.update", "path": "projects/{projectId}/datasets/{datasetId}/tables/{tableId}", "httpMethod": "PUT", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}, "projectId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/bigquery", "https://www.googleapis.com/auth/cloud-platform"]}}}', true));
@@ -500,13 +500,13 @@ class Google_Dataset extends Google_Model {
   public $creationTime;
   protected $__datasetReferenceType = 'Google_DatasetReference';
   protected $__datasetReferenceDataType = '';
-  public $***REMOVED***;
+  public $datasetReference;
   public $description;
   public $etag;
   public $friendlyName;
   public $id;
   public $kind;
-  public $***REMOVED***;
+  public $lastModifiedTime;
   public $selfLink;
   public function setAccess(/* array(Google_DatasetAccess) */ $access) {
     $this->assertIsArray($access, 'Google_DatasetAccess', __METHOD__);
@@ -515,22 +515,22 @@ class Google_Dataset extends Google_Model {
   public function getAccess() {
     return $this->access;
   }
-  public function ***REMOVED***( $creationTime) {
+  public function setCreationTime( $creationTime) {
     $this->creationTime = $creationTime;
   }
-  public function ***REMOVED***() {
+  public function getCreationTime() {
     return $this->creationTime;
   }
-  public function ***REMOVED***(Google_DatasetReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDatasetReference(Google_DatasetReference $datasetReference) {
+    $this->datasetReference = $datasetReference;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDatasetReference() {
+    return $this->datasetReference;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setEtag( $etag) {
@@ -539,10 +539,10 @@ class Google_Dataset extends Google_Model {
   public function getEtag() {
     return $this->etag;
   }
-  public function ***REMOVED***( $friendlyName) {
+  public function setFriendlyName( $friendlyName) {
     $this->friendlyName = $friendlyName;
   }
-  public function ***REMOVED***() {
+  public function getFriendlyName() {
     return $this->friendlyName;
   }
   public function setId( $id) {
@@ -557,11 +557,11 @@ class Google_Dataset extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLastModifiedTime( $lastModifiedTime) {
+    $this->lastModifiedTime = $lastModifiedTime;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLastModifiedTime() {
+    return $this->lastModifiedTime;
   }
   public function setSelfLink( $selfLink) {
     $this->selfLink = $selfLink;
@@ -583,10 +583,10 @@ class Google_DatasetAccess extends Google_Model {
   public function getDomain() {
     return $this->domain;
   }
-  public function ***REMOVED***( $groupByEmail) {
+  public function setGroupByEmail( $groupByEmail) {
     $this->groupByEmail = $groupByEmail;
   }
-  public function ***REMOVED***() {
+  public function getGroupByEmail() {
     return $this->groupByEmail;
   }
   public function setRole( $role) {
@@ -595,16 +595,16 @@ class Google_DatasetAccess extends Google_Model {
   public function getRole() {
     return $this->role;
   }
-  public function ***REMOVED***( $specialGroup) {
+  public function setSpecialGroup( $specialGroup) {
     $this->specialGroup = $specialGroup;
   }
-  public function ***REMOVED***() {
+  public function getSpecialGroup() {
     return $this->specialGroup;
   }
-  public function ***REMOVED***( $userByEmail) {
+  public function setUserByEmail( $userByEmail) {
     $this->userByEmail = $userByEmail;
   }
-  public function ***REMOVED***() {
+  public function getUserByEmail() {
     return $this->userByEmail;
   }
 }
@@ -635,10 +635,10 @@ class Google_DatasetList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -646,20 +646,20 @@ class Google_DatasetList extends Google_Model {
 class Google_DatasetListDatasets extends Google_Model {
   protected $__datasetReferenceType = 'Google_DatasetReference';
   protected $__datasetReferenceDataType = '';
-  public $***REMOVED***;
+  public $datasetReference;
   public $friendlyName;
   public $id;
   public $kind;
-  public function ***REMOVED***(Google_DatasetReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDatasetReference(Google_DatasetReference $datasetReference) {
+    $this->datasetReference = $datasetReference;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDatasetReference() {
+    return $this->datasetReference;
   }
-  public function ***REMOVED***( $friendlyName) {
+  public function setFriendlyName( $friendlyName) {
     $this->friendlyName = $friendlyName;
   }
-  public function ***REMOVED***() {
+  public function getFriendlyName() {
     return $this->friendlyName;
   }
   public function setId( $id) {
@@ -752,16 +752,16 @@ class Google_GetQueryResultsResponse extends Google_Model {
   public function getEtag() {
     return $this->etag;
   }
-  public function ***REMOVED***( $jobComplete) {
+  public function setJobComplete( $jobComplete) {
     $this->jobComplete = $jobComplete;
   }
-  public function ***REMOVED***() {
+  public function getJobComplete() {
     return $this->jobComplete;
   }
-  public function ***REMOVED***(Google_JobReference $jobReference) {
+  public function setJobReference(Google_JobReference $jobReference) {
     $this->jobReference = $jobReference;
   }
-  public function ***REMOVED***() {
+  public function getJobReference() {
     return $this->jobReference;
   }
   public function setKind( $kind) {
@@ -814,10 +814,10 @@ class Google_Job extends Google_Model {
   protected $__statusType = 'Google_JobStatus';
   protected $__statusDataType = '';
   public $status;
-  public function ***REMOVED***(Google_JobConfiguration $configuration) {
+  public function setConfiguration(Google_JobConfiguration $configuration) {
     $this->configuration = $configuration;
   }
-  public function ***REMOVED***() {
+  public function getConfiguration() {
     return $this->configuration;
   }
   public function setEtag( $etag) {
@@ -832,10 +832,10 @@ class Google_Job extends Google_Model {
   public function getId() {
     return $this->id;
   }
-  public function ***REMOVED***(Google_JobReference $jobReference) {
+  public function setJobReference(Google_JobReference $jobReference) {
     $this->jobReference = $jobReference;
   }
-  public function ***REMOVED***() {
+  public function getJobReference() {
     return $this->jobReference;
   }
   public function setKind( $kind) {
@@ -920,63 +920,63 @@ class Google_JobConfiguration extends Google_Model {
 }
 
 class Google_JobConfigurationExtract extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $destinationFormat;
+  public $destinationUri;
+  public $fieldDelimiter;
   public $printHeader;
   protected $__sourceTableType = 'Google_TableReference';
   protected $__sourceTableDataType = '';
   public $sourceTable;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDestinationFormat( $destinationFormat) {
+    $this->destinationFormat = $destinationFormat;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDestinationFormat() {
+    return $this->destinationFormat;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDestinationUri( $destinationUri) {
+    $this->destinationUri = $destinationUri;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDestinationUri() {
+    return $this->destinationUri;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFieldDelimiter( $fieldDelimiter) {
+    $this->fieldDelimiter = $fieldDelimiter;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFieldDelimiter() {
+    return $this->fieldDelimiter;
   }
-  public function ***REMOVED***( $printHeader) {
+  public function setPrintHeader( $printHeader) {
     $this->printHeader = $printHeader;
   }
-  public function ***REMOVED***() {
+  public function getPrintHeader() {
     return $this->printHeader;
   }
-  public function ***REMOVED***(Google_TableReference $sourceTable) {
+  public function setSourceTable(Google_TableReference $sourceTable) {
     $this->sourceTable = $sourceTable;
   }
-  public function ***REMOVED***() {
+  public function getSourceTable() {
     return $this->sourceTable;
   }
 }
 
 class Google_JobConfigurationLink extends Google_Model {
-  public $***REMOVED***;
+  public $createDisposition;
   protected $__destinationTableType = 'Google_TableReference';
   protected $__destinationTableDataType = '';
-  public $***REMOVED***;
+  public $destinationTable;
   public $sourceUri;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $writeDisposition;
+  public function setCreateDisposition( $createDisposition) {
+    $this->createDisposition = $createDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreateDisposition() {
+    return $this->createDisposition;
   }
-  public function ***REMOVED***(Google_TableReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDestinationTable(Google_TableReference $destinationTable) {
+    $this->destinationTable = $destinationTable;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDestinationTable() {
+    return $this->destinationTable;
   }
   public function setSourceUri(/* array(Google_string) */ $sourceUri) {
     $this->assertIsArray($sourceUri, 'Google_string', __METHOD__);
@@ -985,57 +985,57 @@ class Google_JobConfigurationLink extends Google_Model {
   public function getSourceUri() {
     return $this->sourceUri;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setWriteDisposition( $writeDisposition) {
+    $this->writeDisposition = $writeDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getWriteDisposition() {
+    return $this->writeDisposition;
   }
 }
 
 class Google_JobConfigurationLoad extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $allowJaggedRows;
+  public $allowQuotedNewlines;
+  public $createDisposition;
   protected $__destinationTableType = 'Google_TableReference';
   protected $__destinationTableDataType = '';
-  public $***REMOVED***;
+  public $destinationTable;
   public $encoding;
-  public $***REMOVED***;
+  public $fieldDelimiter;
   public $maxBadRecords;
   public $quote;
   protected $__schemaType = 'Google_TableSchema';
   protected $__schemaDataType = '';
   public $schema;
   public $schemaInline;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $schemaInlineFormat;
+  public $skipLeadingRows;
   public $sourceFormat;
   public $sourceUris;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $writeDisposition;
+  public function setAllowJaggedRows( $allowJaggedRows) {
+    $this->allowJaggedRows = $allowJaggedRows;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAllowJaggedRows() {
+    return $this->allowJaggedRows;
   }
-  public function setAllowQuotedNewlines( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAllowQuotedNewlines( $allowQuotedNewlines) {
+    $this->allowQuotedNewlines = $allowQuotedNewlines;
   }
   public function getAllowQuotedNewlines() {
-    return $this->***REMOVED***;
+    return $this->allowQuotedNewlines;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreateDisposition( $createDisposition) {
+    $this->createDisposition = $createDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreateDisposition() {
+    return $this->createDisposition;
   }
-  public function ***REMOVED***(Google_TableReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDestinationTable(Google_TableReference $destinationTable) {
+    $this->destinationTable = $destinationTable;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDestinationTable() {
+    return $this->destinationTable;
   }
   public function setEncoding( $encoding) {
     $this->encoding = $encoding;
@@ -1043,16 +1043,16 @@ class Google_JobConfigurationLoad extends Google_Model {
   public function getEncoding() {
     return $this->encoding;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFieldDelimiter( $fieldDelimiter) {
+    $this->fieldDelimiter = $fieldDelimiter;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFieldDelimiter() {
+    return $this->fieldDelimiter;
   }
-  public function ***REMOVED***( $maxBadRecords) {
+  public function setMaxBadRecords( $maxBadRecords) {
     $this->maxBadRecords = $maxBadRecords;
   }
-  public function ***REMOVED***() {
+  public function getMaxBadRecords() {
     return $this->maxBadRecords;
   }
   public function setQuote( $quote) {
@@ -1067,28 +1067,28 @@ class Google_JobConfigurationLoad extends Google_Model {
   public function getSchema() {
     return $this->schema;
   }
-  public function ***REMOVED***( $schemaInline) {
+  public function setSchemaInline( $schemaInline) {
     $this->schemaInline = $schemaInline;
   }
-  public function ***REMOVED***() {
+  public function getSchemaInline() {
     return $this->schemaInline;
   }
-  public function setSchemaInlineFormat( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSchemaInlineFormat( $schemaInlineFormat) {
+    $this->schemaInlineFormat = $schemaInlineFormat;
   }
   public function getSchemaInlineFormat() {
-    return $this->***REMOVED***;
+    return $this->schemaInlineFormat;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSkipLeadingRows( $skipLeadingRows) {
+    $this->skipLeadingRows = $skipLeadingRows;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSkipLeadingRows() {
+    return $this->skipLeadingRows;
   }
-  public function ***REMOVED***( $sourceFormat) {
+  public function setSourceFormat( $sourceFormat) {
     $this->sourceFormat = $sourceFormat;
   }
-  public function ***REMOVED***() {
+  public function getSourceFormat() {
     return $this->sourceFormat;
   }
   public function setSourceUris(/* array(Google_string) */ $sourceUris) {
@@ -1098,63 +1098,63 @@ class Google_JobConfigurationLoad extends Google_Model {
   public function getSourceUris() {
     return $this->sourceUris;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setWriteDisposition( $writeDisposition) {
+    $this->writeDisposition = $writeDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getWriteDisposition() {
+    return $this->writeDisposition;
   }
 }
 
 class Google_JobConfigurationQuery extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $allowLargeResults;
+  public $createDisposition;
   protected $__defaultDatasetType = 'Google_DatasetReference';
   protected $__defaultDatasetDataType = '';
-  public $***REMOVED***;
+  public $defaultDataset;
   protected $__destinationTableType = 'Google_TableReference';
   protected $__destinationTableDataType = '';
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $destinationTable;
+  public $minCompletionRatio;
   public $preserveNulls;
   public $priority;
   public $query;
   public $useQueryCache;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $writeDisposition;
+  public function setAllowLargeResults( $allowLargeResults) {
+    $this->allowLargeResults = $allowLargeResults;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAllowLargeResults() {
+    return $this->allowLargeResults;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreateDisposition( $createDisposition) {
+    $this->createDisposition = $createDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreateDisposition() {
+    return $this->createDisposition;
   }
-  public function ***REMOVED***(Google_DatasetReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDefaultDataset(Google_DatasetReference $defaultDataset) {
+    $this->defaultDataset = $defaultDataset;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDefaultDataset() {
+    return $this->defaultDataset;
   }
-  public function ***REMOVED***(Google_TableReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDestinationTable(Google_TableReference $destinationTable) {
+    $this->destinationTable = $destinationTable;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDestinationTable() {
+    return $this->destinationTable;
   }
-  public function setMinCompletionRatio( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMinCompletionRatio( $minCompletionRatio) {
+    $this->minCompletionRatio = $minCompletionRatio;
   }
   public function getMinCompletionRatio() {
-    return $this->***REMOVED***;
+    return $this->minCompletionRatio;
   }
-  public function ***REMOVED***( $preserveNulls) {
+  public function setPreserveNulls( $preserveNulls) {
     $this->preserveNulls = $preserveNulls;
   }
-  public function ***REMOVED***() {
+  public function getPreserveNulls() {
     return $this->preserveNulls;
   }
   public function setPriority( $priority) {
@@ -1169,52 +1169,52 @@ class Google_JobConfigurationQuery extends Google_Model {
   public function getQuery() {
     return $this->query;
   }
-  public function ***REMOVED***( $useQueryCache) {
+  public function setUseQueryCache( $useQueryCache) {
     $this->useQueryCache = $useQueryCache;
   }
-  public function ***REMOVED***() {
+  public function getUseQueryCache() {
     return $this->useQueryCache;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setWriteDisposition( $writeDisposition) {
+    $this->writeDisposition = $writeDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getWriteDisposition() {
+    return $this->writeDisposition;
   }
 }
 
 class Google_JobConfigurationTableCopy extends Google_Model {
-  public $***REMOVED***;
+  public $createDisposition;
   protected $__destinationTableType = 'Google_TableReference';
   protected $__destinationTableDataType = '';
-  public $***REMOVED***;
+  public $destinationTable;
   protected $__sourceTableType = 'Google_TableReference';
   protected $__sourceTableDataType = '';
   public $sourceTable;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $writeDisposition;
+  public function setCreateDisposition( $createDisposition) {
+    $this->createDisposition = $createDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreateDisposition() {
+    return $this->createDisposition;
   }
-  public function ***REMOVED***(Google_TableReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDestinationTable(Google_TableReference $destinationTable) {
+    $this->destinationTable = $destinationTable;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDestinationTable() {
+    return $this->destinationTable;
   }
-  public function ***REMOVED***(Google_TableReference $sourceTable) {
+  public function setSourceTable(Google_TableReference $sourceTable) {
     $this->sourceTable = $sourceTable;
   }
-  public function ***REMOVED***() {
+  public function getSourceTable() {
     return $this->sourceTable;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setWriteDisposition( $writeDisposition) {
+    $this->writeDisposition = $writeDisposition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getWriteDisposition() {
+    return $this->writeDisposition;
   }
 }
 
@@ -1245,10 +1245,10 @@ class Google_JobList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {
@@ -1278,16 +1278,16 @@ class Google_JobListJobs extends Google_Model {
   protected $__statusType = 'Google_JobStatus';
   protected $__statusDataType = '';
   public $status;
-  public function ***REMOVED***(Google_JobConfiguration $configuration) {
+  public function setConfiguration(Google_JobConfiguration $configuration) {
     $this->configuration = $configuration;
   }
-  public function ***REMOVED***() {
+  public function getConfiguration() {
     return $this->configuration;
   }
-  public function ***REMOVED***(Google_ErrorProto $errorResult) {
+  public function setErrorResult(Google_ErrorProto $errorResult) {
     $this->errorResult = $errorResult;
   }
-  public function ***REMOVED***() {
+  public function getErrorResult() {
     return $this->errorResult;
   }
   public function setId( $id) {
@@ -1296,10 +1296,10 @@ class Google_JobListJobs extends Google_Model {
   public function getId() {
     return $this->id;
   }
-  public function ***REMOVED***(Google_JobReference $jobReference) {
+  public function setJobReference(Google_JobReference $jobReference) {
     $this->jobReference = $jobReference;
   }
-  public function ***REMOVED***() {
+  public function getJobReference() {
     return $this->jobReference;
   }
   public function setKind( $kind) {
@@ -1354,7 +1354,7 @@ class Google_JobStatistics extends Google_Model {
   protected $__queryDataType = '';
   public $query;
   public $startTime;
-  public $***REMOVED***;
+  public $totalBytesProcessed;
   public function setEndTime( $endTime) {
     $this->endTime = $endTime;
   }
@@ -1379,48 +1379,48 @@ class Google_JobStatistics extends Google_Model {
   public function getStartTime() {
     return $this->startTime;
   }
-  public function setTotalBytesProcessed( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalBytesProcessed( $totalBytesProcessed) {
+    $this->totalBytesProcessed = $totalBytesProcessed;
   }
   public function getTotalBytesProcessed() {
-    return $this->***REMOVED***;
+    return $this->totalBytesProcessed;
   }
 }
 
 class Google_JobStatistics2 extends Google_Model {
   public $cacheHit;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $completionRatio;
+  public $totalBytesProcessed;
   public function setCacheHit( $cacheHit) {
     $this->cacheHit = $cacheHit;
   }
   public function getCacheHit() {
     return $this->cacheHit;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCompletionRatio( $completionRatio) {
+    $this->completionRatio = $completionRatio;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCompletionRatio() {
+    return $this->completionRatio;
   }
-  public function setTotalBytesProcessed( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalBytesProcessed( $totalBytesProcessed) {
+    $this->totalBytesProcessed = $totalBytesProcessed;
   }
   public function getTotalBytesProcessed() {
-    return $this->***REMOVED***;
+    return $this->totalBytesProcessed;
   }
 }
 
 class Google_JobStatistics3 extends Google_Model {
-  public $***REMOVED***;
+  public $inputFileBytes;
   public $inputFiles;
   public $outputBytes;
   public $outputRows;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setInputFileBytes( $inputFileBytes) {
+    $this->inputFileBytes = $inputFileBytes;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getInputFileBytes() {
+    return $this->inputFileBytes;
   }
   public function setInputFiles( $inputFiles) {
     $this->inputFiles = $inputFiles;
@@ -1428,10 +1428,10 @@ class Google_JobStatistics3 extends Google_Model {
   public function getInputFiles() {
     return $this->inputFiles;
   }
-  public function ***REMOVED***( $outputBytes) {
+  public function setOutputBytes( $outputBytes) {
     $this->outputBytes = $outputBytes;
   }
-  public function ***REMOVED***() {
+  public function getOutputBytes() {
     return $this->outputBytes;
   }
   public function setOutputRows( $outputRows) {
@@ -1450,10 +1450,10 @@ class Google_JobStatus extends Google_Model {
   protected $__errorsDataType = 'array';
   public $errors;
   public $state;
-  public function ***REMOVED***(Google_ErrorProto $errorResult) {
+  public function setErrorResult(Google_ErrorProto $errorResult) {
     $this->errorResult = $errorResult;
   }
-  public function ***REMOVED***() {
+  public function getErrorResult() {
     return $this->errorResult;
   }
   public function setErrors(/* array(Google_ErrorProto) */ $errors) {
@@ -1491,10 +1491,10 @@ class Google_ProjectList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setProjects(/* array(Google_ProjectListProjects) */ $projects) {
@@ -1519,11 +1519,11 @@ class Google_ProjectListProjects extends Google_Model {
   public $numericId;
   protected $__projectReferenceType = 'Google_ProjectReference';
   protected $__projectReferenceDataType = '';
-  public $***REMOVED***;
-  public function ***REMOVED***( $friendlyName) {
+  public $projectReference;
+  public function setFriendlyName( $friendlyName) {
     $this->friendlyName = $friendlyName;
   }
-  public function ***REMOVED***() {
+  public function getFriendlyName() {
     return $this->friendlyName;
   }
   public function setId( $id) {
@@ -1544,11 +1544,11 @@ class Google_ProjectListProjects extends Google_Model {
   public function getNumericId() {
     return $this->numericId;
   }
-  public function ***REMOVED***(Google_ProjectReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setProjectReference(Google_ProjectReference $projectReference) {
+    $this->projectReference = $projectReference;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getProjectReference() {
+    return $this->projectReference;
   }
 }
 
@@ -1565,20 +1565,20 @@ class Google_ProjectReference extends Google_Model {
 class Google_QueryRequest extends Google_Model {
   protected $__defaultDatasetType = 'Google_DatasetReference';
   protected $__defaultDatasetDataType = '';
-  public $***REMOVED***;
+  public $defaultDataset;
   public $dryRun;
   public $kind;
   public $maxResults;
-  public $***REMOVED***;
+  public $minCompletionRatio;
   public $preserveNulls;
   public $query;
   public $timeoutMs;
   public $useQueryCache;
-  public function ***REMOVED***(Google_DatasetReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDefaultDataset(Google_DatasetReference $defaultDataset) {
+    $this->defaultDataset = $defaultDataset;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDefaultDataset() {
+    return $this->defaultDataset;
   }
   public function setDryRun( $dryRun) {
     $this->dryRun = $dryRun;
@@ -1598,16 +1598,16 @@ class Google_QueryRequest extends Google_Model {
   public function getMaxResults() {
     return $this->maxResults;
   }
-  public function setMinCompletionRatio( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMinCompletionRatio( $minCompletionRatio) {
+    $this->minCompletionRatio = $minCompletionRatio;
   }
   public function getMinCompletionRatio() {
-    return $this->***REMOVED***;
+    return $this->minCompletionRatio;
   }
-  public function ***REMOVED***( $preserveNulls) {
+  public function setPreserveNulls( $preserveNulls) {
     $this->preserveNulls = $preserveNulls;
   }
-  public function ***REMOVED***() {
+  public function getPreserveNulls() {
     return $this->preserveNulls;
   }
   public function setQuery( $query) {
@@ -1622,10 +1622,10 @@ class Google_QueryRequest extends Google_Model {
   public function getTimeoutMs() {
     return $this->timeoutMs;
   }
-  public function ***REMOVED***( $useQueryCache) {
+  public function setUseQueryCache( $useQueryCache) {
     $this->useQueryCache = $useQueryCache;
   }
-  public function ***REMOVED***() {
+  public function getUseQueryCache() {
     return $this->useQueryCache;
   }
 }
@@ -1644,7 +1644,7 @@ class Google_QueryResponse extends Google_Model {
   protected $__schemaType = 'Google_TableSchema';
   protected $__schemaDataType = '';
   public $schema;
-  public $***REMOVED***;
+  public $totalBytesProcessed;
   public $totalRows;
   public function setCacheHit( $cacheHit) {
     $this->cacheHit = $cacheHit;
@@ -1652,16 +1652,16 @@ class Google_QueryResponse extends Google_Model {
   public function getCacheHit() {
     return $this->cacheHit;
   }
-  public function ***REMOVED***( $jobComplete) {
+  public function setJobComplete( $jobComplete) {
     $this->jobComplete = $jobComplete;
   }
-  public function ***REMOVED***() {
+  public function getJobComplete() {
     return $this->jobComplete;
   }
-  public function ***REMOVED***(Google_JobReference $jobReference) {
+  public function setJobReference(Google_JobReference $jobReference) {
     $this->jobReference = $jobReference;
   }
-  public function ***REMOVED***() {
+  public function getJobReference() {
     return $this->jobReference;
   }
   public function setKind( $kind) {
@@ -1689,11 +1689,11 @@ class Google_QueryResponse extends Google_Model {
   public function getSchema() {
     return $this->schema;
   }
-  public function setTotalBytesProcessed( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalBytesProcessed( $totalBytesProcessed) {
+    $this->totalBytesProcessed = $totalBytesProcessed;
   }
   public function getTotalBytesProcessed() {
-    return $this->***REMOVED***;
+    return $this->totalBytesProcessed;
   }
   public function setTotalRows( $totalRows) {
     $this->totalRows = $totalRows;
@@ -1707,11 +1707,11 @@ class Google_Table extends Google_Model {
   public $creationTime;
   public $description;
   public $etag;
-  public $***REMOVED***;
+  public $expirationTime;
   public $friendlyName;
   public $id;
   public $kind;
-  public $***REMOVED***;
+  public $lastModifiedTime;
   public $numBytes;
   public $numRows;
   protected $__schemaType = 'Google_TableSchema';
@@ -1720,17 +1720,17 @@ class Google_Table extends Google_Model {
   public $selfLink;
   protected $__tableReferenceType = 'Google_TableReference';
   protected $__tableReferenceDataType = '';
-  public $***REMOVED***;
-  public function ***REMOVED***( $creationTime) {
+  public $tableReference;
+  public function setCreationTime( $creationTime) {
     $this->creationTime = $creationTime;
   }
-  public function ***REMOVED***() {
+  public function getCreationTime() {
     return $this->creationTime;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setEtag( $etag) {
@@ -1739,16 +1739,16 @@ class Google_Table extends Google_Model {
   public function getEtag() {
     return $this->etag;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setExpirationTime( $expirationTime) {
+    $this->expirationTime = $expirationTime;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getExpirationTime() {
+    return $this->expirationTime;
   }
-  public function ***REMOVED***( $friendlyName) {
+  public function setFriendlyName( $friendlyName) {
     $this->friendlyName = $friendlyName;
   }
-  public function ***REMOVED***() {
+  public function getFriendlyName() {
     return $this->friendlyName;
   }
   public function setId( $id) {
@@ -1763,11 +1763,11 @@ class Google_Table extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLastModifiedTime( $lastModifiedTime) {
+    $this->lastModifiedTime = $lastModifiedTime;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLastModifiedTime() {
+    return $this->lastModifiedTime;
   }
   public function setNumBytes( $numBytes) {
     $this->numBytes = $numBytes;
@@ -1793,11 +1793,11 @@ class Google_Table extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***(Google_TableReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTableReference(Google_TableReference $tableReference) {
+    $this->tableReference = $tableReference;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTableReference() {
+    return $this->tableReference;
   }
 }
 
@@ -1906,10 +1906,10 @@ class Google_TableList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTables(/* array(Google_TableListTables) */ $tables) {
@@ -1933,11 +1933,11 @@ class Google_TableListTables extends Google_Model {
   public $kind;
   protected $__tableReferenceType = 'Google_TableReference';
   protected $__tableReferenceDataType = '';
-  public $***REMOVED***;
-  public function ***REMOVED***( $friendlyName) {
+  public $tableReference;
+  public function setFriendlyName( $friendlyName) {
     $this->friendlyName = $friendlyName;
   }
-  public function ***REMOVED***() {
+  public function getFriendlyName() {
     return $this->friendlyName;
   }
   public function setId( $id) {
@@ -1952,11 +1952,11 @@ class Google_TableListTables extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(Google_TableReference $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTableReference(Google_TableReference $tableReference) {
+    $this->tableReference = $tableReference;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTableReference() {
+    return $this->tableReference;
   }
 }
 

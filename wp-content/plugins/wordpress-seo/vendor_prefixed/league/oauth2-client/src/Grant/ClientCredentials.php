@@ -19,7 +19,7 @@ namespace YoastSEO_Vendor\League\OAuth2\Client\Grant;
  *
  * @link http://tools.ietf.org/html/rfc6749#section-1.3.4 Client Credentials (RFC 6749, §1.3.4)
  */
-class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Grant\AbstractGrant
+class ClientCredentials extends \YoastSEO_Vendor\League\OAuth2\Client\Grant\AbstractGrant
 {
     /**
      * @inheritdoc

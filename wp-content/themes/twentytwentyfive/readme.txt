@@ -1,5 +1,5 @@
 === Twenty Twenty-Five ===
-Contributors: ***REMOVED***
+Contributors: wordpressdotorg
 Requires at least: 6.7
 Tested up to: 6.8
 Requires PHP: 7.2
@@ -41,7 +41,7 @@ the Free Software Foundation, either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-***REMOVED*** or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 This theme incorporates code from:
@@ -88,7 +88,7 @@ Source: https://fonts.google.com/specimen/Platypi
 
 Ysabeau Office Font
 License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Reference: https://github.com/***REMOVED***/Ysabeau
+Reference: https://github.com/CatharsisFonts/Ysabeau
 Source: https://fonts.google.com/specimen/Ysabeau+Office
 
 Literata Font
@@ -113,7 +113,7 @@ Free public domain CC0 image.
 northern-buttercups-flowers.webp
 https://www.rawpixel.com/image/8802603
 
-License: CC0 https://***REMOVED***.org/publicdomain/zero/1.0/
+License: CC0 https://creativecommons.org/publicdomain/zero/1.0/
 Small totara tree on ridge above Long Point, Porirua Harbour, by Leslie Adkin.
 Free public domain CC0 image.
 404-image.webp

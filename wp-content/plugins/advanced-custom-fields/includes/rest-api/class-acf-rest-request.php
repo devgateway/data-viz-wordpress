@@ -89,7 +89,7 @@ class ACF_Rest_Request {
 			$this->http_method = strtoupper( sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) );
 		}
 
-		// phpcs:disable WordPress.Security.***REMOVED***.Recommended -- Verified elsewhere.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Verified elsewhere.
 		// HTTP method override for clients that can't use PUT/PATCH/DELETE. This is identical to WordPress'
 		// handling in \WP_REST_Server::serve_request(). This block of code should always be identical to that
 		// in core.
@@ -98,7 +98,7 @@ class ACF_Rest_Request {
 		} elseif ( isset( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) ) {
 			$this->http_method = strtoupper( sanitize_text_field( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ) );
 		}
-		// phpcs:enable WordPress.Security.***REMOVED***.Recommended
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 	}
 
 	/**

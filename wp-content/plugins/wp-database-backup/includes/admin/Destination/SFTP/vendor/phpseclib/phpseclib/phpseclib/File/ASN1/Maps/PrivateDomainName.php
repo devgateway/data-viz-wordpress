@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * PrivateDomainName
  *
  * PHP version 5
  *
@@ -16,11 +16,11 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * PrivateDomainName
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class PrivateDomainName
 {
     const MAP = [
         'type' => ASN1::TYPE_CHOICE,

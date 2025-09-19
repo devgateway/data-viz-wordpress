@@ -21,7 +21,7 @@ use phpseclib3\Crypt\DH;
  */
 final class PrivateKey extends DH
 {
-    use Common\Traits\***REMOVED***;
+    use Common\Traits\PasswordProtected;
 
     /**
      * Private Key
@@ -44,7 +44,7 @@ final class PrivateKey extends DH
      */
     public function getPublicKey()
     {
-        $type = self::***REMOVED***('Keys', 'PKCS8', 'savePublicKey');
+        $type = self::validatePlugin('Keys', 'PKCS8', 'savePublicKey');
 
         if (!isset($this->publicKey)) {
             $this->publicKey = $this->base->powMod($this->privateKey, $this->prime);
@@ -64,12 +64,12 @@ final class PrivateKey extends DH
      */
     public function toString($type, array $options = [])
     {
-        $type = self::***REMOVED***('Keys', $type, '***REMOVED***');
+        $type = self::validatePlugin('Keys', $type, 'savePrivateKey');
 
         if (!isset($this->publicKey)) {
             $this->publicKey = $this->base->powMod($this->privateKey, $this->prime);
         }
 
-        return $type::***REMOVED***($this->prime, $this->base, $this->privateKey, $this->publicKey, $this->password, $options);
+        return $type::savePrivateKey($this->prime, $this->base, $this->privateKey, $this->publicKey, $this->password, $options);
     }
 }

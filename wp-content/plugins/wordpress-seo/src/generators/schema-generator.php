@@ -224,8 +224,8 @@ class Schema_Generator implements Generator_Interface {
 		// Remove the breadcrumb piece, if it's empty.
 		$index_to_remove = 0;
 		foreach ( $graph as $key => $piece ) {
-			if ( \in_array( '***REMOVED***', $this->get_type_from_piece( $piece ), true ) ) {
-				if ( isset( $piece['***REMOVED***'] ) && \is_array( $piece['***REMOVED***'] ) && \count( $piece['***REMOVED***'] ) === 1 ) {
+			if ( \in_array( 'BreadcrumbList', $this->get_type_from_piece( $piece ), true ) ) {
+				if ( isset( $piece['itemListElement'] ) && \is_array( $piece['itemListElement'] ) && \count( $piece['itemListElement'] ) === 1 ) {
 					$index_to_remove = $key;
 					break;
 				}

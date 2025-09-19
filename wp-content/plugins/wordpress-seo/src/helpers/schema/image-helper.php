@@ -33,7 +33,7 @@ class Image_Helper {
 	/**
 	 * Image_Helper constructor.
 	 *
-	 * @***REMOVED*** It handles dependencies.
+	 * @codeCoverageIgnore It handles dependencies.
 	 *
 	 * @param HTML_Helper       $html     The HTML helper.
 	 * @param Language_Helper   $language The language helper.

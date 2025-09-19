@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
 
-***REMOVED***(process.env.BLOCKS_NS+'/map',
+registerBlockType(process.env.BLOCKS_NS+'/map',
     {
         title: __('Data Map'),
         icon: Generic,
@@ -15,11 +15,11 @@ import Generic from "../icons";
                 type: 'Numeric',
                 default: 500
             },
-            ***REMOVED***: {
+            dataSourceLabel: {
                 type: 'String',
                 default: "Source"
             },
-            ***REMOVED***: {
+            dataSourceText: {
                 type: 'String',
                 default: "NIDS"
             },
@@ -41,7 +41,7 @@ import Generic from "../icons";
             },
             measures: {
                 type: "Array",
-                default: ["***REMOVED***"]
+                default: ["prevalenceSmokeAny"]
             },
             filters: {
                 type: "Array",
@@ -52,7 +52,7 @@ import Generic from "../icons";
                 type: "String",
                 default: ""
             },
-            ***REMOVED***: {
+            nationalAverageLabel: {
                 type: "String",
                 default: "National Prevalence Avg"
             },
@@ -62,9 +62,9 @@ import Generic from "../icons";
             },
             types: {
                 type: "Array",
-                default: [{label: 'Map', value: 'map', supports: {singleMeasure: false, ***REMOVED***: false}}]
+                default: [{label: 'Map', value: 'map', supports: {singleMeasure: false, singleDimension: false}}]
             },
-            ***REMOVED***:{
+            showLegendLabels:{
                 type:'Boolean',
                 default: false
             },
@@ -72,7 +72,7 @@ import Generic from "../icons";
                 type: "Array",
                 default: [{ min: 0, max: 2.99, color: '#66A3D9', label: '', filters: []}, { min: 3, max: 4.99, color: '#BC91D9', label: '', filters: []}, { min: 5, color: '#F26363', label: '', filters: []}]
             },
-            ***REMOVED***: {
+            showNoDataLegendItem: {
                 type:'Boolean',
                 default: false
             },
@@ -100,7 +100,7 @@ import Generic from "../icons";
                 type: "String",
                 default: "zone"
             },
-            ***REMOVED***: {
+            hasMultipleMeasures: {
                 type:'Boolean',
                 default: false
             },
@@ -108,7 +108,7 @@ import Generic from "../icons";
                 type: "String",
                 default: "NGA"
             },
-            ***REMOVED***:{
+            mapLabelShowValue:{
                 type:'Boolean',
                 default: false
             },
@@ -116,7 +116,7 @@ import Generic from "../icons";
                 type:'Boolean',
                 default: true
             },
-            ***REMOVED***: {
+            measureSelectorLabel: {
                 type: "String",
                 default: ""
             },
@@ -124,15 +124,15 @@ import Generic from "../icons";
                 type: "String",
                 default: "%({value},2)"
             },
-            ***REMOVED***:{
+            showOverallValue:{
                 type:'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            autoGenerateBreaks: {
                 type:'Boolean',
                 default: false
             },
-            ***REMOVED***:{
+            numberOfBreaks:{
                 type: 'Numeric',
                 default: 5
             },
@@ -140,7 +140,7 @@ import Generic from "../icons";
                 type: 'string',
                 default: 'reds'
             },
-            ***REMOVED***: {
+            showNoDataLabel: {
                 type:'Boolean',
                 default: false
             },
@@ -156,27 +156,27 @@ import Generic from "../icons";
                 type: 'String',
                 default: 'map-tooltip-dark',
             },
-            ***REMOVED***: {
+            labelFontColor: {
                 type: 'String',
-                default: ***REMOVED***("#595959"),
+                default: encodeURIComponent("#595959"),
             },
             labelFontSize: {
                 type: 'Numeric',
                 default: 12,
             },
-            ***REMOVED***: {
+            labelFontWeight: {
                 type: 'String',
                 default: 'normal',
             },
-            ***REMOVED***:{
+            legendFontSize:{
                 type: 'Numeric',
                 default: 12,
             },
-            ***REMOVED***:{
+            legendFontWeight:{
                 type: 'String',
                 default: 'normal',
             },
-            ***REMOVED***: {
+            customTooltips: {
                 type: "Array",
                 default: []
             },
@@ -192,11 +192,11 @@ import Generic from "../icons";
                 type: "String",
                 default: "USD"
             },
-            ***REMOVED***:{
+            tooltipFontSize:{
                 type: 'Numeric',
                 default: 14,
             },
-            ***REMOVED***: {
+            showAdminUnitLabel: {
                 type: "String",
                 default: "ifUnitHasData"
             },
@@ -204,19 +204,19 @@ import Generic from "../icons";
                 type: "String",
                 default: "showAll"
             },
-            ***REMOVED***: {
+            mapNoDataColor: {
                 type: 'String',
-                default: ***REMOVED***("#f8f8f8"),
+                default: encodeURIComponent("#f8f8f8"),
             },
-            ***REMOVED***: {
+            mapBoundaryColor: {
                 type: 'String',
-                default: ***REMOVED***("#000"),
+                default: encodeURIComponent("#000"),
             },
             mapFocusBoundaryColor: {
                 type: 'String',
-                default: ***REMOVED***("#000"),
+                default: encodeURIComponent("#000"),
             },
-            ***REMOVED***:{
+            highlightedLocation:{
                 type: "String",
                 default: ""
             },
@@ -228,13 +228,13 @@ import Generic from "../icons";
                 type: "String",
                 default: "{locationName} %({value},2) \n {label}: %({value},2)"
             },
-            ***REMOVED***: {
+            showNoDataTooltip: {
                 type:'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            mapContainerBgColor: {
                 type: 'String',
-                default: ***REMOVED***("#fff"),
+                default: encodeURIComponent("#fff"),
             },
             mapPosition: {
                 type: 'String',
@@ -256,27 +256,27 @@ import Generic from "../icons";
                 type: "Object",
                 default: {}
             },
-            ***REMOVED***:{
+            pointLabelFormat:{
                 type: "String",
                 default: "%({value},2)"
             },
-            ***REMOVED***: {
+            pointLabelColor: {
                 type: 'String',
-                default: ***REMOVED***("#FFF"),
+                default: encodeURIComponent("#FFF"),
             },
-            ***REMOVED***: {
+            defaultPointColor: {
                 type: 'String',
-                default: ***REMOVED***("#FFFF00"),
+                default: encodeURIComponent("#FFFF00"),
             },
             mapType: {
                 type: 'String',
                 default: ""
             },
-            ***REMOVED***: {
+            enableSummaryView: {
                 type:'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            aggregationFormula: {
                 type: 'String',
                 default: "COUNT"
             },
@@ -288,11 +288,11 @@ import Generic from "../icons";
                 type:'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            zoomOnFilterField: {
                 type: 'String',
                 default: "name"
             },
-            ***REMOVED***: {
+            labelsExclusionList: {
                 type: 'String',
                 default: ""
             },
@@ -300,11 +300,11 @@ import Generic from "../icons";
                 type: 'String',
                 default: "No Data"
             },
-            ***REMOVED***: {
+            customMeasureLabels: {
                 type: "Object",
                 default: {}
             },
-            ***REMOVED***: {
+            dvzProxyDatasetId: {
                 type: 'String',
                 default: ""
             }            

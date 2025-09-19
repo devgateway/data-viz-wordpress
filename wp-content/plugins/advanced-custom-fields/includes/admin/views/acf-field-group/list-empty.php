@@ -16,7 +16,7 @@
 			sprintf(
 			/* translators: %s url to creating a field group page */
 				__( 'ACF uses <a href="%s" target="_blank">field groups</a> to group custom fields together, and then attach those fields to edit screens.', 'acf' ),
-				acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/creating-a-field-group/', 'docs', 'no-field-groups' )
+				acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/creating-a-field-group/', 'docs', 'no-field-groups' )
 			)
 		);
 		?>
@@ -28,7 +28,7 @@
 				sprintf(
 				/* translators: %s url to getting started guide */
 					__( 'New to ACF? Take a look at our <a href="%s" target="_blank">getting started guide</a>.', 'acf' ),
-					acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/getting-started-with-acf/', 'docs', 'no-field-groups' )
+					acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/getting-started-with-acf/', 'docs', 'no-field-groups' )
 				)
 			);
 			?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress eXtended RSS file parser ***REMOVED***
+ * WordPress eXtended RSS file parser implementations
  *
  * @package WordPress
  * @subpackage Importer

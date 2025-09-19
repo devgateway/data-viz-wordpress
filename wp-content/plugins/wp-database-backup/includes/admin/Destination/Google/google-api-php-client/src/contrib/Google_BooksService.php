@@ -53,7 +53,7 @@
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Bookshelves
      */
-    public function ***REMOVED***($userId, $optParams = array()) {
+    public function listBookshelves($userId, $optParams = array()) {
       $params = array('userId' => $userId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -179,7 +179,7 @@
      * @param string $summaryId The ID for the layer to get the summary for.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** The content version for the requested volume.
+     * @opt_param string contentVersion The content version for the requested volume.
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Layersummary
      */
@@ -199,7 +199,7 @@
      * @param string $volumeId The volume to retrieve layers for.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** The content version for the requested volume.
+     * @opt_param string contentVersion The content version for the requested volume.
      * @opt_param string maxResults Maximum number of results to return
      * @opt_param string pageToken The value of the nextToken from the previous page.
      * @opt_param string source String to identify the originator of this request.
@@ -218,22 +218,22 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "annotationData" collection of methods.
    * Typical usage is:
    *  <code>
    *   $booksService = new Google_BooksService(...);
-   *   $***REMOVED*** = $booksService->***REMOVED***;
+   *   $annotationData = $booksService->annotationData;
    *  </code>
    */
   class Google_LayersAnnotationDataServiceResource extends Google_ServiceResource {
 
     /**
-     * Gets the annotation data. (***REMOVED***.get)
+     * Gets the annotation data. (annotationData.get)
      *
      * @param string $volumeId The volume to retrieve annotations for.
      * @param string $layerId The ID for the layer to get the annotations.
-     * @param string $***REMOVED*** The ID of the annotation data to retrieve.
-     * @param string $***REMOVED*** The content version for the volume you are trying to retrieve.
+     * @param string $annotationDataId The ID of the annotation data to retrieve.
+     * @param string $contentVersion The content version for the volume you are trying to retrieve.
      * @param array $optParams Optional parameters.
      *
      * @opt_param int h The requested pixel height for any images. If height is provided width must also be provided.
@@ -243,8 +243,8 @@
      * @opt_param int w The requested pixel width for any images. If width is provided height must also be provided.
      * @return Google_Annotationdata
      */
-    public function get($volumeId, $layerId, $***REMOVED***, $***REMOVED***, $optParams = array()) {
-      $params = array('volumeId' => $volumeId, 'layerId' => $layerId, '***REMOVED***' => $***REMOVED***, '***REMOVED***' => $***REMOVED***);
+    public function get($volumeId, $layerId, $annotationDataId, $contentVersion, $optParams = array()) {
+      $params = array('volumeId' => $volumeId, 'layerId' => $layerId, 'annotationDataId' => $annotationDataId, 'contentVersion' => $contentVersion);
       $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
@@ -254,14 +254,14 @@
       }
     }
     /**
-     * Gets the annotation data for a volume and layer. (***REMOVED***.list)
+     * Gets the annotation data for a volume and layer. (annotationData.list)
      *
      * @param string $volumeId The volume to retrieve annotation data for.
      * @param string $layerId The ID for the layer to get the annotation data.
-     * @param string $***REMOVED*** The content version for the requested volume.
+     * @param string $contentVersion The content version for the requested volume.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** The list of Annotation Data Ids to retrieve. Pagination is ignored if this is set.
+     * @opt_param string annotationDataId The list of Annotation Data Ids to retrieve. Pagination is ignored if this is set.
      * @opt_param int h The requested pixel height for any images. If height is provided width must also be provided.
      * @opt_param string locale The locale information for the data. ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'.
      * @opt_param string maxResults Maximum number of results to return
@@ -273,8 +273,8 @@
      * @opt_param int w The requested pixel width for any images. If width is provided height must also be provided.
      * @return Google_Annotationsdata
      */
-    public function listLayersAnnotationData($volumeId, $layerId, $***REMOVED***, $optParams = array()) {
-      $params = array('volumeId' => $volumeId, 'layerId' => $layerId, '***REMOVED***' => $***REMOVED***);
+    public function listLayersAnnotationData($volumeId, $layerId, $contentVersion, $optParams = array()) {
+      $params = array('volumeId' => $volumeId, 'layerId' => $layerId, 'contentVersion' => $contentVersion);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
@@ -285,17 +285,17 @@
     }
   }
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "volumeAnnotations" collection of methods.
    * Typical usage is:
    *  <code>
    *   $booksService = new Google_BooksService(...);
-   *   $***REMOVED*** = $booksService->***REMOVED***;
+   *   $volumeAnnotations = $booksService->volumeAnnotations;
    *  </code>
    */
   class Google_LayersVolumeAnnotationsServiceResource extends Google_ServiceResource {
 
     /**
-     * Gets the volume annotation. (***REMOVED***.get)
+     * Gets the volume annotation. (volumeAnnotations.get)
      *
      * @param string $volumeId The volume to retrieve annotations for.
      * @param string $layerId The ID for the layer to get the annotations.
@@ -317,11 +317,11 @@
       }
     }
     /**
-     * Gets the volume annotations for a volume and layer. (***REMOVED***.list)
+     * Gets the volume annotations for a volume and layer. (volumeAnnotations.list)
      *
      * @param string $volumeId The volume to retrieve annotations for.
      * @param string $layerId The ID for the layer to get the annotations.
-     * @param string $***REMOVED*** The content version for the requested volume.
+     * @param string $contentVersion The content version for the requested volume.
      * @param array $optParams Optional parameters.
      *
      * @opt_param string endOffset The end offset to end retrieving data from.
@@ -338,8 +338,8 @@
      * @opt_param string volumeAnnotationsVersion The version of the volume annotations that you are requesting.
      * @return Google_Volumeannotations
      */
-    public function listLayersVolumeAnnotations($volumeId, $layerId, $***REMOVED***, $optParams = array()) {
-      $params = array('volumeId' => $volumeId, 'layerId' => $layerId, '***REMOVED***' => $***REMOVED***);
+    public function listLayersVolumeAnnotations($volumeId, $layerId, $contentVersion, $optParams = array()) {
+      $params = array('volumeId' => $volumeId, 'layerId' => $layerId, 'contentVersion' => $contentVersion);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
@@ -405,7 +405,7 @@
     }
     /**
      * Request downloaded content access for specified volumes on the My eBooks shelf.
-     * (myconfig.***REMOVED***)
+     * (myconfig.syncVolumeLicenses)
      *
      * @param string $source String to identify the originator of this request.
      * @param string $nonce The client nonce value.
@@ -417,10 +417,10 @@
      * @opt_param string volumeIds The volume(s) to request download restrictions for.
      * @return Google_Volumes
      */
-    public function ***REMOVED***($source, $nonce, $cpksver, $optParams = array()) {
+    public function syncVolumeLicenses($source, $nonce, $cpksver, $optParams = array()) {
       $params = array('source' => $source, 'nonce' => $nonce, 'cpksver' => $cpksver);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('syncVolumeLicenses', array($params));
       if ($this->useObjects()) {
         return new Google_Volumes($data);
       } else {
@@ -508,7 +508,7 @@
      *
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** The content version for the requested volume.
+     * @opt_param string contentVersion The content version for the requested volume.
      * @opt_param string layerId The layer ID to limit annotation by.
      * @opt_param string maxResults Maximum number of results to return
      * @opt_param string pageIds The page ID(s) for the volume that is being queried.
@@ -633,13 +633,13 @@
      *
      * @param string $shelf ID of bookshelf with the volume.
      * @param string $volumeId ID of volume to move.
-     * @param int $***REMOVED*** Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on.)
+     * @param int $volumePosition Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on.)
      * @param array $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      */
-    public function moveVolume($shelf, $volumeId, $***REMOVED***, $optParams = array()) {
-      $params = array('shelf' => $shelf, 'volumeId' => $volumeId, '***REMOVED***' => $***REMOVED***);
+    public function moveVolume($shelf, $volumeId, $volumePosition, $optParams = array()) {
+      $params = array('shelf' => $shelf, 'volumeId' => $volumeId, 'volumePosition' => $volumePosition);
       $params = array_merge($params, $optParams);
       $data = $this->__call('moveVolume', array($params));
       return $data;
@@ -698,22 +698,22 @@
     }
   }
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "readingpositions" collection of methods.
    * Typical usage is:
    *  <code>
    *   $booksService = new Google_BooksService(...);
-   *   $***REMOVED*** = $booksService->***REMOVED***;
+   *   $readingpositions = $booksService->readingpositions;
    *  </code>
    */
   class Google_MylibraryReadingpositionsServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves my reading position information for a volume. (***REMOVED***.get)
+     * Retrieves my reading position information for a volume. (readingpositions.get)
      *
      * @param string $volumeId ID of volume for which to retrieve a reading position.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** Volume content version for which this reading position is requested.
+     * @opt_param string contentVersion Volume content version for which this reading position is requested.
      * @opt_param string source String to identify the originator of this request.
      * @return Google_ReadingPosition
      */
@@ -728,7 +728,7 @@
       }
     }
     /**
-     * Sets my reading position information for a volume. (***REMOVED***.setPosition)
+     * Sets my reading position information for a volume. (readingpositions.setPosition)
      *
      * @param string $volumeId ID of volume for which to update the reading position.
      * @param string $timestamp RFC 3339 UTC format timestamp associated with this reading position.
@@ -736,7 +736,7 @@
      * @param array $optParams Optional parameters.
      *
      * @opt_param string action Action that caused this reading position to be set.
-     * @opt_param string ***REMOVED*** Volume content version for which this reading position applies.
+     * @opt_param string contentVersion Volume content version for which this reading position applies.
      * @opt_param string deviceCookie Random persistent device cookie optional on set position.
      * @opt_param string source String to identify the originator of this request.
      */
@@ -789,7 +789,7 @@
      * @opt_param string download Restrict to volumes by download availability.
      * @opt_param string filter Filter search results.
      * @opt_param string langRestrict Restrict results to books with this language code.
-     * @opt_param string ***REMOVED*** Restrict search to this user's library.
+     * @opt_param string libraryRestrict Restrict search to this user's library.
      * @opt_param string maxResults Maximum number of results to return.
      * @opt_param string orderBy Sort search results.
      * @opt_param string partner Restrict and brand results for partner ID.
@@ -829,7 +829,7 @@
      * @param array $optParams Optional parameters.
      *
      * @opt_param string association Association type.
-     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating ***REMOVED***.
+     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations.
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Volumes
      */
@@ -860,14 +860,14 @@
      * @param array $optParams Optional parameters.
      *
      * @opt_param string acquireMethod How the book was aquired
-     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex:'en_US'. Used for generating ***REMOVED***.
+     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex:'en_US'. Used for generating recommendations.
      * @opt_param string maxResults Maximum number of results to return.
-     * @opt_param string ***REMOVED*** The processing state of the user uploaded volumes to be returned. Applicable only if the UPLOADED is specified in the acquireMethod.
+     * @opt_param string processingState The processing state of the user uploaded volumes to be returned. Applicable only if the UPLOADED is specified in the acquireMethod.
      * @opt_param string source String to identify the originator of this request.
      * @opt_param string startIndex Index of the first result to return (starts at 0)
      * @return Google_Volumes
      */
-    public function ***REMOVED***($optParams = array()) {
+    public function listVolumesMybooks($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -893,7 +893,7 @@
      *
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating ***REMOVED***.
+     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations.
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Volumes
      */
@@ -923,12 +923,12 @@
      *
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating ***REMOVED***.
+     * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations.
      * @opt_param string maxResults Maximum number of results to return.
-     * @opt_param string ***REMOVED*** The processing state of the user uploaded volumes to be returned.
+     * @opt_param string processingState The processing state of the user uploaded volumes to be returned.
      * @opt_param string source String to identify the originator of this request.
      * @opt_param string startIndex Index of the first result to return (starts at 0)
-     * @opt_param string volumeId The ids of the volumes to be returned. If not specified all that match the ***REMOVED*** are returned.
+     * @opt_param string volumeId The ids of the volumes to be returned. If not specified all that match the processingState are returned.
      * @return Google_Volumes
      */
     public function listVolumesUseruploaded($optParams = array()) {
@@ -975,7 +975,7 @@ class Google_BooksService extends Google_Service {
   public $volumes_recommended;
   public $volumes_useruploaded;
   /**
-   * Constructs the internal ***REMOVED*** of the Books service.
+   * Constructs the internal representation of the Books service.
    *
    * @param Google_Client $client
    */
@@ -988,19 +988,19 @@ class Google_BooksService extends Google_Service {
     $this->bookshelves = new Google_BookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"get": {"id": "books.bookshelves.get", "path": "users/{userId}/bookshelves/{shelf}", "httpMethod": "GET", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Bookshelf"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.bookshelves.list", "path": "users/{userId}/bookshelves", "httpMethod": "GET", "parameters": {"source": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Bookshelves"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
     $this->bookshelves_volumes = new Google_BookshelvesVolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"list": {"id": "books.bookshelves.volumes.list", "path": "users/{userId}/bookshelves/{shelf}/volumes", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "shelf": {"type": "string", "required": true, "location": "path"}, "showPreorders": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
     $this->cloudloading = new Google_CloudloadingServiceResource($this, $this->serviceName, 'cloudloading', json_decode('{"methods": {"addBook": {"id": "books.cloudloading.addBook", "path": "cloudloading/addBook", "httpMethod": "POST", "parameters": {"drive_document_id": {"type": "string", "location": "query"}, "mime_type": {"type": "string", "location": "query"}, "name": {"type": "string", "location": "query"}, "upload_client_token": {"type": "string", "location": "query"}}, "response": {"$ref": "BooksCloudloadingResource"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "deleteBook": {"id": "books.cloudloading.deleteBook", "path": "cloudloading/deleteBook", "httpMethod": "POST", "parameters": {"volumeId": {"type": "string", "required": true, "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "updateBook": {"id": "books.cloudloading.updateBook", "path": "cloudloading/updateBook", "httpMethod": "POST", "request": {"$ref": "BooksCloudloadingResource"}, "response": {"$ref": "BooksCloudloadingResource"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->layers = new Google_LayersServiceResource($this, $this->serviceName, 'layers', json_decode('{"methods": {"get": {"id": "books.layers.get", "path": "volumes/{volumeId}/layersummary/{summaryId}", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "summaryId": {"type": "string", "required": true, "location": "path"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Layersummary"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.layers.list", "path": "volumes/{volumeId}/layersummary", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "200", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->layers_annotationData = new Google_LayersAnnotationDataServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "books.layers.***REMOVED***.get", "path": "volumes/{volumeId}/layers/{layerId}/data/{***REMOVED***}", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "query"}, "h": {"type": "integer", "format": "int32", "location": "query"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "scale": {"type": "integer", "format": "int32", "minimum": "0", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}, "w": {"type": "integer", "format": "int32", "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.layers.***REMOVED***.list", "path": "volumes/{volumeId}/layers/{layerId}/data", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "repeated": true, "location": "query"}, "***REMOVED***": {"type": "string", "required": true, "location": "query"}, "h": {"type": "integer", "format": "int32", "location": "query"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "200", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "scale": {"type": "integer", "format": "int32", "minimum": "0", "location": "query"}, "source": {"type": "string", "location": "query"}, "updatedMax": {"type": "string", "location": "query"}, "updatedMin": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}, "w": {"type": "integer", "format": "int32", "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->layers_volumeAnnotations = new Google_LayersVolumeAnnotationsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "books.layers.***REMOVED***.get", "path": "volumes/{volumeId}/layers/{layerId}/annotations/{annotationId}", "httpMethod": "GET", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.layers.***REMOVED***.list", "path": "volumes/{volumeId}/layers/{layerId}", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "query"}, "endOffset": {"type": "string", "location": "query"}, "endPosition": {"type": "string", "location": "query"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "200", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "showDeleted": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "startOffset": {"type": "string", "location": "query"}, "startPosition": {"type": "string", "location": "query"}, "updatedMax": {"type": "string", "location": "query"}, "updatedMin": {"type": "string", "location": "query"}, "volumeAnnotationsVersion": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->myconfig = new Google_MyconfigServiceResource($this, $this->serviceName, 'myconfig', json_decode('{"methods": {"releaseDownloadAccess": {"id": "books.myconfig.releaseDownloadAccess", "path": "myconfig/releaseDownloadAccess", "httpMethod": "POST", "parameters": {"cpksver": {"type": "string", "required": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeIds": {"type": "string", "required": true, "repeated": true, "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "requestAccess": {"id": "books.myconfig.requestAccess", "path": "myconfig/requestAccess", "httpMethod": "POST", "parameters": {"cpksver": {"type": "string", "required": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "nonce": {"type": "string", "required": true, "location": "query"}, "source": {"type": "string", "required": true, "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "RequestAccess"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "***REMOVED***": {"id": "books.myconfig.***REMOVED***", "path": "myconfig/***REMOVED***", "httpMethod": "POST", "parameters": {"cpksver": {"type": "string", "required": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "nonce": {"type": "string", "required": true, "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}, "source": {"type": "string", "required": true, "location": "query"}, "volumeIds": {"type": "string", "repeated": true, "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->mylibrary_annotations = new Google_MylibraryAnnotationsServiceResource($this, $this->serviceName, 'annotations', json_decode('{"methods": {"delete": {"id": "books.mylibrary.annotations.delete", "path": "mylibrary/annotations/{annotationId}", "httpMethod": "DELETE", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "get": {"id": "books.mylibrary.annotations.get", "path": "mylibrary/annotations/{annotationId}", "httpMethod": "GET", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "response": {"$ref": "Annotation"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "insert": {"id": "books.mylibrary.annotations.insert", "path": "mylibrary/annotations", "httpMethod": "POST", "parameters": {"source": {"type": "string", "location": "query"}}, "request": {"$ref": "Annotation"}, "response": {"$ref": "Annotation"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.mylibrary.annotations.list", "path": "mylibrary/annotations", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "layerId": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "40", "location": "query"}, "pageIds": {"type": "string", "repeated": true, "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "showDeleted": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "updatedMax": {"type": "string", "location": "query"}, "updatedMin": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "location": "query"}}, "response": {"$ref": "Annotations"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "update": {"id": "books.mylibrary.annotations.update", "path": "mylibrary/annotations/{annotationId}", "httpMethod": "PUT", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "request": {"$ref": "Annotation"}, "response": {"$ref": "Annotation"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->mylibrary_bookshelves = new Google_MylibraryBookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"addVolume": {"id": "books.mylibrary.bookshelves.addVolume", "path": "mylibrary/bookshelves/{shelf}/addVolume", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "clearVolumes": {"id": "books.mylibrary.bookshelves.clearVolumes", "path": "mylibrary/bookshelves/{shelf}/clearVolumes", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "get": {"id": "books.mylibrary.bookshelves.get", "path": "mylibrary/bookshelves/{shelf}", "httpMethod": "GET", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "response": {"$ref": "Bookshelf"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.mylibrary.bookshelves.list", "path": "mylibrary/bookshelves", "httpMethod": "GET", "parameters": {"source": {"type": "string", "location": "query"}}, "response": {"$ref": "Bookshelves"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "moveVolume": {"id": "books.mylibrary.bookshelves.moveVolume", "path": "mylibrary/bookshelves/{shelf}/moveVolume", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}, "***REMOVED***": {"type": "integer", "required": true, "format": "int32", "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "removeVolume": {"id": "books.mylibrary.bookshelves.removeVolume", "path": "mylibrary/bookshelves/{shelf}/removeVolume", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->layers = new Google_LayersServiceResource($this, $this->serviceName, 'layers', json_decode('{"methods": {"get": {"id": "books.layers.get", "path": "volumes/{volumeId}/layersummary/{summaryId}", "httpMethod": "GET", "parameters": {"contentVersion": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "summaryId": {"type": "string", "required": true, "location": "path"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Layersummary"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.layers.list", "path": "volumes/{volumeId}/layersummary", "httpMethod": "GET", "parameters": {"contentVersion": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "200", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Layersummaries"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->layers_annotationData = new Google_LayersAnnotationDataServiceResource($this, $this->serviceName, 'annotationData', json_decode('{"methods": {"get": {"id": "books.layers.annotationData.get", "path": "volumes/{volumeId}/layers/{layerId}/data/{annotationDataId}", "httpMethod": "GET", "parameters": {"annotationDataId": {"type": "string", "required": true, "location": "path"}, "contentVersion": {"type": "string", "required": true, "location": "query"}, "h": {"type": "integer", "format": "int32", "location": "query"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "scale": {"type": "integer", "format": "int32", "minimum": "0", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}, "w": {"type": "integer", "format": "int32", "location": "query"}}, "response": {"$ref": "Annotationdata"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.layers.annotationData.list", "path": "volumes/{volumeId}/layers/{layerId}/data", "httpMethod": "GET", "parameters": {"annotationDataId": {"type": "string", "repeated": true, "location": "query"}, "contentVersion": {"type": "string", "required": true, "location": "query"}, "h": {"type": "integer", "format": "int32", "location": "query"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "200", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "scale": {"type": "integer", "format": "int32", "minimum": "0", "location": "query"}, "source": {"type": "string", "location": "query"}, "updatedMax": {"type": "string", "location": "query"}, "updatedMin": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}, "w": {"type": "integer", "format": "int32", "location": "query"}}, "response": {"$ref": "Annotationsdata"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->layers_volumeAnnotations = new Google_LayersVolumeAnnotationsServiceResource($this, $this->serviceName, 'volumeAnnotations', json_decode('{"methods": {"get": {"id": "books.layers.volumeAnnotations.get", "path": "volumes/{volumeId}/layers/{layerId}/annotations/{annotationId}", "httpMethod": "GET", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Volumeannotation"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.layers.volumeAnnotations.list", "path": "volumes/{volumeId}/layers/{layerId}", "httpMethod": "GET", "parameters": {"contentVersion": {"type": "string", "required": true, "location": "query"}, "endOffset": {"type": "string", "location": "query"}, "endPosition": {"type": "string", "location": "query"}, "layerId": {"type": "string", "required": true, "location": "path"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "200", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "showDeleted": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "startOffset": {"type": "string", "location": "query"}, "startPosition": {"type": "string", "location": "query"}, "updatedMax": {"type": "string", "location": "query"}, "updatedMin": {"type": "string", "location": "query"}, "volumeAnnotationsVersion": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Volumeannotations"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->myconfig = new Google_MyconfigServiceResource($this, $this->serviceName, 'myconfig', json_decode('{"methods": {"releaseDownloadAccess": {"id": "books.myconfig.releaseDownloadAccess", "path": "myconfig/releaseDownloadAccess", "httpMethod": "POST", "parameters": {"cpksver": {"type": "string", "required": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeIds": {"type": "string", "required": true, "repeated": true, "location": "query"}}, "response": {"$ref": "DownloadAccesses"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "requestAccess": {"id": "books.myconfig.requestAccess", "path": "myconfig/requestAccess", "httpMethod": "POST", "parameters": {"cpksver": {"type": "string", "required": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "nonce": {"type": "string", "required": true, "location": "query"}, "source": {"type": "string", "required": true, "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "RequestAccess"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "syncVolumeLicenses": {"id": "books.myconfig.syncVolumeLicenses", "path": "myconfig/syncVolumeLicenses", "httpMethod": "POST", "parameters": {"cpksver": {"type": "string", "required": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "nonce": {"type": "string", "required": true, "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}, "source": {"type": "string", "required": true, "location": "query"}, "volumeIds": {"type": "string", "repeated": true, "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->mylibrary_annotations = new Google_MylibraryAnnotationsServiceResource($this, $this->serviceName, 'annotations', json_decode('{"methods": {"delete": {"id": "books.mylibrary.annotations.delete", "path": "mylibrary/annotations/{annotationId}", "httpMethod": "DELETE", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "get": {"id": "books.mylibrary.annotations.get", "path": "mylibrary/annotations/{annotationId}", "httpMethod": "GET", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "response": {"$ref": "Annotation"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "insert": {"id": "books.mylibrary.annotations.insert", "path": "mylibrary/annotations", "httpMethod": "POST", "parameters": {"source": {"type": "string", "location": "query"}}, "request": {"$ref": "Annotation"}, "response": {"$ref": "Annotation"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.mylibrary.annotations.list", "path": "mylibrary/annotations", "httpMethod": "GET", "parameters": {"contentVersion": {"type": "string", "location": "query"}, "layerId": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "40", "location": "query"}, "pageIds": {"type": "string", "repeated": true, "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "showDeleted": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "updatedMax": {"type": "string", "location": "query"}, "updatedMin": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "location": "query"}}, "response": {"$ref": "Annotations"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "update": {"id": "books.mylibrary.annotations.update", "path": "mylibrary/annotations/{annotationId}", "httpMethod": "PUT", "parameters": {"annotationId": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "request": {"$ref": "Annotation"}, "response": {"$ref": "Annotation"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->mylibrary_bookshelves = new Google_MylibraryBookshelvesServiceResource($this, $this->serviceName, 'bookshelves', json_decode('{"methods": {"addVolume": {"id": "books.mylibrary.bookshelves.addVolume", "path": "mylibrary/bookshelves/{shelf}/addVolume", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "clearVolumes": {"id": "books.mylibrary.bookshelves.clearVolumes", "path": "mylibrary/bookshelves/{shelf}/clearVolumes", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "get": {"id": "books.mylibrary.bookshelves.get", "path": "mylibrary/bookshelves/{shelf}", "httpMethod": "GET", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}}, "response": {"$ref": "Bookshelf"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.mylibrary.bookshelves.list", "path": "mylibrary/bookshelves", "httpMethod": "GET", "parameters": {"source": {"type": "string", "location": "query"}}, "response": {"$ref": "Bookshelves"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "moveVolume": {"id": "books.mylibrary.bookshelves.moveVolume", "path": "mylibrary/bookshelves/{shelf}/moveVolume", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}, "volumePosition": {"type": "integer", "required": true, "format": "int32", "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}, "removeVolume": {"id": "books.mylibrary.bookshelves.removeVolume", "path": "mylibrary/bookshelves/{shelf}/removeVolume", "httpMethod": "POST", "parameters": {"shelf": {"type": "string", "required": true, "location": "path"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
     $this->mylibrary_bookshelves_volumes = new Google_MylibraryBookshelvesVolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"list": {"id": "books.mylibrary.bookshelves.volumes.list", "path": "mylibrary/bookshelves/{shelf}/volumes", "httpMethod": "GET", "parameters": {"country": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "projection": {"type": "string", "enum": ["full", "lite"], "location": "query"}, "q": {"type": "string", "location": "query"}, "shelf": {"type": "string", "required": true, "location": "path"}, "showPreorders": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->mylibrary_readingpositions = new Google_MylibraryReadingpositionsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "books.mylibrary.***REMOVED***.get", "path": "mylibrary/***REMOVED***/{volumeId}", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "setPosition": {"id": "books.mylibrary.***REMOVED***.setPosition", "path": "mylibrary/***REMOVED***/{volumeId}/setPosition", "httpMethod": "POST", "parameters": {"action": {"type": "string", "enum": ["bookmark", "chapter", "next-page", "prev-page", "scroll", "search"], "location": "query"}, "***REMOVED***": {"type": "string", "location": "query"}, "deviceCookie": {"type": "string", "location": "query"}, "position": {"type": "string", "required": true, "location": "query"}, "source": {"type": "string", "location": "query"}, "timestamp": {"type": "string", "required": true, "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->volumes = new Google_VolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"get": {"id": "books.volumes.get", "path": "volumes/{volumeId}", "httpMethod": "GET", "parameters": {"country": {"type": "string", "location": "query"}, "partner": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "lite"], "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Volume"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.volumes.list", "path": "volumes", "httpMethod": "GET", "parameters": {"download": {"type": "string", "enum": ["epub"], "location": "query"}, "filter": {"type": "string", "enum": ["ebooks", "free-ebooks", "full", "paid-ebooks", "partial"], "location": "query"}, "langRestrict": {"type": "string", "location": "query"}, "***REMOVED***": {"type": "string", "enum": ["my-library", "no-restrict"], "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "40", "location": "query"}, "orderBy": {"type": "string", "enum": ["newest", "relevance"], "location": "query"}, "partner": {"type": "string", "location": "query"}, "printType": {"type": "string", "enum": ["all", "books", "magazines"], "location": "query"}, "projection": {"type": "string", "enum": ["full", "lite"], "location": "query"}, "q": {"type": "string", "required": true, "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->mylibrary_readingpositions = new Google_MylibraryReadingpositionsServiceResource($this, $this->serviceName, 'readingpositions', json_decode('{"methods": {"get": {"id": "books.mylibrary.readingpositions.get", "path": "mylibrary/readingpositions/{volumeId}", "httpMethod": "GET", "parameters": {"contentVersion": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ReadingPosition"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "setPosition": {"id": "books.mylibrary.readingpositions.setPosition", "path": "mylibrary/readingpositions/{volumeId}/setPosition", "httpMethod": "POST", "parameters": {"action": {"type": "string", "enum": ["bookmark", "chapter", "next-page", "prev-page", "scroll", "search"], "location": "query"}, "contentVersion": {"type": "string", "location": "query"}, "deviceCookie": {"type": "string", "location": "query"}, "position": {"type": "string", "required": true, "location": "query"}, "source": {"type": "string", "location": "query"}, "timestamp": {"type": "string", "required": true, "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->volumes = new Google_VolumesServiceResource($this, $this->serviceName, 'volumes', json_decode('{"methods": {"get": {"id": "books.volumes.get", "path": "volumes/{volumeId}", "httpMethod": "GET", "parameters": {"country": {"type": "string", "location": "query"}, "partner": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "lite"], "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Volume"}, "scopes": ["https://www.googleapis.com/auth/books"]}, "list": {"id": "books.volumes.list", "path": "volumes", "httpMethod": "GET", "parameters": {"download": {"type": "string", "enum": ["epub"], "location": "query"}, "filter": {"type": "string", "enum": ["ebooks", "free-ebooks", "full", "paid-ebooks", "partial"], "location": "query"}, "langRestrict": {"type": "string", "location": "query"}, "libraryRestrict": {"type": "string", "enum": ["my-library", "no-restrict"], "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "40", "location": "query"}, "orderBy": {"type": "string", "enum": ["newest", "relevance"], "location": "query"}, "partner": {"type": "string", "location": "query"}, "printType": {"type": "string", "enum": ["all", "books", "magazines"], "location": "query"}, "projection": {"type": "string", "enum": ["full", "lite"], "location": "query"}, "q": {"type": "string", "required": true, "location": "query"}, "showPreorders": {"type": "boolean", "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
     $this->volumes_associated = new Google_VolumesAssociatedServiceResource($this, $this->serviceName, 'associated', json_decode('{"methods": {"list": {"id": "books.volumes.associated.list", "path": "volumes/{volumeId}/associated", "httpMethod": "GET", "parameters": {"association": {"type": "string", "enum": ["end-of-sample", "end-of-volume"], "location": "query"}, "locale": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}, "volumeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->volumes_mybooks = new Google_VolumesMybooksServiceResource($this, $this->serviceName, 'mybooks', json_decode('{"methods": {"list": {"id": "books.volumes.mybooks.list", "path": "volumes/mybooks", "httpMethod": "GET", "parameters": {"acquireMethod": {"type": "string", "enum": ["PREORDERED", "PUBLIC_DOMAIN", "PURCHASED", "SAMPLE", "UPLOADED"], "repeated": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "***REMOVED***": {"type": "string", "enum": ["COMPLETED_FAILED", "COMPLETED_SUCCESS", "RUNNING"], "repeated": true, "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->volumes_mybooks = new Google_VolumesMybooksServiceResource($this, $this->serviceName, 'mybooks', json_decode('{"methods": {"list": {"id": "books.volumes.mybooks.list", "path": "volumes/mybooks", "httpMethod": "GET", "parameters": {"acquireMethod": {"type": "string", "enum": ["PREORDERED", "PUBLIC_DOMAIN", "PURCHASED", "SAMPLE", "UPLOADED"], "repeated": true, "location": "query"}, "locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "processingState": {"type": "string", "enum": ["COMPLETED_FAILED", "COMPLETED_SUCCESS", "RUNNING"], "repeated": true, "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
     $this->volumes_recommended = new Google_VolumesRecommendedServiceResource($this, $this->serviceName, 'recommended', json_decode('{"methods": {"list": {"id": "books.volumes.recommended.list", "path": "volumes/recommended", "httpMethod": "GET", "parameters": {"locale": {"type": "string", "location": "query"}, "source": {"type": "string", "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
-    $this->volumes_useruploaded = new Google_VolumesUseruploadedServiceResource($this, $this->serviceName, 'useruploaded', json_decode('{"methods": {"list": {"id": "books.volumes.useruploaded.list", "path": "volumes/useruploaded", "httpMethod": "GET", "parameters": {"locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "40", "location": "query"}, "***REMOVED***": {"type": "string", "enum": ["COMPLETED_FAILED", "COMPLETED_SUCCESS", "RUNNING"], "repeated": true, "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "volumeId": {"type": "string", "repeated": true, "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
+    $this->volumes_useruploaded = new Google_VolumesUseruploadedServiceResource($this, $this->serviceName, 'useruploaded', json_decode('{"methods": {"list": {"id": "books.volumes.useruploaded.list", "path": "volumes/useruploaded", "httpMethod": "GET", "parameters": {"locale": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "maximum": "40", "location": "query"}, "processingState": {"type": "string", "enum": ["COMPLETED_FAILED", "COMPLETED_SUCCESS", "RUNNING"], "repeated": true, "location": "query"}, "source": {"type": "string", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "volumeId": {"type": "string", "repeated": true, "location": "query"}}, "response": {"$ref": "Volumes"}, "scopes": ["https://www.googleapis.com/auth/books"]}}}', true));
 
   }
 }
@@ -1008,18 +1008,18 @@ class Google_BooksService extends Google_Service {
 
 
 class Google_Annotation extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $afterSelectedText;
+  public $beforeSelectedText;
   protected $__clientVersionRangesType = 'Google_AnnotationClientVersionRanges';
   protected $__clientVersionRangesDataType = '';
-  public $***REMOVED***;
+  public $clientVersionRanges;
   public $created;
   protected $__currentVersionRangesType = 'Google_AnnotationCurrentVersionRanges';
   protected $__currentVersionRangesDataType = '';
-  public $***REMOVED***;
+  public $currentVersionRanges;
   public $data;
   public $deleted;
-  public $***REMOVED***;
+  public $highlightStyle;
   public $id;
   public $kind;
   public $layerId;
@@ -1028,23 +1028,23 @@ class Google_Annotation extends Google_Model {
   public $selfLink;
   public $updated;
   public $volumeId;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAfterSelectedText( $afterSelectedText) {
+    $this->afterSelectedText = $afterSelectedText;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAfterSelectedText() {
+    return $this->afterSelectedText;
   }
-  public function setBeforeSelectedText( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBeforeSelectedText( $beforeSelectedText) {
+    $this->beforeSelectedText = $beforeSelectedText;
   }
   public function getBeforeSelectedText() {
-    return $this->***REMOVED***;
+    return $this->beforeSelectedText;
   }
-  public function setClientVersionRanges(Google_AnnotationClientVersionRanges $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setClientVersionRanges(Google_AnnotationClientVersionRanges $clientVersionRanges) {
+    $this->clientVersionRanges = $clientVersionRanges;
   }
   public function getClientVersionRanges() {
-    return $this->***REMOVED***;
+    return $this->clientVersionRanges;
   }
   public function setCreated( $created) {
     $this->created = $created;
@@ -1052,11 +1052,11 @@ class Google_Annotation extends Google_Model {
   public function getCreated() {
     return $this->created;
   }
-  public function setCurrentVersionRanges(Google_AnnotationCurrentVersionRanges $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCurrentVersionRanges(Google_AnnotationCurrentVersionRanges $currentVersionRanges) {
+    $this->currentVersionRanges = $currentVersionRanges;
   }
   public function getCurrentVersionRanges() {
-    return $this->***REMOVED***;
+    return $this->currentVersionRanges;
   }
   public function setData( $data) {
     $this->data = $data;
@@ -1070,11 +1070,11 @@ class Google_Annotation extends Google_Model {
   public function getDeleted() {
     return $this->deleted;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHighlightStyle( $highlightStyle) {
+    $this->highlightStyle = $highlightStyle;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getHighlightStyle() {
+    return $this->highlightStyle;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -1101,10 +1101,10 @@ class Google_Annotation extends Google_Model {
   public function getPageIds() {
     return $this->pageIds;
   }
-  public function ***REMOVED***( $selectedText) {
+  public function setSelectedText( $selectedText) {
     $this->selectedText = $selectedText;
   }
-  public function ***REMOVED***() {
+  public function getSelectedText() {
     return $this->selectedText;
   }
   public function setSelfLink( $selfLink) {
@@ -1131,7 +1131,7 @@ class Google_AnnotationClientVersionRanges extends Google_Model {
   protected $__cfiRangeType = 'Google_BooksAnnotationsRange';
   protected $__cfiRangeDataType = '';
   public $cfiRange;
-  public $***REMOVED***;
+  public $contentVersion;
   protected $__gbImageRangeType = 'Google_BooksAnnotationsRange';
   protected $__gbImageRangeDataType = '';
   public $gbImageRange;
@@ -1147,28 +1147,28 @@ class Google_AnnotationClientVersionRanges extends Google_Model {
   public function getCfiRange() {
     return $this->cfiRange;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentVersion( $contentVersion) {
+    $this->contentVersion = $contentVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getContentVersion() {
+    return $this->contentVersion;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $gbImageRange) {
+  public function setGbImageRange(Google_BooksAnnotationsRange $gbImageRange) {
     $this->gbImageRange = $gbImageRange;
   }
-  public function ***REMOVED***() {
+  public function getGbImageRange() {
     return $this->gbImageRange;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $gbTextRange) {
+  public function setGbTextRange(Google_BooksAnnotationsRange $gbTextRange) {
     $this->gbTextRange = $gbTextRange;
   }
-  public function ***REMOVED***() {
+  public function getGbTextRange() {
     return $this->gbTextRange;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $imageCfiRange) {
+  public function setImageCfiRange(Google_BooksAnnotationsRange $imageCfiRange) {
     $this->imageCfiRange = $imageCfiRange;
   }
-  public function ***REMOVED***() {
+  public function getImageCfiRange() {
     return $this->imageCfiRange;
   }
 }
@@ -1177,7 +1177,7 @@ class Google_AnnotationCurrentVersionRanges extends Google_Model {
   protected $__cfiRangeType = 'Google_BooksAnnotationsRange';
   protected $__cfiRangeDataType = '';
   public $cfiRange;
-  public $***REMOVED***;
+  public $contentVersion;
   protected $__gbImageRangeType = 'Google_BooksAnnotationsRange';
   protected $__gbImageRangeDataType = '';
   public $gbImageRange;
@@ -1193,34 +1193,34 @@ class Google_AnnotationCurrentVersionRanges extends Google_Model {
   public function getCfiRange() {
     return $this->cfiRange;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentVersion( $contentVersion) {
+    $this->contentVersion = $contentVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getContentVersion() {
+    return $this->contentVersion;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $gbImageRange) {
+  public function setGbImageRange(Google_BooksAnnotationsRange $gbImageRange) {
     $this->gbImageRange = $gbImageRange;
   }
-  public function ***REMOVED***() {
+  public function getGbImageRange() {
     return $this->gbImageRange;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $gbTextRange) {
+  public function setGbTextRange(Google_BooksAnnotationsRange $gbTextRange) {
     $this->gbTextRange = $gbTextRange;
   }
-  public function ***REMOVED***() {
+  public function getGbTextRange() {
     return $this->gbTextRange;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $imageCfiRange) {
+  public function setImageCfiRange(Google_BooksAnnotationsRange $imageCfiRange) {
     $this->imageCfiRange = $imageCfiRange;
   }
-  public function ***REMOVED***() {
+  public function getImageCfiRange() {
     return $this->imageCfiRange;
   }
 }
 
 class Google_Annotationdata extends Google_Model {
-  public $***REMOVED***;
+  public $annotationType;
   public $data;
   public $encoded_data;
   public $id;
@@ -1229,11 +1229,11 @@ class Google_Annotationdata extends Google_Model {
   public $selfLink;
   public $updated;
   public $volumeId;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationType( $annotationType) {
+    $this->annotationType = $annotationType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAnnotationType() {
+    return $this->annotationType;
   }
   public function setData( $data) {
     $this->data = $data;
@@ -1305,10 +1305,10 @@ class Google_Annotations extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {
@@ -1339,10 +1339,10 @@ class Google_Annotationsdata extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {
@@ -1364,29 +1364,29 @@ class Google_BooksAnnotationsRange extends Google_Model {
   public function getEndOffset() {
     return $this->endOffset;
   }
-  public function ***REMOVED***( $endPosition) {
+  public function setEndPosition( $endPosition) {
     $this->endPosition = $endPosition;
   }
-  public function ***REMOVED***() {
+  public function getEndPosition() {
     return $this->endPosition;
   }
-  public function ***REMOVED***( $startOffset) {
+  public function setStartOffset( $startOffset) {
     $this->startOffset = $startOffset;
   }
-  public function ***REMOVED***() {
+  public function getStartOffset() {
     return $this->startOffset;
   }
-  public function ***REMOVED***( $startPosition) {
+  public function setStartPosition( $startPosition) {
     $this->startPosition = $startPosition;
   }
-  public function ***REMOVED***() {
+  public function getStartPosition() {
     return $this->startPosition;
   }
 }
 
 class Google_BooksCloudloadingResource extends Google_Model {
   public $author;
-  public $***REMOVED***;
+  public $processingState;
   public $title;
   public $volumeId;
   public function setAuthor( $author) {
@@ -1395,11 +1395,11 @@ class Google_BooksCloudloadingResource extends Google_Model {
   public function getAuthor() {
     return $this->author;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setProcessingState( $processingState) {
+    $this->processingState = $processingState;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getProcessingState() {
+    return $this->processingState;
   }
   public function setTitle( $title) {
     $this->title = $title;
@@ -1471,10 +1471,10 @@ class Google_BooksLayerDictDataDict extends Google_Model {
 class Google_BooksLayerDictDataDictSource extends Google_Model {
   public $attribution;
   public $url;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
   public function setUrl( $url) {
@@ -1498,11 +1498,11 @@ class Google_BooksLayerDictDataDictWords extends Google_Model {
   protected $__sourceType = 'Google_BooksLayerDictDataDictWordsSource';
   protected $__sourceDataType = '';
   public $source;
-  public function ***REMOVED***(/* array(Google_BooksLayerDictDataDictWordsDerivatives) */ $derivatives) {
+  public function setDerivatives(/* array(Google_BooksLayerDictDataDictWordsDerivatives) */ $derivatives) {
     $this->assertIsArray($derivatives, 'Google_BooksLayerDictDataDictWordsDerivatives', __METHOD__);
     $this->derivatives = $derivatives;
   }
-  public function ***REMOVED***() {
+  public function getDerivatives() {
     return $this->derivatives;
   }
   public function setExamples(/* array(Google_BooksLayerDictDataDictWordsExamples) */ $examples) {
@@ -1549,10 +1549,10 @@ class Google_BooksLayerDictDataDictWordsDerivatives extends Google_Model {
 class Google_BooksLayerDictDataDictWordsDerivativesSource extends Google_Model {
   public $attribution;
   public $url;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
   public function setUrl( $url) {
@@ -1585,10 +1585,10 @@ class Google_BooksLayerDictDataDictWordsExamples extends Google_Model {
 class Google_BooksLayerDictDataDictWordsExamplesSource extends Google_Model {
   public $attribution;
   public $url;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
   public function setUrl( $url) {
@@ -1608,45 +1608,45 @@ class Google_BooksLayerDictDataDictWordsSenses extends Google_Model {
   public $definitions;
   public $partOfSpeech;
   public $pronunciation;
-  public $***REMOVED***;
+  public $pronunciationUrl;
   protected $__sourceType = 'Google_BooksLayerDictDataDictWordsSensesSource';
   protected $__sourceDataType = '';
   public $source;
-  public $***REMOVED***;
+  public $syllabification;
   protected $__synonymsType = 'Google_BooksLayerDictDataDictWordsSensesSynonyms';
   protected $__synonymsDataType = 'array';
   public $synonyms;
-  public function ***REMOVED***(/* array(Google_BooksLayerDictDataDictWordsSensesConjugations) */ $conjugations) {
+  public function setConjugations(/* array(Google_BooksLayerDictDataDictWordsSensesConjugations) */ $conjugations) {
     $this->assertIsArray($conjugations, 'Google_BooksLayerDictDataDictWordsSensesConjugations', __METHOD__);
     $this->conjugations = $conjugations;
   }
-  public function ***REMOVED***() {
+  public function getConjugations() {
     return $this->conjugations;
   }
-  public function ***REMOVED***(/* array(Google_BooksLayerDictDataDictWordsSensesDefinitions) */ $definitions) {
+  public function setDefinitions(/* array(Google_BooksLayerDictDataDictWordsSensesDefinitions) */ $definitions) {
     $this->assertIsArray($definitions, 'Google_BooksLayerDictDataDictWordsSensesDefinitions', __METHOD__);
     $this->definitions = $definitions;
   }
-  public function ***REMOVED***() {
+  public function getDefinitions() {
     return $this->definitions;
   }
-  public function ***REMOVED***( $partOfSpeech) {
+  public function setPartOfSpeech( $partOfSpeech) {
     $this->partOfSpeech = $partOfSpeech;
   }
-  public function ***REMOVED***() {
+  public function getPartOfSpeech() {
     return $this->partOfSpeech;
   }
-  public function ***REMOVED***( $pronunciation) {
+  public function setPronunciation( $pronunciation) {
     $this->pronunciation = $pronunciation;
   }
-  public function ***REMOVED***() {
+  public function getPronunciation() {
     return $this->pronunciation;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPronunciationUrl( $pronunciationUrl) {
+    $this->pronunciationUrl = $pronunciationUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPronunciationUrl() {
+    return $this->pronunciationUrl;
   }
   public function setSource(Google_BooksLayerDictDataDictWordsSensesSource $source) {
     $this->source = $source;
@@ -1654,11 +1654,11 @@ class Google_BooksLayerDictDataDictWordsSenses extends Google_Model {
   public function getSource() {
     return $this->source;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSyllabification( $syllabification) {
+    $this->syllabification = $syllabification;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSyllabification() {
+    return $this->syllabification;
   }
   public function setSynonyms(/* array(Google_BooksLayerDictDataDictWordsSensesSynonyms) */ $synonyms) {
     $this->assertIsArray($synonyms, 'Google_BooksLayerDictDataDictWordsSensesSynonyms', __METHOD__);
@@ -1728,10 +1728,10 @@ class Google_BooksLayerDictDataDictWordsSensesDefinitionsExamples extends Google
 class Google_BooksLayerDictDataDictWordsSensesDefinitionsExamplesSource extends Google_Model {
   public $attribution;
   public $url;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
   public function setUrl( $url) {
@@ -1745,10 +1745,10 @@ class Google_BooksLayerDictDataDictWordsSensesDefinitionsExamplesSource extends 
 class Google_BooksLayerDictDataDictWordsSensesSource extends Google_Model {
   public $attribution;
   public $url;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
   public function setUrl( $url) {
@@ -1781,10 +1781,10 @@ class Google_BooksLayerDictDataDictWordsSensesSynonyms extends Google_Model {
 class Google_BooksLayerDictDataDictWordsSensesSynonymsSource extends Google_Model {
   public $attribution;
   public $url;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
   public function setUrl( $url) {
@@ -1798,10 +1798,10 @@ class Google_BooksLayerDictDataDictWordsSensesSynonymsSource extends Google_Mode
 class Google_BooksLayerDictDataDictWordsSource extends Google_Model {
   public $attribution;
   public $url;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
   public function setUrl( $url) {
@@ -1835,7 +1835,7 @@ class Google_BooksLayerGeoData extends Google_Model {
 
 class Google_BooksLayerGeoDataCommon extends Google_Model {
   public $lang;
-  public $***REMOVED***;
+  public $previewImageUrl;
   public $snippet;
   public $snippetUrl;
   public $title;
@@ -1845,11 +1845,11 @@ class Google_BooksLayerGeoDataCommon extends Google_Model {
   public function getLang() {
     return $this->lang;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPreviewImageUrl( $previewImageUrl) {
+    $this->previewImageUrl = $previewImageUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPreviewImageUrl() {
+    return $this->previewImageUrl;
   }
   public function setSnippet( $snippet) {
     $this->snippet = $snippet;
@@ -1891,16 +1891,16 @@ class Google_BooksLayerGeoDataGeo extends Google_Model {
   public function getBoundary() {
     return $this->boundary;
   }
-  public function ***REMOVED***( $cachePolicy) {
+  public function setCachePolicy( $cachePolicy) {
     $this->cachePolicy = $cachePolicy;
   }
-  public function ***REMOVED***() {
+  public function getCachePolicy() {
     return $this->cachePolicy;
   }
-  public function ***REMOVED***( $countryCode) {
+  public function setCountryCode( $countryCode) {
     $this->countryCode = $countryCode;
   }
-  public function ***REMOVED***() {
+  public function getCountryCode() {
     return $this->countryCode;
   }
   public function setLatitude( $latitude) {
@@ -2017,7 +2017,7 @@ class Google_Bookshelf extends Google_Model {
   public $title;
   public $updated;
   public $volumeCount;
-  public $***REMOVED***;
+  public $volumesLastUpdated;
   public function setAccess( $access) {
     $this->access = $access;
   }
@@ -2030,10 +2030,10 @@ class Google_Bookshelf extends Google_Model {
   public function getCreated() {
     return $this->created;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -2066,17 +2066,17 @@ class Google_Bookshelf extends Google_Model {
   public function getUpdated() {
     return $this->updated;
   }
-  public function ***REMOVED***( $volumeCount) {
+  public function setVolumeCount( $volumeCount) {
     $this->volumeCount = $volumeCount;
   }
-  public function ***REMOVED***() {
+  public function getVolumeCount() {
     return $this->volumeCount;
   }
-  public function setVolumesLastUpdated( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setVolumesLastUpdated( $volumesLastUpdated) {
+    $this->volumesLastUpdated = $volumesLastUpdated;
   }
   public function getVolumesLastUpdated() {
-    return $this->***REMOVED***;
+    return $this->volumesLastUpdated;
   }
 }
 
@@ -2103,19 +2103,19 @@ class Google_Bookshelves extends Google_Model {
 class Google_ConcurrentAccessRestriction extends Google_Model {
   public $deviceAllowed;
   public $kind;
-  public $***REMOVED***;
+  public $maxConcurrentDevices;
   public $message;
   public $nonce;
   public $reasonCode;
   public $restricted;
   public $signature;
   public $source;
-  public $***REMOVED***;
+  public $timeWindowSeconds;
   public $volumeId;
-  public function ***REMOVED***( $deviceAllowed) {
+  public function setDeviceAllowed( $deviceAllowed) {
     $this->deviceAllowed = $deviceAllowed;
   }
-  public function ***REMOVED***() {
+  public function getDeviceAllowed() {
     return $this->deviceAllowed;
   }
   public function setKind( $kind) {
@@ -2124,11 +2124,11 @@ class Google_ConcurrentAccessRestriction extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function setMaxConcurrentDevices( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMaxConcurrentDevices( $maxConcurrentDevices) {
+    $this->maxConcurrentDevices = $maxConcurrentDevices;
   }
   public function getMaxConcurrentDevices() {
-    return $this->***REMOVED***;
+    return $this->maxConcurrentDevices;
   }
   public function setMessage( $message) {
     $this->message = $message;
@@ -2166,11 +2166,11 @@ class Google_ConcurrentAccessRestriction extends Google_Model {
   public function getSource() {
     return $this->source;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTimeWindowSeconds( $timeWindowSeconds) {
+    $this->timeWindowSeconds = $timeWindowSeconds;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTimeWindowSeconds() {
+    return $this->timeWindowSeconds;
   }
   public function setVolumeId( $volumeId) {
     $this->volumeId = $volumeId;
@@ -2182,10 +2182,10 @@ class Google_ConcurrentAccessRestriction extends Google_Model {
 
 class Google_DownloadAccessRestriction extends Google_Model {
   public $deviceAllowed;
-  public $***REMOVED***;
+  public $downloadsAcquired;
   public $justAcquired;
   public $kind;
-  public $***REMOVED***;
+  public $maxDownloadDevices;
   public $message;
   public $nonce;
   public $reasonCode;
@@ -2193,22 +2193,22 @@ class Google_DownloadAccessRestriction extends Google_Model {
   public $signature;
   public $source;
   public $volumeId;
-  public function ***REMOVED***( $deviceAllowed) {
+  public function setDeviceAllowed( $deviceAllowed) {
     $this->deviceAllowed = $deviceAllowed;
   }
-  public function ***REMOVED***() {
+  public function getDeviceAllowed() {
     return $this->deviceAllowed;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDownloadsAcquired( $downloadsAcquired) {
+    $this->downloadsAcquired = $downloadsAcquired;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDownloadsAcquired() {
+    return $this->downloadsAcquired;
   }
-  public function ***REMOVED***( $justAcquired) {
+  public function setJustAcquired( $justAcquired) {
     $this->justAcquired = $justAcquired;
   }
-  public function ***REMOVED***() {
+  public function getJustAcquired() {
     return $this->justAcquired;
   }
   public function setKind( $kind) {
@@ -2217,11 +2217,11 @@ class Google_DownloadAccessRestriction extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function setMaxDownloadDevices( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMaxDownloadDevices( $maxDownloadDevices) {
+    $this->maxDownloadDevices = $maxDownloadDevices;
   }
   public function getMaxDownloadDevices() {
-    return $this->***REMOVED***;
+    return $this->maxDownloadDevices;
   }
   public function setMessage( $message) {
     $this->message = $message;
@@ -2270,14 +2270,14 @@ class Google_DownloadAccessRestriction extends Google_Model {
 class Google_DownloadAccesses extends Google_Model {
   protected $__downloadAccessListType = 'Google_DownloadAccessRestriction';
   protected $__downloadAccessListDataType = 'array';
-  public $***REMOVED***;
+  public $downloadAccessList;
   public $kind;
-  public function setDownloadAccessList(/* array(Google_DownloadAccessRestriction) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DownloadAccessRestriction', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDownloadAccessList(/* array(Google_DownloadAccessRestriction) */ $downloadAccessList) {
+    $this->assertIsArray($downloadAccessList, 'Google_DownloadAccessRestriction', __METHOD__);
+    $this->downloadAccessList = $downloadAccessList;
   }
   public function getDownloadAccessList() {
-    return $this->***REMOVED***;
+    return $this->downloadAccessList;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -2315,11 +2315,11 @@ class Google_Layersummaries extends Google_Model {
 }
 
 class Google_Layersummary extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $annotationCount;
+  public $annotationTypes;
+  public $annotationsDataLink;
+  public $annotationsLink;
+  public $contentVersion;
   public $dataCount;
   public $id;
   public $kind;
@@ -2328,36 +2328,36 @@ class Google_Layersummary extends Google_Model {
   public $updated;
   public $volumeAnnotationsVersion;
   public $volumeId;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationCount( $annotationCount) {
+    $this->annotationCount = $annotationCount;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAnnotationCount() {
+    return $this->annotationCount;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationTypes(/* array(Google_string) */ $annotationTypes) {
+    $this->assertIsArray($annotationTypes, 'Google_string', __METHOD__);
+    $this->annotationTypes = $annotationTypes;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAnnotationTypes() {
+    return $this->annotationTypes;
   }
-  public function setAnnotationsDataLink( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationsDataLink( $annotationsDataLink) {
+    $this->annotationsDataLink = $annotationsDataLink;
   }
   public function getAnnotationsDataLink() {
-    return $this->***REMOVED***;
+    return $this->annotationsDataLink;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationsLink( $annotationsLink) {
+    $this->annotationsLink = $annotationsLink;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAnnotationsLink() {
+    return $this->annotationsLink;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentVersion( $contentVersion) {
+    $this->contentVersion = $contentVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getContentVersion() {
+    return $this->contentVersion;
   }
   public function setDataCount( $dataCount) {
     $this->dataCount = $dataCount;
@@ -2410,30 +2410,30 @@ class Google_Layersummary extends Google_Model {
 }
 
 class Google_ReadingPosition extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $epubCfiPosition;
+  public $gbImagePosition;
+  public $gbTextPosition;
   public $kind;
   public $pdfPosition;
   public $updated;
   public $volumeId;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setEpubCfiPosition( $epubCfiPosition) {
+    $this->epubCfiPosition = $epubCfiPosition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getEpubCfiPosition() {
+    return $this->epubCfiPosition;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setGbImagePosition( $gbImagePosition) {
+    $this->gbImagePosition = $gbImagePosition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getGbImagePosition() {
+    return $this->gbImagePosition;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setGbTextPosition( $gbTextPosition) {
+    $this->gbTextPosition = $gbTextPosition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getGbTextPosition() {
+    return $this->gbTextPosition;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -2441,10 +2441,10 @@ class Google_ReadingPosition extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $pdfPosition) {
+  public function setPdfPosition( $pdfPosition) {
     $this->pdfPosition = $pdfPosition;
   }
-  public function ***REMOVED***() {
+  public function getPdfPosition() {
     return $this->pdfPosition;
   }
   public function setUpdated( $updated) {
@@ -2464,22 +2464,22 @@ class Google_ReadingPosition extends Google_Model {
 class Google_RequestAccess extends Google_Model {
   protected $__concurrentAccessType = 'Google_ConcurrentAccessRestriction';
   protected $__concurrentAccessDataType = '';
-  public $***REMOVED***;
+  public $concurrentAccess;
   protected $__downloadAccessType = 'Google_DownloadAccessRestriction';
   protected $__downloadAccessDataType = '';
-  public $***REMOVED***;
+  public $downloadAccess;
   public $kind;
-  public function ***REMOVED***(Google_ConcurrentAccessRestriction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setConcurrentAccess(Google_ConcurrentAccessRestriction $concurrentAccess) {
+    $this->concurrentAccess = $concurrentAccess;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getConcurrentAccess() {
+    return $this->concurrentAccess;
   }
-  public function ***REMOVED***(Google_DownloadAccessRestriction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDownloadAccess(Google_DownloadAccessRestriction $downloadAccess) {
+    $this->downloadAccess = $downloadAccess;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDownloadAccess() {
+    return $this->downloadAccess;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -2522,10 +2522,10 @@ class Google_Review extends Google_Model {
   public function getDate() {
     return $this->date;
   }
-  public function ***REMOVED***( $fullTextUrl) {
+  public function setFullTextUrl( $fullTextUrl) {
     $this->fullTextUrl = $fullTextUrl;
   }
-  public function ***REMOVED***() {
+  public function getFullTextUrl() {
     return $this->fullTextUrl;
   }
   public function setKind( $kind) {
@@ -2568,29 +2568,29 @@ class Google_Review extends Google_Model {
 
 class Google_ReviewAuthor extends Google_Model {
   public $displayName;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
 }
 
 class Google_ReviewSource extends Google_Model {
   public $description;
-  public $***REMOVED***;
+  public $extraDescription;
   public $url;
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setExtraDescription( $extraDescription) {
+    $this->extraDescription = $extraDescription;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getExtraDescription() {
+    return $this->extraDescription;
   }
   public function setUrl( $url) {
     $this->url = $url;
@@ -2612,7 +2612,7 @@ class Google_Volume extends Google_Model {
   public $layerInfo;
   protected $__recommendedInfoType = 'Google_VolumeRecommendedInfo';
   protected $__recommendedInfoDataType = '';
-  public $***REMOVED***;
+  public $recommendedInfo;
   protected $__saleInfoType = 'Google_VolumeSaleInfo';
   protected $__saleInfoDataType = '';
   public $saleInfo;
@@ -2656,11 +2656,11 @@ class Google_Volume extends Google_Model {
   public function getLayerInfo() {
     return $this->layerInfo;
   }
-  public function ***REMOVED***(Google_VolumeRecommendedInfo $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRecommendedInfo(Google_VolumeRecommendedInfo $recommendedInfo) {
+    $this->recommendedInfo = $recommendedInfo;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getRecommendedInfo() {
+    return $this->recommendedInfo;
   }
   public function setSaleInfo(Google_VolumeSaleInfo $saleInfo) {
     $this->saleInfo = $saleInfo;
@@ -2695,11 +2695,11 @@ class Google_Volume extends Google_Model {
 }
 
 class Google_VolumeAccessInfo extends Google_Model {
-  public $***REMOVED***;
+  public $accessViewStatus;
   public $country;
   protected $__downloadAccessType = 'Google_DownloadAccessRestriction';
   protected $__downloadAccessDataType = '';
-  public $***REMOVED***;
+  public $downloadAccess;
   public $embeddable;
   protected $__epubType = 'Google_VolumeAccessInfoEpub';
   protected $__epubDataType = '';
@@ -2712,11 +2712,11 @@ class Google_VolumeAccessInfo extends Google_Model {
   public $viewOrderUrl;
   public $viewability;
   public $webReaderLink;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAccessViewStatus( $accessViewStatus) {
+    $this->accessViewStatus = $accessViewStatus;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAccessViewStatus() {
+    return $this->accessViewStatus;
   }
   public function setCountry( $country) {
     $this->country = $country;
@@ -2724,11 +2724,11 @@ class Google_VolumeAccessInfo extends Google_Model {
   public function getCountry() {
     return $this->country;
   }
-  public function ***REMOVED***(Google_DownloadAccessRestriction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDownloadAccess(Google_DownloadAccessRestriction $downloadAccess) {
+    $this->downloadAccess = $downloadAccess;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDownloadAccess() {
+    return $this->downloadAccess;
   }
   public function setEmbeddable( $embeddable) {
     $this->embeddable = $embeddable;
@@ -2748,10 +2748,10 @@ class Google_VolumeAccessInfo extends Google_Model {
   public function getPdf() {
     return $this->pdf;
   }
-  public function ***REMOVED***( $publicDomain) {
+  public function setPublicDomain( $publicDomain) {
     $this->publicDomain = $publicDomain;
   }
-  public function ***REMOVED***() {
+  public function getPublicDomain() {
     return $this->publicDomain;
   }
   public function setTextToSpeechPermission( $textToSpeechPermission) {
@@ -2760,22 +2760,22 @@ class Google_VolumeAccessInfo extends Google_Model {
   public function getTextToSpeechPermission() {
     return $this->textToSpeechPermission;
   }
-  public function ***REMOVED***( $viewOrderUrl) {
+  public function setViewOrderUrl( $viewOrderUrl) {
     $this->viewOrderUrl = $viewOrderUrl;
   }
-  public function ***REMOVED***() {
+  public function getViewOrderUrl() {
     return $this->viewOrderUrl;
   }
-  public function ***REMOVED***( $viewability) {
+  public function setViewability( $viewability) {
     $this->viewability = $viewability;
   }
-  public function ***REMOVED***() {
+  public function getViewability() {
     return $this->viewability;
   }
-  public function ***REMOVED***( $webReaderLink) {
+  public function setWebReaderLink( $webReaderLink) {
     $this->webReaderLink = $webReaderLink;
   }
-  public function ***REMOVED***() {
+  public function getWebReaderLink() {
     return $this->webReaderLink;
   }
 }
@@ -2784,22 +2784,22 @@ class Google_VolumeAccessInfoEpub extends Google_Model {
   public $acsTokenLink;
   public $downloadLink;
   public $isAvailable;
-  public function ***REMOVED***( $acsTokenLink) {
+  public function setAcsTokenLink( $acsTokenLink) {
     $this->acsTokenLink = $acsTokenLink;
   }
-  public function ***REMOVED***() {
+  public function getAcsTokenLink() {
     return $this->acsTokenLink;
   }
-  public function ***REMOVED***( $downloadLink) {
+  public function setDownloadLink( $downloadLink) {
     $this->downloadLink = $downloadLink;
   }
-  public function ***REMOVED***() {
+  public function getDownloadLink() {
     return $this->downloadLink;
   }
-  public function ***REMOVED***( $isAvailable) {
+  public function setIsAvailable( $isAvailable) {
     $this->isAvailable = $isAvailable;
   }
-  public function ***REMOVED***() {
+  public function getIsAvailable() {
     return $this->isAvailable;
   }
 }
@@ -2808,22 +2808,22 @@ class Google_VolumeAccessInfoPdf extends Google_Model {
   public $acsTokenLink;
   public $downloadLink;
   public $isAvailable;
-  public function ***REMOVED***( $acsTokenLink) {
+  public function setAcsTokenLink( $acsTokenLink) {
     $this->acsTokenLink = $acsTokenLink;
   }
-  public function ***REMOVED***() {
+  public function getAcsTokenLink() {
     return $this->acsTokenLink;
   }
-  public function ***REMOVED***( $downloadLink) {
+  public function setDownloadLink( $downloadLink) {
     $this->downloadLink = $downloadLink;
   }
-  public function ***REMOVED***() {
+  public function getDownloadLink() {
     return $this->downloadLink;
   }
-  public function ***REMOVED***( $isAvailable) {
+  public function setIsAvailable( $isAvailable) {
     $this->isAvailable = $isAvailable;
   }
-  public function ***REMOVED***() {
+  public function getIsAvailable() {
     return $this->isAvailable;
   }
 }
@@ -2860,10 +2860,10 @@ class Google_VolumeLayerInfoLayers extends Google_Model {
 
 class Google_VolumeRecommendedInfo extends Google_Model {
   public $explanation;
-  public function ***REMOVED***( $explanation) {
+  public function setExplanation( $explanation) {
     $this->explanation = $explanation;
   }
-  public function ***REMOVED***() {
+  public function getExplanation() {
     return $this->explanation;
   }
 }
@@ -2910,16 +2910,16 @@ class Google_VolumeSaleInfo extends Google_Model {
   public function getOnSaleDate() {
     return $this->onSaleDate;
   }
-  public function ***REMOVED***(Google_VolumeSaleInfoRetailPrice $retailPrice) {
+  public function setRetailPrice(Google_VolumeSaleInfoRetailPrice $retailPrice) {
     $this->retailPrice = $retailPrice;
   }
-  public function ***REMOVED***() {
+  public function getRetailPrice() {
     return $this->retailPrice;
   }
-  public function ***REMOVED***( $saleability) {
+  public function setSaleability( $saleability) {
     $this->saleability = $saleability;
   }
-  public function ***REMOVED***() {
+  public function getSaleability() {
     return $this->saleability;
   }
 }
@@ -2933,10 +2933,10 @@ class Google_VolumeSaleInfoListPrice extends Google_Model {
   public function getAmount() {
     return $this->amount;
   }
-  public function ***REMOVED***( $currencyCode) {
+  public function setCurrencyCode( $currencyCode) {
     $this->currencyCode = $currencyCode;
   }
-  public function ***REMOVED***() {
+  public function getCurrencyCode() {
     return $this->currencyCode;
   }
 }
@@ -2950,20 +2950,20 @@ class Google_VolumeSaleInfoRetailPrice extends Google_Model {
   public function getAmount() {
     return $this->amount;
   }
-  public function ***REMOVED***( $currencyCode) {
+  public function setCurrencyCode( $currencyCode) {
     $this->currencyCode = $currencyCode;
   }
-  public function ***REMOVED***() {
+  public function getCurrencyCode() {
     return $this->currencyCode;
   }
 }
 
 class Google_VolumeSearchInfo extends Google_Model {
   public $textSnippet;
-  public function ***REMOVED***( $textSnippet) {
+  public function setTextSnippet( $textSnippet) {
     $this->textSnippet = $textSnippet;
   }
-  public function ***REMOVED***() {
+  public function getTextSnippet() {
     return $this->textSnippet;
   }
 }
@@ -2975,7 +2975,7 @@ class Google_VolumeUserInfo extends Google_Model {
   public $isUploaded;
   protected $__readingPositionType = 'Google_ReadingPosition';
   protected $__readingPositionDataType = '';
-  public $***REMOVED***;
+  public $readingPosition;
   protected $__reviewType = 'Google_Review';
   protected $__reviewDataType = '';
   public $review;
@@ -2983,22 +2983,22 @@ class Google_VolumeUserInfo extends Google_Model {
   protected $__userUploadedVolumeInfoType = 'Google_VolumeUserInfoUserUploadedVolumeInfo';
   protected $__userUploadedVolumeInfoDataType = '';
   public $userUploadedVolumeInfo;
-  public function ***REMOVED***( $isInMyBooks) {
+  public function setIsInMyBooks( $isInMyBooks) {
     $this->isInMyBooks = $isInMyBooks;
   }
-  public function ***REMOVED***() {
+  public function getIsInMyBooks() {
     return $this->isInMyBooks;
   }
-  public function ***REMOVED***( $isPreordered) {
+  public function setIsPreordered( $isPreordered) {
     $this->isPreordered = $isPreordered;
   }
-  public function ***REMOVED***() {
+  public function getIsPreordered() {
     return $this->isPreordered;
   }
-  public function ***REMOVED***( $isPurchased) {
+  public function setIsPurchased( $isPurchased) {
     $this->isPurchased = $isPurchased;
   }
-  public function ***REMOVED***() {
+  public function getIsPurchased() {
     return $this->isPurchased;
   }
   public function setIsUploaded( $isUploaded) {
@@ -3007,11 +3007,11 @@ class Google_VolumeUserInfo extends Google_Model {
   public function getIsUploaded() {
     return $this->isUploaded;
   }
-  public function ***REMOVED***(Google_ReadingPosition $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setReadingPosition(Google_ReadingPosition $readingPosition) {
+    $this->readingPosition = $readingPosition;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getReadingPosition() {
+    return $this->readingPosition;
   }
   public function setReview(Google_Review $review) {
     $this->review = $review;
@@ -3034,21 +3034,21 @@ class Google_VolumeUserInfo extends Google_Model {
 }
 
 class Google_VolumeUserInfoUserUploadedVolumeInfo extends Google_Model {
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $processingState;
+  public function setProcessingState( $processingState) {
+    $this->processingState = $processingState;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getProcessingState() {
+    return $this->processingState;
   }
 }
 
 class Google_VolumeVolumeInfo extends Google_Model {
   public $authors;
   public $averageRating;
-  public $***REMOVED***;
+  public $canonicalVolumeLink;
   public $categories;
-  public $***REMOVED***;
+  public $contentVersion;
   public $description;
   protected $__dimensionsType = 'Google_VolumeVolumeInfoDimensions';
   protected $__dimensionsDataType = '';
@@ -3058,7 +3058,7 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public $imageLinks;
   protected $__industryIdentifiersType = 'Google_VolumeVolumeInfoIndustryIdentifiers';
   protected $__industryIdentifiersDataType = 'array';
-  public $***REMOVED***;
+  public $industryIdentifiers;
   public $infoLink;
   public $language;
   public $mainCategory;
@@ -3077,17 +3077,17 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public function getAuthors() {
     return $this->authors;
   }
-  public function ***REMOVED***( $averageRating) {
+  public function setAverageRating( $averageRating) {
     $this->averageRating = $averageRating;
   }
-  public function ***REMOVED***() {
+  public function getAverageRating() {
     return $this->averageRating;
   }
-  public function setCanonicalVolumeLink( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCanonicalVolumeLink( $canonicalVolumeLink) {
+    $this->canonicalVolumeLink = $canonicalVolumeLink;
   }
   public function getCanonicalVolumeLink() {
-    return $this->***REMOVED***;
+    return $this->canonicalVolumeLink;
   }
   public function setCategories(/* array(Google_string) */ $categories) {
     $this->assertIsArray($categories, 'Google_string', __METHOD__);
@@ -3096,16 +3096,16 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public function getCategories() {
     return $this->categories;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentVersion( $contentVersion) {
+    $this->contentVersion = $contentVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getContentVersion() {
+    return $this->contentVersion;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setDimensions(Google_VolumeVolumeInfoDimensions $dimensions) {
@@ -3120,12 +3120,12 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public function getImageLinks() {
     return $this->imageLinks;
   }
-  public function setIndustryIdentifiers(/* array(Google_VolumeVolumeInfoIndustryIdentifiers) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_VolumeVolumeInfoIndustryIdentifiers', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIndustryIdentifiers(/* array(Google_VolumeVolumeInfoIndustryIdentifiers) */ $industryIdentifiers) {
+    $this->assertIsArray($industryIdentifiers, 'Google_VolumeVolumeInfoIndustryIdentifiers', __METHOD__);
+    $this->industryIdentifiers = $industryIdentifiers;
   }
   public function getIndustryIdentifiers() {
-    return $this->***REMOVED***;
+    return $this->industryIdentifiers;
   }
   public function setInfoLink( $infoLink) {
     $this->infoLink = $infoLink;
@@ -3139,10 +3139,10 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public function getLanguage() {
     return $this->language;
   }
-  public function ***REMOVED***( $mainCategory) {
+  public function setMainCategory( $mainCategory) {
     $this->mainCategory = $mainCategory;
   }
-  public function ***REMOVED***() {
+  public function getMainCategory() {
     return $this->mainCategory;
   }
   public function setPageCount( $pageCount) {
@@ -3151,10 +3151,10 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public function getPageCount() {
     return $this->pageCount;
   }
-  public function ***REMOVED***( $previewLink) {
+  public function setPreviewLink( $previewLink) {
     $this->previewLink = $previewLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviewLink() {
     return $this->previewLink;
   }
   public function setPrintType( $printType) {
@@ -3163,10 +3163,10 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public function getPrintType() {
     return $this->printType;
   }
-  public function ***REMOVED***( $publishedDate) {
+  public function setPublishedDate( $publishedDate) {
     $this->publishedDate = $publishedDate;
   }
-  public function ***REMOVED***() {
+  public function getPublishedDate() {
     return $this->publishedDate;
   }
   public function setPublisher( $publisher) {
@@ -3175,10 +3175,10 @@ class Google_VolumeVolumeInfo extends Google_Model {
   public function getPublisher() {
     return $this->publisher;
   }
-  public function ***REMOVED***( $ratingsCount) {
+  public function setRatingsCount( $ratingsCount) {
     $this->ratingsCount = $ratingsCount;
   }
-  public function ***REMOVED***() {
+  public function getRatingsCount() {
     return $this->ratingsCount;
   }
   public function setSubtitle( $subtitle) {
@@ -3224,7 +3224,7 @@ class Google_VolumeVolumeInfoImageLinks extends Google_Model {
   public $large;
   public $medium;
   public $small;
-  public $***REMOVED***;
+  public $smallThumbnail;
   public $thumbnail;
   public function setExtraLarge( $extraLarge) {
     $this->extraLarge = $extraLarge;
@@ -3250,11 +3250,11 @@ class Google_VolumeVolumeInfoImageLinks extends Google_Model {
   public function getSmall() {
     return $this->small;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSmallThumbnail( $smallThumbnail) {
+    $this->smallThumbnail = $smallThumbnail;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSmallThumbnail() {
+    return $this->smallThumbnail;
   }
   public function setThumbnail( $thumbnail) {
     $this->thumbnail = $thumbnail;
@@ -3282,9 +3282,9 @@ class Google_VolumeVolumeInfoIndustryIdentifiers extends Google_Model {
 }
 
 class Google_Volumeannotation extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $annotationDataId;
+  public $annotationDataLink;
+  public $annotationType;
   protected $__contentRangesType = 'Google_VolumeannotationContentRanges';
   protected $__contentRangesDataType = '';
   public $contentRanges;
@@ -3298,28 +3298,28 @@ class Google_Volumeannotation extends Google_Model {
   public $selfLink;
   public $updated;
   public $volumeId;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationDataId( $annotationDataId) {
+    $this->annotationDataId = $annotationDataId;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAnnotationDataId() {
+    return $this->annotationDataId;
   }
-  public function setAnnotationDataLink( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationDataLink( $annotationDataLink) {
+    $this->annotationDataLink = $annotationDataLink;
   }
   public function getAnnotationDataLink() {
-    return $this->***REMOVED***;
+    return $this->annotationDataLink;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAnnotationType( $annotationType) {
+    $this->annotationType = $annotationType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAnnotationType() {
+    return $this->annotationType;
   }
-  public function ***REMOVED***(Google_VolumeannotationContentRanges $contentRanges) {
+  public function setContentRanges(Google_VolumeannotationContentRanges $contentRanges) {
     $this->contentRanges = $contentRanges;
   }
-  public function ***REMOVED***() {
+  public function getContentRanges() {
     return $this->contentRanges;
   }
   public function setData( $data) {
@@ -3359,10 +3359,10 @@ class Google_Volumeannotation extends Google_Model {
   public function getPageIds() {
     return $this->pageIds;
   }
-  public function ***REMOVED***( $selectedText) {
+  public function setSelectedText( $selectedText) {
     $this->selectedText = $selectedText;
   }
-  public function ***REMOVED***() {
+  public function getSelectedText() {
     return $this->selectedText;
   }
   public function setSelfLink( $selfLink) {
@@ -3389,7 +3389,7 @@ class Google_VolumeannotationContentRanges extends Google_Model {
   protected $__cfiRangeType = 'Google_BooksAnnotationsRange';
   protected $__cfiRangeDataType = '';
   public $cfiRange;
-  public $***REMOVED***;
+  public $contentVersion;
   protected $__gbImageRangeType = 'Google_BooksAnnotationsRange';
   protected $__gbImageRangeDataType = '';
   public $gbImageRange;
@@ -3402,22 +3402,22 @@ class Google_VolumeannotationContentRanges extends Google_Model {
   public function getCfiRange() {
     return $this->cfiRange;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentVersion( $contentVersion) {
+    $this->contentVersion = $contentVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getContentVersion() {
+    return $this->contentVersion;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $gbImageRange) {
+  public function setGbImageRange(Google_BooksAnnotationsRange $gbImageRange) {
     $this->gbImageRange = $gbImageRange;
   }
-  public function ***REMOVED***() {
+  public function getGbImageRange() {
     return $this->gbImageRange;
   }
-  public function ***REMOVED***(Google_BooksAnnotationsRange $gbTextRange) {
+  public function setGbTextRange(Google_BooksAnnotationsRange $gbTextRange) {
     $this->gbTextRange = $gbTextRange;
   }
-  public function ***REMOVED***() {
+  public function getGbTextRange() {
     return $this->gbTextRange;
   }
 }
@@ -3443,10 +3443,10 @@ class Google_Volumeannotations extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {

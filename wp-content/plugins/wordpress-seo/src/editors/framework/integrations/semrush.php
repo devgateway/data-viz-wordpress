@@ -1,5 +1,5 @@
 <?php
-// @phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Yoast\WP\SEO\Config\SEMrush_Client;
@@ -61,7 +61,7 @@ class Semrush implements Integration_Data_Provider_Interface {
 		return [
 			'semrushIntegrationActive' => $this->is_enabled(),
 			'countryCode'              => $this->options_helper->get( 'semrush_country_code', false ),
-			'***REMOVED***'       => $this->options_helper->get( 'semrush_integration_active', true ) && $this->get_semrush_login_status(),
+			'SEMrushLoginStatus'       => $this->options_helper->get( 'semrush_integration_active', true ) && $this->get_semrush_login_status(),
 		];
 	}
 

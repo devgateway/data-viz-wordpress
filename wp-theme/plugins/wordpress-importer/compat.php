@@ -1,6 +1,6 @@
 <?php
 /**
- * ***REMOVED*** for WordPress functions missing in older WordPress versions.
+ * Implementation for WordPress functions missing in older WordPress versions.
  *
  * @package WordPress
  * @subpackage Importer

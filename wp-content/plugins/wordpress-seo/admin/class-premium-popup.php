@@ -75,7 +75,7 @@ class WPSEO_Premium_Popup {
 			return '';
 		}
 
-		$assets_uri = ***REMOVED***( plugin_dir_url( WPSEO_FILE ) );
+		$assets_uri = trailingslashit( plugin_dir_url( WPSEO_FILE ) );
 
 		/* translators: %s expands to Yoast SEO Premium */
 		$cta_text = esc_html( sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ) );

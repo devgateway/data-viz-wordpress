@@ -49,7 +49,7 @@ class WPSEO_Option_Tabs_Formatter {
 				'<a class="nav-tab" id="%1$s" href="%2$s">%3$s</a>',
 				esc_attr( $tab->get_name() . '-tab' ),
 				esc_url( '#top#' . $tab->get_name() ),
-				// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: we do this on purpose
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: we do this on purpose
 				$label
 			);
 		}

@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
               content += '</div>';
 
               $(document).on("submit", "#wpdbbkp-news-letter-form", function(e){
-                e.***REMOVED***(); 
+                e.preventDefault(); 
                 
                 var $form = $(this),
                 name = $form.find('input[name="wpdbbkp_subscriber_name"]').val(),

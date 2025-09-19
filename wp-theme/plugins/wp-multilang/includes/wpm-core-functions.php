@@ -44,8 +44,8 @@ function wpm_get_template( $slug, $name = '', $custom_dir = '', $args = array() 
 	}
 
 	// If a custom path was defined, check that next
-	if ( ! $template && $custom_dir && file_exists( ***REMOVED***( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
-		$template = ***REMOVED***( $custom_dir ) . "{$slug}-{$name}.php";
+	if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
+		$template = trailingslashit( $custom_dir ) . "{$slug}-{$name}.php";
 	}
 
 	// Get default slug-name.php
@@ -59,8 +59,8 @@ function wpm_get_template( $slug, $name = '', $custom_dir = '', $args = array() 
 	}
 
 	// If a custom path was defined, check that next
-	if ( ! $template && $custom_dir && file_exists( ***REMOVED***( $custom_dir ) . "{$slug}.php" ) ) {
-		$template = ***REMOVED***( $custom_dir ) . "{$slug}.php";
+	if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}.php" ) ) {
+		$template = trailingslashit( $custom_dir ) . "{$slug}.php";
 	}
 
 	// Get default slug-name.php
@@ -157,8 +157,8 @@ function wpm_print_js() {
 function wpm_setcookie( $name, $value, $expire = 0, $secure = false ) {
 	if ( ! headers_sent() ) {
 		setcookie( $name, $value, $expire,  COOKIEPATH ? COOKIEPATH : '/', null, $secure );
-		if ( COOKIEPATH != ***REMOVED*** ) {
-			setcookie( $name, $value, $expire, ***REMOVED***, null, $secure );
+		if ( COOKIEPATH != SITECOOKIEPATH ) {
+			setcookie( $name, $value, $expire, SITECOOKIEPATH, null, $secure );
 		}
 	} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		headers_sent( $file, $line );

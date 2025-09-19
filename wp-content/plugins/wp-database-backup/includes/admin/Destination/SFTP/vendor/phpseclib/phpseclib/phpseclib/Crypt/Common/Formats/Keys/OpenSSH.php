@@ -73,30 +73,30 @@ abstract class OpenSSH
             $key = Strings::base64_decode($key);
             $magic = Strings::shift($key, 15);
             if ($magic != "openssh-key-v1\0") {
-                throw new \***REMOVED***('Expected openssh-key-v1');
+                throw new \RuntimeException('Expected openssh-key-v1');
             }
             list($ciphername, $kdfname, $kdfoptions, $numKeys) = Strings::unpackSSH2('sssN', $key);
             if ($numKeys != 1) {
-                // if we wanted to support multiple keys we could update ***REMOVED*** to preview what the # of keys
+                // if we wanted to support multiple keys we could update PublicKeyLoader to preview what the # of keys
                 // would be; it'd then call Common\Keys\OpenSSH.php::load() and get the paddedKey. it'd then pass
                 // that to the appropriate key loading parser $numKey times or something
-                throw new \***REMOVED***('Although the OpenSSH private key format supports multiple keys phpseclib does not');
+                throw new \RuntimeException('Although the OpenSSH private key format supports multiple keys phpseclib does not');
             }
             switch ($ciphername) {
                 case 'none':
                     break;
                 case 'aes256-ctr':
                     if ($kdfname != 'bcrypt') {
-                        throw new \***REMOVED***('Only the bcrypt kdf is supported (' . $kdfname . ' encountered)');
+                        throw new \RuntimeException('Only the bcrypt kdf is supported (' . $kdfname . ' encountered)');
                     }
                     list($salt, $rounds) = Strings::unpackSSH2('sN', $kdfoptions);
                     $crypto = new AES('ctr');
                     //$crypto->setKeyLength(256);
-                    //$crypto->***REMOVED***();
+                    //$crypto->disablePadding();
                     $crypto->setPassword($password, 'bcrypt', $salt, $rounds, 32);
                     break;
                 default:
-                    throw new \***REMOVED***('The only supported cipherse are: none, aes256-ctr (' . $ciphername . ' is being used)');
+                    throw new \RuntimeException('The only supported cipherse are: none, aes256-ctr (' . $ciphername . ' is being used)');
             }
 
             list($publicKey, $paddedKey) = Strings::unpackSSH2('ss', $key);
@@ -107,7 +107,7 @@ abstract class OpenSSH
             list($checkint1, $checkint2) = Strings::unpackSSH2('NN', $paddedKey);
             // any leftover bytes in $paddedKey are for padding? but they should be sequential bytes. eg. 1, 2, 3, etc.
             if ($checkint1 != $checkint2) {
-                throw new \***REMOVED***('The two checkints do not match');
+                throw new \RuntimeException('The two checkints do not match');
             }
             self::checkType($type);
 
@@ -132,7 +132,7 @@ abstract class OpenSSH
         list($type) = Strings::unpackSSH2('s', $key);
         self::checkType($type);
         if (isset($asciiType) && $asciiType != $type) {
-            throw new \***REMOVED***('Two different types of keys are claimed: ' . $asciiType . ' and ' . $type);
+            throw new \RuntimeException('Two different types of keys are claimed: ' . $asciiType . ' and ' . $type);
         }
         if (strlen($key) <= 4) {
             throw new \UnexpectedValueException('Key appears to be malformed');
@@ -151,7 +151,7 @@ abstract class OpenSSH
      *
      * @param bool $enabled
      */
-    public static function ***REMOVED***($enabled)
+    public static function setBinaryOutput($enabled)
     {
         self::$binary = $enabled;
     }
@@ -164,7 +164,7 @@ abstract class OpenSSH
     private static function checkType($candidate)
     {
         if (!in_array($candidate, static::$types)) {
-            throw new \***REMOVED***("The key type ($candidate) is not equal to: " . implode(',', static::$types));
+            throw new \RuntimeException("The key type ($candidate) is not equal to: " . implode(',', static::$types));
         }
     }
 
@@ -177,7 +177,7 @@ abstract class OpenSSH
      * @param array $options
      * @return string
      */
-    protected static function ***REMOVED***($publicKey, $privateKey, $password, $options)
+    protected static function wrapPrivateKey($publicKey, $privateKey, $password, $options)
     {
         list(, $checkint) = unpack('N', Random::string(4));
 
@@ -186,7 +186,7 @@ abstract class OpenSSH
                      $privateKey .
                      Strings::packSSH2('s', $comment);
 
-        $***REMOVED*** = !empty($password) && is_string($password);
+        $usesEncryption = !empty($password) && is_string($password);
 
         /*
            from http://tools.ietf.org/html/rfc4253#section-6 :
@@ -195,12 +195,12 @@ abstract class OpenSSH
            'padding_length', 'payload', and 'random padding' MUST be a multiple
            of the cipher block size or 8, whichever is larger.
          */
-        $blockSize = $***REMOVED*** ? 16 : 8;
+        $blockSize = $usesEncryption ? 16 : 8;
         $paddingLength = (($blockSize - 1) * strlen($paddedKey)) % $blockSize;
         for ($i = 1; $i <= $paddingLength; $i++) {
             $paddedKey .= chr($i);
         }
-        if (!$***REMOVED***) {
+        if (!$usesEncryption) {
             $key = Strings::packSSH2('sssNss', 'none', 'none', '', 1, $publicKey, $paddedKey);
         } else {
             $rounds = isset($options['rounds']) ? $options['rounds'] : 16;

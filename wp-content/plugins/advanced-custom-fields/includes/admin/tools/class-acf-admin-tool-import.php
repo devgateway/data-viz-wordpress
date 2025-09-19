@@ -140,9 +140,9 @@ if ( ! class_exists( 'ACF_Admin_Tool_Import' ) ) :
 		 * @return ACF_Admin_Notice
 		 */
 		public function submit() {
-			//phpcs:disable WordPress.Security.***REMOVED***.Missing -- nonce verified before this function is called.
+			//phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce verified before this function is called.
 			if ( 'cptui' === acf_request_arg( 'import_type', '' ) && ! empty( $_POST['acf_import_cptui'] ) ) {
-				$import = acf_sanitize_request_args( $_POST['acf_import_cptui'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- unslash not needed.
+				$import = acf_sanitize_request_args( $_POST['acf_import_cptui'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- unslash not needed.
 				return $this->import_cpt_ui( $import );
 			}
 
@@ -212,7 +212,7 @@ if ( ! class_exists( 'ACF_Admin_Tool_Import' ) ) :
 
 			// Add notice.
 			return acf_add_admin_notice( $text, 'success' );
-			//phpcs:enable WordPress.Security.***REMOVED***.Missing
+			//phpcs:enable WordPress.Security.NonceVerification.Missing
 		}
 
 		/**

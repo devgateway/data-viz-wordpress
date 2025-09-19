@@ -324,11 +324,11 @@
         static function mask_secret_key_for_html( $secret_key ) {
             return (
                 // Initial 6 chars - sk_ABC
-                ***REMOVED***( substr( $secret_key, 0, 6 ) ) .
+                htmlspecialchars( substr( $secret_key, 0, 6 ) ) .
                 // Masking
                 str_pad( '', ( strlen( $secret_key ) - 9 ) * 6, '&bull;' ) .
                 // Last 3 chars.
-                ***REMOVED***( substr( $secret_key, - 3 ) )
+                htmlspecialchars( substr( $secret_key, - 3 ) )
             );
         }
     }

@@ -3,27 +3,27 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Decorator used to return only a subset of a stream.
  */
-final class LimitStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class LimitStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
-    use ***REMOVED***;
+    use StreamDecoratorTrait;
     /** @var int Offset to start reading from */
     private $offset;
     /** @var int Limit the number of bytes that can be read */
     private $limit;
-    /** @var ***REMOVED*** */
+    /** @var StreamInterface */
     private $stream;
     /**
-     * @param ***REMOVED*** $stream Stream to wrap
+     * @param StreamInterface $stream Stream to wrap
      * @param int             $limit  Total number of bytes to allow to be read
      *                                from the stream. Pass -1 for no limit.
      * @param int             $offset Position to seek to before reading (only
      *                                works on seekable streams).
      */
-    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, int $limit = -1, int $offset = 0)
+    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, int $limit = -1, int $offset = 0)
     {
         $this->stream = $stream;
         $this->setLimit($limit);
@@ -60,7 +60,7 @@ final class LimitStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*
     public function seek($offset, $whence = \SEEK_SET) : void
     {
         if ($whence !== \SEEK_SET || $offset < 0) {
-            throw new \***REMOVED***(\sprintf('Cannot seek to offset %s with whence %s', $offset, $whence));
+            throw new \RuntimeException(\sprintf('Cannot seek to offset %s with whence %s', $offset, $whence));
         }
         $offset += $this->offset;
         if ($this->limit !== -1) {
@@ -82,7 +82,7 @@ final class LimitStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*
      *
      * @param int $offset Offset to seek to and begin byte limiting from
      *
-     * @throws \***REMOVED*** if the stream cannot be seeked.
+     * @throws \RuntimeException if the stream cannot be seeked.
      */
     public function setOffset(int $offset) : void
     {
@@ -92,7 +92,7 @@ final class LimitStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*
             if ($this->stream->isSeekable()) {
                 $this->stream->seek($offset);
             } elseif ($current > $offset) {
-                throw new \***REMOVED***("Could not seek to stream offset {$offset}");
+                throw new \RuntimeException("Could not seek to stream offset {$offset}");
             } else {
                 $this->stream->read($offset - $current);
             }

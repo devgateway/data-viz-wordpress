@@ -16,7 +16,7 @@
  * to $b$ so we'll just keep it.
  *
  * If a later version of SEC2 comes out wherein some $a$ values are non-zero we can create a
- * new method for those. eg. ***REMOVED***.php or something.
+ * new method for those. eg. KoblitzA1Prime.php or something.
  *
  * PHP version 5 and 7
  *
@@ -52,7 +52,7 @@ class KoblitzPrime extends Prime
      */
     protected $beta;
 
-    // don't overwrite ***REMOVED***() with one that only accepts one parameter so that
+    // don't overwrite setCoefficients() with one that only accepts one parameter so that
     // one might be able to switch between KoblitzPrime and Prime more easily (for benchmarking
     // purposes).
 
@@ -66,7 +66,7 @@ class KoblitzPrime extends Prime
      *
      * @return int[]
      */
-    public function ***REMOVED***(array $points, array $scalars)
+    public function multiplyAddPoints(array $points, array $scalars)
     {
         static $zero, $one, $two;
         if (!isset($two)) {
@@ -179,7 +179,7 @@ class KoblitzPrime extends Prime
             $nscalars[$pos] = $this->factory->newInteger($k2);
         }
 
-        return parent::***REMOVED***($npoints, $nscalars);
+        return parent::multiplyAddPoints($npoints, $nscalars);
     }
 
     /**
@@ -187,7 +187,7 @@ class KoblitzPrime extends Prime
      *
      * @return FiniteField[]
      */
-    protected function ***REMOVED***(array $p)
+    protected function doublePointHelper(array $p)
     {
         $numerator = $this->three->multiply($p[0])->multiply($p[0]);
         $denominator = $this->two->multiply($p[1]);
@@ -201,7 +201,7 @@ class KoblitzPrime extends Prime
      *
      * @return FiniteField[]
      */
-    protected function ***REMOVED***(array $p)
+    protected function jacobianDoublePoint(array $p)
     {
         list($x1, $y1, $z1) = $p;
         $a = $x1->multiply($x1);
@@ -283,7 +283,7 @@ class KoblitzPrime extends Prime
         $a2 = clone $zero;
         $b2 = clone $zero;
 
-        $***REMOVED*** = 0;
+        $postGreatestIndex = 0;
 
         while (!$v->equals($zero)) {
             list($q) = $u->divide($v);
@@ -304,15 +304,15 @@ class KoblitzPrime extends Prime
                 $a0 = $v;
                 $b0 = $c;
             } else {
-                $***REMOVED***++;
+                $postGreatestIndex++;
             }
 
-            if ($***REMOVED*** == 1) {
+            if ($postGreatestIndex == 1) {
                 $a1 = $v;
                 $b1 = $c->negate();
             }
 
-            if ($***REMOVED*** == 2) {
+            if ($postGreatestIndex == 2) {
                 $rhs = $a0->multiply($a0)->add($b0->multiply($b0));
                 $lhs = $v->multiply($v)->add($b->multiply($b));
                 if ($lhs->compare($rhs) <= 0) {

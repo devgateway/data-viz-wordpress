@@ -25,7 +25,7 @@ abstract class IssuingDistributionPoint
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => [
+            'distributionPoint' => [
                 'constant' => 0,
                 'optional' => true,
                 'explicit' => true
@@ -37,14 +37,14 @@ abstract class IssuingDistributionPoint
                 'default' => false,
                 'implicit' => true
             ],
-            '***REMOVED***' => [
+            'onlyContainsCACerts' => [
                 'type' => ASN1::TYPE_BOOLEAN,
                 'constant' => 2,
                 'optional' => true,
                 'default' => false,
                 'implicit' => true
             ],
-            '***REMOVED***' => [
+            'onlySomeReasons' => [
                 'constant' => 3,
                 'optional' => true,
                 'implicit' => true

@@ -8,7 +8,7 @@ use Yoast\WP\Lib\Model;
 /**
  * Indexable migration.
  */
-class ***REMOVED*** extends Migration {
+class WpYoastIndexable extends Migration {
 
 	/**
 	 * The plugin this migration belongs to.

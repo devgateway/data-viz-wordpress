@@ -1,13 +1,13 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Integrations;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Integrations;
 
-use Google\Site_Kit\Core\***REMOVED***\***REMOVED***;
+use Google\Site_Kit\Core\Authentication\Authentication;
 use Google\Site_Kit\Plugin;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Analytics_4\Site_Kit_Analytics_4_Adapter;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Configuration\Site_Kit_Consent_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface as Configuration_Repository;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Configuration\Site_Kit_Consent_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\User_Interface\Setup\Setup_Url_Interceptor;
 
 /**
@@ -74,9 +74,9 @@ class Site_Kit {
 	private function is_setup_completed(): bool {
 		if ( \class_exists( 'Google\Site_Kit\Plugin' ) ) {
 			$site_kit_plugin = Plugin::instance();
-			$***REMOVED***  = new ***REMOVED***( $site_kit_plugin->context() );
+			$authentication  = new Authentication( $site_kit_plugin->context() );
 
-			return $***REMOVED***->is_setup_completed();
+			return $authentication->is_setup_completed();
 		}
 
 		return false;
@@ -157,22 +157,22 @@ class Site_Kit {
 			'setupUrl'                 => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_setup_url() ),
 			'updateUrl'                => \self_admin_url( 'update.php?page=' . Setup_Url_Interceptor::PAGE . '&redirect_setup_url=' ) . \rawurlencode( $this->get_update_url() ),
 			'dashboardUrl'             => \self_admin_url( 'admin.php?page=googlesitekit-dashboard' ),
-			'***REMOVED***'     => $this->is_ga_connected(),
-			'***REMOVED***'         => true,
+			'isAnalyticsConnected'     => $this->is_ga_connected(),
+			'isFeatureEnabled'         => true,
 			'isSetupWidgetDismissed'   => $this->permanently_dismissed_site_kit_configuration_repository->is_site_kit_configuration_dismissed(),
 			'capabilities'             => [
-				'***REMOVED***'        => \current_user_can( 'install_plugins' ),
+				'installPlugins'        => \current_user_can( 'install_plugins' ),
 				'viewSearchConsoleData' => $this->can_read_data( 'search-console' ),
-				'***REMOVED***'     => $this->can_read_data( 'analytics-4' ),
+				'viewAnalyticsData'     => $this->can_read_data( 'analytics-4' ),
 			],
 			'connectionStepsStatuses'  => [
 				'isInstalled'      => \file_exists( \WP_PLUGIN_DIR . '/' . self::SITE_KIT_FILE ),
 				'isActive'         => $this->is_enabled(),
-				'***REMOVED***' => $this->is_setup_completed(),
-				'***REMOVED***' => $this->is_connected(),
+				'isSetupCompleted' => $this->is_setup_completed(),
+				'isConsentGranted' => $this->is_connected(),
 			],
-			'***REMOVED***'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			'isVersionSupported'       => \defined( 'GOOGLESITEKIT_VERSION' ) ? \version_compare( \GOOGLESITEKIT_VERSION, '1.148.0', '>=' ) : false,
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			'isRedirectedFromSiteKit'  => isset( $_GET['redirected_from_site_kit'] ),
 		];
 	}
@@ -180,7 +180,7 @@ class Site_Kit {
 	/**
 	 * Return this object represented by a key value array. This is not used yet.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */

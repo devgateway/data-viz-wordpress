@@ -3,7 +3,7 @@ module.exports = {
 		require('postcss-nested'),
 		require('postcss-css-variables')({
 			preserve: false,
-			***REMOVED***: true
+			preserveAtRulesOrder: true
 		}),
 		require('postcss-calc')({
 			precision: 0

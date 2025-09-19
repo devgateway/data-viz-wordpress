@@ -2,6 +2,6 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Exception;
 
-class ***REMOVED*** extends \***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***
+class TransferException extends \RuntimeException implements \YoastSEO_Vendor\GuzzleHttp\Exception\GuzzleException
 {
 }

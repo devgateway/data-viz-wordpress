@@ -3,17 +3,17 @@
 namespace YoastSEO_Vendor\GuzzleHttp;
 
 use YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJar;
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Exception\GuzzleException;
 use YoastSEO_Vendor\GuzzleHttp\Exception\InvalidArgumentException;
 use YoastSEO_Vendor\GuzzleHttp\Promise as P;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 /**
  * @final
  */
-class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Vendor\Psr\Http\Client\***REMOVED***
+class Client implements \YoastSEO_Vendor\GuzzleHttp\ClientInterface, \YoastSEO_Vendor\Psr\Http\Client\ClientInterface
 {
     use ClientTrait;
     /**
@@ -36,10 +36,10 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
      * Client configuration settings include the following options:
      *
      * - handler: (callable) Function that transfers HTTP requests over the
-     *   wire. The function is called with a Psr7\Http\Message\***REMOVED***
+     *   wire. The function is called with a Psr7\Http\Message\RequestInterface
      *   and array of transfer options, and must return a
-     *   GuzzleHttp\Promise\***REMOVED*** that is fulfilled with a
-     *   Psr7\Http\Message\***REMOVED*** on success.
+     *   GuzzleHttp\Promise\PromiseInterface that is fulfilled with a
+     *   Psr7\Http\Message\ResponseInterface on success.
      *   If no handler is provided, a default handler will be created
      *   that enables all of the request options below by attaching all of the
      *   default middleware to the handler.
@@ -49,7 +49,7 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
      *
      * @param array $config Client configuration settings.
      *
-     * @see \GuzzleHttp\***REMOVED*** for a list of available request options.
+     * @see \GuzzleHttp\RequestOptions for a list of available request options.
      */
     public function __construct(array $config = [])
     {
@@ -62,13 +62,13 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
         if (isset($config['base_uri'])) {
             $config['base_uri'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::uriFor($config['base_uri']);
         }
-        $this->***REMOVED***($config);
+        $this->configureDefaults($config);
     }
     /**
      * @param string $method
      * @param array  $args
      *
-     * @return ***REMOVED***|***REMOVED***
+     * @return PromiseInterface|ResponseInterface
      *
      * @deprecated Client::__call will be removed in guzzlehttp/guzzle:8.0.
      */
@@ -82,28 +82,28 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
         return \substr($method, -5) === 'Async' ? $this->requestAsync(\substr($method, 0, -5), $uri, $opts) : $this->request($method, $uri, $opts);
     }
     /**
-     * ***REMOVED*** send an HTTP request.
+     * Asynchronously send an HTTP request.
      *
      * @param array $options Request options to apply to the given
-     *                       request and to the transfer. See \GuzzleHttp\***REMOVED***.
+     *                       request and to the transfer. See \GuzzleHttp\RequestOptions.
      */
-    public function sendAsync(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function sendAsync(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         // Merge the base URI into the request URI if needed.
-        $options = $this->***REMOVED***($options);
+        $options = $this->prepareDefaults($options);
         return $this->transfer($request->withUri($this->buildUri($request->getUri(), $options), $request->hasHeader('Host')), $options);
     }
     /**
      * Send an HTTP request.
      *
      * @param array $options Request options to apply to the given
-     *                       request and to the transfer. See \GuzzleHttp\***REMOVED***.
+     *                       request and to the transfer. See \GuzzleHttp\RequestOptions.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function send(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function send(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
-        $options[\YoastSEO_Vendor\GuzzleHttp\***REMOVED***::SYNCHRONOUS] = \true;
+        $options[\YoastSEO_Vendor\GuzzleHttp\RequestOptions::SYNCHRONOUS] = \true;
         return $this->sendAsync($request, $options)->wait();
     }
     /**
@@ -111,11 +111,11 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
      *
      * {@inheritDoc}
      */
-    public function sendRequest(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function sendRequest(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
-        $options[\YoastSEO_Vendor\GuzzleHttp\***REMOVED***::SYNCHRONOUS] = \true;
-        $options[\YoastSEO_Vendor\GuzzleHttp\***REMOVED***::ALLOW_REDIRECTS] = \false;
-        $options[\YoastSEO_Vendor\GuzzleHttp\***REMOVED***::HTTP_ERRORS] = \false;
+        $options[\YoastSEO_Vendor\GuzzleHttp\RequestOptions::SYNCHRONOUS] = \true;
+        $options[\YoastSEO_Vendor\GuzzleHttp\RequestOptions::ALLOW_REDIRECTS] = \false;
+        $options[\YoastSEO_Vendor\GuzzleHttp\RequestOptions::HTTP_ERRORS] = \false;
         return $this->sendAsync($request, $options)->wait();
     }
     /**
@@ -128,11 +128,11 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
      *
      * @param string              $method  HTTP method
      * @param string|UriInterface $uri     URI object or string.
-     * @param array               $options Request options to apply. See \GuzzleHttp\***REMOVED***.
+     * @param array               $options Request options to apply. See \GuzzleHttp\RequestOptions.
      */
-    public function requestAsync(string $method, $uri = '', array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function requestAsync(string $method, $uri = '', array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
-        $options = $this->***REMOVED***($options);
+        $options = $this->prepareDefaults($options);
         // Remove request modifying parameter because it can be done up-front.
         $headers = $options['headers'] ?? [];
         $body = $options['body'] ?? null;
@@ -156,13 +156,13 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
      *
      * @param string              $method  HTTP method.
      * @param string|UriInterface $uri     URI object or string.
-     * @param array               $options Request options to apply. See \GuzzleHttp\***REMOVED***.
+     * @param array               $options Request options to apply. See \GuzzleHttp\RequestOptions.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function request(string $method, $uri = '', array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function request(string $method, $uri = '', array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
-        $options[\YoastSEO_Vendor\GuzzleHttp\***REMOVED***::SYNCHRONOUS] = \true;
+        $options[\YoastSEO_Vendor\GuzzleHttp\RequestOptions::SYNCHRONOUS] = \true;
         return $this->requestAsync($method, $uri, $options)->wait();
     }
     /**
@@ -196,9 +196,9 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
     /**
      * Configures the default options for a client.
      */
-    private function ***REMOVED***(array $config) : void
+    private function configureDefaults(array $config) : void
     {
-        $defaults = ['allow_redirects' => \YoastSEO_Vendor\GuzzleHttp\***REMOVED***::$***REMOVED***, 'http_errors' => \true, 'decode_content' => \true, 'verify' => \true, 'cookies' => \false, 'idn_conversion' => \false];
+        $defaults = ['allow_redirects' => \YoastSEO_Vendor\GuzzleHttp\RedirectMiddleware::$defaultSettings, 'http_errors' => \true, 'decode_content' => \true, 'verify' => \true, 'cookies' => \false, 'idn_conversion' => \false];
         // Use the standard Linux HTTP_PROXY and HTTPS_PROXY if set.
         // We can only trust the HTTP_PROXY environment variable in a CLI
         // process due to the fact that PHP has no reliable mechanism to
@@ -210,8 +210,8 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
             $defaults['proxy']['https'] = $proxy;
         }
         if ($noProxy = \YoastSEO_Vendor\GuzzleHttp\Utils::getenv('NO_PROXY')) {
-            $***REMOVED*** = \str_replace(' ', '', $noProxy);
-            $defaults['proxy']['no'] = \explode(',', $***REMOVED***);
+            $cleanedNoProxy = \str_replace(' ', '', $noProxy);
+            $defaults['proxy']['no'] = \explode(',', $cleanedNoProxy);
         }
         $this->config = $config + $defaults;
         if (!empty($config['cookies']) && $config['cookies'] === \true) {
@@ -219,7 +219,7 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
         }
         // Add the default user-agent header.
         if (!isset($this->config['headers'])) {
-            $this->config['headers'] = ['User-Agent' => \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***()];
+            $this->config['headers'] = ['User-Agent' => \YoastSEO_Vendor\GuzzleHttp\Utils::defaultUserAgent()];
         } else {
             // Add the User-Agent header if one was not already set.
             foreach (\array_keys($this->config['headers']) as $name) {
@@ -227,7 +227,7 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
                     return;
                 }
             }
-            $this->config['headers']['User-Agent'] = \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***();
+            $this->config['headers']['User-Agent'] = \YoastSEO_Vendor\GuzzleHttp\Utils::defaultUserAgent();
         }
     }
     /**
@@ -235,7 +235,7 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
      *
      * @param array $options Options to modify by reference
      */
-    private function ***REMOVED***(array $options) : array
+    private function prepareDefaults(array $options) : array
     {
         $defaults = $this->config;
         if (!empty($defaults['headers'])) {
@@ -270,9 +270,9 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
      * The URI of the request is not modified and the request options are used
      * as-is without merging in default options.
      *
-     * @param array $options See \GuzzleHttp\***REMOVED***.
+     * @param array $options See \GuzzleHttp\RequestOptions.
      */
-    private function transfer(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    private function transfer(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $request = $this->applyOptions($request, $options);
         /** @var HandlerStack $handler */
@@ -286,7 +286,7 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
     /**
      * Applies the array of request options to a request.
      */
-    private function applyOptions(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array &$options) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    private function applyOptions(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array &$options) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         $modify = ['set_headers' => []];
         if (isset($options['headers'])) {
@@ -303,23 +303,23 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
             $options['body'] = \http_build_query($options['form_params'], '', '&');
             unset($options['form_params']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::***REMOVED***(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::caselessRemove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'application/x-www-form-urlencoded';
         }
         if (isset($options['multipart'])) {
-            $options['body'] = new \YoastSEO_Vendor\GuzzleHttp\Psr7\***REMOVED***($options['multipart']);
+            $options['body'] = new \YoastSEO_Vendor\GuzzleHttp\Psr7\MultipartStream($options['multipart']);
             unset($options['multipart']);
         }
         if (isset($options['json'])) {
             $options['body'] = \YoastSEO_Vendor\GuzzleHttp\Utils::jsonEncode($options['json']);
             unset($options['json']);
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::***REMOVED***(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::caselessRemove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'application/json';
         }
         if (!empty($options['decode_content']) && $options['decode_content'] !== \true) {
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::***REMOVED***(['Accept-Encoding'], $options['_conditional']);
+            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::caselessRemove(['Accept-Encoding'], $options['_conditional']);
             $modify['set_headers']['Accept-Encoding'] = $options['decode_content'];
         }
         if (isset($options['body'])) {
@@ -335,7 +335,7 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
             switch ($type) {
                 case 'basic':
                     // Ensure that we don't have the header in different case and set the new value.
-                    $modify['set_headers'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::***REMOVED***(['Authorization'], $modify['set_headers']);
+                    $modify['set_headers'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::caselessRemove(['Authorization'], $modify['set_headers']);
                     $modify['set_headers']['Authorization'] = 'Basic ' . \base64_encode("{$value[0]}:{$value[1]}");
                     break;
                 case 'digest':
@@ -371,10 +371,10 @@ class Client implements \YoastSEO_Vendor\GuzzleHttp\***REMOVED***, \YoastSEO_Ven
             $modify['version'] = $options['version'];
         }
         $request = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::modifyRequest($request, $modify);
-        if ($request->getBody() instanceof \YoastSEO_Vendor\GuzzleHttp\Psr7\***REMOVED***) {
+        if ($request->getBody() instanceof \YoastSEO_Vendor\GuzzleHttp\Psr7\MultipartStream) {
             // Use a multipart/form-data POST if a Content-Type is not set.
             // Ensure that we don't have the header in different case and set the new value.
-            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::***REMOVED***(['Content-Type'], $options['_conditional']);
+            $options['_conditional'] = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::caselessRemove(['Content-Type'], $options['_conditional']);
             $options['_conditional']['Content-Type'] = 'multipart/form-data; boundary=' . $request->getBody()->getBoundary();
         }
         // Merge in conditional headers if they are not present.

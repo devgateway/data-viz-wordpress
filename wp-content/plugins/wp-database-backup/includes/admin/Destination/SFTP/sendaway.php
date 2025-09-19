@@ -7,7 +7,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 use phpseclib3\Net\SFTP;
-use phpseclib3\Crypt\***REMOVED***;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 // Retrieve SFTP details
 $wpdbbkp_sftp_details = get_option('wp_db_backup_sftp_details', array());
@@ -29,7 +29,7 @@ if ( ! empty( $host ) && ! empty( $user ) && ( ! empty( $pass ) || ( 'key' === $
     if ( $sftp ) {
         // Authenticate
         if ( 'key' === $auth_type ) {
-            $key    = ***REMOVED***::load( $pkey, $key_pass );
+            $key    = PublicKeyLoader::load( $pkey, $key_pass );
             $result = $sftp->login( $user, $key );
         } else {
             $result = $sftp->login( $user, $pass );
@@ -40,7 +40,7 @@ if ( ! empty( $host ) && ! empty( $user ) && ( ! empty( $pass ) || ( 'key' === $
             $wp_upload_dir                  = wp_upload_dir();
             $wp_upload_dir['basedir']       = str_replace( '\\', '/', $wp_upload_dir['basedir'] );
             $remotefile                     = $directory . '/' . $filename;
-            $localfile                      = ***REMOVED***( $wp_upload_dir['basedir'] . '/db-backup' ) . $filename;
+            $localfile                      = trailingslashit( $wp_upload_dir['basedir'] . '/db-backup' ) . $filename;
             $success                        = $sftp->put( $remotefile, $localfile, SFTP::SOURCE_LOCAL_FILE | SFTP::RESUME_START );
 
             if ( $success ) {

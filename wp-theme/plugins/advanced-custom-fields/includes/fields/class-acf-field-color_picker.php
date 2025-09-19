@@ -60,11 +60,11 @@ class acf_field_color_picker extends acf_field {
 				$scripts->set_translations( 'wp-color-picker' );
 			// WP 4.9
 			} else {
-				$scripts->localize( 'wp-color-picker', '***REMOVED***', array(
+				$scripts->localize( 'wp-color-picker', 'wpColorPickerL10n', array(
 					'clear'            => __( 'Clear' ),
-					'***REMOVED***'   => __( 'Clear color' ),
+					'clearAriaLabel'   => __( 'Clear color' ),
 					'defaultString'    => __( 'Default' ),
-					'***REMOVED***' => __( 'Select default color' ),
+					'defaultAriaLabel' => __( 'Select default color' ),
 					'pick'             => __( 'Select Color' ),
 					'defaultLabel'     => __( 'Color value' ),
 				));

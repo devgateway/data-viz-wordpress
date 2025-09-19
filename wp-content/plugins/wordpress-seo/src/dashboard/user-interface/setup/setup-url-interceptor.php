@@ -1,10 +1,10 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Setup;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Integrations\Site_Kit;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -115,11 +115,11 @@ class Setup_Url_Interceptor implements Integration_Interface {
 		// Are we on the in-between page?
 		if ( $this->current_page_helper->get_current_yoast_seo_page() === self::PAGE ) {
 			// Check if parameter is there and is valid.
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			if ( isset( $_GET['redirect_setup_url'] ) && \in_array( \wp_unslash( $_GET['redirect_setup_url'] ), $allowed_setup_links, true ) ) {
 				// We overwrite the transient for each time this redirect is hit to keep refreshing the time.
 				\set_transient( self::SITE_KIT_SETUP_TRANSIENT, 1, ( \MINUTE_IN_SECONDS * 15 ) );
-				// phpcs:ignore WordPress.Security.***REMOVED***.Recommended, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: Only allowed pre verified links can end up here.
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Only allowed pre verified links can end up here.
 				$redirect_url = \wp_unslash( $_GET['redirect_setup_url'] );
 				$this->redirect_helper->do_safe_redirect( $redirect_url, 302, 'Yoast SEO' );
 

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Define the ***REMOVED*** functionality.
+ * Define the internationalization functionality.
  *
- * Loads and defines the ***REMOVED*** files for this plugin
+ * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
  * @since      1.0.0

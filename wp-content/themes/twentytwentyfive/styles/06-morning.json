@@ -64,7 +64,7 @@
 						},
 						{
 							"src": [
-								"file:./assets/fonts/literata/Literata72pt-***REMOVED***.woff2"
+								"file:./assets/fonts/literata/Literata72pt-ExtraLightItalic.woff2"
 							],
 							"fontWeight": "200",
 							"fontStyle": "italic",
@@ -128,7 +128,7 @@
 						},
 						{
 							"src": [
-								"file:./assets/fonts/literata/Literata72pt-***REMOVED***.woff2"
+								"file:./assets/fonts/literata/Literata72pt-SemiBoldItalic.woff2"
 							],
 							"fontWeight": "600",
 							"fontStyle": "italic",
@@ -160,7 +160,7 @@
 						},
 						{
 							"src": [
-								"file:./assets/fonts/literata/Literata72pt-***REMOVED***.woff2"
+								"file:./assets/fonts/literata/Literata72pt-ExtraBoldItalic.woff2"
 							],
 							"fontWeight": "800",
 							"fontStyle": "italic",

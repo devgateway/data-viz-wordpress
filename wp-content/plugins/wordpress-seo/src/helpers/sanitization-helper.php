@@ -12,7 +12,7 @@ class Sanitization_Helper {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
-	 * @***REMOVED*** We have to write test when this method contains own code.
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @param string $value String value to sanitize.
 	 *
@@ -26,7 +26,7 @@ class Sanitization_Helper {
 	 * Sanitize a url for saving to the database.
 	 * Not to be confused with the old native WP function.
 	 *
-	 * @***REMOVED*** We have to write test when this method contains own code.
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @param string $value             String URL value to sanitize.
 	 * @param array  $allowed_protocols Optional set of allowed protocols.

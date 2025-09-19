@@ -22,7 +22,7 @@ use phpseclib3\File\ASN1;
  */
 abstract class RSAPrivateKey
 {
-    // version must be multi if ***REMOVED*** present
+    // version must be multi if otherPrimeInfos present
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
@@ -31,14 +31,14 @@ abstract class RSAPrivateKey
                 'mapping' => ['two-prime', 'multi']
             ],
             'modulus' => ['type' => ASN1::TYPE_INTEGER],         // n
-            '***REMOVED***' => ['type' => ASN1::TYPE_INTEGER],  // e
-            '***REMOVED***' => ['type' => ASN1::TYPE_INTEGER], // d
+            'publicExponent' => ['type' => ASN1::TYPE_INTEGER],  // e
+            'privateExponent' => ['type' => ASN1::TYPE_INTEGER], // d
             'prime1' => ['type' => ASN1::TYPE_INTEGER],          // p
             'prime2' => ['type' => ASN1::TYPE_INTEGER],          // q
             'exponent1' => ['type' => ASN1::TYPE_INTEGER],       // d mod (p-1)
             'exponent2' => ['type' => ASN1::TYPE_INTEGER],       // d mod (q-1)
             'coefficient' => ['type' => ASN1::TYPE_INTEGER],     // (inverse of q) mod p
-            '***REMOVED***' => ***REMOVED***::MAP + ['optional' => true]
+            'otherPrimeInfos' => OtherPrimeInfos::MAP + ['optional' => true]
         ]
     ];
 }

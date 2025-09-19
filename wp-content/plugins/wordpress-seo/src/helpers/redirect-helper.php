@@ -10,7 +10,7 @@ class Redirect_Helper {
 	/**
 	 * Wraps wp_redirect to allow testing for redirects.
 	 *
-	 * @***REMOVED*** It only wraps a WordPress function.
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @param string $location The path to redirect to.
 	 * @param int    $status   The status code to use.
@@ -27,7 +27,7 @@ class Redirect_Helper {
 	/**
 	 * Wraps wp_safe_redirect to allow testing for safe redirects.
 	 *
-	 * @***REMOVED*** It only wraps a WordPress function.
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @param string $location The path to redirect to.
 	 * @param int    $status   The status code to use.
@@ -44,7 +44,7 @@ class Redirect_Helper {
 	 * Sets a header.
 	 * This is a tiny helper function to enable better testing.
 	 *
-	 * @***REMOVED*** It only wraps a WordPress function.
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @param string $header The header to set.
 	 *
@@ -58,7 +58,7 @@ class Redirect_Helper {
 	 * Removes a header.
 	 * This is a tiny helper function to enable better testing.
 	 *
-	 * @***REMOVED*** It only wraps a WordPress function.
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @param string $header The header to remove.
 	 *

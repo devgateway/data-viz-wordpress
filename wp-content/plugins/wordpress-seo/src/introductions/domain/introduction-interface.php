@@ -18,7 +18,7 @@ interface Introduction_Interface {
 	 * Returns the unique name.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */

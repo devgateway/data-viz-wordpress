@@ -2,11 +2,11 @@
 namespace enshrined\svgSanitize\data;
 
 /**
- * Class ***REMOVED***
+ * Class AttributeInterface
  *
  * @package enshrined\svgSanitize\data
  */
-interface ***REMOVED***
+interface AttributeInterface
 {
 
     /**

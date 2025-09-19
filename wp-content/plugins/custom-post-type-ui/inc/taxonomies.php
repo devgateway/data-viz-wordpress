@@ -438,7 +438,7 @@ function cptui_manage_taxonomies() {
 								<input type="hidden" name="tax_original" id="tax_original" value="<?php echo esc_attr( $current['name'] ); ?>" />
 								<?php
 							}
-							wp_nonce_field( '***REMOVED***', '***REMOVED***' );
+							wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce' );
 							// Used to check and see if we should prevent duplicate slugs.
 							?>
 							<input type="hidden" name="cpt_tax_status" id="cpt_tax_status" value="<?php echo esc_attr( $tab ); ?>" />
@@ -1332,7 +1332,7 @@ function cptui_manage_taxonomies() {
 			<p class="submit">
 				<?php
 				wp_nonce_field( 'cptui_addedit_taxonomy_nonce_action', 'cptui_addedit_taxonomy_nonce_field' );
-				if ( ! empty( $_GET ) && ! empty( $_GET['action'] ) && 'edit' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.***REMOVED***
+				if ( ! empty( $_GET ) && ! empty( $_GET['action'] ) && 'edit' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 					/**
 					 * Filters the text value to use on the button when editing.
 					 *
@@ -1636,7 +1636,7 @@ function cptui_update_taxonomy( $data = [] ) {
 			unset( $data['cpt_tax_labels'][ $key ] );
 		}
 		$label                          = str_replace( '"', '', htmlspecialchars_decode( $label ) );
-		$label                          = ***REMOVED***( $label, ENT_QUOTES );
+		$label                          = htmlspecialchars( $label, ENT_QUOTES );
 		$label                          = trim( $label );
 		$data['cpt_tax_labels'][ $key ] = stripslashes_deep( $label );
 	}
@@ -1644,7 +1644,7 @@ function cptui_update_taxonomy( $data = [] ) {
 	$label = ucwords( str_replace( '_', ' ', $data['cpt_custom_tax']['name'] ) );
 	if ( ! empty( $data['cpt_custom_tax']['label'] ) ) {
 		$label = str_replace( '"', '', htmlspecialchars_decode( $data['cpt_custom_tax']['label'] ) );
-		$label = ***REMOVED***( stripslashes( $label ), ENT_QUOTES );
+		$label = htmlspecialchars( stripslashes( $label ), ENT_QUOTES );
 	}
 
 	$name = trim( $data['cpt_custom_tax']['name'] );
@@ -1652,7 +1652,7 @@ function cptui_update_taxonomy( $data = [] ) {
 	$singular_label = ucwords( str_replace( '_', ' ', $data['cpt_custom_tax']['name'] ) );
 	if ( ! empty( $data['cpt_custom_tax']['singular_label'] ) ) {
 		$singular_label = str_replace( '"', '', htmlspecialchars_decode( $data['cpt_custom_tax']['singular_label'] ) );
-		$singular_label = ***REMOVED***( stripslashes( $singular_label ) );
+		$singular_label = htmlspecialchars( stripslashes( $singular_label ) );
 	}
 	$description           = stripslashes_deep( $data['cpt_custom_tax']['description'] );
 	$query_var_slug        = trim( $data['cpt_custom_tax']['query_var_slug'] );
@@ -1843,7 +1843,7 @@ function cptui_reserved_taxonomies() {
 		'types',
 		'w',
 		'withcomments',
-		'***REMOVED***',
+		'withoutcomments',
 		'year',
 	];
 
@@ -2054,9 +2054,9 @@ add_action( 'init', 'cptui_do_convert_taxonomy_terms' );
  */
 function cptui_updated_taxonomy_slug_exists( $slug_exists, $taxonomy_slug = '', $taxonomies = [] ) {
 	if (
-		( ! empty( $_POST['cpt_tax_status'] ) && 'edit' === $_POST['cpt_tax_status'] ) && // phpcs:ignore WordPress.Security.***REMOVED***
-		! in_array( $taxonomy_slug, cptui_reserved_taxonomies(), true ) && // phpcs:ignore WordPress.Security.***REMOVED***
-		( ! empty( $_POST['tax_original'] ) && $taxonomy_slug === $_POST['tax_original'] ) // phpcs:ignore WordPress.Security.***REMOVED***
+		( ! empty( $_POST['cpt_tax_status'] ) && 'edit' === $_POST['cpt_tax_status'] ) && // phpcs:ignore WordPress.Security.NonceVerification
+		! in_array( $taxonomy_slug, cptui_reserved_taxonomies(), true ) && // phpcs:ignore WordPress.Security.NonceVerification
+		( ! empty( $_POST['tax_original'] ) && $taxonomy_slug === $_POST['tax_original'] ) // phpcs:ignore WordPress.Security.NonceVerification
 	) {
 		$slug_exists = false;
 	}

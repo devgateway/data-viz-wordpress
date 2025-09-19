@@ -41,7 +41,7 @@ class Handle_404 implements Integration_Interface {
 	/**
 	 * Handle_404 constructor.
 	 *
-	 * @***REMOVED*** Handles dependencies.
+	 * @codeCoverageIgnore Handles dependencies.
 	 *
 	 * @param WP_Query_Wrapper $query_wrapper The query wrapper.
 	 */
@@ -110,7 +110,7 @@ class Handle_404 implements Integration_Interface {
 	/**
 	 * Sets the headers for http.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

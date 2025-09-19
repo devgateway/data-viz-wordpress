@@ -149,8 +149,8 @@ class Indexable_Post_Type_Archive_Builder {
 		$replacements[] = $post_type;
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
-		//phpcs:disable WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching -- We need to use a direct query here.
-		//phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				'

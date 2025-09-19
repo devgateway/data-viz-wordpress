@@ -14,7 +14,7 @@ if ( ! defined( 'BSR_PATH' ) ) {
 }
 
 class BSR_Utils {
-	const BSR_URL = 'https://***REMOVED***.com';
+	const BSR_URL = 'https://bettersearchreplace.com';
 	const WPE_URL = 'https://wpengine.com';
 
 	/**
@@ -44,7 +44,7 @@ class BSR_Utils {
 			array( 'utm_medium' => 'insideplugin' )
 		);
 		$args = array_map( 'urlencode', $args );
-		$url  = ***REMOVED***( self::BSR_URL ) . ltrim( $path, '/' );
+		$url  = trailingslashit( self::BSR_URL ) . ltrim( $path, '/' );
 		$url  = add_query_arg( $args, $url );
 		if ( $hash ) {
 			$url .= '#' . $hash;
@@ -71,7 +71,7 @@ class BSR_Utils {
 			]
 		);
 		$args = array_map( 'urlencode', $args );
-		$url  = ***REMOVED***( self::WPE_URL ) . ltrim( $path, '/' );
+		$url  = trailingslashit( self::WPE_URL ) . ltrim( $path, '/' );
 		$url  = add_query_arg( $args, $url );
 
 		if ( $hash ) {

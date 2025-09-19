@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -659,7 +659,7 @@ msgid "Button Icon"
 msgstr ""
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr ""
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -1940,7 +1940,7 @@ msgstr ""
 #: includes/admin/views/escaped-html-notice.php:27
 msgid "Please contact your site administrator or developer for more details."
 msgstr ""
-"Contacteu amb l'administrador o el ***REMOVED*** del vostre lloc per a més "
+"Contacteu amb l'administrador o el desenvolupador del vostre lloc per a més "
 "detalls."
 
 #: includes/admin/views/escaped-html-notice.php:5
@@ -1989,7 +1989,7 @@ msgid ""
 "and sub-pages."
 msgstr ""
 "Les <a href=\"%s\" target=\"_blank\">pàgines d'opcions</a> d'ACF són pàgines "
-"d'administració ***REMOVED*** per a gestionar la configuració global "
+"d'administració personalitzades per a gestionar la configuració global "
 "mitjançant camps. Podeu crear diverses pàgines i subpàgines."
 
 #: includes/admin/views/global/header.php:35
@@ -2185,7 +2185,7 @@ msgstr "S'ha fet per als que construeixen amb el WordPress, per l'equip a %s"
 
 #: includes/admin/views/acf-field-group/pro-features.php:6
 msgid "View Pricing & Upgrade"
-msgstr "Mostra els preus i ***REMOVED***"
+msgstr "Mostra els preus i actualitzacions"
 
 #: includes/admin/views/acf-field-group/pro-features.php:3
 #: includes/admin/views/options-page-preview.php:29
@@ -2399,7 +2399,7 @@ msgstr ""
 
 #: includes/fields/class-acf-field-url.php:20
 msgid "A text input specifically designed for storing web addresses."
-msgstr "Un camp de text dissenyat ***REMOVED*** per emmagatzemar adreces web."
+msgstr "Un camp de text dissenyat especificament per emmagatzemar adreces web."
 
 #: includes/fields/class-acf-field-icon_picker.php:56
 #: includes/fields/class-acf-field-url.php:19
@@ -2458,7 +2458,7 @@ msgid ""
 "editing. Includes options to search and filter."
 msgstr ""
 "Una interfície de dues columnes per seleccionar una o més entrades, pàgines "
-"o elements de tipus de contingut ***REMOVED*** per crear una relació amb "
+"o elements de tipus de contingut personalitzats per crear una relació amb "
 "l'element que esteu editant actualment. Inclou opcions per cercar i filtrar."
 
 #: includes/fields/class-acf-field-range.php:23
@@ -2482,7 +2482,7 @@ msgid ""
 "An interactive and customizable UI for picking one or many posts, pages or "
 "post type items with the option to search. "
 msgstr ""
-"Una interfície d'usuari interactiva i ***REMOVED*** per escollir una o més "
+"Una interfície d'usuari interactiva i personalitzable per escollir una o més "
 "publicacions, pàgines o elements de tipus d'entrada amb l'opció de cercar. "
 
 #: includes/fields/class-acf-field-password.php:23
@@ -2502,7 +2502,7 @@ msgid ""
 "items or archive URLs, with the option to search."
 msgstr ""
 "Un menú desplegable interactiu per seleccionar una o més entrades, pàgines, "
-"elements de tipus de contingut ***REMOVED*** o URL d'arxiu, amb l'opció de "
+"elements de tipus de contingut personalitzats o URL d'arxiu, amb l'opció de "
 "cercar."
 
 #: includes/fields/class-acf-field-oembed.php:24
@@ -2611,7 +2611,7 @@ msgid ""
 "Allows you to group and organize custom fields into collapsable panels that "
 "are shown while editing content. Useful for keeping large datasets tidy."
 msgstr ""
-"Us permet agrupar i organitzar camps ***REMOVED*** en panells plegables que "
+"Us permet agrupar i organitzar camps personalitzats en panells plegables que "
 "es mostren mentre editeu el contingut. Útil per mantenir ordenats grans "
 "conjunts de dades."
 
@@ -2737,7 +2737,7 @@ msgstr "Afegeix taxonomia"
 #: includes/admin/views/acf-taxonomy/list-empty.php:14
 msgid "Create custom taxonomies to classify post type content"
 msgstr ""
-"Crea taxonomies ***REMOVED*** per clasificar el contingut del tipus de "
+"Crea taxonomies personalitzades per clasificar el contingut del tipus de "
 "contingut"
 
 #: includes/admin/views/acf-taxonomy/list-empty.php:13
@@ -2879,7 +2879,7 @@ msgstr "Sense caixa meta"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:751
 msgid "Custom Meta Box"
-msgstr "Caixa meta ***REMOVED***"
+msgstr "Caixa meta personalitzada"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:768
 msgid ""
@@ -3361,7 +3361,7 @@ msgid ""
 "custom post types."
 msgstr ""
 "Amplia la funcionalitat de WordPress més enllà de les entrades i pàgines "
-"estàndard amb tipus de contingut ***REMOVED***."
+"estàndard amb tipus de contingut personalitzats."
 
 #: includes/admin/views/acf-post-type/list-empty.php:12
 msgid "Add Your First Post Type"
@@ -3487,7 +3487,7 @@ msgstr "No admet variables de consulta"
 #: includes/admin/views/acf-post-type/advanced-settings.php:1214
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1051
 msgid "Custom Query Variable"
-msgstr "Variable de consulta ***REMOVED***"
+msgstr "Variable de consulta personalitzada"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1211
 msgid ""
@@ -3686,7 +3686,7 @@ msgstr ""
 #: includes/admin/views/acf-post-type/advanced-settings.php:914
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:873
 msgid "Appearance Menus Support"
-msgstr "***REMOVED*** amb menús d'aparença"
+msgstr "Compatibilitat amb menús d'aparença"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:896
 msgid "Appears as an item in the 'New' menu in the admin bar."
@@ -3698,7 +3698,7 @@ msgstr "Mostra a la barra d'administració"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:861
 msgid "Custom Meta Box Callback"
-msgstr "Crida de retorn de caixa meta ***REMOVED***"
+msgstr "Crida de retorn de caixa meta personalitzada"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:822
 #: includes/fields/class-acf-field-icon_picker.php:611
@@ -4405,9 +4405,9 @@ msgid ""
 "delete the items from the ACF admin."
 msgstr ""
 "El codi següent es pot utilitzar per registrar una versió local dels "
-"elements seleccionats. L'***REMOVED*** local de grups de camps, tipus de "
+"elements seleccionats. L'emmagatzematge local de grups de camps, tipus de "
 "contingut o taxonomies pot proporcionar molts avantatges, com ara temps de "
-"càrrega més ràpids, control de versions i camps/***REMOVED*** dinàmiques. "
+"càrrega més ràpids, control de versions i camps/configuracions dinàmiques. "
 "Simplement copia i enganxa el codi següent al fitxer functions.php del tema "
 "o inclou-lo dins d'un fitxer extern i, a continuació, desactiva o suprimeix "
 "els elements de l'administrador de l'ACF."
@@ -4490,7 +4490,7 @@ msgstr ""
 msgid "Taxonomy synchronized."
 msgid_plural "%s taxonomies synchronized."
 msgstr[0] "Taxonomia sincronitzada."
-msgstr[1] "%s taxonomies ***REMOVED***."
+msgstr[1] "%s taxonomies sincronitzades."
 
 #. translators: %s number of taxonomies duplicated
 #: includes/admin/post-types/admin-taxonomies.php:326
@@ -4721,7 +4721,7 @@ msgstr "Etiquetes"
 
 #: includes/admin/post-types/admin-field-group.php:279
 msgid "Field Settings Tabs"
-msgstr "Pestanyes de ***REMOVED*** de camps"
+msgstr "Pestanyes de configuracions de camps"
 
 #. Author URI of the plugin
 #: acf.php
@@ -4776,21 +4776,21 @@ msgstr "Afegeix un «Alternar tots»"
 
 #: includes/fields/class-acf-field-checkbox.php:379
 msgid "Save Custom Values"
-msgstr "Desa els valors ***REMOVED***"
+msgstr "Desa els valors personalitzats"
 
 #: includes/fields/class-acf-field-checkbox.php:368
 msgid "Allow Custom Values"
-msgstr "Permet valors ***REMOVED***"
+msgstr "Permet valors personalitzats"
 
 #: includes/fields/class-acf-field-checkbox.php:134
 msgid "Checkbox custom values cannot be empty. Uncheck any empty values."
 msgstr ""
-"Els valors ***REMOVED*** de les caselles de selecció no poden estar buits. "
+"Els valors personalitzats de les caselles de selecció no poden estar buits. "
 "Desmarqueu els valors buits."
 
 #: includes/admin/views/global/navigation.php:253
 msgid "Updates"
-msgstr "***REMOVED***"
+msgstr "Actualitzacions"
 
 #: includes/admin/views/global/navigation.php:177
 #: includes/admin/views/global/navigation.php:181
@@ -4833,7 +4833,7 @@ msgid ""
 "fields together, and then attach those fields to edit screens."
 msgstr ""
 "L'ACF utilitza <a href=\"%s\" target=\"_blank\">grups de camps</a> per "
-"agrupar camps ***REMOVED*** i, a continuació, adjuntar aquests camps per "
+"agrupar camps personalitzats i, a continuació, adjuntar aquests camps per "
 "editar pantalles."
 
 #: includes/admin/views/acf-field-group/list-empty.php:12
@@ -4898,8 +4898,8 @@ msgid ""
 "Get started creating new custom fields for your posts, pages, custom post "
 "types and other WordPress content."
 msgstr ""
-"Comenceu a crear nous camps ***REMOVED*** per a les vostres entrades, "
-"pàgines, tipus de contingut ***REMOVED*** i altres continguts del WordPress."
+"Comenceu a crear nous camps personalitzats per a les vostres entrades, "
+"pàgines, tipus de contingut personalitzats i altres continguts del WordPress."
 
 #: includes/admin/views/acf-field-group/fields.php:64
 msgid "Add Your First Field"
@@ -5289,7 +5289,7 @@ msgstr ""
 "L'extensió Advanced Custom Fields proporciona un maquetador de formularis "
 "visual per personalitzar les pantalles d'edició del WordPress amb camps "
 "addicionals i una API intuïtiva per mostrar els valors dels camps "
-"***REMOVED*** en qualsevol fitxer de plantilla de tema."
+"personalitzats en qualsevol fitxer de plantilla de tema."
 
 #: includes/admin/admin.php:131 includes/admin/admin.php:133
 msgid "Overview"
@@ -5421,7 +5421,7 @@ msgstr "Pàgina mare"
 
 #: includes/locations/class-acf-location-current-user-role.php:77
 msgid "Super Admin"
-msgstr "***REMOVED***"
+msgstr "Superadministrador"
 
 #: includes/locations/class-acf-location-current-user-role.php:22
 msgid "Current User Role"
@@ -5758,7 +5758,7 @@ msgstr "Mostra aquest grup de camps si"
 #: includes/admin/views/upgrade/upgrade.php:93
 #: includes/ajax/class-acf-ajax-upgrade.php:34
 msgid "No updates available."
-msgstr "No hi ha ***REMOVED*** disponibles."
+msgstr "No hi ha actualitzacions disponibles."
 
 #. translators: %s the url to the field group page.
 #: includes/admin/views/upgrade/upgrade.php:32
@@ -5850,7 +5850,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crea un grup de regles que determinaran quines pantalles d’edició mostraran "
-"aquests camps ***REMOVED***"
+"aquests camps personalitzats"
 
 #: includes/admin/views/acf-field-group/locations.php:9
 msgid "Rules"
@@ -5997,7 +5997,7 @@ msgstr "Actualitza la base de dades"
 #: includes/admin/views/acf-field-group/options.php:175
 #: includes/admin/views/acf-post-type/advanced-settings.php:30
 msgid "Custom Fields"
-msgstr "Camps ***REMOVED***"
+msgstr "Camps personalitzats"
 
 #: includes/admin/post-types/admin-field-group.php:609
 msgid "Move Field"
@@ -6360,11 +6360,11 @@ msgstr ""
 
 #: includes/fields/class-acf-field-checkbox.php:383
 msgid "Save 'custom' values to the field's choices"
-msgstr "Desa els valors ***REMOVED*** a les opcions del camp"
+msgstr "Desa els valors personalitzats a les opcions del camp"
 
 #: includes/fields/class-acf-field-checkbox.php:372
 msgid "Allow 'custom' values to be added"
-msgstr "Permet afegir-hi valors ***REMOVED***"
+msgstr "Permet afegir-hi valors personalitzats"
 
 #: includes/fields/class-acf-field-checkbox.php:35
 msgid "Add new choice"
@@ -6500,7 +6500,7 @@ msgstr "Desa els valors d’’Altres’ a les opcions del camp"
 
 #: includes/fields/class-acf-field-radio.php:243
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Afegeix l'opció «altres» per permetre valors ***REMOVED***"
+msgstr "Afegeix l'opció «altres» per permetre valors personalitzats"
 
 #: includes/admin/views/global/navigation.php:199
 msgid "Other"
@@ -6966,7 +6966,7 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "El TinyMCE no s'inicialitzarà fins que no es faci clic al camp"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
+msgid "Delay Initialization"
 msgstr "Endarrereix la inicialització?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
@@ -7719,8 +7719,8 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93
@@ -7787,8 +7787,8 @@ msgid ""
 "href=\"%1$s\">Updates</a> page. If you don't have a licence key, please see "
 "<a href=\"%2$s\" target=\"_blank\">details & pricing</a>."
 msgstr ""
-"Per a activar les ***REMOVED***, introduïu la clau de llicència a la "
-"pàgina d’<a href=\"%s\">***REMOVED***</a>. Si no teniu cap clau de "
+"Per a activar les actualitzacions, introduïu la clau de llicència a la "
+"pàgina d’<a href=\"%s\">Actualitzacions</a>. Si no teniu cap clau de "
 "llicència, vegeu-ne els<a href=\"%s\">detalls i preu</a>."
 
 #: pro/updates.php:159
@@ -7813,7 +7813,7 @@ msgstr ""
 msgid ""
 "<b>ACF Activation Error</b>. An error occurred when connecting to activation "
 "server"
-msgstr "<b>Error</b>. No s’ha pogut connectar al servidor d’***REMOVED***"
+msgstr "<b>Error</b>. No s’ha pogut connectar al servidor d’actualitzacions"
 
 #: pro/updates.php:279
 msgid "Check Again"
@@ -7823,7 +7823,7 @@ msgstr "Torneu-ho a comprovar"
 #, fuzzy
 #| msgid "<b>Error</b>. Could not connect to update server"
 msgid "<b>ACF Activation Error</b>. Could not connect to activation server"
-msgstr "<b>Error</b>. No s’ha pogut connectar al servidor d’***REMOVED***"
+msgstr "<b>Error</b>. No s’ha pogut connectar al servidor d’actualitzacions"
 
 #: pro/admin/admin-options-page.php:195
 msgid "Publish"
@@ -7834,12 +7834,12 @@ msgid ""
 "No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
 "Custom Field Group</a>"
 msgstr ""
-"No s’han trobat grups de camps ***REMOVED*** per a aquesta pàgina "
+"No s’han trobat grups de camps personalitzats per a aquesta pàgina "
 "d’opcions. <a href=\"%s\">Creeu un grup de camps nou</a>"
 
 #: pro/admin/admin-updates.php:52
 msgid "<b>Error</b>. Could not connect to update server"
-msgstr "<b>Error</b>. No s’ha pogut connectar al servidor d’***REMOVED***"
+msgstr "<b>Error</b>. No s’ha pogut connectar al servidor d’actualitzacions"
 
 #: pro/admin/admin-updates.php:212
 msgid ""
@@ -8274,7 +8274,7 @@ msgid ""
 "licence key, please see <a href=\"%s\" target=\"_blank\">details & pricing</"
 "a>."
 msgstr ""
-"Per a desbloquejar les ***REMOVED***, introduïu la clau de llicència a "
+"Per a desbloquejar les actualitzacions, introduïu la clau de llicència a "
 "continuació. Si no teniu cap clau de llicència, vegeu els <a "
 "href=\"%s\">detalls i preu</a>."
 
@@ -8322,7 +8322,7 @@ msgstr ""
 msgid "Enter your license key to unlock updates"
 msgstr ""
 "Introduïu la clau de llicència al damunt per a desbloquejar les "
-"***REMOVED***"
+"actualitzacions"
 
 #: pro/admin/views/html-settings-updates.php:119
 msgid "Update Plugin"
@@ -8334,4 +8334,4 @@ msgstr "Actualitza l’extensió"
 msgid "Please reactivate your license to unlock updates"
 msgstr ""
 "Introduïu la clau de llicència al damunt per a desbloquejar les "
-"***REMOVED***"
+"actualitzacions"

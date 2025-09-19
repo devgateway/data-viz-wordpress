@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Hidden Comments
- * Slug: ***REMOVED***/hidden-comments
+ * Slug: twentytwentythree/hidden-comments
  * Inserter: no
  */
 ?>
@@ -10,7 +10,7 @@
 	<!-- wp:comments -->
 	<div class="wp-block-comments">
 		<!-- wp:heading {"level":2} -->
-		<h2><?php echo esc_html_x( 'Comments', 'Title of comments section', '***REMOVED***' ); ?></h2>
+		<h2><?php echo esc_html_x( 'Comments', 'Title of comments section', 'twentytwentythree' ); ?></h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:comments-title {"level":3} /-->
@@ -44,7 +44,7 @@
 			<!-- /wp:columns -->
 		<!-- /wp:comment-template -->
 
-		<!-- wp:comments-pagination {"***REMOVED***":"arrow","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+		<!-- wp:comments-pagination {"paginationArrow":"arrow","layout":{"type":"flex","justifyContent":"space-between"}} -->
 			<!-- wp:comments-pagination-previous /-->
 			<!-- wp:comments-pagination-numbers /-->
 			<!-- wp:comments-pagination-next /-->

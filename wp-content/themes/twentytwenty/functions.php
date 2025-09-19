@@ -254,7 +254,7 @@ function twentytwenty_skip_link_focus_fix() {
 	// The following is minified via `terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
 	?>
 	<script>
-	/(trident|msie)/i.test(navigator.userAgent)&&document.***REMOVED***&&window.***REMOVED***&&window.***REMOVED***("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.***REMOVED***(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
+	/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
 	</script>
 	<?php
 }
@@ -655,7 +655,7 @@ function twentytwenty_customize_controls_enqueue_scripts() {
 
 	// Add script for controls.
 	wp_enqueue_script( 'twentytwenty-customize-controls', get_template_directory_uri() . '/assets/js/customize-controls.js', array( 'twentytwenty-color-calculations', 'customize-controls', 'underscore', 'jquery' ), $theme_version );
-	wp_localize_script( 'twentytwenty-customize-controls', '***REMOVED***', twentytwenty_get_customizer_color_vars() );
+	wp_localize_script( 'twentytwenty-customize-controls', 'twentyTwentyBgColors', twentytwenty_get_customizer_color_vars() );
 }
 
 add_action( 'customize_controls_enqueue_scripts', 'twentytwenty_customize_controls_enqueue_scripts' );
@@ -671,13 +671,13 @@ function twentytwenty_customize_preview_init() {
 	$theme_version = wp_get_theme()->get( 'Version' );
 
 	wp_enqueue_script( 'twentytwenty-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview', 'customize-selective-refresh', 'jquery' ), $theme_version, array( 'in_footer' => true ) );
-	wp_localize_script( 'twentytwenty-customize-preview', '***REMOVED***', twentytwenty_get_customizer_color_vars() );
+	wp_localize_script( 'twentytwenty-customize-preview', 'twentyTwentyBgColors', twentytwenty_get_customizer_color_vars() );
 	wp_localize_script( 'twentytwenty-customize-preview', 'twentyTwentyPreviewEls', twentytwenty_get_elements_array() );
 
 	wp_add_inline_script(
 		'twentytwenty-customize-preview',
 		sprintf(
-			'wp.customize.***REMOVED***.***REMOVED***[ %1$s ].prototype.attrs = %2$s;',
+			'wp.customize.selectiveRefresh.partialConstructor[ %1$s ].prototype.attrs = %2$s;',
 			wp_json_encode( 'cover_opacity' ),
 			wp_json_encode( twentytwenty_customize_opacity_range() )
 		)

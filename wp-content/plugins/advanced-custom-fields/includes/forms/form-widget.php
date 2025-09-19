@@ -77,7 +77,7 @@ if ( ! class_exists( 'acf_form_widget' ) ) :
 		 * @since 5.4.0
 		 */
 		public function acf_validate_save_post() {
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 			// bail early if not widget
 			if ( ! isset( $_POST['_acf_widget_id'] ) ) {
 				return;
@@ -87,11 +87,11 @@ if ( ! class_exists( 'acf_form_widget' ) ) :
 			$id     = sanitize_text_field( wp_unslash( $_POST['_acf_widget_id'] ) );
 			$number = acf_maybe_get_POST( '_acf_widget_number' );
 			$prefix = acf_maybe_get_POST( '_acf_widget_prefix' );
-			$values = ! empty( $_POST[ $id ][ $number ]['acf'] ) ? acf_sanitize_request_args( $_POST[ $id ][ $number ]['acf'] ) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- unslash not required.
+			$values = ! empty( $_POST[ $id ][ $number ]['acf'] ) ? acf_sanitize_request_args( $_POST[ $id ][ $number ]['acf'] ) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- unslash not required.
 
 			// validate
 			acf_validate_values( $values, $prefix );
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 		}
 
 
@@ -262,7 +262,7 @@ if ( ! class_exists( 'acf_form_widget' ) ) :
 		
 		// if not valid, stop event and allow validation to continue
 		if( !valid ) {
-			e.***REMOVED***();
+			e.preventDefault();
 			e.stopImmediatePropagation();
 		}
 	});

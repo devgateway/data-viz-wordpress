@@ -20,5 +20,5 @@ interface ServerRequestFactoryInterface
      *
      * @return ServerRequestInterface
      */
-    public function ***REMOVED***(string $method, $uri, array $serverParams = []) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
+    public function createServerRequest(string $method, $uri, array $serverParams = []) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
 }

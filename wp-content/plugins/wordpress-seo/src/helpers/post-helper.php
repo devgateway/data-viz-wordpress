@@ -34,7 +34,7 @@ class Post_Helper {
 	/**
 	 * Post_Helper constructor.
 	 *
-	 * @***REMOVED*** It only sets dependencies.
+	 * @codeCoverageIgnore It only sets dependencies.
 	 *
 	 * @param String_Helper    $string_helper    The string helper.
 	 * @param Post_Type_Helper $post_type_helper The string helper.
@@ -60,7 +60,7 @@ class Post_Helper {
 	/**
 	 * Removes all shortcode tags from the given content.
 	 *
-	 * @***REMOVED*** It only wraps a WordPress function.
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @param string $content Content to remove all the shortcode tags from.
 	 *
@@ -73,7 +73,7 @@ class Post_Helper {
 	/**
 	 * Retrieves the post excerpt (without tags).
 	 *
-	 * @***REMOVED*** It only wraps another helper method.
+	 * @codeCoverageIgnore It only wraps another helper method.
 	 *
 	 * @param int $post_id Post ID.
 	 *
@@ -86,7 +86,7 @@ class Post_Helper {
 	/**
 	 * Retrieves the post type of the current post.
 	 *
-	 * @***REMOVED*** It only wraps a WordPress function.
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @param WP_Post|null $post The post.
 	 *
@@ -115,7 +115,7 @@ class Post_Helper {
 	/**
 	 * Retrieves post data given a post ID.
 	 *
-	 * @***REMOVED*** It wraps a WordPress function.
+	 * @codeCoverageIgnore It wraps a WordPress function.
 	 *
 	 * @param int $post_id Post ID.
 	 *
@@ -132,7 +132,7 @@ class Post_Helper {
 	 * - The attachment has a post parent.
 	 * - The attachment inherits the post status.
 	 *
-	 * @***REMOVED*** It relies too much on dependencies.
+	 * @codeCoverageIgnore It relies too much on dependencies.
 	 *
 	 * @param int $post_parent      Post ID.
 	 * @param int $has_public_posts Whether the parent is public.

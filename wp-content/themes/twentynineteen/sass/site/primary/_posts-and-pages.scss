@@ -271,7 +271,7 @@
 .author-bio {
 	margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit $size__spacing-unit;
 
-	@include ***REMOVED***();
+	@include postContentMaxWidth();
 
 	@include media(tablet) {
 		margin: calc(3 * #{$size__spacing-unit}) $size__site-margins;

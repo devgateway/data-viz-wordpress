@@ -28,10 +28,10 @@
      * Retrieves a list of activities for a specific customer and application. (activities.list)
      *
      * @param string $userKey Represents the profile id or the user email for which the data should be filtered. When 'all' is specified as the userKey, it returns usageReports for all users.
-     * @param string $***REMOVED*** Application name for which the events are to be retrieved.
+     * @param string $applicationName Application name for which the events are to be retrieved.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** IP Address of host where the event was performed. Supports both IPv4 and IPv6 addresses.
+     * @opt_param string actorIpAddress IP Address of host where the event was performed. Supports both IPv4 and IPv6 addresses.
      * @opt_param string endTime Return events which occured at or before this time.
      * @opt_param string eventName Name of the event being queried.
      * @opt_param string filters Event parameters in the form [parameter1 name][operator][parameter1 value],[parameter2 name][operator][parameter2 value],...
@@ -40,8 +40,8 @@
      * @opt_param string startTime Return events which occured at or after this time.
      * @return Google_Activities
      */
-    public function ***REMOVED***($userKey, $***REMOVED***, $optParams = array()) {
-      $params = array('userKey' => $userKey, '***REMOVED***' => $***REMOVED***);
+    public function listActivities($userKey, $applicationName, $optParams = array()) {
+      $params = array('userKey' => $userKey, 'applicationName' => $applicationName);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
@@ -53,18 +53,18 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "customerUsageReports" collection of methods.
    * Typical usage is:
    *  <code>
    *   $adminService = new Google_ReportsService(...);
-   *   $***REMOVED*** = $adminService->***REMOVED***;
+   *   $customerUsageReports = $adminService->customerUsageReports;
    *  </code>
    */
   class Google_CustomerUsageReportsServiceResource extends Google_ServiceResource {
 
     /**
      * Retrieves a report which is a collection of properties / statistics for a specific customer.
-     * (***REMOVED***.get)
+     * (customerUsageReports.get)
      *
      * @param string $date Represents the date in yyyy-mm-dd format for which the data is to be fetched.
      * @param array $optParams Optional parameters.
@@ -86,18 +86,18 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "userUsageReport" collection of methods.
    * Typical usage is:
    *  <code>
    *   $adminService = new Google_ReportsService(...);
-   *   $***REMOVED*** = $adminService->***REMOVED***;
+   *   $userUsageReport = $adminService->userUsageReport;
    *  </code>
    */
   class Google_UserUsageReportServiceResource extends Google_ServiceResource {
 
     /**
      * Retrieves a report which is a collection of properties / statistics for a set of users.
-     * (***REMOVED***.get)
+     * (userUsageReport.get)
      *
      * @param string $userKey Represents the profile id or the user email for which the data should be filtered.
      * @param string $date Represents the date in yyyy-mm-dd format for which the data is to be fetched.
@@ -125,7 +125,7 @@
  * Service definition for Google_Reports (reports_v1).
  *
  * <p>
- * Allows the ***REMOVED*** of Google Apps customers to fetch reports about the usage, collaboration, security and risk for their users.
+ * Allows the administrators of Google Apps customers to fetch reports about the usage, collaboration, security and risk for their users.
  * </p>
  *
  * <p>
@@ -137,10 +137,10 @@
  */
 class Google_ReportsService extends Google_Service {
   public $activities;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $customerUsageReports;
+  public $userUsageReport;
   /**
-   * Constructs the internal ***REMOVED*** of the Reports service.
+   * Constructs the internal representation of the Reports service.
    *
    * @param Google_Client $client
    */
@@ -150,9 +150,9 @@ class Google_ReportsService extends Google_Service {
     $this->serviceName = 'admin';
 
     $client->addService($this->serviceName, $this->version);
-    $this->activities = new Google_ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"list": {"id": "reports.activities.list", "path": "activity/users/{userKey}/applications/{***REMOVED***}", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "endTime": {"type": "string", "location": "query"}, "eventName": {"type": "string", "location": "query"}, "filters": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "maximum": "1000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "startTime": {"type": "string", "location": "query"}, "userKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Activities"}, "scopes": ["https://www.googleapis.com/auth/admin.reports.audit.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_CustomerUsageReportsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "reports.***REMOVED***.get", "path": "usage/dates/{date}", "httpMethod": "GET", "parameters": {"date": {"type": "string", "required": true, "location": "path"}, "pageToken": {"type": "string", "location": "query"}, "parameters": {"type": "string", "location": "query"}}, "response": {"$ref": "UsageReports"}, "scopes": ["https://www.googleapis.com/auth/admin.reports.usage.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_UserUsageReportServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "reports.***REMOVED***.get", "path": "usage/users/{userKey}/dates/{date}", "httpMethod": "GET", "parameters": {"date": {"type": "string", "required": true, "location": "path"}, "filters": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "maximum": "1000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "parameters": {"type": "string", "location": "query"}, "userKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "UsageReports"}, "scopes": ["https://www.googleapis.com/auth/admin.reports.usage.readonly"]}}}', true));
+    $this->activities = new Google_ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"list": {"id": "reports.activities.list", "path": "activity/users/{userKey}/applications/{applicationName}", "httpMethod": "GET", "parameters": {"actorIpAddress": {"type": "string", "location": "query"}, "applicationName": {"type": "string", "required": true, "location": "path"}, "endTime": {"type": "string", "location": "query"}, "eventName": {"type": "string", "location": "query"}, "filters": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "maximum": "1000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "startTime": {"type": "string", "location": "query"}, "userKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Activities"}, "scopes": ["https://www.googleapis.com/auth/admin.reports.audit.readonly"]}}}', true));
+    $this->customerUsageReports = new Google_CustomerUsageReportsServiceResource($this, $this->serviceName, 'customerUsageReports', json_decode('{"methods": {"get": {"id": "reports.customerUsageReports.get", "path": "usage/dates/{date}", "httpMethod": "GET", "parameters": {"date": {"type": "string", "required": true, "location": "path"}, "pageToken": {"type": "string", "location": "query"}, "parameters": {"type": "string", "location": "query"}}, "response": {"$ref": "UsageReports"}, "scopes": ["https://www.googleapis.com/auth/admin.reports.usage.readonly"]}}}', true));
+    $this->userUsageReport = new Google_UserUsageReportServiceResource($this, $this->serviceName, 'userUsageReport', json_decode('{"methods": {"get": {"id": "reports.userUsageReport.get", "path": "usage/users/{userKey}/dates/{date}", "httpMethod": "GET", "parameters": {"date": {"type": "string", "required": true, "location": "path"}, "filters": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "maximum": "1000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "parameters": {"type": "string", "location": "query"}, "userKey": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "UsageReports"}, "scopes": ["https://www.googleapis.com/auth/admin.reports.usage.readonly"]}}}', true));
 
   }
 }
@@ -178,10 +178,10 @@ class Google_Activities extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -230,10 +230,10 @@ class Google_Activity extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $ownerDomain) {
+  public function setOwnerDomain( $ownerDomain) {
     $this->ownerDomain = $ownerDomain;
   }
-  public function ***REMOVED***() {
+  public function getOwnerDomain() {
     return $this->ownerDomain;
   }
 }
@@ -328,15 +328,15 @@ class Google_ActivityEventsParameters extends Google_Model {
 }
 
 class Google_ActivityId extends Google_Model {
-  public $***REMOVED***;
+  public $applicationName;
   public $customerId;
   public $time;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $uniqueQualifier;
+  public function setApplicationName( $applicationName) {
+    $this->applicationName = $applicationName;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getApplicationName() {
+    return $this->applicationName;
   }
   public function setCustomerId( $customerId) {
     $this->customerId = $customerId;
@@ -350,11 +350,11 @@ class Google_ActivityId extends Google_Model {
   public function getTime() {
     return $this->time;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setUniqueQualifier( $uniqueQualifier) {
+    $this->uniqueQualifier = $uniqueQualifier;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getUniqueQualifier() {
+    return $this->uniqueQualifier;
   }
 }
 
@@ -437,10 +437,10 @@ class Google_UsageReportParameters extends Google_Model {
   public function getBoolValue() {
     return $this->boolValue;
   }
-  public function ***REMOVED***( $datetimeValue) {
+  public function setDatetimeValue( $datetimeValue) {
     $this->datetimeValue = $datetimeValue;
   }
-  public function ***REMOVED***() {
+  public function getDatetimeValue() {
     return $this->datetimeValue;
   }
   public function setIntValue( $intValue) {
@@ -455,10 +455,10 @@ class Google_UsageReportParameters extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $stringValue) {
+  public function setStringValue( $stringValue) {
     $this->stringValue = $stringValue;
   }
-  public function ***REMOVED***() {
+  public function getStringValue() {
     return $this->stringValue;
   }
 }
@@ -478,17 +478,17 @@ class Google_UsageReports extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***(/* array(Google_UsageReport) */ $usageReports) {
+  public function setUsageReports(/* array(Google_UsageReport) */ $usageReports) {
     $this->assertIsArray($usageReports, 'Google_UsageReport', __METHOD__);
     $this->usageReports = $usageReports;
   }
-  public function ***REMOVED***() {
+  public function getUsageReports() {
     return $this->usageReports;
   }
   public function setWarnings(/* array(Google_UsageReportsWarnings) */ $warnings) {

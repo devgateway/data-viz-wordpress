@@ -1,7 +1,7 @@
 <?php
 
 /**
- * OpenSSL Modular ***REMOVED*** Engine
+ * OpenSSL Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -17,7 +17,7 @@ use phpseclib3\Crypt\RSA\Formats\Keys\PKCS8;
 use phpseclib3\Math\BigInteger;
 
 /**
- * OpenSSL Modular ***REMOVED*** Engine
+ * OpenSSL Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -34,7 +34,7 @@ abstract class OpenSSL
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param Engine $x
      * @param Engine $e
@@ -43,8 +43,8 @@ abstract class OpenSSL
      */
     public static function powModHelper(Engine $x, Engine $e, Engine $n)
     {
-        if ($n->***REMOVED***() < 31 || $n->***REMOVED***() > 16384) {
-            throw new \***REMOVED***('Only modulo between 31 and 16384 bits are accepted');
+        if ($n->getLengthInBytes() < 31 || $n->getLengthInBytes() > 16384) {
+            throw new \OutOfRangeException('Only modulo between 31 and 16384 bits are accepted');
         }
 
         $key = PKCS8::savePublicKey(
@@ -52,7 +52,7 @@ abstract class OpenSSL
             new BigInteger($e)
         );
 
-        $plaintext = str_pad($x->toBytes(), $n->***REMOVED***(), "\0", STR_PAD_LEFT);
+        $plaintext = str_pad($x->toBytes(), $n->getLengthInBytes(), "\0", STR_PAD_LEFT);
 
         // this is easily prone to failure. if the modulo is a multiple of 2 or 3 or whatever it
         // won't work and you'll get a "failure: error:0906D06C:PEM routines:PEM_read_bio:no start line"

@@ -6,7 +6,7 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
 /**
  * Exception thrown when too many errors occur in the some() or any() methods.
  */
-class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+class AggregateException extends \YoastSEO_Vendor\GuzzleHttp\Promise\RejectionException
 {
     public function __construct(string $msg, array $reasons)
     {

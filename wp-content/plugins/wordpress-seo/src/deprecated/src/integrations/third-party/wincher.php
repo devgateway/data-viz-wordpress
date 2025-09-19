@@ -11,7 +11,7 @@ use Yoast_Feature_Toggle;
  * Adds the Wincher integration.
  *
  * @deprecated 21.6
- * @***REMOVED***
+ * @codeCoverageIgnore
  */
 class Wincher implements Integration_Interface {
 
@@ -26,7 +26,7 @@ class Wincher implements Integration_Interface {
 	 * The Wincher integration toggle constructor.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Wincher_Helper $wincher The Wincher helper instance.
 	 */
@@ -38,7 +38,7 @@ class Wincher implements Integration_Interface {
 	 * Initializes the integration.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class Wincher implements Integration_Interface {
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The conditionals.
 	 */
@@ -62,7 +62,7 @@ class Wincher implements Integration_Interface {
 	 * Adds the Wincher integration toggle to the $integration_toggles array.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $integration_toggles The integration toggles array.
 	 *
@@ -78,7 +78,7 @@ class Wincher implements Integration_Interface {
 	 * Adds the disabled note when the integration toggle is disabled.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
 	 *
@@ -92,7 +92,7 @@ class Wincher implements Integration_Interface {
 	 * Adds the disabled note to the network integration toggle.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
 	 *

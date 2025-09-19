@@ -30,7 +30,7 @@ abstract class CertificationRequestInfo
                 'mapping' => ['v1']
             ],
             'subject' => Name::MAP,
-            'subjectPKInfo' => ***REMOVED***::MAP,
+            'subjectPKInfo' => SubjectPublicKeyInfo::MAP,
             'attributes' => [
                 'constant' => 0,
                 'optional' => true,

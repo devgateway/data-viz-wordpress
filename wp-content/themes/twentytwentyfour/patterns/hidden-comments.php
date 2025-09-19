@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Comments
- * Slug: ***REMOVED***/hidden-comments
+ * Slug: twentytwentyfour/hidden-comments
  * Inserter: no
  */
 ?>
@@ -9,7 +9,7 @@
 <!-- wp:comments {"className":"wp-block-comments-query-loop"} -->
 <div class="wp-block-comments wp-block-comments-query-loop">
 	<!-- wp:heading -->
-	<h2><?php esc_html_e( 'Comments', '***REMOVED***' ); ?></h2>
+	<h2><?php esc_html_e( 'Comments', 'twentytwentyfour' ); ?></h2>
 	<!-- /wp:heading -->
 	<!-- wp:comments-title {"level":3} /-->
 	<!-- wp:comment-template -->
@@ -37,7 +37,7 @@
 	<!-- /wp:group -->
 	<!-- /wp:comment-template -->
 
-	<!-- wp:comments-pagination {"layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+	<!-- wp:comments-pagination {"layout":{"type":"flex","justifyContent":"space-between"}} -->
 	<!-- wp:comments-pagination-previous /-->
 	<!-- wp:comments-pagination-next /-->
 	<!-- /wp:comments-pagination -->

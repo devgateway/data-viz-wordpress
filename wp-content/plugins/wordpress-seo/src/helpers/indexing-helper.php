@@ -110,7 +110,7 @@ class Indexing_Helper {
 			$term_link_indexing_action,
 		];
 
-		// ***REMOVED***, the background indexing actions are the same with the Free indexing actions for now.
+		// Coincidentally, the background indexing actions are the same with the Free indexing actions for now.
 		$this->background_indexing_actions = $this->indexing_actions;
 	}
 

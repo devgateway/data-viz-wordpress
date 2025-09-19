@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
 	(bodhisvgsInlineSupport = function() {
 
 		// If force inline SVG option is active then add class
-		if ( ***REMOVED*** === 'true' ) {
+		if ( ForceInlineSVGActive === 'true' ) {
 
 			// Find all SVG inside img and add class if it hasn't got it
 			jQuery('img').each(function() {
@@ -13,8 +13,8 @@ jQuery(document).ready(function ($) {
 				if ( jQuery(this).attr('src').match(/\.(svg)/) ) {
 
 					// Add our class name
-					if ( !jQuery(this).hasClass(cssTarget.***REMOVED***) ) {
-						jQuery(this).addClass(cssTarget.***REMOVED***);
+					if ( !jQuery(this).hasClass(cssTarget.ForceInlineSVG) ) {
+						jQuery(this).addClass(cssTarget.ForceInlineSVG);
 					}
 				}
 			});
@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
 		// End snippet to support IE11
 
 		// Check to see if user set alternate class
-		if ( ***REMOVED*** === 'true' ) {
+		if ( ForceInlineSVGActive === 'true' ) {
 			var target  = ( cssTarget.Bodhi !== 'img.' ? cssTarget.Bodhi : 'img.style-svg' );
 		} else {
 			var target  = ( cssTarget !== 'img.' ? cssTarget : 'img.style-svg' );

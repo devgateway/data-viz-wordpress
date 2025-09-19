@@ -1,22 +1,22 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import {
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
+    getColorClassName,
+    InspectorControls,
+    PanelColorSettings,
     useBlockProps,
     withColors
 } from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
 import {Generic} from '../icons/index.js'
-import {***REMOVED***} from "../commons";
+import {BlockEditWithFilters} from "../commons";
 
 const EditComponent = (props) => {
 
     const {
-        ***REMOVED***,
-        ***REMOVED***,
-        ***REMOVED***,
+        backgroundColor,
+        setBackgroundColor,
+        toggleSelection,
         setAttributes,
         attributes: {
             height,
@@ -25,22 +25,22 @@ const EditComponent = (props) => {
     } = props;
 
     const blockProps = useBlockProps({className: 'wp-react-component'});
-    const ***REMOVED*** = newAlignment => {
+    const onChangeAlignment = newAlignment => {
         props.setAttributes({alignment: newAlignment});
     };
     let divClass;
     let divStyles = {"text-align": alignment, width: "100%", height: height + "px"};
-    if (***REMOVED*** != undefined) {
-        if (***REMOVED***.class != undefined) {
-            divClass = ***REMOVED***.class;
+    if (backgroundColor != undefined) {
+        if (backgroundColor.class != undefined) {
+            divClass = backgroundColor.class;
         } else {
-            divStyles['background-color'] = ***REMOVED***.color;
+            divStyles['background-color'] = backgroundColor.color;
         }
     }
 
     return (
         <div>
-            <***REMOVED***>
+            <InspectorControls>
                 <Panel header="Block Settings">
                     <PanelBody title={__("Size","dg")}>
                         <PanelRow>
@@ -52,19 +52,19 @@ const EditComponent = (props) => {
                             />
                         </PanelRow>
                     </PanelBody>
-                    <***REMOVED***
+                    <PanelColorSettings
                         title={__('Color settings','dg')}
                         colorSettings={[
                             {
-                                value: ***REMOVED***.color,
-                                onChange: ***REMOVED***,
+                                value: backgroundColor.color,
+                                onChange: setBackgroundColor,
                                 label: __('Background color','dg')
                             },
                         ]}
                     />
 
                 </Panel>
-            </***REMOVED***>
+            </InspectorControls>
             <div {...blockProps} >
                 <ResizableBox
                     size={{
@@ -87,10 +87,10 @@ const EditComponent = (props) => {
                         setAttributes({
                             height: parseInt(height + delta.height, 10)
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}
                 >
                     <div className={divClass} style={divStyles}>
@@ -110,10 +110,10 @@ const SaveComponent = (props) => {
         width,
         height,
         customBackgroundColor,
-        ***REMOVED***,
+        backgroundColor,
     } = props.attributes;
 
-    const divClass = ***REMOVED***('background-color', ***REMOVED***);
+    const divClass = getColorClassName('background-color', backgroundColor);
     const divStyles = {width, height, "background-color": customBackgroundColor};
 
     return (<div className={divClass} style={divStyles}>
@@ -124,14 +124,14 @@ const SaveComponent = (props) => {
     );
 }
 
-class ***REMOVED*** extends ***REMOVED*** {
+class EditWithSettings extends BlockEditWithFilters {
     render() {
         return <EditComponent src={this.state.react_ui_url + "/embeddable/body?"} {...this.props}></EditComponent>
     }
 }
 
 
-***REMOVED***(process.env.BLOCKS_NS + '/ailments', {
+registerBlockType(process.env.BLOCKS_NS + '/ailments', {
     title: __('Ailments Body','dg'),
     icon: Generic,
     category: process.env.BLOCKS_CATEGORY,
@@ -144,11 +144,11 @@ class ***REMOVED*** extends ***REMOVED*** {
             type: 'Numeric',
             default: 400,
         },
-        ***REMOVED***: {
+        backgroundColor: {
             type: 'string'
         },
 
     },
-    edit: withColors('***REMOVED***', {textColor: 'color'})(***REMOVED***),
+    edit: withColors('backgroundColor', {textColor: 'color'})(EditWithSettings),
     save: SaveComponent,
 });

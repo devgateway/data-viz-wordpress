@@ -21,7 +21,7 @@ class secp224r1 extends Prime
     public function __construct()
     {
         $this->setModulo(new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000001', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFE', 16),
             new BigInteger('B4050A850C04B3ABF54132565044B0B7D7BFD8BA270B39432355FFB4', 16)
         );

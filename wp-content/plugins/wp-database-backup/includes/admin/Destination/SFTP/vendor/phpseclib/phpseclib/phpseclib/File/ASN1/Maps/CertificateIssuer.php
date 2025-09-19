@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * CertificateIssuer
  *
  * PHP version 5
  *
@@ -14,11 +14,11 @@
 namespace phpseclib3\File\ASN1\Maps;
 
 /**
- * ***REMOVED***
+ * CertificateIssuer
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class CertificateIssuer
 {
     const MAP = GeneralNames::MAP;
 }

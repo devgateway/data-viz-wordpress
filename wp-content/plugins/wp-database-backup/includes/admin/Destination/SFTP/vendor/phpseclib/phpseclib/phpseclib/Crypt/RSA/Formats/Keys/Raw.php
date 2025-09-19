@@ -9,7 +9,7 @@
  *
  * The exponent can be indexed with any of the following:
  *
- * 0, e, exponent, ***REMOVED***
+ * 0, e, exponent, publicExponent
  *
  * The modulus can be indexed with any of the following:
  *
@@ -49,9 +49,9 @@ abstract class Raw
 
         $components = ['isPublicKey' => false];
 
-        foreach (['e', 'exponent', '***REMOVED***', 0, '***REMOVED***', 'd'] as $index) {
+        foreach (['e', 'exponent', 'publicexponent', 0, 'privateexponent', 'd'] as $index) {
             if (isset($key[$index])) {
-                $components['***REMOVED***'] = $key[$index];
+                $components['publicExponent'] = $key[$index];
                 break;
             }
         }
@@ -63,7 +63,7 @@ abstract class Raw
             }
         }
 
-        if (!isset($components['***REMOVED***']) || !isset($components['modulus'])) {
+        if (!isset($components['publicExponent']) || !isset($components['modulus'])) {
             throw new \UnexpectedValueException('Modulus / exponent not present');
         }
 
@@ -115,9 +115,9 @@ abstract class Raw
         if (!isset($components['exponents'])) {
             $one = new BigInteger(1);
             $temp = $components['primes'][1]->subtract($one);
-            $exponents = [1 => $components['***REMOVED***']->modInverse($temp)];
+            $exponents = [1 => $components['publicExponent']->modInverse($temp)];
             $temp = $components['primes'][2]->subtract($one);
-            $exponents[] = $components['***REMOVED***']->modInverse($temp);
+            $exponents[] = $components['publicExponent']->modInverse($temp);
             $components['exponents'] = $exponents;
         }
 
@@ -125,9 +125,9 @@ abstract class Raw
             $components['coefficients'] = [2 => $components['primes'][2]->modInverse($components['primes'][1])];
         }
 
-        foreach (['***REMOVED***', 'd'] as $index) {
+        foreach (['privateexponent', 'd'] as $index) {
             if (isset($key[$index])) {
-                $components['***REMOVED***'] = $key[$index];
+                $components['privateExponent'] = $key[$index];
                 break;
             }
         }
@@ -148,7 +148,7 @@ abstract class Raw
      * @param array $options optional
      * @return array
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
         if (!empty($password) && is_string($password)) {
             throw new UnsupportedFormatException('Raw private keys do not support encryption');

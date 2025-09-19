@@ -1,12 +1,12 @@
 <?php
 namespace enshrined\svgSanitize;
 
-use enshrined\svgSanitize\data\***REMOVED***;
+use enshrined\svgSanitize\data\AllowedAttributes;
 use enshrined\svgSanitize\data\AllowedTags;
-use enshrined\svgSanitize\data\***REMOVED***;
+use enshrined\svgSanitize\data\AttributeInterface;
 use enshrined\svgSanitize\data\TagInterface;
 use enshrined\svgSanitize\data\XPath;
-use enshrined\svgSanitize\***REMOVED***\Resolver;
+use enshrined\svgSanitize\ElementReference\Resolver;
 
 /**
  * Class Sanitizer
@@ -34,7 +34,7 @@ class Sanitizer
     /**
      * @var
      */
-    protected $***REMOVED***;
+    protected $xmlLoaderValue;
 
     /**
      * @var bool
@@ -79,12 +79,12 @@ class Sanitizer
     /**
      * @var int
      */
-    protected $***REMOVED*** = 15;
+    protected $useNestingLimit = 15;
 
     /**
      * @var bool
      */
-    protected $***REMOVED*** = false;
+    protected $allowHugeFiles = false;
 
     /**
      *
@@ -92,7 +92,7 @@ class Sanitizer
     function __construct()
     {
         // Load default tags/attributes
-        $this->allowedAttrs = array_map('strtolower', ***REMOVED***::getAttributes());
+        $this->allowedAttrs = array_map('strtolower', AllowedAttributes::getAttributes());
         $this->allowedTags = array_map('strtolower', AllowedTags::getTags());
     }
 
@@ -102,8 +102,8 @@ class Sanitizer
     protected function resetInternal()
     {
         $this->xmlDocument = new \DOMDocument();
-        $this->xmlDocument->***REMOVED*** = false;
-        $this->xmlDocument->***REMOVED*** = false;
+        $this->xmlDocument->preserveWhiteSpace = false;
+        $this->xmlDocument->strictErrorChecking = false;
         $this->xmlDocument->formatOutput = !$this->minifyXML;
     }
 
@@ -134,7 +134,7 @@ class Sanitizer
      *
      * @return array
      */
-    public function ***REMOVED***()
+    public function getAllowedTags()
     {
         return $this->allowedTags;
     }
@@ -144,7 +144,7 @@ class Sanitizer
      *
      * @param TagInterface $allowedTags
      */
-    public function ***REMOVED***(TagInterface $allowedTags)
+    public function setAllowedTags(TagInterface $allowedTags)
     {
         $this->allowedTags = array_map('strtolower', $allowedTags::getTags());
     }
@@ -154,7 +154,7 @@ class Sanitizer
      *
      * @return array
      */
-    public function ***REMOVED***()
+    public function getAllowedAttrs()
     {
         return $this->allowedAttrs;
     }
@@ -162,9 +162,9 @@ class Sanitizer
     /**
      * Set custom allowed attributes
      *
-     * @param ***REMOVED*** $allowedAttrs
+     * @param AttributeInterface $allowedAttrs
      */
-    public function ***REMOVED***(***REMOVED*** $allowedAttrs)
+    public function setAllowedAttrs(AttributeInterface $allowedAttrs)
     {
         $this->allowedAttrs = array_map('strtolower', $allowedAttrs::getAttributes());
     }
@@ -172,11 +172,11 @@ class Sanitizer
     /**
      * Should we remove references to remote files?
      *
-     * @param bool $***REMOVED***
+     * @param bool $removeRemoteRefs
      */
-    public function removeRemoteReferences($***REMOVED*** = false)
+    public function removeRemoteReferences($removeRemoteRefs = false)
     {
-        $this->removeRemoteReferences = $***REMOVED***;
+        $this->removeRemoteReferences = $removeRemoteRefs;
     }
 
     /**
@@ -193,17 +193,17 @@ class Sanitizer
      *
      * @return bool
      */
-    public function ***REMOVED***() {
-        return $this->***REMOVED***;
+    public function getAllowHugeFiles() {
+        return $this->allowHugeFiles;
     }
 
     /**
      * Set whether we can allow huge files.
      *
-     * @param bool $***REMOVED***
+     * @param bool $allowHugeFiles
      */
-    public function ***REMOVED***( $***REMOVED*** ) {
-        $this->***REMOVED*** = $***REMOVED***;
+    public function setAllowHugeFiles( $allowHugeFiles ) {
+        $this->allowHugeFiles = $allowHugeFiles;
     }
 
 
@@ -231,7 +231,7 @@ class Sanitizer
         $this->resetInternal();
         $this->setUpBefore();
 
-        $loaded = $this->xmlDocument->loadXML($dirty, $this->***REMOVED***() ? LIBXML_PARSEHUGE : 0);
+        $loaded = $this->xmlDocument->loadXML($dirty, $this->getAllowHugeFiles() ? LIBXML_PARSEHUGE : 0);
 
         // If we couldn't parse the XML then we go no further. Reset and return false
         if (!$loaded) {
@@ -242,16 +242,16 @@ class Sanitizer
 
         // Pre-process all identified elements
         $xPath = new XPath($this->xmlDocument);
-        $this->elementReferenceResolver = new Resolver($xPath, $this->***REMOVED***);
+        $this->elementReferenceResolver = new Resolver($xPath, $this->useNestingLimit);
         $this->elementReferenceResolver->collect();
-        $***REMOVED*** = $this->elementReferenceResolver->***REMOVED***();
+        $elementsToRemove = $this->elementReferenceResolver->getElementsToRemove();
 
         // Start the cleaning process
-        $this->startClean($this->xmlDocument->childNodes, $***REMOVED***);
+        $this->startClean($this->xmlDocument->childNodes, $elementsToRemove);
 
         // Save cleaned XML to a variable
         if ($this->removeXMLTag) {
-            $clean = $this->xmlDocument->saveXML($this->xmlDocument->***REMOVED***, $this->xmlOptions);
+            $clean = $this->xmlDocument->saveXML($this->xmlDocument->documentElement, $this->xmlOptions);
         } else {
             $clean = $this->xmlDocument->saveXML($this->xmlDocument, $this->xmlOptions);
         }
@@ -276,7 +276,7 @@ class Sanitizer
         // disabled by default, so this function is no longer needed to protect against XXE attacks.
         if (\LIBXML_VERSION < 20900) {
             // Turn off the entity loader
-            $this->***REMOVED*** = libxml_disable_entity_loader(true);
+            $this->xmlLoaderValue = libxml_disable_entity_loader(true);
         }
 
         // Suppress the errors because we don't really have to worry about formation before cleansing.
@@ -296,7 +296,7 @@ class Sanitizer
         // disabled by default, so this function is no longer needed to protect against XXE attacks.
         if (\LIBXML_VERSION < 20900) {
             // Reset the entity loader
-            libxml_disable_entity_loader($this->***REMOVED***);
+            libxml_disable_entity_loader($this->xmlLoaderValue);
         }
 
         libxml_clear_errors();
@@ -307,16 +307,16 @@ class Sanitizer
      * Start the cleaning with tags, then we move onto attributes and hrefs later
      *
      * @param \DOMNodeList $elements
-     * @param array        $***REMOVED***
+     * @param array        $elementsToRemove
      */
-    protected function startClean(\DOMNodeList $elements, array $***REMOVED***)
+    protected function startClean(\DOMNodeList $elements, array $elementsToRemove)
     {
         // loop through all elements
         // we do this backwards so we don't skip anything if we delete a node
-        // see comments at: http://php.net/manual/en/class.***REMOVED***.php
+        // see comments at: http://php.net/manual/en/class.domnamednodemap.php
         for ($i = $elements->length - 1; $i >= 0; $i--) {
-            /** @var \DOMElement $***REMOVED*** */
-            $***REMOVED*** = $elements->item($i);
+            /** @var \DOMElement $currentElement */
+            $currentElement = $elements->item($i);
 
             /**
              * If the element has exceeded the nesting limit, we should remove it.
@@ -325,51 +325,51 @@ class Sanitizer
              * we should check what the element is before removing it. For now we'll only
              * remove <use> elements.
              */
-            if (in_array($***REMOVED***, $***REMOVED***) && 'use' === $***REMOVED***->nodeName) {
-                $***REMOVED***->parentNode->removeChild($***REMOVED***);
+            if (in_array($currentElement, $elementsToRemove) && 'use' === $currentElement->nodeName) {
+                $currentElement->parentNode->removeChild($currentElement);
                 $this->xmlIssues[] = array(
-                    'message' => 'Invalid \'' . $***REMOVED***->tagName . '\'',
-                    'line'    => $***REMOVED***->getLineNo(),
+                    'message' => 'Invalid \'' . $currentElement->tagName . '\'',
+                    'line'    => $currentElement->getLineNo(),
                 );
                 continue;
             }
 
-            if ($***REMOVED*** instanceof \DOMElement) {
+            if ($currentElement instanceof \DOMElement) {
                 // If the tag isn't in the whitelist, remove it and continue with next iteration
-                if (!in_array(strtolower($***REMOVED***->tagName), $this->allowedTags)) {
-                    $***REMOVED***->parentNode->removeChild($***REMOVED***);
+                if (!in_array(strtolower($currentElement->tagName), $this->allowedTags)) {
+                    $currentElement->parentNode->removeChild($currentElement);
                     $this->xmlIssues[] = array(
-                        'message' => 'Suspicious tag \'' . $***REMOVED***->tagName . '\'',
-                        'line' => $***REMOVED***->getLineNo(),
+                        'message' => 'Suspicious tag \'' . $currentElement->tagName . '\'',
+                        'line' => $currentElement->getLineNo(),
                     );
                     continue;
                 }
 
-                $this->cleanHrefs( $***REMOVED*** );
+                $this->cleanHrefs( $currentElement );
 
-                $this->***REMOVED***( $***REMOVED*** );
+                $this->cleanXlinkHrefs( $currentElement );
 
-                $this->cleanAttributesOnWhitelist($***REMOVED***);
+                $this->cleanAttributesOnWhitelist($currentElement);
 
-                if (strtolower($***REMOVED***->tagName) === 'use') {
-                    if ($this->isUseTagDirty($***REMOVED***)
-                        || $this->isUseTagExceedingThreshold($***REMOVED***)
+                if (strtolower($currentElement->tagName) === 'use') {
+                    if ($this->isUseTagDirty($currentElement)
+                        || $this->isUseTagExceedingThreshold($currentElement)
                     ) {
-                        $***REMOVED***->parentNode->removeChild($***REMOVED***);
+                        $currentElement->parentNode->removeChild($currentElement);
                         $this->xmlIssues[] = array(
-                            'message' => 'Suspicious \'' . $***REMOVED***->tagName . '\'',
-                            'line' => $***REMOVED***->getLineNo(),
+                            'message' => 'Suspicious \'' . $currentElement->tagName . '\'',
+                            'line' => $currentElement->getLineNo(),
                         );
                         continue;
                     }
                 }
 
                 // Strip out font elements that will break out of foreign content.
-                if (strtolower($***REMOVED***->tagName) === 'font') {
+                if (strtolower($currentElement->tagName) === 'font') {
                     $breaksOutOfForeignContent = false;
-                    for ($x = $***REMOVED***->attributes->length - 1; $x >= 0; $x--) {
+                    for ($x = $currentElement->attributes->length - 1; $x >= 0; $x--) {
                         // get attribute name
-                        $attrName = $***REMOVED***->attributes->item( $x )->nodeName;
+                        $attrName = $currentElement->attributes->item( $x )->nodeName;
 
                         if (in_array(strtolower($attrName), ['face', 'color', 'size'])) {
                             $breaksOutOfForeignContent = true;
@@ -377,20 +377,20 @@ class Sanitizer
                     }
 
                     if ($breaksOutOfForeignContent) {
-                        $***REMOVED***->parentNode->removeChild($***REMOVED***);
+                        $currentElement->parentNode->removeChild($currentElement);
                         $this->xmlIssues[] = array(
-                            'message' => 'Suspicious tag \'' . $***REMOVED***->tagName . '\'',
-                            'line' => $***REMOVED***->getLineNo(),
+                            'message' => 'Suspicious tag \'' . $currentElement->tagName . '\'',
+                            'line' => $currentElement->getLineNo(),
                         );
                         continue;
                     }
                 }
             }
 
-            $this->***REMOVED***($***REMOVED***);
+            $this->cleanUnsafeNodes($currentElement);
 
-            if ($***REMOVED***->hasChildNodes()) {
-                $this->startClean($***REMOVED***->childNodes, $***REMOVED***);
+            if ($currentElement->hasChildNodes()) {
+                $this->startClean($currentElement->childNodes, $elementsToRemove);
             }
         }
     }
@@ -407,9 +407,9 @@ class Sanitizer
             $attrName = $element->attributes->item($x)->nodeName;
 
             // Remove attribute if not in whitelist
-            if (!in_array(strtolower($attrName), $this->allowedAttrs) && !$this->***REMOVED***(strtolower($attrName)) && !$this->***REMOVED***(strtolower($attrName))) {
+            if (!in_array(strtolower($attrName), $this->allowedAttrs) && !$this->isAriaAttribute(strtolower($attrName)) && !$this->isDataAttribute(strtolower($attrName))) {
 
-                $element->***REMOVED***($attrName);
+                $element->removeAttribute($attrName);
                 $this->xmlIssues[] = array(
                     'message' => 'Suspicious attribute \'' . $attrName . '\'',
                     'line' => $element->getLineNo(),
@@ -423,8 +423,8 @@ class Sanitizer
              */
             if (false !== strpos($attrName, 'href')) {
                 $href = $element->getAttribute($attrName);
-                if (false === $this->***REMOVED***($href)) {
-                    $element->***REMOVED***($attrName);
+                if (false === $this->isHrefSafeValue($href)) {
+                    $element->removeAttribute($attrName);
                     $this->xmlIssues[] = array(
                         'message' => 'Suspicious attribute \'href\'',
                         'line'    => $element->getLineNo(),
@@ -435,8 +435,8 @@ class Sanitizer
             // Do we want to strip remote references?
             if($this->removeRemoteReferences) {
                 // Remove attribute if it has a remote reference
-                if (isset($element->attributes->item($x)->value) && $this->***REMOVED***($element->attributes->item($x)->value)) {
-                    $element->***REMOVED***($attrName);
+                if (isset($element->attributes->item($x)->value) && $this->hasRemoteReference($element->attributes->item($x)->value)) {
+                    $element->removeAttribute($attrName);
                     $this->xmlIssues[] = array(
                         'message' => 'Suspicious attribute \'' . $attrName . '\'',
                         'line' => $element->getLineNo(),
@@ -451,11 +451,11 @@ class Sanitizer
      *
      * @param \DOMElement $element
      */
-    protected function ***REMOVED***(\DOMElement $element)
+    protected function cleanXlinkHrefs(\DOMElement $element)
     {
-        $xlinks = $element->***REMOVED***('http://www.w3.org/1999/xlink', 'href');
-        if (false === $this->***REMOVED***($xlinks)) {
-            $element->***REMOVED***( 'http://www.w3.org/1999/xlink', 'href' );
+        $xlinks = $element->getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+        if (false === $this->isHrefSafeValue($xlinks)) {
+            $element->removeAttributeNS( 'http://www.w3.org/1999/xlink', 'href' );
             $this->xmlIssues[] = array(
                 'message' => 'Suspicious attribute \'href\'',
                 'line' => $element->getLineNo(),
@@ -471,8 +471,8 @@ class Sanitizer
     protected function cleanHrefs(\DOMElement $element)
     {
         $href = $element->getAttribute('href');
-        if (false === $this->***REMOVED***($href)) {
-            $element->***REMOVED***('href');
+        if (false === $this->isHrefSafeValue($href)) {
+            $element->removeAttribute('href');
             $this->xmlIssues[] = array(
                 'message' => 'Suspicious attribute \'href\'',
                 'line' => $element->getLineNo(),
@@ -489,7 +489,7 @@ class Sanitizer
      * @param $value
      * @return bool
      */
-    protected function ***REMOVED***($value) {
+    protected function isHrefSafeValue($value) {
 
         // Allow empty values
         if (empty($value)) {
@@ -558,7 +558,7 @@ class Sanitizer
      * @param $value
      * @return bool
      */
-    protected function ***REMOVED***($value)
+    protected function hasRemoteReference($value)
     {
         $value = $this->removeNonPrintableCharacters($value);
 
@@ -610,7 +610,7 @@ class Sanitizer
      *
      * @return bool
      */
-    protected function ***REMOVED***($attributeName)
+    protected function isAriaAttribute($attributeName)
     {
         return strpos($attributeName, 'aria-') === 0;
     }
@@ -622,7 +622,7 @@ class Sanitizer
      *
      * @return bool
      */
-    protected function ***REMOVED***($attributeName)
+    protected function isDataAttribute($attributeName)
     {
         return strpos($attributeName, 'data-') === 0;
     }
@@ -635,7 +635,7 @@ class Sanitizer
      */
     protected function isUseTagDirty(\DOMElement $element)
     {
-        $href = Helper::***REMOVED***($element);
+        $href = Helper::getElementHref($element);
         return $href && strpos($href, '#') !== 0;
     }
 
@@ -653,12 +653,12 @@ class Sanitizer
             return false;
         }
         $useId = Helper::extractIdReferenceFromHref(
-            Helper::***REMOVED***($element)
+            Helper::getElementHref($element)
         );
         if ($useId === null) {
             return false;
         }
-        foreach ($this->elementReferenceResolver->***REMOVED***($useId) as $subject) {
+        foreach ($this->elementReferenceResolver->findByElementId($useId) as $subject) {
             if ($subject->countUse() >= $this->useThreshold) {
                 return true;
             }
@@ -671,36 +671,36 @@ class Sanitizer
      *
      * @param $limit
      */
-    public function ***REMOVED***($limit)
+    public function setUseNestingLimit($limit)
     {
-        $this->***REMOVED*** = (int) $limit;
+        $this->useNestingLimit = (int) $limit;
     }
 
     /**
      * Remove nodes that are either invalid or malformed.
      *
-     * @param \DOMNode $***REMOVED*** The current element.
+     * @param \DOMNode $currentElement The current element.
      */
-    protected function ***REMOVED***(\DOMNode $***REMOVED***) {
+    protected function cleanUnsafeNodes(\DOMNode $currentElement) {
         // Replace CDATA node with encoded text node
-        if ($***REMOVED*** instanceof \***REMOVED***) {
-            $textNode = $***REMOVED***->ownerDocument->***REMOVED***($***REMOVED***->nodeValue);
-            $***REMOVED***->parentNode->replaceChild($textNode, $***REMOVED***);
+        if ($currentElement instanceof \DOMCdataSection) {
+            $textNode = $currentElement->ownerDocument->createTextNode($currentElement->nodeValue);
+            $currentElement->parentNode->replaceChild($textNode, $currentElement);
         // If the element doesn't have a tagname, remove it and continue with next iteration
-        } elseif (!$***REMOVED*** instanceof \DOMElement && !$***REMOVED*** instanceof \DOMText) {
-            $***REMOVED***->parentNode->removeChild($***REMOVED***);
+        } elseif (!$currentElement instanceof \DOMElement && !$currentElement instanceof \DOMText) {
+            $currentElement->parentNode->removeChild($currentElement);
             $this->xmlIssues[] = array(
-                'message' => 'Suspicious node \'' . $***REMOVED***->nodeName . '\'',
-                'line' => $***REMOVED***->getLineNo(),
+                'message' => 'Suspicious node \'' . $currentElement->nodeName . '\'',
+                'line' => $currentElement->getLineNo(),
             );
             return;
         }
 
-        if ( $***REMOVED***->childNodes && $***REMOVED***->childNodes->length > 0 ) {
-            for ($j = $***REMOVED***->childNodes->length - 1; $j >= 0; $j--) {
+        if ( $currentElement->childNodes && $currentElement->childNodes->length > 0 ) {
+            for ($j = $currentElement->childNodes->length - 1; $j >= 0; $j--) {
                 /** @var \DOMElement $childElement */
-                $childElement = $***REMOVED***->childNodes->item($j);
-                $this->***REMOVED***($childElement);
+                $childElement = $currentElement->childNodes->item($j);
+                $this->cleanUnsafeNodes($childElement);
             }
         }
     }

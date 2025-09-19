@@ -97,7 +97,7 @@
   margin-right: 5px;
   margin-left: 5px; }
 
-.***REMOVED*** li {
+.languagechecklist li {
   margin: 0;
   padding: 0;
   line-height: 22px;
@@ -150,7 +150,7 @@
       .edit-post-header-toolbar .lang-dropdown ul a:hover, .edit-post-header-toolbar .lang-dropdown ul a:focus {
         background-color: #ccc; }
 
-.gutenberg .***REMOVED*** {
+.gutenberg .languagechecklist {
   list-style: none !important; }
 
 .js-wpm-action + .spinner {
@@ -182,4 +182,4 @@
 .column-languages {
   width: 100px; }
 
-/*# ***REMOVED***=admin.css.map */
+/*# sourceMappingURL=admin.css.map */

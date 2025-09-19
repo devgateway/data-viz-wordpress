@@ -8,12 +8,12 @@ const SaveComponent = (props) => {
             height,
             width,
             group,
-            ***REMOVED***,
+            backGroundColor,
             mapPosition,
             projection,
             zoomEnabled,
-            ***REMOVED***,
-            ***REMOVED***
+            rotationEnabled,
+            waitForFilters
         }
     } = props;
 
@@ -29,13 +29,13 @@ const SaveComponent = (props) => {
              data-width={width}
              data-group={group}
              data-projection={projection}
-             data-back-ground-color={***REMOVED***}
-             data-map-position={***REMOVED***(JSON.stringify(mapPosition))}
+             data-back-ground-color={backGroundColor}
+             data-map-position={encodeURIComponent(JSON.stringify(mapPosition))}
              data-component={"newMap"}
              data-zoom-enabled={zoomEnabled}
-             data-rotation-enabled={***REMOVED***}
-             data-layers={***REMOVED***(JSON.stringify(layers))}
-             data-wait-for-filters={***REMOVED***}
+             data-rotation-enabled={rotationEnabled}
+             data-layers={encodeURIComponent(JSON.stringify(layers))}
+             data-wait-for-filters={waitForFilters}
              >
         </div>
     );

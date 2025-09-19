@@ -790,7 +790,7 @@
 			
 		// vars
 		var obj = {};
-		var inputs = acf.***REMOVED***( $el );
+		var inputs = acf.serializeArray( $el );
 		
 		// prefix
 		if( prefix !== undefined ) {
@@ -814,9 +814,9 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.serializeArray
 	*
-	*  Similar to $.***REMOVED***() but works with a parent wrapping element.
+	*  Similar to $.serializeArray() but works with a parent wrapping element.
 	*
 	*  @date	19/8/18
 	*  @since	5.7.3
@@ -825,12 +825,12 @@
 	*  @return	array
 	*/
 	
-	acf.***REMOVED*** = function( $el ){
-		return $el.find('select, textarea, input').***REMOVED***();
+	acf.serializeArray = function( $el ){
+		return $el.find('select, textarea, input').serializeArray();
 	}
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.serializeForAjax
 	*
 	*  Returns an object containing name => value data ready to be encoded for Ajax.
 	*
@@ -840,14 +840,14 @@
 	*  @param	jQUery $el The element or form to serialize.
 	*  @return	object
 	*/
-	acf.***REMOVED*** = function( $el ){
+	acf.serializeForAjax = function( $el ){
 			
 		// vars
 		var data = {};
 		var index = {};
 		
 		// Serialize inputs.
-		var inputs = acf.***REMOVED***( $el );
+		var inputs = acf.serializeArray( $el );
 		
 		// Loop over inputs and build data.
 		inputs.map(function( item ){
@@ -1095,7 +1095,7 @@
 	
 	
 	/**
-	*  ***REMOVED***
+	*  getPreferenceName
 	*
 	*  Gets the true preference name. 
 	*  Converts "this.thing" to "thing-123" if editing post 123.
@@ -1107,7 +1107,7 @@
 	*  @return	string
 	*/
 	
-	var ***REMOVED*** = function( name ){
+	var getPreferenceName = function( name ){
 		if( name.substr(0, 5) === 'this.' ) {
 			name = name.substr(5) + '-' + acf.get('post_id');
 		}
@@ -1128,7 +1128,7 @@
 	*/
 	
 	acf.getPreference = function( name ){
-		name = ***REMOVED***( name );
+		name = getPreferenceName( name );
 		return preferences[ name ] || null;
 	}
 	
@@ -1147,7 +1147,7 @@
 	*/
 	
 	acf.setPreference = function( name, value ){
-		name = ***REMOVED***( name );
+		name = getPreferenceName( name );
 		if( value === null ) {
 			delete preferences[ name ];
 		} else {
@@ -1158,7 +1158,7 @@
 	
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.removePreference
 	*
 	*  Removes a preference setting.
 	*
@@ -1169,7 +1169,7 @@
 	*  @return	n/a
 	*/
 	
-	acf.***REMOVED*** = function( name ){ 
+	acf.removePreference = function( name ){ 
 		acf.setPreference(name, null);
 	};
 	
@@ -1487,7 +1487,7 @@
 	
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.prepareForAjax
 	*
 	*  description
 	*
@@ -1498,7 +1498,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( data ){
+	acf.prepareForAjax = function( data ){
 		
 		// required
 		data.nonce = acf.get('nonce');
@@ -1518,7 +1518,7 @@
 	
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.startButtonLoading
 	*
 	*  description
 	*
@@ -1529,12 +1529,12 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( $el ){
+	acf.startButtonLoading = function( $el ){
 		$el.prop('disabled', true);
 		$el.after(' <i class="acf-loading"></i>');
 	}
 	
-	acf.***REMOVED*** = function( $el ){
+	acf.stopButtonLoading = function( $el ){
 		$el.prop('disabled', false);
 		$el.next('.acf-loading').remove();
 	}
@@ -1562,7 +1562,7 @@
 	
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.updateUserSetting
 	*
 	*  description
 	*
@@ -1573,7 +1573,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( name, value ){
+	acf.updateUserSetting = function( name, value ){
 		
 		var ajaxData = {
 			action: 'acf/ajax/user_setting',
@@ -1583,7 +1583,7 @@
 		
 		$.ajax({
 	    	url: acf.get('ajaxurl'),
-	    	data: acf.***REMOVED***(ajaxData),
+	    	data: acf.prepareForAjax(ajaxData),
 			type: 'post',
 			dataType: 'html'
 		});
@@ -1882,7 +1882,7 @@
 	
 	acf.isset = function( obj /*, level1, level2, ... */ ) {
 		for( var i = 1; i < arguments.length; i++ ) {
-			if( !obj || !obj.***REMOVED***(arguments[i]) ) {
+			if( !obj || !obj.hasOwnProperty(arguments[i]) ) {
 				return false;
 			}
 			obj = obj[ arguments[i] ];
@@ -1904,7 +1904,7 @@
 	
 	acf.isget = function( obj /*, level1, level2, ... */ ) {
 		for( var i = 1; i < arguments.length; i++ ) {
-			if( !obj || !obj.***REMOVED***(arguments[i]) ) {
+			if( !obj || !obj.hasOwnProperty(arguments[i]) ) {
 				return null;
 			}
 			obj = obj[ arguments[i] ];
@@ -1913,7 +1913,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getFileInputData
 	*
 	*  description
 	*
@@ -1924,7 +1924,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( $input, callback ){
+	acf.getFileInputData = function( $input, callback ){
 		
 		// vars
 		var value = $input.val();
@@ -1962,7 +1962,7 @@
 					
 					callback( data );
 				};
-				img.src = windowURL.***REMOVED***( file );
+				img.src = windowURL.createObjectURL( file );
 			} else {
 				callback( data );
 			}
@@ -1988,7 +1988,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getAjaxMessage
 	*
 	*  description
 	*
@@ -1999,7 +1999,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( json ){
+	acf.getAjaxMessage = function( json ){
 		return acf.isget( json, 'data', 'message' );
 	};
 	
@@ -2271,8 +2271,8 @@
 			rect.top !== rect.bottom &&
 			rect.top >= 0 &&
 			rect.left >= 0 &&
-			rect.bottom <= (window.innerHeight || document.***REMOVED***.clientHeight) &&
-			rect.right <= (window.innerWidth || document.***REMOVED***.clientWidth)
+			rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+			rect.right <= (window.innerWidth || document.documentElement.clientWidth)
 		);
 	};
 	
@@ -2311,7 +2311,7 @@
 			
 			// Add event listener.
 			if( !items.length ) {
-				$(window).on( 'scroll resize', debounced ).on( 'acfrefresh ***REMOVED***', check );
+				$(window).on( 'scroll resize', debounced ).on( 'acfrefresh orientationchange', check );
 			}
 			
 			// Append to list.
@@ -2328,7 +2328,7 @@
 			
 			// Clean up listener.
 			if( !items.length ) {
-				$(window).off( 'scroll resize', debounced ).off( 'acfrefresh ***REMOVED***', check );
+				$(window).off( 'scroll resize', debounced ).off( 'acfrefresh orientationchange', check );
 			}
 		}
 		
@@ -2378,7 +2378,7 @@
      * @param	jQuery $el The jQuery element to focus.
      * @return	void
      */
-    acf.***REMOVED*** = function( $el ){
+    acf.focusAttention = function( $el ){
 		var wait = 1000;
 
         // Apply class to focus attention.
@@ -2574,7 +2574,7 @@
 		/**
 		 * Maintain a reference to the object scope so our public methods never get confusing.
 		 */
-		var ***REMOVED*** = {
+		var MethodsAvailable = {
 			removeFilter : removeFilter,
 			applyFilters : applyFilters,
 			addFilter : addFilter,
@@ -2613,7 +2613,7 @@
 				_addHook( 'actions', action, callback, priority, context );
 			}
 
-			return ***REMOVED***;
+			return MethodsAvailable;
 		}
 
 		/**
@@ -2628,7 +2628,7 @@
 				_runHook( 'actions', action, args );
 			}
 
-			return ***REMOVED***;
+			return MethodsAvailable;
 		}
 
 		/**
@@ -2642,7 +2642,7 @@
 				_removeHook( 'actions', action, callback );
 			}
 
-			return ***REMOVED***;
+			return MethodsAvailable;
 		}
 
 		/**
@@ -2659,7 +2659,7 @@
 				_addHook( 'filters', filter, callback, priority, context );
 			}
 
-			return ***REMOVED***;
+			return MethodsAvailable;
 		}
 
 		/**
@@ -2674,7 +2674,7 @@
 				return _runHook( 'filters', filter, args );
 			}
 
-			return ***REMOVED***;
+			return MethodsAvailable;
 		}
 
 		/**
@@ -2688,7 +2688,7 @@
 				_removeHook( 'filters', filter, callback );
 			}
 
-			return ***REMOVED***;
+			return MethodsAvailable;
 		}
 
 		/**
@@ -2742,7 +2742,7 @@
 				context : context
 			};
 
-			// Utilize 'prop itself' : http://jsperf.com/***REMOVED***-vs-in-vs-undefined/19
+			// Utilize 'prop itself' : http://jsperf.com/hasownproperty-vs-in-vs-undefined/19
 			var hooks = STORAGE[ type ][ hook ];
 			if( hooks ) {
 				hooks.push( hookObject );
@@ -2807,7 +2807,7 @@
 		}
 
 		// return all of the publicly available methods
-		return ***REMOVED***;
+		return MethodsAvailable;
 
 	};
 	
@@ -2843,7 +2843,7 @@
 	    // The constructor function for the new subclass is either defined by you
 	    // (the "constructor" property in your `extend` definition), or defaulted
 	    // by us to simply call the parent constructor.
-	    if( protoProps && protoProps.***REMOVED***('constructor') ) {
+	    if( protoProps && protoProps.hasOwnProperty('constructor') ) {
 	      Child = protoProps.constructor;
 	    } else {
 	      Child = function(){ return Parent.apply(this, arguments); };
@@ -3164,7 +3164,7 @@
 		},
 		
 		/**
-		*  ***REMOVED***
+		*  getEventTarget
 		*
 		*  Returns a jQUery element to tigger an event on
 		*
@@ -3176,7 +3176,7 @@
 		*  @return	jQuery
 		*/
 		
-		***REMOVED***: function( $el, event ){
+		getEventTarget: function( $el, event ){
 			return $el || this.$el || $(document);
 		},
 		
@@ -3274,7 +3274,7 @@
 			}
 			
 			// element
-			$el = this.***REMOVED***( $el );
+			$el = this.getEventTarget( $el );
 			
 			// modify callback
 			if( typeof callback === 'string' ) {
@@ -3337,7 +3337,7 @@
 			}
 			
 			// element
-			$el = this.***REMOVED***( $el );
+			$el = this.getEventTarget( $el );
 			
 			// modify event
 			event = event + '.' + this.cid;
@@ -3367,11 +3367,11 @@
 		*/
 		
 		trigger: function( name, args, bubbles ){
-			var $el = this.***REMOVED***();
+			var $el = this.getEventTarget();
 			if( bubbles ) {
 				$el.trigger.apply( $el, arguments );
 			} else {
-				$el.***REMOVED***.apply( $el, arguments );
+				$el.triggerHandler.apply( $el, arguments );
 			}
 			return this;
 		},
@@ -3816,7 +3816,7 @@
 		},
 		
 		onClickClose: function( e, $el ){
-			e.***REMOVED***();
+			e.preventDefault();
 			this.close();
 		}
 		
@@ -3910,7 +3910,7 @@
 			this.remove();
 		},
 		onClickClose: function( e, $el ){
-			e.***REMOVED***();
+			e.preventDefault();
 			this.close();
 		}
 	});
@@ -3939,7 +3939,7 @@
 		},
 		
 		onClick: function( e, $el ){
-			e.***REMOVED***();
+			e.preventDefault();
 			this.toggle( $el.parent() );
 		},
 		
@@ -4077,7 +4077,7 @@
 		},
 		
 		onClickClose: function( e, $el ){
-			e.***REMOVED***();
+			e.preventDefault();
 			this.get('close').apply(this, arguments);
 			this.remove();
 		}
@@ -4126,12 +4126,12 @@
 			
 			props.textConfirm = acf.__('Remove');
 			props.textCancel = acf.__('Cancel');
-			return new ***REMOVED***( props );
+			return new TooltipConfirm( props );
 			
 		// confirm
 		} else if( props.confirm !== undefined ) {
 			
-			return new ***REMOVED***( props );
+			return new TooltipConfirm( props );
 		
 		// default
 		} else {
@@ -4262,7 +4262,7 @@
 		}
 	});
 	
-	var ***REMOVED*** = Tooltip.extend({
+	var TooltipConfirm = Tooltip.extend({
 		
 		data: {
 			text: '',
@@ -4340,7 +4340,7 @@
 		onCancel: function( e, $el ){
 			
 			// prevent default
-			e.***REMOVED***();
+			e.preventDefault();
 			e.stopImmediatePropagation();
 			
 			// callback
@@ -4355,7 +4355,7 @@
 		onConfirm: function( e, $el ){
 			
 			// Prevent event from propagating completely to allow "targetConfirm" to be clicked.
-			e.***REMOVED***();
+			e.preventDefault();
 			e.stopImmediatePropagation();
 			
 			// callback
@@ -4370,11 +4370,11 @@
 	
 	// storage
 	acf.models.Tooltip = Tooltip;
-	acf.models.***REMOVED*** = ***REMOVED***;
+	acf.models.TooltipConfirm = TooltipConfirm;
 	
 	
 	/**
-	*  ***REMOVED***
+	*  tooltipManager
 	*
 	*  description
 	*
@@ -4385,7 +4385,7 @@
 	*  @return	type Description.
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var tooltipHoverHelper = new acf.Model({
 		
 		tooltip: false,
 		

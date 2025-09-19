@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Landing page for book
- * Slug: ***REMOVED***/page-landing-book
+ * Slug: twentytwentyfive/page-landing-book
  * Categories: twentytwentyfive_page, featured
  * Keywords: starter
  * Block Types: core/post-content
@@ -16,9 +16,9 @@
 
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/hero-book"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/cta-book-links"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/banner-about-book"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/cta-book-locations"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/text-faqs"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/cta-newsletter"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/hero-book"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-book-links"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/banner-about-book"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-book-locations"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/text-faqs"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-newsletter"} /-->

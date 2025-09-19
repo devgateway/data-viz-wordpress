@@ -2,11 +2,11 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException;
 use YoastSEO_Vendor\GuzzleHttp\Exception\TooManyRedirectsException;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 /**
  * Request redirect middleware.
@@ -16,50 +16,50 @@ use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
  *
  * @final
  */
-class ***REMOVED***
+class RedirectMiddleware
 {
     public const HISTORY_HEADER = 'X-Guzzle-Redirect-History';
     public const STATUS_HISTORY_HEADER = 'X-Guzzle-Redirect-Status-History';
     /**
      * @var array
      */
-    public static $***REMOVED*** = ['max' => 5, 'protocols' => ['http', 'https'], 'strict' => \false, 'referer' => \false, 'track_redirects' => \false];
+    public static $defaultSettings = ['max' => 5, 'protocols' => ['http', 'https'], 'strict' => \false, 'referer' => \false, 'track_redirects' => \false];
     /**
-     * @var callable(***REMOVED***, array): ***REMOVED***
+     * @var callable(RequestInterface, array): PromiseInterface
      */
     private $nextHandler;
     /**
-     * @param callable(***REMOVED***, array): ***REMOVED*** $nextHandler Next handler to invoke.
+     * @param callable(RequestInterface, array): PromiseInterface $nextHandler Next handler to invoke.
      */
     public function __construct(callable $nextHandler)
     {
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $fn = $this->nextHandler;
         if (empty($options['allow_redirects'])) {
             return $fn($request, $options);
         }
         if ($options['allow_redirects'] === \true) {
-            $options['allow_redirects'] = self::$***REMOVED***;
+            $options['allow_redirects'] = self::$defaultSettings;
         } elseif (!\is_array($options['allow_redirects'])) {
             throw new \InvalidArgumentException('allow_redirects must be true, false, or array');
         } else {
             // Merge the default settings with the provided settings
-            $options['allow_redirects'] += self::$***REMOVED***;
+            $options['allow_redirects'] += self::$defaultSettings;
         }
         if (empty($options['allow_redirects']['max'])) {
             return $fn($request, $options);
         }
-        return $fn($request, $options)->then(function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) use($request, $options) {
+        return $fn($request, $options)->then(function (\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response) use($request, $options) {
             return $this->checkRedirect($request, $options, $response);
         });
     }
     /**
-     * @return ***REMOVED***|***REMOVED***
+     * @return ResponseInterface|PromiseInterface
      */
-    public function checkRedirect(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response)
+    public function checkRedirect(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response)
     {
         if (\strpos((string) $response->getStatusCode(), '3') !== 0 || !$response->hasHeader('Location')) {
             return $response;
@@ -83,9 +83,9 @@ class ***REMOVED***
     /**
      * Enable tracking on promise.
      */
-    private function withTracking(\YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*** $promise, string $uri, int $statusCode) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    private function withTracking(\YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface $promise, string $uri, int $statusCode) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
-        return $promise->then(static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) use($uri, $statusCode) {
+        return $promise->then(static function (\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response) use($uri, $statusCode) {
             // Note that we are pushing to the front of the list as this
             // would be an earlier response than what is currently present
             // in the history header.
@@ -101,7 +101,7 @@ class ***REMOVED***
      *
      * @throws TooManyRedirectsException Too many redirects.
      */
-    private function guardMax(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response, array &$options) : void
+    private function guardMax(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response, array &$options) : void
     {
         $current = $options['__redirect_count'] ?? 0;
         $options['__redirect_count'] = $current + 1;
@@ -110,7 +110,7 @@ class ***REMOVED***
             throw new \YoastSEO_Vendor\GuzzleHttp\Exception\TooManyRedirectsException("Will not follow more than {$max} redirects", $request, $response);
         }
     }
-    public function modifyRequest(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function modifyRequest(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         // Request modifications to apply.
         $modify = [];
@@ -150,12 +150,12 @@ class ***REMOVED***
     /**
      * Set the appropriate URL on the request based on the location header.
      */
-    private static function redirectUri(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response, array $protocols) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
+    private static function redirectUri(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response, array $protocols) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {
         $location = \YoastSEO_Vendor\GuzzleHttp\Psr7\UriResolver::resolve($request->getUri(), new \YoastSEO_Vendor\GuzzleHttp\Psr7\Uri($response->getHeaderLine('Location')));
         // Ensure that the redirect URI is allowed based on the protocols.
         if (!\in_array($location->getScheme(), $protocols)) {
-            throw new \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***(\sprintf('Redirect URI, %s, does not use one of the allowed redirect protocols: %s', $location, \implode(', ', $protocols)), $request, $response);
+            throw new \YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException(\sprintf('Redirect URI, %s, does not use one of the allowed redirect protocols: %s', $location, \implode(', ', $protocols)), $request, $response);
         }
         return $location;
     }

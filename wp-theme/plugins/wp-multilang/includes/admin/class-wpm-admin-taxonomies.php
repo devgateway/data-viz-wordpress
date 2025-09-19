@@ -139,7 +139,7 @@ class WPM_Admin_Taxonomies {
 		<tr class="form-field">
 			<th scope="row" valign="top"><?php _e( 'Show term only in:', 'wp-multilang' ); ?></th>
 			<td>
-				<ul class="***REMOVED***">
+				<ul class="languagechecklist">
 					<?php foreach ( $languages as $code => $language ) { ?>
 						<li>
 							<label>

@@ -97,7 +97,7 @@
 }
 
 /* Calculates maximum width for post content */
-@mixin ***REMOVED***() {
+@mixin postContentMaxWidth() {
 
 	@include media(tablet) {
 		max-width: $size__site-tablet-content;
@@ -109,7 +109,7 @@
 }
 
 /* Nested sub-menu padding: 10 levels deep */
-@mixin ***REMOVED***() {
+@mixin nestedSubMenuPadding() {
 
 	ul {
 		counter-reset: submenu;

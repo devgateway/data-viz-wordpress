@@ -20,7 +20,7 @@ class Current_Page_Helper {
 	/**
 	 * Current_Page_Helper constructor.
 	 *
-	 * @***REMOVED*** It only sets dependencies.
+	 * @codeCoverageIgnore It only sets dependencies.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
 	 */
@@ -31,7 +31,7 @@ class Current_Page_Helper {
 	/**
 	 * Returns the page type for the current request.
 	 *
-	 * @***REMOVED*** It just depends on other functions for its result.
+	 * @codeCoverageIgnore It just depends on other functions for its result.
 	 *
 	 * @return string Page type.
 	 */
@@ -96,7 +96,7 @@ class Current_Page_Helper {
 	/**
 	 * Returns the id of the currently opened author archive.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return int The id of the currently opened author archive.
 	 */
@@ -247,7 +247,7 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a post type archive.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is a post type archive.
 	 */
@@ -260,7 +260,7 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a term archive.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is a term archive.
 	 */
@@ -273,7 +273,7 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is an attachment page.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is an attachment page.
 	 */
@@ -286,7 +286,7 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is an author archive.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is an author archive.
 	 */
@@ -299,7 +299,7 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is an date archive.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is an date archive.
 	 */
@@ -312,7 +312,7 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a search result.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is a search result.
 	 */
@@ -325,7 +325,7 @@ class Current_Page_Helper {
 	/**
 	 * Determine whether this is a 404 page.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether nor not the current page is a 404 page.
 	 */
@@ -338,7 +338,7 @@ class Current_Page_Helper {
 	/**
 	 * Checks if the current page is the post format archive.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether or not the current page is the post format archive.
 	 */
@@ -364,7 +364,7 @@ class Current_Page_Helper {
 	/**
 	 * Checks whether the current page is paged.
 	 *
-	 * @***REMOVED*** This method only calls a WordPress function.
+	 * @codeCoverageIgnore This method only calls a WordPress function.
 	 *
 	 * @return bool Whether the current page is paged.
 	 */
@@ -375,7 +375,7 @@ class Current_Page_Helper {
 	/**
 	 * Checks if the current page is the front page.
 	 *
-	 * @***REMOVED*** It wraps WordPress functionality.
+	 * @codeCoverageIgnore It wraps WordPress functionality.
 	 *
 	 * @return bool Whether or not the current page is the front page.
 	 */
@@ -388,7 +388,7 @@ class Current_Page_Helper {
 	/**
 	 * Retrieves the current admin page.
 	 *
-	 * @***REMOVED*** It only wraps a global WordPress variable.
+	 * @codeCoverageIgnore It only wraps a global WordPress variable.
 	 *
 	 * @return string The current page.
 	 */
@@ -404,9 +404,9 @@ class Current_Page_Helper {
 	 * @return bool True when current page is a yoast seo plugin page.
 	 */
 	public function is_yoast_seo_page() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, We are only using the variable in the strpos function.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only using the variable in the strpos function.
 			$current_page = \wp_unslash( $_GET['page'] );
 			return \strpos( $current_page, 'wpseo_' ) === 0;
 		}
@@ -420,9 +420,9 @@ class Current_Page_Helper {
 	 * @return string The current Yoast SEO page.
 	 */
 	public function get_current_yoast_seo_page() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 		}
 
@@ -469,7 +469,7 @@ class Current_Page_Helper {
 	/**
 	 * Counts the total amount of queried terms.
 	 *
-	 * @***REMOVED*** This relies too much on WordPress dependencies.
+	 * @codeCoverageIgnore This relies too much on WordPress dependencies.
 	 *
 	 * @return int The amoumt of queried terms.
 	 */

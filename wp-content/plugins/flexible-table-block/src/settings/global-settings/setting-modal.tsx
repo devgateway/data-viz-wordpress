@@ -2,7 +2,7 @@
  * External dependencies
  */
 import type { Properties } from 'csstype';
-import type { Dispatch, ***REMOVED*** } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
 /**
  * WordPress dependencies
@@ -27,8 +27,8 @@ import {
 	__experimentalVStack as VStack,
 	__experimentalHeading as Heading,
 	__experimentalUnitControl as UnitControl,
-	__experimentalUseCustomUnits as ***REMOVED***,
-	__experimentalToggleGroupControl as ***REMOVED***,
+	__experimentalUseCustomUnits as useCustomUnits,
+	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOptionIcon as ToggleGroupControlOptionIcon,
 } from '@wordpress/components';
 import { desktop, mobile } from '@wordpress/icons';
@@ -48,19 +48,19 @@ import {
 	REST_API_ROUTE,
 } from '../../constants';
 import {
-	***REMOVED***,
-	***REMOVED***,
+	BorderWidthControl,
+	BorderStyleControl,
 	ColorControl,
-	***REMOVED***,
+	PaddingControl,
 } from '../../controls';
-import { ***REMOVED***, ***REMOVED*** } from '../../utils/helper';
+import { sanitizeUnitValue, cleanEmptyObject } from '../../utils/helper';
 import type { ApiResponse, StoreOptions } from '../../store';
 import type { NoticeProps } from '@wordpress/components/build-types/notice/types';
 
 type Props = {
 	options: StoreOptions;
-	***REMOVED***: boolean;
-	setIsSettingModalOpen: Dispatch< ***REMOVED***< boolean > >;
+	isAdministrator: boolean;
+	setIsSettingModalOpen: Dispatch< SetStateAction< boolean > >;
 };
 
 interface NoticeInfo {
@@ -68,34 +68,34 @@ interface NoticeInfo {
 	message?: string;
 }
 
-export default function SettingModal( { options, ***REMOVED***, setIsSettingModalOpen }: Props ) {
+export default function SettingModal( { options, isAdministrator, setIsSettingModalOpen }: Props ) {
 	const [ noticeInfo, setNoticeInfo ] = useState< NoticeInfo | undefined >( undefined );
-	const [ isResetPopup, ***REMOVED*** ] = useState< boolean >( false );
+	const [ isResetPopup, setIsResetPopup ] = useState< boolean >( false );
 	const [ isWaiting, setIsWaiting ] = useState< boolean >( false );
-	const [ ***REMOVED***, ***REMOVED*** ] = useState< StoreOptions >( options );
+	const [ currentOptions, setCurrentOptions ] = useState< StoreOptions >( options );
 
-	const { setOptions: ***REMOVED*** } = useDispatch( STORE_NAME );
-	const ***REMOVED*** = ***REMOVED***( { ***REMOVED***: TABLE_WIDTH_UNITS } );
+	const { setOptions: setStoreOptions } = useDispatch( STORE_NAME );
+	const tableWidthUnits = useCustomUnits( { availableUnits: TABLE_WIDTH_UNITS } );
 
 	// Force focus on the modal as it loses focus when saving or restoring settings.
 	function focusModal() {
-		const modal = document.querySelector( '.ftb-global-setting-modal' ) as ***REMOVED***;
+		const modal = document.querySelector( '.ftb-global-setting-modal' ) as HTMLInputElement;
 		if ( modal ) {
 			modal.focus();
 		}
 	}
 
 	// Update the inline CSS.
-	function ***REMOVED***( css: string ) {
+	function updateInlineCss( css: string ) {
 		// Update the inline CSS of the global document.
-		const styleSheet = document.***REMOVED***( 'flexible-table-block-editor-inline-css' );
+		const styleSheet = document.getElementById( 'flexible-table-block-editor-inline-css' );
 
 		if ( styleSheet ) {
 			styleSheet.textContent = css;
 		}
 
 		// Update the inline CSS of the iframe editor instance document.
-		const iframeEditor = document.***REMOVED***( 'iframe' );
+		const iframeEditor = document.querySelectorAll( 'iframe' );
 
 		for ( let i = 0; i < iframeEditor.length; i++ ) {
 			const iframeWindow = iframeEditor[ i ].contentWindow;
@@ -104,26 +104,26 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 				continue;
 			}
 
-			const ***REMOVED*** = iframeWindow.document.***REMOVED***(
+			const iframeStyleSheet = iframeWindow.document.getElementById(
 				'flexible-table-block-editor-inline-css'
 			);
 
-			if ( ***REMOVED*** ) {
-				***REMOVED***.textContent = css;
+			if ( iframeStyleSheet ) {
+				iframeStyleSheet.textContent = css;
 			}
 		}
 	}
 
 	// Update options.
-	const ***REMOVED*** = () => {
+	const handleUpdateOptions = () => {
 		setIsWaiting( true );
 		setNoticeInfo( undefined );
-		***REMOVED***( ***REMOVED*** );
+		setStoreOptions( currentOptions );
 
 		apiFetch< ApiResponse >( {
 			path: REST_API_ROUTE,
 			method: 'POST',
-			data: ***REMOVED***,
+			data: currentOptions,
 		} )
 			.then( ( response ) => {
 				focusModal();
@@ -142,7 +142,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 				}
 
 				// Update inline CSS.
-				***REMOVED***( response.block_css );
+				updateInlineCss( response.block_css );
 			} )
 			.catch( ( response ) => {
 				focusModal();
@@ -155,7 +155,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 	};
 
 	// Reset state and store options.
-	const ***REMOVED*** = () => {
+	const handleResetOptions = () => {
 		setIsWaiting( true );
 		setNoticeInfo( undefined );
 
@@ -176,8 +176,8 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 
 			// Update options.
 			if ( response.options ) {
-				***REMOVED***( response.options );
-				***REMOVED***( response.options );
+				setCurrentOptions( response.options );
+				setStoreOptions( response.options );
 			}
 
 			if ( ! response.block_css ) {
@@ -185,7 +185,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 			}
 
 			// Update inline CSS.
-			***REMOVED***( response.block_css );
+			updateInlineCss( response.block_css );
 		} );
 	};
 
@@ -193,7 +193,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 		<Modal
 			title={ __( 'Flexible Table Block Global setting', 'flexible-table-block' ) }
 			className="ftb-global-setting-modal"
-			***REMOVED***={ () => setIsSettingModalOpen( false ) }
+			onRequestClose={ () => setIsSettingModalOpen( false ) }
 		>
 			{ isWaiting && (
 				<HStack justify="center" className="ftb-global-setting-modal__loading">
@@ -237,15 +237,15 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 									>
 										<UnitControl
 											label={ __( 'Table width', 'flexible-table-block' ) }
-											units={ ***REMOVED*** }
-											value={ ***REMOVED***.block_style?.table_width }
+											units={ tableWidthUnits }
+											value={ currentOptions.block_style?.table_width }
 											min={ 0 }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
-														table_width: ***REMOVED***( value ),
+														...currentOptions.block_style,
+														table_width: sanitizeUnitValue( value ),
 													},
 												} );
 											} }
@@ -260,15 +260,15 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 									>
 										<UnitControl
 											label={ __( 'Table max width', 'flexible-table-block' ) }
-											units={ ***REMOVED*** }
-											value={ ***REMOVED***.block_style?.table_max_width }
+											units={ tableWidthUnits }
+											value={ currentOptions.block_style?.table_max_width }
 											min={ 0 }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
-														table_max_width: ***REMOVED***( value ),
+														...currentOptions.block_style,
+														table_max_width: sanitizeUnitValue( value ),
 													},
 												} );
 											} }
@@ -281,30 +281,30 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										marginBottom={ 0 }
 										className="ftb-global-setting-modal__styles-item"
 									>
-										<***REMOVED***
+										<ToggleGroupControl
 											__nextHasNoMarginBottom
 											__next40pxDefaultSize
 											label={ __( 'Cell borders', 'flexible-table-block' ) }
-											value={ ***REMOVED***.block_style?.table_border_collapse }
-											***REMOVED***
+											value={ currentOptions.block_style?.table_border_collapse }
+											isDeselectable
 											onChange={ ( value ) => {
-												const ***REMOVED*** = (
+												const isAllowedValue = (
 													_value: any
-												): _value is Properties[ '***REMOVED***' ] => {
+												): _value is Properties[ 'borderCollapse' ] => {
 													return (
 														! value ||
 														BORDER_COLLAPSE_CONTROLS.some( ( control ) => control.value === _value )
 													);
 												};
-												if ( ***REMOVED***( value ) ) {
+												if ( isAllowedValue( value ) ) {
 													const newValue =
-														***REMOVED***?.block_style?.table_border_collapse === value
+														currentOptions?.block_style?.table_border_collapse === value
 															? undefined
 															: value;
-													***REMOVED***( {
-														...***REMOVED***,
+													setCurrentOptions( {
+														...currentOptions,
 														block_style: {
-															...***REMOVED***.block_style,
+															...currentOptions.block_style,
 															table_border_collapse: newValue,
 														},
 													} );
@@ -319,7 +319,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 													label={ label }
 												/>
 											) ) }
-										</***REMOVED***>
+										</ToggleGroupControl>
 									</Spacer>
 								</Flex>
 								<Heading level={ 5 }>
@@ -336,12 +336,12 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 												'Striped style background color ( odd rows )',
 												'flexible-table-block'
 											) }
-											value={ ***REMOVED***.block_style?.row_odd_color }
+											value={ currentOptions.block_style?.row_odd_color }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														row_odd_color: value,
 													},
 												} );
@@ -358,12 +358,12 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 												'Striped style background color ( even rows )',
 												'flexible-table-block'
 											) }
-											value={ ***REMOVED***.block_style?.row_even_color }
+											value={ currentOptions.block_style?.row_even_color }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														row_even_color: value,
 													},
 												} );
@@ -389,12 +389,12 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 												__( 'Cell text color ( <code>th</code> tag )', 'flexible-table-block' ),
 												{ code: <code /> }
 											) }
-											value={ ***REMOVED***.block_style?.cell_text_color_th }
+											value={ currentOptions.block_style?.cell_text_color_th }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_text_color_th: value,
 													},
 												} );
@@ -411,12 +411,12 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 												__( 'Cell text color ( <code>td</code> tag )', 'flexible-table-block' ),
 												{ code: <code /> }
 											) }
-											value={ ***REMOVED***.block_style?.cell_text_color_td }
+											value={ currentOptions.block_style?.cell_text_color_td }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_text_color_td: value,
 													},
 												} );
@@ -436,12 +436,12 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 												),
 												{ code: <code /> }
 											) }
-											value={ ***REMOVED***.block_style?.cell_background_color_th }
+											value={ currentOptions.block_style?.cell_background_color_th }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_background_color_th: value,
 													},
 												} );
@@ -461,12 +461,12 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 												),
 												{ code: <code /> }
 											) }
-											value={ ***REMOVED***.block_style?.cell_background_color_td }
+											value={ currentOptions.block_style?.cell_background_color_td }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_background_color_td: value,
 													},
 												} );
@@ -478,15 +478,15 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										marginBottom={ 0 }
 										className="ftb-global-setting-modal__styles-item"
 									>
-										<***REMOVED***
+										<PaddingControl
 											label={ __( 'Cell padding', 'flexible-table-block' ) }
-											values={ ***REMOVED***?.block_style.cell_padding || {} }
+											values={ currentOptions?.block_style.cell_padding || {} }
 											onChange={ ( values ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
-														cell_padding: ***REMOVED***( values ),
+														...currentOptions.block_style,
+														cell_padding: cleanEmptyObject( values ),
 													},
 												} );
 											} }
@@ -497,17 +497,17 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										marginBottom={ 0 }
 										className="ftb-global-setting-modal__styles-item"
 									>
-										<***REMOVED***
+										<BorderWidthControl
 											label={ __( 'Cell border width', 'flexible-table-block' ) }
-											values={ { top: ***REMOVED***.block_style?.cell_border_width } }
+											values={ { top: currentOptions.block_style?.cell_border_width } }
 											allowSides={ false }
 											hasIndicator={ false }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
-														cell_border_width: ***REMOVED***( value.top ),
+														...currentOptions.block_style,
+														cell_border_width: sanitizeUnitValue( value.top ),
 													},
 												} );
 											} }
@@ -518,20 +518,20 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										marginBottom={ 0 }
 										className="ftb-global-setting-modal__styles-item"
 									>
-										<***REMOVED***
+										<BorderStyleControl
 											label={ __( 'Cell border style', 'flexible-table-block' ) }
-											values={ { top: ***REMOVED***.block_style?.cell_border_style } }
+											values={ { top: currentOptions.block_style?.cell_border_style } }
 											allowSides={ false }
 											hasIndicator={ false }
 											onChange={ ( value ) => {
 												const newValue =
-													***REMOVED***?.block_style?.cell_border_style === value.top
+													currentOptions?.block_style?.cell_border_style === value.top
 														? undefined
 														: value.top;
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_border_style: newValue,
 													},
 												} );
@@ -545,12 +545,12 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 									>
 										<ColorControl
 											label={ __( 'Cell border color', 'flexible-table-block' ) }
-											value={ ***REMOVED***.block_style?.cell_border_color }
+											value={ currentOptions.block_style?.cell_border_color }
 											onChange={ ( value ) => {
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_border_color: value,
 													},
 												} );
@@ -562,24 +562,24 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										marginBottom={ 0 }
 										className="ftb-global-setting-modal__styles-item"
 									>
-										<***REMOVED***
+										<ToggleGroupControl
 											__nextHasNoMarginBottom
 											__next40pxDefaultSize
 											label={ __( 'Cell text alignment', 'flexible-table-block' ) }
-											value={ ***REMOVED***.block_style?.cell_text_align }
-											***REMOVED***
+											value={ currentOptions.block_style?.cell_text_align }
+											isDeselectable
 											onChange={ ( value ) => {
 												if ( typeof value !== 'string' && value !== undefined ) {
 													return;
 												}
 												const newValue =
-													***REMOVED***?.block_style?.cell_text_align === value
+													currentOptions?.block_style?.cell_text_align === value
 														? undefined
 														: value;
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_text_align: newValue,
 													},
 												} );
@@ -593,31 +593,31 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 													label={ label }
 												/>
 											) ) }
-										</***REMOVED***>
+										</ToggleGroupControl>
 									</Spacer>
 									<Spacer
 										padding={ 2 }
 										marginBottom={ 0 }
 										className="ftb-global-setting-modal__styles-item"
 									>
-										<***REMOVED***
+										<ToggleGroupControl
 											__nextHasNoMarginBottom
 											__next40pxDefaultSize
 											label={ __( 'Cell vertical alignment', 'flexible-table-block' ) }
-											value={ ***REMOVED***.block_style?.cell_vertical_align }
-											***REMOVED***
+											value={ currentOptions.block_style?.cell_vertical_align }
+											isDeselectable
 											onChange={ ( value ) => {
 												if ( typeof value !== 'string' && value !== undefined ) {
 													return;
 												}
 												const newValue =
-													***REMOVED***?.block_style?.cell_vertical_align === value
+													currentOptions?.block_style?.cell_vertical_align === value
 														? undefined
 														: value;
-												***REMOVED***( {
-													...***REMOVED***,
+												setCurrentOptions( {
+													...currentOptions,
 													block_style: {
-														...***REMOVED***.block_style,
+														...currentOptions.block_style,
 														cell_vertical_align: newValue,
 													},
 												} );
@@ -631,7 +631,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 													label={ label }
 												/>
 											) ) }
-										</***REMOVED***>
+										</ToggleGroupControl>
 									</Spacer>
 								</Flex>
 							</VStack>
@@ -652,14 +652,14 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 									min={ MIN_RESPONSIVE_BREAKPOINT }
 									max={ MAX_RESPONSIVE_BREAKPOINT }
 									value={
-										***REMOVED***.breakpoint
-											? Number( ***REMOVED***.breakpoint )
+										currentOptions.breakpoint
+											? Number( currentOptions.breakpoint )
 											: DEFAULT_RESPONSIVE_BREAKPOINT
 									}
 									allowReset
 									onChange={ ( value ) => {
-										***REMOVED***( {
-											...***REMOVED***,
+										setCurrentOptions( {
+											...currentOptions,
 											breakpoint: value ? value : DEFAULT_RESPONSIVE_BREAKPOINT,
 										} );
 									} }
@@ -676,10 +676,10 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										'Show section labels in the upper left corner of the table header, table body, and table footer sections.',
 										'flexible-table-block'
 									) }
-									checked={ !! ***REMOVED***.show_label_on_section }
+									checked={ !! currentOptions.show_label_on_section }
 									onChange={ ( value ) => {
-										***REMOVED***( {
-											...***REMOVED***,
+										setCurrentOptions( {
+											...currentOptions,
 											show_label_on_section: value,
 										} );
 									} }
@@ -691,17 +691,17 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										'Show insert row/column and select row/column buttons.',
 										'flexible-table-block'
 									) }
-									checked={ !! ***REMOVED***.show_control_button }
+									checked={ !! currentOptions.show_control_button }
 									onChange={ ( value ) => {
-										***REMOVED***( {
-											...***REMOVED***,
+										setCurrentOptions( {
+											...currentOptions,
 											show_control_button: value,
 										} );
 									} }
 									__nextHasNoMarginBottom
 								/>
-								{ ( ***REMOVED***.show_label_on_section ||
-									***REMOVED***.show_control_button ) && (
+								{ ( currentOptions.show_label_on_section ||
+									currentOptions.show_control_button ) && (
 									<ToggleControl
 										label={ __(
 											'Focus on the control button with the cursor movement keys',
@@ -711,10 +711,10 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 											'Focus insert/select buttons, select row/column buttons, and section labels with the cursor movement keys.',
 											'flexible-table-block'
 										) }
-										checked={ !! ***REMOVED***.focus_control_button }
+										checked={ !! currentOptions.focus_control_button }
 										onChange={ ( value ) => {
-											***REMOVED***( {
-												...***REMOVED***,
+											setCurrentOptions( {
+												...currentOptions,
 												focus_control_button: value,
 											} );
 										} }
@@ -727,10 +727,10 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										'Show a small dot in the upper right corner of a cell when the cell is th element.',
 										'flexible-table-block'
 									) }
-									checked={ !! ***REMOVED***.show_dot_on_th }
+									checked={ !! currentOptions.show_dot_on_th }
 									onChange={ ( value ) => {
-										***REMOVED***( {
-											...***REMOVED***,
+										setCurrentOptions( {
+											...currentOptions,
 											show_dot_on_th: value,
 										} );
 									} }
@@ -742,10 +742,10 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										'Pressing the tab key moves the focus to the next cell. Holding down the shift key moves the focus to the previous cell.',
 										'flexible-table-block'
 									) }
-									checked={ !! ***REMOVED***.tab_move }
+									checked={ !! currentOptions.tab_move }
 									onChange={ ( value ) => {
-										***REMOVED***( {
-											...***REMOVED***,
+										setCurrentOptions( {
+											...currentOptions,
 											tab_move: value,
 										} );
 									} }
@@ -757,29 +757,29 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 										'If turned off, only the contents of the first cell will remain when the cells are merged.',
 										'flexible-table-block'
 									) }
-									checked={ !! ***REMOVED***.merge_content }
+									checked={ !! currentOptions.merge_content }
 									onChange={ ( value ) => {
-										***REMOVED***( {
-											...***REMOVED***,
+										setCurrentOptions( {
+											...currentOptions,
 											merge_content: value,
 										} );
 									} }
 									__nextHasNoMarginBottom
 								/>
-								{ ***REMOVED*** && (
+								{ isAdministrator && (
 									<ToggleControl
 										label={ __(
-											'Show Global setting button to non-***REMOVED*** users',
+											'Show Global setting button to non-administrative users',
 											'flexible-table-block'
 										) }
 										help={ __(
-											'By turning it on, you can prevent non-***REMOVED*** users from changing Global setting.',
+											'By turning it on, you can prevent non-administrative users from changing Global setting.',
 											'flexible-table-block'
 										) }
-										checked={ !! ***REMOVED***.show_global_setting }
+										checked={ !! currentOptions.show_global_setting }
 										onChange={ ( value ) => {
-											***REMOVED***( {
-												...***REMOVED***,
+											setCurrentOptions( {
+												...currentOptions,
 												show_global_setting: value,
 											} );
 										} }
@@ -812,7 +812,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 				<Button
 					variant="primary"
 					disabled={ isWaiting }
-					onClick={ ***REMOVED*** }
+					onClick={ handleUpdateOptions }
 					__next40pxDefaultSize
 				>
 					{ __( 'Save settings', 'flexible-table-block' ) }
@@ -820,7 +820,7 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 				<Button
 					isDestructive
 					disabled={ isWaiting }
-					onClick={ () => ***REMOVED***( ! isResetPopup ) }
+					onClick={ () => setIsResetPopup( ! isResetPopup ) }
 					__next40pxDefaultSize
 				>
 					{ __( 'Restore default settings', 'flexible-table-block' ) }
@@ -829,17 +829,17 @@ export default function SettingModal( { options, ***REMOVED***, setIsSettingModa
 							className="ftb-global-setting-modal__confirm-popover"
 							focusOnMount="firstElement"
 							placement="top"
-							onClose={ () => ***REMOVED***( false ) }
+							onClose={ () => setIsResetPopup( false ) }
 						>
 							<Spacer as={ VStack } marginBottom={ 0 } padding={ 2 } spacing={ 4 }>
 								<Text as="p">{ __( 'Are you sure?', 'flexible-table-block' ) }</Text>
 								<HStack>
-									<Button isDestructive onClick={ ***REMOVED*** } size="compact">
+									<Button isDestructive onClick={ handleResetOptions } size="compact">
 										{ __( 'Restore', 'flexible-table-block' ) }
 									</Button>
 									<Button
 										variant="secondary"
-										onClick={ () => ***REMOVED***( false ) }
+										onClick={ () => setIsResetPopup( false ) }
 										size="compact"
 									>
 										{ __( 'Cancel', 'flexible-table-block' ) }

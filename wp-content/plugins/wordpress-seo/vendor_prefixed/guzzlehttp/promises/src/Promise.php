@@ -4,13 +4,13 @@ declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Promise;
 
 /**
- * Promises/A+ ***REMOVED*** that avoids recursion when possible.
+ * Promises/A+ implementation that avoids recursion when possible.
  *
  * @see https://promisesaplus.com/
  *
  * @final
  */
-class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
 {
     private $state = self::PENDING;
     private $result;
@@ -27,7 +27,7 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         $this->waitFn = $waitFn;
         $this->cancelFn = $cancelFn;
     }
-    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         if ($this->state === self::PENDING) {
             $p = new \YoastSEO_Vendor\GuzzleHttp\Promise\Promise(null, [$this, 'cancel']);
@@ -46,14 +46,14 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         $rejection = \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor($this->result);
         return $onRejected ? $rejection->then(null, $onRejected) : $rejection;
     }
-    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->then(null, $onRejected);
     }
     public function wait(bool $unwrap = \true)
     {
         $this->waitIfPending();
-        if ($this->result instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***) {
+        if ($this->result instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface) {
             return $this->result->wait($unwrap);
         }
         if ($unwrap) {
@@ -84,7 +84,7 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
             }
         }
         // Reject the promise only if it wasn't rejected in a then callback.
-        /** @psalm-suppress ***REMOVED*** */
+        /** @psalm-suppress RedundantCondition */
         if ($this->state === self::PENDING) {
             $this->reject(new \YoastSEO_Vendor\GuzzleHttp\Promise\CancellationException('Promise has been cancelled'));
         }
@@ -104,10 +104,10 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
             if ($state === $this->state && $value === $this->result) {
                 return;
             }
-            throw $this->state === $state ? new \***REMOVED***("The promise is already {$state}.") : new \***REMOVED***("Cannot change a {$this->state} promise to {$state}");
+            throw $this->state === $state ? new \LogicException("The promise is already {$state}.") : new \LogicException("Cannot change a {$this->state} promise to {$state}");
         }
         if ($value === $this) {
-            throw new \***REMOVED***('Cannot fulfill or reject a promise with itself');
+            throw new \LogicException('Cannot fulfill or reject a promise with itself');
         }
         // Clear out the state of the promise but stash the handlers.
         $this->state = $state;
@@ -154,7 +154,7 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
      */
     private static function callHandler(int $index, $value, array $handler) : void
     {
-        /** @var ***REMOVED*** $promise */
+        /** @var PromiseInterface $promise */
         $promise = $handler[0];
         // The promise may have been cancelled or resolved before placing
         // this thunk in the queue.
@@ -190,13 +190,13 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         } elseif ($this->waitFn) {
             $this->invokeWaitFn();
         } elseif ($this->waitList) {
-            $this->***REMOVED***();
+            $this->invokeWaitList();
         } else {
             // If there's no wait function, then reject the promise.
             $this->reject('Cannot wait on a promise that has ' . 'no internal wait function. You must provide a wait ' . 'function when constructing the promise to be able to ' . 'wait on a promise.');
         }
         \YoastSEO_Vendor\GuzzleHttp\Promise\Utils::queue()->run();
-        /** @psalm-suppress ***REMOVED*** */
+        /** @psalm-suppress RedundantCondition */
         if ($this->state === self::PENDING) {
             $this->reject('Invoking the wait callback did not resolve the promise');
         }
@@ -219,7 +219,7 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
             }
         }
     }
-    private function ***REMOVED***() : void
+    private function invokeWaitList() : void
     {
         $waitList = $this->waitList;
         $this->waitList = null;
@@ -228,7 +228,7 @@ class Promise implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
                 $result->waitIfPending();
                 $result = $result->result;
             } while ($result instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\Promise);
-            if ($result instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***) {
+            if ($result instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface) {
                 $result->wait(\false);
             }
         }

@@ -47,7 +47,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	/**
 	 * Images constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for Open Graph.
 	 * @param Image_Helper            $image            The image helper.
@@ -219,7 +219,7 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 	/**
 	 * Retrieves an instance of the image container.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return Images The image container.
 	 */

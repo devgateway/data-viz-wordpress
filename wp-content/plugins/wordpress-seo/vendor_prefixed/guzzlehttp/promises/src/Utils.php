@@ -9,7 +9,7 @@ final class Utils
      * Get the global task queue used for promise resolution.
      *
      * This task queue MUST be run in an event loop in order for promises to be
-     * settled ***REMOVED***. It will be automatically run when synchronously
+     * settled asynchronously. It will be automatically run when synchronously
      * waiting on a promise.
      *
      * <code>
@@ -18,9 +18,9 @@ final class Utils
      * }
      * </code>
      *
-     * @param ***REMOVED***|null $assign Optionally specify a new queue instance.
+     * @param TaskQueueInterface|null $assign Optionally specify a new queue instance.
      */
-    public static function queue(\YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*** $assign = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function queue(\YoastSEO_Vendor\GuzzleHttp\Promise\TaskQueueInterface $assign = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\TaskQueueInterface
     {
         static $queue;
         if ($assign) {
@@ -36,7 +36,7 @@ final class Utils
      *
      * @param callable $task Task function to run.
      */
-    public static function task(callable $task) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function task(callable $task) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $queue = self::queue();
         $promise = new \YoastSEO_Vendor\GuzzleHttp\Promise\Promise([$queue, 'run']);
@@ -61,16 +61,16 @@ final class Utils
      * promise. If the promise is rejected, the array will contain a "reason"
      * key mapping to the rejection reason of the promise.
      *
-     * @param ***REMOVED*** $promise Promise or value.
+     * @param PromiseInterface $promise Promise or value.
      */
-    public static function inspect(\YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*** $promise) : array
+    public static function inspect(\YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface $promise) : array
     {
         try {
-            return ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***::FULFILLED, 'value' => $promise->wait()];
-        } catch (\YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*** $e) {
-            return ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***::REJECTED, 'reason' => $e->getReason()];
+            return ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface::FULFILLED, 'value' => $promise->wait()];
+        } catch (\YoastSEO_Vendor\GuzzleHttp\Promise\RejectionException $e) {
+            return ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface::REJECTED, 'reason' => $e->getReason()];
         } catch (\Throwable $e) {
-            return ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***::REJECTED, 'reason' => $e];
+            return ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface::REJECTED, 'reason' => $e];
         }
     }
     /**
@@ -81,7 +81,7 @@ final class Utils
      *
      * @see inspect for the inspection state array format.
      *
-     * @param ***REMOVED***[] $promises Traversable of promises to wait upon.
+     * @param PromiseInterface[] $promises Traversable of promises to wait upon.
      */
     public static function inspectAll($promises) : array
     {
@@ -98,7 +98,7 @@ final class Utils
      * order the promises were provided). An exception is thrown if any of the
      * promises are rejected.
      *
-     * @param iterable<***REMOVED***> $promises Iterable of ***REMOVED*** objects to wait on.
+     * @param iterable<PromiseInterface> $promises Iterable of PromiseInterface objects to wait on.
      *
      * @throws \Throwable on error
      */
@@ -121,7 +121,7 @@ final class Utils
      * @param mixed $promises  Promises or values.
      * @param bool  $recursive If true, resolves new promises that might have been added to the stack during its own resolution.
      */
-    public static function all($promises, bool $recursive = \false) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function all($promises, bool $recursive = \false) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $results = [];
         $promise = \YoastSEO_Vendor\GuzzleHttp\Promise\Each::of($promises, function ($value, $idx) use(&$results) : void {
@@ -152,17 +152,17 @@ final class Utils
      * is fulfilled with an array that contains the fulfillment values of the
      * winners in order of resolution.
      *
-     * This promise is rejected with a {@see ***REMOVED***} if the number
+     * This promise is rejected with a {@see AggregateException} if the number
      * of fulfilled promises is less than the desired $count.
      *
      * @param int   $count    Total number of promises.
      * @param mixed $promises Promises or values.
      */
-    public static function some(int $count, $promises) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function some(int $count, $promises) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $results = [];
         $rejections = [];
-        return \YoastSEO_Vendor\GuzzleHttp\Promise\Each::of($promises, function ($value, $idx, \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*** $p) use(&$results, $count) : void {
+        return \YoastSEO_Vendor\GuzzleHttp\Promise\Each::of($promises, function ($value, $idx, \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface $p) use(&$results, $count) : void {
             if (\YoastSEO_Vendor\GuzzleHttp\Promise\Is::settled($p)) {
                 return;
             }
@@ -174,7 +174,7 @@ final class Utils
             $rejections[] = $reason;
         })->then(function () use(&$results, &$rejections, $count) {
             if (\count($results) !== $count) {
-                throw new \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***('Not enough promises to fulfill count', $rejections);
+                throw new \YoastSEO_Vendor\GuzzleHttp\Promise\AggregateException('Not enough promises to fulfill count', $rejections);
             }
             \ksort($results);
             return \array_values($results);
@@ -186,7 +186,7 @@ final class Utils
      *
      * @param mixed $promises Promises or values.
      */
-    public static function any($promises) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function any($promises) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return self::some(1, $promises)->then(function ($values) {
             return $values[0];
@@ -202,13 +202,13 @@ final class Utils
      *
      * @param mixed $promises Promises or values.
      */
-    public static function settle($promises) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function settle($promises) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $results = [];
         return \YoastSEO_Vendor\GuzzleHttp\Promise\Each::of($promises, function ($value, $idx) use(&$results) : void {
-            $results[$idx] = ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***::FULFILLED, 'value' => $value];
+            $results[$idx] = ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface::FULFILLED, 'value' => $value];
         }, function ($reason, $idx) use(&$results) : void {
-            $results[$idx] = ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***::REJECTED, 'reason' => $reason];
+            $results[$idx] = ['state' => \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface::REJECTED, 'reason' => $reason];
         })->then(function () use(&$results) {
             \ksort($results);
             return $results;

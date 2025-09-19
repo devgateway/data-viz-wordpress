@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2020-08-20 08:47+0700\n"
 "PO-Revision-Date: 2020-08-20 11:13+0700\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:68
 msgid "Advanced Custom Fields"
@@ -942,7 +942,7 @@ msgstr "Sembunyikan pada layar"
 #: includes/admin/views/field-group-options.php:129
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr ""
-"<b>Pilih</b> item untuk <b>***REMOVED***</b> mereka dari layar penyuntingan."
+"<b>Pilih</b> item untuk <b>menyembunyikan</b> mereka dari layar penyuntingan."
 
 #: includes/admin/views/field-group-options.php:129
 msgid ""
@@ -999,7 +999,7 @@ msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
 msgstr ""
-"Sangat ***REMOVED*** untuk mencadangkan database situs anda sebelum "
+"Sangat direkomendasikan untuk mencadangkan database situs anda sebelum "
 "memproses. Apakah Anda yakin menjalankan pembaruan sekarang?"
 
 #: includes/admin/views/html-admin-page-upgrade-network.php:144
@@ -2538,7 +2538,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "Tampilkan Tombol Unggah Media?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:419
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "Tunda Inisiasi?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:420
@@ -2789,7 +2789,7 @@ msgid ""
 "<b>Error</b>. Could not authenticate update package. Please check again or "
 "deactivate and reactivate your ACF PRO license."
 msgstr ""
-"<b>Terjadi Kesalahan</b>. Tidak dapat ***REMOVED*** paket pembaruan. "
+"<b>Terjadi Kesalahan</b>. Tidak dapat mengautentikasi paket pembaruan. "
 "Silakan periksa lagi atau nonaktifkan dan aktifkan kembali lisensi ACF PRO "
 "Anda."
 
@@ -3182,8 +3182,8 @@ msgstr "Tampilkan sebuah gambar utama acak."
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Description of the plugin/theme
 msgid "Customize WordPress with powerful, professional and intuitive fields."
@@ -3338,12 +3338,12 @@ msgstr "Elliot Condon"
 #~ msgstr "Selamat tinggal Add-on. Halo PRO"
 
 #~ msgid "Introducing ACF PRO"
-#~ msgstr "***REMOVED*** ACF PRO"
+#~ msgstr "Memperkenalkan ACF PRO"
 
 #~ msgid ""
 #~ "We're changing the way premium functionality is delivered in an exciting "
 #~ "way!"
-#~ msgstr "Kami mengubah ***REMOVED*** premium dengan cara yang menarik!"
+#~ msgstr "Kami mengubah fungsionalitas premium dengan cara yang menarik!"
 
 #, php-format
 #~ msgid ""
@@ -3351,7 +3351,7 @@ msgstr "Elliot Condon"
 #~ "version of ACF</a>. With both personal and developer licenses available, "
 #~ "premium functionality is more affordable and accessible than ever before!"
 #~ msgstr ""
-#~ "Semua 4 add-on premium sudah ***REMOVED*** kedalam  <a href=\"%s\">versi "
+#~ "Semua 4 add-on premium sudah dikombinasikan kedalam  <a href=\"%s\">versi "
 #~ "Pro ACF</a>. Dengan ketersediaan lisensi personal dan pengembang, fungsi "
 #~ "premuim lebih terjangkau dan dapat diakses keseluruhan dibanding "
 #~ "sebelumnya!"
@@ -3487,7 +3487,7 @@ msgstr "Elliot Condon"
 #~ "New field group functionality allows you to move a field between groups & "
 #~ "parents"
 #~ msgstr ""
-#~ "***REMOVED*** grup bidang memungkinkan Anda memindahkan bidang antara "
+#~ "Fungsionalitas grup bidang memungkinkan Anda memindahkan bidang antara "
 #~ "grup & parent"
 
 #~ msgid "New archives group in page_link field selection"

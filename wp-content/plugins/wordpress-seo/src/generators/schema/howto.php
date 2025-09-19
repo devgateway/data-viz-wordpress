@@ -121,9 +121,9 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @return void
 	 */
 	private function add_step_description( &$schema_step, $json_text ) {
-		$schema_step['***REMOVED***'] = [
+		$schema_step['itemListElement'] = [
 			[
-				'@type' => '***REMOVED***',
+				'@type' => 'HowToDirection',
 				'text'  => $json_text,
 			],
 		];
@@ -161,16 +161,16 @@ class HowTo extends Abstract_Schema_Piece {
 			'@type'            => 'HowTo',
 			'@id'              => $this->context->canonical . '#howto-' . ( $index + 1 ),
 			'name'             => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
-			'***REMOVED***' => [ '@id' => $this->context->main_schema_id ],
+			'mainEntityOfPage' => [ '@id' => $this->context->main_schema_id ],
 			'description'      => '',
 		];
 
 		if ( $this->context->has_article ) {
-			$data['***REMOVED***'] = [ '@id' => $this->context->main_schema_id . Schema_IDs::ARTICLE_HASH ];
+			$data['mainEntityOfPage'] = [ '@id' => $this->context->main_schema_id . Schema_IDs::ARTICLE_HASH ];
 		}
 
-		if ( isset( $block['attrs']['***REMOVED***'] ) ) {
-			$data['description'] = $this->helpers->schema->html->sanitize( $block['attrs']['***REMOVED***'] );
+		if ( isset( $block['attrs']['jsonDescription'] ) ) {
+			$data['description'] = $this->helpers->schema->html->sanitize( $block['attrs']['jsonDescription'] );
 		}
 
 		$this->add_duration( $data, $block['attrs'] );

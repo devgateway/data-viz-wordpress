@@ -7,7 +7,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Advanced Custom Fields
- * Plugin URI:        https://www.***REMOVED***.com
+ * Plugin URI:        https://www.advancedcustomfields.com
  * Description:       Customize WordPress with powerful, professional and intuitive fields.
  * Version:           6.4.0.1
  * Author:            WP Engine
@@ -383,7 +383,7 @@ if ( ! class_exists( 'ACF' ) ) {
 			do_action( 'acf/include_location_rules', ACF_FIELD_API_VERSION );
 
 			/**
-			 * Fires during ***REMOVED***. Used to add local fields.
+			 * Fires during initialization. Used to add local fields.
 			 *
 			 * @date    28/09/13
 			 * @since   5.0.0
@@ -393,7 +393,7 @@ if ( ! class_exists( 'ACF' ) ) {
 			do_action( 'acf/include_fields', ACF_FIELD_API_VERSION );
 
 			/**
-			 * Fires during ***REMOVED***. Used to add local post types.
+			 * Fires during initialization. Used to add local post types.
 			 *
 			 * @since 6.1
 			 *
@@ -402,7 +402,7 @@ if ( ! class_exists( 'ACF' ) ) {
 			do_action( 'acf/include_post_types', ACF_MAJOR_VERSION );
 
 			/**
-			 * Fires during ***REMOVED***. Used to add local taxonomies.
+			 * Fires during initialization. Used to add local taxonomies.
 			 *
 			 * @since 6.1
 			 *
@@ -812,7 +812,7 @@ if ( ! class_exists( 'ACF' ) ) {
 	 */
 	function acf_get_home_url() {
 		if ( acf_is_pro() ) {
-			// Disable WPML and ***REMOVED***'s home url overrides for our license check.
+			// Disable WPML and TranslatePress's home url overrides for our license check.
 			add_filter( 'wpml_get_home_url', 'acf_pro_license_ml_intercept', 99, 2 );
 			add_filter( 'trp_home_url', 'acf_pro_license_ml_intercept', 99, 2 );
 
@@ -822,7 +822,7 @@ if ( ! class_exists( 'ACF' ) ) {
 				$home_url = home_url();
 			}
 
-			// Re-enable WPML and ***REMOVED***'s home url overrides.
+			// Re-enable WPML and TranslatePress's home url overrides.
 			remove_filter( 'wpml_get_home_url', 'acf_pro_license_ml_intercept', 99 );
 			remove_filter( 'trp_home_url', 'acf_pro_license_ml_intercept', 99 );
 		} else {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * GeneralSubtrees
  *
  * PHP version 5
  *
@@ -16,16 +16,16 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * GeneralSubtrees
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class GeneralSubtrees
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'min' => 1,
         'max' => -1,
-        'children' => ***REMOVED***::MAP
+        'children' => GeneralSubtree::MAP
     ];
 }

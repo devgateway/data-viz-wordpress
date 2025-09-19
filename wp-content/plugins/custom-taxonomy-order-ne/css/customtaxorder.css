@@ -4,7 +4,7 @@ Plugin URI: http://timelord.nl/
 */
 
 /* Menu Icon */
-#icon-***REMOVED*** {
+#icon-customtaxorder {
 	background-image: url('../images/icon-128x128.png');
 	background-repeat: no-repeat;
 	margin: 0 10px 10px 0;
@@ -13,33 +13,33 @@ Plugin URI: http://timelord.nl/
 	height: 45px;
 	background-size: contain;
 }
-.***REMOVED*** h1 {
+.customtaxorder h1 {
 	line-height: 45px;
 }
 
-.***REMOVED*** .order-widget {
+.customtaxorder .order-widget {
 	width: 512px;
 }
-.***REMOVED*** #poststuff .order-widget {
+.customtaxorder #poststuff .order-widget {
 	float: left;
 	margin: 0 20px 20px 0;
 }
-.***REMOVED*** #sub-posts,
-.***REMOVED*** #go-sub-posts {
+.customtaxorder #sub-posts,
+.customtaxorder #go-sub-posts {
 	margin-top: 13px;
 }
 
-.***REMOVED*** .order-widget th {
+.customtaxorder .order-widget th {
 	padding-left: 12px;
 }
-.***REMOVED*** .metabox-holder h2.widget-top {
+.customtaxorder .metabox-holder h2.widget-top {
 	padding: 8px 12px;
 }
 
-.***REMOVED*** ul#custom-order-list {
+.customtaxorder ul#custom-order-list {
 	list-style: none;
 }
-.***REMOVED*** li.lineitem {
+.customtaxorder li.lineitem {
 	border: 1px solid #dfdfdf;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -51,27 +51,27 @@ Plugin URI: http://timelord.nl/
 	line-height: 24px;
 	overflow: hidden;
 }
-.***REMOVED*** li.outer {
+.customtaxorder li.outer {
 	background-color: #f5f5f5;
 }
-.***REMOVED*** .sortable-placeholder{
+.customtaxorder .sortable-placeholder{
 	border: 1px dashed #dfdfdf;
 	margin: 3px auto;
 	height: 30px;
 }
-.***REMOVED*** #publishing-action-return-sub-posts {
+.customtaxorder #publishing-action-return-sub-posts {
 	margin: 0 0 10px 0;
 }
 
 
 /* Dark Mode */
-.dark-mode .***REMOVED*** h2.widget-top,
-.dark-mode .***REMOVED*** .widget h2.widget-top {
+.dark-mode .customtaxorder h2.widget-top,
+.dark-mode .customtaxorder .widget h2.widget-top {
 	border: 1px solid #191f25;
 	background-color: #32373c;
 	color: #bbc8dd;
 }
-.dark-mode .***REMOVED*** li.lineitem {
+.dark-mode .customtaxorder li.lineitem {
 	border: 1px solid #191f25;
 	background-color: #32373c;
 	color: #bbc8dd;

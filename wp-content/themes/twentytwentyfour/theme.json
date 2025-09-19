@@ -6,11 +6,11 @@
 		"clients-section"
 	],
 	"settings": {
-		"***REMOVED***": true,
+		"appearanceTools": true,
 		"color": {
-			"***REMOVED***": false,
-			"***REMOVED***": false,
-			"***REMOVED***": false,
+			"defaultDuotone": false,
+			"defaultPalette": false,
+			"defaultGradients": false,
 			"duotone": [
 				{
 					"colors": ["#111111", "#ffffff"],
@@ -240,7 +240,7 @@
 					"slug": "heading"
 				},
 				{
-					"fontFamily": "-apple-system, ***REMOVED***, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
+					"fontFamily": "-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
 					"name": "System Sans-serif",
 					"slug": "system-sans-serif"
 				},
@@ -373,11 +373,11 @@
 							"text": "var(--wp--preset--color--contrast)"
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						}
 					}
@@ -409,11 +409,11 @@
 							"text": "var(--wp--preset--color--contrast-2)"
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						}
 					}
@@ -435,11 +435,11 @@
 							"text": "var(--wp--preset--color--contrast-2)"
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						}
 					}
@@ -455,11 +455,11 @@
 							"text": "var(--wp--preset--color--contrast-2)"
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						}
 					}
@@ -527,11 +527,11 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				},
@@ -549,11 +549,11 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				},
@@ -569,14 +569,14 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"color": {
 							"text": "var(--wp--preset--color--contrast-2)"
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				},
@@ -599,11 +599,11 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				},
@@ -617,11 +617,11 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				}
@@ -760,11 +760,11 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "none"
+								"textDecoration": "none"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				},
@@ -885,7 +885,7 @@
 			"link": {
 				":hover": {
 					"typography": {
-						"***REMOVED***": "none"
+						"textDecoration": "none"
 					}
 				},
 				"color": {
@@ -931,7 +931,7 @@
 			"title": "Post Meta"
 		}
 	],
-	"***REMOVED***": [
+	"customTemplates": [
 		{
 			"name": "page-no-title",
 			"postTypes": ["page"],

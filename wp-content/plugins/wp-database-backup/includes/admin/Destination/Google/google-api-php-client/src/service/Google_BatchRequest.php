@@ -54,7 +54,7 @@ class Google_BatchRequest {
     global $apiConfig;
     $url = $apiConfig['basePath'] . '/batch';
     $httpRequest = new Google_HttpRequest($url, 'POST');
-    $httpRequest->***REMOVED***(array(
+    $httpRequest->setRequestHeaders(array(
         'Content-Type' => 'multipart/mixed; boundary=' . $this->boundary));
 
     $httpRequest->setPostBody($body);
@@ -65,7 +65,7 @@ class Google_BatchRequest {
   }
 
   public function parseResponse(Google_HttpRequest $response) {
-    $contentType = $response->***REMOVED***('content-type');
+    $contentType = $response->getResponseHeader('content-type');
     $contentType = explode(';', $contentType);
     $boundary = false;
     foreach($contentType as $part) {
@@ -75,7 +75,7 @@ class Google_BatchRequest {
       }
     }
 
-    $body = $response->***REMOVED***();
+    $body = $response->getResponseBody();
     if ($body) {
       $body = str_replace("--$boundary--", "--$boundary", $body);
       $parts = explode("--$boundary", $body);
@@ -85,18 +85,18 @@ class Google_BatchRequest {
         $part = trim($part);
         if (!empty($part)) {
           list($metaHeaders, $part) = explode("\r\n\r\n", $part, 2);
-          $metaHeaders = Google_CurlIO::***REMOVED***($metaHeaders);
+          $metaHeaders = Google_CurlIO::parseResponseHeaders($metaHeaders);
 
           $status = substr($part, 0, strpos($part, "\n"));
           $status = explode(" ", $status);
           $status = $status[1];
 
-          list($partHeaders, $partBody) = Google_CurlIO::***REMOVED***($part, false);
+          list($partHeaders, $partBody) = Google_CurlIO::parseHttpResponse($part, false);
           $response = new Google_HttpRequest("");
-          $response->***REMOVED***($status);
-          $response->***REMOVED***($partHeaders);
-          $response->***REMOVED***($partBody);
-          $response = Google_REST::***REMOVED***($response);
+          $response->setResponseHttpCode($status);
+          $response->setResponseHeaders($partHeaders);
+          $response->setResponseBody($partBody);
+          $response = Google_REST::decodeHttpResponse($response);
 
           // Need content id.
           $responses[$metaHeaders['content-id']] = $response;

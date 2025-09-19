@@ -84,11 +84,11 @@ msgstr "Die topbestemming vir moderne kuns in Noordelike Swede. Oop vanaf tienuu
 
 #: inc/starter-content.php:136
 msgid "The exhibitions are produced by UMoMA in collaboration with artists and museums around the world and they often attract international attention. UMoMA has received a Special Commendation from the European Museum of the Year, and was among the top candidates for the Swedish Museum of the Year Award as well as for the Council of Europe Museum Prize."
-msgstr "Die uitstallings is geproduseer deur UMoMA in samewerking met kunstenaars en museums regoor die wêreld en trek gereeld ***REMOVED*** aandag. UMoMA het 'n Spesiale Aanbeveling ontvang van die Europese Museum van die Jaar, en was onder die top kandidate vir die Sweedse Museum van die Jaar Toekenning, sowel as die Raad van Europa Museum Prys."
+msgstr "Die uitstallings is geproduseer deur UMoMA in samewerking met kunstenaars en museums regoor die wêreld en trek gereeld internasionale aandag. UMoMA het 'n Spesiale Aanbeveling ontvang van die Europese Museum van die Jaar, en was onder die top kandidate vir die Sweedse Museum van die Jaar Toekenning, sowel as die Raad van Europa Museum Prys."
 
 #: inc/starter-content.php:133
-msgid "With seven floors of striking architecture, UMoMA shows exhibitions of international contemporary art, sometimes along with art historical ***REMOVED***. Existential, political and philosophical issues are intrinsic to our programme. As visitor you are invited to guided tours artist talks, lectures, film screenings and other events with free admission"
-msgstr "Met sewe verdiepings van treffende argitektuur, vertoon UMoMA uitstallings van ***REMOVED*** kontemporêre kuns, dikwels tesame met kuns-historiese terugblikke. Eksistensiële en filosofiese kwessies is intrinsiek tot ons programme. As besoeker word jy uitgenooi na begeleide toere, ***REMOVED***, lesings, ***REMOVED***, en ander geleenthede, met gratis toegang."
+msgid "With seven floors of striking architecture, UMoMA shows exhibitions of international contemporary art, sometimes along with art historical retrospectives. Existential, political and philosophical issues are intrinsic to our programme. As visitor you are invited to guided tours artist talks, lectures, film screenings and other events with free admission"
+msgstr "Met sewe verdiepings van treffende argitektuur, vertoon UMoMA uitstallings van internasionale kontemporêre kuns, dikwels tesame met kuns-historiese terugblikke. Eksistensiële en filosofiese kwessies is intrinsiek tot ons programme. As besoeker word jy uitgenooi na begeleide toere, kunstenaarspraatjies, lesings, filmvertonings, en ander geleenthede, met gratis toegang."
 
 #: inc/starter-content.php:47
 msgid "The New UMoMA Opens its Doors"
@@ -104,7 +104,7 @@ msgstr "Die kleur gebruik vir die teks in die deklaag."
 
 #: classes/class-twentytwenty-customize.php:374
 msgid "Overlay Text Color"
-msgstr "***REMOVED***"
+msgstr "Deklaagtekskleur"
 
 #: classes/class-twentytwenty-customize.php:353
 msgid "The color used for the overlay. Defaults to the accent color."
@@ -116,7 +116,7 @@ msgstr "Deklaagagtergrondkleur"
 
 #: classes/class-twentytwenty-customize.php:283
 msgid "Settings for the \"Cover Template\" page template. Add a featured image to use as background."
-msgstr "Verstellings vir die \"Deklaag Modelvorm\" ***REMOVED***. Voeg 'n hooffoto in om as agtergrond te gebruik."
+msgstr "Verstellings vir die \"Deklaag Modelvorm\" bladsymodelvorm. Voeg 'n hooffoto in om as agtergrond te gebruik."
 
 #: classes/class-twentytwenty-customize.php:183
 msgid "Apply a custom color for links, buttons, featured images."
@@ -375,7 +375,7 @@ msgstr "Ons kon geen resultate vir jou soektog vind nie. Jy kan weer probeer met
 
 #: functions.php:517
 msgid "Background Color"
-msgstr "***REMOVED***"
+msgstr "Agtergrondkleur"
 
 #: functions.php:504
 msgid "Subtle Background"
@@ -456,16 +456,16 @@ msgstr "Maak seker dat nie kontras hoog genoeg is sodat die teks leesbaar is."
 
 #: classes/class-twentytwenty-customize.php:306
 msgid "Creates a parallax effect when the visitor scrolls."
-msgstr "Skep 'n ***REMOVED*** wanneer die besoeker blaai."
+msgstr "Skep 'n parallakseffek wanneer die besoeker blaai."
 
 #: classes/class-twentytwenty-customize.php:305
 msgid "Fixed Background Image"
-msgstr "Vaste ***REMOVED***"
+msgstr "Vaste agtergrondfoto"
 
 #. Template Name of the theme
 #: classes/class-twentytwenty-customize.php:281
 msgid "Cover Template"
-msgstr "***REMOVED***"
+msgstr "Deklaagmodelvorm"
 
 #: classes/class-twentytwenty-customize.php:270
 msgid "Summary"
@@ -489,7 +489,7 @@ msgstr "Tema opsies"
 
 #: classes/class-twentytwenty-customize.php:101
 msgid "Header &amp; Footer Background Color"
-msgstr "Hoofstrook &amp; Voetstrook ***REMOVED***"
+msgstr "Hoofstrook &amp; Voetstrook Agtergrondkleur"
 
 #: classes/class-twentytwenty-customize.php:82
 msgid "Scales the logo to half its uploaded size, making it sharp on high-res screens."

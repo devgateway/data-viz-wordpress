@@ -10,9 +10,9 @@ final class Create
      *
      * @param mixed $value Promise or value.
      */
-    public static function promiseFor($value) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function promiseFor($value) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
-        if ($value instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***) {
+        if ($value instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface) {
             return $value;
         }
         // Return a Guzzle promise that shadows the given promise.
@@ -23,7 +23,7 @@ final class Create
             $value->then([$promise, 'resolve'], [$promise, 'reject']);
             return $promise;
         }
-        return new \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***($value);
+        return new \YoastSEO_Vendor\GuzzleHttp\Promise\FulfilledPromise($value);
     }
     /**
      * Creates a rejected promise for a reason if the reason is not a promise.
@@ -31,12 +31,12 @@ final class Create
      *
      * @param mixed $reason Promise or reason.
      */
-    public static function rejectionFor($reason) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function rejectionFor($reason) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
-        if ($reason instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***) {
+        if ($reason instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface) {
             return $reason;
         }
-        return new \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***($reason);
+        return new \YoastSEO_Vendor\GuzzleHttp\Promise\RejectedPromise($reason);
     }
     /**
      * Create an exception for a rejected promise value.
@@ -48,7 +48,7 @@ final class Create
         if ($reason instanceof \Throwable) {
             return $reason;
         }
-        return new \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***($reason);
+        return new \YoastSEO_Vendor\GuzzleHttp\Promise\RejectionException($reason);
     }
     /**
      * Returns an iterator for the given value.

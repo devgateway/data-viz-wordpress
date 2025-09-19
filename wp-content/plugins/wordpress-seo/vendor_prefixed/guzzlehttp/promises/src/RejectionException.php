@@ -8,7 +8,7 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
  *
  * The reason value is available via the getReason() method.
  */
-class ***REMOVED*** extends \***REMOVED***
+class RejectionException extends \RuntimeException
 {
     /** @var mixed Rejection reason. */
     private $reason;
@@ -24,7 +24,7 @@ class ***REMOVED*** extends \***REMOVED***
             $message .= ' with reason: ' . $description;
         } elseif (\is_string($reason) || \is_object($reason) && \method_exists($reason, '__toString')) {
             $message .= ' with reason: ' . $this->reason;
-        } elseif ($reason instanceof \***REMOVED***) {
+        } elseif ($reason instanceof \JsonSerializable) {
             $message .= ' with reason: ' . \json_encode($this->reason, \JSON_PRETTY_PRINT);
         }
         parent::__construct($message);

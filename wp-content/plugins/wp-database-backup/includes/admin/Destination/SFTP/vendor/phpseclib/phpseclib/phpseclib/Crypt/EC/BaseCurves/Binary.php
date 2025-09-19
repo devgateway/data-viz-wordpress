@@ -98,10 +98,10 @@ class Binary extends Base
      * @param string $a
      * @param string $b
      */
-    public function ***REMOVED***($a, $b)
+    public function setCoefficients($a, $b)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         $this->a = $this->factory->newInteger(pack('H*', $a));
         $this->b = $this->factory->newInteger(pack('H*', $b));
@@ -122,7 +122,7 @@ class Binary extends Base
                 throw new \UnexpectedValueException('Argument 2 passed to Binary::setBasePoint() must be a string or an instance of BinaryField\Integer');
         }
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         $this->p = [
             is_string($x) ? $this->factory->newInteger(pack('H*', $x)) : $x,
@@ -138,11 +138,11 @@ class Binary extends Base
     public function getBasePoint()
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         /*
         if (!isset($this->p)) {
-            throw new \***REMOVED***('setBasePoint needs to be called before this method');
+            throw new \RuntimeException('setBasePoint needs to be called before this method');
         }
         */
         return $this->p;
@@ -156,7 +156,7 @@ class Binary extends Base
     public function addPoint(array $p, array $q)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
 
         if (!count($p) || !count($q)) {
@@ -170,7 +170,7 @@ class Binary extends Base
         }
 
         if (!isset($p[2]) || !isset($q[2])) {
-            throw new \***REMOVED***('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
+            throw new \RuntimeException('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
         }
 
         if ($p[0]->equals($q[0])) {
@@ -229,7 +229,7 @@ class Binary extends Base
     public function doublePoint(array $p)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
 
         if (!count($p)) {
@@ -237,7 +237,7 @@ class Binary extends Base
         }
 
         if (!isset($p[2])) {
-            throw new \***REMOVED***('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
+            throw new \RuntimeException('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
         }
 
         // formulas from http://hyperelliptic.org/EFD/g12o/auto-shortw-jacobian.html
@@ -282,7 +282,7 @@ class Binary extends Base
      */
     public function derivePoint($m)
     {
-        throw new \***REMOVED***('Point compression on binary finite field elliptic curves is not supported');
+        throw new \RuntimeException('Point compression on binary finite field elliptic curves is not supported');
     }
 
     /**
@@ -341,7 +341,7 @@ class Binary extends Base
      *
      * @return \phpseclib3\Math\PrimeField\Integer[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToAffine(array $p)
     {
         if (!isset($p[2])) {
             return $p;
@@ -360,7 +360,7 @@ class Binary extends Base
      *
      * @return \phpseclib3\Math\PrimeField\Integer[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToInternal(array $p)
     {
         if (isset($p[2])) {
             return $p;

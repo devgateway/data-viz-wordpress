@@ -15,7 +15,7 @@ if ( true === isset( $_POST['wpdb_bb_s3'] ) && 'Y' === $_POST['wpdb_bb_s3'] ) {
 	if ( ! isset( $_POST['wpdbbackup_update_bb_setting'] ) ) {
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
-	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_bb_setting'] ) , 'wpdbbackup-update-bb-setting' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_bb_setting'] ) , 'wpdbbackup-update-bb-setting' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
 
@@ -112,7 +112,7 @@ if($wp_db_backup_destination_bb == 1 && !empty($wpdb_dest_bb_s3_bucket) && !empt
 						}
 					
 						
-					if(is_wp_error($response) || empty($data->***REMOVED***)){
+					if(is_wp_error($response) || empty($data->authorizationToken)){
 						echo '<span class="label label-warning">'.esc_html__( 'Invalid bucket name or Backblaze details' ,'wpdbbkp').'</span>';
 					}
 					

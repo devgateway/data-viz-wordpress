@@ -53,7 +53,7 @@ abstract class PKCS1 extends Progenitor
 
         $decoded = ASN1::decodeBER($key);
         if (!$decoded) {
-            throw new \***REMOVED***('Unable to decode BER');
+            throw new \RuntimeException('Unable to decode BER');
         }
 
         $key = ASN1::asn1map($decoded[0], Maps\DSAParams::MAP);
@@ -71,7 +71,7 @@ abstract class PKCS1 extends Progenitor
             return $key;
         }
 
-        throw new \***REMOVED***('Unable to perform ASN1 mapping');
+        throw new \RuntimeException('Unable to perform ASN1 mapping');
     }
 
     /**
@@ -82,7 +82,7 @@ abstract class PKCS1 extends Progenitor
      * @param \phpseclib3\Math\BigInteger $g
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $p, BigInteger $q, BigInteger $g)
+    public static function saveParameters(BigInteger $p, BigInteger $q, BigInteger $g)
     {
         $key = [
             'p' => $p,
@@ -109,7 +109,7 @@ abstract class PKCS1 extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $p, BigInteger $q, BigInteger $g, BigInteger $y, BigInteger $x, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $p, BigInteger $q, BigInteger $g, BigInteger $y, BigInteger $x, $password = '', array $options = [])
     {
         $key = [
             'version' => 0,
@@ -122,7 +122,7 @@ abstract class PKCS1 extends Progenitor
 
         $key = ASN1::encodeDER($key, Maps\DSAPrivateKey::MAP);
 
-        return self::***REMOVED***($key, 'DSA', $password, $options);
+        return self::wrapPrivateKey($key, 'DSA', $password, $options);
     }
 
     /**

@@ -199,7 +199,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		$cache_key 	= 'wpm_options_'.$column.'_key';
 		$count 		= wp_cache_get($cache_key);	
 		if(false === $count){
-			//phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.***REMOVED***.DirectQuery --Reason Cannot query by column name which is dynamic
+			//phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery --Reason Cannot query by column name which is dynamic
 			$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->options} WHERE {$column} LIKE %s", $key ) );
 			wp_cache_set( $cache_key, $count );
 		}
@@ -225,7 +225,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 	/**
 	 * Lock process
 	 *
-	 * Lock the process so that multiple instances can't run ***REMOVED***.
+	 * Lock the process so that multiple instances can't run simultaneously.
 	 * Override if applicable, but the duration should be greater than that
 	 * defined in the time_exceeded() method.
 	 */
@@ -276,7 +276,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 		$cache_key 	= 'wpm_options_batch_'.$column.'_key';
 		$query 		= wp_cache_get($cache_key);	
 		if(false === $count){
-			//phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.***REMOVED***.DirectQuery --Reason Cannot query by column name which is dynamic
+			//phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery --Reason Cannot query by column name which is dynamic
 			$query = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ORDER BY {$key_column} ASC LIMIT 1", $key ) );
 			wp_cache_set( $cache_key, $query );
 		}

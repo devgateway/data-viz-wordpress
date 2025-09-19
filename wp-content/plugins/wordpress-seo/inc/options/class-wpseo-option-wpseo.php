@@ -175,7 +175,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'shop',
 		'news',
 		'smallBusiness',
-		'***REMOVED***',
+		'corporateOther',
 		'personalOther',
 	];
 

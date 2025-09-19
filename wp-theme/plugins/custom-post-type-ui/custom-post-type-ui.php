@@ -803,7 +803,7 @@ function cptui_convert_settings() {
 		$new_post_types = [];
 		foreach ( $post_types as $type ) {
 			$new_post_types[ $type['name'] ]               = $type; // This one assigns the # indexes. Named arrays are our friend.
-			$new_post_types[ $type['name'] ]['supports']   = ! empty( $type[0] ) ? $type[0] : []; // Especially for ***REMOVED*** arrays.
+			$new_post_types[ $type['name'] ]['supports']   = ! empty( $type[0] ) ? $type[0] : []; // Especially for multidimensional arrays.
 			$new_post_types[ $type['name'] ]['taxonomies'] = ! empty( $type[1] ) ? $type[1] : [];
 			$new_post_types[ $type['name'] ]['labels']     = ! empty( $type[2] ) ? $type[2] : [];
 			unset(
@@ -858,10 +858,10 @@ function cptui_admin_notices( $action = '', $object_type = '', $success = true, 
 	$class[]     = 'notice is-dismissible';
 	$object_type = esc_attr( $object_type );
 
-	$***REMOVED*** = '<div id="message" class="' . implode( ' ', $class ) . '"><p>';
+	$messagewrapstart = '<div id="message" class="' . implode( ' ', $class ) . '"><p>';
 	$message = '';
 
-	$***REMOVED*** = '</p></div>';
+	$messagewrapend = '</p></div>';
 
 	if ( 'add' === $action ) {
 		if ( $success ) {
@@ -903,10 +903,10 @@ function cptui_admin_notices( $action = '', $object_type = '', $success = true, 
 		 * @param string $value            Complete HTML output for notice.
 		 * @param string $action           Action whose message is being generated.
 		 * @param string $message          The message to be displayed.
-		 * @param string $***REMOVED*** Beginning wrap HTML.
-		 * @param string $***REMOVED***   Ending wrap HTML.
+		 * @param string $messagewrapstart Beginning wrap HTML.
+		 * @param string $messagewrapend   Ending wrap HTML.
 		 */
-		return apply_filters( 'cptui_admin_notice', $***REMOVED*** . $message . $***REMOVED***, $action, $message, $***REMOVED***, $***REMOVED*** );
+		return apply_filters( 'cptui_admin_notice', $messagewrapstart . $message . $messagewrapend, $action, $message, $messagewrapstart, $messagewrapend );
 	}
 
 	return false;
@@ -963,7 +963,7 @@ function cptui_get_preserved_keys( $type = '' ) {
  * @param string $key Requested label key. Optional. Default empty string.
  * @param string $plural Plural verbiage for the requested label and type. Optional. Default empty string.
  * @param string $singular Singular verbiage for the requested label and type. Optional. Default empty string.
- * @return string ***REMOVED*** default label.
+ * @return string Internationalized default label.
  */
 function cptui_get_preserved_label( $type = '', $key = '', $plural = '', $singular = '' ) {
 

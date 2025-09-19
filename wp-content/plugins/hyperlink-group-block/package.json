@@ -18,7 +18,7 @@
 		"@wordpress/blocks": "^12.31.0",
 		"@wordpress/i18n": "^4.54.0"
 	},
-	"***REMOVED***": {
+	"devDependencies": {
 		"@wordpress/scripts": "^27.5.0"
 	}
 }

@@ -65,7 +65,7 @@ $redirectURL = admin_url("admin.php?page=wcp_folders_settings&setting_page=folde
                             type: "text/json;charset=utf-8;"
                         });
 
-                        var url = URL.***REMOVED***(blobObject);
+                        var url = URL.createObjectURL(blobObject);
                         downloadLink.href = url;
                         var da = slugify(window.location.origin);
                         downloadLink.download = "folders-" + da + ".json";
@@ -96,7 +96,7 @@ $redirectURL = admin_url("admin.php?page=wcp_folders_settings&setting_page=folde
                     showToast("<?php esc_html_e("Invalid file type, please upload json file", "folders"); ?>" ,"error-msg");
                     $("#import_file").val('');
                 } else {
-                    var myFile = document.***REMOVED***("import_file");
+                    var myFile = document.getElementById("import_file");
                     var fileReader = new FileReader();
                     fileReader.onload = function (e) {
                         $("#folder-import-table tbody").html("");
@@ -108,19 +108,19 @@ $redirectURL = admin_url("admin.php?page=wcp_folders_settings&setting_page=folde
                             var totalFolders = hasSubFolders = 0;
                             if(data.length) {
                                 for (i = 0; i < data.length; i++) {
-                                    var ***REMOVED*** = 0;
+                                    var totalSubFoldes = 0;
                                     for (j = 0; j < data[i].folders.length; j++) {
                                         if(parseInt(data[i].folders[j].children.length) > 0) {
-                                            ***REMOVED*** += parseInt(data[i].folders[j].children.length);
+                                            totalSubFoldes += parseInt(data[i].folders[j].children.length);
                                             hasSubFolders = true;
                                         }
                                     }
-                                    var totalFolder = parseInt(data[i]['folders'].length) + ***REMOVED***;
+                                    var totalFolder = parseInt(data[i]['folders'].length) + totalSubFoldes;
                                     $("#folder-import-table tbody").append(
                                             `<tr>
                                     <td>${data[i].post_title}</td>
                                     <td>${data[i]['folders'].length}</td>
-                                    <td>${***REMOVED***}</td>
+                                    <td>${totalSubFoldes}</td>
                                     <td>${totalFolder}</td>
                                     </tr>`
                                 );
@@ -143,7 +143,7 @@ $redirectURL = admin_url("admin.php?page=wcp_folders_settings&setting_page=folde
                 }
             });
             $(document).on("click", ".import-json-file", function (e) {
-                e.***REMOVED***();
+                e.preventDefault();
                 if($(this).hasClass("check-for-sub") && hasSubFolders) {
                     $("#import-folder-pop-up").hide();
                     $("#confirm-for-sub-folder-data").show();
@@ -301,7 +301,7 @@ $redirectURL = admin_url("admin.php?page=wcp_folders_settings&setting_page=folde
                 <a class="" href="javascript:;"><span></span></a>
             </div>
             <div class="folder-title"><?php esc_html_e("Subfolders will be converted into main folders", 'folders'); ?></div>
-            <div class="folder-note"><?php printf(esc_html__("As subfolders are only available in the %1\$s of Folders, all of the subfolders will be converted into the main folders.", "folders"), "<a target='_blank' href='".esc_url($this->***REMOVED***())."'>".esc_html__("Pro version", "folders")."</a>"); ?></div>
+            <div class="folder-note"><?php printf(esc_html__("As subfolders are only available in the %1\$s of Folders, all of the subfolders will be converted into the main folders.", "folders"), "<a target='_blank' href='".esc_url($this->getFoldersUpgradeURL())."'>".esc_html__("Pro version", "folders")."</a>"); ?></div>
             <div class="folder-import-buttons">
                 <a href="javascript:;" class="form-cancel-btn"><?php esc_html_e("Cancel", 'folders'); ?></a>
                 <button type="button" class="form-cancel-btn import-json-file"><?php esc_html_e("Continue", 'folders'); ?></button>

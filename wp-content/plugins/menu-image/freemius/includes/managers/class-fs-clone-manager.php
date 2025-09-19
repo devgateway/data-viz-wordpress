@@ -394,7 +394,7 @@
                     }
 
                     // When searching for installs by a URL, the API will first strip any paths and search for any matching installs by the subdomain. Therefore, we need to test if there's a match between the current URL and the install's URL before continuing.
-                    if ( $url !== fs_strip_url_protocol( ***REMOVED***( $install->url ) ) ) {
+                    if ( $url !== fs_strip_url_protocol( untrailingslashit( $install->url ) ) ) {
                         continue;
                     }
 
@@ -657,9 +657,9 @@
 
             $instance->switch_to_blog( $blog_id );
 
-            $current_url          = ***REMOVED***( Freemius::get_unfiltered_site_url( null, true ) );
+            $current_url          = untrailingslashit( Freemius::get_unfiltered_site_url( null, true ) );
             $current_install_url  = is_object( $current_install ) ?
-                fs_strip_url_protocol( ***REMOVED***( $current_install->url ) ) :
+                fs_strip_url_protocol( untrailingslashit( $current_install->url ) ) :
                 null;
 
             // This can be `false` even if the install is a clone as the URL can be updated as part of the cloning process.
@@ -773,7 +773,7 @@
                 return false;
             }
 
-            $current_url  = ***REMOVED***( Freemius::get_unfiltered_site_url( null, true ) );
+            $current_url  = untrailingslashit( Freemius::get_unfiltered_site_url( null, true ) );
             $is_localhost = FS_Site::is_localhost_by_address( $current_url );
 
             $require_manual_resolution = false;
@@ -1159,7 +1159,7 @@
 
                         $subsite_url = Freemius::get_unfiltered_site_url( $blog_id, true, true );
 
-                        $has_clone = ( fs_strip_url_protocol( ***REMOVED***( $install->url ) ) !== $subsite_url );
+                        $has_clone = ( fs_strip_url_protocol( trailingslashit( $install->url ) ) !== $subsite_url );
                     }
                 }
 

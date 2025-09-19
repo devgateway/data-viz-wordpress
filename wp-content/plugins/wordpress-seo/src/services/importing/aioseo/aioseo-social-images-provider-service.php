@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
 use Yoast\WP\SEO\Helpers\Aioseo_Helper;
@@ -72,7 +72,7 @@ class Aioseo_Social_Images_Provider_Service {
 				$setting_key = 'defaultImageSourcePosts';
 				break;
 			case 'custom_image':
-				$setting_key = '***REMOVED***';
+				$setting_key = 'defaultImagePosts';
 				break;
 			default:
 				return '';

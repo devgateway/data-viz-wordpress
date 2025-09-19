@@ -315,11 +315,11 @@ if ( ! class_exists( 'ACF_Post_Type' ) ) {
 		 * @return boolean validity status
 		 */
 		public function ajax_validate_values() {
-			if ( empty( $_POST['acf_post_type']['post_type'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			if ( empty( $_POST['acf_post_type']['post_type'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 				return false;
 			}
 
-			$post_type_key = acf_sanitize_request_args( wp_unslash( $_POST['acf_post_type']['post_type'] ) ); // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			$post_type_key = acf_sanitize_request_args( wp_unslash( $_POST['acf_post_type']['post_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 			$post_type_key = is_string( $post_type_key ) ? $post_type_key : '';
 			$valid         = true;
 
@@ -697,7 +697,7 @@ if ( ! class_exists( 'ACF_Post_Type' ) ) {
 				$args['register_meta_box_cb'] = (string) $post['register_meta_box_cb'];
 			}
 
-			$code = var_export( $args, true ); // phpcs:ignore WordPress.PHP.***REMOVED*** -- Used for PHP export.
+			$code = var_export( $args, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions -- Used for PHP export.
 
 			if ( ! $code ) {
 				return $return;

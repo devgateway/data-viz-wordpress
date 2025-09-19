@@ -23,10 +23,10 @@
 class Google_AssertionCredentials {
   const MAX_TOKEN_LIFETIME_SECS = 3600;
 
-  public $***REMOVED***;
+  public $serviceAccountName;
   public $scopes;
   public $privateKey;
-  public $***REMOVED***;
+  public $privateKeyPassword;
   public $assertionType;
   public $sub;
   /**
@@ -36,31 +36,31 @@ class Google_AssertionCredentials {
   public $prn;
 
   /**
-   * @param $***REMOVED***
+   * @param $serviceAccountName
    * @param $scopes array List of scopes
    * @param $privateKey
-   * @param string $***REMOVED***
+   * @param string $privateKeyPassword
    * @param string $assertionType
    * @param bool|string $sub The email address of the user for which the
    *               application is requesting delegated access.
    */
   public function __construct(
-      $***REMOVED***,
+      $serviceAccountName,
       $scopes,
       $privateKey,
-      $***REMOVED*** = 'notasecret',
+      $privateKeyPassword = 'notasecret',
       $assertionType = 'http://oauth.net/grant_type/jwt/1.0/bearer',
       $sub = false) {
-    $this->***REMOVED*** = $***REMOVED***;
+    $this->serviceAccountName = $serviceAccountName;
     $this->scopes = is_string($scopes) ? $scopes : implode(' ', $scopes);
     $this->privateKey = $privateKey;
-    $this->***REMOVED*** = $***REMOVED***;
+    $this->privateKeyPassword = $privateKeyPassword;
     $this->assertionType = $assertionType;
     $this->sub = $sub;
     $this->prn = $sub;
   }
 
-  public function ***REMOVED***() {
+  public function generateAssertion() {
     $now = time();
 
     $jwtParams = array(
@@ -68,7 +68,7 @@ class Google_AssertionCredentials {
           'scope' => $this->scopes,
           'iat' => $now,
           'exp' => $now + self::MAX_TOKEN_LIFETIME_SECS,
-          'iss' => $this->***REMOVED***,
+          'iss' => $this->serviceAccountName,
     );
 
     if ($this->sub !== false) {
@@ -89,14 +89,14 @@ class Google_AssertionCredentials {
     $header = array('typ' => 'JWT', 'alg' => 'RS256');
 
     $segments = array(
-      Google_Utils::***REMOVED***(wp_json_encode($header)),
-      Google_Utils::***REMOVED***(wp_json_encode($payload))
+      Google_Utils::urlSafeB64Encode(wp_json_encode($header)),
+      Google_Utils::urlSafeB64Encode(wp_json_encode($payload))
     );
 
     $signingInput = implode('.', $segments);
-    $signer = new Google_P12Signer($this->privateKey, $this->***REMOVED***);
+    $signer = new Google_P12Signer($this->privateKey, $this->privateKeyPassword);
     $signature = $signer->sign($signingInput);
-    $segments[] = Google_Utils::***REMOVED***($signature);
+    $segments[] = Google_Utils::urlSafeB64Encode($signature);
 
     return implode(".", $segments);
   }

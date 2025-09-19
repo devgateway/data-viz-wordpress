@@ -18,14 +18,14 @@
    * The "addresses" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $addresses = $***REMOVED***->addresses;
+   *   $computeService = new Google_ComputeService(...);
+   *   $addresses = $computeService->addresses;
    *  </code>
    */
   class Google_AddressesServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves the list of addresses grouped by scope. (addresses.***REMOVED***)
+     * Retrieves the list of addresses grouped by scope. (addresses.aggregatedList)
      *
      * @param string $project Name of the project scoping this request.
      * @param array $optParams Optional parameters.
@@ -35,10 +35,10 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_AddressAggregatedList
      */
-    public function ***REMOVED***($project, $optParams = array()) {
+    public function aggregatedList($project, $optParams = array()) {
       $params = array('project' => $project);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('aggregatedList', array($params));
       if ($this->useObjects()) {
         return new Google_AddressAggregatedList($data);
       } else {
@@ -131,14 +131,14 @@
    * The "disks" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $disks = $***REMOVED***->disks;
+   *   $computeService = new Google_ComputeService(...);
+   *   $disks = $computeService->disks;
    *  </code>
    */
   class Google_DisksServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves the list of disks grouped by scope. (disks.***REMOVED***)
+     * Retrieves the list of disks grouped by scope. (disks.aggregatedList)
      *
      * @param string $project Name of the project scoping this request.
      * @param array $optParams Optional parameters.
@@ -148,10 +148,10 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_DiskAggregatedList
      */
-    public function ***REMOVED***($project, $optParams = array()) {
+    public function aggregatedList($project, $optParams = array()) {
       $params = array('project' => $project);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('aggregatedList', array($params));
       if ($this->useObjects()) {
         return new Google_DiskAggregatedList($data);
       } else {
@@ -159,7 +159,7 @@
       }
     }
     /**
-     * (disks.***REMOVED***)
+     * (disks.createSnapshot)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $zone Name of the zone scoping this request.
@@ -168,10 +168,10 @@
      * @param array $optParams Optional parameters.
      * @return Google_Operation
      */
-    public function ***REMOVED***($project, $zone, $disk, Google_Snapshot $postBody, $optParams = array()) {
+    public function createSnapshot($project, $zone, $disk, Google_Snapshot $postBody, $optParams = array()) {
       $params = array('project' => $project, 'zone' => $zone, 'disk' => $disk, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('createSnapshot', array($params));
       if ($this->useObjects()) {
         return new Google_Operation($data);
       } else {
@@ -266,8 +266,8 @@
    * The "firewalls" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $firewalls = $***REMOVED***->firewalls;
+   *   $computeService = new Google_ComputeService(...);
+   *   $firewalls = $computeService->firewalls;
    *  </code>
    */
   class Google_FirewallsServiceResource extends Google_ServiceResource {
@@ -390,17 +390,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "globalOperations" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $computeService = new Google_ComputeService(...);
+   *   $globalOperations = $computeService->globalOperations;
    *  </code>
    */
   class Google_GlobalOperationsServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves the list of all operations grouped by scope. (***REMOVED***.***REMOVED***)
+     * Retrieves the list of all operations grouped by scope. (globalOperations.aggregatedList)
      *
      * @param string $project Name of the project scoping this request.
      * @param array $optParams Optional parameters.
@@ -410,10 +410,10 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_OperationAggregatedList
      */
-    public function ***REMOVED***($project, $optParams = array()) {
+    public function aggregatedList($project, $optParams = array()) {
       $params = array('project' => $project);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('aggregatedList', array($params));
       if ($this->useObjects()) {
         return new Google_OperationAggregatedList($data);
       } else {
@@ -421,7 +421,7 @@
       }
     }
     /**
-     * Deletes the specified operation resource. (***REMOVED***.delete)
+     * Deletes the specified operation resource. (globalOperations.delete)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $operation Name of the operation resource to delete.
@@ -434,7 +434,7 @@
       return $data;
     }
     /**
-     * Retrieves the specified operation resource. (***REMOVED***.get)
+     * Retrieves the specified operation resource. (globalOperations.get)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $operation Name of the operation resource to return.
@@ -453,7 +453,7 @@
     }
     /**
      * Retrieves the list of operation resources contained within the specified project.
-     * (***REMOVED***.list)
+     * (globalOperations.list)
      *
      * @param string $project Name of the project scoping this request.
      * @param array $optParams Optional parameters.
@@ -463,7 +463,7 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_OperationList
      */
-    public function ***REMOVED***($project, $optParams = array()) {
+    public function listGlobalOperations($project, $optParams = array()) {
       $params = array('project' => $project);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -479,8 +479,8 @@
    * The "images" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $images = $***REMOVED***->images;
+   *   $computeService = new Google_ComputeService(...);
+   *   $images = $computeService->images;
    *  </code>
    */
   class Google_ImagesServiceResource extends Google_ServiceResource {
@@ -587,27 +587,27 @@
    * The "instances" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $instances = $***REMOVED***->instances;
+   *   $computeService = new Google_ComputeService(...);
+   *   $instances = $computeService->instances;
    *  </code>
    */
   class Google_InstancesServiceResource extends Google_ServiceResource {
 
     /**
-     * Adds an access config to an instance's network interface. (instances.***REMOVED***)
+     * Adds an access config to an instance's network interface. (instances.addAccessConfig)
      *
      * @param string $project Project name.
      * @param string $zone Name of the zone scoping this request.
      * @param string $instance Instance name.
-     * @param string $***REMOVED*** Network interface name.
+     * @param string $networkInterface Network interface name.
      * @param Google_AccessConfig $postBody
      * @param array $optParams Optional parameters.
      * @return Google_Operation
      */
-    public function ***REMOVED***($project, $zone, $instance, $***REMOVED***, Google_AccessConfig $postBody, $optParams = array()) {
-      $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance, '***REMOVED***' => $***REMOVED***, 'postBody' => $postBody);
+    public function addAccessConfig($project, $zone, $instance, $networkInterface, Google_AccessConfig $postBody, $optParams = array()) {
+      $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance, 'networkInterface' => $networkInterface, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('addAccessConfig', array($params));
       if ($this->useObjects()) {
         return new Google_Operation($data);
       } else {
@@ -615,7 +615,7 @@
       }
     }
     /**
-     * (instances.***REMOVED***)
+     * (instances.aggregatedList)
      *
      * @param string $project Name of the project scoping this request.
      * @param array $optParams Optional parameters.
@@ -625,10 +625,10 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_InstanceAggregatedList
      */
-    public function ***REMOVED***($project, $optParams = array()) {
+    public function aggregatedList($project, $optParams = array()) {
       $params = array('project' => $project);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('aggregatedList', array($params));
       if ($this->useObjects()) {
         return new Google_InstanceAggregatedList($data);
       } else {
@@ -675,20 +675,20 @@
       }
     }
     /**
-     * Deletes an access config from an instance's network interface. (instances.***REMOVED***)
+     * Deletes an access config from an instance's network interface. (instances.deleteAccessConfig)
      *
      * @param string $project Project name.
      * @param string $zone Name of the zone scoping this request.
      * @param string $instance Instance name.
      * @param string $accessConfig Access config name.
-     * @param string $***REMOVED*** Network interface name.
+     * @param string $networkInterface Network interface name.
      * @param array $optParams Optional parameters.
      * @return Google_Operation
      */
-    public function ***REMOVED***($project, $zone, $instance, $accessConfig, $***REMOVED***, $optParams = array()) {
-      $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance, 'accessConfig' => $accessConfig, '***REMOVED***' => $***REMOVED***);
+    public function deleteAccessConfig($project, $zone, $instance, $accessConfig, $networkInterface, $optParams = array()) {
+      $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance, 'accessConfig' => $accessConfig, 'networkInterface' => $networkInterface);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('deleteAccessConfig', array($params));
       if ($this->useObjects()) {
         return new Google_Operation($data);
       } else {
@@ -735,7 +735,7 @@
       }
     }
     /**
-     * Returns the specified instance's serial port output. (instances.***REMOVED***)
+     * Returns the specified instance's serial port output. (instances.getSerialPortOutput)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $zone Name of the zone scoping this request.
@@ -743,10 +743,10 @@
      * @param array $optParams Optional parameters.
      * @return Google_SerialPortOutput
      */
-    public function ***REMOVED***($project, $zone, $instance, $optParams = array()) {
+    public function getSerialPortOutput($project, $zone, $instance, $optParams = array()) {
       $params = array('project' => $project, 'zone' => $zone, 'instance' => $instance);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('getSerialPortOutput', array($params));
       if ($this->useObjects()) {
         return new Google_SerialPortOutput($data);
       } else {
@@ -861,8 +861,8 @@
    * The "kernels" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $kernels = $***REMOVED***->kernels;
+   *   $computeService = new Google_ComputeService(...);
+   *   $kernels = $computeService->kernels;
    *  </code>
    */
   class Google_KernelsServiceResource extends Google_ServiceResource {
@@ -912,14 +912,14 @@
    * The "machineTypes" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $machineTypes = $***REMOVED***->machineTypes;
+   *   $computeService = new Google_ComputeService(...);
+   *   $machineTypes = $computeService->machineTypes;
    *  </code>
    */
   class Google_MachineTypesServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves the list of machine type resources grouped by scope. (machineTypes.***REMOVED***)
+     * Retrieves the list of machine type resources grouped by scope. (machineTypes.aggregatedList)
      *
      * @param string $project Name of the project scoping this request.
      * @param array $optParams Optional parameters.
@@ -929,10 +929,10 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_MachineTypeAggregatedList
      */
-    public function ***REMOVED***($project, $optParams = array()) {
+    public function aggregatedList($project, $optParams = array()) {
       $params = array('project' => $project);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('aggregatedList', array($params));
       if ($this->useObjects()) {
         return new Google_MachineTypeAggregatedList($data);
       } else {
@@ -971,7 +971,7 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_MachineTypeList
      */
-    public function ***REMOVED***($project, $zone, $optParams = array()) {
+    public function listMachineTypes($project, $zone, $optParams = array()) {
       $params = array('project' => $project, 'zone' => $zone);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -987,8 +987,8 @@
    * The "networks" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $networks = $***REMOVED***->networks;
+   *   $computeService = new Google_ComputeService(...);
+   *   $networks = $computeService->networks;
    *  </code>
    */
   class Google_NetworksServiceResource extends Google_ServiceResource {
@@ -1075,8 +1075,8 @@
    * The "projects" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $projects = $***REMOVED***->projects;
+   *   $computeService = new Google_ComputeService(...);
+   *   $projects = $computeService->projects;
    *  </code>
    */
   class Google_ProjectsServiceResource extends Google_ServiceResource {
@@ -1120,17 +1120,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "regionOperations" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $computeService = new Google_ComputeService(...);
+   *   $regionOperations = $computeService->regionOperations;
    *  </code>
    */
   class Google_RegionOperationsServiceResource extends Google_ServiceResource {
 
     /**
-     * Deletes the specified region-specific operation resource. (***REMOVED***.delete)
+     * Deletes the specified region-specific operation resource. (regionOperations.delete)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $region Name of the region scoping this request.
@@ -1144,7 +1144,7 @@
       return $data;
     }
     /**
-     * Retrieves the specified region-specific operation resource. (***REMOVED***.get)
+     * Retrieves the specified region-specific operation resource. (regionOperations.get)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $region Name of the zone scoping this request.
@@ -1164,7 +1164,7 @@
     }
     /**
      * Retrieves the list of operation resources contained within the specified region.
-     * (***REMOVED***.list)
+     * (regionOperations.list)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $region Name of the region scoping this request.
@@ -1175,7 +1175,7 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_OperationList
      */
-    public function ***REMOVED***($project, $region, $optParams = array()) {
+    public function listRegionOperations($project, $region, $optParams = array()) {
       $params = array('project' => $project, 'region' => $region);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -1191,8 +1191,8 @@
    * The "regions" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $regions = $***REMOVED***->regions;
+   *   $computeService = new Google_ComputeService(...);
+   *   $regions = $computeService->regions;
    *  </code>
    */
   class Google_RegionsServiceResource extends Google_ServiceResource {
@@ -1242,8 +1242,8 @@
    * The "routes" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $routes = $***REMOVED***->routes;
+   *   $computeService = new Google_ComputeService(...);
+   *   $routes = $computeService->routes;
    *  </code>
    */
   class Google_RoutesServiceResource extends Google_ServiceResource {
@@ -1330,8 +1330,8 @@
    * The "snapshots" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $snapshots = $***REMOVED***->snapshots;
+   *   $computeService = new Google_ComputeService(...);
+   *   $snapshots = $computeService->snapshots;
    *  </code>
    */
   class Google_SnapshotsServiceResource extends Google_ServiceResource {
@@ -1397,17 +1397,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "zoneOperations" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $computeService = new Google_ComputeService(...);
+   *   $zoneOperations = $computeService->zoneOperations;
    *  </code>
    */
   class Google_ZoneOperationsServiceResource extends Google_ServiceResource {
 
     /**
-     * Deletes the specified zone-specific operation resource. (***REMOVED***.delete)
+     * Deletes the specified zone-specific operation resource. (zoneOperations.delete)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $zone Name of the zone scoping this request.
@@ -1421,7 +1421,7 @@
       return $data;
     }
     /**
-     * Retrieves the specified zone-specific operation resource. (***REMOVED***.get)
+     * Retrieves the specified zone-specific operation resource. (zoneOperations.get)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $zone Name of the zone scoping this request.
@@ -1441,7 +1441,7 @@
     }
     /**
      * Retrieves the list of operation resources contained within the specified zone.
-     * (***REMOVED***.list)
+     * (zoneOperations.list)
      *
      * @param string $project Name of the project scoping this request.
      * @param string $zone Name of the zone scoping this request.
@@ -1452,7 +1452,7 @@
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
      * @return Google_OperationList
      */
-    public function ***REMOVED***($project, $zone, $optParams = array()) {
+    public function listZoneOperations($project, $zone, $optParams = array()) {
       $params = array('project' => $project, 'zone' => $zone);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -1468,8 +1468,8 @@
    * The "zones" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ComputeService(...);
-   *   $zones = $***REMOVED***->zones;
+   *   $computeService = new Google_ComputeService(...);
+   *   $zones = $computeService->zones;
    *  </code>
    */
   class Google_ZonesServiceResource extends Google_ServiceResource {
@@ -1533,21 +1533,21 @@ class Google_ComputeService extends Google_Service {
   public $addresses;
   public $disks;
   public $firewalls;
-  public $***REMOVED***;
+  public $globalOperations;
   public $images;
   public $instances;
   public $kernels;
   public $machineTypes;
   public $networks;
   public $projects;
-  public $***REMOVED***;
+  public $regionOperations;
   public $regions;
   public $routes;
   public $snapshots;
-  public $***REMOVED***;
+  public $zoneOperations;
   public $zones;
   /**
-   * Constructs the internal ***REMOVED*** of the Compute service.
+   * Constructs the internal representation of the Compute service.
    *
    * @param Google_Client $client
    */
@@ -1557,21 +1557,21 @@ class Google_ComputeService extends Google_Service {
     $this->serviceName = 'compute';
 
     $client->addService($this->serviceName, $this->version);
-    $this->addresses = new Google_AddressesServiceResource($this, $this->serviceName, 'addresses', json_decode('{"methods": {"***REMOVED***": {"id": "compute.addresses.***REMOVED***", "path": "{project}/aggregated/addresses", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "AddressAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "delete": {"id": "compute.addresses.delete", "path": "{project}/regions/{region}/addresses/{address}", "httpMethod": "DELETE", "parameters": {"address": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.addresses.get", "path": "{project}/regions/{region}/addresses/{address}", "httpMethod": "GET", "parameters": {"address": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Address"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.addresses.insert", "path": "{project}/regions/{region}/addresses", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Address"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.addresses.list", "path": "{project}/regions/{region}/addresses", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "AddressList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
-    $this->disks = new Google_DisksServiceResource($this, $this->serviceName, 'disks', json_decode('{"methods": {"***REMOVED***": {"id": "compute.disks.***REMOVED***", "path": "{project}/aggregated/disks", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "***REMOVED***": {"id": "compute.disks.***REMOVED***", "path": "{project}/zones/{zone}/disks/{disk}/***REMOVED***", "httpMethod": "POST", "parameters": {"disk": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Snapshot"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "delete": {"id": "compute.disks.delete", "path": "{project}/zones/{zone}/disks/{disk}", "httpMethod": "DELETE", "parameters": {"disk": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.disks.get", "path": "{project}/zones/{zone}/disks/{disk}", "httpMethod": "GET", "parameters": {"disk": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Disk"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.disks.insert", "path": "{project}/zones/{zone}/disks", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "sourceImage": {"type": "string", "location": "query"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Disk"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.disks.list", "path": "{project}/zones/{zone}/disks", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DiskList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
+    $this->addresses = new Google_AddressesServiceResource($this, $this->serviceName, 'addresses', json_decode('{"methods": {"aggregatedList": {"id": "compute.addresses.aggregatedList", "path": "{project}/aggregated/addresses", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "AddressAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "delete": {"id": "compute.addresses.delete", "path": "{project}/regions/{region}/addresses/{address}", "httpMethod": "DELETE", "parameters": {"address": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.addresses.get", "path": "{project}/regions/{region}/addresses/{address}", "httpMethod": "GET", "parameters": {"address": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Address"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.addresses.insert", "path": "{project}/regions/{region}/addresses", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Address"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.addresses.list", "path": "{project}/regions/{region}/addresses", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "AddressList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
+    $this->disks = new Google_DisksServiceResource($this, $this->serviceName, 'disks', json_decode('{"methods": {"aggregatedList": {"id": "compute.disks.aggregatedList", "path": "{project}/aggregated/disks", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DiskAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "createSnapshot": {"id": "compute.disks.createSnapshot", "path": "{project}/zones/{zone}/disks/{disk}/createSnapshot", "httpMethod": "POST", "parameters": {"disk": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Snapshot"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "delete": {"id": "compute.disks.delete", "path": "{project}/zones/{zone}/disks/{disk}", "httpMethod": "DELETE", "parameters": {"disk": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.disks.get", "path": "{project}/zones/{zone}/disks/{disk}", "httpMethod": "GET", "parameters": {"disk": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Disk"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.disks.insert", "path": "{project}/zones/{zone}/disks", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "sourceImage": {"type": "string", "location": "query"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Disk"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.disks.list", "path": "{project}/zones/{zone}/disks", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DiskList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
     $this->firewalls = new Google_FirewallsServiceResource($this, $this->serviceName, 'firewalls', json_decode('{"methods": {"delete": {"id": "compute.firewalls.delete", "path": "{project}/global/firewalls/{firewall}", "httpMethod": "DELETE", "parameters": {"firewall": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.firewalls.get", "path": "{project}/global/firewalls/{firewall}", "httpMethod": "GET", "parameters": {"firewall": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Firewall"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.firewalls.insert", "path": "{project}/global/firewalls", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Firewall"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.firewalls.list", "path": "{project}/global/firewalls", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "FirewallList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "patch": {"id": "compute.firewalls.patch", "path": "{project}/global/firewalls/{firewall}", "httpMethod": "PATCH", "parameters": {"firewall": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Firewall"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "update": {"id": "compute.firewalls.update", "path": "{project}/global/firewalls/{firewall}", "httpMethod": "PUT", "parameters": {"firewall": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Firewall"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}}}', true));
-    $this->***REMOVED*** = new Google_GlobalOperationsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"***REMOVED***": {"id": "compute.***REMOVED***.***REMOVED***", "path": "{project}/aggregated/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "delete": {"id": "compute.***REMOVED***.delete", "path": "{project}/global/operations/{operation}", "httpMethod": "DELETE", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.***REMOVED***.get", "path": "{project}/global/operations/{operation}", "httpMethod": "GET", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.***REMOVED***.list", "path": "{project}/global/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
-    $this->images = new Google_ImagesServiceResource($this, $this->serviceName, 'images', json_decode('{"methods": {"delete": {"id": "compute.images.delete", "path": "{project}/global/images/{image}", "httpMethod": "DELETE", "parameters": {"image": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "deprecate": {"id": "compute.images.deprecate", "path": "{project}/global/images/{image}/deprecate", "httpMethod": "POST", "parameters": {"image": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.images.get", "path": "{project}/global/images/{image}", "httpMethod": "GET", "parameters": {"image": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Image"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.images.insert", "path": "{project}/global/images", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Image"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/devstorage.read_only"]}, "list": {"id": "compute.images.list", "path": "{project}/global/images", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ImageList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
-    $this->instances = new Google_InstancesServiceResource($this, $this->serviceName, 'instances', json_decode('{"methods": {"***REMOVED***": {"id": "compute.instances.***REMOVED***", "path": "{project}/zones/{zone}/instances/{instance}/***REMOVED***", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "AccessConfig"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "***REMOVED***": {"id": "compute.instances.***REMOVED***", "path": "{project}/aggregated/instances", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstanceAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "attachDisk": {"id": "compute.instances.attachDisk", "path": "{project}/zones/{zone}/instances/{instance}/attachDisk", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "AttachedDisk"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "delete": {"id": "compute.instances.delete", "path": "{project}/zones/{zone}/instances/{instance}", "httpMethod": "DELETE", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "***REMOVED***": {"id": "compute.instances.***REMOVED***", "path": "{project}/zones/{zone}/instances/{instance}/***REMOVED***", "httpMethod": "POST", "parameters": {"accessConfig": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "detachDisk": {"id": "compute.instances.detachDisk", "path": "{project}/zones/{zone}/instances/{instance}/detachDisk", "httpMethod": "POST", "parameters": {"deviceName": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.instances.get", "path": "{project}/zones/{zone}/instances/{instance}", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Instance"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "***REMOVED***": {"id": "compute.instances.***REMOVED***", "path": "{project}/zones/{zone}/instances/{instance}/serialPort", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.instances.insert", "path": "{project}/zones/{zone}/instances", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Instance"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.instances.list", "path": "{project}/zones/{zone}/instances", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstanceList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "reset": {"id": "compute.instances.reset", "path": "{project}/zones/{zone}/instances/{instance}/reset", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "setMetadata": {"id": "compute.instances.setMetadata", "path": "{project}/zones/{zone}/instances/{instance}/setMetadata", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Metadata"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "setTags": {"id": "compute.instances.setTags", "path": "{project}/zones/{zone}/instances/{instance}/setTags", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Tags"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}}}', true));
+    $this->globalOperations = new Google_GlobalOperationsServiceResource($this, $this->serviceName, 'globalOperations', json_decode('{"methods": {"aggregatedList": {"id": "compute.globalOperations.aggregatedList", "path": "{project}/aggregated/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "delete": {"id": "compute.globalOperations.delete", "path": "{project}/global/operations/{operation}", "httpMethod": "DELETE", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.globalOperations.get", "path": "{project}/global/operations/{operation}", "httpMethod": "GET", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.globalOperations.list", "path": "{project}/global/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
+    $this->images = new Google_ImagesServiceResource($this, $this->serviceName, 'images', json_decode('{"methods": {"delete": {"id": "compute.images.delete", "path": "{project}/global/images/{image}", "httpMethod": "DELETE", "parameters": {"image": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "deprecate": {"id": "compute.images.deprecate", "path": "{project}/global/images/{image}/deprecate", "httpMethod": "POST", "parameters": {"image": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "DeprecationStatus"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.images.get", "path": "{project}/global/images/{image}", "httpMethod": "GET", "parameters": {"image": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Image"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.images.insert", "path": "{project}/global/images", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Image"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/devstorage.read_only"]}, "list": {"id": "compute.images.list", "path": "{project}/global/images", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ImageList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
+    $this->instances = new Google_InstancesServiceResource($this, $this->serviceName, 'instances', json_decode('{"methods": {"addAccessConfig": {"id": "compute.instances.addAccessConfig", "path": "{project}/zones/{zone}/instances/{instance}/addAccessConfig", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "networkInterface": {"type": "string", "required": true, "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "AccessConfig"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "aggregatedList": {"id": "compute.instances.aggregatedList", "path": "{project}/aggregated/instances", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstanceAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "attachDisk": {"id": "compute.instances.attachDisk", "path": "{project}/zones/{zone}/instances/{instance}/attachDisk", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "AttachedDisk"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "delete": {"id": "compute.instances.delete", "path": "{project}/zones/{zone}/instances/{instance}", "httpMethod": "DELETE", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "deleteAccessConfig": {"id": "compute.instances.deleteAccessConfig", "path": "{project}/zones/{zone}/instances/{instance}/deleteAccessConfig", "httpMethod": "POST", "parameters": {"accessConfig": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "networkInterface": {"type": "string", "required": true, "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "detachDisk": {"id": "compute.instances.detachDisk", "path": "{project}/zones/{zone}/instances/{instance}/detachDisk", "httpMethod": "POST", "parameters": {"deviceName": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.instances.get", "path": "{project}/zones/{zone}/instances/{instance}", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Instance"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "getSerialPortOutput": {"id": "compute.instances.getSerialPortOutput", "path": "{project}/zones/{zone}/instances/{instance}/serialPort", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "SerialPortOutput"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.instances.insert", "path": "{project}/zones/{zone}/instances", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Instance"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.instances.list", "path": "{project}/zones/{zone}/instances", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstanceList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "reset": {"id": "compute.instances.reset", "path": "{project}/zones/{zone}/instances/{instance}/reset", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "setMetadata": {"id": "compute.instances.setMetadata", "path": "{project}/zones/{zone}/instances/{instance}/setMetadata", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Metadata"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "setTags": {"id": "compute.instances.setTags", "path": "{project}/zones/{zone}/instances/{instance}/setTags", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Tags"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}}}', true));
     $this->kernels = new Google_KernelsServiceResource($this, $this->serviceName, 'kernels', json_decode('{"methods": {"get": {"id": "compute.kernels.get", "path": "{project}/global/kernels/{kernel}", "httpMethod": "GET", "parameters": {"kernel": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Kernel"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.kernels.list", "path": "{project}/global/kernels", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "KernelList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
-    $this->machineTypes = new Google_MachineTypesServiceResource($this, $this->serviceName, 'machineTypes', json_decode('{"methods": {"***REMOVED***": {"id": "compute.machineTypes.***REMOVED***", "path": "{project}/aggregated/machineTypes", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MachineTypeAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "get": {"id": "compute.machineTypes.get", "path": "{project}/zones/{zone}/machineTypes/{machineType}", "httpMethod": "GET", "parameters": {"machineType": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MachineType"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.machineTypes.list", "path": "{project}/zones/{zone}/machineTypes", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
+    $this->machineTypes = new Google_MachineTypesServiceResource($this, $this->serviceName, 'machineTypes', json_decode('{"methods": {"aggregatedList": {"id": "compute.machineTypes.aggregatedList", "path": "{project}/aggregated/machineTypes", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MachineTypeAggregatedList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "get": {"id": "compute.machineTypes.get", "path": "{project}/zones/{zone}/machineTypes/{machineType}", "httpMethod": "GET", "parameters": {"machineType": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MachineType"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.machineTypes.list", "path": "{project}/zones/{zone}/machineTypes", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MachineTypeList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
     $this->networks = new Google_NetworksServiceResource($this, $this->serviceName, 'networks', json_decode('{"methods": {"delete": {"id": "compute.networks.delete", "path": "{project}/global/networks/{network}", "httpMethod": "DELETE", "parameters": {"network": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.networks.get", "path": "{project}/global/networks/{network}", "httpMethod": "GET", "parameters": {"network": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Network"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.networks.insert", "path": "{project}/global/networks", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Network"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.networks.list", "path": "{project}/global/networks", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "NetworkList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
     $this->projects = new Google_ProjectsServiceResource($this, $this->serviceName, 'projects', json_decode('{"methods": {"get": {"id": "compute.projects.get", "path": "{project}", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Project"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "setCommonInstanceMetadata": {"id": "compute.projects.setCommonInstanceMetadata", "path": "{project}/setCommonInstanceMetadata", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Metadata"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}}}', true));
-    $this->***REMOVED*** = new Google_RegionOperationsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "compute.***REMOVED***.delete", "path": "{project}/regions/{region}/operations/{operation}", "httpMethod": "DELETE", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.***REMOVED***.get", "path": "{project}/regions/{region}/operations/{operation}", "httpMethod": "GET", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.***REMOVED***.list", "path": "{project}/regions/{region}/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
+    $this->regionOperations = new Google_RegionOperationsServiceResource($this, $this->serviceName, 'regionOperations', json_decode('{"methods": {"delete": {"id": "compute.regionOperations.delete", "path": "{project}/regions/{region}/operations/{operation}", "httpMethod": "DELETE", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.regionOperations.get", "path": "{project}/regions/{region}/operations/{operation}", "httpMethod": "GET", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.regionOperations.list", "path": "{project}/regions/{region}/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
     $this->regions = new Google_RegionsServiceResource($this, $this->serviceName, 'regions', json_decode('{"methods": {"get": {"id": "compute.regions.get", "path": "{project}/regions/{region}", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "region": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Region"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.regions.list", "path": "{project}/regions", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "RegionList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
     $this->routes = new Google_RoutesServiceResource($this, $this->serviceName, 'routes', json_decode('{"methods": {"delete": {"id": "compute.routes.delete", "path": "{project}/global/routes/{route}", "httpMethod": "DELETE", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "route": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.routes.get", "path": "{project}/global/routes/{route}", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "route": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Route"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "insert": {"id": "compute.routes.insert", "path": "{project}/global/routes", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Route"}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "list": {"id": "compute.routes.list", "path": "{project}/global/routes", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "RouteList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
     $this->snapshots = new Google_SnapshotsServiceResource($this, $this->serviceName, 'snapshots', json_decode('{"methods": {"delete": {"id": "compute.snapshots.delete", "path": "{project}/global/snapshots/{snapshot}", "httpMethod": "DELETE", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "snapshot": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.snapshots.get", "path": "{project}/global/snapshots/{snapshot}", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "snapshot": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Snapshot"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.snapshots.list", "path": "{project}/global/snapshots", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "SnapshotList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_ZoneOperationsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "compute.***REMOVED***.delete", "path": "{project}/zones/{zone}/operations/{operation}", "httpMethod": "DELETE", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.***REMOVED***.get", "path": "{project}/zones/{zone}/operations/{operation}", "httpMethod": "GET", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.***REMOVED***.list", "path": "{project}/zones/{zone}/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
+    $this->zoneOperations = new Google_ZoneOperationsServiceResource($this, $this->serviceName, 'zoneOperations', json_decode('{"methods": {"delete": {"id": "compute.zoneOperations.delete", "path": "{project}/zones/{zone}/operations/{operation}", "httpMethod": "DELETE", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/compute"]}, "get": {"id": "compute.zoneOperations.get", "path": "{project}/zones/{zone}/operations/{operation}", "httpMethod": "GET", "parameters": {"operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Operation"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.zoneOperations.list", "path": "{project}/zones/{zone}/operations", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
     $this->zones = new Google_ZonesServiceResource($this, $this->serviceName, 'zones', json_decode('{"methods": {"get": {"id": "compute.zones.get", "path": "{project}/zones/{zone}", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "zone": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Zone"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}, "list": {"id": "compute.zones.list", "path": "{project}/zones", "httpMethod": "GET", "parameters": {"filter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ZoneList"}, "scopes": ["https://www.googleapis.com/auth/compute", "https://www.googleapis.com/auth/compute.readonly"]}}}', true));
 
   }
@@ -1612,7 +1612,7 @@ class Google_AccessConfig extends Google_Model {
 
 class Google_Address extends Google_Model {
   public $address;
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   public $id;
   public $kind;
@@ -1627,16 +1627,16 @@ class Google_Address extends Google_Model {
   public function getAddress() {
     return $this->address;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -1709,10 +1709,10 @@ class Google_AddressAggregatedList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -1750,10 +1750,10 @@ class Google_AddressList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -1906,10 +1906,10 @@ class Google_DeprecationStatus extends Google_Model {
   public function getObsolete() {
     return $this->obsolete;
   }
-  public function ***REMOVED***( $replacement) {
+  public function setReplacement( $replacement) {
     $this->replacement = $replacement;
   }
-  public function ***REMOVED***() {
+  public function getReplacement() {
     return $this->replacement;
   }
   public function setState( $state) {
@@ -1921,7 +1921,7 @@ class Google_DeprecationStatus extends Google_Model {
 }
 
 class Google_Disk extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   public $id;
   public $kind;
@@ -1929,20 +1929,20 @@ class Google_Disk extends Google_Model {
   public $options;
   public $selfLink;
   public $sizeGb;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $sourceSnapshot;
+  public $sourceSnapshotId;
   public $status;
   public $zone;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -1981,17 +1981,17 @@ class Google_Disk extends Google_Model {
   public function getSizeGb() {
     return $this->sizeGb;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSourceSnapshot( $sourceSnapshot) {
+    $this->sourceSnapshot = $sourceSnapshot;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSourceSnapshot() {
+    return $this->sourceSnapshot;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSourceSnapshotId( $sourceSnapshotId) {
+    $this->sourceSnapshotId = $sourceSnapshotId;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSourceSnapshotId() {
+    return $this->sourceSnapshotId;
   }
   public function setStatus( $status) {
     $this->status = $status;
@@ -2033,10 +2033,10 @@ class Google_DiskAggregatedList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -2074,10 +2074,10 @@ class Google_DiskList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -2158,7 +2158,7 @@ class Google_Firewall extends Google_Model {
   protected $__allowedType = 'Google_FirewallAllowed';
   protected $__allowedDataType = 'array';
   public $allowed;
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   public $id;
   public $kind;
@@ -2175,16 +2175,16 @@ class Google_Firewall extends Google_Model {
   public function getAllowed() {
     return $this->allowed;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -2217,11 +2217,11 @@ class Google_Firewall extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $sourceRanges) {
+  public function setSourceRanges(/* array(Google_string) */ $sourceRanges) {
     $this->assertIsArray($sourceRanges, 'Google_string', __METHOD__);
     $this->sourceRanges = $sourceRanges;
   }
-  public function ***REMOVED***() {
+  public function getSourceRanges() {
     return $this->sourceRanges;
   }
   public function setSourceTags(/* array(Google_string) */ $sourceTags) {
@@ -2285,10 +2285,10 @@ class Google_FirewallList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -2300,7 +2300,7 @@ class Google_FirewallList extends Google_Model {
 }
 
 class Google_Image extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   protected $__deprecatedType = 'Google_DeprecationStatus';
   protected $__deprecatedDataType = '';
   public $deprecated;
@@ -2308,18 +2308,18 @@ class Google_Image extends Google_Model {
   public $id;
   public $kind;
   public $name;
-  public $***REMOVED***;
+  public $preferredKernel;
   protected $__rawDiskType = 'Google_ImageRawDisk';
   protected $__rawDiskDataType = '';
   public $rawDisk;
   public $selfLink;
   public $sourceType;
   public $status;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
   public function setDeprecated(Google_DeprecationStatus $deprecated) {
     $this->deprecated = $deprecated;
@@ -2327,10 +2327,10 @@ class Google_Image extends Google_Model {
   public function getDeprecated() {
     return $this->deprecated;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -2351,11 +2351,11 @@ class Google_Image extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPreferredKernel( $preferredKernel) {
+    $this->preferredKernel = $preferredKernel;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPreferredKernel() {
+    return $this->preferredKernel;
   }
   public function setRawDisk(Google_ImageRawDisk $rawDisk) {
     $this->rawDisk = $rawDisk;
@@ -2410,10 +2410,10 @@ class Google_ImageList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -2428,16 +2428,16 @@ class Google_ImageRawDisk extends Google_Model {
   public $containerType;
   public $sha1Checksum;
   public $source;
-  public function ***REMOVED***( $containerType) {
+  public function setContainerType( $containerType) {
     $this->containerType = $containerType;
   }
-  public function ***REMOVED***() {
+  public function getContainerType() {
     return $this->containerType;
   }
-  public function ***REMOVED***( $sha1Checksum) {
+  public function setSha1Checksum( $sha1Checksum) {
     $this->sha1Checksum = $sha1Checksum;
   }
-  public function ***REMOVED***() {
+  public function getSha1Checksum() {
     return $this->sha1Checksum;
   }
   public function setSource( $source) {
@@ -2450,7 +2450,7 @@ class Google_ImageRawDisk extends Google_Model {
 
 class Google_Instance extends Google_Model {
   public $canIpForward;
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   protected $__disksType = 'Google_AttachedDisk';
   protected $__disksDataType = 'array';
@@ -2466,33 +2466,33 @@ class Google_Instance extends Google_Model {
   public $name;
   protected $__networkInterfacesType = 'Google_NetworkInterface';
   protected $__networkInterfacesDataType = 'array';
-  public $***REMOVED***;
+  public $networkInterfaces;
   public $selfLink;
   protected $__serviceAccountsType = 'Google_ServiceAccount';
   protected $__serviceAccountsDataType = 'array';
-  public $***REMOVED***;
+  public $serviceAccounts;
   public $status;
   public $statusMessage;
   protected $__tagsType = 'Google_Tags';
   protected $__tagsDataType = '';
   public $tags;
   public $zone;
-  public function ***REMOVED***( $canIpForward) {
+  public function setCanIpForward( $canIpForward) {
     $this->canIpForward = $canIpForward;
   }
-  public function ***REMOVED***() {
+  public function getCanIpForward() {
     return $this->canIpForward;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setDisks(/* array(Google_AttachedDisk) */ $disks) {
@@ -2526,10 +2526,10 @@ class Google_Instance extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $machineType) {
+  public function setMachineType( $machineType) {
     $this->machineType = $machineType;
   }
-  public function ***REMOVED***() {
+  public function getMachineType() {
     return $this->machineType;
   }
   public function setMetadata(Google_Metadata $metadata) {
@@ -2544,12 +2544,12 @@ class Google_Instance extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***(/* array(Google_NetworkInterface) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_NetworkInterface', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNetworkInterfaces(/* array(Google_NetworkInterface) */ $networkInterfaces) {
+    $this->assertIsArray($networkInterfaces, 'Google_NetworkInterface', __METHOD__);
+    $this->networkInterfaces = $networkInterfaces;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNetworkInterfaces() {
+    return $this->networkInterfaces;
   }
   public function setSelfLink( $selfLink) {
     $this->selfLink = $selfLink;
@@ -2557,12 +2557,12 @@ class Google_Instance extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***(/* array(Google_ServiceAccount) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_ServiceAccount', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setServiceAccounts(/* array(Google_ServiceAccount) */ $serviceAccounts) {
+    $this->assertIsArray($serviceAccounts, 'Google_ServiceAccount', __METHOD__);
+    $this->serviceAccounts = $serviceAccounts;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getServiceAccounts() {
+    return $this->serviceAccounts;
   }
   public function setStatus( $status) {
     $this->status = $status;
@@ -2570,10 +2570,10 @@ class Google_Instance extends Google_Model {
   public function getStatus() {
     return $this->status;
   }
-  public function ***REMOVED***( $statusMessage) {
+  public function setStatusMessage( $statusMessage) {
     $this->statusMessage = $statusMessage;
   }
-  public function ***REMOVED***() {
+  public function getStatusMessage() {
     return $this->statusMessage;
   }
   public function setTags(Google_Tags $tags) {
@@ -2616,10 +2616,10 @@ class Google_InstanceAggregatedList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -2657,10 +2657,10 @@ class Google_InstanceList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -2738,7 +2738,7 @@ class Google_InstancesScopedListWarningData extends Google_Model {
 }
 
 class Google_Kernel extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   protected $__deprecatedType = 'Google_DeprecationStatus';
   protected $__deprecatedDataType = '';
   public $deprecated;
@@ -2747,11 +2747,11 @@ class Google_Kernel extends Google_Model {
   public $kind;
   public $name;
   public $selfLink;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
   public function setDeprecated(Google_DeprecationStatus $deprecated) {
     $this->deprecated = $deprecated;
@@ -2759,10 +2759,10 @@ class Google_Kernel extends Google_Model {
   public function getDeprecated() {
     return $this->deprecated;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -2818,10 +2818,10 @@ class Google_KernelList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -2833,7 +2833,7 @@ class Google_KernelList extends Google_Model {
 }
 
 class Google_MachineType extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   protected $__deprecatedType = 'Google_DeprecationStatus';
   protected $__deprecatedDataType = '';
   public $deprecated;
@@ -2851,11 +2851,11 @@ class Google_MachineType extends Google_Model {
   public $scratchDisks;
   public $selfLink;
   public $zone;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
   public function setDeprecated(Google_DeprecationStatus $deprecated) {
     $this->deprecated = $deprecated;
@@ -2863,10 +2863,10 @@ class Google_MachineType extends Google_Model {
   public function getDeprecated() {
     return $this->deprecated;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setGuestCpus( $guestCpus) {
@@ -2881,10 +2881,10 @@ class Google_MachineType extends Google_Model {
   public function getId() {
     return $this->id;
   }
-  public function ***REMOVED***( $imageSpaceGb) {
+  public function setImageSpaceGb( $imageSpaceGb) {
     $this->imageSpaceGb = $imageSpaceGb;
   }
-  public function ***REMOVED***() {
+  public function getImageSpaceGb() {
     return $this->imageSpaceGb;
   }
   public function setKind( $kind) {
@@ -2917,11 +2917,11 @@ class Google_MachineType extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***(/* array(Google_MachineTypeScratchDisks) */ $scratchDisks) {
+  public function setScratchDisks(/* array(Google_MachineTypeScratchDisks) */ $scratchDisks) {
     $this->assertIsArray($scratchDisks, 'Google_MachineTypeScratchDisks', __METHOD__);
     $this->scratchDisks = $scratchDisks;
   }
-  public function ***REMOVED***() {
+  public function getScratchDisks() {
     return $this->scratchDisks;
   }
   public function setSelfLink( $selfLink) {
@@ -2964,10 +2964,10 @@ class Google_MachineTypeAggregatedList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -3005,10 +3005,10 @@ class Google_MachineTypeList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -3036,11 +3036,11 @@ class Google_MachineTypesScopedList extends Google_Model {
   protected $__warningType = 'Google_MachineTypesScopedListWarning';
   protected $__warningDataType = '';
   public $warning;
-  public function ***REMOVED***(/* array(Google_MachineType) */ $machineTypes) {
+  public function setMachineTypes(/* array(Google_MachineType) */ $machineTypes) {
     $this->assertIsArray($machineTypes, 'Google_MachineType', __METHOD__);
     $this->machineTypes = $machineTypes;
   }
-  public function ***REMOVED***() {
+  public function getMachineTypes() {
     return $this->machineTypes;
   }
   public function setWarning(Google_MachineTypesScopedListWarning $warning) {
@@ -3101,10 +3101,10 @@ class Google_Metadata extends Google_Model {
   protected $__itemsDataType = 'array';
   public $items;
   public $kind;
-  public function ***REMOVED***( $fingerprint) {
+  public function setFingerprint( $fingerprint) {
     $this->fingerprint = $fingerprint;
   }
-  public function ***REMOVED***() {
+  public function getFingerprint() {
     return $this->fingerprint;
   }
   public function setItems(/* array(Google_MetadataItems) */ $items) {
@@ -3141,7 +3141,7 @@ class Google_MetadataItems extends Google_Model {
 
 class Google_Network extends Google_Model {
   public $IPv4Range;
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   public $gatewayIPv4;
   public $id;
@@ -3154,22 +3154,22 @@ class Google_Network extends Google_Model {
   public function getIPv4Range() {
     return $this->IPv4Range;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
-  public function ***REMOVED***( $gatewayIPv4) {
+  public function setGatewayIPv4( $gatewayIPv4) {
     $this->gatewayIPv4 = $gatewayIPv4;
   }
-  public function ***REMOVED***() {
+  public function getGatewayIPv4() {
     return $this->gatewayIPv4;
   }
   public function setId( $id) {
@@ -3205,11 +3205,11 @@ class Google_NetworkInterface extends Google_Model {
   public $name;
   public $network;
   public $networkIP;
-  public function ***REMOVED***(/* array(Google_AccessConfig) */ $accessConfigs) {
+  public function setAccessConfigs(/* array(Google_AccessConfig) */ $accessConfigs) {
     $this->assertIsArray($accessConfigs, 'Google_AccessConfig', __METHOD__);
     $this->accessConfigs = $accessConfigs;
   }
-  public function ***REMOVED***() {
+  public function getAccessConfigs() {
     return $this->accessConfigs;
   }
   public function setName( $name) {
@@ -3259,10 +3259,10 @@ class Google_NetworkList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -3274,14 +3274,14 @@ class Google_NetworkList extends Google_Model {
 }
 
 class Google_Operation extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $clientOperationId;
+  public $creationTimestamp;
   public $endTime;
   protected $__errorType = 'Google_OperationError';
   protected $__errorDataType = '';
   public $error;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $httpErrorMessage;
+  public $httpErrorStatusCode;
   public $id;
   public $insertTime;
   public $kind;
@@ -3300,17 +3300,17 @@ class Google_Operation extends Google_Model {
   protected $__warningsDataType = 'array';
   public $warnings;
   public $zone;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setClientOperationId( $clientOperationId) {
+    $this->clientOperationId = $clientOperationId;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getClientOperationId() {
+    return $this->clientOperationId;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
   public function setEndTime( $endTime) {
     $this->endTime = $endTime;
@@ -3324,17 +3324,17 @@ class Google_Operation extends Google_Model {
   public function getError() {
     return $this->error;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHttpErrorMessage( $httpErrorMessage) {
+    $this->httpErrorMessage = $httpErrorMessage;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getHttpErrorMessage() {
+    return $this->httpErrorMessage;
   }
-  public function setHttpErrorStatusCode( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHttpErrorStatusCode( $httpErrorStatusCode) {
+    $this->httpErrorStatusCode = $httpErrorStatusCode;
   }
   public function getHttpErrorStatusCode() {
-    return $this->***REMOVED***;
+    return $this->httpErrorStatusCode;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -3360,10 +3360,10 @@ class Google_Operation extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $operationType) {
+  public function setOperationType( $operationType) {
     $this->operationType = $operationType;
   }
-  public function ***REMOVED***() {
+  public function getOperationType() {
     return $this->operationType;
   }
   public function setProgress( $progress) {
@@ -3396,10 +3396,10 @@ class Google_Operation extends Google_Model {
   public function getStatus() {
     return $this->status;
   }
-  public function ***REMOVED***( $statusMessage) {
+  public function setStatusMessage( $statusMessage) {
     $this->statusMessage = $statusMessage;
   }
-  public function ***REMOVED***() {
+  public function getStatusMessage() {
     return $this->statusMessage;
   }
   public function setTargetId( $targetId) {
@@ -3461,10 +3461,10 @@ class Google_OperationAggregatedList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -3539,10 +3539,10 @@ class Google_OperationList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -3667,7 +3667,7 @@ class Google_Project extends Google_Model {
   protected $__commonInstanceMetadataType = 'Google_Metadata';
   protected $__commonInstanceMetadataDataType = '';
   public $commonInstanceMetadata;
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   public $id;
   public $kind;
@@ -3682,16 +3682,16 @@ class Google_Project extends Google_Model {
   public function getCommonInstanceMetadata() {
     return $this->commonInstanceMetadata;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -3752,7 +3752,7 @@ class Google_Quota extends Google_Model {
 }
 
 class Google_Region extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   protected $__deprecatedType = 'Google_DeprecationStatus';
   protected $__deprecatedDataType = '';
   public $deprecated;
@@ -3766,11 +3766,11 @@ class Google_Region extends Google_Model {
   public $selfLink;
   public $status;
   public $zones;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
   public function setDeprecated(Google_DeprecationStatus $deprecated) {
     $this->deprecated = $deprecated;
@@ -3778,10 +3778,10 @@ class Google_Region extends Google_Model {
   public function getDeprecated() {
     return $this->deprecated;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -3857,10 +3857,10 @@ class Google_RegionList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -3872,33 +3872,33 @@ class Google_RegionList extends Google_Model {
 }
 
 class Google_Route extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   public $destRange;
   public $id;
   public $kind;
   public $name;
   public $network;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $nextHopGateway;
+  public $nextHopInstance;
   public $nextHopIp;
-  public $***REMOVED***;
+  public $nextHopNetwork;
   public $priority;
   public $selfLink;
   public $tags;
   protected $__warningsType = 'Google_RouteWarnings';
   protected $__warningsDataType = 'array';
   public $warnings;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setDestRange( $destRange) {
@@ -3931,17 +3931,17 @@ class Google_Route extends Google_Model {
   public function getNetwork() {
     return $this->network;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNextHopGateway( $nextHopGateway) {
+    $this->nextHopGateway = $nextHopGateway;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNextHopGateway() {
+    return $this->nextHopGateway;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNextHopInstance( $nextHopInstance) {
+    $this->nextHopInstance = $nextHopInstance;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNextHopInstance() {
+    return $this->nextHopInstance;
   }
   public function setNextHopIp( $nextHopIp) {
     $this->nextHopIp = $nextHopIp;
@@ -3949,11 +3949,11 @@ class Google_Route extends Google_Model {
   public function getNextHopIp() {
     return $this->nextHopIp;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNextHopNetwork( $nextHopNetwork) {
+    $this->nextHopNetwork = $nextHopNetwork;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNextHopNetwork() {
+    return $this->nextHopNetwork;
   }
   public function setPriority( $priority) {
     $this->priority = $priority;
@@ -4010,10 +4010,10 @@ class Google_RouteList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -4111,7 +4111,7 @@ class Google_ServiceAccount extends Google_Model {
 }
 
 class Google_Snapshot extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   public $description;
   public $diskSizeGb;
   public $id;
@@ -4121,16 +4121,16 @@ class Google_Snapshot extends Google_Model {
   public $sourceDisk;
   public $sourceDiskId;
   public $status;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setDiskSizeGb( $diskSizeGb) {
@@ -4169,10 +4169,10 @@ class Google_Snapshot extends Google_Model {
   public function getSourceDisk() {
     return $this->sourceDisk;
   }
-  public function ***REMOVED***( $sourceDiskId) {
+  public function setSourceDiskId( $sourceDiskId) {
     $this->sourceDiskId = $sourceDiskId;
   }
-  public function ***REMOVED***() {
+  public function getSourceDiskId() {
     return $this->sourceDiskId;
   }
   public function setStatus( $status) {
@@ -4210,10 +4210,10 @@ class Google_SnapshotList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -4227,10 +4227,10 @@ class Google_SnapshotList extends Google_Model {
 class Google_Tags extends Google_Model {
   public $fingerprint;
   public $items;
-  public function ***REMOVED***( $fingerprint) {
+  public function setFingerprint( $fingerprint) {
     $this->fingerprint = $fingerprint;
   }
-  public function ***REMOVED***() {
+  public function getFingerprint() {
     return $this->fingerprint;
   }
   public function setItems(/* array(Google_string) */ $items) {
@@ -4243,7 +4243,7 @@ class Google_Tags extends Google_Model {
 }
 
 class Google_Zone extends Google_Model {
-  public $***REMOVED***;
+  public $creationTimestamp;
   protected $__deprecatedType = 'Google_DeprecationStatus';
   protected $__deprecatedDataType = '';
   public $deprecated;
@@ -4252,7 +4252,7 @@ class Google_Zone extends Google_Model {
   public $kind;
   protected $__maintenanceWindowsType = 'Google_ZoneMaintenanceWindows';
   protected $__maintenanceWindowsDataType = 'array';
-  public $***REMOVED***;
+  public $maintenanceWindows;
   public $name;
   protected $__quotasType = 'Google_Quota';
   protected $__quotasDataType = 'array';
@@ -4260,11 +4260,11 @@ class Google_Zone extends Google_Model {
   public $region;
   public $selfLink;
   public $status;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCreationTimestamp( $creationTimestamp) {
+    $this->creationTimestamp = $creationTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCreationTimestamp() {
+    return $this->creationTimestamp;
   }
   public function setDeprecated(Google_DeprecationStatus $deprecated) {
     $this->deprecated = $deprecated;
@@ -4272,10 +4272,10 @@ class Google_Zone extends Google_Model {
   public function getDeprecated() {
     return $this->deprecated;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -4290,12 +4290,12 @@ class Google_Zone extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function setMaintenanceWindows(/* array(Google_ZoneMaintenanceWindows) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_ZoneMaintenanceWindows', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMaintenanceWindows(/* array(Google_ZoneMaintenanceWindows) */ $maintenanceWindows) {
+    $this->assertIsArray($maintenanceWindows, 'Google_ZoneMaintenanceWindows', __METHOD__);
+    $this->maintenanceWindows = $maintenanceWindows;
   }
   public function getMaintenanceWindows() {
-    return $this->***REMOVED***;
+    return $this->maintenanceWindows;
   }
   public function setName( $name) {
     $this->name = $name;
@@ -4357,10 +4357,10 @@ class Google_ZoneList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -4382,10 +4382,10 @@ class Google_ZoneMaintenanceWindows extends Google_Model {
   public function getBeginTime() {
     return $this->beginTime;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setEndTime( $endTime) {

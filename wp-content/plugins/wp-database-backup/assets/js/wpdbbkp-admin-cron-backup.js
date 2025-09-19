@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 	$('#wpdbbkp-create-full-backup').attr('disabled', true);
 	$(document).on('click', '#wpdbbkp-create-full-backup', function(e){
-		e.***REMOVED***();
+		e.preventDefault();
 		if(bkpforwp_token_check()){
 			$('#wpdb-backup-process').show();
 			$('.wpdbbkp_notification').hide();
@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
 			wpdbbkp_offer_modal.show();
 		
 		// When the user selects an option, set the cookie and hide the modal
-		document.***REMOVED***("wpdbbkp_server_backup").***REMOVED***("click", function() {
+		document.getElementById("wpdbbkp_server_backup").addEventListener("click", function() {
 			wpdbbkp_offer_modal.hide();
 			$('#wpdb-backup-process').show();
 			$('.wpdbbkp_notification').hide();
@@ -46,11 +46,11 @@ jQuery(document).ready(function($){
 			});
 		});
 
-		document.***REMOVED***("wpdbbkp_remote_backup").***REMOVED***("click", function() {
+		document.getElementById("wpdbbkp_remote_backup").addEventListener("click", function() {
 			let register_url = 'https://app.backupforwp.com/register?token='+wpdbbkp_script_vars.siteurl+'&un='+wpdbbkp_script_vars.ud.name+'&ue='+wpdbbkp_script_vars.ud.email;
             let loginWindow = window.open(register_url, '_blank', 'width=800,height=600,resizable=yes,scrollbars=yes,top=100,left=200');
 			
-			window.***REMOVED***('message', function(event) {
+			window.addEventListener('message', function(event) {
 				// Check the origin of the message to ensure it's from the expected source
 				if (event.origin === 'https://app.backupforwp.com') {
 					let  token = event.data;
@@ -82,7 +82,7 @@ jQuery(document).ready(function($){
 
 
 	$(document).on('click', '#wpdbbkp-stop-full-backup', function(e){
-		e.***REMOVED***();
+		e.preventDefault();
 		$('.wpdbbkp_notification').hide();
 		$('#wpdbbkup_process_stats').text('Cancelling Backup, Please Wait');
 		$(this).attr('disabled', true);

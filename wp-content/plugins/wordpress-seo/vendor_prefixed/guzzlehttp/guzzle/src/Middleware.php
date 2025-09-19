@@ -2,13 +2,13 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJarInterface;
+use YoastSEO_Vendor\GuzzleHttp\Exception\RequestException;
 use YoastSEO_Vendor\GuzzleHttp\Promise as P;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Log\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 /**
  * Functions used to create and wrap handlers with handler middleware.
  */
@@ -17,7 +17,7 @@ final class Middleware
     /**
      * Middleware that adds cookies to requests.
      *
-     * The options array must be set to a ***REMOVED*** in order to use
+     * The options array must be set to a CookieJarInterface in order to use
      * cookies. This is typically handled for you by a client.
      *
      * @return callable Returns a function that accepts the next handler.
@@ -28,13 +28,13 @@ final class Middleware
             return static function ($request, array $options) use($handler) {
                 if (empty($options['cookies'])) {
                     return $handler($request, $options);
-                } elseif (!$options['cookies'] instanceof \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***) {
-                    throw new \InvalidArgumentException('cookies must be an instance of YoastSEO_Vendor\\GuzzleHttp\\Cookie\\***REMOVED***');
+                } elseif (!$options['cookies'] instanceof \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJarInterface) {
+                    throw new \InvalidArgumentException('cookies must be an instance of YoastSEO_Vendor\\GuzzleHttp\\Cookie\\CookieJarInterface');
                 }
                 $cookieJar = $options['cookies'];
-                $request = $cookieJar->***REMOVED***($request);
-                return $handler($request, $options)->then(static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) use($cookieJar, $request) : ***REMOVED*** {
-                    $cookieJar->***REMOVED***($request, $response);
+                $request = $cookieJar->withCookieHeader($request);
+                return $handler($request, $options)->then(static function (\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response) use($cookieJar, $request) : ResponseInterface {
+                    $cookieJar->extractCookies($request, $response);
                     return $response;
                 });
             };
@@ -44,23 +44,23 @@ final class Middleware
      * Middleware that throws exceptions for 4xx or 5xx responses when the
      * "http_errors" request option is set to true.
      *
-     * @param BodySummarizerInterface|null $***REMOVED*** The body summarizer to use in exception messages.
+     * @param BodySummarizerInterface|null $bodySummarizer The body summarizer to use in exception messages.
      *
      * @return callable(callable): callable Returns a function that accepts the next handler.
      */
-    public static function httpErrors(\YoastSEO_Vendor\GuzzleHttp\BodySummarizerInterface $***REMOVED*** = null) : callable
+    public static function httpErrors(\YoastSEO_Vendor\GuzzleHttp\BodySummarizerInterface $bodySummarizer = null) : callable
     {
-        return static function (callable $handler) use($***REMOVED***) : callable {
-            return static function ($request, array $options) use($handler, $***REMOVED***) {
+        return static function (callable $handler) use($bodySummarizer) : callable {
+            return static function ($request, array $options) use($handler, $bodySummarizer) {
                 if (empty($options['http_errors'])) {
                     return $handler($request, $options);
                 }
-                return $handler($request, $options)->then(static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) use($request, $***REMOVED***) {
+                return $handler($request, $options)->then(static function (\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response) use($request, $bodySummarizer) {
                     $code = $response->getStatusCode();
                     if ($code < 400) {
                         return $response;
                     }
-                    throw \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***::create($request, $response, null, [], $***REMOVED***);
+                    throw \YoastSEO_Vendor\GuzzleHttp\Exception\RequestException::create($request, $response, null, [], $bodySummarizer);
                 });
             };
         };
@@ -80,7 +80,7 @@ final class Middleware
             throw new \InvalidArgumentException('history container must be an array or object implementing ArrayAccess');
         }
         return static function (callable $handler) use(&$container) : callable {
-            return static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) use($handler, &$container) {
+            return static function (\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) use($handler, &$container) {
                 return $handler($request, $options)->then(static function ($value) use($request, &$container, $options) {
                     $container[] = ['request' => $request, 'response' => $value, 'error' => null, 'options' => $options];
                     return $value;
@@ -107,7 +107,7 @@ final class Middleware
     public static function tap(callable $before = null, callable $after = null) : callable
     {
         return static function (callable $handler) use($before, $after) : callable {
-            return static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) use($handler, $before, $after) {
+            return static function (\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) use($handler, $before, $after) {
                 if ($before) {
                     $before($request, $options);
                 }
@@ -126,15 +126,15 @@ final class Middleware
      */
     public static function redirect() : callable
     {
-        return static function (callable $handler) : ***REMOVED*** {
-            return new \YoastSEO_Vendor\GuzzleHttp\***REMOVED***($handler);
+        return static function (callable $handler) : RedirectMiddleware {
+            return new \YoastSEO_Vendor\GuzzleHttp\RedirectMiddleware($handler);
         };
     }
     /**
      * Middleware that retries requests based on the boolean result of
      * invoking the provided "decider" function.
      *
-     * If no delay function is provided, a simple ***REMOVED*** of exponential
+     * If no delay function is provided, a simple implementation of exponential
      * backoff will be utilized.
      *
      * @param callable $decider Function that accepts the number of retries,
@@ -147,8 +147,8 @@ final class Middleware
      */
     public static function retry(callable $decider, callable $delay = null) : callable
     {
-        return static function (callable $handler) use($decider, $delay) : ***REMOVED*** {
-            return new \YoastSEO_Vendor\GuzzleHttp\***REMOVED***($decider, $handler, $delay);
+        return static function (callable $handler) use($decider, $delay) : RetryMiddleware {
+            return new \YoastSEO_Vendor\GuzzleHttp\RetryMiddleware($decider, $handler, $delay);
         };
     }
     /**
@@ -157,26 +157,26 @@ final class Middleware
      *
      * @phpstan-param \Psr\Log\LogLevel::* $logLevel  Level at which to log requests.
      *
-     * @param ***REMOVED***                            $logger    Logs messages.
-     * @param MessageFormatterInterface|***REMOVED*** $formatter Formatter used to create message strings.
+     * @param LoggerInterface                            $logger    Logs messages.
+     * @param MessageFormatterInterface|MessageFormatter $formatter Formatter used to create message strings.
      * @param string                                     $logLevel  Level at which to log requests.
      *
      * @return callable Returns a function that accepts the next handler.
      */
-    public static function log(\YoastSEO_Vendor\Psr\Log\***REMOVED*** $logger, $formatter, string $logLevel = 'info') : callable
+    public static function log(\YoastSEO_Vendor\Psr\Log\LoggerInterface $logger, $formatter, string $logLevel = 'info') : callable
     {
-        // To be compatible with Guzzle 7.1.x we need to allow users to pass a ***REMOVED***
-        if (!$formatter instanceof \YoastSEO_Vendor\GuzzleHttp\***REMOVED*** && !$formatter instanceof \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInterface) {
-            throw new \***REMOVED***(\sprintf('Argument 2 to %s::log() must be of type %s', self::class, \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInterface::class));
+        // To be compatible with Guzzle 7.1.x we need to allow users to pass a MessageFormatter
+        if (!$formatter instanceof \YoastSEO_Vendor\GuzzleHttp\MessageFormatter && !$formatter instanceof \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInterface) {
+            throw new \LogicException(\sprintf('Argument 2 to %s::log() must be of type %s', self::class, \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInterface::class));
         }
         return static function (callable $handler) use($logger, $formatter, $logLevel) : callable {
-            return static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []) use($handler, $logger, $formatter, $logLevel) {
-                return $handler($request, $options)->then(static function ($response) use($logger, $request, $formatter, $logLevel) : ***REMOVED*** {
+            return static function (\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options = []) use($handler, $logger, $formatter, $logLevel) {
+                return $handler($request, $options)->then(static function ($response) use($logger, $request, $formatter, $logLevel) : ResponseInterface {
                     $message = $formatter->format($request, $response);
                     $logger->log($logLevel, $message);
                     return $response;
-                }, static function ($reason) use($logger, $request, $formatter) : ***REMOVED*** {
-                    $response = $reason instanceof \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED*** ? $reason->getResponse() : null;
+                }, static function ($reason) use($logger, $request, $formatter) : PromiseInterface {
+                    $response = $reason instanceof \YoastSEO_Vendor\GuzzleHttp\Exception\RequestException ? $reason->getResponse() : null;
                     $message = $formatter->format($request, $response, \YoastSEO_Vendor\GuzzleHttp\Promise\Create::exceptionFor($reason));
                     $logger->error($message);
                     return \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor($reason);
@@ -198,13 +198,13 @@ final class Middleware
      * Middleware that applies a map function to the request before passing to
      * the next handler.
      *
-     * @param callable $fn Function that accepts a ***REMOVED*** and returns
-     *                     a ***REMOVED***.
+     * @param callable $fn Function that accepts a RequestInterface and returns
+     *                     a RequestInterface.
      */
     public static function mapRequest(callable $fn) : callable
     {
         return static function (callable $handler) use($fn) : callable {
-            return static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) use($handler, $fn) {
+            return static function (\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) use($handler, $fn) {
                 return $handler($fn($request), $options);
             };
         };
@@ -213,13 +213,13 @@ final class Middleware
      * Middleware that applies a map function to the resolved promise's
      * response.
      *
-     * @param callable $fn Function that accepts a ***REMOVED*** and
-     *                     returns a ***REMOVED***.
+     * @param callable $fn Function that accepts a ResponseInterface and
+     *                     returns a ResponseInterface.
      */
     public static function mapResponse(callable $fn) : callable
     {
         return static function (callable $handler) use($fn) : callable {
-            return static function (\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) use($handler, $fn) {
+            return static function (\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) use($handler, $fn) {
                 return $handler($request, $options)->then($fn);
             };
         };

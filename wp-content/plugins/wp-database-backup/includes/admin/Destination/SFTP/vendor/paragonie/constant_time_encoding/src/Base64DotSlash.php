@@ -17,8 +17,8 @@ namespace ParagonIE\ConstantTime;
  *  copies or substantial portions of the Software.
  *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF ***REMOVED***,
- *  FITNESS FOR A PARTICULAR PURPOSE AND ***REMOVED***. IN NO EVENT SHALL THE
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -26,12 +26,12 @@ namespace ParagonIE\ConstantTime;
  */
 
 /**
- * Class ***REMOVED***
+ * Class Base64DotSlash
  * ./[A-Z][a-z][0-9]
  *
  * @package ParagonIE\ConstantTime
  */
-abstract class ***REMOVED*** extends Base64
+abstract class Base64DotSlash extends Base64
 {
     /**
      * Uses bitwise operators instead of table-lookups to turn 6-bit integers

@@ -76,7 +76,7 @@ class WPM_Admin_Menus {
 				'id'     => 'wpm-language-switcher',
 				'parent' => 'top-secondary',
 				'title'  => '<span class="ab-icon">' .
-							// phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** -- Reason Using built in function doesn't work in our case, so created custom function
+							// phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- Reason Using built in function doesn't work in our case, so created custom function
 				            ( $languages ? '<img src="' . esc_url( wpm_get_flag_url( $languages[ $user_language ]['flag'] ) ) . '"/>' : '' ) . '</span><span class="ab-label">' . $available_translations[ get_locale() ]['native_name'] . '</span>',
 			) );
 		}
@@ -107,7 +107,7 @@ class WPM_Admin_Menus {
 				$wp_admin_bar->add_menu( array(
 					'parent' => 'wpm-language-switcher',
 					'id'     => 'wpm-language-' . $code,
-					// phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** -- Reason Using built in function doesn't work in our case, so created custom function
+					// phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- Reason Using built in function doesn't work in our case, so created custom function
 					'title'  => '<span class="ab-icon">' . '<img src="' . esc_url( wpm_get_flag_url( $language['flag'] ) ) . '" />' . '</span>' . '<span class="ab-label">' . esc_html( $native_name ) . '</span>',
 					'href'   => wpm_translate_current_url( $code ),
 				) );
@@ -135,28 +135,28 @@ class WPM_Admin_Menus {
 		WPM_Admin_Settings::get_settings_pages();
 
 		// Get current tab/section
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 		$current_tab     = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
 		
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 		$current_section = empty( $_REQUEST['section'] ) ? '' : sanitize_title( $_REQUEST['section'] );
 
 		// Save settings if data has been posted
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.***REMOVED***.Missing
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing
 		if ( ! empty( $_POST ) ) {
 			WPM_Admin_Settings::save();
 		}
 
 		// Add any posted messages
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET['wpm_error'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 			WPM_Admin_Settings::add_error( stripslashes( $_GET['wpm_error'] ) );
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET['wpm_message'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 			WPM_Admin_Settings::add_message( stripslashes( $_GET['wpm_message'] ) );
 		}
 	}
@@ -172,7 +172,7 @@ class WPM_Admin_Menus {
 	/**
 	 * Add custom nav meta box.
 	 *
-	 * Adapted from http://www.***REMOVED***.com/how-to-add-a-fully-functional-custom-meta-box-to-wordpress-navigation-menus/.
+	 * Adapted from http://www.johnmorrisonline.com/how-to-add-a-fully-functional-custom-meta-box-to-wordpress-navigation-menus/.
 	 */
 	public function add_nav_menu_meta_boxes() {
 		add_meta_box( 'wpm_endpoints_nav_link', __( 'Languages', 'wp-multilang' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', 'low' );
@@ -187,7 +187,7 @@ class WPM_Admin_Menus {
 		?>
 		<div id="posttype-wpm-languages" class="posttypediv">
 			<div id="tabs-panel-wpm-languages" class="tabs-panel tabs-panel-active">
-				<ul id="wpm-languages-checklist" class="***REMOVED*** form-no-clear">
+				<ul id="wpm-languages-checklist" class="categorychecklist form-no-clear">
 					<li>
 						<label class="menu-item-title">
 							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $_nav_menu_placeholder ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $_nav_menu_placeholder ); ?>" /> <?php esc_html_e( 'Languages', 'wp-multilang' ); ?>
@@ -275,7 +275,7 @@ class WPM_Admin_Menus {
 	 * @param $menu_item_db_id
 	 */
 	public function update_nav_menu_item( $menu_id, $menu_item_db_id ) {
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 		if( 'update' !== $_REQUEST['action'] ) {
 			return;
 		}

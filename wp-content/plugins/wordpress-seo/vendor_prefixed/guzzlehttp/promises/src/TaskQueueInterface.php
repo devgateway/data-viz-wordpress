@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Promise;
 
-interface ***REMOVED***
+interface TaskQueueInterface
 {
     /**
      * Returns true if the queue is empty.

@@ -45,7 +45,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Revokes the 'wpseo_manage_options' capability from administrator users if it should
-	 * only be granted to network ***REMOVED***.
+	 * only be granted to network administrators.
 	 *
 	 * @param array   $allcaps An array of all the user's capabilities.
 	 * @param array   $caps    Actual capabilities being checked.

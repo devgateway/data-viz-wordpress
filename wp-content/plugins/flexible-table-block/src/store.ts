@@ -8,7 +8,7 @@ import type { Property } from 'csstype';
  * WordPress dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
-import { ***REMOVED***, register } from '@wordpress/data';
+import { createReduxStore, register } from '@wordpress/data';
 import type { NoticeProps } from '@wordpress/components/build-types/notice/types';
 
 /**
@@ -112,7 +112,7 @@ const resolvers = {
 	},
 };
 
-const store = ***REMOVED***( STORE_NAME, {
+const store = createReduxStore( STORE_NAME, {
 	reducer,
 	controls,
 	selectors,

@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Language_Helper;
  */
 class Word_Form_Recognition implements Analysis_Feature_Interface {
 
-	public const NAME = '***REMOVED***';
+	public const NAME = 'wordFormRecognition';
 
 	/**
 	 * The language helper.

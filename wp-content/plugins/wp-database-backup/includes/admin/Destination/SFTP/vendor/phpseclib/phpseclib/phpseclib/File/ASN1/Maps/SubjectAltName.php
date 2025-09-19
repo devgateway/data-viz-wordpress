@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * SubjectAltName
  *
  * PHP version 5
  *
@@ -14,11 +14,11 @@
 namespace phpseclib3\File\ASN1\Maps;
 
 /**
- * ***REMOVED***
+ * SubjectAltName
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class SubjectAltName
 {
     const MAP = GeneralNames::MAP;
 }

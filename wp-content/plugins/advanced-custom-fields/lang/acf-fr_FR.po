@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -670,7 +670,7 @@ msgid "Button Icon"
 msgstr "Icône de bouton"
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr ""
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -1204,7 +1204,7 @@ msgstr ""
 
 #: includes/fields/class-acf-field-icon_picker.php:526
 msgid "Spellcheck Icon"
-msgstr "Icône de vérification ***REMOVED***"
+msgstr "Icône de vérification orthographique"
 
 #: includes/fields/class-acf-field-icon_picker.php:524
 msgid "Remove Formatting Icon"
@@ -1470,7 +1470,7 @@ msgstr ""
 
 #: includes/fields/class-acf-field-icon_picker.php:388
 msgid "Customizer Icon"
-msgstr "Icône de ***REMOVED***"
+msgstr "Icône de personnalisation"
 
 #: includes/fields/class-acf-field-icon_picker.php:387
 #: includes/fields/class-acf-field-icon_picker.php:711
@@ -1999,7 +1999,7 @@ msgid ""
 "and sub-pages."
 msgstr ""
 "<a href=\"%s\" target=\"_blank\">Les pages d’options</a> ACF sont des pages "
-"d’***REMOVED*** personnalisées pour gérer des réglages globaux via des "
+"d’administration personnalisées pour gérer des réglages globaux via des "
 "champs. Vous pouvez créer plusieurs pages et sous-pages."
 
 #: includes/admin/views/global/header.php:35
@@ -2093,7 +2093,7 @@ msgid ""
 "information, please read the <a href=\"%s\" target=\"_blank\">documentation</"
 "a>."
 msgstr ""
-"L’activation du paramètre ***REMOVED*** vous permet de mettre à jour une "
+"L’activation du paramètre bidirectionnel vous permet de mettre à jour une "
 "valeur dans les champs cibles pour chaque valeur sélectionnée pour ce champ, "
 "en ajoutant ou en supprimant l’ID de publication, l’ID de taxonomie ou l’ID "
 "d’utilisateur de l’élément en cours de mise à jour. Pour plus "
@@ -2125,7 +2125,7 @@ msgstr ""
 
 #: includes/acf-bidirectional-functions.php:220
 msgid "Bidirectional"
-msgstr "***REMOVED***"
+msgstr "Bidirectionnel"
 
 #. translators: %s A field type name, such as "Relationship"
 #: includes/acf-bidirectional-functions.php:193
@@ -2500,7 +2500,7 @@ msgid ""
 "An interactive and customizable UI for picking one or many posts, pages or "
 "post type items with the option to search. "
 msgstr ""
-"Une interface utilisateur interactive et ***REMOVED*** pour choisir un ou "
+"Une interface utilisateur interactive et personnalisable pour choisir un ou "
 "plusieurs articles, pages ou éléments de type publication avec la "
 "possibilité de rechercher. "
 
@@ -2776,7 +2776,7 @@ msgstr ""
 msgid "Makes a taxonomy visible on the frontend and in the admin dashboard."
 msgstr ""
 "Rend une taxonomie visible sur l’interface publique et dans le tableau de "
-"bord d’***REMOVED***."
+"bord d’administration."
 
 #: includes/admin/views/acf-taxonomy/basic-settings.php:91
 msgid "One or many post types that can be classified with this taxonomy."
@@ -3301,7 +3301,7 @@ msgstr "Voir l’étiquette"
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:217
 msgid "In the admin bar to view term during editing."
 msgstr ""
-"Dans la barre d’***REMOVED*** pour voir le terme lors de la modification."
+"Dans la barre d’administration pour voir le terme lors de la modification."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:198
 msgid "Edit Tag"
@@ -3425,7 +3425,7 @@ msgstr "Hiérachique"
 msgid "Visible on the frontend and in the admin dashboard."
 msgstr ""
 "Visible sur l’interface publique et dans le tableau de bord de "
-"l’***REMOVED***."
+"l’administration."
 
 #: includes/admin/views/acf-post-type/basic-settings.php:106
 #: includes/admin/views/acf-taxonomy/basic-settings.php:106
@@ -3730,11 +3730,11 @@ msgstr "Prise en charge des menus d’apparence"
 msgid "Appears as an item in the 'New' menu in the admin bar."
 msgstr ""
 "Apparaît en tant qu’élément dans le menu « Nouveau » de la barre "
-"d’***REMOVED***."
+"d’administration."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:895
 msgid "Show In Admin Bar"
-msgstr "Afficher dans la barre d’***REMOVED***"
+msgstr "Afficher dans la barre d’administration"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:861
 msgid "Custom Meta Box Callback"
@@ -3749,7 +3749,7 @@ msgstr "Icône de menu"
 msgid "The position in the sidebar menu in the admin dashboard."
 msgstr ""
 "Position dans le menu de la colonne latérale du tableau de bord "
-"d’***REMOVED***."
+"d’administration."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:777
 msgid "Menu Position"
@@ -3762,31 +3762,31 @@ msgid ""
 "a submenu item under it."
 msgstr ""
 "Par défaut, le type de publication obtiendra un nouvel élément de niveau "
-"supérieur dans le menu d’***REMOVED***. Si un élément de niveau supérieur "
+"supérieur dans le menu d’administration. Si un élément de niveau supérieur "
 "existant est fourni ici, le type de publication sera ajouté en tant "
 "qu’élément de sous-menu sous celui-ci."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:758
 msgid "Admin Menu Parent"
-msgstr "Parent du menu d’***REMOVED***"
+msgstr "Parent du menu d’administration"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:739
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:734
 msgid "Admin editor navigation in the sidebar menu."
 msgstr ""
-"Navigation de l’éditeur d’***REMOVED*** dans le menu de la colonne latérale."
+"Navigation de l’éditeur d’administration dans le menu de la colonne latérale."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:738
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:733
 msgid "Show In Admin Menu"
-msgstr "Afficher dans le menu d’***REMOVED***"
+msgstr "Afficher dans le menu d’administration"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:725
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:719
 msgid "Items can be edited and managed in the admin dashboard."
 msgstr ""
 "Les éléments peuvent être modifiés et gérés dans le tableau de bord "
-"d’***REMOVED***."
+"d’administration."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:724
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:718
@@ -4261,7 +4261,7 @@ msgid ""
 "Appears in the admin bar in the 'All Posts' view, provided the post type "
 "supports archives and the home page is not an archive of that post type."
 msgstr ""
-"Apparaît dans la barre d’***REMOVED*** dans la vue « Tous les messages », à "
+"Apparaît dans la barre d’administration dans la vue « Tous les messages », à "
 "condition que le type de publication prenne en charge les archives et que la "
 "page d’accueil ne soit pas une archive de ce type de publication."
 
@@ -4276,7 +4276,7 @@ msgstr "Voir la publication"
 #: includes/admin/views/acf-post-type/advanced-settings.php:165
 msgid "In the admin bar to view item when editing it."
 msgstr ""
-"Dans la barre d’***REMOVED*** pour afficher l’élément lors de sa "
+"Dans la barre d’administration pour afficher l’élément lors de sa "
 "modification."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:164
@@ -4322,7 +4322,7 @@ msgstr "Toutes les publications"
 #: includes/admin/views/acf-post-type/advanced-settings.php:245
 msgid "In the post type submenu in the admin dashboard."
 msgstr ""
-"Dans le sous-menu de type de publication du tableau de bord d’***REMOVED***."
+"Dans le sous-menu de type de publication du tableau de bord d’administration."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:124
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:176
@@ -4338,7 +4338,7 @@ msgstr "Tous les %s"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:105
 msgid "Admin menu name for the post type."
-msgstr "Nom du menu d’***REMOVED*** pour le type de publication."
+msgstr "Nom du menu d’administration pour le type de publication."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:104
 msgid "Menu Name"
@@ -4366,7 +4366,7 @@ msgstr "Un résumé descriptif du type de publication."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:48
 msgid "Add Custom"
-msgstr "Ajouter une ***REMOVED***"
+msgstr "Ajouter une personalisation"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:42
 msgid "Enable various features in the content editor."
@@ -4462,7 +4462,7 @@ msgstr ""
 "des temps de chargement plus rapides, un contrôle de version et des champs/"
 "paramètres dynamiques. Copiez et collez simplement le code suivant dans le "
 "fichier des fonctions de votre thème.php ou incluez-le dans un fichier "
-"externe, puis désactivez ou supprimez les éléments de l’***REMOVED*** ACF."
+"externe, puis désactivez ou supprimez les éléments de l’administrateur ACF."
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:353
 msgid "Export - Generate PHP"
@@ -4734,7 +4734,7 @@ msgstr[1] "Groupes de champs bien liés."
 #: includes/admin/post-types/admin-taxonomies.php:352
 msgctxt "post status"
 msgid "Registration Failed"
-msgstr "Echec de l’***REMOVED***"
+msgstr "Echec de l’enregistrement"
 
 #: includes/admin/admin-internal-post-type-list.php:276
 msgid ""
@@ -5046,7 +5046,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields PRO."
 msgstr ""
 "Advanced Custom Fields et Advanced Custom Fields Pro ne doivent pas être "
-"actives en même temps. Nous avons ***REMOVED*** désactivé Advanced Custom "
+"actives en même temps. Nous avons automatiquement désactivé Advanced Custom "
 "Fields Pro."
 
 #: acf.php:560
@@ -5055,7 +5055,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields."
 msgstr ""
 "Advanced Custom Fields et Advanced Custom Fields Pro ne doivent pas être "
-"actives en même temps. Nous avons ***REMOVED*** désactivé Advanced Custom "
+"actives en même temps. Nous avons automatiquement désactivé Advanced Custom "
 "Fields."
 
 #. translators: %1 plugin name, %2 the URL to the documentation on this error
@@ -5067,7 +5067,7 @@ msgid ""
 "target=\"_blank\">Learn how to fix this</a>."
 msgstr ""
 "<strong>%1$s</strong> - Nous avons détecté un ou plusieurs appels pour "
-"récupérer les valeurs des champs ACF avant l’***REMOVED*** d’ACF. Ceci "
+"récupérer les valeurs des champs ACF avant l’initialisation d’ACF. Ceci "
 "n’est pas pris en charge et peut entraîner des données incorrectes ou "
 "manquantes. <a href=\"%2$s\" target=\"_blank\">Découvrez comment corriger ce "
 "problème</a>."
@@ -5216,7 +5216,7 @@ msgstr "Paramètres de groupe de champ invalides."
 
 #: includes/admin/admin-internal-post-type-list.php:429
 msgid "Awaiting save"
-msgstr "En attente d’***REMOVED***"
+msgstr "En attente d’enregistrement"
 
 #: includes/admin/admin-internal-post-type-list.php:426
 msgid "Saved"
@@ -5282,7 +5282,7 @@ msgid ""
 "our Help Desk will assist with your more in depth, technical challenges."
 msgstr ""
 "<a href=\"%s\" target=\"_blank\">Service d’assistance</a>. Les "
-"***REMOVED*** du support de notre service d’assistance vous aideront à "
+"professionnels du support de notre service d’assistance vous aideront à "
 "résoudre vos problèmes techniques les plus complexes."
 
 #: includes/admin/admin.php:158
@@ -5292,8 +5292,8 @@ msgid ""
 "figure out the 'how-tos' of the ACF world."
 msgstr ""
 "<a href=\"%s\" target=\"_blank\">Discussions</a>. Nous avons une communauté "
-"active et amicale sur nos forums ***REMOVED*** qui peut vous aider à "
-"comprendre le ***REMOVED*** de l’écosystème ACF."
+"active et amicale sur nos forums communautaires qui peut vous aider à "
+"comprendre le fonctionnement de l’écosystème ACF."
 
 #: includes/admin/admin.php:154
 msgid ""
@@ -5442,7 +5442,7 @@ msgstr "Type de page"
 
 #: includes/locations/class-acf-location-current-user.php:73
 msgid "Viewing back end"
-msgstr "Affichage de l’interface d’***REMOVED***"
+msgstr "Affichage de l’interface d’administration"
 
 #: includes/locations/class-acf-location-current-user.php:72
 msgid "Viewing front end"
@@ -5516,7 +5516,7 @@ msgstr "Afficher ce champ si"
 #: includes/admin/views/acf-field-group/conditional-logic.php:25
 #: includes/admin/views/acf-field-group/field.php:122 includes/fields.php:385
 msgid "Conditional Logic"
-msgstr "Logique ***REMOVED***"
+msgstr "Logique conditionnelle"
 
 #: includes/admin/views/acf-field-group/conditional-logic.php:169
 #: includes/admin/views/acf-field-group/location-rule.php:84
@@ -6024,7 +6024,7 @@ msgstr "Description"
 #: includes/admin/admin-internal-post-type-list.php:414
 #: includes/admin/admin-internal-post-type-list.php:832
 msgid "Sync available"
-msgstr "***REMOVED*** disponible"
+msgstr "Synchronisation disponible"
 
 #. translators: %s number of field groups synchronized
 #: includes/admin/post-types/admin-field-groups.php:374
@@ -6893,7 +6893,7 @@ msgstr "Aligné en haut"
 
 #: includes/fields/class-acf-field-tab.php:107
 msgid "Placement"
-msgstr "***REMOVED***"
+msgstr "Positionnement"
 
 #: includes/fields/class-acf-field-tab.php:23
 msgid "Tab"
@@ -7035,8 +7035,8 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "TinyMCE ne sera pas initialisé avant un clic dans le champ"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
-msgstr "Retarder l’***REMOVED***"
+msgid "Delay Initialization"
+msgstr "Retarder l’initialisation"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
 msgid "Show Media Upload Buttons"
@@ -7251,7 +7251,7 @@ msgstr "Choisissez le type de publication"
 
 #: includes/fields/class-acf-field-relationship.php:78
 msgid "No matches found"
-msgstr "Aucune ***REMOVED*** trouvée"
+msgstr "Aucune correspondance trouvée"
 
 #: includes/fields/class-acf-field-relationship.php:77
 msgid "Loading"
@@ -7416,12 +7416,12 @@ msgstr "Aucun formatage"
 #: includes/fields/class-acf-field-message.php:103
 #: includes/fields/class-acf-field-textarea.php:161
 msgid "Automatically add &lt;br&gt;"
-msgstr "Ajouter ***REMOVED*** &lt;br&gt;"
+msgstr "Ajouter automatiquement &lt;br&gt;"
 
 #: includes/fields/class-acf-field-message.php:102
 #: includes/fields/class-acf-field-textarea.php:160
 msgid "Automatically add paragraphs"
-msgstr "Ajouter ***REMOVED*** des paragraphes"
+msgstr "Ajouter automatiquement des paragraphes"
 
 #: includes/fields/class-acf-field-message.php:98
 #: includes/fields/class-acf-field-textarea.php:156
@@ -7784,12 +7784,12 @@ msgstr "Groupes de champs"
 msgid "Customize WordPress with powerful, professional and intuitive fields."
 msgstr ""
 "Personnalisez WordPress avec des champs intuitifs, puissants et "
-"***REMOVED***."
+"professionnels."
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93
@@ -8234,7 +8234,7 @@ msgstr "Erreur de chargement de la page"
 
 #: pro/fields/class-acf-field-repeater.php:69
 msgid "Order will be assigned upon save"
-msgstr "L’ordre sera assigné après l’***REMOVED***"
+msgstr "L’ordre sera assigné après l’enregistrement"
 
 #: pro/fields/class-acf-field-repeater.php:196
 msgid "Useful for fields with a large number of rows."

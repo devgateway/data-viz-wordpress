@@ -94,7 +94,7 @@ class Wincher_Keyphrases_Action {
 			}
 
 			// Calculate if the user would exceed their limit.
-			// phpcs:ignore WordPress.***REMOVED***.***REMOVED***.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
 			if ( ! $limits->canTrack || $this->would_exceed_limits( $keyphrases, $limits ) ) {
 				$response = [
 					'limit'  => $limits->limit,

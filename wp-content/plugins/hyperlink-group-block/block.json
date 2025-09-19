@@ -12,7 +12,7 @@
 			"padding": true
 		},
 		"interactivity": {
-			"***REMOVED***": true
+			"clientNavigation": true
 		}
     },
 	"usesContext": [ "postId", "postType", "queryId" ],
@@ -41,7 +41,7 @@
 		"rel": {
 			"type": "string"
 		},
-        "***REMOVED***": {
+        "backgroundColor": {
 			"type": "string"
 		},
 		"textColor": {

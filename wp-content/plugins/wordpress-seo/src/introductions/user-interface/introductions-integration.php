@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Introductions\Application\Current_Page_Trait;
 use Yoast\WP\SEO\Introductions\Application\Introductions_Collector;
-use Yoast\WP\SEO\Introductions\***REMOVED***\Wistia_Embed_Permission_Repository;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 
 /**
  * Loads introduction modal scripts, when there are applicable introductions.
@@ -130,7 +130,7 @@ class Introductions_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_script( self::SCRIPT_HANDLE );
 		$this->admin_asset_manager->localize_script(
 			self::SCRIPT_HANDLE,
-			'***REMOVED***',
+			'wpseoIntroductions',
 			[
 				'introductions'         => $introductions,
 				'isPremium'             => $this->product_helper->is_premium(),

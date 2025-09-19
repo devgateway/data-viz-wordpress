@@ -412,7 +412,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * Enqueue Gutenberg block assets for backend editor.
 	 *
 	 * @deprecated 22.7
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

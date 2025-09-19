@@ -23,7 +23,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	public const CONFIGURATION_ROUTE = '/configuration';
 
 	/**
-	 * Represents a site ***REMOVED*** route.
+	 * Represents a site representation route.
 	 *
 	 * @var string
 	 */
@@ -191,7 +191,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	}
 
 	/**
-	 * Sets the site ***REMOVED*** values.
+	 * Sets the site representation values.
 	 *
 	 * @param WP_REST_Request $request The request.
 	 *

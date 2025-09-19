@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of Blowfish.
+ * Pure-PHP implementation of Blowfish.
  *
- * Uses mcrypt, if available, and an internal ***REMOVED***, otherwise.
+ * Uses mcrypt, if available, and an internal implementation, otherwise.
  *
  * PHP version 5
  *
@@ -19,20 +19,20 @@
  *
  * bcrypt is basically Blowfish but instead of performing the key expansion once it performs
  * the expansion 129 times for each round, with the first key expansion interleaving the salt
- * and password. This renders OpenSSL unusable and forces us to use a pure-PHP ***REMOVED***
+ * and password. This renders OpenSSL unusable and forces us to use a pure-PHP implementation
  * of blowfish.
  *
- * # phpseclib's four different _encryptBlock() ***REMOVED***
+ * # phpseclib's four different _encryptBlock() implementations
  *
  * When using Blowfish as an encryption algorithm, _encryptBlock() is called 9 + 512 +
  * (the number of blocks in the plaintext) times.
  *
  * Each of the first 9 calls to _encryptBlock() modify the P-array. Each of the next 512
  * calls modify the S-boxes. The remaining _encryptBlock() calls operate on the plaintext to
- * produce the ciphertext. In the pure-PHP ***REMOVED*** of Blowfish these remaining
+ * produce the ciphertext. In the pure-PHP implementation of Blowfish these remaining
  * _encryptBlock() calls are highly optimized through the use of eval(). Among other things,
  * P-array lookups are eliminated by hard-coding the key-dependent P-array values, and thus we
- * have explained 2 of the 4 different _encryptBlock() ***REMOVED***.
+ * have explained 2 of the 4 different _encryptBlock() implementations.
  *
  * With bcrypt things are a bit different. _encryptBlock() is called 1,079,296 times,
  * assuming 16 rounds (which is what OpenSSH's bcrypt defaults to). The eval()-optimized
@@ -57,11 +57,11 @@
  * _encryptBlock() then the regular Blowfish does. That said, the Blowfish _encryptBlock() is
  * basically just a thin wrapper around the bcrypt _encryptBlock(), so there's that.
  *
- * This explains 3 of the 4 _encryptBlock() ***REMOVED***. the last _encryptBlock()
- * ***REMOVED*** can best be understood by doing Ctrl + F and searching for where
+ * This explains 3 of the 4 _encryptBlock() implementations. the last _encryptBlock()
+ * implementation can best be understood by doing Ctrl + F and searching for where
  * self::$use_reg_intval is defined.
  *
- * # phpseclib's three different _setupKey() ***REMOVED***
+ * # phpseclib's three different _setupKey() implementations
  *
  * Every bcrypt round is the equivalent of encrypting 512KB of data. Since OpenSSH uses 16
  * rounds by default that's ~8MB of data that's essentially being encrypted whenever
@@ -84,11 +84,11 @@
  * # blowfish + bcrypt in the same class
  *
  * Altho there's a lot of Blowfish code that bcrypt doesn't re-use, bcrypt does re-use the
- * initial S-boxes, the initial P-array and the int-only _encryptBlock() ***REMOVED***.
+ * initial S-boxes, the initial P-array and the int-only _encryptBlock() implementation.
  *
  * # Credit
  *
- * phpseclib's bcrypt ***REMOVED*** is based losely off of OpenSSH's ***REMOVED***:
+ * phpseclib's bcrypt implementation is based losely off of OpenSSH's implementation:
  *
  * https://github.com/openssh/openssh-portable/blob/master/openbsd-compat/bcrypt_pbkdf.c
  *
@@ -119,7 +119,7 @@ namespace phpseclib3\Crypt;
 use phpseclib3\Crypt\Common\BlockCipher;
 
 /**
- * Pure-PHP ***REMOVED*** of Blowfish.
+ * Pure-PHP implementation of Blowfish.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  * @author  Hans-Juergen Petrich <petrich@tronic-media.com>
@@ -376,7 +376,7 @@ class Blowfish extends BlockCipher
     public function setKeyLength($length)
     {
         if ($length < 32 || $length > 448) {
-                throw new \***REMOVED***('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes between 32 and 448 bits are supported');
+                throw new \LengthException('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes between 32 and 448 bits are supported');
         }
 
         $this->key_length = $length >> 3;
@@ -393,7 +393,7 @@ class Blowfish extends BlockCipher
      * @param int $engine
      * @return bool
      */
-    protected function ***REMOVED***($engine)
+    protected function isValidEngineHelper($engine)
     {
         if ($engine == self::ENGINE_OPENSSL) {
             if ($this->key_length < 16) {
@@ -409,7 +409,7 @@ class Blowfish extends BlockCipher
             $this->cipher_name_openssl = 'bf-' . $this->openssl_translate_mode();
         }
 
-        return parent::***REMOVED***($engine);
+        return parent::isValidEngineHelper($engine);
     }
 
     /**
@@ -534,7 +534,7 @@ class Blowfish extends BlockCipher
         self::initialize_static_variables();
 
         if (PHP_INT_SIZE == 4) {
-            throw new \***REMOVED***('bcrypt is far too slow to be practical on 32-bit versions of PHP');
+            throw new \RuntimeException('bcrypt is far too slow to be practical on 32-bit versions of PHP');
         }
 
         $sha2pass = hash('sha512', $pass, true);
@@ -837,7 +837,7 @@ class Blowfish extends BlockCipher
      *
      * @see \phpseclib3\Crypt\Common\SymmetricKey::_setupInlineCrypt()
      */
-    protected function ***REMOVED***()
+    protected function setupInlineCrypt()
     {
         $p = $this->bctx['p'];
         $init_crypt = '

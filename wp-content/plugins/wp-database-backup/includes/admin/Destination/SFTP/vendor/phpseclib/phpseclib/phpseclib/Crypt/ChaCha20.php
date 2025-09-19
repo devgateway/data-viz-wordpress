@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of ChaCha20.
+ * Pure-PHP implementation of ChaCha20.
  *
  * PHP version 5
  *
@@ -17,7 +17,7 @@ use phpseclib3\Exception\BadDecryptionException;
 use phpseclib3\Exception\InsufficientSetupException;
 
 /**
- * Pure-PHP ***REMOVED*** of ChaCha20.
+ * Pure-PHP implementation of ChaCha20.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -39,7 +39,7 @@ class ChaCha20 extends Salsa20
      * @param int $engine
      * @return bool
      */
-    protected function ***REMOVED***($engine)
+    protected function isValidEngineHelper($engine)
     {
         switch ($engine) {
             case self::ENGINE_LIBSODIUM:
@@ -48,12 +48,12 @@ class ChaCha20 extends Salsa20
                 // we could probably make it so that if $this->counter == 0 then the first block would be done with either OpenSSL
                 // or PHP and then subsequent blocks would then be done with libsodium but idk - it's not a high priority atm
 
-                // we could also make it so that if $this->counter == 0 and $this->***REMOVED*** then do the first string
+                // we could also make it so that if $this->counter == 0 and $this->continuousBuffer then do the first string
                 // with libsodium and subsequent strings with openssl or pure-PHP but again not a high priority
                 return function_exists('sodium_crypto_aead_chacha20poly1305_ietf_encrypt') &&
                        $this->key_length == 32 &&
                        (($this->usePoly1305 && !isset($this->poly1305Key) && $this->counter == 0) || $this->counter == 1) &&
-                       !$this->***REMOVED***;
+                       !$this->continuousBuffer;
             case self::ENGINE_OPENSSL:
                 // OpenSSL 1.1.0 (released 25 Aug 2016) added support for chacha20.
                 // PHP didn't support OpenSSL 1.1.0 until 7.0.19 (11 May 2017)
@@ -67,7 +67,7 @@ class ChaCha20 extends Salsa20
                 }
         }
 
-        return parent::***REMOVED***($engine);
+        return parent::isValidEngineHelper($engine);
     }
 
     /**
@@ -150,20 +150,20 @@ class ChaCha20 extends Salsa20
 
         if (isset($this->poly1305Key)) {
             if ($this->oldtag === false) {
-                throw new InsufficientSetupException('***REMOVED*** Tag has not been set');
+                throw new InsufficientSetupException('Authentication Tag has not been set');
             }
             if ($this->usingGeneratedPoly1305Key && strlen($this->nonce) == 12) {
                 $plaintext = sodium_crypto_aead_chacha20poly1305_ietf_decrypt(...$params);
                 $this->oldtag = false;
                 if ($plaintext === false) {
-                    throw new BadDecryptionException('Derived ***REMOVED*** tag and supplied ***REMOVED*** tag do not match');
+                    throw new BadDecryptionException('Derived authentication tag and supplied authentication tag do not match');
                 }
                 return $plaintext;
             }
             $newtag = $this->poly1305($ciphertext);
             if ($this->oldtag != substr($newtag, 0, strlen($this->oldtag))) {
                 $this->oldtag = false;
-                throw new BadDecryptionException('Derived ***REMOVED*** tag and supplied ***REMOVED*** tag do not match');
+                throw new BadDecryptionException('Derived authentication tag and supplied authentication tag do not match');
             }
             $this->oldtag = false;
         }
@@ -191,14 +191,14 @@ class ChaCha20 extends Salsa20
 
           "Note also that the original ChaCha had a 64-bit nonce and 64-bit
            block count.  We have modified this here to be more consistent with
-           ***REMOVED*** in Section 3.2 of [RFC5116]."
+           recommendations in Section 3.2 of [RFC5116]."
          */
         switch (strlen($nonce)) {
             case 8:  // 64 bits
             case 12: // 96 bits
                 break;
             default:
-                throw new \***REMOVED***('Nonce of size ' . strlen($nonce) . ' not supported by this algorithm. Only 64-bit nonces or 96-bit nonces are supported');
+                throw new \LengthException('Nonce of size ' . strlen($nonce) . ' not supported by this algorithm. Only 64-bit nonces or 96-bit nonces are supported');
         }
 
         $this->nonce = $nonce;
@@ -247,7 +247,7 @@ class ChaCha20 extends Salsa20
             if ($this->engine == self::ENGINE_LIBSODIUM) {
                 return;
             }
-            $this->***REMOVED***();
+            $this->createPoly1305Key();
         }
 
         $key = $this->key;

@@ -2,8 +2,8 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Prepares requests that contain a body, adding the Content-Length,
  * Content-Type, and Expect headers.
@@ -13,17 +13,17 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 class PrepareBodyMiddleware
 {
     /**
-     * @var callable(***REMOVED***, array): ***REMOVED***
+     * @var callable(RequestInterface, array): PromiseInterface
      */
     private $nextHandler;
     /**
-     * @param callable(***REMOVED***, array): ***REMOVED*** $nextHandler Next handler to invoke.
+     * @param callable(RequestInterface, array): PromiseInterface $nextHandler Next handler to invoke.
      */
     public function __construct(callable $nextHandler)
     {
         $this->nextHandler = $nextHandler;
     }
-    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $fn = $this->nextHandler;
         // Don't do anything if the request has no body.
@@ -49,13 +49,13 @@ class PrepareBodyMiddleware
             }
         }
         // Add the expect header if needed.
-        $this->***REMOVED***($request, $options, $modify);
+        $this->addExpectHeader($request, $options, $modify);
         return $fn(\YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::modifyRequest($request, $modify), $options);
     }
     /**
      * Add expect header
      */
-    private function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options, array &$modify) : void
+    private function addExpectHeader(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options, array &$modify) : void
     {
         // Determine if the Expect header should be used
         if ($request->hasHeader('Expect')) {
@@ -63,10 +63,10 @@ class PrepareBodyMiddleware
         }
         $expect = $options['expect'] ?? null;
         // Return if disabled or if you're not using HTTP/1.1 or HTTP/2.0
-        if ($expect === \false || $request->***REMOVED***() < 1.1) {
+        if ($expect === \false || $request->getProtocolVersion() < 1.1) {
             return;
         }
-        // The expect header is ***REMOVED*** enabled
+        // The expect header is unconditionally enabled
         if ($expect === \true) {
             $modify['set_headers']['Expect'] = '100-Continue';
             return;

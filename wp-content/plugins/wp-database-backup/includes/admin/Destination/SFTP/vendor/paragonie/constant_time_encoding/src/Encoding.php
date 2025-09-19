@@ -19,8 +19,8 @@ use TypeError;
  *  copies or substantial portions of the Software.
  *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF ***REMOVED***,
- *  FITNESS FOR A PARTICULAR PURPOSE AND ***REMOVED***. IN NO EVENT SHALL THE
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -52,7 +52,7 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base32EncodeUpper(string $str): string
     {
         return Base32::encodeUpper($str);
     }
@@ -76,7 +76,7 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base32DecodeUpper(string $str): string
     {
         return Base32::decodeUpper($str);
     }
@@ -88,7 +88,7 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base32HexEncode(string $str): string
     {
         return Base32Hex::encode($str);
     }
@@ -100,7 +100,7 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base32HexEncodeUpper(string $str): string
     {
         return Base32Hex::encodeUpper($str);
     }
@@ -112,7 +112,7 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base32HexDecode(string $str): string
     {
         return Base32Hex::decode($str);
     }
@@ -124,7 +124,7 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base32HexDecodeUpper(string $str): string
     {
         return Base32Hex::decodeUpper($str);
     }
@@ -161,9 +161,9 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base64EncodeDotSlash(string $str): string
     {
-        return ***REMOVED***::encode($str);
+        return Base64DotSlash::encode($str);
     }
 
     /**
@@ -173,12 +173,12 @@ abstract class Encoding
      *
      * @param string $str
      * @return string
-     * @throws \***REMOVED***
+     * @throws \RangeException
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $str): string
+    public static function base64DecodeDotSlash(string $str): string
     {
-        return ***REMOVED***::decode($str);
+        return Base64DotSlash::decode($str);
     }
 
     /**
@@ -201,7 +201,7 @@ abstract class Encoding
      *
      * @param string $str
      * @return string
-     * @throws \***REMOVED***
+     * @throws \RangeException
      * @throws TypeError
      */
     public static function base64DecodeDotSlashOrdered(string $str): string
@@ -228,7 +228,7 @@ abstract class Encoding
      *
      * @param string $hex_string
      * @return string (raw binary)
-     * @throws \***REMOVED***
+     * @throws \RangeException
      */
     public static function hexDecode(string $hex_string): string
     {
@@ -243,7 +243,7 @@ abstract class Encoding
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $bin_string): string
+    public static function hexEncodeUpper(string $bin_string): string
     {
         return Hex::encodeUpper($bin_string);
     }
@@ -255,7 +255,7 @@ abstract class Encoding
      * @param string $bin_string (raw binary)
      * @return string
      */
-    public static function ***REMOVED***(string $bin_string): string
+    public static function hexDecodeUpper(string $bin_string): string
     {
         return Hex::decode($bin_string);
     }

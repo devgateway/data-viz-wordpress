@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_page_link' ) ) :
 			$this->category      = 'relational';
 			$this->description   = __( 'An interactive dropdown to select one or more posts, pages, custom post type items or archive URLs, with the option to search.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-page-link.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/page-link/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/page-link/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'post_type'      => array(),
 				'taxonomy'       => array(),

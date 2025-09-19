@@ -4,24 +4,24 @@ namespace Yoast\WP\SEO\Config;
 
 use Exception;
 use UnexpectedValueException;
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use YoastSEO_Vendor\League\OAuth2\Client\Token\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 use YoastSEO_Vendor\League\OAuth2\Client\Tool\BearerAuthorizationTrait;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 use YoastSEO_Vendor\Psr\Log\InvalidArgumentException;
 
 /**
  * Class Wincher_PKCE_Provider
  *
- * @***REMOVED*** Ignoring as this class is purely a temporary wrapper until https://github.com/thephpleague/oauth2-client/pull/901 is merged.
+ * @codeCoverageIgnore Ignoring as this class is purely a temporary wrapper until https://github.com/thephpleague/oauth2-client/pull/901 is merged.
  *
- * @phpcs:disable WordPress.***REMOVED***.***REMOVED***.***REMOVED*** -- This class extends an external class.
- * @phpcs:disable WordPress.***REMOVED***.***REMOVED***.UsedPropertyNotSnakeCase -- This class extends an external class.
+ * @phpcs:disable WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase -- This class extends an external class.
+ * @phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- This class extends an external class.
  */
-class Wincher_PKCE_Provider extends ***REMOVED*** {
+class Wincher_PKCE_Provider extends GenericProvider {
 
 	use BearerAuthorizationTrait;
 
@@ -74,7 +74,7 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 	 *
 	 * @throws Exception Throws exception if an invalid value is passed to random_bytes.
 	 */
-	protected function ***REMOVED***( $length = 64 ) {
+	protected function getRandomPkceCode( $length = 64 ) {
 		return \substr(
 			\strtr(
 				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
@@ -108,11 +108,11 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 	 */
 	protected function getAuthorizationParameters( array $options ) {
 		if ( empty( $options['state'] ) ) {
-			$options['state'] = $this->***REMOVED***();
+			$options['state'] = $this->getRandomState();
 		}
 
 		if ( empty( $options['scope'] ) ) {
-			$options['scope'] = $this->***REMOVED***();
+			$options['scope'] = $this->getDefaultScopes();
 		}
 
 		$options += [
@@ -120,7 +120,7 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 		];
 
 		if ( \is_array( $options['scope'] ) ) {
-			$separator        = $this->***REMOVED***();
+			$separator        = $this->getScopeSeparator();
 			$options['scope'] = \implode( $separator, $options['scope'] );
 		}
 
@@ -129,7 +129,7 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 
 		$pkce_method = $this->getPkceMethod();
 		if ( ! empty( $pkce_method ) ) {
-			$this->pkceCode = $this->***REMOVED***();
+			$this->pkceCode = $this->getRandomPkceCode();
 			if ( $pkce_method === 'S256' ) {
 				$options['code_challenge'] = \trim(
 					\strtr(
@@ -167,11 +167,11 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 	 * @param mixed $grant   The grant to request access for.
 	 * @param array $options The options to use with the current request.
 	 *
-	 * @return AccessToken|***REMOVED*** The access token.
+	 * @return AccessToken|AccessTokenInterface The access token.
 	 *
 	 * @throws UnexpectedValueException Exception thrown if the provider response contains errors.
 	 */
-	public function ***REMOVED***( $grant, array $options = [] ) {
+	public function getAccessToken( $grant, array $options = [] ) {
 		$grant = $this->verifyGrant( $grant );
 
 		$params = [
@@ -186,7 +186,7 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 
 		$params   = $grant->prepareRequestParameters( $params, $options );
 		$request  = $this->getAccessTokenRequest( $params );
-		$response = $this->***REMOVED***( $request );
+		$response = $this->getParsedResponse( $request );
 
 		if ( \is_array( $response ) === false ) {
 			throw new UnexpectedValueException(
@@ -195,7 +195,7 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 		}
 
 		$prepared = $this->prepareAccessTokenResponse( $response );
-		$token    = $this->***REMOVED***( $prepared, $grant );
+		$token    = $this->createAccessToken( $prepared, $grant );
 
 		return $token;
 	}
@@ -207,11 +207,11 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 	 */
 	protected function getConfigurableOptions() {
 		return \array_merge(
-			$this->***REMOVED***(),
+			$this->getRequiredOptions(),
 			[
-				'***REMOVED***',
+				'accessTokenMethod',
 				'accessTokenResourceOwnerId',
-				'***REMOVED***',
+				'scopeSeparator',
 				'responseError',
 				'responseCode',
 				'responseResourceOwnerId',
@@ -224,16 +224,16 @@ class Wincher_PKCE_Provider extends ***REMOVED*** {
 	/**
 	 * Parses the request response.
 	 *
-	 * @param ***REMOVED*** $request The request interface.
+	 * @param RequestInterface $request The request interface.
 	 *
 	 * @return array The parsed response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there is no proper identity provider.
 	 */
-	public function ***REMOVED***( ***REMOVED*** $request ) {
+	public function getParsedResponse( RequestInterface $request ) {
 		try {
 			$response = $this->getResponse( $request );
-		} catch ( ***REMOVED*** $e ) {
+		} catch ( BadResponseException $e ) {
 			$response = $e->getResponse();
 		}
 

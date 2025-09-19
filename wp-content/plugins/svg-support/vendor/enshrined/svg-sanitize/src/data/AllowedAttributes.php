@@ -2,11 +2,11 @@
 namespace enshrined\svgSanitize\data;
 
 /**
- * Class ***REMOVED***
+ * Class AllowedAttributes
  *
  * @package enshrined\svgSanitize\data
  */
-class ***REMOVED*** implements ***REMOVED***
+class AllowedAttributes implements AttributeInterface
 {
 
     /**
@@ -139,7 +139,7 @@ class ***REMOVED*** implements ***REMOVED***
             'd',
             'dx',
             'dy',
-            '***REMOVED***',
+            'diffuseconstant',
             'direction',
             'display',
             'divisor',
@@ -169,7 +169,7 @@ class ***REMOVED*** implements ***REMOVED***
             'glyph-name',
             'glyphref',
             'gradientunits',
-            '***REMOVED***',
+            'gradienttransform',
             'height',
             'href',
             'id',
@@ -189,7 +189,7 @@ class ***REMOVED*** implements ***REMOVED***
             'lengthadjust',
             'letter-spacing',
             'kernelmatrix',
-            '***REMOVED***',
+            'kernelunitlength',
             'lighting-color',
             'local',
             'marker-end',
@@ -198,7 +198,7 @@ class ***REMOVED*** implements ***REMOVED***
             'markerheight',
             'markerunits',
             'markerwidth',
-            '***REMOVED***',
+            'maskcontentunits',
             'maskunits',
             'max',
             'mask',
@@ -219,12 +219,12 @@ class ***REMOVED*** implements ***REMOVED***
             'paint-order',
             'path',
             'pathlength',
-            '***REMOVED***',
-            '***REMOVED***',
+            'patterncontentunits',
+            'patterntransform',
             'patternunits',
             'points',
             'preservealpha',
-            '***REMOVED***',
+            'preserveaspectratio',
             'r',
             'rx',
             'ry',
@@ -239,8 +239,8 @@ class ***REMOVED*** implements ***REMOVED***
             'scale',
             'seed',
             'shape-rendering',
-            '***REMOVED***',
-            '***REMOVED***',
+            'specularconstant',
+            'specularexponent',
             'spreadmethod',
             'stddeviation',
             'stitchtiles',
@@ -279,8 +279,8 @@ class ***REMOVED*** implements ***REMOVED***
             'word-spacing',
             'wrap',
             'writing-mode',
-            '***REMOVED***',
-            '***REMOVED***',
+            'xchannelselector',
+            'ychannelselector',
             'x',
             'x1',
             'x2',
@@ -315,7 +315,7 @@ class ***REMOVED*** implements ***REMOVED***
             'linethickness',
             'lspace',
             'lquote',
-            '***REMOVED***',
+            'mathbackground',
             'mathcolor',
             'mathsize',
             'mathvariant',
@@ -333,14 +333,14 @@ class ***REMOVED*** implements ***REMOVED***
             'rquote',
             'scriptlevel',
             'scriptminsize',
-            '***REMOVED***',
+            'scriptsizemultiplier',
             'selection',
             'separator',
             'separators',
             'slope',
             'stretchy',
-            '***REMOVED***',
-            '***REMOVED***',
+            'subscriptshift',
+            'supscriptshift',
             'symmetric',
             'voffset',
             'width',

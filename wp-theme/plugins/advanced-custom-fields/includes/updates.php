@@ -108,11 +108,11 @@ class ACF_Updates {
 	function request( $endpoint = '', $body = null ) {
 		
 		// Determine URL.
-		$url = "https://connect.***REMOVED***.com/$endpoint";
+		$url = "https://connect.advancedcustomfields.com/$endpoint";
 		
 		// Staging environment.
 		if( defined('ACF_DEV_API') && ACF_DEV_API === 'STAGE' ) {
-			$url = "https://staging.connect.***REMOVED***.com/$endpoint";
+			$url = "https://staging.connect.advancedcustomfields.com/$endpoint";
 			acf_log( $url, $body );
 		
 		// Dev environment.	

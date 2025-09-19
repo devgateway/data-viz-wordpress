@@ -30,12 +30,12 @@ abstract class PBKDF2params
             // technically, this is a CHOICE in RFC2898 but the other "choice" is, currently, more of a placeholder
             // in the RFC
             'salt' => ['type' => ASN1::TYPE_OCTET_STRING],
-            '***REMOVED***' => ['type' => ASN1::TYPE_INTEGER],
+            'iterationCount' => ['type' => ASN1::TYPE_INTEGER],
             'keyLength' => [
                 'type' => ASN1::TYPE_INTEGER,
                 'optional' => true
             ],
-            'prf' => ***REMOVED***::MAP + ['optional' => true]
+            'prf' => AlgorithmIdentifier::MAP + ['optional' => true]
         ]
     ];
 }

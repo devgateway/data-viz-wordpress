@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Tracking;
 
 use Exception;
@@ -7,7 +7,7 @@ use WP_Error;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Tracking\Setup_Steps_Tracking_Repository_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Tracking\Setup_Steps_Tracking_Repository_Interface;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -17,7 +17,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
  *
  * @makePublic
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Setup_Steps_Tracking_Route implements Route_Interface {
 
@@ -121,9 +121,9 @@ class Setup_Steps_Tracking_Route implements Route_Interface {
 	public function track_setup_steps( WP_REST_Request $request ) {
 		$data = \array_filter(
 			[
-				'setup_widget_loaded'                => $request->get_param( '***REMOVED***' ),
+				'setup_widget_loaded'                => $request->get_param( 'setupWidgetLoaded' ),
 				'first_interaction_stage'            => $request->get_param( 'firstInteractionStage' ),
-				'last_interaction_stage'             => $request->get_param( '***REMOVED***' ),
+				'last_interaction_stage'             => $request->get_param( 'lastInteractionStage' ),
 				'setup_widget_temporarily_dismissed' => $request->get_param( 'setupWidgetTemporarilyDismissed' ),
 				'setup_widget_permanently_dismissed' => $request->get_param( 'setupWidgetPermanentlyDismissed' ),
 			],

@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -660,7 +660,7 @@ msgid "Button Icon"
 msgstr "Düğme simgesi"
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr "İş i̇nsanı i̇konu"
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -1992,7 +1992,7 @@ msgstr "Lisansı yönet"
 
 #: includes/admin/views/acf-field-group/options.php:102
 msgid "'High' position not supported in the Block Editor"
-msgstr "'Yüksek' konum blok düzenleyicide ***REMOVED***"
+msgstr "'Yüksek' konum blok düzenleyicide desteklenmiyor"
 
 #: includes/admin/views/options-page-preview.php:30
 msgid "Upgrade to ACF PRO"
@@ -2303,7 +2303,7 @@ msgstr "Taksonomi bulunamadı"
 
 #: includes/post-types/class-acf-taxonomy.php:97
 msgid "Search Taxonomies"
-msgstr "***REMOVED*** ara"
+msgstr "Taksonomilerde ara"
 
 #: includes/post-types/class-acf-taxonomy.php:96
 msgid "View Taxonomy"
@@ -2635,7 +2635,7 @@ msgid ""
 "and call-to-action tiles, by acting as a parent to a set of subfields which "
 "can be repeated again and again."
 msgstr ""
-"Bu, tekrar tekrar ***REMOVED*** bir dizi alt alanın üst öğesi olarak "
+"Bu, tekrar tekrar tekrarlanabilecek bir dizi alt alanın üst öğesi olarak "
 "hareket ederek slaytlar, ekip üyeleri ve harekete geçirici mesaj parçaları "
 "gibi yinelenen içeriklere yönelik bir çözüm sağlar."
 
@@ -2759,7 +2759,7 @@ msgstr "İlk sınıflandırmanızı ekleyin"
 
 #: includes/admin/views/acf-taxonomy/basic-settings.php:122
 msgid "Hierarchical taxonomies can have descendants (like categories)."
-msgstr "Hiyerarşik ***REMOVED*** alt ögeleri (kategoriler gibi) olabilir."
+msgstr "Hiyerarşik taksonomilerin alt ögeleri (kategoriler gibi) olabilir."
 
 #: includes/admin/views/acf-taxonomy/basic-settings.php:107
 msgid "Makes a taxonomy visible on the frontend and in the admin dashboard."
@@ -2811,7 +2811,7 @@ msgstr ""
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1001
 msgid "Parent-child terms in URLs for hierarchical taxonomies."
-msgstr "Hiyerarşik sınıflandırmalar için web ***REMOVED*** üst-alt terimler."
+msgstr "Hiyerarşik sınıflandırmalar için web adreslerindeki üst-alt terimler."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:961
 msgid "Customize the slug used in the URL"
@@ -2859,7 +2859,7 @@ msgstr "Hızlı düzenle"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:888
 msgid "List the taxonomy in the Tag Cloud Widget controls."
-msgstr "Etiket bulutu gereç ***REMOVED*** sınıflandırmayı listele."
+msgstr "Etiket bulutu gereç kontrollerindeki sınıflandırmayı listele."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:887
 msgid "Tag Cloud"
@@ -3516,7 +3516,7 @@ msgstr "Bir öğe ve öğeler için adreslere bir sorgu dizesi ile erişilebilir
 #: includes/admin/views/acf-post-type/advanced-settings.php:1184
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1022
 msgid "Publicly Queryable"
-msgstr "Herkese açık olarak ***REMOVED***"
+msgstr "Herkese açık olarak sorgulanabilir"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1163
 msgid "Custom slug for the Archive URL."
@@ -3642,7 +3642,7 @@ msgstr "Dışarı aktarılabilir"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:978
 msgid "Optionally provide a plural to be used in capabilities."
-msgstr "***REMOVED*** kullanılacak bir çoğul ad sağlayın (isteğe bağlı)."
+msgstr "Yetkinliklerde kullanılacak bir çoğul ad sağlayın (isteğe bağlı)."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:977
 msgid "Plural Capability Name"
@@ -5227,7 +5227,7 @@ msgid ""
 "encounter."
 msgstr ""
 "<a href=\"%s\" target=\"_blank\">Belgeler</a>. Karşınıza çıkabilecek bir çok "
-"konu hakkında geniş içerikli belgelerimize baş ***REMOVED***."
+"konu hakkında geniş içerikli belgelerimize baş vurabilirsiniz."
 
 #: includes/admin/admin.php:151
 msgid ""
@@ -5813,7 +5813,7 @@ msgid ""
 "The following sites require a DB upgrade. Check the ones you want to update "
 "and then click %s."
 msgstr ""
-"Şu siteler için VT güncellemesi gerekiyor. Güncellemek ***REMOVED*** "
+"Şu siteler için VT güncellemesi gerekiyor. Güncellemek istediklerinizi "
 "işaretleyin ve %s tuşuna basın."
 
 #: includes/admin/views/acf-field-group/conditional-logic.php:184
@@ -6343,7 +6343,7 @@ msgstr "‘Özel’ değerleri alanın seçenekleri arasına kaydet"
 
 #: includes/fields/class-acf-field-checkbox.php:372
 msgid "Allow 'custom' values to be added"
-msgstr "‘Özel’ alanların ***REMOVED*** izin ver"
+msgstr "‘Özel’ alanların eklenebilmesine izin ver"
 
 #: includes/fields/class-acf-field-checkbox.php:35
 msgid "Add new choice"
@@ -6902,7 +6902,7 @@ msgstr "kirmizi : Kırmızı"
 msgid "For more control, you may specify both a value and label like this:"
 msgstr ""
 "Daha fazla kontrol için, hem bir değeri hem de bir etiketi şu şekilde "
-"***REMOVED***:"
+"belirtebilirsiniz:"
 
 #: includes/fields/class-acf-field-button-group.php:138
 #: includes/fields/class-acf-field-checkbox.php:323
@@ -6943,7 +6943,7 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "Alan tıklanana kadar TinyMCE hazırlanmayacaktır"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
+msgid "Delay Initialization"
 msgstr "Hazırlık geciktirme"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
@@ -7693,8 +7693,8 @@ msgstr "Güçlü, profesyonel ve sezgisel alanlar ile WordPress'i özelleştirin
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93

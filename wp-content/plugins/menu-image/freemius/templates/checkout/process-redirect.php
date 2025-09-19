@@ -53,7 +53,7 @@
 
         switch ( action ) {
             case 'install':
-                ***REMOVED***( data );
+                processInstall( data );
                 break;
             case 'pending_activation':
                 processPendingActivation( data );
@@ -63,7 +63,7 @@
                 break;
         }
 
-        function ***REMOVED***( data ) {
+        function processInstall( data ) {
             var requestData = {
                 user_id           : data.user.id,
                 user_secret_key   : data.user.secret_key,

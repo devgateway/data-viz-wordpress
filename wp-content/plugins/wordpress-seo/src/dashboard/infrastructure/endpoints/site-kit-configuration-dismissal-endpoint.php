@@ -1,6 +1,6 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Endpoints;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
 use Exception;
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;

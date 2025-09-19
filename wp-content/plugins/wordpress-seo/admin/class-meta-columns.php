@@ -150,13 +150,13 @@ class WPSEO_Meta_Columns {
 
 		switch ( $column_name ) {
 			case 'wpseo-score':
-				// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Correctly escaped in render_score_indicator() method.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score( $post_id );
 
 				return;
 
 			case 'wpseo-score-readability':
-				// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Correctly escaped in render_score_indicator() method.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score_readability( $post_id );
 
 				return;
@@ -534,9 +534,9 @@ class WPSEO_Meta_Columns {
 	 * @return string|null The sanitized current post type or null when the variable is not set in $_GET.
 	 */
 	public function get_current_post_type() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['post_type'] ) && is_string( $_GET['post_type'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
 		}
 		return null;
@@ -548,9 +548,9 @@ class WPSEO_Meta_Columns {
 	 * @return string|null The sanitized seo filter or null when the variable is not set in $_GET.
 	 */
 	public function get_current_seo_filter() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['seo_filter'] ) && is_string( $_GET['seo_filter'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['seo_filter'] ) );
 		}
 		return null;
@@ -562,9 +562,9 @@ class WPSEO_Meta_Columns {
 	 * @return string|null The sanitized readability filter or null when the variable is not set in $_GET.
 	 */
 	public function get_current_readability_filter() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['readability_filter'] ) && is_string( $_GET['readability_filter'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['readability_filter'] ) );
 		}
 		return null;
@@ -576,9 +576,9 @@ class WPSEO_Meta_Columns {
 	 * @return string|null The sanitized seo keyword filter or null when the variable is not set in $_GET.
 	 */
 	public function get_current_keyword_filter() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['seo_kw_filter'] ) && is_string( $_GET['seo_kw_filter'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['seo_kw_filter'] ) );
 		}
 		return null;

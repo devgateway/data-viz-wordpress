@@ -6,23 +6,23 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
 /**
  * A task queue that executes tasks in a FIFO order.
  *
- * This task queue class is used to settle promises ***REMOVED*** and
- * maintains a constant stack size. You can use the task queue ***REMOVED***
+ * This task queue class is used to settle promises asynchronously and
+ * maintains a constant stack size. You can use the task queue asynchronously
  * by calling the `run()` function of the global task queue in an event loop.
  *
  *     GuzzleHttp\Promise\Utils::queue()->run();
  *
  * @final
  */
-class TaskQueue implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+class TaskQueue implements \YoastSEO_Vendor\GuzzleHttp\Promise\TaskQueueInterface
 {
-    private $***REMOVED*** = \true;
+    private $enableShutdown = \true;
     private $queue = [];
     public function __construct(bool $withShutdown = \true)
     {
         if ($withShutdown) {
             \register_shutdown_function(function () : void {
-                if ($this->***REMOVED***) {
+                if ($this->enableShutdown) {
                     // Only run the tasks if an E_ERROR didn't occur.
                     $err = \error_get_last();
                     if (!$err || $err['type'] ^ \E_ERROR) {
@@ -58,8 +58,8 @@ class TaskQueue implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
      *
      * Note: This shutdown will occur before any destructors are triggered.
      */
-    public function ***REMOVED***() : void
+    public function disableShutdown() : void
     {
-        $this->***REMOVED*** = \false;
+        $this->enableShutdown = \false;
     }
 }

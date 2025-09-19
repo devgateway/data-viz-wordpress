@@ -4,9 +4,9 @@ namespace YoastSEO_Vendor\GuzzleHttp;
 
 use YoastSEO_Vendor\GuzzleHttp\Promise as P;
 use YoastSEO_Vendor\GuzzleHttp\Promise\EachPromise;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromisorInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Sends an iterator of requests concurrently using a capped pool size.
  *
@@ -20,14 +20,14 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  *
  * @final
  */
-class Pool implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+class Pool implements \YoastSEO_Vendor\GuzzleHttp\Promise\PromisorInterface
 {
     /**
      * @var EachPromise
      */
     private $each;
     /**
-     * @param ***REMOVED*** $client   Client used to send the requests.
+     * @param ClientInterface $client   Client used to send the requests.
      * @param array|\Iterator $requests Requests or functions that return
      *                                  requests to send concurrently.
      * @param array           $config   Associative array of options
@@ -36,7 +36,7 @@ class Pool implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
      *                                  - fulfilled: (callable) Function to invoke when a request completes.
      *                                  - rejected: (callable) Function to invoke when a request is rejected.
      */
-    public function __construct(\YoastSEO_Vendor\GuzzleHttp\***REMOVED*** $client, $requests, array $config = [])
+    public function __construct(\YoastSEO_Vendor\GuzzleHttp\ClientInterface $client, $requests, array $config = [])
     {
         if (!isset($config['concurrency'])) {
             $config['concurrency'] = 25;
@@ -50,12 +50,12 @@ class Pool implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         $iterable = \YoastSEO_Vendor\GuzzleHttp\Promise\Create::iterFor($requests);
         $requests = static function () use($iterable, $client, $opts) {
             foreach ($iterable as $key => $rfn) {
-                if ($rfn instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
+                if ($rfn instanceof \YoastSEO_Vendor\Psr\Http\Message\RequestInterface) {
                     (yield $key => $client->sendAsync($rfn, $opts));
                 } elseif (\is_callable($rfn)) {
                     (yield $key => $rfn($opts));
                 } else {
-                    throw new \InvalidArgumentException('Each value yielded by the iterator must be a Psr7\\Http\\Message\\***REMOVED*** or a callable that returns a promise that fulfills with a Psr7\\Message\\Http\\***REMOVED*** object.');
+                    throw new \InvalidArgumentException('Each value yielded by the iterator must be a Psr7\\Http\\Message\\RequestInterface or a callable that returns a promise that fulfills with a Psr7\\Message\\Http\\ResponseInterface object.');
                 }
             }
         };
@@ -64,7 +64,7 @@ class Pool implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     /**
      * Get promise
      */
-    public function promise() : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function promise() : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->each->promise();
     }
@@ -76,7 +76,7 @@ class Pool implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
      * as such, is NOT recommended when sending a large number or an
      * indeterminate number of requests concurrently.
      *
-     * @param ***REMOVED*** $client   Client used to send the requests
+     * @param ClientInterface $client   Client used to send the requests
      * @param array|\Iterator $requests Requests to send concurrently.
      * @param array           $options  Passes through the options available in
      *                                  {@see \GuzzleHttp\Pool::__construct}
@@ -86,7 +86,7 @@ class Pool implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
      *
      * @throws \InvalidArgumentException if the event format is incorrect.
      */
-    public static function batch(\YoastSEO_Vendor\GuzzleHttp\***REMOVED*** $client, $requests, array $options = []) : array
+    public static function batch(\YoastSEO_Vendor\GuzzleHttp\ClientInterface $client, $requests, array $options = []) : array
     {
         $res = [];
         self::cmpCallback($options, 'fulfilled', $res);

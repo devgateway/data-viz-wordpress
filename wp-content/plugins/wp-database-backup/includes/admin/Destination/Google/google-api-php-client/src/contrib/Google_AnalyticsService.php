@@ -18,8 +18,8 @@
    * The "data" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $data = $***REMOVED***->data;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $data = $analyticsService->data;
    *  </code>
    */
   class Google_DataServiceResource extends Google_ServiceResource {
@@ -30,8 +30,8 @@
    * The "ga" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $ga = $***REMOVED***->ga;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $ga = $analyticsService->ga;
    *  </code>
    */
   class Google_DataGaServiceResource extends Google_ServiceResource {
@@ -68,8 +68,8 @@
    * The "mcf" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $mcf = $***REMOVED***->mcf;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $mcf = $analyticsService->mcf;
    *  </code>
    */
   class Google_DataMcfServiceResource extends Google_ServiceResource {
@@ -80,7 +80,7 @@
      * @param string $ids Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics view (profile) ID.
      * @param string $start_date Start date for fetching Analytics data. All requests should specify a start date formatted as YYYY-MM-DD.
      * @param string $end_date End date for fetching Analytics data. All requests should specify an end date formatted as YYYY-MM-DD.
-     * @param string $metrics A comma-separated list of Multi-Channel Funnels metrics. E.g., 'mcf:***REMOVED***,mcf:***REMOVED***'. At least one metric must be specified.
+     * @param string $metrics A comma-separated list of Multi-Channel Funnels metrics. E.g., 'mcf:totalConversions,mcf:totalConversionValue'. At least one metric must be specified.
      * @param array $optParams Optional parameters.
      *
      * @opt_param string dimensions A comma-separated list of Multi-Channel Funnels dimensions. E.g., 'mcf:source,mcf:medium'.
@@ -105,8 +105,8 @@
    * The "realtime" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $realtime = $***REMOVED***->realtime;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $realtime = $analyticsService->realtime;
    *  </code>
    */
   class Google_DataRealtimeServiceResource extends Google_ServiceResource {
@@ -140,8 +140,8 @@
    * The "management" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $management = $***REMOVED***->management;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $management = $analyticsService->management;
    *  </code>
    */
   class Google_ManagementServiceResource extends Google_ServiceResource {
@@ -152,8 +152,8 @@
    * The "accounts" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $accounts = $***REMOVED***->accounts;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $accounts = $analyticsService->accounts;
    *  </code>
    */
   class Google_ManagementAccountsServiceResource extends Google_ServiceResource {
@@ -179,18 +179,18 @@
     }
   }
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "customDataSources" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $customDataSources = $analyticsService->customDataSources;
    *  </code>
    */
   class Google_ManagementCustomDataSourcesServiceResource extends Google_ServiceResource {
 
     /**
      * List custom data sources to which the user has access.
-     * (***REMOVED***.list)
+     * (customDataSources.list)
      *
      * @param string $accountId Account Id for the custom data sources to retrieve.
      * @param string $webPropertyId Web property Id for the custom data sources to retrieve.
@@ -215,8 +215,8 @@
    * The "dailyUploads" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $dailyUploads = $***REMOVED***->dailyUploads;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $dailyUploads = $analyticsService->dailyUploads;
    *  </code>
    */
   class Google_ManagementDailyUploadsServiceResource extends Google_ServiceResource {
@@ -226,13 +226,13 @@
      *
      * @param string $accountId Account Id associated with daily upload delete.
      * @param string $webPropertyId Web property Id associated with daily upload delete.
-     * @param string $***REMOVED*** Custom data source Id associated with daily upload delete.
+     * @param string $customDataSourceId Custom data source Id associated with daily upload delete.
      * @param string $date Date for which data is to be deleted. Date should be formatted as YYYY-MM-DD.
      * @param string $type Type of data for this delete.
      * @param array $optParams Optional parameters.
      */
-    public function delete($accountId, $webPropertyId, $***REMOVED***, $date, $type, $optParams = array()) {
-      $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, '***REMOVED***' => $***REMOVED***, 'date' => $date, 'type' => $type);
+    public function delete($accountId, $webPropertyId, $customDataSourceId, $date, $type, $optParams = array()) {
+      $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId, 'date' => $date, 'type' => $type);
       $params = array_merge($params, $optParams);
       $data = $this->__call('delete', array($params));
       return $data;
@@ -242,7 +242,7 @@
      *
      * @param string $accountId Account Id for the daily uploads to retrieve.
      * @param string $webPropertyId Web property Id for the daily uploads to retrieve.
-     * @param string $***REMOVED*** Custom data source Id for daily uploads to retrieve.
+     * @param string $customDataSourceId Custom data source Id for daily uploads to retrieve.
      * @param string $start_date Start date of the form YYYY-MM-DD.
      * @param string $end_date End date of the form YYYY-MM-DD.
      * @param array $optParams Optional parameters.
@@ -251,8 +251,8 @@
      * @opt_param int start-index A 1-based index of the first daily upload to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
      * @return Google_DailyUploads
      */
-    public function listManagementDailyUploads($accountId, $webPropertyId, $***REMOVED***, $start_date, $end_date, $optParams = array()) {
-      $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, '***REMOVED***' => $***REMOVED***, 'start-date' => $start_date, 'end-date' => $end_date);
+    public function listManagementDailyUploads($accountId, $webPropertyId, $customDataSourceId, $start_date, $end_date, $optParams = array()) {
+      $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId, 'start-date' => $start_date, 'end-date' => $end_date);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
@@ -266,7 +266,7 @@
      *
      * @param string $accountId Account Id associated with daily upload.
      * @param string $webPropertyId Web property Id associated with daily upload.
-     * @param string $***REMOVED*** Custom data source Id to which the data being uploaded belongs.
+     * @param string $customDataSourceId Custom data source Id to which the data being uploaded belongs.
      * @param string $date Date for which data is uploaded. Date should be formatted as YYYY-MM-DD.
      * @param int $appendNumber Append number for this upload indexed from 1.
      * @param string $type Type of data for this upload.
@@ -275,8 +275,8 @@
      * @opt_param bool reset Reset/Overwrite all previous appends for this date and start over with this file as the first upload.
      * @return Google_DailyUploadAppend
      */
-    public function upload($accountId, $webPropertyId, $***REMOVED***, $date, $appendNumber, $type, $optParams = array()) {
-      $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, '***REMOVED***' => $***REMOVED***, 'date' => $date, 'appendNumber' => $appendNumber, 'type' => $type);
+    public function upload($accountId, $webPropertyId, $customDataSourceId, $date, $appendNumber, $type, $optParams = array()) {
+      $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'customDataSourceId' => $customDataSourceId, 'date' => $date, 'appendNumber' => $appendNumber, 'type' => $type);
       $params = array_merge($params, $optParams);
       $data = $this->__call('upload', array($params));
       if ($this->useObjects()) {
@@ -290,8 +290,8 @@
    * The "experiments" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $experiments = $***REMOVED***->experiments;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $experiments = $analyticsService->experiments;
    *  </code>
    */
   class Google_ManagementExperimentsServiceResource extends Google_ServiceResource {
@@ -421,8 +421,8 @@
    * The "goals" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $goals = $***REMOVED***->goals;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $goals = $analyticsService->goals;
    *  </code>
    */
   class Google_ManagementGoalsServiceResource extends Google_ServiceResource {
@@ -439,7 +439,7 @@
      * @opt_param int start-index An index of the first goal to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
      * @return Google_Goals
      */
-    public function ***REMOVED***($accountId, $webPropertyId, $profileId, $optParams = array()) {
+    public function listManagementGoals($accountId, $webPropertyId, $profileId, $optParams = array()) {
       $params = array('accountId' => $accountId, 'webPropertyId' => $webPropertyId, 'profileId' => $profileId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -454,8 +454,8 @@
    * The "profiles" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $profiles = $***REMOVED***->profiles;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $profiles = $analyticsService->profiles;
    *  </code>
    */
   class Google_ManagementProfilesServiceResource extends Google_ServiceResource {
@@ -486,8 +486,8 @@
    * The "segments" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $segments = $***REMOVED***->segments;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $segments = $analyticsService->segments;
    *  </code>
    */
   class Google_ManagementSegmentsServiceResource extends Google_ServiceResource {
@@ -516,8 +516,8 @@
    * The "webproperties" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AnalyticsService(...);
-   *   $webproperties = $***REMOVED***->webproperties;
+   *   $analyticsService = new Google_AnalyticsService(...);
+   *   $webproperties = $analyticsService->webproperties;
    *  </code>
    */
   class Google_ManagementWebpropertiesServiceResource extends Google_ServiceResource {
@@ -571,7 +571,7 @@ class Google_AnalyticsService extends Google_Service {
   public $management_segments;
   public $management_webproperties;
   /**
-   * Constructs the internal ***REMOVED*** of the Analytics service.
+   * Constructs the internal representation of the Analytics service.
    *
    * @param Google_Client $client
    */
@@ -585,8 +585,8 @@ class Google_AnalyticsService extends Google_Service {
     $this->data_mcf = new Google_DataMcfServiceResource($this, $this->serviceName, 'mcf', json_decode('{"methods": {"get": {"id": "analytics.data.mcf.get", "path": "data/mcf", "httpMethod": "GET", "parameters": {"dimensions": {"type": "string", "location": "query"}, "end-date": {"type": "string", "required": true, "location": "query"}, "filters": {"type": "string", "location": "query"}, "ids": {"type": "string", "required": true, "location": "query"}, "max-results": {"type": "integer", "format": "int32", "location": "query"}, "metrics": {"type": "string", "required": true, "location": "query"}, "sort": {"type": "string", "location": "query"}, "start-date": {"type": "string", "required": true, "location": "query"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}}, "response": {"$ref": "McfData"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}}}', true));
     $this->data_realtime = new Google_DataRealtimeServiceResource($this, $this->serviceName, 'realtime', json_decode('{"methods": {"get": {"id": "analytics.data.realtime.get", "path": "data/realtime", "httpMethod": "GET", "parameters": {"dimensions": {"type": "string", "location": "query"}, "filters": {"type": "string", "location": "query"}, "ids": {"type": "string", "required": true, "location": "query"}, "max-results": {"type": "integer", "format": "int32", "location": "query"}, "metrics": {"type": "string", "required": true, "location": "query"}, "sort": {"type": "string", "location": "query"}}, "response": {"$ref": "RealtimeData"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}}}', true));
     $this->management_accounts = new Google_ManagementAccountsServiceResource($this, $this->serviceName, 'accounts', json_decode('{"methods": {"list": {"id": "analytics.management.accounts.list", "path": "management/accounts", "httpMethod": "GET", "parameters": {"max-results": {"type": "integer", "format": "int32", "location": "query"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}}, "response": {"$ref": "Accounts"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}}}', true));
-    $this->management_customDataSources = new Google_ManagementCustomDataSourcesServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"list": {"id": "analytics.management.***REMOVED***.list", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/***REMOVED***", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "max-results": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}}}', true));
-    $this->management_dailyUploads = new Google_ManagementDailyUploadsServiceResource($this, $this->serviceName, 'dailyUploads', json_decode('{"methods": {"delete": {"id": "analytics.management.dailyUploads.delete", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/***REMOVED***/{***REMOVED***}/dailyUploads/{date}", "httpMethod": "DELETE", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "date": {"type": "string", "required": true, "location": "path"}, "type": {"type": "string", "required": true, "enum": ["cost"], "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/analytics"]}, "list": {"id": "analytics.management.dailyUploads.list", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/***REMOVED***/{***REMOVED***}/dailyUploads", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "end-date": {"type": "string", "required": true, "location": "query"}, "max-results": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "start-date": {"type": "string", "required": true, "location": "query"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DailyUploads"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}, "upload": {"id": "analytics.management.dailyUploads.upload", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/***REMOVED***/{***REMOVED***}/dailyUploads/{date}/uploads", "httpMethod": "POST", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "appendNumber": {"type": "integer", "required": true, "format": "int32", "minimum": "1", "maximum": "20", "location": "query"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "date": {"type": "string", "required": true, "location": "path"}, "reset": {"type": "boolean", "default": "false", "location": "query"}, "type": {"type": "string", "required": true, "enum": ["cost"], "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/analytics"], "***REMOVED***": true, "mediaUpload": {"accept": ["application/octet-stream"], "maxSize": "5MB", "protocols": {"simple": {"multipart": true, "path": "/upload/analytics/v3/management/accounts/{accountId}/webproperties/{webPropertyId}/***REMOVED***/{***REMOVED***}/dailyUploads/{date}/uploads"}, "resumable": {"multipart": true, "path": "/resumable/upload/analytics/v3/management/accounts/{accountId}/webproperties/{webPropertyId}/***REMOVED***/{***REMOVED***}/dailyUploads/{date}/uploads"}}}}}}', true));
+    $this->management_customDataSources = new Google_ManagementCustomDataSourcesServiceResource($this, $this->serviceName, 'customDataSources', json_decode('{"methods": {"list": {"id": "analytics.management.customDataSources.list", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "max-results": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CustomDataSources"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}}}', true));
+    $this->management_dailyUploads = new Google_ManagementDailyUploadsServiceResource($this, $this->serviceName, 'dailyUploads', json_decode('{"methods": {"delete": {"id": "analytics.management.dailyUploads.delete", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/dailyUploads/{date}", "httpMethod": "DELETE", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "customDataSourceId": {"type": "string", "required": true, "location": "path"}, "date": {"type": "string", "required": true, "location": "path"}, "type": {"type": "string", "required": true, "enum": ["cost"], "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/analytics"]}, "list": {"id": "analytics.management.dailyUploads.list", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/dailyUploads", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "customDataSourceId": {"type": "string", "required": true, "location": "path"}, "end-date": {"type": "string", "required": true, "location": "query"}, "max-results": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "start-date": {"type": "string", "required": true, "location": "query"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DailyUploads"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}, "upload": {"id": "analytics.management.dailyUploads.upload", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/dailyUploads/{date}/uploads", "httpMethod": "POST", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "appendNumber": {"type": "integer", "required": true, "format": "int32", "minimum": "1", "maximum": "20", "location": "query"}, "customDataSourceId": {"type": "string", "required": true, "location": "path"}, "date": {"type": "string", "required": true, "location": "path"}, "reset": {"type": "boolean", "default": "false", "location": "query"}, "type": {"type": "string", "required": true, "enum": ["cost"], "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DailyUploadAppend"}, "scopes": ["https://www.googleapis.com/auth/analytics"], "supportsMediaUpload": true, "mediaUpload": {"accept": ["application/octet-stream"], "maxSize": "5MB", "protocols": {"simple": {"multipart": true, "path": "/upload/analytics/v3/management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/dailyUploads/{date}/uploads"}, "resumable": {"multipart": true, "path": "/resumable/upload/analytics/v3/management/accounts/{accountId}/webproperties/{webPropertyId}/customDataSources/{customDataSourceId}/dailyUploads/{date}/uploads"}}}}}}', true));
     $this->management_experiments = new Google_ManagementExperimentsServiceResource($this, $this->serviceName, 'experiments', json_decode('{"methods": {"delete": {"id": "analytics.management.experiments.delete", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}", "httpMethod": "DELETE", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "experimentId": {"type": "string", "required": true, "location": "path"}, "profileId": {"type": "string", "required": true, "location": "path"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/analytics"]}, "get": {"id": "analytics.management.experiments.get", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "experimentId": {"type": "string", "required": true, "location": "path"}, "profileId": {"type": "string", "required": true, "location": "path"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Experiment"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}, "insert": {"id": "analytics.management.experiments.insert", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments", "httpMethod": "POST", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "profileId": {"type": "string", "required": true, "location": "path"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Experiment"}, "response": {"$ref": "Experiment"}, "scopes": ["https://www.googleapis.com/auth/analytics"]}, "list": {"id": "analytics.management.experiments.list", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "max-results": {"type": "integer", "format": "int32", "location": "query"}, "profileId": {"type": "string", "required": true, "location": "path"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Experiments"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}, "patch": {"id": "analytics.management.experiments.patch", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}", "httpMethod": "PATCH", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "experimentId": {"type": "string", "required": true, "location": "path"}, "profileId": {"type": "string", "required": true, "location": "path"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Experiment"}, "response": {"$ref": "Experiment"}, "scopes": ["https://www.googleapis.com/auth/analytics"]}, "update": {"id": "analytics.management.experiments.update", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments/{experimentId}", "httpMethod": "PUT", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "experimentId": {"type": "string", "required": true, "location": "path"}, "profileId": {"type": "string", "required": true, "location": "path"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Experiment"}, "response": {"$ref": "Experiment"}, "scopes": ["https://www.googleapis.com/auth/analytics"]}}}', true));
     $this->management_goals = new Google_ManagementGoalsServiceResource($this, $this->serviceName, 'goals', json_decode('{"methods": {"list": {"id": "analytics.management.goals.list", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/goals", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "max-results": {"type": "integer", "format": "int32", "location": "query"}, "profileId": {"type": "string", "required": true, "location": "path"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Goals"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}}}', true));
     $this->management_profiles = new Google_ManagementProfilesServiceResource($this, $this->serviceName, 'profiles', json_decode('{"methods": {"list": {"id": "analytics.management.profiles.list", "path": "management/accounts/{accountId}/webproperties/{webPropertyId}/profiles", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "location": "path"}, "max-results": {"type": "integer", "format": "int32", "location": "query"}, "start-index": {"type": "integer", "format": "int32", "minimum": "1", "location": "query"}, "webPropertyId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Profiles"}, "scopes": ["https://www.googleapis.com/auth/analytics", "https://www.googleapis.com/auth/analytics.readonly"]}}}', true));
@@ -687,10 +687,10 @@ class Google_Accounts extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -705,10 +705,10 @@ class Google_Accounts extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -717,10 +717,10 @@ class Google_Accounts extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -744,7 +744,7 @@ class Google_CustomDataSource extends Google_Model {
   protected $__parentLinkType = 'Google_CustomDataSourceParentLink';
   protected $__parentLinkDataType = '';
   public $parentLink;
-  public $***REMOVED***;
+  public $profilesLinked;
   public $selfLink;
   public $type;
   public $updated;
@@ -767,10 +767,10 @@ class Google_CustomDataSource extends Google_Model {
   public function getCreated() {
     return $this->created;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -797,12 +797,12 @@ class Google_CustomDataSource extends Google_Model {
   public function getParentLink() {
     return $this->parentLink;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setProfilesLinked(/* array(Google_string) */ $profilesLinked) {
+    $this->assertIsArray($profilesLinked, 'Google_string', __METHOD__);
+    $this->profilesLinked = $profilesLinked;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getProfilesLinked() {
+    return $this->profilesLinked;
   }
   public function setSelfLink( $selfLink) {
     $this->selfLink = $selfLink;
@@ -822,10 +822,10 @@ class Google_CustomDataSource extends Google_Model {
   public function getUpdated() {
     return $this->updated;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
 }
@@ -882,10 +882,10 @@ class Google_CustomDataSources extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -900,10 +900,10 @@ class Google_CustomDataSources extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -912,10 +912,10 @@ class Google_CustomDataSources extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -930,7 +930,7 @@ class Google_DailyUpload extends Google_Model {
   public $accountId;
   public $appendCount;
   public $createdTime;
-  public $***REMOVED***;
+  public $customDataSourceId;
   public $date;
   public $kind;
   public $modifiedTime;
@@ -948,23 +948,23 @@ class Google_DailyUpload extends Google_Model {
   public function getAccountId() {
     return $this->accountId;
   }
-  public function ***REMOVED***( $appendCount) {
+  public function setAppendCount( $appendCount) {
     $this->appendCount = $appendCount;
   }
-  public function ***REMOVED***() {
+  public function getAppendCount() {
     return $this->appendCount;
   }
-  public function ***REMOVED***( $createdTime) {
+  public function setCreatedTime( $createdTime) {
     $this->createdTime = $createdTime;
   }
-  public function ***REMOVED***() {
+  public function getCreatedTime() {
     return $this->createdTime;
   }
-  public function setCustomDataSourceId( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCustomDataSourceId( $customDataSourceId) {
+    $this->customDataSourceId = $customDataSourceId;
   }
   public function getCustomDataSourceId() {
-    return $this->***REMOVED***;
+    return $this->customDataSourceId;
   }
   public function setDate( $date) {
     $this->date = $date;
@@ -978,10 +978,10 @@ class Google_DailyUpload extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $modifiedTime) {
+  public function setModifiedTime( $modifiedTime) {
     $this->modifiedTime = $modifiedTime;
   }
-  public function ***REMOVED***() {
+  public function getModifiedTime() {
     return $this->modifiedTime;
   }
   public function setParentLink(Google_DailyUploadParentLink $parentLink) {
@@ -990,11 +990,11 @@ class Google_DailyUpload extends Google_Model {
   public function getParentLink() {
     return $this->parentLink;
   }
-  public function ***REMOVED***(/* array(Google_DailyUploadRecentChanges) */ $recentChanges) {
+  public function setRecentChanges(/* array(Google_DailyUploadRecentChanges) */ $recentChanges) {
     $this->assertIsArray($recentChanges, 'Google_DailyUploadRecentChanges', __METHOD__);
     $this->recentChanges = $recentChanges;
   }
-  public function ***REMOVED***() {
+  public function getRecentChanges() {
     return $this->recentChanges;
   }
   public function setSelfLink( $selfLink) {
@@ -1003,10 +1003,10 @@ class Google_DailyUpload extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
 }
@@ -1014,10 +1014,10 @@ class Google_DailyUpload extends Google_Model {
 class Google_DailyUploadAppend extends Google_Model {
   public $accountId;
   public $appendNumber;
-  public $***REMOVED***;
+  public $customDataSourceId;
   public $date;
   public $kind;
-  public $***REMOVED***;
+  public $nextAppendLink;
   public $webPropertyId;
   public function setAccountId( $accountId) {
     $this->accountId = $accountId;
@@ -1025,17 +1025,17 @@ class Google_DailyUploadAppend extends Google_Model {
   public function getAccountId() {
     return $this->accountId;
   }
-  public function ***REMOVED***( $appendNumber) {
+  public function setAppendNumber( $appendNumber) {
     $this->appendNumber = $appendNumber;
   }
-  public function ***REMOVED***() {
+  public function getAppendNumber() {
     return $this->appendNumber;
   }
-  public function setCustomDataSourceId( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCustomDataSourceId( $customDataSourceId) {
+    $this->customDataSourceId = $customDataSourceId;
   }
   public function getCustomDataSourceId() {
-    return $this->***REMOVED***;
+    return $this->customDataSourceId;
   }
   public function setDate( $date) {
     $this->date = $date;
@@ -1049,16 +1049,16 @@ class Google_DailyUploadAppend extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNextAppendLink( $nextAppendLink) {
+    $this->nextAppendLink = $nextAppendLink;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNextAppendLink() {
+    return $this->nextAppendLink;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
 }
@@ -1115,10 +1115,10 @@ class Google_DailyUploads extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -1133,10 +1133,10 @@ class Google_DailyUploads extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -1145,10 +1145,10 @@ class Google_DailyUploads extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -1163,15 +1163,15 @@ class Google_Experiment extends Google_Model {
   public $accountId;
   public $created;
   public $description;
-  public $***REMOVED***;
+  public $editableInGaUi;
   public $endTime;
   public $id;
   public $internalWebPropertyId;
   public $kind;
   public $minimumExperimentLengthInDays;
   public $name;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $objectiveMetric;
+  public $optimizationType;
   protected $__parentLinkType = 'Google_ExperimentParentLink';
   protected $__parentLinkDataType = '';
   public $parentLink;
@@ -1179,11 +1179,11 @@ class Google_Experiment extends Google_Model {
   public $reasonExperimentEnded;
   public $rewriteVariationUrlsAsOriginal;
   public $selfLink;
-  public $***REMOVED***;
+  public $servingFramework;
   public $snippet;
   public $startTime;
   public $status;
-  public $***REMOVED***;
+  public $trafficCoverage;
   public $updated;
   protected $__variationsType = 'Google_ExperimentVariations';
   protected $__variationsDataType = 'array';
@@ -1203,17 +1203,17 @@ class Google_Experiment extends Google_Model {
   public function getCreated() {
     return $this->created;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setEditableInGaUi( $editableInGaUi) {
+    $this->editableInGaUi = $editableInGaUi;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getEditableInGaUi() {
+    return $this->editableInGaUi;
   }
   public function setEndTime( $endTime) {
     $this->endTime = $endTime;
@@ -1251,17 +1251,17 @@ class Google_Experiment extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setObjectiveMetric( $objectiveMetric) {
+    $this->objectiveMetric = $objectiveMetric;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getObjectiveMetric() {
+    return $this->objectiveMetric;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOptimizationType( $optimizationType) {
+    $this->optimizationType = $optimizationType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOptimizationType() {
+    return $this->optimizationType;
   }
   public function setParentLink(Google_ExperimentParentLink $parentLink) {
     $this->parentLink = $parentLink;
@@ -1293,11 +1293,11 @@ class Google_Experiment extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setServingFramework( $servingFramework) {
+    $this->servingFramework = $servingFramework;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getServingFramework() {
+    return $this->servingFramework;
   }
   public function setSnippet( $snippet) {
     $this->snippet = $snippet;
@@ -1317,11 +1317,11 @@ class Google_Experiment extends Google_Model {
   public function getStatus() {
     return $this->status;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTrafficCoverage( $trafficCoverage) {
+    $this->trafficCoverage = $trafficCoverage;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTrafficCoverage() {
+    return $this->trafficCoverage;
   }
   public function setUpdated( $updated) {
     $this->updated = $updated;
@@ -1336,10 +1336,10 @@ class Google_Experiment extends Google_Model {
   public function getVariations() {
     return $this->variations;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
   public function setWinnerConfidenceLevel( $winnerConfidenceLevel) {
@@ -1348,10 +1348,10 @@ class Google_Experiment extends Google_Model {
   public function getWinnerConfidenceLevel() {
     return $this->winnerConfidenceLevel;
   }
-  public function ***REMOVED***( $winnerFound) {
+  public function setWinnerFound( $winnerFound) {
     $this->winnerFound = $winnerFound;
   }
-  public function ***REMOVED***() {
+  public function getWinnerFound() {
     return $this->winnerFound;
   }
 }
@@ -1429,10 +1429,10 @@ class Google_Experiments extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -1447,10 +1447,10 @@ class Google_Experiments extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -1459,10 +1459,10 @@ class Google_Experiments extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -1477,7 +1477,7 @@ class Google_GaData extends Google_Model {
   protected $__columnHeadersType = 'Google_GaDataColumnHeaders';
   protected $__columnHeadersDataType = 'array';
   public $columnHeaders;
-  public $***REMOVED***;
+  public $containsSampledData;
   public $id;
   public $itemsPerPage;
   public $kind;
@@ -1492,19 +1492,19 @@ class Google_GaData extends Google_Model {
   public $rows;
   public $selfLink;
   public $totalResults;
-  public $***REMOVED***;
-  public function ***REMOVED***(/* array(Google_GaDataColumnHeaders) */ $columnHeaders) {
+  public $totalsForAllResults;
+  public function setColumnHeaders(/* array(Google_GaDataColumnHeaders) */ $columnHeaders) {
     $this->assertIsArray($columnHeaders, 'Google_GaDataColumnHeaders', __METHOD__);
     $this->columnHeaders = $columnHeaders;
   }
-  public function ***REMOVED***() {
+  public function getColumnHeaders() {
     return $this->columnHeaders;
   }
-  public function setContainsSampledData( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContainsSampledData( $containsSampledData) {
+    $this->containsSampledData = $containsSampledData;
   }
   public function getContainsSampledData() {
-    return $this->***REMOVED***;
+    return $this->containsSampledData;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -1512,10 +1512,10 @@ class Google_GaData extends Google_Model {
   public function getId() {
     return $this->id;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -1530,16 +1530,16 @@ class Google_GaData extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
-  public function ***REMOVED***(Google_GaDataProfileInfo $profileInfo) {
+  public function setProfileInfo(Google_GaDataProfileInfo $profileInfo) {
     $this->profileInfo = $profileInfo;
   }
-  public function ***REMOVED***() {
+  public function getProfileInfo() {
     return $this->profileInfo;
   }
   public function setQuery(Google_GaDataQuery $query) {
@@ -1561,17 +1561,17 @@ class Google_GaData extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
-  public function setTotalsForAllResults( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalsForAllResults( $totalsForAllResults) {
+    $this->totalsForAllResults = $totalsForAllResults;
   }
   public function getTotalsForAllResults() {
-    return $this->***REMOVED***;
+    return $this->totalsForAllResults;
   }
 }
 
@@ -1624,10 +1624,10 @@ class Google_GaDataProfileInfo extends Google_Model {
   public function getProfileId() {
     return $this->profileId;
   }
-  public function ***REMOVED***( $profileName) {
+  public function setProfileName( $profileName) {
     $this->profileName = $profileName;
   }
-  public function ***REMOVED***() {
+  public function getProfileName() {
     return $this->profileName;
   }
   public function setTableId( $tableId) {
@@ -1636,10 +1636,10 @@ class Google_GaDataProfileInfo extends Google_Model {
   public function getTableId() {
     return $this->tableId;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
 }
@@ -1743,7 +1743,7 @@ class Google_Goal extends Google_Model {
   public $value;
   protected $__visitNumPagesDetailsType = 'Google_GoalVisitNumPagesDetails';
   protected $__visitNumPagesDetailsDataType = '';
-  public $***REMOVED***;
+  public $visitNumPagesDetails;
   protected $__visitTimeOnSiteDetailsType = 'Google_GoalVisitTimeOnSiteDetails';
   protected $__visitTimeOnSiteDetailsDataType = '';
   public $visitTimeOnSiteDetails;
@@ -1766,10 +1766,10 @@ class Google_Goal extends Google_Model {
   public function getCreated() {
     return $this->created;
   }
-  public function ***REMOVED***(Google_GoalEventDetails $eventDetails) {
+  public function setEventDetails(Google_GoalEventDetails $eventDetails) {
     $this->eventDetails = $eventDetails;
   }
-  public function ***REMOVED***() {
+  public function getEventDetails() {
     return $this->eventDetails;
   }
   public function setId( $id) {
@@ -1838,11 +1838,11 @@ class Google_Goal extends Google_Model {
   public function getValue() {
     return $this->value;
   }
-  public function setVisitNumPagesDetails(Google_GoalVisitNumPagesDetails $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setVisitNumPagesDetails(Google_GoalVisitNumPagesDetails $visitNumPagesDetails) {
+    $this->visitNumPagesDetails = $visitNumPagesDetails;
   }
   public function getVisitNumPagesDetails() {
-    return $this->***REMOVED***;
+    return $this->visitNumPagesDetails;
   }
   public function setVisitTimeOnSiteDetails(Google_GoalVisitTimeOnSiteDetails $visitTimeOnSiteDetails) {
     $this->visitTimeOnSiteDetails = $visitTimeOnSiteDetails;
@@ -1850,10 +1850,10 @@ class Google_Goal extends Google_Model {
   public function getVisitTimeOnSiteDetails() {
     return $this->visitTimeOnSiteDetails;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
 }
@@ -1861,40 +1861,40 @@ class Google_Goal extends Google_Model {
 class Google_GoalEventDetails extends Google_Model {
   protected $__eventConditionsType = 'Google_GoalEventDetailsEventConditions';
   protected $__eventConditionsDataType = 'array';
-  public $***REMOVED***;
+  public $eventConditions;
   public $useEventValue;
-  public function ***REMOVED***(/* array(Google_GoalEventDetailsEventConditions) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_GoalEventDetailsEventConditions', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setEventConditions(/* array(Google_GoalEventDetailsEventConditions) */ $eventConditions) {
+    $this->assertIsArray($eventConditions, 'Google_GoalEventDetailsEventConditions', __METHOD__);
+    $this->eventConditions = $eventConditions;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getEventConditions() {
+    return $this->eventConditions;
   }
-  public function ***REMOVED***( $useEventValue) {
+  public function setUseEventValue( $useEventValue) {
     $this->useEventValue = $useEventValue;
   }
-  public function ***REMOVED***() {
+  public function getUseEventValue() {
     return $this->useEventValue;
   }
 }
 
 class Google_GoalEventDetailsEventConditions extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $comparisonType;
+  public $comparisonValue;
   public $expression;
   public $matchType;
   public $type;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setComparisonType( $comparisonType) {
+    $this->comparisonType = $comparisonType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getComparisonType() {
+    return $this->comparisonType;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setComparisonValue( $comparisonValue) {
+    $this->comparisonValue = $comparisonValue;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getComparisonValue() {
+    return $this->comparisonValue;
   }
   public function setExpression( $expression) {
     $this->expression = $expression;
@@ -1935,23 +1935,23 @@ class Google_GoalParentLink extends Google_Model {
 
 class Google_GoalUrlDestinationDetails extends Google_Model {
   public $caseSensitive;
-  public $***REMOVED***;
+  public $firstStepRequired;
   public $matchType;
   protected $__stepsType = 'Google_GoalUrlDestinationDetailsSteps';
   protected $__stepsDataType = 'array';
   public $steps;
   public $url;
-  public function ***REMOVED***( $caseSensitive) {
+  public function setCaseSensitive( $caseSensitive) {
     $this->caseSensitive = $caseSensitive;
   }
-  public function ***REMOVED***() {
+  public function getCaseSensitive() {
     return $this->caseSensitive;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFirstStepRequired( $firstStepRequired) {
+    $this->firstStepRequired = $firstStepRequired;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFirstStepRequired() {
+    return $this->firstStepRequired;
   }
   public function setMatchType( $matchType) {
     $this->matchType = $matchType;
@@ -1999,36 +1999,36 @@ class Google_GoalUrlDestinationDetailsSteps extends Google_Model {
 }
 
 class Google_GoalVisitNumPagesDetails extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $comparisonType;
+  public $comparisonValue;
+  public function setComparisonType( $comparisonType) {
+    $this->comparisonType = $comparisonType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getComparisonType() {
+    return $this->comparisonType;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setComparisonValue( $comparisonValue) {
+    $this->comparisonValue = $comparisonValue;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getComparisonValue() {
+    return $this->comparisonValue;
   }
 }
 
 class Google_GoalVisitTimeOnSiteDetails extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $comparisonType;
+  public $comparisonValue;
+  public function setComparisonType( $comparisonType) {
+    $this->comparisonType = $comparisonType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getComparisonType() {
+    return $this->comparisonType;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setComparisonValue( $comparisonValue) {
+    $this->comparisonValue = $comparisonValue;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getComparisonValue() {
+    return $this->comparisonValue;
   }
 }
 
@@ -2050,10 +2050,10 @@ class Google_Goals extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -2068,10 +2068,10 @@ class Google_Goals extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -2080,10 +2080,10 @@ class Google_Goals extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -2098,7 +2098,7 @@ class Google_McfData extends Google_Model {
   protected $__columnHeadersType = 'Google_McfDataColumnHeaders';
   protected $__columnHeadersDataType = 'array';
   public $columnHeaders;
-  public $***REMOVED***;
+  public $containsSampledData;
   public $id;
   public $itemsPerPage;
   public $kind;
@@ -2115,19 +2115,19 @@ class Google_McfData extends Google_Model {
   public $rows;
   public $selfLink;
   public $totalResults;
-  public $***REMOVED***;
-  public function ***REMOVED***(/* array(Google_McfDataColumnHeaders) */ $columnHeaders) {
+  public $totalsForAllResults;
+  public function setColumnHeaders(/* array(Google_McfDataColumnHeaders) */ $columnHeaders) {
     $this->assertIsArray($columnHeaders, 'Google_McfDataColumnHeaders', __METHOD__);
     $this->columnHeaders = $columnHeaders;
   }
-  public function ***REMOVED***() {
+  public function getColumnHeaders() {
     return $this->columnHeaders;
   }
-  public function setContainsSampledData( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContainsSampledData( $containsSampledData) {
+    $this->containsSampledData = $containsSampledData;
   }
   public function getContainsSampledData() {
-    return $this->***REMOVED***;
+    return $this->containsSampledData;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -2135,10 +2135,10 @@ class Google_McfData extends Google_Model {
   public function getId() {
     return $this->id;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -2153,16 +2153,16 @@ class Google_McfData extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
-  public function ***REMOVED***(Google_McfDataProfileInfo $profileInfo) {
+  public function setProfileInfo(Google_McfDataProfileInfo $profileInfo) {
     $this->profileInfo = $profileInfo;
   }
-  public function ***REMOVED***() {
+  public function getProfileInfo() {
     return $this->profileInfo;
   }
   public function setQuery(Google_McfDataQuery $query) {
@@ -2184,17 +2184,17 @@ class Google_McfData extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
-  public function setTotalsForAllResults( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalsForAllResults( $totalsForAllResults) {
+    $this->totalsForAllResults = $totalsForAllResults;
   }
   public function getTotalsForAllResults() {
-    return $this->***REMOVED***;
+    return $this->totalsForAllResults;
   }
 }
 
@@ -2247,10 +2247,10 @@ class Google_McfDataProfileInfo extends Google_Model {
   public function getProfileId() {
     return $this->profileId;
   }
-  public function ***REMOVED***( $profileName) {
+  public function setProfileName( $profileName) {
     $this->profileName = $profileName;
   }
-  public function ***REMOVED***() {
+  public function getProfileName() {
     return $this->profileName;
   }
   public function setTableId( $tableId) {
@@ -2259,10 +2259,10 @@ class Google_McfDataProfileInfo extends Google_Model {
   public function getTableId() {
     return $this->tableId;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
 }
@@ -2345,31 +2345,31 @@ class Google_McfDataQuery extends Google_Model {
 class Google_McfDataRows extends Google_Model {
   protected $__conversionPathValueType = 'Google_McfDataRowsConversionPathValue';
   protected $__conversionPathValueDataType = 'array';
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function setConversionPathValue(/* array(Google_McfDataRowsConversionPathValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_McfDataRowsConversionPathValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public $conversionPathValue;
+  public $primitiveValue;
+  public function setConversionPathValue(/* array(Google_McfDataRowsConversionPathValue) */ $conversionPathValue) {
+    $this->assertIsArray($conversionPathValue, 'Google_McfDataRowsConversionPathValue', __METHOD__);
+    $this->conversionPathValue = $conversionPathValue;
   }
   public function getConversionPathValue() {
-    return $this->***REMOVED***;
+    return $this->conversionPathValue;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPrimitiveValue( $primitiveValue) {
+    $this->primitiveValue = $primitiveValue;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPrimitiveValue() {
+    return $this->primitiveValue;
   }
 }
 
 class Google_McfDataRowsConversionPathValue extends Google_Model {
-  public $***REMOVED***;
+  public $interactionType;
   public $nodeValue;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setInteractionType( $interactionType) {
+    $this->interactionType = $interactionType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getInteractionType() {
+    return $this->interactionType;
   }
   public function setNodeValue( $nodeValue) {
     $this->nodeValue = $nodeValue;
@@ -2387,7 +2387,7 @@ class Google_Profile extends Google_Model {
   public $created;
   public $currency;
   public $defaultPage;
-  public $***REMOVED***;
+  public $eCommerceTracking;
   public $excludeQueryParameters;
   public $id;
   public $internalWebPropertyId;
@@ -2428,17 +2428,17 @@ class Google_Profile extends Google_Model {
   public function getCurrency() {
     return $this->currency;
   }
-  public function ***REMOVED***( $defaultPage) {
+  public function setDefaultPage( $defaultPage) {
     $this->defaultPage = $defaultPage;
   }
-  public function ***REMOVED***() {
+  public function getDefaultPage() {
     return $this->defaultPage;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setECommerceTracking( $eCommerceTracking) {
+    $this->eCommerceTracking = $eCommerceTracking;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getECommerceTracking() {
+    return $this->eCommerceTracking;
   }
   public function setExcludeQueryParameters( $excludeQueryParameters) {
     $this->excludeQueryParameters = $excludeQueryParameters;
@@ -2512,10 +2512,10 @@ class Google_Profile extends Google_Model {
   public function getUpdated() {
     return $this->updated;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
   public function setWebsiteUrl( $websiteUrl) {
@@ -2578,10 +2578,10 @@ class Google_Profiles extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -2596,10 +2596,10 @@ class Google_Profiles extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -2608,10 +2608,10 @@ class Google_Profiles extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -2637,12 +2637,12 @@ class Google_RealtimeData extends Google_Model {
   public $rows;
   public $selfLink;
   public $totalResults;
-  public $***REMOVED***;
-  public function ***REMOVED***(/* array(Google_RealtimeDataColumnHeaders) */ $columnHeaders) {
+  public $totalsForAllResults;
+  public function setColumnHeaders(/* array(Google_RealtimeDataColumnHeaders) */ $columnHeaders) {
     $this->assertIsArray($columnHeaders, 'Google_RealtimeDataColumnHeaders', __METHOD__);
     $this->columnHeaders = $columnHeaders;
   }
-  public function ***REMOVED***() {
+  public function getColumnHeaders() {
     return $this->columnHeaders;
   }
   public function setId( $id) {
@@ -2657,10 +2657,10 @@ class Google_RealtimeData extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(Google_RealtimeDataProfileInfo $profileInfo) {
+  public function setProfileInfo(Google_RealtimeDataProfileInfo $profileInfo) {
     $this->profileInfo = $profileInfo;
   }
-  public function ***REMOVED***() {
+  public function getProfileInfo() {
     return $this->profileInfo;
   }
   public function setQuery(Google_RealtimeDataQuery $query) {
@@ -2682,17 +2682,17 @@ class Google_RealtimeData extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
-  public function setTotalsForAllResults( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalsForAllResults( $totalsForAllResults) {
+    $this->totalsForAllResults = $totalsForAllResults;
   }
   public function getTotalsForAllResults() {
-    return $this->***REMOVED***;
+    return $this->totalsForAllResults;
   }
 }
 
@@ -2745,10 +2745,10 @@ class Google_RealtimeDataProfileInfo extends Google_Model {
   public function getProfileId() {
     return $this->profileId;
   }
-  public function ***REMOVED***( $profileName) {
+  public function setProfileName( $profileName) {
     $this->profileName = $profileName;
   }
-  public function ***REMOVED***() {
+  public function getProfileName() {
     return $this->profileName;
   }
   public function setTableId( $tableId) {
@@ -2757,10 +2757,10 @@ class Google_RealtimeDataProfileInfo extends Google_Model {
   public function getTableId() {
     return $this->tableId;
   }
-  public function ***REMOVED***( $webPropertyId) {
+  public function setWebPropertyId( $webPropertyId) {
     $this->webPropertyId = $webPropertyId;
   }
-  public function ***REMOVED***() {
+  public function getWebPropertyId() {
     return $this->webPropertyId;
   }
 }
@@ -2889,10 +2889,10 @@ class Google_Segments extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -2907,10 +2907,10 @@ class Google_Segments extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -2919,10 +2919,10 @@ class Google_Segments extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -2951,10 +2951,10 @@ class Google_Webproperties extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -2969,10 +2969,10 @@ class Google_Webproperties extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setStartIndex( $startIndex) {
@@ -2981,10 +2981,10 @@ class Google_Webproperties extends Google_Model {
   public function getStartIndex() {
     return $this->startIndex;
   }
-  public function ***REMOVED***( $totalResults) {
+  public function setTotalResults( $totalResults) {
     $this->totalResults = $totalResults;
   }
-  public function ***REMOVED***() {
+  public function getTotalResults() {
     return $this->totalResults;
   }
   public function setUsername( $username) {
@@ -3002,7 +3002,7 @@ class Google_Webproperty extends Google_Model {
   public $childLink;
   public $created;
   public $id;
-  public $***REMOVED***;
+  public $industryVertical;
   public $internalWebPropertyId;
   public $kind;
   public $level;
@@ -3038,11 +3038,11 @@ class Google_Webproperty extends Google_Model {
   public function getId() {
     return $this->id;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIndustryVertical( $industryVertical) {
+    $this->industryVertical = $industryVertical;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIndustryVertical() {
+    return $this->industryVertical;
   }
   public function setInternalWebPropertyId( $internalWebPropertyId) {
     $this->internalWebPropertyId = $internalWebPropertyId;
@@ -3074,10 +3074,10 @@ class Google_Webproperty extends Google_Model {
   public function getParentLink() {
     return $this->parentLink;
   }
-  public function ***REMOVED***( $profileCount) {
+  public function setProfileCount( $profileCount) {
     $this->profileCount = $profileCount;
   }
-  public function ***REMOVED***() {
+  public function getProfileCount() {
     return $this->profileCount;
   }
   public function setSelfLink( $selfLink) {

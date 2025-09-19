@@ -140,9 +140,9 @@ if ($data && ! is_wp_error($data)) {
     $recommended_plugins['chaty']->short_description = 'Let your visitors contact you via Facebook Messenger, Whatsapp, Telegram, Viber, Email, Phone call, SMS and more with customizable chat & call buttons';
 }
 
-// ***REMOVED*** Plugins
+// mystickyelements Plugins
 $args = [
-    'slug'   => '***REMOVED***',
+    'slug'   => 'mystickyelements',
     'fields' => [
         'short_description' => true,
         'icons'             => true,
@@ -152,13 +152,13 @@ $args = [
 ];
 $data = plugins_api('plugin_information', $args);
 if ($data && ! is_wp_error($data)) {
-    $recommended_plugins['***REMOVED***']       = $data;
-    $recommended_plugins['***REMOVED***']->name = 'All-in-one Floating Contact Form, Call, Chat, and 50+ Social Icon Tabs – My Sticky Elements';
-    $recommended_plugins['***REMOVED***']->short_description = 'Add floating form and tabs on any side of your website to help your visitors contact you and easily find your Facebook page, YouTube channel, open hours';
+    $recommended_plugins['mystickyelements']       = $data;
+    $recommended_plugins['mystickyelements']->name = 'All-in-one Floating Contact Form, Call, Chat, and 50+ Social Icon Tabs – My Sticky Elements';
+    $recommended_plugins['mystickyelements']->short_description = 'Add floating form and tabs on any side of your website to help your visitors contact you and easily find your Facebook page, YouTube channel, open hours';
 }
 
 ?>
-<div class="wrap ***REMOVED***-wrap recommended-plugins">
+<div class="wrap mystickyelement-wrap recommended-plugins">
     <h2>
         <?php esc_html_e('Try out our recommended plugins', 'folders'); ?>
         <a class="hide-recommended-btn" href="#" class=""><?php esc_html_e('Hide From Menu', 'folders');?></a>
@@ -484,7 +484,7 @@ if ($data && ! is_wp_error($data)) {
         "use strict";
         $(document).ready(function(){
             $('a.hide-recommended-btn').on('click',function(event){
-                event.***REMOVED***();
+                event.preventDefault();
                 $( "#hide-recommeded-plugins" ).dialog({
                     resizable: false,
                     modal: true,

@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require __DIR__ . '/vendor/autoload.php';
 use phpseclib3\Net\SFTP;
-use phpseclib3\Crypt\***REMOVED***;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 function wpdbbkp_preflight_problem( $trouble ) {
 	$error_log = $trouble;
@@ -47,7 +47,7 @@ if ( $host ) {
 				return esc_html__('Could not connect to your SFTP server.','wpdbbkp').'<br />'.esc_html__('Please check your SFTP Host settings and try again (leave FTP Host BLANK for local backups).','wpdbbkp');
 			}
 			if($wpdbbkp_auth_type_=='key'){
-				$key = ***REMOVED***::load($pkey,$key_pass);
+				$key = PublicKeyLoader::load($pkey,$key_pass);
 				$result = $sftp->login($user, $key);
 			}else{
 				$result = $sftp->login($user, $pass);

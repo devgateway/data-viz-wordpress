@@ -39,7 +39,7 @@ class PHP64 extends PHP
      * MAX10 = 10**MAX10LEN <= 2**BASE.
      */
     const MAX10LEN = 9;
-    const MAX_DIGIT2 = ***REMOVED***;
+    const MAX_DIGIT2 = 4611686018427387904;
 
     /**
      * Initialize a PHP64 BigInteger Engine instance
@@ -103,7 +103,7 @@ class PHP64 extends PHP
      */
     public static function isValidEngine()
     {
-        return PHP_INT_SIZE >= 8 && !self::***REMOVED***();
+        return PHP_INT_SIZE >= 8 && !self::testJITOnWindows();
     }
 
     /**
@@ -127,7 +127,7 @@ class PHP64 extends PHP
      */
     public function subtract(PHP64 $y)
     {
-        $temp = self::***REMOVED***($this->value, $this->is_negative, $y->value, $y->is_negative);
+        $temp = self::subtractHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
 
         return $this->convertToObj($temp);
     }
@@ -140,7 +140,7 @@ class PHP64 extends PHP
      */
     public function multiply(PHP64 $y)
     {
-        $temp = self::***REMOVED***($this->value, $this->is_negative, $y->value, $y->is_negative);
+        $temp = self::multiplyHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
 
         return $this->convertToObj($temp);
     }
@@ -170,7 +170,7 @@ class PHP64 extends PHP
      */
     public function modInverse(PHP64 $n)
     {
-        return $this->***REMOVED***($n);
+        return $this->modInverseHelper($n);
     }
 
     /**
@@ -182,7 +182,7 @@ class PHP64 extends PHP
      */
     public function extendedGCD(PHP64 $n)
     {
-        return $this->***REMOVED***($n);
+        return $this->extendedGCDHelper($n);
     }
 
     /**
@@ -206,7 +206,7 @@ class PHP64 extends PHP
      */
     public function bitwise_and(PHP64 $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseAndHelper($x);
     }
 
     /**
@@ -217,7 +217,7 @@ class PHP64 extends PHP
      */
     public function bitwise_or(PHP64 $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseOrHelper($x);
     }
 
     /**
@@ -228,7 +228,7 @@ class PHP64 extends PHP
      */
     public function bitwise_xor(PHP64 $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseXorHelper($x);
     }
 
     /**
@@ -268,7 +268,7 @@ class PHP64 extends PHP
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param PHP64 $e
      * @param PHP64 $n
@@ -280,7 +280,7 @@ class PHP64 extends PHP
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * Alias for modPow().
      *
@@ -302,7 +302,7 @@ class PHP64 extends PHP
      * @param PHP64 $max
      * @return false|PHP64
      */
-    public static function ***REMOVED***(PHP64 $min, PHP64 $max)
+    public static function randomRangePrime(PHP64 $min, PHP64 $max)
     {
         return self::randomRangePrimeOuter($min, $max);
     }
@@ -322,11 +322,11 @@ class PHP64 extends PHP
      */
     public static function randomRange(PHP64 $min, PHP64 $max)
     {
-        return self::***REMOVED***($min, $max);
+        return self::randomRangeHelper($min, $max);
     }
 
     /**
-     * Performs ***REMOVED***.
+     * Performs exponentiation.
      *
      * @param PHP64 $n
      * @return PHP64

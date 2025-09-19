@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Montgomery Modular ***REMOVED*** Engine
+ * PHP Montgomery Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Math\BigInteger\Engines\PHP\Reductions;
 use phpseclib3\Math\BigInteger\Engines\PHP\Montgomery as Progenitor;
 
 /**
- * PHP Montgomery Modular ***REMOVED*** Engine
+ * PHP Montgomery Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -44,7 +44,7 @@ abstract class Montgomery extends Progenitor
     /**
      * Montgomery Multiply
      *
-     * Interleaves the montgomery reduction and long ***REMOVED*** algorithms together as described in
+     * Interleaves the montgomery reduction and long multiplication algorithms together as described in
      * {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=13 HAC 14.36}
      *
      * @param array $x
@@ -62,7 +62,7 @@ abstract class Montgomery extends Progenitor
         if (($key = array_search($n, $cache[self::VARIABLE])) === false) {
             $key = count($cache[self::VARIABLE]);
             $cache[self::VARIABLE][] = $x;
-            $cache[self::DATA][] = self::***REMOVED***($n, $class);
+            $cache[self::DATA][] = self::modInverse67108864($n, $class);
         }
 
         $k = count($n);
@@ -72,7 +72,7 @@ abstract class Montgomery extends Progenitor
         for ($i = 0; $i < $k; ++$i) {
             $temp = $result[self::VALUE][$i] * $cache[self::DATA][$key];
             $temp = $temp - $class::BASE_FULL * ($class::BASE === 26 ? intval($temp / 0x4000000) : ($temp >> 31));
-            $temp = $class::***REMOVED***([$temp], $n);
+            $temp = $class::regularMultiply([$temp], $n);
             $temp = array_merge(self::array_repeat(0, $i), $temp);
             $result = $class::addHelper($result[self::VALUE], false, $temp, false);
         }
@@ -80,7 +80,7 @@ abstract class Montgomery extends Progenitor
         $result[self::VALUE] = array_slice($result[self::VALUE], $k);
 
         if (self::compareHelper($result, false, $n, false) >= 0) {
-            $result = $class::***REMOVED***($result[self::VALUE], false, $n, false);
+            $result = $class::subtractHelper($result[self::VALUE], false, $n, false);
         }
 
         return $result[self::VALUE];
@@ -95,7 +95,7 @@ abstract class Montgomery extends Progenitor
      *
      * The following URL provides more info:
      *
-     * {@link http://groups.google.com/group/sci.crypt/msg/***REMOVED***}
+     * {@link http://groups.google.com/group/sci.crypt/msg/7a137205c1be7d85}
      *
      * As for why we do all the bitmasking...  strange things can happen when converting from floats to ints. For
      * instance, on some computers, var_dump((int) -4294967297) yields int(-1) and on others, it yields
@@ -111,7 +111,7 @@ abstract class Montgomery extends Progenitor
      * @param string $class
      * @return int
      */
-    protected static function ***REMOVED***(array $x, $class) // 2**26 == 67,108,864
+    protected static function modInverse67108864(array $x, $class) // 2**26 == 67,108,864
     {
         $x = -$x[0];
         $result = $x & 0x3; // x**-1 mod 2**2

@@ -19,11 +19,11 @@
 			var
 				notice           = $( this ).parents( '.fs-notice' ),
 				id               = notice.attr( 'data-id' ),
-				***REMOVED*** = notice.attr( 'data-manager-id' ).replace( ':', '-' );
+				ajaxActionSuffix = notice.attr( 'data-manager-id' ).replace( ':', '-' );
 
 			notice.fadeOut( 'fast', function() {
 				var data = {
-					action   : 'fs_dismiss_notice_action_' + ***REMOVED***,
+					action   : 'fs_dismiss_notice_action_' + ajaxActionSuffix,
                     // As such we don't need to use `wp_json_encode` method but using it to follow wp.org guideline.
                     _wpnonce : <?php echo wp_json_encode( wp_create_nonce( 'fs_dismiss_notice_action' ) ); ?>,
 					message_id: id

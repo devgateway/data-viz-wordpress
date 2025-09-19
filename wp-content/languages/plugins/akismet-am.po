@@ -929,8 +929,8 @@ msgid "Please check your <a href=\"%s\">Akismet configuration</a> and contact yo
 msgstr "እባክዎ የእርስዎን <a href=\"%s\">አኪስሜት ውቅር</a> ይፈትሹ እና ችግሮች ከቀጠሉ የድር አስተናጋጅዎን ያግኙ።"
 
 #: views/notice.php:56
-msgid "Your web host or server administrator has disabled PHP&#8217;s <code>***REMOVED***</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href=\"%s\" target=\"_blank\">this information about Akismet&#8217;s system requirements</a>."
-msgstr "የእርስዎ የድር አስተናጋጅ ወይም የአገልጋይ አስተዳዳሪ የPHPን <code>***REMOVED***</code> ተግባርን ። <strong>ይህ እስካልተስተካከለ ድረስ አኪስሜት በትክክል መስራት አይችልም።</strong>እባክዎ የእርስዎን የድር አስተናጋጅ ወይም የፋየርዎል አስተዳዳሪን ያግኙ እና ስለ አኪሜት ስርዓት መረጃ  ስጣቸው<a href=\"%s\" target=\"_blank\">አኪሜት መስፈርቶች</a>"
+msgid "Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href=\"%s\" target=\"_blank\">this information about Akismet&#8217;s system requirements</a>."
+msgstr "የእርስዎ የድር አስተናጋጅ ወይም የአገልጋይ አስተዳዳሪ የPHPን <code>gethostbynamel</code> ተግባርን ። <strong>ይህ እስካልተስተካከለ ድረስ አኪስሜት በትክክል መስራት አይችልም።</strong>እባክዎ የእርስዎን የድር አስተናጋጅ ወይም የፋየርዎል አስተዳዳሪን ያግኙ እና ስለ አኪሜት ስርዓት መረጃ  ስጣቸው<a href=\"%s\" target=\"_blank\">አኪሜት መስፈርቶች</a>"
 
 #: views/config.php:158
 msgid "Spam in the <a href=\"%1$s\">spam folder</a> older than 1 day is deleted automatically."

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * CertificationRequest
  *
  * PHP version 5
  *
@@ -16,17 +16,17 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * CertificationRequest
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class CertificationRequest
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
             'certificationRequestInfo' => CertificationRequestInfo::MAP,
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'signatureAlgorithm' => AlgorithmIdentifier::MAP,
             'signature' => ['type' => ASN1::TYPE_BIT_STRING]
         ]
     ];

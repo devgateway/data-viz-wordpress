@@ -2,8 +2,8 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 /**
  * Represents data at the point after it was transferred either successfully
@@ -12,11 +12,11 @@ use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 final class TransferStats
 {
     /**
-     * @var ***REMOVED***
+     * @var RequestInterface
      */
     private $request;
     /**
-     * @var ***REMOVED***|null
+     * @var ResponseInterface|null
      */
     private $response;
     /**
@@ -30,30 +30,30 @@ final class TransferStats
     /**
      * @var mixed|null
      */
-    private $***REMOVED***;
+    private $handlerErrorData;
     /**
-     * @param ***REMOVED***       $request          Request that was sent.
-     * @param ***REMOVED***|null $response         Response received (if any)
+     * @param RequestInterface       $request          Request that was sent.
+     * @param ResponseInterface|null $response         Response received (if any)
      * @param float|null             $transferTime     Total handler transfer time.
-     * @param mixed                  $***REMOVED*** Handler error data.
+     * @param mixed                  $handlerErrorData Handler error data.
      * @param array                  $handlerStats     Handler specific stats.
      */
-    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response = null, float $transferTime = null, $***REMOVED*** = null, array $handlerStats = [])
+    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response = null, float $transferTime = null, $handlerErrorData = null, array $handlerStats = [])
     {
         $this->request = $request;
         $this->response = $response;
         $this->transferTime = $transferTime;
-        $this->***REMOVED*** = $***REMOVED***;
+        $this->handlerErrorData = $handlerErrorData;
         $this->handlerStats = $handlerStats;
     }
-    public function getRequest() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function getRequest() : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         return $this->request;
     }
     /**
      * Returns the response that was received (if any).
      */
-    public function getResponse() : ?\YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function getResponse() : ?\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         return $this->response;
     }
@@ -73,14 +73,14 @@ final class TransferStats
      *
      * @return mixed
      */
-    public function ***REMOVED***()
+    public function getHandlerErrorData()
     {
-        return $this->***REMOVED***;
+        return $this->handlerErrorData;
     }
     /**
      * Get the effective URI the request was sent to.
      */
-    public function ***REMOVED***() : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
+    public function getEffectiveUri() : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {
         return $this->request->getUri();
     }
@@ -89,14 +89,14 @@ final class TransferStats
      *
      * @return float|null Time in seconds.
      */
-    public function ***REMOVED***() : ?float
+    public function getTransferTime() : ?float
     {
         return $this->transferTime;
     }
     /**
      * Gets an array of all of the handler specific transfer data.
      */
-    public function ***REMOVED***() : array
+    public function getHandlerStats() : array
     {
         return $this->handlerStats;
     }
@@ -107,7 +107,7 @@ final class TransferStats
      *
      * @return mixed|null
      */
-    public function ***REMOVED***(string $stat)
+    public function getHandlerStat(string $stat)
     {
         return $this->handlerStats[$stat] ?? null;
     }

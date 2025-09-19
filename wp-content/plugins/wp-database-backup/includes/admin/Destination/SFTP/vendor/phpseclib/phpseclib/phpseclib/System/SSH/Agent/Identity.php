@@ -32,7 +32,7 @@ use phpseclib3\System\SSH\Common\Traits\ReadBytes;
  * This could be thought of as implementing an interface that phpseclib3\Crypt\RSA
  * implements. ie. maybe a Net_SSH_Auth_PublicKey interface or something.
  * The methods in this interface would be getPublicKey and sign since those are the
- * methods phpseclib looks for to perform public key ***REMOVED***.
+ * methods phpseclib looks for to perform public key authentication.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  * @internal
@@ -104,7 +104,7 @@ class Identity implements PrivateKey
     /**
      * Set Public Key
      *
-     * Called by \phpseclib3\System\SSH\Agent::***REMOVED***()
+     * Called by \phpseclib3\System\SSH\Agent::requestIdentities()
      *
      * @param \phpseclib3\Crypt\Common\PublicKey $key
      */
@@ -124,12 +124,12 @@ class Identity implements PrivateKey
     /**
      * Set Public Key
      *
-     * Called by \phpseclib3\System\SSH\Agent::***REMOVED***(). The key blob could be extracted from $this->key
+     * Called by \phpseclib3\System\SSH\Agent::requestIdentities(). The key blob could be extracted from $this->key
      * but this saves a small amount of computation.
      *
      * @param string $key_blob
      */
-    public function ***REMOVED***($key_blob)
+    public function withPublicKeyBlob($key_blob)
     {
         $new = clone $this;
         $new->key_blob = $key_blob;
@@ -225,7 +225,7 @@ class Identity implements PrivateKey
      *
      * @param string $format
      */
-    public function ***REMOVED***($format)
+    public function withSignatureFormat($format)
     {
         if ($this->key instanceof RSA) {
             throw new UnsupportedAlgorithmException('Only DSA and EC keys support signature format setting');
@@ -260,7 +260,7 @@ class Identity implements PrivateKey
      *
      * @param string $message
      * @return string
-     * @throws \***REMOVED*** on connection errors
+     * @throws \RuntimeException on connection errors
      * @throws \phpseclib3\Exception\UnsupportedAlgorithmException if the algorithm is unsupported
      */
     public function sign($message)
@@ -275,7 +275,7 @@ class Identity implements PrivateKey
         );
         $packet = Strings::packSSH2('s', $packet);
         if (strlen($packet) != fputs($this->fsock, $packet)) {
-            throw new \***REMOVED***('Connection closed during signing');
+            throw new \RuntimeException('Connection closed during signing');
         }
 
         $length = current(unpack('N', $this->readBytes(4)));
@@ -283,7 +283,7 @@ class Identity implements PrivateKey
 
         list($type, $signature_blob) = Strings::unpackSSH2('Cs', $packet);
         if ($type != Agent::SSH_AGENT_SIGN_RESPONSE) {
-            throw new \***REMOVED***('Unable to retrieve signature');
+            throw new \RuntimeException('Unable to retrieve signature');
         }
 
         if (!$this->key instanceof RSA) {
@@ -304,7 +304,7 @@ class Identity implements PrivateKey
      */
     public function toString($type, array $options = [])
     {
-        throw new \***REMOVED***('ssh-agent does not provide a mechanism to get the private key');
+        throw new \RuntimeException('ssh-agent does not provide a mechanism to get the private key');
     }
 
     /**
@@ -315,6 +315,6 @@ class Identity implements PrivateKey
      */
     public function withPassword($password = false)
     {
-        throw new \***REMOVED***('ssh-agent does not provide a mechanism to get the private key');
+        throw new \RuntimeException('ssh-agent does not provide a mechanism to get the private key');
     }
 }

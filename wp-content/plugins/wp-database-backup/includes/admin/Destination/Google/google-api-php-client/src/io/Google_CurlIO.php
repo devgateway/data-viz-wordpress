@@ -17,7 +17,7 @@
  */
 
 /**
- * Curl based ***REMOVED*** of apiIO.
+ * Curl based implementation of apiIO.
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
@@ -51,22 +51,22 @@ class Google_CurlIO extends Google_IO {
   }
 
   /**
-   * Perform an authenticated / signed ***REMOVED***.
-   * This function takes the ***REMOVED***, calls apiAuth->sign on it
+   * Perform an authenticated / signed apiHttpRequest.
+   * This function takes the apiHttpRequest, calls apiAuth->sign on it
    * (which can modify the request in what ever way fits the auth mechanism)
    * and then calls apiCurlIO::makeRequest on the signed request
    *
    * @param Google_HttpRequest $request
    * @return Google_HttpRequest The resulting HTTP response including the
-   * ***REMOVED***, ***REMOVED*** and responseBody.
+   * responseHttpCode, responseHeaders and responseBody.
    */
-  public function ***REMOVED***(Google_HttpRequest $request) {
+  public function authenticatedRequest(Google_HttpRequest $request) {
     $request = Google_Client::$auth->sign($request);
     return $this->makeRequest($request);
   }
 
   /**
-   * Execute a ***REMOVED***
+   * Execute a apiHttpRequest
    *
    * @param Google_HttpRequest $request the http request to be executed
    * @return Google_HttpRequest http request with the response http code, response
@@ -75,16 +75,16 @@ class Google_CurlIO extends Google_IO {
    */
   public function makeRequest(Google_HttpRequest $request) {
     // First, check to see if we have a valid cached version.
-    $cached = $this->***REMOVED***($request);
+    $cached = $this->getCachedRequest($request);
     if ($cached !== false) {
       if (!$this->checkMustRevaliadateCachedRequest($cached, $request)) {
         return $cached;
       }
     }
 
-    if (array_key_exists($request->***REMOVED***(),
+    if (array_key_exists($request->getRequestMethod(),
           self::$ENTITY_HTTP_METHODS)) {
-      $request = $this->***REMOVED***($request);
+      $request = $this->processEntityRequest($request);
     }
 
     $ch = curl_init();
@@ -94,16 +94,16 @@ class Google_CurlIO extends Google_IO {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getPostBody());
     }
 
-    $***REMOVED*** = $request->***REMOVED***();
-    if ($***REMOVED*** && is_array($***REMOVED***)) {
+    $requestHeaders = $request->getRequestHeaders();
+    if ($requestHeaders && is_array($requestHeaders)) {
       $parsed = array();
-      foreach ($***REMOVED*** as $k => $v) {
+      foreach ($requestHeaders as $k => $v) {
         $parsed[] = "$k: $v";
       }
       curl_setopt($ch, CURLOPT_HTTPHEADER, $parsed);
     }
 
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->***REMOVED***());
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getRequestMethod());
     curl_setopt($ch, CURLOPT_USERAGENT, $request->getUserAgent());
     $respData = curl_exec($ch);
 
@@ -115,7 +115,7 @@ class Google_CurlIO extends Google_IO {
       $respData = curl_exec($ch);
     }
 
-    $***REMOVED*** = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $respHeaderSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $respHttpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curlErrorNum = curl_errno($ch);
     $curlError = curl_error($ch);
@@ -125,22 +125,22 @@ class Google_CurlIO extends Google_IO {
     }
 
     // Parse out the raw response into usable bits
-    list($***REMOVED***, $responseBody) =
-          self::***REMOVED***($respData, $***REMOVED***);
+    list($responseHeaders, $responseBody) =
+          self::parseHttpResponse($respData, $respHeaderSize);
 
     if ($respHttpCode == 304 && $cached) {
       // If the server responded NOT_MODIFIED, return the cached request.
-      $this->***REMOVED***($cached, $***REMOVED***);
+      $this->updateCachedRequest($cached, $responseHeaders);
       return $cached;
     }
 
-    // Fill in the ***REMOVED*** with the response values
-    $request->***REMOVED***($respHttpCode);
-    $request->***REMOVED***($***REMOVED***);
-    $request->***REMOVED***($responseBody);
+    // Fill in the apiHttpRequest with the response values
+    $request->setResponseHttpCode($respHttpCode);
+    $request->setResponseHeaders($responseHeaders);
+    $request->setResponseBody($responseBody);
     // Store the request in cache (the function checks to see if the request
     // can actually be cached)
-    $this->***REMOVED***($request);
+    $this->setCachedRequest($request);
     // And finally return it
     return $request;
   }
@@ -163,37 +163,37 @@ class Google_CurlIO extends Google_IO {
    * @param $headerSize
    * @return array
    */
-  private static function ***REMOVED***($respData, $headerSize) {
+  private static function parseHttpResponse($respData, $headerSize) {
     if (stripos($respData, parent::CONNECTION_ESTABLISHED) !== false) {
       $respData = str_ireplace(parent::CONNECTION_ESTABLISHED, '', $respData);
     }
 
     if ($headerSize) {
       $responseBody = substr($respData, $headerSize);
-      $***REMOVED*** = substr($respData, 0, $headerSize);
+      $responseHeaders = substr($respData, 0, $headerSize);
     } else {
-      list($***REMOVED***, $responseBody) = explode("\r\n\r\n", $respData, 2);
+      list($responseHeaders, $responseBody) = explode("\r\n\r\n", $respData, 2);
     }
 
-    $***REMOVED*** = self::***REMOVED***($***REMOVED***);
-    return array($***REMOVED***, $responseBody);
+    $responseHeaders = self::parseResponseHeaders($responseHeaders);
+    return array($responseHeaders, $responseBody);
   }
 
-  private static function ***REMOVED***($rawHeaders) {
-    $***REMOVED*** = array();
+  private static function parseResponseHeaders($rawHeaders) {
+    $responseHeaders = array();
 
-    $***REMOVED*** = explode("\r\n", $rawHeaders);
-    foreach ($***REMOVED*** as $headerLine) {
+    $responseHeaderLines = explode("\r\n", $rawHeaders);
+    foreach ($responseHeaderLines as $headerLine) {
       if ($headerLine && strpos($headerLine, ':') !== false) {
         list($header, $value) = explode(': ', $headerLine, 2);
         $header = strtolower($header);
-        if (isset($***REMOVED***[$header])) {
-          $***REMOVED***[$header] .= "\n" . $value;
+        if (isset($responseHeaders[$header])) {
+          $responseHeaders[$header] .= "\n" . $value;
         } else {
-          $***REMOVED***[$header] = $value;
+          $responseHeaders[$header] = $value;
         }
       }
     }
-    return $***REMOVED***;
+    return $responseHeaders;
   }
 }

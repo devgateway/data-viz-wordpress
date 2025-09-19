@@ -9,10 +9,10 @@ interface ResponseFactoryInterface
      *
      * @param int $code HTTP status code; defaults to 200
      * @param string $reasonPhrase Reason phrase to associate with status code
-     *     in generated response; if none is provided ***REMOVED*** MAY use
+     *     in generated response; if none is provided implementations MAY use
      *     the defaults as suggested in the HTTP specification.
      *
-     * @return ***REMOVED***
+     * @return ResponseInterface
      */
-    public function ***REMOVED***(int $code = 200, string $reasonPhrase = '') : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function createResponse(int $code = 200, string $reasonPhrase = '') : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 }

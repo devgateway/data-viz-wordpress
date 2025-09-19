@@ -27,7 +27,7 @@ class Image_Helper {
 	/**
 	 * Image_Helper constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Url_Helper        $url   The url helper.
 	 * @param Base_Image_Helper $image The image helper.
@@ -41,7 +41,7 @@ class Image_Helper {
 	 * Determines whether the passed URL is considered valid.
 	 *
 	 * @deprecated 22.4
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param array<array<string, string|int>> $image The image array.
 	 *

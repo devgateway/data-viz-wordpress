@@ -42,7 +42,7 @@ if(!class_exists('dcc_dpp_wpp_page')):
     /*Activation plugin Hook*/
     public function dpp_wpp_page_install()
         {
-        $***REMOVED*** = array('dpp_post_status'      => 'draft',
+        $defaultsettings = array('dpp_post_status'      => 'draft',
                                   'dpp_post_redirect'   => 'to_list',
                                   'dpp_post_suffix'     => '',
                                   'dpp_posteditor'      => 'classic',
@@ -50,7 +50,7 @@ if(!class_exists('dcc_dpp_wpp_page')):
         $opt = get_option('dpp_wpp_page_options');
            if(!$opt['dpp_post_status'])
             {
-             update_option('dpp_wpp_page_options', $***REMOVED***);
+             update_option('dpp_wpp_page_options', $defaultsettings);
            } 
     }
     

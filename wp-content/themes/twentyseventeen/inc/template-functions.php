@@ -26,12 +26,12 @@ function twentyseventeen_body_classes( $classes ) {
 
 	// Add class if we're viewing the Customizer for easier styling of theme options.
 	if ( is_customize_preview() ) {
-		$classes[] = '***REMOVED***-customizer';
+		$classes[] = 'twentyseventeen-customizer';
 	}
 
 	// Add class on front page.
 	if ( is_front_page() && 'posts' !== get_option( 'show_on_front' ) ) {
-		$classes[] = '***REMOVED***-front-page';
+		$classes[] = 'twentyseventeen-front-page';
 	}
 
 	// Add a class if there is a custom header.

@@ -153,13 +153,13 @@ class Wpdb_Admin {
 		// Start Fixed Vulnerability 04-08-2016 for data save in options.
 		if ( isset( $_GET['page'] ) && 'wp-database-backup' === $_GET['page'] ) {
 			if ( ! empty( $_POST ) && ! ( isset( $_POST['option_page'] ) && 'wp_db_backup_options' === $_POST['option_page'] ) ) {
-				if ( false === isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( wp_unslash( $_REQUEST['_wpnonce'] ) , 'wp-database-backup' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+				if ( false === isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( wp_unslash( $_REQUEST['_wpnonce'] ) , 'wp-database-backup' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 					wp_die( esc_html__('WPDB :: Invalid Access', 'wpdbbkp' ) );
 				}
 			}
 			// End Fixed Vulnerability 22-06-2016 for prevent direct download.
 			if ( is_admin() && current_user_can( 'manage_options' ) ) {
-				if ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce(  wp_unslash( $_REQUEST['_wpnonce'] ) , 'wp-database-backup' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce	
+				if ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce(  wp_unslash( $_REQUEST['_wpnonce'] ) , 'wp-database-backup' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce	
 					if ( isset( $_POST['wpsetting_search'] ) ) {
 						if ( isset( $_POST['wp_db_backup_search_text'] ) ) {
 							update_option( 'wp_db_backup_search_text', sanitize_text_field( wp_unslash( $_POST['wp_db_backup_search_text'] ) ), false );
@@ -318,7 +318,7 @@ class Wpdb_Admin {
 				if ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $nonce, 'wp-database-backup' ) ) {
 					if ( isset( $_GET['action'] ) && current_user_can( 'manage_options' ) ) {
 						switch ( (string) $_GET['action'] ) {
-							case '***REMOVED***':
+							case 'createdbbackup':
 								$this->wp_db_backup_event_process();
 								wp_safe_redirect( site_url() . '/wp-admin/admin.php?page=wp-database-backup&notification=create&_wpnonce=' . $nonce );
 								break;
@@ -363,7 +363,7 @@ class Wpdb_Admin {
 
 								}
 								break;
-								case '***REMOVED***':
+								case 'removeallbackup':
 									
 										$upload_dir = wp_upload_dir();
 										$actual_working_directory = getcwd();
@@ -712,10 +712,10 @@ class Wpdb_Admin {
 					$wp_db_backup_search_text  = get_option( 'wp_db_backup_search_text' );
 					$wp_db_backup_replace_text = get_option( 'wp_db_backup_replace_text' );
 					if ( ( false === empty( $wp_db_backup_search_text ) ) && ( false === empty( $wp_db_backup_replace_text ) ) ) {
-						echo '<a href="' . esc_url( site_url() ) . '/wp-admin/admin.php?page=wp-database-backup&action=***REMOVED***&_wpnonce=' . esc_attr( $nonce ) . '" id="create_backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> '.esc_html__('Create Database Backup with Search/Replace', 'wpdbbkp').'</a>';
+						echo '<a href="' . esc_url( site_url() ) . '/wp-admin/admin.php?page=wp-database-backup&action=createdbbackup&_wpnonce=' . esc_attr( $nonce ) . '" id="create_backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> '.esc_html__('Create Database Backup with Search/Replace', 'wpdbbkp').'</a>';
 						echo '<p>Backup file will replace <b>' . esc_attr( $wp_db_backup_search_text ) . '</b> text with <b>' . esc_attr( $wp_db_backup_replace_text ) . '</b>. For Regular Database Backup without replace then Go to Dashboard=>Tool=>WP-DB Backup > Settings > '.esc_html__('Search and Replace - Set Blank Fields', 'wpdbbkp').' </p>';
 					} else {
-						echo '<a href="' . esc_url( site_url() ) . '/wp-admin/admin.php?page=wp-database-backup&action=***REMOVED***&_wpnonce=' . esc_attr( $nonce ) . '" id="create_backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> '.esc_html__('Create Database Backup', 'wpdbbkp').'</a>';
+						echo '<a href="' . esc_url( site_url() ) . '/wp-admin/admin.php?page=wp-database-backup&action=createdbbackup&_wpnonce=' . esc_attr( $nonce ) . '" id="create_backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> '.esc_html__('Create Database Backup', 'wpdbbkp').'</a>';
 						echo '<a href="#" id="wpdbbkp-create-full-backup" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> '.esc_html__('Create Full Backup', 'wpdbbkp').'</a>';
 						echo '<a href="#" id="wpdbbkp-stop-full-backup" class="btn btn-danger wpdbbkp-cancel-btn" style="display:none;margin-bottom: 20px;margin-left: 10px;" > <span class="glyphicon glyphicon-ban"></span> '.esc_html__('Stop Backup Process', 'wpdbbkp').'</a>';
 					}
@@ -734,7 +734,7 @@ class Wpdb_Admin {
 							$j(".popoverid").popover();
 						});
 
-						function ***REMOVED***(){
+						function excludetableall(){
 							var checkboxes = document.getElementsByClassName("wp_db_exclude_table");
 							var checked = "";
 							if($j("#wp_db_exclude_table_all").prop("checked") == true){
@@ -942,7 +942,7 @@ class Wpdb_Admin {
    <button type="button" id="offer_close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-  <h3 class="modal-title" id="wpdbbkp_offer_modalLabel"><img src="<?php echo esc_attr( WPDB_PLUGIN_URL ); /* phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** */ ?>/assets/images/wp-database-backup.png" width="230px"></h3>
+  <h3 class="modal-title" id="wpdbbkp_offer_modalLabel"><img src="<?php echo esc_attr( WPDB_PLUGIN_URL ); /* phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */ ?>/assets/images/wp-database-backup.png" width="230px"></h3>
 		  <p style="padding:0 50px;"><?php echo esc_html__('Cloud Backup offers a secure, reliable and affordable solution to backup your WP site to the cloud.','wpdbbkp');?></p>
 		<div class="wpdbbkp_offer_container">
 			<div class="wpdbbkp_server">
@@ -1049,7 +1049,7 @@ if ( true === isset( $_POST['wpdb_cd_s3'] ) && 'Y' === $_POST['wpdb_cd_s3'] ) {
 	if ( ! isset( $_POST['wpdbbackup_update_cd_setting'] ) ) {
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
-	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_cd_setting'] ) , 'wpdbbackup-update-cd-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***
+	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_cd_setting'] ) , 'wpdbbackup-update-cd-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
 
@@ -1108,7 +1108,7 @@ if($wpdb_clouddrive_token && !empty($wpdb_clouddrive_token))
 					<label class="col-sm-3" for="wpdb_clouddrive_token"><?php echo esc_html__('BackforWP API Token', 'wpdbbkp') ?></label>
 					<div class="col-sm-6">
 
-						<input type="text" id="wpdb_clouddrive_token" class="form-control" name="wpdb_clouddrive_token" value="<?php echo esc_html( get_option( 'wpdb_clouddrive_token' ) ); ?>" size="25" placeholder="<?php esc_attr_e('***REMOVED***','wpdbbkp');?>">
+						<input type="text" id="wpdb_clouddrive_token" class="form-control" name="wpdb_clouddrive_token" value="<?php echo esc_html( get_option( 'wpdb_clouddrive_token' ) ); ?>" size="25" placeholder="<?php esc_attr_e('26b18a624d2f5e01324bc81f90cfff63ba493bc15f00d790729fb437e90f54ea','wpdbbkp');?>">
 						<a href="https://app.backupforwp.com/websites" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
 					</div>
 				</div>
@@ -1145,7 +1145,7 @@ text-align: center;">
 			<a href="#" id="wpdbbkp-create-full-export" class="btn btn-primary"> <span class="glyphicon glyphicon-plus-sign"></span> <?=esc_html__('Start Export', 'wpdbbkp')?></a>
 		<?php }?>
 		<div id="wpdb-export-process" style="display:none">
-			<div class="text-center"><img width="50" height="50" src="<?php echo esc_url(WPDB_PLUGIN_URL . "/assets/images/icon_loading.gif"); /* phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** */ ?>">
+			<div class="text-center"><img width="50" height="50" src="<?php echo esc_url(WPDB_PLUGIN_URL . "/assets/images/icon_loading.gif"); /* phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */ ?>">
 				<h5 class="text-success"><strong><?php echo esc_html__('Import process is working in background, it may take some time depending on size of your
 						website. You can close this tab if you want', 'wpdbbkp') ?></strong></h5>
 				<div class="progress">
@@ -1161,7 +1161,7 @@ text-align: center;">
 			
 			if($wpdbbkp_export_notify){
 		?>
-			<div class="text-center wpdbbkp_notification"><img width="50" height="50" src="<?php echo esc_url(WPDB_PLUGIN_URL. "/assets/images/success.png"); /* phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** */ ?>">
+			<div class="text-center wpdbbkp_notification"><img width="50" height="50" src="<?php echo esc_url(WPDB_PLUGIN_URL. "/assets/images/success.png"); /* phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */ ?>">
 			<h4 class="text-success">
 				<?php if ($wpdbbkp_export_notify=='create') {
 					$backup_link = false;
@@ -1199,7 +1199,7 @@ text-align: center;">
 		<p style="font-weight: bold;font-size: 14px;margin-top: 5px;color:#5cb85c" id="imported-file-name"></p>
 
 		<div id="wpdb-import-process" style="display:none">
-			<div class="text-center"><img width="50" height="50" src="<?php echo esc_url(WPDB_PLUGIN_URL . "/assets/images/icon_loading.gif"); /* phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** */ ?>">
+			<div class="text-center"><img width="50" height="50" src="<?php echo esc_url(WPDB_PLUGIN_URL . "/assets/images/icon_loading.gif"); /* phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage */ ?>">
 				<h5 class="text-success"><strong><?php echo esc_html__('Import process is working, it may take some time depending on size of import file.', 'wpdbbkp') ?></strong></h5>
 				<div class="progress">
 					<div id="wpdbbkp_import_progressbar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
@@ -1472,12 +1472,12 @@ text-align: center;">
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
-						<a class="toggle_anchor" data-toggle="collapse" data-parent="#accordion" href="#***REMOVED***">
+						<a class="toggle_anchor" data-toggle="collapse" data-parent="#accordion" href="#collapsedbinfo">
 							<h4 class="panel-title"><?php echo esc_html__('Database Information', 'wpdbbkp') ?></h4>
 							</a>
 						</div>
 
-						<div id="***REMOVED***" class="panel-collapse collapse in">
+						<div id="collapsedbinfo" class="panel-collapse collapse in">
 							<div class="panel-body">
 								<table class="table table-condensed">
 									<tr class="success">
@@ -1523,14 +1523,14 @@ text-align: center;">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							
-								<a class="toggle_anchor"  data-toggle="collapse" data-parent="#accordion" href="#***REMOVED***">
+								<a class="toggle_anchor"  data-toggle="collapse" data-parent="#accordion" href="#collapsedbtable">
 								<h4 class="panel-title">
 								<?php echo esc_html__('Tables Information', 'wpdbbkp') ?>
 									</h4>
 								</a>
 							
 						</div>
-						<div id="***REMOVED***" class="panel-collapse collapse in">
+						<div id="collapsedbtable" class="panel-collapse collapse in">
 							<div class="panel-body">
 								<table class="table table-condensed">
 									<tr class="success">
@@ -1619,14 +1619,14 @@ text-align: center;">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							
-								<a class="toggle_anchor"  data-toggle="collapse" data-parent="#accordion" href="#***REMOVED***">
+								<a class="toggle_anchor"  data-toggle="collapse" data-parent="#accordion" href="#collapsewpsetting">
 								<h4 class="panel-title">
 								<?php echo esc_html__('WordPress Settings', 'wpdbbkp') ?>
 									</h4>
 								</a>
 							
 						</div>
-						<div id="***REMOVED***" class="panel-collapse collapse in">
+						<div id="collapsewpsetting" class="panel-collapse collapse in">
 							<div class="panel-body">
 								<table class="table table-condensed">
 									<tr class="success">
@@ -1808,7 +1808,7 @@ text-align: center;">
 						</div>
 	
 						<?php
-						$remove_backup_href = esc_url( site_url() ) . '/wp-admin/admin.php?page=wp-database-backup&action=***REMOVED***&_wpnonce=' . esc_attr( $nonce ); ?>
+						$remove_backup_href = esc_url( site_url() ) . '/wp-admin/admin.php?page=wp-database-backup&action=removeallbackup&_wpnonce=' . esc_attr( $nonce ); ?>
 
 						<div class="input-group">
 						<a title="Remove Database Backup" onclick="return confirm('Are you sure you want to delete all the backups? Deleted backups can not be recovered.')" href="<?php echo esc_url($remove_backup_href)?>" class="btn btn-danger" style="margin-bottom:10px;"><span class="glyphicon glyphicon-trash"></span> <?php esc_html_e('Delete all Backups', 'wpdbbkp')?></a>
@@ -1821,13 +1821,13 @@ text-align: center;">
 						<hr>
 						<div class="panel panel-default">
 							<div class="panel-heading">
-									<a data-toggle="collapse" data-parent="#accordion" href="#***REMOVED***">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseExclude">
 									<h4 class="panel-title">
 									<?php echo esc_html__('Exclude Table From Database Backup', 'wpdbbkp') ?>
 									</h4>
 									</a>
 							</div>
-							<div id="***REMOVED***" class="panel-collapse collapse in">
+							<div id="collapseExclude" class="panel-collapse collapse in">
 								<div class="panel-body">
 									<table class="table table-condensed">
 										<tr class="success">
@@ -2278,7 +2278,7 @@ text-align: center;">
 
 		// Remove the trailing slash.
 		if ( '/' !== $dir ) {
-			$dir = ***REMOVED***( $dir );
+			$dir = untrailingslashit( $dir );
 		}
 
 		// Carry on until completely normalized.
@@ -2299,8 +2299,8 @@ text-align: center;">
 			return false;
 		}
 
-		// Is shell_exec or ***REMOVED*** or ***REMOVED*** disabled?
-		if ( array_intersect( array( 'shell_exec', '***REMOVED***', '***REMOVED***' ), array_map( 'trim', explode( ',', ini_get( 'disable_functions' ) ) ) ) ) {
+		// Is shell_exec or escapeshellcmd or escapeshellarg disabled?
+		if ( array_intersect( array( 'shell_exec', 'escapeshellarg', 'escapeshellcmd' ), array_map( 'trim', explode( ',', ini_get( 'disable_functions' ) ) ) ) ) {
 			return false;
 		}
 
@@ -2341,7 +2341,7 @@ text-align: center;">
 		$port = strpos( DB_HOST, ':' ) ? end( explode( ':', DB_HOST ) ) : '';
 
 		// Path to the mysqldump executable.
-		$cmd = ***REMOVED***( $this->get_mysqldump_command_path() );
+		$cmd = escapeshellarg( $this->get_mysqldump_command_path() );
 
 		// We don't want to create a new DB.
 		$cmd .= ' --no-create-db';
@@ -2355,15 +2355,15 @@ text-align: center;">
 		$cmd .= ' --hex-blob';
 
 		// Username.
-		$cmd .= ' -u ' . ***REMOVED***( DB_USER );
+		$cmd .= ' -u ' . escapeshellarg( DB_USER );
 
 		// Don't pass the password if it's blank.
 		if ( DB_PASSWORD ) {
-			$cmd .= ' -p' . ***REMOVED***( DB_PASSWORD );
+			$cmd .= ' -p' . escapeshellarg( DB_PASSWORD );
 		}
 
 		// Set the host.
-		$cmd .= ' -h ' . ***REMOVED***( $host );
+		$cmd .= ' -h ' . escapeshellarg( $host );
 
 		// Set the port if it was set.
 		if ( ! empty( $port ) && is_numeric( $port ) ) {
@@ -2371,7 +2371,7 @@ text-align: center;">
 		}
 
 		// The file we're saving too.
-		$cmd .= ' -r ' . ***REMOVED***( $sql_filename );
+		$cmd .= ' -r ' . escapeshellarg( $sql_filename );
 
 		$wp_db_exclude_table = array();
 		$wp_db_exclude_table = get_option( 'wp_db_exclude_table' );
@@ -2382,7 +2382,7 @@ text-align: center;">
 		}
 
 		// The database we're dumping.
-		$cmd .= ' ' . ***REMOVED***( DB_NAME );
+		$cmd .= ' ' . escapeshellarg( DB_NAME );
 
 		// Pipe STDERR to STDOUT.
 		$cmd .= ' 2>&1';
@@ -2949,9 +2949,9 @@ text-align: center;">
 			}
 	
 			$post_id = get_the_ID();
-			//phpcs:ignore 	WordPress.Security.***REMOVED***.Recommended -- no form submission
+			//phpcs:ignore 	WordPress.Security.NonceVerification.Recommended -- no form submission
 			if(isset($_GET['tag_ID'])){
-				//phpcs:ignore 	WordPress.Security.***REMOVED***.Recommended -- no form submission
+				//phpcs:ignore 	WordPress.Security.NonceVerification.Recommended -- no form submission
 				$post_id = intval($_GET['tag_ID']);
 			}
 	
@@ -3015,7 +3015,7 @@ text-align: center;">
 			if ( ! isset( $_POST['wpdbbkp_security_nonce'] ) ){
 			   return; 
 			}
-			if ( !wp_verify_nonce( 	wp_unslash($_POST['wpdbbkp_security_nonce']), 'wpdbbkp-admin-nonce' ) ){ // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- used as nonce
+			if ( !wp_verify_nonce( 	wp_unslash($_POST['wpdbbkp_security_nonce']), 'wpdbbkp-admin-nonce' ) ){ // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- used as nonce
 			   return;  
 			}
 
@@ -3023,8 +3023,8 @@ text-align: center;">
 				return;
 			 }
 			   
-			$message        = isset($_POST['message']) ? $this->wpdbbkp_sanitize_textarea_field(wp_unslash($_POST['message'])) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- sanitized using custom function
-			$email          = isset($_POST['email']) ? $this->wpdbbkp_sanitize_textarea_field(wp_unslash($_POST['email'])) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- sanitized using custom function  
+			$message        = isset($_POST['message']) ? $this->wpdbbkp_sanitize_textarea_field(wp_unslash($_POST['message'])) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized using custom function
+			$email          = isset($_POST['email']) ? $this->wpdbbkp_sanitize_textarea_field(wp_unslash($_POST['email'])) : ''; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized using custom function  
 									
 			if(function_exists('wp_get_current_user')){
 		
@@ -3168,13 +3168,13 @@ text-align: center;">
 	        }
 	        // Zip up $this->root with excludes
 	        if (!empty($excludes)) {
-	            $stderr = shell_exec('cd ' . ***REMOVED***($this->get_root()) . ' && ' . ***REMOVED***($this->get_zip_command_path()) . ' -rq ' . ***REMOVED***($WPDBFileName) . ' ./' . ' -x ' . $this->exclude_string('zip') . ' 2>&1');
+	            $stderr = shell_exec('cd ' . escapeshellarg($this->get_root()) . ' && ' . escapeshellcmd($this->get_zip_command_path()) . ' -rq ' . escapeshellarg($WPDBFileName) . ' ./' . ' -x ' . $this->exclude_string('zip') . ' 2>&1');
 	        }
 
 	        // Zip up $this->root without excludes
 	        else {
 	    
-	            $stderr = shell_exec('cd ' . ***REMOVED***($this->get_root()) . ' && ' . ***REMOVED***($this->get_zip_command_path()) . ' -rq ' . ***REMOVED***($WPDBFileName) . ' ./' . ' 2>&1');
+	            $stderr = shell_exec('cd ' . escapeshellarg($this->get_root()) . ' && ' . escapeshellcmd($this->get_zip_command_path()) . ' -rq ' . escapeshellarg($WPDBFileName) . ' ./' . ' 2>&1');
 	        }
 	        if (!empty($stderr))
 	            $this->warning($this->get_archive_method(), $stderr);
@@ -3207,7 +3207,7 @@ text-align: center;">
 
 	        // If site_url contains home_url and they differ then assume WordPress is installed in a sub directory
 	        if ($home_url !== $site_url && strpos($site_url, $home_url) === 0)
-	            $home_path = ***REMOVED***(substr(self::conform_dir(ABSPATH), 0, strrpos(self::conform_dir(ABSPATH), str_replace($home_url, '', $site_url))));
+	            $home_path = trailingslashit(substr(self::conform_dir(ABSPATH), 0, strrpos(self::conform_dir(ABSPATH), str_replace($home_url, '', $site_url))));
 
 	        return self::conform_dir($home_path);
 	    }
@@ -3262,7 +3262,7 @@ text-align: center;">
 						$fragment = true;
 	
 					// Strip $this->root and conform
-					$rule = str_ireplace($this->get_root(), '', ***REMOVED***(self::conform_dir($rule)));
+					$rule = str_ireplace($this->get_root(), '', untrailingslashit(self::conform_dir($rule)));
 	
 					// Strip the preceeding slash
 					if (in_array(substr($rule, 0, 1), array('\\', '/')))
@@ -3297,7 +3297,7 @@ text-align: center;">
 
 	        // Escape shell args for zip command
 	        if ($context === 'zip')
-	            $excludes = array_map('***REMOVED***', array_unique($excludes));
+	            $excludes = array_map('escapeshellarg', array_unique($excludes));
 
 	        return implode($separator, $excludes);
 	    }
@@ -3452,7 +3452,7 @@ text-align: center;">
 			}
 		
 			// Verify the nonce
-			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['nonce'] ), 'wpdbbkp_cloudbackup_notice_dismissed' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+			if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['nonce'] ), 'wpdbbkp_cloudbackup_notice_dismissed' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 				wp_die( esc_html__( 'Invalid nonce', 'wpdbbkp' ), '', [ 'response' => 403 ] );
 			}
 
@@ -3467,11 +3467,11 @@ text-align: center;">
 			}
 		
 			// Check for a specific query parameter, e.g., ?download_backup=filename.zip
-			if ( isset( $_GET['wpdbbkp_download'] ) && ! empty( $_GET['wpdbbkp_download'] ) ) { //phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- no form submission
+			if ( isset( $_GET['wpdbbkp_download'] ) && ! empty( $_GET['wpdbbkp_download'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- no form submission
 				$path_info = wp_upload_dir();
 				$backup_dir = $path_info['basedir'] . '/' . WPDB_BACKUPS_DIR . '/';
-				$file_name  = basename( sanitize_text_field( wp_unslash( $_GET['wpdbbkp_download'] ) ) ); //phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- no form submission
-				$file_path  = ***REMOVED***( $backup_dir ) . $file_name;
+				$file_name  = basename( sanitize_text_field( wp_unslash( $_GET['wpdbbkp_download'] ) ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- no form submission
+				$file_path  = trailingslashit( $backup_dir ) . $file_name;
 
 		
 				// Check if file exists
@@ -3481,7 +3481,7 @@ text-align: center;">
 					header( 'Content-Type: application/octet-stream' );
 					header( 'Content-Disposition: attachment; filename="' . $file_name . '"' );
 					header( 'Content-Length: ' . filesize( $file_path ) );
-					readfile( $file_path ); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_readfile -- readfile is used to read the file with buffer
+					readfile( $file_path ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile -- readfile is used to read the file with buffer
 					exit;
 				} else {
 					wp_die( esc_html__( 'Backup file not found.', 'wpdbbkp' ) );

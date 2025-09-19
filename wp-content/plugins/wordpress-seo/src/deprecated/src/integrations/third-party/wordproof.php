@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * Class WordProof
  *
  * @deprecated 22.10
- * @***REMOVED***
+ * @codeCoverageIgnore
  *
  * @package Yoast\WP\SEO\Integrations\Third_Party
  */
@@ -41,7 +41,7 @@ class Wordproof implements Integration_Interface {
 	 * The WordProof integration constructor.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Wordproof_Helper               $wordproof     The WordProof helper instance.
 	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager The WPSEO admin asset manager instance.
@@ -60,7 +60,7 @@ class Wordproof implements Integration_Interface {
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
@@ -75,7 +75,7 @@ class Wordproof implements Integration_Interface {
 	 * This is the place to register hooks and filters.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -87,7 +87,7 @@ class Wordproof implements Integration_Interface {
 	 * Initializes the WordProof WordPress SDK.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -99,7 +99,7 @@ class Wordproof implements Integration_Interface {
 	 * Removes the WordProof timestamp post meta if a legal page is changed.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $old_post_id The old post id.
 	 * @param int $new_post_id The new post id.
@@ -114,7 +114,7 @@ class Wordproof implements Integration_Interface {
 	 * Return the Yoast post meta key for the SDK to determine if the post should be timestamped.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $meta_keys The array containing meta keys that should be used.
 	 * @return array
@@ -128,7 +128,7 @@ class Wordproof implements Integration_Interface {
 	 * Return an empty array to disable automatically timestamping selected post types.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $post_types The array containing post types that should be automatically timestamped.
 	 * @return array
@@ -142,7 +142,7 @@ class Wordproof implements Integration_Interface {
 	 * This filters hides the certificate if the Yoast post meta key is not set to true.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param bool    $value If the certificate should be shown.
 	 * @param WP_Post $post  The post object of the post for which to determine the certificate should be shown.
@@ -158,7 +158,7 @@ class Wordproof implements Integration_Interface {
 	 * Adds the WordProof integration toggle to the array.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $fields The currently registered meta fields.
 	 *
@@ -181,7 +181,7 @@ class Wordproof implements Integration_Interface {
 	 * Enqueue the uikit script.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -193,7 +193,7 @@ class Wordproof implements Integration_Interface {
 	 * Adds async to the wordproof-uikit script.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $tag    The script tag for the enqueued script.
 	 * @param string $handle The script's registered handle.
@@ -201,7 +201,7 @@ class Wordproof implements Integration_Interface {
 	 *
 	 * @return string The script's tag.
 	 *
-	 * @phpcs:disable WordPress.WP.***REMOVED***.***REMOVED***
+	 * @phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 	 */
 	public function add_async_to_script( $tag, $handle, $src ) {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );

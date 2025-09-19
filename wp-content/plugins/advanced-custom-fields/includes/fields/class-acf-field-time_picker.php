@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_time_picker' ) ) :
 			$this->category      = 'advanced';
 			$this->description   = __( 'An interactive UI for picking a time. The time format can be customized using the field settings.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-time.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/time-picker/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/time-picker/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'display_format' => 'g:i a',
 				'return_format'  => 'g:i a',

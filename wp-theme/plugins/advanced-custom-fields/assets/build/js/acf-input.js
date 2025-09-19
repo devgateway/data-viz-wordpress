@@ -29,7 +29,7 @@
 		/**
 		*  setup
 		*
-		*  Called during the constructor function to setup this field ready for ***REMOVED***
+		*  Called during the constructor function to setup this field ready for initialization
 		*
 		*  @date	8/5/18
 		*  @since	5.6.9
@@ -440,7 +440,7 @@
 	};
 	
 	/**
-	*  ***REMOVED***
+	*  registerFieldType
 	*
 	*  description
 	*
@@ -451,7 +451,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( model ){
+	acf.registerFieldType = function( model ){
 		
 		// vars
 		var proto = model.prototype;
@@ -546,7 +546,7 @@
 	*		@type jQuery			parent		jQuery element to search within.
 	*		@type jQuery			sibling		jQuery element to search alongside.
 	*		@type limit				int			The number of fields to find.
-	*		@type ***REMOVED***	bool		Whether to allow filters to add/remove results. Default behaviour will ignore clone fields.
+	*		@type suppressFilters	bool		Whether to allow filters to add/remove results. Default behaviour will ignore clone fields.
 	*  }
 	*  @return	jQuery
 	*/
@@ -567,11 +567,11 @@
 			sibling: false,
 			limit: false,
 			visible: false,
-			***REMOVED***: false,
+			suppressFilters: false,
 		});
 		
 		// filter args
-		if( !args.***REMOVED*** ) {
+		if( !args.suppressFilters ) {
 			args = acf.applyFilters('find_fields_args', args);
 		}
 		
@@ -610,7 +610,7 @@
 		}
 		
 		// filter
-		if( !args.***REMOVED*** ) {
+		if( !args.suppressFilters ) {
 			$fields = $fields.not('.acf-clone .acf-field');
 			$fields = acf.applyFilters('find_fields', $fields);
 		}
@@ -643,7 +643,7 @@
 			key: key,
 			limit: 1,
 			parent: $parent,
-			***REMOVED***: true
+			suppressFilters: true
 		});
 	};
 	
@@ -713,7 +713,7 @@
 	};
 	
 	/**
-	*  ***REMOVED***
+	*  findClosestField
 	*
 	*  Returns the closest jQuery field element
 	*
@@ -724,12 +724,12 @@
 	*  @return	jQuery
 	*/
 	
-	acf.***REMOVED*** = function( $el ){
+	acf.findClosestField = function( $el ){
 		return $el.closest('.acf-field');
 	};
 	
 	/**
-	*  ***REMOVED***
+	*  getClosestField
 	*
 	*  Returns the closest field instance
 	*
@@ -740,13 +740,13 @@
 	*  @return	object
 	*/
 	
-	acf.***REMOVED*** = function( $el ){
-		var $field = acf.***REMOVED***( $el );
+	acf.getClosestField = function( $el ){
+		var $field = acf.findClosestField( $el );
 		return this.getField( $field );
 	};
 	
 	/**
-	*  ***REMOVED***
+	*  addGlobalFieldAction
 	*
 	*  Sets up callback logic for global field actions
 	*
@@ -757,7 +757,7 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = function( action ){
+	var addGlobalFieldAction = function( action ){
 		
 		// vars
 		var globalAction = action;
@@ -765,7 +765,7 @@
 		var singleAction = action + '_field';	// ready_field
 		
 		// global action
-		var ***REMOVED*** = function( $el /*, arg1, arg2, etc*/ ){
+		var globalCallback = function( $el /*, arg1, arg2, etc*/ ){
 			//console.log( action, arguments );
 			
 			// get args [$el, ...]
@@ -785,7 +785,7 @@
 		};
 		
 		// plural action
-		var ***REMOVED*** = function( fields /*, arg1, arg2, etc*/ ){
+		var pluralCallback = function( fields /*, arg1, arg2, etc*/ ){
 			//console.log( pluralAction, arguments );
 			
 			// get args [fields, ...]
@@ -803,15 +803,15 @@
 		};
 		
 		// add actions
-		acf.addAction(globalAction, ***REMOVED***);
-		acf.addAction(pluralAction, ***REMOVED***);
+		acf.addAction(globalAction, globalCallback);
+		acf.addAction(pluralAction, pluralCallback);
 		
 		// also add single action
-		***REMOVED***( action );
+		addSingleFieldAction( action );
 	}
 	
 	/**
-	*  ***REMOVED***
+	*  addSingleFieldAction
 	*
 	*  Sets up callback logic for single field actions
 	*
@@ -822,14 +822,14 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = function( action ){
+	var addSingleFieldAction = function( action ){
 		
 		// vars
 		var singleAction = action + '_field';	// ready_field
 		var singleEvent = action + 'Field';		// readyField
 
 		// single action
-		var ***REMOVED*** = function( field /*, arg1, arg2, etc*/ ){
+		var singleCallback = function( field /*, arg1, arg2, etc*/ ){
 			//console.log( singleAction, arguments );
 			
 			// get args [field, ...]
@@ -849,26 +849,26 @@
 			});
 			
 			// event
-			if( ***REMOVED***.indexOf(action) > -1 ) {
+			if( singleFieldEvents.indexOf(action) > -1 ) {
 				field.trigger(singleEvent, extraArgs);
 			}
 		};
 		
 		// add actions
-		acf.addAction(singleAction, ***REMOVED***);	
+		acf.addAction(singleAction, singleCallback);	
 	}
 	
 	// vars
-	var ***REMOVED*** = [ 'prepare', 'ready', 'load', 'append', 'remove', 'unmount', 'remount', 'sortstart', 'sortstop', 'show', 'hide', 'unload' ];
-	var ***REMOVED*** = [ 'valid', 'invalid', 'enable', 'disable', 'new', 'duplicate' ];
-	var ***REMOVED*** = [ 'remove', 'unmount', 'remount', 'sortstart', 'sortstop', 'show', 'hide', 'unload', 'valid', 'invalid', 'enable', 'disable', 'duplicate' ];
+	var globalFieldActions = [ 'prepare', 'ready', 'load', 'append', 'remove', 'unmount', 'remount', 'sortstart', 'sortstop', 'show', 'hide', 'unload' ];
+	var singleFieldActions = [ 'valid', 'invalid', 'enable', 'disable', 'new', 'duplicate' ];
+	var singleFieldEvents = [ 'remove', 'unmount', 'remount', 'sortstart', 'sortstop', 'show', 'hide', 'unload', 'valid', 'invalid', 'enable', 'disable', 'duplicate' ];
 	
 	// add
-	***REMOVED***.map( ***REMOVED*** );
-	***REMOVED***.map( ***REMOVED*** );
+	globalFieldActions.map( addGlobalFieldAction );
+	singleFieldActions.map( addSingleFieldAction );
 	
 	/**
-	*  ***REMOVED***
+	*  fieldsEventManager
 	*
 	*  Manages field actions and events
 	*
@@ -879,8 +879,8 @@
 	*  @param	void
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
-		id: '***REMOVED***',
+	var fieldsEventManager = new acf.Model({
+		id: 'fieldsEventManager',
 		events: {
 			'click .acf-field a[href="#"]':	'onClick',
 			'change .acf-field':			'onChange'
@@ -888,7 +888,7 @@
 		onClick: function( e ){
 			
 			// prevent default of any link with an href of #
-			e.***REMOVED***();
+			e.preventDefault();
 		},
 		onChange: function(){
 			
@@ -901,7 +901,7 @@
 		id: 'duplicateFieldsManager',
 		actions: {
 			'duplicate': 'onDuplicate',
-			'duplicate_fields': '***REMOVED***',
+			'duplicate_fields': 'onDuplicateFields',
 		},
 		onDuplicate: function( $el, $el2 ){
 			var fields = acf.getFields({ parent: $el });
@@ -910,7 +910,7 @@
 				acf.doAction( 'duplicate_fields', fields, $fields );
 			}
 		},
-		***REMOVED***: function( fields, duplicates ){
+		onDuplicateFields: function( fields, duplicates ){
 			fields.map(function( field, i ){
 				acf.doAction( 'duplicate_field', field, $(duplicates[i]) );
 			});
@@ -1012,7 +1012,7 @@
 			}
 			
 			// add icon
-			$label.prepend( ***REMOVED***.iconHtml({ open: this.get('open') }) );
+			$label.prepend( accordionManager.iconHtml({ open: this.get('open') }) );
 			
 			// classes
 			// - remove 'inside' which is a #poststuff WP class
@@ -1029,11 +1029,11 @@
 		
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 
 
 	/**
-	*  ***REMOVED***
+	*  accordionManager
 	*
 	*  Events manager for the acf accordion
 	*
@@ -1044,7 +1044,7 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var accordionManager = new acf.Model({
 		
 		actions: {
 			'unload':	'onUnload'
@@ -1052,7 +1052,7 @@
 		
 		events: {
 			'click .acf-accordion-title': 'onClick',
-			'invalidField .acf-accordion':	'***REMOVED***'
+			'invalidField .acf-accordion':	'onInvalidField'
 		},
 		
 		isOpen: function( $el ) {
@@ -1099,7 +1099,7 @@
 			// close siblings
 			if( !$el.attr('multi-expand') ) {
 				$el.siblings('.acf-accordion.-open').each(function(){
-					***REMOVED***.close( $(this) );
+					accordionManager.close( $(this) );
 				});
 			}
 		},
@@ -1119,14 +1119,14 @@
 		onClick: function( e, $el ){
 			
 			// prevent Defailt
-			e.***REMOVED***();
+			e.preventDefault();
 			
 			// open close
 			this.toggle( $el.parent() );
 			
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onInvalidField: function( e, $el ){
 			
 			// bail early if already focused
 			if( this.busy ) {
@@ -1204,7 +1204,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 
 })(jQuery);
 (function($, undefined){
@@ -1314,7 +1314,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -1326,7 +1326,7 @@
 		wait: 'load',
 		
 		events: {
-			'***REMOVED***': 'onDuplicate'
+			'duplicateField': 'onDuplicate'
 		},
 
 		$control: function(){
@@ -1391,7 +1391,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -1402,7 +1402,7 @@
 		
 		events: {
 			'blur input[type="text"]':	'onBlur',
-			'***REMOVED***':			'onDuplicate'
+			'duplicateField':			'onDuplicate'
 		},
 		
 		$control: function(){
@@ -1436,7 +1436,7 @@
 				changeYear:			true,
 				yearRange:			"-100:+100",
 				changeMonth:		true,
-				***REMOVED***:	true,
+				showButtonPanel:	true,
 				firstDay:			this.get('first_day')
 			};
 			
@@ -1468,7 +1468,7 @@
 				changeYear:			true,
 				yearRange:			"-100:+100",
 				changeMonth:		true,
-				***REMOVED***:	true,
+				showButtonPanel:	true,
 				firstDay:			this.get('first_day')
 			};
 			
@@ -1502,11 +1502,11 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 	
 	// manager
-	var ***REMOVED*** = new acf.Model({
+	var datePickerManager = new acf.Model({
 		priority: 5,
 		wait: 'ready',
 		initialize: function(){
@@ -1514,7 +1514,7 @@
 			// vars
 			var locale = acf.get('locale');
 			var rtl = acf.get('rtl');
-			var l10n = acf.get('***REMOVED***');
+			var l10n = acf.get('datePickerL10n');
 			
 			// bail ealry if no l10n
 			if( !l10n ) {
@@ -1558,7 +1558,7 @@
 })(jQuery);
 (function($, undefined){
 	
-	var Field = acf.models.***REMOVED***.extend({
+	var Field = acf.models.DatePickerField.extend({
 		
 		type: 'date_time_picker',
 		
@@ -1577,13 +1577,13 @@
 				dateFormat:			this.get('date_format'),
 				timeFormat:			this.get('time_format'),
 				altField:			$input,
-				***REMOVED***:	false,
+				altFieldTimeOnly:	false,
 				altFormat:			'yy-mm-dd',
 				altTimeFormat:		'HH:mm:ss',
 				changeYear:			true,
 				yearRange:			"-100:+100",
 				changeMonth:		true,
-				***REMOVED***:	true,
+				showButtonPanel:	true,
 				firstDay:			this.get('first_day'),
 				controlType: 		'select',
 				oneLine:			true
@@ -1593,14 +1593,14 @@
 			args = acf.applyFilters('date_time_picker_args', args, this);
 			
 			// add date time picker
-			acf.***REMOVED***( $inputText, args );
+			acf.newDateTimePicker( $inputText, args );
 			
 			// action
 			acf.doAction('date_time_picker_init', $inputText, args, this);
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 	
 	// manager
@@ -1612,7 +1612,7 @@
 			// vars
 			var locale = acf.get('locale');
 			var rtl = acf.get('rtl');
-			var l10n = acf.get('***REMOVED***');
+			var l10n = acf.get('dateTimePickerL10n');
 			
 			// bail ealry if no l10n
 			if( !l10n ) {
@@ -1635,7 +1635,7 @@
 	
 	
 	// add
-	acf.***REMOVED*** = function( $input, args ){
+	acf.newDateTimePicker = function( $input, args ){
 		
 		// bail ealry if no datepicker library
 		if( typeof $.timepicker === 'undefined' ) {
@@ -1646,7 +1646,7 @@
 		args = args || {};
 		
 		// initialize
-		$input.***REMOVED***( args );
+		$input.datetimepicker( args );
 		
 		// wrap the datepicker (only if it hasn't already been wrapped)
 		if( $('body > #ui-datepicker-div').exists() ) {
@@ -1669,7 +1669,7 @@
 			'click a[data-name="clear"]': 		'onClickClear',
 			'click a[data-name="locate"]': 		'onClickLocate',
 			'click a[data-name="search"]': 		'onClickSearch',
-			'keydown .search': 					'***REMOVED***',
+			'keydown .search': 					'onKeydownSearch',
 			'keyup .search': 					'onKeyupSearch',
 			'focus .search': 					'onFocusSearch',
 			'blur .search': 					'onBlurSearch',
@@ -1849,9 +1849,9 @@
         	// Maybe Create Autocomplete.
         	var autocomplete = false;
 	        if( acf.isset(google, 'maps', 'places', 'Autocomplete') ) {
-		        var ***REMOVED*** = mapArgs.autocomplete || {};
-		        ***REMOVED*** = acf.applyFilters('google_map_autocomplete_args', ***REMOVED***, this);
-		        autocomplete = new google.maps.places.Autocomplete( this.$search()[0], ***REMOVED*** );
+		        var autocompleteArgs = mapArgs.autocomplete || {};
+		        autocompleteArgs = acf.applyFilters('google_map_autocomplete_args', autocompleteArgs, this);
+		        autocomplete = new google.maps.places.Autocomplete( this.$search()[0], autocompleteArgs );
 		        autocomplete.bindTo('bounds', map);
 	        }
 	        
@@ -1888,14 +1888,14 @@
 	        google.maps.event.addListener( map, 'click', function( e ) {
 				var lat = e.latLng.lat();
 				var lng = e.latLng.lng();
-				field.***REMOVED***( lat, lng );
+				field.searchPosition( lat, lng );
 			});
 			
 			// Drag marker.
 		    google.maps.event.addListener( marker, 'dragend', function(){
 				var lat = this.getPosition().lat();
 			    var lng = this.getPosition().lng();
-				field.***REMOVED***( lat, lng );
+				field.searchPosition( lat, lng );
 			});
 			
 			// Autocomplete search.
@@ -1916,8 +1916,8 @@
 			});
 		},
 		
-		***REMOVED***: function( lat, lng ){
-			//console.log('***REMOVED***', lat, lng );
+		searchPosition: function( lat, lng ){
+			//console.log('searchPosition', lat, lng );
 			
 			// Start Loading.
 			this.setState( 'loading' );
@@ -1925,7 +1925,7 @@
 			// Query Geocoder.
 			var latLng = { lat: lat, lng: lng };
 			geocoder.geocode({ location: latLng }, function( results, status ){
-			    //console.log('***REMOVED***', arguments );
+			    //console.log('searchPosition', arguments );
 			    
 			    // End Loading.
 			    this.setState( '' );
@@ -1986,7 +1986,7 @@
 			    var lat = parseFloat(latLng[0]);
 				var lng = parseFloat(latLng[1]);
 			    if( lat && lng ) {
-				    return this.***REMOVED***( lat, lng );
+				    return this.searchPosition( lat, lng );
 			    }
 		    }
 		    
@@ -1995,7 +1995,7 @@
 		    
 		    // Query Geocoder.
 		    geocoder.geocode({ address: address }, function( results, status ){
-			    //console.log('***REMOVED***', arguments );
+			    //console.log('searchPosition', arguments );
 			    
 			    // End Loading.
 			    this.setState( '' );
@@ -2021,8 +2021,8 @@
 			}.bind( this ));
 		},
 		
-		***REMOVED***: function(){
-			//console.log('***REMOVED***' );
+		searchLocation: function(){
+			//console.log('searchLocation' );
 			
 			// Check HTML5 geolocation.
 			if( !navigator.geolocation ) {
@@ -2033,7 +2033,7 @@
 			this.setState( 'loading' );
 			
 		    // Query Geolocation.
-			navigator.geolocation.***REMOVED***(
+			navigator.geolocation.getCurrentPosition(
 				
 				// Success.
 				function( results ){
@@ -2044,7 +2044,7 @@
 				    // Search position.
 					var lat = results.coords.latitude;
 				    var lng = results.coords.longitude;
-				    this.***REMOVED***( lat, lng );
+				    this.searchPosition( lat, lng );
 					
 				}.bind(this),
 				
@@ -2058,12 +2058,12 @@
 		/**
 		 * parseResult
 		 *
-		 * Returns location data for the given ***REMOVED*** object.
+		 * Returns location data for the given GeocoderResult object.
 		 *
 		 * @date	15/10/19
 		 * @since	5.8.6
 		 *
-		 * @param	object obj A ***REMOVED*** object.
+		 * @param	object obj A GeocoderResult object.
 		 * @return	object
 		 */
 		parseResult: function( obj ) {
@@ -2134,7 +2134,7 @@
 			 * @since	5.8.6
 			 *
 			 * @param	object result The parsed result value.
-			 * @param	object obj The ***REMOVED*** object.
+			 * @param	object obj The GeocoderResult object.
 			 */
 			return acf.applyFilters('google_map_result', result, obj, this.map, this);
 		},
@@ -2144,7 +2144,7 @@
 		},
 		
 		onClickLocate: function(){
-			this.***REMOVED***();
+			this.searchLocation();
 		},
 		
 		onClickSearch: function(){
@@ -2176,9 +2176,9 @@
 		},
 		
 		// Prevent form from submitting.
-		***REMOVED***: function( e, $el ){
+		onKeydownSearch: function( e, $el ){
 			if( e.which == 13 ) {
-				e.***REMOVED***();
+				e.preventDefault();
 				$el.blur();
 			}
 		},
@@ -2191,7 +2191,7 @@
 		},
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 	// Vars.
 	var loading = false;
@@ -2280,7 +2280,7 @@
 			}
 		},
 		
-		***REMOVED***: function( attachment ){
+		validateAttachment: function( attachment ){
 			
 			// Use WP attachment attributes when available.
 			if( attachment && attachment.attributes ) {
@@ -2312,7 +2312,7 @@
 		},
 		
 		render: function( attachment ){
-			attachment = this.***REMOVED***( attachment );
+			attachment = this.validateAttachment( attachment );
 			
 			// Update DOM.
 		 	this.$('img').attr({
@@ -2366,7 +2366,7 @@
 			}
 		},
 		
-		***REMOVED***: function(){
+		selectAttachment: function(){
 			
 			// vars
 			var parent = this.parent();
@@ -2391,7 +2391,7 @@
 			});
 		},
 		
-		***REMOVED***: function(){
+		editAttachment: function(){
 			
 			// vars
 			var val = this.val();
@@ -2412,32 +2412,32 @@
 			});
 		},
 		
-		***REMOVED***: function(){
+		removeAttachment: function(){
 	        this.render( false );
 		},
 		
 		onClickAdd: function( e, $el ){
-			this.***REMOVED***();
+			this.selectAttachment();
 		},
 		
 		onClickEdit: function( e, $el ){
-			this.***REMOVED***();
+			this.editAttachment();
 		},
 		
 		onClickRemove: function( e, $el ){
-			this.***REMOVED***();
+			this.removeAttachment();
 		},
 		
 		onChange: function( e, $el ){
 			var $hiddenInput = this.$input();
 			
-			acf.***REMOVED***($el, function( data ){
+			acf.getFileInputData($el, function( data ){
 				$hiddenInput.val( $.param(data) );
 			});
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 
 })(jQuery);
 (function($, undefined){
@@ -2454,7 +2454,7 @@
 			return this.$('input[type="hidden"]');
 		},
 		
-		***REMOVED***: function( attachment ){
+		validateAttachment: function( attachment ){
 			
 			// defaults
 			attachment = attachment || {};
@@ -2481,7 +2481,7 @@
 		render: function( attachment ){
 			
 			// vars
-			attachment = this.***REMOVED***( attachment );
+			attachment = this.validateAttachment( attachment );
 			
 			// update image
 		 	this.$('img').attr({
@@ -2509,7 +2509,7 @@
 		 	}
 		},
 		
-		***REMOVED***: function(){
+		selectAttachment: function(){
 			
 			// vars
 			var parent = this.parent();
@@ -2533,7 +2533,7 @@
 			});
 		},
 		
-		***REMOVED***: function(){
+		editAttachment: function(){
 			
 			// vars
 			var val = this.val();
@@ -2557,7 +2557,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -2653,7 +2653,7 @@
 		
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 	
 	// manager
@@ -2764,9 +2764,9 @@
 		
 		events: {
 			'click [data-name="clear-button"]': 	'onClickClear',
-			'keypress .input-search':				'***REMOVED***',
+			'keypress .input-search':				'onKeypressSearch',
 			'keyup .input-search':					'onKeyupSearch',
-			'change .input-search':					'***REMOVED***'
+			'change .input-search':					'onChangeSearch'
 		},
 		
 		$control: function(){
@@ -2861,7 +2861,7 @@
 			// query
 			var xhr = $.ajax({
 				url: acf.get('ajaxurl'),
-				data: acf.***REMOVED***(ajaxData),
+				data: acf.prepareForAjax(ajaxData),
 				type: 'post',
 				dataType: 'json',
 				context: this,
@@ -2897,9 +2897,9 @@
 			this.clear();
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onKeypressSearch: function( e, $el ){
 			if( e.which == 13 ) {
-				e.***REMOVED***();
+				e.preventDefault();
 				this.maybeSearch();
 			}
 		},
@@ -2910,13 +2910,13 @@
 			}
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onChangeSearch: function( e, $el ){
 			this.maybeSearch();
 		}
 		
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 
 })(jQuery);
 (function($, undefined){
@@ -2984,7 +2984,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 
 })(jQuery);
 (function($, undefined){
@@ -3026,7 +3026,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -3036,9 +3036,9 @@
 		type: 'relationship',
 		
 		events: {
-			'keypress [data-filter]': 				'***REMOVED***',
-			'change [data-filter]': 				'***REMOVED***',
-			'keyup [data-filter]': 					'***REMOVED***',
+			'keypress [data-filter]': 				'onKeypressFilter',
+			'change [data-filter]': 				'onChangeFilter',
+			'keyup [data-filter]': 					'onChangeFilter',
 			'click .choices-list .acf-rel-item': 	'onClickAdd',
 			'click [data-name="remove_item"]': 		'onClickRemove',
 		},
@@ -3088,14 +3088,14 @@
 		
 		initialize: function(){
 			
-			// Delay ***REMOVED*** until "interacted with" or "in view".
+			// Delay initialization until "interacted with" or "in view".
 			var delayed = this.proxy(acf.once(function(){
 				
 				// Add sortable.
 				this.$list('values').sortable({
 					items:					'li',
-					***REMOVED***:		true,
-					***REMOVED***:	true,
+					forceHelperSize:		true,
+					forcePlaceholderSize:	true,
 					scroll:					true,
 					update:	this.proxy(function(){
 						this.$input().trigger('change');
@@ -3103,7 +3103,7 @@
 				});
 				
 				// Avoid browser remembering old scroll position and add event.
-				this.$list('choices').scrollTop(0).on('scroll', this.proxy(this.***REMOVED***));
+				this.$list('choices').scrollTop(0).on('scroll', this.proxy(this.onScrollChoices));
 				
 				// Fetch choices.
 				this.fetch();
@@ -3118,7 +3118,7 @@
 			acf.onceInView( this.$el, delayed );
 		},
 		
-		***REMOVED***: function(e){
+		onScrollChoices: function(e){
 				
 			// bail early if no more results
 			if( this.get('loading') || !this.get('more') ) {
@@ -3141,15 +3141,15 @@
 			}
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onKeypressFilter: function( e, $el ){
 			
 			// don't submit form
 			if( e.which == 13 ) {
-				e.***REMOVED***();
+				e.preventDefault();
 			}
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onChangeFilter: function( e, $el ){
 			
 			// vars
 			var val = $el.val();
@@ -3215,7 +3215,7 @@
 		onClickRemove: function( e, $el ){
 			
 			// Prevent default here because generic handler wont be triggered.
-			e.***REMOVED***();
+			e.preventDefault();
 			
 			// vars
 			var $span = $el.parent();
@@ -3355,7 +3355,7 @@
 		    	url:		acf.get('ajaxurl'),
 				dataType:	'json',
 				type:		'post',
-				data:		acf.***REMOVED***(ajaxData),
+				data:		acf.prepareForAjax(ajaxData),
 				context:	this,
 				success:	onSuccess,
 				complete:	onComplete
@@ -3404,7 +3404,7 @@
 		
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -3419,7 +3419,7 @@
 		
 		events: {
 			'removeField': 'onRemove',
-			'***REMOVED***': 'onDuplicate'
+			'duplicateField': 'onDuplicate'
 		},
 		
 		$input: function(){
@@ -3469,7 +3469,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -3488,7 +3488,7 @@
 		tab: false,
 		
 		events: {
-			'***REMOVED***': 'onDuplicate'
+			'duplicateField': 'onDuplicate'
 		},
 
 		findFields: function(){
@@ -3622,7 +3622,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 	
 	/**
@@ -3689,7 +3689,7 @@
 			i++;
 		},
 		
-		***REMOVED***: function(){
+		initializeTabs: function(){
 			
 			// find first visible tab
 			var tab = this.getVisible().shift();
@@ -3895,7 +3895,7 @@
 		onClick: function( e, $el ){
 			
 			// prevent default
-			e.***REMOVED***();
+			e.preventDefault();
 			
 			// toggle
 			this.toggle();
@@ -3921,7 +3921,7 @@
 			'prepare':			'render',
 			'append':			'render',
 			'unload':			'onUnload',
-			'invalid_field':	'***REMOVED***'
+			'invalid_field':	'onInvalidField'
 		},
 		
 		findTabs: function(){
@@ -3935,12 +3935,12 @@
 		render: function( $el ){
 			this.getTabs().map(function( tabs ){
 				if( !tabs.get('initialized') ) {
-					tabs.***REMOVED***();
+					tabs.initializeTabs();
 				}
 			});
 		},
 		
-		***REMOVED***: function( field ){
+		onInvalidField: function( field ){
 			
 			// bail early if busy
 			if( this.busy ) {
@@ -3990,7 +3990,7 @@
 		type: 'post_object',	
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -3999,7 +3999,7 @@
 		type: 'page_link',	
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -4008,7 +4008,7 @@
 		type: 'user',	
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -4036,10 +4036,10 @@
 		},
 		
 		$input: function(){
-			return this.***REMOVED***().$input.apply(this, arguments);
+			return this.getRelatedPrototype().$input.apply(this, arguments);
 		},
 		
-		***REMOVED***: function(){
+		getRelatedType: function(){
 			
 			// vars
 			var fieldType = this.get('ftype');
@@ -4054,24 +4054,24 @@
 			
 		},
 		
-		***REMOVED***: function(){
-			return acf.getFieldType( this.***REMOVED***() ).prototype;
+		getRelatedPrototype: function(){
+			return acf.getFieldType( this.getRelatedType() ).prototype;
 		},
 		
 		getValue: function(){
-			return this.***REMOVED***().getValue.apply(this, arguments);
+			return this.getRelatedPrototype().getValue.apply(this, arguments);
 		},
 		
 		setValue: function(){
-			return this.***REMOVED***().setValue.apply(this, arguments);
+			return this.getRelatedPrototype().setValue.apply(this, arguments);
 		},
 		
 		initialize: function(){
-			this.***REMOVED***().initialize.apply(this, arguments);
+			this.getRelatedPrototype().initialize.apply(this, arguments);
 		},
 		
 		onRemove: function(){
-			var proto = this.***REMOVED***();
+			var proto = this.getRelatedPrototype();
 			if( proto.onRemove ) {
 				proto.onRemove.apply(this, arguments);
 			}
@@ -4108,7 +4108,7 @@
 				// get HTML
 				$.ajax({
 					url: acf.get('ajaxurl'),
-					data: acf.***REMOVED***(ajaxData),
+					data: acf.prepareForAjax(ajaxData),
 					type: 'post',
 					dataType: 'html',
 					success: step2
@@ -4139,7 +4139,7 @@
 			var step3 = function( e, $el ){
 				
 				// prevent
-				e.***REMOVED***();
+				e.preventDefault();
 				e.stopImmediatePropagation();
 				
 				// basic validation
@@ -4149,7 +4149,7 @@
 				}
 				
 				// disable
-				acf.***REMOVED***( $button );
+				acf.startButtonLoading( $button );
 				
 				// ajax
 				var ajaxData = {
@@ -4161,7 +4161,7 @@
 				
 				$.ajax({
 					url: acf.get('ajaxurl'),
-					data: acf.***REMOVED***(ajaxData),
+					data: acf.prepareForAjax(ajaxData),
 					type: 'post',
 					dataType: 'json',
 					success: step4
@@ -4172,7 +4172,7 @@
 			var step4 = function( json ){
 				
 				// enable
-				acf.***REMOVED***( $button );
+				acf.stopButtonLoading( $button );
 				
 				// remove prev notice
 				if( notice ) {
@@ -4191,7 +4191,7 @@
 					// notice
 					notice = acf.newNotice({
 						type: 'success',
-						text: acf.***REMOVED***(json),
+						text: acf.getAjaxMessage(json),
 						target: $form,
 						timeout: 2000,
 						dismiss: false
@@ -4245,14 +4245,14 @@
 		
 		appendTerm: function( term ){
 			
-			if( this.***REMOVED***() == 'select' ) {
-				this.***REMOVED***( term );
+			if( this.getRelatedType() == 'select' ) {
+				this.appendTermSelect( term );
 			} else {
-				this.***REMOVED***( term );
+				this.appendTermCheckbox( term );
 			}
 		},
 		
-		***REMOVED***: function( term ){
+		appendTermSelect: function( term ){
 			
 			this.select2.addOption({
 				id:			term.term_id,
@@ -4261,14 +4261,14 @@
 			
 		},
 		
-		***REMOVED***: function( term ){
+		appendTermCheckbox: function( term ){
 			
 			// vars
 			var name = this.$('[name]:first').attr('name');
 			var $ul = this.$('ul:first');
 			
 			// allow multiple selection
-			if( this.***REMOVED***() == 'checkbox' ) {
+			if( this.getRelatedType() == 'checkbox' ) {
 				name += '[]';
 			}
 			
@@ -4303,7 +4303,7 @@
 		},
 		
 		selectTerm: function( id ){
-			if( this.***REMOVED***() == 'select' ) {
+			if( this.getRelatedType() == 'select' ) {
 				this.select2.selectOption( id );
 			} else {
 				var $input = this.$('input[value="' + id + '"]');
@@ -4331,12 +4331,12 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 		
 })(jQuery);
 (function($, undefined){
 	
-	var Field = acf.models.***REMOVED***.extend({
+	var Field = acf.models.DatePickerField.extend({
 		
 		type: 'time_picker',
 		
@@ -4354,12 +4354,12 @@
 			var args = {
 				timeFormat:			this.get('time_format'),
 				altField:			$input,
-				***REMOVED***:	false,
+				altFieldTimeOnly:	false,
 				altTimeFormat:		'HH:mm:ss',
-				***REMOVED***:	true,
+				showButtonPanel:	true,
 				controlType: 		'select',
 				oneLine:			true,
-				closeText:			acf.get('***REMOVED***').selectText,
+				closeText:			acf.get('dateTimePickerL10n').selectText,
 				timeOnly:			true,
 			};
 			
@@ -4387,7 +4387,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 	
 	// add
@@ -4503,7 +4503,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -4567,7 +4567,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 	
 })(jQuery);
 (function($, undefined){
@@ -4599,13 +4599,13 @@
 		
 		initialize: function(){
 			
-			// ***REMOVED*** if no delay
+			// initializeEditor if no delay
 			if( !this.$control().hasClass('delay') ) {
-				this.***REMOVED***();
+				this.initializeEditor();
 			}
 		},
 		
-		***REMOVED***: function(){
+		initializeEditor: function(){
 			
 			// vars
 			var $wrap = this.$control();
@@ -4648,7 +4648,7 @@
 		onMousedown: function( e ){
 			
 			// prevent default
-			e.***REMOVED***();
+			e.preventDefault();
 			
 			// remove delay class
 			var $wrap = this.$control();
@@ -4656,7 +4656,7 @@
 			$wrap.find('.acf-editor-toolbar').remove();
 			
 			// initialize
-			this.***REMOVED***();
+			this.initializeEditor();
 		},
 		
 		enableEditor: function(){
@@ -4670,7 +4670,7 @@
 		}	
 	});
 	
-	acf.***REMOVED***( Field );
+	acf.registerFieldType( Field );
 		
 })(jQuery);
 (function($, undefined){
@@ -4715,7 +4715,7 @@
 			$.extend(this.data, props);
 		},
 		
-		***REMOVED***: function( $el, event ){
+		getEventTarget: function( $el, event ){
 			return $el || this.get('field').$el;
 		},
 		
@@ -4775,13 +4775,13 @@
 		var operator = rule.operator;
 		
 		// get avaibale conditions
-		var ***REMOVED*** = acf.***REMOVED***({
+		var conditionTypes = acf.getConditionTypes({
 			fieldType: fieldType,
 			operator: operator,
 		});
 		
 		// instantiate
-		var model = ***REMOVED***[0] || acf.Condition;
+		var model = conditionTypes[0] || acf.Condition;
 		
 		// instantiate
 		var condition = new model( args );
@@ -4833,7 +4833,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getConditionType
 	*
 	*  description
 	*
@@ -4844,7 +4844,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( type ){
+	acf.getConditionType = function( type ){
 		var mid = modelId( type );
 		return acf.models[ mid ] || false;
 	}
@@ -4864,7 +4864,7 @@
 	acf.registerConditionForFieldType = function( conditionType, fieldType ){
 		
 		// get model
-		var model = acf.***REMOVED***( conditionType );
+		var model = acf.getConditionType( conditionType );
 		
 		// append
 		if( model ) {
@@ -4873,7 +4873,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getConditionTypes
 	*
 	*  description
 	*
@@ -4884,7 +4884,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( args ){
+	acf.getConditionTypes = function( args ){
 		
 		// defaults
 		args = acf.parseArgs(args, {
@@ -4899,12 +4899,12 @@
 		storage.map(function( type ){
 			
 			// vars
-			var model = acf.***REMOVED***(type);
-			var ***REMOVED*** = model.prototype.fieldTypes;
+			var model = acf.getConditionType(type);
+			var ProtoFieldTypes = model.prototype.fieldTypes;
 			var ProtoOperator = model.prototype.operator;
 			
 			// check fieldType
-			if( args.fieldType && ***REMOVED***.indexOf( args.fieldType ) === -1 )  {
+			if( args.fieldType && ProtoFieldTypes.indexOf( args.fieldType ) === -1 )  {
 				return;
 			}
 			
@@ -4928,7 +4928,7 @@
 	var CONTEXT = 'conditional_logic';
 	
 	/**
-	*  ***REMOVED***
+	*  conditionsManager
 	*
 	*  description
 	*
@@ -4939,9 +4939,9 @@
 	*  @return	type Description.
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var conditionsManager = new acf.Model({
 		
-		id: '***REMOVED***',
+		id: 'conditionsManager',
 		
 		priority: 20, // run actions later
 		
@@ -4968,13 +4968,13 @@
 	*  @return	type Description.
 	*/
 	
-	var ***REMOVED*** = function( field, key ){
+	var getSiblingField = function( field, key ){
 			
 		// find sibling (very fast)
 		var fields = acf.getFields({
 			key: key,
 			sibling: field.$el,
-			***REMOVED***: true,
+			suppressFilters: true,
 		});
 		
 		// find sibling-children (fast)
@@ -4983,7 +4983,7 @@
 			fields = acf.getFields({
 				key: key,
 				parent: field.$el.parent(),
-				***REMOVED***: true,
+				suppressFilters: true,
 			});
 		}
 		 
@@ -4997,7 +4997,7 @@
 	acf.Field.prototype.getField = function( key ){
 		
 		// get sibling field
-		var field = ***REMOVED***( this, key );
+		var field = getSiblingField( this, key );
 		
 		// return early
 		if( field ) {
@@ -5009,7 +5009,7 @@
 		for( var i = 0; i < parents.length; i++ ) {
 			
 			// get sibling field
-			field = ***REMOVED***( parents[i], key );
+			field = getSiblingField( parents[i], key );
 			
 			// return early
 			if( field ) {
@@ -5240,7 +5240,7 @@
 		return ( parseString(v1).toLowerCase() === parseString(v2).toLowerCase() );
 	};
 	
-	var ***REMOVED*** = function( v1, v2 ){
+	var isEqualToNumber = function( v1, v2 ){
 		return ( parseFloat(v1) === parseFloat(v2) );
 	};
 	
@@ -5262,11 +5262,11 @@
 		return (array.indexOf( v1 ) > -1);
 	}
 	
-	var ***REMOVED*** = function( haystack, needle ){
+	var containsString = function( haystack, needle ){
 		return ( parseString(haystack).indexOf( parseString(needle) ) > -1 );
 	};
 	
-	var ***REMOVED*** = function( v1, pattern ){
+	var matchesPattern = function( v1, pattern ){
 		var regexp = new RegExp(parseString(pattern), 'gi');
 		return parseString(v1).match( regexp );
 	};
@@ -5342,7 +5342,7 @@
 		fieldTypes: [ 'text', 'textarea', 'number', 'range', 'email', 'url', 'password' ],
 		match: function( rule, field ){
 			if( acf.isNumeric(rule.value) ) {
-				return ***REMOVED***( rule.value, field.val() );
+				return isEqualToNumber( rule.value, field.val() );
 			} else {
 				return isEqualTo( rule.value, field.val() );
 			}
@@ -5395,7 +5395,7 @@
 		label: __('Value matches pattern'),
 		fieldTypes: [ 'text', 'textarea', 'email', 'url', 'password', 'wysiwyg' ],
 		match: function( rule, field ){
-			return ***REMOVED***( field.val(), rule.value );
+			return matchesPattern( field.val(), rule.value );
 		},
 		choices: function( fieldObject ){
 			return '<input type="text" placeholder="[a-z0-9]" />';
@@ -5422,7 +5422,7 @@
 		label: __('Value contains'),
 		fieldTypes: [ 'text', 'textarea', 'number', 'email', 'url', 'password', 'wysiwyg', 'oembed', 'select' ],
 		match: function( rule, field ){
-			return ***REMOVED***( field.val(), rule.value );
+			return containsString( field.val(), rule.value );
 		},
 		choices: function( fieldObject ){
 			return '<input type="text" />';
@@ -5432,7 +5432,7 @@
 	acf.registerConditionType( Contains );
 	
 	/**
-	*  ***REMOVED***
+	*  TrueFalseEqualTo
 	*
 	*  description
 	*
@@ -5443,8 +5443,8 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = EqualTo.extend({
-		type: '***REMOVED***',
+	var TrueFalseEqualTo = EqualTo.extend({
+		type: 'trueFalseEqualTo',
 		choiceType: 'select',
 		fieldTypes: [ 'true_false' ],
 		choices: function( field ){
@@ -5457,10 +5457,10 @@
 		},
 	});
 	
-	acf.registerConditionType( ***REMOVED*** );
+	acf.registerConditionType( TrueFalseEqualTo );
 	
 	/**
-	*  ***REMOVED***
+	*  TrueFalseNotEqualTo
 	*
 	*  description
 	*
@@ -5471,8 +5471,8 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = NotEqualTo.extend({
-		type: '***REMOVED***',
+	var TrueFalseNotEqualTo = NotEqualTo.extend({
+		type: 'trueFalseNotEqualTo',
 		choiceType: 'select',
 		fieldTypes: [ 'true_false' ],
 		choices: function( field ){
@@ -5485,7 +5485,7 @@
 		},
 	});
 	
-	acf.registerConditionType( ***REMOVED*** );
+	acf.registerConditionType( TrueFalseNotEqualTo );
 	
 	/**
 	*  SelectEqualTo
@@ -5550,7 +5550,7 @@
 	acf.registerConditionType( SelectEqualTo );
 	
 	/**
-	*  ***REMOVED***
+	*  SelectNotEqualTo
 	*
 	*  description
 	*
@@ -5561,8 +5561,8 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = SelectEqualTo.extend({
-		type: '***REMOVED***',
+	var SelectNotEqualTo = SelectEqualTo.extend({
+		type: 'selectNotEqualTo',
 		operator: '!=',
 		label: __('Value is not equal to'),
 		match: function( rule, field ){
@@ -5570,7 +5570,7 @@
 		}
 	});
 	
-	acf.registerConditionType( ***REMOVED*** );
+	acf.registerConditionType( SelectNotEqualTo );
 	
 	/**
 	*  GreaterThan
@@ -5635,7 +5635,7 @@
 	acf.registerConditionType( LessThan );
 	
 	/**
-	*  ***REMOVED***
+	*  SelectedGreaterThan
 	*
 	*  description
 	*
@@ -5646,16 +5646,16 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = GreaterThan.extend({
-		type: '***REMOVED***',
+	var SelectionGreaterThan = GreaterThan.extend({
+		type: 'selectionGreaterThan',
 		label: __('Selection is greater than'),
 		fieldTypes: [ 'checkbox', 'select', 'post_object', 'page_link', 'relationship', 'taxonomy', 'user' ],
 	});
 	
-	acf.registerConditionType( ***REMOVED*** );
+	acf.registerConditionType( SelectionGreaterThan );
 	
 	/**
-	*  ***REMOVED***
+	*  SelectedGreaterThan
 	*
 	*  description
 	*
@@ -5666,13 +5666,13 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = LessThan.extend({
-		type: '***REMOVED***',
+	var SelectionLessThan = LessThan.extend({
+		type: 'selectionLessThan',
 		label: __('Selection is less than'),
 		fieldTypes: [ 'checkbox', 'select', 'post_object', 'page_link', 'relationship', 'taxonomy', 'user' ],
 	});
 	
-	acf.registerConditionType( ***REMOVED*** );
+	acf.registerConditionType( SelectionLessThan );
 	
 })(jQuery);
 (function($, undefined){
@@ -5684,12 +5684,12 @@
 		changed: false,
 		
 		actions: {
-			'validation_failure':	'***REMOVED***',
+			'validation_failure':	'startListening',
 			'validation_success':	'stopListening'
 		},
 		
 		events: {
-			'change form .acf-field':	'***REMOVED***',
+			'change form .acf-field':	'startListening',
 			'submit form':				'stopListening'
 		},
 		
@@ -5705,7 +5705,7 @@
 			this.stopListening();
 		},
 		
-		***REMOVED***: function(){
+		startListening: function(){
 			
 			// bail ealry if already changed, not active
 			if( this.changed || !this.active ) {
@@ -5740,7 +5740,7 @@
 (function($, undefined){
 	
 	/**
-	 * ***REMOVED***
+	 * postboxManager
 	 *
 	 * Manages postboxes on the screen.
 	 *
@@ -5750,7 +5750,7 @@
 	 * @param	void
 	 * @return	void
 	 */
-	var ***REMOVED*** = new acf.Model({
+	var postboxManager = new acf.Model({
 		wait: 'prepare',
 		priority: 1,
 		initialize: function(){
@@ -6001,9 +6001,9 @@
 		
 		// initialize
 		if( args.mode == 'edit' ) {
-			popup = new acf.models.***REMOVED***( args );
+			popup = new acf.models.EditMediaPopup( args );
 		} else {
-			popup = new acf.models.***REMOVED***( args );
+			popup = new acf.models.SelectMediaPopup( args );
 		}
 		
 		// open popup (allow frame customization before opening)
@@ -6103,10 +6103,10 @@
 		initialize: function(){
 			
 			// vars
-			var options = this.***REMOVED***();
+			var options = this.getFrameOptions();
 			
 			// add states
-			this.***REMOVED***( options );
+			this.addFrameStates( options );
 			
 			// create frame
 			var frame = wp.media( options );
@@ -6115,7 +6115,7 @@
 			frame.acf = this;
 			
 			// add events
-			this.***REMOVED***( frame, options );
+			this.addFrameEvents( frame, options );
 			
 			// strore frame
 			this.frame = frame;
@@ -6134,7 +6134,7 @@
 			this.frame.remove();
 		},
 		
-		***REMOVED***: function(){
+		getFrameOptions: function(){
 			
 			// vars
 			var options = {
@@ -6170,7 +6170,7 @@
 			return options;
 		},
 		
-		***REMOVED***: function( options ){
+		addFrameStates: function( options ){
 			
 			// create query
 			var Query = wp.media.query( options.library );
@@ -6197,7 +6197,7 @@
 					priority: 		20,
 					filterable: 	'all',
 					editable: 		true,
-					***REMOVED***: true
+					allowLocalEdits: true
 				})
 				
 			);
@@ -6208,7 +6208,7 @@
 			}
 		},
 		
-		***REMOVED***: function( frame, options ){
+		addFrameEvents: function( frame, options ){
 			
 			// log all events
 			//frame.on('all', function( e ) {
@@ -6221,7 +6221,7 @@
 			}, frame);
 			
 			// edit image view
-			// source: media-views.js:2410 ***REMOVED***()
+			// source: media-views.js:2410 editImageContent()
 			frame.on('content:render:edit-image', function(){
 				
 				var image = this.state().get('image');
@@ -6271,7 +6271,7 @@
 	
 	
 	/**
-	*  acf.models.***REMOVED***
+	*  acf.models.SelectMediaPopup
 	*
 	*  description
 	*
@@ -6282,8 +6282,8 @@
 	*  @return	type Description.
 	*/
 	
-	acf.models.***REMOVED*** = MediaPopup.extend({
-		id: '***REMOVED***',
+	acf.models.SelectMediaPopup = MediaPopup.extend({
+		id: 'SelectMediaPopup',
 		setup: function( props ){
 			
 			// default button
@@ -6295,7 +6295,7 @@
 			MediaPopup.prototype.setup.apply(this, arguments);
 		},
 		
-		***REMOVED***: function( frame, options ){
+		addFrameEvents: function( frame, options ){
 			
 			// plupload
 			// adds _acfuploader param to validate uploads
@@ -6326,15 +6326,15 @@
 				}
 				
 				// callback
-				frame.acf.***REMOVED***.apply(frame.acf, [toolbar]);
+				frame.acf.customizeFilters.apply(frame.acf, [toolbar]);
 			});
 			
 			// parent
-			MediaPopup.prototype.***REMOVED***.apply(this, arguments);
+			MediaPopup.prototype.addFrameEvents.apply(this, arguments);
 			
 		},
 		
-		***REMOVED***: function( toolbar ){
+		customizeFilters: function( toolbar ){
 			
 			// vars
 			var filters = toolbar.get('filters');
@@ -6428,7 +6428,7 @@
 	
 	
 	/**
-	*  acf.models.***REMOVED***
+	*  acf.models.EditMediaPopup
 	*
 	*  description
 	*
@@ -6439,8 +6439,8 @@
 	*  @return	type Description.
 	*/
 	
-	acf.models.***REMOVED*** = MediaPopup.extend({
-		id: '***REMOVED***',
+	acf.models.EditMediaPopup = MediaPopup.extend({
+		id: 'SelectMediaPopup',
 		setup: function( props ){
 			
 			// default button
@@ -6452,7 +6452,7 @@
 			MediaPopup.prototype.setup.apply(this, arguments);
 		},
 		
-		***REMOVED***: function( frame, options ){
+		addFrameEvents: function( frame, options ){
 			
 			// add class
 			frame.on('open',function() {
@@ -6474,14 +6474,14 @@
 			}, frame);
 			
 			// parent
-			MediaPopup.prototype.***REMOVED***.apply(this, arguments);
+			MediaPopup.prototype.addFrameEvents.apply(this, arguments);
 			
 		}
 	});
 	
 	
 	/**
-	*  ***REMOVED***
+	*  customizePrototypes
 	*
 	*  description
 	*
@@ -6492,8 +6492,8 @@
 	*  @return	type Description.
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
-		id: '***REMOVED***',
+	var customizePrototypes = new acf.Model({
+		id: 'customizePrototypes',
 		wait: 'ready',
 		
 		initialize: function(){
@@ -6564,7 +6564,7 @@
 					
 					// add events
 					$a.on('click', function( e ){
-						e.***REMOVED***();
+						e.preventDefault();
 						var $div = $(this).closest('.media-modal');
 						if( $div.hasClass('acf-expanded') ) {
 							$div.removeClass('acf-expanded');
@@ -6594,12 +6594,12 @@
 		customizeAttachmentFilters: function(){
 			
 			// validate
-			if( !acf.isset(wp, 'media', 'view', '***REMOVED***', 'All') ) {
+			if( !acf.isset(wp, 'media', 'view', 'AttachmentFilters', 'All') ) {
 				return;
 			}
 			
 			// vars
-			var Parent = wp.media.view.***REMOVED***.All;
+			var Parent = wp.media.view.AttachmentFilters.All;
 			
 			// renderFilters
 			// copied from media-views.js:6939
@@ -6619,22 +6619,22 @@
 		customizeAttachmentCompat: function(){
 			
 			// validate
-			if( !acf.isset(wp, 'media', 'view', '***REMOVED***') ) {
+			if( !acf.isset(wp, 'media', 'view', 'AttachmentCompat') ) {
 				return;
 			}
 			
 			// vars
-			var ***REMOVED*** = wp.media.view.***REMOVED***;
+			var AttachmentCompat = wp.media.view.AttachmentCompat;
 			var timeout = false;
 			
 			// extend
-			wp.media.view.***REMOVED*** = ***REMOVED***.extend({
+			wp.media.view.AttachmentCompat = AttachmentCompat.extend({
 				
 				render: function() {
 					
 					// WP bug
 					// When multiple media frames exist on the same page (WP content, WYSIWYG, image, file ),
-					// WP creates multiple instances of this ***REMOVED*** view.
+					// WP creates multiple instances of this AttachmentCompat view.
 					// Each instance will attempt to render when a new modal is created.
 					// Use a property to avoid this and only render once per instance.
 					if( this.rendered ) {
@@ -6642,7 +6642,7 @@
 					}
 					
 					// render HTML
-					***REMOVED***.prototype.render.apply( this, arguments );
+					AttachmentCompat.prototype.render.apply( this, arguments );
 					
 					// when uploading, render is called twice.
 					// ignore first render by checking for #acf-form-data element
@@ -6667,15 +6667,15 @@
 					var data = {};
 			
 					if ( event ) {
-						event.***REMOVED***();
+						event.preventDefault();
 					}
 					
-					//_.each( this.$el.***REMOVED***(), function( pair ) {
+					//_.each( this.$el.serializeArray(), function( pair ) {
 					//	data[ pair.name ] = pair.value;
 					//});
 					
 					// Serialize data more thoroughly to allow chckbox inputs to save.
-					data = acf.***REMOVED***(this.$el);
+					data = acf.serializeForAjax(this.$el);
 					
 					this.controller.trigger( 'attachment:compat:waiting', ['waiting'] );
 					this.model.saveCompat( data ).always( _.bind( this.postSave, this ) );
@@ -6692,10 +6692,10 @@
 			}
 			
 			// vars
-			var ***REMOVED*** = wp.media.view.Attachment.Library;
+			var AttachmentLibrary = wp.media.view.Attachment.Library;
 			
 			// extend
-			wp.media.view.Attachment.Library = ***REMOVED***.extend({
+			wp.media.view.Attachment.Library = AttachmentLibrary.extend({
 				
 				render: function() {
 					
@@ -6719,13 +6719,13 @@
 					}
 										
 					// render
-					return ***REMOVED***.prototype.render.apply( this, arguments );
+					return AttachmentLibrary.prototype.render.apply( this, arguments );
 					
 				},
 				
 				
 				/*
-				*  ***REMOVED***
+				*  toggleSelection
 				*
 				*  This function is called before an attachment is selected
 				*  A good place to check for errors and prevent the 'select' function from being fired
@@ -6738,7 +6738,7 @@
 				*  @return	n/a
 				*/
 				
-				***REMOVED***: function( options ) {
+				toggleSelection: function( options ) {
 					
 					// vars
 					// source: wp-includes/js/media-views.js:2880
@@ -6790,7 +6790,7 @@
 					}
 					
 					// return					
-					return ***REMOVED***.prototype.***REMOVED***.apply( this, arguments );
+					return AttachmentLibrary.prototype.toggleSelection.apply( this, arguments );
 				}
 			});
 		}
@@ -6813,7 +6813,7 @@
 			'change #page_template':						'onChange',
 			'change #parent_id':							'onChange',
 			'change #post-formats-select':					'onChange',
-			'change .***REMOVED***':					'onChange',
+			'change .categorychecklist':					'onChange',
 			'change .tagsdiv':								'onChange',
 			'change .acf-taxonomy-field[data-save="1"]':	'onChange',
 			'change #product-type':							'onChange'
@@ -6847,7 +6847,7 @@
 			return acf.get('screen') === 'comment';
 		},
 		
-		***REMOVED***: function(){
+		getPageTemplate: function(){
 			var $el = $('#page_template');
 			return $el.length ? $el.val() : null;
 		},
@@ -6874,7 +6874,7 @@
 			return null;
 		},
 		
-		***REMOVED***: function(){
+		getPostCoreTerms: function(){
 			
 			// vars
 			var terms = {};
@@ -6907,7 +6907,7 @@
 		getPostTerms: function(){
 			
 			// Get core terms.
-			var terms = this.***REMOVED***();
+			var terms = this.getPostCoreTerms();
 			
 			// loop over taxonomy fields and add their values
 			acf.getFields({type: 'taxonomy'}).map(function( field ){
@@ -6936,7 +6936,7 @@
 			});
 			
 			// add WC product type
-			if( (productType = this.***REMOVED***()) !== null ) {
+			if( (productType = this.getProductType()) !== null ) {
 				terms.product_type = [productType];
 			}
 			
@@ -6949,7 +6949,7 @@
 			return terms;
 		},
 		
-		***REMOVED***: function(){
+		getProductType: function(){
 			var $el = $('#product-type');
 			return $el.length ? $el.val() : null;
 		},
@@ -6984,7 +6984,7 @@
 			}
 			
 			// page template
-			if( (pageTemplate = this.***REMOVED***()) !== null ) {
+			if( (pageTemplate = this.getPageTemplate()) !== null ) {
 				ajaxData.page_template = pageTemplate;
 			}
 			
@@ -7021,11 +7021,11 @@
 				
 				// Render post screen.
 				if( acf.get('screen') == 'post' ) {
-					this.***REMOVED***( json );
+					this.renderPostScreen( json );
 				
 				// Render user screen.
 				} else if( acf.get('screen') == 'user' ) {
-					this.***REMOVED***( json );
+					this.renderUserScreen( json );
 				}
 				
 				// action
@@ -7035,7 +7035,7 @@
 			// ajax
 			this.xhr = $.ajax({
 				url: acf.get('ajaxurl'),
-				data: acf.***REMOVED***( ajaxData ),
+				data: acf.prepareForAjax( ajaxData ),
 				type: 'post',
 				dataType: 'json',
 				context: this,
@@ -7047,7 +7047,7 @@
 			this.setTimeout(this.check, 1);
 		},
 		
-		***REMOVED***: function( data ){
+		renderPostScreen: function( data ){
 			
 			// Helper function to copy events
 			var copyEvents = function( $from, $to ){
@@ -7105,8 +7105,8 @@
 				
 				// Create postbox if doesn't exist.
 				if( !postbox ) {
-					var ***REMOVED*** = parseFloat( acf.get('wp_version') );
-					if( ***REMOVED*** >= 5.5 ) {
+					var wpMinorVersion = parseFloat( acf.get('wp_version') );
+					if( wpMinorVersion >= 5.5 ) {
 						var postboxHeader = [
 							'<div class="postbox-header">',
 								'<h2 class="hndle ui-sortable-handle">',
@@ -7236,7 +7236,7 @@
 			acf.doAction( 'refresh_post_screen', data );
 		},
 		
-		***REMOVED***: function( json ){
+		renderUserScreen: function( json ){
 			
 		}
 	});
@@ -7271,19 +7271,19 @@
 			wp.data.subscribe( acf.debounce(this.onChange).bind(this) );
 			
 			// Customize "acf.screen.get" functions.
-			acf.screen.***REMOVED*** = this.***REMOVED***;
+			acf.screen.getPageTemplate = this.getPageTemplate;
 			acf.screen.getPageParent = this.getPageParent;
 			acf.screen.getPostType = this.getPostType;
 			acf.screen.getPostFormat = this.getPostFormat;
-			acf.screen.***REMOVED*** = this.***REMOVED***;
+			acf.screen.getPostCoreTerms = this.getPostCoreTerms;
 			
 			// Disable unload
 			acf.unload.disable();
 			
 			// Refresh metaboxes since WP 5.3.
-			var ***REMOVED*** = parseFloat( acf.get('wp_version') );
-			if( ***REMOVED*** >= 5.3 ) {
-				this.addAction( 'refresh_post_screen', this.***REMOVED*** );
+			var wpMinorVersion = parseFloat( acf.get('wp_version') );
+			if( wpMinorVersion >= 5.3 ) {
+				this.addAction( 'refresh_post_screen', this.onRefreshPostScreen );
 			}
 
 			// Trigger "refresh" after WP has moved metaboxes into place.
@@ -7318,7 +7318,7 @@
 			}
 		},
 				
-		***REMOVED***: function(){
+		getPageTemplate: function(){
 			return wp.data.select( 'core/editor' ).getEditedPostAttribute( 'template' );
 		},
 		
@@ -7334,7 +7334,7 @@
 			return wp.data.select( 'core/editor' ).getEditedPostAttribute( 'format' );
 		},
 		
-		***REMOVED***: function(){
+		getPostCoreTerms: function(){
 			
 			// vars
 			var terms = {};
@@ -7355,7 +7355,7 @@
 		},
 		
 		/**
-		 * ***REMOVED***
+		 * onRefreshPostScreen
 		 *
 		 * Fires after the Post edit screen metaboxs are refreshed to update the Block Editor API state.
 		 *
@@ -7365,7 +7365,7 @@
 		 * @param	object data The "check_screen" JSON response data.
 		 * @return	void
 		 */
-		***REMOVED***: function( data ) {
+		onRefreshPostScreen: function( data ) {
 			
 			// Extract vars.
 			var select = wp.data.select( 'core/edit-post' );
@@ -7514,7 +7514,7 @@
 			}
 		},
 		
-		***REMOVED***: function( value ){
+		unselectOption: function( value ){
 			var $option = this.getOption( value );
 			if( $option.prop('selected') ) {
 				$option.prop('selected', false).trigger('change');
@@ -7650,10 +7650,10 @@
 			ajaxData = acf.applyFilters( 'select2_ajax_data', ajaxData, this.data, this.$el, (field || false), this );
 			
 			// return
-			return acf.***REMOVED***(ajaxData);
+			return acf.prepareForAjax(ajaxData);
 		},
 		
-		***REMOVED***: function( json, params ){
+		getAjaxResults: function( json, params ){
 			
 			// defaults
 			json = acf.parseArgs(json, {
@@ -7674,10 +7674,10 @@
 			return json;
 		},
 		
-		***REMOVED***: function( json, params ){
+		processAjaxResults: function( json, params ){
 			
 			// vars
-			var json = this.***REMOVED***( json, params );
+			var json = this.getAjaxResults( json, params );
 			
 			// change more to pagination
 			if( json.more ) {
@@ -7760,7 +7760,7 @@
 					type: 			'post',
 					cache: 			false,
 					data:			$.proxy(this.getAjaxData, this),
-					***REMOVED***:	$.proxy(this.***REMOVED***, this),
+					processResults:	$.proxy(this.processAjaxResults, this),
 				};
 			}
 		    
@@ -7930,7 +7930,7 @@
 					type: 			'post',
 					cache: 			false,
 					data:			$.proxy(this.getAjaxData, this),
-					results:		$.proxy(this.***REMOVED***, this),
+					results:		$.proxy(this.processAjaxResults, this),
 				};
 			}
 		    
@@ -8053,7 +8053,7 @@
 	
 	
 	// manager
-	var ***REMOVED*** = new acf.Model({
+	var select2Manager = new acf.Model({
 		priority: 5,
 		wait: 'prepare',
 		actions: {
@@ -8079,13 +8079,13 @@
 			
 			// initialize
 			if( version == 4 ) {
-				this.***REMOVED***();
+				this.addTranslations4();
 			} else if( version == 3 ) {
-				this.***REMOVED***();
+				this.addTranslations3();
 			}
 		},
 		
-		***REMOVED***: function(){
+		addTranslations4: function(){
 			
 			// vars
 			var l10n = acf.get('select2L10n');
@@ -8107,16 +8107,16 @@
 					return l10n.input_too_long_1;
 				},
 				inputTooShort: function( args ){
-					var ***REMOVED*** = args.minimum - args.input.length;
-					if( ***REMOVED*** > 1 ) {
-						return l10n.input_too_short_n.replace( '%d', ***REMOVED*** );
+					var remainingChars = args.minimum - args.input.length;
+					if( remainingChars > 1 ) {
+						return l10n.input_too_short_n.replace( '%d', remainingChars );
 					}
 					return l10n.input_too_short_1;
 				},
 				loadingMore: function () {
 					return l10n.load_more;
 				},
-				***REMOVED***: function( args ) {
+				maximumSelected: function( args ) {
 					var maximum = args.maximum;
 					if( maximum > 1 ) {
 						return l10n.selection_too_long_n.replace( '%d', maximum );
@@ -8137,7 +8137,7 @@
 			});
 		},
 		
-		***REMOVED***: function(){
+		addTranslations3: function(){
 			
 			// vars
 			var l10n = acf.get('select2L10n');
@@ -8154,20 +8154,20 @@
 					}
 					return l10n.matches_1;
 				},
-				***REMOVED***: function() {
+				formatNoMatches: function() {
 					return l10n.matches_0;
 				},
-				***REMOVED***: function() {
+				formatAjaxError: function() {
 					return l10n.load_fail;
 				},
-				***REMOVED***: function( input, min ) {
-					var ***REMOVED*** = min - input.length;
-					if( ***REMOVED*** > 1 ) {
-						return l10n.input_too_short_n.replace( '%d', ***REMOVED*** );
+				formatInputTooShort: function( input, min ) {
+					var remainingChars = min - input.length;
+					if( remainingChars > 1 ) {
+						return l10n.input_too_short_n.replace( '%d', remainingChars );
 					}
 					return l10n.input_too_short_1;
 				},
-				***REMOVED***: function( input, max ) {
+				formatInputTooLong: function( input, max ) {
 					var overChars = input.length - max;
 					if( overChars > 1 ) {
 						return l10n.input_too_long_n.replace( '%d', overChars );
@@ -8180,10 +8180,10 @@
 					}
 					return l10n.selection_too_long_1;
 				},
-				***REMOVED***: function() {
+				formatLoadMore: function() {
 					return l10n.load_more;
 				},
-				***REMOVED***: function() {
+				formatSearching: function() {
 					return l10n.searching;
 				}
 		    };
@@ -8222,13 +8222,13 @@
 		
 		defaults: function(){
 			
-			// bail early if no ***REMOVED***
-			if( typeof ***REMOVED*** === 'undefined' ) return false;
+			// bail early if no tinyMCEPreInit
+			if( typeof tinyMCEPreInit === 'undefined' ) return false;
 			
 			// vars
 			var defaults = {
-				tinymce:	***REMOVED***.mceInit.acf_content,
-				quicktags:	***REMOVED***.qtInit.acf_content
+				tinymce:	tinyMCEPreInit.mceInit.acf_content,
+				quicktags:	tinyMCEPreInit.qtInit.acf_content
 			};
 			
 			// return
@@ -8262,18 +8262,18 @@
 			
 			// tinymce
 			if( args.tinymce ) {
-				this.***REMOVED***( id, args );
+				this.initializeTinymce( id, args );
 			}
 			
 			// quicktags
 			if( args.quicktags ) {
-				this.***REMOVED***( id, args );
+				this.initializeQuicktags( id, args );
 			}
 		},
 		
 		
 		/*
-		*  ***REMOVED***
+		*  initializeTinymce
 		*
 		*  This function will initialize the tinymce instance
 		*
@@ -8285,7 +8285,7 @@
 		*  @return	$post_id (int)
 		*/
 		
-		***REMOVED***: function( id, args ){
+		initializeTinymce: function( id, args ){
 			
 			// vars
 			var $textarea = $('#'+id);
@@ -8355,7 +8355,7 @@
 			//}
 			
 			// store settings
-			***REMOVED***.mceInit[ id ] = init;
+			tinyMCEPreInit.mceInit[ id ] = init;
 			
 			// visual tab is active
 			if( args.mode == 'visual' ) {
@@ -8380,7 +8380,7 @@
 		},
 		
 		/*
-		*  ***REMOVED***
+		*  initializeQuicktags
 		*
 		*  This function will initialize the quicktags instance
 		*
@@ -8392,7 +8392,7 @@
 		*  @return	$post_id (int)
 		*/
 		
-		***REMOVED***: function( id, args ){
+		initializeQuicktags: function( id, args ){
 			
 			// vars
 			var defaults = this.defaults();
@@ -8411,7 +8411,7 @@
 			init = acf.applyFilters('wysiwyg_quicktags_settings', init, init.id, field);
 			
 			// store settings
-			***REMOVED***.qtInit[ id ] = init;
+			tinyMCEPreInit.qtInit[ id ] = init;
 			
 			// init
 			var ed = quicktags( init );
@@ -8422,7 +8422,7 @@
 			}
 			
 			// generate HTML
-			this.***REMOVED***( ed );
+			this.buildQuicktags( ed );
 			
 			// action for 3rd party customization
 			acf.doAction('wysiwyg_quicktags_init', ed, ed.id, init, field);
@@ -8430,7 +8430,7 @@
 		
 		
 		/*
-		*  ***REMOVED***
+		*  buildQuicktags
 		*
 		*  This function will build the quicktags HTML
 		*
@@ -8442,7 +8442,7 @@
 		*  @return	$post_id (int)
 		*/
 		
-		***REMOVED***: function( ed ){
+		buildQuicktags: function( ed ){
 			
 			var canvas, name, settings, theButtons, html, ed, id, i, use, instanceId,
 				defaults = ',strong,em,link,block,del,ins,img,ul,ol,li,code,more,close,';
@@ -8484,8 +8484,8 @@
 				html += theButtons.dfw.html( name + '_' );
 			}
 
-			if ( 'rtl' === document.***REMOVED***( 'html' )[0].dir ) {
-				theButtons.textdirection = new QTags.***REMOVED***();
+			if ( 'rtl' === document.getElementsByTagName( 'html' )[0].dir ) {
+				theButtons.textdirection = new QTags.TextDirectionButton();
 				html += theButtons.textdirection.html( name + '_' );
 			}
 
@@ -8493,24 +8493,24 @@
 			ed.theButtons = theButtons;
 
 			if ( typeof jQuery !== 'undefined' ) {
-				jQuery( document ).***REMOVED***( 'quicktags-init', [ ed ] );
+				jQuery( document ).triggerHandler( 'quicktags-init', [ ed ] );
 			}
 			
 		},
 		
 		disable: function( id ){
-			this.***REMOVED***( id );
+			this.destroyTinymce( id );
 		},
 		
 		remove: function( id ){
-			this.***REMOVED***( id );
+			this.destroyTinymce( id );
 		},
 		
 		destroy: function( id ){
-			this.***REMOVED***( id );
+			this.destroyTinymce( id );
 		},
 		
-		***REMOVED***: function( id ){
+		destroyTinymce: function( id ){
 			
 			// bail early
 			if( typeof tinymce === 'undefined' ) return false;
@@ -8541,7 +8541,7 @@
 			if( typeof switchEditors === 'undefined' ) return false;
 			
 			// bail ealry if not initialized
-			if( typeof ***REMOVED***.mceInit[ id ] === 'undefined' ) return false;
+			if( typeof tinyMCEPreInit.mceInit[ id ] === 'undefined' ) return false;
 			
 			// Ensure textarea element is visible 
 			// - Fixes bug in block editor when switching between "Block" and "Document" tabs.
@@ -8557,7 +8557,7 @@
 	
 	var editorManager = new acf.Model({
 		
-		// hook in before ***REMOVED***, conditions, etc
+		// hook in before fieldsEventManager, conditions, etc
 		priority: 5,
 		
 		actions: {
@@ -8599,7 +8599,7 @@
 				
 				// update vars
 				tinymce.activeEditor = editor;
-				***REMOVED*** = editor.id;
+				wpActiveEditor = editor.id;
 			});
 		}
 	});
@@ -8638,7 +8638,7 @@
 		
 		/** @var object The model events. */
 		events: {
-			'changed:status': '***REMOVED***'
+			'changed:status': 'onChangeStatus'
 		},
 		
 		/**
@@ -8717,7 +8717,7 @@
 		},
 		
 		/**
-		*  ***REMOVED***
+		*  getFieldErrors
 		*
 		*  Returns the forms field errors.
 		*
@@ -8727,7 +8727,7 @@
 		*  @param	void
 		*  @return	array
 		*/
-		***REMOVED***: function(){
+		getFieldErrors: function(){
 			
 			// vars
 			var errors = [];
@@ -8756,7 +8756,7 @@
 		},
 		
 		/**
-		*  ***REMOVED***
+		*  getGlobalErrors
 		*
 		*  Returns the forms global errors (errors without a specific input).
 		*
@@ -8766,7 +8766,7 @@
 		*  @param	void
 		*  @return	array
 		*/
-		***REMOVED***: function(){
+		getGlobalErrors: function(){
 			
 			// return array of errors that contain no input
 			return this.getErrors().filter(function(error){
@@ -8793,8 +8793,8 @@
 			}
 			
 			// vars
-			var fieldErrors = this.***REMOVED***();
-			var globalErrors = this.***REMOVED***();
+			var fieldErrors = this.getFieldErrors();
+			var globalErrors = this.getGlobalErrors();
 			
 			// vars
 			var errorCount = 0;
@@ -8820,7 +8820,7 @@
 				errorCount++;
 				
 				// get field
-				var field = acf.***REMOVED***( $input );
+				var field = acf.getClosestField( $input );
 				
 				// show error
 				field.showError( error.message );
@@ -8869,7 +8869,7 @@
 		},
 		
 		/**
-		*  ***REMOVED***
+		*  onChangeStatus
 		*
 		*  Update the form class when changing the 'status' data
 		*
@@ -8882,7 +8882,7 @@
 		*  @param	string prevValue The old status.
 		*  @return	void
 		*/
-		***REMOVED***: function( e, $el, value, prevValue ){
+		onChangeStatus: function( e, $el, value, prevValue ){
 			this.$el.removeClass('is-'+prevValue).addClass('is-'+value);
 		},
 		
@@ -9041,7 +9041,7 @@
 			// ajax
 			$.ajax({
 				url: acf.get('ajaxurl'),
-				data: acf.***REMOVED***(data),
+				data: acf.prepareForAjax(data),
 				type: 'post',
 				dataType: 'json',
 				context: this,
@@ -9211,7 +9211,7 @@
 	acf.lockForm = function( $form ){
 		
 		// vars
-		var $wrap = ***REMOVED***( $form );
+		var $wrap = findSubmitWrap( $form );
 		var $submit = $wrap.find('.button, [type="submit"]');
 		var $spinner = $wrap.find('.spinner, .acf-spinner');
 		
@@ -9238,7 +9238,7 @@
 	acf.unlockForm = function( $form ){
 		
 		// vars
-		var $wrap = ***REMOVED***( $form );
+		var $wrap = findSubmitWrap( $form );
 		var $submit = $wrap.find('.button, [type="submit"]');
 		var $spinner = $wrap.find('.spinner, .acf-spinner');
 		
@@ -9249,7 +9249,7 @@
 	};
 	
 	/**
-	*  ***REMOVED***
+	*  findSubmitWrap
 	*
 	*  An internal function to find the 'primary' form submit wrapping element.
 	*
@@ -9259,7 +9259,7 @@
 	*  @param	jQuery $form The form element.
 	*  @return	jQuery
 	*/
-	var ***REMOVED*** = function( $form ){
+	var findSubmitWrap = function( $form ){
 		
 		// default post submit div
 		var $wrap = $form.find('#submitdiv');
@@ -9298,7 +9298,7 @@
 	 * @param	type Var Description.
 	 * @return	type Description.
 	 */
-	var ***REMOVED*** = acf.debounce(function( $form ){
+	var submitFormDebounced = acf.debounce(function( $form ){
 		$form.submit();
 	});
 
@@ -9327,8 +9327,8 @@
 		
 		/** @var object The model actions. */
 		actions: {
-			'ready':	'***REMOVED***',
-			'append':	'***REMOVED***'
+			'ready':	'addInputEvents',
+			'append':	'addInputEvents'
 		},
 		
 		/** @var object The model events. */
@@ -9408,7 +9408,7 @@
 		},
 		
 		/**
-		*  ***REMOVED***
+		*  addInputEvents
 		*
 		*  Adds 'invalid' event listeners to HTML inputs.
 		*
@@ -9418,7 +9418,7 @@
 		*  @param	jQuery $el The element being added / readied.
 		*  @return	void
 		*/
-		***REMOVED***: function( $el ){
+		addInputEvents: function( $el ){
 			
 			// Bug exists in Safari where custom "invalid" handeling prevents draft from saving.
 			if( acf.get('browser') === 'safari' ) 
@@ -9450,7 +9450,7 @@
 			// prevent default
 			// - prevents browser error message
 			// - also fixes chrome bug where 'hidden-by-tab' field throws focus error
-			e.***REMOVED***();
+			e.preventDefault();
 			
 			// vars
 			var $form = $el.closest('form');
@@ -9461,12 +9461,12 @@
 				// add error to validator
 				getValidator( $form ).addError({
 					input: $el.attr('name'),
-					message: acf.strEscape( e.target.***REMOVED*** )
+					message: acf.strEscape( e.target.validationMessage )
 				});
 				
 				// trigger submit on $form
 				// - allows for "save", "preview" and "publish" to work
-				***REMOVED***( $form );
+				submitFormDebounced( $form );
 			}
 		},
 		
@@ -9532,7 +9532,7 @@
 			
 			// if not valid, stop event and allow validation to continue
 			if( !valid ) {
-				e.***REMOVED***();
+				e.preventDefault();
 				e.stopImmediatePropagation();
 			}
 		},
@@ -9585,7 +9585,7 @@
 				|| this.get('ignore')
 				
 				// Or this event has already been prevented.
-				|| e.***REMOVED***()
+				|| e.isDefaultPrevented()
 			) {
 				// Return early and call reset function.
 				return this.allowSubmit();
@@ -9599,7 +9599,7 @@
 			
 			// If not valid, stop event to prevent form submit.
 			if( !valid ) {
-				e.***REMOVED***();
+				e.preventDefault();
 			}
 		},
 		
@@ -9627,7 +9627,7 @@
 		}
 	});
 	
-	var ***REMOVED*** = new acf.Model({
+	var gutenbergValidation = new acf.Model({
 		wait: 'prepare',
 		initialize: function(){
 			
@@ -9637,9 +9637,9 @@
 			}
 			
 			// Custommize the editor.
-			this.***REMOVED***();
+			this.customizeEditor();
 		},
-		***REMOVED***: function(){
+		customizeEditor: function(){
 			
 			// Extract vars.
 			var editor = wp.data.dispatch( 'core/editor' );
@@ -9653,11 +9653,11 @@
 			// a) Enable validation for "publish" action.
 			// b) Remember last non "publish" status used for restoring after validation fail.
 			var useValidation = false;
-			var ***REMOVED*** = '';
+			var lastPostStatus = '';
 			wp.data.subscribe(function() {
 				var postStatus = editorSelect.getEditedPostAttribute( 'status' );
 				useValidation = ( postStatus === 'publish' );
-				***REMOVED*** = ( postStatus !== 'publish' ) ? postStatus : ***REMOVED***;
+				lastPostStatus = ( postStatus !== 'publish' ) ? postStatus : lastPostStatus;
 			});
 
 			// Create validation version.
@@ -9688,22 +9688,22 @@
 						complete: function( $form, validator ){
 
 							// Always unlock the form after AJAX.
-							editor.***REMOVED***( 'acf' );
+							editor.unlockPostSaving( 'acf' );
 						},
 						failure: function( $form, validator ){
 							
 							// Get validation error and append to Gutenberg notices.
 							var notice = validator.get('notice');
-							notices.***REMOVED***( notice.get('text'), { 
+							notices.createErrorNotice( notice.get('text'), { 
 								id: 'acf-validation', 
 								isDismissible: true
 							});
 							notice.remove();
 
 							// Restore last non "publish" status.
-							if( ***REMOVED*** ) {
+							if( lastPostStatus ) {
 								editor.editPost({
-									status: ***REMOVED***
+									status: lastPostStatus
 								});
 							}
 
@@ -9724,7 +9724,7 @@
 					
 					// Otherwise, lock the form and wait for AJAX response.
 					} else {
-						editor.***REMOVED***( 'acf' );
+						editor.lockPostSaving( 'acf' );
 					}
 				}).then(function(){
 					return savePost.apply(_this, _args);
@@ -9789,7 +9789,7 @@
 	});
 	
 	/**
-	*  ***REMOVED***
+	*  sortableHelper
 	*
 	*  Adds compatibility for sorting a <tr> element
 	*
@@ -9800,7 +9800,7 @@
 	*  @return	void
 	*/
 		
-	var ***REMOVED*** = new acf.Model({
+	var sortableHelper = new acf.Model({
 		actions: {
 			'sortstart': 'onSortstart'
 		},
@@ -9831,7 +9831,7 @@
 	});
 	
 	/**
-	*  ***REMOVED***
+	*  duplicateHelper
 	*
 	*  Fixes browser bugs when duplicating an element
 	*
@@ -9842,11 +9842,11 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var duplicateHelper = new acf.Model({
 		actions: {
-			'after_duplicate': '***REMOVED***'
+			'after_duplicate': 'onAfterDuplicate'
 		},
-		***REMOVED***: function( $el, $el2 ){
+		onAfterDuplicate: function( $el, $el2 ){
 			
 			// get original values
 			var vals = [];
@@ -9935,7 +9935,7 @@
 			$ths = $ths.not('.acf-hidden');
 			
 			// vars
-			var ***REMOVED*** = 100;
+			var availableWidth = 100;
 			var colspan = $ths.length;
 			
 			// set custom widths first
@@ -9943,19 +9943,19 @@
 			$fixedWidths.each(function(){
 				var width = $(this).data('width');
 				$(this).css('width', width + '%');
-				***REMOVED*** -= width;
+				availableWidth -= width;
 			});
 			
 			// set auto widths
 			var $auoWidths = $ths.not('[data-width]');
 			if( $auoWidths.length ) {
-				var width = ***REMOVED*** / $auoWidths.length;
+				var width = availableWidth / $auoWidths.length;
 				$auoWidths.css('width', width + '%');
-				***REMOVED*** = 0;
+				availableWidth = 0;
 			}
 			
 			// avoid stretching issue
-			if( ***REMOVED*** > 0 ) {
+			if( availableWidth > 0 ) {
 				$ths.last().css('width', 'auto');
 			}
 			
@@ -10098,8 +10098,8 @@
 	 * @date	06/05/2020
 	 * @since	5.9.0
 	 */
-	var ***REMOVED*** = new acf.Model({	
-		id: '***REMOVED***',
+	var bodyClassShiftHelper = new acf.Model({	
+		id: 'bodyClassShiftHelper',
 		events: {
 			'keydown': 	'onKeyDown',
 			'keyup': 	'onKeyUp'
@@ -10123,7 +10123,7 @@
 (function($, undefined){
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.newCompatibility
 	*
 	*  Inserts a new __proto__ object compatibility layer
 	*
@@ -10135,7 +10135,7 @@
 	*  @return	object compatibilty
 	*/
 	
-	acf.***REMOVED*** = function( instance, compatibilty ){
+	acf.newCompatibility = function( instance, compatibilty ){
 		
 		// defaults
 		compatibilty = compatibilty || {};
@@ -10154,7 +10154,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getCompatibility
 	*
 	*  Returns the compatibility layer for a given instance
 	*
@@ -10165,7 +10165,7 @@
 	*  @return	object|null	compatibility	The compatibility object or null on failure.
 	*/
 	
-	acf.***REMOVED*** = function( instance ) {
+	acf.getCompatibility = function( instance ) {
 		return instance.compatibility || null;
 	};
 	
@@ -10181,7 +10181,7 @@
 	*  @return	void
 	*/
 	
-	var _acf = acf.***REMOVED***(acf, {
+	var _acf = acf.newCompatibility(acf, {
 		
 		// storage
 		l10n:	{},
@@ -10201,8 +10201,8 @@
 		disable_form:			acf.disable,
 		enable_el:				acf.enable,
 		enable_form:			acf.enable,
-		update_user_setting:	acf.***REMOVED***,
-		prepare_for_ajax:		acf.***REMOVED***,
+		update_user_setting:	acf.updateUserSetting,
+		prepare_for_ajax:		acf.prepareForAjax,
 		is_ajax_success:		acf.isAjaxSuccess,
 		remove_el:				acf.remove,
 		remove_tr:				acf.remove,
@@ -10282,7 +10282,7 @@
 		var args = {
 			is: s || '',
 			parent: $el || false,
-			***REMOVED***: all || false,
+			suppressFilters: all || false,
 		};
 		
 		// change 'field_123' to '.acf-field-123'
@@ -10339,7 +10339,7 @@
 		
 		// acf.isget
 		for( var i = 0; i < keys.length; i++ ) {
-			if( !obj.***REMOVED***(keys[i]) ) {
+			if( !obj.hasOwnProperty(keys[i]) ) {
 				return value;
 			}
 			obj = obj[ keys[i] ];
@@ -10361,20 +10361,20 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = function( arg ){
+	var compatibleArgument = function( arg ){
 		return ( arg instanceof acf.Field ) ? arg.$el : arg;
 	};
 	
-	var ***REMOVED*** = function( args ){
-		return acf.arrayArgs( args ).map( ***REMOVED*** );
+	var compatibleArguments = function( args ){
+		return acf.arrayArgs( args ).map( compatibleArgument );
 	}
 	
-	var ***REMOVED*** = function( origCallback ){
+	var compatibleCallback = function( origCallback ){
 		return function(){
 			
 			// convert to compatible arguments
 			if( arguments.length ) {
-				var args = ***REMOVED***(arguments);
+				var args = compatibleArguments(arguments);
 			
 			// add default argument for 'ready', 'append' and 'load' events
 			} else {
@@ -10400,12 +10400,12 @@
 		}
 		
 		// single
-		var callback = ***REMOVED***(callback);
+		var callback = compatibleCallback(callback);
 		return acf.addAction.apply(this, arguments);
 	};
 	
 	_acf.add_filter = function( action, callback, priority, context ){
-		var callback = ***REMOVED***(callback);
+		var callback = compatibleCallback(callback);
 		return acf.addFilter.apply(this, arguments);
 	};
 
@@ -10659,7 +10659,7 @@
 	*  @return	type Description.
 	*/
 	
-	var _validation = acf.***REMOVED***(acf.validation, {
+	var _validation = acf.newCompatibility(acf.validation, {
 		remove_error: function( $field ){
 			acf.getField( $field ).removeError();
 		},
@@ -10759,14 +10759,14 @@
 	_acf.media = new acf.Model({
 		activeFrame: false,
 		actions: {
-			'new_media_popup': '***REMOVED***'
+			'new_media_popup': 'onNewMediaPopup'
 		},
 		
 		frame: function(){
 			return this.activeFrame;
 		},
 		
-		***REMOVED***: function( popup ){
+		onNewMediaPopup: function( popup ){
 			this.activeFrame = popup.frame;
 		},
 		
@@ -10872,7 +10872,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED***(acf.screen, {
+	acf.newCompatibility(acf.screen, {
 		update: function(){
 			return this.set.apply(this, arguments);
 		},

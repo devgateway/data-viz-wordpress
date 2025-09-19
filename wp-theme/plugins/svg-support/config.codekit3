@@ -322,33 +322,33 @@
 	},
 "hooks": [
 	],
-"***REMOVED***": {
+"manualImportLinks": {
 	},
-"***REMOVED***": {
+"projectAttributes": {
 	"creationDate": 507572464,
 	"displayValue": "trunk",
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "/svg-support.png",
 	"iconImageWasSetByUser": 0
 	},
-"***REMOVED***": {
-	"***REMOVED***": 1,
+"projectSettings": {
+	"abortBuildOnError": 1,
 	"allowInjectionReloads": 1,
 	"alwaysUseExternalServer": 0,
-	"***REMOVED***": 1,
-	"***REMOVED***": 1,
+	"animateCSSInjections": 1,
+	"autoBuildNewItems": 1,
 	"autoprefixerEnableIEGrid": 0,
-	"***REMOVED***": 1,
-	"***REMOVED***": 0,
+	"babel7PresetType": 1,
+	"babelAllowRCFiles": 0,
 	"babelAuxiliaryCommentAfter": "",
 	"babelAuxiliaryCommentBefore": "",
-	"***REMOVED***": 0,
+	"babelConfigType": 0,
 	"babelCustomPluginsList": "",
 	"babelCustomPresetsList": "",
-	"***REMOVED***": "/\\/node_modules\\//, /\\/core-js\\//, /\\/bower_components\\//",
-	"***REMOVED***": 0,
+	"babelExcludeString": "/\\/node_modules\\//, /\\/core-js\\//, /\\/bower_components\\//",
+	"babelInsertModuleIDs": 0,
 	"babelModuleID": "",
-	"***REMOVED***": 0,
+	"babelNoComments": 0,
 	"babelPlugins": {
 		"arrow-functions": {
 			"active": 0
@@ -389,7 +389,7 @@
 		"duplicate-keys": {
 			"active": 0
 			},
-		"***REMOVED***-operator": {
+		"exponentiation-operator": {
 			"active": 0
 			},
 		"export-default-from": {
@@ -615,18 +615,18 @@
 			"active": 0
 			}
 		},
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": "bower_components",
+	"babelRetainLines": 0,
+	"babelUseBuiltInsType": 0,
+	"bowerAbbreviatedPath": "bower_components",
 	"bowerForceLatestOnConflict": 1,
 	"bowerTargetDependencyListType": 1,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": ">0.2%, last 2 versions, Firefox ESR, not dead",
-	"***REMOVED***": 0,
-	"***REMOVED***": "build",
+	"bowerUseExactVersion": 0,
+	"browserRefreshDelay": 0,
+	"browserslistString": ">0.2%, last 2 versions, Firefox ESR, not dead",
+	"buildFolderActive": 0,
+	"buildFolderName": "build",
 	"cleanBuild": 1,
-	"***REMOVED***": {
+	"coffeeLintFlags2": {
 		"arrow_spacing": {
 			"active": 0,
 			"flagValue": -1
@@ -766,7 +766,7 @@
 		},
 	"environmentVariablesString": "NODE_ENV:::production",
 	"esLintConfigFileHandlingType": 0,
-	"***REMOVED***": 7,
+	"esLintECMAVersion": 7,
 	"esLintEnvironmentsMask": 1,
 	"esLintRules": {
 		"accessor-pairs": {
@@ -779,7 +779,7 @@
 			},
 		"array-bracket-spacing": {
 			"active": 0,
-			"optionString": "'never', {'singleValue': false, '***REMOVED***': false, '***REMOVED***': false}"
+			"optionString": "'never', {'singleValue': false, 'objectsInArrays': false, 'arraysInArrays': false}"
 			},
 		"array-callback-return": {
 			"active": 0,
@@ -811,7 +811,7 @@
 			},
 		"brace-style": {
 			"active": 0,
-			"optionString": "'1tbs', {'***REMOVED***': true}"
+			"optionString": "'1tbs', {'allowSingleLine': true}"
 			},
 		"callback-return": {
 			"active": 0,
@@ -823,7 +823,7 @@
 			},
 		"capitalized-comments": {
 			"active": 0,
-			"optionString": "'always', {'***REMOVED***': false, 'ignoreConsecutiveComments': false}"
+			"optionString": "'always', {'ignoreInlineComments': false, 'ignoreConsecutiveComments': false}"
 			},
 		"class-methods-use-this": {
 			"active": 0,
@@ -943,7 +943,7 @@
 			},
 		"id-match": {
 			"active": 0,
-			"optionString": "'^[a-z]+([A-Z][a-z]+)*$', {'properties': false, '***REMOVED***': true}"
+			"optionString": "'^[a-z]+([A-Z][a-z]+)*$', {'properties': false, 'onlyDeclarations': true}"
 			},
 		"implicit-arrow-linebreak": {
 			"active": 0,
@@ -951,11 +951,11 @@
 			},
 		"indent": {
 			"active": 0,
-			"optionString": "4, {'SwitchCase': 0, '***REMOVED***': 1, 'outerIIFEBody': 1, }"
+			"optionString": "4, {'SwitchCase': 0, 'VariableDeclarator': 1, 'outerIIFEBody': 1, }"
 			},
 		"init-declarations": {
 			"active": 0,
-			"optionString": "'always',  {'***REMOVED***': true}"
+			"optionString": "'always',  {'ignoreForLoopInit': true}"
 			},
 		"jsx-quotes": {
 			"active": 0,
@@ -979,7 +979,7 @@
 			},
 		"lines-around-comment": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': true}"
+			"optionString": "{'beforeBlockComment': true}"
 			},
 		"lines-between-class-members": {
 			"active": 0,
@@ -995,15 +995,15 @@
 			},
 		"max-len": {
 			"active": 0,
-			"optionString": "{'code': 80, 'comments': 80, 'tabWidth': 4, 'ignoreUrls': true, 'ignoreStrings': true, 'ignoreTemplateLiterals': true, '***REMOVED***': true}"
+			"optionString": "{'code': 80, 'comments': 80, 'tabWidth': 4, 'ignoreUrls': true, 'ignoreStrings': true, 'ignoreTemplateLiterals': true, 'ignoreRegExpLiterals': true}"
 			},
 		"max-lines": {
 			"active": 0,
-			"optionString": "{'max': 300, '***REMOVED***': true, 'skipComments': true}"
+			"optionString": "{'max': 300, 'skipBlankLines': true, 'skipComments': true}"
 			},
 		"max-lines-per-function": {
 			"active": 0,
-			"optionString": "{'max': 50, '***REMOVED***': true, 'skipComments': true, 'IIFEs': false}"
+			"optionString": "{'max': 50, 'skipBlankLines': true, 'skipComments': true, 'IIFEs': false}"
 			},
 		"max-nested-callbacks": {
 			"active": 0,
@@ -1031,7 +1031,7 @@
 			},
 		"new-cap": {
 			"active": 0,
-			"optionString": "{'newIsCap': true, 'capIsNew': true, '***REMOVED***': [], '***REMOVED***': ['Array', 'Boolean', 'Date', 'Error', 'Function', 'Number', 'Object', 'RegExp', 'String', 'Symbol'], 'properties': true}"
+			"optionString": "{'newIsCap': true, 'capIsNew': true, 'newIsCapExceptions': [], 'capIsNewExceptions': ['Array', 'Boolean', 'Date', 'Error', 'Function', 'Number', 'Object', 'RegExp', 'String', 'Symbol'], 'properties': true}"
 			},
 		"new-parens": {
 			"active": 0,
@@ -1039,7 +1039,7 @@
 			},
 		"newline-per-chained-call": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': 2}"
+			"optionString": "{'ignoreChainWithDepth': 2}"
 			},
 		"no-alert": {
 			"active": 0,
@@ -1135,7 +1135,7 @@
 			},
 		"no-duplicate-imports": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': false}"
+			"optionString": "{'includeExports': false}"
 			},
 		"no-else-return": {
 			"active": 0,
@@ -1143,7 +1143,7 @@
 			},
 		"no-empty": {
 			"active": 1,
-			"optionString": "{'***REMOVED***': false}"
+			"optionString": "{'allowEmptyCatch': false}"
 			},
 		"no-empty-character-class": {
 			"active": 1,
@@ -1187,7 +1187,7 @@
 			},
 		"no-extra-parens": {
 			"active": 1,
-			"optionString": "'all', {'***REMOVED***': false, 'returnAssign': false, 'nestedBinaryExpressions': false}"
+			"optionString": "'all', {'conditionalAssign': false, 'returnAssign': false, 'nestedBinaryExpressions': false}"
 			},
 		"no-extra-semi": {
 			"active": 1,
@@ -1271,7 +1271,7 @@
 			},
 		"no-magic-numbers": {
 			"active": 0,
-			"optionString": "{'ignore': [], '***REMOVED***': true, 'enforceConst': false, 'detectObjects': false}"
+			"optionString": "{'ignore': [], 'ignoreArrayIndexes': true, 'enforceConst': false, 'detectObjects': false}"
 			},
 		"no-misleading-character-class": {
 			"active": 0,
@@ -1279,7 +1279,7 @@
 			},
 		"no-mixed-operators": {
 			"active": 0,
-			"optionString": "{'groups': [['+', '-', '*', '/', '%', '**'], ['&', '|', '^', '~', '<<', '>>', '>>>'], ['==', '!=', '===', '!==', '>', '>=', '<', '<='], ['&&', '||'], ['in', 'instanceof']], '***REMOVED***': true}"
+			"optionString": "{'groups': [['+', '-', '*', '/', '%', '**'], ['&', '|', '^', '~', '<<', '>>', '>>>'], ['==', '!=', '===', '!==', '>', '>=', '<', '<='], ['&&', '||'], ['in', 'instanceof']], 'allowSamePrecedence': true}"
 			},
 		"no-mixed-requires": {
 			"active": 0,
@@ -1295,7 +1295,7 @@
 			},
 		"no-multi-spaces": {
 			"active": 0,
-			"optionString": "{'exceptions': {'Property': true, '***REMOVED***': false, '***REMOVED***': false, '***REMOVED***': false}}"
+			"optionString": "{'exceptions': {'Property': true, 'BinaryExpression': false, 'VariableDeclarator': false, 'ImportDeclaration': false}}"
 			},
 		"no-multi-str": {
 			"active": 0,
@@ -1379,7 +1379,7 @@
 			},
 		"no-redeclare": {
 			"active": 1,
-			"optionString": "{'***REMOVED***': false}"
+			"optionString": "{'builtinGlobals': false}"
 			},
 		"no-regex-spaces": {
 			"active": 1,
@@ -1399,11 +1399,11 @@
 			},
 		"no-restricted-properties": {
 			"active": 0,
-			"optionString": "[{'object': '***REMOVED***', 'property': 'disallowedPropertyName'}, {'object': '***REMOVED***', 'property': 'anotherDisallowedPropertyName', 'message': 'Please use ***REMOVED***.***REMOVED***.'}]"
+			"optionString": "[{'object': 'disallowedObjectName', 'property': 'disallowedPropertyName'}, {'object': 'disallowedObjectName', 'property': 'anotherDisallowedPropertyName', 'message': 'Please use allowedObjectName.allowedPropertyName.'}]"
 			},
 		"no-restricted-syntax": {
 			"active": 0,
-			"optionString": "'***REMOVED***', 'WithStatement'"
+			"optionString": "'FunctionExpression', 'WithStatement'"
 			},
 		"no-return-assign": {
 			"active": 0,
@@ -1431,7 +1431,7 @@
 			},
 		"no-shadow": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': false, 'hoist': 'functions', 'allow': []}"
+			"optionString": "{'builtinGlobals': false, 'hoist': 'functions', 'allow': []}"
 			},
 		"no-shadow-restricted-names": {
 			"active": 0,
@@ -1467,7 +1467,7 @@
 			},
 		"no-trailing-spaces": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': false}"
+			"optionString": "{'skipBlankLines': false}"
 			},
 		"no-undef": {
 			"active": 1,
@@ -1483,7 +1483,7 @@
 			},
 		"no-underscore-dangle": {
 			"active": 0,
-			"optionString": "{'allow': [], '***REMOVED***': false, '***REMOVED***': false}"
+			"optionString": "{'allow': [], 'allowAfterThis': false, 'allowAfterSuper': false}"
 			},
 		"no-unexpected-multiline": {
 			"active": 1,
@@ -1495,7 +1495,7 @@
 			},
 		"no-unneeded-ternary": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': true}"
+			"optionString": "{'defaultAssignment': true}"
 			},
 		"no-unreachable": {
 			"active": 1,
@@ -1511,7 +1511,7 @@
 			},
 		"no-unused-expressions": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': false, 'allowTernary': false}"
+			"optionString": "{'allowShortCircuit': false, 'allowTernary': false}"
 			},
 		"no-unused-labels": {
 			"active": 1,
@@ -1551,7 +1551,7 @@
 			},
 		"no-useless-rename": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': false, 'ignoreImport': false, 'ignoreExport': false}"
+			"optionString": "{'ignoreDestructuring': false, 'ignoreImport': false, 'ignoreExport': false}"
 			},
 		"no-useless-return": {
 			"active": 0,
@@ -1583,7 +1583,7 @@
 			},
 		"object-curly-newline": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': {'multiline': true}, 'ObjectPattern': {'multiline': true}}"
+			"optionString": "{'ObjectExpression': {'multiline': true}, 'ObjectPattern': {'multiline': true}}"
 			},
 		"object-curly-spacing": {
 			"active": 0,
@@ -1595,7 +1595,7 @@
 			},
 		"object-shorthand": {
 			"active": 0,
-			"optionString": "'always', {'avoidQuotes': false, '***REMOVED***': false}"
+			"optionString": "'always', {'avoidQuotes': false, 'ignoreConstructors': false}"
 			},
 		"one-var": {
 			"active": 0,
@@ -1647,7 +1647,7 @@
 			},
 		"prefer-promise-reject-errors": {
 			"active": 0,
-			"optionString": "{'***REMOVED***': false}"
+			"optionString": "{'allowEmptyReject': false}"
 			},
 		"prefer-regex-literals": {
 			"active": 0,
@@ -1687,7 +1687,7 @@
 			},
 		"require-jsdoc": {
 			"active": 0,
-			"optionString": "{'require': {'***REMOVED***': true, '***REMOVED***': false, '***REMOVED***': false, 'ArrowFunctionExpression': false}}"
+			"optionString": "{'require': {'FunctionDeclaration': true, 'MethodDefinition': false, 'ClassDeclaration': false, 'ArrowFunctionExpression': false}}"
 			},
 		"require-unicode-regexp": {
 			"active": 0,
@@ -1715,7 +1715,7 @@
 			},
 		"sort-imports": {
 			"active": 0,
-			"optionString": "{'ignoreCase': false, '***REMOVED***': true, 'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single']}"
+			"optionString": "{'ignoreCase': false, 'ignoreMemberSort': true, 'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single']}"
 			},
 		"sort-keys": {
 			"active": 0,
@@ -1779,7 +1779,7 @@
 			},
 		"valid-jsdoc": {
 			"active": 0,
-			"optionString": "{'prefer': {'return': 'returns'}, 'requireReturn': true, 'requireReturnDescription': true, '***REMOVED***': true, 'requireParamDescription': true}"
+			"optionString": "{'prefer': {'return': 'returns'}, 'requireReturn': true, 'requireReturnDescription': true, 'requireReturnType': true, 'requireParamDescription': true}"
 			},
 		"valid-typeof": {
 			"active": 1,
@@ -1806,10 +1806,10 @@
 			"optionString": "'never', {'exceptRange': false, 'onlyEquality': false}"
 			}
 		},
-	"***REMOVED***": 0,
+	"esLintSourceType": 0,
 	"externalServerAddress": "http://localhost:8888",
-	"***REMOVED***": 1,
-	"***REMOVED***": 0,
+	"gitIgnoreBuildFolder": 1,
+	"hideConfigFile": 0,
 	"jsCheckerReservedNamesString": "",
 	"jsHintFlags2": {
 		"asi": {
@@ -2160,287 +2160,287 @@
 			}
 		},
 	"languageDefaultsCOFFEE": {
-		"***REMOVED***": 0,
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.js",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"createSourceMap": 0,
 		"minifyOutput": 1,
 		"outputStyle": 0,
-		"***REMOVED***": 1,
-		"***REMOVED***": 1
+		"syntaxCheckerStyle": 1,
+		"transpilerStyle": 1
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsCSS": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*-min.css",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"createSourceMap": 0,
 		"outputStyle": 3,
 		"shouldRunAutoprefixer": 1,
-		"***REMOVED***": 0
+		"shouldRunBless": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsGIF": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.gif",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0
+		"autoOutputPathStyle": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsHAML": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.html",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"escapeHTMLCharacters": 0,
+		"noEscapeInAttributes": 0,
 		"outputFormat": 2,
-		"***REMOVED***": 0,
+		"shouldRunCacheBuster": 0,
 		"shouldRunHTMLMinifier": 0,
 		"useCDATA": 0,
-		"***REMOVED***": 0,
-		"***REMOVED***": 0
+		"useDoubleQuotes": 0,
+		"useUnixNewlines": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsJPG": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.jpg",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"outputFormat": 0,
 		"quality": 100
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsJS": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*-min.js",
 		"autoOutputPathRelativePath": "/min",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"bundleFormat": 0,
-		"***REMOVED***": 0,
+		"createSourceMap": 0,
 		"minifyOutput": 1,
-		"***REMOVED***": 1,
-		"***REMOVED***": 0
+		"syntaxCheckerStyle": 1,
+		"transpilerStyle": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 1,
+	"languageDefaultsJSON": {
+		"autoOutputAction": 1,
 		"autoOutputPathFilenamePattern": "*-min.json",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"orderOutput": 0,
 		"outputStyle": 1
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsKIT": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.html",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "kit",
 		"autoOutputPathReplace2": "html",
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"shouldRunCacheBuster": 0,
 		"shouldRunHTMLMinifier": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+	"languageDefaultsLESS": {
+		"allowInsecureImports": 0,
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.css",
 		"autoOutputPathRelativePath": "../css",
 		"autoOutputPathReplace1": "less",
 		"autoOutputPathReplace2": "css",
-		"***REMOVED***": 0,
-		"***REMOVED***": 1,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"createSourceMap": 1,
+		"enableJavascript": 0,
 		"mathStyle": 0,
 		"outputStyle": 0,
-		"***REMOVED***": 0,
+		"rewriteURLStyle": 0,
 		"shouldRunAutoprefixer": 0,
-		"***REMOVED***": 0,
+		"shouldRunBless": 0,
 		"strictImports": 0,
 		"strictUnits": 0
 		},
 	"languageDefaultsMARKDOWN": {
-		"***REMOVED***": 0,
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.html",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"criticStyle": 0,
-		"***REMOVED***": 1,
+		"enableFootnotes": 1,
 		"enableLabels": 1,
-		"***REMOVED***": 1,
-		"***REMOVED***": 1,
+		"enableSmartQuotes": 1,
+		"maskEmailAddresses": 1,
 		"outputFormat": 0,
 		"outputStyle": 0,
 		"parseMetadata": 1,
 		"processHTML": 0,
 		"randomFootnoteNumbers": 0,
-		"***REMOVED***": 0,
+		"shouldRunCacheBuster": 0,
 		"shouldRunHTMLMinifier": 0,
-		"***REMOVED***": 0
+		"useCompatibilityMode": 0
 		},
 	"languageDefaultsOTHER": {
-		"***REMOVED***": 2,
+		"autoOutputAction": 2,
 		"autoOutputPathFilenamePattern": "*.*",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"shouldRunCacheBuster": 0,
 		"shouldRunHTMLMinifier": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsPNG": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.png",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"optimizerType": 1,
 		"quality": 100
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsPUG": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.html",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"compileDebug": 1,
 		"outputStyle": 0,
-		"***REMOVED***": 0,
+		"shouldRunCacheBuster": 0,
 		"shouldRunHTMLMinifier": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsSASS": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.css",
 		"autoOutputPathRelativePath": "../css",
 		"autoOutputPathReplace1": "sass",
 		"autoOutputPathReplace2": "css",
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"createSourceMap": 0,
 		"debugStyle": 0,
-		"***REMOVED***": 10,
+		"decimalPrecision": 10,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
-		"***REMOVED***": 0,
+		"shouldRunBless": 0,
 		"useLibsass": 1
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsSLIM": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.html",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"compileOnly": 0,
 		"logicless": 0,
 		"outputFormat": 0,
 		"outputStyle": 1,
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"railsCompatible": 0,
+		"shouldRunCacheBuster": 0,
 		"shouldRunHTMLMinifier": 0
 		},
 	"languageDefaultsSTYLUS": {
-		"***REMOVED***": 0,
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.css",
 		"autoOutputPathRelativePath": "../css",
 		"autoOutputPathReplace1": "stylus",
 		"autoOutputPathReplace2": "css",
-		"***REMOVED***": 0,
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
+		"createSourceMap": 0,
 		"debugStyle": 0,
 		"importCSS": 0,
 		"outputStyle": 0,
-		"***REMOVED***": 0,
+		"resolveRelativeURLS": 0,
 		"shouldRunAutoprefixer": 0,
-		"***REMOVED***": 0
+		"shouldRunBless": 0
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 2,
+	"languageDefaultsSVG": {
+		"autoOutputAction": 2,
 		"autoOutputPathFilenamePattern": "*.svg",
 		"autoOutputPathRelativePath": "",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"pluginMask": 3758088159
 		},
-	"***REMOVED***": {
-		"***REMOVED***": 0,
+	"languageDefaultsTS": {
+		"autoOutputAction": 0,
 		"autoOutputPathFilenamePattern": "*.js",
 		"autoOutputPathRelativePath": "/js",
 		"autoOutputPathReplace1": "",
 		"autoOutputPathReplace2": "",
-		"***REMOVED***": 0,
+		"autoOutputPathStyle": 0,
 		"createDeclarationFile": 0,
-		"***REMOVED***": 0,
+		"createSourceMap": 0,
 		"minifyOutput": 0,
-		"***REMOVED***": 0,
+		"moduleResolutionType": 0,
 		"moduleType": 2,
-		"***REMOVED***": 0,
-		"***REMOVED***": 0
+		"removeComments": 0,
+		"targetECMAVersion": 0
 		},
 	"languageDefaultsUserDefined": [
 		],
-	"***REMOVED***": "",
-	"***REMOVED***": 1,
+	"npmAbbreviatedPath": "",
+	"npmCreatePackageLock": 1,
 	"npmInstallOptionalDependencies": 0,
-	"***REMOVED***": 0,
+	"npmSaveExactVersion": 0,
 	"npmTargetDependencyListType": 1,
 	"overrideExternalServerCSS": 0,
-	"***REMOVED***": "",
-	"***REMOVED***": "",
-	"***REMOVED***": "process.env.NODE_ENV:::$NODE_ENV,,,ENVIRONMENT:::$NODE_ENV",
+	"previewPathAddition": "",
+	"rollupExternals": "",
+	"rollupReplacements": "process.env.NODE_ENV:::$NODE_ENV,,,ENVIRONMENT:::$NODE_ENV",
 	"rollupTreeshakingEnabled": 1,
-	"***REMOVED***": "log, _logs, logs, _cache, cache, /storage/framework/sessions, node_modules",
-	"***REMOVED***": "source",
+	"skippedFoldersString": "log, _logs, logs, _cache, cache, /storage/framework/sessions, node_modules",
+	"sourceFolderName": "source",
 	"susyVersion": 3,
 	"tsAllowSyntheticDefaultImports": 0,
 	"tsAllowUnreachableCode": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
+	"tsAllowUnusedLabels": 0,
+	"tsAlwaysStrict": 0,
+	"tsDownlevelIteration": 0,
 	"tsEmitBOM": 0,
 	"tsEmitDecoratorMetadata": 0,
-	"***REMOVED***": 0,
+	"tsESModuleInterop": 0,
 	"tsForceConsistentCasingInFileNames": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
+	"tsImportHelpers": 0,
+	"tsIsolatedModules": 0,
 	"tsJSXFactory": "React.createElement",
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
+	"tsKeyofStringsOnly": 0,
+	"tsNoEmitHelpers": 0,
 	"tsNoFallthroughCasesInSwitch": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
+	"tsNoImplicitAny": 0,
+	"tsNoImplicitReturns": 0,
+	"tsNoImplicitThis": 0,
 	"tsNoImplicitUseStrict": 0,
 	"tsNoLib": 0,
 	"tsNoResolve": 0,
 	"tsNoStrictGenericChecks": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
-	"***REMOVED***": 0,
+	"tsNoUnusedLocals": 0,
+	"tsNoUnusedParameters": 0,
+	"tsPreserveConstEnums": 0,
+	"tsPreserveSymlinks": 0,
+	"tsResolveJsonModule": 0,
+	"tsSkipLibCheck": 0,
 	"tsStrictFunctionTypes": 0,
-	"***REMOVED***": 0,
+	"tsStrictNullChecks": 0,
 	"tsStrictPropertyInitialization": 0,
-	"***REMOVED***": 0,
+	"tsStripInternal": 0,
 	"tsSuppressExcessPropertyErrors": 0,
 	"tsSuppressImplicitAnyIndexErrors": 0,
-	"***REMOVED***": "",
+	"uglifyDefinesString": "",
 	"uglifyFlags2": {
 		"arguments": {
 			"active": 1,
@@ -2707,9 +2707,9 @@
 			"flagValue": -1
 			}
 		},
-	"***REMOVED***": 1,
+	"uglifyMangleNames": 1,
 	"uglifyReservedNamesString": "$",
-	"***REMOVED***": ""
+	"websiteRelativeRoot": ""
 	},
-"***REMOVED***": "3"
+"settingsFileVersion": "3"
 }

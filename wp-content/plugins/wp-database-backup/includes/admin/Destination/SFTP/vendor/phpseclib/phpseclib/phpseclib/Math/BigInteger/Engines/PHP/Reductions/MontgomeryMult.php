@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Montgomery Modular ***REMOVED*** Engine with interleaved ***REMOVED***
+ * PHP Montgomery Modular Exponentiation Engine with interleaved multiplication
  *
  * PHP version 5 and 7
  *
@@ -16,16 +16,16 @@ namespace phpseclib3\Math\BigInteger\Engines\PHP\Reductions;
 use phpseclib3\Math\BigInteger\Engines\PHP;
 
 /**
- * PHP Montgomery Modular ***REMOVED*** Engine with interleaved ***REMOVED***
+ * PHP Montgomery Modular Exponentiation Engine with interleaved multiplication
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED*** extends Montgomery
+abstract class MontgomeryMult extends Montgomery
 {
     /**
      * Montgomery Multiply
      *
-     * Interleaves the montgomery reduction and long ***REMOVED*** algorithms together as described in
+     * Interleaves the montgomery reduction and long multiplication algorithms together as described in
      * {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=13 HAC 14.36}
      *
      * @see self::_prepMontgomery()
@@ -36,7 +36,7 @@ abstract class ***REMOVED*** extends Montgomery
      * @param class-string<PHP> $class
      * @return array
      */
-    public static function ***REMOVED***(array $x, array $y, array $m, $class)
+    public static function multiplyReduce(array $x, array $y, array $m, $class)
     {
         // the following code, although not callable, can be run independently of the above code
         // although the above code performed better in my benchmarks the following could might
@@ -51,7 +51,7 @@ abstract class ***REMOVED*** extends Montgomery
         if (($key = array_search($m, $cache[self::VARIABLE])) === false) {
             $key = count($cache[self::VARIABLE]);
             $cache[self::VARIABLE][] = $m;
-            $cache[self::DATA][] = self::***REMOVED***($m, $class);
+            $cache[self::DATA][] = self::modInverse67108864($m, $class);
         }
 
         $n = max(count($x), count($y), count($m));
@@ -64,12 +64,12 @@ abstract class ***REMOVED*** extends Montgomery
             $temp = $temp - $class::BASE_FULL * ($class::BASE === 26 ? intval($temp / 0x4000000) : ($temp >> 31));
             $temp = $temp * $cache[self::DATA][$key];
             $temp = $temp - $class::BASE_FULL * ($class::BASE === 26 ? intval($temp / 0x4000000) : ($temp >> 31));
-            $temp = $class::addHelper($class::***REMOVED***([$x[$i]], $y), false, $class::***REMOVED***([$temp], $m), false);
+            $temp = $class::addHelper($class::regularMultiply([$x[$i]], $y), false, $class::regularMultiply([$temp], $m), false);
             $a = $class::addHelper($a[self::VALUE], false, $temp[self::VALUE], false);
             $a[self::VALUE] = array_slice($a[self::VALUE], 1);
         }
         if (self::compareHelper($a[self::VALUE], false, $m, false) >= 0) {
-            $a = $class::***REMOVED***($a[self::VALUE], false, $m, false);
+            $a = $class::subtractHelper($a[self::VALUE], false, $m, false);
         }
         return $a[self::VALUE];
     }

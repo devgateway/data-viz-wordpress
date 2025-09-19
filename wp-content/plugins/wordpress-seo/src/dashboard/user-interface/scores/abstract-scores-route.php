@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Scores;
 
 use Exception;
@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Dashboard\Application\Score_Results\Abstract_Score_Results_Repo
 use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Content_Types\Content_Types_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -148,7 +148,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 								return \intval( $param );
 							},
 						],
-						'***REMOVED***' => [
+						'troubleshooting' => [
 							'required'          => false,
 							'type'              => 'bool',
 							'default'           => null,
@@ -173,7 +173,7 @@ abstract class Abstract_Scores_Route implements Route_Interface {
 			$taxonomy     = $this->get_taxonomy( $request['taxonomy'], $content_type );
 			$term_id      = $this->get_validated_term_id( $request['term'], $taxonomy );
 
-			$results = $this->score_results_repository->get_score_results( $content_type, $taxonomy, $term_id, $request['***REMOVED***'] );
+			$results = $this->score_results_repository->get_score_results( $content_type, $taxonomy, $term_id, $request['troubleshooting'] );
 		} catch ( Exception $exception ) {
 			return new WP_REST_Response(
 				[

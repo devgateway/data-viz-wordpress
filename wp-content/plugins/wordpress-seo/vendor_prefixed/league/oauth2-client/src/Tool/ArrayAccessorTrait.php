@@ -17,7 +17,7 @@ namespace YoastSEO_Vendor\League\OAuth2\Client\Tool;
 /**
  * Provides generic array navigation tools.
  */
-trait ***REMOVED***
+trait ArrayAccessorTrait
 {
     /**
      * Returns a value by key using dot notation.

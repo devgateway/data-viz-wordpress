@@ -60,7 +60,7 @@ abstract class XML
         $xpath = new \DOMXPath($dom);
         $keys = ['p', 'q', 'g', 'y', 'j', 'seed', 'pgencounter'];
         foreach ($keys as $key) {
-            // $dom->***REMOVED***($key) is case-sensitive
+            // $dom->getElementsByTagName($key) is case-sensitive
             $temp = $xpath->query("//*[translate(local-name(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='$key']");
             if (!$temp->length) {
                 continue;

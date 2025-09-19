@@ -18,7 +18,7 @@ Based on plugin version, page, user capabilities and whether the user has seen i
     - only loads on our Yoast admin pages, but never on our installation success pages as to not disturb onboarding
     - only loads assets if there is an introduction to show
         - `js/src/introductions` holds the JS
-        - `***REMOVED***` is the localized script to transfer data from PHP to JS
+        - `wpseoIntroductions` is the localized script to transfer data from PHP to JS
         - `css/src/ai-generator.css` holds the CSS
 
 Inside JS, register the modal content via `window.YoastSEO._registerIntroductionComponent`, which takes a

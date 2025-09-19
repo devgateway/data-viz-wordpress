@@ -1,7 +1,7 @@
 <?php
 
 /**
- * GMP Modular ***REMOVED*** Engine
+ * GMP Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,14 +16,14 @@ namespace phpseclib3\Math\BigInteger\Engines\GMP;
 use phpseclib3\Math\BigInteger\Engines\GMP;
 
 /**
- * GMP Modular ***REMOVED*** Engine
+ * GMP Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
 abstract class DefaultEngine extends GMP
 {
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param GMP $x
      * @param GMP $e

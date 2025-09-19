@@ -3,7 +3,7 @@
  * Grid of posts block pattern
  */
 return array(
-	'title'      => __( 'Grid of posts', '***REMOVED***' ),
+	'title'      => __( 'Grid of posts', 'twentytwentytwo' ),
 	'categories' => array( 'query' ),
 	'blockTypes' => array( 'core/query' ),
 	'content'    => '<!-- wp:query {"query":{"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","sticky":"","perPage":12},"displayLayout":{"type":"flex","columns":3},"align":"wide","layout":{"inherit":true}} -->
@@ -21,7 +21,7 @@ return array(
 					<hr class="wp-block-separator alignwide is-style-wide"/>
 					<!-- /wp:separator -->
 
-					<!-- wp:query-pagination {"***REMOVED***":"arrow","align":"wide","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+					<!-- wp:query-pagination {"paginationArrow":"arrow","align":"wide","layout":{"type":"flex","justifyContent":"space-between"}} -->
 					<!-- wp:query-pagination-previous {"fontSize":"small"} /-->
 
 					<!-- wp:query-pagination-numbers /-->

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Offset posts with featured images only, 4 columns
- * Slug: ***REMOVED***/posts-images-only-offset-4-col
+ * Slug: twentytwentyfour/posts-images-only-offset-4-col
  * Categories: posts
  * Description: A list of posts with featured images only, 4 columns.
  */

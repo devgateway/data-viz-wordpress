@@ -243,7 +243,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 
 		if ( \is_attachment() ) {
 			global $wp;
-			return \***REMOVED***( \home_url( $wp->request ) );
+			return \trailingslashit( \home_url( $wp->request ) );
 		}
 
 		return $this->model->permalink;
@@ -712,7 +712,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the schema for the page.
 	 *
-	 * @***REMOVED*** Wrapper method.
+	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @return array The Schema object.
 	 */
@@ -723,7 +723,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the breadcrumbs for the page.
 	 *
-	 * @***REMOVED*** Wrapper method.
+	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @return array The breadcrumbs.
 	 */
@@ -734,7 +734,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * Generates the estimated reading time.
 	 *
-	 * @***REMOVED*** Wrapper method.
+	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @return int|null The estimated reading time.
 	 */

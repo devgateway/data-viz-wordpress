@@ -53,16 +53,16 @@ class Redirect_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function old_settings_redirect() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( ! isset( $_GET['page'] ) ) {
 			return;
 		}
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$current_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 
 		switch ( $current_page ) {
 			case 'wpseo_titles':
-				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_page_settings#/site-***REMOVED***' ), 301 );
+				$this->redirect->do_safe_redirect( \admin_url( 'admin.php?page=wpseo_page_settings#/site-representation' ), 301 );
 				return;
 			default:
 				return;

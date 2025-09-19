@@ -1,5 +1,5 @@
 === Better Search Replace ===
-Contributors: wpengine, ***REMOVED***, mattshaw
+Contributors: wpengine, deliciousbrains, mattshaw
 Tags: search replace, search and replace, update urls, database, search replace database, update database urls, update live url, better search replace, search&replace
 Requires at least: 3.0.1
 Tested up to: 6.7
@@ -27,7 +27,7 @@ When moving your WordPress site to a new domain or server, you will likely run i
 > * Save or load custom profiles for quickly repeating a search/replace in the future
 > * Support and updates for 1 year
 >
-> **[Learn more about Better Search Replace Pro](https://***REMOVED***.com/)**
+> **[Learn more about Better Search Replace Pro](https://bettersearchreplace.com/)**
 
 The search and replace functionality is heavily based on interconnect/it's great and open-source Search Replace DB script, modified to use WordPress native database functions to ensure compatibility.
 
@@ -40,7 +40,7 @@ The search and replace functionality is heavily based on interconnect/it's great
 
 **Want to contribute?**
 
-Feel free to open an issue or submit a pull request on [GitHub](https://github.com/***REMOVED***/better-search-replace/).
+Feel free to open an issue or submit a pull request on [GitHub](https://github.com/deliciousbrains/better-search-replace/).
 
 == Installation ==
 
@@ -166,7 +166,7 @@ More information on moving WordPress can be found [here](http://codex.wordpress.
 * Fix: Bug with report details
 
 = 1.2.7 - November 24, 2015 =
-* Fix: ***REMOVED*** string
+* Fix: Untranslateable string
 * Tweak: Check BSR_PATH instead of ABSPATH to be consistent
 * Tested with 4.4
 
@@ -200,7 +200,7 @@ More information on moving WordPress can be found [here](http://codex.wordpress.
 = 1.2 =
 * Switched to AJAX bulk processing for search/replaces
 * Decreased minimum "Max Page Size" to 1000
-* Added "Help" tab with system info for easier ***REMOVED***
+* Added "Help" tab with system info for easier troubleshooting
 
 = 1.1.1 =
 * Added ability to change max page size
@@ -226,7 +226,7 @@ More information on moving WordPress can be found [here](http://codex.wordpress.
 * Fixed bug with replacing some objects
 
 = 1.0.2 =
-* Fixed ***REMOVED*** strings on submit button and submenu page.
+* Fixed untranslateable strings on submit button and submenu page.
 
 = 1.0.1 =
 * Fixed issue with loading translations and added Spanish translation (props Eduardo Larequi)

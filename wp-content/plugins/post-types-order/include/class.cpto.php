@@ -32,7 +32,7 @@
                 
             
             /**
-            * ***REMOVED*** function
+            * Initialisation function
             *     
             */
             function init()
@@ -47,10 +47,10 @@
                     add_action('admin_menu',                                array(&$this, 'plugin_options_menu'));
                     
                     //load archive drag&drop sorting dependencies
-                    add_action( 'admin_enqueue_scripts',                    array(&$this, '***REMOVED***'), 10 );
+                    add_action( 'admin_enqueue_scripts',                    array(&$this, 'archiveDragDrop'), 10 );
                     
                     add_action( 'wp_ajax_update-custom-type-order',         array(&$this, 'saveAjaxOrder') );
-                    add_action( 'wp_ajax_update-custom-type-order-archive', array(&$this, '***REMOVED***') );
+                    add_action( 'wp_ajax_update-custom-type-order-archive', array(&$this, 'saveArchiveAjaxOrder') );
                 
                 
                 }
@@ -253,7 +253,7 @@
                     
                     include (CPTPATH . '/include/class.options.php');
                     
-                    $options_interface  =    new ***REMOVED***();
+                    $options_interface  =    new CptoOptionsInterface();
                     $options_interface->check_options_update();
                     
                     $hookID   =     add_options_page('Post Types Order', '<img class="menu_pto" src="'. CPTURL .'/images/menu-icon.png" alt="" /> Post Types Order', 'manage_options', 'cpto-options', array($options_interface, 'plugin_options_interface'));
@@ -277,7 +277,7 @@
             * 
             * Since version 1.8.8
             */
-            function ***REMOVED***()
+            function archiveDragDrop()
                 {
                     $options          =     $this->functions->get_options();
                     
@@ -429,7 +429,7 @@
             * Save the order set throgh the Archive 
             * 
             */
-            function ***REMOVED***()
+            function saveArchiveAjaxOrder()
                 {
                     
                     set_time_limit(600);
@@ -583,8 +583,8 @@
                             wp_enqueue_script('jquery-ui-sortable');
                         }
                         
-                    wp_register_style('***REMOVED***', CPTURL . '/css/cpt.css', array(), PTO_VERSION );
-                    wp_enqueue_style( '***REMOVED***');
+                    wp_register_style('CPTStyleSheets', CPTURL . '/css/cpt.css', array(), PTO_VERSION );
+                    wp_enqueue_style( 'CPTStyleSheets');
                 }
             
 
@@ -657,7 +657,7 @@
                                     'nested': 'ul'
                                 });
                                 
-                                jQuery("#sortable").***REMOVED***();
+                                jQuery("#sortable").disableSelection();
                                 jQuery("#save-order").bind( "click", function() {
                                     
                                     jQuery("html, body").animate({ scrollTop: 0 }, "fast");

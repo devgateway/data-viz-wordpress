@@ -65,7 +65,7 @@ class Google_FileCache extends Google_Cache {
     $cnt = 0;
     do {
       // make sure PHP picks up on file changes. This is an expensive action but really can't be avoided
-      ***REMOVED***();
+      clearstatcache();
       // 250 ms is a long time to sleep, but it does stop the server from burning all resources on polling locks..
       usleep(250);
       $cnt ++;
@@ -120,7 +120,7 @@ class Google_FileCache extends Google_Cache {
       }
     }
     // we serialize the whole request object, since we don't only want the
-    // ***REMOVED*** but also the postBody used, headers, size, etc
+    // responseContent but also the postBody used, headers, size, etc
     $data = serialize($value);
     $this->createLock($storageFile);
     if (! @file_put_contents($storageFile, $data)) {

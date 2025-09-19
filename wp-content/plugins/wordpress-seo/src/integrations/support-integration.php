@@ -129,14 +129,14 @@ class Support_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// Remove the emoji script as it is incompatible with both React and any ***REMOVED*** fields.
+		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		$this->asset_manager->enqueue_script( 'support' );
 		$this->asset_manager->enqueue_style( 'support' );
 		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
-		$this->asset_manager->localize_script( 'support', '***REMOVED***', $this->get_script_data() );
+		$this->asset_manager->localize_script( 'support', 'wpseoScriptData', $this->get_script_data() );
 	}
 
 	/**
@@ -162,13 +162,13 @@ class Support_Integration implements Integration_Interface {
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isRtl'          => \is_rtl(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
-				'***REMOVED***' => [
+				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
 			],
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
-			'***REMOVED***' => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'currentPromotions' => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
 }

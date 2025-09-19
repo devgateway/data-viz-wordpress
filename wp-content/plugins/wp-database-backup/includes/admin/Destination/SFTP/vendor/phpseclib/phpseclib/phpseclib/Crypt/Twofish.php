@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of Twofish.
+ * Pure-PHP implementation of Twofish.
  *
- * Uses mcrypt, if available, and an internal ***REMOVED***, otherwise.
+ * Uses mcrypt, if available, and an internal implementation, otherwise.
  *
  * PHP version 5
  *
@@ -36,10 +36,10 @@
 namespace phpseclib3\Crypt;
 
 use phpseclib3\Crypt\Common\BlockCipher;
-use phpseclib3\Exception\***REMOVED***;
+use phpseclib3\Exception\BadModeException;
 
 /**
- * Pure-PHP ***REMOVED*** of Twofish.
+ * Pure-PHP implementation of Twofish.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  * @author  Hans-Juergen Petrich <petrich@tronic-media.com>
@@ -356,14 +356,14 @@ class Twofish extends BlockCipher
      * Default Constructor.
      *
      * @param string $mode
-     * @throws ***REMOVED*** if an invalid / unsupported mode is provided
+     * @throws BadModeException if an invalid / unsupported mode is provided
      */
     public function __construct($mode)
     {
         parent::__construct($mode);
 
         if ($this->mode == self::MODE_STREAM) {
-            throw new ***REMOVED***('Block ciphers cannot be ran in stream mode');
+            throw new BadModeException('Block ciphers cannot be ran in stream mode');
         }
     }
 
@@ -399,7 +399,7 @@ class Twofish extends BlockCipher
             case 256:
                 break;
             default:
-                throw new \***REMOVED***('Key of size ' . $length . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
+                throw new \LengthException('Key of size ' . $length . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
         }
 
         parent::setKeyLength($length);
@@ -412,7 +412,7 @@ class Twofish extends BlockCipher
      *
      * @see setKeyLength()
      * @param string $key
-     * @throws \***REMOVED*** if the key length isn't supported
+     * @throws \LengthException if the key length isn't supported
      */
     public function setKey($key)
     {
@@ -422,7 +422,7 @@ class Twofish extends BlockCipher
             case 32:
                 break;
             default:
-                throw new \***REMOVED***('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
+                throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
         }
 
         parent::setKey($key);
@@ -702,7 +702,7 @@ class Twofish extends BlockCipher
      *
      * @see \phpseclib3\Crypt\Common\SymmetricKey::_setupInlineCrypt()
      */
-    protected function ***REMOVED***()
+    protected function setupInlineCrypt()
     {
         $K = $this->K;
         $init_crypt = '

@@ -166,7 +166,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		 */
 		$data = \apply_filters( 'wpseo_indexing_data', $data );
 
-		$this->asset_manager->localize_script( 'indexation', '***REMOVED***', $data );
+		$this->asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 	}
 
 	/**
@@ -200,7 +200,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 */
 	public function render_indexing_list_item() {
 		if ( \current_user_can( 'manage_options' ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- The output is correctly escaped in the presenter.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- The output is correctly escaped in the presenter.
 			echo new Indexing_List_Item_Presenter( $this->short_link_helper );
 		}
 	}
@@ -217,7 +217,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'posts'              => Indexing_Route::FULL_POSTS_ROUTE,
 			'archives'           => Indexing_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 			'general'            => Indexing_Route::FULL_GENERAL_ROUTE,
-			'***REMOVED***' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
+			'indexablesComplete' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
 			'post_link'          => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
 			'term_link'          => Indexing_Route::FULL_TERM_LINKS_INDEXING_ROUTE,
 		];

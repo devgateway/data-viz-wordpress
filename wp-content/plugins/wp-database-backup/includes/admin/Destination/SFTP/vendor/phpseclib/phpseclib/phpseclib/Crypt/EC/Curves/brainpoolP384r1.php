@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * brainpoolP384r1
  *
  * PHP version 5 and 7
  *
@@ -16,16 +16,16 @@ namespace phpseclib3\Crypt\EC\Curves;
 use phpseclib3\Crypt\EC\BaseCurves\Prime;
 use phpseclib3\Math\BigInteger;
 
-class ***REMOVED*** extends Prime
+class brainpoolP384r1 extends Prime
 {
     public function __construct()
     {
         $this->setModulo(new BigInteger(
             '8CB91E82A3386D280F5D6F7E50E641DF152F7109ED5456B412B1DA197FB71123ACD3A729901D1A7' .
-            '***REMOVED***',
+            '1874700133107EC53',
             16
         ));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger(
                 '7BC382C63D8C150C3C72080ACE05AFA0C2BEA28E4FB22787139165EFBA91F90F8AA5814A503' .
                 'AD4EB04A8C7DD22CE2826',
@@ -33,7 +33,7 @@ class ***REMOVED*** extends Prime
             ),
             new BigInteger(
                 '4A8C7DD22CE28268B39B55416F0447C2FB77DE107DCD2A62E880EA53EEB62D57CB4390295DB' .
-                '***REMOVED***',
+                'C9943AB78696FA504C11',
                 16
             )
         );
@@ -51,7 +51,7 @@ class ***REMOVED*** extends Prime
         );
         $this->setOrder(new BigInteger(
             '8CB91E82A3386D280F5D6F7E50E641DF152F7109ED5456B31F166E6CAC0425A7CF3AB6AF6B7FC31' .
-            '***REMOVED***',
+            '03B883202E9046565',
             16
         ));
     }

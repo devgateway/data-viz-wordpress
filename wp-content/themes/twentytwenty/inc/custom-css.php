@@ -37,7 +37,7 @@ if ( ! function_exists( 'twentytwenty_generate_css' ) ) {
 
 		if ( $display ) {
 
-			echo $return; // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- We need to double check this, but for now, we want to pass PHPCS ;)
+			echo $return; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We need to double check this, but for now, we want to pass PHPCS ;)
 
 		}
 

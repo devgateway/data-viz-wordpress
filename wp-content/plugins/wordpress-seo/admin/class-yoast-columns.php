@@ -75,9 +75,9 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	 * @return string The current post type.
 	 */
 	private function get_current_post_type() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['post_type'] ) && is_string( $_GET['post_type'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
 		}
 		return '';

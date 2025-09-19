@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 /**
  * WPML integration.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded -- Known false positive with acronyms. Fix expected in YoastCS 3.x.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Known false positive with acronyms. Fix expected in YoastCS 3.x.
  */
 class WPML implements Integration_Interface {
 

@@ -1,4 +1,4 @@
-var ***REMOVED*** = require('postcss-focus-within');
+var postcssFocusWithin = require('postcss-focus-within');
 
 module.exports = {
     plugins: {
@@ -8,7 +8,7 @@ module.exports = {
 
 module.exports = {
     plugins: [
-        ***REMOVED***({
+        postcssFocusWithin({
             disablePolyfillReadyClass: true
         })
     ]

@@ -34,14 +34,14 @@ if (isset($customize_folders['folder_font']) && !empty($customize_folders['folde
     $folder_fonts = self::get_font_list();
     if (isset($folder_fonts[$font_family])) {
         if ($font_family == "System Stack") {
-            $font_family = "-apple-system,***REMOVED***,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif";
+            $font_family = "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif";
         }
         ?>
 .wcp-container, .folder-popup-form, .dynamic-menu { font-family: <?php echo esc_attr($font_family) ?>; }
         <?php
     }
 
-    if ($font_family == "-apple-system,***REMOVED***,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif") {
+    if ($font_family == "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif") {
         $font_family = "System Stack";
     }
 
@@ -202,31 +202,31 @@ $horClass = (!isset($customize_folders['enable_horizontal_scroll']) || $customiz
                             <ul>
                                 <li style="flex: 0 0 22px;"><a href="javascript:;" class="no-bg"><input type="checkbox" id="menu-checkbox" ></a></li>
                                 <li class="folder-inline-tooltip">
-                                    <a class="full-width upload-media-action disabled" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>">
+                                    <a class="full-width upload-media-action disabled" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>">
                                         <span class="inline-tooltip"><?php esc_html_e("Uploading folder is pro feature", "folders"); ?> <span><?php esc_html_e("Upgrade Now 🎉", "folders") ?></span></span>
                                         <span class="dashicons dashicons-cloud-upload"></span>
                                     </a>
                                 </li>
                                 <li class="folder-inline-tooltip cut-folder-action">
-                                    <a class="full cut-folder-action disabled" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                    <a class="full cut-folder-action disabled" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                         <span class="inline-tooltip"><?php esc_html_e("Cut is pro feature", "folders"); ?> <span><?php esc_html_e("Upgrade Now 🎉", "folders") ?></span></span>
                                         <span class="pfolder-cut"></span>
                                     </a>
                                 </li>
                                 <li class="folder-inline-tooltip cut-folder-action">
-                                    <a class="full copy-folder-action disabled" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                    <a class="full copy-folder-action disabled" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                         <span class="inline-tooltip"><?php esc_html_e("Copy is pro feature", "folders"); ?> <span><?php esc_html_e("Upgrade Now 🎉", "folders") ?></span></span>
                                         <span class="pfolder-copy"></span>
                                     </a>
                                 </li>
                                 <li class="folder-inline-tooltip cut-folder-action">
-                                    <a class="paste-folder-action disabled" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                    <a class="paste-folder-action disabled" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                         <span class="inline-tooltip"><?php esc_html_e("Paste is pro feature", "folders"); ?> <span><?php esc_html_e("Upgrade Now 🎉", "folders") ?></span></span>
                                         <span class="pfolder-paste"></span>
                                     </a>
                                 </li>
                                 <li class="folder-inline-tooltip">
-                                    <a class="lock-unlock-all-folders open-folders disabled" target="_blank" href="<?php echo esc_url($this->***REMOVED***()) ?>" >
+                                    <a class="lock-unlock-all-folders open-folders disabled" target="_blank" href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" >
                                         <span class="inline-tooltip"><?php esc_html_e("Lock/Unlock is pro feature", "folders"); ?> <span><?php esc_html_e("Upgrade Now 🎉", "folders") ?></span></span>
                                         <span class="dashicons dashicons-lock"></span>
                                     </a>
@@ -295,7 +295,7 @@ if($hide_folder_color_pop_up != "yes" && WCP_FOLDER_VERSION == "3.0") {
         <script>
             jQuery(document).ready(function(){
                 jQuery(document).on("click", ".color-popup-options .form-cancel-btn, .color-popup-options .close-popup-button, #color-pop-up-options", function(e){
-                    e.***REMOVED***();
+                    e.stopPropagation();
                     e.stopImmediatePropagation();
                     jQuery("#color-pop-up-options").hide();
                     jQuery.ajax({

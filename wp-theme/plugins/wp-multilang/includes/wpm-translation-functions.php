@@ -2,7 +2,7 @@
 /**
  * WPM Translation functions
  *
- * Functions for translation, set translations to ***REMOVED*** arrays.
+ * Functions for translation, set translations to multidimensional arrays.
  *
  * @author   Valentyn Riaboshtan
  * @category      Core
@@ -48,7 +48,7 @@ function wpm_translate_url( $url, $language = '' ) {
 	$default_uri = str_replace( $host, '', $url );
 	$default_uri = $default_uri ? $default_uri : '/';
 	$languages   = wpm_get_languages();
-	$parts       = explode( '/', ltrim( ***REMOVED***( $default_uri ), '/' ) );
+	$parts       = explode( '/', ltrim( trailingslashit( $default_uri ), '/' ) );
 	$url_lang    = $parts[0];
 
 	if ( isset( $languages[ $url_lang ] ) ) {
@@ -126,7 +126,7 @@ function wpm_translate_string( $string, $language = '' ) {
 }
 
 /**
- * Translate ***REMOVED*** array with multilingual strings
+ * Translate multidimensional array with multilingual strings
  *
  * @param        $value
  * @param string $language
@@ -184,7 +184,7 @@ function wpm_string_to_ml_array( $string ) {
 }
 
 /**
- * Transform ***REMOVED*** array with multilingual strings to ***REMOVED*** array with multilingual arrays
+ * Transform multidimensional array with multilingual strings to multidimensional array with multilingual arrays
  *
  * @param $value
  *
@@ -231,7 +231,7 @@ function wpm_ml_array_to_string( $strings ) {
 }
 
 /**
- * Transform ***REMOVED*** array with multilingual arrays to ***REMOVED*** array with multilingual strings
+ * Transform multidimensional array with multilingual arrays to multidimensional array with multilingual strings
  *
  * @param $value
  *
@@ -252,7 +252,7 @@ function wpm_ml_value_to_string( $value ) {
 }
 
 /**
- * Set new value to ***REMOVED*** array with multilingual arrays by config
+ * Set new value to multidimensional array with multilingual arrays by config
  *
  * @param        $localize_array
  * @param mixed  $value

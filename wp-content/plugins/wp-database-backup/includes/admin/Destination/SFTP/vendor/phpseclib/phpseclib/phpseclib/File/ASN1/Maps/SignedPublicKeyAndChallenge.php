@@ -26,7 +26,7 @@ abstract class SignedPublicKeyAndChallenge
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
             'publicKeyAndChallenge' => PublicKeyAndChallenge::MAP,
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'signatureAlgorithm' => AlgorithmIdentifier::MAP,
             'signature' => ['type' => ASN1::TYPE_BIT_STRING]
         ]
     ];

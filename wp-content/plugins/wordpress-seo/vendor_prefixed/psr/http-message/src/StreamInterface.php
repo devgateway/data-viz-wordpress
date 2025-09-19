@@ -9,7 +9,7 @@ namespace YoastSEO_Vendor\Psr\Http\Message;
  * a wrapper around the most common operations, including serialization of
  * the entire stream to a string.
  */
-interface ***REMOVED***
+interface StreamInterface
 {
     /**
      * Reads all data from the stream into a string, from the beginning to end.
@@ -50,7 +50,7 @@ interface ***REMOVED***
      * Returns the current position of the file read/write pointer
      *
      * @return int Position of the file pointer
-     * @throws \***REMOVED*** on error.
+     * @throws \RuntimeException on error.
      */
     public function tell() : int;
     /**
@@ -75,7 +75,7 @@ interface ***REMOVED***
      *     PHP $whence values for `fseek()`.  SEEK_SET: Set position equal to
      *     offset bytes SEEK_CUR: Set position to current location plus offset
      *     SEEK_END: Set position to end-of-stream plus offset.
-     * @throws \***REMOVED*** on failure.
+     * @throws \RuntimeException on failure.
      */
     public function seek(int $offset, int $whence = \SEEK_SET) : void;
     /**
@@ -86,7 +86,7 @@ interface ***REMOVED***
      *
      * @see seek()
      * @link http://www.php.net/manual/en/function.fseek.php
-     * @throws \***REMOVED*** on failure.
+     * @throws \RuntimeException on failure.
      */
     public function rewind() : void;
     /**
@@ -100,7 +100,7 @@ interface ***REMOVED***
      *
      * @param string $string The string that is to be written.
      * @return int Returns the number of bytes written to the stream.
-     * @throws \***REMOVED*** on failure.
+     * @throws \RuntimeException on failure.
      */
     public function write(string $string) : int;
     /**
@@ -117,14 +117,14 @@ interface ***REMOVED***
      *     call returns fewer bytes.
      * @return string Returns the data read from the stream, or an empty string
      *     if no bytes are available.
-     * @throws \***REMOVED*** if an error occurs.
+     * @throws \RuntimeException if an error occurs.
      */
     public function read(int $length) : string;
     /**
      * Returns the remaining contents in a string
      *
      * @return string
-     * @throws \***REMOVED*** if unable to read or an error occurs while
+     * @throws \RuntimeException if unable to read or an error occurs while
      *     reading.
      */
     public function getContents() : string;

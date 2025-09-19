@@ -27,10 +27,10 @@ const SaveComponent = (props) => {
              data-source={source}
              data-dimension1={dimension1}
              data-app={app}
-             data-measures={***REMOVED***(JSON.stringify(measures))}
-             data-format={***REMOVED***(JSON.stringify(format))}
+             data-measures={encodeURIComponent(JSON.stringify(measures))}
+             data-format={encodeURIComponent(JSON.stringify(format))}
              data-group={group}
-             data-filters={***REMOVED***(JSON.stringify(filters))}
+             data-filters={encodeURIComponent(JSON.stringify(filters))}
              data-no-data-message={noDataMsg}
              data-value-type={valueType}
 >

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of Triple DES.
+ * Pure-PHP implementation of Triple DES.
  *
- * Uses mcrypt, if available, and an internal ***REMOVED***, otherwise.  Operates in the EDE3 mode (encrypt-decrypt-encrypt).
+ * Uses mcrypt, if available, and an internal implementation, otherwise.  Operates in the EDE3 mode (encrypt-decrypt-encrypt).
  *
  * PHP version 5
  *
@@ -35,7 +35,7 @@
 namespace phpseclib3\Crypt;
 
 /**
- * Pure-PHP ***REMOVED*** of Triple DES.
+ * Pure-PHP implementation of Triple DES.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -147,9 +147,9 @@ class TripleDES extends DES
                 ];
 
                 // we're going to be doing the padding, ourselves, so disable it in the \phpseclib3\Crypt\DES objects
-                $this->des[0]->***REMOVED***();
-                $this->des[1]->***REMOVED***();
-                $this->des[2]->***REMOVED***();
+                $this->des[0]->disablePadding();
+                $this->des[1]->disablePadding();
+                $this->des[2]->disablePadding();
                 break;
             case 'cbc3':
                 $mode = 'cbc';
@@ -159,7 +159,7 @@ class TripleDES extends DES
                 parent::__construct($mode);
 
                 if ($this->mode == self::MODE_STREAM) {
-                    throw new ***REMOVED***('Block ciphers cannot be ran in stream mode');
+                    throw new BadModeException('Block ciphers cannot be ran in stream mode');
                 }
         }
     }
@@ -173,7 +173,7 @@ class TripleDES extends DES
      * @param int $engine
      * @return bool
      */
-    protected function ***REMOVED***($engine)
+    protected function isValidEngineHelper($engine)
     {
         if ($engine == self::ENGINE_OPENSSL) {
             $this->cipher_name_openssl_ecb = 'des-ede3';
@@ -181,11 +181,11 @@ class TripleDES extends DES
             $this->cipher_name_openssl = $mode == 'ecb' ? 'des-ede3' : 'des-ede3-' . $mode;
         }
 
-        return parent::***REMOVED***($engine);
+        return parent::isValidEngineHelper($engine);
     }
 
     /**
-     * Sets the ***REMOVED*** vector.
+     * Sets the initialization vector.
      *
      * SetIV is not required when \phpseclib3\Crypt\Common\SymmetricKey::MODE_ECB is being used.
      *
@@ -210,7 +210,7 @@ class TripleDES extends DES
      * If you want to use a 64-bit key use DES.php
      *
      * @see \phpseclib3\Crypt\Common\SymmetricKey:setKeyLength()
-     * @throws \***REMOVED*** if the key length is invalid
+     * @throws \LengthException if the key length is invalid
      * @param int $length
      */
     public function setKeyLength($length)
@@ -220,7 +220,7 @@ class TripleDES extends DES
             case 192:
                 break;
             default:
-                throw new \***REMOVED***('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes 128 or 192 bits are supported');
+                throw new \LengthException('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys of sizes 128 or 192 bits are supported');
         }
 
         parent::setKeyLength($length);
@@ -235,13 +235,13 @@ class TripleDES extends DES
      *
      * @see \phpseclib3\Crypt\DES::setKey()
      * @see \phpseclib3\Crypt\Common\SymmetricKey::setKey()
-     * @throws \***REMOVED*** if the key length is invalid
+     * @throws \LengthException if the key length is invalid
      * @param string $key
      */
     public function setKey($key)
     {
         if ($this->explicit_key_length !== false && strlen($key) != $this->explicit_key_length) {
-            throw new \***REMOVED***('Key length has already been set to ' . $this->explicit_key_length . ' bytes and this key is ' . strlen($key) . ' bytes');
+            throw new \LengthException('Key length has already been set to ' . $this->explicit_key_length . ' bytes and this key is ' . strlen($key) . ' bytes');
         }
 
         switch (strlen($key)) {
@@ -251,7 +251,7 @@ class TripleDES extends DES
             case 24:
                 break;
             default:
-                throw new \***REMOVED***('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16 or 24 are supported');
+                throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16 or 24 are supported');
         }
 
         // copied from self::setKey()
@@ -343,7 +343,7 @@ class TripleDES extends DES
      * </code>
      *
      * With the continuous buffer disabled, these would yield the same output.  With it enabled, they yield different
-     * outputs.  The reason is due to the fact that the ***REMOVED*** vector's change after every encryption /
+     * outputs.  The reason is due to the fact that the initialization vector's change after every encryption /
      * decryption round when the continuous buffer is enabled.  When it's disabled, they remain constant.
      *
      * Put another way, when the continuous buffer is enabled, the state of the \phpseclib3\Crypt\DES() object changes after each
@@ -420,17 +420,17 @@ class TripleDES extends DES
      * Sets the internal crypt engine
      *
      * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::***REMOVED***()
+     * @see \phpseclib3\Crypt\Common\SymmetricKey::setPreferredEngine()
      * @param int $engine
      */
-    public function ***REMOVED***($engine)
+    public function setPreferredEngine($engine)
     {
         if ($this->mode_3cbc) {
-            $this->des[0]->***REMOVED***($engine);
-            $this->des[1]->***REMOVED***($engine);
-            $this->des[2]->***REMOVED***($engine);
+            $this->des[0]->setPreferredEngine($engine);
+            $this->des[1]->setPreferredEngine($engine);
+            $this->des[2]->setPreferredEngine($engine);
         }
 
-        parent::***REMOVED***($engine);
+        parent::setPreferredEngine($engine);
     }
 }

@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Presenters;
 /**
  * Abstract presenter class for indexable tag presentations.
  *
- * @phpcs:disable Yoast.Files.FileName.***REMOVED***
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
 

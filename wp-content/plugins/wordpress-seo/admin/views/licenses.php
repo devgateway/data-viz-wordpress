@@ -94,9 +94,9 @@ if ( YoastSEO()->helpers->woocommerce->is_active() ) {
 }
 
 // The total number of plugins to consider is the length of the array + 1 for Premium.
-// @phpcs:ignore WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound
+// @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $number_plugins_total = ( count( $extensions ) + 1 );
-// @phpcs:ignore WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound
+// @phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $number_plugins_active = 0;
 
 $extensions['yoast-seo-plugin-subscription'] = [
@@ -150,7 +150,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 
 	<div id="extensions">
 		<section class="yoast-seo-premium-extension">
-			<?php echo $premium_sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Output is already escaped ?>
+			<?php echo $premium_sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output is already escaped ?>
 			<h2>
 				<?php esc_html_e( 'Rank higher in search results', 'wordpress-seo' ); ?>
 				<img alt="" width="100" height="100" src="<?php echo esc_url( $premium_extension['image'] ); ?>"/>
@@ -236,7 +236,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 							esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
 							esc_html( $premium_extension['title'] )
 						);
-						// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 						echo $new_tab_message;
 						?>
 					</a>
@@ -247,10 +247,10 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						printf(
 							/* translators: %s expands to the extension title */
 							esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
-							// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 							esc_html( $premium_extension['title'] )
 						);
-						// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 						echo $new_tab_message;
 						?>
 					</a>
@@ -265,7 +265,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 						esc_html__( 'Buy %s', 'wordpress-seo' ),
 						esc_html( $premium_extension['title'] )
 					);
-					// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 					?>
@@ -274,7 +274,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 				<a target="_blank"  href="<?php echo esc_url( $premium_extension['infoUrl'] ); ?>" class="yoast-link--more-info">
 					<?php
 					esc_html_e( 'Explore now', 'wordpress-seo' );
-					// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					?>
 				</a>
@@ -311,7 +311,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 				?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
 					<?php if ( ! $addon_manager->has_valid_subscription( $slug ) || ! $addon_manager->is_installed( $slug ) ) : ?>
-						<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Output already escaped ?>
+						<?php echo $sale_badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Output already escaped ?>
 					<?php endif; ?>
 					<h3>
 						<img alt="" width="100" height="100" src="<?php echo esc_url( $extension['image'] ); ?>"/>
@@ -337,10 +337,10 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 									printf(
 										/* translators: %s expands to the extension title */
 										esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
-										// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 										$extension['title']
 									);
-									// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 									echo $new_tab_message;
 									?>
 								</a>
@@ -351,10 +351,10 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 									printf(
 										/* translators: %s expands to the extension title */
 										esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
-										// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 										$extension['title']
 									);
-									// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 									echo $new_tab_message;
 									?>
 								</a>
@@ -365,10 +365,10 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 								printf(
 									/* translators: %s expands to the product name, e.g. "News SEO" or "all the Yoast Plugins" */
 									esc_html__( 'Buy %s', 'wordpress-seo' ),
-									// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: The possible `get_buy_button` values are hardcoded (buy_button or title); only passed through the WPSEO_Extensions class.
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The possible `get_buy_button` values are hardcoded (buy_button or title); only passed through the WPSEO_Extensions class.
 									( isset( $extension['buy_button'] ) ) ? $extension['buy_button'] : $extension['title']
 								);
-								// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 								echo $new_tab_message;
 								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 								?>
@@ -381,7 +381,7 @@ if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-202
 							<a target="_blank" class="yoast-link--more-info" href="<?php echo esc_url( $extension['infoUrl'] ); ?>">
 								<?php
 								esc_html_e( 'Explore now', 'wordpress-seo' );
-								// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $new_tab_message is properly escaped.
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 								echo $new_tab_message;
 								?>
 							</a>

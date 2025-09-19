@@ -436,7 +436,7 @@ if ( ! class_exists( 'ACF_Field_Group' ) ) {
 				return $return;
 			}
 
-			$code = var_export( $post, true ); // phpcs:ignore WordPress.PHP.***REMOVED*** -- Used for PHP export.
+			$code = var_export( $post, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions -- Used for PHP export.
 			if ( ! $code ) {
 				return $return;
 			}

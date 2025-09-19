@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
@@ -197,12 +197,12 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 
 		foreach ( $needed_robots_data as $robot_setting ) {
 			// Validate against global settings.
-			if ( ! isset( $aioseo_global_settings['***REMOVED***']['advanced']['***REMOVED***'][ $robot_setting ] ) ) {
+			if ( ! isset( $aioseo_global_settings['searchAppearance']['advanced']['globalRobotsMeta'][ $robot_setting ] ) ) {
 				return false;
 			}
 
 			// Validate against posttype settings.
-			if ( ! isset( $aioseo_posts_settings['***REMOVED***'][ $post_robot_mapping['type'] ][ $post_robot_mapping['subtype'] ]['advanced']['robotsMeta'][ $robot_setting ] ) ) {
+			if ( ! isset( $aioseo_posts_settings['searchAppearance'][ $post_robot_mapping['type'] ][ $post_robot_mapping['subtype'] ]['advanced']['robotsMeta'][ $robot_setting ] ) ) {
 				return false;
 			}
 		}
@@ -224,7 +224,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 			if ( ! empty( $robot_setting_map ) ) {
 				$aioseo_settings = \json_decode( \get_option( $robot_setting_map['option_name'], '' ), true );
 
-				if ( ! isset( $aioseo_settings['***REMOVED***'][ $robot_setting_map['type'] ][ $robot_setting_map['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
+				if ( ! isset( $aioseo_settings['searchAppearance'][ $robot_setting_map['type'] ][ $robot_setting_map['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
 					return false;
 				}
 			}

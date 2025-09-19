@@ -135,17 +135,17 @@ HTML;
 		    + '		</div>'
 		    + '		<div class="fs-modal-footer">'
 			+ '         <?php echo $anonymous_feedback_checkbox_html ?>'
-			+ '         <label style="display: none" class="feedback-from-snooze-label"><input type="checkbox" class="feedback-from-snooze-checkbox"> <span><?php fs_esc_js_echo_inline( 'Snooze this panel during ***REMOVED***', 'snooze-panel-during-***REMOVED***', $slug ) ?></span><span style="display: none"><?php fs_esc_js_echo_inline( 'Snooze this panel for', 'snooze-panel-for', $slug ) ?> <?php echo $snooze_select_html ?></span></label>'
+			+ '         <label style="display: none" class="feedback-from-snooze-label"><input type="checkbox" class="feedback-from-snooze-checkbox"> <span><?php fs_esc_js_echo_inline( 'Snooze this panel during troubleshooting', 'snooze-panel-during-troubleshooting', $slug ) ?></span><span style="display: none"><?php fs_esc_js_echo_inline( 'Snooze this panel for', 'snooze-panel-for', $slug ) ?> <?php echo $snooze_select_html ?></span></label>'
 		    + '			<a href="#" class="button button-secondary button-deactivate"></a>'
 		    + '			<a href="#" class="button button-secondary button-close"><?php fs_esc_js_echo_inline( 'Cancel', 'cancel', $slug ) ?></a>'
 		    + '		</div>'
 		    + '	</div>'
 		    + '</div>',
 	    $modal                         = $(modalHtml),
-	    ***REMOVED***               = false,
+	    selectedReasonID               = false,
 	    redirectLink                   = '',
-		$***REMOVED***             = $modal.find( '.anonymous-feedback-label' ),
-		$***REMOVED***                = $modal.find( '.feedback-from-snooze-label' ),
+		$anonymousFeedback             = $modal.find( '.anonymous-feedback-label' ),
+		$feedbackSnooze                = $modal.find( '.feedback-from-snooze-label' ),
 		isAnonymous                    = <?php echo ( $is_anonymous ? 'true' : 'false' ); ?>,
 		otherReasonID                  = <?php echo Freemius::REASON_OTHER; ?>,
 		dontShareDataReasonID          = <?php echo Freemius::REASON_DONT_LIKE_TO_SHARE_MY_INFORMATION; ?>,
@@ -157,10 +157,10 @@ HTML;
 	$modal.appendTo( $body );
 
 	if ( 0 !== $subscriptionCancellationModal.length ) {
-        $subscriptionCancellationModal.on( '<?php echo $fs->get_action_tag( 'subscription_cancellation_action' ) ?>', function( evt, ***REMOVED*** ) {
+        $subscriptionCancellationModal.on( '<?php echo $fs->get_action_tag( 'subscription_cancellation_action' ) ?>', function( evt, cancelSubscription ) {
             var shouldDeactivateModule = ( $modal.hasClass( 'no-confirmation-message' ) && ! showDeactivationFeedbackForm );
 
-            if ( false === ***REMOVED*** ) {
+            if ( false === cancelSubscription ) {
                 if ( ! shouldDeactivateModule ) {
                     showModal();
                 }
@@ -168,7 +168,7 @@ HTML;
                 $subscriptionCancellationModal.trigger( 'closeModal' );
 
                 if ( shouldDeactivateModule ) {
-                    ***REMOVED***();
+                    deactivateModule();
                 }
             } else {
                 var $errorMessage = $subscriptionCancellationModal.find( '.notice-error' );
@@ -205,7 +205,7 @@ HTML;
                             if ( ! shouldDeactivateModule ) {
                                 showModal();
                             } else {
-                                ***REMOVED***();
+                                deactivateModule();
                             }
                         } else {
                             $errorMessage.find( '> p' ).html( result.error );
@@ -231,7 +231,7 @@ HTML;
 		        return true;
             }
 
-			evt.***REMOVED***();
+			evt.preventDefault();
 
             redirectLink = $(this).attr('href');
 
@@ -257,7 +257,7 @@ HTML;
 		 */
 		?>
 		$('body').on('click', '.theme-browser .theme:not([data-slug=<?php echo $fs->get_premium_slug() ?>]) .theme-actions .button.activate', function (evt) {
-			evt.***REMOVED***();
+			evt.preventDefault();
 
 			redirectLink = $(this).attr('href');
 
@@ -265,7 +265,7 @@ HTML;
                 $subscriptionCancellationModal.trigger( 'showModal' );
             } else {
                 if ( $modal.hasClass( 'no-confirmation-message' ) && ! showDeactivationFeedbackForm ) {
-                    ***REMOVED***();
+                    deactivateModule();
                 } else {
                     showModal();
                 }
@@ -274,7 +274,7 @@ HTML;
 		<?php
 		} ?>
 
-		$modal.on('input ***REMOVED***', '.reason-input input', function () {
+		$modal.on('input propertychange', '.reason-input input', function () {
 			var reason = $(this).val().trim();
 
 			/**
@@ -310,7 +310,7 @@ HTML;
 		});
 
 		$modal.on('click', '.fs-modal-footer .button', function (evt) {
-			evt.***REMOVED***();
+			evt.preventDefault();
 
 			if ($(this).hasClass('disabled')) {
 				return;
@@ -322,26 +322,26 @@ HTML;
 			if (_this.hasClass('allow-deactivate')) {
 				var
                     $radio           = $modal.find('input[type="radio"]:checked'),
-                    ***REMOVED*** = (0 < $radio.length),
+                    isReasonSelected = (0 < $radio.length),
                     userReason       = '';
 
-				if ( ***REMOVED*** ) {
-                    var $***REMOVED*** = $radio.parents('li:first'),
-                        $reasonInput = $***REMOVED***.find('textarea, input[type="text"]');
+				if ( isReasonSelected ) {
+                    var $selectedReason = $radio.parents('li:first'),
+                        $reasonInput = $selectedReason.find('textarea, input[type="text"]');
 
                     if ( 0 < $reasonInput.length ) {
                         userReason = $reasonInput.val().trim();
                     }
                 }
 
-                if ( otherReasonID == ***REMOVED*** && '' === userReason ) {
+                if ( otherReasonID == selectedReasonID && '' === userReason ) {
                     // If the 'Other' is selected and a reason is not provided (aka it's empty), treat it as if a reason wasn't selected at all.
-                    ***REMOVED*** = false;
+                    isReasonSelected = false;
                 }
 
                 _parent.find( '.fs-modal-footer .button' ).addClass( 'disabled' );
 
-                if ( ! ***REMOVED*** ) {
+                if ( ! isReasonSelected ) {
 				    if ( ! deleteThemeUpdateData ) {
                         // If no selected reason, just deactivate the plugin.
                         window.location.href = redirectLink;
@@ -367,10 +367,10 @@ HTML;
 				}
 
                 var snoozePeriod = 0,
-                    shouldSnooze = $***REMOVED***.find( '.feedback-from-snooze-checkbox' ).is( ':checked' );
+                    shouldSnooze = $feedbackSnooze.find( '.feedback-from-snooze-checkbox' ).is( ':checked' );
 
-                if ( shouldSnooze && <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> == ***REMOVED*** ) {
-                    snoozePeriod = parseInt($***REMOVED***.find('select').val(), 10);
+                if ( shouldSnooze && <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> == selectedReasonID ) {
+                    snoozePeriod = parseInt($feedbackSnooze.find('select').val(), 10);
                 }
 
 				$.ajax({
@@ -382,7 +382,7 @@ HTML;
 						module_id    : '<?php echo $fs->get_id() ?>',
 						reason_id    : $radio.val(),
 						reason_info  : userReason,
-						is_anonymous : ***REMOVED***(),
+						is_anonymous : isAnonymousFeedback(),
                         snooze_period: snoozePeriod
 					},
 					beforeSend: function () {
@@ -400,25 +400,25 @@ HTML;
 				if ( showDeactivationFeedbackForm ) {
                     showPanel('reasons');
                 } else {
-				    ***REMOVED***();
+				    deactivateModule();
                 }
 			}
 		});
 
 		$modal.on('click', 'input[type="radio"]', function () {
-			var $***REMOVED*** = $( this );
+			var $selectedReasonOption = $( this );
 
 			// If the selection has not changed, do not proceed.
-			if (***REMOVED*** === $***REMOVED***.val())
+			if (selectedReasonID === $selectedReasonOption.val())
 				return;
 
-			***REMOVED*** = $***REMOVED***.val();
+			selectedReasonID = $selectedReasonOption.val();
 
 			if ( isAnonymous ) {
-				if ( ***REMOVED***( dontShareDataReasonID ) ) {
-					$***REMOVED***.hide();
+				if ( isReasonSelected( dontShareDataReasonID ) ) {
+					$anonymousFeedback.hide();
 				} else {
-					$***REMOVED***.show();
+					$anonymousFeedback.show();
 				}
 			}
 
@@ -438,11 +438,11 @@ HTML;
                 toggleDeactivationButtonPrimary( false );
 
 				var inputType = _parent.data('input-type'),
-				    ***REMOVED*** = _parent.data('input-placeholder'),
-				    ***REMOVED*** = '<div class="reason-input"><span class="message"></span>' + ( ( 'textfield' === inputType ) ? '<input type="text" maxlength="128" />' : '<textarea rows="5" maxlength="128"></textarea>' ) + '</div>';
+				    inputPlaceholder = _parent.data('input-placeholder'),
+				    reasonInputHtml = '<div class="reason-input"><span class="message"></span>' + ( ( 'textfield' === inputType ) ? '<input type="text" maxlength="128" />' : '<textarea rows="5" maxlength="128"></textarea>' ) + '</div>';
 
-				_parent.append($(***REMOVED***));
-				_parent.find('input, textarea').attr('placeholder', ***REMOVED***).focus();
+				_parent.append($(reasonInputHtml));
+				_parent.find('input, textarea').attr('placeholder', inputPlaceholder).focus();
 
 				if (isOtherReasonSelected()) {
 					showMessage('<?php echo esc_js( fs_text_inline( 'Kindly tell us the reason so we can improve.', 'ask-for-reason-message' , $slug ) ); ?>');
@@ -450,10 +450,10 @@ HTML;
                 }
 			}
 
-            $***REMOVED***.toggle( <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> != ***REMOVED*** );
-            $***REMOVED***.toggle( <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> == ***REMOVED*** );
+            $anonymousFeedback.toggle( <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> != selectedReasonID );
+            $feedbackSnooze.toggle( <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> == selectedReasonID );
 
-            if ( <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> == ***REMOVED*** ) {
+            if ( <?php echo Freemius::REASON_TEMPORARY_DEACTIVATION ?> == selectedReasonID ) {
                 updateDeactivationButtonOnTrouble();
             }
 		});
@@ -489,8 +489,8 @@ HTML;
             }
         };
 
-        $***REMOVED***.on( 'click', 'input', function () {
-            var $spans = $***REMOVED***.find( 'span' );
+        $feedbackSnooze.on( 'click', 'input', function () {
+            var $spans = $feedbackSnooze.find( 'span' );
 
             snooze = ( ! snooze );
 
@@ -523,23 +523,23 @@ HTML;
 		});
 	}
 
-	function ***REMOVED***() {
+	function isAnonymousFeedback() {
 		if ( ! isAnonymous ) {
 			return false;
 		}
 
-		return ( ***REMOVED***( dontShareDataReasonID ) || $***REMOVED***.find( 'input' ).prop( 'checked' ) );
+		return ( isReasonSelected( dontShareDataReasonID ) || $anonymousFeedback.find( 'input' ).prop( 'checked' ) );
 	}
 
-	function ***REMOVED***( reasonID ) {
+	function isReasonSelected( reasonID ) {
 		// Get the selected radio input element.
-		var $***REMOVED*** = $modal.find('input[type="radio"]:checked');
+		var $selectedReasonOption = $modal.find('input[type="radio"]:checked');
 
-		return ( reasonID == $***REMOVED***.val() );
+		return ( reasonID == $selectedReasonOption.val() );
 	}
 
 	function isOtherReasonSelected() {
-		return ***REMOVED***( otherReasonID );
+		return isReasonSelected( otherReasonID );
 	}
 
 	function showModal() {
@@ -558,7 +558,7 @@ HTML;
 	}
 
 	function resetModal() {
-		***REMOVED*** = false;
+		selectedReasonID = false;
 
 		// Uncheck all radio buttons.
 		$modal.find('input[type="radio"]').prop('checked', false);
@@ -569,24 +569,24 @@ HTML;
 		$modal.find('.message').hide();
 
         if ( isAnonymous ) {
-			$***REMOVED***.find( 'input' ).prop( 'checked', <?php echo $fs->apply_filters( 'default_to_anonymous_feedback', false ) ? 'true' : 'false' ?> );
+			$anonymousFeedback.find( 'input' ).prop( 'checked', <?php echo $fs->apply_filters( 'default_to_anonymous_feedback', false ) ? 'true' : 'false' ?> );
 
 			// Hide, since by default there is no selected reason.
-			$***REMOVED***.hide();
+			$anonymousFeedback.hide();
 		}
 
-		var $***REMOVED*** = $modal.find('.button-deactivate');
+		var $deactivateButton = $modal.find('.button-deactivate');
 
 		/*
 		 * If the modal dialog has no confirmation message, that is, it has only one panel, then ensure
 		 * that clicking the deactivate button will actually deactivate the plugin.
 		 */
 		if ( $modal.hasClass( 'no-confirmation-message' ) ) {
-            $***REMOVED***.addClass( 'allow-deactivate' );
+            $deactivateButton.addClass( 'allow-deactivate' );
 
             showPanel( 'reasons' );
 		} else {
-			$***REMOVED***.removeClass( 'allow-deactivate' );
+			$deactivateButton.removeClass( 'allow-deactivate' );
 
 			showPanel( 'confirm' );
 		}
@@ -608,17 +608,17 @@ HTML;
 
         var
             $userReason       = $modal.find('.reason-input input'),
-            $***REMOVED*** = $modal.find('.button-deactivate');
+            $deactivateButton = $modal.find('.button-deactivate');
 
 	    if (0 === $userReason.val().trim().length) {
 	        // If the reason is empty, just change the text to 'Deactivate' (plugin) or 'Activate themeX' (theme).
-            $***REMOVED***.html('<?php echo
+            $deactivateButton.html('<?php echo
                 $fs->is_plugin() ?
                     $deactivate_text :
                     sprintf( $activate_x_text, $theme_text )
             ?>');
         } else {
-            $***REMOVED***.html('<?php echo esc_js( $submit_deactivate_text ) ?>');
+            $deactivateButton.html('<?php echo esc_js( $submit_deactivate_text ) ?>');
         }
     }
 
@@ -626,22 +626,22 @@ HTML;
         $modal.find( '.fs-modal-panel' ).removeClass( 'active' );
 		$modal.find( '[data-panel-id="' + panelType + '"]' ).addClass( 'active' );
 
-		***REMOVED***();
+		updateButtonLabels();
 	}
 
-	function ***REMOVED***() {
-        var $***REMOVED*** = $modal.find( '.button-deactivate' );
+	function updateButtonLabels() {
+        var $deactivateButton = $modal.find( '.button-deactivate' );
 
         // Reset the deactivate button's text.
-        if ( 'confirm' === ***REMOVED***() ) {
-            $***REMOVED***.text( <?php echo json_encode( sprintf(
+        if ( 'confirm' === getCurrentPanel() ) {
+            $deactivateButton.text( <?php echo json_encode( sprintf(
                 fs_text_inline( 'Yes - %s', 'deactivation-modal-button-confirm', $slug ),
                 $fs->is_plugin() ?
                     $deactivate_text :
                     sprintf( $activate_x_text, $theme_text )
             ) ) ?> );
 		} else {
-            $***REMOVED***.html( <?php echo json_encode( sprintf(
+            $deactivateButton.html( <?php echo json_encode( sprintf(
 				fs_text_inline('Skip & %s', 'skip-and-x', $slug ),
 				$fs->is_plugin() ?
 					$deactivate_text :
@@ -650,7 +650,7 @@ HTML;
 		}
 	}
 
-	function ***REMOVED***() {
+	function getCurrentPanel() {
 		return $modal.find('.fs-modal-panel.active').attr('data-panel-id');
 	}
 
@@ -659,7 +659,7 @@ HTML;
      *
      * @since 2.3.0
      */
-	function ***REMOVED***() {
+	function deactivateModule() {
 	    window.location.href = redirectLink;
     }
 })(jQuery);

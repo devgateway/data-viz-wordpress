@@ -24,7 +24,7 @@
 	(function ($) {
 		// Select the premium theme version.
 		var $theme             = $('#<?php echo $slug ?>-premium-name').parents('.theme'),
-		    ***REMOVED*** = function (firstCall) {
+		    addPremiumMetadata = function (firstCall) {
 			    if (!firstCall) {
 				    // Seems like the original theme element is removed from the DOM,
 				    // so we need to reselect the updated one.
@@ -34,20 +34,20 @@
 			    if (0 === $theme.find('.fs-premium-theme-badge-container').length) {
 				    $theme.addClass('fs-premium');
 
-				    var $***REMOVED*** = $( '<div class="fs-premium-theme-badge-container"></div>' );
+				    var $themeBadgeContainer = $( '<div class="fs-premium-theme-badge-container"></div>' );
 
-				    $***REMOVED***.append( '<div class="fs-badge fs-premium-theme-badge">' + <?php echo json_encode( $fs->get_text_inline( 'Premium', 'premium' ) ) ?> + '</div>' );
+				    $themeBadgeContainer.append( '<div class="fs-badge fs-premium-theme-badge">' + <?php echo json_encode( $fs->get_text_inline( 'Premium', 'premium' ) ) ?> + '</div>' );
 
 				    <?php if ( $fs->is_beta() ) : ?>
-                    $***REMOVED***.append( '<div class="fs-badge fs-beta-theme-badge">' + <?php echo json_encode( $fs->get_text_inline( 'Beta', 'beta' ) ) ?> + '</div>' );
+                    $themeBadgeContainer.append( '<div class="fs-badge fs-beta-theme-badge">' + <?php echo json_encode( $fs->get_text_inline( 'Beta', 'beta' ) ) ?> + '</div>' );
                     <?php endif ?>
 
-				    $theme.append( $***REMOVED*** );
+				    $theme.append( $themeBadgeContainer );
 			    }
 		    };
 
-		***REMOVED***(true);
+		addPremiumMetadata(true);
 
-		$theme.contentChange(***REMOVED***);
+		$theme.contentChange(addPremiumMetadata);
 	})(jQuery);
 </script>

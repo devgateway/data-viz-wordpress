@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Chart} from '../icons/index.js'
 
-***REMOVED***(process.env.BLOCKS_NS + '/chart',
+registerBlockType(process.env.BLOCKS_NS + '/chart',
     {
         title: __('Data Chart'),
         icon: Chart,
@@ -75,15 +75,15 @@ import {Chart} from '../icons/index.js'
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            toggleInfoLabel: {
                 type: 'String',
                 default: "Info Graphic"
             },
-            ***REMOVED***: {
+            toggleChartLabel: {
                 type: 'String',
                 default: "Chart"
             },
-            ***REMOVED***: {
+            dataSourceLabel: {
                 type: 'String',
                 default: "Source"
             },
@@ -92,7 +92,7 @@ import {Chart} from '../icons/index.js'
                 default: "NIDS"
             },
 
-            ***REMOVED***: {
+            legendPosition: {
                 type: 'String',
                 default: "top"
             },
@@ -116,7 +116,7 @@ import {Chart} from '../icons/index.js'
                 type: 'boolean',
                 default: true
             },
-            ***REMOVED***: {
+            showLegendsInColumns: {
                 type: 'boolean',
                 default: false
             },
@@ -137,7 +137,7 @@ import {Chart} from '../icons/index.js'
                 type: Object,
                 default: {}
             },
-            ***REMOVED***: {
+            dvzProxyDatasetId: {
                 type: 'String',
                 default: ""
             },
@@ -150,7 +150,7 @@ import {Chart} from '../icons/index.js'
                     "currency": "USD"
                 }
             },
-            ***REMOVED***: {
+            groupTotalFormat: {
                 type: Object,
                 default: {
                     "style": "percent",
@@ -164,7 +164,7 @@ import {Chart} from '../icons/index.js'
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            groupTotalOffset: {
                 type: 'Numeric',
                 default: 0
             },
@@ -178,23 +178,23 @@ import {Chart} from '../icons/index.js'
             },
             tickColor: {
                 type: "String",
-                default: ***REMOVED***("#FFFFFF")
+                default: encodeURIComponent("#FFFFFF")
             },
-            ***REMOVED***: {
+            yAxisTickValues: {
                 type: 'Numeric',
                 default: 10
             },
-            ***REMOVED***: {
+            xAxisTickValues: {
                 type: 'Numeric',
                 default: 10
             },
             xLabelColor: {
                 type: "String",
-                default: ***REMOVED***("#000000")
+                default: encodeURIComponent("#000000")
             },
             barLabelColor: {
                 type: "String",
-                default: ***REMOVED***("#000000")
+                default: encodeURIComponent("#000000")
             },
             keys: {
                 type: "Array",
@@ -215,7 +215,7 @@ import {Chart} from '../icons/index.js'
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
                         },
-                        ***REMOVED***: false
+                        useCustomAxisFormat: false
                     },
                 }
             },
@@ -253,20 +253,20 @@ import {Chart} from '../icons/index.js'
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            useLabelBackground: {
                 type: "Boolean",
                 default: false
             },
 
-            ***REMOVED***: {
+            showGroupTotal: {
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            groupTotalMeasure: {
                 type: "String",
                 default: "",
             },
-            ***REMOVED***: {
+            groupTotalLabel: {
                 type: "String",
                 default: "",
             },
@@ -283,9 +283,9 @@ import {Chart} from '../icons/index.js'
                 type: "Numeric",
                 default: 0
             },
-            ***REMOVED***: {
+            legendLabelColor: {
                 type: "String",
-                default: ***REMOVED***("#000000")
+                default: encodeURIComponent("#000000")
             },
 
             overlays: {
@@ -293,15 +293,15 @@ import {Chart} from '../icons/index.js'
                 default: []
             },
 
-            ***REMOVED***: {
+            csvLineLayerData: {
                 type: "String",
                 default: ""
             },
             csvLineColor: {
                 type: "String",
-                default: ***REMOVED***("#000000")
+                default: encodeURIComponent("#000000")
             },
-            ***REMOVED***: {
+            csvLineTooltip: {
                 type: "String",
                 default: "{x} - #({y},2)"
             },
@@ -309,7 +309,7 @@ import {Chart} from '../icons/index.js'
                 type: "String",
                 default: "Overlay"
             },
-            ***REMOVED***: {
+            lineLayerEnabled: {
                 type: "Boolean",
                 default: false
             },
@@ -340,17 +340,17 @@ import {Chart} from '../icons/index.js'
             types: {
                 type: "Array",
                 default: [
-                    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, ***REMOVED***: false}},
-                    {label: 'Pie', value: 'pie', supports: {singleMeasure: false, ***REMOVED***: false}},
-                    {label: 'Line', value: 'line', supports: {singleMeasure: false, ***REMOVED***: true}},
-                    {label: 'Radar', value: 'radar', supports: {singleMeasure: true, ***REMOVED***: true}}
+                    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, singleDimension: false}},
+                    {label: 'Pie', value: 'pie', supports: {singleMeasure: false, singleDimension: false}},
+                    {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
+                    {label: 'Radar', value: 'radar', supports: {singleMeasure: true, singleDimension: true}}
                 ]
             },
             barColor: {
                 type: "String",
-                default: ***REMOVED***("#000000")
+                default: encodeURIComponent("#000000")
             },
-            ***REMOVED***: {
+            overrideTickColor: {
                 type: 'Boolean',
                 default: false
             },
@@ -363,11 +363,11 @@ import {Chart} from '../icons/index.js'
                 type: 'Numeric',
                 default: 0.15
             },
-            ***REMOVED***: {
+            barLabelPosition: {
                 type: "String",
                 default: "middle"
             },
-            ***REMOVED***: {
+            lineLabelPosition: {
                 type: "String",
                 default: "none"
             },
@@ -375,7 +375,7 @@ import {Chart} from '../icons/index.js'
                 type: 'Boolean',
                 default: true
             },
-            ***REMOVED***: {
+            includeOverall: {
                 type: 'Boolean',
                 default: false
             },
@@ -383,15 +383,15 @@ import {Chart} from '../icons/index.js'
                 type: "String",
                 default: "Overall"
             },
-            ***REMOVED***: {
+            tooltipEnabled: {
                 type: "Boolean",
                 default: true
             },
-            ***REMOVED***: {
+            barInnerPadding: {
                 type: 'Numeric',
                 default: 0.7
             },
-            ***REMOVED***: {
+            highlightXAxisLine: {
                 type: "Boolean",
                 default: false
             },
@@ -424,15 +424,15 @@ import {Chart} from '../icons/index.js'
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            areaShadingCriteria: {
                 type: 'string',
                 default: "DEFAULT"
             },
-            ***REMOVED***: {
+            areaLowerBound: {
                 type: 'string',
                 default: ""
             },
-            ***REMOVED***: {
+            areaUpperBound: {
                 type: 'string',
                 default: ""
             },
@@ -440,7 +440,7 @@ import {Chart} from '../icons/index.js'
                 type: "Boolean",
                 default: true
             },
-            ***REMOVED***: {
+            confidenceIntervals: {
                 type: "Array",
                 default: []
             },
@@ -452,7 +452,7 @@ import {Chart} from '../icons/index.js'
                 type: 'String',
                 default: 'normal'
             },
-            ***REMOVED***: {
+            centerLabelFontSize: {
                 type: 'Numeric',
                 default: 12
             },
@@ -460,7 +460,7 @@ import {Chart} from '../icons/index.js'
                 type: "Boolean",
                 default: true
             },
-            ***REMOVED***: {
+            showArcLinkLabels: {
                 type: "Boolean",
                 default: false
             },
@@ -468,11 +468,11 @@ import {Chart} from '../icons/index.js'
                 type: "Numeric",
                 default: 1
             },
-            ***REMOVED***: {
+            centerLabelXOffset: {
                 type: "Numeric",
                 default: 0
             },
-            ***REMOVED***: {
+            centerLabelYOffset: {
                 type: "Numeric",
                 default: 0
             },
@@ -496,10 +496,10 @@ import {Chart} from '../icons/index.js'
                 type: 'Boolean',
                 default: false
             },
-            ***REMOVED***: {
+            mobileCustomization: {
                 type: 'Object',
                 default: {
-                    ***REMOVED***: false,
+                    showCustomization: false,
                     labels: {
                         xAxis: {},
                         yAxis: {}
@@ -507,34 +507,34 @@ import {Chart} from '../icons/index.js'
                     xAxisDisabled: false,
                     mobileXAxisTextRotation: 0,
                     tabletXAxisTextRotation: 0,
-                    ***REMOVED***: 10,
+                    xAxisTickValues: 10,
                     xAxisIntervalUserModified: false,
-                    ***REMOVED***: 10,
+                    yAxisTickValues: 10,
                     yAxisIntervalUserModified: false,
-                    ***REMOVED***: false,
+                    chartLayoutOverride: false,
                     marginLeft: 50,
                     marginTop: 25,
                     marginBottom: 25,
                     marginRight: 25,
-                    ***REMOVED***: true,
-                    ***REMOVED***: true,
-                    ***REMOVED***: true,
+                    showXAxisTitle: true,
+                    showYAxisTitle: true,
+                    showRightAxisTitle: true,
                     barPadding: 0.15,
-                    ***REMOVED***: 0.7,
+                    barInnerPadding: 0.7,
                     mobileYAxisLineHeight: 12,
-                    ***REMOVED***: 25,
+                    mobileMaxTickLength: 25,
                     tabletYAxisLineHeight: 12,
-                    ***REMOVED***: 25,
+                    tabletMaxTickLength: 25,
                     mobileXAxisTextRotationModified: false,
                     tabletXAxisTextRotationModified: false,
-                    ***REMOVED***: 25,
-                    ***REMOVED***: 25,
-                    ***REMOVED***: 25,
-                    ***REMOVED***: 25,
-                    ***REMOVED***: 25,
-                    ***REMOVED***: 25,
-                    ***REMOVED***: 25,
-                    ***REMOVED***: 25
+                    mobileMarginBottom: 25,
+                    mobileMarginLeft: 25,
+                    mobileMarginRight: 25,
+                    mobileMarginTop: 25,
+                    tabletMarginBottom: 25,
+                    tabletMarginLeft: 25,
+                    tabletMarginRight: 25,
+                    tabletMarginTop: 25
                 }
             },
             reverseLegend: {
@@ -545,7 +545,7 @@ import {Chart} from '../icons/index.js'
                 type: 'string',
                 default: '',
             },
-            ***REMOVED***: {
+            sortSecondDimension: {
                 type: 'string',
                 default: 'none',
             },
@@ -561,27 +561,27 @@ import {Chart} from '../icons/index.js'
                 type: 'string',
                 default: 'linearClosed'
             },
-            ***REMOVED***: {
+            radarFillOpacity: {
                 type: 'Numeric',
                 default: 0.25
             },
-            ***REMOVED***: {
+            radarBorderWidth: {
                 type: 'Numeric',
                 default: 1
             },
-            ***REMOVED***: {
+            radarGridLevels: {
                 type: 'Numeric',
                 default: 7
             },
-            ***REMOVED***: {
+            radarGridShape: {
                 type: 'string',
                 default: 'circular'
             },
-            ***REMOVED***: {
+            radarGridLabelOffset: {
                 type: 'Numeric',
                 default: 36
             },
-            ***REMOVED***: {
+            radarEnableDots: {
                 type: 'Boolean',
                 default: true
             },
@@ -589,16 +589,16 @@ import {Chart} from '../icons/index.js'
                 type: 'Numeric',
                 default: 6
             },
-            ***REMOVED***: {
+            radarEnableDotLabel: {
                 type: 'Boolean',
                 default: false
 
             },
-            ***REMOVED***: {
+            radarDotLabelOffset: {
                 type: 'Numeric',
                 default: -12
             },
-            ***REMOVED***: {
+            showPercentage: {
                 type: 'Boolean',
                 default: false
             },
@@ -606,7 +606,7 @@ import {Chart} from '../icons/index.js'
                 type: "string",
                 default: "Desktop"
             },
-            ***REMOVED***: {
+            waitForFilters: {
                 type: "Boolean",
                 default: false
             },

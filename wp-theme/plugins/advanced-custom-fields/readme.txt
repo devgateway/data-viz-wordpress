@@ -1,5 +1,5 @@
 === Advanced Custom Fields ===
-Contributors: ***REMOVED***, bradt, elliotcondon
+Contributors: deliciousbrains, bradt, elliotcondon
 Tags: acf, fields, custom fields, meta, repeater
 Requires at least: 4.7
 Tested up to: 5.8
@@ -28,13 +28,13 @@ Use the Advanced Custom Fields plugin to take full control of your WordPress edi
 * Millions of Users
 
 = Links =
-* [Website](https://www.***REMOVED***.com)
-* [Documentation](https://www.***REMOVED***.com/resources/)
-* [Support](https://support.***REMOVED***.com)
-* [ACF PRO](https://www.***REMOVED***.com/pro/)
+* [Website](https://www.advancedcustomfields.com)
+* [Documentation](https://www.advancedcustomfields.com/resources/)
+* [Support](https://support.advancedcustomfields.com)
+* [ACF PRO](https://www.advancedcustomfields.com/pro/)
 
 = PRO =
-The Advanced Custom Fields plugin is also available in a professional version which includes more fields, more functionality, and more flexibility! [Learn more](https://www.***REMOVED***.com/pro/)
+The Advanced Custom Fields plugin is also available in a professional version which includes more fields, more functionality, and more flexibility! [Learn more](https://www.advancedcustomfields.com/pro/)
 
 
 == Installation ==
@@ -45,14 +45,14 @@ From your WordPress dashboard
 2. **Search** for "Advanced Custom Fields"
 3. **Activate** Advanced Custom Fields from your Plugins page
 4. **Click** on the new menu item "Custom Fields" and create your first Custom Field Group!
-5. **Read** the documentation to [get started](https://www.***REMOVED***.com/resources/getting-started-with-acf/)
+5. **Read** the documentation to [get started](https://www.advancedcustomfields.com/resources/getting-started-with-acf/)
 
 
 == Frequently Asked Questions ==
 
 = What kind of support do you provide? =
 
-**Support Forums.** Our Community Forums provide a great resource for searching and finding previously answered and asked support questions. You may create a new thread on these forums, however, it is not guaranteed that you will receive an answer from our support team. This is more of an area for developers to talk to one another, post ideas, plugins and provide basic help. [View the Support Forum](https://support.***REMOVED***.com/)
+**Support Forums.** Our Community Forums provide a great resource for searching and finding previously answered and asked support questions. You may create a new thread on these forums, however, it is not guaranteed that you will receive an answer from our support team. This is more of an area for developers to talk to one another, post ideas, plugins and provide basic help. [View the Support Forum](https://support.advancedcustomfields.com/)
 
 
 == Screenshots ==
@@ -103,7 +103,7 @@ From your WordPress dashboard
 * Fix - Fixed missing "dashicons" asset dependency from front-end forms.
 * Fix - Fixed bug causing Review JSON diff modal to appear with narrow column since WP 5.7.
 * Dev - Added label elements to Repeater, Flexible Content and Clone field's table header titles.
-* Dev - Added new `ACF_EXPERIMENTAL_ESC_HTML` constant. [Read more](https://github.com/***REMOVED***/acf/issues/500)
+* Dev - Added new `ACF_EXPERIMENTAL_ESC_HTML` constant. [Read more](https://github.com/AdvancedCustomFields/acf/issues/500)
 
 = 5.9.5 =
 *Release Date - 11 February 2021*
@@ -164,7 +164,7 @@ From your WordPress dashboard
     * Added toolbar across all ACF admin pages.
     * Added new table columns: Description, Key, Location, Local JSON.
     * Added popup modal to review Local JSON changes before sync.
-    * Added visual ***REMOVED*** of where Field Groups will appear.
+    * Added visual representation of where Field Groups will appear.
     * Added new help tab.
     * Simplified layout.
 * Enhancement - New ACF Blocks features.
@@ -330,7 +330,7 @@ From your WordPress dashboard
 
 * Fix - Fixed bug where validation did not prevent new user registration.
 * Fix - Fixed bug causing some "reordered" metaboxes to not appear in the Gutenberg editor.
-* Fix - Fixed bug causing WYSIWYG field with delayed ***REMOVED*** to appear blank.
+* Fix - Fixed bug causing WYSIWYG field with delayed initialization to appear blank.
 * Fix - Fixed bug when editing a post and adding a new tag did not refresh metaboxes.
 * Dev - Added missing `$value` parameter in "acf/pre_format_value" filter.
 
@@ -463,6 +463,6 @@ From your WordPress dashboard
 * Dev - Reordered various actions and filters for more usefulness.
 * i18n - Updated Polish language thanks to Dariusz Zielonka
 
-[View the full changelog](https://www.***REMOVED***.com/changelog/)
+[View the full changelog](https://www.advancedcustomfields.com/changelog/)
 
 == Upgrade Notice ==

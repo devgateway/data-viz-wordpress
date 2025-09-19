@@ -33,7 +33,7 @@ class Introduction_Item {
 	}
 
 	/**
-	 * Returns an array ***REMOVED*** of the data.
+	 * Returns an array representation of the data.
 	 *
 	 * @return array Returns in an array format.
 	 */

@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: get_text_inline;get_text_x_inline:1,2c;$this->get_text_inline;$this->get_text_x_inline:1,2c;$this->_fs->get_text_inline;$this->_fs->get_text_x_inline:1,2c;$this->fs->get_text_inline;$this->fs->get_text_x_inline:1,2c;$fs->get_text_inline;$fs->get_text_x_inline:1,2c;$this->_parent->get_text_inline;$this->_parent->get_text_x_inline:1,2c;fs_text_inline;fs_echo_inline;fs_esc_js_inline;fs_esc_attr_inline;fs_esc_attr_echo_inline;fs_esc_html_inline;fs_esc_html_echo_inline;fs_text_x_inline:1,2c;fs_echo_x_inline:1,2c;fs_esc_attr_x_inline:1,2c;fs_esc_js_x_inline:1,2c;fs_esc_js_echo_x_inline:1,2c;fs_esc_html_x_inline:1,2c;fs_esc_html_echo_x_inline:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -42,7 +42,7 @@ msgid "What's the %s's name?"
 msgstr ""
 
 #: includes/class-freemius.php:2478
-msgid "It's a temporary %s - I'm ***REMOVED*** an issue"
+msgid "It's a temporary %s - I'm troubleshooting an issue"
 msgstr ""
 
 #: includes/class-freemius.php:2480
@@ -441,7 +441,7 @@ msgid "Download the latest version"
 msgstr ""
 
 #: includes/class-freemius.php:21003
-msgid "It seems like one of the ***REMOVED*** parameters is wrong. Update your Public Key, Secret Key & User ID, and try again."
+msgid "It seems like one of the authentication parameters is wrong. Update your Public Key, Secret Key & User ID, and try again."
 msgstr ""
 
 #: includes/class-freemius.php:21003, includes/class-freemius.php:21416, includes/class-freemius.php:21517, includes/class-freemius.php:21604
@@ -501,7 +501,7 @@ msgid "Your free trial has expired. %1$sUpgrade now%2$s to continue using the %3
 msgstr ""
 
 #: includes/class-freemius.php:21408
-msgid "Your server is blocking the access to Freemius' API, which is crucial for %1$s ***REMOVED***. Please contact your host to whitelist the following domains:%2$s"
+msgid "Your server is blocking the access to Freemius' API, which is crucial for %1$s synchronization. Please contact your host to whitelist the following domains:%2$s"
 msgstr ""
 
 #: includes/class-freemius.php:21410
@@ -617,7 +617,7 @@ msgid "Diagnostic data will no longer be sent from %s to %s."
 msgstr ""
 
 #: includes/class-freemius.php:22817
-msgid "Sharing diagnostic data with %s helps to provide functionality that's more relevant to your website, avoid WordPress or PHP version ***REMOVED*** that can break your website, and recognize which languages & regions the plugin should be translated and tailored to."
+msgid "Sharing diagnostic data with %s helps to provide functionality that's more relevant to your website, avoid WordPress or PHP version incompatibilities that can break your website, and recognize which languages & regions the plugin should be translated and tailored to."
 msgstr ""
 
 #: includes/class-freemius.php:22818
@@ -641,7 +641,7 @@ msgid "%s is the new owner of the account."
 msgstr ""
 
 #: includes/class-freemius.php:23007
-msgctxt "as ***REMOVED***"
+msgctxt "as congratulations"
 msgid "Congrats"
 msgstr ""
 
@@ -1625,7 +1625,7 @@ msgid "Delegate to Site Admins"
 msgstr ""
 
 #: templates/connect.php:362
-msgid "If you click it, this decision will be delegated to the sites ***REMOVED***."
+msgid "If you click it, this decision will be delegated to the sites administrators."
 msgstr ""
 
 #: templates/connect.php:391
@@ -2085,7 +2085,7 @@ msgstr ""
 
 #. translators: %s: 'Plugin' or 'Theme'
 #: includes/managers/class-fs-permission-manager.php:195
-msgid "To provide additional functionality that's relevant to your website, avoid WordPress or PHP version ***REMOVED*** that can break your website, and recognize which languages & regions the %s should be translated and tailored to."
+msgid "To provide additional functionality that's relevant to your website, avoid WordPress or PHP version incompatibilities that can break your website, and recognize which languages & regions the %s should be translated and tailored to."
 msgstr ""
 
 #: includes/managers/class-fs-permission-manager.php:207
@@ -2133,7 +2133,7 @@ msgstr ""
 
 #. translators: %s: 'Plugin' or 'Theme'
 #: includes/managers/class-fs-permission-manager.php:330
-msgid "To avoid breaking your website due to WordPress or PHP version ***REMOVED***, and recognize which languages & regions the %s should be translated and tailored to."
+msgid "To avoid breaking your website due to WordPress or PHP version incompatibilities, and recognize which languages & regions the %s should be translated and tailored to."
 msgstr ""
 
 #: includes/managers/class-fs-permission-manager.php:363

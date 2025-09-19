@@ -1930,7 +1930,7 @@ html[dir=rtl] .acf-file-uploader .file-info {
   /* hover */
   /* select */
 }
-.acf-taxonomy-field .***REMOVED***-holder {
+.acf-taxonomy-field .categorychecklist-holder {
   border: #ccd0d4 solid 1px;
   border-radius: 3px;
   max-height: 200px;

@@ -182,7 +182,7 @@
                 fs_ends_with( $subdomain, '.staging.wpengine.com' ) ||
                 fs_ends_with( $subdomain, '.dev.wpengine.com' ) ||
                 fs_ends_with( $subdomain, '.wpengine.com' ) ||
-                fs_ends_with( $subdomain, '.***REMOVED***.com' ) ||
+                fs_ends_with( $subdomain, '.wpenginepowered.com' ) ||
                 // Pantheon
                 ( fs_ends_with( $subdomain, 'pantheonsite.io' ) &&
                   ( fs_starts_with( $subdomain, 'test-' ) || fs_starts_with( $subdomain, 'dev-' ) ) ) ||
@@ -196,7 +196,7 @@
                 // DesktopServer
                 fs_ends_with( $subdomain, '.dev.cc' ) ||
                 // Pressable
-                fs_ends_with( $subdomain, '.***REMOVED***.com' ) ||
+                fs_ends_with( $subdomain, '.mystagingwebsite.com' ) ||
                 // WPMU DEV
                 ( fs_ends_with( $subdomain, '.tempurl.host' ) || fs_ends_with( $subdomain, '.wpmudev.host' ) ) ||
                 // Vendasta
@@ -254,7 +254,7 @@
          * @return bool
          */
         function is_clone( $site_url ) {
-            $clone_install_url = ***REMOVED***( fs_strip_url_protocol( $this->url ) );
+            $clone_install_url = trailingslashit( fs_strip_url_protocol( $this->url ) );
 
             return ( $clone_install_url !== $site_url );
         }

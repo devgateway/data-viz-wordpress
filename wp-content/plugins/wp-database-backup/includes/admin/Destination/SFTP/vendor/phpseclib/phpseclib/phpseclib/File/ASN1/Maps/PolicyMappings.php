@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * PolicyMappings
  *
  * PHP version 5
  *
@@ -16,11 +16,11 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * PolicyMappings
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class PolicyMappings
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
@@ -29,8 +29,8 @@ abstract class ***REMOVED***
         'children' => [
             'type' => ASN1::TYPE_SEQUENCE,
             'children' => [
-                '***REMOVED***' => CertPolicyId::MAP,
-                '***REMOVED***' => CertPolicyId::MAP
+                'issuerDomainPolicy' => CertPolicyId::MAP,
+                'subjectDomainPolicy' => CertPolicyId::MAP
             ]
         ]
     ];

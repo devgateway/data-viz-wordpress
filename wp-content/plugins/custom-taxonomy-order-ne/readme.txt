@@ -284,7 +284,7 @@ The left metabox lists the toplevel terms. Right (or below) are the sub-terms.
 * Save settings per taxonomy with capability 'manage_categories', not 'manage_options'.
 * Rewrite some code for settings pages.
 * Fix deprecated jQuery calls with WP 5.6 and jQuery 3.5.
-* Rename script.js to ***REMOVED***.js.
+* Rename script.js to customtaxorder.js.
 
 = 3.2.2 =
 * 2020-12-04
@@ -426,7 +426,7 @@ The left metabox lists the toplevel terms. Right (or below) are the sub-terms.
 * 2015-09-05
 * Add filter for (not) sorting a tagcloud (thanks sunriseweb).
 * For sub-term, start counting at term_order of parent-term, so sorting looks reasonable.
-* "Order ***REMOVED***" button is no button-primary.
+* "Order Alphabetically" button is no button-primary.
 * Change textdomain to slug.
 * Make admin_notices dismissible.
 * Add version to admin CSS.
@@ -543,7 +543,7 @@ The left metabox lists the toplevel terms. Right (or below) are the sub-terms.
 = 2.4.0 =
 * 2014-03-18
 * Add Polish translation (Paweł Data)
-* Sort ***REMOVED*** (landwire)
+* Sort Alphabetically (landwire)
 
 = 2.3.9 =
 * 2014-02-25

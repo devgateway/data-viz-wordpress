@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Domain\Traffic;
 
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Interface;
@@ -35,7 +35,7 @@ class Daily_Traffic_Data implements Data_Interface {
 	}
 
 	/**
-	 * The array ***REMOVED*** of this domain object.
+	 * The array representation of this domain object.
 	 *
 	 * @return array<string, string|int>
 	 */

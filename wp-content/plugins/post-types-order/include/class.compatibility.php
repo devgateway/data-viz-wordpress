@@ -18,22 +18,22 @@
                 
                 
             /**
-            * ***REMOVED*** function
+            * Initialisation function
             *     
             */
             function init()
                 {
                     
-                    $***REMOVED***  =  array(
+                    $CompatibilityFiles  =  array(
                                                     'the-events-calendar.php',
                                                     'LiteSpeed_Cache.php',
                                                     'formidable.php'
                                                  
                                                     );
-                    foreach( $***REMOVED*** as $***REMOVED*** ) 
+                    foreach( $CompatibilityFiles as $CompatibilityFile ) 
                         {
-                            if  ( is_file( CPTPATH . 'compatibility/' . $***REMOVED*** ) )
-                                include_once( CPTPATH . 'compatibility/' . $***REMOVED*** );
+                            if  ( is_file( CPTPATH . 'compatibility/' . $CompatibilityFile ) )
+                                include_once( CPTPATH . 'compatibility/' . $CompatibilityFile );
                         }
                       
                     /**

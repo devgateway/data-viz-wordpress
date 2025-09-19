@@ -12,7 +12,7 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
  *
  * @see https://promisesaplus.com/
  */
-interface ***REMOVED***
+interface PromiseInterface
 {
     public const PENDING = 'pending';
     public const FULFILLED = 'fulfilled';
@@ -24,7 +24,7 @@ interface ***REMOVED***
      * @param callable $onFulfilled Invoked when the promise fulfills.
      * @param callable $onRejected  Invoked when the promise is rejected.
      */
-    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
     /**
      * Appends a rejection handler callback to the promise, and returns a new
      * promise resolving to the return value of the callback if it is called,
@@ -33,12 +33,12 @@ interface ***REMOVED***
      *
      * @param callable $onRejected Invoked when the promise is rejected.
      */
-    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
     /**
      * Get the state of the promise ("pending", "rejected", or "fulfilled").
      *
      * The three states can be checked against the constants defined on
-     * ***REMOVED***: PENDING, FULFILLED, and REJECTED.
+     * PromiseInterface: PENDING, FULFILLED, and REJECTED.
      */
     public function getState() : string;
     /**
@@ -46,7 +46,7 @@ interface ***REMOVED***
      *
      * @param mixed $value
      *
-     * @throws \***REMOVED*** if the promise is already resolved.
+     * @throws \RuntimeException if the promise is already resolved.
      */
     public function resolve($value) : void;
     /**
@@ -54,7 +54,7 @@ interface ***REMOVED***
      *
      * @param mixed $reason
      *
-     * @throws \***REMOVED*** if the promise is already resolved.
+     * @throws \RuntimeException if the promise is already resolved.
      */
     public function reject($reason) : void;
     /**
@@ -73,7 +73,7 @@ interface ***REMOVED***
      *
      * @return mixed
      *
-     * @throws \***REMOVED*** if the promise has no wait function or if the
+     * @throws \LogicException if the promise has no wait function or if the
      *                         promise does not settle after waiting.
      */
     public function wait(bool $unwrap = \true);

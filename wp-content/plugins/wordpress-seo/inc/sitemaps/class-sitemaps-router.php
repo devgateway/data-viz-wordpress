@@ -60,7 +60,7 @@ class WPSEO_Sitemaps_Router {
 	 * Sets up rewrite rules.
 	 *
 	 * @deprecated 21.8
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class WPSEO_Sitemaps_Router {
 		global $wp_query;
 
 		$protocol = 'http://';
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.ValidatedSanitizedInput.***REMOVED***
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( ! empty( $_SERVER['HTTPS'] ) && strtolower( $_SERVER['HTTPS'] ) === 'on' ) {
 			$protocol = 'https://';
 		}
@@ -123,7 +123,7 @@ class WPSEO_Sitemaps_Router {
 			$path = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		}
 
-		// Due to different environment ***REMOVED***, we need to check both SERVER_NAME and HTTP_HOST.
+		// Due to different environment configurations, we need to check both SERVER_NAME and HTTP_HOST.
 		$check_urls = [ $protocol . $domain . $path ];
 		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
 			$check_urls[] = $protocol . sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) . $path;

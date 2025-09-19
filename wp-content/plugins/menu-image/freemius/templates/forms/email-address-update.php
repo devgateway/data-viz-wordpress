@@ -108,10 +108,10 @@
 		    + '</div>',
 	    $modal                                = $( modalHtml ),
         $updateButton                         = $modal.find( '.button-update' ),
-        $***REMOVED***                  = $modal.find( '.fs-update-error-message' ),
+        $updateResultMessage                  = $modal.find( '.fs-update-error-message' ),
         selectedEmailAddressesOwnershipOption = null,
         selectedAssetsTransfershipOption      = null,
-        ***REMOVED***                  = '',
+        previousEmailAddress                  = '',
         $body                                 = $( 'body' );
 
 	$modal.appendTo( $body );
@@ -120,41 +120,41 @@
 
 	function registerEventHandlers() {
         $body.on( 'click', '#fs_account_details .button-edit-email-address', function ( evt ) {
-            evt.***REMOVED***();
+            evt.preventDefault();
 
             showModal( evt );
         } );
 
-        $modal.on( 'input ***REMOVED*** keyup paste delete cut', '.fs-new-email-address-input', function () {
+        $modal.on( 'input propertychange keyup paste delete cut', '.fs-new-email-address-input', function () {
             var emailAddress = $( this ).val().trim();
 
-            if ( emailAddress === ***REMOVED*** ) {
+            if ( emailAddress === previousEmailAddress ) {
                 return;
             }
 
-            var isValidEmailAddressInput = ***REMOVED***( emailAddress );
+            var isValidEmailAddressInput = isValidEmailAddress( emailAddress );
 
             toggleOptions( isValidEmailAddressInput );
 
             if ( ! isValidEmailAddressInput ) {
-                ***REMOVED***();
+                disableUpdateButton();
             } else {
                 $modal.find( '.fs-new-email-address').text( emailAddress );
 
                 maybeEnableUpdateButton();
             }
 
-            ***REMOVED*** = emailAddress;
+            previousEmailAddress = emailAddress;
         } );
 
         $modal.on( 'blur', '.fs-new-email-address-input', function() {
             var emailAddress             = $( this ).val().trim(),
-                isValidEmailAddressInput = ***REMOVED***( emailAddress );
+                isValidEmailAddressInput = isValidEmailAddress( emailAddress );
 
             toggleOptions( isValidEmailAddressInput );
 
             if ( ! isValidEmailAddressInput ) {
-                ***REMOVED***();
+                disableUpdateButton();
             }
         } );
 
@@ -164,11 +164,11 @@
         } );
 
 		$modal.on( 'click', '.fs-modal-footer .button-update', function ( evt ) {
-            if ( ! ***REMOVED***( ***REMOVED*** ) ) {
+            if ( ! isValidEmailAddress( previousEmailAddress ) ) {
                 return;
             }
 
-            if ( ***REMOVED*** === '<?php echo $current_email_address ?>' ) {
+            if ( previousEmailAddress === '<?php echo $current_email_address ?>' ) {
                 closeModal();
                 return;
             }
@@ -192,10 +192,10 @@
                     security     : '<?php echo $fs->get_ajax_security( 'update_email_address' ) ?>',
                     module_id    : '<?php echo $fs->get_id() ?>',
                     transfer_type: transferType,
-                    email_address: ***REMOVED***
+                    email_address: previousEmailAddress
                 },
                 beforeSend: function () {
-                    ***REMOVED***();
+                    disableUpdateButton();
 
                     $updateButton.find( '.fs-modal-footer .button' ).prop( 'disabled', true );
                     $updateButton.text( 'Processing...' );
@@ -209,34 +209,34 @@
                             window.location = result.error.url;
                         } else {
                             showError(result.error.message ? result.error.message : result.error);
-                            ***REMOVED***();
+                            resetUpdateButton();
                         }
                     }
                 },
                 error     : function () {
                     showError( '<?php fs_esc_js_echo_inline( 'Unexpected error, try again in 5 minutes. If the error persists, please contact support.', 'unexpected-error', $slug ) ?>' );
 
-                    ***REMOVED***();
+                    resetUpdateButton();
                 }
             } );
 		} );
 
 		$modal.on( 'click', 'input[type="radio"]', function () {
-			var $***REMOVED***     = $( this ),
-                ***REMOVED*** = $***REMOVED***.val();
+			var $selectedOption     = $( this ),
+                selectedOptionValue = $selectedOption.val();
         
 			// If the selection has not changed, do not proceed.
 			if (
-			    selectedEmailAddressesOwnershipOption === ***REMOVED*** ||
-                selectedAssetsTransfershipOption === ***REMOVED***
+			    selectedEmailAddressesOwnershipOption === selectedOptionValue ||
+                selectedAssetsTransfershipOption === selectedOptionValue
             ) {
                 return;
             }
 
-			if ( 'assets-transfer-type' === $***REMOVED***.attr( 'name' ) ) {
-                selectedAssetsTransfershipOption = ***REMOVED***;
+			if ( 'assets-transfer-type' === $selectedOption.attr( 'name' ) ) {
+                selectedAssetsTransfershipOption = selectedOptionValue;
             } else {
-                selectedEmailAddressesOwnershipOption = ***REMOVED***;
+                selectedEmailAddressesOwnershipOption = selectedOptionValue;
 
                 if ( 'both' !== selectedEmailAddressesOwnershipOption ) {
                     $modal.find( '.fs-assets-transfership-options' ).hide();
@@ -246,11 +246,11 @@
 
                     selectedAssetsTransfershipOption = null;
 
-                    ***REMOVED***();
+                    disableUpdateButton();
                 }
             }
 
-			if ( ***REMOVED***( $( '.fs-new-email-address-input' ).val().trim() ) ) {
+			if ( isValidEmailAddress( $( '.fs-new-email-address-input' ).val().trim() ) ) {
                 maybeEnableUpdateButton();
             }
 		});
@@ -269,7 +269,7 @@
 	function closeModal() {
         selectedEmailAddressesOwnershipOption = null;
 
-        ***REMOVED***();
+        disableUpdateButton();
 
 		$modal.removeClass( 'active' );
 
@@ -287,12 +287,12 @@
 
         toggleOptions( false );
 
-		***REMOVED***();
+		disableUpdateButton();
 
         $updateButton.text( <?php echo json_encode( fs_text_inline( 'Update', 'update-email-address', $slug ) ) ?> );
 	}
 
-    function ***REMOVED***() {
+    function resetUpdateButton() {
         maybeEnableUpdateButton();
 
         $updateButton.text( <?php echo json_encode( fs_text_inline( 'Update', 'update-email-address', $slug ) ) ?> );
@@ -313,20 +313,20 @@
         $updateButton.prop( 'disabled', false );
 	}
 
-	function ***REMOVED***() {
+	function disableUpdateButton() {
 		$updateButton.prop( 'disabled', true );
 	}
 
     function hideError() {
-        $***REMOVED***.hide();
+        $updateResultMessage.hide();
     }
 
     function showError( msg ) {
-        $***REMOVED***.find( ' > p' ).html( msg );
-        $***REMOVED***.show();
+        $updateResultMessage.find( ' > p' ).html( msg );
+        $updateResultMessage.show();
     }
 
-    function ***REMOVED***( emailAddress ) {
+    function isValidEmailAddress( emailAddress ) {
 	    if ( '' === emailAddress ) {
 	        return false;
         }

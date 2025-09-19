@@ -64,7 +64,7 @@ class acf_field_date_and_time_picker extends acf_field {
 		
 		// localize
 		acf_localize_data(array(
-		   	'***REMOVED***'	=> array(
+		   	'dateTimePickerL10n'	=> array(
 				'timeOnlyTitle'		=> _x('Choose Time',	'Date Time Picker JS timeOnlyTitle',	'acf'),
 		        'timeText'       	=> _x('Time',			'Date Time Picker JS timeText', 		'acf'),
 		        'hourText'        	=> _x('Hour',			'Date Time Picker JS hourText', 		'acf'),

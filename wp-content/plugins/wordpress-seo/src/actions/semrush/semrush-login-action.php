@@ -29,7 +29,7 @@ class SEMrush_Login_Action {
 	/**
 	 * Authenticates with SEMrush to request the necessary tokens.
 	 *
-	 * @param string $code The ***REMOVED*** code to use to request a token with.
+	 * @param string $code The authentication code to use to request a token with.
 	 *
 	 * @return object The response object.
 	 */

@@ -1,8 +1,8 @@
-/* global ***REMOVED***, twentyTwentyPreviewEls, jQuery, _, wp */
+/* global twentyTwentyBgColors, twentyTwentyPreviewEls, jQuery, _, wp */
 /**
  * Customizer enhancements for a better user experience.
  *
- * Contains handlers to make Theme Customizer preview reload changes ***REMOVED***.
+ * Contains handlers to make Theme Customizer preview reload changes asynchronously.
  *
  * @since Twenty Twenty 1.0
  */
@@ -17,7 +17,7 @@
 	 *
 	 * @return {jQuery.Promise} Resolved promise.
 	 */
-	function ***REMOVED***( partial ) {
+	function returnDeferred( partial ) {
 		var deferred = new $.Deferred();
 
 		deferred.resolveWith( partial, _.map( partial.placements(), function() {
@@ -28,7 +28,7 @@
 	}
 
 	// Selective refresh for "Fixed Background Image".
-	api.***REMOVED***.***REMOVED***.cover_fixed = api.***REMOVED***.Partial.extend( {
+	api.selectiveRefresh.partialConstructor.cover_fixed = api.selectiveRefresh.Partial.extend( {
 
 		/**
 		 * Override the refresh method.
@@ -48,13 +48,13 @@
 				cover.toggleClass( 'bg-attachment-fixed' );
 			}
 
-			return ***REMOVED***( partial );
+			return returnDeferred( partial );
 		}
 
 	} );
 
 	// Selective refresh for "Image Overlay Opacity".
-	api.***REMOVED***.***REMOVED***.cover_opacity = api.***REMOVED***.Partial.extend( {
+	api.selectiveRefresh.partialConstructor.cover_opacity = api.selectiveRefresh.Partial.extend( {
 
 		/**
 		 * Input attributes.
@@ -78,7 +78,7 @@
 			attrs = partial.attrs;
 			ranges = _.range( attrs.min, attrs.max + attrs.step, attrs.step );
 			params = partial.params;
-			setting = api( params.***REMOVED*** );
+			setting = api( params.primarySetting );
 			cover = $( params.selector );
 
 			if ( cover.length ) {
@@ -92,7 +92,7 @@
 				cover.addClass( className );
 			}
 
-			return ***REMOVED***( partial );
+			return returnDeferred( partial );
 		}
 
 	} );
@@ -130,7 +130,7 @@
 			// Generate the styles.
 			// Add a small delay to be sure the accessible colors were generated.
 			setTimeout( function() {
-				Object.keys( ***REMOVED*** ).forEach( function( context ) {
+				Object.keys( twentyTwentyBgColors ).forEach( function( context ) {
 					twentyTwentyGenerateColorA11yPreviewStyles( context );
 				} );
 			}, 50 );
@@ -138,8 +138,8 @@
 	} );
 
 	// Add listeners for background-color settings.
-	Object.keys( ***REMOVED*** ).forEach( function( context ) {
-		wp.customize( ***REMOVED***[ context ].setting, function( value ) {
+	Object.keys( twentyTwentyBgColors ).forEach( function( context ) {
+		wp.customize( twentyTwentyBgColors[ context ].setting, function( value ) {
 			value.bind( function() {
 				// Generate the styles.
 				// Add a small delay to be sure the accessible colors were generated.

@@ -15,17 +15,17 @@
 
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "inapppurchases" collection of methods.
    * Typical usage is:
    *  <code>
    *   $androidpublisherService = new Google_AndroidPublisherService(...);
-   *   $***REMOVED*** = $androidpublisherService->***REMOVED***;
+   *   $inapppurchases = $androidpublisherService->inapppurchases;
    *  </code>
    */
   class Google_InapppurchasesServiceResource extends Google_ServiceResource {
 
     /**
-     * Checks the purchase and consumption status of an inapp item. (***REMOVED***.get)
+     * Checks the purchase and consumption status of an inapp item. (inapppurchases.get)
      *
      * @param string $packageName The package name of the application the inapp product was sold in (for example, 'com.some.thing').
      * @param string $productId The inapp product SKU (for example, 'com.some.thing.inapp1').
@@ -60,12 +60,12 @@
      * (purchases.cancel)
      *
      * @param string $packageName The package name of the application for which this subscription was purchased (for example, 'com.some.thing').
-     * @param string $***REMOVED*** The purchased subscription ID (for example, 'monthly001').
+     * @param string $subscriptionId The purchased subscription ID (for example, 'monthly001').
      * @param string $token The token provided to the user's device when the subscription was purchased.
      * @param array $optParams Optional parameters.
      */
-    public function cancel($packageName, $***REMOVED***, $token, $optParams = array()) {
-      $params = array('packageName' => $packageName, '***REMOVED***' => $***REMOVED***, 'token' => $token);
+    public function cancel($packageName, $subscriptionId, $token, $optParams = array()) {
+      $params = array('packageName' => $packageName, 'subscriptionId' => $subscriptionId, 'token' => $token);
       $params = array_merge($params, $optParams);
       $data = $this->__call('cancel', array($params));
       return $data;
@@ -75,13 +75,13 @@
      * (purchases.get)
      *
      * @param string $packageName The package name of the application for which this subscription was purchased (for example, 'com.some.thing').
-     * @param string $***REMOVED*** The purchased subscription ID (for example, 'monthly001').
+     * @param string $subscriptionId The purchased subscription ID (for example, 'monthly001').
      * @param string $token The token provided to the user's device when the subscription was purchased.
      * @param array $optParams Optional parameters.
      * @return Google_SubscriptionPurchase
      */
-    public function get($packageName, $***REMOVED***, $token, $optParams = array()) {
-      $params = array('packageName' => $packageName, '***REMOVED***' => $***REMOVED***, 'token' => $token);
+    public function get($packageName, $subscriptionId, $token, $optParams = array()) {
+      $params = array('packageName' => $packageName, 'subscriptionId' => $subscriptionId, 'token' => $token);
       $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
@@ -107,21 +107,21 @@
  * @author Google, Inc.
  */
 class Google_AndroidPublisherService extends Google_Service {
-  public $***REMOVED***;
+  public $inapppurchases;
   public $purchases;
   /**
-   * Constructs the internal ***REMOVED*** of the ***REMOVED*** service.
+   * Constructs the internal representation of the AndroidPublisher service.
    *
    * @param Google_Client $client
    */
   public function __construct(Google_Client $client) {
-    $this->servicePath = '***REMOVED***/v1.1/applications/';
+    $this->servicePath = 'androidpublisher/v1.1/applications/';
     $this->version = 'v1.1';
-    $this->serviceName = '***REMOVED***';
+    $this->serviceName = 'androidpublisher';
 
     $client->addService($this->serviceName, $this->version);
-    $this->***REMOVED*** = new Google_InapppurchasesServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "***REMOVED***.***REMOVED***.get", "path": "{packageName}/inapp/{productId}/purchases/{token}", "httpMethod": "GET", "parameters": {"packageName": {"type": "string", "required": true, "location": "path"}, "productId": {"type": "string", "required": true, "location": "path"}, "token": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InappPurchase"}}}}', true));
-    $this->purchases = new Google_PurchasesServiceResource($this, $this->serviceName, 'purchases', json_decode('{"methods": {"cancel": {"id": "***REMOVED***.purchases.cancel", "path": "{packageName}/subscriptions/{***REMOVED***}/purchases/{token}/cancel", "httpMethod": "POST", "parameters": {"packageName": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "token": {"type": "string", "required": true, "location": "path"}}}, "get": {"id": "***REMOVED***.purchases.get", "path": "{packageName}/subscriptions/{***REMOVED***}/purchases/{token}", "httpMethod": "GET", "parameters": {"packageName": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "token": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}}}}', true));
+    $this->inapppurchases = new Google_InapppurchasesServiceResource($this, $this->serviceName, 'inapppurchases', json_decode('{"methods": {"get": {"id": "androidpublisher.inapppurchases.get", "path": "{packageName}/inapp/{productId}/purchases/{token}", "httpMethod": "GET", "parameters": {"packageName": {"type": "string", "required": true, "location": "path"}, "productId": {"type": "string", "required": true, "location": "path"}, "token": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InappPurchase"}}}}', true));
+    $this->purchases = new Google_PurchasesServiceResource($this, $this->serviceName, 'purchases', json_decode('{"methods": {"cancel": {"id": "androidpublisher.purchases.cancel", "path": "{packageName}/subscriptions/{subscriptionId}/purchases/{token}/cancel", "httpMethod": "POST", "parameters": {"packageName": {"type": "string", "required": true, "location": "path"}, "subscriptionId": {"type": "string", "required": true, "location": "path"}, "token": {"type": "string", "required": true, "location": "path"}}}, "get": {"id": "androidpublisher.purchases.get", "path": "{packageName}/subscriptions/{subscriptionId}/purchases/{token}", "httpMethod": "GET", "parameters": {"packageName": {"type": "string", "required": true, "location": "path"}, "subscriptionId": {"type": "string", "required": true, "location": "path"}, "token": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "SubscriptionPurchase"}}}}', true));
 
   }
 }
@@ -129,22 +129,22 @@ class Google_AndroidPublisherService extends Google_Service {
 
 
 class Google_InappPurchase extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $consumptionState;
+  public $developerPayload;
   public $kind;
   public $purchaseState;
   public $purchaseTime;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setConsumptionState( $consumptionState) {
+    $this->consumptionState = $consumptionState;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getConsumptionState() {
+    return $this->consumptionState;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDeveloperPayload( $developerPayload) {
+    $this->developerPayload = $developerPayload;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDeveloperPayload() {
+    return $this->developerPayload;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -152,16 +152,16 @@ class Google_InappPurchase extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $purchaseState) {
+  public function setPurchaseState( $purchaseState) {
     $this->purchaseState = $purchaseState;
   }
-  public function ***REMOVED***() {
+  public function getPurchaseState() {
     return $this->purchaseState;
   }
-  public function ***REMOVED***( $purchaseTime) {
+  public function setPurchaseTime( $purchaseTime) {
     $this->purchaseTime = $purchaseTime;
   }
-  public function ***REMOVED***() {
+  public function getPurchaseTime() {
     return $this->purchaseTime;
   }
 }
@@ -171,10 +171,10 @@ class Google_SubscriptionPurchase extends Google_Model {
   public $initiationTimestampMsec;
   public $kind;
   public $validUntilTimestampMsec;
-  public function ***REMOVED***( $autoRenewing) {
+  public function setAutoRenewing( $autoRenewing) {
     $this->autoRenewing = $autoRenewing;
   }
-  public function ***REMOVED***() {
+  public function getAutoRenewing() {
     return $this->autoRenewing;
   }
   public function setInitiationTimestampMsec( $initiationTimestampMsec) {

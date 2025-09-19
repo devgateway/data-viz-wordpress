@@ -1,12 +1,12 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 /**
  * Importing action for AIOSEO posttype defaults settings data.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
 
@@ -40,7 +40,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 	protected $settings_tab = 'postTypes';
 
 	/**
-	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data ***REMOVED*** method.
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
@@ -53,7 +53,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action extends Abstract_Aioseo
 				'yoast_name'       => 'title-' . $pt->name,
 				'transform_method' => 'simple_import',
 			];
-			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/***REMOVED***' ]             = [
+			$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/metaDescription' ]             = [
 				'yoast_name'       => 'metadesc-' . $pt->name,
 				'transform_method' => 'simple_import',
 			];

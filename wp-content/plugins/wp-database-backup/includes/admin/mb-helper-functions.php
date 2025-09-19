@@ -71,7 +71,7 @@ function wpdbbkp_send_feedback()
     if (!isset($_POST['wpdbbkp_security_nonce'])) {
         return;
     }
-    if (!wp_verify_nonce(wp_unslash($_POST['wpdbbkp_security_nonce']), 'wpdbbkp-pub-nonce')) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+    if (!wp_verify_nonce(wp_unslash($_POST['wpdbbkp_security_nonce']), 'wpdbbkp-pub-nonce')) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
         return;
     }
 
@@ -329,7 +329,7 @@ function wpdbbkp_save_remote_token()
 {
 
     $json_response = array('status' => 'fail', 'message' => 'Something went wrong, please try again later.');
-    $nonce = isset($_POST['wpdbbkp_security_nonce']) ? wp_unslash($_POST['wpdbbkp_security_nonce']) : false; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+    $nonce = isset($_POST['wpdbbkp_security_nonce']) ? wp_unslash($_POST['wpdbbkp_security_nonce']) : false; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
     if ( ! $nonce ) {
         $json_response['message'] = 'Invalid request';
         return;

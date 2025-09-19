@@ -19,7 +19,7 @@ require_once "Google_AuthNone.php";
 require_once "Google_OAuth2.php";
 
 /**
- * Abstract class for the ***REMOVED*** in the API client
+ * Abstract class for the Authentication in the API client
  * @author Chris Chabot <chabotc@google.com>
  *
  */
@@ -28,9 +28,9 @@ abstract class Google_Auth {
   abstract public function sign(Google_HttpRequest $request);
   abstract public function createAuthUrl($scope);
 
-  abstract public function ***REMOVED***();
-  abstract public function ***REMOVED***($access_token);
-  abstract public function ***REMOVED***($developerKey);
+  abstract public function getAccessToken();
+  abstract public function setAccessToken($access_token);
+  abstract public function setDeveloperKey($developerKey);
   abstract public function refreshToken($refreshToken);
   abstract public function revokeToken();
 }

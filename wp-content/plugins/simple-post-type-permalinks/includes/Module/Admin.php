@@ -144,7 +144,7 @@ class Admin extends Module {
 							if ( $with_front && $front ) :
 								?><span class="front"><?php echo esc_html( $front ); ?></span><?php
 							endif;
-							echo esc_html( ***REMOVED***( $permalink ) );
+							echo esc_html( untrailingslashit( $permalink ) );
 						?><span class="slash"><?php echo esc_attr( $slash ); ?></span></code>
 						<?php
 					else : ?>
@@ -164,7 +164,7 @@ class Admin extends Module {
 				<code><?php echo esc_url( home_url() );
 					$front = substr( $wp_rewrite->front, 0, - 1 );
 					if ( $with_front && $front ) :
-						?><span class="front"><?php echo esc_html( ***REMOVED***( $front ) ); ?></span><?php
+						?><span class="front"><?php echo esc_html( untrailingslashit( $front ) ); ?></span><?php
 						?><span class="slash"><?php echo esc_attr( $slash ); ?></span><?php
 					endif;
 				?></code>

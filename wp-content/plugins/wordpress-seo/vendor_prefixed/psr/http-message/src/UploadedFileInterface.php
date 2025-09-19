@@ -15,7 +15,7 @@ interface UploadedFileInterface
     /**
      * Retrieve a stream representing the uploaded file.
      *
-     * This method MUST return a ***REMOVED*** instance, representing the
+     * This method MUST return a StreamInterface instance, representing the
      * uploaded file. The purpose of this method is to allow utilizing native PHP
      * stream functionality to manipulate the file upload, such as
      * stream_copy_to_stream() (though the result will need to be decorated in a
@@ -24,17 +24,17 @@ interface UploadedFileInterface
      * If the moveTo() method has been called previously, this method MUST raise
      * an exception.
      *
-     * @return ***REMOVED*** Stream ***REMOVED*** of the uploaded file.
-     * @throws \***REMOVED*** in cases when no stream is available or can be
+     * @return StreamInterface Stream representation of the uploaded file.
+     * @throws \RuntimeException in cases when no stream is available or can be
      *     created.
      */
-    public function getStream() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function getStream() : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
     /**
      * Move the uploaded file to a new location.
      *
      * Use this method as an alternative to move_uploaded_file(). This method is
      * guaranteed to work in both SAPI and non-SAPI environments.
-     * ***REMOVED*** must determine which environment they are in, and use the
+     * Implementations must determine which environment they are in, and use the
      * appropriate method (move_uploaded_file(), rename(), or a stream
      * operation) to perform the operation.
      *
@@ -58,14 +58,14 @@ interface UploadedFileInterface
      * @see http://php.net/move_uploaded_file
      * @param string $targetPath Path to which to move the uploaded file.
      * @throws \InvalidArgumentException if the $targetPath specified is invalid.
-     * @throws \***REMOVED*** on any error during the move operation, or on
+     * @throws \RuntimeException on any error during the move operation, or on
      *     the second or subsequent call to the method.
      */
     public function moveTo(string $targetPath) : void;
     /**
      * Retrieve the file size.
      *
-     * ***REMOVED*** SHOULD return the value stored in the "size" key of
+     * Implementations SHOULD return the value stored in the "size" key of
      * the file in the $_FILES array if available, as PHP calculates this based
      * on the actual size transmitted.
      *
@@ -80,7 +80,7 @@ interface UploadedFileInterface
      * If the file was uploaded successfully, this method MUST return
      * UPLOAD_ERR_OK.
      *
-     * ***REMOVED*** SHOULD return the value stored in the "error" key of
+     * Implementations SHOULD return the value stored in the "error" key of
      * the file in the $_FILES array.
      *
      * @see http://php.net/manual/en/features.file-upload.errors.php
@@ -94,13 +94,13 @@ interface UploadedFileInterface
      * a malicious filename with the intention to corrupt or hack your
      * application.
      *
-     * ***REMOVED*** SHOULD return the value stored in the "name" key of
+     * Implementations SHOULD return the value stored in the "name" key of
      * the file in the $_FILES array.
      *
      * @return string|null The filename sent by the client or null if none
      *     was provided.
      */
-    public function ***REMOVED***() : ?string;
+    public function getClientFilename() : ?string;
     /**
      * Retrieve the media type sent by the client.
      *
@@ -108,11 +108,11 @@ interface UploadedFileInterface
      * a malicious media type with the intention to corrupt or hack your
      * application.
      *
-     * ***REMOVED*** SHOULD return the value stored in the "type" key of
+     * Implementations SHOULD return the value stored in the "type" key of
      * the file in the $_FILES array.
      *
      * @return string|null The media type sent by the client or null if none
      *     was provided.
      */
-    public function ***REMOVED***() : ?string;
+    public function getClientMediaType() : ?string;
 }

@@ -75,7 +75,7 @@ class Google_MemcacheCache extends Google_Cache {
     }
   }
 
-  // I prefer lazy ***REMOVED*** since the cache isn't used every request
+  // I prefer lazy initialization since the cache isn't used every request
   // so this potentially saves a lot of overhead
   private function connect() {
     if (! $this->connection = @memcache_pconnect($this->host, $this->port)) {

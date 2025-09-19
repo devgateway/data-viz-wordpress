@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Failed_Storage_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 
 /**
  * Class OAuth_Client
@@ -27,7 +27,7 @@ abstract class OAuth_Client {
 	/**
 	 * The provider.
 	 *
-	 * @var Wincher_PKCE_Provider|***REMOVED***
+	 * @var Wincher_PKCE_Provider|GenericProvider
 	 */
 	protected $provider;
 
@@ -49,7 +49,7 @@ abstract class OAuth_Client {
 	 * OAuth_Client constructor.
 	 *
 	 * @param string                                $token_option   The option's name to save the token as.
-	 * @param Wincher_PKCE_Provider|***REMOVED*** $provider       The provider.
+	 * @param Wincher_PKCE_Provider|GenericProvider $provider       The provider.
 	 * @param Options_Helper                        $options_helper The Options_Helper instance.
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
@@ -84,12 +84,12 @@ abstract class OAuth_Client {
 	 *
 	 * @return OAuth_Token The requested tokens.
 	 *
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	public function request_tokens( $code ) {
 		try {
 			$response = $this->provider
-				->***REMOVED***(
+				->getAccessToken(
 					'authorization_code',
 					[
 						'code' => $code,
@@ -113,7 +113,7 @@ abstract class OAuth_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function get( $url, $options = [] ) {
@@ -130,7 +130,7 @@ abstract class OAuth_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function post( $url, $body, $options = [] ) {
@@ -148,7 +148,7 @@ abstract class OAuth_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function delete( $url, $options = [] ) {
@@ -229,7 +229,7 @@ abstract class OAuth_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	protected function do_request( $method, $url, array $options ) {
@@ -247,7 +247,7 @@ abstract class OAuth_Client {
 		$request = $this->provider
 			->getAuthenticatedRequest( $method, $url, null, $options );
 
-		return $this->provider->***REMOVED***( $request );
+		return $this->provider->getParsedResponse( $request );
 	}
 
 	/**
@@ -257,12 +257,12 @@ abstract class OAuth_Client {
 	 *
 	 * @return OAuth_Token The refreshed tokens.
 	 *
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	protected function refresh_tokens( OAuth_Token $tokens ) {
 		// We do this dance with transients since we need to make sure we don't
 		// delete valid tokens because of a race condition when two calls are
-		// made ***REMOVED*** to this function and refresh token rotation is
+		// made simultaneously to this function and refresh token rotation is
 		// turned on in the OAuth server. This is not 100% safe, but should at
 		// least be much better than not having any lock at all.
 		$lock_name = \sprintf( 'lock:%s', $this->token_option );
@@ -270,7 +270,7 @@ abstract class OAuth_Client {
 		$has_lock  = $can_lock && \set_transient( $lock_name, true, 30 );
 
 		try {
-			$new_tokens = $this->provider->***REMOVED***(
+			$new_tokens = $this->provider->getAccessToken(
 				'refresh_token',
 				[
 					'refresh_token' => $tokens->refresh_token,
@@ -295,7 +295,7 @@ abstract class OAuth_Client {
 						$tokens->error_count += 1;
 						$this->store_token( $tokens );
 					}
-				} catch ( Exception $e ) {  // phpcs:ignore Generic.CodeAnalysis.***REMOVED***.DetectedCatch
+				} catch ( Exception $e ) {  // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 					// Pass through.
 				}
 			}

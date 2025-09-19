@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
 
 /**
- * ***REMOVED*** class
+ * WorkoutsIntegration class
  */
 class Workouts_Integration implements Integration_Interface {
 
@@ -132,7 +132,7 @@ class Workouts_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Date is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_workouts' ) {
 			return;
 		}
@@ -149,7 +149,7 @@ class Workouts_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(
 			'workouts',
-			'***REMOVED***',
+			'wpseoWorkoutsData',
 			[
 				'workouts'                  => $workouts_option,
 				'homeUrl'                   => \home_url(),
@@ -171,7 +171,7 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	public function render_target() {
 		if ( $this->should_update_premium() ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in get_update_premium_notice.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in get_update_premium_notice.
 			echo $this->get_update_premium_notice();
 		}
 

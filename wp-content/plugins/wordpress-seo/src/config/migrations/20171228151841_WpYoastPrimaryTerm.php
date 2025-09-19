@@ -8,7 +8,7 @@ use Yoast\WP\Lib\Model;
 /**
  * Migration for the Primary Term.
  */
-class ***REMOVED*** extends Migration {
+class WpYoastPrimaryTerm extends Migration {
 
 	/**
 	 * The plugin this migration belongs to.

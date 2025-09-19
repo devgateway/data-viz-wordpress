@@ -16,5 +16,5 @@ return array(
     'ACF\\Pro\\Meta\\Option' => $baseDir . '/src/Pro/Meta/Option.php',
     'ACF\\Pro\\Meta\\WooOrder' => $baseDir . '/src/Pro/Meta/WooOrder.php',
     'ACF\\Site_Health\\Site_Health' => $baseDir . '/src/Site_Health/Site_Health.php',
-    'Composer\\***REMOVED***' => $vendorDir . '/composer/***REMOVED***.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );

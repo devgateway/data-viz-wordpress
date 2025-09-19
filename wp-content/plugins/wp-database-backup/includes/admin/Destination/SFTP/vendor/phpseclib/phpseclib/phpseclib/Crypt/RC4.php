@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of RC4.
+ * Pure-PHP implementation of RC4.
  *
- * Uses mcrypt, if available, and an internal ***REMOVED***, otherwise.
+ * Uses mcrypt, if available, and an internal implementation, otherwise.
  *
  * PHP version 5
  *
@@ -45,7 +45,7 @@ namespace phpseclib3\Crypt;
 use phpseclib3\Crypt\Common\StreamCipher;
 
 /**
- * Pure-PHP ***REMOVED*** of RC4.
+ * Pure-PHP implementation of RC4.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -102,10 +102,10 @@ class RC4 extends StreamCipher
      * @param int $engine
      * @return bool
      */
-    protected function ***REMOVED***($engine)
+    protected function isValidEngineHelper($engine)
     {
         if ($engine == self::ENGINE_OPENSSL) {
-            if ($this->***REMOVED***) {
+            if ($this->continuousBuffer) {
                 return false;
             }
             // quoting https://www.openssl.org/news/openssl-3.0-notes.html, OpenSSL 3.0.1
@@ -117,7 +117,7 @@ class RC4 extends StreamCipher
             $this->cipher_name_openssl = 'rc4-40';
         }
 
-        return parent::***REMOVED***($engine);
+        return parent::isValidEngineHelper($engine);
     }
 
     /**
@@ -126,12 +126,12 @@ class RC4 extends StreamCipher
      * Keys can be between 1 and 256 bytes long.
      *
      * @param int $length
-     * @throws \***REMOVED*** if the key length is invalid
+     * @throws \LengthException if the key length is invalid
      */
     public function setKeyLength($length)
     {
         if ($length < 8 || $length > 2048) {
-            throw new \***REMOVED***('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys between 1 and 256 bytes are supported');
+            throw new \LengthException('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys between 1 and 256 bytes are supported');
         }
 
         $this->key_length = $length >> 3;
@@ -150,7 +150,7 @@ class RC4 extends StreamCipher
     {
         $length = strlen($key);
         if ($length < 1 || $length > 256) {
-            throw new \***REMOVED***('Key size of ' . $length . ' bytes is not supported by RC4. Keys must be between 1 and 256 bytes long');
+            throw new \LengthException('Key size of ' . $length . ' bytes is not supported by RC4. Keys must be between 1 and 256 bytes long');
         }
 
         parent::setKey($key);
@@ -253,7 +253,7 @@ class RC4 extends StreamCipher
         }
 
         $stream = &$this->stream[$mode];
-        if ($this->***REMOVED***) {
+        if ($this->continuousBuffer) {
             $i = &$stream[0];
             $j = &$stream[1];
             $keyStream = &$stream[2];

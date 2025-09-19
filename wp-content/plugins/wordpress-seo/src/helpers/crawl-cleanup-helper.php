@@ -63,7 +63,7 @@ class Crawl_Cleanup_Helper {
 	 * @return bool True if the current URL is a valid URL.
 	 */
 	public function should_avoid_redirect() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- We're not processing anything yet...
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing anything yet...
 		if ( \is_robots() || \get_query_var( 'sitemap' ) || empty( $_GET ) || \is_user_logged_in() ) {
 			return true;
 		}
@@ -148,9 +148,9 @@ class Crawl_Cleanup_Helper {
 		if ( $page && $page !== 1 ) {
 			$the_post   = \get_post( $post->ID );
 			$page_count = \substr_count( $the_post->post_content, '<!--nextpage-->' );
-			$proper_url = \user_trailingslashit( \***REMOVED***( $proper_url ) . $page );
+			$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . $page );
 			if ( $page > ( $page_count + 1 ) ) {
-				$proper_url = \user_trailingslashit( \***REMOVED***( $proper_url ) . ( $page_count + 1 ) );
+				$proper_url = \user_trailingslashit( \trailingslashit( $proper_url ) . ( $page_count + 1 ) );
 			}
 		}
 
@@ -237,7 +237,7 @@ class Crawl_Cleanup_Helper {
 		if ( \is_search( $proper_url ) ) {
 			return \home_url() . '/page/' . $wp_query->query_vars['paged'] . '/?s=' . \rawurlencode( \get_search_query() );
 		}
-		return \user_trailingslashit( \***REMOVED***( $proper_url ) . 'page/' . $wp_query->query_vars['paged'] );
+		return \user_trailingslashit( \trailingslashit( $proper_url ) . 'page/' . $wp_query->query_vars['paged'] );
 	}
 
 	/**

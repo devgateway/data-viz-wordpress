@@ -1,5 +1,5 @@
 {
-	"name": "***REMOVED***",
+	"name": "twentytwentyone",
 	"version": "2.5.0",
 	"description": "Default WP Theme",
 	"author": "The WordPress Contributors",
@@ -11,12 +11,12 @@
 	"bugs": {
 		"url": "https://core.trac.wordpress.org/"
 	},
-	"homepage": "https://wordpress.org/themes/***REMOVED***/",
+	"homepage": "https://wordpress.org/themes/twentytwentyone/",
 	"engines": {
 		"node": ">=20.10.0",
 		"npm": ">=10.2.3"
 	},
-	"***REMOVED***": {
+	"devDependencies": {
 		"@wordpress/browserslist-config": "^6.14.0",
 		"@wordpress/eslint-plugin": "^17.4.0",
 		"@wordpress/stylelint-config": "^21.30.0",
@@ -43,7 +43,7 @@
 	"rtlcssConfig": {
 		"options": {
 			"autoRename": false,
-			"***REMOVED***": false,
+			"autoRenameStrict": false,
 			"blacklist": {},
 			"clean": true,
 			"greedy": false,

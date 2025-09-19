@@ -18,8 +18,8 @@
    * The "detections" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_TranslateService(...);
-   *   $detections = $***REMOVED***->detections;
+   *   $translateService = new Google_TranslateService(...);
+   *   $detections = $translateService->detections;
    *  </code>
    */
   class Google_DetectionsServiceResource extends Google_ServiceResource {
@@ -31,7 +31,7 @@
      * @param array $optParams Optional parameters.
      * @return Google_DetectionsListResponse
      */
-    public function ***REMOVED***($q, $optParams = array()) {
+    public function listDetections($q, $optParams = array()) {
       $params = array('q' => $q);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -47,8 +47,8 @@
    * The "languages" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_TranslateService(...);
-   *   $languages = $***REMOVED***->languages;
+   *   $translateService = new Google_TranslateService(...);
+   *   $languages = $translateService->languages;
    *  </code>
    */
   class Google_LanguagesServiceResource extends Google_ServiceResource {
@@ -77,8 +77,8 @@
    * The "translations" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_TranslateService(...);
-   *   $translations = $***REMOVED***->translations;
+   *   $translateService = new Google_TranslateService(...);
+   *   $translations = $translateService->translations;
    *  </code>
    */
   class Google_TranslationsServiceResource extends Google_ServiceResource {
@@ -95,7 +95,7 @@
      * @opt_param string source The source language of the text
      * @return Google_TranslationsListResponse
      */
-    public function ***REMOVED***($q, $target, $optParams = array()) {
+    public function listTranslations($q, $target, $optParams = array()) {
       $params = array('q' => $q, 'target' => $target);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -126,7 +126,7 @@ class Google_TranslateService extends Google_Service {
   public $languages;
   public $translations;
   /**
-   * Constructs the internal ***REMOVED*** of the Translate service.
+   * Constructs the internal representation of the Translate service.
    *
    * @param Google_Client $client
    */
@@ -216,28 +216,28 @@ class Google_TranslationsListResponse extends Google_Model {
   protected $__translationsType = 'Google_TranslationsResource';
   protected $__translationsDataType = 'array';
   public $translations;
-  public function ***REMOVED***(/* array(Google_TranslationsResource) */ $translations) {
+  public function setTranslations(/* array(Google_TranslationsResource) */ $translations) {
     $this->assertIsArray($translations, 'Google_TranslationsResource', __METHOD__);
     $this->translations = $translations;
   }
-  public function ***REMOVED***() {
+  public function getTranslations() {
     return $this->translations;
   }
 }
 
 class Google_TranslationsResource extends Google_Model {
   public $detectedSourceLanguage;
-  public $***REMOVED***;
+  public $translatedText;
   public function setDetectedSourceLanguage( $detectedSourceLanguage) {
     $this->detectedSourceLanguage = $detectedSourceLanguage;
   }
   public function getDetectedSourceLanguage() {
     return $this->detectedSourceLanguage;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTranslatedText( $translatedText) {
+    $this->translatedText = $translatedText;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTranslatedText() {
+    return $this->translatedText;
   }
 }

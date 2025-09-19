@@ -1,5 +1,5 @@
-import { ***REMOVED*** } from "unbuild";
+import { defineBuildConfig } from "unbuild";
 
-export default ***REMOVED***({
+export default defineBuildConfig({
   failOnWarn: false,
 });

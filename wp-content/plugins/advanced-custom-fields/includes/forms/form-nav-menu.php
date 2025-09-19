@@ -166,7 +166,7 @@ if ( ! class_exists( 'acf_form_nav_menu' ) ) :
 		 */
 		function update_nav_menu_items( $menu_id ) {
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 			if ( empty( $_POST['menu-item-acf'] ) ) {
 				return;
 			}
@@ -176,7 +176,7 @@ if ( ! class_exists( 'acf_form_nav_menu' ) ) :
 			foreach ( $posted_values as $post_id => $values ) {
 				acf_save_post( $post_id, $values );
 			}
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 		}
 
 
@@ -231,7 +231,7 @@ if ( ! class_exists( 'acf_form_nav_menu' ) ) :
 		 */
 		function acf_validate_save_post() {
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 			if ( empty( $_POST['menu-item-acf'] ) ) {
 				return;
 			}
@@ -246,7 +246,7 @@ if ( ! class_exists( 'acf_form_nav_menu' ) ) :
 				// validate
 				acf_validate_values( $values, $prefix );
 			}
-			// phpcs:enable // phpcs:disable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable // phpcs:disable WordPress.Security.NonceVerification.Missing
 		}
 
 		/**
@@ -327,7 +327,7 @@ if ( ! class_exists( 'acf_form_nav_menu' ) ) :
 		
 		
 		// decode json
-		var json = $form.***REMOVED***();
+		var json = $form.serializeArray();
 		var json2 = [];
 		
 		

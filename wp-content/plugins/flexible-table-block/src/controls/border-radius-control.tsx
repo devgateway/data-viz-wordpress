@@ -20,7 +20,7 @@ import {
 	__experimentalVStack as VStack,
 	__experimentalText as Text,
 	__experimentalUnitControl as UnitControl,
-	__experimentalUseCustomUnits as ***REMOVED***,
+	__experimentalUseCustomUnits as useCustomUnits,
 } from '@wordpress/components';
 import { useInstanceId } from '@wordpress/compose';
 
@@ -29,8 +29,8 @@ import { useInstanceId } from '@wordpress/compose';
  */
 import { BORDER_RADIUS_UNITS, MAX_BORDER_RADIUS, CORNER_CONTROLS } from '../constants';
 import { CornerIndicatorControl } from './indicator-control';
-import { parseUnit, ***REMOVED*** } from '../utils/helper';
-import type { CornerValue } from '../***REMOVED***';
+import { parseUnit, sanitizeUnitValue } from '../utils/helper';
+import type { CornerValue } from '../BlockAttributes';
 
 const DEFAULT_VALUES = {
 	topLeft: '',
@@ -44,17 +44,17 @@ type Props = {
 	help?: string;
 	onChange: ( event: any ) => void;
 	values: {
-		topLeft?: Property.***REMOVED***;
-		topRight?: Property.***REMOVED***;
+		topLeft?: Property.BorderTopLeftRadius;
+		topRight?: Property.BorderTopRightRadius;
 		bottomRight?: Property.BorderBottomRightRadius;
 		bottomLeft?: Property.BorderBottomLeftRadius;
 	};
 };
 
 type ValuesKey = keyof typeof DEFAULT_VALUES;
-type ***REMOVED*** = keyof typeof MAX_BORDER_RADIUS;
+type MaxBorderRadiusKey = keyof typeof MAX_BORDER_RADIUS;
 
-export default function ***REMOVED***( {
+export default function BorderRadiusControl( {
 	label = __( 'Border radius', 'flexible-table-block' ),
 	help,
 	onChange,
@@ -64,7 +64,7 @@ export default function ***REMOVED***( {
 		...DEFAULT_VALUES,
 		...valuesProp,
 	};
-	const instanceId = useInstanceId( ***REMOVED***, 'ftb-border-radius-control' );
+	const instanceId = useInstanceId( BorderRadiusControl, 'ftb-border-radius-control' );
 	const headingId = `${ instanceId }-heading`;
 
 	const isMixed = ! (
@@ -73,7 +73,7 @@ export default function ***REMOVED***( {
 		values.topLeft === values.bottomLeft
 	);
 
-	const ***REMOVED*** = ***REMOVED***( { ***REMOVED***: BORDER_RADIUS_UNITS } );
+	const borderRadiusUnits = useCustomUnits( { availableUnits: BORDER_RADIUS_UNITS } );
 
 	const [ isLinked, setIsLinked ] = useState< boolean >( true );
 	const [ corner, setCorner ] = useState< CornerValue | undefined >( undefined );
@@ -82,7 +82,7 @@ export default function ***REMOVED***( {
 		? __( 'Unlink sides', 'flexible-table-block' )
 		: __( 'Link sides', 'flexible-table-block' );
 
-	const ***REMOVED***: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
+	const allInputPlaceholder: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
 	const allInputValue: string | 0 = isMixed ? '' : values.topLeft;
 
 	const toggleLinked = () => {
@@ -98,18 +98,18 @@ export default function ***REMOVED***( {
 
 	const handleOnFocus = ( focusCorner: CornerValue ) => setCorner( focusCorner );
 
-	const ***REMOVED*** = ( inputValue: string | undefined ) => {
+	const handleOnChangeAll = ( inputValue: string | undefined ) => {
 		if ( inputValue ) {
 			const [ , unit ] = parseUnit( inputValue );
-			const ***REMOVED*** = ***REMOVED***( inputValue, {
-				maxNum: MAX_BORDER_RADIUS[ unit as ***REMOVED*** ],
+			const sanitizedValue = sanitizeUnitValue( inputValue, {
+				maxNum: MAX_BORDER_RADIUS[ unit as MaxBorderRadiusKey ],
 			} );
 
 			onChange( {
-				topLeft: ***REMOVED***,
-				topRight: ***REMOVED***,
-				bottomRight: ***REMOVED***,
-				bottomLeft: ***REMOVED***,
+				topLeft: sanitizedValue,
+				topRight: sanitizedValue,
+				bottomRight: sanitizedValue,
+				bottomLeft: sanitizedValue,
 			} );
 		} else {
 			onChange( {
@@ -121,16 +121,16 @@ export default function ***REMOVED***( {
 		}
 	};
 
-	const ***REMOVED*** = ( inputValue: string | undefined, targetCorner: CornerValue ) => {
+	const handleOnChange = ( inputValue: string | undefined, targetCorner: CornerValue ) => {
 		if ( inputValue ) {
 			const [ , unit ] = parseUnit( inputValue );
-			const ***REMOVED*** = ***REMOVED***( inputValue, {
-				maxNum: MAX_BORDER_RADIUS[ unit as ***REMOVED*** ],
+			const sanitizedValue = sanitizeUnitValue( inputValue, {
+				maxNum: MAX_BORDER_RADIUS[ unit as MaxBorderRadiusKey ],
 			} );
 
 			onChange( {
 				...values,
-				[ targetCorner ]: ***REMOVED***,
+				[ targetCorner ]: sanitizedValue,
 			} );
 		} else {
 			onChange( {
@@ -159,12 +159,12 @@ export default function ***REMOVED***( {
 						{ isLinked && (
 							<div>
 								<UnitControl
-									***REMOVED***
+									hideLabelFromVision
 									label={ __( 'All', 'flexible-table-block' ) }
-									placeholder={ ***REMOVED*** }
-									onChange={ ***REMOVED*** }
+									placeholder={ allInputPlaceholder }
+									onChange={ handleOnChangeAll }
 									value={ allInputValue }
-									units={ ***REMOVED*** }
+									units={ borderRadiusUnits }
 									min={ 0 }
 									size="__unstable-large"
 									__unstableInputWidth="100px"
@@ -186,10 +186,10 @@ export default function ***REMOVED***( {
 								<UnitControl
 									aria-label={ item.label }
 									value={ values[ item.value as ValuesKey ] }
-									units={ ***REMOVED*** }
+									units={ borderRadiusUnits }
 									min={ 0 }
 									onFocus={ () => handleOnFocus( item.value ) }
-									onChange={ ( value ) => ***REMOVED***( value, item.value ) }
+									onChange={ ( value ) => handleOnChange( value, item.value ) }
 									size="__unstable-large"
 									style={ { marginBottom: 0 } }
 								/>

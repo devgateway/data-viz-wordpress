@@ -14,7 +14,7 @@
  */
 function twentynineteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
-	$wp_customize->get_setting( '***REMOVED***' )->transport  = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
 	if ( isset( $wp_customize->selective_refresh ) ) {
@@ -26,7 +26,7 @@ function twentynineteen_customize_register( $wp_customize ) {
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
-			'***REMOVED***',
+			'blogdescription',
 			array(
 				'selector'        => '.site-description',
 				'render_callback' => 'twentynineteen_customize_partial_blogdescription',
@@ -50,10 +50,10 @@ function twentynineteen_customize_register( $wp_customize ) {
 		'primary_color',
 		array(
 			'type'     => 'radio',
-			'label'    => __( 'Primary Color', '***REMOVED***' ),
+			'label'    => __( 'Primary Color', 'twentynineteen' ),
 			'choices'  => array(
-				'default' => _x( 'Default', 'primary color', '***REMOVED***' ),
-				'custom'  => _x( 'Custom', 'primary color', '***REMOVED***' ),
+				'default' => _x( 'Default', 'primary color', 'twentynineteen' ),
+				'custom'  => _x( 'Custom', 'primary color', 'twentynineteen' ),
 			),
 			'section'  => 'colors',
 			'priority' => 5,
@@ -75,7 +75,7 @@ function twentynineteen_customize_register( $wp_customize ) {
 			$wp_customize,
 			'primary_color_hue',
 			array(
-				'description' => __( 'Apply a custom color for buttons, links, featured images, etc.', '***REMOVED***' ),
+				'description' => __( 'Apply a custom color for buttons, links, featured images, etc.', 'twentynineteen' ),
 				'section'     => 'colors',
 				'mode'        => 'hue',
 			)
@@ -95,7 +95,7 @@ function twentynineteen_customize_register( $wp_customize ) {
 	$wp_customize->add_control(
 		'image_filter',
 		array(
-			'label'   => __( 'Apply a filter to featured images using the primary color', '***REMOVED***' ),
+			'label'   => __( 'Apply a filter to featured images using the primary color', 'twentynineteen' ),
 			'section' => 'colors',
 			'type'    => 'checkbox',
 		)
@@ -125,7 +125,7 @@ function twentynineteen_customize_partial_blogdescription() {
  * Bind JS handlers to instantly live-preview changes.
  */
 function twentynineteen_customize_preview_js() {
-	wp_enqueue_script( '***REMOVED***-customize-preview', get_theme_file_uri( '/js/customize-preview.js' ), array( 'customize-preview' ), '20181214', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentynineteen-customize-preview', get_theme_file_uri( '/js/customize-preview.js' ), array( 'customize-preview' ), '20181214', array( 'in_footer' => true ) );
 }
 add_action( 'customize_preview_init', 'twentynineteen_customize_preview_js' );
 
@@ -133,7 +133,7 @@ add_action( 'customize_preview_init', 'twentynineteen_customize_preview_js' );
  * Load dynamic logic for the customizer controls area.
  */
 function twentynineteen_panels_js() {
-	wp_enqueue_script( '***REMOVED***-customize-controls', get_theme_file_uri( '/js/customize-controls.js' ), array(), '20181214', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentynineteen-customize-controls', get_theme_file_uri( '/js/customize-controls.js' ), array(), '20181214', array( 'in_footer' => true ) );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentynineteen_panels_js' );
 

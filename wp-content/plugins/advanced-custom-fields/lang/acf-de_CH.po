@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: de_CH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,7 +89,7 @@ msgid ""
 "href=\"%1$s\">Updates</a> page. If you don't have a licence key, please see "
 "<a href=\"%2$s\" target=\"_blank\">details & pricing</a>."
 msgstr ""
-"Bitte gib auf der Seite <a href=\"%s\">***REMOVED***</a> deinen "
+"Bitte gib auf der Seite <a href=\"%s\">Aktualisierungen</a> deinen "
 "Lizenzschlüssel ein, um Updates zu aktivieren. Solltest du keinen "
 "Lizenzschlüssel haben, findest du hier <a href=\"%s\" "
 "target=\"_blank\">Details & Preise</a>."
@@ -154,14 +154,14 @@ msgstr ""
 #: pro/admin/admin-updates.php:122,
 #: pro/admin/views/html-settings-updates.php:12
 msgid "Updates"
-msgstr "***REMOVED***"
+msgstr "Aktualisierungen"
 
 #: pro/admin/admin-updates.php:212
 msgid ""
 "<b>Error</b>. Could not authenticate update package. Please check again or "
 "deactivate and reactivate your ACF PRO license."
 msgstr ""
-"<b>Fehler</b>. Konnte das Update-Paket nicht ***REMOVED***. Bitte "
+"<b>Fehler</b>. Konnte das Update-Paket nicht authentifizieren. Bitte "
 "überprüfen Sie noch einmal oder reaktivieren Sie Ihre ACF PRO-Lizenz."
 
 #: pro/admin/admin-updates.php:199
@@ -173,7 +173,7 @@ msgid ""
 "<b>Error</b>. Your license for this site has expired or been deactivated. "
 "Please reactivate your ACF PRO license."
 msgstr ""
-"<b>Fehler</b>. Konnte das Update-Paket nicht ***REMOVED***. Bitte "
+"<b>Fehler</b>. Konnte das Update-Paket nicht authentifizieren. Bitte "
 "überprüfen Sie noch einmal oder reaktivieren Sie Ihre ACF PRO-Lizenz."
 
 #: pro/fields/class-acf-field-clone.php:25
@@ -478,7 +478,7 @@ msgstr "Zur Galerie hinzufügen"
 
 #: pro/fields/class-acf-field-gallery.php:508
 msgid "Bulk actions"
-msgstr "***REMOVED***"
+msgstr "Massenverarbeitung"
 
 #: pro/fields/class-acf-field-gallery.php:509
 msgid "Sort by date uploaded"
@@ -637,7 +637,7 @@ msgstr ""
 
 #: pro/fields/class-acf-field-repeater.php:162
 msgid "Sub Fields"
-msgstr "***REMOVED***"
+msgstr "Wiederholungsfelder"
 
 #: pro/fields/class-acf-field-repeater.php:195
 #, fuzzy
@@ -676,7 +676,7 @@ msgstr "Zugeklappt"
 #: pro/fields/class-acf-field-repeater.php:282
 msgid "Select a sub field to show when row is collapsed"
 msgstr ""
-"Wähle welches der ***REMOVED*** im zugeklappten Zustand angezeigt "
+"Wähle welches der Wiederholungsfelder im zugeklappten Zustand angezeigt "
 "werden soll"
 
 #: pro/fields/class-acf-field-repeater.php:1045
@@ -777,7 +777,7 @@ msgstr "Lizenz aktivieren"
 
 #: pro/admin/views/html-settings-updates.php:16
 msgid "License Information"
-msgstr "***REMOVED***"
+msgstr "Lizenzinformationen"
 
 #: pro/admin/views/html-settings-updates.php:34
 msgid ""
@@ -785,7 +785,7 @@ msgid ""
 "licence key, please see <a href=\"%s\" target=\"_blank\">details & pricing</"
 "a>."
 msgstr ""
-"Bitte gib unten deinen Lizenzschlüssel ein, um Updates ***REMOVED***. "
+"Bitte gib unten deinen Lizenzschlüssel ein, um Updates freizuschalten. "
 "Solltest du keinen Lizenzschlüssel haben, findest du hier <a href=\"%s\" "
 "target=\"_blank\">Details & Preise</a>."
 
@@ -817,7 +817,7 @@ msgstr "Aktuellste Version"
 
 #: pro/admin/views/html-settings-updates.php:84
 msgid "Update Available"
-msgstr "***REMOVED*** verfügbar"
+msgstr "Aktualisierung verfügbar"
 
 #: pro/admin/views/html-settings-updates.php:91
 msgid "No"
@@ -829,7 +829,7 @@ msgstr "Ja"
 
 #: pro/admin/views/html-settings-updates.php:98
 msgid "Upgrade Notice"
-msgstr "***REMOVED***-Hinweis"
+msgstr "Aktualisierungs-Hinweis"
 
 #: pro/admin/views/html-settings-updates.php:126
 msgid "Check For Updates"
@@ -841,7 +841,7 @@ msgstr ""
 msgid "Enter your license key to unlock updates"
 msgstr ""
 "Bitte gib oben Deinen Lizenzschlüssel ein um die Update-Fähigkeit "
-"***REMOVED***"
+"freizuschalten"
 
 #: pro/admin/views/html-settings-updates.php:119
 msgid "Update Plugin"
@@ -853,4 +853,4 @@ msgstr "Plugin aktualisieren"
 msgid "Please reactivate your license to unlock updates"
 msgstr ""
 "Bitte gib oben Deinen Lizenzschlüssel ein um die Update-Fähigkeit "
-"***REMOVED***"
+"freizuschalten"

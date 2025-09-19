@@ -173,8 +173,8 @@ msgid "Settings"
 msgstr "Postavke"
 
 #: ../admin/svgs-settings-page.php:46
-msgid "Restrict to ***REMOVED***"
-msgstr "Ograniči ***REMOVED***"
+msgid "Restrict to Administrators"
+msgstr "Ograniči administratorima"
 
 #: ../admin/svgs-settings-page.php:51 ../admin/svgs-settings-page.php:62 ..
 #: admin/svgs-settings-page.php:73
@@ -182,8 +182,8 @@ msgid "Yes"
 msgstr "Da"
 
 #: ../admin/svgs-settings-page.php:51
-msgid " Restricts SVG upload priveledges to ***REMOVED***."
-msgstr "Ograničava privilegije SVG učitavanja ***REMOVED***."
+msgid " Restricts SVG upload priveledges to Administrators."
+msgstr "Ograničava privilegije SVG učitavanja administratorima."
 
 #: ../admin/svgs-settings-page.php:78
 msgid "CSS Class to target"
@@ -252,8 +252,8 @@ msgid "Style SVG elements directly using CSS"
 msgstr "Stilizuj SVG elemente direktno koristeći CSS"
 
 #: ../admin/svgs-settings-page.php:136
-msgid "Restrict to ***REMOVED*** only"
-msgstr "Ograniči samo za ***REMOVED***"
+msgid "Restrict to Administrators only"
+msgstr "Ograniči samo za administratore"
 
 #: ../admin/svgs-settings-page.php:137
 msgid "Extremely Simple To Use"

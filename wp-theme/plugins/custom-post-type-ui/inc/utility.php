@@ -378,7 +378,7 @@ function cptui_newsletter_form() {
     <form method="post"
       action="https://emailoctopus.com/lists/2039e001-4775-11ea-be00-06b4694bee2a/members/embedded/1.3/add"
       class="email-octopus-form"
-      data-sitekey="***REMOVED***">
+      data-sitekey="6LdYsmsUAAAAAPXVTt-ovRsPIJ_IVhvYBBhGvRV6">
         <div class="email-octopus-form-row">
             <label for="field_0">Email address</label>
             <input id="field_0" name="field_0" type="email" placeholder="email@domain.com" style="max-width:100%;">
@@ -393,7 +393,7 @@ function cptui_newsletter_form() {
 
         <div class="email-octopus-form-row-subscribe">
             <input type="hidden"
-               name="***REMOVED***"
+               name="successRedirectUrl"
                value="">
             <button type="submit" class="button button-secondary">Subscribe</button>
         </div>
@@ -431,9 +431,9 @@ function enqueue_email_octopus_assets() {
 		return;
 	}
 
-	wp_enqueue_style( 'cptui-emailoctopus', 'https://emailoctopus.com/bundles/***REMOVED***/css/formEmbed.css' );
+	wp_enqueue_style( 'cptui-emailoctopus', 'https://emailoctopus.com/bundles/emailoctopuslist/css/formEmbed.css' );
 
-	wp_enqueue_script( 'cptui-emailoctopus-js', 'https://emailoctopus.com/bundles/***REMOVED***/js/1.4/formEmbed.js', [ 'jquery' ], '', true );
+	wp_enqueue_script( 'cptui-emailoctopus-js', 'https://emailoctopus.com/bundles/emailoctopuslist/js/1.4/formEmbed.js', [ 'jquery' ], '', true );
 
 }
 add_action( 'admin_enqueue_scripts', 'enqueue_email_octopus_assets' );
@@ -540,9 +540,9 @@ function cptui_admin_notices_helper( $message = '', $success = true ) {
 	$class[] = $success ? 'updated' : 'error';
 	$class[] = 'notice is-dismissible';
 
-	$***REMOVED*** = '<div id="message" class="' . implode( ' ', $class ) . '"><p>';
+	$messagewrapstart = '<div id="message" class="' . implode( ' ', $class ) . '"><p>';
 
-	$***REMOVED*** = '</p></div>';
+	$messagewrapend = '</p></div>';
 
 	$action = '';
 
@@ -554,10 +554,10 @@ function cptui_admin_notices_helper( $message = '', $success = true ) {
 	 * @param string $value            Complete HTML output for notice.
 	 * @param string $action           Action whose message is being generated.
 	 * @param string $message          The message to be displayed.
-	 * @param string $***REMOVED*** Beginning wrap HTML.
-	 * @param string $***REMOVED***   Ending wrap HTML.
+	 * @param string $messagewrapstart Beginning wrap HTML.
+	 * @param string $messagewrapend   Ending wrap HTML.
 	 */
-	return apply_filters( 'cptui_admin_notice', $***REMOVED*** . $message . $***REMOVED***, $action, $message, $***REMOVED***, $***REMOVED*** );
+	return apply_filters( 'cptui_admin_notice', $messagewrapstart . $message . $messagewrapend, $action, $message, $messagewrapstart, $messagewrapend );
 }
 
 /**

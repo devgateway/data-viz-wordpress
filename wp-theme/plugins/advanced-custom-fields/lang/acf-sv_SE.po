@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2017-06-27 15:28+1000\n"
 "PO-Revision-Date: 2019-05-15 09:55+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:63
 msgid "Advanced Custom Fields"
@@ -167,7 +167,7 @@ msgstr "vald"
 
 #: includes/admin/admin-field-group.php:271
 msgid "No toggle fields available"
-msgstr "Det finns inga ***REMOVED*** fält"
+msgstr "Det finns inga aktiveringsbara fält"
 
 #: includes/admin/admin-field-group.php:272
 msgid "Field group title is required"
@@ -276,12 +276,12 @@ msgstr "Fältgrupp synkroniserad. %s"
 msgid "%s field group synchronised."
 msgid_plural "%s field groups synchronised."
 msgstr[0] "%s fältgrupp synkroniserad."
-msgstr[1] "%s fältgrupper ***REMOVED***."
+msgstr[1] "%s fältgrupper synkroniserade."
 
 #: includes/admin/admin-field-groups.php:394
 #: includes/admin/admin-field-groups.php:557
 msgid "Sync available"
-msgstr "***REMOVED*** tillgänglig"
+msgstr "Synkronisering tillgänglig"
 
 #: includes/admin/admin-field-groups.php:507 includes/forms/form-front.php:38
 #: pro/fields/class-acf-field-gallery.php:370
@@ -304,13 +304,13 @@ msgstr "Status"
 #: includes/admin/admin-field-groups.php:607
 msgid "Customise WordPress with powerful, professional and intuitive fields."
 msgstr ""
-"Skräddarsy Wordpress med kraftfulla, ***REMOVED*** och intuitiva fält."
+"Skräddarsy Wordpress med kraftfulla, professionella och intuitiva fält."
 
 #: includes/admin/admin-field-groups.php:609
 #: includes/admin/settings-info.php:76
 #: pro/admin/views/html-settings-updates.php:111
 msgid "Changelog"
-msgstr "***REMOVED***"
+msgstr "Versionshistorik"
 
 #: includes/admin/admin-field-groups.php:614
 #, php-format
@@ -459,7 +459,7 @@ msgstr[1] "Importerade %s fältgrupp"
 
 #: includes/admin/views/field-group-field-conditional-logic.php:28
 msgid "Conditional Logic"
-msgstr "***REMOVED***"
+msgstr "Visningsvillkor"
 
 #: includes/admin/views/field-group-field-conditional-logic.php:54
 msgid "Show this field if"
@@ -682,11 +682,11 @@ msgstr "Under fält"
 
 #: includes/admin/views/field-group-options.php:85
 msgid "Order No."
-msgstr "***REMOVED***"
+msgstr "Ordningsnummer"
 
 #: includes/admin/views/field-group-options.php:86
 msgid "Field groups with a lower order will appear first"
-msgstr "Fältgrupper med lägre ***REMOVED*** kommer synas först"
+msgstr "Fältgrupper med lägre ordningsnummer kommer synas först"
 
 #: includes/admin/views/field-group-options.php:97
 msgid "Shown in field group list"
@@ -698,15 +698,15 @@ msgstr "Dölj på skärmen"
 
 #: includes/admin/views/field-group-options.php:108
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
-msgstr "<b>Välj</b> objekt för att <b>dölja</b> dem från ***REMOVED***"
+msgstr "<b>Välj</b> objekt för att <b>dölja</b> dem från redigeringsvyn"
 
 #: includes/admin/views/field-group-options.php:108
 msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
 "options will be used (the one with the lowest order number)"
 msgstr ""
-"Om flera fältgrupper visas i ***REMOVED***, kommer första gruppens "
-"inställningar att användas (den med lägst ***REMOVED***)"
+"Om flera fältgrupper visas i redigeringsvyn, kommer första gruppens "
+"inställningar att användas (den med lägst ordningsnummer)"
 
 #: includes/admin/views/field-group-options.php:115
 msgid "Permalink"
@@ -776,7 +776,7 @@ msgstr "Uppgradera sajter"
 #: includes/admin/views/install-network.php:9
 #: includes/admin/views/install.php:3
 msgid "Advanced Custom Fields Database Upgrade"
-msgstr "Advanced Custom Fields ***REMOVED***"
+msgstr "Advanced Custom Fields databasuppgradering"
 
 #: includes/admin/views/install-network.php:11
 #, php-format
@@ -784,7 +784,7 @@ msgid ""
 "The following sites require a DB upgrade. Check the ones you want to update "
 "and then click %s."
 msgstr ""
-"Följande sajter behöver en ***REMOVED***. Kryssa i de du vill uppdatera "
+"Följande sajter behöver en databasuppdatering. Kryssa i de du vill uppdatera "
 "och klicka på %s."
 
 #: includes/admin/views/install-network.php:20
@@ -795,7 +795,7 @@ msgstr "Webbplats"
 #: includes/admin/views/install-network.php:48
 #, php-format
 msgid "Site requires database upgrade from %s to %s"
-msgstr "Webbplatsen kräver en ***REMOVED*** från %s till %s"
+msgstr "Webbplatsen kräver en databasuppgradering från %s till %s"
 
 #: includes/admin/views/install-network.php:50
 msgid "Site is up to date"
@@ -944,7 +944,7 @@ msgid ""
 "independently from their parents. This allows you to drag and drop fields in "
 "and out of parent fields!"
 msgstr ""
-"Omdesignen av ***REMOVED*** har tillåtit underfält att leva självständigt "
+"Omdesignen av dataarkitekturen har tillåtit underfält att leva självständigt "
 "från deras föräldrar. Detta gör att du kan dra och släppa fält in och ut "
 "från förälderfälten!"
 
@@ -954,12 +954,12 @@ msgstr "Adjö tillägg. Hej PRO"
 
 #: includes/admin/views/settings-info.php:44
 msgid "Introducing ACF PRO"
-msgstr "***REMOVED*** av ACF PRO"
+msgstr "Introducerande av ACF PRO"
 
 #: includes/admin/views/settings-info.php:45
 msgid ""
 "We're changing the way premium functionality is delivered in an exciting way!"
-msgstr "Vi ändrar hur premium ***REMOVED*** levereras, på ett spännande sätt!"
+msgstr "Vi ändrar hur premium funktionalitet levereras, på ett spännande sätt!"
 
 #: includes/admin/views/settings-info.php:46
 #, php-format
@@ -969,8 +969,8 @@ msgid ""
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
 "Samtliga 4 premiumtillägg har kombineras till en ny <a href=\"%s\">Pro "
-"version av ACF</a>. Med både personlig- och ***REMOVED*** tillgänglig, så "
-"är premium ***REMOVED*** billigare och tillgängligare än någonsin!"
+"version av ACF</a>. Med både personlig- och utvecklarlicens tillgänglig, så "
+"är premium funktionalitet billigare och tillgängligare än någonsin!"
 
 #: includes/admin/views/settings-info.php:50
 msgid "Powerful Features"
@@ -1001,7 +1001,7 @@ msgid ""
 "To help make upgrading easy, <a href=\"%s\">login to your store account</a> "
 "and claim a free copy of ACF PRO!"
 msgstr ""
-"För att göra ***REMOVED*** enkel, <a href=\"%s\">logga in till ditt konto</"
+"För att göra uppgraderingen enkel, <a href=\"%s\">logga in till ditt konto</"
 "a> och få en gratis kopia av ACF PRO!"
 
 #: includes/admin/views/settings-info.php:58
@@ -1045,14 +1045,14 @@ msgstr "Ny automatisk export till JSON funktion förbättrar snabbheten"
 
 #: includes/admin/views/settings-info.php:88
 msgid "Better version control"
-msgstr "Bättre ***REMOVED***"
+msgstr "Bättre versionshantering"
 
 #: includes/admin/views/settings-info.php:89
 msgid ""
 "New auto export to JSON feature allows field settings to be version "
 "controlled"
 msgstr ""
-"Ny auto export till JSON funktion möjliggör ***REMOVED*** av "
+"Ny auto export till JSON funktion möjliggör versionshantering av "
 "fältinställningar"
 
 #: includes/admin/views/settings-info.php:93
@@ -1082,7 +1082,7 @@ msgstr "Nytt galleri"
 
 #: includes/admin/views/settings-info.php:111
 msgid "The gallery field has undergone a much needed facelift"
-msgstr "Gallerifältet har genomgått en välbehövlig ***REMOVED***"
+msgstr "Gallerifältet har genomgått en välbehövlig ansiktslyftning"
 
 #: includes/admin/views/settings-info.php:115
 msgid "New Settings"
@@ -1131,7 +1131,7 @@ msgid ""
 "New field group functionality allows you to move a field between groups & "
 "parents"
 msgstr ""
-"Ny fältgrupp ***REMOVED*** tillåter dig att flytta ett fält mellan grupper "
+"Ny fältgrupp funktionalitet tillåter dig att flytta ett fält mellan grupper "
 "& föräldrar"
 
 #: includes/admin/views/settings-info.php:144
@@ -1174,7 +1174,7 @@ msgid ""
 msgstr ""
 "Följande kod kan användas för att registrera en lokal version av valda "
 "fältgrupp(er). Ett lokal fältgrupp kan ge många fördelar som snabbare "
-"***REMOVED***, ***REMOVED*** & dynamiska fält/inställningar. Det är "
+"laddningstider, versionshantering & dynamiska fält/inställningar. Det är "
 "bara att kopiera och klistra in följande kod till ditt temas functions.php "
 "fil eller att inkludera det i en extern fil."
 
@@ -1540,7 +1540,7 @@ msgstr "Returvärde"
 #: includes/fields/class-acf-field-date_time_picker.php:215
 #: includes/fields/class-acf-field-time_picker.php:143
 msgid "The format returned via template functions"
-msgstr "Formatet som returneras av ***REMOVED***"
+msgstr "Formatet som returneras av mallfunktioner"
 
 #: includes/fields/class-acf-field-date_picker.php:272
 #: includes/fields/class-acf-field-date_time_picker.php:231
@@ -1744,7 +1744,7 @@ msgstr "Bibliotek"
 #: includes/fields/class-acf-field-image.php:232
 #: pro/fields/class-acf-field-gallery.php:671
 msgid "Limit the media library choice"
-msgstr "Begränsa urvalet i ***REMOVED***"
+msgstr "Begränsa urvalet i mediabiblioteket"
 
 #: includes/fields/class-acf-field-file.php:240
 #: includes/fields/class-acf-field-image.php:237
@@ -1792,7 +1792,7 @@ msgstr "Tillåtna filtyper"
 #: includes/fields/class-acf-field-image.php:304
 #: pro/fields/class-acf-field-gallery.php:743
 msgid "Comma separated list. Leave blank for all types"
-msgstr "***REMOVED*** lista. Lämna blankt för alla typer"
+msgstr "Kommaseparerad lista. Lämna blankt för alla typer"
 
 #: includes/fields/class-acf-field-google-map.php:36
 msgid "Google Map"
@@ -1804,7 +1804,7 @@ msgstr "Söker plats"
 
 #: includes/fields/class-acf-field-google-map.php:52
 msgid "Sorry, this browser does not support geolocation"
-msgstr "Tyvärr saknar denna webbläsare stöd för ***REMOVED***"
+msgstr "Tyvärr saknar denna webbläsare stöd för platsinformation"
 
 #: includes/fields/class-acf-field-google-map.php:133
 msgid "Clear location"
@@ -2000,7 +2000,7 @@ msgstr "Reglerar hur nya linjer renderas"
 #: includes/fields/class-acf-field-message.php:129
 #: includes/fields/class-acf-field-textarea.php:181
 msgid "Automatically add paragraphs"
-msgstr "Lägg till ***REMOVED*** automatiskt."
+msgstr "Lägg till styckesindelning automatiskt."
 
 #: includes/fields/class-acf-field-message.php:130
 #: includes/fields/class-acf-field-textarea.php:182
@@ -2137,7 +2137,7 @@ msgstr "Inläggets ID"
 
 #: includes/fields/class-acf-field-radio.php:36
 msgid "Radio Button"
-msgstr "***REMOVED***"
+msgstr "Alternativknapp"
 
 #: includes/fields/class-acf-field-radio.php:269
 msgid "Other"
@@ -2328,7 +2328,7 @@ msgid ""
 "field or flexible content field layout"
 msgstr ""
 "Flik fältet kommer att visas felaktigt om de läggs till ett upprepningsfält "
-"med ***REMOVED*** eller ett innehållsfält med flexibel layout"
+"med tabellutseende eller ett innehållsfält med flexibel layout"
 
 #: includes/fields/class-acf-field-tab.php:97
 msgid ""
@@ -2396,7 +2396,7 @@ msgstr "Ett enda värde"
 
 #: includes/fields/class-acf-field-taxonomy.php:790
 msgid "Radio Buttons"
-msgstr "***REMOVED***"
+msgstr "Alternativknappar"
 
 #: includes/fields/class-acf-field-taxonomy.php:809
 msgid "Create Terms"
@@ -2571,8 +2571,8 @@ msgid "Show Media Upload Buttons?"
 msgstr "Visa knappar för uppladdning av media?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:479
-msgid "Delay ***REMOVED***?"
-msgstr "Fördröj ***REMOVED***?"
+msgid "Delay initialization?"
+msgstr "Fördröj initialisering?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:480
 msgid "TinyMCE will not be initalized until field is clicked"
@@ -2817,7 +2817,7 @@ msgstr ""
 
 #: pro/admin/admin-settings-updates.php:78
 msgid "<b>Error</b>. Could not connect to update server"
-msgstr "<b>Fel</b>. Kunde inte ansluta till ***REMOVED***"
+msgstr "<b>Fel</b>. Kunde inte ansluta till uppdateringsservern"
 
 #: pro/admin/admin-settings-updates.php:162
 #: pro/admin/views/html-settings-updates.php:17
@@ -2834,7 +2834,7 @@ msgstr "Aktivera licens"
 
 #: pro/admin/views/html-settings-updates.php:21
 msgid "License Information"
-msgstr "***REMOVED***"
+msgstr "Licensinformation"
 
 #: pro/admin/views/html-settings-updates.php:24
 #, php-format
@@ -3075,11 +3075,11 @@ msgstr "Välj åtgärd"
 
 #: pro/fields/class-acf-field-gallery.php:564
 msgid "Sort by date uploaded"
-msgstr "Sortera efter ***REMOVED***"
+msgstr "Sortera efter uppladdningsdatum"
 
 #: pro/fields/class-acf-field-gallery.php:565
 msgid "Sort by date modified"
-msgstr "Sortera efter ***REMOVED***"
+msgstr "Sortera efter redigeringsdatum"
 
 #: pro/fields/class-acf-field-gallery.php:566
 msgid "Sort by title"
@@ -3173,8 +3173,8 @@ msgstr ""
 "till sidan <a href=\"%s\">detaljer & priser</a>"
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"

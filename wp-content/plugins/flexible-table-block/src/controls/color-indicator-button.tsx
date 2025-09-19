@@ -7,7 +7,7 @@ import type { Property } from 'csstype';
 /**
  * WordPress dependencies
  */
-import { Button, ***REMOVED*** } from '@wordpress/components';
+import { Button, ColorIndicator } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 	onClick: () => void;
 };
 
-export default function ***REMOVED***( {
+export default function ColorIndicatorButton( {
 	label,
 	value,
 	isNone,
@@ -40,7 +40,7 @@ export default function ***REMOVED***( {
 			{ isMixed ? (
 				__( 'Mixed', 'flexible-table-block' )
 			) : (
-				<***REMOVED*** colorValue={ value || '' } />
+				<ColorIndicator colorValue={ value || '' } />
 			) }
 		</Button>
 	);

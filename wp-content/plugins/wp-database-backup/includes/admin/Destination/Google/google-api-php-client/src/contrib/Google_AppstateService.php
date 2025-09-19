@@ -18,8 +18,8 @@
    * The "states" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_AppstateService(...);
-   *   $states = $***REMOVED***->states;
+   *   $appstateService = new Google_AppstateService(...);
+   *   $states = $appstateService->states;
    *  </code>
    */
   class Google_StatesServiceResource extends Google_ServiceResource {
@@ -32,7 +32,7 @@
      * @param int $stateKey The key for the data to be retrieved.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** The version of the data to be cleared. Version strings are returned by the server.
+     * @opt_param string currentDataVersion The version of the data to be cleared. Version strings are returned by the server.
      * @return Google_WriteResult
      */
     public function clear($stateKey, $optParams = array()) {
@@ -104,7 +104,7 @@
      * @param Google_UpdateRequest $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** The version of the app state your application is attempting to update. If this does not match the current version, this method will return a conflict error. If there is no data stored on the server for this key, the update will succeed irrespective of the value of this parameter.
+     * @opt_param string currentStateVersion The version of the app state your application is attempting to update. If this does not match the current version, this method will return a conflict error. If there is no data stored on the server for this key, the update will succeed irrespective of the value of this parameter.
      * @return Google_WriteResult
      */
     public function update($stateKey, Google_UpdateRequest $postBody, $optParams = array()) {
@@ -136,7 +136,7 @@
 class Google_AppstateService extends Google_Service {
   public $states;
   /**
-   * Constructs the internal ***REMOVED*** of the Appstate service.
+   * Constructs the internal representation of the Appstate service.
    *
    * @param Google_Client $client
    */
@@ -146,7 +146,7 @@ class Google_AppstateService extends Google_Service {
     $this->serviceName = 'appstate';
 
     $client->addService($this->serviceName, $this->version);
-    $this->states = new Google_StatesServiceResource($this, $this->serviceName, 'states', json_decode('{"methods": {"clear": {"id": "appstate.states.clear", "path": "states/{stateKey}/clear", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "response": {"$ref": "WriteResult"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "delete": {"id": "appstate.states.delete", "path": "states/{stateKey}", "httpMethod": "DELETE", "parameters": {"stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "get": {"id": "appstate.states.get", "path": "states/{stateKey}", "httpMethod": "GET", "parameters": {"stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "response": {"$ref": "GetResponse"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "list": {"id": "appstate.states.list", "path": "states", "httpMethod": "GET", "parameters": {"includeData": {"type": "boolean", "default": "false", "location": "query"}}, "response": {"$ref": "ListResponse"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "update": {"id": "appstate.states.update", "path": "states/{stateKey}", "httpMethod": "PUT", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "request": {"$ref": "UpdateRequest"}, "response": {"$ref": "WriteResult"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}}}', true));
+    $this->states = new Google_StatesServiceResource($this, $this->serviceName, 'states', json_decode('{"methods": {"clear": {"id": "appstate.states.clear", "path": "states/{stateKey}/clear", "httpMethod": "POST", "parameters": {"currentDataVersion": {"type": "string", "location": "query"}, "stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "response": {"$ref": "WriteResult"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "delete": {"id": "appstate.states.delete", "path": "states/{stateKey}", "httpMethod": "DELETE", "parameters": {"stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "get": {"id": "appstate.states.get", "path": "states/{stateKey}", "httpMethod": "GET", "parameters": {"stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "response": {"$ref": "GetResponse"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "list": {"id": "appstate.states.list", "path": "states", "httpMethod": "GET", "parameters": {"includeData": {"type": "boolean", "default": "false", "location": "query"}}, "response": {"$ref": "ListResponse"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}, "update": {"id": "appstate.states.update", "path": "states/{stateKey}", "httpMethod": "PUT", "parameters": {"currentStateVersion": {"type": "string", "location": "query"}, "stateKey": {"type": "integer", "required": true, "format": "int32", "minimum": "0", "maximum": "3", "location": "path"}}, "request": {"$ref": "UpdateRequest"}, "response": {"$ref": "WriteResult"}, "scopes": ["https://www.googleapis.com/auth/appstate"]}}}', true));
 
   }
 }
@@ -154,15 +154,15 @@ class Google_AppstateService extends Google_Service {
 
 
 class Google_GetResponse extends Google_Model {
-  public $***REMOVED***;
+  public $currentStateVersion;
   public $data;
   public $kind;
   public $stateKey;
-  public function setCurrentStateVersion( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCurrentStateVersion( $currentStateVersion) {
+    $this->currentStateVersion = $currentStateVersion;
   }
   public function getCurrentStateVersion() {
-    return $this->***REMOVED***;
+    return $this->currentStateVersion;
   }
   public function setData( $data) {
     $this->data = $data;
@@ -189,7 +189,7 @@ class Google_ListResponse extends Google_Model {
   protected $__itemsDataType = 'array';
   public $items;
   public $kind;
-  public $***REMOVED***;
+  public $maximumKeyCount;
   public function setItems(/* array(Google_GetResponse) */ $items) {
     $this->assertIsArray($items, 'Google_GetResponse', __METHOD__);
     $this->items = $items;
@@ -203,11 +203,11 @@ class Google_ListResponse extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMaximumKeyCount( $maximumKeyCount) {
+    $this->maximumKeyCount = $maximumKeyCount;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMaximumKeyCount() {
+    return $this->maximumKeyCount;
   }
 }
 
@@ -229,14 +229,14 @@ class Google_UpdateRequest extends Google_Model {
 }
 
 class Google_WriteResult extends Google_Model {
-  public $***REMOVED***;
+  public $currentStateVersion;
   public $kind;
   public $stateKey;
-  public function setCurrentStateVersion( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCurrentStateVersion( $currentStateVersion) {
+    $this->currentStateVersion = $currentStateVersion;
   }
   public function getCurrentStateVersion() {
-    return $this->***REMOVED***;
+    return $this->currentStateVersion;
   }
   public function setKind( $kind) {
     $this->kind = $kind;

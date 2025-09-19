@@ -115,7 +115,7 @@ class Yoast_Notification_Center {
 			exit( '-1' );
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are using the variable as a nonce.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are using the variable as a nonce.
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['nonce'] ), $notification_id ) ) {
 			exit( '-1' );
 		}
@@ -405,7 +405,7 @@ class Yoast_Notification_Center {
 		}
 
 		foreach ( $notifications as $notification ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Temporarily disabled, see: https://github.com/Yoast/wordpress-seo-premium/issues/2510 and https://github.com/Yoast/wordpress-seo-premium/issues/2511.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Temporarily disabled, see: https://github.com/Yoast/wordpress-seo-premium/issues/2510 and https://github.com/Yoast/wordpress-seo-premium/issues/2511.
 			echo $notification;
 		}
 	}
@@ -534,9 +534,9 @@ class Yoast_Notification_Center {
 	 */
 	public function ajax_get_notifications() {
 		$echo = false;
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form data.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form data.
 		if ( isset( $_POST['version'] ) && is_string( $_POST['version'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are only comparing the variable in a condition.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing the variable in a condition.
 			$echo = wp_unslash( $_POST['version'] ) === '2';
 		}
 
@@ -706,10 +706,10 @@ class Yoast_Notification_Center {
 	 * @return string non-sanitized value of key if set, an empty string otherwise.
 	 */
 	private static function get_user_input( $key ) {
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information and only using this variable in a comparison.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information and only using this variable in a comparison.
 		$request_method = isset( $_SERVER['REQUEST_METHOD'] ) && is_string( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : '';
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: This function does not sanitize variables.
-		// phpcs:disable WordPress.Security.***REMOVED***.Recommended,WordPress.Security.***REMOVED***.Missing -- Reason: This function does not verify a nonce.
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: This function does not sanitize variables.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing -- Reason: This function does not verify a nonce.
 		if ( $request_method === 'POST' ) {
 			if ( isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ) {
 				return wp_unslash( $_POST[ $key ] );
@@ -718,7 +718,7 @@ class Yoast_Notification_Center {
 		elseif ( isset( $_GET[ $key ] ) && is_string( $_GET[ $key ] ) ) {
 			return wp_unslash( $_GET[ $key ] );
 		}
-		// phpcs:enable WordPress.Security.***REMOVED***.Missing,WordPress.Security.***REMOVED***.Missing,WordPress.Security.ValidatedSanitizedInput.***REMOVED***
+		// phpcs:enable WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		return '';
 	}
 
@@ -819,7 +819,7 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Convert Notification to array ***REMOVED***.
+	 * Convert Notification to array representation.
 	 *
 	 * @since 3.2
 	 *
@@ -950,7 +950,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Retrieves the stored notifications.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return array|false Array with notifications or false when not set.
 	 */

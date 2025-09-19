@@ -14,7 +14,7 @@ $wp_upload_dir = wp_upload_dir();
 
 $wp_upload_dir['basedir'] = str_replace( '\\', '/', $wp_upload_dir['basedir'] );
 $remotefile               = $subdir . '/' . $filename;
-$localfile                = ***REMOVED***( $wp_upload_dir['basedir'] . '/db-backup' ) . $filename;
+$localfile                = trailingslashit( $wp_upload_dir['basedir'] . '/db-backup' ) . $filename;
 if ( isset( $host ) && ! empty( $host ) && isset( $user ) && ! empty( $user ) && isset( $pass ) && ! empty( $pass ) ) {
 	// See if port option is blank and set it to 21 if it isn't.
 	if ( ! get_option( 'backupbreeze_ftp_port' ) ) {

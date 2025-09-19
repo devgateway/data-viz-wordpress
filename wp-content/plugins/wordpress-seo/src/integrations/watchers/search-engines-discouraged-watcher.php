@@ -211,7 +211,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	protected function show_search_engines_discouraged_notice() {
 		\printf(
 			'<div id="robotsmessage" class="notice notice-error">%1$s</div>',
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output from present() is considered safe.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
 			$this->presenter->present()
 		);
 	}

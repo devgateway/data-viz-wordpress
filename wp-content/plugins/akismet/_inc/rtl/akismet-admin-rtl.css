@@ -20,7 +20,7 @@ body {
 
 #akismet-plugin-container {
 	background-color: var(--akismet-color-light-grey);
-	font-family: 'Inter', -apple-system, ***REMOVED***, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen-Sans', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
 }
 
 #akismet-plugin-container a {

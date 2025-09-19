@@ -13,7 +13,7 @@ export default class MapSymbols extends Component {
     constructor(props) {
         super(props);
         this.addMapSymbol = this.addMapSymbol.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.removeMapSymbol = this.removeMapSymbol.bind(this)
     }
 
     setFieldData(field, value, idx) {
@@ -32,7 +32,7 @@ export default class MapSymbols extends Component {
         setAttributes({ mapSymbols: newMapSymbols })
     }
 
-    ***REMOVED***(f) {
+    removeMapSymbol(f) {
         const { attributes: { mapSymbols }, setAttributes } = this.props
         let newMapSymbols = mapSymbols.slice(0, -1)
         setAttributes({ mapSymbols: newMapSymbols })
@@ -85,7 +85,7 @@ export default class MapSymbols extends Component {
                     })}
                     <PanelRow>
                         <Button isLink onClick={this.addMapSymbol}>{__("Add Map Symbol")}</Button>
-                        <Button isLink onClick={this.***REMOVED***}>{__("Remove Map Symbol")}</Button>
+                        <Button isLink onClick={this.removeMapSymbol}>{__("Remove Map Symbol")}</Button>
                     </PanelRow>            
         </PanelBody>]
     }

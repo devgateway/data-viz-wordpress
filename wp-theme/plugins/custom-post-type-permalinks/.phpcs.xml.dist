@@ -18,18 +18,18 @@
     <arg name="parallel" value="8"/><!-- Enables parallel processing when available for faster results. -->
 
     <!-- Rules: Check PHP version compatibility -->
-    <!-- https://github.com/***REMOVED***/***REMOVED***#sniffing-your-code-for-compatibility-with-specific-php-versions -->
+    <!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
     <config name="testVersion" value="5.3-"/>
-    <!-- https://github.com/***REMOVED***/***REMOVED*** -->
-    <rule ref="***REMOVED***"/>
+    <!-- https://github.com/PHPCompatibility/PHPCompatibilityWP -->
+    <rule ref="PHPCompatibilityWP"/>
     <config name="minimum_supported_wp_version" value="4.7"/>
     <rule ref="WordPress-Core">
         <exclude name="WordPress.Files.FileName" />
-        <exclude name="WordPress.***REMOVED***.***REMOVED***.***REMOVED***" />
-        <exclude name="WordPress.***REMOVED***.ValidHookName" />
+        <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase" />
+        <exclude name="WordPress.NamingConventions.ValidHookName" />
     </rule>
     <rule ref="WordPress-Docs"/>
-    <rule ref="WordPress.***REMOVED***.***REMOVED***">
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
             <!-- Value: replace the function, class, and variable prefixes used. Separate multiple prefixes with a comma. -->
             <property name="prefixes" type="array" value="CPTP"/>

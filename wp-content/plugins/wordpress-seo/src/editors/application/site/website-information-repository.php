@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Application\Site;
 
 use Yoast\WP\SEO\Editors\Framework\Site\Post_Site_Information;

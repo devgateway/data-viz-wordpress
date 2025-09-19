@@ -12,7 +12,7 @@ const SaveComponent = (props) => {
     const divStyles = {}
 
     return (<div className={"viz-component"}
-             data-component={"***REMOVED***"}
+             data-component={"dataFiltersApply"}
              data-group={group}
              data-app={app}
              data-label={label}>

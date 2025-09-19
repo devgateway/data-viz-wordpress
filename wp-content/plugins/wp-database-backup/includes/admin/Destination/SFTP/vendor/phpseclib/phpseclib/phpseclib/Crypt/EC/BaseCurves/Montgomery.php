@@ -106,10 +106,10 @@ class Montgomery extends Base
     /**
      * Set coefficients a
      */
-    public function ***REMOVED***(BigInteger $a)
+    public function setCoefficients(BigInteger $a)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         $this->a = $this->factory->newInteger($a);
         $two = $this->factory->newInteger(new BigInteger(2));
@@ -133,7 +133,7 @@ class Montgomery extends Base
                 throw new \UnexpectedValueException('Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
         }
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         $this->p = [
             $x instanceof BigInteger ? $this->factory->newInteger($x) : $x,
@@ -149,11 +149,11 @@ class Montgomery extends Base
     public function getBasePoint()
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         /*
         if (!isset($this->p)) {
-            throw new \***REMOVED***('setBasePoint needs to be called before this method');
+            throw new \RuntimeException('setBasePoint needs to be called before this method');
         }
         */
         return $this->p;
@@ -166,10 +166,10 @@ class Montgomery extends Base
      *
      * @return FiniteField[][]
      */
-    private function ***REMOVED***(array $p, array $q, PrimeInteger $x1)
+    private function doubleAndAddPoint(array $p, array $q, PrimeInteger $x1)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
 
         if (!count($p) || !count($q)) {
@@ -177,7 +177,7 @@ class Montgomery extends Base
         }
 
         if (!isset($p[1])) {
-            throw new \***REMOVED***('Affine coordinates need to be manually converted to XZ coordinates');
+            throw new \RuntimeException('Affine coordinates need to be manually converted to XZ coordinates');
         }
 
         list($x2, $z2) = $p;
@@ -219,8 +219,8 @@ class Montgomery extends Base
     public function multiplyPoint(array $p, BigInteger $d)
     {
         $p1 = [$this->one, $this->zero];
-        $***REMOVED*** = isset($x[1]);
-        $p2 = $this->***REMOVED***($p);
+        $alreadyInternal = isset($x[1]);
+        $p2 = $this->convertToInternal($p);
         $x = $p[0];
 
         $b = $d->toBits();
@@ -228,13 +228,13 @@ class Montgomery extends Base
         for ($i = 0; $i < strlen($b); $i++) {
             $b_i = (int) $b[$i];
             if ($b_i) {
-                list($p2, $p1) = $this->***REMOVED***($p2, $p1, $x);
+                list($p2, $p1) = $this->doubleAndAddPoint($p2, $p1, $x);
             } else {
-                list($p1, $p2) = $this->***REMOVED***($p1, $p2, $x);
+                list($p1, $p2) = $this->doubleAndAddPoint($p1, $p2, $x);
             }
         }
 
-        return $***REMOVED*** ? $p1 : $this->***REMOVED***($p1);
+        return $alreadyInternal ? $p1 : $this->convertToAffine($p1);
     }
 
     /**
@@ -248,7 +248,7 @@ class Montgomery extends Base
      *
      * @return \phpseclib3\Math\PrimeField\Integer[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToInternal(array $p)
     {
         if (empty($p)) {
             return [clone $this->zero, clone $this->one];
@@ -268,7 +268,7 @@ class Montgomery extends Base
      *
      * @return \phpseclib3\Math\PrimeField\Integer[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToAffine(array $p)
     {
         if (!isset($p[1])) {
             return $p;

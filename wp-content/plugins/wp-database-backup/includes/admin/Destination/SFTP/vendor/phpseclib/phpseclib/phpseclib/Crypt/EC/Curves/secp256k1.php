@@ -25,9 +25,9 @@ class secp256k1 extends KoblitzPrime
     public function __construct()
     {
         $this->setModulo(new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F', 16));
-        $this->***REMOVED***(
-            new BigInteger('***REMOVED***', 16),
-            new BigInteger('***REMOVED***', 16)
+        $this->setCoefficients(
+            new BigInteger('0000000000000000000000000000000000000000000000000000000000000000', 16),
+            new BigInteger('0000000000000000000000000000000000000000000000000000000000000007', 16)
         );
         $this->setOrder(new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141', 16));
         $this->setBasePoint(

@@ -302,7 +302,7 @@ if ( ! class_exists( 'ACF_Local_JSON' ) ) :
 							}
 
 							// Ignore sub directories.
-							$file = ***REMOVED***( $path ) . '/' . $filename;
+							$file = untrailingslashit( $path ) . '/' . $filename;
 							if ( is_dir( $file ) ) {
 								continue;
 							}
@@ -426,7 +426,7 @@ if ( ! class_exists( 'ACF_Local_JSON' ) ) :
 			}
 
 			foreach ( $paths as $path ) {
-				if ( ! is_writable( $path ) ) { //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_is_writable -- non-compatible function for this purpose.
+				if ( ! is_writable( $path ) ) { //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable -- non-compatible function for this purpose.
 					continue;
 				}
 
@@ -434,7 +434,7 @@ if ( ! class_exists( 'ACF_Local_JSON' ) ) :
 					$first_writable = $path;
 				}
 
-				$file_to_check = ***REMOVED***( $path ) . $filename;
+				$file_to_check = trailingslashit( $path ) . $filename;
 
 				if ( is_file( $file_to_check ) ) {
 					$file = $file_to_check;
@@ -443,7 +443,7 @@ if ( ! class_exists( 'ACF_Local_JSON' ) ) :
 
 			if ( ! $file ) {
 				if ( $first_writable ) {
-					$file = ***REMOVED***( $first_writable ) . $filename;
+					$file = trailingslashit( $first_writable ) . $filename;
 				} else {
 					return false;
 				}
@@ -464,7 +464,7 @@ if ( ! class_exists( 'ACF_Local_JSON' ) ) :
 
 			// Prepare for export and save the file.
 			$post   = acf_prepare_internal_post_type_for_export( $post, $post_type );
-			$result = file_put_contents( $file, acf_json_encode( $post ) . apply_filters( 'acf/json/eof_newline', PHP_EOL ) ); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_file_put_contents -- potentially could run outside of admin.
+			$result = file_put_contents( $file, acf_json_encode( $post ) . apply_filters( 'acf/json/eof_newline', PHP_EOL ) ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- potentially could run outside of admin.
 
 			// Return true if bytes were written.
 			return is_int( $result );
@@ -489,9 +489,9 @@ if ( ! class_exists( 'ACF_Local_JSON' ) ) :
 			}
 
 			foreach ( $paths as $path_to_check ) {
-				$file = ***REMOVED***( $path_to_check ) . '/' . $filename;
+				$file = untrailingslashit( $path_to_check ) . '/' . $filename;
 
-				if ( is_writable( $file ) ) { //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_is_writable -- non-compatible function for this purpose.
+				if ( is_writable( $file ) ) { //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable -- non-compatible function for this purpose.
 					wp_delete_file( $file );
 				}
 			}

@@ -38,7 +38,7 @@ class Twitter_Image_Generator implements Generator_Interface {
 	/**
 	 * Twitter_Image_Generator constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Image_Helper         $image         The image helper.
 	 * @param Url_Helper           $url           The url helper.
@@ -87,7 +87,7 @@ class Twitter_Image_Generator implements Generator_Interface {
 	/**
 	 * Retrieves an instance of the image container.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return Images The image container.
 	 */

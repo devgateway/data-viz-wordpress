@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * brainpoolP512r1
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Crypt\EC\Curves;
 use phpseclib3\Crypt\EC\BaseCurves\Prime;
 use phpseclib3\Math\BigInteger;
 
-class ***REMOVED*** extends Prime
+class brainpoolP512r1 extends Prime
 {
     public function __construct()
     {
@@ -25,7 +25,7 @@ class ***REMOVED*** extends Prime
             '66842AECDA12AE6A380E62881FF2F2D82C68528AA6056583A48F3',
             16
         ));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger(
                 '7830A3318B603B89E2327145AC234CC594CBDD8D3DF91610A83441CAEA9863BC2DED5D5AA82' .
                 '53AA10A2EF1C98B9AC8B57F1117A72BF2C7B9E7C1AC4D77FC94CA',

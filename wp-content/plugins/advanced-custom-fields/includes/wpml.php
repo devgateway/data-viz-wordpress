@@ -199,11 +199,11 @@ if ( ! class_exists( 'ACF_WPML_Compatibility' ) ) :
 			}
 
 			// ammend
-			$path = ***REMOVED***( $path ) . '/' . acf_get_setting( 'current_language' );
+			$path = untrailingslashit( $path ) . '/' . acf_get_setting( 'current_language' );
 
 			// make dir if does not exist
 			if ( ! file_exists( $path ) ) {
-				mkdir( $path, 0777, true ); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_mkdir -- Allow legacy mkdir call as this may fire outside admin.
+				mkdir( $path, 0777, true ); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir -- Allow legacy mkdir call as this may fire outside admin.
 			}
 
 			// return
@@ -226,7 +226,7 @@ if ( ! class_exists( 'ACF_WPML_Compatibility' ) ) :
 			// loop
 			if ( $paths ) {
 				foreach ( $paths as $i => $path ) {
-					$paths[ $i ] = ***REMOVED***( $path ) . '/' . acf_get_setting( 'current_language' );
+					$paths[ $i ] = untrailingslashit( $path ) . '/' . acf_get_setting( 'current_language' );
 				}
 			}
 
@@ -280,14 +280,14 @@ if ( ! class_exists( 'ACF_WPML_Compatibility' ) ) :
 		 */
 		function verify_ajax() {
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Recommended -- Verified elsewhere.
+			// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Verified elsewhere.
 			// set the language for this AJAX request
 			// this will allow get_posts to work as expected (load posts from the correct language)
 			if ( isset( $_REQUEST['lang'] ) ) {
 				global $sitepress;
 				$sitepress->switch_lang( sanitize_text_field( $_REQUEST['lang'] ) );
 			}
-			// phpcs:enable WordPress.Security.***REMOVED***.Recommended
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 		}
 
 		/**

@@ -175,7 +175,7 @@ class BSR_DB {
 	 * Modified to use WordPress wpdb functions instead of PHP's native mysql/pdo functions,
 	 * and to be compatible with batch processing via AJAX.
 	 *
-	 * @link https://***REMOVED***.com/products/search-and-replace-for-wordpress-databases/
+	 * @link https://interconnectit.com/products/search-and-replace-for-wordpress-databases/
 	 *
 	 * @access public
 	 * @param  string 	$table 	The table to run the replacement on.
@@ -314,7 +314,7 @@ class BSR_DB {
 	/**
 	 * Adapated from interconnect/it's search/replace script.
 	 *
-	 * @link https://***REMOVED***.com/products/search-and-replace-for-wordpress-databases/
+	 * @link https://interconnectit.com/products/search-and-replace-for-wordpress-databases/
 	 *
 	 * Take a serialised array and unserialise it replacing elements as needed and
 	 * unserialising any subordinate arrays and performing the replace on those too.
@@ -364,8 +364,8 @@ class BSR_DB {
 							continue;
 						}
 
-						// Skip any ***REMOVED*** of a protected property
-						// https://github.com/***REMOVED***/better-search-replace/issues/71#issuecomment-1369195244
+						// Skip any representation of a protected property
+						// https://github.com/deliciousbrains/better-search-replace/issues/71#issuecomment-1369195244
 						if ( is_string( $key ) && 1 === preg_match( "/^(\\\\0).+/im", preg_quote( $key ) ) ) {
 							continue;
 						}
@@ -501,6 +501,6 @@ class BSR_DB {
 	 * @return bool
 	 */
 	private function is_object_cloneable( $object ) {
-		return ( new \***REMOVED***( get_class( $object ) ) )->isCloneable();
+		return ( new \ReflectionClass( get_class( $object ) ) )->isCloneable();
 	}
 }

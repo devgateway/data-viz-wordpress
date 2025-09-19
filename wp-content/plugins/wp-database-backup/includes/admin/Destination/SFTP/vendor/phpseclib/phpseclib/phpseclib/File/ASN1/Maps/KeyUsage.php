@@ -25,10 +25,10 @@ abstract class KeyUsage
     const MAP = [
         'type' => ASN1::TYPE_BIT_STRING,
         'mapping' => [
-            '***REMOVED***',
-            '***REMOVED***',
-            '***REMOVED***',
-            '***REMOVED***',
+            'digitalSignature',
+            'nonRepudiation',
+            'keyEncipherment',
+            'dataEncipherment',
             'keyAgreement',
             'keyCertSign',
             'cRLSign',

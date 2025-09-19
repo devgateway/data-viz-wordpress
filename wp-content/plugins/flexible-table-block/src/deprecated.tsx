@@ -13,22 +13,22 @@ import {
 	// @ts-ignore: has no exported member
 	__experimentalGetColorClassesAndStyles as getColorClassesAndStyles,
 } from '@wordpress/block-editor';
-import type { ***REMOVED*** } from '@wordpress/blocks';
+import type { BlockSaveProps } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
  */
-import { ***REMOVED*** } from './utils/style-converter';
+import { convertToObject } from './utils/style-converter';
 import { toInteger } from './utils/helper';
-import type { ***REMOVED***, SectionName, Row } from './***REMOVED***';
+import type { BlockAttributes, SectionName, Row } from './BlockAttributes';
 
 // To fix a problem with link colors not being applied
 const v1 = {
 	attributes: {
-		***REMOVED***: {
+		contentJustification: {
 			type: 'string',
 		},
-		***REMOVED***: {
+		hasFixedLayout: {
 			type: 'boolean',
 			default: true,
 		},
@@ -36,11 +36,11 @@ const v1 = {
 			type: 'boolean',
 			default: false,
 		},
-		***REMOVED***: {
+		isScrollOnMobile: {
 			type: 'boolean',
 			default: false,
 		},
-		***REMOVED***: {
+		isStackedOnMobile: {
 			type: 'boolean',
 			default: false,
 		},
@@ -271,14 +271,14 @@ const v1 = {
 		},
 		__experimentalSelector: '.wp-block-flexible-table-block-table > table',
 	},
-	save( { attributes }: ***REMOVED***< ***REMOVED*** > ) {
+	save( { attributes }: BlockSaveProps< BlockAttributes > ) {
 		const {
-			***REMOVED***,
+			contentJustification,
 			tableStyles,
-			***REMOVED***,
-			***REMOVED***,
+			hasFixedLayout,
+			isStackedOnMobile,
 			isScrollOnPc,
-			***REMOVED***,
+			isScrollOnMobile,
 			sticky,
 			head,
 			body,
@@ -294,22 +294,22 @@ const v1 = {
 			return null;
 		}
 
-		const ***REMOVED***: Properties = ***REMOVED***( tableStyles );
-		const ***REMOVED***: Properties = ***REMOVED***( captionStyles );
+		const tableStylesObj: Properties = convertToObject( tableStyles );
+		const captionStylesObj: Properties = convertToObject( captionStyles );
 
 		const colorProps = getColorClassesAndStyles( attributes );
 
 		const blockProps = useBlockProps.save( {
 			className: clsx( {
-				[ `is-content-justification-${ ***REMOVED*** }` ]: ***REMOVED***,
+				[ `is-content-justification-${ contentJustification }` ]: contentJustification,
 				'is-scroll-on-pc': isScrollOnPc,
-				'is-scroll-on-mobile': ***REMOVED***,
+				'is-scroll-on-mobile': isScrollOnMobile,
 			} ),
 		} );
 
 		const tableClasses: string = clsx( colorProps.className, {
-			'has-fixed-layout': ***REMOVED***,
-			'is-stacked-on-mobile': ***REMOVED***,
+			'has-fixed-layout': hasFixedLayout,
+			'is-stacked-on-mobile': isStackedOnMobile,
 			[ `is-sticky-${ sticky }` ]: sticky,
 		} );
 
@@ -341,7 +341,7 @@ const v1 = {
 										value={ content }
 										rowSpan={ toInteger( rowSpan ) > 1 ? toInteger( rowSpan ) : undefined }
 										colSpan={ toInteger( colSpan ) > 1 ? toInteger( colSpan ) : undefined }
-										style={ ***REMOVED***( styles ) }
+										style={ convertToObject( styles ) }
 									/>
 								)
 							) }
@@ -352,7 +352,7 @@ const v1 = {
 		};
 
 		const Caption = () => (
-			<RichText.Content tagName="figcaption" value={ caption || '' } style={ ***REMOVED*** } />
+			<RichText.Content tagName="figcaption" value={ caption || '' } style={ captionStylesObj } />
 		);
 
 		return (
@@ -360,7 +360,7 @@ const v1 = {
 				{ hasCaption && 'top' === captionSide && <Caption /> }
 				<table
 					className={ tableClasses ?? undefined }
-					style={ { ...***REMOVED***, ...colorProps.style } }
+					style={ { ...tableStylesObj, ...colorProps.style } }
 				>
 					<Section type="head" rows={ head } />
 					<Section type="body" rows={ body } />

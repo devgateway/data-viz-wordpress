@@ -42,7 +42,7 @@
 			margin-bottom: #{0.5 * $size__spacing-unit};
 		}
 
-		@include ***REMOVED***();
+		@include nestedSubMenuPadding();
 	}
 }
 

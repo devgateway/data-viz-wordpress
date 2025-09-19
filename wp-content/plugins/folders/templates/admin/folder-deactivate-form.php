@@ -56,7 +56,7 @@ if (! defined('ABSPATH')) {
             $(function () {
 
                 $(document).on("click", ".folder-deactivate-button", function(e){
-                    e.***REMOVED***();
+                    e.stopPropagation();
                     jQuery(".folder-popup-button-close").trigger("click");
                     jQuery(".folder-help-btn").toggle();
                     jQuery(".folder-help-form").toggleClass("active");
@@ -64,11 +64,11 @@ if (! defined('ABSPATH')) {
                 });
 
                 /* Diffrent folder slug for Free/Pro */
-                var ***REMOVED*** = 'folders';
+                var folderPluginSlug = 'folders';
                 // Code to fire when the DOM is ready.
 
-                $(document).on('click', 'tr[data-slug="' + ***REMOVED*** + '"] .deactivate', function (e) {
-                    e.***REMOVED***();
+                $(document).on('click', 'tr[data-slug="' + folderPluginSlug + '"] .deactivate', function (e) {
+                    e.preventDefault();
 
                     $('.folder-popup-overlay').addClass('folder-active');
                     $('body').addClass('folder-hidden');
@@ -76,8 +76,8 @@ if (! defined('ABSPATH')) {
                 $(document).on('click', '.folder-popup-button-close', function () {
                     close_popup();
                 });
-                $(document).on('click', ".folder-serveypanel,tr[data-slug='" + ***REMOVED*** + "'] .deactivate", function (e) {
-                    e.***REMOVED***();
+                $(document).on('click', ".folder-serveypanel,tr[data-slug='" + folderPluginSlug + "'] .deactivate", function (e) {
+                    e.stopPropagation();
                 });
 
                 $(document).click(function () {
@@ -91,7 +91,7 @@ if (! defined('ABSPATH')) {
                     }
                 });
                 $(document).on('submit', '#folder-deactivate-form', function (event) {
-                    event.***REMOVED***();
+                    event.preventDefault();
 
                     var _reason = jQuery('#folder-comment').val();
                     var _email_id = jQuery('#folder-deactivate-email_id').val();
@@ -112,12 +112,12 @@ if (! defined('ABSPATH')) {
                     }).done(function (res) {
                         $(".folder-spinner").hide();
                         $(".folder-popup-allow-deactivate").removeAttr("disabled");
-                        window.location.href = $("tr[data-slug='" + ***REMOVED*** + "'] .deactivate a").attr('href');
+                        window.location.href = $("tr[data-slug='" + folderPluginSlug + "'] .deactivate a").attr('href');
                     });
                 });
 
                 $('.folder-popup-skip-feedback').on('click', function (e) {
-                    window.location.href = $("tr[data-slug='" + ***REMOVED*** + "'] .deactivate a").attr('href');
+                    window.location.href = $("tr[data-slug='" + folderPluginSlug + "'] .deactivate a").attr('href');
                 });
 
                 function close_popup() {

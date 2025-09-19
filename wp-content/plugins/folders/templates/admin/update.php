@@ -29,7 +29,7 @@ $email = (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "playground.w
             <div class="update-form-input">
                 <div class="mail-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <mask id="mask0" mask-type="alpha" maskUnits="***REMOVED***" x="2" y="4" width="20" height="16">
+                        <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="2" y="4" width="20" height="16">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM12 13L4 8V18H20V8L12 13Z" fill="white"/>
                         </mask>
                         <g mask="url(#mask0)">
@@ -53,7 +53,7 @@ $email = (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "playground.w
         </div>
     </div>
 </div>
-<div id="***REMOVED***-update-email-overlay" class="stickyelement-overlay" style="display:block;" data-id="0" data-from="widget-status"></div>
+<div id="mystickyelement-update-email-overlay" class="stickyelement-overlay" style="display:block;" data-id="0" data-from="widget-status"></div>
 <style>
 
     @font-face {
@@ -295,7 +295,7 @@ $email = (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "playground.w
             })
         });
 
-        jQuery("#folder_update_status").***REMOVED***({
+        jQuery("#folder_update_status").emailautocomplete({
             domains: ['example.com'],
             caseSensitive: false
         });
@@ -306,10 +306,10 @@ $email = (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "playground.w
         });
 
         jQuery(document).on("change", "#folder_update_status", function (){
-            ***REMOVED***();
+            isValidEmailAddress();
         });
         jQuery(document).on("keyup", "#folder_update_status", function (){
-            if(***REMOVED***()) {
+            if(isValidEmailAddress()) {
                 jQuery(this).mailcheck({
                     suggested: function(element, suggestion) {
                         // callback code
@@ -325,7 +325,7 @@ $email = (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "playground.w
             }
         });
     });
-    function ***REMOVED***() {
+    function isValidEmailAddress() {
         if(jQuery.trim(jQuery("#folder_update_status").val()) == "") {
             jQuery(".form-submit-btn").prop("disabled", true);
             return false;

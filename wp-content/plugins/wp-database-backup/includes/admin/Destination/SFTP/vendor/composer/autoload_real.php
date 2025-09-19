@@ -6,7 +6,7 @@ class ComposerAutoloaderInit57332be90d9ed0580a2d75d82004d8bf
 {
     private static $loader;
 
-    public static function ***REMOVED***($class)
+    public static function loadClassLoader($class)
     {
         if ('Composer\Autoload\ClassLoader' === $class) {
             require __DIR__ . '/ClassLoader.php';
@@ -24,26 +24,26 @@ class ComposerAutoloaderInit57332be90d9ed0580a2d75d82004d8bf
 
         require __DIR__ . '/platform_check.php';
 
-        spl_autoload_register(array('ComposerAutoloaderInit57332be90d9ed0580a2d75d82004d8bf', '***REMOVED***'), true, true);
+        spl_autoload_register(array('ComposerAutoloaderInit57332be90d9ed0580a2d75d82004d8bf', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(__DIR__));
-        spl_autoload_unregister(array('ComposerAutoloaderInit57332be90d9ed0580a2d75d82004d8bf', '***REMOVED***'));
+        spl_autoload_unregister(array('ComposerAutoloaderInit57332be90d9ed0580a2d75d82004d8bf', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        call_user_func(\Composer\Autoload\ComposerStaticInit57332be90d9ed0580a2d75d82004d8bf::***REMOVED***($loader));
+        call_user_func(\Composer\Autoload\ComposerStaticInit57332be90d9ed0580a2d75d82004d8bf::getInitializer($loader));
 
         $loader->register(true);
 
         $filesToLoad = \Composer\Autoload\ComposerStaticInit57332be90d9ed0580a2d75d82004d8bf::$files;
-        $requireFile = \Closure::bind(static function ($***REMOVED***, $file) {
-            if (empty($GLOBALS['__composer_autoload_files'][$***REMOVED***])) {
-                $GLOBALS['__composer_autoload_files'][$***REMOVED***] = true;
+        $requireFile = \Closure::bind(static function ($fileIdentifier, $file) {
+            if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
+                $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
 
                 require $file;
             }
         }, null, null);
         if(!empty($filesToLoad)){
-            foreach ($filesToLoad as $***REMOVED*** => $file) {
-                $requireFile($***REMOVED***, $file);
+            foreach ($filesToLoad as $fileIdentifier => $file) {
+                $requireFile($fileIdentifier, $file);
             }
         }
        

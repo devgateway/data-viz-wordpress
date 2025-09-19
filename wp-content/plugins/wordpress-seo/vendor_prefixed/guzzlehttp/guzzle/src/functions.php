@@ -23,11 +23,11 @@ function describe_type($input) : string
  * @param iterable $lines Header lines array of strings in the following
  *                        format: "Name: Value"
  *
- * @deprecated headers_from_lines will be removed in guzzlehttp/guzzle:8.0. Use Utils::***REMOVED*** instead.
+ * @deprecated headers_from_lines will be removed in guzzlehttp/guzzle:8.0. Use Utils::headersFromLines instead.
  */
 function headers_from_lines(iterable $lines) : array
 {
-    return \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***($lines);
+    return \YoastSEO_Vendor\GuzzleHttp\Utils::headersFromLines($lines);
 }
 /**
  * Returns a debug stream based on the provided variable.
@@ -47,9 +47,9 @@ function debug_resource($value = null)
  *
  * The returned handler is not wrapped by any default middlewares.
  *
- * @return callable(\Psr\Http\Message\***REMOVED***, array): \GuzzleHttp\Promise\***REMOVED*** Returns the best handler for the given system.
+ * @return callable(\Psr\Http\Message\RequestInterface, array): \GuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
  *
- * @throws \***REMOVED*** if no viable Handler is available.
+ * @throws \RuntimeException if no viable Handler is available.
  *
  * @deprecated choose_handler will be removed in guzzlehttp/guzzle:8.0. Use Utils::chooseHandler instead.
  */
@@ -60,11 +60,11 @@ function choose_handler() : callable
 /**
  * Get the default User-Agent string to use with Guzzle.
  *
- * @deprecated default_user_agent will be removed in guzzlehttp/guzzle:8.0. Use Utils::***REMOVED*** instead.
+ * @deprecated default_user_agent will be removed in guzzlehttp/guzzle:8.0. Use Utils::defaultUserAgent instead.
  */
 function default_user_agent() : string
 {
-    return \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***();
+    return \YoastSEO_Vendor\GuzzleHttp\Utils::defaultUserAgent();
 }
 /**
  * Returns the default cacert bundle for the current system.
@@ -77,23 +77,23 @@ function default_user_agent() : string
  *
  * Note: the result of this function is cached for subsequent calls.
  *
- * @throws \***REMOVED*** if no bundle can be found.
+ * @throws \RuntimeException if no bundle can be found.
  *
  * @deprecated default_ca_bundle will be removed in guzzlehttp/guzzle:8.0. This function is not needed in PHP 5.6+.
  */
 function default_ca_bundle() : string
 {
-    return \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***();
+    return \YoastSEO_Vendor\GuzzleHttp\Utils::defaultCaBundle();
 }
 /**
  * Creates an associative array of lowercase header names to the actual
  * header casing.
  *
- * @deprecated normalize_header_keys will be removed in guzzlehttp/guzzle:8.0. Use Utils::***REMOVED*** instead.
+ * @deprecated normalize_header_keys will be removed in guzzlehttp/guzzle:8.0. Use Utils::normalizeHeaderKeys instead.
  */
 function normalize_header_keys(array $headers) : array
 {
-    return \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***($headers);
+    return \YoastSEO_Vendor\GuzzleHttp\Utils::normalizeHeaderKeys($headers);
 }
 /**
  * Returns true if the provided host matches any of the no proxy areas.
@@ -114,11 +114,11 @@ function normalize_header_keys(array $headers) : array
  *
  * @throws Exception\InvalidArgumentException
  *
- * @deprecated is_host_in_noproxy will be removed in guzzlehttp/guzzle:8.0. Use Utils::***REMOVED*** instead.
+ * @deprecated is_host_in_noproxy will be removed in guzzlehttp/guzzle:8.0. Use Utils::isHostInNoProxy instead.
  */
 function is_host_in_noproxy(string $host, array $noProxyArray) : bool
 {
-    return \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***($host, $noProxyArray);
+    return \YoastSEO_Vendor\GuzzleHttp\Utils::isHostInNoProxy($host, $noProxyArray);
 }
 /**
  * Wrapper for json_decode that throws when an error occurs.

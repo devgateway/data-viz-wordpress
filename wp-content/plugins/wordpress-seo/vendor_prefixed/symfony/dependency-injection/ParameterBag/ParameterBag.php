@@ -8,21 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag;
 
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterCircularReferenceException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterNotFoundException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\RuntimeException;
 /**
  * Holds parameters.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\ParameterBagInterface
+class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface
 {
     protected $parameters = [];
     protected $resolved = \false;
-    private $***REMOVED*** = [];
+    private $normalizedNames = [];
     /**
      * @param array $parameters An array of parameters
      */
@@ -63,30 +63,30 @@ class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\P
         $name = $this->normalizeName($name);
         if (!\array_key_exists($name, $this->parameters)) {
             if (!$name) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterNotFoundException($name);
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException($name);
             }
             $alternatives = [];
-            foreach ($this->parameters as $key => $***REMOVED***) {
+            foreach ($this->parameters as $key => $parameterValue) {
                 $lev = \levenshtein($name, $key);
                 if ($lev <= \strlen($name) / 3 || \false !== \strpos($key, $name)) {
                     $alternatives[] = $key;
                 }
             }
-            $***REMOVED*** = null;
+            $nonNestedAlternative = null;
             if (!\count($alternatives) && \false !== \strpos($name, '.')) {
-                $***REMOVED*** = \array_map('strlen', \explode('.', $name));
-                $key = \substr($name, 0, -1 * (1 + \array_pop($***REMOVED***)));
-                while (\count($***REMOVED***)) {
+                $namePartsLength = \array_map('strlen', \explode('.', $name));
+                $key = \substr($name, 0, -1 * (1 + \array_pop($namePartsLength)));
+                while (\count($namePartsLength)) {
                     if ($this->has($key)) {
                         if (\is_array($this->get($key))) {
-                            $***REMOVED*** = $key;
+                            $nonNestedAlternative = $key;
                         }
                         break;
                     }
-                    $key = \substr($key, 0, -1 * (1 + \array_pop($***REMOVED***)));
+                    $key = \substr($key, 0, -1 * (1 + \array_pop($namePartsLength)));
                 }
             }
-            throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterNotFoundException($name, null, null, null, $alternatives, $***REMOVED***);
+            throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException($name, null, null, null, $alternatives, $nonNestedAlternative);
         }
         return $this->parameters[$name];
     }
@@ -129,7 +129,7 @@ class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\P
             try {
                 $value = $this->resolveValue($value);
                 $parameters[$key] = $this->unescapeValue($value);
-            } catch (\YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterNotFoundException $e) {
+            } catch (\YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException $e) {
                 $e->setSourceKey($key);
                 throw $e;
             }
@@ -147,7 +147,7 @@ class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\P
      *
      * @throws ParameterNotFoundException          if a placeholder references a parameter that does not exist
      * @throws ParameterCircularReferenceException if a circular reference if detected
-     * @throws ***REMOVED***                    when a given parameter has a type problem
+     * @throws RuntimeException                    when a given parameter has a type problem
      */
     public function resolveValue($value, array $resolving = [])
     {
@@ -173,7 +173,7 @@ class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\P
      *
      * @throws ParameterNotFoundException          if a placeholder references a parameter that does not exist
      * @throws ParameterCircularReferenceException if a circular reference if detected
-     * @throws ***REMOVED***                    when a given parameter has a type problem
+     * @throws RuntimeException                    when a given parameter has a type problem
      */
     public function resolveString($value, array $resolving = [])
     {
@@ -185,7 +185,7 @@ class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\P
             $lcKey = \strtolower($key);
             // strtolower() to be removed in 4.0
             if (isset($resolving[$lcKey])) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterCircularReferenceException(\array_keys($resolving));
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException(\array_keys($resolving));
             }
             $resolving[$lcKey] = \true;
             return $this->resolved ? $this->get($key) : $this->resolveValue($this->get($key), $resolving);
@@ -199,11 +199,11 @@ class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\P
             $lcKey = \strtolower($key);
             // strtolower() to be removed in 4.0
             if (isset($resolving[$lcKey])) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterCircularReferenceException(\array_keys($resolving));
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException(\array_keys($resolving));
             }
             $resolved = $this->get($key);
             if (!\is_string($resolved) && !\is_numeric($resolved)) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***(\sprintf('A string value must be composed of strings and/or numbers, but found parameter "%s" of type "%s" inside string value "%s".', $key, \gettype($resolved), $value));
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\RuntimeException(\sprintf('A string value must be composed of strings and/or numbers, but found parameter "%s" of type "%s" inside string value "%s".', $key, \gettype($resolved), $value));
             }
             $resolved = (string) $resolved;
             $resolving[$lcKey] = \true;
@@ -250,14 +250,14 @@ class ParameterBag implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\P
     }
     private function normalizeName($name)
     {
-        if (isset($this->***REMOVED***[$***REMOVED*** = \strtolower($name)])) {
-            $***REMOVED*** = $this->***REMOVED***[$***REMOVED***];
-            if ((string) $name !== $***REMOVED***) {
-                @\trigger_error(\sprintf('Parameter names will be made case sensitive in Symfony 4.0. Using "%s" instead of "%s" is deprecated since Symfony 3.4.', $name, $***REMOVED***), \E_USER_DEPRECATED);
+        if (isset($this->normalizedNames[$normalizedName = \strtolower($name)])) {
+            $normalizedName = $this->normalizedNames[$normalizedName];
+            if ((string) $name !== $normalizedName) {
+                @\trigger_error(\sprintf('Parameter names will be made case sensitive in Symfony 4.0. Using "%s" instead of "%s" is deprecated since Symfony 3.4.', $name, $normalizedName), \E_USER_DEPRECATED);
             }
         } else {
-            $***REMOVED*** = $this->***REMOVED***[$***REMOVED***] = (string) $name;
+            $normalizedName = $this->normalizedNames[$normalizedName] = (string) $name;
         }
-        return $***REMOVED***;
+        return $normalizedName;
     }
 }

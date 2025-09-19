@@ -68,7 +68,7 @@ class Wincher_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 * @return array
 	 */
 	public function wpseo_wincher_dashboard_overview_class( $classes ) {
-		$classes[] = 'yoast wpseo-***REMOVED***-overview';
+		$classes[] = 'yoast wpseo-wincherdashboard-overview';
 		return $classes;
 	}
 

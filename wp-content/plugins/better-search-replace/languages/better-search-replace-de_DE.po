@@ -40,11 +40,11 @@ msgstr "Better Search Replace "
 
 #: includes/class-bsr-admin.php:105
 msgid "<p><strong>DRY RUN:</strong> <strong>%d</strong> tables were searched, <strong>%d</strong> cells were found that need to be updated, and <strong>%d</strong> changes were made.</p><p><a href=\"%s\" class=\"thickbox\" title=\"Dry Run Details\">Click here</a> for more details, or use the form below to run the search/replace.</p>"
-msgstr "<p><strong>TESTLAUF:</strong> <strong>%d</strong> Tabellen wurden durchsucht, <strong>%d</strong> ***REMOVED*** wurden gefunden, die aktualisiert werden sollen. <strong>%d</strong> Änderungen wurden vorgenommen.</p><p>Für mehr Details zum Testlauf <a href=\"%s\" class=\"thickbox\" title=\"Details des Testlaufes\">hier klicken</a>.</p>"
+msgstr "<p><strong>TESTLAUF:</strong> <strong>%d</strong> Tabellen wurden durchsucht, <strong>%d</strong> Tabellenzellen wurden gefunden, die aktualisiert werden sollen. <strong>%d</strong> Änderungen wurden vorgenommen.</p><p>Für mehr Details zum Testlauf <a href=\"%s\" class=\"thickbox\" title=\"Details des Testlaufes\">hier klicken</a>.</p>"
 
 #: includes/class-bsr-admin.php:112
 msgid "<p>During the search/replace, <strong>%d</strong> tables were searched, with <strong>%d</strong> cells changed in <strong>%d</strong> updates.</p><p><a href=\"%s\" class=\"thickbox\" title=\"Search/Replace Details\">Click here</a> for more details.</p>"
-msgstr "<p>Beim Suchen/Ersetzen wurden <strong>%d</strong> Tabellen mit insgesamt <strong>%d</strong> Zellen durchsucht. <strong>%d</strong> ***REMOVED*** wurden vorgenommen.</p><p>Für mehr Details zur ***REMOVED*** <a href=\"%s\" class=\"thickbox\" title=\"Details zur ***REMOVED***\">hier klicken</a>.</p>"
+msgstr "<p>Beim Suchen/Ersetzen wurden <strong>%d</strong> Tabellen mit insgesamt <strong>%d</strong> Zellen durchsucht. <strong>%d</strong> Aktualisierungen wurden vorgenommen.</p><p>Für mehr Details zur Aktualisierung <a href=\"%s\" class=\"thickbox\" title=\"Details zur Aktualisierung\">hier klicken</a>.</p>"
 
 #: includes/class-bsr-admin.php:212
 msgid "Table"
@@ -99,8 +99,8 @@ msgid "Help"
 msgstr "Hilfe"
 
 #: templates/bsr-help.php:17
-msgid "Help & ***REMOVED***"
-msgstr "Hilfe & ***REMOVED***"
+msgid "Help & Troubleshooting"
+msgstr "Hilfe & Fehlerbehebung"
 
 #: templates/bsr-help.php:19
 msgid "Free support is available on the <a href=\"%s\">plugin support forums</a>."
@@ -148,11 +148,11 @@ msgstr "Steurungs-/Befehlstaste (Win/Mac) oder SHIFT gedrückt halten, um mehrer
 
 #: templates/bsr-search-replace.php:46
 msgid "Case-Insensitive?"
-msgstr "Groß -und ***REMOVED*** ignorieren?"
+msgstr "Groß -und Kleinschreibung ignorieren?"
 
 #: templates/bsr-search-replace.php:49
 msgid "Searches are case-sensitive by default."
-msgstr "Groß- und ***REMOVED*** wird bei der Suche standardmäßig beachtet"
+msgstr "Groß- und Kleinschreibung wird bei der Suche standardmäßig beachtet"
 
 #: templates/bsr-search-replace.php:54
 msgid "Replace GUIDs<a href=\"http://codex.wordpress.org/Changing_The_Site_URL#Important_GUID_Note\" target=\"_blank\">?</a>"
@@ -187,8 +187,8 @@ msgid "If you're noticing timeouts or getting a white screen while running a sea
 msgstr "Verringere diesen Wert, wenn dein Datenbank-Server ein Timeout zurückmeldet oder du nur einen weißen Screen siehst, während das Suchen/Ersetzen läuft. "
 
 #. Plugin URI of the plugin/theme
-msgid "http://***REMOVED***.com/better-search-replace"
-msgstr "http://***REMOVED***.com/better-search-replace"
+msgid "http://expandedfronts.com/better-search-replace"
+msgstr "http://expandedfronts.com/better-search-replace"
 
 #. Description of the plugin/theme
 msgid "A small plugin for running a search/replace on your WordPress database."
@@ -199,6 +199,6 @@ msgid "Expanded Fronts"
 msgstr "Expanded Fronts"
 
 #. Author URI of the plugin/theme
-msgid "http://***REMOVED***.com"
-msgstr "http://***REMOVED***.com"
+msgid "http://expandedfronts.com"
+msgstr "http://expandedfronts.com"
 

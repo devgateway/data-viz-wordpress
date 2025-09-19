@@ -3,32 +3,32 @@
 namespace YoastSEO_Vendor\GuzzleHttp\Exception;
 
 use YoastSEO_Vendor\Psr\Http\Client\NetworkExceptionInterface;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Exception thrown when a connection cannot be established.
  *
- * Note that no response is present for a ***REMOVED***
+ * Note that no response is present for a ConnectException
  */
-class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Client\NetworkExceptionInterface
+class ConnectException extends \YoastSEO_Vendor\GuzzleHttp\Exception\TransferException implements \YoastSEO_Vendor\Psr\Http\Client\NetworkExceptionInterface
 {
     /**
-     * @var ***REMOVED***
+     * @var RequestInterface
      */
     private $request;
     /**
      * @var array
      */
-    private $***REMOVED***;
-    public function __construct(string $message, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \Throwable $previous = null, array $***REMOVED*** = [])
+    private $handlerContext;
+    public function __construct(string $message, \YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, \Throwable $previous = null, array $handlerContext = [])
     {
         parent::__construct($message, 0, $previous);
         $this->request = $request;
-        $this->***REMOVED*** = $***REMOVED***;
+        $this->handlerContext = $handlerContext;
     }
     /**
      * Get the request that caused the exception
      */
-    public function getRequest() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function getRequest() : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         return $this->request;
     }
@@ -40,8 +40,8 @@ class ***REMOVED*** extends \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED*** 
      * couple you to a specific handler, but can give more debug information
      * when needed.
      */
-    public function ***REMOVED***() : array
+    public function getHandlerContext() : array
     {
-        return $this->***REMOVED***;
+        return $this->handlerContext;
     }
 }

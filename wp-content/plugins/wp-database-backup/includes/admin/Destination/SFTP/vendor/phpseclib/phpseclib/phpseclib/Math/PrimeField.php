@@ -30,7 +30,7 @@ class PrimeField extends FiniteField
      *
      * @var int
      */
-    private static $***REMOVED*** = 0;
+    private static $instanceCounter = 0;
 
     /**
      * Keeps track of current instance
@@ -48,7 +48,7 @@ class PrimeField extends FiniteField
             throw new \UnexpectedValueException('PrimeField requires a prime number be passed to the constructor');
         }
 
-        $this->instanceID = self::$***REMOVED***++;
+        $this->instanceID = self::$instanceCounter++;
         Integer::setModulo($this->instanceID, $modulo);
         Integer::setRecurringModuloFunction($this->instanceID, $modulo->createRecurringModuloFunction());
     }
@@ -64,7 +64,7 @@ class PrimeField extends FiniteField
     }
 
     /**
-     * Returns an instance of a dynamically generated ***REMOVED*** class
+     * Returns an instance of a dynamically generated PrimeFieldInteger class
      *
      * @return Integer
      */
@@ -93,9 +93,9 @@ class PrimeField extends FiniteField
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getLengthInBytes()
     {
-        return Integer::getModulo($this->instanceID)->***REMOVED***();
+        return Integer::getModulo($this->instanceID)->getLengthInBytes();
     }
 
     /**

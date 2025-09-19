@@ -6,7 +6,7 @@
 [![License](https://poser.pugx.org/paragonie/constant_time_encoding/license)](https://packagist.org/packages/paragonie/constant_time_encoding)
 [![Downloads](https://img.shields.io/packagist/dt/paragonie/constant_time_encoding.svg)](https://packagist.org/packages/paragonie/constant_time_encoding)
 
-Based on the [constant-time base64 ***REMOVED*** made by Steve "Sc00bz" Thomas](https://github.com/Sc00bz/***REMOVED***),
+Based on the [constant-time base64 implementation made by Steve "Sc00bz" Thomas](https://github.com/Sc00bz/ConstTimeEncoding),
 this library aims to offer character encoding functions that do not leak
 information about what you are encoding/decoding via processor cache 
 misses. Further reading on [cache-timing attacks](http://blog.ircmaxell.com/2014/11/its-all-about-time.html).
@@ -43,10 +43,10 @@ use ParagonIE\ConstantTime\Encoding;
 
 $data = random_bytes(32);
 echo Encoding::base64Encode($data), "\n";
-echo Encoding::***REMOVED***($data), "\n";
+echo Encoding::base32EncodeUpper($data), "\n";
 echo Encoding::base32Encode($data), "\n";
 echo Encoding::hexEncode($data), "\n";
-echo Encoding::***REMOVED***($data), "\n";
+echo Encoding::hexEncodeUpper($data), "\n";
 ```
 
 Example output:
@@ -55,7 +55,7 @@ Example output:
 1VilPkeVqirlPifk5scbzcTTbMT2clp+Zkyv9VFFasE=
 2VMKKPSHSWVCVZJ6E7SONRY3ZXCNG3GE6ZZFU7TGJSX7KUKFNLAQ====
 2vmkkpshswvcvzj6e7sonry3zxcng3ge6zzfu7tgjsx7kukfnlaq====
-***REMOVED***
+d558a53e4795aa2ae53e27e4e6c71bcdc4d36cc4f6725a7e664caff551456ac1
 D558A53E4795AA2AE53E27E4E6C71BDCC4D36CC4F6725A7E664CAFF551456AC1
 ```
 

@@ -247,7 +247,7 @@
         <script type="text/javascript">
             jQuery(function ($) {
                 var
-                    $***REMOVED***           = $('#fs_affiliation_content_wrapper'),
+                    $contentWrapper           = $('#fs_affiliation_content_wrapper'),
                     $socialMedia              = $('#promotion_method_social_media'),
                     $mobileApps               = $('#promotion_method_mobile_apps'),
                     $applyButton              = $('#apply_button'),
@@ -258,10 +258,10 @@
                     $domain                   = $('#domain'),
                     $addDomain                = $('#add_domain'),
                     $extraDomainsContainer    = $('#extra_domains_container'),
-                    $***REMOVED***     = $( '#legal_consent_checkbox' );
+                    $legalConsentCheckbox     = $( '#legal_consent_checkbox' );
 
                 $applyButton.click(function (evt) {
-                    evt.***REMOVED***();
+                    evt.preventDefault();
 
                     var $this = $(this);
                     $this.hide();
@@ -270,11 +270,11 @@
                     $cancelButton.show();
                     $submitButton.show();
 
-                    $***REMOVED***.find('input[type="text"]:first').focus();
+                    $contentWrapper.find('input[type="text"]:first').focus();
                 });
 
                 $submitButton.click(function (evt) {
-                    evt.***REMOVED***();
+                    evt.preventDefault();
 
                     var $this = $(this);
 
@@ -287,19 +287,19 @@
                     var
                         $emailAddress      = $('#email_address'),
                         emailAddress       = null,
-                        ***REMOVED*** = $('#paypal_email').val().trim();
+                        paypalEmailAddress = $('#paypal_email').val().trim();
 
                     if (1 === $emailAddress.length) {
                         emailAddress = $emailAddress.val().trim();
 
                         if (0 === emailAddress.length) {
-                            ***REMOVED***('<?php fs_esc_js_echo_inline( 'Email address is required.', 'email-address-is-required', $slug ) ?>');
+                            showErrorMessage('<?php fs_esc_js_echo_inline( 'Email address is required.', 'email-address-is-required', $slug ) ?>');
                             return;
                         }
                     }
 
-                    if (0 === ***REMOVED***.length) {
-                        ***REMOVED***('<?php fs_esc_js_echo_inline( 'PayPal email address is required.', 'paypal-email-address-is-required', $slug ) ?>');
+                    if (0 === paypalEmailAddress.length) {
+                        showErrorMessage('<?php fs_esc_js_echo_inline( 'PayPal email address is required.', 'paypal-email-address-is-required', $slug ) ?>');
                         return;
                     }
 
@@ -309,10 +309,10 @@
                         extraDomains  = [];
 
                     if (0 === domain.length) {
-                        ***REMOVED***('<?php fs_esc_js_echo_inline( 'Domain is required.', 'domain-is-required', $slug ) ?>');
+                        showErrorMessage('<?php fs_esc_js_echo_inline( 'Domain is required.', 'domain-is-required', $slug ) ?>');
                         return;
                     } else if ('freemius.com' === domain) {
-                        ***REMOVED***('<?php fs_esc_js_echo_inline( 'Invalid domain', 'invalid-domain', $slug ) ?>' + ' [' + domain + '].');
+                        showErrorMessage('<?php fs_esc_js_echo_inline( 'Invalid domain', 'invalid-domain', $slug ) ?>' + ' [' + domain + '].');
                         return;
                     }
 
@@ -326,7 +326,7 @@
                             if (0 === extraDomain.length || extraDomain === domain) {
                                 return true;
                             } else if ('freemius.com' === extraDomain) {
-                                ***REMOVED***('<?php fs_esc_js_echo_inline( 'Invalid domain', 'invalid-domain', $slug ) ?>' + ' [' + extraDomain + '].');
+                                showErrorMessage('<?php fs_esc_js_echo_inline( 'Invalid domain', 'invalid-domain', $slug ) ?>' + ' [' + extraDomain + '].');
                                 hasError = true;
                                 return false;
                             }
@@ -340,21 +340,21 @@
                     }
 
                     var
-                        ***REMOVED***           = [],
+                        promotionMethods           = [],
                         statisticsInformation      = $('#statistics_information').val(),
                         promotionMethodDescription = $('#promotion_method_description').val();
 
                     if ($socialMedia.attr('checked')) {
-                        ***REMOVED***.push('social_media');
+                        promotionMethods.push('social_media');
                     }
 
                     if ($mobileApps.attr('checked')) {
-                        ***REMOVED***.push('mobile_apps');
+                        promotionMethods.push('mobile_apps');
                     }
 
                     var affiliate = {
                         full_name                   : $('#full_name').val().trim(),
-                        paypal_email                : ***REMOVED***,
+                        paypal_email                : paypalEmailAddress,
                         stats_description           : statisticsInformation,
                         promotion_method_description: promotionMethodDescription
                     };
@@ -366,8 +366,8 @@
                     affiliate.domain = domain;
                     affiliate.additional_domains = extraDomains;
 
-                    if (***REMOVED***.length > 0) {
-                        affiliate.promotion_methods = ***REMOVED***.join(',');
+                    if (promotionMethods.length > 0) {
+                        affiliate.promotion_methods = promotionMethods.join(',');
                     }
 
                     $.ajax({
@@ -389,7 +389,7 @@
                                 location.reload();
                             } else {
                                 if (result.error && result.error.length > 0) {
-                                ***REMOVED***(result.error);
+                                showErrorMessage(result.error);
                                 }
 
                                 $cancelButton.removeClass('disabled');
@@ -401,7 +401,7 @@
                 });
 
                 $cancelButton.click(function (evt) {
-                    evt.***REMOVED***();
+                    evt.preventDefault();
 
                     var $this = $(this);
 
@@ -418,10 +418,10 @@
                     window.scrollTo(0, 0);
                 });
 
-                $domain.on('input ***REMOVED***', ***REMOVED***);
+                $domain.on('input propertychange', onDomainChange);
 
                 $addDomain.click(function (evt) {
-                    evt.***REMOVED***();
+                    evt.preventDefault();
 
                     var
                         $this  = $(this),
@@ -431,26 +431,26 @@
                         return;
                     }
 
-                    $domain.off('input ***REMOVED***');
+                    $domain.off('input propertychange');
                     $this.addClass('disabled');
 
                     var
                         $extraDomainInputContainer = $('<div class="extra-domain-input-container"><input type="text" class="domain regular-text"/></div>'),
-                        $***REMOVED***          = $extraDomainInputContainer.find('input'),
+                        $extraDomainInput          = $extraDomainInputContainer.find('input'),
                         $removeDomain              = $('<a href="#" class="remove-domain"><i class="dashicons dashicons-no" title="<?php fs_esc_js_echo_inline( 'Remove', 'remove', $slug ) ?>"></i></a>');
 
                     $extraDomainInputContainer.append($removeDomain);
 
-                    $***REMOVED***.on('input ***REMOVED***', ***REMOVED***);
+                    $extraDomainInput.on('input propertychange', onDomainChange);
 
                     $removeDomain.click(function (evt) {
-                        evt.***REMOVED***();
+                        evt.preventDefault();
 
                         var
-                            $***REMOVED*** = $('.extra-domain-input-container .domain');
+                            $extraDomainInputs = $('.extra-domain-input-container .domain');
 
-                        if (1 === $***REMOVED***.length)
-                            $***REMOVED***.val('').focus();
+                        if (1 === $extraDomainInputs.length)
+                            $extraDomainInputs.val('').focus();
                         else
                             $(this).parent().remove();
                     });
@@ -458,7 +458,7 @@
                     $extraDomainsContainer.show();
 
                     $extraDomainInputContainer.appendTo($extraDomainsContainer);
-                    $***REMOVED***.focus();
+                    $extraDomainInput.focus();
 
                     $this.appendTo($extraDomainsContainer);
                 });
@@ -466,7 +466,7 @@
                 /**
                  * @author Leo Fajardo (@leorw)
                  */
-                function ***REMOVED***() {
+                function onDomainChange() {
                     var
                         domain = $(this).val().trim();
 
@@ -482,7 +482,7 @@
                  *
                  * @param {String} message
                  */
-                function ***REMOVED***(message) {
+                function showErrorMessage(message) {
                     $errorMessageContainer.find('strong').text(message);
                     $errorMessageContainer.show();
 
@@ -494,7 +494,7 @@
                  *
                  * @since 2.4.0
                  */
-                $***REMOVED***.click( function () {
+                $legalConsentCheckbox.click( function () {
                     if ( $( this ).prop( 'checked' ) ) {
                         $submitButton.removeClass( 'disabled' );
                     } else {

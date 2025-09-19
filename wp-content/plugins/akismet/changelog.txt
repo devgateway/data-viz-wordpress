@@ -23,7 +23,7 @@ For the latest changes, please see the "Changelog" section of the [readme.txt fi
 * Simplified the code around checking comments in REST API and XML-RPC requests.
 * Updated Plus plan terminology in notices to match current subscription names.
 * Added `rel="noopener"` to the widget link to avoid warnings in Google Lighthouse.
-* Set the Akismet JavaScript as deferred instead of async to improve ***REMOVED***.
+* Set the Akismet JavaScript as deferred instead of async to improve responsiveness.
 * Improved the preloading of screenshot popups on the edit comments admin page.
 
 = 4.1.9 =
@@ -53,8 +53,8 @@ For the latest changes, please see the "Changelog" section of the [readme.txt fi
 *Release Date - 29 April 2020*
 
 * Based on user feedback, we have dropped the in-admin notice explaining the availability of the "privacy notice" option in the AKismet settings screen. The option itself is available, but after displaying the notice for the last 2 years, it is now considered a known fact.
-* Updated the "Requires at least" to WP 4.6, based on ***REMOVED*** from https://wp-info.org/tools/***REMOVED***.php?slug=akismet
-* Moved older changelog entries to a separate file to keep the size of this readme reasonable, also based on ***REMOVED*** from https://wp-info.org/tools/***REMOVED***.php?slug=akismet
+* Updated the "Requires at least" to WP 4.6, based on recommendations from https://wp-info.org/tools/checkplugini18n.php?slug=akismet
+* Moved older changelog entries to a separate file to keep the size of this readme reasonable, also based on recommendations from https://wp-info.org/tools/checkplugini18n.php?slug=akismet
 
 = 4.1.4 =
 *Release Date - 17 March 2020*
@@ -145,7 +145,7 @@ For the latest changes, please see the "Changelog" section of the [readme.txt fi
 
 * Fixed a bug that could prevent some users from connecting Akismet via their Jetpack connection.
 * Ensured that any pending Akismet-related events are unscheduled if the plugin is deactivated.
-* Allow some JavaScript to be run ***REMOVED*** to avoid affecting page render speeds.
+* Allow some JavaScript to be run asynchronously to avoid affecting page render speeds.
 
 = 4.0 =
 *Release Date - 19 September 2017*
@@ -255,7 +255,7 @@ For the latest changes, please see the "Changelog" section of the [readme.txt fi
 
 * Fixed a bug that was preventing some users from automatically connecting using Jetpack if they didn't have a current Akismet subscription.
 * Fixed a bug that could cause comments caught as spam to be placed in the Pending queue.
-* Error messages and instructions have been simplified to be more ***REMOVED***.
+* Error messages and instructions have been simplified to be more understandable.
 * Link previews are enabled for all links inside comments, not just the author's website link.
 
 = 3.1.3 =

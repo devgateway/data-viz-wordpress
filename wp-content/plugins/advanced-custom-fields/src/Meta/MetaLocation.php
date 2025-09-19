@@ -3,7 +3,7 @@
  * A class that can be extended to add support
  * for different meta types/locations in ACF.
  *
- * @package    ***REMOVED***
+ * @package    AdvancedCustomFields
  * @subpackage Meta
  * @author     WP Engine
  */

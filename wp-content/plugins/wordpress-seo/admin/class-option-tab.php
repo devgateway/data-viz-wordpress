@@ -72,18 +72,18 @@ class WPSEO_Option_Tab {
 	}
 
 	/**
-	 * Retrieves whether the tab hosts beta ***REMOVED***.
+	 * Retrieves whether the tab hosts beta functionalities.
 	 *
-	 * @return bool True whether the tab hosts beta ***REMOVED***.
+	 * @return bool True whether the tab hosts beta functionalities.
 	 */
 	public function is_beta() {
 		return (bool) $this->get_argument( 'beta', false );
 	}
 
 	/**
-	 * Retrieves whether the tab hosts premium ***REMOVED***.
+	 * Retrieves whether the tab hosts premium functionalities.
 	 *
-	 * @return bool True whether the tab hosts premium ***REMOVED***.
+	 * @return bool True whether the tab hosts premium functionalities.
 	 */
 	public function is_premium() {
 		return (bool) $this->get_argument( 'premium', false );

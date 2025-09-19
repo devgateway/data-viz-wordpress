@@ -12,14 +12,14 @@
  * @link https://packagist.org/packages/league/oauth2-client Packagist
  * @link https://github.com/thephpleague/oauth2-client GitHub
  */
-namespace YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***;
+namespace YoastSEO_Vendor\League\OAuth2\Client\OptionProvider;
 
 use InvalidArgumentException;
 /**
  * Add http basic auth into access token request options
  * @link https://tools.ietf.org/html/rfc6749#section-2.3.1
  */
-class HttpBasicAuthOptionProvider extends \YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***\PostAuthOptionProvider
+class HttpBasicAuthOptionProvider extends \YoastSEO_Vendor\League\OAuth2\Client\OptionProvider\PostAuthOptionProvider
 {
     /**
      * @inheritdoc
@@ -29,10 +29,10 @@ class HttpBasicAuthOptionProvider extends \YoastSEO_Vendor\League\OAuth2\Client\
         if (empty($params['client_id']) || empty($params['client_secret'])) {
             throw new \InvalidArgumentException('clientId and clientSecret are required for http basic auth');
         }
-        $***REMOVED*** = \base64_encode(\sprintf('%s:%s', $params['client_id'], $params['client_secret']));
+        $encodedCredentials = \base64_encode(\sprintf('%s:%s', $params['client_id'], $params['client_secret']));
         unset($params['client_id'], $params['client_secret']);
         $options = parent::getAccessTokenOptions($method, $params);
-        $options['headers']['Authorization'] = 'Basic ' . $***REMOVED***;
+        $options['headers']['Authorization'] = 'Basic ' . $encodedCredentials;
         return $options;
     }
 }

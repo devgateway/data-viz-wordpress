@@ -77,7 +77,7 @@ class Addon_Install_Action {
 	/**
 	 * Requires the files needed from WordPress itself.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class Addon_Install_Action {
 	/**
 	 * Runs the installation by using the WordPress installation routine.
 	 *
-	 * @***REMOVED*** Contains WordPress specific logic.
+	 * @codeCoverageIgnore Contains WordPress specific logic.
 	 *
 	 * @param string $plugin_download The url to the download.
 	 *

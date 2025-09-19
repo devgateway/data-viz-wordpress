@@ -3,11 +3,11 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
- * PHP stream ***REMOVED***.
+ * PHP stream implementation.
  */
-class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+class Stream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
     /**
      * @see https://www.php.net/manual/en/function.fopen.php
@@ -28,7 +28,7 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     /** @var string|null */
     private $uri;
     /** @var mixed[] */
-    private $***REMOVED***;
+    private $customMetadata;
     /**
      * This constructor accepts an associative array of options.
      *
@@ -51,7 +51,7 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         if (isset($options['size'])) {
             $this->size = $options['size'];
         }
-        $this->***REMOVED*** = $options['metadata'] ?? [];
+        $this->customMetadata = $options['metadata'] ?? [];
         $this->stream = $stream;
         $meta = \stream_get_meta_data($this->stream);
         $this->seekable = $meta['seekable'];
@@ -84,12 +84,12 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     public function getContents() : string
     {
         if (!isset($this->stream)) {
-            throw new \***REMOVED***('Stream is detached');
+            throw new \RuntimeException('Stream is detached');
         }
         if (!$this->readable) {
-            throw new \***REMOVED***('Cannot read from non-readable stream');
+            throw new \RuntimeException('Cannot read from non-readable stream');
         }
-        return \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::***REMOVED***($this->stream);
+        return \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::tryGetContents($this->stream);
     }
     public function close() : void
     {
@@ -121,7 +121,7 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         }
         // Clear the stat cache if the stream has a URI
         if ($this->uri) {
-            \***REMOVED***(\true, $this->uri);
+            \clearstatcache(\true, $this->uri);
         }
         $stats = \fstat($this->stream);
         if (\is_array($stats) && isset($stats['size'])) {
@@ -145,18 +145,18 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     public function eof() : bool
     {
         if (!isset($this->stream)) {
-            throw new \***REMOVED***('Stream is detached');
+            throw new \RuntimeException('Stream is detached');
         }
         return \feof($this->stream);
     }
     public function tell() : int
     {
         if (!isset($this->stream)) {
-            throw new \***REMOVED***('Stream is detached');
+            throw new \RuntimeException('Stream is detached');
         }
         $result = \ftell($this->stream);
         if ($result === \false) {
-            throw new \***REMOVED***('Unable to determine stream position');
+            throw new \RuntimeException('Unable to determine stream position');
         }
         return $result;
     }
@@ -168,25 +168,25 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     {
         $whence = (int) $whence;
         if (!isset($this->stream)) {
-            throw new \***REMOVED***('Stream is detached');
+            throw new \RuntimeException('Stream is detached');
         }
         if (!$this->seekable) {
-            throw new \***REMOVED***('Stream is not seekable');
+            throw new \RuntimeException('Stream is not seekable');
         }
         if (\fseek($this->stream, $offset, $whence) === -1) {
-            throw new \***REMOVED***('Unable to seek to stream position ' . $offset . ' with whence ' . \var_export($whence, \true));
+            throw new \RuntimeException('Unable to seek to stream position ' . $offset . ' with whence ' . \var_export($whence, \true));
         }
     }
     public function read($length) : string
     {
         if (!isset($this->stream)) {
-            throw new \***REMOVED***('Stream is detached');
+            throw new \RuntimeException('Stream is detached');
         }
         if (!$this->readable) {
-            throw new \***REMOVED***('Cannot read from non-readable stream');
+            throw new \RuntimeException('Cannot read from non-readable stream');
         }
         if ($length < 0) {
-            throw new \***REMOVED***('Length parameter cannot be negative');
+            throw new \RuntimeException('Length parameter cannot be negative');
         }
         if (0 === $length) {
             return '';
@@ -194,26 +194,26 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         try {
             $string = \fread($this->stream, $length);
         } catch (\Exception $e) {
-            throw new \***REMOVED***('Unable to read from stream', 0, $e);
+            throw new \RuntimeException('Unable to read from stream', 0, $e);
         }
         if (\false === $string) {
-            throw new \***REMOVED***('Unable to read from stream');
+            throw new \RuntimeException('Unable to read from stream');
         }
         return $string;
     }
     public function write($string) : int
     {
         if (!isset($this->stream)) {
-            throw new \***REMOVED***('Stream is detached');
+            throw new \RuntimeException('Stream is detached');
         }
         if (!$this->writable) {
-            throw new \***REMOVED***('Cannot write to a non-writable stream');
+            throw new \RuntimeException('Cannot write to a non-writable stream');
         }
         // We can't know the size after writing anything
         $this->size = null;
         $result = \fwrite($this->stream, $string);
         if ($result === \false) {
-            throw new \***REMOVED***('Unable to write to stream');
+            throw new \RuntimeException('Unable to write to stream');
         }
         return $result;
     }
@@ -225,9 +225,9 @@ class Stream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         if (!isset($this->stream)) {
             return $key ? null : [];
         } elseif (!$key) {
-            return $this->***REMOVED*** + \stream_get_meta_data($this->stream);
-        } elseif (isset($this->***REMOVED***[$key])) {
-            return $this->***REMOVED***[$key];
+            return $this->customMetadata + \stream_get_meta_data($this->stream);
+        } elseif (isset($this->customMetadata[$key])) {
+            return $this->customMetadata[$key];
         }
         $meta = \stream_get_meta_data($this->stream);
         return $meta[$key] ?? null;

@@ -36,7 +36,7 @@ abstract class PKCS8 extends Progenitor
      *
      * @var string
      */
-    const OID_NAME = '***REMOVED***';
+    const OID_NAME = 'dhKeyAgreement';
 
     /**
      * OID Value
@@ -50,7 +50,7 @@ abstract class PKCS8 extends Progenitor
      *
      * @var bool
      */
-    protected static $***REMOVED*** = false;
+    protected static $childOIDsLoaded = false;
 
     /**
      * Break a public or private key down into its constituent components
@@ -67,11 +67,11 @@ abstract class PKCS8 extends Progenitor
 
         $decoded = ASN1::decodeBER($key[$type . 'Algorithm']['parameters']->element);
         if (empty($decoded)) {
-            throw new \***REMOVED***('Unable to decode BER of parameters');
+            throw new \RuntimeException('Unable to decode BER of parameters');
         }
         $components = ASN1::asn1map($decoded[0], Maps\DHParameter::MAP);
         if (!is_array($components)) {
-            throw new \***REMOVED***('Unable to perform ASN1 mapping on parameters');
+            throw new \RuntimeException('Unable to perform ASN1 mapping on parameters');
         }
 
         $decoded = ASN1::decodeBER($key[$type]);
@@ -79,7 +79,7 @@ abstract class PKCS8 extends Progenitor
             case !isset($decoded):
             case !isset($decoded[0]['content']):
             case !$decoded[0]['content'] instanceof BigInteger:
-                throw new \***REMOVED***('Unable to decode BER of parameters');
+                throw new \RuntimeException('Unable to decode BER of parameters');
         }
         $components[$type] = $decoded[0]['content'];
 
@@ -97,7 +97,7 @@ abstract class PKCS8 extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $prime, BigInteger $base, BigInteger $privateKey, BigInteger $publicKey, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $prime, BigInteger $base, BigInteger $privateKey, BigInteger $publicKey, $password = '', array $options = [])
     {
         $params = [
             'prime' => $prime,
@@ -106,7 +106,7 @@ abstract class PKCS8 extends Progenitor
         $params = ASN1::encodeDER($params, Maps\DHParameter::MAP);
         $params = new ASN1\Element($params);
         $key = ASN1::encodeDER($privateKey, ['type' => ASN1::TYPE_INTEGER]);
-        return self::***REMOVED***($key, [], $params, $password, null, '', $options);
+        return self::wrapPrivateKey($key, [], $params, $password, null, '', $options);
     }
 
     /**

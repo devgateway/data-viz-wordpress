@@ -16,7 +16,7 @@ class Init {
 		// Load translated strings.
 		load_plugin_textdomain( FTB_NAMESPACE );
 
-		// ***REMOVED*** process.
+		// Uninstallation process.
 		register_uninstall_hook( FTB_NAMESPACE, __NAMESPACE__ . '\Init::plugin_uninstall' );
 
 		// Load classes.
@@ -24,7 +24,7 @@ class Init {
 	}
 
 	/**
-	 * ***REMOVED*** process
+	 * Uninstallation process
 	 */
 	public static function plugin_uninstall() {
 		foreach ( Settings::OPTIONS as $option ) {

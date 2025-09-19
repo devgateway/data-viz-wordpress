@@ -3,9 +3,9 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 use YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 final class Utils
 {
@@ -14,7 +14,7 @@ final class Utils
      *
      * @param (string|int)[] $keys
      */
-    public static function ***REMOVED***(array $keys, array $data) : array
+    public static function caselessRemove(array $keys, array $data) : array
     {
         $result = [];
         foreach ($keys as &$key) {
@@ -31,14 +31,14 @@ final class Utils
      * Copy the contents of a stream into another stream until the given number
      * of bytes have been read.
      *
-     * @param ***REMOVED*** $source Stream to read from
-     * @param ***REMOVED*** $dest   Stream to write to
+     * @param StreamInterface $source Stream to read from
+     * @param StreamInterface $dest   Stream to write to
      * @param int             $maxLen Maximum number of bytes to read. Pass -1
      *                                to read the entire stream.
      *
-     * @throws \***REMOVED*** on error.
+     * @throws \RuntimeException on error.
      */
-    public static function copyToStream(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $source, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $dest, int $maxLen = -1) : void
+    public static function copyToStream(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $source, \YoastSEO_Vendor\Psr\Http\Message\StreamInterface $dest, int $maxLen = -1) : void
     {
         $bufferSize = 8192;
         if ($maxLen === -1) {
@@ -64,13 +64,13 @@ final class Utils
      * Copy the contents of a stream into a string until the given number of
      * bytes have been read.
      *
-     * @param ***REMOVED*** $stream Stream to read
+     * @param StreamInterface $stream Stream to read
      * @param int             $maxLen Maximum number of bytes to read. Pass -1
      *                                to read the entire stream.
      *
-     * @throws \***REMOVED*** on error.
+     * @throws \RuntimeException on error.
      */
-    public static function copyToString(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, int $maxLen = -1) : string
+    public static function copyToString(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, int $maxLen = -1) : string
     {
         $buffer = '';
         if ($maxLen === -1) {
@@ -100,13 +100,13 @@ final class Utils
      * This method reads the entire stream to calculate a rolling hash, based
      * on PHP's `hash_init` functions.
      *
-     * @param ***REMOVED*** $stream    Stream to calculate the hash for
+     * @param StreamInterface $stream    Stream to calculate the hash for
      * @param string          $algo      Hash algorithm (e.g. md5, crc32, etc)
      * @param bool            $rawOutput Whether or not to use raw output
      *
-     * @throws \***REMOVED*** on error.
+     * @throws \RuntimeException on error.
      */
-    public static function hash(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, string $algo, bool $rawOutput = \false) : string
+    public static function hash(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, string $algo, bool $rawOutput = \false) : string
     {
         $pos = $stream->tell();
         if ($pos > 0) {
@@ -135,10 +135,10 @@ final class Utils
      * - query: (string) Set the query string value of the URI.
      * - version: (string) Set the protocol version.
      *
-     * @param ***REMOVED*** $request Request to clone and modify.
+     * @param RequestInterface $request Request to clone and modify.
      * @param array            $changes Changes to apply.
      */
-    public static function modifyRequest(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $changes) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public static function modifyRequest(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $changes) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         if (!$changes) {
             return $request;
@@ -161,31 +161,31 @@ final class Utils
             $uri = $changes['uri'];
         }
         if (!empty($changes['remove_headers'])) {
-            $headers = self::***REMOVED***($changes['remove_headers'], $headers);
+            $headers = self::caselessRemove($changes['remove_headers'], $headers);
         }
         if (!empty($changes['set_headers'])) {
-            $headers = self::***REMOVED***(\array_keys($changes['set_headers']), $headers);
+            $headers = self::caselessRemove(\array_keys($changes['set_headers']), $headers);
             $headers = $changes['set_headers'] + $headers;
         }
         if (isset($changes['query'])) {
             $uri = $uri->withQuery($changes['query']);
         }
         if ($request instanceof \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface) {
-            $new = (new \YoastSEO_Vendor\GuzzleHttp\Psr7\ServerRequest($changes['method'] ?? $request->getMethod(), $uri, $headers, $changes['body'] ?? $request->getBody(), $changes['version'] ?? $request->***REMOVED***(), $request->***REMOVED***()))->***REMOVED***($request->getParsedBody())->***REMOVED***($request->***REMOVED***())->***REMOVED***($request->***REMOVED***())->***REMOVED***($request->***REMOVED***());
+            $new = (new \YoastSEO_Vendor\GuzzleHttp\Psr7\ServerRequest($changes['method'] ?? $request->getMethod(), $uri, $headers, $changes['body'] ?? $request->getBody(), $changes['version'] ?? $request->getProtocolVersion(), $request->getServerParams()))->withParsedBody($request->getParsedBody())->withQueryParams($request->getQueryParams())->withCookieParams($request->getCookieParams())->withUploadedFiles($request->getUploadedFiles());
             foreach ($request->getAttributes() as $key => $value) {
                 $new = $new->withAttribute($key, $value);
             }
             return $new;
         }
-        return new \YoastSEO_Vendor\GuzzleHttp\Psr7\Request($changes['method'] ?? $request->getMethod(), $uri, $headers, $changes['body'] ?? $request->getBody(), $changes['version'] ?? $request->***REMOVED***());
+        return new \YoastSEO_Vendor\GuzzleHttp\Psr7\Request($changes['method'] ?? $request->getMethod(), $uri, $headers, $changes['body'] ?? $request->getBody(), $changes['version'] ?? $request->getProtocolVersion());
     }
     /**
      * Read a line from the stream up to the maximum allowed buffer length.
      *
-     * @param ***REMOVED*** $stream    Stream to read from
+     * @param StreamInterface $stream    Stream to read from
      * @param int|null        $maxLength Maximum buffer length
      */
-    public static function readLine(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, int $maxLength = null) : string
+    public static function readLine(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, int $maxLength = null) : string
     {
         $buffer = '';
         $size = 0;
@@ -209,7 +209,7 @@ final class Utils
      * - size: Size of the stream.
      *
      * This method accepts the following `$resource` types:
-     * - `Psr\Http\Message\***REMOVED***`: Returns the value as-is.
+     * - `Psr\Http\Message\StreamInterface`: Returns the value as-is.
      * - `string`: Creates a stream object that uses the given string as the contents.
      * - `resource`: Creates a stream object that wraps the given PHP stream resource.
      * - `Iterator`: If the provided value implements `Iterator`, then a read-only
@@ -230,12 +230,12 @@ final class Utils
      *   number of requested bytes are available. Any additional bytes will be
      *   buffered and used in subsequent reads.
      *
-     * @param resource|string|int|float|bool|***REMOVED***|callable|\Iterator|null $resource Entity body data
+     * @param resource|string|int|float|bool|StreamInterface|callable|\Iterator|null $resource Entity body data
      * @param array{size?: int, metadata?: array}                                    $options  Additional options
      *
      * @throws \InvalidArgumentException if the $resource arg is not valid.
      */
-    public static function streamFor($resource = '', array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public static function streamFor($resource = '', array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
     {
         if (\is_scalar($resource)) {
             $stream = self::tryFopen('php://temp', 'r+');
@@ -248,7 +248,7 @@ final class Utils
         switch (\gettype($resource)) {
             case 'resource':
                 /*
-                 * The 'php://input' is a special stream with quirks and ***REMOVED***.
+                 * The 'php://input' is a special stream with quirks and inconsistencies.
                  * We avoid using that stream by reading it into php://temp
                  */
                 /** @var resource $resource */
@@ -261,7 +261,7 @@ final class Utils
                 return new \YoastSEO_Vendor\GuzzleHttp\Psr7\Stream($resource, $options);
             case 'object':
                 /** @var object $resource */
-                if ($resource instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
+                if ($resource instanceof \YoastSEO_Vendor\Psr\Http\Message\StreamInterface) {
                     return $resource;
                 } elseif ($resource instanceof \Iterator) {
                     return new \YoastSEO_Vendor\GuzzleHttp\Psr7\PumpStream(function () use($resource) {
@@ -295,24 +295,24 @@ final class Utils
      *
      * @return resource
      *
-     * @throws \***REMOVED*** if the file cannot be opened
+     * @throws \RuntimeException if the file cannot be opened
      */
     public static function tryFopen(string $filename, string $mode)
     {
         $ex = null;
         \set_error_handler(static function (int $errno, string $errstr) use($filename, $mode, &$ex) : bool {
-            $ex = new \***REMOVED***(\sprintf('Unable to open "%s" using mode "%s": %s', $filename, $mode, $errstr));
+            $ex = new \RuntimeException(\sprintf('Unable to open "%s" using mode "%s": %s', $filename, $mode, $errstr));
             return \true;
         });
         try {
             /** @var resource $handle */
             $handle = \fopen($filename, $mode);
         } catch (\Throwable $e) {
-            $ex = new \***REMOVED***(\sprintf('Unable to open "%s" using mode "%s": %s', $filename, $mode, $e->getMessage()), 0, $e);
+            $ex = new \RuntimeException(\sprintf('Unable to open "%s" using mode "%s": %s', $filename, $mode, $e->getMessage()), 0, $e);
         }
         \restore_error_handler();
         if ($ex) {
-            /** @var $ex \***REMOVED*** */
+            /** @var $ex \RuntimeException */
             throw $ex;
         }
         return $handle;
@@ -326,27 +326,27 @@ final class Utils
      *
      * @param resource $stream
      *
-     * @throws \***REMOVED*** if the stream cannot be read
+     * @throws \RuntimeException if the stream cannot be read
      */
-    public static function ***REMOVED***($stream) : string
+    public static function tryGetContents($stream) : string
     {
         $ex = null;
         \set_error_handler(static function (int $errno, string $errstr) use(&$ex) : bool {
-            $ex = new \***REMOVED***(\sprintf('Unable to read stream contents: %s', $errstr));
+            $ex = new \RuntimeException(\sprintf('Unable to read stream contents: %s', $errstr));
             return \true;
         });
         try {
             /** @var string|false $contents */
             $contents = \stream_get_contents($stream);
             if ($contents === \false) {
-                $ex = new \***REMOVED***('Unable to read stream contents');
+                $ex = new \RuntimeException('Unable to read stream contents');
             }
         } catch (\Throwable $e) {
-            $ex = new \***REMOVED***(\sprintf('Unable to read stream contents: %s', $e->getMessage()), 0, $e);
+            $ex = new \RuntimeException(\sprintf('Unable to read stream contents: %s', $e->getMessage()), 0, $e);
         }
         \restore_error_handler();
         if ($ex) {
-            /** @var $ex \***REMOVED*** */
+            /** @var $ex \RuntimeException */
             throw $ex;
         }
         return $contents;

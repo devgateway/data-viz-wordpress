@@ -1,12 +1,12 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
-import {***REMOVED***, Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
+import {CheckboxControl, Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {ComponentWithSettings} from "../commons";
 import apiFetch from '@wordpress/api-fetch';
 import {Label, Search} from "semantic-ui-react";
 
 
-const ***REMOVED*** = ({url, type, subtype, title}) => {
+const resultRenderer = ({url, type, subtype, title}) => {
     return (<div className={"search result item"}>
         <div className={"subtype"}>{subtype}</div>
         <div><Label content={title}/></div>
@@ -35,8 +35,8 @@ class BlockEdit extends ComponentWithSettings {
 
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***();
+    componentDidMount() {
+        super.componentDidMount();
         apiFetch({path: '/wp/v2/types'}).then((data) => {
             this.setState({types: data})
         });
@@ -45,7 +45,7 @@ class BlockEdit extends ComponentWithSettings {
     render() {
         const {
             className, isSelected,
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 url,
@@ -63,7 +63,7 @@ class BlockEdit extends ComponentWithSettings {
         return (
 
             <div>
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel>
                         <PanelBody title={__("Button Label","dg")}>
                             <PanelRow>
@@ -77,12 +77,12 @@ class BlockEdit extends ComponentWithSettings {
                             <PanelRow>
                                 <Search fluid size={"mini"}
                                         loading={false}
-                                        ***REMOVED***={(e, data) => {
+                                        onResultSelect={(e, data) => {
                                             setAttributes({url: data.result.url, title: data.result.title})
                                         }
                                         }
-                                        ***REMOVED***={***REMOVED***}
-                                        ***REMOVED***={this.search}
+                                        resultRenderer={resultRenderer}
+                                        onSearchChange={this.search}
                                         results={this.state.results}
 
                                 />
@@ -95,7 +95,7 @@ class BlockEdit extends ComponentWithSettings {
                                     return null
                                 }
                                 return (<PanelRow>
-                                    <***REMOVED***
+                                    <CheckboxControl
                                         label={f.name}
                                         checked={this.props.attributes[f.slug] ? this.props.attributes[f.slug] : false}
                                         onChange={(value) => {
@@ -120,7 +120,7 @@ class BlockEdit extends ComponentWithSettings {
                     </Panel>
 
 
-                </***REMOVED***>
+                </InspectorControls>
 
                 <div style={divStyles}>
                     <iframe style={divStyles} scrolling={"no"}

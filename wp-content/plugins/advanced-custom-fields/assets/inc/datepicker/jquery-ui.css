@@ -1,7 +1,7 @@
 /*! jQuery UI - v1.11.4 - 2016-05-31
 * http://jqueryui.com
 * Includes: core.css, datepicker.css, theme.css
-* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=%22Open%20Sans%22%2C%E2%80%8B%20sans-serif&fsDefault=14px&fwDefault=normal&cornerRadius=3&bgColorHeader=%23ffffff&***REMOVED***=highlight_soft&***REMOVED***=%23ffffff&fcHeader=%23222222&***REMOVED***=%23DDDDDD&***REMOVED***=%23ffffff&***REMOVED***=flat&***REMOVED***=%23E1E1E1&fcContent=%23444444&***REMOVED***=%23444444&***REMOVED***=%23F9F9F9&***REMOVED***=flat&***REMOVED***=%23F0F0F0&fcDefault=%23444444&***REMOVED***=%23444444&bgColorHover=%2398b7e8&***REMOVED***=flat&***REMOVED***=%2398b7e8&fcHover=%23ffffff&***REMOVED***=%23ffffff&bgColorActive=%233875d7&***REMOVED***=flat&***REMOVED***=%233875d7&fcActive=%23ffffff&***REMOVED***=%23ffffff&***REMOVED***=%23ffffff&***REMOVED***=flat&***REMOVED***=%23aaaaaa&fcHighlight=%23444444&***REMOVED***=%23444444&bgColorError=%23E14D43&***REMOVED***=flat&***REMOVED***=%23E14D43&fcError=%23ffffff&***REMOVED***=%23ffffff&***REMOVED***=%23ffffff&***REMOVED***=flat&***REMOVED***=0&***REMOVED***=30&bgColorShadow=%23aaaaaa&***REMOVED***=flat&***REMOVED***=0&opacityShadow=30&***REMOVED***=8px&***REMOVED***=-8px&***REMOVED***=-8px&***REMOVED***=8px&***REMOVED***=0&***REMOVED***=&***REMOVED***=0&***REMOVED***=0&***REMOVED***=0&bgImgOpacityHighlight=0&***REMOVED***=0
+* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=%22Open%20Sans%22%2C%E2%80%8B%20sans-serif&fsDefault=14px&fwDefault=normal&cornerRadius=3&bgColorHeader=%23ffffff&bgTextureHeader=highlight_soft&borderColorHeader=%23ffffff&fcHeader=%23222222&iconColorHeader=%23DDDDDD&bgColorContent=%23ffffff&bgTextureContent=flat&borderColorContent=%23E1E1E1&fcContent=%23444444&iconColorContent=%23444444&bgColorDefault=%23F9F9F9&bgTextureDefault=flat&borderColorDefault=%23F0F0F0&fcDefault=%23444444&iconColorDefault=%23444444&bgColorHover=%2398b7e8&bgTextureHover=flat&borderColorHover=%2398b7e8&fcHover=%23ffffff&iconColorHover=%23ffffff&bgColorActive=%233875d7&bgTextureActive=flat&borderColorActive=%233875d7&fcActive=%23ffffff&iconColorActive=%23ffffff&bgColorHighlight=%23ffffff&bgTextureHighlight=flat&borderColorHighlight=%23aaaaaa&fcHighlight=%23444444&iconColorHighlight=%23444444&bgColorError=%23E14D43&bgTextureError=flat&borderColorError=%23E14D43&fcError=%23ffffff&iconColorError=%23ffffff&bgColorOverlay=%23ffffff&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px&bgImgOpacityHeader=0&bgImgOpacityContent=&bgImgOpacityDefault=0&bgImgOpacityHover=0&bgImgOpacityActive=0&bgImgOpacityHighlight=0&bgImgOpacityError=0
 * Copyright jQuery Foundation and other contributors; Licensed MIT */
 
 /* Layout helpers
@@ -476,14 +476,14 @@
 .acf-ui-datepicker .ui-icon-arrowthick-2-ne-sw { background-position: -144px -48px; }
 .acf-ui-datepicker .ui-icon-arrowthick-2-e-w { background-position: -160px -48px; }
 .acf-ui-datepicker .ui-icon-arrowthick-2-se-nw { background-position: -176px -48px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-n { background-position: -192px -48px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-e { background-position: -208px -48px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-s { background-position: -224px -48px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-w { background-position: -240px -48px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-w { background-position: 0 -64px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-n { background-position: -16px -64px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-e { background-position: -32px -64px; }
-.acf-ui-datepicker .ui-icon-***REMOVED***-1-s { background-position: -48px -64px; }
+.acf-ui-datepicker .ui-icon-arrowthickstop-1-n { background-position: -192px -48px; }
+.acf-ui-datepicker .ui-icon-arrowthickstop-1-e { background-position: -208px -48px; }
+.acf-ui-datepicker .ui-icon-arrowthickstop-1-s { background-position: -224px -48px; }
+.acf-ui-datepicker .ui-icon-arrowthickstop-1-w { background-position: -240px -48px; }
+.acf-ui-datepicker .ui-icon-arrowreturnthick-1-w { background-position: 0 -64px; }
+.acf-ui-datepicker .ui-icon-arrowreturnthick-1-n { background-position: -16px -64px; }
+.acf-ui-datepicker .ui-icon-arrowreturnthick-1-e { background-position: -32px -64px; }
+.acf-ui-datepicker .ui-icon-arrowreturnthick-1-s { background-position: -48px -64px; }
 .acf-ui-datepicker .ui-icon-arrowreturn-1-w { background-position: -64px -64px; }
 .acf-ui-datepicker .ui-icon-arrowreturn-1-n { background-position: -80px -64px; }
 .acf-ui-datepicker .ui-icon-arrowreturn-1-e { background-position: -96px -64px; }

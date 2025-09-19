@@ -13,8 +13,8 @@ if ( isset( $_GET['action'] ) && 'deleteauth' === $_GET['action'] ) {
 	// disable token on dropbox.
 	try {
 		$dropbox = new WPDBBackup_Destination_Dropbox_API();
-		$dropbox->***REMOVED***( maybe_unserialize( get_option( 'wpdb_dropboxtoken' ) ) );
-		$dropbox->***REMOVED***();
+		$dropbox->setOAuthTokens( maybe_unserialize( get_option( 'wpdb_dropboxtoken' ) ) );
+		$dropbox->authTokenRevoke();
 	} catch ( Exception $e ) {
 		echo '<div id="message" class="error"><p> Dropbox API: ' . esc_attr( $e->getMessage() ) . ' </p></div>';
 	}
@@ -24,8 +24,8 @@ if ( isset( $_GET['action'] ) && 'deleteauth' === $_GET['action'] ) {
 }
 
 $dropbox          = new WPDBBackup_Destination_Dropbox_API( 'dropbox' );
-$dropbox_auth_url = $dropbox->***REMOVED***();
-if ( true === isset( $_POST['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ) , 'wp-database-backup' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+$dropbox_auth_url = $dropbox->oAuthAuthorize();
+if ( true === isset( $_POST['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ) , 'wp-database-backup' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 	if ( isset( $_POST['wpdb_dropbbox_code'] ) && ! empty( $_POST['wpdb_dropbbox_code'] ) ) {
 		$dropboxtoken = $dropbox->oAuthToken( sanitize_text_field( wp_unslash( $_POST['wpdb_dropbbox_code'] ) ) );
 		$dropboxtoken = update_option( 'wpdb_dropboxtoken', maybe_serialize( $dropboxtoken ) , false);
@@ -45,7 +45,7 @@ $dropboxtoken      = ! empty( $wpdb_dropboxtoken ) ? maybe_unserialize( $wpdb_dr
 
 	<table class="form-table">
 		<tr>
-			<th scope="row"><?php esc_html_e( '***REMOVED***', 'wpdbbkp' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Authentication', 'wpdbbkp' ); ?></th>
 			<td><?php if ( empty( $dropboxtoken['access_token'] ) ) { ?>
 					<span style="color:red;"><?php esc_html_e( 'Not authenticated!', 'wpdbbkp' ); ?></span><br/>&nbsp;
 					<br/>
@@ -53,7 +53,7 @@ $dropboxtoken      = ! empty( $wpdb_dropboxtoken ) ? maybe_unserialize( $wpdb_dr
 				<?php } else { ?>
 					<span style="color:green;"><?php esc_html_e( 'Authenticated!', 'wpdbbkp' ); ?></span>
 					<?php
-					$dropbox->***REMOVED***( $dropboxtoken );
+					$dropbox->setOAuthTokens( $dropboxtoken );
 					$info = $dropbox->usersGetCurrentAccount();
 					if ( ! empty( $info['account_id'] ) ) {
 
@@ -62,9 +62,9 @@ $dropboxtoken      = ! empty( $wpdb_dropboxtoken ) ? maybe_unserialize( $wpdb_dr
 						esc_attr_e( ' with Dropbox of user ', 'wpdbbkp' );
 						echo esc_attr( $user ) . '<br/>';
 						// Quota.
-						$quota            = $dropbox->***REMOVED***();
-						$***REMOVED*** = $quota['allocation']['allocated'] - $quota['used'];
-						echo esc_attr( size_format( $***REMOVED***, 2 ) );
+						$quota            = $dropbox->usersGetSpaceUsage();
+						$dropboxfreespase = $quota['allocation']['allocated'] - $quota['used'];
+						echo esc_attr( size_format( $dropboxfreespase, 2 ) );
 						esc_attr_e( ' available on your Dropbox', 'wpdbbkp' );
 
 					}

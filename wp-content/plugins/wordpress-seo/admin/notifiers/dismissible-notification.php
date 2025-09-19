@@ -77,7 +77,7 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Checks whether the notification has been dismissed.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True when notification is dismissed.
 	 */
@@ -88,14 +88,14 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Retrieves the value where listener is listening for.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string|null The listener value or null if not set.
 	 */
 	protected function get_listener_value() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: Normally we would need to check for a nonce here but this class is not used anymore.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Normally we would need to check for a nonce here but this class is not used anymore.
 		if ( isset( $_GET['yoast_dismiss'] ) && is_string( $_GET['yoast_dismiss'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: Normally we would need to check for a nonce here but this class is not used anymore.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: Normally we would need to check for a nonce here but this class is not used anymore.
 			return sanitize_text_field( wp_unslash( $_GET['yoast_dismiss'] ) );
 		}
 		return null;
@@ -104,7 +104,7 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Dismisses the notification.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -115,7 +115,7 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Redirects the user back to the dashboard.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

@@ -1,7 +1,7 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Search_Console;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console;
 
 use WP_REST_Request;
 use WP_REST_Response;
@@ -9,14 +9,14 @@ use WP_REST_Response;
 /**
  * Class that hold the code to do the REST call to the Site Kit api.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Site_Kit_Search_Console_Api_Call {
 
 	/**
 	 * The search analytics API route path.
 	 */
-	private const SEARCH_CONSOLE_DATA_SEARCH_ANALYTICS_ROUTE = '/google-site-kit/v1/modules/search-console/data/***REMOVED***';
+	private const SEARCH_CONSOLE_DATA_SEARCH_ANALYTICS_ROUTE = '/google-site-kit/v1/modules/search-console/data/searchanalytics';
 
 	/**
 	 * Runs the internal REST api call.

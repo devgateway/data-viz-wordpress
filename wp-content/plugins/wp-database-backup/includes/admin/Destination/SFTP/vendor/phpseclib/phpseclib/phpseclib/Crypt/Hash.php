@@ -153,7 +153,7 @@ class Hash
      * @see self::hash()
      * @var boolean
      */
-    private $***REMOVED***;
+    private $recomputeAESKey;
 
     /**
      * umac cipher object
@@ -190,8 +190,8 @@ class Hash
     private static $offset128;
     private static $marker64;
     private static $marker128;
-    private static $***REMOVED***;
-    private static $***REMOVED***;
+    private static $maxwordrange64;
+    private static $maxwordrange128;
     /**#@-*/
 
     /**
@@ -215,7 +215,7 @@ class Hash
     {
         $this->key = $key;
         $this->computeKey();
-        $this->***REMOVED*** = true;
+        $this->recomputeAESKey = true;
     }
 
     /**
@@ -230,12 +230,12 @@ class Hash
         switch (true) {
             case !is_string($nonce):
             case strlen($nonce) > 0 && strlen($nonce) <= 16:
-                $this->***REMOVED*** = true;
+                $this->recomputeAESKey = true;
                 $this->nonce = $nonce;
                 return;
         }
 
-        throw new \***REMOVED***('The nonce length must be between 1 and 16 bytes, inclusive');
+        throw new \LengthException('The nonce length must be between 1 and 16 bytes, inclusive');
     }
 
     /**
@@ -410,12 +410,12 @@ class Hash
                 // from http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf#page=24
                 $initial = $hash == 'sha512/256' ?
                     [
-                        '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                        '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***'
+                        '22312194FC2BF72C', '9F555FA3C84C64C2', '2393B86B6F53B151', '963877195940EABD',
+                        '96283EE2A88EFFE3', 'BE5E1E2553863992', '2B0199FC2C85B8AA', '0EB72DDC81C52CA2'
                     ] :
                     [
-                        '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                        '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***'
+                        '8C3D37C819544DA2', '73E1996689DCD4D6', '1DFAB7AE32FF9C82', '679DD514582F9FCF',
+                        '0F6D2B697BD44DA8', '77E36F7304C48942', '3F9D85A86A1D36C8', '1112E6AD91D692A1'
                     ];
                 for ($i = 0; $i < 8; $i++) {
                     $initial[$i] = new BigInteger($initial[$i], 16);
@@ -486,7 +486,7 @@ class Hash
         //
         $kp = $this->kdf(0, 16);
         $c = new AES('ctr');
-        $c->***REMOVED***();
+        $c->disablePadding();
         $c->setKey($kp);
         $c->setIV($nonce);
         $t = $c->encrypt("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
@@ -614,7 +614,7 @@ class Hash
         $k = array_map($toUInt32, $k);
 
         //
-        // Perform NH hash on the chunks, pairing words for ***REMOVED***
+        // Perform NH hash on the chunks, pairing words for multiplication
         // which are 4 apart to accommodate vector-parallelism.
         //
         $y = new BigInteger();
@@ -655,7 +655,7 @@ class Hash
      * on a prefix of the L1-HASH output and called using different settings
      * on the remainder.  (This two-step hashing of the L1-HASH output is
      * needed only if the message length is greater than 16 megabytes.)
-     * Careful ***REMOVED*** of POLY is necessary to avoid a possible
+     * Careful implementation of POLY is necessary to avoid a possible
      * timing attack (see Section 6.6 for more information).
      *
      * @param string $k string of length 24 bytes.
@@ -678,7 +678,7 @@ class Hash
         // remainder under 128-bit prime.
         //
         if (strlen($m) <= 0x20000) { // 2^14 64-bit words
-            $y = self::poly(64, self::$***REMOVED***, $k64, $m);
+            $y = self::poly(64, self::$maxwordrange64, $k64, $m);
         } else {
             $m_1 = substr($m, 0, 0x20000); // 1 << 17
             $m_2 = substr($m, 0x20000) . "\x80";
@@ -686,9 +686,9 @@ class Hash
             $pad = 16 - ($length % 16);
             $pad %= 16;
             $m_2 = str_pad($m_2, $length + $pad, "\0"); // zeropad
-            $y = self::poly(64, self::$***REMOVED***, $k64, $m_1);
+            $y = self::poly(64, self::$maxwordrange64, $k64, $m_1);
             $y = str_pad($y, 16, "\0", STR_PAD_LEFT);
-            $y = self::poly(128, self::$***REMOVED***, $k128, $y . $m_2);
+            $y = self::poly(128, self::$maxwordrange128, $k128, $y . $m_2);
         }
 
         return str_pad($y, 16, "\0", STR_PAD_LEFT);
@@ -781,7 +781,7 @@ class Hash
     {
         $algo = $this->algo;
         if ($algo == 'umac') {
-            if ($this->***REMOVED***) {
+            if ($this->recomputeAESKey) {
                 if (!is_string($this->nonce)) {
                     throw new InsufficientSetupException('No nonce has been set');
                 }
@@ -789,10 +789,10 @@ class Hash
                     throw new InsufficientSetupException('No key has been set');
                 }
                 if (strlen($this->key) != 16) {
-                    throw new \***REMOVED***('Key must be 16 bytes long');
+                    throw new \LengthException('Key must be 16 bytes long');
                 }
 
-                if (!isset(self::$***REMOVED***)) {
+                if (!isset(self::$maxwordrange64)) {
                     $one = new BigInteger(1);
 
                     $prime36 = new BigInteger("\x00\x00\x00\x0F\xFF\xFF\xFF\xFB", 256);
@@ -812,20 +812,20 @@ class Hash
                     self::$marker64 = self::$factory64->newInteger($prime64->subtract($one));
                     self::$marker128 = self::$factory128->newInteger($prime128->subtract($one));
 
-                    $***REMOVED*** = $one->bitwise_leftShift(64)->subtract($one->bitwise_leftShift(32));
-                    self::$***REMOVED*** = self::$factory64->newInteger($***REMOVED***);
+                    $maxwordrange64 = $one->bitwise_leftShift(64)->subtract($one->bitwise_leftShift(32));
+                    self::$maxwordrange64 = self::$factory64->newInteger($maxwordrange64);
 
-                    $***REMOVED*** = $one->bitwise_leftShift(128)->subtract($one->bitwise_leftShift(96));
-                    self::$***REMOVED*** = self::$factory128->newInteger($***REMOVED***);
+                    $maxwordrange128 = $one->bitwise_leftShift(128)->subtract($one->bitwise_leftShift(96));
+                    self::$maxwordrange128 = self::$factory128->newInteger($maxwordrange128);
                 }
 
                 $this->c = new AES('ctr');
-                $this->c->***REMOVED***();
+                $this->c->disablePadding();
                 $this->c->setKey($this->key);
 
                 $this->pad = $this->pdf();
 
-                $this->***REMOVED*** = false;
+                $this->recomputeAESKey = false;
             }
 
             $hashedmessage = $this->uhash($text, $this->length);
@@ -874,7 +874,7 @@ class Hash
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getLengthInBytes()
     {
         return $this->length;
     }
@@ -884,7 +884,7 @@ class Hash
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getBlockLength()
     {
         return $this->blockSize;
     }
@@ -925,13 +925,13 @@ class Hash
     }
 
     /**
-     * Pure-PHP 32-bit ***REMOVED*** of SHA3
+     * Pure-PHP 32-bit implementation of SHA3
      *
-     * Whereas BigInteger.php's 32-bit engine works on PHP 64-bit this 32-bit ***REMOVED***
-     * of SHA3 will *not* work on PHP 64-bit. This is because this ***REMOVED***
+     * Whereas BigInteger.php's 32-bit engine works on PHP 64-bit this 32-bit implementation
+     * of SHA3 will *not* work on PHP 64-bit. This is because this implementation
      * employees bitwise NOTs and bitwise left shifts. And the round constants only work
      * on 32-bit PHP. eg. dechex(-2147483648) returns 80000000 on 32-bit PHP and
-     * ***REMOVED*** on 64-bit PHP. Sure, we could do bitwise ANDs but that would slow
+     * FFFFFFFF80000000 on 64-bit PHP. Sure, we could do bitwise ANDs but that would slow
      * things down.
      *
      * SHA512 requires BigInteger to simulate 64-bit unsigned integers because SHA2 employees
@@ -981,7 +981,7 @@ class Hash
                     $x++;
                 }
             }
-            static::***REMOVED***($s);
+            static::processSHA3Block32($s);
         }
 
         $z = '';
@@ -993,7 +993,7 @@ class Hash
                 $i++;
                 if ($i == 5) {
                     $i = 0;
-                    static::***REMOVED***($s);
+                    static::processSHA3Block32($s);
                 }
             }
         }
@@ -1006,9 +1006,9 @@ class Hash
      *
      * @param array $s
      */
-    private static function ***REMOVED***(&$s)
+    private static function processSHA3Block32(&$s)
     {
-        static $***REMOVED*** = [
+        static $rotationOffsets = [
             [ 0,  1, 62, 28, 27],
             [36, 44,  6, 55, 20],
             [ 3, 10, 43, 25, 39],
@@ -1019,7 +1019,7 @@ class Hash
         // the standards give these constants in hexadecimal notation. it's tempting to want to use
         // that same notation, here, however, we can't, because 0x80000000, on PHP32, is a positive
         // float - not the negative int that we need to be in PHP32. so we use -2147483648 instead
-        static $***REMOVED*** = [
+        static $roundConstants = [
             [0, 1],
             [0, 32898],
             [-2147483648, 32906],
@@ -1076,7 +1076,7 @@ class Hash
             // rho and pi steps
             for ($i = 0; $i < 5; $i++) {
                 for ($j = 0; $j < 5; $j++) {
-                    $st[(2 * $i + 3 * $j) % 5][$j] = static::rotateLeft32($s[$j][$i], $***REMOVED***[$j][$i]);
+                    $st[(2 * $i + 3 * $j) % 5][$j] = static::rotateLeft32($s[$j][$i], $rotationOffsets[$j][$i]);
                 }
             }
 
@@ -1105,8 +1105,8 @@ class Hash
             }
 
             // iota step
-            $s[0][0][0] ^= $***REMOVED***[$round][0];
-            $s[0][0][1] ^= $***REMOVED***[$round][1];
+            $s[0][0][0] ^= $roundConstants[$round][0];
+            $s[0][0][1] ^= $roundConstants[$round][1];
         }
     }
 
@@ -1132,7 +1132,7 @@ class Hash
     }
 
     /**
-     * Pure-PHP 64-bit ***REMOVED*** of SHA3
+     * Pure-PHP 64-bit implementation of SHA3
      *
      * @param string $p
      * @param int $c
@@ -1170,7 +1170,7 @@ class Hash
                     $x++;
                 }
             }
-            static::***REMOVED***($s);
+            static::processSHA3Block64($s);
         }
 
         $z = '';
@@ -1182,7 +1182,7 @@ class Hash
                 $i++;
                 if ($i == 5) {
                     $i = 0;
-                    static::***REMOVED***($s);
+                    static::processSHA3Block64($s);
                 }
             }
         }
@@ -1195,9 +1195,9 @@ class Hash
      *
      * @param array $s
      */
-    private static function ***REMOVED***(&$s)
+    private static function processSHA3Block64(&$s)
     {
-        static $***REMOVED*** = [
+        static $rotationOffsets = [
             [ 0,  1, 62, 28, 27],
             [36, 44,  6, 55, 20],
             [ 3, 10, 43, 25, 39],
@@ -1205,31 +1205,31 @@ class Hash
             [18,  2, 61, 56, 14]
         ];
 
-        static $***REMOVED*** = [
+        static $roundConstants = [
             1,
             32898,
-            -***REMOVED***,
-            -***REMOVED***,
+            -9223372036854742902,
+            -9223372034707259392,
             32907,
             2147483649,
-            -***REMOVED***,
-            -***REMOVED***,
+            -9223372034707259263,
+            -9223372036854743031,
             138,
             136,
             2147516425,
             2147483658,
             2147516555,
-            -***REMOVED***,
-            -***REMOVED***,
-            -***REMOVED***,
-            -***REMOVED***,
-            -***REMOVED***,
+            -9223372036854775669,
+            -9223372036854742903,
+            -9223372036854743037,
+            -9223372036854743038,
+            -9223372036854775680,
             32778,
-            -***REMOVED***,
-            -***REMOVED***,
-            -***REMOVED***,
+            -9223372034707292150,
+            -9223372034707259263,
+            -9223372036854742912,
             2147483649,
-            -***REMOVED***
+            -9223372034707259384
         ];
 
         for ($round = 0; $round < 24; $round++) {
@@ -1256,7 +1256,7 @@ class Hash
             // rho and pi steps
             for ($i = 0; $i < 5; $i++) {
                 for ($j = 0; $j < 5; $j++) {
-                    $st[(2 * $i + 3 * $j) % 5][$j] = static::rotateLeft64($s[$j][$i], $***REMOVED***[$j][$i]);
+                    $st[(2 * $i + 3 * $j) % 5][$j] = static::rotateLeft64($s[$j][$i], $rotationOffsets[$j][$i]);
                 }
             }
 
@@ -1272,7 +1272,7 @@ class Hash
             }
 
             // iota step
-            $s[0][0] ^= $***REMOVED***[$round];
+            $s[0][0] ^= $roundConstants[$round];
         }
     }
 
@@ -1288,7 +1288,7 @@ class Hash
     }
 
     /**
-     * Pure-PHP ***REMOVED*** of SHA512
+     * Pure-PHP implementation of SHA512
      *
      * @param string $m
      * @param array $hash
@@ -1302,26 +1302,26 @@ class Hash
             // Initialize table of round constants
             // (first 64 bits of the fractional parts of the cube roots of the first 80 primes 2..409)
             $k = [
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***',
-                '***REMOVED***', '***REMOVED***', '***REMOVED***', '***REMOVED***'
+                '428a2f98d728ae22', '7137449123ef65cd', 'b5c0fbcfec4d3b2f', 'e9b5dba58189dbbc',
+                '3956c25bf348b538', '59f111f1b605d019', '923f82a4af194f9b', 'ab1c5ed5da6d8118',
+                'd807aa98a3030242', '12835b0145706fbe', '243185be4ee4b28c', '550c7dc3d5ffb4e2',
+                '72be5d74f27b896f', '80deb1fe3b1696b1', '9bdc06a725c71235', 'c19bf174cf692694',
+                'e49b69c19ef14ad2', 'efbe4786384f25e3', '0fc19dc68b8cd5b5', '240ca1cc77ac9c65',
+                '2de92c6f592b0275', '4a7484aa6ea6e483', '5cb0a9dcbd41fbd4', '76f988da831153b5',
+                '983e5152ee66dfab', 'a831c66d2db43210', 'b00327c898fb213f', 'bf597fc7beef0ee4',
+                'c6e00bf33da88fc2', 'd5a79147930aa725', '06ca6351e003826f', '142929670a0e6e70',
+                '27b70a8546d22ffc', '2e1b21385c26c926', '4d2c6dfc5ac42aed', '53380d139d95b3df',
+                '650a73548baf63de', '766a0abb3c77b2a8', '81c2c92e47edaee6', '92722c851482353b',
+                'a2bfe8a14cf10364', 'a81a664bbc423001', 'c24b8b70d0f89791', 'c76c51a30654be30',
+                'd192e819d6ef5218', 'd69906245565a910', 'f40e35855771202a', '106aa07032bbd1b8',
+                '19a4c116b8d2d0c8', '1e376c085141ab53', '2748774cdf8eeb99', '34b0bcb5e19b48a8',
+                '391c0cb3c5c95a63', '4ed8aa4ae3418acb', '5b9cca4f7763e373', '682e6ff3d6b2b8a3',
+                '748f82ee5defb2fc', '78a5636f43172f60', '84c87814a1f0ab72', '8cc702081a6439ec',
+                '90befffa23631e28', 'a4506cebde82bde9', 'bef9a3f7b2c67915', 'c67178f2e372532b',
+                'ca273eceea26619c', 'd186b8c721c0c207', 'eada7dd6cde0eb1e', 'f57d4f7fee6ed178',
+                '06f067aa72176fba', '0a637dc5a2c898a6', '113f9804bef90dae', '1b710b35131c471b',
+                '28db77f523047d84', '32caab7b40c72493', '3c9ebe0a15c9bebc', '431d67c49c100d4c',
+                '4cc5d4becb3e42b6', '597f299cfc657e2a', '5fcb6fab3ad6faec', '6c44198c4a475817'
             ];
 
             for ($i = 0; $i < 80; $i++) {

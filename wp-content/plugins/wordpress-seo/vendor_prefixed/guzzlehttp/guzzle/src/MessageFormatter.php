@@ -2,9 +2,9 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Formats log messages using variable substitutions for requests, responses,
  * and other transactional data.
@@ -34,7 +34,7 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  *
  * @final
  */
-class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInterface
+class MessageFormatter implements \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInterface
 {
     /**
      * Apache Common Log Format.
@@ -60,11 +60,11 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInter
     /**
      * Returns a formatted message string.
      *
-     * @param ***REMOVED***       $request  Request that was sent
-     * @param ***REMOVED***|null $response Response that was received
+     * @param RequestInterface       $request  Request that was sent
+     * @param ResponseInterface|null $response Response that was received
      * @param \Throwable|null        $error    Exception that was received
      */
-    public function format(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response = null, \Throwable $error = null) : string
+    public function format(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response = null, \Throwable $error = null) : string
     {
         $cache = [];
         /** @var string */
@@ -81,16 +81,16 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInter
                     $result = $response ? \YoastSEO_Vendor\GuzzleHttp\Psr7\Message::toString($response) : '';
                     break;
                 case 'req_headers':
-                    $result = \trim($request->getMethod() . ' ' . $request->***REMOVED***()) . ' HTTP/' . $request->***REMOVED***() . "\r\n" . $this->headers($request);
+                    $result = \trim($request->getMethod() . ' ' . $request->getRequestTarget()) . ' HTTP/' . $request->getProtocolVersion() . "\r\n" . $this->headers($request);
                     break;
                 case 'res_headers':
-                    $result = $response ? \sprintf('HTTP/%s %d %s', $response->***REMOVED***(), $response->getStatusCode(), $response->***REMOVED***()) . "\r\n" . $this->headers($response) : 'NULL';
+                    $result = $response ? \sprintf('HTTP/%s %d %s', $response->getProtocolVersion(), $response->getStatusCode(), $response->getReasonPhrase()) . "\r\n" . $this->headers($response) : 'NULL';
                     break;
                 case 'req_body':
                     $result = $request->getBody()->__toString();
                     break;
                 case 'res_body':
-                    if (!$response instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
+                    if (!$response instanceof \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface) {
                         $result = 'NULL';
                         break;
                     }
@@ -112,20 +112,20 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInter
                     $result = $request->getMethod();
                     break;
                 case 'version':
-                    $result = $request->***REMOVED***();
+                    $result = $request->getProtocolVersion();
                     break;
                 case 'uri':
                 case 'url':
                     $result = $request->getUri()->__toString();
                     break;
                 case 'target':
-                    $result = $request->***REMOVED***();
+                    $result = $request->getRequestTarget();
                     break;
                 case 'req_version':
-                    $result = $request->***REMOVED***();
+                    $result = $request->getProtocolVersion();
                     break;
                 case 'res_version':
-                    $result = $response ? $response->***REMOVED***() : 'NULL';
+                    $result = $response ? $response->getProtocolVersion() : 'NULL';
                     break;
                 case 'host':
                     $result = $request->getHeaderLine('Host');
@@ -137,7 +137,7 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInter
                     $result = $response ? $response->getStatusCode() : 'NULL';
                     break;
                 case 'phrase':
-                    $result = $response ? $response->***REMOVED***() : 'NULL';
+                    $result = $response ? $response->getReasonPhrase() : 'NULL';
                     break;
                 case 'error':
                     $result = $error ? $error->getMessage() : 'NULL';
@@ -157,7 +157,7 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\MessageFormatterInter
     /**
      * Get headers from message as string
      */
-    private function headers(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $message) : string
+    private function headers(\YoastSEO_Vendor\Psr\Http\Message\MessageInterface $message) : string
     {
         $result = '';
         foreach ($message->getHeaders() as $name => $values) {

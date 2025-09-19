@@ -1,6 +1,6 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Application\Score_Results;
 
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Score;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Current_Scores_List;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Score_Groups\Score_Group_Link_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Groups\Score_Group_Link_Collector;
 
 /**
  * The current scores repository.

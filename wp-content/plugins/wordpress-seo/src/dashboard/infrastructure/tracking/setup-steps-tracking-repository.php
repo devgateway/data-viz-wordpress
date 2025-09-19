@@ -1,13 +1,13 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Tracking;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Tracking;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Stores and retrieves data about Site Kit usage.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Setup_Steps_Tracking_Repository implements Setup_Steps_Tracking_Repository_Interface {
 

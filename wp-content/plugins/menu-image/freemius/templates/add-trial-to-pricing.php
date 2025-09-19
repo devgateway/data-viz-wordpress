@@ -22,10 +22,10 @@
 	(function ($) {
 		$(document).ready(function () {
 			var $pricingMenu = $('.fs-submenu-item.<?php echo $fs->get_unique_affix() ?>.pricing'),
-				$***REMOVED*** = $pricingMenu.parents('a');
+				$pricingMenuLink = $pricingMenu.parents('a');
 
 			// Add trial querystring param.
-			$***REMOVED***.attr('href', $***REMOVED***.attr('href') + '&trial=true');
+			$pricingMenuLink.attr('href', $pricingMenuLink.attr('href') + '&trial=true');
 		});
 	})(jQuery);
 </script>

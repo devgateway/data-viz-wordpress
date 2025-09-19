@@ -18,7 +18,7 @@ if ( ! function_exists( 'twentyseventeen_posted_on' ) ) :
 		// Get the author name; wrap it in a link.
 		$byline = sprintf(
 			/* translators: %s: Post author. */
-			__( 'by %s', '***REMOVED***' ),
+			__( 'by %s', 'twentyseventeen' ),
 			'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>'
 		);
 
@@ -49,7 +49,7 @@ if ( ! function_exists( 'twentyseventeen_time_link' ) ) :
 		// Wrap the time string in a link, and preface it with 'Posted on'.
 		return sprintf(
 			/* translators: %s: Post date. */
-			__( '<span class="screen-reader-text">Posted on</span> %s', '***REMOVED***' ),
+			__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
 			'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 		);
 	}
@@ -83,7 +83,7 @@ if ( ! function_exists( 'twentyseventeen_entry_footer' ) ) :
 					if ( $categories_list && twentyseventeen_categorized_blog() ) {
 						echo '<span class="cat-links">' . twentyseventeen_get_svg( array( 'icon' => 'folder-open' ) ) .
 							/* translators: Hidden accessibility text. */
-							'<span class="screen-reader-text">' . __( 'Categories', '***REMOVED***' ) . '</span>' .
+							'<span class="screen-reader-text">' . __( 'Categories', 'twentyseventeen' ) . '</span>' .
 							$categories_list .
 						'</span>';
 					}
@@ -91,7 +91,7 @@ if ( ! function_exists( 'twentyseventeen_entry_footer' ) ) :
 					if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 						echo '<span class="tags-links">' . twentyseventeen_get_svg( array( 'icon' => 'hashtag' ) ) .
 							/* translators: Hidden accessibility text. */
-							'<span class="screen-reader-text">' . __( 'Tags', '***REMOVED***' ) . '</span>' .
+							'<span class="screen-reader-text">' . __( 'Tags', 'twentyseventeen' ) . '</span>' .
 							$tags_list .
 						'</span>';
 					}
@@ -121,7 +121,7 @@ if ( ! function_exists( 'twentyseventeen_edit_link' ) ) :
 		edit_post_link(
 			sprintf(
 				/* translators: %s: Post title. Only visible to screen readers. */
-				__( 'Edit<span class="screen-reader-text"> "%s"</span>', '***REMOVED***' ),
+				__( 'Edit<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
 				get_the_title()
 			),
 			'<span class="edit-link">',
@@ -172,11 +172,11 @@ function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 	if ( $show_panel_placeholder ) {
 		// The output placeholder anchor.
 		printf(
-			'<article class="panel-placeholder panel ***REMOVED***-panel ***REMOVED***-panel%1$s" id="panel%1$s">' .
-			'<span class="***REMOVED***-panel-title">%2$s</span></article>',
+			'<article class="panel-placeholder panel twentyseventeen-panel twentyseventeen-panel%1$s" id="panel%1$s">' .
+			'<span class="twentyseventeen-panel-title">%2$s</span></article>',
 			$id,
 			/* translators: %s: The section ID. */
-			sprintf( __( 'Front Page Section %s Placeholder', '***REMOVED***' ), $id )
+			sprintf( __( 'Front Page Section %s Placeholder', 'twentyseventeen' ), $id )
 		);
 	}
 }

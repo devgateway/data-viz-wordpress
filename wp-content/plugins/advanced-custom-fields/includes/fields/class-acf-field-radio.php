@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_radio' ) ) :
 			$this->category      = 'choice';
 			$this->description   = __( 'A group of radio button inputs that allows the user to make a single selection from values that you specify.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-radio-button.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/radio-button/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/radio-button/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'layout'            => 'vertical',
 				'choices'           => array(),
@@ -158,7 +158,7 @@ if ( ! class_exists( 'acf_field_radio' ) ) :
 			$e .= '</ul>';
 
 			// Output HTML.
-			echo $e; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped per attribute above.
+			echo $e; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped per attribute above.
 		}
 
 

@@ -41,8 +41,8 @@ function customtaxorder_menu() {
 	$custom_cap = apply_filters( 'customtaxorder_custom_cap', 'manage_categories' );
 
 	//add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = '', int $position = null )
-	add_submenu_page('tools.php', esc_html__('Term Order', 'custom-taxonomy-order-ne'), esc_html__('Term Order', 'custom-taxonomy-order-ne'), $custom_cap, '***REMOVED***', 'customtaxorder_subpage');
-	add_submenu_page('***REMOVED***', esc_html__('Order Taxonomies', 'custom-taxonomy-order-ne'), esc_html__('Order Taxonomies', 'custom-taxonomy-order-ne'), $custom_cap, '***REMOVED***-taxonomies', 'custom_taxonomy_order');
+	add_submenu_page('tools.php', esc_html__('Term Order', 'custom-taxonomy-order-ne'), esc_html__('Term Order', 'custom-taxonomy-order-ne'), $custom_cap, 'customtaxorder', 'customtaxorder_subpage');
+	add_submenu_page('customtaxorder', esc_html__('Order Taxonomies', 'custom-taxonomy-order-ne'), esc_html__('Order Taxonomies', 'custom-taxonomy-order-ne'), $custom_cap, 'customtaxorder-taxonomies', 'custom_taxonomy_order');
 
 	$taxonomies = customtaxorder_get_taxonomies();
 	$taxonomies = customtaxorder_sort_taxonomies( $taxonomies );
@@ -52,7 +52,7 @@ function customtaxorder_menu() {
 	$page_customtaxorder = false;
 	if ( isset($_GET['page']) ) {
 		$pos_page = sanitize_text_field( $_GET['page'] );
-		$pos_args = '***REMOVED***';
+		$pos_args = 'customtaxorder';
 		$pos = strpos($pos_page, $pos_args);
 		if ( $pos !== false ) {
 			$page_customtaxorder = true;
@@ -69,10 +69,10 @@ function customtaxorder_menu() {
 
 			// Set your finegrained capability for this taxonomy for this custom filter.
 			$custom_cap_tax = apply_filters( 'customtaxorder_custom_cap_' . $tax_name, $custom_cap );
-			add_submenu_page('***REMOVED***', esc_html__('Order ', 'custom-taxonomy-order-ne') . $tax_label, esc_html__('Order ', 'custom-taxonomy-order-ne') . $tax_label, $custom_cap_tax, '***REMOVED***-' . $tax_name, 'customtaxorder_subpage');
+			add_submenu_page('customtaxorder', esc_html__('Order ', 'custom-taxonomy-order-ne') . $tax_label, esc_html__('Order ', 'custom-taxonomy-order-ne') . $tax_label, $custom_cap_tax, 'customtaxorder-' . $tax_name, 'customtaxorder_subpage');
 		}
 	}
-	add_submenu_page('***REMOVED***', esc_html__('About', 'custom-taxonomy-order-ne'), esc_html__('About', 'custom-taxonomy-order-ne'), $custom_cap, '***REMOVED***-about', 'customtaxorder_about');
+	add_submenu_page('customtaxorder', esc_html__('About', 'custom-taxonomy-order-ne'), esc_html__('About', 'custom-taxonomy-order-ne'), $custom_cap, 'customtaxorder-about', 'customtaxorder_about');
 
 }
 add_action('admin_menu', 'customtaxorder_menu');
@@ -81,10 +81,10 @@ add_action('admin_menu', 'customtaxorder_menu');
 function customtaxorder_css() {
 	if ( isset($_GET['page']) ) {
 		$pos_page = sanitize_text_field( $_GET['page'] );
-		$pos_args = '***REMOVED***';
+		$pos_args = 'customtaxorder';
 		$pos = strpos($pos_page, $pos_args);
 		if ( $pos !== false ) {
-			wp_enqueue_style('***REMOVED***', plugins_url( 'css/***REMOVED***.css', __FILE__), false, CUSTOMTAXORDER_VER, 'screen' );
+			wp_enqueue_style('customtaxorder', plugins_url( 'css/customtaxorder.css', __FILE__), false, CUSTOMTAXORDER_VER, 'screen' );
 		}
 	}
 }
@@ -94,13 +94,13 @@ add_action('admin_print_styles', 'customtaxorder_css');
 function customtaxorder_js_libs() {
 	if ( isset($_GET['page']) ) {
 		$pos_page = sanitize_text_field( $_GET['page'] );
-		$pos_args = '***REMOVED***';
+		$pos_args = 'customtaxorder';
 		$pos = strpos($pos_page, $pos_args);
 		if ( $pos !== false ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
-			wp_enqueue_script( '***REMOVED***', plugins_url( '/js/***REMOVED***.js', __FILE__ ), 'jquery-ui-sortable', CUSTOMTAXORDER_VER, true );
+			wp_enqueue_script( 'customtaxorder', plugins_url( '/js/customtaxorder.js', __FILE__ ), 'jquery-ui-sortable', CUSTOMTAXORDER_VER, true );
 		}
 	}
 }
@@ -338,8 +338,8 @@ function customtaxorder_about() {
  * Add Settings link to the main plugin page.
  */
 function customtaxorder_links( $links, $file ) {
-	if ( $file == plugin_basename( __DIR__ . '/***REMOVED***.php' ) ) {
-		$links[] = '<a href="' . admin_url( 'admin.php?page=***REMOVED***' ) . '">' . esc_html__( 'Settings', 'custom-taxonomy-order-ne' ) . '</a>';
+	if ( $file == plugin_basename( __DIR__ . '/customtaxorder.php' ) ) {
+		$links[] = '<a href="' . admin_url( 'admin.php?page=customtaxorder' ) . '">' . esc_html__( 'Settings', 'custom-taxonomy-order-ne' ) . '</a>';
 	}
 	return $links;
 }

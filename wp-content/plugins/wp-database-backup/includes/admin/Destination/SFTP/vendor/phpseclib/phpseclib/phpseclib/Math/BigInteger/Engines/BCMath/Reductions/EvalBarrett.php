@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BCMath Dynamic Barrett Modular ***REMOVED*** Engine
+ * BCMath Dynamic Barrett Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -17,7 +17,7 @@ use phpseclib3\Math\BigInteger\Engines\BCMath;
 use phpseclib3\Math\BigInteger\Engines\BCMath\Base;
 
 /**
- * PHP Barrett Modular ***REMOVED*** Engine
+ * PHP Barrett Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */

@@ -30,7 +30,7 @@ abstract class Attribute
                 'type' => ASN1::TYPE_SET,
                 'min' => 1,
                 'max' => -1,
-                'children' => ***REMOVED***::MAP
+                'children' => AttributeValue::MAP
             ]
         ]
     ];

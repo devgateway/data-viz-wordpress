@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Landing page for event
- * Slug: ***REMOVED***/page-landing-event
+ * Slug: twentytwentyfive/page-landing-event
  * Categories: twentytwentyfive_page, featured
  * Keywords: starter
  * Block Types: core/post-content
@@ -16,8 +16,8 @@
 
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/hero-full-width-image"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/heading-and-paragraph-with-image"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/banner-description-images-grid"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/text-faqs"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/contact-centered-social-link"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/hero-full-width-image"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/heading-and-paragraph-with-image"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/banner-description-images-grid"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/text-faqs"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/contact-centered-social-link"} /-->

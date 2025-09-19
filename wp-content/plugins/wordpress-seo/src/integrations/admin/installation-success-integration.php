@@ -74,7 +74,7 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 		$this->options_helper->set( 'activation_redirect_timestamp_free', \time() );
 
-		// phpcs:ignore WordPress.Security.***REMOVED*** -- This is not a form.
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
 		if ( isset( $_REQUEST['activate-multi'] ) && $_REQUEST['activate-multi'] === 'true' ) {
 			return;
 		}
@@ -117,7 +117,7 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Date is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_installation_successful_free' ) {
 			return;
 		}

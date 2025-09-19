@@ -72,7 +72,7 @@ HTML;
 <script type="text/javascript">
 (function( $ ) {
     $( document ).ready(function() {
-        var ***REMOVED***            = <?php echo json_encode( $modal_content_html ) ?>,
+        var modalContentHtml            = <?php echo json_encode( $modal_content_html ) ?>,
             modalHtml                   =
                 '<div class="fs-modal fs-modal-change-user fs-modal-change-user-<?php echo $fs->get_unique_affix() ?>">'
                 + '	<div class="fs-modal-dialog">'
@@ -81,7 +81,7 @@ HTML;
                 + '         <a href="!#" class="fs-close"><i class="dashicons dashicons-no" title="<?php echo esc_js( fs_text_x_inline( 'Dismiss', 'close window', 'dismiss', $slug ) ) ?>"></i></a>'
                 + '		</div>'
                 + '		<div class="fs-modal-body">'
-                + '			<div class="fs-modal-panel active">' + ***REMOVED*** + '</div>'
+                + '			<div class="fs-modal-panel active">' + modalContentHtml + '</div>'
                 + '		</div>'
                 + '		<div class="fs-modal-footer">'
                 + '			<button class="button button-secondary button-close" tabindex="4"><?php fs_esc_js_echo_inline( 'Cancel', 'cancel', $slug ) ?></button>'
@@ -90,7 +90,7 @@ HTML;
                 + '	</div>'
                 + '</div>',
             $modal                      = $( modalHtml ),
-            $***REMOVED***           = $modal.find( '.fs-user-change-button' ),
+            $userChangeButton           = $modal.find( '.fs-user-change-button' ),
             $otherEmailAddressRadio     = $modal.find( '#fs_other_email_address_radio' ),
             $changeUserResultMessage    = $modal.find( '.fs-change-user-result-message' ),
             $otherEmailAddressContainer = $modal.find( '.fs-other-email-address-container' ),
@@ -99,18 +99,18 @@ HTML;
 
         $modal.appendTo( $( 'body' ) );
 
-        var ***REMOVED*** = null;
+        var previousEmailAddress = null;
 
         function registerEventHandlers() {
             $licenseOwners.change( function() {
-                var ***REMOVED***           = $otherEmailAddressTextField.val().trim(),
+                var otherEmailAddress           = $otherEmailAddressTextField.val().trim(),
                     otherEmailAddressIsSelected = isOtherEmailAddressSelected();
 
                 if ( otherEmailAddressIsSelected ) {
                     $otherEmailAddressTextField.focus();
                 }
 
-                if ( ***REMOVED***.length > 0 || ! otherEmailAddressIsSelected ) {
+                if ( otherEmailAddress.length > 0 || ! otherEmailAddressIsSelected ) {
                     enableUserChangeButton();
                 } else {
                     disableUserChangeButton();
@@ -123,7 +123,7 @@ HTML;
 
             // Handle for the "Change User" button on the "Account" page.
             $( '#fs_change_user' ).click( function ( evt ) {
-                evt.***REMOVED***();
+                evt.preventDefault();
 
                 showModal( evt );
             } );
@@ -135,7 +135,7 @@ HTML;
                 setTimeout( function () {
                     var emailAddress = $otherEmailAddressRadio.val().trim();
 
-                    if ( emailAddress === ***REMOVED*** ) {
+                    if ( emailAddress === previousEmailAddress ) {
                         return;
                     }
 
@@ -145,11 +145,11 @@ HTML;
                         enableUserChangeButton();
                     }
 
-                    ***REMOVED*** = emailAddress;
+                    previousEmailAddress = emailAddress;
                 }, 100 );
             } ).focus();
 
-            $modal.on( 'input ***REMOVED***', 'input#fs_other_email_address_text_field', function () {
+            $modal.on( 'input propertychange', 'input#fs_other_email_address_text_field', function () {
                 var emailAddress = $( this ).val().trim();
 
                 /**
@@ -172,17 +172,17 @@ HTML;
             } );
 
             $modal.on( 'click', '.fs-user-change-button', function ( evt ) {
-                evt.***REMOVED***();
+                evt.preventDefault();
 
                 if ( $( this ).hasClass( 'disabled' ) ) {
                     return;
                 }
 
                 var emailAddress   = '',
-                    ***REMOVED*** = null;
+                    licenseOwnerID = null;
 
                 if ( ! isOtherEmailAddressSelected() ) {
-                    ***REMOVED*** = $licenseOwners.filter( ':checked' ).val();
+                    licenseOwnerID = $licenseOwners.filter( ':checked' ).val();
                 } else {
                     emailAddress = $otherEmailAddressTextField.val().trim();
 
@@ -200,11 +200,11 @@ HTML;
                         action       : '<?php echo $fs->get_ajax_action( 'change_user' ) ?>',
                         security     : '<?php echo $fs->get_ajax_security( 'change_user' ) ?>',
                         email_address: emailAddress,
-                        user_id      : ***REMOVED***,
+                        user_id      : licenseOwnerID,
                         module_id    : '<?php echo $fs->get_id() ?>'
                     },
                     beforeSend: function () {
-                        $***REMOVED***
+                        $userChangeButton
                             .text( '<?php fs_esc_js_echo_inline( 'Changing user, please wait', 'changing-user-please-wait', $slug ) ?>...' )
                             .prepend('<i class="fs-ajax-spinner"></i>');
 
@@ -267,7 +267,7 @@ HTML;
 
         function resetUserChangeButton() {
             enableUserChangeButton();
-            $***REMOVED***.text( <?php echo json_encode( $user_change_button_text ) ?> );
+            $userChangeButton.text( <?php echo json_encode( $user_change_button_text ) ?> );
         }
 
         function resetModal() {
@@ -276,11 +276,11 @@ HTML;
         }
 
         function enableUserChangeButton() {
-            $***REMOVED***.removeClass( 'disabled' );
+            $userChangeButton.removeClass( 'disabled' );
         }
 
         function disableUserChangeButton() {
-            $***REMOVED***.addClass( 'disabled' );
+            $userChangeButton.addClass( 'disabled' );
         }
 
         function hideError() {

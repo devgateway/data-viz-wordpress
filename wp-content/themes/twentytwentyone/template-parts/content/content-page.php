@@ -30,10 +30,10 @@
 
 		wp_link_pages(
 			array(
-				'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', '***REMOVED***' ) . '">',
+				'before'   => '<nav class="page-links" aria-label="' . esc_attr__( 'Page', 'twentytwentyone' ) . '">',
 				'after'    => '</nav>',
 				/* translators: %: Page number. */
-				'pagelink' => esc_html__( 'Page %', '***REMOVED***' ),
+				'pagelink' => esc_html__( 'Page %', 'twentytwentyone' ),
 			)
 		);
 		?>
@@ -45,7 +45,7 @@
 			edit_post_link(
 				sprintf(
 					/* translators: %s: Post title. Only visible to screen readers. */
-					esc_html__( 'Edit %s', '***REMOVED***' ),
+					esc_html__( 'Edit %s', 'twentytwentyone' ),
 					'<span class="screen-reader-text">' . get_the_title() . '</span>'
 				),
 				'<span class="edit-link">',

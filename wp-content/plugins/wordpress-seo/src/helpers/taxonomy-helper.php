@@ -28,7 +28,7 @@ class Taxonomy_Helper {
 	/**
 	 * Taxonomy_Helper constructor.
 	 *
-	 * @***REMOVED*** It only sets dependencies.
+	 * @codeCoverageIgnore It only sets dependencies.
 	 *
 	 * @param Options_Helper $options       The options helper.
 	 * @param String_Helper  $string_helper The string helper.
@@ -75,7 +75,7 @@ class Taxonomy_Helper {
 	/**
 	 * Retrieves the taxonomy term's meta values.
 	 *
-	 * @***REMOVED*** We have to write test when this method contains own code.
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @param WP_Term $term Term to get the meta value for.
 	 *

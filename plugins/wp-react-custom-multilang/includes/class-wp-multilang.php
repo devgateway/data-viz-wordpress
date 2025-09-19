@@ -202,7 +202,7 @@ final class WP_Multilang {
 	 * @return string
 	 */
 	public function plugin_url() {
-		return ***REMOVED***( plugins_url( '/', WPM_PLUGIN_FILE ) );
+		return untrailingslashit( plugins_url( '/', WPM_PLUGIN_FILE ) );
 	}
 
 	/**
@@ -210,7 +210,7 @@ final class WP_Multilang {
 	 * @return string
 	 */
 	public function plugin_path() {
-		return ***REMOVED***( plugin_dir_path( WPM_PLUGIN_FILE ) );
+		return untrailingslashit( plugin_dir_path( WPM_PLUGIN_FILE ) );
 	}
 
 	/**

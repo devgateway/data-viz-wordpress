@@ -24,7 +24,7 @@ if ( ! class_exists( 'acf_field_tab' ) ) :
 			$this->category      = 'layout';
 			$this->description   = __( 'Allows you to group fields into tabbed sections in the edit screen. Useful for keeping fields organized and structured.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-tabs.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/tab/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/tab/', 'docs', 'field-type-selection' );
 			$this->supports      = array(
 				'required' => false,
 				'bindings' => false,

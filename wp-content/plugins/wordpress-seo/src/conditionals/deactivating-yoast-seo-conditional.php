@@ -13,7 +13,7 @@ class Deactivating_Yoast_Seo_Conditional implements Conditional {
 	 * @return bool Whether the conditional is met.
 	 */
 	public function is_met() {
-		// phpcs:ignore WordPress.Security.***REMOVED*** -- We can't verify nonce since this might run from any user.
+		// phpcs:ignore WordPress.Security.NonceVerification -- We can't verify nonce since this might run from any user.
 		if ( isset( $_GET['action'] ) && \sanitize_text_field( \wp_unslash( $_GET['action'] ) ) === 'deactivate' && isset( $_GET['plugin'] ) && \sanitize_text_field( \wp_unslash( $_GET['plugin'] === 'wordpress-seo/wp-seo.php' ) ) ) {
 			return true;
 		}

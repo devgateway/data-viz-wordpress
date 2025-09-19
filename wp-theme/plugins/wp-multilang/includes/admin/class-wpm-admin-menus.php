@@ -157,7 +157,7 @@ class WPM_Admin_Menus {
 	/**
 	 * Add custom nav meta box.
 	 *
-	 * Adapted from http://www.***REMOVED***.com/how-to-add-a-fully-functional-custom-meta-box-to-wordpress-navigation-menus/.
+	 * Adapted from http://www.johnmorrisonline.com/how-to-add-a-fully-functional-custom-meta-box-to-wordpress-navigation-menus/.
 	 */
 	public function add_nav_menu_meta_boxes() {
 		add_meta_box( 'wpm_endpoints_nav_link', __( 'Languages', 'wp-multilang' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', 'low' );
@@ -172,7 +172,7 @@ class WPM_Admin_Menus {
 		?>
 		<div id="posttype-wpm-languages" class="posttypediv">
 			<div id="tabs-panel-wpm-languages" class="tabs-panel tabs-panel-active">
-				<ul id="wpm-languages-checklist" class="***REMOVED*** form-no-clear">
+				<ul id="wpm-languages-checklist" class="categorychecklist form-no-clear">
 					<li>
 						<label class="menu-item-title">
 							<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php esc_attr_e( $_nav_menu_placeholder ); ?>][menu-item-object-id]" value="<?php esc_attr_e( $_nav_menu_placeholder ); ?>" /> <?php esc_html_e( 'Languages', 'wp-multilang' ); ?>

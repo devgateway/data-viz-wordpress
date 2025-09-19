@@ -19,7 +19,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 	public function present() {
 		$title = \__( '30% OFF - BLACK FRIDAY', 'wordpress-seo' );
 
-		$assets_uri              = \***REMOVED***( \plugin_dir_url( \WPSEO_FILE ) );
+		$assets_uri              = \trailingslashit( \plugin_dir_url( \WPSEO_FILE ) );
 		$buy_yoast_seo_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/jj' );
 		\ob_start();
 		?>
@@ -28,7 +28,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 					<div class="wpseo_content_cell_title yoast-sidebar__title">
 						<?php
 						/* translators: %1$s expands to Yoast */
-						\printf( \esc_html__( '%1$s ***REMOVED*** for you', 'wordpress-seo' ), 'Yoast' );
+						\printf( \esc_html__( '%1$s recommendations for you', 'wordpress-seo' ), 'Yoast' );
 						?>
 					</div>
 					<div class="yoast-sidebar__product">

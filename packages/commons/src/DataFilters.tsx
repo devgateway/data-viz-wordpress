@@ -3,7 +3,7 @@ import {Button, PanelBody, PanelRow, SelectControl, ToggleControl} from "@wordpr
 import {__} from '@wordpress/i18n';
 import { Filter } from './types';
 
-export type ***REMOVED*** = {
+export type DataFiltersProps = {
   allCategories: any[];
   allFilters: any[];
   onChange?: () => void;
@@ -13,9 +13,9 @@ export type ***REMOVED*** = {
   setAttributes: (attributes: any) => void;
 }
 
-export const DataFilters = (props: ***REMOVED***) => {
+export const DataFilters = (props: DataFiltersProps) => {
 
-  const ***REMOVED*** = (param, idx) => {
+  const updateFilterParam = (param, idx) => {
     const {attributes, setAttributes, allFilters} = props;
     const filters = attributes?.filters || [];
     const newFilters = filters.slice()
@@ -25,7 +25,7 @@ export const DataFilters = (props: ***REMOVED***) => {
 
   }
 
-  const ***REMOVED*** = (value, idx) => {
+  const updateFilterValue = (value, idx) => {
     const {attributes, setAttributes, onChange} = props;
     const filters = attributes?.filters || [];
     const selected = filters[idx]
@@ -74,18 +74,18 @@ export const DataFilters = (props: ***REMOVED***) => {
     return items
   }
 
-  const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
+  const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
     const sortedOptions = options.sort(function (a, b) {
       var aLabel = a.label ? a.label.toLowerCase() : "";
       var bLabel = b.label ? b.label.toLowerCase() : "";
       return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
     });
     return <SelectControl onChange={(value) => {
-      ***REMOVED***(value, index)
+      onUpdateFilterParam(value, index)
     }} value={param} options={sortedOptions}/>
   }
 
-  const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
+  const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
     if (items) {
       const sortedItems = items.sort(function (a, b) {
         if (a.position !== undefined && b.position !== undefined) {        
@@ -97,7 +97,7 @@ export const DataFilters = (props: ***REMOVED***) => {
         return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
       });
       return sortedItems.map(v => <PanelRow>
-        <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1} onChange={e => {***REMOVED***(v.id, index)}}/>
+        <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1} onChange={e => {onUpdateFilterValue(v.id, index)}}/>
       </PanelRow>)
     } else {
       return null;
@@ -115,10 +115,10 @@ export const DataFilters = (props: ***REMOVED***) => {
 
         return (
           <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
-            <***REMOVED*** param={f.param} index={index} options={allFilters}
-                            ***REMOVED***={***REMOVED***}/>
-            {<***REMOVED*** value={f.value} index={index} items={items(f.type)}
-                                ***REMOVED***={***REMOVED***}/>}
+            <FilterSelector param={f.param} index={index} options={allFilters}
+                            onUpdateFilterParam={updateFilterParam}/>
+            {<CategoricalFilter value={f.value} index={index} items={items(f.type)}
+                                onUpdateFilterValue={updateFilterValue}/>}
           </PanelBody>)
       })}
 

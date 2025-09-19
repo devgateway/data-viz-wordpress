@@ -316,7 +316,7 @@
 												<td>
 													<label for="bodhi_svgs_settings[del_plugin_data]">
 														<input id="bodhi_svgs_settings[del_plugin_data]" name="bodhi_svgs_settings[del_plugin_data]" type="checkbox" <?php checked( isset( $bodhi_svgs_options['del_plugin_data'] ), true ); ?> />
-														<?php esc_html_e( 'Yes', 'svg-support' ); ?><br /><small class="description"><?php esc_html_e('Delete all plugin\'s data during ***REMOVED*** process.', 'svg-support' ); ?></small>
+														<?php esc_html_e( 'Yes', 'svg-support' ); ?><br /><small class="description"><?php esc_html_e('Delete all plugin\'s data during uninstallation process.', 'svg-support' ); ?></small>
 													</label>
 												</td>
 											</tr>
@@ -352,7 +352,7 @@
 
 						<div class="inside">
 
-							<p><?php esc_html_e( 'You can simply upload SVG files to your media library like any other image. Make sure to select "Restrict to ***REMOVED***" if you only want to allow admins to upload SVG files.', 'svg-support' ); ?></p>
+							<p><?php esc_html_e( 'You can simply upload SVG files to your media library like any other image. Make sure to select "Restrict to Administrators" if you only want to allow admins to upload SVG files.', 'svg-support' ); ?></p>
 
 							<div class="svgs-advanced">
 								<p>
@@ -454,7 +454,7 @@
 							<ul>
 								<li><strong><?php esc_html_e( 'Basic Use', 'svg-support' ); ?></strong></li>
 								<li><?php esc_html_e( 'SVG Support for your media library', 'svg-support' ); ?></li>
-								<li><?php esc_html_e( 'Restrict to ***REMOVED*** only', 'svg-support' ); ?></li>
+								<li><?php esc_html_e( 'Restrict to Administrators only', 'svg-support' ); ?></li>
 								<hr>
 								<li><strong><?php esc_html_e( 'Advanced Mode', 'svg-support' ); ?></strong></li>
 								<li><?php esc_html_e( 'Sanitize SVG files on upload', 'svg-support' ); ?></li>

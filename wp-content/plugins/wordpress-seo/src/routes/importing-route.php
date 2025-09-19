@@ -113,14 +113,14 @@ class Importing_Route extends Abstract_Action_Route {
 				return new WP_Error(
 					'wpseo_error_validation',
 					$exception->getMessage(),
-					[ 'stackTrace' => $exception->***REMOVED***() ]
+					[ 'stackTrace' => $exception->getTraceAsString() ]
 				);
 			}
 
 			return new WP_Error(
 				'wpseo_error_indexing',
 				$exception->getMessage(),
-				[ 'stackTrace' => $exception->***REMOVED***() ]
+				[ 'stackTrace' => $exception->getTraceAsString() ]
 			);
 		}
 	}

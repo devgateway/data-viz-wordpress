@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: nl_BE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -600,7 +600,7 @@ msgstr "Database icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:486
 msgid "Cover Image Icon"
-msgstr "***REMOVED*** icoon"
+msgstr "Omslagafbeelding icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:485
 msgid "Volume On Icon"
@@ -679,7 +679,7 @@ msgid "Button Icon"
 msgstr "Knop icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr "Zakelijk persoon icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -866,7 +866,7 @@ msgstr "WordPress icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:709
 msgid "Warning Icon"
-msgstr "***REMOVED***"
+msgstr "Waarschuwingsicoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:708
 msgid "Visibility Icon"
@@ -890,7 +890,7 @@ msgstr "Ontgrendel icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:698
 msgid "Universal Access Icon"
-msgstr "Universeel ***REMOVED*** icoon"
+msgstr "Universeel toegankelijkheid icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:697
 msgid "Undo Icon"
@@ -1148,7 +1148,7 @@ msgstr "Groepen icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:565
 msgid "Grid View Icon"
-msgstr "***REMOVED*** icoon"
+msgstr "Rasterweergave icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:560
 msgid "Forms Icon"
@@ -1215,7 +1215,7 @@ msgstr "Doorstreep icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:526
 msgid "Spellcheck Icon"
-msgstr "***REMOVED*** icoon"
+msgstr "Spellingscontrole icoon"
 
 #: includes/fields/class-acf-field-icon_picker.php:524
 msgid "Remove Formatting Icon"
@@ -1535,7 +1535,7 @@ msgstr "Specificeer het retourformaat voor het icoon. %s"
 
 #: includes/fields/class-acf-field-icon_picker.php:238
 msgid "Select where content editors can choose the icon from."
-msgstr "Selecteer waar ***REMOVED*** het icoon kunnen kiezen."
+msgstr "Selecteer waar inhoudseditors het icoon kunnen kiezen."
 
 #: includes/fields/class-acf-field-icon_picker.php:211
 msgid "The URL to the icon you'd like to use, or svg as Data URI"
@@ -1543,7 +1543,7 @@ msgstr "De URL naar het icoon dat je wil gebruiken, of svg als gegevens URI"
 
 #: includes/fields/class-acf-field-icon_picker.php:194
 msgid "Browse Media Library"
-msgstr "Blader door ***REMOVED***"
+msgstr "Blader door mediabibliotheek"
 
 #: includes/fields/class-acf-field-icon_picker.php:185
 msgid "The currently selected image preview"
@@ -1551,7 +1551,7 @@ msgstr "De momenteel geselecteerde afbeelding voorbeeld"
 
 #: includes/fields/class-acf-field-icon_picker.php:176
 msgid "Click to change the icon in the Media Library"
-msgstr "Klik om het icoon in de ***REMOVED*** te wijzigen"
+msgstr "Klik om het icoon in de mediabibliotheek te wijzigen"
 
 #: includes/fields/class-acf-field-icon_picker.php:142
 msgid "Search icons..."
@@ -1559,7 +1559,7 @@ msgstr "Zoek iconen..."
 
 #: includes/fields/class-acf-field-icon_picker.php:53
 msgid "Media Library"
-msgstr "***REMOVED***"
+msgstr "Mediabibliotheek"
 
 #: includes/fields/class-acf-field-icon_picker.php:49
 msgid "Dashicons"
@@ -1587,7 +1587,7 @@ msgstr "JSON opslaan paden"
 
 #: includes/class-acf-site-health.php:694
 msgid "Registered ACF Forms"
-msgstr "***REMOVED*** ACF formulieren"
+msgstr "Geregistreerde ACF formulieren"
 
 #: includes/class-acf-site-health.php:688
 msgid "Shortcode Enabled"
@@ -1595,7 +1595,7 @@ msgstr "Shortcode ingeschakeld"
 
 #: includes/class-acf-site-health.php:680
 msgid "Field Settings Tabs Enabled"
-msgstr "***REMOVED*** tabs ingeschakeld"
+msgstr "Veldinstellingen tabs ingeschakeld"
 
 #: includes/class-acf-site-health.php:672
 msgid "Field Type Modal Enabled"
@@ -1619,7 +1619,7 @@ msgstr "Blokken per API versie"
 
 #: includes/class-acf-site-health.php:611
 msgid "Registered ACF Blocks"
-msgstr "***REMOVED*** ACF blokken"
+msgstr "Geregistreerde ACF blokken"
 
 #: includes/class-acf-site-health.php:605
 msgid "Light"
@@ -1635,15 +1635,15 @@ msgstr "REST-API formaat"
 
 #: includes/class-acf-site-health.php:596
 msgid "Registered Options Pages (PHP)"
-msgstr "***REMOVED*** opties pagina's (PHP)"
+msgstr "Geregistreerde opties pagina's (PHP)"
 
 #: includes/class-acf-site-health.php:582
 msgid "Registered Options Pages (JSON)"
-msgstr "***REMOVED*** optie pagina's (JSON)"
+msgstr "Geregistreerde optie pagina's (JSON)"
 
 #: includes/class-acf-site-health.php:577
 msgid "Registered Options Pages (UI)"
-msgstr "***REMOVED*** optie pagina's (UI)"
+msgstr "Geregistreerde optie pagina's (UI)"
 
 #: includes/class-acf-site-health.php:547
 msgid "Options Pages UI Enabled"
@@ -1651,19 +1651,19 @@ msgstr "Opties pagina's UI ingeschakeld"
 
 #: includes/class-acf-site-health.php:539
 msgid "Registered Taxonomies (JSON)"
-msgstr "***REMOVED*** taxonomieën (JSON)"
+msgstr "Geregistreerde taxonomieën (JSON)"
 
 #: includes/class-acf-site-health.php:527
 msgid "Registered Taxonomies (UI)"
-msgstr "***REMOVED*** taxonomieën (UI)"
+msgstr "Geregistreerde taxonomieën (UI)"
 
 #: includes/class-acf-site-health.php:515
 msgid "Registered Post Types (JSON)"
-msgstr "***REMOVED*** berichttypes (JSON)"
+msgstr "Geregistreerde berichttypes (JSON)"
 
 #: includes/class-acf-site-health.php:503
 msgid "Registered Post Types (UI)"
-msgstr "***REMOVED*** berichttypes (UI)"
+msgstr "Geregistreerde berichttypes (UI)"
 
 #: includes/class-acf-site-health.php:490
 msgid "Post Types and Taxonomies Enabled"
@@ -1687,15 +1687,15 @@ msgstr "Veldgroepen ingeschakeld voor REST-API"
 
 #: includes/class-acf-site-health.php:420
 msgid "Registered Field Groups (JSON)"
-msgstr "***REMOVED*** veldgroepen (JSON)"
+msgstr "Geregistreerde veldgroepen (JSON)"
 
 #: includes/class-acf-site-health.php:408
 msgid "Registered Field Groups (PHP)"
-msgstr "***REMOVED*** veldgroepen (PHP)"
+msgstr "Geregistreerde veldgroepen (PHP)"
 
 #: includes/class-acf-site-health.php:396
 msgid "Registered Field Groups (UI)"
-msgstr "***REMOVED*** veldgroepen (UI)"
+msgstr "Geregistreerde veldgroepen (UI)"
 
 #: includes/class-acf-site-health.php:384
 msgid "Active Plugins"
@@ -1727,7 +1727,7 @@ msgstr "Vervaldatum abonnement"
 
 #: includes/class-acf-site-health.php:313
 msgid "License Status"
-msgstr "***REMOVED***"
+msgstr "Licentiestatus"
 
 #: includes/class-acf-site-health.php:308
 msgid "License Type"
@@ -1735,7 +1735,7 @@ msgstr "Licentietype"
 
 #: includes/class-acf-site-health.php:303
 msgid "Licensed URL"
-msgstr "***REMOVED*** URL"
+msgstr "Gelicentieerde URL"
 
 #: includes/class-acf-site-health.php:297
 msgid "License Activated"
@@ -1758,7 +1758,7 @@ msgid ""
 "This section contains debug information about your ACF configuration which "
 "can be useful to provide to support."
 msgstr ""
-"Deze sectie bevat ***REMOVED*** over je ACF configuratie die nuttig kan "
+"Deze sectie bevat debuginformatie over je ACF configuratie die nuttig kan "
 "zijn om aan ondersteuning te verstrekken."
 
 #: includes/assets.php:373
@@ -1975,7 +1975,7 @@ msgstr ""
 #: includes/admin/views/escaped-html-notice.php:27
 msgid "Please contact your site administrator or developer for more details."
 msgstr ""
-"Neem contact op met je ***REMOVED*** of ontwikkelaar voor meer informatie."
+"Neem contact op met je websitebeheerder of ontwikkelaar voor meer informatie."
 
 #: includes/admin/views/escaped-html-notice.php:5
 msgid "Learn&nbsp;more"
@@ -2116,7 +2116,7 @@ msgid ""
 "information, please read the <a href=\"%s\" target=\"_blank\">documentation</"
 "a>."
 msgstr ""
-"Als je de ***REMOVED*** instelling inschakelt, kan je een waarde updaten in "
+"Als je de bidirectionele instelling inschakelt, kan je een waarde updaten in "
 "de doelvelden voor elke waarde die voor dit veld is geselecteerd, door het "
 "bericht ID, taxonomie ID of gebruiker ID van het item dat wordt bijgewerkt "
 "toe te voegen of te verwijderen. Lees voor meer informatie de <a href=\"%s\" "
@@ -2145,7 +2145,7 @@ msgstr ""
 
 #: includes/acf-bidirectional-functions.php:220
 msgid "Bidirectional"
-msgstr "***REMOVED***"
+msgstr "Bidirectioneel"
 
 #. translators: %s A field type name, such as "Relationship"
 #: includes/acf-bidirectional-functions.php:193
@@ -2205,7 +2205,7 @@ msgid ""
 "Sets whether posts should be excluded from search results and taxonomy "
 "archive pages."
 msgstr ""
-"Stelt in of berichten moeten worden uitgesloten van ***REMOVED*** en "
+"Stelt in of berichten moeten worden uitgesloten van zoekresultaten en "
 "pagina's van taxonomie archieven."
 
 #: includes/admin/views/acf-field-group/pro-features.php:78
@@ -2455,7 +2455,7 @@ msgid ""
 "using the field settings."
 msgstr ""
 "Een interactieve UI voor het kiezen van een tijd. De tijdnotatie kan worden "
-"aangepast via de ***REMOVED***."
+"aangepast via de veldinstellingen."
 
 #: includes/fields/class-acf-field-textarea.php:23
 msgid "A basic textarea input for storing paragraphs of text."
@@ -2472,7 +2472,7 @@ msgid ""
 "options specified in the fields settings."
 msgstr ""
 "Maakt de selectie mogelijk van een of meer taxonomie termen op basis van de "
-"criteria en opties die zijn opgegeven in de ***REMOVED***."
+"criteria en opties die zijn opgegeven in de veldinstellingen."
 
 #: includes/fields/class-acf-field-tab.php:25
 msgid ""
@@ -2480,7 +2480,7 @@ msgid ""
 "for keeping fields organized and structured."
 msgstr ""
 "Hiermee kan je in het bewerking scherm velden groeperen in secties met tabs. "
-"Nuttig om velden georganiseerd en ***REMOVED*** te houden."
+"Nuttig om velden georganiseerd en gestructureerd te houden."
 
 #: includes/fields/class-acf-field-select.php:24
 msgid "A dropdown list with a selection of choices that you specify."
@@ -2503,7 +2503,7 @@ msgid ""
 "range slider element."
 msgstr ""
 "Een veld voor het selecteren van een numerieke waarde binnen een "
-"***REMOVED*** bereik met behulp van een bereik slider element."
+"gespecificeerd bereik met behulp van een bereik slider element."
 
 #: includes/fields/class-acf-field-radio.php:24
 msgid ""
@@ -2547,7 +2547,7 @@ msgid ""
 msgstr ""
 "Een interactieve component voor het insluiten van video's, afbeeldingen, "
 "tweets, audio en andere inhoud door gebruik te maken van de standaard "
-"WordPress oEmbed ***REMOVED***."
+"WordPress oEmbed functionaliteit."
 
 #: includes/fields/class-acf-field-number.php:23
 msgid "An input limited to numerical values."
@@ -2609,7 +2609,7 @@ msgid ""
 "customized using the field settings."
 msgstr ""
 "Een interactieve UI voor het kiezen van een datum en tijd. Het datum retour "
-"formaat en tijd kunnen worden aangepast via de ***REMOVED***."
+"formaat en tijd kunnen worden aangepast via de veldinstellingen."
 
 #: includes/fields/class-acf-field-date_picker.php:24
 msgid ""
@@ -2617,7 +2617,7 @@ msgid ""
 "customized using the field settings."
 msgstr ""
 "Een interactieve UI voor het kiezen van een datum. Het formaat van de datum "
-"kan worden aangepast via de ***REMOVED***."
+"kan worden aangepast via de veldinstellingen."
 
 #: includes/fields/class-acf-field-color_picker.php:24
 msgid "An interactive UI for selecting a color, or specifying a Hex value."
@@ -2630,7 +2630,7 @@ msgid ""
 "A group of checkbox inputs that allow the user to select one, or multiple "
 "values that you specify."
 msgstr ""
-"Een groep ***REMOVED*** waarmee de gebruiker één of meerdere waarden kan "
+"Een groep selectievakjes waarmee de gebruiker één of meerdere waarden kan "
 "selecteren die je opgeeft."
 
 #: includes/fields/class-acf-field-button-group.php:25
@@ -2679,7 +2679,7 @@ msgid ""
 "Content field allows you to define, create and manage content with total "
 "control by using layouts and subfields to design the available blocks."
 msgstr ""
-"Dit biedt een eenvoudige, ***REMOVED***, op lay-out gebaseerde editor. Met "
+"Dit biedt een eenvoudige, gestructureerde, op lay-out gebaseerde editor. Met "
 "het veld flexibele inhoud kan je inhoud definiëren, creëren en beheren met "
 "volledige controle door lay-outs en sub velden te gebruiken om de "
 "beschikbare blokken vorm te geven."
@@ -2751,7 +2751,7 @@ msgstr "Populaire velden"
 #: includes/admin/views/browse-fields-modal.php:50
 #: includes/fields/class-acf-field-icon_picker.php:155
 msgid "No search results for '%s'"
-msgstr "Geen ***REMOVED*** voor '%s'"
+msgstr "Geen zoekresultaten voor '%s'"
 
 #: includes/admin/views/browse-fields-modal.php:23
 msgid "Search fields..."
@@ -2781,7 +2781,7 @@ msgstr "Voeg je eerste taxonomie toe"
 #: includes/admin/views/acf-taxonomy/basic-settings.php:122
 msgid "Hierarchical taxonomies can have descendants (like categories)."
 msgstr ""
-"Hiërarchische taxonomieën kunnen ***REMOVED*** hebben (zoals categorieën)."
+"Hiërarchische taxonomieën kunnen afstammelingen hebben (zoals categorieën)."
 
 #: includes/admin/views/acf-taxonomy/basic-settings.php:107
 msgid "Makes a taxonomy visible on the frontend and in the admin dashboard."
@@ -2849,7 +2849,7 @@ msgid ""
 "Rewrite the URL using the taxonomy key as the slug. Your permalink structure "
 "will be"
 msgstr ""
-"Herschrijf de URL met de taxonomie sleutel als slug. Je ***REMOVED*** "
+"Herschrijf de URL met de taxonomie sleutel als slug. Je permalinkstructuur "
 "zal zijn"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:933
@@ -3222,7 +3222,7 @@ msgstr "Wijst zoek items tekst toe."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:323
 msgid "Parent Category:"
-msgstr "***REMOVED***:"
+msgstr "Hoofdcategorie:"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:322
 msgid "Assigns parent item text, but with a colon (:) added to the end."
@@ -3236,7 +3236,7 @@ msgstr "Hoofditem met dubbele punt"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:298
 msgid "Parent Category"
-msgstr "***REMOVED***"
+msgstr "Hoofdcategorie"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:297
 msgid "Assigns parent item text. Only used on hierarchical taxonomies."
@@ -3300,7 +3300,7 @@ msgstr "Tag bekijken"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:217
 msgid "In the admin bar to view term during editing."
-msgstr "In de ***REMOVED*** om de term te bekijken tijdens het bewerken."
+msgstr "In de administratorbalk om de term te bekijken tijdens het bewerken."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:198
 msgid "Edit Tag"
@@ -3391,7 +3391,7 @@ msgid ""
 "Expand the functionality of WordPress beyond standard posts and pages with "
 "custom post types."
 msgstr ""
-"Breid de ***REMOVED*** van WordPress uit tot meer dan standaard berichten "
+"Breid de functionaliteit van WordPress uit tot meer dan standaard berichten "
 "en pagina's met aangepaste berichttypes."
 
 #: includes/admin/views/acf-post-type/list-empty.php:12
@@ -3411,7 +3411,7 @@ msgstr "Geavanceerde configuratie"
 #: includes/admin/views/acf-post-type/basic-settings.php:123
 msgid "Hierarchical post types can have descendants (like pages)."
 msgstr ""
-"Hiërarchische berichttypes kunnen ***REMOVED*** hebben (zoals pagina's)."
+"Hiërarchische berichttypes kunnen afstammelingen hebben (zoals pagina's)."
 
 #: includes/admin/views/acf-post-type/basic-settings.php:122
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1000
@@ -3707,7 +3707,7 @@ msgid ""
 "be turned on in 'Screen options'."
 msgstr ""
 "Sta toe dat items worden toegevoegd aan menu's in het scherm 'Weergave' > "
-"'Menu's'. Moet ingeschakeld zijn in '***REMOVED***'."
+"'Menu's'. Moet ingeschakeld zijn in 'Scherminstellingen'."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:914
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:873
@@ -3716,11 +3716,11 @@ msgstr "Weergave menu's ondersteuning"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:896
 msgid "Appears as an item in the 'New' menu in the admin bar."
-msgstr "Verschijnt als een item in het menu \"Nieuw\" in de ***REMOVED***."
+msgstr "Verschijnt als een item in het menu \"Nieuw\" in de administratorbalk."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:895
 msgid "Show In Admin Bar"
-msgstr "In ***REMOVED*** tonen"
+msgstr "In administratorbalk tonen"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:861
 msgid "Custom Meta Box Callback"
@@ -3898,7 +3898,7 @@ msgstr "%s gepubliceerd."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:553
 msgid "Posts list"
-msgstr "***REMOVED***"
+msgstr "Berichtenlijst"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:552
 msgid "Used by screen readers for the items list on the post type list screen."
@@ -3965,7 +3965,7 @@ msgstr "Filter %s op datum"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:491
 msgid "Filter posts list"
-msgstr "Filter ***REMOVED***"
+msgstr "Filter berichtenlijst"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:490
 msgid ""
@@ -4070,7 +4070,7 @@ msgstr "Uitgelichte afbeelding metabox"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:368
 msgid "Post Attributes"
-msgstr "***REMOVED***"
+msgstr "Berichtattributen"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:367
 msgid "In the editor used for the title of the post attributes meta box."
@@ -4237,7 +4237,7 @@ msgid ""
 "Appears in the admin bar in the 'All Posts' view, provided the post type "
 "supports archives and the home page is not an archive of that post type."
 msgstr ""
-"Verschijnt in de ***REMOVED*** in de weergave 'Alle berichten', als het "
+"Verschijnt in de administratorbalk in de weergave 'Alle berichten', als het "
 "berichttype archieven ondersteunt en de homepage geen archief is van dat "
 "berichttype."
 
@@ -4252,7 +4252,7 @@ msgstr "Bericht bekijken"
 #: includes/admin/views/acf-post-type/advanced-settings.php:165
 msgid "In the admin bar to view item when editing it."
 msgstr ""
-"In de ***REMOVED*** om het item te bekijken wanneer je het bewerkt."
+"In de administratorbalk om het item te bekijken wanneer je het bewerkt."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:164
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:216
@@ -4348,7 +4348,7 @@ msgstr "Verschillende functies in de inhoud editor inschakelen."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:31
 msgid "Post Formats"
-msgstr "***REMOVED***"
+msgstr "Berichtformaten"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:25
 msgid "Editor"
@@ -4512,8 +4512,8 @@ msgstr ""
 #: includes/admin/post-types/admin-taxonomies.php:333
 msgid "Taxonomy synchronized."
 msgid_plural "%s taxonomies synchronized."
-msgstr[0] "Taxonomie ***REMOVED***."
-msgstr[1] "%s taxonomieën ***REMOVED***."
+msgstr[0] "Taxonomie gesynchroniseerd."
+msgstr[1] "%s taxonomieën gesynchroniseerd."
 
 #. translators: %s number of taxonomies duplicated
 #: includes/admin/post-types/admin-taxonomies.php:326
@@ -4544,8 +4544,8 @@ msgstr "Termen"
 #: includes/admin/post-types/admin-post-types.php:327
 msgid "Post type synchronized."
 msgid_plural "%s post types synchronized."
-msgstr[0] "Berichttype ***REMOVED***."
-msgstr[1] "%s berichttypes ***REMOVED***."
+msgstr[0] "Berichttype gesynchroniseerd."
+msgstr[1] "%s berichttypes gesynchroniseerd."
 
 #. translators: %s number of post types duplicated
 #: includes/admin/post-types/admin-post-types.php:320
@@ -4584,7 +4584,7 @@ msgstr "Geavanceerde instellingen"
 #: includes/admin/post-types/admin-post-type.php:157
 #: includes/admin/post-types/admin-taxonomy.php:159
 msgid "Basic Settings"
-msgstr "***REMOVED***"
+msgstr "Basisinstellingen"
 
 #: includes/admin/post-types/admin-post-type.php:151
 #: includes/admin/post-types/admin-post-types.php:345
@@ -4858,7 +4858,7 @@ msgid ""
 msgstr ""
 "ACF gebruikt <a href=\"%s\" target=\"_blank\">veldgroepen</a> om aangepaste "
 "velden te groeperen, en die velden vervolgens te koppelen aan "
-"***REMOVED***."
+"bewerkingsschermen."
 
 #: includes/admin/views/acf-field-group/list-empty.php:12
 msgid "Add Your First Field Group"
@@ -4902,7 +4902,7 @@ msgstr "Gemaakt op %1$s om %2$s"
 
 #: includes/acf-field-group-functions.php:497
 msgid "Group Settings"
-msgstr "***REMOVED***"
+msgstr "Groepsinstellingen"
 
 #: includes/acf-field-group-functions.php:495
 msgid "Location Rules"
@@ -5018,7 +5018,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields PRO."
 msgstr ""
 "Advanced Custom Fields en Advanced Custom Fields PRO kunnen niet "
-"***REMOVED*** actief zijn. We hebben Advanced Custom Fields PRO automatisch "
+"tegelijkertijd actief zijn. We hebben Advanced Custom Fields PRO automatisch "
 "gedeactiveerd."
 
 #: acf.php:560
@@ -5027,7 +5027,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields."
 msgstr ""
 "Advanced Custom Fields en Advanced Custom Fields PRO kunnen niet "
-"***REMOVED*** actief zijn. We hebben Advanced Custom Fields automatisch "
+"tegelijkertijd actief zijn. We hebben Advanced Custom Fields automatisch "
 "gedeactiveerd."
 
 #. translators: %1 plugin name, %2 the URL to the documentation on this error
@@ -5124,7 +5124,7 @@ msgstr "Kleurwaarde"
 
 #: includes/fields/class-acf-field-color_picker.php:68
 msgid "Select default color"
-msgstr "***REMOVED*** selecteren"
+msgstr "Standaardkleur selecteren"
 
 #: includes/fields/class-acf-field-color_picker.php:66
 msgid "Clear color"
@@ -5312,8 +5312,8 @@ msgid ""
 "customize WordPress edit screens with extra fields, and an intuitive API to "
 "display custom field values in any theme template file."
 msgstr ""
-"De Advanced Custom Fields plugin biedt een visuele ***REMOVED*** om "
-"WordPress ***REMOVED*** aan te passen met extra velden, en een "
+"De Advanced Custom Fields plugin biedt een visuele formulierbouwer om "
+"WordPress bewerkingsschermen aan te passen met extra velden, en een "
 "intuïtieve API om aangepaste veldwaarden weer te geven in elk thema template "
 "bestand."
 
@@ -5358,7 +5358,7 @@ msgstr "Reactie"
 
 #: includes/locations/class-acf-location-post-format.php:22
 msgid "Post Format"
-msgstr "***REMOVED***"
+msgstr "Berichtformaat"
 
 #: includes/locations/class-acf-location-nav-menu-item.php:22
 msgid "Menu Item"
@@ -5399,7 +5399,7 @@ msgstr "Bovenste level pagina (geen hoofdpagina)"
 
 #: includes/locations/class-acf-location-page-type.php:111
 msgid "Posts Page"
-msgstr "***REMOVED***"
+msgstr "Berichtenpagina"
 
 #: includes/locations/class-acf-location-page-type.php:110
 msgid "Front Page"
@@ -5439,7 +5439,7 @@ msgstr "Toevoegen / bewerken"
 
 #: includes/locations/class-acf-location-user-form.php:22
 msgid "User Form"
-msgstr "***REMOVED***"
+msgstr "Gebruikersformulier"
 
 #: includes/locations/class-acf-location-page-parent.php:22
 msgid "Page Parent"
@@ -5447,7 +5447,7 @@ msgstr "Hoofdpagina"
 
 #: includes/locations/class-acf-location-current-user-role.php:77
 msgid "Super Admin"
-msgstr "***REMOVED***"
+msgstr "Superbeheerder"
 
 #: includes/locations/class-acf-location-current-user-role.php:22
 msgid "Current User Role"
@@ -5464,7 +5464,7 @@ msgstr "Bericht template"
 
 #: includes/locations/class-acf-location-post-category.php:22
 msgid "Post Category"
-msgstr "***REMOVED***"
+msgstr "Berichtcategorie"
 
 #: includes/locations/class-acf-location-attachment.php:84
 msgid "All %s formats"
@@ -5485,7 +5485,7 @@ msgstr "Toon dit veld als"
 #: includes/admin/views/acf-field-group/conditional-logic.php:25
 #: includes/admin/views/acf-field-group/field.php:122 includes/fields.php:385
 msgid "Conditional Logic"
-msgstr "***REMOVED*** logica"
+msgstr "Voorwaardelijke logica"
 
 #: includes/admin/views/acf-field-group/conditional-logic.php:169
 #: includes/admin/views/acf-field-group/location-rule.php:84
@@ -5551,13 +5551,13 @@ msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
 "options will be used (the one with the lowest order number)"
 msgstr ""
-"Als er meerdere veldgroepen op een ***REMOVED*** verschijnen, worden de "
+"Als er meerdere veldgroepen op een bewerkingsscherm verschijnen, worden de "
 "opties van de eerste veldgroep gebruikt (degene met het laagste volgnummer)"
 
 #: includes/admin/views/acf-field-group/options.php:195
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
 msgstr ""
-"<b>Selecteer</b> items om ze te <b>verbergen</b> in het ***REMOVED***."
+"<b>Selecteer</b> items om ze te <b>verbergen</b> in het bewerkingsscherm."
 
 #: includes/admin/views/acf-field-group/options.php:194
 msgid "Hide on screen"
@@ -5731,7 +5731,7 @@ msgstr "Veldtype"
 
 #: includes/admin/views/acf-field-group/field.php:183
 msgid "Single word, no spaces. Underscores and dashes allowed"
-msgstr "Eén woord, geen spaties. Underscores en ***REMOVED*** toegestaan"
+msgstr "Eén woord, geen spaties. Underscores en verbindingsstrepen toegestaan"
 
 #: includes/admin/views/acf-field-group/field.php:182
 msgid "Field Name"
@@ -5984,14 +5984,14 @@ msgstr "Beschrijving"
 #: includes/admin/admin-internal-post-type-list.php:414
 #: includes/admin/admin-internal-post-type-list.php:832
 msgid "Sync available"
-msgstr "***REMOVED*** beschikbaar"
+msgstr "Synchronisatie beschikbaar"
 
 #. translators: %s number of field groups synchronized
 #: includes/admin/post-types/admin-field-groups.php:374
 msgid "Field group synchronized."
 msgid_plural "%s field groups synchronized."
-msgstr[0] "Veldgroep ***REMOVED***."
-msgstr[1] "%s veldgroepen ***REMOVED***."
+msgstr[0] "Veldgroep gesynchroniseerd."
+msgstr[1] "%s veldgroepen gesynchroniseerd."
 
 #. translators: %s number of field groups duplicated
 #: includes/admin/post-types/admin-field-groups.php:367
@@ -6318,11 +6318,11 @@ msgstr "of"
 
 #: includes/api/api-helpers.php:2973
 msgid "File size must not exceed %s."
-msgstr "***REMOVED*** mag %s niet overschrijden."
+msgstr "Bestandsgrootte mag %s niet overschrijden."
 
 #: includes/api/api-helpers.php:2969
 msgid "File size must be at least %s."
-msgstr "De ***REMOVED*** moet minimaal %s zijn."
+msgstr "De bestandsgrootte moet minimaal %s zijn."
 
 #: includes/api/api-helpers.php:2956
 msgid "Image height must not exceed %dpx."
@@ -6615,7 +6615,7 @@ msgstr "Wachtwoord"
 
 #: includes/fields/class-acf-field-select.php:363
 msgid "Specify the value returned"
-msgstr "Geef de ***REMOVED*** waarde op"
+msgstr "Geef de geretourneerde waarde op"
 
 #: includes/fields/class-acf-field-select.php:431
 msgid "Use AJAX to lazy load choices?"
@@ -6684,7 +6684,7 @@ msgstr "Voer 1 of meer tekens in"
 #: includes/fields/class-acf-field-select.php:89
 msgctxt "Select2 JS matches_0"
 msgid "No matches found"
-msgstr "Geen ***REMOVED*** gevonden"
+msgstr "Geen overeenkomsten gevonden"
 
 #. translators: %d - number of results available in select field
 #: includes/fields/class-acf-field-select.php:88
@@ -6711,7 +6711,7 @@ msgstr "Gebruiker ID"
 
 #: includes/fields/class-acf-field-user.php:101
 msgid "User Object"
-msgstr "***REMOVED***"
+msgstr "Gebruikersobject"
 
 #: includes/fields/class-acf-field-user.php:100
 msgid "User Array"
@@ -6719,7 +6719,7 @@ msgstr "Gebruiker array"
 
 #: includes/fields/class-acf-field-user.php:88
 msgid "All user roles"
-msgstr "Alle ***REMOVED***"
+msgstr "Alle gebruikersrollen"
 
 #: includes/fields/class-acf-field-user.php:80
 msgid "Filter by Role"
@@ -6731,7 +6731,7 @@ msgstr "Gebruiker"
 
 #: includes/fields/class-acf-field-separator.php:22
 msgid "Separator"
-msgstr "***REMOVED***"
+msgstr "Scheidingsteken"
 
 #: includes/fields/class-acf-field-color_picker.php:69
 msgid "Select Color"
@@ -6990,7 +6990,7 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "TinyMCE wordt niet geïnitialiseerd totdat er op het veld wordt geklikt"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
+msgid "Delay Initialization"
 msgstr "Initialisatie uitstellen"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
@@ -7044,7 +7044,7 @@ msgstr "Laat leeg voor geen limiet"
 #: includes/fields/class-acf-field-text.php:115
 #: includes/fields/class-acf-field-textarea.php:113
 msgid "Character Limit"
-msgstr "***REMOVED***"
+msgstr "Karakterlimiet"
 
 #: includes/fields/class-acf-field-email.php:144
 #: includes/fields/class-acf-field-number.php:194
@@ -7206,7 +7206,7 @@ msgstr "Selecteer berichttype"
 
 #: includes/fields/class-acf-field-relationship.php:78
 msgid "No matches found"
-msgstr "Geen ***REMOVED*** gevonden"
+msgstr "Geen overeenkomsten gevonden"
 
 #: includes/fields/class-acf-field-relationship.php:77
 msgid "Loading"
@@ -7241,7 +7241,7 @@ msgstr "Maximum"
 #: includes/fields/class-acf-field-image.php:261
 #: includes/fields/class-acf-field-image.php:297
 msgid "File size"
-msgstr "***REMOVED***"
+msgstr "Bestandsgrootte"
 
 #: includes/fields/class-acf-field-image.php:235
 #: includes/fields/class-acf-field-image.php:271
@@ -7273,7 +7273,7 @@ msgstr "Alle"
 #: includes/fields/class-acf-field-file.php:216
 #: includes/fields/class-acf-field-image.php:194
 msgid "Limit the media library choice"
-msgstr "Beperk de keuze van de ***REMOVED***"
+msgstr "Beperk de keuze van de mediabibliotheek"
 
 #: includes/fields/class-acf-field-file.php:215
 #: includes/fields/class-acf-field-image.php:193
@@ -7302,7 +7302,7 @@ msgstr "Afbeelding array"
 #: includes/fields/class-acf-field-link.php:147
 #: includes/fields/class-acf-field-radio.php:203
 msgid "Specify the returned value on front end"
-msgstr "De ***REMOVED*** waarde op de front-end opgeven"
+msgstr "De geretourneerde waarde op de front-end opgeven"
 
 #: includes/fields/class-acf-field-button-group.php:157
 #: includes/fields/class-acf-field-checkbox.php:342
@@ -7485,7 +7485,7 @@ msgstr "Gestileerde UI"
 #: includes/fields/class-acf-field-url.php:84
 #: includes/fields/class-acf-field-wysiwyg.php:291
 msgid "Default Value"
-msgstr "***REMOVED***"
+msgstr "Standaardwaarde"
 
 #: includes/fields/class-acf-field-true_false.php:126
 msgid "Displays text alongside the checkbox"
@@ -7606,7 +7606,7 @@ msgstr "Google Map"
 #: includes/fields/class-acf-field-date_time_picker.php:189
 #: includes/fields/class-acf-field-time_picker.php:122
 msgid "The format returned via template functions"
-msgstr "Het formaat dat wordt geretourneerd via ***REMOVED***"
+msgstr "Het formaat dat wordt geretourneerd via templatefuncties"
 
 #: includes/fields/class-acf-field-color_picker.php:168
 #: includes/fields/class-acf-field-date_picker.php:200
@@ -7640,7 +7640,7 @@ msgstr "Het formaat dat wordt getoond bij het bewerken van een bericht"
 #: includes/fields/class-acf-field-date_time_picker.php:170
 #: includes/fields/class-acf-field-time_picker.php:105
 msgid "Display Format"
-msgstr "***REMOVED***"
+msgstr "Weergaveformaat"
 
 #: includes/fields/class-acf-field-time_picker.php:22
 msgid "Time Picker"
@@ -7743,8 +7743,8 @@ msgstr "Pas WordPress aan met krachtige, professionele en intuïtieve velden."
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93

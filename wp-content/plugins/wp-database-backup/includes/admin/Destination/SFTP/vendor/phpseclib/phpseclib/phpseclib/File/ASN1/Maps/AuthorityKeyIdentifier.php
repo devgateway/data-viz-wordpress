@@ -30,7 +30,7 @@ abstract class AuthorityKeyIdentifier
                 'optional' => true,
                 'implicit' => true
             ] + KeyIdentifier::MAP,
-            '***REMOVED***' => [
+            'authorityCertIssuer' => [
                 'constant' => 1,
                 'optional' => true,
                 'implicit' => true

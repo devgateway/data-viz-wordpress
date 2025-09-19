@@ -1,15 +1,15 @@
 <?php
 if(!class_exists('enshrined\svgSanitize\Sanitizer') ) {
     $svgFiles = array(
-        'libraries/svg-sanitizer/src/data/***REMOVED***.php',
+        'libraries/svg-sanitizer/src/data/AttributeInterface.php',
         'libraries/svg-sanitizer/src/data/TagInterface.php',
-        'libraries/svg-sanitizer/src/data/***REMOVED***.php',
+        'libraries/svg-sanitizer/src/data/AllowedAttributes.php',
         'libraries/svg-sanitizer/src/data/AllowedTags.php',
         'libraries/svg-sanitizer/src/data/XPath.php',
-        'libraries/svg-sanitizer/src/***REMOVED***/Resolver.php',
-        'libraries/svg-sanitizer/src/***REMOVED***/Subject.php',
-        'libraries/svg-sanitizer/src/***REMOVED***/Usage.php',
-        'libraries/svg-sanitizer/src/Exceptions/***REMOVED***.php',
+        'libraries/svg-sanitizer/src/ElementReference/Resolver.php',
+        'libraries/svg-sanitizer/src/ElementReference/Subject.php',
+        'libraries/svg-sanitizer/src/ElementReference/Usage.php',
+        'libraries/svg-sanitizer/src/Exceptions/NestingException.php',
         'libraries/svg-sanitizer/src/Helper.php',
         'libraries/svg-sanitizer/src/Sanitizer.php'
     );

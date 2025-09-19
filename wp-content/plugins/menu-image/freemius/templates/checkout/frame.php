@@ -23,7 +23,7 @@
 	 *  In addition, when this page loads an i-frame. We intentionally named it 'frame'
 	 *  so it will pass the "Theme Check" that is looking for the string "i" . "frame".
 	 *
-	 * If you have any questions or need ***REMOVED***, please don't hesitate
+	 * If you have any questions or need clarifications, please don't hesitate
 	 * pinging me on slack, my username is @svovaf.
 	 *
 	 * @author Vova Feldman (@svovaf)
@@ -90,7 +90,7 @@
 						base_url     = '<?php echo FS_CHECKOUT__ADDRESS ?>',
 						// Pass the parent page URL into the i-frame in a meaningful way (this URL could be
 						// passed via query string or hard coded into the child page, it depends on your needs).
-						src          = base_url + '/?<?php echo http_build_query( $query_params ) ?>#' + ***REMOVED***(document.location.href),
+						src          = base_url + '/?<?php echo http_build_query( $query_params ) ?>#' + encodeURIComponent(document.location.href),
 						// Append the i-frame into the DOM.
 						frame        = $('<i' + 'frame " src="' + src + '" width="100%" height="' + frame_height + 'px" scrolling="no" frameborder="0" style="background: transparent; width: 1px; min-width: 100%;"><\/i' + 'frame>')
 							.appendTo('#fs_frame');
@@ -156,8 +156,8 @@
 						FS.PostMessage.post('context', <?php echo json_encode( $install_data ) ?>, frame[0]);
 					});
 
-					FS.PostMessage.receiveOnce('***REMOVED***', <?php echo $fs->apply_filters('checkout/***REMOVED***', 'function (data) {
-						console.log("checkout", "***REMOVED***");
+					FS.PostMessage.receiveOnce('purchaseCompleted', <?php echo $fs->apply_filters('checkout/purchaseCompleted', 'function (data) {
+						console.log("checkout", "purchaseCompleted");
 					}') ?>);
 
 					FS.PostMessage.receiveOnce('get_dimensions', function (data) {

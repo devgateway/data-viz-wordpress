@@ -2,12 +2,12 @@
 
 namespace Yoast\WP\SEO\Exceptions;
 
-use ***REMOVED***;
+use RuntimeException;
 
 /**
  * Exception for attempting a mutation on properties that are made readonly through magic getters and setters.
  */
-class Forbidden_Property_Mutation_Exception extends ***REMOVED*** {
+class Forbidden_Property_Mutation_Exception extends RuntimeException {
 
 	/**
 	 * Creates a Forbidden_Property_Mutation_Exception exception when an attempt is made

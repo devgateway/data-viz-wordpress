@@ -31,7 +31,7 @@ class Url_Helper {
 		}
 
 		if ( $home_path === null ) { // Home at site root, always slash.
-			return \***REMOVED***( $home_url );
+			return \trailingslashit( $home_url );
 		}
 
 		if ( \is_string( $home_path ) ) { // Home in subdirectory, slash if permalink structure has slash.
@@ -183,7 +183,7 @@ class Url_Helper {
 		$path      = \wp_parse_url( $path, \PHP_URL_PATH );
 		$url_parts = \wp_parse_url( \home_url() );
 
-		$base_url = \***REMOVED***( $url_parts['scheme'] . '://' . $url_parts['host'] );
+		$base_url = \trailingslashit( $url_parts['scheme'] . '://' . $url_parts['host'] );
 
 		if ( \is_string( $path ) ) {
 			$base_url .= \ltrim( $path, '/' );

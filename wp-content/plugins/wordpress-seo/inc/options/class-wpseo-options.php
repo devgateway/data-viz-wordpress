@@ -349,11 +349,11 @@ class WPSEO_Options {
 		if ( $value === false ) {
 			$passed_default = func_num_args() > 1;
 
-			// phpcs:ignore WordPress.***REMOVED***.***REMOVED*** -- Using WP native filter.
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
 			return apply_filters( "default_option_{$option}", $default_value, $option, $passed_default );
 		}
 
-		// phpcs:ignore WordPress.***REMOVED***.***REMOVED*** -- Using WP native filter.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
 		return apply_filters( "option_{$option}", maybe_unserialize( $value ), $option );
 	}
 
@@ -443,7 +443,7 @@ class WPSEO_Options {
 	/**
 	 * Initialize default values for a new multisite blog.
 	 *
-	 * @param bool $force_init Whether to always do the ***REMOVED*** routine (title/desc test).
+	 * @param bool $force_init Whether to always do the initialization routine (title/desc test).
 	 *
 	 * @return void
 	 */

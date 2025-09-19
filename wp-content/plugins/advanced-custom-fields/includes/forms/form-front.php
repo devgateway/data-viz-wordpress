@@ -206,7 +206,7 @@ if ( ! class_exists( 'acf_form_front' ) ) :
 			foreach ( $this->get_default_fields() as $k => $field ) {
 
 				// bail early if no in $_POST
-				if ( ! isset( $_POST['acf'][ $k ] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+				if ( ! isset( $_POST['acf'][ $k ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 					continue;
 				}
 
@@ -215,7 +215,7 @@ if ( ! class_exists( 'acf_form_front' ) ) :
 			}
 
 			// honeypot
-			if ( ! empty( $_POST['acf']['_validate_email'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Data not used; presence indicates spam.
+			if ( ! empty( $_POST['acf']['_validate_email'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Data not used; presence indicates spam.
 
 				acf_add_validation_error( '', __( 'Spam Detected', 'acf' ) );
 			}
@@ -254,20 +254,20 @@ if ( ! class_exists( 'acf_form_front' ) ) :
 				return $post_id;
 			}
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing -- Verified in check_submit_form().
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- Verified in check_submit_form().
 			// save post_title
 			if ( isset( $_POST['acf']['_post_title'] ) ) {
-				$save['post_title'] = acf_extract_var( $_POST['acf'], '_post_title' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Sanitized by WP when saved.
+				$save['post_title'] = acf_extract_var( $_POST['acf'], '_post_title' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized by WP when saved.
 			}
 
 			// save post_content
 			if ( isset( $_POST['acf']['_post_content'] ) ) {
-				$save['post_content'] = acf_extract_var( $_POST['acf'], '_post_content' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Sanitized by WP when saved.
+				$save['post_content'] = acf_extract_var( $_POST['acf'], '_post_content' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized by WP when saved.
 			}
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 			// honeypot
-			if ( ! empty( $_POST['acf']['_validate_email'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Data not used; presence indicates spam.
+			if ( ! empty( $_POST['acf']['_validate_email'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Data not used; presence indicates spam.
 				return false;
 			}
 
@@ -343,7 +343,7 @@ if ( ! class_exists( 'acf_form_front' ) ) :
 
 			// Run kses on all $_POST data.
 			if ( $form['kses'] && isset( $_POST['acf'] ) ) {
-				$_POST['acf'] = wp_kses_post_deep( $_POST['acf'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- False positive.
+				$_POST['acf'] = wp_kses_post_deep( $_POST['acf'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- False positive.
 			}
 
 			// Validate data and show errors.
@@ -510,8 +510,8 @@ if ( ! class_exists( 'acf_form_front' ) ) :
 			}
 
 			// Display updated_message
-			if ( ! empty( $_GET['updated'] ) && $args['updated_message'] ) { // phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Used as a flag; data not used.
-				printf( $args['html_updated_message'], $args['updated_message'] ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- designed to contain potentially unsafe HTML, set by developers.
+			if ( ! empty( $_GET['updated'] ) && $args['updated_message'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Used as a flag; data not used.
+				printf( $args['html_updated_message'], $args['updated_message'] ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- designed to contain potentially unsafe HTML, set by developers.
 			}
 
 			// display form
@@ -531,14 +531,14 @@ if ( ! class_exists( 'acf_form_front' ) ) :
 
 			?>
 			<div class="acf-fields acf-form-fields -<?php echo esc_attr( $args['label_placement'] ); ?>">
-				<?php echo $args['html_before_fields']; ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- designed to contain potentially unsafe HTML, set by developers. ?>
+				<?php echo $args['html_before_fields']; ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- designed to contain potentially unsafe HTML, set by developers. ?>
 				<?php acf_render_fields( $fields, $post_id, $args['field_el'], $args['instruction_placement'] ); ?>
-				<?php echo $args['html_after_fields']; ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- designed to contain potentially unsafe HTML, set by developers. ?>
+				<?php echo $args['html_after_fields']; ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- designed to contain potentially unsafe HTML, set by developers. ?>
 			</div>
 			<?php if ( $args['form'] ) : ?>
 				<div class="acf-form-submit">
-					<?php printf( $args['html_submit_button'], $args['submit_value'] ); ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- designed to contain potentially unsafe HTML, set by developers. ?>
-					<?php echo $args['html_submit_spinner']; ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- designed to contain potentially unsafe HTML, set by developers. ?>
+					<?php printf( $args['html_submit_button'], $args['submit_value'] ); ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- designed to contain potentially unsafe HTML, set by developers. ?>
+					<?php echo $args['html_submit_spinner']; ?><?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- designed to contain potentially unsafe HTML, set by developers. ?>
 				</div>
 				</form>
 			<?php endif;

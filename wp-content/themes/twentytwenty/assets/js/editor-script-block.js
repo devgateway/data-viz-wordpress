@@ -5,5 +5,5 @@
  */
 /* global wp */
 wp.domReady( function() {
-	wp.blocks.***REMOVED***( 'core/button', 'squared' );
+	wp.blocks.unregisterBlockStyle( 'core/button', 'squared' );
 } );

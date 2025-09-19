@@ -158,7 +158,7 @@ class Integer extends Base
     }
 
     /**
-     * Adds two ***REMOVED***.
+     * Adds two PrimeFieldIntegers.
      *
      * @return static
      */
@@ -176,7 +176,7 @@ class Integer extends Base
     }
 
     /**
-     * Subtracts two ***REMOVED***.
+     * Subtracts two PrimeFieldIntegers.
      *
      * @return static
      */
@@ -194,7 +194,7 @@ class Integer extends Base
     }
 
     /**
-     * Multiplies two ***REMOVED***.
+     * Multiplies two PrimeFieldIntegers.
      *
      * @return static
      */
@@ -206,7 +206,7 @@ class Integer extends Base
     }
 
     /**
-     * Divides two ***REMOVED***.
+     * Divides two PrimeFieldIntegers.
      *
      * @return static
      */
@@ -219,7 +219,7 @@ class Integer extends Base
     }
 
     /**
-     * Performs power operation on a ***REMOVED***.
+     * Performs power operation on a PrimeFieldInteger.
      *
      * @return static
      */
@@ -313,7 +313,7 @@ class Integer extends Base
     public function toBytes()
     {
         if (isset(static::$modulo[$this->instanceID])) {
-            $length = static::$modulo[$this->instanceID]->***REMOVED***();
+            $length = static::$modulo[$this->instanceID]->getLengthInBytes();
             return str_pad($this->value->toBytes(), $length, "\0", STR_PAD_LEFT);
         }
         return $this->value->toBytes();

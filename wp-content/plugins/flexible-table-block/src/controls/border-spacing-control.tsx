@@ -14,7 +14,7 @@ import {
 	__experimentalVStack as VStack,
 	__experimentalText as Text,
 	__experimentalUnitControl as UnitControl,
-	__experimentalUseCustomUnits as ***REMOVED***,
+	__experimentalUseCustomUnits as useCustomUnits,
 } from '@wordpress/components';
 import { useInstanceId } from '@wordpress/compose';
 
@@ -23,8 +23,8 @@ import { useInstanceId } from '@wordpress/compose';
  */
 import { BORDER_SPACING_UNITS, MAX_BORDER_SPACING, DIRECTION_CONTROLS } from '../constants';
 import { DirectionIndicatorControl } from './indicator-control';
-import { parseUnit, ***REMOVED*** } from '../utils/helper';
-import type { ***REMOVED*** } from '../***REMOVED***';
+import { parseUnit, sanitizeUnitValue } from '../utils/helper';
+import type { DirectionValue } from '../BlockAttributes';
 
 const DEFAULT_VALUES = {
 	horizontal: '',
@@ -39,9 +39,9 @@ type Props = {
 };
 
 type ValuesKey = keyof typeof DEFAULT_VALUES;
-type ***REMOVED*** = keyof typeof MAX_BORDER_SPACING;
+type MaxBorderSpacingKey = keyof typeof MAX_BORDER_SPACING;
 
-export default function ***REMOVED***( {
+export default function BorderSpacingControl( {
 	label = __( 'Border spacing', 'flexible-table-block' ),
 	help,
 	onChange,
@@ -51,12 +51,12 @@ export default function ***REMOVED***( {
 		...DEFAULT_VALUES,
 		...valuesProp,
 	};
-	const instanceId = useInstanceId( ***REMOVED***, 'ftb-border-spacing-control' );
+	const instanceId = useInstanceId( BorderSpacingControl, 'ftb-border-spacing-control' );
 	const headingId = `${ instanceId }-heading`;
 
 	const isMixed = ! ( values.horizontal === values.vertical );
 
-	const ***REMOVED*** = ***REMOVED***( { ***REMOVED***: BORDER_SPACING_UNITS } );
+	const borderSpacingUnits = useCustomUnits( { availableUnits: BORDER_SPACING_UNITS } );
 
 	const [ isLinked, setIsLinked ] = useState< boolean >( true );
 
@@ -64,7 +64,7 @@ export default function ***REMOVED***( {
 		? __( 'Unlink directions', 'flexible-table-block' )
 		: __( 'Link directions', 'flexible-table-block' );
 
-	const ***REMOVED***: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
+	const allInputPlaceholder: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
 	const allInputValue: string | 0 = isMixed ? '' : values.horizontal;
 
 	const toggleLinked = () => {
@@ -76,16 +76,16 @@ export default function ***REMOVED***( {
 		onChange( DEFAULT_VALUES );
 	};
 
-	const ***REMOVED*** = ( inputValue: string | undefined ) => {
+	const handleOnChangeAll = ( inputValue: string | undefined ) => {
 		if ( inputValue ) {
 			const [ , unit ] = parseUnit( inputValue );
-			const ***REMOVED*** = ***REMOVED***( inputValue, {
-				maxNum: MAX_BORDER_SPACING[ unit as ***REMOVED*** ],
+			const sanitizedValue = sanitizeUnitValue( inputValue, {
+				maxNum: MAX_BORDER_SPACING[ unit as MaxBorderSpacingKey ],
 			} );
 
 			onChange( {
-				horizontal: ***REMOVED***,
-				vertical: ***REMOVED***,
+				horizontal: sanitizedValue,
+				vertical: sanitizedValue,
 			} );
 		} else {
 			onChange( {
@@ -95,21 +95,21 @@ export default function ***REMOVED***( {
 		}
 	};
 
-	const ***REMOVED*** = ( inputValue: string | undefined, ***REMOVED***: ***REMOVED*** ) => {
+	const handleOnChange = ( inputValue: string | undefined, targetDirection: DirectionValue ) => {
 		if ( inputValue ) {
 			const [ , unit ] = parseUnit( inputValue );
-			const ***REMOVED*** = ***REMOVED***( inputValue, {
-				maxNum: MAX_BORDER_SPACING[ unit as ***REMOVED*** ],
+			const sanitizedValue = sanitizeUnitValue( inputValue, {
+				maxNum: MAX_BORDER_SPACING[ unit as MaxBorderSpacingKey ],
 			} );
 
 			onChange( {
 				...values,
-				[ ***REMOVED*** ]: ***REMOVED***,
+				[ targetDirection ]: sanitizedValue,
 			} );
 		} else {
 			onChange( {
 				...values,
-				[ ***REMOVED*** ]: undefined,
+				[ targetDirection ]: undefined,
 			} );
 		}
 	};
@@ -134,9 +134,9 @@ export default function ***REMOVED***( {
 							<UnitControl
 								aria-label={ __( 'All', 'flexible-table-block' ) }
 								value={ allInputValue }
-								units={ ***REMOVED*** }
-								placeholder={ ***REMOVED*** }
-								onChange={ ***REMOVED*** }
+								units={ borderSpacingUnits }
+								placeholder={ allInputPlaceholder }
+								onChange={ handleOnChangeAll }
 								size="__unstable-large"
 								__unstableInputWidth="100px"
 							/>
@@ -150,8 +150,8 @@ export default function ***REMOVED***( {
 										key={ item.value }
 										aria-label={ item.label }
 										value={ values[ item.value as ValuesKey ] }
-										units={ ***REMOVED*** }
-										onChange={ ( value ) => ***REMOVED***( value, item.value ) }
+										units={ borderSpacingUnits }
+										onChange={ ( value ) => handleOnChange( value, item.value ) }
 										size="__unstable-large"
 										__unstableInputWidth="100px"
 									/>

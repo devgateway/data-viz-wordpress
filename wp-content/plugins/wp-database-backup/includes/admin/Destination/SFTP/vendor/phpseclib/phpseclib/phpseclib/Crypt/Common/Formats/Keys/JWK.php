@@ -42,7 +42,7 @@ abstract class JWK
         } else {
             $key = json_decode($key);
             if (!$key) {
-                throw new \***REMOVED***('Unable to decode JSON');
+                throw new \RuntimeException('Unable to decode JSON');
             }
         }
 
@@ -51,7 +51,7 @@ abstract class JWK
         }
 
         if (count($key->keys) != 1) {
-            throw new \***REMOVED***('Although the JWK key format supports multiple keys phpseclib does not');
+            throw new \RuntimeException('Although the JWK key format supports multiple keys phpseclib does not');
         }
 
         return $key->keys[0];

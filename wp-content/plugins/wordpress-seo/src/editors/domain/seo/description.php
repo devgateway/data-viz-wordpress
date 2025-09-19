@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Domain\Seo;
 
 /**
@@ -52,7 +52,7 @@ class Description implements Seo_Plugin_Data_Interface {
 	public function to_legacy_array(): array {
 		return [
 			'metadesc_template'   => $this->description_template,
-			'***REMOVED***' => $this->description_date,
+			'metaDescriptionDate' => $this->description_date,
 		];
 	}
 }

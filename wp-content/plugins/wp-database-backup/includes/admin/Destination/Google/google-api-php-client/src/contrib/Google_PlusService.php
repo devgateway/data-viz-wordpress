@@ -52,7 +52,7 @@
      * @opt_param string pageToken The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response.
      * @return Google_ActivityFeed
      */
-    public function ***REMOVED***($userId, $collection, $optParams = array()) {
+    public function listActivities($userId, $collection, $optParams = array()) {
       $params = array('userId' => $userId, 'collection' => $collection);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -257,7 +257,7 @@
     }
     /**
      * List all of the people in the specified collection for a particular activity.
-     * (people.***REMOVED***)
+     * (people.listByActivity)
      *
      * @param string $activityId The ID of the activity to get the list of people for.
      * @param string $collection The collection of people to list.
@@ -267,10 +267,10 @@
      * @opt_param string pageToken The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response.
      * @return Google_PeopleFeed
      */
-    public function ***REMOVED***($activityId, $collection, $optParams = array()) {
+    public function listByActivity($activityId, $collection, $optParams = array()) {
       $params = array('activityId' => $activityId, 'collection' => $collection);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('listByActivity', array($params));
       if ($this->useObjects()) {
         return new Google_PeopleFeed($data);
       } else {
@@ -320,7 +320,7 @@ class Google_PlusService extends Google_Service {
   public $moments;
   public $people;
   /**
-   * Constructs the internal ***REMOVED*** of the Plus service.
+   * Constructs the internal representation of the Plus service.
    *
    * @param Google_Client $client
    */
@@ -333,7 +333,7 @@ class Google_PlusService extends Google_Service {
     $this->activities = new Google_ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"get": {"id": "plus.activities.get", "path": "activities/{activityId}", "httpMethod": "GET", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Activity"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}, "list": {"id": "plus.activities.list", "path": "people/{userId}/activities/{collection}", "httpMethod": "GET", "parameters": {"collection": {"type": "string", "required": true, "enum": ["public"], "location": "path"}, "maxResults": {"type": "integer", "default": "20", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ActivityFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}, "search": {"id": "plus.activities.search", "path": "activities", "httpMethod": "GET", "parameters": {"language": {"type": "string", "default": "en-US", "location": "query"}, "maxResults": {"type": "integer", "default": "10", "format": "uint32", "minimum": "1", "maximum": "20", "location": "query"}, "orderBy": {"type": "string", "default": "recent", "enum": ["best", "recent"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "query": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "ActivityFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}}}', true));
     $this->comments = new Google_CommentsServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods": {"get": {"id": "plus.comments.get", "path": "comments/{commentId}", "httpMethod": "GET", "parameters": {"commentId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Comment"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}, "list": {"id": "plus.comments.list", "path": "activities/{activityId}/comments", "httpMethod": "GET", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "default": "20", "format": "uint32", "minimum": "0", "maximum": "500", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "sortOrder": {"type": "string", "default": "ascending", "enum": ["ascending", "descending"], "location": "query"}}, "response": {"$ref": "CommentFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}}}', true));
     $this->moments = new Google_MomentsServiceResource($this, $this->serviceName, 'moments', json_decode('{"methods": {"insert": {"id": "plus.moments.insert", "path": "people/{userId}/moments/{collection}", "httpMethod": "POST", "parameters": {"collection": {"type": "string", "required": true, "enum": ["vault"], "location": "path"}, "debug": {"type": "boolean", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Moment"}, "response": {"$ref": "Moment"}, "scopes": ["https://www.googleapis.com/auth/plus.login"]}, "list": {"id": "plus.moments.list", "path": "people/{userId}/moments/{collection}", "httpMethod": "GET", "parameters": {"collection": {"type": "string", "required": true, "enum": ["vault"], "location": "path"}, "maxResults": {"type": "integer", "default": "20", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "targetUrl": {"type": "string", "location": "query"}, "type": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "MomentsFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login"]}, "remove": {"id": "plus.moments.remove", "path": "moments/{id}", "httpMethod": "DELETE", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/plus.login"]}}}', true));
-    $this->people = new Google_PeopleServiceResource($this, $this->serviceName, 'people', json_decode('{"methods": {"get": {"id": "plus.people.get", "path": "people/{userId}", "httpMethod": "GET", "parameters": {"userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Person"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}, "list": {"id": "plus.people.list", "path": "people/{userId}/people/{collection}", "httpMethod": "GET", "parameters": {"collection": {"type": "string", "required": true, "enum": ["visible"], "location": "path"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "orderBy": {"type": "string", "enum": ["alphabetical", "best"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "PeopleFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login"]}, "***REMOVED***": {"id": "plus.people.***REMOVED***", "path": "activities/{activityId}/people/{collection}", "httpMethod": "GET", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}, "collection": {"type": "string", "required": true, "enum": ["plusoners", "resharers"], "location": "path"}, "maxResults": {"type": "integer", "default": "20", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}, "search": {"id": "plus.people.search", "path": "people", "httpMethod": "GET", "parameters": {"language": {"type": "string", "default": "en-US", "location": "query"}, "maxResults": {"type": "integer", "default": "25", "format": "uint32", "minimum": "1", "maximum": "50", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "query": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}}}', true));
+    $this->people = new Google_PeopleServiceResource($this, $this->serviceName, 'people', json_decode('{"methods": {"get": {"id": "plus.people.get", "path": "people/{userId}", "httpMethod": "GET", "parameters": {"userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Person"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}, "list": {"id": "plus.people.list", "path": "people/{userId}/people/{collection}", "httpMethod": "GET", "parameters": {"collection": {"type": "string", "required": true, "enum": ["visible"], "location": "path"}, "maxResults": {"type": "integer", "default": "100", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "orderBy": {"type": "string", "enum": ["alphabetical", "best"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "PeopleFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login"]}, "listByActivity": {"id": "plus.people.listByActivity", "path": "activities/{activityId}/people/{collection}", "httpMethod": "GET", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}, "collection": {"type": "string", "required": true, "enum": ["plusoners", "resharers"], "location": "path"}, "maxResults": {"type": "integer", "default": "20", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}, "search": {"id": "plus.people.search", "path": "people", "httpMethod": "GET", "parameters": {"language": {"type": "string", "default": "en-US", "location": "query"}, "maxResults": {"type": "integer", "default": "25", "format": "uint32", "minimum": "1", "maximum": "50", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "query": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "PeopleFeed"}, "scopes": ["https://www.googleapis.com/auth/plus.login", "https://www.googleapis.com/auth/plus.me"]}}}', true));
 
   }
 }
@@ -346,10 +346,10 @@ class Google_Acl extends Google_Model {
   protected $__itemsDataType = 'array';
   public $items;
   public $kind;
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setItems(/* array(Google_PlusAclentryResource) */ $items) {
@@ -376,7 +376,7 @@ class Google_Activity extends Google_Model {
   public $actor;
   public $address;
   public $annotation;
-  public $***REMOVED***;
+  public $crosspostSource;
   public $etag;
   public $geocode;
   public $id;
@@ -422,11 +422,11 @@ class Google_Activity extends Google_Model {
   public function getAnnotation() {
     return $this->annotation;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCrosspostSource( $crosspostSource) {
+    $this->crosspostSource = $crosspostSource;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCrosspostSource() {
+    return $this->crosspostSource;
   }
   public function setEtag( $etag) {
     $this->etag = $etag;
@@ -530,10 +530,10 @@ class Google_ActivityActor extends Google_Model {
   protected $__nameDataType = '';
   public $name;
   public $url;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -632,10 +632,10 @@ class Google_ActivityFeed extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -668,7 +668,7 @@ class Google_ActivityObject extends Google_Model {
   public $content;
   public $id;
   public $objectType;
-  public $***REMOVED***;
+  public $originalContent;
   protected $__plusonersType = 'Google_ActivityObjectPlusoners';
   protected $__plusonersDataType = '';
   public $plusoners;
@@ -685,11 +685,11 @@ class Google_ActivityObject extends Google_Model {
   public function getActor() {
     return $this->actor;
   }
-  public function ***REMOVED***(/* array(Google_ActivityObjectAttachments) */ $attachments) {
+  public function setAttachments(/* array(Google_ActivityObjectAttachments) */ $attachments) {
     $this->assertIsArray($attachments, 'Google_ActivityObjectAttachments', __METHOD__);
     $this->attachments = $attachments;
   }
-  public function ***REMOVED***() {
+  public function getAttachments() {
     return $this->attachments;
   }
   public function setContent( $content) {
@@ -710,11 +710,11 @@ class Google_ActivityObject extends Google_Model {
   public function getObjectType() {
     return $this->objectType;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOriginalContent( $originalContent) {
+    $this->originalContent = $originalContent;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOriginalContent() {
+    return $this->originalContent;
   }
   public function setPlusoners(Google_ActivityObjectPlusoners $plusoners) {
     $this->plusoners = $plusoners;
@@ -749,10 +749,10 @@ class Google_ActivityObjectActor extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $url;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -809,10 +809,10 @@ class Google_ActivityObjectAttachments extends Google_Model {
   public function getContent() {
     return $this->content;
   }
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setEmbed(Google_ActivityObjectAttachmentsEmbed $embed) {
@@ -945,10 +945,10 @@ class Google_ActivityObjectAttachmentsThumbnails extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $url;
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setImage(Google_ActivityObjectAttachmentsThumbnailsImage $image) {
@@ -1153,10 +1153,10 @@ class Google_CommentActor extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $url;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -1231,10 +1231,10 @@ class Google_CommentFeed extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTitle( $title) {
@@ -1271,7 +1271,7 @@ class Google_CommentInReplyTo extends Google_Model {
 class Google_CommentObject extends Google_Model {
   public $content;
   public $objectType;
-  public $***REMOVED***;
+  public $originalContent;
   public function setContent( $content) {
     $this->content = $content;
   }
@@ -1284,11 +1284,11 @@ class Google_CommentObject extends Google_Model {
   public function getObjectType() {
     return $this->objectType;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOriginalContent( $originalContent) {
+    $this->originalContent = $originalContent;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOriginalContent() {
+    return $this->originalContent;
   }
 }
 
@@ -1306,12 +1306,12 @@ class Google_ItemScope extends Google_Model {
   protected $__aboutType = 'Google_ItemScope';
   protected $__aboutDataType = '';
   public $about;
-  public $***REMOVED***;
+  public $additionalName;
   protected $__addressType = 'Google_ItemScope';
   protected $__addressDataType = '';
   public $address;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $addressCountry;
+  public $addressLocality;
   public $addressRegion;
   protected $__associated_mediaType = 'Google_ItemScope';
   protected $__associated_mediaDataType = 'array';
@@ -1365,12 +1365,12 @@ class Google_ItemScope extends Google_Model {
   public $name;
   protected $__partOfTVSeriesType = 'Google_ItemScope';
   protected $__partOfTVSeriesDataType = '';
-  public $***REMOVED***;
+  public $partOfTVSeries;
   protected $__performersType = 'Google_ItemScope';
   protected $__performersDataType = 'array';
   public $performers;
   public $playerType;
-  public $***REMOVED***;
+  public $postOfficeBoxNumber;
   public $postalCode;
   public $ratingValue;
   protected $__reviewRatingType = 'Google_ItemScope';
@@ -1394,12 +1394,12 @@ class Google_ItemScope extends Google_Model {
   public function getAbout() {
     return $this->about;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAdditionalName(/* array(Google_string) */ $additionalName) {
+    $this->assertIsArray($additionalName, 'Google_string', __METHOD__);
+    $this->additionalName = $additionalName;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAdditionalName() {
+    return $this->additionalName;
   }
   public function setAddress(Google_ItemScope $address) {
     $this->address = $address;
@@ -1407,22 +1407,22 @@ class Google_ItemScope extends Google_Model {
   public function getAddress() {
     return $this->address;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAddressCountry( $addressCountry) {
+    $this->addressCountry = $addressCountry;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAddressCountry() {
+    return $this->addressCountry;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAddressLocality( $addressLocality) {
+    $this->addressLocality = $addressLocality;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAddressLocality() {
+    return $this->addressLocality;
   }
-  public function ***REMOVED***( $addressRegion) {
+  public function setAddressRegion( $addressRegion) {
     $this->addressRegion = $addressRegion;
   }
-  public function ***REMOVED***() {
+  public function getAddressRegion() {
     return $this->addressRegion;
   }
   public function setAssociated_media(/* array(Google_ItemScope) */ $associated_media) {
@@ -1432,10 +1432,10 @@ class Google_ItemScope extends Google_Model {
   public function getAssociated_media() {
     return $this->associated_media;
   }
-  public function ***REMOVED***( $attendeeCount) {
+  public function setAttendeeCount( $attendeeCount) {
     $this->attendeeCount = $attendeeCount;
   }
-  public function ***REMOVED***() {
+  public function getAttendeeCount() {
     return $this->attendeeCount;
   }
   public function setAttendees(/* array(Google_ItemScope) */ $attendees) {
@@ -1482,10 +1482,10 @@ class Google_ItemScope extends Google_Model {
   public function getCaption() {
     return $this->caption;
   }
-  public function ***REMOVED***( $contentSize) {
+  public function setContentSize( $contentSize) {
     $this->contentSize = $contentSize;
   }
-  public function ***REMOVED***() {
+  public function getContentSize() {
     return $this->contentSize;
   }
   public function setContentUrl( $contentUrl) {
@@ -1494,35 +1494,35 @@ class Google_ItemScope extends Google_Model {
   public function getContentUrl() {
     return $this->contentUrl;
   }
-  public function ***REMOVED***(/* array(Google_ItemScope) */ $contributor) {
+  public function setContributor(/* array(Google_ItemScope) */ $contributor) {
     $this->assertIsArray($contributor, 'Google_ItemScope', __METHOD__);
     $this->contributor = $contributor;
   }
-  public function ***REMOVED***() {
+  public function getContributor() {
     return $this->contributor;
   }
-  public function ***REMOVED***( $dateCreated) {
+  public function setDateCreated( $dateCreated) {
     $this->dateCreated = $dateCreated;
   }
-  public function ***REMOVED***() {
+  public function getDateCreated() {
     return $this->dateCreated;
   }
-  public function ***REMOVED***( $dateModified) {
+  public function setDateModified( $dateModified) {
     $this->dateModified = $dateModified;
   }
-  public function ***REMOVED***() {
+  public function getDateModified() {
     return $this->dateModified;
   }
-  public function ***REMOVED***( $datePublished) {
+  public function setDatePublished( $datePublished) {
     $this->datePublished = $datePublished;
   }
-  public function ***REMOVED***() {
+  public function getDatePublished() {
     return $this->datePublished;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setDuration( $duration) {
@@ -1621,11 +1621,11 @@ class Google_ItemScope extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***(Google_ItemScope $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPartOfTVSeries(Google_ItemScope $partOfTVSeries) {
+    $this->partOfTVSeries = $partOfTVSeries;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPartOfTVSeries() {
+    return $this->partOfTVSeries;
   }
   public function setPerformers(/* array(Google_ItemScope) */ $performers) {
     $this->assertIsArray($performers, 'Google_ItemScope', __METHOD__);
@@ -1640,11 +1640,11 @@ class Google_ItemScope extends Google_Model {
   public function getPlayerType() {
     return $this->playerType;
   }
-  public function setPostOfficeBoxNumber( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPostOfficeBoxNumber( $postOfficeBoxNumber) {
+    $this->postOfficeBoxNumber = $postOfficeBoxNumber;
   }
   public function getPostOfficeBoxNumber() {
-    return $this->***REMOVED***;
+    return $this->postOfficeBoxNumber;
   }
   public function setPostalCode( $postalCode) {
     $this->postalCode = $postalCode;
@@ -1652,16 +1652,16 @@ class Google_ItemScope extends Google_Model {
   public function getPostalCode() {
     return $this->postalCode;
   }
-  public function ***REMOVED***( $ratingValue) {
+  public function setRatingValue( $ratingValue) {
     $this->ratingValue = $ratingValue;
   }
-  public function ***REMOVED***() {
+  public function getRatingValue() {
     return $this->ratingValue;
   }
-  public function ***REMOVED***(Google_ItemScope $reviewRating) {
+  public function setReviewRating(Google_ItemScope $reviewRating) {
     $this->reviewRating = $reviewRating;
   }
-  public function ***REMOVED***() {
+  public function getReviewRating() {
     return $this->reviewRating;
   }
   public function setStartDate( $startDate) {
@@ -1670,10 +1670,10 @@ class Google_ItemScope extends Google_Model {
   public function getStartDate() {
     return $this->startDate;
   }
-  public function ***REMOVED***( $streetAddress) {
+  public function setStreetAddress( $streetAddress) {
     $this->streetAddress = $streetAddress;
   }
-  public function ***REMOVED***() {
+  public function getStreetAddress() {
     return $this->streetAddress;
   }
   public function setText( $text) {
@@ -1688,16 +1688,16 @@ class Google_ItemScope extends Google_Model {
   public function getThumbnail() {
     return $this->thumbnail;
   }
-  public function ***REMOVED***( $thumbnailUrl) {
+  public function setThumbnailUrl( $thumbnailUrl) {
     $this->thumbnailUrl = $thumbnailUrl;
   }
-  public function ***REMOVED***() {
+  public function getThumbnailUrl() {
     return $this->thumbnailUrl;
   }
-  public function ***REMOVED***( $tickerSymbol) {
+  public function setTickerSymbol( $tickerSymbol) {
     $this->tickerSymbol = $tickerSymbol;
   }
-  public function ***REMOVED***() {
+  public function getTickerSymbol() {
     return $this->tickerSymbol;
   }
   public function setType( $type) {
@@ -1718,10 +1718,10 @@ class Google_ItemScope extends Google_Model {
   public function getWidth() {
     return $this->width;
   }
-  public function ***REMOVED***( $worstRating) {
+  public function setWorstRating( $worstRating) {
     $this->worstRating = $worstRating;
   }
-  public function ***REMOVED***() {
+  public function getWorstRating() {
     return $this->worstRating;
   }
 }
@@ -1811,10 +1811,10 @@ class Google_MomentsFeed extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -1866,10 +1866,10 @@ class Google_PeopleFeed extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -1898,12 +1898,12 @@ class Google_Person extends Google_Model {
   protected $__ageRangeDataType = '';
   public $ageRange;
   public $birthday;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $braggingRights;
+  public $circledByCount;
   protected $__coverType = 'Google_PersonCover';
   protected $__coverDataType = '';
   public $cover;
-  public $***REMOVED***;
+  public $currentLocation;
   public $displayName;
   public $etag;
   public $gender;
@@ -1926,7 +1926,7 @@ class Google_Person extends Google_Model {
   protected $__placesLivedDataType = 'array';
   public $placesLived;
   public $plusOneCount;
-  public $***REMOVED***;
+  public $relationshipStatus;
   public $tagline;
   public $url;
   protected $__urlsType = 'Google_PersonUrls';
@@ -1951,17 +1951,17 @@ class Google_Person extends Google_Model {
   public function getBirthday() {
     return $this->birthday;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBraggingRights( $braggingRights) {
+    $this->braggingRights = $braggingRights;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getBraggingRights() {
+    return $this->braggingRights;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCircledByCount( $circledByCount) {
+    $this->circledByCount = $circledByCount;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCircledByCount() {
+    return $this->circledByCount;
   }
   public function setCover(Google_PersonCover $cover) {
     $this->cover = $cover;
@@ -1969,16 +1969,16 @@ class Google_Person extends Google_Model {
   public function getCover() {
     return $this->cover;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCurrentLocation( $currentLocation) {
+    $this->currentLocation = $currentLocation;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCurrentLocation() {
+    return $this->currentLocation;
   }
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setEtag( $etag) {
@@ -2041,31 +2041,31 @@ class Google_Person extends Google_Model {
   public function getObjectType() {
     return $this->objectType;
   }
-  public function ***REMOVED***(/* array(Google_PersonOrganizations) */ $organizations) {
+  public function setOrganizations(/* array(Google_PersonOrganizations) */ $organizations) {
     $this->assertIsArray($organizations, 'Google_PersonOrganizations', __METHOD__);
     $this->organizations = $organizations;
   }
-  public function ***REMOVED***() {
+  public function getOrganizations() {
     return $this->organizations;
   }
-  public function ***REMOVED***(/* array(Google_PersonPlacesLived) */ $placesLived) {
+  public function setPlacesLived(/* array(Google_PersonPlacesLived) */ $placesLived) {
     $this->assertIsArray($placesLived, 'Google_PersonPlacesLived', __METHOD__);
     $this->placesLived = $placesLived;
   }
-  public function ***REMOVED***() {
+  public function getPlacesLived() {
     return $this->placesLived;
   }
-  public function ***REMOVED***( $plusOneCount) {
+  public function setPlusOneCount( $plusOneCount) {
     $this->plusOneCount = $plusOneCount;
   }
-  public function ***REMOVED***() {
+  public function getPlusOneCount() {
     return $this->plusOneCount;
   }
-  public function setRelationshipStatus( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRelationshipStatus( $relationshipStatus) {
+    $this->relationshipStatus = $relationshipStatus;
   }
   public function getRelationshipStatus() {
-    return $this->***REMOVED***;
+    return $this->relationshipStatus;
   }
   public function setTagline( $tagline) {
     $this->tagline = $tagline;
@@ -2140,19 +2140,19 @@ class Google_PersonCover extends Google_Model {
 }
 
 class Google_PersonCoverCoverInfo extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $leftImageOffset;
+  public $topImageOffset;
+  public function setLeftImageOffset( $leftImageOffset) {
+    $this->leftImageOffset = $leftImageOffset;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLeftImageOffset() {
+    return $this->leftImageOffset;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTopImageOffset( $topImageOffset) {
+    $this->topImageOffset = $topImageOffset;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTopImageOffset() {
+    return $this->topImageOffset;
   }
 }
 
@@ -2194,8 +2194,8 @@ class Google_PersonName extends Google_Model {
   public $familyName;
   public $formatted;
   public $givenName;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $honorificPrefix;
+  public $honorificSuffix;
   public $middleName;
   public function setFamilyName( $familyName) {
     $this->familyName = $familyName;
@@ -2215,17 +2215,17 @@ class Google_PersonName extends Google_Model {
   public function getGivenName() {
     return $this->givenName;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHonorificPrefix( $honorificPrefix) {
+    $this->honorificPrefix = $honorificPrefix;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getHonorificPrefix() {
+    return $this->honorificPrefix;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHonorificSuffix( $honorificSuffix) {
+    $this->honorificSuffix = $honorificSuffix;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getHonorificSuffix() {
+    return $this->honorificSuffix;
   }
   public function setMiddleName( $middleName) {
     $this->middleName = $middleName;
@@ -2251,10 +2251,10 @@ class Google_PersonOrganizations extends Google_Model {
   public function getDepartment() {
     return $this->department;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setEndDate( $endDate) {
@@ -2357,10 +2357,10 @@ class Google_Place extends Google_Model {
   public function getAddress() {
     return $this->address;
   }
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setKind( $kind) {
@@ -2408,10 +2408,10 @@ class Google_PlusAclentryResource extends Google_Model {
   public $displayName;
   public $id;
   public $type;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {

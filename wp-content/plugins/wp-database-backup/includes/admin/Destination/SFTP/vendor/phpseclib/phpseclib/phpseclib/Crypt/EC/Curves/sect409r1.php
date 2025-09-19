@@ -21,8 +21,8 @@ class sect409r1 extends Binary
     public function __construct()
     {
         $this->setModulo(409, 87, 0);
-        $this->***REMOVED***(
-            '***REMOVED***',
+        $this->setCoefficients(
+            '00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001',
             '0021A5C2C8EE9FEB5C4B9A753B7B476B7FD6422EF1F3DD674761FA99D6AC27C8A9A197B272822F6CD57A55AA4F50AE317B13545F'
         );
         $this->setBasePoint(

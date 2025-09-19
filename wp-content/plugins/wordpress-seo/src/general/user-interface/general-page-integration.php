@@ -181,7 +181,7 @@ class General_Page_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// Remove the emoji script as it is incompatible with both React and any ***REMOVED*** fields.
+		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'general-page' );
@@ -189,7 +189,7 @@ class General_Page_Integration implements Integration_Interface {
 		if ( $this->promotion_manager->is( 'black-friday-2024-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
-		$this->asset_manager->localize_script( 'general-page', '***REMOVED***', $this->get_script_data() );
+		$this->asset_manager->localize_script( 'general-page', 'wpseoScriptData', $this->get_script_data() );
 	}
 
 	/**
@@ -203,7 +203,7 @@ class General_Page_Integration implements Integration_Interface {
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isRtl'          => \is_rtl(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
-				'***REMOVED***' => [
+				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],
@@ -212,8 +212,8 @@ class General_Page_Integration implements Integration_Interface {
 			'linkParams'        => $this->shortlink_helper->get_query_params(),
 			'userEditUrl'       => \add_query_arg( 'user_id', '{user_id}', \admin_url( 'user-edit.php' ) ),
 			'alerts'            => $this->notification_helper->get_alerts(),
-			'***REMOVED***' => $this->promotion_manager->get_current_promotions(),
-			'***REMOVED***'   => $this->alert_dismissal_action->all_dismissed(),
+			'currentPromotions' => $this->promotion_manager->get_current_promotions(),
+			'dismissedAlerts'   => $this->alert_dismissal_action->all_dismissed(),
 			'dashboard'         => $this->dashboard_configuration->get_configuration(),
 		];
 	}

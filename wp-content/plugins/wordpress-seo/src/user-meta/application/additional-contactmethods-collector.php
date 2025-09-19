@@ -5,14 +5,14 @@ namespace Yoast\WP\SEO\User_Meta\Application;
 use Yoast\WP\SEO\User_Meta\Domain\Additional_Contactmethod_Interface;
 
 /**
- * The collector to get additional ***REMOVED***.
+ * The collector to get additional contactmethods.
  *
  * @makePublic
  */
 class Additional_Contactmethods_Collector {
 
 	/**
-	 * All additional ***REMOVED***.
+	 * All additional contactmethods.
 	 *
 	 * @var array<Additional_Contactmethod_Interface>
 	 */
@@ -21,22 +21,22 @@ class Additional_Contactmethods_Collector {
 	/**
 	 * The constructor.
 	 *
-	 * @param Additional_Contactmethod_Interface ...$additional_contactmethods All additional ***REMOVED***.
+	 * @param Additional_Contactmethod_Interface ...$additional_contactmethods All additional contactmethods.
 	 */
 	public function __construct( Additional_Contactmethod_Interface ...$additional_contactmethods ) {
 		$this->additional_contactmethods = $additional_contactmethods;
 	}
 
 	/**
-	 * Returns all the additional ***REMOVED***.
+	 * Returns all the additional contactmethods.
 	 *
-	 * @return array<Additional_Contactmethod_Interface> All the additional ***REMOVED***.
+	 * @return array<Additional_Contactmethod_Interface> All the additional contactmethods.
 	 */
 	public function get_additional_contactmethods(): array {
 		$additional_contactmethods = $this->additional_contactmethods;
 
 		/**
-		 * Filter: Adds the possibility to add more additional ***REMOVED*** in the user profile.
+		 * Filter: Adds the possibility to add more additional contactmethods in the user profile.
 		 *
 		 * @param array<Additional_Contactmethod_Interface> $additional_contactmethods Array with additional contact method classes.
 		 */
@@ -44,9 +44,9 @@ class Additional_Contactmethods_Collector {
 	}
 
 	/**
-	 * Returns the additional ***REMOVED*** key/value pairs.
+	 * Returns the additional contactmethods key/value pairs.
 	 *
-	 * @return array<string, string> The additional ***REMOVED*** key/value pairs.
+	 * @return array<string, string> The additional contactmethods key/value pairs.
 	 */
 	public function get_additional_contactmethods_objects(): array {
 		$additional_contactmethods_objects = [];
@@ -60,9 +60,9 @@ class Additional_Contactmethods_Collector {
 	}
 
 	/**
-	 * Returns the additional ***REMOVED*** keys.
+	 * Returns the additional contactmethods keys.
 	 *
-	 * @return array<string> The additional ***REMOVED*** keys.
+	 * @return array<string> The additional contactmethods keys.
 	 */
 	public function get_additional_contactmethods_keys(): array {
 		$additional_contactmethods_keys = [];

@@ -32,12 +32,12 @@ abstract class Random
     /**
      * Generate a random string.
      *
-     * Although ***REMOVED*** are generally discouraged as they impair readability this function is ripe with
-     * ***REMOVED*** because this function has the potential of being called a huge number of times.
+     * Although microoptimizations are generally discouraged as they impair readability this function is ripe with
+     * microoptimizations because this function has the potential of being called a huge number of times.
      * eg. for RSA key generation.
      *
      * @param int $length
-     * @throws \***REMOVED*** if a symmetric cipher is needed but not loaded
+     * @throws \RuntimeException if a symmetric cipher is needed but not loaded
      * @return string
      */
     public static function string($length)
@@ -56,7 +56,7 @@ abstract class Random
             // We don't actually need to do anything here. The string() method should just continue
             // as normal. Note, however, that if we don't have a sufficient source of randomness for
             // random_bytes(), most of the other calls here will fail too, so we'll end up using
-            // the PHP ***REMOVED***.
+            // the PHP implementation.
         }
         // at this point we have no choice but to use a pure-PHP CSPRNG
 
@@ -160,11 +160,11 @@ abstract class Random
                     $crypto = new RC4();
                     break;
                 default:
-                    throw new \***REMOVED***(__CLASS__ . ' requires at least one symmetric cipher be loaded');
+                    throw new \RuntimeException(__CLASS__ . ' requires at least one symmetric cipher be loaded');
             }
 
             $crypto->setKey(substr($key, 0, $crypto->getKeyLength() >> 3));
-            $crypto->setIV(substr($iv, 0, $crypto->***REMOVED***() >> 3));
+            $crypto->setIV(substr($iv, 0, $crypto->getBlockLength() >> 3));
             $crypto->enableContinuousBuffer();
         }
 

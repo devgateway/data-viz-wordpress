@@ -126,7 +126,7 @@ function the_field( $selector, $post_id = false, $format_value = true ) {
 		do_action( 'acf/removed_unsafe_html', __FUNCTION__, $selector, $field, $post_id );
 	}
 
-	echo $value; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by logic above.
+	echo $value; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by logic above.
 }
 
 /**
@@ -904,7 +904,7 @@ function the_sub_field( $field_name, $format_value = true ) {
 		do_action( 'acf/removed_unsafe_html', __FUNCTION__, $field_name, $field, false );
 	}
 
-	echo $value; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped inside get_sub_field_object where necessary.
+	echo $value; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside get_sub_field_object where necessary.
 }
 
 
@@ -974,7 +974,7 @@ function get_sub_field_object( $selector, $format_value = true, $load_value = tr
 
 
 /**
- * This function will return a string ***REMOVED*** of the current row layout within a 'have_rows' loop
+ * This function will return a string representation of the current row layout within a 'have_rows' loop
  *
  * @since   3.0.6
  *

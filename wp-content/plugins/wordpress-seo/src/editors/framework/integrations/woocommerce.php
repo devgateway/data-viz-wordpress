@@ -1,5 +1,5 @@
 <?php
-// @phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
@@ -41,7 +41,7 @@ class WooCommerce implements Integration_Data_Provider_Interface {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		return [ '***REMOVED***' => $this->is_enabled() ];
+		return [ 'isWooCommerceActive' => $this->is_enabled() ];
 	}
 
 	/**
@@ -50,6 +50,6 @@ class WooCommerce implements Integration_Data_Provider_Interface {
 	 * @return array<string, bool> Returns the legacy key and if the feature is enabled.
 	 */
 	public function to_legacy_array(): array {
-		return [ '***REMOVED***' => $this->is_enabled() ];
+		return [ 'isWooCommerceActive' => $this->is_enabled() ];
 	}
 }

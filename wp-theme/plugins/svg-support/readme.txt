@@ -34,7 +34,7 @@ The main purpose of this is to allow styling and animation of your SVG elements.
 * Style SVG elements directly using CSS
 * Animate SVG elements using CSS and JS
 * Super easy settings page with instructions
-* Restrict SVG upload ability to ***REMOVED*** only
+* Restrict SVG upload ability to Administrators only
 * Set custom css target class
 * **Extremely Simple To Use - Simplifies complex usage of SVG files**
 
@@ -45,7 +45,7 @@ Firstly, install and activate SVG Support (this plugin).
 
 Once activated, you can simply upload SVG images to your media library like any other file.
 
-As an administrator, you can go to the admin settings page 'Settings' > 'SVG Support' and restrict SVG file uploads to ***REMOVED*** only and even define a custom CSS class to target if you wish.
+As an administrator, you can go to the admin settings page 'Settings' > 'SVG Support' and restrict SVG file uploads to administrators only and even define a custom CSS class to target if you wish.
 
 If you only need to upload SVG files to use as images, you don't need to enable "Advanced Mode”. Leaving it disabled ensures the frontend script is not enqueued and the unnecessary settings stay hidden.
 
@@ -78,7 +78,7 @@ Please Note: If your SVG isn’t showing, it’s likely that it is being display
 
 == Security ==
 
-As with allowing uploads of any files, there is potential risks involved. Only allow users to upload SVG files if you trust them. You have the option to restrict SVG usage to ***REMOVED*** only from the settings page. By default, anyone with Media Library access or upload_files capability will be able to upload SVG files (that is ***REMOVED***, Authors and Editors). Please note that SVG files are actually XML which would allow someone to inject malicious code if you're not careful with who has upload privileges.
+As with allowing uploads of any files, there is potential risks involved. Only allow users to upload SVG files if you trust them. You have the option to restrict SVG usage to Administrators only from the settings page. By default, anyone with Media Library access or upload_files capability will be able to upload SVG files (that is Administrators, Authors and Editors). Please note that SVG files are actually XML which would allow someone to inject malicious code if you're not careful with who has upload privileges.
 
 
 == Feedback ==
@@ -185,7 +185,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
 = 2.3.9 =
 * Modified plugin action meta link for settings page.
 * Changed some language throughout the plugin.
-* Added ***REMOVED*** for ShortPixel Image Optimization.
+* Added recommendation for ShortPixel Image Optimization.
 * Added conditional to check post type supports thumbnail before setting meta data.
 
 = 2.3.8 =
@@ -196,7 +196,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
 * Added WP version check to wrap mime fix function needed for WP v4.7.1 - v4.7.2.
 * Moved mime fix into mime type file.
 * Modified admin notice code to make it neater.
-* Fix: attachment-modal.php issues with some servers and external SVG files (props to @***REMOVED*** & @***REMOVED*** for providing fixes, as I could not consistently reproduce the issue).
+* Fix: attachment-modal.php issues with some servers and external SVG files (props to @abstractourist & @malthejorgensen for providing fixes, as I could not consistently reproduce the issue).
 * Compatibility: Changed a line to provide wider compatibility, specifically for WordPress Bedrock on a LEMP stack.
 * Compatibility: Added another snippet to the JS to support IE11 (apparently people still use IE).
 * Added more FAQ's.
@@ -304,7 +304,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
 = 2.0 =
 * Added an admin settings page with instructions plus options for restricting to admin use only and setting a custom CSS target class.
 * Whole plugin completely re-written and re-structured.
-* Added option to restrict SVG uploads to ***REMOVED*** only.
+* Added option to restrict SVG uploads to administrators only.
 * Added field for custom CSS target class.
 * Added stylesheet to admin settings page.
 
@@ -342,7 +342,7 @@ Update to address PHP warnings and notices on the image widget when wp_debug is 
 * Fixed missing links in settings page.
 
 = 2.3.9 =
-* Cleaned up some code and language, now stores less meta when not needed and added a plugin ***REMOVED*** for Image Optimization.
+* Cleaned up some code and language, now stores less meta when not needed and added a plugin recommendation for Image Optimization.
 
 = 2.3.8 =
 * Adds better support for WooCommerce and Sensei. Fixes issue with featured images not showing up when auto insert class setting is on.

@@ -76,7 +76,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'taxonomy'                    => $this->term->taxonomy,
 				'semrushIntegrationActive'    => 0,
 				'wincherIntegrationActive'    => 0,
-				'***REMOVED***'           => $this->is_insights_enabled(),
+				'isInsightsEnabled'           => $this->is_insights_enabled(),
 			];
 
 			$repo = YoastSEO()->classes->get( Term_Seo_Information_Repository::class );

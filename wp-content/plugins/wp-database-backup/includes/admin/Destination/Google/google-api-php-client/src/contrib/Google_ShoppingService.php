@@ -18,8 +18,8 @@
    * The "products" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_ShoppingService(...);
-   *   $products = $***REMOVED***->products;
+   *   $shoppingService = new Google_ShoppingService(...);
+   *   $products = $shoppingService->products;
    *  </code>
    */
   class Google_ProductsServiceResource extends Google_ServiceResource {
@@ -33,14 +33,14 @@
      * @param string $productId Id of product
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** Comma separated list of attributes to return
+     * @opt_param string attributeFilter Comma separated list of attributes to return
      * @opt_param bool categories.enabled Whether to return category information
      * @opt_param string categories.include Category specification
      * @opt_param bool categories.useGcsConfig This parameter is currently ignored
      * @opt_param string location Location used to determine tax and shipping
-     * @opt_param bool ***REMOVED***.enabled Whether to return ***REMOVED*** information
-     * @opt_param string ***REMOVED***.include ***REMOVED*** specification
-     * @opt_param bool ***REMOVED***.useGcsConfig This parameter is currently ignored
+     * @opt_param bool recommendations.enabled Whether to return recommendation information
+     * @opt_param string recommendations.include Recommendation specification
+     * @opt_param bool recommendations.useGcsConfig This parameter is currently ignored
      * @opt_param string taxonomy Merchant taxonomy
      * @opt_param string thumbnails Thumbnail specification
      * @return Google_Product
@@ -61,15 +61,15 @@
      * @param string $source Query source
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** Comma separated list of attributes to return
-     * @opt_param string availability Comma separated list of ***REMOVED*** (outOfStock, limited, inStock, backOrder, preOrder, ***REMOVED***) to return
+     * @opt_param string attributeFilter Comma separated list of attributes to return
+     * @opt_param string availability Comma separated list of availabilities (outOfStock, limited, inStock, backOrder, preOrder, onDisplayToOrder) to return
      * @opt_param string boostBy Boosting specification
      * @opt_param bool categories.enabled Whether to return category information
      * @opt_param string categories.include Category specification
      * @opt_param bool categories.useGcsConfig This parameter is currently ignored
-     * @opt_param string categoryRecommendations.category Category for which to retrieve ***REMOVED***
-     * @opt_param bool categoryRecommendations.enabled Whether to return category ***REMOVED*** information
-     * @opt_param string categoryRecommendations.include Category ***REMOVED*** specification
+     * @opt_param string categoryRecommendations.category Category for which to retrieve recommendations
+     * @opt_param bool categoryRecommendations.enabled Whether to return category recommendation information
+     * @opt_param string categoryRecommendations.include Category recommendation specification
      * @opt_param bool categoryRecommendations.useGcsConfig This parameter is currently ignored
      * @opt_param string channels Channels specification
      * @opt_param bool clickTracking Whether to add a click tracking parameter to offer URLs
@@ -81,7 +81,7 @@
      * @opt_param string facets.discover Facets to discover
      * @opt_param bool facets.enabled Whether to return facet information
      * @opt_param string facets.include Facets to include (applies when useGcsConfig == false)
-     * @opt_param bool facets.***REMOVED*** Return empty facet buckets.
+     * @opt_param bool facets.includeEmptyBuckets Return empty facet buckets.
      * @opt_param bool facets.useGcsConfig Whether to return facet information as configured in the GCS account
      * @opt_param string language Language restriction (BCP 47)
      * @opt_param string location Location used to determine tax and shipping
@@ -93,8 +93,8 @@
      * @opt_param string rankBy Ranking specification
      * @opt_param bool redirects.enabled Whether to return redirect information
      * @opt_param bool redirects.useGcsConfig Whether to return redirect information as configured in the GCS account
-     * @opt_param bool ***REMOVED***.enabled Whether to return related queries
-     * @opt_param bool ***REMOVED***.useGcsConfig This parameter is currently ignored
+     * @opt_param bool relatedQueries.enabled Whether to return related queries
+     * @opt_param bool relatedQueries.useGcsConfig This parameter is currently ignored
      * @opt_param string restrictBy Restriction specification
      * @opt_param bool safe Whether safe search is enabled. Default: true
      * @opt_param bool spelling.enabled Whether to return spelling suggestions
@@ -102,7 +102,7 @@
      * @opt_param string startIndex Index (1-based) of first product to return
      * @opt_param string taxonomy Taxonomy name
      * @opt_param string thumbnails Image thumbnails specification
-     * @opt_param string useCase One of CommerceSearchUseCase, ***REMOVED***
+     * @opt_param string useCase One of CommerceSearchUseCase, ShoppingApiUseCase
      * @return Google_Products
      */
     public function listProducts($source, $optParams = array()) {
@@ -134,7 +134,7 @@
 class Google_ShoppingService extends Google_Service {
   public $products;
   /**
-   * Constructs the internal ***REMOVED*** of the Shopping service.
+   * Constructs the internal representation of the Shopping service.
    *
    * @param Google_Client $client
    */
@@ -144,7 +144,7 @@ class Google_ShoppingService extends Google_Service {
     $this->serviceName = 'shopping';
 
     $client->addService($this->serviceName, $this->version);
-    $this->products = new Google_ProductsServiceResource($this, $this->serviceName, 'products', json_decode('{"methods": {"get": {"id": "shopping.products.get", "path": "{source}/products/{accountId}/{productIdType}/{productId}", "httpMethod": "GET", "parameters": {"accountId": {"type": "integer", "required": true, "format": "uint32", "location": "path"}, "***REMOVED***": {"type": "string", "location": "query"}, "categories.enabled": {"type": "boolean", "location": "query"}, "categories.include": {"type": "string", "location": "query"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "location": {"type": "string", "location": "query"}, "productId": {"type": "string", "required": true, "location": "path"}, "productIdType": {"type": "string", "required": true, "location": "path"}, "***REMOVED***.enabled": {"type": "boolean", "location": "query"}, "***REMOVED***.include": {"type": "string", "location": "query"}, "***REMOVED***.useGcsConfig": {"type": "boolean", "location": "query"}, "source": {"type": "string", "required": true, "location": "path"}, "taxonomy": {"type": "string", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}}, "response": {"$ref": "Product"}, "scopes": ["https://www.googleapis.com/auth/shoppingapi"]}, "list": {"id": "shopping.products.list", "path": "{source}/products", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "location": "query"}, "availability": {"type": "string", "location": "query"}, "boostBy": {"type": "string", "location": "query"}, "categories.enabled": {"type": "boolean", "location": "query"}, "categories.include": {"type": "string", "location": "query"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "categoryRecommendations.category": {"type": "string", "location": "query"}, "categoryRecommendations.enabled": {"type": "boolean", "location": "query"}, "categoryRecommendations.include": {"type": "string", "location": "query"}, "categoryRecommendations.useGcsConfig": {"type": "boolean", "location": "query"}, "channels": {"type": "string", "location": "query"}, "clickTracking": {"type": "boolean", "location": "query"}, "country": {"type": "string", "location": "query"}, "crowdBy": {"type": "string", "location": "query"}, "currency": {"type": "string", "location": "query"}, "extras.enabled": {"type": "boolean", "location": "query"}, "extras.info": {"type": "string", "location": "query"}, "facets.discover": {"type": "string", "location": "query"}, "facets.enabled": {"type": "boolean", "location": "query"}, "facets.include": {"type": "string", "location": "query"}, "facets.***REMOVED***": {"type": "boolean", "location": "query"}, "facets.useGcsConfig": {"type": "boolean", "location": "query"}, "language": {"type": "string", "location": "query"}, "location": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "maxVariants": {"type": "integer", "format": "int32", "location": "query"}, "promotions.enabled": {"type": "boolean", "location": "query"}, "promotions.useGcsConfig": {"type": "boolean", "location": "query"}, "q": {"type": "string", "location": "query"}, "rankBy": {"type": "string", "location": "query"}, "redirects.enabled": {"type": "boolean", "location": "query"}, "redirects.useGcsConfig": {"type": "boolean", "location": "query"}, "***REMOVED***.enabled": {"type": "boolean", "location": "query"}, "***REMOVED***.useGcsConfig": {"type": "boolean", "location": "query"}, "restrictBy": {"type": "string", "location": "query"}, "safe": {"type": "boolean", "location": "query"}, "source": {"type": "string", "required": true, "location": "path"}, "spelling.enabled": {"type": "boolean", "location": "query"}, "spelling.useGcsConfig": {"type": "boolean", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "location": "query"}, "taxonomy": {"type": "string", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}, "useCase": {"type": "string", "location": "query"}}, "response": {"$ref": "Products"}, "scopes": ["https://www.googleapis.com/auth/shoppingapi"]}}}', true));
+    $this->products = new Google_ProductsServiceResource($this, $this->serviceName, 'products', json_decode('{"methods": {"get": {"id": "shopping.products.get", "path": "{source}/products/{accountId}/{productIdType}/{productId}", "httpMethod": "GET", "parameters": {"accountId": {"type": "integer", "required": true, "format": "uint32", "location": "path"}, "attributeFilter": {"type": "string", "location": "query"}, "categories.enabled": {"type": "boolean", "location": "query"}, "categories.include": {"type": "string", "location": "query"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "location": {"type": "string", "location": "query"}, "productId": {"type": "string", "required": true, "location": "path"}, "productIdType": {"type": "string", "required": true, "location": "path"}, "recommendations.enabled": {"type": "boolean", "location": "query"}, "recommendations.include": {"type": "string", "location": "query"}, "recommendations.useGcsConfig": {"type": "boolean", "location": "query"}, "source": {"type": "string", "required": true, "location": "path"}, "taxonomy": {"type": "string", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}}, "response": {"$ref": "Product"}, "scopes": ["https://www.googleapis.com/auth/shoppingapi"]}, "list": {"id": "shopping.products.list", "path": "{source}/products", "httpMethod": "GET", "parameters": {"attributeFilter": {"type": "string", "location": "query"}, "availability": {"type": "string", "location": "query"}, "boostBy": {"type": "string", "location": "query"}, "categories.enabled": {"type": "boolean", "location": "query"}, "categories.include": {"type": "string", "location": "query"}, "categories.useGcsConfig": {"type": "boolean", "location": "query"}, "categoryRecommendations.category": {"type": "string", "location": "query"}, "categoryRecommendations.enabled": {"type": "boolean", "location": "query"}, "categoryRecommendations.include": {"type": "string", "location": "query"}, "categoryRecommendations.useGcsConfig": {"type": "boolean", "location": "query"}, "channels": {"type": "string", "location": "query"}, "clickTracking": {"type": "boolean", "location": "query"}, "country": {"type": "string", "location": "query"}, "crowdBy": {"type": "string", "location": "query"}, "currency": {"type": "string", "location": "query"}, "extras.enabled": {"type": "boolean", "location": "query"}, "extras.info": {"type": "string", "location": "query"}, "facets.discover": {"type": "string", "location": "query"}, "facets.enabled": {"type": "boolean", "location": "query"}, "facets.include": {"type": "string", "location": "query"}, "facets.includeEmptyBuckets": {"type": "boolean", "location": "query"}, "facets.useGcsConfig": {"type": "boolean", "location": "query"}, "language": {"type": "string", "location": "query"}, "location": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "maxVariants": {"type": "integer", "format": "int32", "location": "query"}, "promotions.enabled": {"type": "boolean", "location": "query"}, "promotions.useGcsConfig": {"type": "boolean", "location": "query"}, "q": {"type": "string", "location": "query"}, "rankBy": {"type": "string", "location": "query"}, "redirects.enabled": {"type": "boolean", "location": "query"}, "redirects.useGcsConfig": {"type": "boolean", "location": "query"}, "relatedQueries.enabled": {"type": "boolean", "location": "query"}, "relatedQueries.useGcsConfig": {"type": "boolean", "location": "query"}, "restrictBy": {"type": "string", "location": "query"}, "safe": {"type": "boolean", "location": "query"}, "source": {"type": "string", "required": true, "location": "path"}, "spelling.enabled": {"type": "boolean", "location": "query"}, "spelling.useGcsConfig": {"type": "boolean", "location": "query"}, "startIndex": {"type": "integer", "format": "uint32", "location": "query"}, "taxonomy": {"type": "string", "location": "query"}, "thumbnails": {"type": "string", "location": "query"}, "useCase": {"type": "string", "location": "query"}}, "response": {"$ref": "Products"}, "scopes": ["https://www.googleapis.com/auth/shoppingapi"]}}}', true));
 
   }
 }
@@ -165,7 +165,7 @@ class Google_Product extends Google_Model {
   public $product;
   protected $__recommendationsType = 'Google_ShoppingModelRecommendationsJsonV1';
   protected $__recommendationsDataType = 'array';
-  public $***REMOVED***;
+  public $recommendations;
   public $requestId;
   public $selfLink;
   public function setCategories(/* array(Google_ShoppingModelCategoryJsonV1) */ $categories) {
@@ -199,12 +199,12 @@ class Google_Product extends Google_Model {
   public function getProduct() {
     return $this->product;
   }
-  public function ***REMOVED***(/* array(Google_ShoppingModelRecommendationsJsonV1) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_ShoppingModelRecommendationsJsonV1', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRecommendations(/* array(Google_ShoppingModelRecommendationsJsonV1) */ $recommendations) {
+    $this->assertIsArray($recommendations, 'Google_ShoppingModelRecommendationsJsonV1', __METHOD__);
+    $this->recommendations = $recommendations;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getRecommendations() {
+    return $this->recommendations;
   }
   public function setRequestId( $requestId) {
     $this->requestId = $requestId;
@@ -227,7 +227,7 @@ class Google_Products extends Google_Model {
   protected $__categoryRecommendationsType = 'Google_ShoppingModelRecommendationsJsonV1';
   protected $__categoryRecommendationsDataType = 'array';
   public $categoryRecommendations;
-  public $***REMOVED***;
+  public $currentItemCount;
   protected $__debugType = 'Google_ShoppingModelDebugJsonV1';
   protected $__debugDataType = '';
   public $debug;
@@ -250,7 +250,7 @@ class Google_Products extends Google_Model {
   protected $__promotionsDataType = 'array';
   public $promotions;
   public $redirects;
-  public $***REMOVED***;
+  public $relatedQueries;
   public $requestId;
   public $selfLink;
   protected $__spellingType = 'Google_ProductsSpelling';
@@ -275,11 +275,11 @@ class Google_Products extends Google_Model {
   public function getCategoryRecommendations() {
     return $this->categoryRecommendations;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCurrentItemCount( $currentItemCount) {
+    $this->currentItemCount = $currentItemCount;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCurrentItemCount() {
+    return $this->currentItemCount;
   }
   public function setDebug(Google_ShoppingModelDebugJsonV1 $debug) {
     $this->debug = $debug;
@@ -319,10 +319,10 @@ class Google_Products extends Google_Model {
   public function getItems() {
     return $this->items;
   }
-  public function ***REMOVED***( $itemsPerPage) {
+  public function setItemsPerPage( $itemsPerPage) {
     $this->itemsPerPage = $itemsPerPage;
   }
-  public function ***REMOVED***() {
+  public function getItemsPerPage() {
     return $this->itemsPerPage;
   }
   public function setKind( $kind) {
@@ -337,10 +337,10 @@ class Google_Products extends Google_Model {
   public function getNextLink() {
     return $this->nextLink;
   }
-  public function ***REMOVED***( $previousLink) {
+  public function setPreviousLink( $previousLink) {
     $this->previousLink = $previousLink;
   }
-  public function ***REMOVED***() {
+  public function getPreviousLink() {
     return $this->previousLink;
   }
   public function setPromotions(/* array(Google_ProductsPromotions) */ $promotions) {
@@ -357,12 +357,12 @@ class Google_Products extends Google_Model {
   public function getRedirects() {
     return $this->redirects;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRelatedQueries(/* array(Google_string) */ $relatedQueries) {
+    $this->assertIsArray($relatedQueries, 'Google_string', __METHOD__);
+    $this->relatedQueries = $relatedQueries;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getRelatedQueries() {
+    return $this->relatedQueries;
   }
   public function setRequestId( $requestId) {
     $this->requestId = $requestId;
@@ -426,10 +426,10 @@ class Google_ProductsFacets extends Google_Model {
   public function getCount() {
     return $this->count;
   }
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setName( $name) {
@@ -477,10 +477,10 @@ class Google_ProductsFacetsBuckets extends Google_Model {
   public function getMax() {
     return $this->max;
   }
-  public function ***REMOVED***( $maxExclusive) {
+  public function setMaxExclusive( $maxExclusive) {
     $this->maxExclusive = $maxExclusive;
   }
-  public function ***REMOVED***() {
+  public function getMaxExclusive() {
     return $this->maxExclusive;
   }
   public function setMin( $min) {
@@ -489,10 +489,10 @@ class Google_ProductsFacetsBuckets extends Google_Model {
   public function getMin() {
     return $this->min;
   }
-  public function ***REMOVED***( $minExclusive) {
+  public function setMinExclusive( $minExclusive) {
     $this->minExclusive = $minExclusive;
   }
-  public function ***REMOVED***() {
+  public function getMinExclusive() {
     return $this->minExclusive;
   }
   public function setValue( $value) {
@@ -516,11 +516,11 @@ class Google_ProductsPromotions extends Google_Model {
   protected $__productDataType = '';
   public $product;
   public $type;
-  public function ***REMOVED***(/* array(Google_ProductsPromotionsCustomFields) */ $customFields) {
+  public function setCustomFields(/* array(Google_ProductsPromotionsCustomFields) */ $customFields) {
     $this->assertIsArray($customFields, 'Google_ProductsPromotionsCustomFields', __METHOD__);
     $this->customFields = $customFields;
   }
-  public function ***REMOVED***() {
+  public function getCustomFields() {
     return $this->customFields;
   }
   public function setCustomHtml( $customHtml) {
@@ -529,10 +529,10 @@ class Google_ProductsPromotions extends Google_Model {
   public function getCustomHtml() {
     return $this->customHtml;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setDestLink( $destLink) {
@@ -684,41 +684,41 @@ class Google_ShoppingModelDebugJsonV1 extends Google_Model {
   public $backendTimes;
   public $elapsedMillis;
   public $facetsRequest;
-  public $***REMOVED***;
+  public $facetsResponse;
   public $rdcResponse;
   public $recommendedItemsRequest;
   public $recommendedItemsResponse;
   public $searchRequest;
-  public $***REMOVED***;
-  public function ***REMOVED***(/* array(Google_ShoppingModelDebugJsonV1BackendTimes) */ $backendTimes) {
+  public $searchResponse;
+  public function setBackendTimes(/* array(Google_ShoppingModelDebugJsonV1BackendTimes) */ $backendTimes) {
     $this->assertIsArray($backendTimes, 'Google_ShoppingModelDebugJsonV1BackendTimes', __METHOD__);
     $this->backendTimes = $backendTimes;
   }
-  public function ***REMOVED***() {
+  public function getBackendTimes() {
     return $this->backendTimes;
   }
-  public function ***REMOVED***( $elapsedMillis) {
+  public function setElapsedMillis( $elapsedMillis) {
     $this->elapsedMillis = $elapsedMillis;
   }
-  public function ***REMOVED***() {
+  public function getElapsedMillis() {
     return $this->elapsedMillis;
   }
-  public function ***REMOVED***( $facetsRequest) {
+  public function setFacetsRequest( $facetsRequest) {
     $this->facetsRequest = $facetsRequest;
   }
-  public function ***REMOVED***() {
+  public function getFacetsRequest() {
     return $this->facetsRequest;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFacetsResponse( $facetsResponse) {
+    $this->facetsResponse = $facetsResponse;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFacetsResponse() {
+    return $this->facetsResponse;
   }
-  public function ***REMOVED***( $rdcResponse) {
+  public function setRdcResponse( $rdcResponse) {
     $this->rdcResponse = $rdcResponse;
   }
-  public function ***REMOVED***() {
+  public function getRdcResponse() {
     return $this->rdcResponse;
   }
   public function setRecommendedItemsRequest( $recommendedItemsRequest) {
@@ -733,17 +733,17 @@ class Google_ShoppingModelDebugJsonV1 extends Google_Model {
   public function getRecommendedItemsResponse() {
     return $this->recommendedItemsResponse;
   }
-  public function ***REMOVED***( $searchRequest) {
+  public function setSearchRequest( $searchRequest) {
     $this->searchRequest = $searchRequest;
   }
-  public function ***REMOVED***() {
+  public function getSearchRequest() {
     return $this->searchRequest;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSearchResponse( $searchResponse) {
+    $this->searchResponse = $searchResponse;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSearchResponse() {
+    return $this->searchResponse;
   }
 }
 
@@ -752,10 +752,10 @@ class Google_ShoppingModelDebugJsonV1BackendTimes extends Google_Model {
   public $hostName;
   public $name;
   public $serverMillis;
-  public function ***REMOVED***( $elapsedMillis) {
+  public function setElapsedMillis( $elapsedMillis) {
     $this->elapsedMillis = $elapsedMillis;
   }
-  public function ***REMOVED***() {
+  public function getElapsedMillis() {
     return $this->elapsedMillis;
   }
   public function setHostName( $hostName) {
@@ -770,10 +770,10 @@ class Google_ShoppingModelDebugJsonV1BackendTimes extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $serverMillis) {
+  public function setServerMillis( $serverMillis) {
     $this->serverMillis = $serverMillis;
   }
-  public function ***REMOVED***() {
+  public function getServerMillis() {
     return $this->serverMillis;
   }
 }
@@ -792,11 +792,11 @@ class Google_ShoppingModelExtrasJsonV1 extends Google_Model {
   public function getFacetRules() {
     return $this->facetRules;
   }
-  public function ***REMOVED***(/* array(Google_ShoppingModelExtrasJsonV1RankingRules) */ $rankingRules) {
+  public function setRankingRules(/* array(Google_ShoppingModelExtrasJsonV1RankingRules) */ $rankingRules) {
     $this->assertIsArray($rankingRules, 'Google_ShoppingModelExtrasJsonV1RankingRules', __METHOD__);
     $this->rankingRules = $rankingRules;
   }
-  public function ***REMOVED***() {
+  public function getRankingRules() {
     return $this->rankingRules;
   }
 }
@@ -861,7 +861,7 @@ class Google_ShoppingModelProductJsonV1 extends Google_Model {
   public $inventories;
   public $language;
   public $link;
-  public $***REMOVED***;
+  public $modificationTime;
   public $mpns;
   public $plusOne;
   public $providedId;
@@ -910,16 +910,16 @@ class Google_ShoppingModelProductJsonV1 extends Google_Model {
   public function getCountry() {
     return $this->country;
   }
-  public function ***REMOVED***( $creationTime) {
+  public function setCreationTime( $creationTime) {
     $this->creationTime = $creationTime;
   }
-  public function ***REMOVED***() {
+  public function getCreationTime() {
     return $this->creationTime;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setGoogleId( $googleId) {
@@ -1024,11 +1024,11 @@ class Google_ShoppingModelProductJsonV1 extends Google_Model {
   public function getInternal8() {
     return $this->internal8;
   }
-  public function ***REMOVED***(/* array(Google_ShoppingModelProductJsonV1Inventories) */ $inventories) {
+  public function setInventories(/* array(Google_ShoppingModelProductJsonV1Inventories) */ $inventories) {
     $this->assertIsArray($inventories, 'Google_ShoppingModelProductJsonV1Inventories', __METHOD__);
     $this->inventories = $inventories;
   }
-  public function ***REMOVED***() {
+  public function getInventories() {
     return $this->inventories;
   }
   public function setLanguage( $language) {
@@ -1043,11 +1043,11 @@ class Google_ShoppingModelProductJsonV1 extends Google_Model {
   public function getLink() {
     return $this->link;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setModificationTime( $modificationTime) {
+    $this->modificationTime = $modificationTime;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getModificationTime() {
+    return $this->modificationTime;
   }
   public function setMpns(/* array(Google_string) */ $mpns) {
     $this->assertIsArray($mpns, 'Google_string', __METHOD__);
@@ -1068,10 +1068,10 @@ class Google_ShoppingModelProductJsonV1 extends Google_Model {
   public function getProvidedId() {
     return $this->providedId;
   }
-  public function ***REMOVED***( $queryMatched) {
+  public function setQueryMatched( $queryMatched) {
     $this->queryMatched = $queryMatched;
   }
-  public function ***REMOVED***() {
+  public function getQueryMatched() {
     return $this->queryMatched;
   }
   public function setScore( $score) {
@@ -1107,10 +1107,10 @@ class Google_ShoppingModelProductJsonV1Attributes extends Google_Model {
   public $type;
   public $unit;
   public $value;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setName( $name) {
@@ -1261,8 +1261,8 @@ class Google_ShoppingModelProductJsonV1Inventories extends Google_Model {
   public $currency;
   public $distance;
   public $distanceUnit;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $installmentMonths;
+  public $installmentPrice;
   public $originalPrice;
   public $price;
   public $saleEndDate;
@@ -1271,10 +1271,10 @@ class Google_ShoppingModelProductJsonV1Inventories extends Google_Model {
   public $shipping;
   public $storeId;
   public $tax;
-  public function ***REMOVED***( $availability) {
+  public function setAvailability( $availability) {
     $this->availability = $availability;
   }
-  public function ***REMOVED***() {
+  public function getAvailability() {
     return $this->availability;
   }
   public function setChannel( $channel) {
@@ -1295,28 +1295,28 @@ class Google_ShoppingModelProductJsonV1Inventories extends Google_Model {
   public function getDistance() {
     return $this->distance;
   }
-  public function ***REMOVED***( $distanceUnit) {
+  public function setDistanceUnit( $distanceUnit) {
     $this->distanceUnit = $distanceUnit;
   }
-  public function ***REMOVED***() {
+  public function getDistanceUnit() {
     return $this->distanceUnit;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setInstallmentMonths( $installmentMonths) {
+    $this->installmentMonths = $installmentMonths;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getInstallmentMonths() {
+    return $this->installmentMonths;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setInstallmentPrice( $installmentPrice) {
+    $this->installmentPrice = $installmentPrice;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getInstallmentPrice() {
+    return $this->installmentPrice;
   }
-  public function ***REMOVED***( $originalPrice) {
+  public function setOriginalPrice( $originalPrice) {
     $this->originalPrice = $originalPrice;
   }
-  public function ***REMOVED***() {
+  public function getOriginalPrice() {
     return $this->originalPrice;
   }
   public function setPrice( $price) {
@@ -1325,10 +1325,10 @@ class Google_ShoppingModelProductJsonV1Inventories extends Google_Model {
   public function getPrice() {
     return $this->price;
   }
-  public function ***REMOVED***( $saleEndDate) {
+  public function setSaleEndDate( $saleEndDate) {
     $this->saleEndDate = $saleEndDate;
   }
-  public function ***REMOVED***() {
+  public function getSaleEndDate() {
     return $this->saleEndDate;
   }
   public function setSalePrice( $salePrice) {
@@ -1337,10 +1337,10 @@ class Google_ShoppingModelProductJsonV1Inventories extends Google_Model {
   public function getSalePrice() {
     return $this->salePrice;
   }
-  public function ***REMOVED***( $saleStartDate) {
+  public function setSaleStartDate( $saleStartDate) {
     $this->saleStartDate = $saleStartDate;
   }
-  public function ***REMOVED***() {
+  public function getSaleStartDate() {
     return $this->saleStartDate;
   }
   public function setShipping( $shipping) {
@@ -1378,14 +1378,14 @@ class Google_ShoppingModelProductJsonV1Variants extends Google_Model {
 class Google_ShoppingModelRecommendationsJsonV1 extends Google_Model {
   protected $__recommendationListType = 'Google_ShoppingModelRecommendationsJsonV1RecommendationList';
   protected $__recommendationListDataType = 'array';
-  public $***REMOVED***;
+  public $recommendationList;
   public $type;
-  public function setRecommendationList(/* array(Google_ShoppingModelRecommendationsJsonV1RecommendationList) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_ShoppingModelRecommendationsJsonV1RecommendationList', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRecommendationList(/* array(Google_ShoppingModelRecommendationsJsonV1RecommendationList) */ $recommendationList) {
+    $this->assertIsArray($recommendationList, 'Google_ShoppingModelRecommendationsJsonV1RecommendationList', __METHOD__);
+    $this->recommendationList = $recommendationList;
   }
   public function getRecommendationList() {
-    return $this->***REMOVED***;
+    return $this->recommendationList;
   }
   public function setType( $type) {
     $this->type = $type;

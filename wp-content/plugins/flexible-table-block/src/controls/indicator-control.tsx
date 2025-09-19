@@ -8,13 +8,13 @@ import {
 	BottomStroke,
 	LeftStroke,
 	TopLeftStroke,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	TopRightStroke,
+	BottomRightStroke,
+	BottomLeftStroke,
 } from './styles';
-import type { SideValue, CornerValue, ***REMOVED*** } from '../***REMOVED***';
+import type { SideValue, CornerValue, DirectionValue } from '../BlockAttributes';
 
-export function ***REMOVED***( { sides }: { sides?: SideValue[] } ) {
+export function SideIndicatorControl( { sides }: { sides?: SideValue[] } ) {
 	const top: boolean = ! sides || sides.includes( 'top' );
 	const right: boolean = ! sides || sides.includes( 'right' );
 	const bottom: boolean = ! sides || sides.includes( 'bottom' );
@@ -39,14 +39,14 @@ export function CornerIndicatorControl( { corners }: { corners?: CornerValue[] }
 	return (
 		<ViewBox>
 			<TopLeftStroke isFocused={ topLeft } />
-			<***REMOVED*** isFocused={ topRight } />
-			<***REMOVED*** isFocused={ bottomRight } />
-			<***REMOVED*** isFocused={ bottomLeft } />
+			<TopRightStroke isFocused={ topRight } />
+			<BottomRightStroke isFocused={ bottomRight } />
+			<BottomLeftStroke isFocused={ bottomLeft } />
 		</ViewBox>
 	);
 }
 
-export function DirectionIndicatorControl( { directions }: { directions?: ***REMOVED***[] } ) {
+export function DirectionIndicatorControl( { directions }: { directions?: DirectionValue[] } ) {
 	const horizontal = ! directions || directions.includes( 'horizontal' );
 	const vertical = ! directions || directions.includes( 'vertical' );
 

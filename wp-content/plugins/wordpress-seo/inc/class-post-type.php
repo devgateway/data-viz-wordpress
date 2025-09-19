@@ -107,7 +107,7 @@ class WPSEO_Post_Type {
 	 * Removes the notification related to the post types which have been made public.
 	 *
 	 * @deprecated 20.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class WPSEO_Post_Type {
 	 * Removes the notification related to the taxonomies which have been made public.
 	 *
 	 * @deprecated 20.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

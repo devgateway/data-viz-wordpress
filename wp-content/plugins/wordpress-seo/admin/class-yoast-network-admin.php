@@ -100,12 +100,12 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	 * @return void
 	 */
 	public function handle_update_options_request() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: Nonce verification will happen in verify_request below.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce verification will happen in verify_request below.
 		if ( ! isset( $_POST['network_option_group'] ) || ! is_string( $_POST['network_option_group'] ) ) {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: Nonce verification will happen in verify_request below.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: Nonce verification will happen in verify_request below.
 		$option_group = sanitize_text_field( wp_unslash( $_POST['network_option_group'] ) );
 
 		if ( empty( $option_group ) ) {
@@ -123,17 +123,17 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 			return;
 		}
 
-		// phpcs:disable WordPress.Security.***REMOVED*** -- Nonce verified via `verify_request()` above.
+		// phpcs:disable WordPress.Security.NonceVerification -- Nonce verified via `verify_request()` above.
 		foreach ( $whitelist_options as $option_name ) {
 			$value = null;
 			if ( isset( $_POST[ $option_name ] ) ) {
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: Adding sanitize_text_field around this will break the saving of settings because it expects a string: https://github.com/Yoast/wordpress-seo/issues/12440.
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Adding sanitize_text_field around this will break the saving of settings because it expects a string: https://github.com/Yoast/wordpress-seo/issues/12440.
 				$value = wp_unslash( $_POST[ $option_name ] );
 			}
 
 			WPSEO_Options::update_site_option( $option_name, $value );
 		}
-		// phpcs:enable WordPress.Security.***REMOVED***
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		$settings_errors = get_settings_errors();
 		if ( empty( $settings_errors ) ) {
@@ -153,7 +153,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 
 		$option_group = 'wpseo_ms';
 
-		// phpcs:ignore WordPress.Security.***REMOVED*** -- Nonce verified via `verify_request()` above.
+		// phpcs:ignore WordPress.Security.NonceVerification -- Nonce verified via `verify_request()` above.
 		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0;
 		if ( ! $site_id ) {
 			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );

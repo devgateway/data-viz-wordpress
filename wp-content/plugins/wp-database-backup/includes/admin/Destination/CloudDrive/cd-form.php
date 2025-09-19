@@ -15,7 +15,7 @@ if ( true === isset( $_POST['wpdb_cd_s3'] ) && 'Y' === $_POST['wpdb_cd_s3'] ) {
 	if ( ! isset( $_POST['wpdbbackup_update_cd_setting'] ) ) {
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
-	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_cd_setting'] ), 'wpdbbackup-update-cd-setting' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_cd_setting'] ), 'wpdbbackup-update-cd-setting' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
 
@@ -68,7 +68,7 @@ if(!empty($wpdb_clouddrive_token))
 					<label class="col-sm-2" for="wpdb_clouddrive_token"><?php echo esc_html__('BackupforWP Cloud Backup API Token', 'wpdbbkp') ?></label>
 					<div class="col-sm-6">
 
-						<input type="text" id="wpdb_clouddrive_token" class="form-control" name="wpdb_clouddrive_token" value="<?php echo esc_html( get_option( 'wpdb_clouddrive_token' ) ); ?>" size="25" placeholder="<?php esc_attr_e('***REMOVED***','wpdbbkp');?>">
+						<input type="text" id="wpdb_clouddrive_token" class="form-control" name="wpdb_clouddrive_token" value="<?php echo esc_html( get_option( 'wpdb_clouddrive_token' ) ); ?>" size="25" placeholder="<?php esc_attr_e('26b18a624d2f5e01324bc81f90cfff63ba493bc15f00d790729fb437e90f54ea','wpdbbkp');?>">
 						<a href="https://app.backupforwp.com/" target="_blank"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
 					</div>
 				</div>

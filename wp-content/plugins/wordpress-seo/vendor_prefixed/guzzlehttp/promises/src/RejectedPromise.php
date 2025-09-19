@@ -11,7 +11,7 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
  *
  * @final
  */
-class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+class RejectedPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
 {
     private $reason;
     /**
@@ -20,11 +20,11 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     public function __construct($reason)
     {
         if (\is_object($reason) && \method_exists($reason, 'then')) {
-            throw new \InvalidArgumentException('You cannot create a ***REMOVED*** with a promise.');
+            throw new \InvalidArgumentException('You cannot create a RejectedPromise with a promise.');
         }
         $this->reason = $reason;
     }
-    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         // If there's no onRejected callback then just return self.
         if (!$onRejected) {
@@ -46,7 +46,7 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         });
         return $p;
     }
-    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->then(null, $onRejected);
     }
@@ -63,12 +63,12 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     }
     public function resolve($value) : void
     {
-        throw new \***REMOVED***('Cannot resolve a rejected promise');
+        throw new \LogicException('Cannot resolve a rejected promise');
     }
     public function reject($reason) : void
     {
         if ($reason !== $this->reason) {
-            throw new \***REMOVED***('Cannot reject a rejected promise');
+            throw new \LogicException('Cannot reject a rejected promise');
         }
     }
     public function cancel() : void

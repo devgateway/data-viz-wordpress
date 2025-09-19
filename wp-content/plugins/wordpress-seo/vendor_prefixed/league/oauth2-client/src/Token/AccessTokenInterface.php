@@ -14,10 +14,10 @@
  */
 namespace YoastSEO_Vendor\League\OAuth2\Client\Token;
 
-use ***REMOVED***;
-use ***REMOVED***;
-use ***REMOVED***;
-interface ***REMOVED*** extends \***REMOVED***
+use JsonSerializable;
+use ReturnTypeWillChange;
+use RuntimeException;
+interface AccessTokenInterface extends \JsonSerializable
 {
     /**
      * Returns the access token string of this instance.
@@ -30,7 +30,7 @@ interface ***REMOVED*** extends \***REMOVED***
      *
      * @return string|null
      */
-    public function ***REMOVED***();
+    public function getRefreshToken();
     /**
      * Returns the expiration timestamp in seconds, if defined.
      *
@@ -41,7 +41,7 @@ interface ***REMOVED*** extends \***REMOVED***
      * Checks if this token has expired.
      *
      * @return boolean true if the token has expired, false otherwise.
-     * @throws ***REMOVED*** if 'expires' is not set on the token.
+     * @throws RuntimeException if 'expires' is not set on the token.
      */
     public function hasExpired();
     /**
@@ -51,7 +51,7 @@ interface ***REMOVED*** extends \***REMOVED***
      */
     public function getValues();
     /**
-     * Returns a string ***REMOVED*** of the access token
+     * Returns a string representation of the access token
      *
      * @return string
      */
@@ -62,6 +62,6 @@ interface ***REMOVED*** extends \***REMOVED***
      *
      * @return array
      */
-    #[***REMOVED***]
+    #[ReturnTypeWillChange]
     public function jsonSerialize();
 }

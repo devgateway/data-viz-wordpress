@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Header
- * Slug: ***REMOVED***/header
+ * Slug: twentytwentyfive/header
  * Categories: header
  * Block Types: core/template-part/header
  * Description: Site header with site title and navigation.
@@ -16,12 +16,12 @@
 <div class="wp-block-group alignfull">
 	<!-- wp:group {"layout":{"type":"constrained"}} -->
 	<div class="wp-block-group">
-		<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap","***REMOVED***":"space-between"}} -->
+		<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
 		<div class="wp-block-group alignwide" style="padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30)">
 			<!-- wp:site-title {"level":0} /-->
-			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","flexWrap":"nowrap","***REMOVED***":"right"}} -->
+			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right"}} -->
 			<div class="wp-block-group">
-				<!-- wp:navigation {"overlayBackgroundColor":"base","***REMOVED***":"contrast","layout":{"type":"flex","***REMOVED***":"right","flexWrap":"wrap"}} /-->
+				<!-- wp:navigation {"overlayBackgroundColor":"base","overlayTextColor":"contrast","layout":{"type":"flex","justifyContent":"right","flexWrap":"wrap"}} /-->
 			</div>
 			<!-- /wp:group -->
 		</div>

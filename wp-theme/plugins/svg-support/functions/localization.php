@@ -1,6 +1,6 @@
 <?php
 /**
- * ***REMOVED*** / LOCALIZATION
+ * INTERNATIONALIZATION / LOCALIZATION
  */
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly

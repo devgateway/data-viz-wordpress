@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO;
 
 use Throwable;
 use WP_CLI;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class that manages loading integrations if and only if all their conditionals are met.
@@ -49,16 +49,16 @@ class Loader {
 	/**
 	 * The dependency injection container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
 	/**
 	 * Loader constructor.
 	 *
-	 * @param ***REMOVED*** $container The dependency injection container.
+	 * @param ContainerInterface $container The dependency injection container.
 	 */
-	public function __construct( ***REMOVED*** $container ) {
+	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
 	}
 
@@ -251,7 +251,7 @@ class Loader {
 		// In production environments do not fatal if the class does not exist but log and fail gracefully.
 		if ( \YOAST_ENVIRONMENT === 'production' && ! \class_exists( $loadable_class ) ) {
 			if ( \defined( 'WP_DEBUG' ) && \WP_DEBUG ) {
-				// phpcs:ignore WordPress.PHP.***REMOVED***.error_log_error_log
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				\error_log(
 					\sprintf(
 						/* translators: %1$s expands to Yoast SEO, %2$s expands to the name of the class that could not be found. */
@@ -291,7 +291,7 @@ class Loader {
 			// In production environments do not fatal if the class could not be constructed but log and fail gracefully.
 			if ( \YOAST_ENVIRONMENT === 'production' ) {
 				if ( \defined( 'WP_DEBUG' ) && \WP_DEBUG ) {
-					// phpcs:ignore WordPress.PHP.***REMOVED***.error_log_error_log
+					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 					\error_log( $e->getMessage() );
 				}
 				return null;

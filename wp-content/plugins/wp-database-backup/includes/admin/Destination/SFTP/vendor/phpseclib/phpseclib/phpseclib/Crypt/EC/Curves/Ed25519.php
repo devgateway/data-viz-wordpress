@@ -12,12 +12,12 @@
 
 namespace phpseclib3\Crypt\EC\Curves;
 
-use phpseclib3\Crypt\EC\BaseCurves\***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards;
 use phpseclib3\Crypt\Hash;
 use phpseclib3\Crypt\Random;
 use phpseclib3\Math\BigInteger;
 
-class Ed25519 extends ***REMOVED***
+class Ed25519 extends TwistedEdwards
 {
     const HASH = 'sha512';
     /*
@@ -36,7 +36,7 @@ class Ed25519 extends ***REMOVED***
     {
         // 2^255 - 19
         $this->setModulo(new BigInteger('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFED', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             // -1
             new BigInteger('7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEC', 16), // a
             // -121665/121666
@@ -44,7 +44,7 @@ class Ed25519 extends ***REMOVED***
         );
         $this->setBasePoint(
             new BigInteger('216936D3CD6E53FEC0A4E231FDD6DC5C692CC7609525A7B2C9562D608F25D51A', 16),
-            new BigInteger('***REMOVED***', 16)
+            new BigInteger('6666666666666666666666666666666666666666666666666666666666666658', 16)
         );
         $this->setOrder(new BigInteger('1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED', 16));
         // algorithm 14.47 from http://cacr.uwaterloo.ca/hac/about/chap14.pdf#page=16
@@ -114,7 +114,7 @@ class Ed25519 extends ***REMOVED***
         $x2 = $u->divide($v);
         if ($x2->equals($this->zero)) {
             if ($sign) {
-                throw new \***REMOVED***('Unable to recover X coordinate (x2 = 0)');
+                throw new \RuntimeException('Unable to recover X coordinate (x2 = 0)');
             }
             return clone $this->zero;
         }
@@ -138,7 +138,7 @@ class Ed25519 extends ***REMOVED***
             $temp = $this->two->pow($temp);
             $x = $x->multiply($temp);
             if (!$x->multiply($x)->subtract($x2)->equals($this->zero)) {
-                throw new \***REMOVED***('Unable to recover X coordinate');
+                throw new \RuntimeException('Unable to recover X coordinate');
             }
         }
         if ($x->isOdd() != $sign) {
@@ -161,7 +161,7 @@ class Ed25519 extends ***REMOVED***
     public function extractSecret($str)
     {
         if (strlen($str) != 32) {
-            throw new \***REMOVED***('Private Key should be 32-bytes long');
+            throw new \LengthException('Private Key should be 32-bytes long');
         }
         // 1.  Hash the 32-byte private key using SHA-512, storing the digest in
         //     a 64-octet large buffer, denoted h.  Only the lower 32 bytes are
@@ -224,7 +224,7 @@ class Ed25519 extends ***REMOVED***
      *
      * @return \phpseclib3\Math\PrimeField\Integer[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToInternal(array $p)
     {
         if (empty($p)) {
             return [clone $this->zero, clone $this->one, clone $this->one, clone $this->zero];
@@ -248,7 +248,7 @@ class Ed25519 extends ***REMOVED***
     public function doublePoint(array $p)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
 
         if (!count($p)) {
@@ -256,7 +256,7 @@ class Ed25519 extends ***REMOVED***
         }
 
         if (!isset($p[2])) {
-            throw new \***REMOVED***('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
+            throw new \RuntimeException('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
         }
 
         // from https://tools.ietf.org/html/rfc8032#page-12
@@ -288,7 +288,7 @@ class Ed25519 extends ***REMOVED***
     public function addPoint(array $p, array $q)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
 
         if (!count($p) || !count($q)) {
@@ -302,7 +302,7 @@ class Ed25519 extends ***REMOVED***
         }
 
         if (!isset($p[2]) || !isset($q[2])) {
-            throw new \***REMOVED***('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
+            throw new \RuntimeException('Affine coordinates need to be manually converted to "Jacobi" coordinates or vice versa');
         }
 
         if ($p[0]->equals($q[0])) {

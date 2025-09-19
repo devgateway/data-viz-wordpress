@@ -129,12 +129,12 @@ add_filter( 'cptui_get_tabs', 'cptui_tools_tabs', 10, 2 );
 function cptui_tools() {
 
 	$tab = 'post_types';
-	if ( ! empty( $_GET ) ) { // phpcs:ignore WordPress.Security.***REMOVED***
-		if ( ! empty( $_GET['action'] ) && 'taxonomies' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.***REMOVED***
+	if ( ! empty( $_GET ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( ! empty( $_GET['action'] ) && 'taxonomies' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$tab = 'taxonomies';
-		} elseif ( ! empty( $_GET['action'] ) && 'get_code' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.***REMOVED***
+		} elseif ( ! empty( $_GET['action'] ) && 'get_code' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$tab = 'get_code';
-		} elseif ( ! empty( $_GET['action'] ) && 'debuginfo' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.***REMOVED***
+		} elseif ( ! empty( $_GET['action'] ) && 'debuginfo' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$tab = 'debuginfo';
 		}
 	}
@@ -369,7 +369,7 @@ function cptui_render_posttypes_taxonomies_section() {
 		?>
 	</p>
 	<table class="form-table cptui-table">
-		<?php if ( ! empty( $_GET ) && empty( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED*** ?>
+		<?php if ( ! empty( $_GET ) && empty( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification ?>
 			<tr>
 				<td class="outer">
 					<h2><label for="cptui_post_import"><?php esc_html_e( 'Import Post Types', 'custom-post-type-ui' ); ?></label></h2>
@@ -413,7 +413,7 @@ function cptui_render_posttypes_taxonomies_section() {
 					</p>
 				</td>
 			</tr>
-		<?php } elseif ( ! empty( $_GET ) && 'taxonomies' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.***REMOVED*** ?>
+		<?php } elseif ( ! empty( $_GET ) && 'taxonomies' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification ?>
 			<tr>
 				<td class="outer">
 					<h2><label for="cptui_tax_import"><?php esc_html_e( 'Import Taxonomies', 'custom-post-type-ui' ); ?></label></h2>
@@ -493,9 +493,9 @@ add_action( 'cptui_tools_sections', 'cptui_render_tools' );
  */
 function cptui_do_import_types_taxes() {
 	 // phpcs:ignore.
-	if ( ! empty( $_POST ) && // phpcs:ignore WordPress.Security.***REMOVED***
-		( ! empty( $_POST['cptui_post_import'] ) && isset( $_POST['cptui_post_import'] ) ) || // phpcs:ignore WordPress.Security.***REMOVED***
-		( ! empty( $_POST['cptui_tax_import'] ) && isset( $_POST['cptui_tax_import'] ) ) // phpcs:ignore WordPress.Security.***REMOVED***
+	if ( ! empty( $_POST ) && // phpcs:ignore WordPress.Security.NonceVerification
+		( ! empty( $_POST['cptui_post_import'] ) && isset( $_POST['cptui_post_import'] ) ) || // phpcs:ignore WordPress.Security.NonceVerification
+		( ! empty( $_POST['cptui_tax_import'] ) && isset( $_POST['cptui_tax_import'] ) ) // phpcs:ignore WordPress.Security.NonceVerification
 	) {
 		$data              = [];
 		$decoded_post_data = null;

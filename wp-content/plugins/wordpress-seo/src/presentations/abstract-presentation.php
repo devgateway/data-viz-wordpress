@@ -72,7 +72,7 @@ class Abstract_Presentation {
 	/**
 	 * Magic isset for ensuring methods that have a generator are recognised.
 	 *
-	 * @***REMOVED*** Wrapper method.
+	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @param string $name The property to get.
 	 *
@@ -85,7 +85,7 @@ class Abstract_Presentation {
 	/**
 	 * Returns `true` if this class is a prototype.
 	 *
-	 * @***REMOVED*** Wrapper method.
+	 * @codeCoverageIgnore Wrapper method.
 	 *
 	 * @return bool If this class is a prototype or not.
 	 */

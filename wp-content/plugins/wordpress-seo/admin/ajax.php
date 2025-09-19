@@ -117,7 +117,7 @@ function wpseo_save_what( $what ) {
 	}
 
 	$new = sanitize_text_field( wp_unslash( $_POST['new_value'] ) );
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are casting the unsafe value to an integer.
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting the unsafe value to an integer.
 	$post_id  = (int) wp_unslash( $_POST['wpseo_post_id'] );
 	$original = sanitize_text_field( wp_unslash( $_POST['existing_value'] ) );
 
@@ -292,7 +292,7 @@ function ajax_get_keyword_usage_and_post_types() {
 		exit( '-1' );
 	}
 
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- We are casting to an integer.
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
 	$post_id = (int) wp_unslash( $_POST['post_id'] );
 
 	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {
@@ -336,7 +336,7 @@ function ajax_get_term_keyword_usage() {
 		wp_die( -1 );
 	}
 
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are casting the unsafe input to an integer.
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting the unsafe input to an integer.
 	$post_id = (int) wp_unslash( $_POST['post_id'] );
 
 	if ( $post_id === 0 ) {
@@ -403,7 +403,7 @@ function ajax_get_keyword_usage() {
 		exit( '-1' );
 	}
 
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- We are casting to an integer.
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We are casting to an integer.
 	$post_id = (int) wp_unslash( $_POST['post_id'] );
 
 	if ( $post_id === 0 || ! current_user_can( 'edit_post', $post_id ) ) {

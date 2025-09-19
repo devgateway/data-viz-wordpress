@@ -35,7 +35,7 @@ use phpseclib3\Math\PrimeField\Integer as PrimeInteger;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-class ***REMOVED*** extends Base
+class TwistedEdwards extends Base
 {
     /**
      * The modulo
@@ -101,10 +101,10 @@ class ***REMOVED*** extends Base
     /**
      * Set coefficients a and b
      */
-    public function ***REMOVED***(BigInteger $a, BigInteger $d)
+    public function setCoefficients(BigInteger $a, BigInteger $d)
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         $this->a = $this->factory->newInteger($a);
         $this->d = $this->factory->newInteger($d);
@@ -122,7 +122,7 @@ class ***REMOVED*** extends Base
                 throw new \UnexpectedValueException('Argument 2 passed to Prime::setBasePoint() must be an instance of either BigInteger or PrimeField\Integer');
         }
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         $this->p = [
             $x instanceof BigInteger ? $this->factory->newInteger($x) : $x,
@@ -158,11 +158,11 @@ class ***REMOVED*** extends Base
     public function getBasePoint()
     {
         if (!isset($this->factory)) {
-            throw new \***REMOVED***('setModulo needs to be called before this method');
+            throw new \RuntimeException('setModulo needs to be called before this method');
         }
         /*
         if (!isset($this->p)) {
-            throw new \***REMOVED***('setBasePoint needs to be called before this method');
+            throw new \RuntimeException('setBasePoint needs to be called before this method');
         }
         */
         return $this->p;
@@ -173,7 +173,7 @@ class ***REMOVED*** extends Base
      *
      * @return \phpseclib3\Math\PrimeField\Integer[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToAffine(array $p)
     {
         if (!isset($p[2])) {
             return $p;

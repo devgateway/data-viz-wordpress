@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: About
- * Slug: ***REMOVED***/page-about-business
+ * Slug: twentytwentyfour/page-about-business
  * Categories: twentytwentyfour_page
  * Keywords: starter
  * Block Types: core/post-content
@@ -11,10 +11,10 @@
  */
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/text-title-left-image-right"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/text-project-details"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/cta-services-image-left"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/team-4-col"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-title-left-image-right"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-project-details"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/cta-services-image-left"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/team-4-col"} /-->
 <!-- wp:pattern {"slug":"clients-section"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/text-faq"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/cta-content-image-on-right"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-faq"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/cta-content-image-on-right"} /-->

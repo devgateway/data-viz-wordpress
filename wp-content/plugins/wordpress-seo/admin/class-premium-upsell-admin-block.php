@@ -114,7 +114,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		if ( YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$bf_label   = esc_html__( 'BLACK FRIDAY', 'wordpress-seo' );
 			$sale_label = esc_html__( '30% OFF', 'wordpress-seo' );
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Already escaped above.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped above.
 			echo "<div class='black-friday-container'><span>$sale_label</span> <span style='margin-left: auto;'>$bf_label</span> </div>";
 		}
 
@@ -127,10 +127,10 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			)
 		. '</h2>';
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Correctly escaped in $this->get_argument_html() method.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $this->get_argument_html() method.
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Correctly escaped in $upgrade_button and $button_text above.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $upgrade_button and $button_text above.
 		echo '<p>' . $upgrade_button . '</p>';
 		echo '</div>';
 

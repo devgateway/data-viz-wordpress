@@ -1,6 +1,6 @@
 {
   "name": "@devgateway/dvz-wp-commons",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "private": false,
   "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
   "author": "Sebastian Dimunzio",
@@ -33,7 +33,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "***REMOVED***": {
+  "devDependencies": {
     "@babel/runtime": "^7.27.0",
     "@colbyfayock/semantic-release-pnpm": "^1.2.2",
     "@semantic-release/changelog": "^6.0.3",
@@ -68,7 +68,7 @@
     "lodash.isempty": "^4.4.0",
     "papaparse": "^5.5.2"
   },
-  "***REMOVED***": {
+  "peerDependencies": {
     "react": "18.3.1"
   }
 }

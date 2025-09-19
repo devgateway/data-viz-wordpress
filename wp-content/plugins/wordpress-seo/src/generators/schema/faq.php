@@ -89,16 +89,16 @@ class FAQ extends Abstract_Schema_Piece {
 			'url'            => $url,
 			'name'           => $this->helpers->schema->html->smart_strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
-			'***REMOVED***' => $this->add_accepted_answer_property( $question ),
+			'acceptedAnswer' => $this->add_accepted_answer_property( $question ),
 		];
 
 		return $this->helpers->schema->language->add_piece_language( $data );
 	}
 
 	/**
-	 * Adds the Questions `***REMOVED***` property.
+	 * Adds the Questions `acceptedAnswer` property.
 	 *
-	 * @param array $question The question to add the ***REMOVED*** to.
+	 * @param array $question The question to add the acceptedAnswer to.
 	 *
 	 * @return array Schema.org Question piece.
 	 */

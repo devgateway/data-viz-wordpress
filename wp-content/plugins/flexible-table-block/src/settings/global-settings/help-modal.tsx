@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import type { Dispatch, ***REMOVED*** } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
 /**
  * WordPress dependencies
@@ -18,15 +18,15 @@ import {
 import { isAppleOS } from '@wordpress/keycodes';
 
 type Props = {
-	***REMOVED***: Dispatch< ***REMOVED***< boolean > >;
+	setIsHelpModalOpen: Dispatch< SetStateAction< boolean > >;
 };
 
-export default function HelpModal( { ***REMOVED*** }: Props ) {
+export default function HelpModal( { setIsHelpModalOpen }: Props ) {
 	return (
 		<Modal
 			title={ __( 'Flexible Table Block help', 'flexible-table-block' ) }
 			className="ftb-global-help-modal"
-			***REMOVED***={ () => ***REMOVED***( false ) }
+			onRequestClose={ () => setIsHelpModalOpen( false ) }
 		>
 			<VStack spacing={ 4 }>
 				<VStack>
@@ -80,7 +80,7 @@ export default function HelpModal( { ***REMOVED*** }: Props ) {
 					<Text as="p">
 						{ createInterpolateElement(
 							__(
-								'Refer to <Link>this page</Link> for the ***REMOVED*** of each attribute.',
+								'Refer to <Link>this page</Link> for the specifications of each attribute.',
 								'flexible-table-block'
 							),
 							{

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * NameConstraints
  *
  * PHP version 5
  *
@@ -16,25 +16,25 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * NameConstraints
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class NameConstraints
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => [
+            'permittedSubtrees' => [
                 'constant' => 0,
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP,
-            '***REMOVED***' => [
+            ] + GeneralSubtrees::MAP,
+            'excludedSubtrees' => [
                 'constant' => 1,
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP
+            ] + GeneralSubtrees::MAP
         ]
     ];
 }

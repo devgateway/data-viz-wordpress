@@ -36,7 +36,7 @@
 
     $button_id = "fs_disconnect_button_{$fs->get_id()}";
 
-    $website_link = sprintf( '<a href="#" tabindex="-1">%s</a>', fs_strip_url_protocol( ***REMOVED***( Freemius::get_unfiltered_site_url() ) ) );
+    $website_link = sprintf( '<a href="#" tabindex="-1">%s</a>', fs_strip_url_protocol( untrailingslashit( Freemius::get_unfiltered_site_url() ) ) );
 ?>
 <script type="text/javascript">
     // Wrap in a IFFE to prevent leaking global variables.
@@ -46,7 +46,7 @@
 
             $( '#<?php echo $button_id ?>' ).on( 'click', function( e ) {
                 // Prevent the form being submitted.
-                e.***REMOVED***();
+                e.preventDefault();
 
                 $( document.body ).append( $modal );
                 $modal.show();

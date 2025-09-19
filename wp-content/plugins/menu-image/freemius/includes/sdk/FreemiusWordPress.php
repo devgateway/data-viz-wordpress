@@ -6,7 +6,7 @@
 	 * not use this file except in compliance with the License. You may obtain
 	 * a copy of the License at
 	 *
-	 *     http://***REMOVED***.com/licenses/gpl-v2/
+	 *     http://choosealicense.com/licenses/gpl-v2/
 	 *
 	 * Unless required by applicable law or agreed to in writing, software
 	 * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -105,14 +105,14 @@
 			parent::Init( $pScope, $pID, $pPublic, $pSecret, $pSandbox );
 		}
 
-		public static function GetUrl( $***REMOVED*** = '', $pIsSandbox = false ) {
+		public static function GetUrl( $pCanonizedPath = '', $pIsSandbox = false ) {
 			$address = ( $pIsSandbox ? FS_API__SANDBOX_ADDRESS : FS_API__ADDRESS );
 
 			if ( ':' === $address[0] ) {
 				$address = self::$_protocol . $address;
 			}
 
-			return $address . $***REMOVED***;
+			return $address . $pCanonizedPath;
 		}
 
 		#----------------------------------------------------------------------------------
@@ -265,7 +265,7 @@
 				'date'          => $date,
 				'authorization' => $auth_type . ' ' . $this->_id . ':' .
 				                   $this->_public . ':' .
-				                   self::***REMOVED***( hash_hmac(
+				                   self::Base64UrlEncode( hash_hmac(
 					                   'sha256', $string_to_sign, $this->_secret
 				                   ) )
 			);
@@ -310,7 +310,7 @@
 		 *
 		 * @return mixed
 		 */
-		private static function ***REMOVED***( $pUrl, &$pWPRemoteArgs ) {
+		private static function ExecuteRequest( $pUrl, &$pWPRemoteArgs ) {
             $bt = debug_backtrace();
 
 			$start = microtime( true );
@@ -375,7 +375,7 @@
 		}
 
 		/**
-		 * @param string        $***REMOVED***
+		 * @param string        $pCanonizedPath
 		 * @param string        $pMethod
 		 * @param array         $pParams
 		 * @param null|array    $pWPRemoteArgs
@@ -386,8 +386,8 @@
 		 *
 		 * @throws \Freemius_Exception
 		 */
-		private static function ***REMOVED***(
-			$***REMOVED***,
+		private static function MakeStaticRequest(
+			$pCanonizedPath,
 			$pMethod = 'GET',
 			$pParams = array(),
 			$pWPRemoteArgs = null,
@@ -430,9 +430,9 @@
                 }
 			}
 
-			$request_url = self::GetUrl( $***REMOVED***, $pIsSandbox );
+			$request_url = self::GetUrl( $pCanonizedPath, $pIsSandbox );
 
-			$resource = explode( '?', $***REMOVED*** );
+			$resource = explode( '?', $pCanonizedPath );
 
             if ( FS_SDK__HAS_CURL ) {
                 // Disable the 'Expect: 100-continue' behaviour. This causes cURL to wait
@@ -450,7 +450,7 @@
 				$pWPRemoteArgs = call_user_func( $pBeforeExecutionFunction, $resource[0], $pWPRemoteArgs );
 			}
 
-			$result = self::***REMOVED***( $request_url, $pWPRemoteArgs );
+			$result = self::ExecuteRequest( $request_url, $pWPRemoteArgs );
 
 			if ( is_wp_error( $result ) ) {
 				/**
@@ -479,10 +479,10 @@
 								 * 
 								 * @phpstan-ignore-next-line
 								 */
-								add_action( 'http_api_curl', 'Freemius_Api_WordPress::***REMOVED***', 10, 1 );
+								add_action( 'http_api_curl', 'Freemius_Api_WordPress::CurlResolveToIPv4', 10, 1 );
 
 								// Re-run request.
-								$result = self::***REMOVED***( $request_url, $pWPRemoteArgs );
+								$result = self::ExecuteRequest( $request_url, $pWPRemoteArgs );
 							}
 						}
 					}
@@ -531,7 +531,7 @@
 		 * developers want to do fancier things or use something other than wp_remote_request()
 		 * to make the request.
 		 *
-		 * @param string     $***REMOVED*** The URL to make the request to
+		 * @param string     $pCanonizedPath The URL to make the request to
 		 * @param string     $pMethod        HTTP method
 		 * @param array      $pParams        The parameters to use for the POST body
 		 * @param null|array $pWPRemoteArgs  wp_remote_request options.
@@ -541,18 +541,18 @@
 		 * @throws Freemius_Exception
 		 */
 		public function MakeRequest(
-			$***REMOVED***,
+			$pCanonizedPath,
 			$pMethod = 'GET',
 			$pParams = array(),
 			$pWPRemoteArgs = null
 		) {
-			$resource = explode( '?', $***REMOVED*** );
+			$resource = explode( '?', $pCanonizedPath );
 
 			// Only sign request if not ping.json connectivity test.
 			$sign_request = ( '/v1/ping.json' !== strtolower( substr( $resource[0], - strlen( '/v1/ping.json' ) ) ) );
 
-			return self::***REMOVED***(
-				$***REMOVED***,
+			return self::MakeStaticRequest(
+				$pCanonizedPath,
 				$pMethod,
 				$pParams,
 				$pWPRemoteArgs,
@@ -569,9 +569,9 @@
 		 * @return resource $handle A cURL handle returned by curl_init() with CURLOPT_IPRESOLVE set to
 		 *                  CURL_IPRESOLVE_V4
 		 *
-		 * @link https://gist.github.com/golderweb/***REMOVED***
+		 * @link https://gist.github.com/golderweb/3a2aaec2d56125cc004e
 		 */
-		static function ***REMOVED***( $handle ) {
+		static function CurlResolveToIPv4( $handle ) {
 			curl_setopt( $handle, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
 
 			return $handle;
@@ -603,7 +603,7 @@
 		 */
 		public static function Ping() {
 			try {
-				$result = self::***REMOVED***( '/v' . FS_API__VERSION . '/ping.json' );
+				$result = self::MakeStaticRequest( '/v' . FS_API__VERSION . '/ping.json' );
 			} catch ( Freemius_Exception $e ) {
 				// Map to error object.
 				$result = (object) $e->getResult();
@@ -700,7 +700,7 @@
 					'error' => (object) array(
 						'code'    => $pError->get_error_code(),
 						'message' => $pError->get_error_message(),
-						'type'    => '***REMOVED***',
+						'type'    => 'WPRemoteException',
 					),
 				) );
 			}
@@ -732,7 +732,7 @@
 		private static function ThrowSquidAclException( $pResult = '' ) {
 			throw new Freemius_Exception( array(
 				'error' => (object) array(
-					'type'    => '***REMOVED***',
+					'type'    => 'SquidCacheBlock',
 					'message' => $pResult,
 					'code'    => 'squid_cache_block',
 					'http'    => 402

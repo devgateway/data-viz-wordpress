@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -283,7 +283,7 @@ msgstr "Reddit-ikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:644
 msgid "Privacy Icon"
-msgstr "***REMOVED***"
+msgstr "Integritetsikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:643
 msgid "Printer Icon"
@@ -636,7 +636,7 @@ msgstr "Ikon för kodstandarder"
 
 #: includes/fields/class-acf-field-icon_picker.php:472
 msgid "Cloud Upload Icon"
-msgstr "Ikon för ***REMOVED***"
+msgstr "Ikon för molnuppladdning"
 
 #: includes/fields/class-acf-field-icon_picker.php:471
 msgid "Cloud Saved Icon"
@@ -659,7 +659,7 @@ msgid "Button Icon"
 msgstr "Knappikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr "Ikon för affärsperson"
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -696,7 +696,7 @@ msgstr "bbPress-ikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:439
 msgid "Activity Icon"
-msgstr "***REMOVED***"
+msgstr "Aktivitetsikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:438
 msgid "Book (alt) Icon"
@@ -789,7 +789,7 @@ msgstr "Alternativ webbplatsikon"
 #: includes/admin/views/options-page-preview.php:26
 msgid "Upgrade to ACF PRO to create options pages in just a few clicks"
 msgstr ""
-"Uppgradera till ACF PRO för att skapa ***REMOVED*** med bara några få klick"
+"Uppgradera till ACF PRO för att skapa alternativsidor med bara några få klick"
 
 #: includes/ajax/class-acf-ajax-query-users.php:24
 msgid "Invalid request args."
@@ -882,7 +882,7 @@ msgstr "Twitter-ikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:693
 msgid "Trash Icon"
-msgstr "***REMOVED***"
+msgstr "Papperskorgsikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:692
 msgid "Translation Icon"
@@ -1179,7 +1179,7 @@ msgstr "Ta bort länk-ikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:531
 msgid "Underline Icon"
-msgstr "***REMOVED***"
+msgstr "Understrykningsikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:529
 msgid "Text Color Icon"
@@ -1191,11 +1191,11 @@ msgstr "Tabellikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:527
 msgid "Strikethrough Icon"
-msgstr "Ikon för ***REMOVED***"
+msgstr "Ikon för genomstrykning"
 
 #: includes/fields/class-acf-field-icon_picker.php:526
 msgid "Spellcheck Icon"
-msgstr "Ikon för ***REMOVED***"
+msgstr "Ikon för stavningskontroll"
 
 #: includes/fields/class-acf-field-icon_picker.php:524
 msgid "Remove Formatting Icon"
@@ -1281,7 +1281,7 @@ msgstr "Avfärda-ikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:494
 msgid "Desktop Icon"
-msgstr "***REMOVED***"
+msgstr "Skrivbordsikon"
 
 #: includes/fields/class-acf-field-icon_picker.php:487
 msgid "Dashboard Icon"
@@ -1523,7 +1523,7 @@ msgstr "URL till ikonen du vill använda, eller SVG som data-URI"
 
 #: includes/fields/class-acf-field-icon_picker.php:194
 msgid "Browse Media Library"
-msgstr "Bläddra i ***REMOVED***"
+msgstr "Bläddra i mediabiblioteket"
 
 #: includes/fields/class-acf-field-icon_picker.php:185
 msgid "The currently selected image preview"
@@ -1531,7 +1531,7 @@ msgstr "Förhandsgranskning av den aktuella valda bilden"
 
 #: includes/fields/class-acf-field-icon_picker.php:176
 msgid "Click to change the icon in the Media Library"
-msgstr "Klicka för att ändra ikonen i ***REMOVED***"
+msgstr "Klicka för att ändra ikonen i mediabiblioteket"
 
 #: includes/fields/class-acf-field-icon_picker.php:142
 msgid "Search icons..."
@@ -1539,7 +1539,7 @@ msgstr "Sök ikoner …"
 
 #: includes/fields/class-acf-field-icon_picker.php:53
 msgid "Media Library"
-msgstr "***REMOVED***"
+msgstr "Mediabibliotek"
 
 #: includes/fields/class-acf-field-icon_picker.php:49
 msgid "Dashicons"
@@ -1613,19 +1613,19 @@ msgstr "REST API-format"
 
 #: includes/class-acf-site-health.php:596
 msgid "Registered Options Pages (PHP)"
-msgstr "Registrerade ***REMOVED*** (PHP)"
+msgstr "Registrerade alternativsidor (PHP)"
 
 #: includes/class-acf-site-health.php:582
 msgid "Registered Options Pages (JSON)"
-msgstr "Registrerade ***REMOVED*** (JSON)"
+msgstr "Registrerade alternativsidor (JSON)"
 
 #: includes/class-acf-site-health.php:577
 msgid "Registered Options Pages (UI)"
-msgstr "Registrerade ***REMOVED*** (UI)"
+msgstr "Registrerade alternativsidor (UI)"
 
 #: includes/class-acf-site-health.php:547
 msgid "Options Pages UI Enabled"
-msgstr "Användargränssnitt för ***REMOVED*** aktiverat"
+msgstr "Användargränssnitt för alternativsidor aktiverat"
 
 #: includes/class-acf-site-health.php:539
 msgid "Registered Taxonomies (JSON)"
@@ -1701,7 +1701,7 @@ msgstr "WordPress-version"
 
 #: includes/class-acf-site-health.php:321
 msgid "Subscription Expiry Date"
-msgstr "***REMOVED*** utgångsdatum"
+msgstr "Prenumerationens utgångsdatum"
 
 #: includes/class-acf-site-health.php:313
 msgid "License Status"
@@ -1911,7 +1911,7 @@ msgstr ""
 
 #: includes/admin/admin-internal-post-type-list.php:231
 msgid "Please activate your ACF PRO license to edit this options page."
-msgstr "Aktivera din ACF PRO-licens för att redigera denna ***REMOVED***."
+msgstr "Aktivera din ACF PRO-licens för att redigera denna alternativsida."
 
 #: includes/api/api-template.php:385 includes/api/api-template.php:439
 msgid ""
@@ -1972,7 +1972,7 @@ msgstr "Hantera licens"
 
 #: includes/admin/views/acf-field-group/options.php:102
 msgid "'High' position not supported in the Block Editor"
-msgstr "Positionen ”Hög” stöds inte i ***REMOVED***"
+msgstr "Positionen ”Hög” stöds inte i blockredigeraren"
 
 #: includes/admin/views/options-page-preview.php:30
 msgid "Upgrade to ACF PRO"
@@ -1988,7 +1988,7 @@ msgstr ""
 
 #: includes/admin/views/global/header.php:35
 msgid "Add Options Page"
-msgstr "Lägg till ***REMOVED***"
+msgstr "Lägg till alternativsida"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:708
 msgid "In the editor used as the placeholder of the title."
@@ -2009,7 +2009,7 @@ msgstr "(Duplicerad från %s)"
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:289
 msgid "Select Options Pages"
-msgstr "﻿Välj ***REMOVED***"
+msgstr "﻿Välj alternativsidor"
 
 #: includes/admin/post-types/admin-taxonomy.php:107
 msgid "Duplicate taxonomy"
@@ -2184,7 +2184,7 @@ msgid ""
 "Flexible Content, Clone, and Gallery."
 msgstr ""
 "Snabba upp ditt arbetsflöde och utveckla bättre webbplatser med funktioner "
-"som ACF-block och ***REMOVED***, och sofistikerade fälttyper som "
+"som ACF-block och alternativsidor, och sofistikerade fälttyper som "
 "upprepning, flexibelt innehåll, klona och galleri."
 
 #: includes/admin/views/acf-field-group/pro-features.php:2
@@ -2238,7 +2238,7 @@ msgid ""
 "This taxonomy key is already in use by another taxonomy registered outside "
 "of ACF and cannot be used."
 msgstr ""
-"Denna ***REMOVED*** används redan av en annan taxonomi som är registrerad "
+"Denna taxonominyckel används redan av en annan taxonomi som är registrerad "
 "utanför ACF och kan inte användas."
 
 #: includes/post-types/class-acf-taxonomy.php:284
@@ -2246,7 +2246,7 @@ msgid ""
 "This taxonomy key is already in use by another taxonomy in ACF and cannot be "
 "used."
 msgstr ""
-"Denna ***REMOVED*** används redan av en annan taxonomi i ACF och kan inte "
+"Denna taxonominyckel används redan av en annan taxonomi i ACF och kan inte "
 "användas."
 
 #: includes/post-types/class-acf-taxonomy.php:256
@@ -2259,7 +2259,7 @@ msgstr ""
 
 #: includes/post-types/class-acf-taxonomy.php:251
 msgid "The taxonomy key must be under 32 characters."
-msgstr "***REMOVED*** måste vara under 32 tecken."
+msgstr "Taxonominyckeln måste vara under 32 tecken."
 
 #: includes/post-types/class-acf-taxonomy.php:99
 msgid "No Taxonomies found in Trash"
@@ -2392,7 +2392,7 @@ msgid ""
 "false, etc). Can be presented as a stylized switch or checkbox."
 msgstr ""
 "Ett reglage som låter dig välja ett av värdena 1 eller 0 (på eller av, sant "
-"eller falskt osv.). Kan presenteras som ett stiliserat ***REMOVED*** eller "
+"eller falskt osv.). Kan presenteras som ett stiliserat kontrollreglage eller "
 "kryssruta."
 
 #: includes/fields/class-acf-field-time_picker.php:24
@@ -2427,7 +2427,7 @@ msgstr ""
 
 #: includes/fields/class-acf-field-select.php:24
 msgid "A dropdown list with a selection of choices that you specify."
-msgstr "En ***REMOVED*** med ett urval av val som du anger."
+msgstr "En rullgardinslista med ett urval av val som du anger."
 
 #: includes/fields/class-acf-field-relationship.php:19
 msgid ""
@@ -2763,7 +2763,7 @@ msgstr ""
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1050
 #: includes/admin/views/acf-taxonomy/basic-settings.php:57
 msgid "Taxonomy Key"
-msgstr "***REMOVED***"
+msgstr "Taxonominyckel"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:931
 msgid "Select the type of permalink to use for this taxonomy."
@@ -2779,7 +2779,7 @@ msgstr "Visa adminkolumn"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:902
 msgid "Show the taxonomy in the quick/bulk edit panel."
-msgstr "Visa taxonomin i panelen för snabb-/***REMOVED***."
+msgstr "Visa taxonomin i panelen för snabb-/massredigering."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:901
 msgid "Quick Edit"
@@ -2846,7 +2846,7 @@ msgstr "En länk till en etikett"
 msgid "Describes a navigation link block variation used in the block editor."
 msgstr ""
 "Beskriver en blockvariant för navigeringslänkar som används i "
-"***REMOVED***."
+"blockredigeraren."
 
 #. translators: %s Singular form of taxonomy name
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:698
@@ -3193,7 +3193,7 @@ msgstr "Redigera etikett"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:197
 msgid "At the top of the editor screen when editing a term."
-msgstr "Överst i ***REMOVED*** när du redigerar en term."
+msgstr "Överst i redigeringsvyn när du redigerar en term."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:178
 msgid "All Tags"
@@ -3217,15 +3217,15 @@ msgstr "Aktiva taxonomier är aktiverade och registrerade med WordPress."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:115
 msgid "A descriptive summary of the taxonomy."
-msgstr "En beskrivande ***REMOVED*** av taxonomin."
+msgstr "En beskrivande sammanfattning av taxonomin."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:95
 msgid "A descriptive summary of the term."
-msgstr "En beskrivande ***REMOVED*** av termen."
+msgstr "En beskrivande sammanfattning av termen."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:94
 msgid "Term Description"
-msgstr "***REMOVED***"
+msgstr "Termbeskrivning"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:76
 msgid "Single word, no spaces. Underscores and dashes allowed."
@@ -3237,7 +3237,7 @@ msgstr "Termens slug"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:56
 msgid "The name of the default term."
-msgstr "***REMOVED*** namn."
+msgstr "Standardtermens namn."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:55
 msgid "Term Name"
@@ -3274,7 +3274,7 @@ msgid ""
 "Expand the functionality of WordPress beyond standard posts and pages with "
 "custom post types."
 msgstr ""
-"Utöka ***REMOVED*** i WordPress utöver vanliga inlägg och sidor med "
+"Utöka funktionaliteten i WordPress utöver vanliga inlägg och sidor med "
 "anpassade inläggstyper."
 
 #: includes/admin/views/acf-post-type/list-empty.php:12
@@ -3354,7 +3354,7 @@ msgstr "”Controller”-klass"
 #: includes/admin/views/acf-post-type/advanced-settings.php:1294
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1211
 msgid "The namespace part of the REST API URL."
-msgstr "***REMOVED*** av REST API-URL:en."
+msgstr "Namnrymdsdelen av REST API-URL:en."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1293
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1210
@@ -3376,7 +3376,7 @@ msgid ""
 "Exposes this post type in the REST API. Required to use the block editor."
 msgstr ""
 "Exponerar denna inläggstyp i REST API:t. Krävs för att använda "
-"***REMOVED***."
+"blockredigeraren."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1259
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1174
@@ -3604,7 +3604,7 @@ msgstr "Menyikon"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:778
 msgid "The position in the sidebar menu in the admin dashboard."
-msgstr "Positionen i ***REMOVED*** i adminpanelen."
+msgstr "Positionen i sidopanelsmenyn i adminpanelen."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:777
 msgid "Menu Position"
@@ -3895,7 +3895,7 @@ msgstr "Ta bort utvald bild"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:412
 msgid "As the button label when removing the featured image."
-msgstr "Som ***REMOVED*** vid borttagning av den utvalda bilden."
+msgstr "Som knappetiketten vid borttagning av den utvalda bilden."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:411
 msgid "Remove Featured Image"
@@ -3907,7 +3907,7 @@ msgstr "Ange utvald bild"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:397
 msgid "As the button label when setting the featured image."
-msgstr "Som ***REMOVED*** när den utvalda bilden anges."
+msgstr "Som knappetiketten när den utvalda bilden anges."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:396
 msgid "Set Featured Image"
@@ -3957,7 +3957,7 @@ msgstr ""
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:346
 msgid "Archives Nav Menu"
-msgstr "***REMOVED*** för arkiv"
+msgstr "Navigationsmeny för arkiv"
 
 #. translators: %s Singular form of post type name
 #: includes/admin/views/acf-post-type/advanced-settings.php:343
@@ -4061,7 +4061,7 @@ msgstr "Lägg till nytt inlägg"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:205
 msgid "At the top of the editor screen when adding a new item."
-msgstr "Överst i ***REMOVED*** när du lägger till ett nytt objekt."
+msgstr "Överst i redigeringsvyn när du lägger till ett nytt objekt."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:204
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:256
@@ -4118,7 +4118,7 @@ msgstr "Redigera inlägg"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:145
 msgid "At the top of the editor screen when editing an item."
-msgstr "Överst i ***REMOVED*** när du redigerar ett objekt."
+msgstr "Överst i redigeringsvyn när du redigerar ett objekt."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:144
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:196
@@ -4178,7 +4178,7 @@ msgstr "Aktiva inläggstyper är aktiverade och registrerade med WordPress."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:63
 msgid "A descriptive summary of the post type."
-msgstr "En beskrivande ***REMOVED*** av inläggstypen."
+msgstr "En beskrivande sammanfattning av inläggstypen."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:48
 msgid "Add Custom"
@@ -4268,10 +4268,10 @@ msgid ""
 msgstr ""
 "Följande kod kan användas för att registrera en lokal version av de valda "
 "objekten. Att lagra fältgrupper, inläggstyper eller taxonomier lokalt kan ge "
-"många fördelar, till exempel snabbare inläsningstider, ***REMOVED*** och "
+"många fördelar, till exempel snabbare inläsningstider, versionskontroll och "
 "dynamiska fält/inställningar. Kopiera och klistra in följande kod i ditt "
 "temas ”functions.php”-fil eller inkludera den i en extern fil, inaktivera "
-"eller ta sen bort objekten från ACF-***REMOVED***."
+"eller ta sen bort objekten från ACF-administrationen."
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:353
 msgid "Export - Generate PHP"
@@ -4315,7 +4315,7 @@ msgstr "Taxonomin %s uppdaterad"
 
 #: includes/admin/post-types/admin-taxonomy.php:56
 msgid "Taxonomy draft updated."
-msgstr "***REMOVED*** uppdaterat."
+msgstr "Taxonomiutkast uppdaterat."
 
 #: includes/admin/post-types/admin-taxonomy.php:55
 msgid "Taxonomy scheduled for."
@@ -4351,7 +4351,7 @@ msgstr ""
 msgid "Taxonomy synchronized."
 msgid_plural "%s taxonomies synchronized."
 msgstr[0] "Taxonomi synkroniserad."
-msgstr[1] "%s taxonomier ***REMOVED***."
+msgstr[1] "%s taxonomier synkroniserade."
 
 #. translators: %s number of taxonomies duplicated
 #: includes/admin/post-types/admin-taxonomies.php:326
@@ -4383,7 +4383,7 @@ msgstr "Termer"
 msgid "Post type synchronized."
 msgid_plural "%s post types synchronized."
 msgstr[0] "Inläggstyp synkroniserad."
-msgstr[1] "%s inläggstyper ***REMOVED***."
+msgstr[1] "%s inläggstyper synkroniserade."
 
 #. translators: %s number of post types duplicated
 #: includes/admin/post-types/admin-post-types.php:320
@@ -4693,7 +4693,7 @@ msgid ""
 "fields together, and then attach those fields to edit screens."
 msgstr ""
 "ACF samlar anpassade fält i <a href=\"%s\" target=\"_blank\">fältgrupper</a> "
-"och kopplar sedan dessa fält till ***REMOVED***."
+"och kopplar sedan dessa fält till redigeringsvyer."
 
 #: includes/admin/views/acf-field-group/list-empty.php:12
 msgid "Add Your First Field Group"
@@ -4704,7 +4704,7 @@ msgstr "Lägg till din första fältgrupp"
 #: includes/admin/views/global/navigation.php:86
 #: includes/admin/views/global/navigation.php:255
 msgid "Options Pages"
-msgstr "***REMOVED***"
+msgstr "Alternativsidor"
 
 #: includes/admin/views/acf-field-group/pro-features.php:54
 msgid "ACF Blocks"
@@ -4920,7 +4920,7 @@ msgstr "Visa i REST API"
 
 #: includes/fields/class-acf-field-color_picker.php:156
 msgid "Enable Transparency"
-msgstr "Aktivera ***REMOVED***"
+msgstr "Aktivera genomskinlighet"
 
 #: includes/fields/class-acf-field-color_picker.php:175
 msgid "RGBA Array"
@@ -5082,8 +5082,8 @@ msgid ""
 "<a href=\"%s\" target=\"_blank\">Help Desk</a>. The support professionals on "
 "our Help Desk will assist with your more in depth, technical challenges."
 msgstr ""
-"<a href=\"%s\" target=\"_blank\">Support</a>. Vår ***REMOVED*** "
-"***REMOVED*** kan hjälpa dig med mer komplicerade och tekniska utmaningar."
+"<a href=\"%s\" target=\"_blank\">Support</a>. Vår professionella "
+"supportpersonal kan hjälpa dig med mer komplicerade och tekniska utmaningar."
 
 #: includes/admin/admin.php:158
 msgid ""
@@ -5144,8 +5144,8 @@ msgid ""
 "display custom field values in any theme template file."
 msgstr ""
 "Tillägget ”Advanced Custom Fields” tillhandahåller en visuell "
-"formulärbyggare för att anpassa WordPress ***REMOVED*** med extra fält och "
-"ett intuitivt API för att visa anpassade fältvärden i alla ***REMOVED***."
+"formulärbyggare för att anpassa WordPress redigeringsvyer med extra fält och "
+"ett intuitivt API för att visa anpassade fältvärden i alla temamallsfiler."
 
 #: includes/admin/admin.php:131 includes/admin/admin.php:133
 msgid "Overview"
@@ -5354,12 +5354,12 @@ msgstr "Tack för att du uppdaterade till %1$s v%2$s!"
 
 #: includes/admin/views/upgrade/notice.php:26
 msgid "Database Upgrade Required"
-msgstr "***REMOVED*** krävs"
+msgstr "Databasuppgradering krävs"
 
 #: includes/admin/post-types/admin-field-group.php:159
 #: includes/admin/views/upgrade/notice.php:17
 msgid "Options Page"
-msgstr "***REMOVED***"
+msgstr "Alternativsida"
 
 #: includes/admin/views/upgrade/notice.php:14 includes/fields.php:436
 msgid "Gallery"
@@ -5382,12 +5382,12 @@ msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
 "options will be used (the one with the lowest order number)"
 msgstr ""
-"Om flera fältgrupper visas på en ***REMOVED***, kommer den första "
-"fältgruppens alternativ att användas (den med lägsta ***REMOVED***)"
+"Om flera fältgrupper visas på en redigeringssida, kommer den första "
+"fältgruppens alternativ att användas (den med lägsta sorteringsnummer)"
 
 #: includes/admin/views/acf-field-group/options.php:195
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
-msgstr "<b>Markera</b> objekt för att <b>dölja</b> dem från ***REMOVED***."
+msgstr "<b>Markera</b> objekt för att <b>dölja</b> dem från redigeringsvyn."
 
 #: includes/admin/views/acf-field-group/options.php:194
 msgid "Hide on screen"
@@ -5460,11 +5460,11 @@ msgstr "Visa i fältgrupplista"
 
 #: includes/admin/views/acf-field-group/options.php:157
 msgid "Field groups with a lower order will appear first"
-msgstr "Fältgrupper med lägre ***REMOVED*** kommer synas först"
+msgstr "Fältgrupper med lägre ordningsnummer kommer synas först"
 
 #: includes/admin/views/acf-field-group/options.php:156
 msgid "Order No."
-msgstr "***REMOVED***"
+msgstr "Sorteringsnummer"
 
 #: includes/admin/views/acf-field-group/options.php:147
 msgid "Below fields"
@@ -5480,7 +5480,7 @@ msgstr "Instruktionsplacering"
 
 #: includes/admin/views/acf-field-group/options.php:122
 msgid "Label Placement"
-msgstr "***REMOVED***"
+msgstr "Etikettplacering"
 
 #: includes/admin/views/acf-field-group/options.php:110
 msgid "Side"
@@ -5545,7 +5545,7 @@ msgstr "bredd"
 
 #: includes/admin/views/acf-field-group/field.php:272
 msgid "Wrapper Attributes"
-msgstr "***REMOVED***"
+msgstr "Omslagsattribut"
 
 #: includes/fields/class-acf-field.php:312
 msgid "Required"
@@ -5618,7 +5618,7 @@ msgstr "Inga uppdateringar tillgängliga."
 #. translators: %s the url to the field group page.
 #: includes/admin/views/upgrade/upgrade.php:32
 msgid "Database upgrade complete. <a href=\"%s\">See what's new</a>"
-msgstr "***REMOVED*** slutförd. <a href=\"%s\">Se vad som är nytt</a>"
+msgstr "Databasuppgradering slutförd. <a href=\"%s\">Se vad som är nytt</a>"
 
 #: includes/admin/views/upgrade/upgrade.php:27
 msgid "Reading upgrade tasks..."
@@ -5668,7 +5668,7 @@ msgstr "Webbplatsen är uppdaterad"
 #. translators: %1 current db version, %2 available db version
 #: includes/admin/views/upgrade/network.php:77
 msgid "Site requires database upgrade from %1$s to %2$s"
-msgstr "Webbplatsen kräver ***REMOVED*** från %1$s till %2$s"
+msgstr "Webbplatsen kräver databasuppgradering från %1$s till %2$s"
 
 #: includes/admin/views/upgrade/network.php:34
 #: includes/admin/views/upgrade/network.php:45
@@ -5701,7 +5701,7 @@ msgid ""
 "Create a set of rules to determine which edit screens will use these "
 "advanced custom fields"
 msgstr ""
-"Skapa en uppsättning regler för att avgöra vilka ***REMOVED*** som ska "
+"Skapa en uppsättning regler för att avgöra vilka redigeringsvyer som ska "
 "använda dessa avancerade anpassade fält"
 
 #: includes/admin/views/acf-field-group/locations.php:9
@@ -5813,14 +5813,14 @@ msgstr "Beskrivning"
 #: includes/admin/admin-internal-post-type-list.php:414
 #: includes/admin/admin-internal-post-type-list.php:832
 msgid "Sync available"
-msgstr "***REMOVED*** tillgänglig"
+msgstr "Synkronisering tillgänglig"
 
 #. translators: %s number of field groups synchronized
 #: includes/admin/post-types/admin-field-groups.php:374
 msgid "Field group synchronized."
 msgid_plural "%s field groups synchronized."
 msgstr[0] "Fältgrupp synkroniserad."
-msgstr[1] "%s fältgrupper ***REMOVED***."
+msgstr[1] "%s fältgrupper synkroniserade."
 
 #. translators: %s number of field groups duplicated
 #: includes/admin/post-types/admin-field-groups.php:367
@@ -6361,7 +6361,7 @@ msgstr "Annat"
 
 #: includes/fields/class-acf-field-radio.php:22
 msgid "Radio Button"
-msgstr "***REMOVED***"
+msgstr "Alternativknapp"
 
 #: includes/fields/class-acf-field-accordion.php:106
 msgid ""
@@ -6527,7 +6527,7 @@ msgstr ""
 msgctxt "Select2 JS matches_1"
 msgid "One result is available, press enter to select it."
 msgstr ""
-"Ett resultat är tillgängligt, tryck på ***REMOVED*** för att välja det."
+"Ett resultat är tillgängligt, tryck på returtangenten för att välja det."
 
 #: includes/fields/class-acf-field-select.php:22
 #: includes/fields/class-acf-field-taxonomy.php:699
@@ -6819,12 +6819,12 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "TinyMCE kommer inte att initialiseras förrän fältet är klickat"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
-msgstr "Fördröjd ***REMOVED***"
+msgid "Delay Initialization"
+msgstr "Fördröjd initialisering"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
 msgid "Show Media Upload Buttons"
-msgstr "Visa knappar för ***REMOVED***"
+msgstr "Visa knappar för mediauppladdning"
 
 #: includes/fields/class-acf-field-wysiwyg.php:339
 msgid "Toolbar"
@@ -7052,7 +7052,7 @@ msgstr "Relationer"
 #: includes/fields/class-acf-field-file.php:277
 #: includes/fields/class-acf-field-image.php:307
 msgid "Comma separated list. Leave blank for all types"
-msgstr "***REMOVED*** lista. Lämna tomt för alla typer"
+msgstr "Kommaseparerad lista. Lämna tomt för alla typer"
 
 #: includes/fields/class-acf-field-file.php:276
 #: includes/fields/class-acf-field-image.php:306
@@ -7102,7 +7102,7 @@ msgstr "Alla"
 #: includes/fields/class-acf-field-file.php:216
 #: includes/fields/class-acf-field-image.php:194
 msgid "Limit the media library choice"
-msgstr "Begränsa ***REMOVED***"
+msgstr "Begränsa mediabiblioteksvalet"
 
 #: includes/fields/class-acf-field-file.php:215
 #: includes/fields/class-acf-field-image.php:193
@@ -7423,7 +7423,7 @@ msgstr "Sök"
 
 #: includes/fields/class-acf-field-google-map.php:57
 msgid "Sorry, this browser does not support geolocation"
-msgstr "Denna webbläsare saknar stöd för ***REMOVED***"
+msgstr "Denna webbläsare saknar stöd för platsinformation"
 
 #: includes/fields/class-acf-field-google-map.php:22
 msgid "Google Map"
@@ -7433,7 +7433,7 @@ msgstr "Google Map"
 #: includes/fields/class-acf-field-date_time_picker.php:189
 #: includes/fields/class-acf-field-time_picker.php:122
 msgid "The format returned via template functions"
-msgstr "Formatet returnerad via ***REMOVED***"
+msgstr "Formatet returnerad via mallfunktioner"
 
 #: includes/fields/class-acf-field-color_picker.php:168
 #: includes/fields/class-acf-field-date_picker.php:200
@@ -7467,7 +7467,7 @@ msgstr "Formatet visas när ett inlägg redigeras"
 #: includes/fields/class-acf-field-date_time_picker.php:170
 #: includes/fields/class-acf-field-time_picker.php:105
 msgid "Display Format"
-msgstr "***REMOVED***"
+msgstr "Visningsformat"
 
 #: includes/fields/class-acf-field-time_picker.php:22
 msgid "Time Picker"
@@ -7566,12 +7566,12 @@ msgstr "Fältgrupper"
 #. Description of the plugin
 #: acf.php
 msgid "Customize WordPress with powerful, professional and intuitive fields."
-msgstr "Anpassa WordPress med kraftfulla, ***REMOVED*** och intuitiva fält."
+msgstr "Anpassa WordPress med kraftfulla, professionella och intuitiva fält."
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93
@@ -7640,7 +7640,7 @@ msgid ""
 "<b>ACF Activation Error</b>. Your defined license key has changed, but an "
 "error occurred when deactivating your old licence"
 msgstr ""
-"<b>ACF-***REMOVED***</b>. Din definierade licensnyckel har ändrats, men ett "
+"<b>ACF-aktiveringsfel</b>. Din definierade licensnyckel har ändrats, men ett "
 "fel uppstod vid inaktivering av din gamla licens"
 
 #: pro/updates.php:154
@@ -7648,20 +7648,20 @@ msgid ""
 "<b>ACF Activation Error</b>. Your defined license key has changed, but an "
 "error occurred when connecting to activation server"
 msgstr ""
-"<b>ACF-***REMOVED***</b>. Din definierade licensnyckel har ändrats, men ett "
-"fel uppstod vid anslutning till ***REMOVED***"
+"<b>ACF-aktiveringsfel</b>. Din definierade licensnyckel har ändrats, men ett "
+"fel uppstod vid anslutning till aktiveringsservern"
 
 #: pro/updates.php:192
 msgid "<b>ACF Activation Error</b>"
-msgstr "<b>ACF-***REMOVED***</b>"
+msgstr "<b>ACF-aktiveringsfel</b>"
 
 #: pro/updates.php:187
 msgid ""
 "<b>ACF Activation Error</b>. An error occurred when connecting to activation "
 "server"
 msgstr ""
-"<b>ACF-***REMOVED***</b>. Ett fel uppstod vid anslutning till "
-"***REMOVED***"
+"<b>ACF-aktiveringsfel</b>. Ett fel uppstod vid anslutning till "
+"aktiveringsservern"
 
 #: pro/updates.php:279
 msgid "Check Again"
@@ -7669,7 +7669,7 @@ msgstr "Kontrollera igen"
 
 #: pro/updates.php:593
 msgid "<b>ACF Activation Error</b>. Could not connect to activation server"
-msgstr "<b>ACF-***REMOVED***</b>. Kunde inte ansluta till ***REMOVED***"
+msgstr "<b>ACF-aktiveringsfel</b>. Kunde inte ansluta till aktiveringsservern"
 
 #: pro/admin/admin-options-page.php:195
 msgid "Publish"
@@ -7685,14 +7685,14 @@ msgstr ""
 
 #: pro/admin/admin-updates.php:52
 msgid "<b>Error</b>. Could not connect to update server"
-msgstr "<b>Fel</b>. Kunde inte ansluta till ***REMOVED***"
+msgstr "<b>Fel</b>. Kunde inte ansluta till uppdateringsservern"
 
 #: pro/admin/admin-updates.php:212
 msgid ""
 "<b>Error</b>. Could not authenticate update package. Please check again or "
 "deactivate and reactivate your ACF PRO license."
 msgstr ""
-"<b>Fel</b>. Det gick inte att autentisera ***REMOVED***. Kontrollera "
+"<b>Fel</b>. Det gick inte att autentisera uppdateringspaketet. Kontrollera "
 "igen eller inaktivera och återaktivera din ACF PRO-licens."
 
 #: pro/admin/admin-updates.php:199
@@ -7919,11 +7919,11 @@ msgstr "Massåtgärder"
 
 #: pro/fields/class-acf-field-gallery.php:509
 msgid "Sort by date uploaded"
-msgstr "Sortera efter ***REMOVED***"
+msgstr "Sortera efter uppladdningsdatum"
 
 #: pro/fields/class-acf-field-gallery.php:510
 msgid "Sort by date modified"
-msgstr "Sortera efter ***REMOVED***"
+msgstr "Sortera efter redigeringsdatum"
 
 #: pro/fields/class-acf-field-gallery.php:511
 msgid "Sort by title"
@@ -8086,7 +8086,7 @@ msgstr "Det finns inga blocktyper"
 
 #: pro/locations/class-acf-location-options-page.php:70
 msgid "No options pages exist"
-msgstr "Det finns inga ***REMOVED***"
+msgstr "Det finns inga alternativsidor"
 
 #: pro/admin/views/html-settings-updates.php:6
 msgid "Deactivate License"
@@ -8098,7 +8098,7 @@ msgstr "Aktivera licens"
 
 #: pro/admin/views/html-settings-updates.php:16
 msgid "License Information"
-msgstr "***REMOVED***"
+msgstr "Licensinformation"
 
 #: pro/admin/views/html-settings-updates.php:34
 msgid ""

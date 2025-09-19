@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Memoizers;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The presentation memoizer.
@@ -15,7 +15,7 @@ class Presentation_Memoizer {
 	/**
 	 * The service container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
@@ -29,9 +29,9 @@ class Presentation_Memoizer {
 	/**
 	 * Presentation_Memoizer constructor.
 	 *
-	 * @param ***REMOVED*** $service_container The service container.
+	 * @param ContainerInterface $service_container The service container.
 	 */
-	public function __construct( ***REMOVED*** $service_container ) {
+	public function __construct( ContainerInterface $service_container ) {
 		$this->container = $service_container;
 	}
 
@@ -47,7 +47,7 @@ class Presentation_Memoizer {
 	 */
 	public function get( Indexable $indexable, Meta_Tags_Context $context, $page_type ) {
 		if ( ! isset( $this->cache[ $indexable->id ] ) ) {
-			$presentation = $this->container->get( "Yoast\WP\SEO\Presentations\Indexable_{$page_type}_Presentation", ***REMOVED***::NULL_ON_INVALID_REFERENCE );
+			$presentation = $this->container->get( "Yoast\WP\SEO\Presentations\Indexable_{$page_type}_Presentation", ContainerInterface::NULL_ON_INVALID_REFERENCE );
 
 			if ( ! $presentation ) {
 				$presentation = $this->container->get( Indexable_Presentation::class );

@@ -21,7 +21,7 @@ class prime192v2 extends Prime
     public function __construct()
     {
         $this->setModulo(new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFF', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFC', 16),
             new BigInteger('CC22D6DFB95C6B25E49C0D6364A4E5980C393AA21668D953', 16)
         );

@@ -22,11 +22,11 @@ function twentytwentyoneGetHexLum( hex ) { // jshint ignore:line
  * @return {Object} - Returns an object {r, g, b}
  */
 function twentytwentyoneGetRgbFromHex( hex ) {
-	var ***REMOVED*** = /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+	var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
 		result;
 
 	// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF").
-	hex = hex.replace( ***REMOVED***, function( m, r, g, b ) {
+	hex = hex.replace( shorthandRegex, function( m, r, g, b ) {
 		return r.toString() + r.toString() + g.toString() + g.toString() + b.toString() + b.toString();
 	} );
 

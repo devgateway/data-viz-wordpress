@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Cornerstone_Content implements Analysis_Feature_Interface {
 
-	public const NAME = '***REMOVED***';
+	public const NAME = 'cornerstoneContent';
 
 	/**
 	 * The options helper.
@@ -52,6 +52,6 @@ class Cornerstone_Content implements Analysis_Feature_Interface {
 	 * @return string The legacy key.
 	 */
 	public function get_legacy_key(): string {
-		return '***REMOVED***';
+		return 'cornerstoneActive';
 	}
 }

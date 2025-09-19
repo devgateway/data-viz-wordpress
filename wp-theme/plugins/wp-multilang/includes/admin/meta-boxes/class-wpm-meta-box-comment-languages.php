@@ -35,7 +35,7 @@ class WPM_Meta_Box_Comment_Languages {
 		$i         = 0;
 		?>
 		<h4><?php _e( 'Show comment only in:', 'wp-multilang' ); ?></h4>
-		<ul class="***REMOVED***">
+		<ul class="languagechecklist">
 			<?php foreach ( $languages as $code => $language ) { ?>
 				<li>
 					<label>

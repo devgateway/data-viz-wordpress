@@ -1,7 +1,7 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Search_Console;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console;
 
 use Google\Site_Kit_Dependencies\Google\Service\SearchConsole\ApiDataRow;
 use WP_REST_Response;
@@ -113,7 +113,7 @@ class Site_Kit_Search_Console_Adapter {
 				throw new Unexpected_Response_Exception();
 			}
 
-			$ranking_data = new Search_Ranking_Data( $ranking_date->getClicks(), $ranking_date->getCtr(), $ranking_date->***REMOVED***(), $ranking_date->getPosition(), $ranking_date->getKeys()[0] );
+			$ranking_data = new Search_Ranking_Data( $ranking_date->getClicks(), $ranking_date->getCtr(), $ranking_date->getImpressions(), $ranking_date->getPosition(), $ranking_date->getKeys()[0] );
 
 			// Now split the data into two periods.
 			if ( $ranking_date->getKeys()[0] <= $compare_end_date ) {
@@ -155,7 +155,7 @@ class Site_Kit_Search_Console_Adapter {
 			 */
 			$subject = \apply_filters( 'wpseo_transform_dashboard_subject_for_testing', $ranking->getKeys()[0] );
 
-			$search_ranking_data_container->add_data( new Search_Ranking_Data( $ranking->getClicks(), $ranking->getCtr(), $ranking->***REMOVED***(), $ranking->getPosition(), $subject ) );
+			$search_ranking_data_container->add_data( new Search_Ranking_Data( $ranking->getClicks(), $ranking->getCtr(), $ranking->getImpressions(), $ranking->getPosition(), $subject ) );
 		}
 
 		return $search_ranking_data_container;

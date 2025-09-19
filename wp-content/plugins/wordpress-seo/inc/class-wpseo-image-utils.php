@@ -98,7 +98,7 @@ class WPSEO_Image_Utils {
 	protected static function get_scaled_image_id( $url ) {
 		$path_parts = pathinfo( $url );
 		if ( isset( $path_parts['dirname'], $path_parts['filename'], $path_parts['extension'] ) ) {
-			$scaled_url = ***REMOVED***( $path_parts['dirname'] ) . $path_parts['filename'] . '-scaled.' . $path_parts['extension'];
+			$scaled_url = trailingslashit( $path_parts['dirname'] ) . $path_parts['filename'] . '-scaled.' . $path_parts['extension'];
 
 			return attachment_url_to_postid( $scaled_url );
 		}

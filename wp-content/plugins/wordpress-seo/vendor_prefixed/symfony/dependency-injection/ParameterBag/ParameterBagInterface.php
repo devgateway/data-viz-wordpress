@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag;
 
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterNotFoundException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 /**
  * ParameterBagInterface.
  *
@@ -22,7 +22,7 @@ interface ParameterBagInterface
     /**
      * Clears all parameters.
      *
-     * @throws ***REMOVED*** if the ParameterBagInterface can not be cleared
+     * @throws LogicException if the ParameterBagInterface can not be cleared
      */
     public function clear();
     /**
@@ -30,7 +30,7 @@ interface ParameterBagInterface
      *
      * @param array $parameters An array of parameters
      *
-     * @throws ***REMOVED*** if the parameter can not be added
+     * @throws LogicException if the parameter can not be added
      */
     public function add(array $parameters);
     /**
@@ -61,7 +61,7 @@ interface ParameterBagInterface
      * @param string $name  The parameter name
      * @param mixed  $value The parameter value
      *
-     * @throws ***REMOVED*** if the parameter can not be set
+     * @throws LogicException if the parameter can not be set
      */
     public function set($name, $value);
     /**

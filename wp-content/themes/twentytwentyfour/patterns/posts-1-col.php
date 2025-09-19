@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: List of posts, 1 column
- * Slug: ***REMOVED***/posts-1-col
+ * Slug: twentytwentyfour/posts-1-col
  * Categories: query
  * Block Types: core/query
  * Description: A list of posts, 1 column.
@@ -11,7 +11,7 @@
 <!-- wp:query {"query":{"perPage":3,"pages":0,"offset":"0","postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"layout":{"type":"constrained"}} -->
 <div class="wp-block-query">
 	<!-- wp:query-no-results -->
-	<!-- wp:pattern {"slug":"***REMOVED***/hidden-no-results"} /-->
+	<!-- wp:pattern {"slug":"twentytwentyfour/hidden-no-results"} /-->
 	<!-- /wp:query-no-results -->
 
 	<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"0","right":"0"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"default"}} -->
@@ -33,7 +33,7 @@
 		<!-- wp:spacer {"height":"var:preset|spacing|50","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
 		<div style="margin-top:0;margin-bottom:0;height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
 		<!-- /wp:spacer -->
-		<!-- wp:query-pagination {"***REMOVED***":"arrow","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+		<!-- wp:query-pagination {"paginationArrow":"arrow","layout":{"type":"flex","justifyContent":"space-between"}} -->
 		<!-- wp:query-pagination-previous /-->
 		<!-- wp:query-pagination-next /-->
 		<!-- /wp:query-pagination -->

@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons'
 
-***REMOVED***(process.env.BLOCKS_NS + '/download',
+registerBlockType(process.env.BLOCKS_NS + '/download',
     {
         title: __('Download'),
         icon: Generic,
@@ -75,7 +75,7 @@ import {Generic} from '../icons'
                 type: 'string',
                 default: '24px',
             },
-            ***REMOVED***: {
+            downloadTooltip: {
                 type: 'string',
                 default: "Click to select download format"
             },
@@ -83,19 +83,19 @@ import {Generic} from '../icons'
                 type: 'string',
                 default: "Click to select download format"
             },
-            ***REMOVED***: {
+            includeSourceURL: {
                 type: 'boolean',
                 default: false
             },
-            ***REMOVED***: {
+            sourceURLMarginLeft: {
                 type: 'Numeric',
                 default: 70
             },
-            ***REMOVED***: {
+            sourceURLMarginTop: {
                 type: 'Numeric',
                 default: 10
             },
-            ***REMOVED***: {
+            sourceURLFontSize: {
                 type: 'Numeric',
                 default: 18,
             }

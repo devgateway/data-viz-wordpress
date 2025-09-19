@@ -34,7 +34,7 @@ class WPSEO_Option_Tabs {
 	/**
 	 * WPSEO_Option_Tabs constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $base       Base of the tabs.
 	 * @param string $active_tab Currently active tab.
@@ -42,7 +42,7 @@ class WPSEO_Option_Tabs {
 	public function __construct( $base, $active_tab = '' ) {
 		$this->base = sanitize_title( $base );
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$tab              = isset( $_GET['tab'] ) && is_string( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
 		$this->active_tab = empty( $tab ) ? $active_tab : $tab;
 	}

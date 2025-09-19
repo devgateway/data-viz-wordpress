@@ -109,12 +109,12 @@
      * Gets the status for a single creative. (creatives.get)
      *
      * @param int $accountId The id for the account that will serve this creative.
-     * @param string $***REMOVED*** The buyer-specific id for this creative.
+     * @param string $buyerCreativeId The buyer-specific id for this creative.
      * @param array $optParams Optional parameters.
      * @return Google_Creative
      */
-    public function get($accountId, $***REMOVED***, $optParams = array()) {
-      $params = array('accountId' => $accountId, '***REMOVED***' => $***REMOVED***);
+    public function get($accountId, $buyerCreativeId, $optParams = array()) {
+      $params = array('accountId' => $accountId, 'buyerCreativeId' => $buyerCreativeId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
@@ -195,7 +195,7 @@
      * @param array $optParams Optional parameters.
      * @return Google_DirectDealsList
      */
-    public function ***REMOVED***($optParams = array()) {
+    public function listDirectDeals($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -208,17 +208,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "performanceReport" collection of methods.
    * Typical usage is:
    *  <code>
    *   $adexchangebuyerService = new Google_AdexchangebuyerService(...);
-   *   $***REMOVED*** = $adexchangebuyerService->***REMOVED***;
+   *   $performanceReport = $adexchangebuyerService->performanceReport;
    *  </code>
    */
   class Google_PerformanceReportServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves the authenticated user's list of performance metrics. (***REMOVED***.list)
+     * Retrieves the authenticated user's list of performance metrics. (performanceReport.list)
      *
      * @param string $accountId The account id to get the reports for.
      * @param string $endDateTime The end time for the reports.
@@ -256,22 +256,22 @@ class Google_AdexchangebuyerService extends Google_Service {
   public $accounts;
   public $creatives;
   public $directDeals;
-  public $***REMOVED***;
+  public $performanceReport;
   /**
-   * Constructs the internal ***REMOVED*** of the ***REMOVED*** service.
+   * Constructs the internal representation of the Adexchangebuyer service.
    *
    * @param Google_Client $client
    */
   public function __construct(Google_Client $client) {
-    $this->servicePath = '***REMOVED***/v1.2/';
+    $this->servicePath = 'adexchangebuyer/v1.2/';
     $this->version = 'v1.2';
-    $this->serviceName = '***REMOVED***';
+    $this->serviceName = 'adexchangebuyer';
 
     $client->addService($this->serviceName, $this->version);
-    $this->accounts = new Google_AccountsServiceResource($this, $this->serviceName, 'accounts', json_decode('{"methods": {"get": {"id": "***REMOVED***.accounts.get", "path": "accounts/{id}", "httpMethod": "GET", "parameters": {"id": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "response": {"$ref": "Account"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "list": {"id": "***REMOVED***.accounts.list", "path": "accounts", "httpMethod": "GET", "response": {"$ref": "AccountsList"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "patch": {"id": "***REMOVED***.accounts.patch", "path": "accounts/{id}", "httpMethod": "PATCH", "parameters": {"id": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "request": {"$ref": "Account"}, "response": {"$ref": "Account"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "update": {"id": "***REMOVED***.accounts.update", "path": "accounts/{id}", "httpMethod": "PUT", "parameters": {"id": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "request": {"$ref": "Account"}, "response": {"$ref": "Account"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
-    $this->creatives = new Google_CreativesServiceResource($this, $this->serviceName, 'creatives', json_decode('{"methods": {"get": {"id": "***REMOVED***.creatives.get", "path": "creatives/{accountId}/{***REMOVED***}", "httpMethod": "GET", "parameters": {"accountId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Creative"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "insert": {"id": "***REMOVED***.creatives.insert", "path": "creatives", "httpMethod": "POST", "request": {"$ref": "Creative"}, "response": {"$ref": "Creative"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "list": {"id": "***REMOVED***.creatives.list", "path": "creatives", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "maximum": "1000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "statusFilter": {"type": "string", "enum": ["approved", "disapproved", "not_checked"], "location": "query"}}, "response": {"$ref": "CreativesList"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
-    $this->directDeals = new Google_DirectDealsServiceResource($this, $this->serviceName, 'directDeals', json_decode('{"methods": {"get": {"id": "***REMOVED***.directDeals.get", "path": "directdeals/{id}", "httpMethod": "GET", "parameters": {"id": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "DirectDeal"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "list": {"id": "***REMOVED***.directDeals.list", "path": "directdeals", "httpMethod": "GET", "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
-    $this->***REMOVED*** = new Google_PerformanceReportServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"list": {"id": "***REMOVED***.***REMOVED***.list", "path": "***REMOVED***", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "format": "int64", "location": "query"}, "endDateTime": {"type": "string", "required": true, "format": "int64", "location": "query"}, "startDateTime": {"type": "string", "required": true, "format": "int64", "location": "query"}}, "response": {"$ref": "PerformanceReportList"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
+    $this->accounts = new Google_AccountsServiceResource($this, $this->serviceName, 'accounts', json_decode('{"methods": {"get": {"id": "adexchangebuyer.accounts.get", "path": "accounts/{id}", "httpMethod": "GET", "parameters": {"id": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "response": {"$ref": "Account"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "list": {"id": "adexchangebuyer.accounts.list", "path": "accounts", "httpMethod": "GET", "response": {"$ref": "AccountsList"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "patch": {"id": "adexchangebuyer.accounts.patch", "path": "accounts/{id}", "httpMethod": "PATCH", "parameters": {"id": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "request": {"$ref": "Account"}, "response": {"$ref": "Account"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "update": {"id": "adexchangebuyer.accounts.update", "path": "accounts/{id}", "httpMethod": "PUT", "parameters": {"id": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "request": {"$ref": "Account"}, "response": {"$ref": "Account"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
+    $this->creatives = new Google_CreativesServiceResource($this, $this->serviceName, 'creatives', json_decode('{"methods": {"get": {"id": "adexchangebuyer.creatives.get", "path": "creatives/{accountId}/{buyerCreativeId}", "httpMethod": "GET", "parameters": {"accountId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "buyerCreativeId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Creative"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "insert": {"id": "adexchangebuyer.creatives.insert", "path": "creatives", "httpMethod": "POST", "request": {"$ref": "Creative"}, "response": {"$ref": "Creative"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "list": {"id": "adexchangebuyer.creatives.list", "path": "creatives", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "maximum": "1000", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "statusFilter": {"type": "string", "enum": ["approved", "disapproved", "not_checked"], "location": "query"}}, "response": {"$ref": "CreativesList"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
+    $this->directDeals = new Google_DirectDealsServiceResource($this, $this->serviceName, 'directDeals', json_decode('{"methods": {"get": {"id": "adexchangebuyer.directDeals.get", "path": "directdeals/{id}", "httpMethod": "GET", "parameters": {"id": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "DirectDeal"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}, "list": {"id": "adexchangebuyer.directDeals.list", "path": "directdeals", "httpMethod": "GET", "response": {"$ref": "DirectDealsList"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
+    $this->performanceReport = new Google_PerformanceReportServiceResource($this, $this->serviceName, 'performanceReport', json_decode('{"methods": {"list": {"id": "adexchangebuyer.performanceReport.list", "path": "performancereport", "httpMethod": "GET", "parameters": {"accountId": {"type": "string", "required": true, "format": "int64", "location": "query"}, "endDateTime": {"type": "string", "required": true, "format": "int64", "location": "query"}, "startDateTime": {"type": "string", "required": true, "format": "int64", "location": "query"}}, "response": {"$ref": "PerformanceReportList"}, "scopes": ["https://www.googleapis.com/auth/adexchange.buyer"]}}}', true));
 
   }
 }
@@ -281,30 +281,30 @@ class Google_AdexchangebuyerService extends Google_Service {
 class Google_Account extends Google_Model {
   protected $__bidderLocationType = 'Google_AccountBidderLocation';
   protected $__bidderLocationDataType = 'array';
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $bidderLocation;
+  public $cookieMatchingNid;
+  public $cookieMatchingUrl;
   public $id;
   public $kind;
-  public $***REMOVED***;
-  public function ***REMOVED***(/* array(Google_AccountBidderLocation) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_AccountBidderLocation', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public $maximumTotalQps;
+  public function setBidderLocation(/* array(Google_AccountBidderLocation) */ $bidderLocation) {
+    $this->assertIsArray($bidderLocation, 'Google_AccountBidderLocation', __METHOD__);
+    $this->bidderLocation = $bidderLocation;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getBidderLocation() {
+    return $this->bidderLocation;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCookieMatchingNid( $cookieMatchingNid) {
+    $this->cookieMatchingNid = $cookieMatchingNid;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCookieMatchingNid() {
+    return $this->cookieMatchingNid;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCookieMatchingUrl( $cookieMatchingUrl) {
+    $this->cookieMatchingUrl = $cookieMatchingUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCookieMatchingUrl() {
+    return $this->cookieMatchingUrl;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -318,11 +318,11 @@ class Google_Account extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMaximumTotalQps( $maximumTotalQps) {
+    $this->maximumTotalQps = $maximumTotalQps;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMaximumTotalQps() {
+    return $this->maximumTotalQps;
   }
 }
 
@@ -374,26 +374,26 @@ class Google_Creative extends Google_Model {
   public $HTMLSnippet;
   public $accountId;
   public $advertiserId;
-  public $***REMOVED***;
+  public $advertiserName;
   public $agencyId;
   public $attribute;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $buyerCreativeId;
+  public $clickThroughUrl;
   protected $__disapprovalReasonsType = 'Google_CreativeDisapprovalReasons';
   protected $__disapprovalReasonsDataType = 'array';
-  public $***REMOVED***;
+  public $disapprovalReasons;
   public $height;
   public $kind;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $productCategories;
+  public $sensitiveCategories;
   public $status;
   public $vendorType;
   public $videoURL;
   public $width;
-  public function ***REMOVED***( $HTMLSnippet) {
+  public function setHTMLSnippet( $HTMLSnippet) {
     $this->HTMLSnippet = $HTMLSnippet;
   }
-  public function ***REMOVED***() {
+  public function getHTMLSnippet() {
     return $this->HTMLSnippet;
   }
   public function setAccountId( $accountId) {
@@ -402,18 +402,18 @@ class Google_Creative extends Google_Model {
   public function getAccountId() {
     return $this->accountId;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $advertiserId) {
+  public function setAdvertiserId(/* array(Google_string) */ $advertiserId) {
     $this->assertIsArray($advertiserId, 'Google_string', __METHOD__);
     $this->advertiserId = $advertiserId;
   }
-  public function ***REMOVED***() {
+  public function getAdvertiserId() {
     return $this->advertiserId;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAdvertiserName( $advertiserName) {
+    $this->advertiserName = $advertiserName;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAdvertiserName() {
+    return $this->advertiserName;
   }
   public function setAgencyId( $agencyId) {
     $this->agencyId = $agencyId;
@@ -428,25 +428,25 @@ class Google_Creative extends Google_Model {
   public function getAttribute() {
     return $this->attribute;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBuyerCreativeId( $buyerCreativeId) {
+    $this->buyerCreativeId = $buyerCreativeId;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getBuyerCreativeId() {
+    return $this->buyerCreativeId;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setClickThroughUrl(/* array(Google_string) */ $clickThroughUrl) {
+    $this->assertIsArray($clickThroughUrl, 'Google_string', __METHOD__);
+    $this->clickThroughUrl = $clickThroughUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getClickThroughUrl() {
+    return $this->clickThroughUrl;
   }
-  public function setDisapprovalReasons(/* array(Google_CreativeDisapprovalReasons) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_CreativeDisapprovalReasons', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDisapprovalReasons(/* array(Google_CreativeDisapprovalReasons) */ $disapprovalReasons) {
+    $this->assertIsArray($disapprovalReasons, 'Google_CreativeDisapprovalReasons', __METHOD__);
+    $this->disapprovalReasons = $disapprovalReasons;
   }
   public function getDisapprovalReasons() {
-    return $this->***REMOVED***;
+    return $this->disapprovalReasons;
   }
   public function setHeight( $height) {
     $this->height = $height;
@@ -460,19 +460,19 @@ class Google_Creative extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(/* array(Google_int) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_int', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setProductCategories(/* array(Google_int) */ $productCategories) {
+    $this->assertIsArray($productCategories, 'Google_int', __METHOD__);
+    $this->productCategories = $productCategories;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getProductCategories() {
+    return $this->productCategories;
   }
-  public function setSensitiveCategories(/* array(Google_int) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_int', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSensitiveCategories(/* array(Google_int) */ $sensitiveCategories) {
+    $this->assertIsArray($sensitiveCategories, 'Google_int', __METHOD__);
+    $this->sensitiveCategories = $sensitiveCategories;
   }
   public function getSensitiveCategories() {
-    return $this->***REMOVED***;
+    return $this->sensitiveCategories;
   }
   public function setStatus( $status) {
     $this->status = $status;
@@ -538,10 +538,10 @@ class Google_CreativesList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -569,10 +569,10 @@ class Google_DirectDeal extends Google_Model {
   public function getAdvertiser() {
     return $this->advertiser;
   }
-  public function ***REMOVED***( $currencyCode) {
+  public function setCurrencyCode( $currencyCode) {
     $this->currencyCode = $currencyCode;
   }
-  public function ***REMOVED***() {
+  public function getCurrencyCode() {
     return $this->currencyCode;
   }
   public function setEndTime( $endTime) {
@@ -605,10 +605,10 @@ class Google_DirectDeal extends Google_Model {
   public function getPrivateExchangeMinCpm() {
     return $this->privateExchangeMinCpm;
   }
-  public function ***REMOVED***( $sellerNetwork) {
+  public function setSellerNetwork( $sellerNetwork) {
     $this->sellerNetwork = $sellerNetwork;
   }
-  public function ***REMOVED***() {
+  public function getSellerNetwork() {
     return $this->sellerNetwork;
   }
   public function setStartTime( $startTime) {
@@ -624,11 +624,11 @@ class Google_DirectDealsList extends Google_Model {
   protected $__directDealsDataType = 'array';
   public $directDeals;
   public $kind;
-  public function ***REMOVED***(/* array(Google_DirectDeal) */ $directDeals) {
+  public function setDirectDeals(/* array(Google_DirectDeal) */ $directDeals) {
     $this->assertIsArray($directDeals, 'Google_DirectDeal', __METHOD__);
     $this->directDeals = $directDeals;
   }
-  public function ***REMOVED***() {
+  public function getDirectDeals() {
     return $this->directDeals;
   }
   public function setKind( $kind) {

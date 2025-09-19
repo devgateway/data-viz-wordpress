@@ -13,16 +13,16 @@ interface UploadedFileFactoryInterface
      * @see http://php.net/manual/features.file-upload.post-method.php
      * @see http://php.net/manual/features.file-upload.errors.php
      *
-     * @param ***REMOVED*** $stream Underlying stream representing the
+     * @param StreamInterface $stream Underlying stream representing the
      *     uploaded file content.
      * @param int $size in bytes
      * @param int $error PHP file upload error
-     * @param string $***REMOVED*** Filename as provided by the client, if any.
-     * @param string $***REMOVED*** Media type as provided by the client, if any.
+     * @param string $clientFilename Filename as provided by the client, if any.
+     * @param string $clientMediaType Media type as provided by the client, if any.
      *
      * @return UploadedFileInterface
      *
      * @throws \InvalidArgumentException If the file resource is not readable.
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, int $size = null, int $error = \UPLOAD_ERR_OK, string $***REMOVED*** = null, string $***REMOVED*** = null) : \YoastSEO_Vendor\Psr\Http\Message\UploadedFileInterface;
+    public function createUploadedFile(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, int $size = null, int $error = \UPLOAD_ERR_OK, string $clientFilename = null, string $clientMediaType = null) : \YoastSEO_Vendor\Psr\Http\Message\UploadedFileInterface;
 }

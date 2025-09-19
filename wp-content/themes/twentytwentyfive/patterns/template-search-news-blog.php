@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: News blog search results
- * Slug: ***REMOVED***/template-search-news-blog
+ * Slug: twentytwentyfive/template-search-news-blog
  * Template Types: search
  * Viewport width: 1400
  * Inserter: no
@@ -22,7 +22,7 @@
 		<div style="height:var(--wp--preset--spacing--80)" aria-hidden="true" class="wp-block-spacer"></div>
 		<!-- /wp:spacer -->
 		<!-- wp:query-title {"type":"search"} /-->
-		<!-- wp:pattern {"slug":"***REMOVED***/hidden-search"} /-->
+		<!-- wp:pattern {"slug":"twentytwentyfive/hidden-search"} /-->
 		<!-- wp:spacer {"height":"var:preset|spacing|40"} -->
 		<div style="height:var(--wp--preset--spacing--40)" aria-hidden="true" class="wp-block-spacer"></div>
 		<!-- /wp:spacer -->
@@ -30,7 +30,7 @@
 	<!-- /wp:group -->
 	<!-- wp:group {"align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide">
-		<!-- wp:pattern {"slug":"***REMOVED***/template-query-loop-news-blog"} /-->
+		<!-- wp:pattern {"slug":"twentytwentyfive/template-query-loop-news-blog"} /-->
 	</div>
 	<!-- /wp:group -->
 </main>

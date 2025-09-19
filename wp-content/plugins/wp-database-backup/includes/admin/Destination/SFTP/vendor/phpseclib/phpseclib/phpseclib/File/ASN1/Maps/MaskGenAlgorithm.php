@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * MaskGenAglorithm
  *
  * PHP version 5
  *
@@ -14,11 +14,11 @@
 namespace phpseclib3\File\ASN1\Maps;
 
 /**
- * ***REMOVED***
+ * MaskGenAglorithm
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class MaskGenAlgorithm
 {
-    const MAP = ***REMOVED***::MAP;
+    const MAP = AlgorithmIdentifier::MAP;
 }

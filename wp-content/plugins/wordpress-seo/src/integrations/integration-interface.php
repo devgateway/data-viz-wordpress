@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Loadable_Interface;
 /**
  * An interface for registering integrations with WordPress.
  *
- * @***REMOVED*** It represents an interface.
+ * @codeCoverageIgnore It represents an interface.
  */
 interface Integration_Interface extends Loadable_Interface {
 

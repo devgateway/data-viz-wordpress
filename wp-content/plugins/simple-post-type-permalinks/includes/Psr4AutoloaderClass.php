@@ -2,12 +2,12 @@
 namespace SPTP;
 
 /**
- * Class ***REMOVED***
+ * Class Psr4AutoloaderClass
  *
  * @package SPTP
  * @link http://www.php-fig.org/psr/psr-4/examples/
  */
-class ***REMOVED*** {
+class Psr4AutoloaderClass {
 	/**
 	 * An associative array where the key is a namespace prefix and the value
 	 * is an array of base directories for classes in that namespace.
@@ -80,7 +80,7 @@ class ***REMOVED*** {
 			$relative_class = substr( $class, $pos + 1 );
 
 			// try to load a mapped file for the prefix and relative class
-			$mapped_file = $this->***REMOVED***( $prefix, $relative_class );
+			$mapped_file = $this->loadMappedFile( $prefix, $relative_class );
 			if ( $mapped_file ) {
 				return $mapped_file;
 			}
@@ -103,7 +103,7 @@ class ***REMOVED*** {
 	 * @return mixed Boolean false if no mapped file can be loaded, or the
 	 * name of the mapped file that was loaded.
 	 */
-	protected function ***REMOVED***( $prefix, $relative_class ) {
+	protected function loadMappedFile( $prefix, $relative_class ) {
 		// are there any base directories for this namespace prefix?
 		if ( isset( $this->prefixes[ $prefix ] ) === false ) {
 			return false;

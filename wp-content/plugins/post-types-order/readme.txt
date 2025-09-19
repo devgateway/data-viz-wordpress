@@ -41,7 +41,7 @@ If you encounter any problems with the plugin, feel free to reach out via the fo
 
 = Need advanced features ? = 
 For advanced features and functionality, check out the extended version of this plugin at [Advanced Post Types Order](http://www.nsp-code.com/premium-plugins/wordpress-plugins/advanced-post-types-order/)
- * ***REMOVED*** post types order
+ * Hierarchically post types order
  * Manual Drag & Drop / Automatic Sorting
  * Specify exact area where to apply through conditionals
  * Advanced query interface filtering and complex sorts including multiple post types and taxonomies
@@ -51,7 +51,7 @@ For advanced features and functionality, check out the extended version of this 
  * Post Types Thumbnails
  * Advanced query usage
  * MultiSite Network Support, WPML, Polylang, WooCommerce, WP E-Commerce, Platform Pro, Genesis etc
- * WPML 100% compatibility with sort ***REMOVED*** across languages
+ * WPML 100% compatibility with sort synchronization across languages
  * Mobile Touch Drag & Drop Ready
  * Sort interfaces through admin and front end
  * Pagination for sort lists
@@ -242,7 +242,7 @@ Consider upgrading to our advanced version of this plugin, which offers these fe
 
 = 1.9.5.4 =
   - Fix PHP implode() notice
-  - Ensure the drag & drop interface show for correct post types, non ***REMOVED*** to ensure correct functionality
+  - Ensure the drag & drop interface show for correct post types, non hierarchically to ensure correct functionality
   - WordPress 5.6 compatibility tag
 
 = 1.9.5.2 =

@@ -214,7 +214,7 @@
 								"text": "var(--wp--preset--color--primary)"
 							},
 							"typography": {
-								"***REMOVED***": "none"
+								"textDecoration": "none"
 							}
 						},
 						":hover": {
@@ -222,7 +222,7 @@
 								"text": "var(--wp--preset--color--primary)"
 							},
 							"typography": {
-								"***REMOVED***": "none"
+								"textDecoration": "none"
 							}
 						}
 					}

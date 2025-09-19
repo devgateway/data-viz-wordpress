@@ -58,7 +58,7 @@ abstract class OpenSSH extends Progenitor
             $paddedKey = $parsed['paddedKey'];
             list($type) = Strings::unpackSSH2('s', $paddedKey);
             if ($type != $parsed['type']) {
-                throw new \***REMOVED***("The public and private keys are not of the same type ($type vs $parsed[type])");
+                throw new \RuntimeException("The public and private keys are not of the same type ($type vs $parsed[type])");
             }
             if ($type == 'ssh-ed25519') {
                 list(, $key, $comment) = Strings::unpackSSH2('sss', $paddedKey);
@@ -67,7 +67,7 @@ abstract class OpenSSH extends Progenitor
                 return $key;
             }
             list($curveName, $publicKey, $privateKey, $comment) = Strings::unpackSSH2('ssis', $paddedKey);
-            $curve = self::***REMOVED***(['namedCurve' => $curveName]);
+            $curve = self::loadCurveByParam(['namedCurve' => $curveName]);
             $curve->rangeCheck($privateKey);
             return [
                 'curve' => $curve,
@@ -79,7 +79,7 @@ abstract class OpenSSH extends Progenitor
 
         if ($parsed['type'] == 'ssh-ed25519') {
             if (Strings::shift($parsed['publicKey'], 4) != "\0\0\0\x20") {
-                throw new \***REMOVED***('Length of ssh-ed25519 key should be 32');
+                throw new \RuntimeException('Length of ssh-ed25519 key should be 32');
             }
 
             $curve = new Ed25519();
@@ -108,7 +108,7 @@ abstract class OpenSSH extends Progenitor
     {
         self::initialize_static_variables();
 
-        $reflect = new \***REMOVED***($curve);
+        $reflect = new \ReflectionClass($curve);
         $name = $reflect->getShortName();
 
         $oid = self::$curveOIDs[$name];
@@ -179,14 +179,14 @@ abstract class OpenSSH extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = '', array $options = [])
     {
         if ($curve instanceof Ed25519) {
             if (!isset($secret)) {
-                throw new \***REMOVED***('Private Key does not have a secret set');
+                throw new \RuntimeException('Private Key does not have a secret set');
             }
             if (strlen($secret) != 32) {
-                throw new \***REMOVED***('Private Key secret is not of the correct length');
+                throw new \RuntimeException('Private Key secret is not of the correct length');
             }
 
             $pubKey = $curve->encodePoint($publicKey);
@@ -194,7 +194,7 @@ abstract class OpenSSH extends Progenitor
             $publicKey = Strings::packSSH2('ss', 'ssh-ed25519', $pubKey);
             $privateKey = Strings::packSSH2('sss', 'ssh-ed25519', $pubKey, $secret . $pubKey);
 
-            return self::***REMOVED***($publicKey, $privateKey, $password, $options);
+            return self::wrapPrivateKey($publicKey, $privateKey, $password, $options);
         }
 
         $alias = self::getAlias($curve);
@@ -204,6 +204,6 @@ abstract class OpenSSH extends Progenitor
 
         $privateKey = Strings::packSSH2('sssi', 'ecdsa-sha2-' . $alias, $alias, $points, $privateKey);
 
-        return self::***REMOVED***($publicKey, $privateKey, $password, $options);
+        return self::wrapPrivateKey($publicKey, $privateKey, $password, $options);
     }
 }

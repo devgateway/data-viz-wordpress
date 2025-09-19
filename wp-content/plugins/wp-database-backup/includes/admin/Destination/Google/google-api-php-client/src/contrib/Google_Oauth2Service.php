@@ -100,7 +100,7 @@ class Google_Oauth2Service extends Google_Service {
   public $userinfo;
   public $userinfo_v2_me;
   /**
-   * Constructs the internal ***REMOVED*** of the Oauth2 service.
+   * Constructs the internal representation of the Oauth2 service.
    *
    * @param Google_Client $client
    */

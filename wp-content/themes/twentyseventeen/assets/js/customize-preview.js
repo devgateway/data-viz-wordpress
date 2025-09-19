@@ -15,7 +15,7 @@
 		wp.customize.preview.bind( 'section-highlight', function( data ) {
 
 			// Only on the front page.
-			if ( ! $( 'body' ).hasClass( '***REMOVED***-front-page' ) ) {
+			if ( ! $( 'body' ).hasClass( 'twentyseventeen-front-page' ) ) {
 				return;
 			}
 
@@ -44,7 +44,7 @@
 			$( '.site-title a' ).text( to );
 		});
 	});
-	wp.customize( '***REMOVED***', function( value ) {
+	wp.customize( 'blogdescription', function( value ) {
 		value.bind( function( to ) {
 			$( '.site-description' ).text( to );
 		});
@@ -64,7 +64,7 @@
 
 				// Check if the text color has been removed and use default colors in theme stylesheet.
 				if ( ! to.length ) {
-					$( '#***REMOVED***-custom-header-styles' ).remove();
+					$( '#twentyseventeen-custom-header-styles' ).remove();
 				}
 				$( '.site-title, .site-description' ).css({
 					clip: 'auto',
@@ -117,13 +117,13 @@
 	} );
 
 	// Whether a header image is available.
-	function ***REMOVED***() {
+	function hasHeaderImage() {
 		var image = wp.customize( 'header_image' )();
 		return '' !== image && 'remove-header' !== image;
 	}
 
 	// Whether a header video is available.
-	function ***REMOVED***() {
+	function hasHeaderVideo() {
 		var externalVideo = wp.customize( 'external_header_video' )(),
 			video = wp.customize( 'header_video' )();
 
@@ -134,13 +134,13 @@
 	$.each( [ 'external_header_video', 'header_image', 'header_video' ], function( index, settingId ) {
 		wp.customize( settingId, function( setting ) {
 			setting.bind(function() {
-				if ( ***REMOVED***() ) {
+				if ( hasHeaderImage() ) {
 					$( document.body ).addClass( 'has-header-image' );
 				} else {
 					$( document.body ).removeClass( 'has-header-image' );
 				}
 
-				if ( ! ***REMOVED***() ) {
+				if ( ! hasHeaderVideo() ) {
 					$( document.body ).removeClass( 'has-header-video' );
 				}
 			} );

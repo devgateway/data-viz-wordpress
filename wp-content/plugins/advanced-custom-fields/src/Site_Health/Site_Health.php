@@ -84,7 +84,7 @@ class Site_Health {
 	public function update_site_health_data( array $data = array() ): bool {
 		if ( wp_doing_cron() ) {
 			// Bootstrap wp-admin, as WP_Cron doesn't do this for us.
-			require_once ***REMOVED***( ABSPATH ) . 'wp-admin/includes/admin.php';
+			require_once trailingslashit( ABSPATH ) . 'wp-admin/includes/admin.php';
 		}
 
 		$site_health = $this->get_site_health();

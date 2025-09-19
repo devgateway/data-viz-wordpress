@@ -1,5 +1,5 @@
 <?php
-namespace enshrined\svgSanitize\***REMOVED***;
+namespace enshrined\svgSanitize\ElementReference;
 
 class Usage
 {

@@ -8,7 +8,7 @@ namespace YoastSEO_Vendor\Psr\Container;
 /**
  * Describes the interface of a container that exposes methods to read its entries.
  */
-interface ***REMOVED***
+interface ContainerInterface
 {
     /**
      * Finds an entry of the container by its identifier and returns it.

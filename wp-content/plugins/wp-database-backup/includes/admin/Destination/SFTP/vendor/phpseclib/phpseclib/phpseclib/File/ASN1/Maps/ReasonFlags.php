@@ -28,11 +28,11 @@ abstract class ReasonFlags
             'unused',
             'keyCompromise',
             'cACompromise',
-            '***REMOVED***',
+            'affiliationChanged',
             'superseded',
-            '***REMOVED***',
-            '***REMOVED***',
-            '***REMOVED***',
+            'cessationOfOperation',
+            'certificateHold',
+            'privilegeWithdrawn',
             'aACompromise'
         ]
     ];

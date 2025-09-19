@@ -8,7 +8,7 @@ import type { Properties } from 'csstype';
  */
 import { parseCssValue, type FourCssValues } from './helper';
 
-export interface ***REMOVED*** {
+export interface DirectionProps {
 	top: string;
 	right: string;
 	bottom: string;
@@ -33,7 +33,7 @@ export interface CrossProps {
  * @param stylesObj styles object.
  * @return padding styles object.
  */
-export function pickPadding( stylesObj: Properties ): ***REMOVED*** {
+export function pickPadding( stylesObj: Properties ): DirectionProps {
 	if ( stylesObj.padding ) {
 		const paddingValues: FourCssValues = parseCssValue( stylesObj.padding );
 
@@ -59,23 +59,23 @@ export function pickPadding( stylesObj: Properties ): ***REMOVED*** {
  * @param stylesObj styles object.
  * @return border-width styles object.
  */
-export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
+export function pickBorderWidth( stylesObj: Properties ): DirectionProps {
 	if ( stylesObj.borderWidth ) {
-		const ***REMOVED***: FourCssValues = parseCssValue( stylesObj.borderWidth );
+		const borderWidthValues: FourCssValues = parseCssValue( stylesObj.borderWidth );
 
 		return {
-			top: ***REMOVED***[ 0 ],
-			right: ***REMOVED***[ 1 ],
-			bottom: ***REMOVED***[ 2 ],
-			left: ***REMOVED***[ 3 ],
+			top: borderWidthValues[ 0 ],
+			right: borderWidthValues[ 1 ],
+			bottom: borderWidthValues[ 2 ],
+			left: borderWidthValues[ 3 ],
 		};
 	}
 
 	return {
-		top: stylesObj?.***REMOVED*** || '',
-		right: stylesObj?.***REMOVED*** || '',
-		bottom: stylesObj?.***REMOVED*** || '',
-		left: stylesObj?.***REMOVED*** || '',
+		top: stylesObj?.borderTopWidth || '',
+		right: stylesObj?.borderRightWidth || '',
+		bottom: stylesObj?.borderBottomWidth || '',
+		left: stylesObj?.borderLeftWidth || '',
 	};
 }
 
@@ -85,23 +85,23 @@ export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
  * @param stylesObj styles object.
  * @return border-color styles object.
  */
-export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
+export function pickBorderColor( stylesObj: Properties ): DirectionProps {
 	if ( stylesObj.borderColor ) {
-		const ***REMOVED***: FourCssValues = parseCssValue( stylesObj.borderColor );
+		const borderColorValues: FourCssValues = parseCssValue( stylesObj.borderColor );
 
 		return {
-			top: ***REMOVED***[ 0 ],
-			right: ***REMOVED***[ 1 ],
-			bottom: ***REMOVED***[ 2 ],
-			left: ***REMOVED***[ 3 ],
+			top: borderColorValues[ 0 ],
+			right: borderColorValues[ 1 ],
+			bottom: borderColorValues[ 2 ],
+			left: borderColorValues[ 3 ],
 		};
 	}
 
 	return {
-		top: stylesObj?.***REMOVED*** || '',
-		right: stylesObj?.***REMOVED*** || '',
-		bottom: stylesObj?.***REMOVED*** || '',
-		left: stylesObj?.***REMOVED*** || '',
+		top: stylesObj?.borderTopColor || '',
+		right: stylesObj?.borderRightColor || '',
+		bottom: stylesObj?.borderBottomColor || '',
+		left: stylesObj?.borderLeftColor || '',
 	};
 }
 
@@ -111,23 +111,23 @@ export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
  * @param stylesObj styles object.
  * @return border-style styles object.
  */
-export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
+export function pickBorderStyle( stylesObj: Properties ): DirectionProps {
 	if ( stylesObj.borderStyle ) {
-		const ***REMOVED***: FourCssValues = parseCssValue( stylesObj.borderStyle );
+		const borderStyleValues: FourCssValues = parseCssValue( stylesObj.borderStyle );
 
 		return {
-			top: ***REMOVED***[ 0 ],
-			right: ***REMOVED***[ 1 ],
-			bottom: ***REMOVED***[ 2 ],
-			left: ***REMOVED***[ 3 ],
+			top: borderStyleValues[ 0 ],
+			right: borderStyleValues[ 1 ],
+			bottom: borderStyleValues[ 2 ],
+			left: borderStyleValues[ 3 ],
 		};
 	}
 
 	return {
-		top: stylesObj?.***REMOVED*** || '',
-		right: stylesObj?.***REMOVED*** || '',
-		bottom: stylesObj?.***REMOVED*** || '',
-		left: stylesObj?.***REMOVED*** || '',
+		top: stylesObj?.borderTopStyle || '',
+		right: stylesObj?.borderRightStyle || '',
+		bottom: stylesObj?.borderBottomStyle || '',
+		left: stylesObj?.borderLeftStyle || '',
 	};
 }
 
@@ -136,26 +136,26 @@ export function ***REMOVED***( stylesObj: Properties ): ***REMOVED*** {
  *
  * @param stylesObj                         styles object.
  * @param stylesObj.borderRadius
- * @param stylesObj.***REMOVED***
- * @param stylesObj.***REMOVED***
+ * @param stylesObj.borderTopLeftRadius
+ * @param stylesObj.borderTopRightRadius
  * @param stylesObj.borderBottomRightRadius
  * @param stylesObj.borderBottomLeftRadius
  * @return border-radius styles object.
  */
-export function ***REMOVED***( stylesObj: Properties ): CornerProps {
+export function pickBorderRadius( stylesObj: Properties ): CornerProps {
 	if ( stylesObj.borderRadius ) {
-		const ***REMOVED***: FourCssValues = parseCssValue( stylesObj.borderRadius );
+		const borderRadiusValues: FourCssValues = parseCssValue( stylesObj.borderRadius );
 		return {
-			topLeft: ***REMOVED***[ 0 ],
-			topRight: ***REMOVED***[ 1 ],
-			bottomRight: ***REMOVED***[ 2 ],
-			bottomLeft: ***REMOVED***[ 3 ],
+			topLeft: borderRadiusValues[ 0 ],
+			topRight: borderRadiusValues[ 1 ],
+			bottomRight: borderRadiusValues[ 2 ],
+			bottomLeft: borderRadiusValues[ 3 ],
 		};
 	}
 
 	return {
-		topLeft: stylesObj?.***REMOVED*** || '',
-		topRight: stylesObj?.***REMOVED*** || '',
+		topLeft: stylesObj?.borderTopLeftRadius || '',
+		topRight: stylesObj?.borderTopRightRadius || '',
 		bottomRight: stylesObj?.borderBottomRightRadius || '',
 		bottomLeft: stylesObj?.borderBottomLeftRadius || '',
 	};
@@ -167,11 +167,11 @@ export function ***REMOVED***( stylesObj: Properties ): CornerProps {
  * @param stylesObj styles object.
  * @return border-spacing styles object.
  */
-export function ***REMOVED***( stylesObj: Properties ): CrossProps {
-	const ***REMOVED***: FourCssValues = parseCssValue( stylesObj.borderSpacing || '' );
+export function pickBorderSpacing( stylesObj: Properties ): CrossProps {
+	const borderSpacingValues: FourCssValues = parseCssValue( stylesObj.borderSpacing || '' );
 
 	return {
-		horizontal: ***REMOVED***[ 0 ],
-		vertical: ***REMOVED***[ 1 ],
+		horizontal: borderSpacingValues[ 0 ],
+		vertical: borderSpacingValues[ 1 ],
 	};
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * RevokedCertificate
  *
  * PHP version 5
  *
@@ -16,18 +16,18 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * RevokedCertificate
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class RevokedCertificate
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => CertificateSerialNumber::MAP,
-            '***REMOVED***' => Time::MAP,
-            '***REMOVED***' => [
+            'userCertificate' => CertificateSerialNumber::MAP,
+            'revocationDate' => Time::MAP,
+            'crlEntryExtensions' => [
                 'optional' => true
             ] + Extensions::MAP
         ]

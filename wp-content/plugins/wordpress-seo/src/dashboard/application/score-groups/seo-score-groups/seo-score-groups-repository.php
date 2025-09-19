@@ -1,7 +1,7 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups;
 
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\No_SEO_Score_Group;

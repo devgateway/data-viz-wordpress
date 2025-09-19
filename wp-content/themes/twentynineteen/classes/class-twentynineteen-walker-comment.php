@@ -56,7 +56,7 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 						printf(
 							wp_kses(
 								/* translators: %s: Comment author link. */
-								__( '%s <span class="screen-reader-text says">says:</span>', '***REMOVED***' ),
+								__( '%s <span class="screen-reader-text says">says:</span>', 'twentynineteen' ),
 								array(
 									'span' => array(
 										'class' => array(),
@@ -75,7 +75,7 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 					<div class="comment-metadata">
 						<?php
 						/* translators: 1: Comment date, 2: Comment time. */
-						$comment_timestamp = sprintf( __( '%1$s at %2$s', '***REMOVED***' ), get_comment_date( '', $comment ), get_comment_time() );
+						$comment_timestamp = sprintf( __( '%1$s at %2$s', 'twentynineteen' ), get_comment_date( '', $comment ), get_comment_time() );
 
 						printf(
 							'<a href="%s"><time datetime="%s">%s</time></a>',
@@ -85,16 +85,16 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 						);
 
 						$edit_comment_icon = twentynineteen_get_icon_svg( 'edit', 16 );
-						edit_comment_link( __( 'Edit', '***REMOVED***' ), ' <span class="edit-link-sep">&mdash;</span> <span class="edit-link">' . $edit_comment_icon, '</span>' );
+						edit_comment_link( __( 'Edit', 'twentynineteen' ), ' <span class="edit-link-sep">&mdash;</span> <span class="edit-link">' . $edit_comment_icon, '</span>' );
 						?>
 					</div><!-- .comment-metadata -->
 
 					<?php
 					$commenter = wp_get_current_commenter();
 					if ( $commenter['comment_author_email'] ) {
-						$moderation_note = __( 'Your comment is awaiting moderation.', '***REMOVED***' );
+						$moderation_note = __( 'Your comment is awaiting moderation.', 'twentynineteen' );
 					} else {
-						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', '***REMOVED***' );
+						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview; your comment will be visible after it has been approved.', 'twentynineteen' );
 					}
 					?>
 

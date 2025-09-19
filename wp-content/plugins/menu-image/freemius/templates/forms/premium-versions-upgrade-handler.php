@@ -66,7 +66,7 @@
             return;
         }
 
-        var ***REMOVED*** = <?php echo json_encode( $modal_content_html ) ?>,
+        var modalContentHtml = <?php echo json_encode( $modal_content_html ) ?>,
             modalHtml        =
                 '<div class="fs-modal fs-modal-upgrade-premium-version">'
                 + ' <div class="fs-modal-dialog">'
@@ -75,7 +75,7 @@
                 + '         <a href="!#" class="fs-close"><i class="dashicons dashicons-no" title="<?php echo esc_js( fs_text_x_inline( 'Dismiss', 'close a window', 'dismiss', $slug ) ) ?>"></i></a>'
                 + '     </div>'
                 + '     <div class="fs-modal-body">'
-                + '         <div class="fs-modal-panel active">' + ***REMOVED*** + '</div>'
+                + '         <div class="fs-modal-panel active">' + modalContentHtml + '</div>'
                 + '     </div>'
                 + '     <div class="fs-modal-footer">'
                 + '         <a class="button button-primary button-renew-license" tabindex="3" href="<?php echo $purchase_url ?>"><?php echo esc_js( $renew_license_button_text ) ?></a>'
@@ -102,7 +102,7 @@
                     return true;
                 }
 
-                evt.***REMOVED***();
+                evt.preventDefault();
                 evt.stopImmediatePropagation();
 
                 showModal( $this );
@@ -140,7 +140,7 @@
                 }
 
                 var $table                       = $this.closest( 'table' ),
-                    ***REMOVED***               = $this.prop( 'checked' ),
+                    controlChecked               = $this.prop( 'checked' ),
                     toggle                       = ( event.shiftKey || $this.data( 'wp-toggle' ) ),
                     $modules                     = $table.children( 'tbody' ).filter( ':visible' ).children().children( '.check-column' ).find( ':checkbox' ),
                     $modulesWithNonActiveLicense = $modules.filter( '.license-expired' );
@@ -173,7 +173,7 @@
 
                         if ( toggle ) {
                             return ! $( this ).prop( 'checked' );
-                        } else if ( ***REMOVED*** ) {
+                        } else if ( controlChecked ) {
                             return true;
                         }
 

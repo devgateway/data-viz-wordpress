@@ -8,7 +8,7 @@
  *
  * @since Twenty Twenty-One 1.0
  */
-wp.customize.***REMOVED***['twenty-twenty-one-color'] = wp.customize.Control.extend( {
+wp.customize.controlConstructor['twenty-twenty-one-color'] = wp.customize.Control.extend( {
 	ready: function() {
 		var control = this,
 			updating = false,
@@ -40,15 +40,15 @@ wp.customize.***REMOVED***['twenty-twenty-one-color'] = wp.customize.Control.ext
 
 		// Collapse color picker when hitting Esc instead of collapsing the current section.
 		control.container.on( 'keydown', function( event ) {
-			var ***REMOVED***;
+			var pickerContainer;
 			if ( 27 !== event.which ) { // Esc.
 				return;
 			}
-			***REMOVED*** = control.container.find( '.wp-picker-container' );
-			if ( ***REMOVED***.hasClass( 'wp-picker-active' ) ) {
+			pickerContainer = control.container.find( '.wp-picker-container' );
+			if ( pickerContainer.hasClass( 'wp-picker-active' ) ) {
 				picker.wpColorPicker( 'close' );
 				control.container.find( '.wp-color-result' ).focus();
-				event.***REMOVED***(); // Prevent section from being collapsed.
+				event.stopPropagation(); // Prevent section from being collapsed.
 			}
 		} );
 	}

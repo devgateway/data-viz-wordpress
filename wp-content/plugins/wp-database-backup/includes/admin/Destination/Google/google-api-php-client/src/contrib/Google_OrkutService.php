@@ -73,7 +73,7 @@
      * @opt_param string pageToken A continuation token that allows pagination.
      * @return Google_ActivityList
      */
-    public function ***REMOVED***($userId, $collection, $optParams = array()) {
+    public function listActivities($userId, $collection, $optParams = array()) {
       $params = array('userId' => $userId, 'collection' => $collection);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -86,17 +86,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "activityVisibility" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $activityVisibility = $orkutService->activityVisibility;
    *  </code>
    */
   class Google_ActivityVisibilityServiceResource extends Google_ServiceResource {
 
     /**
-     * Gets the visibility of an existing activity. (***REMOVED***.get)
+     * Gets the visibility of an existing activity. (activityVisibility.get)
      *
      * @param string $activityId ID of the activity to get the visibility.
      * @param array $optParams Optional parameters.
@@ -114,7 +114,7 @@
     }
     /**
      * Updates the visibility of an existing activity. This method supports patch semantics.
-     * (***REMOVED***.patch)
+     * (activityVisibility.patch)
      *
      * @param string $activityId ID of the activity.
      * @param Google_Visibility $postBody
@@ -132,7 +132,7 @@
       }
     }
     /**
-     * Updates the visibility of an existing activity. (***REMOVED***.update)
+     * Updates the visibility of an existing activity. (activityVisibility.update)
      *
      * @param string $activityId ID of the activity.
      * @param Google_Visibility $postBody
@@ -321,7 +321,7 @@
      * @opt_param string orderBy How to order the communities by.
      * @return Google_CommunityList
      */
-    public function ***REMOVED***($userId, $optParams = array()) {
+    public function listCommunities($userId, $optParams = array()) {
       $params = array('userId' => $userId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -334,17 +334,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "communityFollow" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $communityFollow = $orkutService->communityFollow;
    *  </code>
    */
   class Google_CommunityFollowServiceResource extends Google_ServiceResource {
 
     /**
-     * Removes a user from the followers of a community. (***REMOVED***.delete)
+     * Removes a user from the followers of a community. (communityFollow.delete)
      *
      * @param int $communityId ID of the community.
      * @param string $userId ID of the user.
@@ -357,7 +357,7 @@
       return $data;
     }
     /**
-     * Adds a user as a follower of a community. (***REMOVED***.insert)
+     * Adds a user as a follower of a community. (communityFollow.insert)
      *
      * @param int $communityId ID of the community.
      * @param string $userId ID of the user.
@@ -377,17 +377,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "communityMembers" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $communityMembers = $orkutService->communityMembers;
    *  </code>
    */
   class Google_CommunityMembersServiceResource extends Google_ServiceResource {
 
     /**
-     * Makes the user leave a community. (***REMOVED***.delete)
+     * Makes the user leave a community. (communityMembers.delete)
      *
      * @param int $communityId ID of the community.
      * @param string $userId ID of the user.
@@ -400,7 +400,7 @@
       return $data;
     }
     /**
-     * Retrieves the relationship between a user and a community. (***REMOVED***.get)
+     * Retrieves the relationship between a user and a community. (communityMembers.get)
      *
      * @param int $communityId ID of the community.
      * @param string $userId ID of the user.
@@ -420,7 +420,7 @@
       }
     }
     /**
-     * Makes the user join a community. (***REMOVED***.insert)
+     * Makes the user join a community. (communityMembers.insert)
      *
      * @param int $communityId ID of the community.
      * @param string $userId ID of the user.
@@ -440,7 +440,7 @@
     /**
      * Lists members of a community. Use the pagination tokens to retrieve the full list; do not rely on
      * the member count available in the community profile information to know when to stop iterating,
-     * as that count may be approximate. (***REMOVED***.list)
+     * as that count may be approximate. (communityMembers.list)
      *
      * @param int $communityId The ID of the community whose members will be listed.
      * @param array $optParams Optional parameters.
@@ -451,7 +451,7 @@
      * @opt_param string pageToken A continuation token that allows pagination.
      * @return Google_CommunityMembersList
      */
-    public function ***REMOVED***($communityId, $optParams = array()) {
+    public function listCommunityMembers($communityId, $optParams = array()) {
       $params = array('communityId' => $communityId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -464,17 +464,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "communityMessages" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $communityMessages = $orkutService->communityMessages;
    *  </code>
    */
   class Google_CommunityMessagesServiceResource extends Google_ServiceResource {
 
     /**
-     * Moves a message of the community to the trash folder. (***REMOVED***.delete)
+     * Moves a message of the community to the trash folder. (communityMessages.delete)
      *
      * @param int $communityId The ID of the community whose message will be moved to the trash folder.
      * @param string $topicId The ID of the topic whose message will be moved to the trash folder.
@@ -488,7 +488,7 @@
       return $data;
     }
     /**
-     * Adds a message to a given community topic. (***REMOVED***.insert)
+     * Adds a message to a given community topic. (communityMessages.insert)
      *
      * @param int $communityId The ID of the community the message should be added to.
      * @param string $topicId The ID of the topic the message should be added to.
@@ -507,7 +507,7 @@
       }
     }
     /**
-     * Retrieves the messages of a topic of a community. (***REMOVED***.list)
+     * Retrieves the messages of a topic of a community. (communityMessages.list)
      *
      * @param int $communityId The ID of the community which messages will be listed.
      * @param string $topicId The ID of the topic which messages will be listed.
@@ -584,17 +584,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "communityPollVotes" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $communityPollVotes = $orkutService->communityPollVotes;
    *  </code>
    */
   class Google_CommunityPollVotesServiceResource extends Google_ServiceResource {
 
     /**
-     * Votes on a community poll. (***REMOVED***.insert)
+     * Votes on a community poll. (communityPollVotes.insert)
      *
      * @param int $communityId The ID of the community whose poll is being voted.
      * @param string $pollId The ID of the poll being voted.
@@ -615,17 +615,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "communityPolls" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $communityPolls = $orkutService->communityPolls;
    *  </code>
    */
   class Google_CommunityPollsServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves one specific poll of a community. (***REMOVED***.get)
+     * Retrieves one specific poll of a community. (communityPolls.get)
      *
      * @param int $communityId The ID of the community for whose poll will be retrieved.
      * @param string $pollId The ID of the poll to get.
@@ -645,7 +645,7 @@
       }
     }
     /**
-     * Retrieves the polls of a community. (***REMOVED***.list)
+     * Retrieves the polls of a community. (communityPolls.list)
      *
      * @param int $communityId The ID of the community which polls will be listed.
      * @param array $optParams Optional parameters.
@@ -655,7 +655,7 @@
      * @opt_param string pageToken A continuation token that allows pagination.
      * @return Google_CommunityPollList
      */
-    public function ***REMOVED***($communityId, $optParams = array()) {
+    public function listCommunityPolls($communityId, $optParams = array()) {
       $params = array('communityId' => $communityId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -668,17 +668,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "communityRelated" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $communityRelated = $orkutService->communityRelated;
    *  </code>
    */
   class Google_CommunityRelatedServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves the communities related to another one. (***REMOVED***.list)
+     * Retrieves the communities related to another one. (communityRelated.list)
      *
      * @param int $communityId The ID of the community whose related communities will be listed.
      * @param array $optParams Optional parameters.
@@ -686,7 +686,7 @@
      * @opt_param string hl Specifies the interface language (host language) of your user interface.
      * @return Google_CommunityList
      */
-    public function ***REMOVED***($communityId, $optParams = array()) {
+    public function listCommunityRelated($communityId, $optParams = array()) {
       $params = array('communityId' => $communityId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -699,17 +699,17 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "communityTopics" collection of methods.
    * Typical usage is:
    *  <code>
    *   $orkutService = new Google_OrkutService(...);
-   *   $***REMOVED*** = $orkutService->***REMOVED***;
+   *   $communityTopics = $orkutService->communityTopics;
    *  </code>
    */
   class Google_CommunityTopicsServiceResource extends Google_ServiceResource {
 
     /**
-     * Moves a topic of the community to the trash folder. (***REMOVED***.delete)
+     * Moves a topic of the community to the trash folder. (communityTopics.delete)
      *
      * @param int $communityId The ID of the community whose topic will be moved to the trash folder.
      * @param string $topicId The ID of the topic to be moved to the trash folder.
@@ -722,7 +722,7 @@
       return $data;
     }
     /**
-     * Retrieves a topic of a community. (***REMOVED***.get)
+     * Retrieves a topic of a community. (communityTopics.get)
      *
      * @param int $communityId The ID of the community whose topic will be retrieved.
      * @param string $topicId The ID of the topic to get.
@@ -742,7 +742,7 @@
       }
     }
     /**
-     * Adds a topic to a given community. (***REMOVED***.insert)
+     * Adds a topic to a given community. (communityTopics.insert)
      *
      * @param int $communityId The ID of the community the topic should be added to.
      * @param Google_CommunityTopic $postBody
@@ -762,7 +762,7 @@
       }
     }
     /**
-     * Retrieves the topics of a community. (***REMOVED***.list)
+     * Retrieves the topics of a community. (communityTopics.list)
      *
      * @param int $communityId The ID of the community which topics will be listed.
      * @param array $optParams Optional parameters.
@@ -772,7 +772,7 @@
      * @opt_param string pageToken A continuation token that allows pagination.
      * @return Google_CommunityTopicList
      */
-    public function ***REMOVED***($communityId, $optParams = array()) {
+    public function listCommunityTopics($communityId, $optParams = array()) {
       $params = array('communityId' => $communityId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -859,22 +859,22 @@
 class Google_OrkutService extends Google_Service {
   public $acl;
   public $activities;
-  public $***REMOVED***;
+  public $activityVisibility;
   public $badges;
   public $comments;
   public $communities;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $communityFollow;
+  public $communityMembers;
+  public $communityMessages;
   public $communityPollComments;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $communityPollVotes;
+  public $communityPolls;
+  public $communityRelated;
+  public $communityTopics;
   public $counters;
   public $scraps;
   /**
-   * Constructs the internal ***REMOVED*** of the Orkut service.
+   * Constructs the internal representation of the Orkut service.
    *
    * @param Google_Client $client
    */
@@ -886,18 +886,18 @@ class Google_OrkutService extends Google_Service {
     $client->addService($this->serviceName, $this->version);
     $this->acl = new Google_AclServiceResource($this, $this->serviceName, 'acl', json_decode('{"methods": {"delete": {"id": "orkut.acl.delete", "path": "activities/{activityId}/acl/{userId}", "httpMethod": "DELETE", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
     $this->activities = new Google_ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"delete": {"id": "orkut.activities.delete", "path": "activities/{activityId}", "httpMethod": "DELETE", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.activities.list", "path": "people/{userId}/activities/{collection}", "httpMethod": "GET", "parameters": {"collection": {"type": "string", "required": true, "enum": ["all", "scraps", "stream"], "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ActivityList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_ActivityVisibilityServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "orkut.***REMOVED***.get", "path": "activities/{activityId}/visibility", "httpMethod": "GET", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Visibility"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "patch": {"id": "orkut.***REMOVED***.patch", "path": "activities/{activityId}/visibility", "httpMethod": "PATCH", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Visibility"}, "response": {"$ref": "Visibility"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "update": {"id": "orkut.***REMOVED***.update", "path": "activities/{activityId}/visibility", "httpMethod": "PUT", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Visibility"}, "response": {"$ref": "Visibility"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
+    $this->activityVisibility = new Google_ActivityVisibilityServiceResource($this, $this->serviceName, 'activityVisibility', json_decode('{"methods": {"get": {"id": "orkut.activityVisibility.get", "path": "activities/{activityId}/visibility", "httpMethod": "GET", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Visibility"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "patch": {"id": "orkut.activityVisibility.patch", "path": "activities/{activityId}/visibility", "httpMethod": "PATCH", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Visibility"}, "response": {"$ref": "Visibility"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "update": {"id": "orkut.activityVisibility.update", "path": "activities/{activityId}/visibility", "httpMethod": "PUT", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Visibility"}, "response": {"$ref": "Visibility"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
     $this->badges = new Google_BadgesServiceResource($this, $this->serviceName, 'badges', json_decode('{"methods": {"get": {"id": "orkut.badges.get", "path": "people/{userId}/badges/{badgeId}", "httpMethod": "GET", "parameters": {"badgeId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Badge"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "list": {"id": "orkut.badges.list", "path": "people/{userId}/badges", "httpMethod": "GET", "parameters": {"userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "BadgeList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
     $this->comments = new Google_CommentsServiceResource($this, $this->serviceName, 'comments', json_decode('{"methods": {"delete": {"id": "orkut.comments.delete", "path": "comments/{commentId}", "httpMethod": "DELETE", "parameters": {"commentId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "get": {"id": "orkut.comments.get", "path": "comments/{commentId}", "httpMethod": "GET", "parameters": {"commentId": {"type": "string", "required": true, "location": "path"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "Comment"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "insert": {"id": "orkut.comments.insert", "path": "activities/{activityId}/comments", "httpMethod": "POST", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Comment"}, "response": {"$ref": "Comment"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.comments.list", "path": "activities/{activityId}/comments", "httpMethod": "GET", "parameters": {"activityId": {"type": "string", "required": true, "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "orderBy": {"type": "string", "default": "DESCENDING_SORT", "enum": ["ascending", "descending"], "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "CommentList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
     $this->communities = new Google_CommunitiesServiceResource($this, $this->serviceName, 'communities', json_decode('{"methods": {"get": {"id": "orkut.communities.get", "path": "communities/{communityId}", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "Community"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "list": {"id": "orkut.communities.list", "path": "people/{userId}/communities", "httpMethod": "GET", "parameters": {"hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "orderBy": {"type": "string", "enum": ["id", "ranked"], "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_CommunityFollowServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "orkut.***REMOVED***.delete", "path": "communities/{communityId}/followers/{userId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "insert": {"id": "orkut.***REMOVED***.insert", "path": "communities/{communityId}/followers/{userId}", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
-    $this->***REMOVED*** = new Google_CommunityMembersServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "orkut.***REMOVED***.delete", "path": "communities/{communityId}/members/{userId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "get": {"id": "orkut.***REMOVED***.get", "path": "communities/{communityId}/members/{userId}", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "insert": {"id": "orkut.***REMOVED***.insert", "path": "communities/{communityId}/members/{userId}", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.***REMOVED***.list", "path": "communities/{communityId}/members", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "friendsOnly": {"type": "boolean", "location": "query"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_CommunityMessagesServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "orkut.***REMOVED***.delete", "path": "communities/{communityId}/topics/{topicId}/messages/{messageId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "messageId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "insert": {"id": "orkut.***REMOVED***.insert", "path": "communities/{communityId}/topics/{topicId}/messages", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.***REMOVED***.list", "path": "communities/{communityId}/topics/{topicId}/messages", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
-    $this->communityPollComments = new Google_CommunityPollCommentsServiceResource($this, $this->serviceName, 'communityPollComments', json_decode('{"methods": {"insert": {"id": "orkut.communityPollComments.insert", "path": "communities/{communityId}/polls/{pollId}/comments", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.communityPollComments.list", "path": "communities/{communityId}/polls/{pollId}/comments", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityPollCommentList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_CommunityPollVotesServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"insert": {"id": "orkut.***REMOVED***.insert", "path": "communities/{communityId}/polls/{pollId}/votes", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
-    $this->***REMOVED*** = new Google_CommunityPollsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"get": {"id": "orkut.***REMOVED***.get", "path": "communities/{communityId}/polls/{pollId}", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityPoll"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "list": {"id": "orkut.***REMOVED***.list", "path": "communities/{communityId}/polls", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_CommunityRelatedServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"list": {"id": "orkut.***REMOVED***.list", "path": "communities/{communityId}/related", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "CommunityList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
-    $this->***REMOVED*** = new Google_CommunityTopicsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "orkut.***REMOVED***.delete", "path": "communities/{communityId}/topics/{topicId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "get": {"id": "orkut.***REMOVED***.get", "path": "communities/{communityId}/topics/{topicId}", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "insert": {"id": "orkut.***REMOVED***.insert", "path": "communities/{communityId}/topics", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "isShout": {"type": "boolean", "location": "query"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.***REMOVED***.list", "path": "communities/{communityId}/topics", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
+    $this->communityFollow = new Google_CommunityFollowServiceResource($this, $this->serviceName, 'communityFollow', json_decode('{"methods": {"delete": {"id": "orkut.communityFollow.delete", "path": "communities/{communityId}/followers/{userId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "insert": {"id": "orkut.communityFollow.insert", "path": "communities/{communityId}/followers/{userId}", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityMembers"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
+    $this->communityMembers = new Google_CommunityMembersServiceResource($this, $this->serviceName, 'communityMembers', json_decode('{"methods": {"delete": {"id": "orkut.communityMembers.delete", "path": "communities/{communityId}/members/{userId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "get": {"id": "orkut.communityMembers.get", "path": "communities/{communityId}/members/{userId}", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityMembers"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "insert": {"id": "orkut.communityMembers.insert", "path": "communities/{communityId}/members/{userId}", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityMembers"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.communityMembers.list", "path": "communities/{communityId}/members", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "friendsOnly": {"type": "boolean", "location": "query"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "CommunityMembersList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
+    $this->communityMessages = new Google_CommunityMessagesServiceResource($this, $this->serviceName, 'communityMessages', json_decode('{"methods": {"delete": {"id": "orkut.communityMessages.delete", "path": "communities/{communityId}/topics/{topicId}/messages/{messageId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "messageId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "insert": {"id": "orkut.communityMessages.insert", "path": "communities/{communityId}/topics/{topicId}/messages", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "CommunityMessage"}, "response": {"$ref": "CommunityMessage"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.communityMessages.list", "path": "communities/{communityId}/topics/{topicId}/messages", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "CommunityMessageList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
+    $this->communityPollComments = new Google_CommunityPollCommentsServiceResource($this, $this->serviceName, 'communityPollComments', json_decode('{"methods": {"insert": {"id": "orkut.communityPollComments.insert", "path": "communities/{communityId}/polls/{pollId}/comments", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "CommunityPollComment"}, "response": {"$ref": "CommunityPollComment"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.communityPollComments.list", "path": "communities/{communityId}/polls/{pollId}/comments", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityPollCommentList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
+    $this->communityPollVotes = new Google_CommunityPollVotesServiceResource($this, $this->serviceName, 'communityPollVotes', json_decode('{"methods": {"insert": {"id": "orkut.communityPollVotes.insert", "path": "communities/{communityId}/polls/{pollId}/votes", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "CommunityPollVote"}, "response": {"$ref": "CommunityPollVote"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
+    $this->communityPolls = new Google_CommunityPollsServiceResource($this, $this->serviceName, 'communityPolls', json_decode('{"methods": {"get": {"id": "orkut.communityPolls.get", "path": "communities/{communityId}/polls/{pollId}", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "pollId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "CommunityPoll"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "list": {"id": "orkut.communityPolls.list", "path": "communities/{communityId}/polls", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "CommunityPollList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
+    $this->communityRelated = new Google_CommunityRelatedServiceResource($this, $this->serviceName, 'communityRelated', json_decode('{"methods": {"list": {"id": "orkut.communityRelated.list", "path": "communities/{communityId}/related", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}}, "response": {"$ref": "CommunityList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
+    $this->communityTopics = new Google_CommunityTopicsServiceResource($this, $this->serviceName, 'communityTopics', json_decode('{"methods": {"delete": {"id": "orkut.communityTopics.delete", "path": "communities/{communityId}/topics/{topicId}", "httpMethod": "DELETE", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "get": {"id": "orkut.communityTopics.get", "path": "communities/{communityId}/topics/{topicId}", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "topicId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "CommunityTopic"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}, "insert": {"id": "orkut.communityTopics.insert", "path": "communities/{communityId}/topics", "httpMethod": "POST", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "isShout": {"type": "boolean", "location": "query"}}, "request": {"$ref": "CommunityTopic"}, "response": {"$ref": "CommunityTopic"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}, "list": {"id": "orkut.communityTopics.list", "path": "communities/{communityId}/topics", "httpMethod": "GET", "parameters": {"communityId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "hl": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "1", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "CommunityTopicList"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
     $this->counters = new Google_CountersServiceResource($this, $this->serviceName, 'counters', json_decode('{"methods": {"list": {"id": "orkut.counters.list", "path": "people/{userId}/counters", "httpMethod": "GET", "parameters": {"userId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Counters"}, "scopes": ["https://www.googleapis.com/auth/orkut", "https://www.googleapis.com/auth/orkut.readonly"]}}}', true));
     $this->scraps = new Google_ScrapsServiceResource($this, $this->serviceName, 'scraps', json_decode('{"methods": {"insert": {"id": "orkut.scraps.insert", "path": "activities/scraps", "httpMethod": "POST", "request": {"$ref": "Activity"}, "response": {"$ref": "Activity"}, "scopes": ["https://www.googleapis.com/auth/orkut"]}}}', true));
 
@@ -912,11 +912,11 @@ class Google_Acl extends Google_Model {
   protected $__itemsDataType = 'array';
   public $items;
   public $kind;
-  public $***REMOVED***;
-  public function ***REMOVED***( $description) {
+  public $totalParticipants;
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setItems(/* array(Google_AclItems) */ $items) {
@@ -932,11 +932,11 @@ class Google_Acl extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalParticipants( $totalParticipants) {
+    $this->totalParticipants = $totalParticipants;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTotalParticipants() {
+    return $this->totalParticipants;
   }
 }
 
@@ -1058,10 +1058,10 @@ class Google_ActivityList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -1130,8 +1130,8 @@ class Google_ActivityObjectReplies extends Google_Model {
 }
 
 class Google_Badge extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $badgeLargeLogo;
+  public $badgeSmallLogo;
   public $caption;
   public $description;
   public $id;
@@ -1139,17 +1139,17 @@ class Google_Badge extends Google_Model {
   public $sponsorLogo;
   public $sponsorName;
   public $sponsorUrl;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBadgeLargeLogo( $badgeLargeLogo) {
+    $this->badgeLargeLogo = $badgeLargeLogo;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getBadgeLargeLogo() {
+    return $this->badgeLargeLogo;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBadgeSmallLogo( $badgeSmallLogo) {
+    $this->badgeSmallLogo = $badgeSmallLogo;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getBadgeSmallLogo() {
+    return $this->badgeSmallLogo;
   }
   public function setCaption( $caption) {
     $this->caption = $caption;
@@ -1157,10 +1157,10 @@ class Google_Badge extends Google_Model {
   public function getCaption() {
     return $this->caption;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -1175,16 +1175,16 @@ class Google_Badge extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $sponsorLogo) {
+  public function setSponsorLogo( $sponsorLogo) {
     $this->sponsorLogo = $sponsorLogo;
   }
-  public function ***REMOVED***() {
+  public function getSponsorLogo() {
     return $this->sponsorLogo;
   }
-  public function ***REMOVED***( $sponsorName) {
+  public function setSponsorName( $sponsorName) {
     $this->sponsorName = $sponsorName;
   }
-  public function ***REMOVED***() {
+  public function getSponsorName() {
     return $this->sponsorName;
   }
   public function setSponsorUrl( $sponsorUrl) {
@@ -1311,7 +1311,7 @@ class Google_CommentList extends Google_Model {
   public $items;
   public $kind;
   public $nextPageToken;
-  public $***REMOVED***;
+  public $previousPageToken;
   public function setItems(/* array(Google_Comment) */ $items) {
     $this->assertIsArray($items, 'Google_Comment', __METHOD__);
     $this->items = $items;
@@ -1325,17 +1325,17 @@ class Google_CommentList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPreviousPageToken( $previousPageToken) {
+    $this->previousPageToken = $previousPageToken;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPreviousPageToken() {
+    return $this->previousPageToken;
   }
 }
 
@@ -1381,10 +1381,10 @@ class Google_Community extends Google_Model {
   public function getCreation_date() {
     return $this->creation_date;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -1500,7 +1500,7 @@ class Google_CommunityMembers extends Google_Model {
 }
 
 class Google_CommunityMembersList extends Google_Model {
-  public $***REMOVED***;
+  public $firstPageToken;
   protected $__itemsType = 'Google_CommunityMembers';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1508,11 +1508,11 @@ class Google_CommunityMembersList extends Google_Model {
   public $lastPageToken;
   public $nextPageToken;
   public $prevPageToken;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFirstPageToken( $firstPageToken) {
+    $this->firstPageToken = $firstPageToken;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFirstPageToken() {
+    return $this->firstPageToken;
   }
   public function setItems(/* array(Google_CommunityMembers) */ $items) {
     $this->assertIsArray($items, 'Google_CommunityMembers', __METHOD__);
@@ -1527,49 +1527,49 @@ class Google_CommunityMembersList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $lastPageToken) {
+  public function setLastPageToken( $lastPageToken) {
     $this->lastPageToken = $lastPageToken;
   }
-  public function ***REMOVED***() {
+  public function getLastPageToken() {
     return $this->lastPageToken;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $prevPageToken) {
+  public function setPrevPageToken( $prevPageToken) {
     $this->prevPageToken = $prevPageToken;
   }
-  public function ***REMOVED***() {
+  public function getPrevPageToken() {
     return $this->prevPageToken;
   }
 }
 
 class Google_CommunityMembershipStatus extends Google_Model {
   public $canCreatePoll;
-  public $***REMOVED***;
+  public $canCreateTopic;
   public $canShout;
   public $isCoOwner;
   public $isFollowing;
   public $isModerator;
   public $isOwner;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $isRestoreAvailable;
+  public $isTakebackAvailable;
   public $kind;
   public $status;
-  public function ***REMOVED***( $canCreatePoll) {
+  public function setCanCreatePoll( $canCreatePoll) {
     $this->canCreatePoll = $canCreatePoll;
   }
-  public function ***REMOVED***() {
+  public function getCanCreatePoll() {
     return $this->canCreatePoll;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCanCreateTopic( $canCreateTopic) {
+    $this->canCreateTopic = $canCreateTopic;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCanCreateTopic() {
+    return $this->canCreateTopic;
   }
   public function setCanShout( $canShout) {
     $this->canShout = $canShout;
@@ -1583,16 +1583,16 @@ class Google_CommunityMembershipStatus extends Google_Model {
   public function getIsCoOwner() {
     return $this->isCoOwner;
   }
-  public function ***REMOVED***( $isFollowing) {
+  public function setIsFollowing( $isFollowing) {
     $this->isFollowing = $isFollowing;
   }
-  public function ***REMOVED***() {
+  public function getIsFollowing() {
     return $this->isFollowing;
   }
-  public function ***REMOVED***( $isModerator) {
+  public function setIsModerator( $isModerator) {
     $this->isModerator = $isModerator;
   }
-  public function ***REMOVED***() {
+  public function getIsModerator() {
     return $this->isModerator;
   }
   public function setIsOwner( $isOwner) {
@@ -1601,17 +1601,17 @@ class Google_CommunityMembershipStatus extends Google_Model {
   public function getIsOwner() {
     return $this->isOwner;
   }
-  public function setIsRestoreAvailable( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIsRestoreAvailable( $isRestoreAvailable) {
+    $this->isRestoreAvailable = $isRestoreAvailable;
   }
   public function getIsRestoreAvailable() {
-    return $this->***REMOVED***;
+    return $this->isRestoreAvailable;
   }
-  public function setIsTakebackAvailable( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIsTakebackAvailable( $isTakebackAvailable) {
+    $this->isTakebackAvailable = $isTakebackAvailable;
   }
   public function getIsTakebackAvailable() {
-    return $this->***REMOVED***;
+    return $this->isTakebackAvailable;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -1692,7 +1692,7 @@ class Google_CommunityMessage extends Google_Model {
 }
 
 class Google_CommunityMessageList extends Google_Model {
-  public $***REMOVED***;
+  public $firstPageToken;
   protected $__itemsType = 'Google_CommunityMessage';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1700,11 +1700,11 @@ class Google_CommunityMessageList extends Google_Model {
   public $lastPageToken;
   public $nextPageToken;
   public $prevPageToken;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFirstPageToken( $firstPageToken) {
+    $this->firstPageToken = $firstPageToken;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFirstPageToken() {
+    return $this->firstPageToken;
   }
   public function setItems(/* array(Google_CommunityMessage) */ $items) {
     $this->assertIsArray($items, 'Google_CommunityMessage', __METHOD__);
@@ -1719,22 +1719,22 @@ class Google_CommunityMessageList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $lastPageToken) {
+  public function setLastPageToken( $lastPageToken) {
     $this->lastPageToken = $lastPageToken;
   }
-  public function ***REMOVED***() {
+  public function getLastPageToken() {
     return $this->lastPageToken;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $prevPageToken) {
+  public function setPrevPageToken( $prevPageToken) {
     $this->prevPageToken = $prevPageToken;
   }
-  public function ***REMOVED***() {
+  public function getPrevPageToken() {
     return $this->prevPageToken;
   }
 }
@@ -1753,11 +1753,11 @@ class Google_CommunityPoll extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $isClosed;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $isMultipleAnswers;
+  public $isOpenForVoting;
   public $isRestricted;
   public $isSpam;
-  public $***REMOVED***;
+  public $isUsersVotePublic;
   public $isVotingAllowedForNonMembers;
   public $kind;
   public $lastUpdate;
@@ -1768,7 +1768,7 @@ class Google_CommunityPoll extends Google_Model {
   protected $__optionsDataType = 'array';
   public $options;
   public $question;
-  public $***REMOVED***;
+  public $totalNumberOfVotes;
   public $votedOptions;
   public function setAuthor(Google_OrkutAuthorResource $author) {
     $this->author = $author;
@@ -1776,22 +1776,22 @@ class Google_CommunityPoll extends Google_Model {
   public function getAuthor() {
     return $this->author;
   }
-  public function ***REMOVED***( $communityId) {
+  public function setCommunityId( $communityId) {
     $this->communityId = $communityId;
   }
-  public function ***REMOVED***() {
+  public function getCommunityId() {
     return $this->communityId;
   }
-  public function ***REMOVED***( $creationTime) {
+  public function setCreationTime( $creationTime) {
     $this->creationTime = $creationTime;
   }
-  public function ***REMOVED***() {
+  public function getCreationTime() {
     return $this->creationTime;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setEndingTime( $endingTime) {
@@ -1824,22 +1824,22 @@ class Google_CommunityPoll extends Google_Model {
   public function getIsClosed() {
     return $this->isClosed;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIsMultipleAnswers( $isMultipleAnswers) {
+    $this->isMultipleAnswers = $isMultipleAnswers;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIsMultipleAnswers() {
+    return $this->isMultipleAnswers;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIsOpenForVoting( $isOpenForVoting) {
+    $this->isOpenForVoting = $isOpenForVoting;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIsOpenForVoting() {
+    return $this->isOpenForVoting;
   }
-  public function ***REMOVED***( $isRestricted) {
+  public function setIsRestricted( $isRestricted) {
     $this->isRestricted = $isRestricted;
   }
-  public function ***REMOVED***() {
+  public function getIsRestricted() {
     return $this->isRestricted;
   }
   public function setIsSpam( $isSpam) {
@@ -1848,11 +1848,11 @@ class Google_CommunityPoll extends Google_Model {
   public function getIsSpam() {
     return $this->isSpam;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setIsUsersVotePublic( $isUsersVotePublic) {
+    $this->isUsersVotePublic = $isUsersVotePublic;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIsUsersVotePublic() {
+    return $this->isUsersVotePublic;
   }
   public function setIsVotingAllowedForNonMembers( $isVotingAllowedForNonMembers) {
     $this->isVotingAllowedForNonMembers = $isVotingAllowedForNonMembers;
@@ -1892,17 +1892,17 @@ class Google_CommunityPoll extends Google_Model {
   public function getQuestion() {
     return $this->question;
   }
-  public function setTotalNumberOfVotes( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalNumberOfVotes( $totalNumberOfVotes) {
+    $this->totalNumberOfVotes = $totalNumberOfVotes;
   }
   public function getTotalNumberOfVotes() {
-    return $this->***REMOVED***;
+    return $this->totalNumberOfVotes;
   }
-  public function ***REMOVED***(/* array(Google_int) */ $votedOptions) {
+  public function setVotedOptions(/* array(Google_int) */ $votedOptions) {
     $this->assertIsArray($votedOptions, 'Google_int', __METHOD__);
     $this->votedOptions = $votedOptions;
   }
-  public function ***REMOVED***() {
+  public function getVotedOptions() {
     return $this->votedOptions;
   }
 }
@@ -1948,7 +1948,7 @@ class Google_CommunityPollComment extends Google_Model {
 }
 
 class Google_CommunityPollCommentList extends Google_Model {
-  public $***REMOVED***;
+  public $firstPageToken;
   protected $__itemsType = 'Google_CommunityPollComment';
   protected $__itemsDataType = 'array';
   public $items;
@@ -1956,11 +1956,11 @@ class Google_CommunityPollCommentList extends Google_Model {
   public $lastPageToken;
   public $nextPageToken;
   public $prevPageToken;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFirstPageToken( $firstPageToken) {
+    $this->firstPageToken = $firstPageToken;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFirstPageToken() {
+    return $this->firstPageToken;
   }
   public function setItems(/* array(Google_CommunityPollComment) */ $items) {
     $this->assertIsArray($items, 'Google_CommunityPollComment', __METHOD__);
@@ -1975,22 +1975,22 @@ class Google_CommunityPollCommentList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $lastPageToken) {
+  public function setLastPageToken( $lastPageToken) {
     $this->lastPageToken = $lastPageToken;
   }
-  public function ***REMOVED***() {
+  public function getLastPageToken() {
     return $this->lastPageToken;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $prevPageToken) {
+  public function setPrevPageToken( $prevPageToken) {
     $this->prevPageToken = $prevPageToken;
   }
-  public function ***REMOVED***() {
+  public function getPrevPageToken() {
     return $this->prevPageToken;
   }
 }
@@ -2006,7 +2006,7 @@ class Google_CommunityPollImage extends Google_Model {
 }
 
 class Google_CommunityPollList extends Google_Model {
-  public $***REMOVED***;
+  public $firstPageToken;
   protected $__itemsType = 'Google_CommunityPoll';
   protected $__itemsDataType = 'array';
   public $items;
@@ -2014,11 +2014,11 @@ class Google_CommunityPollList extends Google_Model {
   public $lastPageToken;
   public $nextPageToken;
   public $prevPageToken;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFirstPageToken( $firstPageToken) {
+    $this->firstPageToken = $firstPageToken;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFirstPageToken() {
+    return $this->firstPageToken;
   }
   public function setItems(/* array(Google_CommunityPoll) */ $items) {
     $this->assertIsArray($items, 'Google_CommunityPoll', __METHOD__);
@@ -2033,22 +2033,22 @@ class Google_CommunityPollList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $lastPageToken) {
+  public function setLastPageToken( $lastPageToken) {
     $this->lastPageToken = $lastPageToken;
   }
-  public function ***REMOVED***() {
+  public function getLastPageToken() {
     return $this->lastPageToken;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $prevPageToken) {
+  public function setPrevPageToken( $prevPageToken) {
     $this->prevPageToken = $prevPageToken;
   }
-  public function ***REMOVED***() {
+  public function getPrevPageToken() {
     return $this->prevPageToken;
   }
 }
@@ -2057,10 +2057,10 @@ class Google_CommunityPollVote extends Google_Model {
   public $isVotevisible;
   public $kind;
   public $optionIds;
-  public function ***REMOVED***( $isVotevisible) {
+  public function setIsVotevisible( $isVotevisible) {
     $this->isVotevisible = $isVotevisible;
   }
-  public function ***REMOVED***() {
+  public function getIsVotevisible() {
     return $this->isVotevisible;
   }
   public function setKind( $kind) {
@@ -2087,14 +2087,14 @@ class Google_CommunityTopic extends Google_Model {
   public $isClosed;
   public $kind;
   public $lastUpdate;
-  public $***REMOVED***;
+  public $latestMessageSnippet;
   protected $__linksType = 'Google_OrkutLinkResource';
   protected $__linksDataType = 'array';
   public $links;
   protected $__messagesType = 'Google_CommunityMessage';
   protected $__messagesDataType = 'array';
   public $messages;
-  public $***REMOVED***;
+  public $numberOfReplies;
   public $title;
   public function setAuthor(Google_OrkutAuthorResource $author) {
     $this->author = $author;
@@ -2132,11 +2132,11 @@ class Google_CommunityTopic extends Google_Model {
   public function getLastUpdate() {
     return $this->lastUpdate;
   }
-  public function setLatestMessageSnippet( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLatestMessageSnippet( $latestMessageSnippet) {
+    $this->latestMessageSnippet = $latestMessageSnippet;
   }
   public function getLatestMessageSnippet() {
-    return $this->***REMOVED***;
+    return $this->latestMessageSnippet;
   }
   public function setLinks(/* array(Google_OrkutLinkResource) */ $links) {
     $this->assertIsArray($links, 'Google_OrkutLinkResource', __METHOD__);
@@ -2152,11 +2152,11 @@ class Google_CommunityTopic extends Google_Model {
   public function getMessages() {
     return $this->messages;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumberOfReplies( $numberOfReplies) {
+    $this->numberOfReplies = $numberOfReplies;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNumberOfReplies() {
+    return $this->numberOfReplies;
   }
   public function setTitle( $title) {
     $this->title = $title;
@@ -2167,7 +2167,7 @@ class Google_CommunityTopic extends Google_Model {
 }
 
 class Google_CommunityTopicList extends Google_Model {
-  public $***REMOVED***;
+  public $firstPageToken;
   protected $__itemsType = 'Google_CommunityTopic';
   protected $__itemsDataType = 'array';
   public $items;
@@ -2175,11 +2175,11 @@ class Google_CommunityTopicList extends Google_Model {
   public $lastPageToken;
   public $nextPageToken;
   public $prevPageToken;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFirstPageToken( $firstPageToken) {
+    $this->firstPageToken = $firstPageToken;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFirstPageToken() {
+    return $this->firstPageToken;
   }
   public function setItems(/* array(Google_CommunityTopic) */ $items) {
     $this->assertIsArray($items, 'Google_CommunityTopic', __METHOD__);
@@ -2194,22 +2194,22 @@ class Google_CommunityTopicList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $lastPageToken) {
+  public function setLastPageToken( $lastPageToken) {
     $this->lastPageToken = $lastPageToken;
   }
-  public function ***REMOVED***() {
+  public function getLastPageToken() {
     return $this->lastPageToken;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $prevPageToken) {
+  public function setPrevPageToken( $prevPageToken) {
     $this->prevPageToken = $prevPageToken;
   }
-  public function ***REMOVED***() {
+  public function getPrevPageToken() {
     return $this->prevPageToken;
   }
 }
@@ -2260,10 +2260,10 @@ class Google_OrkutActivityobjectsResource extends Google_Model {
   public function getContent() {
     return $this->content;
   }
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -2376,10 +2376,10 @@ class Google_OrkutAuthorResource extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $url;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -2419,10 +2419,10 @@ class Google_OrkutCommunitypolloptionResource extends Google_Model {
   public $image;
   public $numberOfVotes;
   public $optionId;
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setImage(Google_OrkutCommunitypolloptionResourceImage $image) {
@@ -2431,10 +2431,10 @@ class Google_OrkutCommunitypolloptionResource extends Google_Model {
   public function getImage() {
     return $this->image;
   }
-  public function ***REMOVED***( $numberOfVotes) {
+  public function setNumberOfVotes( $numberOfVotes) {
     $this->numberOfVotes = $numberOfVotes;
   }
-  public function ***REMOVED***() {
+  public function getNumberOfVotes() {
     return $this->numberOfVotes;
   }
   public function setOptionId( $optionId) {

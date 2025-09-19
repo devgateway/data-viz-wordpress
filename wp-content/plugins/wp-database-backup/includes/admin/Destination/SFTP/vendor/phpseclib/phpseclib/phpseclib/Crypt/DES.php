@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of DES.
+ * Pure-PHP implementation of DES.
  *
- * Uses mcrypt, if available, and an internal ***REMOVED***, otherwise.
+ * Uses mcrypt, if available, and an internal implementation, otherwise.
  *
  * PHP version 5
  *
@@ -41,10 +41,10 @@
 namespace phpseclib3\Crypt;
 
 use phpseclib3\Crypt\Common\BlockCipher;
-use phpseclib3\Exception\***REMOVED***;
+use phpseclib3\Exception\BadModeException;
 
 /**
- * Pure-PHP ***REMOVED*** of DES.
+ * Pure-PHP implementation of DES.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -570,14 +570,14 @@ class DES extends BlockCipher
      * Default Constructor.
      *
      * @param string $mode
-     * @throws ***REMOVED*** if an invalid / unsupported mode is provided
+     * @throws BadModeException if an invalid / unsupported mode is provided
      */
     public function __construct($mode)
     {
         parent::__construct($mode);
 
         if ($this->mode == self::MODE_STREAM) {
-            throw new ***REMOVED***('Block ciphers cannot be ran in stream mode');
+            throw new BadModeException('Block ciphers cannot be ran in stream mode');
         }
     }
 
@@ -590,7 +590,7 @@ class DES extends BlockCipher
      * @param int $engine
      * @return bool
      */
-    protected function ***REMOVED***($engine)
+    protected function isValidEngineHelper($engine)
     {
         if ($this->key_length_max == 8) {
             if ($engine == self::ENGINE_OPENSSL) {
@@ -605,7 +605,7 @@ class DES extends BlockCipher
             }
         }
 
-        return parent::***REMOVED***($engine);
+        return parent::isValidEngineHelper($engine);
     }
 
     /**
@@ -621,7 +621,7 @@ class DES extends BlockCipher
     public function setKey($key)
     {
         if (!($this instanceof TripleDES) && strlen($key) != 8) {
-            throw new \***REMOVED***('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of size 8 are supported');
+            throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of size 8 are supported');
         }
 
         // Sets the key
@@ -796,7 +796,7 @@ class DES extends BlockCipher
             0xF2, 0xF2, 0xFA, 0xFA, 0xF6, 0xF6, 0xFE, 0xFE
         ];
 
-        // Mapping tables for the PC-2 ***REMOVED***.
+        // Mapping tables for the PC-2 transformation.
         static $pc2mapc1 = [
             0x00000000, 0x00000400, 0x00200000, 0x00200400,
             0x00000001, 0x00000401, 0x00200001, 0x00200401,
@@ -1211,7 +1211,7 @@ class DES extends BlockCipher
             // pad the key and remove extra characters as appropriate.
             $key = str_pad(substr($this->key, $des_round * 8, 8), 8, "\0");
 
-            // Perform the PC/1 ***REMOVED*** and compute C and D.
+            // Perform the PC/1 transformation and compute C and D.
             $t = unpack('Nl/Nr', $key);
             list($l, $r) = [$t['l'], $t['r']];
             $key = (self::$shuffle[$pc1map[ $r        & 0xFF]] & "\x80\x80\x80\x80\x80\x80\x80\x00") |
@@ -1236,7 +1236,7 @@ class DES extends BlockCipher
                 $d <<= $shifts[$i];
                 $d = ($d | ($d >> 28)) & 0x0FFFFFFF;
 
-                // Perform the PC-2 ***REMOVED***.
+                // Perform the PC-2 transformation.
                 $cp = $pc2mapc1[ $c >> 24        ] | $pc2mapc2[($c >> 16) & 0xFF] |
                       $pc2mapc3[($c >>  8) & 0xFF] | $pc2mapc4[ $c        & 0xFF];
                 $dp = $pc2mapd1[ $d >> 24        ] | $pc2mapd2[($d >> 16) & 0xFF] |
@@ -1281,9 +1281,9 @@ class DES extends BlockCipher
     /**
      * Setup the performance-optimized function for de/encrypt()
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::***REMOVED***()
+     * @see \phpseclib3\Crypt\Common\SymmetricKey::setupInlineCrypt()
      */
-    protected function ***REMOVED***()
+    protected function setupInlineCrypt()
     {
         // Engine configuration for:
         // -  DES ($des_rounds == 1) or

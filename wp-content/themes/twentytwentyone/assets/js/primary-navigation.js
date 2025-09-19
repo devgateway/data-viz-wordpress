@@ -17,19 +17,19 @@ function twentytwentyoneToggleAriaExpanded( el, withListeners ) {
 		el.setAttribute( 'aria-expanded', 'true' );
 		twentytwentyoneSubmenuPosition( el.parentElement );
 		if ( withListeners ) {
-			document.***REMOVED***( 'click', twentytwentyoneCollapseMenuOnClickOutside );
+			document.addEventListener( 'click', twentytwentyoneCollapseMenuOnClickOutside );
 		}
 	} else {
 		el.setAttribute( 'aria-expanded', 'false' );
 		if ( withListeners ) {
-			document.***REMOVED***( 'click', twentytwentyoneCollapseMenuOnClickOutside );
+			document.removeEventListener( 'click', twentytwentyoneCollapseMenuOnClickOutside );
 		}
 	}
 }
 
 function twentytwentyoneCollapseMenuOnClickOutside( event ) {
-	if ( ! document.***REMOVED***( 'site-navigation' ).contains( event.target ) ) {
-		document.***REMOVED***( 'site-navigation' ).***REMOVED***( '.sub-menu-toggle' ).forEach( function( button ) {
+	if ( ! document.getElementById( 'site-navigation' ).contains( event.target ) ) {
+		document.getElementById( 'site-navigation' ).querySelectorAll( '.sub-menu-toggle' ).forEach( function( button ) {
 			button.setAttribute( 'aria-expanded', 'false' );
 		} );
 	}
@@ -74,7 +74,7 @@ function twentytwentyoneSubmenuPosition( li ) {
  */
 function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 	// Close other expanded items.
-	el.closest( 'nav' ).***REMOVED***( '.sub-menu-toggle' ).forEach( function( button ) {
+	el.closest( 'nav' ).querySelectorAll( '.sub-menu-toggle' ).forEach( function( button ) {
 		if ( button !== el ) {
 			button.setAttribute( 'aria-expanded', 'false' );
 		}
@@ -84,8 +84,8 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 	twentytwentyoneToggleAriaExpanded( el, true );
 
 	// On tab-away collapse the menu.
-	el.parentNode.***REMOVED***( 'ul > li:last-child > a' ).forEach( function( linkEl ) {
-		linkEl.***REMOVED***( 'blur', function( event ) {
+	el.parentNode.querySelectorAll( 'ul > li:last-child > a' ).forEach( function( linkEl ) {
+		linkEl.addEventListener( 'blur', function( event ) {
 			if ( ! el.parentNode.contains( event.relatedTarget ) ) {
 				el.setAttribute( 'aria-expanded', 'false' );
 			}
@@ -103,8 +103,8 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 	 */
 	var navMenu = function( id ) {
 		var wrapper = document.body, // this is the element to which a CSS class is added when a mobile nav menu is open
-			mobileButton = document.***REMOVED***( id + '-mobile-menu' ),
-			navMenuEl = document.***REMOVED***( 'site-navigation' );
+			mobileButton = document.getElementById( id + '-mobile-menu' ),
+			navMenuEl = document.getElementById( 'site-navigation' );
 
 		// If there's no nav menu, none of this is necessary.
 		if ( ! navMenuEl ) {
@@ -121,7 +121,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 		}
 
 		// Add aria-controls attributes to primary sub-menu.
-		var subMenus = document.***REMOVED***( '.primary-menu-container .sub-menu' );
+		var subMenus = document.querySelectorAll( '.primary-menu-container .sub-menu' );
 		subMenus.forEach( function( subMenu, index ) {
 			var parentLi = subMenu.closest( 'li.menu-item-has-children' );
 			subMenu.id = 'sub-menu-' + ( index + 1 );
@@ -139,7 +139,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 		 *
 		 * @since Twenty Twenty-One 1.0
 		 */
-		document.***REMOVED***( 'keydown', function( event ) {
+		document.addEventListener( 'keydown', function( event ) {
 			var modal, elements, selectors, lastEl, firstEl, activeEl, tabKey, shiftKey, escKey;
 			if ( ! wrapper.classList.contains( id + '-navigation-open' ) ) {
 				return;
@@ -147,7 +147,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 
 			modal = document.querySelector( '.' + id + '-navigation' );
 			selectors = 'input, a, button';
-			elements = modal.***REMOVED***( selectors );
+			elements = modal.querySelectorAll( selectors );
 			elements = Array.prototype.slice.call( elements );
 			tabKey = event.keyCode === 9;
 			shiftKey = event.shiftKey;
@@ -157,25 +157,25 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 			firstEl = elements[0];
 
 			if ( escKey ) {
-				event.***REMOVED***();
+				event.preventDefault();
 				wrapper.classList.remove( id + '-navigation-open', 'lock-scrolling' );
 				twentytwentyoneToggleAriaExpanded( mobileButton );
 				mobileButton.focus();
 			}
 
 			if ( ! shiftKey && tabKey && lastEl === activeEl ) {
-				event.***REMOVED***();
+				event.preventDefault();
 				firstEl.focus();
 			}
 
 			if ( shiftKey && tabKey && firstEl === activeEl ) {
-				event.***REMOVED***();
+				event.preventDefault();
 				lastEl.focus();
 			}
 
 			// If there are no elements in the menu, don't move the focus
 			if ( tabKey && firstEl === lastEl ) {
-				event.***REMOVED***();
+				event.preventDefault();
 			}
 		} );
 
@@ -185,33 +185,33 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 		 *
 		 * @since Twenty Twenty-One 1.1
 		 */
-		document.***REMOVED***( 'site-navigation' ).***REMOVED***( 'click', function( event ) {
+		document.getElementById( 'site-navigation' ).addEventListener( 'click', function( event ) {
 			// If target onclick is <a> with # within the href attribute
 			if ( event.target.hash ) {
 				wrapper.classList.remove( id + '-navigation-open', 'lock-scrolling' );
 				twentytwentyoneToggleAriaExpanded( mobileButton );
 				// Wait 550 and scroll to the anchor.
 				setTimeout(function () {
-					var anchor = document.***REMOVED***(event.target.hash.slice(1));
+					var anchor = document.getElementById(event.target.hash.slice(1));
 					if ( anchor ) {
-						anchor.***REMOVED***();
+						anchor.scrollIntoView();
 					}
 				}, 550);
 			}
 		} );
 
-		navMenuEl.***REMOVED***( '.menu-wrapper > .menu-item-has-children' ).forEach( function( li ) {
-			li.***REMOVED***( 'mouseenter', function() {
+		navMenuEl.querySelectorAll( '.menu-wrapper > .menu-item-has-children' ).forEach( function( li ) {
+			li.addEventListener( 'mouseenter', function() {
 				this.querySelector( '.sub-menu-toggle' ).setAttribute( 'aria-expanded', 'true' );
 				twentytwentyoneSubmenuPosition( li );
 			} );
-			li.***REMOVED***( 'mouseleave', function() {
+			li.addEventListener( 'mouseleave', function() {
 				this.querySelector( '.sub-menu-toggle' ).setAttribute( 'aria-expanded', 'false' );
 			} );
 		} );
 	};
 
-	window.***REMOVED***( 'load', function() {
+	window.addEventListener( 'load', function() {
 		new navMenu( 'primary' );
 	} );
 }() );

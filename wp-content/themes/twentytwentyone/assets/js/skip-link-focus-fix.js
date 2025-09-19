@@ -12,8 +12,8 @@
 ( function() {
 	var isIe = /(trident|msie)/i.test( navigator.userAgent );
 
-	if ( isIe && document.***REMOVED*** && window.***REMOVED*** ) {
-		window.***REMOVED***( 'hashchange', function() {
+	if ( isIe && document.getElementById && window.addEventListener ) {
+		window.addEventListener( 'hashchange', function() {
 			var id = location.hash.substring( 1 ),
 				element;
 
@@ -21,7 +21,7 @@
 				return;
 			}
 
-			element = document.***REMOVED***( id );
+			element = document.getElementById( id );
 
 			if ( element ) {
 				if ( ! ( /^(?:a|select|input|button|textarea)$/i.test( element.tagName ) ) ) {

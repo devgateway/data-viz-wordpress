@@ -170,8 +170,8 @@ msgid "Settings"
 msgstr "Configuración"
 
 #: ../admin/svgs-settings-page.php:46
-msgid "Restrict to ***REMOVED***"
-msgstr "Restringir a los ***REMOVED***"
+msgid "Restrict to Administrators"
+msgstr "Restringir a los administradores"
 
 #: ../admin/svgs-settings-page.php:51 ../admin/svgs-settings-page.php:62 ..
 #: admin/svgs-settings-page.php:73
@@ -179,8 +179,8 @@ msgid "Yes"
 msgstr "Si"
 
 #: ../admin/svgs-settings-page.php:51
-msgid " Restricts SVG upload priveledges to ***REMOVED***."
-msgstr " Restringe la subida de archivos SVG a los ***REMOVED***."
+msgid " Restricts SVG upload priveledges to Administrators."
+msgstr " Restringe la subida de archivos SVG a los administradores."
 
 #: ../admin/svgs-settings-page.php:78
 msgid "CSS Class to target"
@@ -249,8 +249,8 @@ msgid "Style SVG elements directly using CSS"
 msgstr "Dar formato a los elementos SVG usando CSS"
 
 #: ../admin/svgs-settings-page.php:136
-msgid "Restrict to ***REMOVED*** only"
-msgstr "Restringido para ***REMOVED***"
+msgid "Restrict to Administrators only"
+msgstr "Restringido para administradores"
 
 #: ../admin/svgs-settings-page.php:137
 msgid "Extremely Simple To Use"

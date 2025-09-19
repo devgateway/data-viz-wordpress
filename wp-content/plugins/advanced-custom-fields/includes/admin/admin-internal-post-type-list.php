@@ -110,8 +110,8 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 		 * @return  string
 		 */
 		public function get_admin_url( $params = '' ) {
-			if ( isset( $_GET['paged'] ) ) { //phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- used as intval to return a page.
-				$params .= '&paged=' . intval( $_GET['paged'] ); //phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- used as intval to return a page.
+			if ( isset( $_GET['paged'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- used as intval to return a page.
+				$params .= '&paged=' . intval( $_GET['paged'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- used as intval to return a page.
 			}
 			return admin_url( "edit.php?post_type={$this->post_type}{$params}" );
 		}
@@ -532,18 +532,18 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 
 			$args = acf_request_args(
 				array(
-					'***REMOVED***' => '',
+					'acfactivatecomplete' => '',
 					'acfactivate'         => '',
 					'post'                => '',
 					'action2'             => '',
 				)
 			);
 
-			if ( ! empty( $args['***REMOVED***'] ) ) {
+			if ( ! empty( $args['acfactivatecomplete'] ) ) {
 				check_admin_referer( 'bulk-posts' );
 
-				$activated = array_map( 'intval', explode( ',', $args['***REMOVED***'] ) );
-				$text      = $this->get_action_notice_text( '***REMOVED***', count( $activated ) );
+				$activated = array_map( 'intval', explode( ',', $args['acfactivatecomplete'] ) );
+				$text      = $this->get_action_notice_text( 'acfactivatecomplete', count( $activated ) );
 				$links     = array();
 
 				foreach ( $activated as $activated_id ) {
@@ -583,7 +583,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 					}
 				}
 
-				wp_safe_redirect( $this->get_admin_url( '&_wpnonce=' . $nonce . '&***REMOVED***=' . implode( ',', $activated_ids ) ) );
+				wp_safe_redirect( $this->get_admin_url( '&_wpnonce=' . $nonce . '&acfactivatecomplete=' . implode( ',', $activated_ids ) ) );
 				exit;
 			}
 		}
@@ -670,7 +670,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 
 			$args = acf_request_args(
 				array(
-					'***REMOVED***' => '',
+					'acfduplicatecomplete' => '',
 					'acfduplicate'         => '',
 					'post'                 => '',
 					'action2'              => '',
@@ -678,11 +678,11 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 			);
 
 			// Display notice on success redirect.
-			if ( ! empty( $args['***REMOVED***'] ) ) {
+			if ( ! empty( $args['acfduplicatecomplete'] ) ) {
 				check_admin_referer( 'bulk-posts' );
 
-				$duplicated = array_map( 'intval', explode( ',', $args['***REMOVED***'] ) );
-				$text       = $this->get_action_notice_text( '***REMOVED***', count( $duplicated ) );
+				$duplicated = array_map( 'intval', explode( ',', $args['acfduplicatecomplete'] ) );
+				$text       = $this->get_action_notice_text( 'acfduplicatecomplete', count( $duplicated ) );
 				$links      = array();
 
 				foreach ( $duplicated as $duplicated_id ) {
@@ -719,7 +719,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 				}
 
 				// Redirect.
-				wp_safe_redirect( $this->get_admin_url( '&_wpnonce=' . $nonce . '&***REMOVED***=' . implode( ',', $duplicated_ids ) ) );
+				wp_safe_redirect( $this->get_admin_url( '&_wpnonce=' . $nonce . '&acfduplicatecomplete=' . implode( ',', $duplicated_ids ) ) );
 				exit;
 			}
 		}
@@ -737,7 +737,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 
 			$args = acf_request_args(
 				array(
-					'***REMOVED***' => '',
+					'acfsynccomplete' => '',
 					'acfsync'         => '',
 					'post'            => '',
 					'action2'         => '',
@@ -745,11 +745,11 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 			);
 
 			// Display notice on success redirect.
-			if ( ! empty( $args['***REMOVED***'] ) ) {
+			if ( ! empty( $args['acfsynccomplete'] ) ) {
 				check_admin_referer( 'bulk-posts' );
 
-				$synced = array_map( 'intval', explode( ',', $args['***REMOVED***'] ) );
-				$text   = $this->get_action_notice_text( '***REMOVED***', count( $synced ) );
+				$synced = array_map( 'intval', explode( ',', $args['acfsynccomplete'] ) );
+				$text   = $this->get_action_notice_text( 'acfsynccomplete', count( $synced ) );
 				$links  = array();
 
 				foreach ( $synced as $synced_id ) {
@@ -803,7 +803,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 				}
 
 				// Redirect.
-				wp_safe_redirect( $this->get_current_admin_url( '&_wpnonce=' . $nonce . '&***REMOVED***=' . implode( ',', $synced ) ) );
+				wp_safe_redirect( $this->get_current_admin_url( '&_wpnonce=' . $nonce . '&acfsynccomplete=' . implode( ',', $synced ) ) );
 				exit;
 			}
 		}
@@ -871,7 +871,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 							url: acf.get('ajaxurl'),
 							method: 'POST',
 							dataType: 'json',
-							data: acf.***REMOVED***({
+							data: acf.prepareForAjax({
 								action:	'acf/ajax/local_json_diff',
 								id: props.id
 							})
@@ -888,7 +888,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 					}
 
 					$ (document ).on( 'ready', function( e ) {
-						if ( ! acf.get( 'is_pro' ) || acf.get( '***REMOVED***' ) || acf.get( '***REMOVED***' ) ) {
+						if ( ! acf.get( 'is_pro' ) || acf.get( 'isLicenseActive' ) || acf.get( 'isLicenseExpired' ) ) {
 							return;
 						}
 
@@ -903,7 +903,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type_List' ) ) :
 
 					// Add event listener.
 					$(document).on('click', 'a[data-event="review-sync"]', function( e ){
-						e.***REMOVED***();
+						e.preventDefault();
 						reviewSync( $(this).data() );
 					});
 				})(jQuery);

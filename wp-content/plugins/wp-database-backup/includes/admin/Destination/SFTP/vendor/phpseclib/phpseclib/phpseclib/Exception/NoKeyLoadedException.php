@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * NoKeyLoadedException
  *
  * PHP version 5
  *
@@ -14,10 +14,10 @@
 namespace phpseclib3\Exception;
 
 /**
- * ***REMOVED***
+ * NoKeyLoadedException
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-class ***REMOVED*** extends \***REMOVED***
+class NoKeyLoadedException extends \RuntimeException
 {
 }

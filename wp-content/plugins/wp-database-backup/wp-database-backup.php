@@ -20,7 +20,7 @@
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  ***REMOVED*** or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
@@ -31,16 +31,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( ! class_exists( '***REMOVED***' ) ) :
+if ( ! class_exists( 'WPDatabaseBackup' ) ) :
 
 	/**
-	 * Main ***REMOVED*** Class.
+	 * Main WPDatabaseBackup Class.
 	 *
-	 * @class ***REMOVED***
+	 * @class WPDatabaseBackup
 	 *
 	 * @version 7.3
 	 */
-	final class ***REMOVED*** {
+	final class WPDatabaseBackup {
 
 		/**
 		 * Plugin version
@@ -127,7 +127,7 @@ if ( ! class_exists( '***REMOVED***' ) ) :
 			} else {
 				include_once 'includes/admin/cron-create-full-backup.php';
 			}
-			include_once 'includes/class-***REMOVED***.php';
+			include_once 'includes/class-wpdbfullbackuplog.php';
 
 		}
 		/**
@@ -141,7 +141,7 @@ if ( ! class_exists( '***REMOVED***' ) ) :
 			add_option( 'wp_db_remove_local_backup', 0 , '' , false );
 			add_option( 'wp_db_remove_on_uninstall', 0 , '' , false );
 			add_option('wp_db_backup_backup_type','complete', '' , false );
-			add_option('wp_db_backup_exclude_dir',"wp-content/***REMOVED***-728d36f682-backups|.git|db-backup", '' , false );
+			add_option('wp_db_backup_exclude_dir',"wp-content/backupwordpress-728d36f682-backups|.git|db-backup", '' , false );
 			add_option('wp_db_backup_backups_dir','db-backup', '' , false );
 			add_option('bb_last_backup_timestamp',0, '' , false );
 			add_option('wp_db_backup_sftp_details',null, '' , false );
@@ -169,7 +169,7 @@ if ( ! class_exists( '***REMOVED***' ) ) :
 			// Check if the table already exists
 			//phpcs:ignore  -- Reason: Direct SQL execution is required here.
 			if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-				//phpcs:ignore WordPress.DB.***REMOVED***.SchemaChange
+				//phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange
 				$sql = "CREATE TABLE $table_name (
 					id mediumint(9) NOT NULL AUTO_INCREMENT,
 					file_path text NOT NULL,
@@ -191,7 +191,7 @@ endif;
  * Returns the main instance of WP to prevent the need to use globals.
  */
 function wpdb() {
-	return ***REMOVED***::instance();
+	return WPDatabaseBackup::instance();
 }
 
 // Global for backwards compatibility.

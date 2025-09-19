@@ -27,6 +27,6 @@ abstract class PostalAddress
         'optional' => true,
         'min' => 1,
         'max' => -1,
-        'children' => ***REMOVED***::MAP
+        'children' => DirectoryString::MAP
     ];
 }

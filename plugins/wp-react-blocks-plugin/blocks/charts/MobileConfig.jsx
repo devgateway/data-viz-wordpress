@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-  ***REMOVED***,
+  AnglePickerControl,
   PanelBody,
   PanelRow,
   ToggleControl,
@@ -9,19 +9,19 @@ import {
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState} from "react";
 import {
-  ***REMOVED***,
-  ***REMOVED***,
+  extractAxisValues,
+  getStoredOrSetItem,
   getSelectedItemsForApp,
   getSelectedLabelsForApp,
-  ***REMOVED***
-} from "../commons/***REMOVED***";
+  updateMeasureLabels
+} from "../commons/MobileConfigUtils";
 
 const MarginSection = ({
   setAttributes,
-  attributes: { ***REMOVED*** },
+  attributes: { mobileCustomization },
 }) => {
   const { marginBottom, marginLeft, marginRight, marginTop } =
-    ***REMOVED***;
+    mobileCustomization;
   return (
     <PanelBody initialOpen={false} title={__("Margins")}>
       <PanelRow>
@@ -32,8 +32,8 @@ const MarginSection = ({
           value={marginBottom}
           onChange={(marginBottom) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
                 marginBottom: marginBottom,
                 yAxisIntervalUserModified: true,
               },
@@ -48,11 +48,11 @@ const MarginSection = ({
         <RangeControl
           label={__("Margin Left (Space between chart area and left border)")}
           value={marginLeft}
-          ***REMOVED***={0}
+          initialPosition={0}
           onChange={(marginLeft) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
                 marginLeft: marginLeft,
               },
             })
@@ -68,8 +68,8 @@ const MarginSection = ({
           value={marginRight}
           onChange={(marginRight) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
                 marginRight: marginRight,
               },
             })
@@ -84,8 +84,8 @@ const MarginSection = ({
           value={marginTop}
           onChange={(marginTop) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
                 marginTop: marginTop,
               },
             })
@@ -98,20 +98,20 @@ const MarginSection = ({
   );
 };
 
-const ***REMOVED*** = ({
+const RadarMarginSection = ({
   setAttributes,
-  attributes: { ***REMOVED*** },
+  attributes: { mobileCustomization },
 }) => {
   const {
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***,
-    ***REMOVED***
-  } = ***REMOVED***;
+    mobileMarginBottom,
+    mobileMarginLeft,
+    mobileMarginRight,
+    mobileMarginTop,
+    tabletMarginBottom,
+    tabletMarginLeft,
+    tabletMarginRight,
+    tabletMarginTop
+  } = mobileCustomization;
 
   return (
     <>
@@ -121,12 +121,12 @@ const ***REMOVED*** = ({
             label={__(
               "Mobile Margin Bottom (space between chart area and bottom border)"
             )}
-            value={***REMOVED***}
+            value={mobileMarginBottom}
             onChange={(marginBottom) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginBottom,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  mobileMarginBottom: marginBottom,
                 },
               })
             }
@@ -139,12 +139,12 @@ const ***REMOVED*** = ({
             label={__(
               "Mobile Margin Left (space between chart area and left border)"
             )}
-            value={***REMOVED***}
+            value={mobileMarginLeft}
             onChange={(marginLeft) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginLeft
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  mobileMarginLeft: marginLeft
                 },
               })
             }
@@ -156,12 +156,12 @@ const ***REMOVED*** = ({
         <PanelRow>
           <RangeControl
             label={__("Mobile Margin Right")}
-            value={***REMOVED***}
+            value={mobileMarginRight}
             onChange={(marginRight) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginRight,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  mobileMarginRight: marginRight,
                 },
               })
             }
@@ -172,12 +172,12 @@ const ***REMOVED*** = ({
         <PanelRow>
           <RangeControl
             label={__("Mobile Margin Top")}
-            value={***REMOVED***}
+            value={mobileMarginTop}
             onChange={(marginTop) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginTop,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  mobileMarginTop: marginTop,
                 },
               })
             }
@@ -193,12 +193,12 @@ const ***REMOVED*** = ({
             label={__(
               "Tablet Margin Bottom (space between chart area and bottom border)"
             )}
-            value={***REMOVED***}
+            value={tabletMarginBottom}
             onChange={(marginBottom) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginBottom,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  tabletMarginBottom: marginBottom,
                 },
               })
             }
@@ -211,12 +211,12 @@ const ***REMOVED*** = ({
             label={__(
               "Tablet Margin Left (space between chart area and left border)"
             )}
-            value={***REMOVED***}
+            value={tabletMarginLeft}
             onChange={(marginLeft) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginLeft,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  tabletMarginLeft: marginLeft,
                 },
               })
             }
@@ -228,12 +228,12 @@ const ***REMOVED*** = ({
         <PanelRow>
           <RangeControl
             label={__("Tablet Margin Right")}
-            value={***REMOVED***}
+            value={tabletMarginRight}
             onChange={(marginRight) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginRight,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  tabletMarginRight: marginRight,
                 },
               })
             }
@@ -244,12 +244,12 @@ const ***REMOVED*** = ({
         <PanelRow>
           <RangeControl
             label={__("Tablet Margin Top")}
-            value={***REMOVED***}
+            value={tabletMarginTop}
             onChange={(marginTop) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: marginTop,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  tabletMarginTop: marginTop,
                 },
               })
             }
@@ -263,9 +263,9 @@ const ***REMOVED*** = ({
 };
 
 
-const ***REMOVED*** = ({
+const PaddingSection = ({
   setAttributes,
-  attributes: { ***REMOVED***, barPadding, ***REMOVED*** },
+  attributes: { mobileCustomization, barPadding, barInnerPadding },
 }) => {
   return (
     <PanelBody initialOpen={false} title={__("Padding")}>
@@ -274,12 +274,12 @@ const ***REMOVED*** = ({
           label={__(
             "Bar Padding (Space between bars that are not in the same group)"
           )}
-          value={***REMOVED***?.barPadding ?? barPadding}
-          ***REMOVED***={0.15}
+          value={mobileCustomization?.barPadding ?? barPadding}
+          initialPosition={0.15}
           onChange={(newBarPadding) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
                 barPadding: newBarPadding,
               },
             })
@@ -293,13 +293,13 @@ const ***REMOVED*** = ({
       <PanelRow>
         <RangeControl
           label={__("Bar Inner Padding (Space between bars in the same group)")}
-          value={***REMOVED***?.***REMOVED*** ?? ***REMOVED***}
-          ***REMOVED***={0.75}
-          onChange={(***REMOVED***) =>
+          value={mobileCustomization?.barInnerPadding ?? barInnerPadding}
+          initialPosition={0.75}
+          onChange={(barInnerPadding) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
-                ***REMOVED***: ***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
+                barInnerPadding: barInnerPadding,
               },
             })
           }
@@ -314,19 +314,19 @@ const ***REMOVED*** = ({
 
 const TitleSection = ({
   setAttributes,
-  attributes: { ***REMOVED*** },
+  attributes: { mobileCustomization },
 }) => {
   return (
     <PanelBody initialOpen={false} title={__("Axis Titles")}>
       <PanelRow>
         <ToggleControl
           label={__("Show X Axis Title")}
-          checked={***REMOVED***?.***REMOVED*** ?? true}
-          onChange={(***REMOVED***) =>
+          checked={mobileCustomization?.showXAxisTitle ?? true}
+          onChange={(isShowXAxisTitle) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
-                ***REMOVED***: ***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
+                showXAxisTitle: isShowXAxisTitle,
               },
             })
           }
@@ -335,12 +335,12 @@ const TitleSection = ({
       <PanelRow>
         <ToggleControl
           label={__("Show Y Axis Title")}
-          checked={***REMOVED***?.***REMOVED*** ?? true}
-          onChange={(***REMOVED***) =>
+          checked={mobileCustomization?.showYAxisTitle ?? true}
+          onChange={(isShowYAxisTitle) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
-                ***REMOVED***: ***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
+                showYAxisTitle: isShowYAxisTitle,
               },
             })
           }
@@ -350,12 +350,12 @@ const TitleSection = ({
       <PanelRow>
         <ToggleControl
           label={__("Show Right Axis Title")}
-          checked={***REMOVED***?.***REMOVED*** ?? true}
-          onChange={(***REMOVED***) =>
+          checked={mobileCustomization?.showRightAxisTitle ?? true}
+          onChange={(isShowRightAxisTitle) =>
             setAttributes({
-              ***REMOVED***: {
-                ...***REMOVED***,
-                ***REMOVED***: ***REMOVED***,
+              mobileCustomization: {
+                ...mobileCustomization,
+                showRightAxisTitle: isShowRightAxisTitle,
               },
             })
           }
@@ -365,50 +365,50 @@ const TitleSection = ({
   );
 };
 
-const ***REMOVED*** = ({
+const IntervalsSection = ({
   setAttributes,
-  attributes: { ***REMOVED***, ***REMOVED***, ***REMOVED***, layout },
+  attributes: { mobileCustomization, yAxisTickValues, xAxisTickValues, layout },
 }) => {
   const isHorizontal =
     (layout === "horizontal" &&
-      ***REMOVED***.***REMOVED*** === false) ||
-    (layout === "vertical" && ***REMOVED***.***REMOVED*** === true);
+      mobileCustomization.chartLayoutOverride === false) ||
+    (layout === "vertical" && mobileCustomization.chartLayoutOverride === true);
 
   const isVertical =
     (layout === "vertical" &&
-      ***REMOVED***.***REMOVED*** === false) ||
+      mobileCustomization.chartLayoutOverride === false) ||
     (layout === "horizontal" &&
-      ***REMOVED***.***REMOVED*** === true);
+      mobileCustomization.chartLayoutOverride === true);
 
-  const ***REMOVED*** = (value, prop, intervalProp) => {
-    const newObject = Object.assign({}, ***REMOVED***);
+  const onIntervalChange = (value, prop, intervalProp) => {
+    const newObject = Object.assign({}, mobileCustomization);
     if (newObject) {
       newObject[prop] = value;
       newObject[intervalProp] = true;
     }
-    setAttributes({ ***REMOVED***: newObject });
+    setAttributes({ mobileCustomization: newObject });
   };
 
   return (
     <PanelBody initialOpen={false} title={__("Intervals")}>
       {
         /**
-         * the number of intervals should default to the value set by ***REMOVED***
-         * this should only be displayed when the layout is vertical and the ***REMOVED***.***REMOVED*** is false
+         * the number of intervals should default to the value set by yAxisTickValues
+         * this should only be displayed when the layout is vertical and the mobileCustomization.chartLayoutOverride is false
          */
         isVertical && (
           <PanelRow>
             <RangeControl
               label={__("Number of Y Axis Intervals")}
               value={
-                !***REMOVED***?.yAxisIntervalUserModified
-                  ? ***REMOVED***
-                  : ***REMOVED***.***REMOVED*** ?? ***REMOVED***
+                !mobileCustomization?.yAxisIntervalUserModified
+                  ? yAxisTickValues
+                  : mobileCustomization.yAxisTickValues ?? yAxisTickValues
               }
-              onChange={(***REMOVED***) =>
-                ***REMOVED***(
-                  ***REMOVED***,
-                  "***REMOVED***",
+              onChange={(newYAxisTickValue) =>
+                onIntervalChange(
+                  newYAxisTickValue,
+                  "yAxisTickValues",
                   "yAxisIntervalUserModified"
                 )
               }
@@ -421,22 +421,22 @@ const ***REMOVED*** = ({
 
       {
         /**
-         * the number of intervals should default to the value set by ***REMOVED***
-         * this should only be displayed when the layout is horizontal and the ***REMOVED***.***REMOVED*** is false
+         * the number of intervals should default to the value set by xAxisTickValues
+         * this should only be displayed when the layout is horizontal and the mobileCustomization.chartLayoutOverride is false
          * */
         isHorizontal && (
           <PanelRow>
             <RangeControl
               label={__("Number of X Axis Intervals")}
               value={
-                !***REMOVED***?.xAxisIntervalUserModified
-                  ? ***REMOVED***
-                  : ***REMOVED***.***REMOVED*** ?? ***REMOVED***
+                !mobileCustomization?.xAxisIntervalUserModified
+                  ? xAxisTickValues
+                  : mobileCustomization.xAxisTickValues ?? xAxisTickValues
               }
-              onChange={(***REMOVED***) =>
-                ***REMOVED***(
-                  ***REMOVED***,
-                  "***REMOVED***",
+              onChange={(newXAxisTickValue) =>
+                onIntervalChange(
+                  newXAxisTickValue,
+                  "xAxisTickValues",
                   "xAxisIntervalUserModified"
                 )
               }
@@ -453,7 +453,7 @@ const ***REMOVED*** = ({
 const RadarSection = (props) => {
   const {
     setAttributes,
-    attributes: { ***REMOVED*** },
+    attributes: { mobileCustomization },
   } = props;
   return (
     <PanelBody initialOpen={false} title={__("Radar Settings")}>
@@ -462,14 +462,14 @@ const RadarSection = (props) => {
           <RangeControl
             label={__("Tablet Y Axis Line Height")}
             value={
-              !***REMOVED***?.tabletYAxisLineHeight
+              !mobileCustomization?.tabletYAxisLineHeight
                 ? 12
-                : ***REMOVED***.tabletYAxisLineHeight
+                : mobileCustomization.tabletYAxisLineHeight
             }
             onChange={(value) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
+                mobileCustomization: {
+                  ...mobileCustomization,
                   tabletYAxisLineHeight: value,
                 },
               })
@@ -482,15 +482,15 @@ const RadarSection = (props) => {
           <RangeControl
             label={__("Tablet Max Tick Word Length")}
             value={
-              !***REMOVED***?.***REMOVED***
+              !mobileCustomization?.tabletMaxTickLength
                 ? 25
-                : ***REMOVED***.***REMOVED***
+                : mobileCustomization.tabletMaxTickLength
             }
             onChange={(value) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: value,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  tabletMaxTickLength: value,
                 },
               })
             }
@@ -505,14 +505,14 @@ const RadarSection = (props) => {
           <RangeControl
             label={__("Mobile Y Axis Line Height")}
             value={
-              !***REMOVED***?.mobileYAxisLineHeight
+              !mobileCustomization?.mobileYAxisLineHeight
                 ? 12
-                : ***REMOVED***.mobileYAxisLineHeight
+                : mobileCustomization.mobileYAxisLineHeight
             }
             onChange={(value) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
+                mobileCustomization: {
+                  ...mobileCustomization,
                   mobileYAxisLineHeight: value,
                 },
               })
@@ -525,15 +525,15 @@ const RadarSection = (props) => {
           <RangeControl
             label={__("Mobile Max Tick Word Length.")}
             value={
-              !***REMOVED***?.***REMOVED***
+              !mobileCustomization?.mobileMaxTickLength
                 ? 25
-                : ***REMOVED***.***REMOVED***
+                : mobileCustomization.mobileMaxTickLength
             }
             onChange={(value) =>
               setAttributes({
-                ***REMOVED***: {
-                  ...***REMOVED***,
-                  ***REMOVED***: value,
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  mobileMaxTickLength: value,
                 },
               })
             }
@@ -543,7 +543,7 @@ const RadarSection = (props) => {
         </PanelRow>
       </PanelBody>
       <PanelBody initialOpen={false} title={__("Margins")}>
-        <***REMOVED*** {...props} />
+        <RadarMarginSection {...props} />
       </PanelBody>
     </PanelBody>
   );
@@ -554,13 +554,13 @@ const MobileConfig = (props) => {
     setAttributes,
     attributes: {
       type,
-      ***REMOVED***,
+      mobileCustomization,
       csv,
       app,
       measures,
       dimension1,
-      ***REMOVED***,
-      ***REMOVED***,
+      yAxisTickValues,
+      xAxisTickValues,
       tickRotation
     },
     allMeasures,
@@ -568,94 +568,94 @@ const MobileConfig = (props) => {
     allDimensions,
   } = props;
 
-  const [xAxisLabels, ***REMOVED***] = useState([]);
+  const [xAxisLabels, setXAxisLabels] = useState([]);
 
-  const ***REMOVED*** = (value, prop, intervalProp, mobileCustomizationObject) => {
+  const onIntervalChange = (value, prop, intervalProp, mobileCustomizationObject) => {
     const newObject = Object.assign({}, mobileCustomizationObject);
     if (newObject) {
       newObject[prop] = value;
       newObject[intervalProp] = true;
     }
-    setAttributes({ ***REMOVED***: newObject });
+    setAttributes({ mobileCustomization: newObject });
   };
 
   useEffect(() => {
-    const updatedMobileCustomization = { ...***REMOVED*** };
+    const updatedMobileCustomization = { ...mobileCustomization };
 
-    if (!***REMOVED***.yAxisIntervalUserModified) {
-      updatedMobileCustomization.***REMOVED*** = ***REMOVED***;
+    if (!mobileCustomization.yAxisIntervalUserModified) {
+      updatedMobileCustomization.yAxisTickValues = yAxisTickValues;
     }
 
-    if (!***REMOVED***.xAxisIntervalUserModified) {
-      updatedMobileCustomization.***REMOVED*** = ***REMOVED***;
+    if (!mobileCustomization.xAxisIntervalUserModified) {
+      updatedMobileCustomization.xAxisTickValues = xAxisTickValues;
     }
 
-    if (!***REMOVED***.mobileXAxisTextRotationModified) {
+    if (!mobileCustomization.mobileXAxisTextRotationModified) {
       updatedMobileCustomization.mobileXAxisTextRotation = tickRotation;
     }
 
-    if (!***REMOVED***.tabletXAxisTextRotationModified) {
+    if (!mobileCustomization.tabletXAxisTextRotationModified) {
       updatedMobileCustomization.tabletXAxisTextRotation = tickRotation;
     }
 
-    setAttributes({ ***REMOVED***: updatedMobileCustomization });
-  }, [***REMOVED***, ***REMOVED***, tickRotation]);
+    setAttributes({ mobileCustomization: updatedMobileCustomization });
+  }, [yAxisTickValues, xAxisTickValues, tickRotation]);
 
 
 useEffect(() => {
   let labels = [];
   const categoryKey = `_categories_${app}`;
   if (app === "csv") {
-    labels = ***REMOVED***(csv);
+    labels = extractAxisValues(csv);
   } else {
     if (dimension1 !== "none") {
       const dimensionKey = `_dimensions_${app}`;
-      const dimensions = ***REMOVED***(dimensionKey, allDimensions, true);
-      const categories = ***REMOVED***(categoryKey, allCategories, true);
+      const dimensions = getStoredOrSetItem(dimensionKey, allDimensions, true);
+      const categories = getStoredOrSetItem(categoryKey, allCategories, true);
       const dimType = dimensions.filter((dim) => dim.value === dimension1)?.[0]?.type;
-      const ***REMOVED*** = categories.filter((a) => a.type === dimType);
-      labels = ***REMOVED***[0]?.items?.map((item) => item.value) || [];
+      const matchedCategories = categories.filter((a) => a.type === dimType);
+      labels = matchedCategories[0]?.items?.map((item) => item.value) || [];
     } else {
       if(allMeasures && measures) {
-        ***REMOVED***(allMeasures, measures, app);
-        const ***REMOVED*** = getSelectedItemsForApp(measures, app);
-        labels = _.isEmpty(***REMOVED***) ? [] : getSelectedLabelsForApp(***REMOVED***);
+        updateMeasureLabels(allMeasures, measures, app);
+        const selectedMeasures = getSelectedItemsForApp(measures, app);
+        labels = _.isEmpty(selectedMeasures) ? [] : getSelectedLabelsForApp(selectedMeasures);
       } else {
         labels = [];
       }
     }
   }
-  ***REMOVED***(labels);
+  setXAxisLabels(labels);
 }, [app, dimension1, csv, allDimensions, allCategories, allMeasures, measures]);
 
 
-  const ***REMOVED*** = (label, value) => {
-    const newObject = Object.assign({}, ***REMOVED***);
+  const onXAxisLabelChange = (label, value) => {
+    const newObject = Object.assign({}, mobileCustomization);
     if (newObject?.labels?.xAxis) {
       newObject.labels.xAxis[label] = value;
     }
-    setAttributes({ ***REMOVED***: newObject });
+    setAttributes({ mobileCustomization: newObject });
   };
 
   const onShowMobileCustomizationChange = (value) => {
     setAttributes({
-      ***REMOVED***: {
-        ...***REMOVED***,
-        ***REMOVED***: value,
+      mobileCustomization: {
+        ...mobileCustomization,
+        showCustomization: value,
       },
     });
   };
 
 
-  const ***REMOVED*** = (***REMOVED***, label, axis) => {
+  const setInitialTogle = (initialToggleState, label, axis) => {
     // initial toggle state is false
-    if (!***REMOVED***) {
-      return ***REMOVED***.labels[axis][label];
+    if (!initialToggleState) {
+      return mobileCustomization.labels[axis][label];
     }
     // initial toggle state is true but customization is already present
-    if (***REMOVED***?.labels.***REMOVED***(axis)) {
-      if (***REMOVED***.labels[axis].***REMOVED***(label)) {
-        return ***REMOVED***.labels[axis][label];
+    if (mobileCustomization?.labels.hasOwnProperty(axis)) {
+      if (mobileCustomization.labels[axis].hasOwnProperty(label)) {
+        return mobileCustomization.labels[axis][label];
       }
       return true;
     }
@@ -664,7 +664,7 @@ useEffect(() => {
   };
 
   const isBarOrLineOrPieOrRadar = ["bar", "line", "pie", "radar"].includes(type);
-  const ***REMOVED*** = ["bar", "line", "pie"].includes(type);
+  const isBarOrLineOrPie = ["bar", "line", "pie"].includes(type);
 
   const isRadar = type === "radar";
 
@@ -677,25 +677,25 @@ useEffect(() => {
       <PanelRow>
         <ToggleControl
           label={__("Show Mobile & Tablet Customization Settings")}
-          checked={***REMOVED***?.***REMOVED***}
+          checked={mobileCustomization?.showCustomization}
           onChange={(isShowMobileCustomization) =>
             onShowMobileCustomizationChange(isShowMobileCustomization)
           }
         />
       </PanelRow>
-      {isBarOrLineOrPieOrRadar && ***REMOVED***?.***REMOVED*** && (
+      {isBarOrLineOrPieOrRadar && mobileCustomization?.showCustomization && (
         <>
           {isBarOrLine && (
             <>
               <PanelRow>
                 <ToggleControl
                   label={__("Disable X Axis Labels")}
-                  checked={***REMOVED***.xAxisDisabled}
-                  onChange={(***REMOVED***) =>
+                  checked={mobileCustomization.xAxisDisabled}
+                  onChange={(isXAxisEnabled) =>
                     setAttributes({
-                      ***REMOVED***: {
-                        ...***REMOVED***,
-                        xAxisDisabled: ***REMOVED***,
+                      mobileCustomization: {
+                        ...mobileCustomization,
+                        xAxisDisabled: isXAxisEnabled,
                       },
                     })
                   }
@@ -704,12 +704,12 @@ useEffect(() => {
               <PanelRow>
                 <ToggleControl
                   label={__("Override Chart Layout")}
-                  checked={***REMOVED***.***REMOVED***}
-                  onChange={(***REMOVED***) =>
+                  checked={mobileCustomization.chartLayoutOverride}
+                  onChange={(isChartLayoutToggle) =>
                     setAttributes({
-                      ***REMOVED***: {
-                        ...***REMOVED***,
-                        ***REMOVED***: ***REMOVED***,
+                      mobileCustomization: {
+                        ...mobileCustomization,
+                        chartLayoutOverride: isChartLayoutToggle,
                       },
                     })
                   }
@@ -721,14 +721,14 @@ useEffect(() => {
                   <RangeControl
                     label={__("Tablet Y Axis Line Height")}
                     value={
-                      !***REMOVED***?.tabletYAxisLineHeight
+                      !mobileCustomization?.tabletYAxisLineHeight
                         ? 12
-                        : ***REMOVED***.tabletYAxisLineHeight
+                        : mobileCustomization.tabletYAxisLineHeight
                     }
                     onChange={(value) =>
                       setAttributes({
-                        ***REMOVED***: {
-                          ...***REMOVED***,
+                        mobileCustomization: {
+                          ...mobileCustomization,
                           tabletYAxisLineHeight: value,
                         },
                       })
@@ -741,15 +741,15 @@ useEffect(() => {
                   <RangeControl
                     label={__("Tablet Max Tick Word Length")}
                     value={
-                      !***REMOVED***?.***REMOVED***
+                      !mobileCustomization?.tabletMaxTickLength
                         ? 25
-                        : ***REMOVED***.***REMOVED***
+                        : mobileCustomization.tabletMaxTickLength
                     }
                     onChange={(value) =>
                       setAttributes({
-                        ***REMOVED***: {
-                          ...***REMOVED***,
-                          ***REMOVED***: value,
+                        mobileCustomization: {
+                          ...mobileCustomization,
+                          tabletMaxTickLength: value,
                         },
                       })
                     }
@@ -758,19 +758,19 @@ useEffect(() => {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <***REMOVED***
+                  <AnglePickerControl
                     label={__("X Axis Text Rotation")}
                     value={
-                      !***REMOVED***?.tabletXAxisTextRotationModified
+                      !mobileCustomization?.tabletXAxisTextRotationModified
                         ? tickRotation
-                        : ***REMOVED***.tabletXAxisTextRotation
+                        : mobileCustomization.tabletXAxisTextRotation
                     }
                     onChange={(value) =>
-                      ***REMOVED***(
+                      onIntervalChange(
                         value,
                         "tabletXAxisTextRotation",
                         "tabletXAxisTextRotationModified",
-                        ***REMOVED***
+                        mobileCustomization
                       )
                     }
                   />
@@ -781,14 +781,14 @@ useEffect(() => {
                   <RangeControl
                     label={__("Mobile Y Axis Line Height")}
                     value={
-                      !***REMOVED***?.mobileYAxisLineHeight
+                      !mobileCustomization?.mobileYAxisLineHeight
                         ? 12
-                        : ***REMOVED***.mobileYAxisLineHeight
+                        : mobileCustomization.mobileYAxisLineHeight
                     }
                     onChange={(value) =>
                       setAttributes({
-                        ***REMOVED***: {
-                          ...***REMOVED***,
+                        mobileCustomization: {
+                          ...mobileCustomization,
                           mobileYAxisLineHeight: value,
                         },
                       })
@@ -801,15 +801,15 @@ useEffect(() => {
                   <RangeControl
                     label={__("Mobile Max Tick Word Length.")}
                     value={
-                      !***REMOVED***?.***REMOVED***
+                      !mobileCustomization?.mobileMaxTickLength
                         ? 25
-                        : ***REMOVED***.***REMOVED***
+                        : mobileCustomization.mobileMaxTickLength
                     }
                     onChange={(value) =>
                       setAttributes({
-                        ***REMOVED***: {
-                          ...***REMOVED***,
-                          ***REMOVED***: value,
+                        mobileCustomization: {
+                          ...mobileCustomization,
+                          mobileMaxTickLength: value,
                         },
                       })
                     }
@@ -818,34 +818,34 @@ useEffect(() => {
                   />
                 </PanelRow>
                 <PanelRow>
-                  <***REMOVED***
+                  <AnglePickerControl
                     label={__("X Axis Text Rotation")}
                     value={
-                      !***REMOVED***?.mobileXAxisTextRotationModified
+                      !mobileCustomization?.mobileXAxisTextRotationModified
                         ? tickRotation
-                        : ***REMOVED***.mobileXAxisTextRotation
+                        : mobileCustomization.mobileXAxisTextRotation
                     }
                     onChange={(value) =>
-                      ***REMOVED***(
+                      onIntervalChange(
                         value,
                         "mobileXAxisTextRotation",
                         "mobileXAxisTextRotationModified",
-                        ***REMOVED***
+                        mobileCustomization
                       )
                     }
                   />
                 </PanelRow>
               </PanelBody>
-              <***REMOVED*** {...props} />
+              <IntervalsSection {...props} />
               <PanelBody initialOpen={false} title={__("All Labels")}>
                 {xAxisLabels?.map((label, index) => (
                   <PanelRow key={`____${index}${label}`}>
                     <ToggleControl
                       key={`_____${index}${label}`}
                       label={__(label)}
-                      checked={***REMOVED***(true, label, "xAxis")}
+                      checked={setInitialTogle(true, label, "xAxis")}
                       onChange={(value) => {
-                        ***REMOVED***(label, value);
+                        onXAxisLabelChange(label, value);
                       }}
                     />
                   </PanelRow>
@@ -856,8 +856,8 @@ useEffect(() => {
             </>
           )}
           { isRadar && <RadarSection {...props} />}
-          { ***REMOVED***  && <MarginSection {...props} />}
-          {type === "bar" && <***REMOVED*** {...props} />}
+          { isBarOrLineOrPie  && <MarginSection {...props} />}
+          {type === "bar" && <PaddingSection {...props} />}
         </>
       )}
     </PanelBody>

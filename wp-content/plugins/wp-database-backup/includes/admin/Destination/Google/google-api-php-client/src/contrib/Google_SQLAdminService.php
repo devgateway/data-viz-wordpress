@@ -18,8 +18,8 @@
    * The "backupRuns" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_SQLAdminService(...);
-   *   $backupRuns = $***REMOVED***->backupRuns;
+   *   $sqladminService = new Google_SQLAdminService(...);
+   *   $backupRuns = $sqladminService->backupRuns;
    *  </code>
    */
   class Google_BackupRunsServiceResource extends Google_ServiceResource {
@@ -29,13 +29,13 @@
      *
      * @param string $project Project ID of the project that contains the instance. You can find this on the project summary page of the Google APIs Console.
      * @param string $instance Database instance ID. This does not include the project ID.
-     * @param string $***REMOVED*** Identifier for the backup configuration. This gets generated automatically when a backup configuration is created.
+     * @param string $backupConfiguration Identifier for the backup configuration. This gets generated automatically when a backup configuration is created.
      * @param string $dueTime The time when this run is due to start in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
      * @param array $optParams Optional parameters.
      * @return Google_BackupRun
      */
-    public function get($project, $instance, $***REMOVED***, $dueTime, $optParams = array()) {
-      $params = array('project' => $project, 'instance' => $instance, '***REMOVED***' => $***REMOVED***, 'dueTime' => $dueTime);
+    public function get($project, $instance, $backupConfiguration, $dueTime, $optParams = array()) {
+      $params = array('project' => $project, 'instance' => $instance, 'backupConfiguration' => $backupConfiguration, 'dueTime' => $dueTime);
       $params = array_merge($params, $optParams);
       $data = $this->__call('get', array($params));
       if ($this->useObjects()) {
@@ -50,15 +50,15 @@
      *
      * @param string $project Project ID of the project that contains the instance. You can find this on the project summary page of the Google APIs Console.
      * @param string $instance Database instance ID. This does not include the project ID.
-     * @param string $***REMOVED*** Identifier for the backup configuration. This gets generated automatically when a backup configuration is created.
+     * @param string $backupConfiguration Identifier for the backup configuration. This gets generated automatically when a backup configuration is created.
      * @param array $optParams Optional parameters.
      *
      * @opt_param int maxResults Maximum number of backup runs per response.
      * @opt_param string pageToken A previously-returned page token representing part of the larger set of results to view.
      * @return Google_BackupRunsListResponse
      */
-    public function ***REMOVED***($project, $instance, $***REMOVED***, $optParams = array()) {
-      $params = array('project' => $project, 'instance' => $instance, '***REMOVED***' => $***REMOVED***);
+    public function listBackupRuns($project, $instance, $backupConfiguration, $optParams = array()) {
+      $params = array('project' => $project, 'instance' => $instance, 'backupConfiguration' => $backupConfiguration);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
       if ($this->useObjects()) {
@@ -73,8 +73,8 @@
    * The "instances" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_SQLAdminService(...);
-   *   $instances = $***REMOVED***->instances;
+   *   $sqladminService = new Google_SQLAdminService(...);
+   *   $instances = $sqladminService->instances;
    *  </code>
    */
   class Google_InstancesServiceResource extends Google_ServiceResource {
@@ -238,13 +238,13 @@
      *
      * @param string $project Project ID of the project that contains the instance. You can find this on the project summary page of the Google APIs Console.
      * @param string $instance Database instance ID. This does not include the project ID.
-     * @param string $***REMOVED*** The identifier of the backup configuration. This gets generated automatically when a backup configuration is created.
+     * @param string $backupConfiguration The identifier of the backup configuration. This gets generated automatically when a backup configuration is created.
      * @param string $dueTime The time when this run is due to start in RFC 3339 format, for example 2012-11-15T16:19:00.094Z.
      * @param array $optParams Optional parameters.
      * @return Google_InstancesRestoreBackupResponse
      */
-    public function restoreBackup($project, $instance, $***REMOVED***, $dueTime, $optParams = array()) {
-      $params = array('project' => $project, 'instance' => $instance, '***REMOVED***' => $***REMOVED***, 'dueTime' => $dueTime);
+    public function restoreBackup($project, $instance, $backupConfiguration, $dueTime, $optParams = array()) {
+      $params = array('project' => $project, 'instance' => $instance, 'backupConfiguration' => $backupConfiguration, 'dueTime' => $dueTime);
       $params = array_merge($params, $optParams);
       $data = $this->__call('restoreBackup', array($params));
       if ($this->useObjects()) {
@@ -280,8 +280,8 @@
    * The "operations" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_SQLAdminService(...);
-   *   $operations = $***REMOVED***->operations;
+   *   $sqladminService = new Google_SQLAdminService(...);
+   *   $operations = $sqladminService->operations;
    *  </code>
    */
   class Google_OperationsServiceResource extends Google_ServiceResource {
@@ -317,7 +317,7 @@
      * @opt_param string pageToken A previously-returned page token representing part of the larger set of results to view.
      * @return Google_OperationsListResponse
      */
-    public function ***REMOVED***($project, $instance, $optParams = array()) {
+    public function listOperations($project, $instance, $optParams = array()) {
       $params = array('project' => $project, 'instance' => $instance);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -333,8 +333,8 @@
    * The "tiers" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_SQLAdminService(...);
-   *   $tiers = $***REMOVED***->tiers;
+   *   $sqladminService = new Google_SQLAdminService(...);
+   *   $tiers = $sqladminService->tiers;
    *  </code>
    */
   class Google_TiersServiceResource extends Google_ServiceResource {
@@ -378,7 +378,7 @@ class Google_SQLAdminService extends Google_Service {
   public $operations;
   public $tiers;
   /**
-   * Constructs the internal ***REMOVED*** of the SQLAdmin service.
+   * Constructs the internal representation of the SQLAdmin service.
    *
    * @param Google_Client $client
    */
@@ -388,10 +388,10 @@ class Google_SQLAdminService extends Google_Service {
     $this->serviceName = 'sqladmin';
 
     $client->addService($this->serviceName, $this->version);
-    $this->backupRuns = new Google_BackupRunsServiceResource($this, $this->serviceName, 'backupRuns', json_decode('{"methods": {"get": {"id": "sql.backupRuns.get", "path": "projects/{project}/instances/{instance}/backupRuns/{***REMOVED***}", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "path"}, "dueTime": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "BackupRun"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "list": {"id": "sql.backupRuns.list", "path": "projects/{project}/instances/{instance}/backupRuns", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "int32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "BackupRunsListResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
-    $this->instances = new Google_InstancesServiceResource($this, $this->serviceName, 'instances', json_decode('{"methods": {"delete": {"id": "sql.instances.delete", "path": "projects/{project}/instances/{instance}", "httpMethod": "DELETE", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesDeleteResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "export": {"id": "sql.instances.export", "path": "projects/{project}/instances/{instance}/export", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "InstancesExportRequest"}, "response": {"$ref": "InstancesExportResponse"}, "scopes": ["https://www.googleapis.com/auth/cloud-platform"]}, "get": {"id": "sql.instances.get", "path": "projects/{project}/instances/{instance}", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "import": {"id": "sql.instances.import", "path": "projects/{project}/instances/{instance}/import", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "InstancesImportRequest"}, "response": {"$ref": "InstancesImportResponse"}, "scopes": ["https://www.googleapis.com/auth/cloud-platform"]}, "insert": {"id": "sql.instances.insert", "path": "projects/{project}/instances", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "InstancesInsertResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "list": {"id": "sql.instances.list", "path": "projects/{project}/instances", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesListResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "patch": {"id": "sql.instances.patch", "path": "projects/{project}/instances/{instance}", "httpMethod": "PATCH", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "InstancesUpdateResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "restart": {"id": "sql.instances.restart", "path": "projects/{project}/instances/{instance}/restart", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesRestartResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "restoreBackup": {"id": "sql.instances.restoreBackup", "path": "projects/{project}/instances/{instance}/restoreBackup", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "query"}, "dueTime": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesRestoreBackupResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "update": {"id": "sql.instances.update", "path": "projects/{project}/instances/{instance}", "httpMethod": "PUT", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "etagRequired": true, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "InstancesUpdateResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
-    $this->operations = new Google_OperationsServiceResource($this, $this->serviceName, 'operations', json_decode('{"methods": {"get": {"id": "sql.operations.get", "path": "projects/{project}/instances/{instance}/operations/{operation}", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "list": {"id": "sql.operations.list", "path": "projects/{project}/instances/{instance}/operations", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationsListResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
-    $this->tiers = new Google_TiersServiceResource($this, $this->serviceName, 'tiers', json_decode('{"methods": {"list": {"id": "sql.tiers.list", "path": "tiers", "httpMethod": "GET", "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
+    $this->backupRuns = new Google_BackupRunsServiceResource($this, $this->serviceName, 'backupRuns', json_decode('{"methods": {"get": {"id": "sql.backupRuns.get", "path": "projects/{project}/instances/{instance}/backupRuns/{backupConfiguration}", "httpMethod": "GET", "parameters": {"backupConfiguration": {"type": "string", "required": true, "location": "path"}, "dueTime": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "BackupRun"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "list": {"id": "sql.backupRuns.list", "path": "projects/{project}/instances/{instance}/backupRuns", "httpMethod": "GET", "parameters": {"backupConfiguration": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "int32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "BackupRunsListResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
+    $this->instances = new Google_InstancesServiceResource($this, $this->serviceName, 'instances', json_decode('{"methods": {"delete": {"id": "sql.instances.delete", "path": "projects/{project}/instances/{instance}", "httpMethod": "DELETE", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesDeleteResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "export": {"id": "sql.instances.export", "path": "projects/{project}/instances/{instance}/export", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "InstancesExportRequest"}, "response": {"$ref": "InstancesExportResponse"}, "scopes": ["https://www.googleapis.com/auth/cloud-platform"]}, "get": {"id": "sql.instances.get", "path": "projects/{project}/instances/{instance}", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "DatabaseInstance"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "import": {"id": "sql.instances.import", "path": "projects/{project}/instances/{instance}/import", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "InstancesImportRequest"}, "response": {"$ref": "InstancesImportResponse"}, "scopes": ["https://www.googleapis.com/auth/cloud-platform"]}, "insert": {"id": "sql.instances.insert", "path": "projects/{project}/instances", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "DatabaseInstance"}, "response": {"$ref": "InstancesInsertResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "list": {"id": "sql.instances.list", "path": "projects/{project}/instances", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesListResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "patch": {"id": "sql.instances.patch", "path": "projects/{project}/instances/{instance}", "httpMethod": "PATCH", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "DatabaseInstance"}, "response": {"$ref": "InstancesUpdateResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "restart": {"id": "sql.instances.restart", "path": "projects/{project}/instances/{instance}/restart", "httpMethod": "POST", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesRestartResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "restoreBackup": {"id": "sql.instances.restoreBackup", "path": "projects/{project}/instances/{instance}/restoreBackup", "httpMethod": "POST", "parameters": {"backupConfiguration": {"type": "string", "required": true, "location": "query"}, "dueTime": {"type": "string", "required": true, "location": "query"}, "instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstancesRestoreBackupResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "update": {"id": "sql.instances.update", "path": "projects/{project}/instances/{instance}", "httpMethod": "PUT", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "etagRequired": true, "request": {"$ref": "DatabaseInstance"}, "response": {"$ref": "InstancesUpdateResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
+    $this->operations = new Google_OperationsServiceResource($this, $this->serviceName, 'operations', json_decode('{"methods": {"get": {"id": "sql.operations.get", "path": "projects/{project}/instances/{instance}/operations/{operation}", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "operation": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "InstanceOperation"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}, "list": {"id": "sql.operations.list", "path": "projects/{project}/instances/{instance}/operations", "httpMethod": "GET", "parameters": {"instance": {"type": "string", "required": true, "location": "path"}, "maxResults": {"type": "integer", "format": "uint32", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "OperationsListResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
+    $this->tiers = new Google_TiersServiceResource($this, $this->serviceName, 'tiers', json_decode('{"methods": {"list": {"id": "sql.tiers.list", "path": "tiers", "httpMethod": "GET", "response": {"$ref": "TiersListResponse"}, "scopes": ["https://www.googleapis.com/auth/sqlservice.admin"]}}}', true));
 
   }
 }
@@ -430,7 +430,7 @@ class Google_BackupConfiguration extends Google_Model {
 }
 
 class Google_BackupRun extends Google_Model {
-  public $***REMOVED***;
+  public $backupConfiguration;
   public $dueTime;
   public $endTime;
   public $enqueuedTime;
@@ -441,11 +441,11 @@ class Google_BackupRun extends Google_Model {
   public $kind;
   public $startTime;
   public $status;
-  public function setBackupConfiguration( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBackupConfiguration( $backupConfiguration) {
+    $this->backupConfiguration = $backupConfiguration;
   }
   public function getBackupConfiguration() {
-    return $this->***REMOVED***;
+    return $this->backupConfiguration;
   }
   public function setDueTime( $dueTime) {
     $this->dueTime = $dueTime;
@@ -459,10 +459,10 @@ class Google_BackupRun extends Google_Model {
   public function getEndTime() {
     return $this->endTime;
   }
-  public function ***REMOVED***( $enqueuedTime) {
+  public function setEnqueuedTime( $enqueuedTime) {
     $this->enqueuedTime = $enqueuedTime;
   }
-  public function ***REMOVED***() {
+  public function getEnqueuedTime() {
     return $this->enqueuedTime;
   }
   public function setError(Google_OperationError $error) {
@@ -516,17 +516,17 @@ class Google_BackupRunsListResponse extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
 
 class Google_DatabaseInstance extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $currentDiskSize;
+  public $databaseVersion;
   public $etag;
   public $instance;
   public $kind;
@@ -537,17 +537,17 @@ class Google_DatabaseInstance extends Google_Model {
   protected $__settingsDataType = '';
   public $settings;
   public $state;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCurrentDiskSize( $currentDiskSize) {
+    $this->currentDiskSize = $currentDiskSize;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCurrentDiskSize() {
+    return $this->currentDiskSize;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDatabaseVersion( $databaseVersion) {
+    $this->databaseVersion = $databaseVersion;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDatabaseVersion() {
+    return $this->databaseVersion;
   }
   public function setEtag( $etag) {
     $this->etag = $etag;
@@ -567,10 +567,10 @@ class Google_DatabaseInstance extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $maxDiskSize) {
+  public function setMaxDiskSize( $maxDiskSize) {
     $this->maxDiskSize = $maxDiskSize;
   }
-  public function ***REMOVED***() {
+  public function getMaxDiskSize() {
     return $this->maxDiskSize;
   }
   public function setProject( $project) {
@@ -675,17 +675,17 @@ class Google_InstanceOperation extends Google_Model {
   public $operationType;
   public $startTime;
   public $state;
-  public $***REMOVED***;
+  public $userEmailAddress;
   public function setEndTime( $endTime) {
     $this->endTime = $endTime;
   }
   public function getEndTime() {
     return $this->endTime;
   }
-  public function ***REMOVED***( $enqueuedTime) {
+  public function setEnqueuedTime( $enqueuedTime) {
     $this->enqueuedTime = $enqueuedTime;
   }
-  public function ***REMOVED***() {
+  public function getEnqueuedTime() {
     return $this->enqueuedTime;
   }
   public function setError(/* array(Google_OperationError) */ $error) {
@@ -695,16 +695,16 @@ class Google_InstanceOperation extends Google_Model {
   public function getError() {
     return $this->error;
   }
-  public function ***REMOVED***(Google_ExportContext $exportContext) {
+  public function setExportContext(Google_ExportContext $exportContext) {
     $this->exportContext = $exportContext;
   }
-  public function ***REMOVED***() {
+  public function getExportContext() {
     return $this->exportContext;
   }
-  public function ***REMOVED***(Google_ImportContext $importContext) {
+  public function setImportContext(Google_ImportContext $importContext) {
     $this->importContext = $importContext;
   }
-  public function ***REMOVED***() {
+  public function getImportContext() {
     return $this->importContext;
   }
   public function setInstance( $instance) {
@@ -725,10 +725,10 @@ class Google_InstanceOperation extends Google_Model {
   public function getOperation() {
     return $this->operation;
   }
-  public function ***REMOVED***( $operationType) {
+  public function setOperationType( $operationType) {
     $this->operationType = $operationType;
   }
-  public function ***REMOVED***() {
+  public function getOperationType() {
     return $this->operationType;
   }
   public function setStartTime( $startTime) {
@@ -743,11 +743,11 @@ class Google_InstanceOperation extends Google_Model {
   public function getState() {
     return $this->state;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setUserEmailAddress( $userEmailAddress) {
+    $this->userEmailAddress = $userEmailAddress;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getUserEmailAddress() {
+    return $this->userEmailAddress;
   }
 }
 
@@ -772,10 +772,10 @@ class Google_InstancesExportRequest extends Google_Model {
   protected $__exportContextType = 'Google_ExportContext';
   protected $__exportContextDataType = '';
   public $exportContext;
-  public function ***REMOVED***(Google_ExportContext $exportContext) {
+  public function setExportContext(Google_ExportContext $exportContext) {
     $this->exportContext = $exportContext;
   }
-  public function ***REMOVED***() {
+  public function getExportContext() {
     return $this->exportContext;
   }
 }
@@ -801,10 +801,10 @@ class Google_InstancesImportRequest extends Google_Model {
   protected $__importContextType = 'Google_ImportContext';
   protected $__importContextDataType = '';
   public $importContext;
-  public function ***REMOVED***(Google_ImportContext $importContext) {
+  public function setImportContext(Google_ImportContext $importContext) {
     $this->importContext = $importContext;
   }
-  public function ***REMOVED***() {
+  public function getImportContext() {
     return $this->importContext;
   }
 }
@@ -862,10 +862,10 @@ class Google_InstancesListResponse extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -957,29 +957,29 @@ class Google_OperationsListResponse extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
 
 class Google_Settings extends Google_Model {
-  public $***REMOVED***;
+  public $activationPolicy;
   public $authorizedGaeApplications;
   protected $__backupConfigurationType = 'Google_BackupConfiguration';
   protected $__backupConfigurationDataType = 'array';
-  public $***REMOVED***;
+  public $backupConfiguration;
   public $kind;
   public $pricingPlan;
-  public $***REMOVED***;
+  public $replicationType;
   public $tier;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setActivationPolicy( $activationPolicy) {
+    $this->activationPolicy = $activationPolicy;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getActivationPolicy() {
+    return $this->activationPolicy;
   }
   public function setAuthorizedGaeApplications(/* array(Google_string) */ $authorizedGaeApplications) {
     $this->assertIsArray($authorizedGaeApplications, 'Google_string', __METHOD__);
@@ -988,12 +988,12 @@ class Google_Settings extends Google_Model {
   public function getAuthorizedGaeApplications() {
     return $this->authorizedGaeApplications;
   }
-  public function setBackupConfiguration(/* array(Google_BackupConfiguration) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_BackupConfiguration', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBackupConfiguration(/* array(Google_BackupConfiguration) */ $backupConfiguration) {
+    $this->assertIsArray($backupConfiguration, 'Google_BackupConfiguration', __METHOD__);
+    $this->backupConfiguration = $backupConfiguration;
   }
   public function getBackupConfiguration() {
-    return $this->***REMOVED***;
+    return $this->backupConfiguration;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -1001,17 +1001,17 @@ class Google_Settings extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $pricingPlan) {
+  public function setPricingPlan( $pricingPlan) {
     $this->pricingPlan = $pricingPlan;
   }
-  public function ***REMOVED***() {
+  public function getPricingPlan() {
     return $this->pricingPlan;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setReplicationType( $replicationType) {
+    $this->replicationType = $replicationType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getReplicationType() {
+    return $this->replicationType;
   }
   public function setTier( $tier) {
     $this->tier = $tier;

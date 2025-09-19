@@ -1,12 +1,12 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Framework\Site;
 
 use Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Introductions\***REMOVED***\Wistia_Embed_Permission_Repository;
+use Yoast\WP\SEO\Introductions\Infrastructure\Wistia_Embed_Permission_Repository;
 use Yoast\WP\SEO\Promotions\Application\Promotion_Manager;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
@@ -107,10 +107,10 @@ abstract class Base_Site_Information {
 				'facebook' => $this->options_helper->get( 'opengraph', false ),
 				'twitter'  => $this->options_helper->get( 'twitter', false ),
 			],
-			'***REMOVED***'       => $this->options_helper->get( 'og_default_image' ),
-			// phpcs:ignore Generic.***REMOVED***.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
+			'sitewideSocialImage'       => $this->options_helper->get( 'og_default_image' ),
+			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'             => ( (string) \get_option( 'blog_public' ) ) === '0',
-			'***REMOVED***'         => $this->promotion_manager->get_current_promotions(),
+			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
 			'blackFridayBlockEditorUrl' => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 		];
 	}
@@ -128,10 +128,10 @@ abstract class Base_Site_Information {
 			'linkParams'                => $this->short_link_helper->get_query_params(),
 			'pluginUrl'                 => \plugins_url( '', \WPSEO_FILE ),
 			'wistiaEmbedPermission'     => $this->wistia_embed_permission_repository->get_value_for_user( \get_current_user_id() ),
-			'***REMOVED***'       => $this->options_helper->get( 'og_default_image' ),
-			// phpcs:ignore Generic.***REMOVED***.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
+			'sitewideSocialImage'       => $this->options_helper->get( 'og_default_image' ),
+			// phpcs:ignore Generic.ControlStructures.DisallowYodaConditions -- Bug: squizlabs/PHP_CodeSniffer#2962.
 			'isPrivateBlog'             => ( (string) \get_option( 'blog_public' ) ) === '0',
-			'***REMOVED***'         => $this->promotion_manager->get_current_promotions(),
+			'currentPromotions'         => $this->promotion_manager->get_current_promotions(),
 			'blackFridayBlockEditorUrl' => ( $this->promotion_manager->is( 'black-friday-2023-checklist' ) ) ? $this->short_link_helper->get( 'https://yoa.st/black-friday-checklist' ) : '',
 			'metabox'                   => [
 				'site_name'     => $this->meta->for_current_page()->site_name,

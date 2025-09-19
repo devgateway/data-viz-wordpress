@@ -66,17 +66,17 @@
 class Google_PagespeedonlineService extends Google_Service {
   public $pagespeedapi;
   /**
-   * Constructs the internal ***REMOVED*** of the ***REMOVED*** service.
+   * Constructs the internal representation of the Pagespeedonline service.
    *
    * @param Google_Client $client
    */
   public function __construct(Google_Client $client) {
-    $this->servicePath = '***REMOVED***/v1/';
+    $this->servicePath = 'pagespeedonline/v1/';
     $this->version = 'v1';
-    $this->serviceName = '***REMOVED***';
+    $this->serviceName = 'pagespeedonline';
 
     $client->addService($this->serviceName, $this->version);
-    $this->pagespeedapi = new Google_PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"id": "***REMOVED***.pagespeedapi.runpagespeed", "path": "runPagespeed", "httpMethod": "GET", "parameters": {"locale": {"type": "string", "location": "query"}, "rule": {"type": "string", "repeated": true, "location": "query"}, "screenshot": {"type": "boolean", "default": "false", "location": "query"}, "strategy": {"type": "string", "enum": ["desktop", "mobile"], "location": "query"}, "url": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "Result"}}}}', true));
+    $this->pagespeedapi = new Google_PagespeedapiServiceResource($this, $this->serviceName, 'pagespeedapi', json_decode('{"methods": {"runpagespeed": {"id": "pagespeedonline.pagespeedapi.runpagespeed", "path": "runPagespeed", "httpMethod": "GET", "parameters": {"locale": {"type": "string", "location": "query"}, "rule": {"type": "string", "repeated": true, "location": "query"}, "screenshot": {"type": "boolean", "default": "false", "location": "query"}, "strategy": {"type": "string", "enum": ["desktop", "mobile"], "location": "query"}, "url": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "Result"}}}}', true));
 
   }
 }
@@ -86,7 +86,7 @@ class Google_PagespeedonlineService extends Google_Service {
 class Google_Result extends Google_Model {
   protected $__formattedResultsType = 'Google_ResultFormattedResults';
   protected $__formattedResultsDataType = '';
-  public $***REMOVED***;
+  public $formattedResults;
   public $id;
   public $invalidRules;
   public $kind;
@@ -102,11 +102,11 @@ class Google_Result extends Google_Model {
   protected $__versionType = 'Google_ResultVersion';
   protected $__versionDataType = '';
   public $version;
-  public function ***REMOVED***(Google_ResultFormattedResults $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFormattedResults(Google_ResultFormattedResults $formattedResults) {
+    $this->formattedResults = $formattedResults;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFormattedResults() {
+    return $this->formattedResults;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -114,11 +114,11 @@ class Google_Result extends Google_Model {
   public function getId() {
     return $this->id;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $invalidRules) {
+  public function setInvalidRules(/* array(Google_string) */ $invalidRules) {
     $this->assertIsArray($invalidRules, 'Google_string', __METHOD__);
     $this->invalidRules = $invalidRules;
   }
-  public function ***REMOVED***() {
+  public function getInvalidRules() {
     return $this->invalidRules;
   }
   public function setKind( $kind) {
@@ -133,10 +133,10 @@ class Google_Result extends Google_Model {
   public function getPageStats() {
     return $this->pageStats;
   }
-  public function ***REMOVED***( $responseCode) {
+  public function setResponseCode( $responseCode) {
     $this->responseCode = $responseCode;
   }
-  public function ***REMOVED***() {
+  public function getResponseCode() {
     return $this->responseCode;
   }
   public function setScore( $score) {
@@ -176,26 +176,26 @@ class Google_ResultFormattedResults extends Google_Model {
   public function getLocale() {
     return $this->locale;
   }
-  public function ***REMOVED***(Google_ResultFormattedResultsRuleResultsElement $ruleResults) {
+  public function setRuleResults(Google_ResultFormattedResultsRuleResultsElement $ruleResults) {
     $this->ruleResults = $ruleResults;
   }
-  public function ***REMOVED***() {
+  public function getRuleResults() {
     return $this->ruleResults;
   }
 }
 
 class Google_ResultFormattedResultsRuleResultsElement extends Google_Model {
-  public $***REMOVED***;
+  public $localizedRuleName;
   public $ruleImpact;
   public $ruleScore;
   protected $__urlBlocksType = 'Google_ResultFormattedResultsRuleResultsElementUrlBlocks';
   protected $__urlBlocksDataType = 'array';
   public $urlBlocks;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLocalizedRuleName( $localizedRuleName) {
+    $this->localizedRuleName = $localizedRuleName;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLocalizedRuleName() {
+    return $this->localizedRuleName;
   }
   public function setRuleImpact( $ruleImpact) {
     $this->ruleImpact = $ruleImpact;
@@ -374,42 +374,42 @@ class Google_ResultFormattedResultsRuleResultsElementUrlBlocksUrlsResultArgs ext
 }
 
 class Google_ResultPageStats extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $cssResponseBytes;
+  public $flashResponseBytes;
+  public $htmlResponseBytes;
+  public $imageResponseBytes;
   public $javascriptResponseBytes;
-  public $***REMOVED***;
+  public $numberCssResources;
   public $numberHosts;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $numberJsResources;
+  public $numberResources;
   public $numberStaticResources;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $otherResponseBytes;
+  public $textResponseBytes;
+  public $totalRequestBytes;
+  public function setCssResponseBytes( $cssResponseBytes) {
+    $this->cssResponseBytes = $cssResponseBytes;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCssResponseBytes() {
+    return $this->cssResponseBytes;
   }
-  public function setFlashResponseBytes( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFlashResponseBytes( $flashResponseBytes) {
+    $this->flashResponseBytes = $flashResponseBytes;
   }
   public function getFlashResponseBytes() {
-    return $this->***REMOVED***;
+    return $this->flashResponseBytes;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHtmlResponseBytes( $htmlResponseBytes) {
+    $this->htmlResponseBytes = $htmlResponseBytes;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getHtmlResponseBytes() {
+    return $this->htmlResponseBytes;
   }
-  public function setImageResponseBytes( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setImageResponseBytes( $imageResponseBytes) {
+    $this->imageResponseBytes = $imageResponseBytes;
   }
   public function getImageResponseBytes() {
-    return $this->***REMOVED***;
+    return $this->imageResponseBytes;
   }
   public function setJavascriptResponseBytes( $javascriptResponseBytes) {
     $this->javascriptResponseBytes = $javascriptResponseBytes;
@@ -417,29 +417,29 @@ class Google_ResultPageStats extends Google_Model {
   public function getJavascriptResponseBytes() {
     return $this->javascriptResponseBytes;
   }
-  public function setNumberCssResources( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumberCssResources( $numberCssResources) {
+    $this->numberCssResources = $numberCssResources;
   }
   public function getNumberCssResources() {
-    return $this->***REMOVED***;
+    return $this->numberCssResources;
   }
-  public function ***REMOVED***( $numberHosts) {
+  public function setNumberHosts( $numberHosts) {
     $this->numberHosts = $numberHosts;
   }
-  public function ***REMOVED***() {
+  public function getNumberHosts() {
     return $this->numberHosts;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumberJsResources( $numberJsResources) {
+    $this->numberJsResources = $numberJsResources;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNumberJsResources() {
+    return $this->numberJsResources;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumberResources( $numberResources) {
+    $this->numberResources = $numberResources;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNumberResources() {
+    return $this->numberResources;
   }
   public function setNumberStaticResources( $numberStaticResources) {
     $this->numberStaticResources = $numberStaticResources;
@@ -447,23 +447,23 @@ class Google_ResultPageStats extends Google_Model {
   public function getNumberStaticResources() {
     return $this->numberStaticResources;
   }
-  public function setOtherResponseBytes( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOtherResponseBytes( $otherResponseBytes) {
+    $this->otherResponseBytes = $otherResponseBytes;
   }
   public function getOtherResponseBytes() {
-    return $this->***REMOVED***;
+    return $this->otherResponseBytes;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTextResponseBytes( $textResponseBytes) {
+    $this->textResponseBytes = $textResponseBytes;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTextResponseBytes() {
+    return $this->textResponseBytes;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTotalRequestBytes( $totalRequestBytes) {
+    $this->totalRequestBytes = $totalRequestBytes;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTotalRequestBytes() {
+    return $this->totalRequestBytes;
   }
 }
 

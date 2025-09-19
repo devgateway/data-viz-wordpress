@@ -2,21 +2,21 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Exception\ConnectException;
+use YoastSEO_Vendor\GuzzleHttp\Exception\RequestException;
 use YoastSEO_Vendor\GuzzleHttp\Promise as P;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Psr7\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\FulfilledPromise;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\GuzzleHttp\Psr7\LazyOpenStream;
 use YoastSEO_Vendor\GuzzleHttp\TransferStats;
 use YoastSEO_Vendor\GuzzleHttp\Utils;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Creates curl resources from a request
  *
  * @final
  */
-class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
+class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\CurlFactoryInterface
 {
     public const CURL_VERSION_STR = 'curl_version';
     /**
@@ -38,7 +38,7 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
     {
         $this->maxHandles = $maxHandles;
     }
-    public function create(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle
+    public function create(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle
     {
         if (isset($options['curl']['body_as_string'])) {
             $options['_body_as_string'] = $options['curl']['body_as_string'];
@@ -47,16 +47,16 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
         $easy = new \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle();
         $easy->request = $request;
         $easy->options = $options;
-        $conf = $this->***REMOVED***($easy);
+        $conf = $this->getDefaultConf($easy);
         $this->applyMethod($easy, $conf);
-        $this->***REMOVED***($easy, $conf);
+        $this->applyHandlerOptions($easy, $conf);
         $this->applyHeaders($easy, $conf);
         unset($conf['_headers']);
         // Add handler options from the request configuration options
         if (isset($options['curl'])) {
             $conf = \array_replace($conf, $options['curl']);
         }
-        $conf[\CURLOPT_HEADERFUNCTION] = $this->***REMOVED***($easy);
+        $conf[\CURLOPT_HEADERFUNCTION] = $this->createHeaderFn($easy);
         $easy->handle = $this->handles ? \array_pop($this->handles) : \curl_init();
         \curl_setopt_array($easy->handle, $conf);
         return $easy;
@@ -84,10 +84,10 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
      * Completes a cURL transaction, either returning a response promise or a
      * rejected promise.
      *
-     * @param callable(***REMOVED***, array): ***REMOVED*** $handler
-     * @param ***REMOVED***                                $factory Dictates how the handle is released
+     * @param callable(RequestInterface, array): PromiseInterface $handler
+     * @param CurlFactoryInterface                                $factory Dictates how the handle is released
      */
-    public static function finish(callable $handler, \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED*** $factory) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public static function finish(callable $handler, \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, \YoastSEO_Vendor\GuzzleHttp\Handler\CurlFactoryInterface $factory) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         if (isset($easy->options['on_stats'])) {
             self::invokeStats($easy);
@@ -102,7 +102,7 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
         if ($body->isSeekable()) {
             $body->rewind();
         }
-        return new \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***($easy->response);
+        return new \YoastSEO_Vendor\GuzzleHttp\Promise\FulfilledPromise($easy->response);
     }
     private static function invokeStats(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy) : void
     {
@@ -112,9 +112,9 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
         $easy->options['on_stats']($stats);
     }
     /**
-     * @param callable(***REMOVED***, array): ***REMOVED*** $handler
+     * @param callable(RequestInterface, array): PromiseInterface $handler
      */
-    private static function finishError(callable $handler, \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED*** $factory) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    private static function finishError(callable $handler, \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, \YoastSEO_Vendor\GuzzleHttp\Handler\CurlFactoryInterface $factory) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         // Get error information and release the handle to the factory.
         $ctx = ['errno' => $easy->errno, 'error' => \curl_error($easy->handle), 'appconnect_time' => \curl_getinfo($easy->handle, \CURLINFO_APPCONNECT_TIME)] + \curl_getinfo($easy->handle);
@@ -122,20 +122,20 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
         $factory->release($easy);
         // Retry when nothing is present or when curl failed to rewind.
         if (empty($easy->options['_err_message']) && (!$easy->errno || $easy->errno == 65)) {
-            return self::***REMOVED***($handler, $easy, $ctx);
+            return self::retryFailedRewind($handler, $easy, $ctx);
         }
-        return self::***REMOVED***($easy, $ctx);
+        return self::createRejection($easy, $ctx);
     }
-    private static function ***REMOVED***(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, array $ctx) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    private static function createRejection(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, array $ctx) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
-        static $***REMOVED*** = [\CURLE_OPERATION_TIMEOUTED => \true, \CURLE_COULDNT_RESOLVE_HOST => \true, \CURLE_COULDNT_CONNECT => \true, \CURLE_SSL_CONNECT_ERROR => \true, \CURLE_GOT_NOTHING => \true];
+        static $connectionErrors = [\CURLE_OPERATION_TIMEOUTED => \true, \CURLE_COULDNT_RESOLVE_HOST => \true, \CURLE_COULDNT_CONNECT => \true, \CURLE_SSL_CONNECT_ERROR => \true, \CURLE_GOT_NOTHING => \true];
         if ($easy->createResponseException) {
-            return \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor(new \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***('An error was encountered while creating the response', $easy->request, $easy->response, $easy->createResponseException, $ctx));
+            return \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor(new \YoastSEO_Vendor\GuzzleHttp\Exception\RequestException('An error was encountered while creating the response', $easy->request, $easy->response, $easy->createResponseException, $ctx));
         }
         // If an exception was encountered during the onHeaders event, then
         // return a rejected promise that wraps that exception.
-        if ($easy->***REMOVED***) {
-            return \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor(new \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***('An error was encountered during the on_headers event', $easy->request, $easy->response, $easy->***REMOVED***, $ctx));
+        if ($easy->onHeadersException) {
+            return \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor(new \YoastSEO_Vendor\GuzzleHttp\Exception\RequestException('An error was encountered during the on_headers event', $easy->request, $easy->response, $easy->onHeadersException, $ctx));
         }
         $message = \sprintf('cURL error %s: %s (%s)', $ctx['errno'], $ctx['error'], 'see https://curl.haxx.se/libcurl/c/libcurl-errors.html');
         $uriString = (string) $easy->request->getUri();
@@ -143,19 +143,19 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
             $message .= \sprintf(' for %s', $uriString);
         }
         // Create a connection exception if it was a specific error code.
-        $error = isset($***REMOVED***[$easy->errno]) ? new \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***($message, $easy->request, null, $ctx) : new \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***($message, $easy->request, $easy->response, null, $ctx);
+        $error = isset($connectionErrors[$easy->errno]) ? new \YoastSEO_Vendor\GuzzleHttp\Exception\ConnectException($message, $easy->request, null, $ctx) : new \YoastSEO_Vendor\GuzzleHttp\Exception\RequestException($message, $easy->request, $easy->response, null, $ctx);
         return \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor($error);
     }
     /**
      * @return array<int|string, mixed>
      */
-    private function ***REMOVED***(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy) : array
+    private function getDefaultConf(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy) : array
     {
         $conf = ['_headers' => $easy->request->getHeaders(), \CURLOPT_CUSTOMREQUEST => $easy->request->getMethod(), \CURLOPT_URL => (string) $easy->request->getUri()->withFragment(''), \CURLOPT_RETURNTRANSFER => \false, \CURLOPT_HEADER => \false, \CURLOPT_CONNECTTIMEOUT => 300];
         if (\defined('CURLOPT_PROTOCOLS')) {
             $conf[\CURLOPT_PROTOCOLS] = \CURLPROTO_HTTP | \CURLPROTO_HTTPS;
         }
-        $version = $easy->request->***REMOVED***();
+        $version = $easy->request->getProtocolVersion();
         if ($version == 1.1) {
             $conf[\CURLOPT_HTTP_VERSION] = \CURL_HTTP_VERSION_1_1;
         } elseif ($version == 2.0) {
@@ -184,7 +184,7 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
             unset($conf[\CURLOPT_WRITEFUNCTION], $conf[\CURLOPT_READFUNCTION], $conf[\CURLOPT_FILE], $conf[\CURLOPT_INFILE]);
         }
     }
-    private function applyBody(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options, array &$conf) : void
+    private function applyBody(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options, array &$conf) : void
     {
         $size = $request->hasHeader('Content-Length') ? (int) $request->getHeaderLine('Content-Length') : null;
         // Send the body as a string if the size is less than 1MB OR if the
@@ -251,7 +251,7 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
             }
         }
     }
-    private function ***REMOVED***(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, array &$conf) : void
+    private function applyHandlerOptions(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, array &$conf) : void
     {
         $options = $easy->options;
         if (isset($options['verify'])) {
@@ -299,9 +299,9 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
             $sink = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::streamFor($sink);
         } elseif (!\is_dir(\dirname($sink))) {
             // Ensure that the directory exists before failing in curl.
-            throw new \***REMOVED***(\sprintf('Directory %s does not exist for sink value of %s', \dirname($sink), $sink));
+            throw new \RuntimeException(\sprintf('Directory %s does not exist for sink value of %s', \dirname($sink), $sink));
         } else {
-            $sink = new \YoastSEO_Vendor\GuzzleHttp\Psr7\***REMOVED***($sink, 'w+');
+            $sink = new \YoastSEO_Vendor\GuzzleHttp\Psr7\LazyOpenStream($sink, 'w+');
         }
         $easy->sink = $sink;
         $conf[\CURLOPT_WRITEFUNCTION] = static function ($ch, $write) use($sink) : int {
@@ -334,7 +334,7 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
                 $scheme = $easy->request->getUri()->getScheme();
                 if (isset($options['proxy'][$scheme])) {
                     $host = $easy->request->getUri()->getHost();
-                    if (isset($options['proxy']['no']) && \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***($host, $options['proxy']['no'])) {
+                    if (isset($options['proxy']['no']) && \YoastSEO_Vendor\GuzzleHttp\Utils::isHostInNoProxy($host, $options['proxy']['no'])) {
                         unset($conf[\CURLOPT_PROXY]);
                     } else {
                         $conf[\CURLOPT_PROXY] = $options['proxy'][$scheme];
@@ -422,9 +422,9 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
      * error, causing the request to be sent through curl_multi_info_read()
      * without an error status.
      *
-     * @param callable(***REMOVED***, array): ***REMOVED*** $handler
+     * @param callable(RequestInterface, array): PromiseInterface $handler
      */
-    private static function ***REMOVED***(callable $handler, \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, array $ctx) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    private static function retryFailedRewind(callable $handler, \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy, array $ctx) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         try {
             // Only rewind if the body has been read from.
@@ -432,22 +432,22 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
             if ($body->tell() > 0) {
                 $body->rewind();
             }
-        } catch (\***REMOVED*** $e) {
+        } catch (\RuntimeException $e) {
             $ctx['error'] = 'The connection unexpectedly failed without ' . 'providing an error. The request would have been retried, ' . 'but attempting to rewind the request body failed. ' . 'Exception: ' . $e;
-            return self::***REMOVED***($easy, $ctx);
+            return self::createRejection($easy, $ctx);
         }
         // Retry no more than 3 times before giving up.
         if (!isset($easy->options['_curl_retries'])) {
             $easy->options['_curl_retries'] = 1;
         } elseif ($easy->options['_curl_retries'] == 2) {
             $ctx['error'] = 'The cURL request was retried 3 times ' . 'and did not succeed. The most likely reason for the failure ' . 'is that cURL was unable to rewind the body of the request ' . 'and subsequent retries resulted in the same error. Turn on ' . 'the debug option to see what went wrong. See ' . 'https://bugs.php.net/bug.php?id=47204 for more information.';
-            return self::***REMOVED***($easy, $ctx);
+            return self::createRejection($easy, $ctx);
         } else {
             ++$easy->options['_curl_retries'];
         }
         return $handler($easy->request, $easy->options);
     }
-    private function ***REMOVED***(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy) : callable
+    private function createHeaderFn(\YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle $easy) : callable
     {
         if (isset($easy->options['on_headers'])) {
             $onHeaders = $easy->options['on_headers'];
@@ -457,12 +457,12 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
         } else {
             $onHeaders = null;
         }
-        return static function ($ch, $h) use($onHeaders, $easy, &$***REMOVED***) {
+        return static function ($ch, $h) use($onHeaders, $easy, &$startingResponse) {
             $value = \trim($h);
             if ($value === '') {
-                $***REMOVED*** = \true;
+                $startingResponse = \true;
                 try {
-                    $easy->***REMOVED***();
+                    $easy->createResponse();
                 } catch (\Exception $e) {
                     $easy->createResponseException = $e;
                     return -1;
@@ -473,12 +473,12 @@ class CurlFactory implements \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***
                     } catch (\Exception $e) {
                         // Associate the exception with the handle and trigger
                         // a curl header write error by returning 0.
-                        $easy->***REMOVED*** = $e;
+                        $easy->onHeadersException = $e;
                         return -1;
                     }
                 }
-            } elseif ($***REMOVED***) {
-                $***REMOVED*** = \false;
+            } elseif ($startingResponse) {
+                $startingResponse = \false;
                 $easy->headers = [$value];
             } else {
                 $easy->headers[] = $value;

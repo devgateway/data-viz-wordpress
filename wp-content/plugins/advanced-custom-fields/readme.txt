@@ -1,5 +1,5 @@
 === Advanced Custom Fields (ACF®) ===
-Contributors: ***REMOVED***, wpengine, elliotcondon, mattshaw, lgladdy, antpb, ***REMOVED***, dalewilliams, polevaultweb
+Contributors: deliciousbrains, wpengine, elliotcondon, mattshaw, lgladdy, antpb, johnstonphilip, dalewilliams, polevaultweb
 Tags: acf, fields, custom fields, meta, repeater
 Requires at least: 6.0
 Tested up to: 6.8
@@ -44,22 +44,22 @@ Over 10 plus years of vibrant community contribution alongside an ongoing commit
 * Millions of Users
 
 = Links =
-* [Website](https://www.***REMOVED***.com/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Website)
-* [Documentation](https://www.***REMOVED***.com/resources/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Website)
-* [Support](https://support.***REMOVED***.com)
-* [ACF PRO](https://www.***REMOVED***.com/pro/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade)
+* [Website](https://www.advancedcustomfields.com/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Website)
+* [Documentation](https://www.advancedcustomfields.com/resources/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Website)
+* [Support](https://support.advancedcustomfields.com)
+* [ACF PRO](https://www.advancedcustomfields.com/pro/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade)
 
 = PRO =
 The Advanced Custom Fields plugin is also available in a professional version which includes more fields, more functionality, and more flexibility. The ACF PRO plugin features:
 
-* The [Repeater Field](https://www.***REMOVED***.com/resources/repeater/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade) allows you to create a set of sub fields which can be repeated again, and again, and again.
-* [ACF Blocks](https://www.***REMOVED***.com/resources/blocks/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade), a powerful PHP-based framework for developing custom block types for the WordPress Block Editor (aka Gutenberg).
-* Define, create, and manage content with the [Flexible Content Field](https://www.***REMOVED***.com/resources/flexible-content/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade), which provides for multiple layout and sub field options.
-* Use the [Options Page](https://www.***REMOVED***.com/resources/options-page/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade) feature to add custom admin pages to edit ACF fields.
-* Build fully customisable image galleries with the [Gallery Field](https://www.***REMOVED***.com/resources/gallery/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade).
-* Unlock a more efficient workflow for managing field settings by reusing existing fields and field groups on demand with the [Clone Field](https://www.***REMOVED***.com/resources/clone/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade).
+* The [Repeater Field](https://www.advancedcustomfields.com/resources/repeater/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade) allows you to create a set of sub fields which can be repeated again, and again, and again.
+* [ACF Blocks](https://www.advancedcustomfields.com/resources/blocks/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade), a powerful PHP-based framework for developing custom block types for the WordPress Block Editor (aka Gutenberg).
+* Define, create, and manage content with the [Flexible Content Field](https://www.advancedcustomfields.com/resources/flexible-content/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade), which provides for multiple layout and sub field options.
+* Use the [Options Page](https://www.advancedcustomfields.com/resources/options-page/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade) feature to add custom admin pages to edit ACF fields.
+* Build fully customisable image galleries with the [Gallery Field](https://www.advancedcustomfields.com/resources/gallery/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade).
+* Unlock a more efficient workflow for managing field settings by reusing existing fields and field groups on demand with the [Clone Field](https://www.advancedcustomfields.com/resources/clone/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade).
 
-[Upgrade to ACF PRO](https://www.***REMOVED***.com/pro/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade)
+[Upgrade to ACF PRO](https://www.advancedcustomfields.com/pro/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Pro%20Upgrade)
 
 == Installation ==
 
@@ -69,14 +69,14 @@ From your WordPress dashboard
 2. **Search** for "Advanced Custom Fields" or “ACF”
 3. **Install and Activate** Advanced Custom Fields from your Plugins page
 4. **Click** on the new menu item "ACF" and create your first custom field group, or register a custom post type or taxonomy.
-5. **Read** the documentation to [get started](https://www.***REMOVED***.com/resources/getting-started-with-acf/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Website)
+5. **Read** the documentation to [get started](https://www.advancedcustomfields.com/resources/getting-started-with-acf/?utm_source=wordpress.org&utm_medium=free%20plugin%20listing&utm_campaign=ACF%20Website)
 
 
 == Frequently Asked Questions ==
 
 = What kind of support do you provide? =
 
-**Support Forums.** Our ACF Community Forums provide a great resource for searching and finding previously answered and asked support questions. You may create a new thread on these forums, however, it is not guaranteed that you will receive an answer from our support team. This is more of an area for ACF developers to talk to one another, post ideas, plugins and provide basic help. [View the Support Forum](https://support.***REMOVED***.com/)
+**Support Forums.** Our ACF Community Forums provide a great resource for searching and finding previously answered and asked support questions. You may create a new thread on these forums, however, it is not guaranteed that you will receive an answer from our support team. This is more of an area for ACF developers to talk to one another, post ideas, plugins and provide basic help. [View the Support Forum](https://support.advancedcustomfields.com/)
 
 
 == Screenshots ==
@@ -167,7 +167,7 @@ From your WordPress dashboard
 = 6.3.6 =
 *Release Date 28th August 2024*
 
-* Security - Newly added fields now have to be explicitly set to allow access in the content editor (when using the ACF shortcode or Block Bindings) to increase the security around field permissions. [See the release notes for more details](https://www.***REMOVED***.com/blog/acf-6-3-6/#field-value-access-editor)
+* Security - Newly added fields now have to be explicitly set to allow access in the content editor (when using the ACF shortcode or Block Bindings) to increase the security around field permissions. [See the release notes for more details](https://www.advancedcustomfields.com/blog/acf-6-3-6/#field-value-access-editor)
 * Security Fix - Field labels are now correctly escaped when rendered in the Field Group editor, to prevent a potential XSS issue. Thanks to Ryo Sotoyama of Mitsui Bussan Secure Directions, Inc. for the responsible disclosure
 * Fix - Validation and Block AJAX requests nonces will no longer be overridden by third party plugins
 * Fix - Detection of third party select2 libraries will now default to v4 rather than v3
@@ -185,7 +185,7 @@ From your WordPress dashboard
 = 6.3.4 =
 *Release Date 18th July 2024*
 
-* Security Fix - The ACF shortcode now prevents access to fields from different private posts by default. View the [release notes](https://www.***REMOVED***.com/blog/acf-6-3-4) for more information
+* Security Fix - The ACF shortcode now prevents access to fields from different private posts by default. View the [release notes](https://www.advancedcustomfields.com/blog/acf-6-3-4) for more information
 * Fix - Users without the `edit_posts` capability but with custom capabilities for a editing a custom post type, can now correctly load field groups loaded via conditional location rules
 * Fix - Block validation no longer validates a field’s sub fields on page load, only on edit. This resolves inconsistent validation errors on page load or when first adding a block
 * Fix - Deactivating an ACF PRO license will now remove the license key even if the server call fails
@@ -199,7 +199,7 @@ From your WordPress dashboard
 * Fix - The True/False field now correctly shows it’s description message beside the switch when using the Stylized UI setting
 * Fix - Conditional logic values now correctly load options when loaded over AJAX
 * Fix - ACF PRO will no longer trigger license validation calls when loading a front-end page
-* i18n - Fixed an ***REMOVED*** string on Option Page previews
+* i18n - Fixed an untranslatable string on Option Page previews
 
 = 6.3.2.1 =
 *Release Date 24th June 2024*
@@ -257,7 +257,7 @@ From your WordPress dashboard
 *Release Date 22nd May 2024*
 
 * New - ACF now requires WordPress version 6.0 or newer, and PHP 7.4 or newer.
-* New - ACF Blocks now support validation rules for fields. View the [release notes](https://www.***REMOVED***.com/blog/acf-6-3-0-released) for more information
+* New - ACF Blocks now support validation rules for fields. View the [release notes](https://www.advancedcustomfields.com/blog/acf-6-3-0-released) for more information
 * New - ACF Blocks now supports storing field data in the postmeta table rather than in the post content
 * New - Conditional logic rules for fields now support selecting specific values for post objects, page links, taxonomies, relationships and users rather than having to enter the ID
 * New - New Icon Picker field type for ACF and ACF PRO
@@ -279,12 +279,12 @@ From your WordPress dashboard
 * Fix - The field group header no longer appears above the WordPress admin menu on small screens
 * Fix - The `acf/json/save_file_name` filter now correctly applies when deleting JSON files
 * i18n - All errors raised during ACF PRO license or update checks are now translatable
-* Other - The ACF Shortcode is now disabled by default for new installations of ACF as discussed in the [ACF 6.2.7 release notes](https://www.***REMOVED***.com/blog/acf-6-2-7-security-release/#security-and-the-acf-shortcode)
+* Other - The ACF Shortcode is now disabled by default for new installations of ACF as discussed in the [ACF 6.2.7 release notes](https://www.advancedcustomfields.com/blog/acf-6-2-7-security-release/#security-and-the-acf-shortcode)
 
 = 6.2.10 =
 *Release Date 15th May 2024*
 
-* Security Fix - ACF Blocks no longer allow render templates, or render or asset callbacks to be overridden in the block's attributes. For full information, please read [the release blog post](https://www.***REMOVED***.com/blog/acf-pro-6-2-10-security-release/)
+* Security Fix - ACF Blocks no longer allow render templates, or render or asset callbacks to be overridden in the block's attributes. For full information, please read [the release blog post](https://www.advancedcustomfields.com/blog/acf-pro-6-2-10-security-release/)
 
 = 6.2.9 =
 *Release Date 8th April 2024*
@@ -297,7 +297,7 @@ From your WordPress dashboard
 = 6.2.8 =
 *Release Date 2nd April 2024*
 
-* New - Support for the Block Bindings API in WordPress 6.5 with a new `acf/field` source. For more information on how to use this, please read [the release blog post](https://www.***REMOVED***.com/blog/acf-6-2-8)
+* New - Support for the Block Bindings API in WordPress 6.5 with a new `acf/field` source. For more information on how to use this, please read [the release blog post](https://www.advancedcustomfields.com/blog/acf-6-2-8)
 * New - Support for performance improvements for translations in WordPress 6.5
 * Enhancement - A new JS filter, `select2_escape_markup` now allows fields to customize select2's HTML escaping behavior
 * Fix - Options pages can no longer set to have a parent of themselves
@@ -305,12 +305,12 @@ From your WordPress dashboard
 * Fix - ACF PRO installed on multisite installs will no longer try to check for updates resulting in 404 errors when the updates page is not visible
 * Fix - ACF JSON no longer produces warnings on Windows servers when no ACF JSON folder is found
 * Fix - Field and layout names can now contain valid non-ASCII characters
-* Other - ACF PRO now requires a valid license to be activated in order to use PRO features. [Learn more](https://www.***REMOVED***.com/resources/license-activations/)
+* Other - ACF PRO now requires a valid license to be activated in order to use PRO features. [Learn more](https://www.advancedcustomfields.com/resources/license-activations/)
 
 = 6.2.7 =
 *Release Date 27th February 2024*
 
-* Security Fix - `the_field` now escapes potentially unsafe HTML as notified since ACF 6.2.5. For full information, please read [the release blog post](https://www.***REMOVED***.com/blog/acf-6-2-7-security-release/)
+* Security Fix - `the_field` now escapes potentially unsafe HTML as notified since ACF 6.2.5. For full information, please read [the release blog post](https://www.advancedcustomfields.com/blog/acf-6-2-7-security-release/)
 * Security Fix - Field and Layout names are now enforced to alphanumeric characters, resolving a potential XSS issue
 * Security Fix - The default render template for select2 fields no longer allows HTML to be rendered resolving a potential XSS issue
 * Security Enhancement - A `acf/shortcode/prevent_access` filter is now available to limit what data the ACF shortcode is allowed to access
@@ -342,8 +342,8 @@ From your WordPress dashboard
 = 6.2.5 =
 *Release Date 16th January 2024*
 
-* Security Fix - The ACF shortcode will now run all output through `wp_kses`, escaping unsafe HTML. This may be a breaking change to your site but is required for security, a message will be shown in WordPress admin if you are affected. Please see the [blog post for this release for more information.](https://www.***REMOVED***.com/blog/acf-6-2-5-security-release/) Thanks to Francesco Carlucci via Wordfence for the responsible disclosure
-* Security - ACF now warns via an admin message, when upcoming changes to `the_field` and `the_sub_field` may require theme changes to your site to avoid stripping unsafe HTML. Please see the [blog post for this release for more information](https://www.***REMOVED***.com/blog/acf-6-2-5-security-release/)
+* Security Fix - The ACF shortcode will now run all output through `wp_kses`, escaping unsafe HTML. This may be a breaking change to your site but is required for security, a message will be shown in WordPress admin if you are affected. Please see the [blog post for this release for more information.](https://www.advancedcustomfields.com/blog/acf-6-2-5-security-release/) Thanks to Francesco Carlucci via Wordfence for the responsible disclosure
+* Security - ACF now warns via an admin message, when upcoming changes to `the_field` and `the_sub_field` may require theme changes to your site to avoid stripping unsafe HTML. Please see the [blog post for this release for more information](https://www.advancedcustomfields.com/blog/acf-6-2-5-security-release/)
 * Security - Users may opt in to automatically escaping unsafe HTML via a new filter `acf/the_field/escape_html_optin` when using `the_field` and `the_sub_field` before this becomes default in an upcoming ACF release.
 
 = 6.2.4 =
@@ -361,8 +361,8 @@ From your WordPress dashboard
 = 6.2.3 =
 *Release Date 15th November 2023*
 
-* [View Release Post](https://www.***REMOVED***.com/blog/acf-6-2-3/)
-* New - An ACF Blocks specific JSON schema for block.json is now available on [GitHub](https://github.com/***REMOVED***/schemas)
+* [View Release Post](https://www.advancedcustomfields.com/blog/acf-6-2-3/)
+* New - An ACF Blocks specific JSON schema for block.json is now available on [GitHub](https://github.com/AdvancedCustomFields/schemas)
 * New - Flexible Content fields now show the layout name in the layout's header bar and supports click-to-copy
 * New - Duplicating Flexible Content layouts now appends "Copy" to their name and label, matching the behavior of field group duplication
 * Enhancement - ACF PRO will now automatically attempt license reactivation when the site URL changes, e.g. after a site migration. This resolves issues where updates may fail
@@ -397,7 +397,7 @@ From your WordPress dashboard
 
 * New - Options Pages created in the admin UI can now be assigned as child pages for any top-level menu item
 * New - Added a "Title Placeholder" setting to ACF Post Types which filters the "Add title" text when editing posts
-* Enhancement - ACF PRO will now warn when it can't update due to PHP version ***REMOVED***
+* Enhancement - ACF PRO will now warn when it can't update due to PHP version incompatibilities
 * Enhancement - ACF PRO will now work correctly with WordPress automatic updates
 * Enhancement - The internal ACF Blocks template attribute parser function `parseNodeAttr` can now be shortcut with the new `acf_blocks_parse_node_attr` filter.
 * Enhancement - Removed legacy code for supporting WordPress versions under 5.8
@@ -410,11 +410,11 @@ From your WordPress dashboard
 = 6.2.0 =
 *Release Date 9th August 2023*
 
-* [View Release Post](https://www.***REMOVED***.com/blog/acf-6-2-0-released/)
-* New - ACF now requires WordPress version 5.8 or newer, and PHP 7.0 or newer. View the [release post](https://www.***REMOVED***.com/blog/acf-6-2-0-released/#version-requirements) for more information
-* New - Bidirectional Relationships now supported for Relationship, Post Object, User and Taxonomy fields. View the [release post](https://www.***REMOVED***.com/blog/acf-6-2-0-released/#bidirectional-relationships) for more information
-* New - [Options Pages](https://www.***REMOVED***.com/resources/options-page/) can now be registered and managed by the admin UI in ACF PRO
-* New - Link to the [product feedback board](https://www.***REMOVED***.com/feedback/) added to the plugin footer
+* [View Release Post](https://www.advancedcustomfields.com/blog/acf-6-2-0-released/)
+* New - ACF now requires WordPress version 5.8 or newer, and PHP 7.0 or newer. View the [release post](https://www.advancedcustomfields.com/blog/acf-6-2-0-released/#version-requirements) for more information
+* New - Bidirectional Relationships now supported for Relationship, Post Object, User and Taxonomy fields. View the [release post](https://www.advancedcustomfields.com/blog/acf-6-2-0-released/#bidirectional-relationships) for more information
+* New - [Options Pages](https://www.advancedcustomfields.com/resources/options-page/) can now be registered and managed by the admin UI in ACF PRO
+* New - Link to the [product feedback board](https://www.advancedcustomfields.com/feedback/) added to the plugin footer
 * Enhancement - ACF JSON now supports multiple save locations (props Freddy Leitner)
 * Enhancement - ACF Post Types and Taxonomies can now be duplicated
 * Enhancement - The filename for JSON files can now be customized with the `acf/json/save_file_name` filter
@@ -426,6 +426,6 @@ From your WordPress dashboard
 * Fix - The newline added to the end of JSON files will now use `PHP_EOL` to detect the correct newline character with a filter `acf/json/eof_newline` to alter it.
 * i18n - Updated French and Portuguese translations (Thanks to pedro-mendonca and maximebj)
 
-[View the full changelog](https://www.***REMOVED***.com/changelog/)
+[View the full changelog](https://www.advancedcustomfields.com/changelog/)
 
 == Upgrade Notice ==

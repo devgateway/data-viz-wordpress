@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception;
 
 /**
  * This exception is thrown when a circular reference is detected.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class ServiceCircularReferenceException extends \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***
+class ServiceCircularReferenceException extends \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\RuntimeException
 {
     private $serviceId;
     private $path;

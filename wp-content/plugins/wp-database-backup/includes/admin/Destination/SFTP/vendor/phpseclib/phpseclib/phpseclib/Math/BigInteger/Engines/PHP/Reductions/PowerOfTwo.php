@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Power of Two Modular ***REMOVED*** Engine
+ * PHP Power of Two Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Math\BigInteger\Engines\PHP\Reductions;
 use phpseclib3\Math\BigInteger\Engines\PHP\Base;
 
 /**
- * PHP Power Of Two Modular ***REMOVED*** Engine
+ * PHP Power Of Two Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */

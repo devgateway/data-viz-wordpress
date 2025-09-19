@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Provides a buffer stream that can be written to to fill a buffer, and read
  * from to remove bytes from the buffer.
@@ -12,7 +12,7 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  * what the configured high water mark of the stream is, or the maximum
  * preferred size of the buffer.
  */
-final class BufferStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class BufferStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
     /** @var int */
     private $hwm;
@@ -70,7 +70,7 @@ final class BufferStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
     }
     public function seek($offset, $whence = \SEEK_SET) : void
     {
-        throw new \***REMOVED***('Cannot seek a BufferStream');
+        throw new \RuntimeException('Cannot seek a BufferStream');
     }
     public function eof() : bool
     {
@@ -78,7 +78,7 @@ final class BufferStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
     }
     public function tell() : int
     {
-        throw new \***REMOVED***('Cannot determine the position of a BufferStream');
+        throw new \RuntimeException('Cannot determine the position of a BufferStream');
     }
     /**
      * Reads data from the buffer.

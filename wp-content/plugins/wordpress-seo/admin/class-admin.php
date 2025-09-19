@@ -113,7 +113,7 @@ class WPSEO_Admin {
 	 * @return void
 	 */
 	public function schedule_rewrite_flush() {
-		if ( WPSEO_Options::get( '***REMOVED***' ) !== true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
 			return;
 		}
 
@@ -140,7 +140,7 @@ class WPSEO_Admin {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form data.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form data.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 		if ( $page === 'wpseo_licenses' ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
@@ -283,7 +283,7 @@ class WPSEO_Admin {
 	public function config_page_scripts() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'admin-global' );
-		$asset_manager->localize_script( 'admin-global', '***REMOVED***', $this->localize_admin_global_script() );
+		$asset_manager->localize_script( 'admin-global', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 	}
 
 	/**
@@ -297,32 +297,32 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Filter the $***REMOVED*** array and add a set of social profiles.
+	 * Filter the $contactmethods array and add a set of social profiles.
 	 *
-	 * These are used with the Facebook author, rel="author" and Twitter cards ***REMOVED***.
+	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
 	 * @deprecated 22.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
-	 * @param array<string, string> $***REMOVED*** Currently set ***REMOVED***.
+	 * @param array<string, string> $contactmethods Currently set contactmethods.
 	 *
-	 * @return array<string, string> ***REMOVED*** with added ***REMOVED***.
+	 * @return array<string, string> Contactmethods with added contactmethods.
 	 */
-	public function update_contactmethods( $***REMOVED*** ) {
+	public function update_contactmethods( $contactmethods ) {
 		_deprecated_function( __METHOD__, 'Yoast SEO 22.6' );
 
-		$***REMOVED***['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );
-		$***REMOVED***['instagram']  = __( 'Instagram profile URL', 'wordpress-seo' );
-		$***REMOVED***['linkedin']   = __( 'LinkedIn profile URL', 'wordpress-seo' );
-		$***REMOVED***['myspace']    = __( 'MySpace profile URL', 'wordpress-seo' );
-		$***REMOVED***['pinterest']  = __( 'Pinterest profile URL', 'wordpress-seo' );
-		$***REMOVED***['soundcloud'] = __( 'SoundCloud profile URL', 'wordpress-seo' );
-		$***REMOVED***['tumblr']     = __( 'Tumblr profile URL', 'wordpress-seo' );
-		$***REMOVED***['twitter']    = __( 'X username (without @)', 'wordpress-seo' );
-		$***REMOVED***['youtube']    = __( 'YouTube profile URL', 'wordpress-seo' );
-		$***REMOVED***['wikipedia']  = __( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . __( '(if one exists)', 'wordpress-seo' ) . '</small>';
+		$contactmethods['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );
+		$contactmethods['instagram']  = __( 'Instagram profile URL', 'wordpress-seo' );
+		$contactmethods['linkedin']   = __( 'LinkedIn profile URL', 'wordpress-seo' );
+		$contactmethods['myspace']    = __( 'MySpace profile URL', 'wordpress-seo' );
+		$contactmethods['pinterest']  = __( 'Pinterest profile URL', 'wordpress-seo' );
+		$contactmethods['soundcloud'] = __( 'SoundCloud profile URL', 'wordpress-seo' );
+		$contactmethods['tumblr']     = __( 'Tumblr profile URL', 'wordpress-seo' );
+		$contactmethods['twitter']    = __( 'X username (without @)', 'wordpress-seo' );
+		$contactmethods['youtube']    = __( 'YouTube profile URL', 'wordpress-seo' );
+		$contactmethods['wikipedia']  = __( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . __( '(if one exists)', 'wordpress-seo' ) . '</small>';
 
-		return $***REMOVED***;
+		return $contactmethods;
 	}
 
 	/**

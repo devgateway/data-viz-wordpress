@@ -3,15 +3,15 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Reads from multiple streams, one after the other.
  *
  * This is a read-only stream decorator.
  */
-final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
-    /** @var ***REMOVED***[] Streams being decorated */
+    /** @var StreamInterface[] Streams being decorated */
     private $streams = [];
     /** @var bool */
     private $seekable = \true;
@@ -20,7 +20,7 @@ final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
     /** @var int */
     private $pos = 0;
     /**
-     * @param ***REMOVED***[] $streams Streams to decorate. Each stream must
+     * @param StreamInterface[] $streams Streams to decorate. Each stream must
      *                                   be readable.
      */
     public function __construct(array $streams = [])
@@ -45,11 +45,11 @@ final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
     /**
      * Add a stream to the AppendStream
      *
-     * @param ***REMOVED*** $stream Stream to append. Must be readable.
+     * @param StreamInterface $stream Stream to append. Must be readable.
      *
      * @throws \InvalidArgumentException if the stream is not readable
      */
-    public function addStream(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream) : void
+    public function addStream(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream) : void
     {
         if (!$stream->isReadable()) {
             throw new \InvalidArgumentException('Each stream must be readable');
@@ -127,9 +127,9 @@ final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
     public function seek($offset, $whence = \SEEK_SET) : void
     {
         if (!$this->seekable) {
-            throw new \***REMOVED***('This AppendStream is not seekable');
+            throw new \RuntimeException('This AppendStream is not seekable');
         } elseif ($whence !== \SEEK_SET) {
-            throw new \***REMOVED***('The AppendStream can only seek with SEEK_SET');
+            throw new \RuntimeException('The AppendStream can only seek with SEEK_SET');
         }
         $this->pos = $this->current = 0;
         // Rewind each stream
@@ -137,7 +137,7 @@ final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
             try {
                 $stream->rewind();
             } catch (\Exception $e) {
-                throw new \***REMOVED***('Unable to seek stream ' . $i . ' of the AppendStream', 0, $e);
+                throw new \RuntimeException('Unable to seek stream ' . $i . ' of the AppendStream', 0, $e);
             }
         }
         // Seek to the actual position by reading from each stream
@@ -156,11 +156,11 @@ final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
         $buffer = '';
         $total = \count($this->streams) - 1;
         $remaining = $length;
-        $***REMOVED*** = \false;
+        $progressToNext = \false;
         while ($remaining > 0) {
             // Progress to the next stream if needed.
-            if ($***REMOVED*** || $this->streams[$this->current]->eof()) {
-                $***REMOVED*** = \false;
+            if ($progressToNext || $this->streams[$this->current]->eof()) {
+                $progressToNext = \false;
                 if ($this->current === $total) {
                     break;
                 }
@@ -168,7 +168,7 @@ final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
             }
             $result = $this->streams[$this->current]->read($remaining);
             if ($result === '') {
-                $***REMOVED*** = \true;
+                $progressToNext = \true;
                 continue;
             }
             $buffer .= $result;
@@ -191,7 +191,7 @@ final class AppendStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED
     }
     public function write($string) : int
     {
-        throw new \***REMOVED***('Cannot write to an AppendStream');
+        throw new \RuntimeException('Cannot write to an AppendStream');
     }
     /**
      * @return mixed

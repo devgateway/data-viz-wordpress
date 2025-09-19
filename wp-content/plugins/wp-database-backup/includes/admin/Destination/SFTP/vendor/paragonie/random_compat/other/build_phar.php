@@ -8,14 +8,14 @@ if (file_exists($dist.'/random_compat.phar')) {
 }
 $phar = new Phar(
     $dist.'/random_compat.phar',
-    ***REMOVED***::CURRENT_AS_FILEINFO | \***REMOVED***::KEY_AS_FILENAME,
+    FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::KEY_AS_FILENAME,
     'random_compat.phar'
 );
 rename(
     dirname(__DIR__).'/lib/random.php', 
     dirname(__DIR__).'/lib/index.php'
 );
-$phar->***REMOVED***(dirname(__DIR__).'/lib');
+$phar->buildFromDirectory(dirname(__DIR__).'/lib');
 rename(
     dirname(__DIR__).'/lib/index.php', 
     dirname(__DIR__).'/lib/random.php'

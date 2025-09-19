@@ -10,16 +10,16 @@
 
 		$( '.wpm-nav-tab-wrapper a' ).click( function() {
 			if ( changed ) {
-				window.***REMOVED*** = function() {
+				window.onbeforeunload = function() {
 				    return wpm_settings_params.nav_warning;
 				};
 			} else {
-				window.***REMOVED*** = '';
+				window.onbeforeunload = '';
 			}
 		});
 
 		$( '.submit input' ).click( function() {
-			window.***REMOVED*** = '';
+			window.onbeforeunload = '';
 		});
 
 	});

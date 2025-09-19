@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable ***REMOVED***
+//phpcs:disable VariableAnalysis
 // There are "undefined" variables here because they're defined in the code that includes this file as a template.
 $kses_allow_link   = array(
 	'a' => array(
@@ -99,7 +99,7 @@ if ( ! isset( $type ) ) {
 	<p>
 		<?php
 		/* translators: The placeholder is a URL. */
-		echo wp_kses( sprintf( __( 'Your web host or server administrator has disabled PHP&#8217;s <code>***REMOVED***</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href="%s" target="_blank">this information about Akismet&#8217;s system requirements</a>.', 'akismet' ), esc_url( 'https://akismet.com/akismet-hosting-faq/' ) ), array_merge( $kses_allow_link, $kses_allow_strong, array( 'code' => true ) ) );
+		echo wp_kses( sprintf( __( 'Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href="%s" target="_blank">this information about Akismet&#8217;s system requirements</a>.', 'akismet' ), esc_url( 'https://akismet.com/akismet-hosting-faq/' ) ), array_merge( $kses_allow_link, $kses_allow_strong, array( 'code' => true ) ) );
 		?>
 	</p>
 </div>

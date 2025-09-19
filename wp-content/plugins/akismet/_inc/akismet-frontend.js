@@ -5,20 +5,20 @@
  */
 
 ( function() {
-	// Passive event listeners are guaranteed to never call e.***REMOVED***(),
+	// Passive event listeners are guaranteed to never call e.preventDefault(),
 	// but they're not supported in all browsers.  Use this feature detection
 	// to determine whether they're available for use.
-	var ***REMOVED*** = false;
+	var supportsPassive = false;
 
 	try {
-		var opts = Object.***REMOVED***( {}, 'passive', {
+		var opts = Object.defineProperty( {}, 'passive', {
 			get : function() {
-				***REMOVED*** = true;
+				supportsPassive = true;
 			}
 		} );
 
-		window.***REMOVED***( 'testPassive', null, opts );
-		window.***REMOVED***( 'testPassive', null, opts );
+		window.addEventListener( 'testPassive', null, opts );
+		window.removeEventListener( 'testPassive', null, opts );
 	} catch ( e ) {}
 
 	function init() {
@@ -30,32 +30,32 @@
 		var keypresses = [];
 
 		var modifierKeys = [];
-		var ***REMOVED*** = [];
+		var correctionKeys = [];
 
 		var lastMouseup = null;
 		var lastMousedown = null;
 		var mouseclicks = [];
 
-		var ***REMOVED*** = null;
-		var ***REMOVED*** = null;
-		var ***REMOVED*** = null;
-		var ***REMOVED*** = null;
+		var mousemoveTimer = null;
+		var lastMousemoveX = null;
+		var lastMousemoveY = null;
+		var mousemoveStart = null;
 		var mousemoves = [];
 
-		var ***REMOVED*** = null;
-		var ***REMOVED*** = 0;
+		var touchmoveCountTimer = null;
+		var touchmoveCount = 0;
 
 		var lastTouchEnd = null;
-		var ***REMOVED*** = null;
+		var lastTouchStart = null;
 		var touchEvents = [];
 
-		var ***REMOVED*** = null;
+		var scrollCountTimer = null;
 		var scrollCount = 0;
 
-		var ***REMOVED*** = [ 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown' ];
-		var ***REMOVED*** = [ 'Shift', 'CapsLock' ];
+		var correctionKeyCodes = [ 'Backspace', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown' ];
+		var modifierKeyCodes = [ 'Shift', 'CapsLock' ];
 
-		var forms = document.***REMOVED***( 'form[method=post]' );
+		var forms = document.querySelectorAll( 'form[method=post]' );
 
 		for ( var i = 0; i < forms.length; i++ ) {
 			var form = forms[i];
@@ -72,7 +72,7 @@
 				}
 			}
 
-			form.***REMOVED***( 'submit', function () {
+			form.addEventListener( 'submit', function () {
 				var ak_bkp = prepare_timestamp_array_for_request( keypresses );
 				var ak_bmc = prepare_timestamp_array_for_request( mouseclicks );
 				var ak_bte = prepare_timestamp_array_for_request( touchEvents );
@@ -101,13 +101,13 @@
 					'bmk': modifierKeys.join( ';' ),
 
 					// When did they correct themselves? e.g., press Backspace, or use the arrow keys to move the cursor back
-					'bck': ***REMOVED***.join( ';' ),
+					'bck': correctionKeys.join( ';' ),
 
 					// How many times did they move the mouse?
 					'bmmc': mousemoves.length,
 
 					// How many times did they move around using a touchscreen?
-					'btmc': ***REMOVED***,
+					'btmc': touchmoveCount,
 
 					// How many times did they scroll?
 					'bsc': scrollCount,
@@ -128,8 +128,8 @@
 					// Check to see if we've used an alternate field name prefix. We store this as an attribute of the container around some of the Akismet fields.
 					var possible_akismet_containers = this.getElementsByClassName( 'akismet-fields-container' );
 
-					for ( var ***REMOVED*** = 0; ***REMOVED*** < possible_akismet_containers.length; ***REMOVED***++ ) {
-						var container = possible_akismet_containers.item( ***REMOVED*** );
+					for ( var containerIndex = 0; containerIndex < possible_akismet_containers.length; containerIndex++ ) {
+						var container = possible_akismet_containers.item( containerIndex );
 
 						if ( container.getAttribute( 'data-prefix' ) ) {
 							akismet_field_prefix = container.getAttribute( 'data-prefix' );
@@ -145,9 +145,9 @@
 					field.setAttribute( 'value', input_fields[ field_name ] );
 					this.appendChild( field );
 				}
-			}, ***REMOVED*** ? { passive: true } : false  );
+			}, supportsPassive ? { passive: true } : false  );
 
-			form.***REMOVED***( 'keydown', function ( e ) {
+			form.addEventListener( 'keydown', function ( e ) {
 				// If you hold a key down, some browsers send multiple keydown events in a row.
 				// Ignore any keydown events for a key that hasn't come back up yet.
 				if ( e.key in keydowns ) {
@@ -173,9 +173,9 @@
 				}
 
 				lastKeydown = keydownTime;
-			}, ***REMOVED*** ? { passive: true } : false  );
+			}, supportsPassive ? { passive: true } : false  );
 
-			form.***REMOVED***( 'keyup', function ( e ) {
+			form.addEventListener( 'keyup', function ( e ) {
 				if ( ! ( e.key in keydowns ) ) {
 					// This key was pressed before this script was loaded, or a mouseclick happened during the keypress, or...
 					return;
@@ -184,10 +184,10 @@
 				var keyupTime = ( new Date() ).getTime();
 
 				if ( 'TEXTAREA' === e.target.nodeName || 'INPUT' === e.target.nodeName ) {
-					if ( -1 !== ***REMOVED***.indexOf( e.key ) ) {
+					if ( -1 !== modifierKeyCodes.indexOf( e.key ) ) {
 						modifierKeys.push( keypresses.length - 1 );
-					} else if ( -1 !== ***REMOVED***.indexOf( e.key ) ) {
-						***REMOVED***.push( keypresses.length - 1 );
+					} else if ( -1 !== correctionKeyCodes.indexOf( e.key ) ) {
+						correctionKeys.push( keypresses.length - 1 );
 					} else {
 						// ^ Don't record timings for keys like Shift or backspace, since they
 						// typically get held down for longer than regular typing.
@@ -211,26 +211,26 @@
 				delete keydowns[ e.key ];
 
 				lastKeyup = keyupTime;
-			}, ***REMOVED*** ? { passive: true } : false  );
+			}, supportsPassive ? { passive: true } : false  );
 
-			form.***REMOVED***( "focusin", function ( e ) {
+			form.addEventListener( "focusin", function ( e ) {
 				lastKeydown = null;
 				lastKeyup = null;
 				keydowns = {};
-			}, ***REMOVED*** ? { passive: true } : false  );
+			}, supportsPassive ? { passive: true } : false  );
 
-			form.***REMOVED***( "focusout", function ( e ) {
+			form.addEventListener( "focusout", function ( e ) {
 				lastKeydown = null;
 				lastKeyup = null;
 				keydowns = {};
-			}, ***REMOVED*** ? { passive: true } : false  );
+			}, supportsPassive ? { passive: true } : false  );
 		}
 
-		document.***REMOVED***( 'mousedown', function ( e ) {
+		document.addEventListener( 'mousedown', function ( e ) {
 			lastMousedown = ( new Date() ).getTime();
-		}, ***REMOVED*** ? { passive: true } : false  );
+		}, supportsPassive ? { passive: true } : false  );
 
-		document.***REMOVED***( 'mouseup', function ( e ) {
+		document.addEventListener( 'mouseup', function ( e ) {
 			if ( ! lastMousedown ) {
 				// If the mousedown happened before this script was loaded, but the mouseup happened after...
 				return;
@@ -253,20 +253,20 @@
 			lastKeydown = null;
 			lastKeyup = null;
 			keydowns = {};
-		}, ***REMOVED*** ? { passive: true } : false  );
+		}, supportsPassive ? { passive: true } : false  );
 
-		document.***REMOVED***( 'mousemove', function ( e ) {
-			if ( ***REMOVED*** ) {
-				clearTimeout( ***REMOVED*** );
-				***REMOVED*** = null;
+		document.addEventListener( 'mousemove', function ( e ) {
+			if ( mousemoveTimer ) {
+				clearTimeout( mousemoveTimer );
+				mousemoveTimer = null;
 			}
 			else {
-				***REMOVED*** = ( new Date() ).getTime();
-				***REMOVED*** = e.offsetX;
-				***REMOVED*** = e.offsetY;
+				mousemoveStart = ( new Date() ).getTime();
+				lastMousemoveX = e.offsetX;
+				lastMousemoveY = e.offsetY;
 			}
 
-			***REMOVED*** = setTimeout( function ( theEvent, originalMousemoveStart ) {
+			mousemoveTimer = setTimeout( function ( theEvent, originalMousemoveStart ) {
 				var now = ( new Date() ).getTime() - 500; // To account for the timer delay.
 
 				var mousemove = [];
@@ -274,8 +274,8 @@
 				mousemove.push(
 					Math.round(
 						Math.sqrt(
-							Math.pow( theEvent.offsetX - ***REMOVED***, 2 ) +
-							Math.pow( theEvent.offsetY - ***REMOVED***, 2 )
+							Math.pow( theEvent.offsetX - lastMousemoveX, 2 ) +
+							Math.pow( theEvent.offsetY - lastMousemoveY, 2 )
 						)
 					)
 				);
@@ -285,27 +285,27 @@
 					mousemoves.push( mousemove );
 				}
 
-				***REMOVED*** = null;
-				***REMOVED*** = null;
-			}, 500, e, ***REMOVED*** );
-		}, ***REMOVED*** ? { passive: true } : false  );
+				mousemoveStart = null;
+				mousemoveTimer = null;
+			}, 500, e, mousemoveStart );
+		}, supportsPassive ? { passive: true } : false  );
 
-		document.***REMOVED***( 'touchmove', function ( e ) {
-			if ( ***REMOVED*** ) {
-				clearTimeout( ***REMOVED*** );
+		document.addEventListener( 'touchmove', function ( e ) {
+			if ( touchmoveCountTimer ) {
+				clearTimeout( touchmoveCountTimer );
 			}
 
-			***REMOVED*** = setTimeout( function () {
-				***REMOVED***++;
+			touchmoveCountTimer = setTimeout( function () {
+				touchmoveCount++;
 			}, 500 );
-		}, ***REMOVED*** ? { passive: true } : false );
+		}, supportsPassive ? { passive: true } : false );
 
-		document.***REMOVED***( 'touchstart', function ( e ) {
-			***REMOVED*** = ( new Date() ).getTime();
-		}, ***REMOVED*** ? { passive: true } : false );
+		document.addEventListener( 'touchstart', function ( e ) {
+			lastTouchStart = ( new Date() ).getTime();
+		}, supportsPassive ? { passive: true } : false );
 
-		document.***REMOVED***( 'touchend', function ( e ) {
-			if ( ! ***REMOVED*** ) {
+		document.addEventListener( 'touchend', function ( e ) {
+			if ( ! lastTouchStart ) {
 				// If the touchstart happened before this script was loaded, but the touchend happened after...
 				return;
 			}
@@ -313,10 +313,10 @@
 			var now = ( new Date() ).getTime();
 
 			var touchEvent = [];
-			touchEvent.push( now - ***REMOVED*** );
+			touchEvent.push( now - lastTouchStart );
 
 			if ( lastTouchEnd ) {
-				touchEvent.push( ***REMOVED*** - lastTouchEnd );
+				touchEvent.push( lastTouchStart - lastTouchEnd );
 			}
 
 			touchEvents.push( touchEvent );
@@ -327,17 +327,17 @@
 			lastKeydown = null;
 			lastKeyup = null;
 			keydowns = {};
-		}, ***REMOVED*** ? { passive: true } : false );
+		}, supportsPassive ? { passive: true } : false );
 
-		document.***REMOVED***( 'scroll', function ( e ) {
-			if ( ***REMOVED*** ) {
-				clearTimeout( ***REMOVED*** );
+		document.addEventListener( 'scroll', function ( e ) {
+			if ( scrollCountTimer ) {
+				clearTimeout( scrollCountTimer );
 			}
 
-			***REMOVED*** = setTimeout( function () {
+			scrollCountTimer = setTimeout( function () {
 				scrollCount++;
 			}, 500 );
-		}, ***REMOVED*** ? { passive: true } : false );
+		}, supportsPassive ? { passive: true } : false );
 	}
 
 	/**
@@ -371,6 +371,6 @@
 	if ( document.readyState !== 'loading' ) {
 		init();
 	} else {
-		document.***REMOVED***( '***REMOVED***', init );
+		document.addEventListener( 'DOMContentLoaded', init );
 	}
 })();

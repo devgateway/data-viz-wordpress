@@ -121,7 +121,7 @@
                 .addClass('<?php echo $tab['slug'] ?>')
                 // Avoid tab click triggering parent events.
                 .click(function (e) {
-                    e.***REMOVED***();
+                    e.stopPropagation();
                 });
 
             <?php if ($is_support_tab) : ?>

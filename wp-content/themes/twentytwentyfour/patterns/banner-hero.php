@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Hero
- * Slug: ***REMOVED***/banner-hero
+ * Slug: twentytwentyfour/banner-hero
  * Categories: banner, call-to-action, featured
  * Viewport width: 1400
  * Description: A hero section with a title, a paragraph, a CTA button, and an image.
@@ -15,7 +15,7 @@
 	<div class="wp-block-group">
 
 		<!-- wp:heading {"textAlign":"center","fontSize":"x-large","level":1} -->
-		<h1 class="wp-block-heading has-text-align-center has-x-large-font-size"><?php echo esc_html_x( 'A commitment to innovation and ***REMOVED***', 'Heading of the hero section', '***REMOVED***' ); ?></h1>
+		<h1 class="wp-block-heading has-text-align-center has-x-large-font-size"><?php echo esc_html_x( 'A commitment to innovation and sustainability', 'Heading of the hero section', 'twentytwentyfour' ); ?></h1>
 		<!-- /wp:heading -->
 
 		<!-- wp:spacer {"height":"1.25rem"} -->
@@ -23,18 +23,18 @@
 		<!-- /wp:spacer -->
 
 		<!-- wp:paragraph {"align":"center"} -->
-		<p class="has-text-align-center"><?php echo esc_html_x( 'Études is a pioneering firm that seamlessly merges creativity and functionality to redefine architectural excellence.', 'Content of the hero section', '***REMOVED***' ); ?></p>
+		<p class="has-text-align-center"><?php echo esc_html_x( 'Études is a pioneering firm that seamlessly merges creativity and functionality to redefine architectural excellence.', 'Content of the hero section', 'twentytwentyfour' ); ?></p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:spacer {"height":"1.25rem"} -->
 		<div style="height:1.25rem" aria-hidden="true" class="wp-block-spacer"></div>
 		<!-- /wp:spacer -->
 
-		<!-- wp:buttons {"layout":{"type":"flex","***REMOVED***":"center"}} -->
+		<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 		<div class="wp-block-buttons">
 			<!-- wp:button -->
 			<div class="wp-block-button">
-				<a class="wp-block-button__link wp-element-button"><?php echo esc_html_x( 'About us', 'Button text of the hero section', '***REMOVED***' ); ?></a>
+				<a class="wp-block-button__link wp-element-button"><?php echo esc_html_x( 'About us', 'Button text of the hero section', 'twentytwentyfour' ); ?></a>
 			</div>
 			<!-- /wp:button -->
 		</div>
@@ -47,9 +47,9 @@
 	</div>
 	<!-- /wp:spacer -->
 
-	<!-- wp:image {"align":"wide","sizeSlug":"full","***REMOVED***":"none","className":"is-style-rounded"} -->
+	<!-- wp:image {"align":"wide","sizeSlug":"full","linkDestination":"none","className":"is-style-rounded"} -->
 	<figure class="wp-block-image alignwide size-full is-style-rounded">
-		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/building-exterior.webp" alt="<?php esc_attr_e( 'Building exterior in Toronto, Canada', '***REMOVED***' ); ?>" />
+		<img src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/images/building-exterior.webp" alt="<?php esc_attr_e( 'Building exterior in Toronto, Canada', 'twentytwentyfour' ); ?>" />
 	</figure>
 	<!-- /wp:image -->
 </div>

@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Keyphrase_Analysis implements Analysis_Feature_Interface {
 
-	public const NAME = '***REMOVED***';
+	public const NAME = 'keyphraseAnalysis';
 
 	/**
 	 * The options helper.

@@ -338,7 +338,7 @@ if ( ! class_exists( 'acf_field' ) ) :
 
 			/* translators: %s A "Learn More" link to documentation explaining the setting further. */
 			$binding_string       = esc_html__( 'Allow content editors to access and display the field value in the editor UI using Block Bindings or the ACF Shortcode. %s', 'acf' );
-			$binding_url          = '<a target="_blank" href="' . acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/bindings-security/', 'docs', 'field-settings' ) . '">' . esc_html__( 'Learn more.', 'acf' ) . '</a>';
+			$binding_url          = '<a target="_blank" href="' . acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/bindings-security/', 'docs', 'field-settings' ) . '">' . esc_html__( 'Learn more.', 'acf' ) . '</a>';
 			$binding_instructions = sprintf(
 				$binding_string,
 				$binding_url

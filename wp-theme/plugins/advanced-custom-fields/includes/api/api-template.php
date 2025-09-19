@@ -852,7 +852,7 @@ function get_sub_field_object( $selector, $format_value = true, $load_value = tr
 /*
 *  get_row_layout()
 *
-*  This function will return a string ***REMOVED*** of the current row layout within a 'have_rows' loop
+*  This function will return a string representation of the current row layout within a 'have_rows' loop
 *
 *  @type	function
 *  @since	3.0.6

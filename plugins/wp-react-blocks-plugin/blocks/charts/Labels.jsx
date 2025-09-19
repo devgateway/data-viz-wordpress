@@ -8,8 +8,8 @@ const Labels = (props) => {
   const {
     setAttributes,
     attributes: {
-      ***REMOVED***,
-      ***REMOVED***,
+      barLabelPosition,
+      lineLabelPosition,
       type,
     },
   } = props;
@@ -20,9 +20,9 @@ const Labels = (props) => {
         <PanelRow>
           <SelectControl
             label={__("Bar Label Position", "dg")}
-            value={[***REMOVED***]}
-            onChange={(***REMOVED***) => {
-              setAttributes({ ***REMOVED***: ***REMOVED*** });
+            value={[barLabelPosition]}
+            onChange={(barLabelPosition) => {
+              setAttributes({ barLabelPosition: barLabelPosition });
             }}
             options={[
               { label: __("Top", "dg"), value: "top" },
@@ -38,9 +38,9 @@ const Labels = (props) => {
         <PanelRow>
           <SelectControl
             label={__("Point Label Position", "dg")}
-            value={[***REMOVED***]}
+            value={[lineLabelPosition]}
             onChange={(position) => {
-              setAttributes({ ***REMOVED***: position });
+              setAttributes({ lineLabelPosition: position });
             }}
             options={[
               { label: __("On Top", "dg"), value: "top" },

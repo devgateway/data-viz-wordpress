@@ -40,7 +40,7 @@ class Woocommerce_Permalinks implements Integration_Interface {
 	/**
 	 * Registers the hooks.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

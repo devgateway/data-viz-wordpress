@@ -1,7 +1,7 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Content_Types;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types;
 
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Types_List;

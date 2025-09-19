@@ -3,25 +3,25 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 final class Message
 {
     /**
-     * Returns the string ***REMOVED*** of an HTTP message.
+     * Returns the string representation of an HTTP message.
      *
-     * @param ***REMOVED*** $message Message to convert to a string.
+     * @param MessageInterface $message Message to convert to a string.
      */
-    public static function toString(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $message) : string
+    public static function toString(\YoastSEO_Vendor\Psr\Http\Message\MessageInterface $message) : string
     {
-        if ($message instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
-            $msg = \trim($message->getMethod() . ' ' . $message->***REMOVED***()) . ' HTTP/' . $message->***REMOVED***();
+        if ($message instanceof \YoastSEO_Vendor\Psr\Http\Message\RequestInterface) {
+            $msg = \trim($message->getMethod() . ' ' . $message->getRequestTarget()) . ' HTTP/' . $message->getProtocolVersion();
             if (!$message->hasHeader('host')) {
                 $msg .= "\r\nHost: " . $message->getUri()->getHost();
             }
-        } elseif ($message instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
-            $msg = 'HTTP/' . $message->***REMOVED***() . ' ' . $message->getStatusCode() . ' ' . $message->***REMOVED***();
+        } elseif ($message instanceof \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface) {
+            $msg = 'HTTP/' . $message->getProtocolVersion() . ' ' . $message->getStatusCode() . ' ' . $message->getReasonPhrase();
         } else {
             throw new \InvalidArgumentException('Unknown message type');
         }
@@ -41,10 +41,10 @@ final class Message
      *
      * Will return `null` if the response is not printable.
      *
-     * @param ***REMOVED*** $message    The message to get the body summary
+     * @param MessageInterface $message    The message to get the body summary
      * @param int              $truncateAt The maximum allowed size of the summary
      */
-    public static function bodySummary(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $message, int $truncateAt = 120) : ?string
+    public static function bodySummary(\YoastSEO_Vendor\Psr\Http\Message\MessageInterface $message, int $truncateAt = 120) : ?string
     {
         $body = $message->getBody();
         if (!$body->isSeekable() || !$body->isReadable()) {
@@ -73,11 +73,11 @@ final class Message
      * The body of the message will only be rewound if a call to `tell()`
      * returns a value other than `0`.
      *
-     * @param ***REMOVED*** $message Message to rewind
+     * @param MessageInterface $message Message to rewind
      *
-     * @throws \***REMOVED***
+     * @throws \RuntimeException
      */
-    public static function rewindBody(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $message) : void
+    public static function rewindBody(\YoastSEO_Vendor\Psr\Http\Message\MessageInterface $message) : void
     {
         $body = $message->getBody();
         if ($body->tell()) {
@@ -137,7 +137,7 @@ final class Message
      * @param string $path    Path from the start-line
      * @param array  $headers Array of headers (each value an array).
      */
-    public static function ***REMOVED***(string $path, array $headers) : string
+    public static function parseRequestUri(string $path, array $headers) : string
     {
         $hostKey = \array_filter(\array_keys($headers), function ($k) {
             // Numeric array keys are converted to int by PHP.
@@ -157,7 +157,7 @@ final class Message
      *
      * @param string $message Request message string.
      */
-    public static function parseRequest(string $message) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public static function parseRequest(string $message) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         $data = self::parseMessage($message);
         $matches = [];
@@ -166,15 +166,15 @@ final class Message
         }
         $parts = \explode(' ', $data['start-line'], 3);
         $version = isset($parts[2]) ? \explode('/', $parts[2])[1] : '1.1';
-        $request = new \YoastSEO_Vendor\GuzzleHttp\Psr7\Request($parts[0], $matches[1] === '/' ? self::***REMOVED***($parts[1], $data['headers']) : $parts[1], $data['headers'], $data['body'], $version);
-        return $matches[1] === '/' ? $request : $request->***REMOVED***($parts[1]);
+        $request = new \YoastSEO_Vendor\GuzzleHttp\Psr7\Request($parts[0], $matches[1] === '/' ? self::parseRequestUri($parts[1], $data['headers']) : $parts[1], $data['headers'], $data['body'], $version);
+        return $matches[1] === '/' ? $request : $request->withRequestTarget($parts[1]);
     }
     /**
      * Parses a response message string into a response object.
      *
      * @param string $message Response message string.
      */
-    public static function parseResponse(string $message) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public static function parseResponse(string $message) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         $data = self::parseMessage($message);
         // According to https://datatracker.ietf.org/doc/html/rfc7230#section-3.1.2

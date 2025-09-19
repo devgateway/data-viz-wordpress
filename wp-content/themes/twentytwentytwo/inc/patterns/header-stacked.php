@@ -3,7 +3,7 @@
  * Logo and navigation header block pattern
  */
 return array(
-	'title'      => __( 'Logo and navigation header', '***REMOVED***' ),
+	'title'      => __( 'Logo and navigation header', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"full","layout":{"inherit":true}} -->
@@ -20,8 +20,8 @@ return array(
 					<div style="height:10px" aria-hidden="true" class="wp-block-spacer"></div>
 					<!-- /wp:spacer -->
 
-					<!-- wp:navigation {"layout":{"type":"flex","setCascadingProperties":true,"***REMOVED***":"center"}} -->
-					<!-- wp:page-list {"***REMOVED***":true,"***REMOVED***":true,"***REMOVED***":false} /-->
+					<!-- wp:navigation {"layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"center"}} -->
+					<!-- wp:page-list {"isNavigationChild":true,"showSubmenuIcon":true,"openSubmenusOnClick":false} /-->
 					<!-- /wp:navigation --></div>
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->',

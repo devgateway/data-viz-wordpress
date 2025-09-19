@@ -5,17 +5,17 @@
  *
  * @since Twenty Twenty 1.0
  *
- * @param {string} ***REMOVED*** - The background color.
+ * @param {string} backgroundColor - The background color.
  * @param {number} accentHue - The hue for our accent color.
  *
  * @return {Object} - this
  */
-function _twentyTwentyColor( ***REMOVED***, accentHue ) {
+function _twentyTwentyColor( backgroundColor, accentHue ) {
 	// Set the object properties.
-	this.***REMOVED*** = ***REMOVED***;
+	this.backgroundColor = backgroundColor;
 	this.accentHue = accentHue;
-	this.bgColorObj = new Color( ***REMOVED*** );
-	this.textColorObj = this.bgColorObj.***REMOVED***();
+	this.bgColorObj = new Color( backgroundColor );
+	this.textColorObj = this.bgColorObj.getMaxContrastColor();
 	this.textColor = this.textColorObj.toCSS();
 	this.isDark = 0.5 > this.bgColorObj.toLuminosity();
 	this.isLight = ! this.isDark;
@@ -33,13 +33,13 @@ function _twentyTwentyColor( ***REMOVED***, accentHue ) {
  *
  * @return {Object} - this
  */
-_twentyTwentyColor.prototype.***REMOVED*** = function() {
+_twentyTwentyColor.prototype.setAccentColorsArray = function() {
 	var self = this,
 		minSaturation = 65,
 		maxSaturation = 100,
 		minLightness = 30,
 		maxLightness = 80,
-		***REMOVED*** = 2,
+		stepSaturation = 2,
 		stepLightness = 2,
 		pushColor = function() {
 			var colorObj = new Color( {
@@ -53,57 +53,57 @@ _twentyTwentyColor.prototype.***REMOVED*** = function() {
 				 *
 				 * @since Twenty Twenty 1.0
 				 *
-				 * @param {number} ***REMOVED*** - WCAG contrast with the background color.
+				 * @param {number} contrastBackground - WCAG contrast with the background color.
 				 * @param {number} contrastSurroundingText - WCAG contrast with surrounding text.
 				 * @return {number} - 0 is best, higher numbers have bigger difference with the desired scores.
 				 */
-				getScore = function( ***REMOVED***, contrastSurroundingText ) {
-					var ***REMOVED*** = ( 7 >= ***REMOVED*** ) ? 0 : 7 - ***REMOVED***,
-						***REMOVED*** = ( 3 >= contrastSurroundingText ) ? 0 : 3 - contrastSurroundingText;
+				getScore = function( contrastBackground, contrastSurroundingText ) {
+					var diffBackground = ( 7 >= contrastBackground ) ? 0 : 7 - contrastBackground,
+						diffSurroundingText = ( 3 >= contrastSurroundingText ) ? 0 : 3 - contrastSurroundingText;
 
-					return ***REMOVED*** + ***REMOVED***;
+					return diffBackground + diffSurroundingText;
 				};
 
 			item = {
 				color: colorObj,
-				***REMOVED***: colorObj.getDistanceLuminosityFrom( self.bgColorObj ),
+				contrastBackground: colorObj.getDistanceLuminosityFrom( self.bgColorObj ),
 				contrastText: colorObj.getDistanceLuminosityFrom( self.textColorObj )
 			};
 
 			// Check a minimum of 4.5:1 contrast with the background and 3:1 with surrounding text.
-			if ( 4.5 > item.***REMOVED*** || 3 > item.contrastText ) {
+			if ( 4.5 > item.contrastBackground || 3 > item.contrastText ) {
 				return;
 			}
 
 			// Get a score for this color by multiplying the 2 contrasts.
 			// We'll use that to sort the array.
-			item.score = getScore( item.***REMOVED***, item.contrastText );
+			item.score = getScore( item.contrastBackground, item.contrastText );
 
-			self.***REMOVED***.push( item );
+			self.accentColorsArray.push( item );
 		},
 		s, l, aaa;
 
-	this.***REMOVED*** = [];
+	this.accentColorsArray = [];
 
 	// We're using `for` loops here because they perform marginally better than other loops.
-	for ( s = minSaturation; s <= maxSaturation; s += ***REMOVED*** ) {
+	for ( s = minSaturation; s <= maxSaturation; s += stepSaturation ) {
 		for ( l = minLightness; l <= maxLightness; l += stepLightness ) {
 			pushColor( s, l );
 		}
 	}
 
 	// Check if we have colors that are AAA compliant.
-	aaa = this.***REMOVED***.filter( function( color ) {
-		return 7 <= color.***REMOVED***;
+	aaa = this.accentColorsArray.filter( function( color ) {
+		return 7 <= color.contrastBackground;
 	} );
 
 	// If we have AAA-compliant colors, always prefer them.
 	if ( aaa.length ) {
-		this.***REMOVED*** = aaa;
+		this.accentColorsArray = aaa;
 	}
 
 	// Sort colors by contrast.
-	this.***REMOVED***.sort( function( a, b ) {
+	this.accentColorsArray.sort( function( a, b ) {
 		return a.score - b.score;
 	} );
 	return this;
@@ -127,12 +127,12 @@ _twentyTwentyColor.prototype.getTextColor = function() {
  *
  * @return {Color} - Returns a Color object.
  */
-_twentyTwentyColor.prototype.***REMOVED*** = function() {
+_twentyTwentyColor.prototype.getAccentColor = function() {
 	var fallback;
 
 	// If we have colors returns the 1st one - it has the highest score.
-	if ( this.***REMOVED***[0] ) {
-		return this.***REMOVED***[0].color;
+	if ( this.accentColorsArray[0] ) {
+		return this.accentColorsArray[0].color;
 	}
 
 	// Fallback.
@@ -145,12 +145,12 @@ _twentyTwentyColor.prototype.***REMOVED*** = function() {
  *
  * @since Twenty Twenty 1.0
  *
- * @param {string} ***REMOVED*** - The background color.
+ * @param {string} backgroundColor - The background color.
  * @param {number} accentHue - The hue for our accent color.
  * @return {Object} - this
  */
-function ***REMOVED***( ***REMOVED***, accentHue ) {// jshint ignore:line
-	var color = new _twentyTwentyColor( ***REMOVED***, accentHue );
-	color.***REMOVED***();
+function twentyTwentyColor( backgroundColor, accentHue ) {// jshint ignore:line
+	var color = new _twentyTwentyColor( backgroundColor, accentHue );
+	color.setAccentColorsArray();
 	return color;
 }

@@ -4,13 +4,13 @@ declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 /**
- * PSR-7 request ***REMOVED***.
+ * PSR-7 request implementation.
  */
-class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+class Request implements \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
 {
     use MessageTrait;
     /** @var string */
@@ -23,7 +23,7 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @param string                               $method  HTTP method
      * @param string|UriInterface                  $uri     URI
      * @param (string|string[])[]                  $headers Request headers
-     * @param string|resource|***REMOVED***|null $body    Request body
+     * @param string|resource|StreamInterface|null $body    Request body
      * @param string                               $version Protocol version
      */
     public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1')
@@ -37,13 +37,13 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         $this->setHeaders($headers);
         $this->protocol = $version;
         if (!isset($this->headerNames['host'])) {
-            $this->***REMOVED***();
+            $this->updateHostFromUri();
         }
         if ($body !== '' && $body !== null) {
             $this->stream = \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::streamFor($body);
         }
     }
-    public function ***REMOVED***() : string
+    public function getRequestTarget() : string
     {
         if ($this->requestTarget !== null) {
             return $this->requestTarget;
@@ -57,7 +57,7 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         }
         return $target;
     }
-    public function ***REMOVED***($requestTarget) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withRequestTarget($requestTarget) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         if (\preg_match('#\\s#', $requestTarget)) {
             throw new \InvalidArgumentException('Invalid request target provided; cannot contain whitespace');
@@ -70,7 +70,7 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     {
         return $this->method;
     }
-    public function withMethod($method) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withMethod($method) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         $this->assertMethod($method);
         $new = clone $this;
@@ -81,7 +81,7 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     {
         return $this->uri;
     }
-    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, $preserveHost = \false) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, $preserveHost = \false) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         if ($uri === $this->uri) {
             return $this;
@@ -89,11 +89,11 @@ class Request implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
         $new = clone $this;
         $new->uri = $uri;
         if (!$preserveHost || !isset($this->headerNames['host'])) {
-            $new->***REMOVED***();
+            $new->updateHostFromUri();
         }
         return $new;
     }
-    private function ***REMOVED***() : void
+    private function updateHostFromUri() : void
     {
         $host = $this->uri->getHost();
         if ($host == '') {

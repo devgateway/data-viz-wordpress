@@ -7,13 +7,13 @@
  *
  * @deprecated 23.2
  *
- * @***REMOVED***
+ * @codeCoverageIgnore
  *
  * @phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
- * @phpcs:disable WordPress.***REMOVED***.***REMOVED***.NonPrefixedNamespaceFound
+ * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound
  * @phpcs:disable Yoast.Commenting.CodeCoverageIgnoreDeprecated
  * @phpcs:disable Yoast.Commenting.FileComment.Unnecessary
- * @phpcs:disable Yoast.Files.FileName.***REMOVED***
+ * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
  */
 
 namespace Yoast\WP\SEO\Introductions\Application;
@@ -63,7 +63,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	 * Returns the ID.
 	 *
 	 * @deprecated 23.2
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
@@ -76,7 +76,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	 * Returns the unique name.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
@@ -90,7 +90,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	 * Returns the requested pagination priority. Lower means earlier.
 	 *
 	 * @deprecated 23.2
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return int
 	 */
@@ -103,7 +103,7 @@ class Ai_Generate_Titles_And_Descriptions_Introduction_Upsell extends Ai_Fix_Ass
 	 * Returns whether this introduction should show.
 	 *
 	 * @deprecated 23.2
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */

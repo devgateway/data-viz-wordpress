@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of Salsa20.
+ * Pure-PHP implementation of Salsa20.
  *
  * PHP version 5
  *
@@ -19,7 +19,7 @@ use phpseclib3\Exception\BadDecryptionException;
 use phpseclib3\Exception\InsufficientSetupException;
 
 /**
- * Pure-PHP ***REMOVED*** of Salsa20.
+ * Pure-PHP implementation of Salsa20.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -98,7 +98,7 @@ class Salsa20 extends StreamCipher
      * Sets the key.
      *
      * @param string $key
-     * @throws \***REMOVED*** if the key length isn't supported
+     * @throws \LengthException if the key length isn't supported
      */
     public function setKey($key)
     {
@@ -107,7 +107,7 @@ class Salsa20 extends StreamCipher
             case 32:
                 break;
             default:
-                throw new \***REMOVED***('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16 or 32 are supported');
+                throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16 or 32 are supported');
         }
 
         parent::setKey($key);
@@ -121,7 +121,7 @@ class Salsa20 extends StreamCipher
     public function setNonce($nonce)
     {
         if (strlen($nonce) != 8) {
-            throw new \***REMOVED***('Nonce of size ' . strlen($key) . ' not supported by this algorithm. Only an 64-bit nonce is supported');
+            throw new \LengthException('Nonce of size ' . strlen($key) . ' not supported by this algorithm. Only an 64-bit nonce is supported');
         }
 
         $this->nonce = $nonce;
@@ -145,7 +145,7 @@ class Salsa20 extends StreamCipher
      *
      * See https://tools.ietf.org/html/rfc8439#section-2.6.1
      */
-    protected function ***REMOVED***()
+    protected function createPoly1305Key()
     {
         if ($this->nonce === false) {
             throw new InsufficientSetupException('No nonce has been defined');
@@ -159,7 +159,7 @@ class Salsa20 extends StreamCipher
         $c->setCounter(0);
         $c->usePoly1305 = false;
         $block = $c->encrypt(str_repeat("\0", 256));
-        $this->***REMOVED***(substr($block, 0, 32));
+        $this->setPoly1305Key(substr($block, 0, 32));
 
         if ($this->counter == 0) {
             $this->counter++;
@@ -204,7 +204,7 @@ class Salsa20 extends StreamCipher
 
         if ($this->usePoly1305 && !isset($this->poly1305Key)) {
             $this->usingGeneratedPoly1305Key = true;
-            $this->***REMOVED***();
+            $this->createPoly1305Key();
         }
 
         $key = $this->key;
@@ -265,12 +265,12 @@ class Salsa20 extends StreamCipher
     {
         if (isset($this->poly1305Key)) {
             if ($this->oldtag === false) {
-                throw new InsufficientSetupException('***REMOVED*** Tag has not been set');
+                throw new InsufficientSetupException('Authentication Tag has not been set');
             }
             $newtag = $this->poly1305($ciphertext);
             if ($this->oldtag != substr($newtag, 0, strlen($this->oldtag))) {
                 $this->oldtag = false;
-                throw new BadDecryptionException('Derived ***REMOVED*** tag and supplied ***REMOVED*** tag do not match');
+                throw new BadDecryptionException('Derived authentication tag and supplied authentication tag do not match');
             }
             $this->oldtag = false;
         }
@@ -310,7 +310,7 @@ class Salsa20 extends StreamCipher
     private function crypt($text, $mode)
     {
         $this->setup();
-        if (!$this->***REMOVED***) {
+        if (!$this->continuousBuffer) {
             if ($this->engine == self::ENGINE_OPENSSL) {
                 $iv = pack('V', $this->counter) . $this->p2;
                 return openssl_encrypt(

@@ -27,7 +27,7 @@
              * Triggers an AJAX request when the license activation link or any of the buttons on the clone resolution options notice is clicked. The AJAX request will then handle the action the user has chosen.
              */
             $cloneResolutionNotice.on( 'click', '.button, #fs_temporary_duplicate_license_activation_link', function( evt ) {
-                evt.***REMOVED***();
+                evt.preventDefault();
 
                 var $this = $( this );
 
@@ -36,7 +36,7 @@
                 }
 
                 var $body             = $( 'body' ),
-                    $***REMOVED*** = $this.parents( '.fs-clone-resolution-options-container' ),
+                    $optionsContainer = $this.parents( '.fs-clone-resolution-options-container' ),
                     cursor            = $body.css( 'cursor' ),
                     beforeUnload      = function() {
                         return '<?php fs_esc_js_echo_inline( 'Please wait', 'please-wait' ) ?>';
@@ -44,13 +44,13 @@
 
                 $.ajax( {
                     // Get the parent options container from the child as `$cloneResolutionNotice` can have different AJAX URLs if both the manual clone resolution options and temporary duplicate notices are shown (for different subsites in a multisite network).
-                    url       : $***REMOVED***.data( 'ajax-url' ),
+                    url       : $optionsContainer.data( 'ajax-url' ),
                     method    : 'POST',
                     data      : {
                         action      : '<?php echo $VARS['ajax_action'] ?>',
                         security    : '<?php echo wp_create_nonce( $VARS['ajax_action'] ) ?>',
                         clone_action: $this.data( 'clone-action' ),
-                        blog_id     : $***REMOVED***.data( 'blog-id' )
+                        blog_id     : $optionsContainer.data( 'blog-id' )
                     },
                     beforeSend: function() {
                         $body.css( { cursor: 'wait' } );

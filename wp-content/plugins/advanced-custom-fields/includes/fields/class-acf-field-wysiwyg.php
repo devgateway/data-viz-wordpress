@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_wysiwyg' ) ) :
 			$this->category      = 'content';
 			$this->description   = __( 'Displays the WordPress WYSIWYG editor as seen in Posts and Pages allowing for a rich text-editing experience that also allows for multimedia content.', 'acf' ) . ' ' . __( 'We do not recommend using this field in ACF Blocks.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-wysiwyg.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/wysiwyg-editor/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/wysiwyg-editor/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'tabs'          => 'all',
 				'toolbar'       => 'full',
@@ -267,7 +267,7 @@ if ( ! class_exists( 'acf_field_wysiwyg' ) ) :
 					<?php if ( $field['delay'] ) : ?>
 					<div class="acf-editor-toolbar"><?php esc_html_e( 'Click to initialize TinyMCE', 'acf' ); ?></div>
 				<?php endif; ?>
-					<?php printf( $textarea, $field['value'] ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by format_for_editor(). ?>
+					<?php printf( $textarea, $field['value'] ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by format_for_editor(). ?>
 			</div>
 		</div>
 			<?php
@@ -363,7 +363,7 @@ if ( ! class_exists( 'acf_field_wysiwyg' ) ) :
 			acf_render_field_setting(
 				$field,
 				array(
-					'label'        => __( 'Delay ***REMOVED***', 'acf' ),
+					'label'        => __( 'Delay Initialization', 'acf' ),
 					'instructions' => __( 'TinyMCE will not be initialized until field is clicked', 'acf' ),
 					'name'         => 'delay',
 					'type'         => 'true_false',

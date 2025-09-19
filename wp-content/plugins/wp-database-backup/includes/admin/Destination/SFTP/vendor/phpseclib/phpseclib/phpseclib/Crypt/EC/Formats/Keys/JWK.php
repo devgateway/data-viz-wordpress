@@ -16,7 +16,7 @@ namespace phpseclib3\Crypt\EC\Formats\Keys;
 use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Crypt\Common\Formats\Keys\JWK as Progenitor;
 use phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
-use phpseclib3\Crypt\EC\BaseCurves\***REMOVED*** as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
 use phpseclib3\Crypt\EC\Curves\Ed25519;
 use phpseclib3\Crypt\EC\Curves\secp256k1;
 use phpseclib3\Crypt\EC\Curves\secp256r1;
@@ -73,7 +73,7 @@ abstract class JWK extends Progenitor
         $curve = '\phpseclib3\Crypt\EC\Curves\\' . str_replace('P-', 'nistp', $key->crv);
         $curve = new $curve();
 
-        if ($curve instanceof ***REMOVED***) {
+        if ($curve instanceof TwistedEdwardsCurve) {
             $QA = self::extractPoint(Strings::base64url_decode($key->x), $curve);
             if (!isset($key->d)) {
                 return compact('curve', 'QA');
@@ -83,12 +83,12 @@ abstract class JWK extends Progenitor
         }
 
         $QA = [
-            $curve->***REMOVED***(new BigInteger(Strings::base64url_decode($key->x), 256)),
-            $curve->***REMOVED***(new BigInteger(Strings::base64url_decode($key->y), 256))
+            $curve->convertInteger(new BigInteger(Strings::base64url_decode($key->x), 256)),
+            $curve->convertInteger(new BigInteger(Strings::base64url_decode($key->y), 256))
         ];
 
         if (!$curve->verifyPoint($QA)) {
-            throw new \***REMOVED***('Unable to verify that point exists on curve');
+            throw new \RuntimeException('Unable to verify that point exists on curve');
         }
 
         if (!isset($key->d)) {
@@ -120,23 +120,23 @@ abstract class JWK extends Progenitor
                 return 'secp256k1';
         }
 
-        $reflect = new \***REMOVED***($curve);
+        $reflect = new \ReflectionClass($curve);
         $curveName = $reflect->isFinal() ?
-            $reflect->***REMOVED***()->getShortName() :
+            $reflect->getParentClass()->getShortName() :
             $reflect->getShortName();
         throw new UnsupportedCurveException("$curveName is not a supported curve");
     }
 
     /**
-     * Return the array ***REMOVED*** for an EC public key
+     * Return the array superstructure for an EC public key
      *
      * @param \phpseclib3\Crypt\EC\BaseCurves\Base $curve
      * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
      * @return array
      */
-    private static function ***REMOVED***(BaseCurve $curve, array $publicKey)
+    private static function savePublicKeyHelper(BaseCurve $curve, array $publicKey)
     {
-        if ($curve instanceof ***REMOVED***) {
+        if ($curve instanceof TwistedEdwardsCurve) {
             return [
                 'kty' => 'OKP',
                 'crv' => $curve instanceof Ed25519 ? 'Ed25519' : 'Ed448',
@@ -162,7 +162,7 @@ abstract class JWK extends Progenitor
      */
     public static function savePublicKey(BaseCurve $curve, array $publicKey, array $options = [])
     {
-        $key = self::***REMOVED***($curve, $publicKey);
+        $key = self::savePublicKeyHelper($curve, $publicKey);
 
         return self::wrapKey($key, $options);
     }
@@ -178,10 +178,10 @@ abstract class JWK extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = '', array $options = [])
     {
-        $key = self::***REMOVED***($curve, $publicKey);
-        $key['d'] = $curve instanceof ***REMOVED*** ? $secret : $privateKey->toBytes();
+        $key = self::savePublicKeyHelper($curve, $publicKey);
+        $key['d'] = $curve instanceof TwistedEdwardsCurve ? $secret : $privateKey->toBytes();
         $key['d'] = Strings::base64url_encode($key['d']);
 
         return self::wrapKey($key, $options);

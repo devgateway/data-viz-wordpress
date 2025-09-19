@@ -8,7 +8,7 @@ import {
     ToggleControl,
     SelectControl       
 } from '@wordpress/components';
-import { ***REMOVED*** } from '@wordpress/block-editor'
+import { PanelColorSettings } from '@wordpress/block-editor'
 import Papa from 'papaparse'
 
 const colorSchemes = [{value: "blues", label: 'blues'},
@@ -23,51 +23,51 @@ export default class LegendBreaks extends Component {
         super(props);
         this.setMinValue = this.setMinValue.bind(this)
         this.setMaxValue = this.setMaxValue.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.addLegendBreaks = this.addLegendBreaks.bind(this)
+        this.removeLegendBreaks = this.removeLegendBreaks.bind(this)
     }
 
     setMinValue(value, idx) {
         const { attributes: { legendBreaks }, setAttributes } = this.props
-        const ***REMOVED*** = legendBreaks.slice()
-        ***REMOVED***[idx].min = value
-        setAttributes({ legendBreaks: ***REMOVED*** })
+        const newLegendBreak = legendBreaks.slice()
+        newLegendBreak[idx].min = value
+        setAttributes({ legendBreaks: newLegendBreak })
     }
 
     setMaxValue(value, idx) {
         const { attributes: { legendBreaks }, setAttributes } = this.props
-        const ***REMOVED*** = legendBreaks.slice()
-        ***REMOVED***[idx].max = value
-        setAttributes({ legendBreaks: ***REMOVED*** })
+        const newLegendBreak = legendBreaks.slice()
+        newLegendBreak[idx].max = value
+        setAttributes({ legendBreaks: newLegendBreak })
     }
 
     setColor(color, idx) {
         const { attributes: { legendBreaks }, setAttributes } = this.props
-        const ***REMOVED*** = legendBreaks.slice()
-        ***REMOVED***[idx].color = color ? ***REMOVED***(color) : null;
-        setAttributes({ legendBreaks: ***REMOVED*** })
+        const newLegendBreak = legendBreaks.slice()
+        newLegendBreak[idx].color = color ? encodeURIComponent(color) : null;
+        setAttributes({ legendBreaks: newLegendBreak })
     }
 
     setFieldData(field, value, idx) {
         const { attributes: { legendBreaks }, setAttributes } = this.props
-        const ***REMOVED*** = legendBreaks.slice()
-        ***REMOVED***[idx][field] = value;
-        setAttributes({ legendBreaks: ***REMOVED*** });
+        const newLegendBreak = legendBreaks.slice()
+        newLegendBreak[idx][field] = value;
+        setAttributes({ legendBreaks: newLegendBreak });
     }
 
-    ***REMOVED***() {
+    addLegendBreaks() {
         const { attributes: { legendBreaks }, setAttributes } = this.props
         let index = legendBreaks.length;
-        const ***REMOVED*** = {}
-        let ***REMOVED*** = legendBreaks.slice()
-        ***REMOVED***.push(***REMOVED***)
-        setAttributes({ legendBreaks: ***REMOVED*** })
+        const newLegendBreak = {}
+        let newLegendBreaks = legendBreaks.slice()
+        newLegendBreaks.push(newLegendBreak)
+        setAttributes({ legendBreaks: newLegendBreaks })
     }
 
-    ***REMOVED***(f) {
+    removeLegendBreaks(f) {
         const { attributes: { legendBreaks }, setAttributes } = this.props
-        let ***REMOVED*** = legendBreaks.slice(0, -1)
-        setAttributes({ legendBreaks: ***REMOVED*** })
+        let newLegendBreaks = legendBreaks.slice(0, -1)
+        setAttributes({ legendBreaks: newLegendBreaks })
     }
 
     addFilter(idx) {
@@ -93,40 +93,40 @@ export default class LegendBreaks extends Component {
 
     setFilterData(field, value, breakIndex, filterIndex) {
         const { attributes: { legendBreaks }, setAttributes } = this.props
-        const ***REMOVED*** = legendBreaks.slice()
-        let filters = ***REMOVED***[breakIndex]['filters']
+        const newLegendBreak = legendBreaks.slice()
+        let filters = newLegendBreak[breakIndex]['filters']
         if (filters) {
            filters[filterIndex][field] = value;
         }
-        setAttributes({ legendBreaks: ***REMOVED*** });
+        setAttributes({ legendBreaks: newLegendBreak });
     }
 
     render() {
         const { app, allMeasures, setAttributes, attributes: {
             legendBreaks,
-            ***REMOVED***,
+            showLegendLabels,
             measures,
-            ***REMOVED***,
-            ***REMOVED***,
+            autoGenerateBreaks,
+            numberOfBreaks,
             colorScheme,
             csv,
-            ***REMOVED***,
-            ***REMOVED***,
+            mapNoDataColor,
+            mapBoundaryColor,
             mapFocusBoundaryColor,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***
+            mapContainerBgColor,
+            showNoDataLegendItem,
+            defaultPointColor
         }
         } = this.props;
 
-        const ***REMOVED*** = []
+        const csvMeasureOPtions = []
         if (app == 'csv') {
             const data = Papa.parse(csv, { header: true, dynamicTyping: true });
-            ***REMOVED***.push({ value: '', label: 'None' })
+            csvMeasureOPtions.push({ value: '', label: 'None' })
             data.meta.fields.forEach((field, i) => {
                 if (i > 0) {
                     if (!field.startsWith('_')) {
-                        ***REMOVED***.push({ value: field, label: field })
+                        csvMeasureOPtions.push({ value: field, label: field })
                     }                    
                 }
             })
@@ -134,16 +134,16 @@ export default class LegendBreaks extends Component {
 
         return [<PanelBody initialOpen={false} title={__("Colors")}>
             <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Map Container Background Color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#fff"),
+                            value: decodeURIComponent(mapContainerBgColor ? mapContainerBgColor : "#fff"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({mapContainerBgColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: ***REMOVED***("#fff")})
+                                    setAttributes({mapContainerBgColor: encodeURIComponent("#fff")})
                                 }
                             },
                             label: __("")
@@ -153,16 +153,16 @@ export default class LegendBreaks extends Component {
                 />
                 </PanelRow> 
               <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('No Data Color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#f8f8f8"),
+                            value: decodeURIComponent(mapNoDataColor ? mapNoDataColor : "#f8f8f8"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({mapNoDataColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: ***REMOVED***("#f8f8f8")})
+                                    setAttributes({mapNoDataColor: encodeURIComponent("#f8f8f8")})
                                 }
                             },
                             label: __("")
@@ -172,16 +172,16 @@ export default class LegendBreaks extends Component {
                 />
                 </PanelRow> 
                 <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Boundary Color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#000"),
+                            value: decodeURIComponent(mapBoundaryColor ? mapBoundaryColor : "#000"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({mapBoundaryColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: ***REMOVED***("#000")})
+                                    setAttributes({mapBoundaryColor: encodeURIComponent("#000")})
                                 }
                             },
                             label: __("")
@@ -189,16 +189,16 @@ export default class LegendBreaks extends Component {
                     ]}/>
                 </PanelRow> 
                 <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Boundary Highlight Color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(mapFocusBoundaryColor ? mapFocusBoundaryColor : "#000"),
+                            value: decodeURIComponent(mapFocusBoundaryColor ? mapFocusBoundaryColor : "#000"),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({mapFocusBoundaryColor: ***REMOVED***(color)})
+                                    setAttributes({mapFocusBoundaryColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({mapFocusBoundaryColor: ***REMOVED***("#000")})
+                                    setAttributes({mapFocusBoundaryColor: encodeURIComponent("#000")})
                                 }
                             },
                             label: __("")
@@ -211,22 +211,22 @@ export default class LegendBreaks extends Component {
             <PanelRow>                
                 <ToggleControl
                     label="Show 'No Data' legend item"
-                    checked={***REMOVED***}
-                    onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })}
+                    checked={showNoDataLegendItem}
+                    onChange={() => setAttributes({ showNoDataLegendItem: !showNoDataLegendItem })}
                 />
             </PanelRow>
             <PanelRow>                
                 <ToggleControl
                     label="Auto-generate breaks based on available data"
-                    checked={***REMOVED***}
-                    onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })}
+                    checked={autoGenerateBreaks}
+                    onChange={() => setAttributes({ autoGenerateBreaks: !autoGenerateBreaks })}
                 />
             </PanelRow>
-            {***REMOVED*** &&
+            {autoGenerateBreaks &&
                 <>
                     <PanelRow>
-                        {<TextControl value={***REMOVED***} label={__("Number of breaks")}
-                            onChange={(value) => setAttributes({ ***REMOVED***: value <= 10 ? value : ***REMOVED***})} max={10} type="number"
+                        {<TextControl value={numberOfBreaks} label={__("Number of breaks")}
+                            onChange={(value) => setAttributes({ numberOfBreaks: value <= 10 ? value : numberOfBreaks})} max={10} type="number"
                             on/>}
                     </PanelRow>
                     <PanelRow>
@@ -242,13 +242,13 @@ export default class LegendBreaks extends Component {
                 </>
             }
             
-            {!***REMOVED*** &&
+            {!autoGenerateBreaks &&
                 <>
                     <PanelRow>
                         <ToggleControl
                             label="Show break labels instead of values"
-                            checked={***REMOVED***}
-                            onChange={() => setAttributes({ ***REMOVED***: !***REMOVED*** })}
+                            checked={showLegendLabels}
+                            onChange={() => setAttributes({ showLegendLabels: !showLegendLabels })}
                         />
                     </PanelRow>
 
@@ -272,14 +272,14 @@ export default class LegendBreaks extends Component {
                                     onChange={(value) => {
                                         this.setFieldData('measure', value, index)
                                     }}
-                                    options={app == 'csv' ? ***REMOVED*** : [{ value: '', label: 'None' }, ...allMeasures.filter(m => measures.includes(m.value))]}
+                                    options={app == 'csv' ? csvMeasureOPtions : [{ value: '', label: 'None' }, ...allMeasures.filter(m => measures.includes(m.value))]}
                                 />
 
-                                <***REMOVED***
+                                <PanelColorSettings
                                     title={__('Color settings')}
                                     colorSettings={[
                                         {
-                                            value: ***REMOVED***(f.color),
+                                            value: decodeURIComponent(f.color),
                                             onChange: (color) => {
                                                 this.setColor(color, index)
                                             },
@@ -318,8 +318,8 @@ export default class LegendBreaks extends Component {
                             </PanelBody>)
                     })}                                     
                     <PanelRow>
-                        <Button isLink onClick={this.***REMOVED***}>{__("Add Break")}</Button>
-                        <Button isLink onClick={this.***REMOVED***}>{__("Remove")}</Button>
+                        <Button isLink onClick={this.addLegendBreaks}>{__("Add Break")}</Button>
+                        <Button isLink onClick={this.removeLegendBreaks}>{__("Remove")}</Button>
                     </PanelRow>
                 </>
             }

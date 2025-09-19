@@ -73,7 +73,7 @@
 		var bsr_error_wrap = $( '#bsr-error-wrap' );
 		search_replace_submit.on( 'click', function( e ) {
 
-			e.***REMOVED***();
+			e.preventDefault();
 
 			if ( ! search_replace_submit.hasClass( 'button-disabled' ) ) {
 
@@ -166,10 +166,10 @@
 		var $iframeBody = $( '#TB_window iframe' ).contents().find( 'body' );
 
 		$iframeBody.on( 'mouseover', '.tooltip', function( e ) {
-			e.***REMOVED***();
+			e.preventDefault();
 			$iframeBody.find( '.helper-message' ).hide();
 			toggle_tooltip( this );
-			e.***REMOVED***();
+			e.stopPropagation();
 		});
 
 		$iframeBody.on( 'mouseleave', 'td', function( e ) {

@@ -1,7 +1,7 @@
 (function($, undefined){
 	
 	/**
-	*  ***REMOVED***
+	*  fieldGroupManager
 	*
 	*  Generic field group functionality 
 	*
@@ -12,9 +12,9 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var fieldGroupManager = new acf.Model({
 		
-		id: '***REMOVED***',
+		id: 'fieldGroupManager',
 		
 		events: {
 			'submit #post':					'onSubmit',
@@ -23,7 +23,7 @@
 		},
 		
 		filters: {
-			'find_fields_args':				'***REMOVED***'
+			'find_fields_args':				'filterFindFieldArgs'
 		},
 		
 		onSubmit: function( e, $el ){
@@ -35,7 +35,7 @@
 			if( !$title.val() ) {
 				
 				// prevent default
-				e.***REMOVED***();
+				e.preventDefault();
 				
 				// unlock form
 				acf.unlockForm( $el );
@@ -49,17 +49,17 @@
 		},
 		
 		onClick: function( e ){
-			e.***REMOVED***();
+			e.preventDefault();
 		},
 		
 		onClickTrash: function( e ){
 			var result = confirm( acf.__('Move to trash. Are you sure?') );
 			if( !result ) {
-				e.***REMOVED***();
+				e.preventDefault();
 			}
 		},
 		
-		***REMOVED***: function( args ){
+		filterFindFieldArgs: function( args ){
 			args.visible = true;
 			return args;
 		}
@@ -67,7 +67,7 @@
 	
 	
 	/**
-	*  ***REMOVED***
+	*  screenOptionsManager
 	*
 	*  Screen options functionality 
 	*
@@ -78,9 +78,9 @@
 	*  @return	void
 	*/
 		
-	var ***REMOVED*** = new acf.Model({
+	var screenOptionsManager = new acf.Model({
 		
-		id: '***REMOVED***',
+		id: 'screenOptionsManager',
 		wait: 'prepare',
 		
 		events: {
@@ -113,7 +113,7 @@
 		
 		onChange: function( e, $el ) {
 			var val = this.isChecked() ? 1 : 0;
-			acf.***REMOVED***('show_field_keys', val);
+			acf.updateUserSetting('show_field_keys', val);
 			this.render();
 		},
 		
@@ -129,7 +129,7 @@
 	
 	
 	/**
-	*  ***REMOVED***
+	*  appendFieldManager
 	*
 	*  Appends fields together
 	*
@@ -140,7 +140,7 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var appendFieldManager = new acf.Model({
 		
 		actions: {
 			'new_field' : 'onNewField'
@@ -195,7 +195,7 @@
 			'click .move-field':		'move',
 			
 			'change .field-type':		'onChangeType',
-			'change .field-required':	'***REMOVED***',
+			'change .field-required':	'onChangeRequired',
 			'blur .field-label':		'onChangeLabel',
 			'blur .field-name':			'onChangeName',
 			
@@ -262,15 +262,15 @@
 		},
 		
 		getParent: function(){
-			return acf.***REMOVED***({ child: this.$el, limit: 1 }).pop();
+			return acf.getFieldObjects({ child: this.$el, limit: 1 }).pop();
 		},
 		
 		getParents: function(){
-			return acf.***REMOVED***({ child: this.$el });
+			return acf.getFieldObjects({ child: this.$el });
 		},
 		
 		getFields: function(){
-			return acf.***REMOVED***({ parent: this.$el });
+			return acf.getFieldObjects({ parent: this.$el });
 		},
 		
 		getInputName: function(){
@@ -411,15 +411,15 @@
 
 		addProFields: function() {
 			// Make sure we're only running this on free version.
-			if (acf.data.fieldTypes.***REMOVED***('clone')) {
+			if (acf.data.fieldTypes.hasOwnProperty('clone')) {
 				return;
 			}
 
 			// Make sure we haven't appended these fields before.
-			var $***REMOVED*** = $('.field-type').not('.acf-free-field-type');
+			var $fieldTypeSelect = $('.field-type').not('.acf-free-field-type');
 
 			// Append pro fields to "Layout" group.
-			var $layoutGroup = $***REMOVED***.find('optgroup option[value="group"]').parent();
+			var $layoutGroup = $fieldTypeSelect.find('optgroup option[value="group"]').parent();
 			$layoutGroup.append(
 				'<option value="null" disabled="disabled">' + acf.__('Repeater (Pro only)') + '</option>' +
 				'<option value="null" disabled="disabled">' + acf.__('Flexible Content (Pro only)') + '</option>' +
@@ -427,12 +427,12 @@
 			);
 
 			// Add pro fields to "Content" group.
-			var $contentGroup = $***REMOVED***.find('optgroup option[value="image"]').parent();
+			var $contentGroup = $fieldTypeSelect.find('optgroup option[value="image"]').parent();
 			$contentGroup.append(
 				'<option value="null" disabled="disabled">' + acf.__('Gallery (Pro only)') + '</option>'
 			);
 
-			$***REMOVED***.addClass('acf-free-field-type');
+			$fieldTypeSelect.addClass('acf-free-field-type');
 		},
 
 		render: function(){
@@ -493,7 +493,7 @@
 			
 			// action (open)
 			acf.doAction('open_field_object', this);
-			this.trigger('***REMOVED***');
+			this.trigger('openFieldObject');
 			
 			// action (show)
 			acf.doAction('show', $settings);
@@ -510,7 +510,7 @@
 			
 			// action (close)
 			acf.doAction('close_field_object', this);
-			this.trigger('***REMOVED***');
+			this.trigger('closeFieldObject');
 			
 			// action (hide)
 			acf.doAction('hide', $settings);
@@ -630,7 +630,7 @@
 			}
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onChangeRequired: function( e, $el ){
 			
 			// set
 			var required = $el.prop('checked') ? 1 : 0;
@@ -693,7 +693,7 @@
 			// vars
 			var field = this;
 			var $list = this.$el.parent();
-			var $fields = acf.***REMOVED***({
+			var $fields = acf.findFieldObjects({
 				sibling: this.$el
 			});
 			
@@ -727,7 +727,7 @@
 			$newField.attr('data-key', newKey);
 			
 			// get instance
-			var newField = acf.***REMOVED***( $newField );
+			var newField = acf.getFieldObject( $newField );
 			
 			// open / close
 			if( this.isOpen() ) {
@@ -822,7 +822,7 @@
 			
 			// has sub fields changed
 			if( !changed ) {
-				acf.***REMOVED***({
+				acf.getFieldObjects({
 					parent: this.$el
 				}).map(function( field ){
 					changed = hasChanged(field) || field.changed;
@@ -857,7 +857,7 @@
 				// get HTML
 				$.ajax({
 					url: acf.get('ajaxurl'),
-					data: acf.***REMOVED***(ajaxData),
+					data: acf.prepareForAjax(ajaxData),
 					type: 'post',
 					dataType: 'html',
 					success: step2
@@ -877,10 +877,10 @@
 			var step3 = function( e, $el ){
 				
 				// prevent
-				e.***REMOVED***();
+				e.preventDefault();
 				
 				// disable
-				acf.***REMOVED***( popup.$('.button') );
+				acf.startButtonLoading( popup.$('.button') );
 				
 				// ajax
 				var ajaxData = {
@@ -892,7 +892,7 @@
 				// get HTML
 				$.ajax({
 					url: acf.get('ajaxurl'),
-					data: acf.***REMOVED***(ajaxData),
+					data: acf.prepareForAjax(ajaxData),
 					type: 'post',
 					dataType: 'html',
 					success: step4
@@ -973,7 +973,7 @@
 			// ajax
 			var xhr = $.ajax({
 				url: acf.get('ajaxurl'),
-				data: acf.***REMOVED***(ajaxData),
+				data: acf.prepareForAjax(ajaxData),
 				type: 'post',
 				dataType: 'html',
 				context: this,
@@ -1038,7 +1038,7 @@
 	};
 	
 	/**
-	*  ***REMOVED***
+	*  registerFieldType
 	*
 	*  description
 	*
@@ -1049,7 +1049,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( model ){
+	acf.registerFieldSetting = function( model ){
 		var proto = model.prototype;
 		var mid = modelId(proto.type + ' ' + proto.name);
 		this.models[ mid ] = model;
@@ -1067,7 +1067,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( field ){
+	acf.newFieldSetting = function( field ){
 		
 		// vars
 		var type = field.get('setting') || '';
@@ -1086,7 +1086,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getFieldSetting
 	*
 	*  description
 	*
@@ -1097,7 +1097,7 @@
 	*  @return	type Description.
 	*/
 	
-	acf.***REMOVED*** = function( field ) {
+	acf.getFieldSetting = function( field ) {
 		
 		// allow jQuery
 		if( field instanceof jQuery ) {
@@ -1109,7 +1109,7 @@
 	};
 	
 	/**
-	*  ***REMOVED***
+	*  settingsManager
 	*
 	*  description
 	*
@@ -1120,12 +1120,12 @@
 	*  @return	type Description.
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var settingsManager = new acf.Model({
 		actions: {
 			'new_field': 'onNewField'
 		},
 		onNewField: function( field ){
-			field.setting = acf.***REMOVED***( field );
+			field.setting = acf.newFieldSetting( field );
 		}
 	});
 	
@@ -1162,7 +1162,7 @@
 			this.$el = $field;
 			this.field = field;
 			this.$fieldObject = $field.closest('.acf-field-object');
-			this.fieldObject = acf.***REMOVED***( this.$fieldObject );
+			this.fieldObject = acf.getFieldObject( this.$fieldObject );
 			
 			// inherit data
 			$.extend(this.data, field.data);
@@ -1211,8 +1211,8 @@
 		name: 'return_format'
 	});
 	
-	acf.***REMOVED***( DatePickerDisplayFormatFieldSetting );
-	acf.***REMOVED***( DatePickerReturnFormatFieldSetting );
+	acf.registerFieldSetting( DatePickerDisplayFormatFieldSetting );
+	acf.registerFieldSetting( DatePickerReturnFormatFieldSetting );
 	
 	/*
 	*  Date Time Picker
@@ -1237,8 +1237,8 @@
 		name: 'return_format'
 	});
 	
-	acf.***REMOVED***( DateTimePickerDisplayFormatFieldSetting );
-	acf.***REMOVED***( DateTimePickerReturnFormatFieldSetting );
+	acf.registerFieldSetting( DateTimePickerDisplayFormatFieldSetting );
+	acf.registerFieldSetting( DateTimePickerReturnFormatFieldSetting );
 	
 	/*
 	*  Time Picker
@@ -1263,8 +1263,8 @@
 		name: 'return_format'
 	});
 	
-	acf.***REMOVED***( TimePickerDisplayFormatFieldSetting );
-	acf.***REMOVED***( TimePickerReturnFormatFieldSetting );
+	acf.registerFieldSetting( TimePickerDisplayFormatFieldSetting );
+	acf.registerFieldSetting( TimePickerReturnFormatFieldSetting );
 	
 })(jQuery);
 (function($, undefined){
@@ -1285,11 +1285,11 @@
 		type: '',
 		name: 'conditional_logic',
 		events: {
-			'change .conditions-toggle': 		'***REMOVED***',
-			'click .add-conditional-group': 	'***REMOVED***',
+			'change .conditions-toggle': 		'onChangeToggle',
+			'click .add-conditional-group': 	'onClickAddGroup',
 			'focus .condition-rule-field': 		'onFocusField',
 			'change .condition-rule-field': 	'onChangeField',
-			'change .condition-rule-operator': 	'***REMOVED***',
+			'change .condition-rule-operator': 	'onChangeOperator',
 			'click .add-conditional-rule':		'onClickAdd',
 			'click .remove-conditional-rule':	'onClickRemove'
 		},
@@ -1368,7 +1368,7 @@
 		renderRule: function( $rule ){
 			this.scope( $rule );
 			this.renderField();
-			this.***REMOVED***();
+			this.renderOperator();
 			this.renderValue();
 		},
 		
@@ -1376,12 +1376,12 @@
 			
 			// vars
 			var choices = [];
-			var ***REMOVED*** = [];
+			var validFieldTypes = [];
 			var cid = this.fieldObject.cid;
 			var $select = this.$input('field');
 			
 			// loop
-			acf.***REMOVED***().map(function( fieldObject ){
+			acf.getFieldObjects().map(function( fieldObject ){
 				
 				// vars
 				var choice = {
@@ -1396,12 +1396,12 @@
 				}
 				
 				// get selected field conditions 
-				var ***REMOVED*** = acf.***REMOVED***({
+				var conditionTypes = acf.getConditionTypes({
 					fieldType: fieldObject.getType()
 				});
 				
 				// bail early if no types
-				if( !***REMOVED***.length ) {
+				if( !conditionTypes.length ) {
 					choice.disabled = true;
 				}
 				
@@ -1428,7 +1428,7 @@
 			this.ruleData('field', $select.val());
 		},
 		
-		***REMOVED***: function(){
+		renderOperator: function(){
 			
 			// bail early if no field selected
 			if( !this.ruleData('field') ) {
@@ -1450,16 +1450,16 @@
 			}
 			
 			// get selected field
-			var $field = acf.***REMOVED***( this.ruleData('field') );
-			var field = acf.***REMOVED***( $field );
+			var $field = acf.findFieldObject( this.ruleData('field') );
+			var field = acf.getFieldObject( $field );
 			
 			// get selected field conditions 
-			var ***REMOVED*** = acf.***REMOVED***({
+			var conditionTypes = acf.getConditionTypes({
 				fieldType: field.getType()
 			});
 			
 			// html
-			***REMOVED***.map(function( model ){
+			conditionTypes.map(function( model ){
 				choices.push({
 					id:		model.prototype.operator,
 					text:	model.prototype.label
@@ -1486,17 +1486,17 @@
 			var val = $select.val();
 			
 			// get selected field
-			var $field = acf.***REMOVED***( this.ruleData('field') );
-			var field = acf.***REMOVED***( $field );
+			var $field = acf.findFieldObject( this.ruleData('field') );
+			var field = acf.getFieldObject( $field );
 			
 			// get selected field conditions
-			var ***REMOVED*** = acf.***REMOVED***({
+			var conditionTypes = acf.getConditionTypes({
 				fieldType: field.getType(),
 				operator: this.ruleData('operator')
 			});
 			
 			// html
-			var conditionType = ***REMOVED***[0].prototype;
+			var conditionType = conditionTypes[0].prototype;
 			var choices = conditionType.choices( field );
 			
 			// create html: array
@@ -1530,11 +1530,11 @@
 			this.ruleData('value', $newSelect.val());
 		},
 		
-		***REMOVED***: function(){
+		onChangeToggle: function(){
 			this.render();
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onClickAddGroup: function( e, $el ){
 			this.addGroup();
 		},
 		
@@ -1569,11 +1569,11 @@
 			this.ruleData('field', $el.val());
 			
 			// render
-			this.***REMOVED***();
+			this.renderOperator();
 			this.renderValue();
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onChangeOperator: function( e, $el ){
 			
 			// scope
 			this.scope( $el.closest('.rule') );
@@ -1612,7 +1612,7 @@
 		}
 	});
 	
-	acf.***REMOVED***( ConditionalLogicFieldSetting );
+	acf.registerFieldSetting( ConditionalLogicFieldSetting );
 	
 	
 	/**
@@ -1673,7 +1673,7 @@
 (function($, undefined){
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.findFieldObject
 	*
 	*  Returns a single fieldObject $el for a given field key
 	*
@@ -1684,15 +1684,15 @@
 	*  @return	jQuery
 	*/
 	
-	acf.***REMOVED*** = function( key ){
-		return acf.***REMOVED***({
+	acf.findFieldObject = function( key ){
+		return acf.findFieldObjects({
 			key: key,
 			limit: 1
 		});
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.findFieldObjects
 	*
 	*  Returns an array of fieldObject $el for the given args
 	*
@@ -1703,7 +1703,7 @@
 	*  @return	jQuery
 	*/
 	
-	acf.***REMOVED*** = function( args ){
+	acf.findFieldObjects = function( args ){
 		
 		// vars
 		args = args || {};
@@ -1760,7 +1760,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getFieldObject
 	*
 	*  Returns a single fieldObject instance for a given $el|key
 	*
@@ -1771,17 +1771,17 @@
 	*  @return	jQuery
 	*/
 	
-	acf.***REMOVED*** = function( $field ){
+	acf.getFieldObject = function( $field ){
 		
 		// allow key
 		if( typeof $field === 'string' ) {
-			$field = acf.***REMOVED***( $field );
+			$field = acf.findFieldObject( $field );
 		}
 		
 		// instantiate
 		var field = $field.data('acf');
 		if( !field ) {
-			field = acf.***REMOVED***( $field );
+			field = acf.newFieldObject( $field );
 		}
 		
 		// return
@@ -1789,7 +1789,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.getFieldObjects
 	*
 	*  Returns an array of fieldObject instances for the given args
 	*
@@ -1800,15 +1800,15 @@
 	*  @return	array
 	*/
 	
-	acf.***REMOVED*** = function( args ){
+	acf.getFieldObjects = function( args ){
 		
 		// query
-		var $fields = acf.***REMOVED***( args );
+		var $fields = acf.findFieldObjects( args );
 		
 		// loop
 		var fields = [];
 		$fields.each(function(){
-			var field = acf.***REMOVED***( $(this) );
+			var field = acf.getFieldObject( $(this) );
 			fields.push( field );
 		});
 		
@@ -1817,7 +1817,7 @@
 	};
 	
 	/**
-	*  acf.***REMOVED***
+	*  acf.newFieldObject
 	*
 	*  Initializes and returns a new FieldObject instance
 	*
@@ -1828,7 +1828,7 @@
 	*  @return	object
 	*/
 	
-	acf.***REMOVED*** = function( $field ){
+	acf.newFieldObject = function( $field ){
 		
 		// instantiate
 		var field = new acf.FieldObject( $field );
@@ -1868,22 +1868,22 @@
 			
 			// loop
 			actions.map(function( action ){
-				this.***REMOVED***( action );
+				this.addFieldActions( action );
 			}, this);
 		},
 		
-		***REMOVED***: function( action ){
+		addFieldActions: function( action ){
 			
 			// vars
 			var pluralAction = action + '_field_objects';	// ready_field_objects
 			var singleAction = action + '_field_object';	// ready_field_object
-			var singleEvent = action + 'FieldObject';		// ***REMOVED***
+			var singleEvent = action + 'FieldObject';		// readyFieldObject
 			
 			// global action
 			var callback = function( $el /*, arg1, arg2, etc*/ ){
 				
 				// vars
-				var fieldObjects = acf.***REMOVED***({ parent: $el });
+				var fieldObjects = acf.getFieldObjects({ parent: $el });
 				
 				// call plural
 				if( fieldObjects.length ) {
@@ -1898,7 +1898,7 @@
 			};
 			
 			// plural action
-			var ***REMOVED*** = function( fieldObjects /*, arg1, arg2, etc*/ ){
+			var pluralCallback = function( fieldObjects /*, arg1, arg2, etc*/ ){
 				
 				/// get args [fields, arg1]
 				var args = acf.arrayArgs( arguments );
@@ -1916,7 +1916,7 @@
 			};
 			
 			// single action
-			var ***REMOVED*** = function( fieldObject /*, arg1, arg2, etc*/ ){
+			var singleCallback = function( fieldObject /*, arg1, arg2, etc*/ ){
 				
 				/// get args [$field, arg1]
 				var args = acf.arrayArgs( arguments );
@@ -1940,8 +1940,8 @@
 			
 			// add actions
 			acf.addAction(action, callback, 5);
-			acf.addAction(pluralAction, ***REMOVED***, 5);
-			acf.addAction(singleAction, ***REMOVED***, 5);
+			acf.addAction(pluralAction, pluralCallback, 5);
+			acf.addAction(singleAction, singleCallback, 5);
 			
 		}
 	});		
@@ -1964,22 +1964,22 @@
 		
 		events: {
 			'submit #post':					'onSubmit',
-			'mouseenter .acf-field-list': 	'***REMOVED***',
+			'mouseenter .acf-field-list': 	'onHoverSortable',
 			'click .add-field':				'onClickAdd',
 		},
 		
 		actions: {
-			'removed_field_object':			'***REMOVED***',
-			'sortstop_field_object':		'***REMOVED***',
+			'removed_field_object':			'onRemovedField',
+			'sortstop_field_object':		'onReorderField',
 			'delete_field_object':			'onDeleteField',
-			'change_field_object_type':		'***REMOVED***',
-			'duplicate_field_object':		'***REMOVED***'
+			'change_field_object_type':		'onChangeFieldType',
+			'duplicate_field_object':		'onDuplicateField'
 		},
 		
 		onSubmit: function( e, $el ){
 			
 			// vars
-			var fields = acf.***REMOVED***();
+			var fields = acf.getFieldObjects();
 			
 			// loop
 			fields.map(function( field ){
@@ -1987,11 +1987,11 @@
 			});
 		},
 		
-		***REMOVED***: function( field ){
+		setFieldMenuOrder: function( field ){
 			this.renderFields( field.$el.parent() );
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onHoverSortable: function( e, $el ){
 			
 			// bail early if already sortable
 			if( $el.hasClass('ui-sortable') ) return;
@@ -2001,22 +2001,22 @@
 				handle: '.acf-sortable-handle',
 				connectWith: '.acf-field-list',
 				start: function( e, ui ){
-					var field = acf.***REMOVED***( ui.item );
+					var field = acf.getFieldObject( ui.item );
 			        ui.placeholder.height( ui.item.height() );
 			        acf.doAction('sortstart_field_object', field, $el);
 			    },
 				update: function( e, ui ){
-					var field = acf.***REMOVED***( ui.item );
+					var field = acf.getFieldObject( ui.item );
 					acf.doAction('sortstop_field_object', field, $el);
 				}
 			});
 		},
 		
-		***REMOVED***: function( field, $list ){
+		onRemovedField: function( field, $list ){
 			this.renderFields( $list );
 		},
 		
-		***REMOVED***: function( field, $list ){
+		onReorderField: function( field, $list ){
 			field.updateParent();
 			this.renderFields( $list );
 		},
@@ -2029,12 +2029,12 @@
 			});
 		},
 		
-		***REMOVED***: function( field ){
+		onChangeFieldType: function( field ){
 			// this caused sub fields to disapear if changing type back...
 			//this.onDeleteField( field );	
 		},
 		
-		***REMOVED***: function( field, newField ){
+		onDuplicateField: function( field, newField ){
 			
 			// check for children
 			var children = newField.getFields();
@@ -2055,13 +2055,13 @@
 			}
 			
 			// set menu order
-			this.***REMOVED***( newField );
+			this.setFieldMenuOrder( newField );
 		},
 		
 		renderFields: function( $list ){
 			
 			// vars
-			var fields = acf.***REMOVED***({
+			var fields = acf.getFieldObjects({
 				list: $list
 			});
 			
@@ -2104,7 +2104,7 @@
 			});
 			
 			// get instance
-			var newField = acf.***REMOVED***( $newField );
+			var newField = acf.getFieldObject( $newField );
 			
 			// props
 			newField.prop('key', newKey);
@@ -2141,7 +2141,7 @@
 (function($, undefined){
 	
 	/**
-	*  ***REMOVED***
+	*  locationManager
 	*
 	*  Field group location rules functionality 
 	*
@@ -2152,35 +2152,35 @@
 	*  @return	void
 	*/
 	
-	var ***REMOVED*** = new acf.Model({
+	var locationManager = new acf.Model({
 		
-		id: '***REMOVED***',
+		id: 'locationManager',
 		wait: 'ready',
 		
 		events: {
-			'click .add-location-rule':			'***REMOVED***',
-			'click .add-location-group':		'***REMOVED***',
-			'click .remove-location-rule':		'***REMOVED***',
-			'change .refresh-location-rule':	'***REMOVED***'
+			'click .add-location-rule':			'onClickAddRule',
+			'click .add-location-group':		'onClickAddGroup',
+			'click .remove-location-rule':		'onClickRemoveRule',
+			'change .refresh-location-rule':	'onChangeRemoveRule'
 		},
 		
 		initialize: function(){
 			this.$el = $('#acf-field-group-locations');
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onClickAddRule: function( e, $el ){
 			this.addRule( $el.closest('tr') );
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onClickRemoveRule: function( e, $el ){
 			this.removeRule( $el.closest('tr') );
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onChangeRemoveRule: function( e, $el ){
 			this.changeRule( $el.closest('tr') );
 		},
 		
-		***REMOVED***: function( e, $el ){
+		onClickAddGroup: function( e, $el ){
 			this.addGroup();
 		},
 		
@@ -2215,7 +2215,7 @@
 			// ajax
 			$.ajax({
 				url: acf.get('ajaxurl'),
-				data: acf.***REMOVED***(ajaxdata),
+				data: acf.prepareForAjax(ajaxdata),
 				type: 'post',
 				dataType: 'html',
 				success: function( html ){
@@ -2244,7 +2244,7 @@
 })(jQuery);
 (function($, undefined){
 	
-	var _acf = acf.***REMOVED***( acf );
+	var _acf = acf.getCompatibility( acf );
 	
 	/**
 	*  fieldGroupCompatibility
@@ -2262,22 +2262,22 @@
 		
 		save_field: function( $field, type ){
 			type = (type !== undefined) ? type : 'settings';
-			acf.***REMOVED***( $field ).save( type );
+			acf.getFieldObject( $field ).save( type );
 		},
 		
 		delete_field: function( $field, animate ){
 			animate = (animate !== undefined) ? animate : true;
-			acf.***REMOVED***( $field ).delete({
+			acf.getFieldObject( $field ).delete({
 				animate: animate
 			});
 		},
 		
 		update_field_meta: function( $field, name, value ){
-			acf.***REMOVED***( $field ).prop( name, value );
+			acf.getFieldObject( $field ).prop( name, value );
 		},
 		
 		delete_field_meta: function( $field, name ){
-			acf.***REMOVED***( $field ).prop( name, null );
+			acf.getFieldObject( $field ).prop( name, null );
 		}
 	};
 	
@@ -2459,11 +2459,11 @@
 	var actionManager = new acf.Model({
 		
 		actions: {
-			'open_field_object': 			'***REMOVED***',
-			'close_field_object': 			'***REMOVED***',
-			'add_field_object': 			'***REMOVED***',
+			'open_field_object': 			'onOpenFieldObject',
+			'close_field_object': 			'onCloseFieldObject',
+			'add_field_object': 			'onAddFieldObject',
 			'duplicate_field_object': 		'onDuplicateFieldObject',
-			'delete_field_object': 			'***REMOVED***',
+			'delete_field_object': 			'onDeleteFieldObject',
 			'change_field_object_type': 	'onChangeFieldObjectType',
 			'change_field_object_label': 	'onChangeFieldObjectLabel',
 			'change_field_object_name': 	'onChangeFieldObjectName',
@@ -2471,7 +2471,7 @@
 			'sortstop_field_object':		'onChangeFieldObjectParent'
 		},
 		
-		***REMOVED***: function( field ){
+		onOpenFieldObject: function( field ){
 			acf.doAction('open_field', field.$el);
 			acf.doAction('open_field/type=' + field.get('type'), field.$el);
 			
@@ -2479,12 +2479,12 @@
 			acf.doAction('render_field_settings/type=' + field.get('type'), field.$el);
 		},
 		
-		***REMOVED***: function( field ){
+		onCloseFieldObject: function( field ){
 			acf.doAction('close_field', field.$el);
 			acf.doAction('close_field/type=' + field.get('type'), field.$el);
 		},
 		
-		***REMOVED***: function( field ){
+		onAddFieldObject: function( field ){
 			acf.doAction('add_field', field.$el);
 			acf.doAction('add_field/type=' + field.get('type'), field.$el);
 		},
@@ -2494,7 +2494,7 @@
 			acf.doAction('duplicate_field/type=' + field.get('type'), field.$el);
 		},
 		
-		***REMOVED***: function( field ){
+		onDeleteFieldObject: function( field ){
 			acf.doAction('delete_field', field.$el);
 			acf.doAction('delete_field/type=' + field.get('type'), field.$el);
 		},

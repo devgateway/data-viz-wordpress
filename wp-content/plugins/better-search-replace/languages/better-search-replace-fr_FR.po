@@ -127,8 +127,8 @@ msgid "Run Search/Replace"
 msgstr "Rechercher/Remplacer"
 
 #. Plugin URI of the plugin/theme
-msgid "http://***REMOVED***.com/better-search-replace"
-msgstr "http://***REMOVED***.com/better-search-replace"
+msgid "http://expandedfronts.com/better-search-replace"
+msgstr "http://expandedfronts.com/better-search-replace"
 
 #. Description of the plugin/theme
 msgid "A small plugin for running a search/replace on your WordPress database."
@@ -141,5 +141,5 @@ msgid "Expanded Fronts"
 msgstr "Expanded Fronts"
 
 #. Author URI of the plugin/theme
-msgid "http://***REMOVED***.com"
-msgstr "http://***REMOVED***.com"
+msgid "http://expandedfronts.com"
+msgstr "http://expandedfronts.com"

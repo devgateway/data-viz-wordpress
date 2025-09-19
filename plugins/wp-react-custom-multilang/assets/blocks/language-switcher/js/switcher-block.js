@@ -3,9 +3,9 @@ jQuery(document).ready(function($){
 		let switcherDiv = $('.wp-block-wpm-language-switcher')
 		let findUl = $(switcherDiv).find('ul');
 
-		let ***REMOVED*** = switcherDiv.find('.wpm-switcher-select');
+		let selectSwitcher = switcherDiv.find('.wpm-switcher-select');
 
-		if(findUl.length > 0 || ***REMOVED***.length > 0){
+		if(findUl.length > 0 || selectSwitcher.length > 0){
 
 			let nonce = wpm_localize_data.wpm_block_switch_nonce;
 
@@ -35,7 +35,7 @@ jQuery(document).ready(function($){
 						});
 					}
 
-					if(***REMOVED***.length > 0){
+					if(selectSwitcher.length > 0){
 						$('.wp-block-wpm-language-switcher .wpm-language-switcher option').each(function(i, e){
 							var lang = $(this).data('lang');
 

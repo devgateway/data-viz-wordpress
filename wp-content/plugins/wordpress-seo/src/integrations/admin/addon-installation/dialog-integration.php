@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Discussed in Tech Council, a better solution is being worked on.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Discussed in Tech Council, a better solution is being worked on.
 
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
@@ -66,7 +66,7 @@ class Dialog_Integration implements Integration_Interface {
 	 */
 	public function start_addon_installation() {
 		// Only show the dialog when we explicitly want to see it.
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: This is not a form.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: This is not a form.
 		if ( ! isset( $_GET['install'] ) || $_GET['install'] !== 'true' ) {
 			return;
 		}

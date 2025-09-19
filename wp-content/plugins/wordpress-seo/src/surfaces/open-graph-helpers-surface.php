@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Surfaces;
 
 use Yoast\WP\SEO\Exceptions\Forbidden_Property_Mutation_Exception;
 use Yoast\WP\SEO\Helpers\Open_Graph;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Open_Graph_Helpers_Surface.
@@ -18,16 +18,16 @@ class Open_Graph_Helpers_Surface {
 	/**
 	 * The DI container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	private $container;
 
 	/**
 	 * Loader constructor.
 	 *
-	 * @param ***REMOVED*** $container The dependency injection container.
+	 * @param ContainerInterface $container The dependency injection container.
 	 */
-	public function __construct( ***REMOVED*** $container ) {
+	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
 	}
 
@@ -64,7 +64,7 @@ class Open_Graph_Helpers_Surface {
 	 *
 	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
 	 */
-	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.***REMOVED*** -- __set must have a name and value - PHPCS #3715.
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
 		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
 	}
 

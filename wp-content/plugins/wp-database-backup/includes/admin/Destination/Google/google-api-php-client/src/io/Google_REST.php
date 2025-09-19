@@ -16,15 +16,15 @@
  */
 
 /**
- * This class implements the RESTful transport of ***REMOVED***()'s
+ * This class implements the RESTful transport of apiServiceRequest()'s
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
 class Google_REST {
   /**
-   * Executes a ***REMOVED*** using a RESTful call by transforming it into
-   * an ***REMOVED***, and executed via apiIO::***REMOVED***().
+   * Executes a apiServiceRequest using a RESTful call by transforming it into
+   * an apiHttpRequest, and executed via apiIO::authenticatedRequest().
    *
    * @param Google_HttpRequest $req
    * @return array decoded result
@@ -33,9 +33,9 @@ class Google_REST {
    */
   static public function execute(Google_HttpRequest $req) {
     $httpRequest = Google_Client::$io->makeRequest($req);
-    $***REMOVED*** = self::***REMOVED***($httpRequest);
-    $ret = isset($***REMOVED***['data'])
-        ? $***REMOVED***['data'] : $***REMOVED***;
+    $decodedResponse = self::decodeHttpResponse($httpRequest);
+    $ret = isset($decodedResponse['data'])
+        ? $decodedResponse['data'] : $decodedResponse;
     return $ret;
   }
 
@@ -47,14 +47,14 @@ class Google_REST {
    * @param Google_HttpRequest $response The http response to be decoded.
    * @return mixed|null
    */
-  public static function ***REMOVED***($response) {
-    $code = $response->***REMOVED***();
-    $body = $response->***REMOVED***();
+  public static function decodeHttpResponse($response) {
+    $code = $response->getResponseHttpCode();
+    $body = $response->getResponseBody();
     $decoded = null;
     
     if ((intVal($code)) >= 300) {
       $decoded = json_decode($body, true);
-      $err = 'Error calling ' . $response->***REMOVED***() . ' ' . $response->getUrl();
+      $err = 'Error calling ' . $response->getRequestMethod() . ' ' . $response->getUrl();
       if ($decoded != null && isset($decoded['error']['message'])  && isset($decoded['error']['code'])) {
         // if we're getting a json encoded error definition, use that instead of the raw response
         // body for improved readability
@@ -85,21 +85,21 @@ class Google_REST {
    * @param array $params
    * @return string $requestUrl
    */
-  static function ***REMOVED***($servicePath, $restPath, $params) {
+  static function createRequestUri($servicePath, $restPath, $params) {
     $requestUrl = $servicePath . $restPath;
-    $***REMOVED*** = array();
+    $uriTemplateVars = array();
     $queryVars = array();
     foreach ($params as $paramName => $paramSpec) {
       // Discovery v1.0 puts the canonical location under the 'location' field.
       if (! isset($paramSpec['location'])) {
-        $paramSpec['location'] = $paramSpec['***REMOVED***'];
+        $paramSpec['location'] = $paramSpec['restParameterType'];
       }
 
       if ($paramSpec['type'] == 'boolean') {
         $paramSpec['value'] = ($paramSpec['value']) ? 'true' : 'false';
       }
       if ($paramSpec['location'] == 'path') {
-        $***REMOVED***[$paramName] = $paramSpec['value'];
+        $uriTemplateVars[$paramName] = $paramSpec['value'];
       } else {
         if (isset($paramSpec['repeated']) && is_array($paramSpec['value'])) {
           foreach ($paramSpec['value'] as $value) {
@@ -111,9 +111,9 @@ class Google_REST {
       }
     }
 
-    if (count($***REMOVED***)) {
-      $***REMOVED*** = new URI_Template_Parser($requestUrl);
-      $requestUrl = $***REMOVED***->expand($***REMOVED***);
+    if (count($uriTemplateVars)) {
+      $uriTemplateParser = new URI_Template_Parser($requestUrl);
+      $requestUrl = $uriTemplateParser->expand($uriTemplateVars);
     }
     //FIXME work around for the the uri template lib which url encodes
     // the @'s & confuses our servers.

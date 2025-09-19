@@ -73,7 +73,7 @@
 		var bsr_error_wrap = $( '#bsr-error-wrap' );
 		search_replace_submit.on( 'click', function( e ) {
 
-			e.***REMOVED***();
+			e.preventDefault();
 
 			if ( ! search_replace_submit.hasClass( 'button-disabled' ) ) {
 

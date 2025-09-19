@@ -6,8 +6,8 @@ import type { Properties } from 'csstype';
 /**
  * Internal dependencies
  */
-import { ***REMOVED***, ***REMOVED*** } from './helper';
-import type { CornerProps, ***REMOVED*** } from './style-picker';
+import { cleanEmptyObject, sanitizeUnitValue } from './helper';
+import type { CornerProps, DirectionProps } from './style-picker';
 
 function getCssPropertyWithFourDirection(
 	property: keyof Properties,
@@ -48,23 +48,23 @@ function getCssPropertyWithFourDirection(
  */
 export function updatePadding(
 	styles: Properties,
-	values: Partial< ***REMOVED*** > | undefined
+	values: Partial< DirectionProps > | undefined
 ): Properties {
 	if ( ! values ) {
 		return styles;
 	}
 
-	const top = values.top ? ***REMOVED***( values.top ) : undefined;
-	const right = values.right ? ***REMOVED***( values.right ) : undefined;
-	const bottom = values.bottom ? ***REMOVED***( values.bottom ) : undefined;
-	const left = values.left ? ***REMOVED***( values.left ) : undefined;
+	const top = values.top ? sanitizeUnitValue( values.top ) : undefined;
+	const right = values.right ? sanitizeUnitValue( values.right ) : undefined;
+	const bottom = values.bottom ? sanitizeUnitValue( values.bottom ) : undefined;
+	const left = values.left ? sanitizeUnitValue( values.left ) : undefined;
 
 	const { padding, paddingTop, paddingRight, paddingBottom, paddingLeft, ...newStyles } = styles;
 
 	if ( ! top || ! right || ! bottom || ! left ) {
 		return {
 			...newStyles,
-			...***REMOVED***( {
+			...cleanEmptyObject( {
 				paddingTop: top,
 				paddingRight: right,
 				paddingBottom: bottom,
@@ -86,36 +86,36 @@ export function updatePadding(
  * @param values border-width values object.
  * @return  New Styles object.
  */
-export function ***REMOVED***(
+export function updateBorderWidth(
 	styles: Properties,
-	values: Partial< ***REMOVED*** > | undefined
+	values: Partial< DirectionProps > | undefined
 ): Properties {
 	if ( ! values ) {
 		return styles;
 	}
 
-	const top = values.top ? ***REMOVED***( values.top ) : undefined;
-	const right = values.right ? ***REMOVED***( values.right ) : undefined;
-	const bottom = values.bottom ? ***REMOVED***( values.bottom ) : undefined;
-	const left = values.left ? ***REMOVED***( values.left ) : undefined;
+	const top = values.top ? sanitizeUnitValue( values.top ) : undefined;
+	const right = values.right ? sanitizeUnitValue( values.right ) : undefined;
+	const bottom = values.bottom ? sanitizeUnitValue( values.bottom ) : undefined;
+	const left = values.left ? sanitizeUnitValue( values.left ) : undefined;
 
 	const {
 		borderWidth,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
+		borderTopWidth,
+		borderRightWidth,
+		borderBottomWidth,
+		borderLeftWidth,
 		...newStyles
 	} = styles;
 
 	if ( ! top || ! right || ! bottom || ! left ) {
 		return {
 			...newStyles,
-			...***REMOVED***( {
-				***REMOVED***: top,
-				***REMOVED***: right,
-				***REMOVED***: bottom,
-				***REMOVED***: left,
+			...cleanEmptyObject( {
+				borderTopWidth: top,
+				borderRightWidth: right,
+				borderBottomWidth: bottom,
+				borderLeftWidth: left,
 			} ),
 		};
 	}
@@ -133,9 +133,9 @@ export function ***REMOVED***(
  * @param values border-style values object.
  * @return New Styles object.
  */
-export function ***REMOVED***(
+export function updateBorderStyle(
 	styles: Properties,
-	values: Partial< ***REMOVED*** > | undefined
+	values: Partial< DirectionProps > | undefined
 ): Properties {
 	if ( ! values ) {
 		return styles;
@@ -148,21 +148,21 @@ export function ***REMOVED***(
 
 	const {
 		borderStyle,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
+		borderTopStyle,
+		borderRightStyle,
+		borderBottomStyle,
+		borderLeftStyle,
 		...newStyles
 	} = styles;
 
 	if ( ! top || ! right || ! bottom || ! left ) {
 		return {
 			...newStyles,
-			...***REMOVED***( {
-				***REMOVED***: top,
-				***REMOVED***: right,
-				***REMOVED***: bottom,
-				***REMOVED***: left,
+			...cleanEmptyObject( {
+				borderTopStyle: top,
+				borderRightStyle: right,
+				borderBottomStyle: bottom,
+				borderLeftStyle: left,
 			} ),
 		};
 	}
@@ -180,9 +180,9 @@ export function ***REMOVED***(
  * @param values border-color values object.
  * @return New Styles object.
  */
-export function ***REMOVED***(
+export function updateBorderColor(
 	styles: Properties,
-	values: Partial< ***REMOVED*** > | undefined
+	values: Partial< DirectionProps > | undefined
 ): Properties {
 	if ( ! values ) {
 		return styles;
@@ -195,21 +195,21 @@ export function ***REMOVED***(
 
 	const {
 		borderColor,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
+		borderTopColor,
+		borderRightColor,
+		borderBottomColor,
+		borderLeftColor,
 		...newStyles
 	} = styles;
 
 	if ( ! top || ! right || ! bottom || ! left ) {
 		return {
 			...newStyles,
-			...***REMOVED***( {
-				***REMOVED***: top,
-				***REMOVED***: right,
-				***REMOVED***: bottom,
-				***REMOVED***: left,
+			...cleanEmptyObject( {
+				borderTopColor: top,
+				borderRightColor: right,
+				borderBottomColor: bottom,
+				borderLeftColor: left,
 			} ),
 		};
 	}
@@ -229,7 +229,7 @@ export function ***REMOVED***(
  * @param values.vertical
  * @return New Styles object.
  */
-export function ***REMOVED***(
+export function updateBorderSpacing(
 	styles: Properties,
 	values: { horizontal?: string; vertical?: string } | undefined
 ): Properties {
@@ -239,8 +239,8 @@ export function ***REMOVED***(
 
 	const { borderSpacing, ...newStyles } = styles;
 
-	const horizontal = values.horizontal ? ***REMOVED***( values.horizontal ) : undefined;
-	const vertical = values.vertical ? ***REMOVED***( values.vertical ) : undefined;
+	const horizontal = values.horizontal ? sanitizeUnitValue( values.horizontal ) : undefined;
+	const vertical = values.vertical ? sanitizeUnitValue( values.vertical ) : undefined;
 
 	if ( horizontal === undefined && vertical === undefined ) {
 		return newStyles;
@@ -265,7 +265,7 @@ export function ***REMOVED***(
  * @param values border-radius values object.
  * @return  New Styles object.
  */
-export function ***REMOVED***(
+export function updateBorderRadius(
 	styles: Properties,
 	values: Partial< CornerProps > | undefined
 ): Properties {
@@ -273,15 +273,15 @@ export function ***REMOVED***(
 		return styles;
 	}
 
-	const topLeft = values?.topLeft ? ***REMOVED***( values.topLeft ) : undefined;
-	const topRight = values?.topRight ? ***REMOVED***( values.topRight ) : undefined;
-	const bottomRight = values?.bottomRight ? ***REMOVED***( values.bottomRight ) : undefined;
-	const bottomLeft = values?.bottomLeft ? ***REMOVED***( values.bottomLeft ) : undefined;
+	const topLeft = values?.topLeft ? sanitizeUnitValue( values.topLeft ) : undefined;
+	const topRight = values?.topRight ? sanitizeUnitValue( values.topRight ) : undefined;
+	const bottomRight = values?.bottomRight ? sanitizeUnitValue( values.bottomRight ) : undefined;
+	const bottomLeft = values?.bottomLeft ? sanitizeUnitValue( values.bottomLeft ) : undefined;
 
 	const {
 		borderRadius,
-		***REMOVED***,
-		***REMOVED***,
+		borderTopLeftRadius,
+		borderTopRightRadius,
 		borderBottomRightRadius,
 		borderBottomLeftRadius,
 		...newStyles
@@ -290,9 +290,9 @@ export function ***REMOVED***(
 	if ( ! topLeft || ! topRight || ! bottomRight || ! bottomLeft ) {
 		return {
 			...newStyles,
-			...***REMOVED***( {
-				***REMOVED***: topLeft,
-				***REMOVED***: topRight,
+			...cleanEmptyObject( {
+				borderTopLeftRadius: topLeft,
+				borderTopRightRadius: topRight,
 				borderBottomRightRadius: bottomRight,
 				borderBottomLeftRadius: bottomLeft,
 			} ),

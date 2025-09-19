@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Portfolio archive template
- * Slug: ***REMOVED***/template-archive-portfolio
+ * Slug: twentytwentyfour/template-archive-portfolio
  * Template Types: archive
  * Viewport width: 1400
  * Inserter: no
@@ -15,7 +15,7 @@
 
 	<!-- wp:query-title {"type":"archive","align":"wide","style":{"typography":{"lineHeight":"1"},"spacing":{"padding":{"top":"var:preset|spacing|50"}}}} /-->
 
-	<!-- wp:pattern {"slug":"***REMOVED***/posts-images-only-3-col"} /-->
+	<!-- wp:pattern {"slug":"twentytwentyfour/posts-images-only-3-col"} /-->
 
 </main>
 <!-- /wp:group -->

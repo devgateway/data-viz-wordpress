@@ -18,12 +18,12 @@ use InvalidArgumentException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 use YoastSEO_Vendor\League\OAuth2\Client\Tool\BearerAuthorizationTrait;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Represents a generic service provider that may be used to interact with any
- * OAuth 2.0 service provider, using Bearer token ***REMOVED***.
+ * OAuth 2.0 service provider, using Bearer token authentication.
  */
-class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***REMOVED***
+class GenericProvider extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider
 {
     use BearerAuthorizationTrait;
     /**
@@ -33,7 +33,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     /**
      * @var string
      */
-    private $***REMOVED***;
+    private $urlAccessToken;
     /**
      * @var string
      */
@@ -41,7 +41,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     /**
      * @var string
      */
-    private $***REMOVED***;
+    private $accessTokenMethod;
     /**
      * @var string
      */
@@ -53,7 +53,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     /**
      * @var string
      */
-    private $***REMOVED***;
+    private $scopeSeparator;
     /**
      * @var string
      */
@@ -93,16 +93,16 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
      */
     protected function getConfigurableOptions()
     {
-        return \array_merge($this->***REMOVED***(), ['***REMOVED***', 'accessTokenResourceOwnerId', '***REMOVED***', 'responseError', 'responseCode', 'responseResourceOwnerId', 'scopes', 'pkceMethod']);
+        return \array_merge($this->getRequiredOptions(), ['accessTokenMethod', 'accessTokenResourceOwnerId', 'scopeSeparator', 'responseError', 'responseCode', 'responseResourceOwnerId', 'scopes', 'pkceMethod']);
     }
     /**
      * Returns all options that are required.
      *
      * @return array
      */
-    protected function ***REMOVED***()
+    protected function getRequiredOptions()
     {
-        return ['urlAuthorize', '***REMOVED***', 'urlResourceOwnerDetails'];
+        return ['urlAuthorize', 'urlAccessToken', 'urlResourceOwnerDetails'];
     }
     /**
      * Verifies that all required options have been passed.
@@ -113,7 +113,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
      */
     private function assertRequiredOptions(array $options)
     {
-        $missing = \array_diff_key(\array_flip($this->***REMOVED***()), $options);
+        $missing = \array_diff_key(\array_flip($this->getRequiredOptions()), $options);
         if (!empty($missing)) {
             throw new \InvalidArgumentException('Required options not defined: ' . \implode(', ', \array_keys($missing)));
         }
@@ -130,7 +130,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->***REMOVED***;
+        return $this->urlAccessToken;
     }
     /**
      * @inheritdoc
@@ -142,16 +142,16 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     /**
      * @inheritdoc
      */
-    public function ***REMOVED***()
+    public function getDefaultScopes()
     {
         return $this->scopes;
     }
     /**
      * @inheritdoc
      */
-    protected function ***REMOVED***()
+    protected function getAccessTokenMethod()
     {
-        return $this->***REMOVED*** ?: parent::***REMOVED***();
+        return $this->accessTokenMethod ?: parent::getAccessTokenMethod();
     }
     /**
      * @inheritdoc
@@ -163,9 +163,9 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     /**
      * @inheritdoc
      */
-    protected function ***REMOVED***()
+    protected function getScopeSeparator()
     {
-        return $this->***REMOVED*** ?: parent::***REMOVED***();
+        return $this->scopeSeparator ?: parent::getScopeSeparator();
     }
     /**
      * @inheritdoc
@@ -177,7 +177,7 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     /**
      * @inheritdoc
      */
-    protected function checkResponse(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response, $data)
+    protected function checkResponse(\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response, $data)
     {
         if (!empty($data[$this->responseError])) {
             $error = $data[$this->responseError];
@@ -194,8 +194,8 @@ class ***REMOVED*** extends \YoastSEO_Vendor\League\OAuth2\Client\Provider\***RE
     /**
      * @inheritdoc
      */
-    protected function ***REMOVED***(array $response, \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken $token)
+    protected function createResourceOwner(array $response, \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken $token)
     {
-        return new \YoastSEO_Vendor\League\OAuth2\Client\Provider\***REMOVED***($response, $this->responseResourceOwnerId);
+        return new \YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericResourceOwner($response, $this->responseResourceOwnerId);
     }
 }

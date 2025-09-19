@@ -6,7 +6,7 @@
  */
 
 /**
- * Dictates the required methods for a Listener ***REMOVED***.
+ * Dictates the required methods for a Listener implementation.
  */
 interface WPSEO_Listener {
 

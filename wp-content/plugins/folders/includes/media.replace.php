@@ -460,7 +460,7 @@ class folders_replace_media {
                             $(document).on("click", ".media-trash-notice-footer a:not(.disabled), .write-in-config-file:not(.disabled)", function(e){
                                 $(this).addClass("disabled");
                                 $(".trash-spinner").addClass("animate");
-                                e.***REMOVED***();
+                                e.preventDefault();
                                 $.ajax({
                                     url: "<?php echo esc_url(admin_url("admin-ajax.php")) ?>",
                                     data: {
@@ -490,12 +490,12 @@ class folders_replace_media {
                             });
 
                             $(document).on("click", "#folder-trash-message .popup-form-content", function(e){
-                                e.***REMOVED***();
+                                e.stopPropagation();
                             });
 
                             <?php if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == "list" && isset($_REQUEST['attachment-filter']) && $_REQUEST['attachment-filter'] == "trash") { ?>
                             $(document).on("click", ".close-popup-button, .form-cancel-btn", function(e){
-                                e.***REMOVED***();
+                                e.preventDefault();
                                 $("#folder-trash-message").remove();
                                 $(".folder-popup-form").remove();
                             });
@@ -831,7 +831,7 @@ class folders_replace_media {
         if($new_file_name != $file_name) {
             global $wpdb;
 
-            $new_file_name = $this->***REMOVED***($new_file_name, $upload_dir['path'].DIRECTORY_SEPARATOR);
+            $new_file_name = $this->checkForFileName($new_file_name, $upload_dir['path'].DIRECTORY_SEPARATOR);
 
             $this->new_file_path = $upload_dir['path'].DIRECTORY_SEPARATOR.$new_file_name;
             $this->new_file_url = $upload_dir['url']."/".$new_file_name;
@@ -849,7 +849,7 @@ class folders_replace_media {
                 $post_id = wp_update_post($update_array, true);
 
                 // update post doesn't update GUID on updates.
-                $this->***REMOVED***();
+                $this->removeThumbImages();
 
                 $metadata = wp_generate_attachment_metadata($post->ID, $this->new_file_path);
                 wp_update_attachment_metadata($post->ID, $metadata);
@@ -858,7 +858,7 @@ class folders_replace_media {
 
                 update_post_meta( $attachment_id, '_wp_attached_file', trim(trim($post_upload, "/")."/".$new_file_name , "/"));
 
-                $this->***REMOVED***();
+                $this->searchAndReplace();
 
                 delete_post_meta($attachment_id, "folders_file_replaced");
                 add_post_meta( $attachment_id, "folders_file_replaced", time(), true);
@@ -975,7 +975,7 @@ class folders_replace_media {
             echo 'Invalid URL';
             exit;
         }
-        $form_action = $this->***REMOVED***($attachment_id);
+        $form_action = $this->getMediaReplaceURL($attachment_id);
         include_once dirname(dirname(__FILE__)) . WCP_DS . "/templates" . WCP_DS . "admin" . WCP_DS . "media-replace.php";
     }
 
@@ -994,7 +994,7 @@ class folders_replace_media {
 
         if(current_user_can("upload_files")) {
             if (wp_attachment_is('image', $post->ID)) {
-                $link = $this->***REMOVED***($post->ID);
+                $link = $this->getMediaReplaceURL($post->ID);
                 $newaction['replace_media'] = '<a style="color: ' . esc_attr($this->buttonColor) . '" href="' . esc_url($link) . '" rel="permalink">' . esc_html__("Replace media", "folders") . '</a>';
                 return array_merge($actions, $newaction);
             } else {
@@ -1015,7 +1015,7 @@ class folders_replace_media {
      * @return $url
      *
      */
-    public function ***REMOVED***($attach_id) {
+    public function getMediaReplaceURL($attach_id) {
         $url = admin_url( "upload.php");
         $url = add_query_arg(array(
             'page' => 'folders-replace-media',
@@ -1038,7 +1038,7 @@ class folders_replace_media {
     public function replace_meta_box($post) {
         if(current_user_can("upload_files")) {
             if (wp_attachment_is('image', $post->ID)) {
-                $link = $this->***REMOVED***($post->ID); ?>
+                $link = $this->getMediaReplaceURL($post->ID); ?>
                 <p><a style='background: <?php echo esc_attr($this->buttonColor) ?>; border-color: <?php echo esc_attr($this->buttonColor) ?>; color:#ffffff' href='<?php echo esc_url($link) ?>' class='button-secondary'><?php esc_html_e("Upload a new file", "folders") ?></a></p><p><?php esc_html_e("Click on the button to replace the file with another file", "folders") ?></p>
             <?php } else { ?>
                 <p><a style='color: <?php echo esc_attr($this->buttonColor) ?>; font-weight: 500' target='_blank' href='<?php echo esc_url($this->upgradeLink) ?>' ><?php esc_html_e("Upgrade to Pro", "folders") ?></a><?php esc_html_e("to replace any kind of files while uploading including pdf/svg/docx/etc & more.", "folders") ?></p>
@@ -1086,7 +1086,7 @@ class folders_replace_media {
 
         if(current_user_can("upload_files")) {
             if (wp_attachment_is('image', $post->ID)) {
-                $link = $this->***REMOVED***($post->ID);
+                $link = $this->getMediaReplaceURL($post->ID);
                 $form_fields["folders"] = [
                     "label" => esc_html__("Replace media", "folders"),
                     "input" => "html",
@@ -1166,7 +1166,7 @@ class folders_replace_media {
      */
 
     function validate_date($date, $format = 'Y-m-d') {
-        $d = DateTime::***REMOVED***($format, $date);
+        $d = DateTime::createFromFormat($format, $date);
         // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
         return $d && $d->format($format) === $date;
     }
@@ -1299,7 +1299,7 @@ class folders_replace_media {
                     }
 
                     if(strtolower($new_file_name) != strtolower($file_parts['basename'])) {
-                        $new_file_name = $this->***REMOVED***($new_file_name, $base_path . DIRECTORY_SEPARATOR);
+                        $new_file_name = $this->checkForFileName($new_file_name, $base_path . DIRECTORY_SEPARATOR);
                     }
 
                     $this->new_file_path = $base_path . DIRECTORY_SEPARATOR . $new_file_name;
@@ -1336,7 +1336,7 @@ class folders_replace_media {
                         // update post doesn't update GUID on updates.
                         $wpdb->update($wpdb->posts, array('guid' => $this->new_file_url), array('ID' => $attachment->ID));
 
-                        $this->***REMOVED***();
+                        $this->removeThumbImages();
 
                         $metadata = wp_generate_attachment_metadata($attachment->ID, $this->new_file_path);
                         wp_update_attachment_metadata($attachment->ID, $metadata);
@@ -1345,7 +1345,7 @@ class folders_replace_media {
 
 //                        update_post_meta( $attachment_id, '_wp_attached_file', trim(trim($post_upload, "/")."/".$new_file_name ), "/");
 
-                        $this->***REMOVED***();
+                        $this->searchAndReplace();
 
                         delete_post_meta($attachment_id, "folders_file_replaced");
                         add_post_meta( $attachment_id, "folders_file_replaced", time(), true);
@@ -1370,7 +1370,7 @@ class folders_replace_media {
      * @access public
      *
      */
-    public function ***REMOVED***($fileName, $filePath, $postFix = 0) {
+    public function checkForFileName($fileName, $filePath, $postFix = 0) {
         $new_file_name = $fileName;
         if(!empty($postFix)) {
             $file_array = explode(".", $fileName);
@@ -1380,7 +1380,7 @@ class folders_replace_media {
         if(!file_exists($filePath.$new_file_name)) {
             return $new_file_name;
         }
-        return $this->***REMOVED***($fileName, $filePath, ($postFix+1));
+        return $this->checkForFileName($fileName, $filePath, ($postFix+1));
     }
 
     public $replace_items = [];
@@ -1392,7 +1392,7 @@ class folders_replace_media {
      * @access public
      *
      */
-    public function ***REMOVED***() {
+    public function removeThumbImages() {
         if(!empty($this->old_image_meta) && isset($this->old_image_meta['sizes']) && !empty($this->upload_dir) && isset($this->upload_dir['path'])) {
             $path = $this->upload_dir['old_path'].DIRECTORY_SEPARATOR;
             foreach ($this->old_image_meta['sizes'] as $image) {
@@ -1411,7 +1411,7 @@ class folders_replace_media {
      * @return $string
      *
      */
-    public function ***REMOVED***() {
+    public function searchAndReplace() {
         if (wp_attachment_is('image', $this->attachment_id)) {
             $this->is_new_image = 1;
         }
@@ -1474,13 +1474,13 @@ class folders_replace_media {
      */
     function replaceURL() {
         /* check in post content */
-        $this->***REMOVED***();
+        $this->checkInPostContent();
 
         /* check in options */
-        $this->***REMOVED***();
+        $this->checkInOptions();
 
         /* check in meta */
-        $this->***REMOVED***();
+        $this->checkInMetaData();
 
         if(function_exists('folders_pro_clear_all_caches')) {
             folders_pro_clear_all_caches();
@@ -1495,7 +1495,7 @@ class folders_replace_media {
      * @return $string
      *
      */
-    function ***REMOVED***() {
+    function checkInPostContent() {
         global $wpdb;
         $post_table = $wpdb->prefix."posts";
         if(!empty($this->replace_items)) {
@@ -1525,7 +1525,7 @@ class folders_replace_media {
      * @return $string
      *
      */
-    function ***REMOVED***() {
+    function checkInOptions() {
         global $wpdb;
         $post_table = $wpdb->prefix."options";
         if(!empty($this->replace_items)) {
@@ -1555,7 +1555,7 @@ class folders_replace_media {
      * @return $string
      *
      */
-    function ***REMOVED***() {
+    function checkInMetaData() {
         $tables = array(
             array(
                 'table_name' => 'usermeta',
@@ -1632,7 +1632,7 @@ class folders_replace_media {
                 if (is_string($index))  {
                     $index_replaced = $this->findAndReplaceContent($index, $search, $replace, true);
                     if ($index_replaced !== $index)
-                        $content = $this->***REMOVED***($content, array($index => $index_replaced));
+                        $content = $this->changeArrayKey($content, array($index => $index_replaced));
                 }
             }
         }
@@ -1660,12 +1660,12 @@ class folders_replace_media {
      * @return $json
      *
      */
-    function ***REMOVED***($array, $set) {
+    function changeArrayKey($array, $set) {
         if (is_array($array) && is_array($set)) {
             $newArray = [];
             foreach ($array as $k => $v) {
                 $key = array_key_exists( $k, $set) ? $set[$k] : $k;
-                $newArray[$key] = is_array($v) ? $this->***REMOVED***($v, $set) : $v;
+                $newArray[$key] = is_array($v) ? $this->changeArrayKey($v, $set) : $v;
             }
             return $newArray;
         }

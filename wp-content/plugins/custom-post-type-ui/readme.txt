@@ -68,8 +68,8 @@ Custom Post Type UI development is managed on GitHub, with official releases pub
 * Updated: Minimum WordPress version to version 6.3, minimum PHP version to 7.4.
 
 = 1.14.0 - 2023-08-07 =
-* Added: "Scroll to top" links in CPTUI pages. Props @***REMOVED***
-* Added: Remembers toggled states for CPTUI settings panels. Props @***REMOVED*** and @ramsesdelr
+* Added: "Scroll to top" links in CPTUI pages. Props @aslamatwebdevstudios
+* Added: Remembers toggled states for CPTUI settings panels. Props @aslamatwebdevstudios and @ramsesdelr
 * Updated: Notes about slugs for both post types and taxonomies.
 * Updated: Support/FAQ section with more accurate links.
 
@@ -111,8 +111,8 @@ Custom Post Type UI development is managed on GitHub, with official releases pub
 * Updated: Minimum WordPress version to version 6.3, minimum PHP version to 7.4.
 
 = 1.14.0 - 2023-08-07 =
-* Added: "Scroll to top" links in CPTUI pages. Props @***REMOVED***
-* Added: Remembers toggled states for CPTUI settings panels. Props @***REMOVED*** and @ramsesdelr
+* Added: "Scroll to top" links in CPTUI pages. Props @aslamatwebdevstudios
+* Added: Remembers toggled states for CPTUI settings panels. Props @aslamatwebdevstudios and @ramsesdelr
 * Updated: Notes about slugs for both post types and taxonomies.
 * Updated: Support/FAQ section with more accurate links.
 

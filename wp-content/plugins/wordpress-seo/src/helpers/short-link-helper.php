@@ -110,9 +110,9 @@ class Short_Link_Helper {
 			'user_language'    => \get_user_locale(),
 		];
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			$admin_page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 			if ( ! empty( $admin_page ) ) {
 				$data['screen'] = $admin_page;

@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 /**
@@ -61,7 +61,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	];
 
 	/**
-	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data ***REMOVED*** method.
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 				'yoast_name'       => 'title-tax-' . $tax->name,
 				'transform_method' => 'simple_import',
 			];
-			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/***REMOVED***' ]             = [
+			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/metaDescription' ]             = [
 				'yoast_name'       => 'metadesc-tax-' . $tax->name,
 				'transform_method' => 'simple_import',
 			];
