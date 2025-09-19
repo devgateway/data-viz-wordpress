@@ -12,14 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 
-add_action( 'wp_db_backup_completed', array( '***REMOVED***', 'wp_db_backup_completed' ) );
+add_action( 'wp_db_backup_completed', array( 'WPDatabaseBackupCD', 'wp_db_backup_completed' ) );
 
 /**
- * ***REMOVED*** Class.
+ * WPDatabaseBackupCD Class.
  *
- * @class ***REMOVED***
+ * @class WPDatabaseBackupCD
  */
-class ***REMOVED*** {
+class WPDatabaseBackupCD {
 
 // Function to upload files to Backblaze B2
 public static function upload_backup_to_clouddrive($file_path, $file_name) {
@@ -115,7 +115,7 @@ public static function upload_backup_to_clouddrive($file_path, $file_name) {
 			
 			try {
 		
-                $ret = ***REMOVED***::upload_backup_to_clouddrive($args[1], $args[1]);
+                $ret = WPDatabaseBackupCD::upload_backup_to_clouddrive($args[1], $args[1]);
 				$args[2] = $args[2] .$ret['message'];
                 if ($ret['success']) {
                     $args[4] .= 'CloudDrive, ';

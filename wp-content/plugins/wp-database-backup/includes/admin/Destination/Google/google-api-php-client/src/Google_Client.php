@@ -49,7 +49,7 @@ require_once 'auth/Google_AssertionCredentials.php';
 require_once 'auth/Google_Signer.php';
 require_once 'auth/Google_P12Signer.php';
 require_once 'service/Google_BatchRequest.php';
-require_once 'external/***REMOVED***.php';
+require_once 'external/URITemplateParser.php';
 require_once 'auth/Google_Auth.php';
 require_once 'cache/Google_Cache.php';
 require_once 'io/Google_IO.php';
@@ -123,7 +123,7 @@ class Google_Client {
   }
 
   public function authenticate($code = null) {
-    $service = $this->***REMOVED***();
+    $service = $this->prepareService();
     $this->authenticated = true;
     return self::$auth->authenticate($service, $code);
   }
@@ -132,7 +132,7 @@ class Google_Client {
    * @return array
    * @visible For Testing
    */
-  public function ***REMOVED***() {
+  public function prepareService() {
     $service = array();
     $scopes = array();
     if ($this->scopes) {
@@ -159,16 +159,16 @@ class Google_Client {
 
   /**
    * Set the OAuth 2.0 access token using the string that resulted from calling authenticate()
-   * or Google_Client#***REMOVED***().
+   * or Google_Client#getAccessToken().
    * @param string $access_token JSON encoded string containing in the following format:
    * {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
    *  "expires_in":3600, "id_token":"TOKEN", "created":1320790426}
    */
-  public function ***REMOVED***($access_token) {
+  public function setAccessToken($access_token) {
     if ($access_token == null || 'null' == $access_token) {
       $access_token = null;
     }
-    self::$auth->***REMOVED***($access_token);
+    self::$auth->setAccessToken($access_token);
   }
 
   /**
@@ -184,7 +184,7 @@ class Google_Client {
    * @return string
    */
   public function createAuthUrl() {
-    $service = $this->***REMOVED***();
+    $service = $this->prepareService();
     return self::$auth->createAuthUrl($service['scope']);
   }
 
@@ -194,8 +194,8 @@ class Google_Client {
    * {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
    *  "expires_in":3600,"id_token":"TOKEN", "created":1320790426}
    */
-  public function ***REMOVED***() {
-    $token = self::$auth->***REMOVED***();
+  public function getAccessToken() {
+    $token = self::$auth->getAccessToken();
     return (null == $token || 'null' == $token) ? null : $token;
   }
 
@@ -203,17 +203,17 @@ class Google_Client {
    * Returns if the access_token is expired.
    * @return bool Returns True if the access_token is expired.
    */
-  public function ***REMOVED***() {
-    return self::$auth->***REMOVED***();
+  public function isAccessTokenExpired() {
+    return self::$auth->isAccessTokenExpired();
   }
 
   /**
    * Set the developer key to use, these are obtained through the API Console.
-   * @see http://code.google.com/apis/console-help/#***REMOVED***
+   * @see http://code.google.com/apis/console-help/#generatingdevkeys
    * @param string $developerKey
    */
-  public function ***REMOVED***($developerKey) {
-    self::$auth->***REMOVED***($developerKey);
+  public function setDeveloperKey($developerKey) {
+    self::$auth->setDeveloperKey($developerKey);
   }
 
   /**
@@ -235,21 +235,21 @@ class Google_Client {
   }
 
   /**
-   * @param string $***REMOVED*** Possible values for approval_prompt include:
+   * @param string $approvalPrompt Possible values for approval_prompt include:
    *  {@code "force"} to force the approval UI to appear. (This is the default value)
    *  {@code "auto"} to request auto-approval when possible.
    */
-  public function ***REMOVED***($***REMOVED***) {
-    self::$auth->***REMOVED***($***REMOVED***);
+  public function setApprovalPrompt($approvalPrompt) {
+    self::$auth->setApprovalPrompt($approvalPrompt);
   }
 
   /**
    * Set the application name, this is included in the User-Agent HTTP header.
-   * @param string $***REMOVED***
+   * @param string $applicationName
    */
-  public function ***REMOVED***($***REMOVED***) {
+  public function setApplicationName($applicationName) {
     global $apiConfig;
-    $apiConfig['application_name'] = $***REMOVED***;
+    $apiConfig['application_name'] = $applicationName;
   }
 
   /**
@@ -273,7 +273,7 @@ class Google_Client {
    * Set the OAuth 2.0 Client Secret.
    * @param string $client_secret
    */
-  public function ***REMOVED***($client_secret) {
+  public function setClientSecret($client_secret) {
     global $apiConfig;
     $apiConfig['oauth2_client_secret'] = $client_secret;
     self::$auth->client_secret = $client_secret;
@@ -282,7 +282,7 @@ class Google_Client {
   /**
    * Get the OAuth 2.0 Client Secret.
    */
-  public function ***REMOVED***() {
+  public function getClientSecret() {
     return self::$auth->client_secret;
   }
 
@@ -290,7 +290,7 @@ class Google_Client {
    * Set the OAuth 2.0 Redirect URI.
    * @param string $redirectUri
    */
-  public function ***REMOVED***($redirectUri) {
+  public function setRedirectUri($redirectUri) {
     global $apiConfig;
     $apiConfig['oauth2_redirect_uri'] = $redirectUri;
     self::$auth->redirectUri = $redirectUri;
@@ -299,7 +299,7 @@ class Google_Client {
   /**
    * Get the OAuth 2.0 Redirect URI.
    */
-  public function ***REMOVED***() {
+  public function getRedirectUri() {
     return self::$auth->redirectUri;
   }
 
@@ -328,7 +328,7 @@ class Google_Client {
    * isn't provided.
    * @throws Google_AuthException
    * @param string|null $token The token (id_token) that should be verified.
-   * @return Google_LoginTicket Returns an ***REMOVED*** if the verification was
+   * @return Google_LoginTicket Returns an apiLoginTicket if the verification was
    * successful.
    */
   public function verifyIdToken($token = null) {
@@ -400,7 +400,7 @@ class Google_Client {
 
   /**
    * @static
-   * @return Google_Auth the ***REMOVED*** of apiAuth.
+   * @return Google_Auth the implementation of apiAuth.
    */
   public static function getAuth() {
     return Google_Client::$auth;
@@ -408,14 +408,14 @@ class Google_Client {
 
   /**
    * @static
-   * @return Google_IO the ***REMOVED*** of apiIo.
+   * @return Google_IO the implementation of apiIo.
    */
   public static function getIo() {
     return Google_Client::$io;
   }
 
   /**
-   * @return Google_Cache the ***REMOVED*** of apiCache.
+   * @return Google_Cache the implementation of apiCache.
    */
   public function getCache() {
     return Google_Client::$cache;

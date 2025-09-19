@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Built-In BCMath Modular ***REMOVED*** Engine
+ * Built-In BCMath Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,14 +16,14 @@ namespace phpseclib3\Math\BigInteger\Engines\BCMath;
 use phpseclib3\Math\BigInteger\Engines\BCMath;
 
 /**
- * Built-In BCMath Modular ***REMOVED*** Engine
+ * Built-In BCMath Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
 abstract class BuiltIn extends BCMath
 {
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param BCMath $x
      * @param BCMath $e

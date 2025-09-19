@@ -84,7 +84,7 @@ if (! defined('ABSPATH')) {
             return false;
         });
         jQuery(".folder-help-tooltip").click(function(e){
-            e.***REMOVED***();
+            e.stopPropagation();
             jQuery(".folder-help-btn").toggle();
             jQuery(".folder-help-form").toggleClass("active");
             if(jQuery(".folder-help-btn .tooltiptext").length) {
@@ -104,7 +104,7 @@ if (! defined('ABSPATH')) {
 
         });
         jQuery(".folder-help-form").click(function(e){
-            e.***REMOVED***();
+            e.stopPropagation();
         });
         jQuery("body").click(function(){
             jQuery(".folder-help-form").removeClass("active");

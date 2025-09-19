@@ -223,7 +223,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type' ) ) :
 			// Disable filters to ensure ACF loads raw data from DB.
 			acf_disable_filters();
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing
+			// phpcs:disable WordPress.Security.NonceVerification.Missing
 			$args = acf_parse_args(
 				$_POST,
 				array(
@@ -232,7 +232,7 @@ if ( ! class_exists( 'ACF_Admin_Internal_Post_Type' ) ) :
 					'field_groups' => array(),
 				)
 			);
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 			// Verify nonce and user capability.
 			if ( ! wp_verify_nonce( $args['nonce'], 'acf_nonce' ) || ! acf_current_user_can_admin() || ! $args['post_id'] ) {

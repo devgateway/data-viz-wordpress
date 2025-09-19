@@ -1,18 +1,18 @@
 import {
-    ***REMOVED***
+    getColorClassName
 } from '@wordpress/block-editor';
 
 const SaveComponent = (props) => {
     const {setAttributes} = props;
     const {
         customBackgroundColor,
-        ***REMOVED***,
+        backgroundColor,
         width,
         height,
         alignment
     } = props.attributes;
 
-    const divClass = ***REMOVED***('background-color', ***REMOVED***);
+    const divClass = getColorClassName('background-color', backgroundColor);
 
     const divStyles = {
         "background-color": customBackgroundColor,

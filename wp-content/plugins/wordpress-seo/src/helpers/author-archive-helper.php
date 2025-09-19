@@ -118,7 +118,7 @@ class Author_Archive_Helper {
 	/**
 	 * Returns whether the author has at least one public post.
 	 *
-	 * @***REMOVED*** It looks for the first ID through the ORM and converts it to a boolean.
+	 * @codeCoverageIgnore It looks for the first ID through the ORM and converts it to a boolean.
 	 *
 	 * @param int $author_id The author ID.
 	 *
@@ -149,7 +149,7 @@ class Author_Archive_Helper {
 	/**
 	 * Returns whether the author has at least one post with the is public null.
 	 *
-	 * @***REMOVED*** It looks for the first ID through the ORM and converts it to a boolean.
+	 * @codeCoverageIgnore It looks for the first ID through the ORM and converts it to a boolean.
 	 *
 	 * @param int $author_id The author ID.
 	 *

@@ -6,13 +6,13 @@ namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 use YoastSEO_Vendor\GuzzleHttp\Psr7\Exception\MalformedUriException;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 /**
- * PSR-7 URI ***REMOVED***.
+ * PSR-7 URI implementation.
  *
  * @author Michael Dowling
  * @author Tobias Schultze
  * @author Matthew Weier O'Phinney
  */
-class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED***
+class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \JsonSerializable
 {
     /**
      * Absolute http and https URIs require a host per RFC 7230 Section 2.7
@@ -49,8 +49,8 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
     private $query = '';
     /** @var string Uri fragment. */
     private $fragment = '';
-    /** @var string|null String ***REMOVED*** */
-    private $***REMOVED***;
+    /** @var string|null String representation */
+    private $composedComponents;
     public function __construct(string $uri = '')
     {
         if ($uri !== '') {
@@ -97,10 +97,10 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
     }
     public function __toString() : string
     {
-        if ($this->***REMOVED*** === null) {
-            $this->***REMOVED*** = self::***REMOVED***($this->scheme, $this->getAuthority(), $this->path, $this->query, $this->fragment);
+        if ($this->composedComponents === null) {
+            $this->composedComponents = self::composeComponents($this->scheme, $this->getAuthority(), $this->path, $this->query, $this->fragment);
         }
-        return $this->***REMOVED***;
+        return $this->composedComponents;
     }
     /**
      * Composes a URI reference string from its various components.
@@ -120,7 +120,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
      *
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-5.3
      */
-    public static function ***REMOVED***(?string $scheme, ?string $authority, string $path, ?string $query, ?string $fragment) : string
+    public static function composeComponents(?string $scheme, ?string $authority, string $path, ?string $query, ?string $fragment) : string
     {
         $uri = '';
         // weak type checks to also accept null until we can add scalar type hints
@@ -146,7 +146,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
      * Whether the URI has the default port of the current scheme.
      *
      * `Psr\Http\Message\UriInterface::getPort` may return null or the standard port. This method can be used
-     * independently of the ***REMOVED***.
+     * independently of the implementation.
      */
     public static function isDefaultPort(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri) : bool
     {
@@ -233,7 +233,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
      * @param UriInterface $uri URI to use as a base.
      * @param string       $key Query string key to remove.
      */
-    public static function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, string $key) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
+    public static function withoutQueryValue(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, string $key) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {
         $result = self::getFilteredQueryString($uri, [$key]);
         return $uri->withQuery(\implode('&', $result));
@@ -251,25 +251,25 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
      * @param string       $key   Key to set.
      * @param string|null  $value Value to set
      */
-    public static function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, string $key, ?string $value) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
+    public static function withQueryValue(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, string $key, ?string $value) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {
         $result = self::getFilteredQueryString($uri, [$key]);
-        $result[] = self::***REMOVED***($key, $value);
+        $result[] = self::generateQueryString($key, $value);
         return $uri->withQuery(\implode('&', $result));
     }
     /**
      * Creates a new URI with multiple specific query string values.
      *
-     * It has the same behavior as ***REMOVED***() but for an associative array of key => value.
+     * It has the same behavior as withQueryValue() but for an associative array of key => value.
      *
      * @param UriInterface    $uri           URI to use as a base.
      * @param (string|null)[] $keyValueArray Associative array of key and values
      */
-    public static function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, array $keyValueArray) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
+    public static function withQueryValues(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, array $keyValueArray) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {
         $result = self::getFilteredQueryString($uri, \array_keys($keyValueArray));
         foreach ($keyValueArray as $key => $value) {
-            $result[] = self::***REMOVED***((string) $key, $value !== null ? (string) $value : null);
+            $result[] = self::generateQueryString((string) $key, $value !== null ? (string) $value : null);
         }
         return $uri->withQuery(\implode('&', $result));
     }
@@ -334,8 +334,8 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         $new = clone $this;
         $new->scheme = $scheme;
-        $new->***REMOVED*** = null;
-        $new->***REMOVED***();
+        $new->composedComponents = null;
+        $new->removeDefaultPort();
         $new->validateState();
         return $new;
     }
@@ -350,7 +350,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         $new = clone $this;
         $new->userInfo = $info;
-        $new->***REMOVED*** = null;
+        $new->composedComponents = null;
         $new->validateState();
         return $new;
     }
@@ -362,7 +362,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         $new = clone $this;
         $new->host = $host;
-        $new->***REMOVED*** = null;
+        $new->composedComponents = null;
         $new->validateState();
         return $new;
     }
@@ -374,8 +374,8 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         $new = clone $this;
         $new->port = $port;
-        $new->***REMOVED*** = null;
-        $new->***REMOVED***();
+        $new->composedComponents = null;
+        $new->removeDefaultPort();
         $new->validateState();
         return $new;
     }
@@ -387,7 +387,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         $new = clone $this;
         $new->path = $path;
-        $new->***REMOVED*** = null;
+        $new->composedComponents = null;
         $new->validateState();
         return $new;
     }
@@ -399,7 +399,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         $new = clone $this;
         $new->query = $query;
-        $new->***REMOVED*** = null;
+        $new->composedComponents = null;
         return $new;
     }
     public function withFragment($fragment) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
@@ -410,7 +410,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         $new = clone $this;
         $new->fragment = $fragment;
-        $new->***REMOVED*** = null;
+        $new->composedComponents = null;
         return $new;
     }
     public function jsonSerialize() : string
@@ -434,7 +434,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         if (isset($parts['pass'])) {
             $this->userInfo .= ':' . $this->filterUserInfoComponent($parts['pass']);
         }
-        $this->***REMOVED***();
+        $this->removeDefaultPort();
     }
     /**
      * @param mixed $scheme
@@ -506,7 +506,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
             return !\in_array(\rawurldecode(\explode('=', $part)[0]), $decodedKeys, \true);
         });
     }
-    private static function ***REMOVED***(string $key, ?string $value) : string
+    private static function generateQueryString(string $key, ?string $value) : string
     {
         // Query string separators ("=", "&") within the key or value need to be encoded
         // (while preventing double-encoding) before setting the query string. All other
@@ -517,7 +517,7 @@ class Uri implements \YoastSEO_Vendor\Psr\Http\Message\UriInterface, \***REMOVED
         }
         return $queryString;
     }
-    private function ***REMOVED***() : void
+    private function removeDefaultPort() : void
     {
         if ($this->port !== null && self::isDefaultPort($this)) {
             $this->port = null;

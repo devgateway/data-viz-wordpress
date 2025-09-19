@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2018-09-06 12:21+1000\n"
 "PO-Revision-Date: 2018-12-11 09:20+0100\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:80
 msgid "Advanced Custom Fields"
@@ -365,7 +365,7 @@ msgstr "Zvolit %s"
 
 #: includes/admin/admin-field-groups.php:767
 msgid "Synchronise field group"
-msgstr "***REMOVED*** skupinu polí"
+msgstr "Synchronizujte skupinu polí"
 
 #: includes/admin/admin-field-groups.php:767
 #: includes/admin/admin-field-groups.php:797
@@ -1148,7 +1148,7 @@ msgstr "Lokální JSON"
 
 #: includes/admin/views/settings-info.php:95
 msgid ""
-"New auto export to JSON feature improves speed and allows for ***REMOVED***."
+"New auto export to JSON feature improves speed and allows for syncronisation."
 msgstr ""
 "Nová funkce automatického exportu do JSONu zvyšuje rychlost a umožňuje "
 "synchronizaci."
@@ -2712,7 +2712,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "Zobrazit tlačítka nahrávání médií?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:429
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "Zpoždění inicializace?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:430
@@ -3267,9 +3267,9 @@ msgstr ""
 "\"%s\">podrobnosti a ceny</a>."
 
 #. Plugin URI of the plugin/theme
-#| msgid "http://www.***REMOVED***.com/"
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+#| msgid "http://www.advancedcustomfields.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 #| msgid "elliot condon"

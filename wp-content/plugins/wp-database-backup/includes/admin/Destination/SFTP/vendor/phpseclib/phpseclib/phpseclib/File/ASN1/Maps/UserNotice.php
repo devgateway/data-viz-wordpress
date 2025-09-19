@@ -28,7 +28,7 @@ abstract class UserNotice
             'noticeRef' => [
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP,
+            ] + NoticeReference::MAP,
             'explicitText' => [
                 'optional' => true,
                 'implicit' => true

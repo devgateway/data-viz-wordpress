@@ -55,7 +55,7 @@ class Permalink extends Module {
 			'%second%',
 			'%author%',
 		);
-		$***REMOVED*** = array(
+		$rewritereplace = array(
 			$this->option->get_front_struct( $post_type ),
 			$post->ID,
 			date( 'Y', $post_date ),
@@ -67,7 +67,7 @@ class Permalink extends Module {
 			$author,
 		);
 
-		return str_replace( $rewritecode, $***REMOVED***, $post_link );
+		return str_replace( $rewritecode, $rewritereplace, $post_link );
 
 	}
 

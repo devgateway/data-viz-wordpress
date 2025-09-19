@@ -161,7 +161,7 @@ class WPM_Setup {
 	 */
 	public function get_original_home_url() {
 		if ( ! $this->original_home_url ) {
-			$this->original_home_url = ***REMOVED***( home_url() );
+			$this->original_home_url = untrailingslashit( home_url() );
 		}
 
 		return $this->original_home_url;
@@ -823,7 +823,7 @@ class WPM_Setup {
 	private function get_lang_from_url() {
 		if ( ! $this->url_language ) {
 			$url_lang = '';
-			$parts    = explode( '/', ltrim( ***REMOVED***( $this->get_original_request_uri() ), '/' ) );
+			$parts    = explode( '/', ltrim( trailingslashit( $this->get_original_request_uri() ), '/' ) );
 			$lang     = $parts[0];
 
 			if ( isset( $this->languages[ $lang ] ) ) {

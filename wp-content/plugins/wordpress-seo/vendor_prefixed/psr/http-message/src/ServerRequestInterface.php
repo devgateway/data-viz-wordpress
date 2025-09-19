@@ -3,7 +3,7 @@
 namespace YoastSEO_Vendor\Psr\Http\Message;
 
 /**
- * ***REMOVED*** of an incoming, server-side HTTP request.
+ * Representation of an incoming, server-side HTTP request.
  *
  * Per the HTTP specification, this interface includes properties for
  * each of the following:
@@ -40,7 +40,7 @@ namespace YoastSEO_Vendor\Psr\Http\Message;
  * be implemented such that they retain the internal state of the current
  * message and return an instance that contains the changed state.
  */
-interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
 {
     /**
      * Retrieve server parameters.
@@ -51,7 +51,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      *
      * @return array
      */
-    public function ***REMOVED***() : array;
+    public function getServerParams() : array;
     /**
      * Retrieve cookies.
      *
@@ -62,7 +62,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      *
      * @return array
      */
-    public function ***REMOVED***() : array;
+    public function getCookieParams() : array;
     /**
      * Return an instance with the specified cookies.
      *
@@ -80,7 +80,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      * @param array $cookies Array of key/value pairs representing cookies.
      * @return static
      */
-    public function ***REMOVED***(array $cookies) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
+    public function withCookieParams(array $cookies) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
     /**
      * Retrieve query string arguments.
      *
@@ -93,7 +93,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      *
      * @return array
      */
-    public function ***REMOVED***() : array;
+    public function getQueryParams() : array;
     /**
      * Return an instance with the specified query string arguments.
      *
@@ -116,7 +116,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      *     $_GET.
      * @return static
      */
-    public function ***REMOVED***(array $query) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
+    public function withQueryParams(array $query) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
     /**
      * Retrieve normalized file upload data.
      *
@@ -124,12 +124,12 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      * an instance of Psr\Http\Message\UploadedFileInterface.
      *
      * These values MAY be prepared from $_FILES or the message body during
-     * instantiation, or MAY be injected via ***REMOVED***().
+     * instantiation, or MAY be injected via withUploadedFiles().
      *
      * @return array An array tree of UploadedFileInterface instances; an empty
      *     array MUST be returned if no data is present.
      */
-    public function ***REMOVED***() : array;
+    public function getUploadedFiles() : array;
     /**
      * Create a new instance with the specified uploaded files.
      *
@@ -141,7 +141,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      * @return static
      * @throws \InvalidArgumentException if an invalid structure is provided.
      */
-    public function ***REMOVED***(array $uploadedFiles) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
+    public function withUploadedFiles(array $uploadedFiles) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
     /**
      * Retrieve any parameters provided in the request body.
      *
@@ -168,7 +168,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      * ONLY to inject the contents of $_POST.
      *
      * The data IS NOT REQUIRED to come from $_POST, but MUST be the results of
-     * deserializing the request body content. ***REMOVED***/parsing returns
+     * deserializing the request body content. Deserialization/parsing returns
      * structured data, and, as such, this method ONLY accepts arrays or objects,
      * or a null value if nothing was available to parse.
      *
@@ -186,7 +186,7 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      * @throws \InvalidArgumentException if an unsupported argument type is
      *     provided.
      */
-    public function ***REMOVED***($data) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
+    public function withParsedBody($data) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
     /**
      * Retrieve attributes derived from the request.
      *
@@ -245,5 +245,5 @@ interface ServerRequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\***RE
      * @param string $name The attribute name.
      * @return static
      */
-    public function ***REMOVED***(string $name) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
+    public function withoutAttribute(string $name) : \YoastSEO_Vendor\Psr\Http\Message\ServerRequestInterface;
 }

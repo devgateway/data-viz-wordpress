@@ -4,7 +4,7 @@
  * Plugin Name:       WordPress Importer
  * Plugin URI:        https://wordpress.org/plugins/wordpress-importer/
  * Description:       Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.
- * Author:            ***REMOVED***
+ * Author:            wordpressdotorg
  * Author URI:        https://wordpress.org/
  * Version:           0.8.4
  * Requires at least: 5.2
@@ -23,7 +23,7 @@ if ( ! defined( 'IMPORT_DEBUG' ) ) {
 	define( 'IMPORT_DEBUG', WP_DEBUG );
 }
 
-/** WordPress Import ***REMOVED*** API */
+/** WordPress Import Administration API */
 require_once ABSPATH . 'wp-admin/includes/import.php';
 
 if ( ! class_exists( 'WP_Importer' ) ) {
@@ -59,7 +59,7 @@ function wordpress_importer_init() {
 	 * @global WP_Import $wp_import
 	 */
 	$GLOBALS['wp_import'] = new WP_Import();
-	// phpcs:ignore WordPress.WP.***REMOVED***
+	// phpcs:ignore WordPress.WP.CapitalPDangit
 	register_importer( 'wordpress', 'WordPress', __( 'Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file.', 'wordpress-importer' ), array( $GLOBALS['wp_import'], 'dispatch' ) );
 }
 add_action( 'admin_init', 'wordpress_importer_init' );

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Handles the dismiss route for "New" badges of new content types in settings menu.
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Content_Type_Visibility_Dismiss_New_Route implements Route_Interface {
 

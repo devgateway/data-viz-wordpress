@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Discussed in Tech Council, a better solution is being worked on.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Discussed in Tech Council, a better solution is being worked on.
 
 namespace Yoast\WP\SEO\Integrations\Admin\Addon_Installation;
 
@@ -90,7 +90,7 @@ class Installation_Integration implements Integration_Interface {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are only strictly comparing action below.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only strictly comparing action below.
 		$action = \wp_unslash( $_GET['action'] );
 		if ( $action !== 'install' ) {
 			return;

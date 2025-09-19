@@ -23,10 +23,10 @@ use phpseclib3\File\ASN1;
  *  ECParameters ::= CHOICE {
  *    namedCurve         OBJECT IDENTIFIER
  *    -- implicitCurve   NULL
- *    -- ***REMOVED***  ***REMOVED***
+ *    -- specifiedCurve  SpecifiedECDomain
  *  }
- *    -- implicitCurve and ***REMOVED*** MUST NOT be used in PKIX.
- *    -- Details for ***REMOVED*** can be found in [X9.62].
+ *    -- implicitCurve and specifiedCurve MUST NOT be used in PKIX.
+ *    -- Details for SpecifiedECDomain can be found in [X9.62].
  *    -- Any future additions to this CHOICE should be coordinated
  *    -- with ANSI X9.
  *
@@ -39,7 +39,7 @@ abstract class ECParameters
         'children' => [
             'namedCurve' => ['type' => ASN1::TYPE_OBJECT_IDENTIFIER],
             'implicitCurve' => ['type' => ASN1::TYPE_NULL],
-            '***REMOVED***' => ***REMOVED***::MAP
+            'specifiedCurve' => SpecifiedECDomain::MAP
         ]
     ];
 }

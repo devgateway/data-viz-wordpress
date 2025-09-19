@@ -124,7 +124,7 @@
 		/**
 		 * Find all plans that are not hidden and have trial.
 		 *
-		 * @author Daniele Alessandra (@***REMOVED***)
+		 * @author Daniele Alessandra (@danielealessandra)
 		 *
 		 * @param FS_Plugin_Plan[] $plans
 		 *
@@ -139,7 +139,7 @@
 		/**
 		 * Find all plans filtered by trial or visibility.
 		 *
-		 * @author Daniele Alessandra (@***REMOVED***)
+		 * @author Daniele Alessandra (@danielealessandra)
 		 *
 		 * @param FS_Plugin_Plan[] $plans
 		 * @param boolean          $should_have_trials

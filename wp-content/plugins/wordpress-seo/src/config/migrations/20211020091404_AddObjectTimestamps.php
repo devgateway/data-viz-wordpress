@@ -6,9 +6,9 @@ use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
 
 /**
- * ***REMOVED*** class.
+ * AddObjectTimestamps class.
  */
-class ***REMOVED*** extends Migration {
+class AddObjectTimestamps extends Migration {
 
 	/**
 	 * The plugin this migration belongs to.

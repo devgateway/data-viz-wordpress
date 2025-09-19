@@ -51,7 +51,7 @@ abstract class Base
      *
      * @return object
      */
-    public function ***REMOVED***(BigInteger $x)
+    public function convertInteger(BigInteger $x)
     {
         return $this->factory->newInteger($x);
     }
@@ -61,9 +61,9 @@ abstract class Base
      *
      * @return integer
      */
-    public function ***REMOVED***()
+    public function getLengthInBytes()
     {
-        return $this->factory->***REMOVED***();
+        return $this->factory->getLengthInBytes();
     }
 
     /**
@@ -88,10 +88,10 @@ abstract class Base
      */
     public function multiplyPoint(array $p, BigInteger $d)
     {
-        $***REMOVED*** = isset($p[2]);
-        $r = $***REMOVED*** ?
+        $alreadyInternal = isset($p[2]);
+        $r = $alreadyInternal ?
             [[], $p] :
-            [[], $this->***REMOVED***($p)];
+            [[], $this->convertToInternal($p)];
 
         $d = $d->toBits();
         for ($i = 0; $i < strlen($d); $i++) {
@@ -100,7 +100,7 @@ abstract class Base
             $r[$d_i] = $this->doublePoint($r[$d_i]);
         }
 
-        return $***REMOVED*** ? $r[0] : $this->***REMOVED***($r[0]);
+        return $alreadyInternal ? $r[0] : $this->convertToAffine($r[0]);
     }
 
     /**
@@ -129,10 +129,10 @@ abstract class Base
         }
 
         if (!isset($this->order)) {
-            throw new \***REMOVED***('setOrder needs to be called before this method');
+            throw new \RuntimeException('setOrder needs to be called before this method');
         }
         if ($x->compare($this->order) > 0 || $x->compare($zero) <= 0) {
-            throw new \***REMOVED***('x must be between 1 and the order of the curve');
+            throw new \RangeException('x must be between 1 and the order of the curve');
         }
     }
 
@@ -169,7 +169,7 @@ abstract class Base
      *
      * @return object[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToAffine(array $p)
     {
         return $p;
     }
@@ -179,7 +179,7 @@ abstract class Base
      *
      * @return object[]
      */
-    public function ***REMOVED***(array $p)
+    public function convertToInternal(array $p)
     {
         return $p;
     }
@@ -206,13 +206,13 @@ abstract class Base
      *
      * @return int[]
      */
-    public function ***REMOVED***(array $points, array $scalars)
+    public function multiplyAddPoints(array $points, array $scalars)
     {
-        $p1 = $this->***REMOVED***($points[0]);
-        $p2 = $this->***REMOVED***($points[1]);
+        $p1 = $this->convertToInternal($points[0]);
+        $p2 = $this->convertToInternal($points[1]);
         $p1 = $this->multiplyPoint($p1, $scalars[0]);
         $p2 = $this->multiplyPoint($p2, $scalars[1]);
         $r = $this->addPoint($p1, $p2);
-        return $this->***REMOVED***($r);
+        return $this->convertToAffine($r);
     }
 }

@@ -202,7 +202,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
     - Updated and improved sanitization options for both frontend and admin
 
 * **Code Improvements**:
-    - Changed synchronous ***REMOVED*** to asynchronous in vanilla JS version to improve performance and remove Chrome deprecation warnings
+    - Changed synchronous XMLHttpRequest to asynchronous in vanilla JS version to improve performance and remove Chrome deprecation warnings
     - Removed console logging statements from JavaScript files for cleaner browser console
     - Reorganized upload validation flow for better performance
     - Added proper error messages for failed security checks
@@ -246,7 +246,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
 	- Optimized nonce verification and meta updates in the featured image functions to prevent unnecessary database writes.
 
 * **General Code Improvements**:
-	- Refactored code to reduce redundancy and improve ***REMOVED***.
+	- Refactored code to reduce redundancy and improve maintainability.
 	- Added detailed inline documentation for better code clarity and future development.
 
 * **Experimental Integration with WP All Import**:
@@ -364,7 +364,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
 = 2.3.9 =
 * Modified plugin action meta link for settings page.
 * Changed some language throughout the plugin.
-* Added ***REMOVED*** for ShortPixel Image Optimization.
+* Added recommendation for ShortPixel Image Optimization.
 * Added conditional to check post type supports thumbnail before setting meta data.
 
 = 2.3.8 =
@@ -375,7 +375,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
 * Added WP version check to wrap mime fix function needed for WP v4.7.1 - v4.7.2.
 * Moved mime fix into mime type file.
 * Modified admin notice code to make it neater.
-* Fix: attachment-modal.php issues with some servers and external SVG files (props to @***REMOVED*** & @***REMOVED*** for providing fixes, as I could not consistently reproduce the issue).
+* Fix: attachment-modal.php issues with some servers and external SVG files (props to @abstractourist & @malthejorgensen for providing fixes, as I could not consistently reproduce the issue).
 * Compatibility: Changed a line to provide wider compatibility, specifically for WordPress Bedrock on a LEMP stack.
 * Compatibility: Added another snippet to the JS to support IE11 (apparently people still use IE).
 * Added more FAQ's.
@@ -483,7 +483,7 @@ You need to add the mime type for svg and svgz to: "MLA Settings > Media Library
 = 2.0 =
 * Added an admin settings page with instructions plus options for restricting to admin use only and setting a custom CSS target class.
 * Whole plugin completely re-written and re-structured.
-* Added option to restrict SVG uploads to ***REMOVED*** only.
+* Added option to restrict SVG uploads to administrators only.
 * Added field for custom CSS target class.
 * Added stylesheet to admin settings page.
 
@@ -589,7 +589,7 @@ Update to address PHP warnings and notices on the image widget when wp_debug is 
 * Fixed missing links in settings page.
 
 = 2.3.9 =
-* Cleaned up some code and language, now stores less meta when not needed and added a plugin ***REMOVED*** for Image Optimization.
+* Cleaned up some code and language, now stores less meta when not needed and added a plugin recommendation for Image Optimization.
 
 = 2.3.8 =
 * Adds better support for WooCommerce and Sensei. Fixes issue with featured images not showing up when auto insert class setting is on.

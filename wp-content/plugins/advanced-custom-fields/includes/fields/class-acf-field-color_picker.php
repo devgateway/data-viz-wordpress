@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_color_picker' ) ) :
 			$this->category      = 'advanced';
 			$this->description   = __( 'An interactive UI for selecting a color, or specifying a Hex value.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-color-picker.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/color-picker/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/color-picker/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'default_value'  => '',
 				'enable_opacity' => false,
@@ -60,12 +60,12 @@ if ( ! class_exists( 'acf_field_color_picker' ) ) :
 				} else {
 					$scripts->localize(
 						'wp-color-picker',
-						'***REMOVED***',
+						'wpColorPickerL10n',
 						array(
 							'clear'            => __( 'Clear', 'acf' ),
-							'***REMOVED***'   => __( 'Clear color', 'acf' ),
+							'clearAriaLabel'   => __( 'Clear color', 'acf' ),
 							'defaultString'    => __( 'Default', 'acf' ),
-							'***REMOVED***' => __( 'Select default color', 'acf' ),
+							'defaultAriaLabel' => __( 'Select default color', 'acf' ),
 							'pick'             => __( 'Select Color', 'acf' ),
 							'defaultLabel'     => __( 'Color value', 'acf' ),
 						)
@@ -87,7 +87,7 @@ if ( ! class_exists( 'acf_field_color_picker' ) ) :
 
 			acf_localize_data(
 				array(
-					'***REMOVED***' => array(
+					'colorPickerL10n' => array(
 						'hex_string'  => __( 'Hex String', 'acf' ),
 						'rgba_string' => __( 'RGBA String', 'acf' ),
 					),

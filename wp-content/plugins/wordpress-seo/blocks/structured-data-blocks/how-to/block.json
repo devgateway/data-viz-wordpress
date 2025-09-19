@@ -36,7 +36,7 @@
       "source": "html",
       "selector": ".schema-how-to-description"
     },
-    "***REMOVED***": {
+    "jsonDescription": {
       "type": "string"
     },
     "steps": {
@@ -51,7 +51,7 @@
     "durationText": {
       "type": "string"
     },
-    "***REMOVED***": {
+    "defaultDurationText": {
       "type": "string"
     }
   },

@@ -411,7 +411,7 @@
                          * @author Leo Fajardo (@leorw)
                          * @since 2.2.4
                          */
-                        ***REMOVED***();
+                        toggleDropdown();
                     }
 				}).mouseout(function( evt ) {
                     var $relatedTarget = $( evt.relatedTarget );
@@ -439,9 +439,9 @@
 					    return $( this ).parent().is( ':not(.button-group)' );
                     }).removeClass('button-primary');
 
-					***REMOVED***( $this.find( '.fs-dropdown' ), false );
+					toggleDropdown( $this.find( '.fs-dropdown' ), false );
 				}).find( 'a.thickbox, .button:not(.fs-dropdown-arrow-button)' ).click(function() {
-                    ***REMOVED***();
+                    toggleDropdown();
                 });
 
 			<?php endif ?>
@@ -452,7 +452,7 @@
                     var $this     = $( this ),
                         $dropdown = $this.parents( '.fs-dropdown' );
 
-                    ***REMOVED***( $dropdown, ! $dropdown.hasClass( 'active' ) );
+                    toggleDropdown( $dropdown, ! $dropdown.hasClass( 'active' ) );
                 });
             }
 
@@ -465,11 +465,11 @@
              * @param {(Object|undefined)}  [$dropdown]
              * @param {(Boolean|undefined)} [state]
              */
-            function ***REMOVED***( $dropdown, state ) {
+            function toggleDropdown( $dropdown, state ) {
                 if ( undef === $dropdown ) {
-                    var $***REMOVED*** = $dropdowns.find( '.active' );
-                    if ( 0 !== $***REMOVED***.length ) {
-                        $dropdown = $***REMOVED***;
+                    var $activeDropdown = $dropdowns.find( '.active' );
+                    if ( 0 !== $activeDropdown.length ) {
+                        $dropdown = $activeDropdown;
                     }
                 }
 

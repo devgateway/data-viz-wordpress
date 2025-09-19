@@ -22,8 +22,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/columns',
 			array(
-				'name'  => '***REMOVED***-columns-overlap',
-				'label' => esc_html__( 'Overlap', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-columns-overlap',
+				'label' => esc_html__( 'Overlap', 'twentytwentyone' ),
 			)
 		);
 
@@ -31,8 +31,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/cover',
 			array(
-				'name'  => '***REMOVED***-border',
-				'label' => esc_html__( 'Borders', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-border',
+				'label' => esc_html__( 'Borders', 'twentytwentyone' ),
 			)
 		);
 
@@ -40,8 +40,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/group',
 			array(
-				'name'  => '***REMOVED***-border',
-				'label' => esc_html__( 'Borders', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-border',
+				'label' => esc_html__( 'Borders', 'twentytwentyone' ),
 			)
 		);
 
@@ -49,8 +49,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/image',
 			array(
-				'name'  => '***REMOVED***-border',
-				'label' => esc_html__( 'Borders', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-border',
+				'label' => esc_html__( 'Borders', 'twentytwentyone' ),
 			)
 		);
 
@@ -58,8 +58,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/image',
 			array(
-				'name'  => '***REMOVED***-image-frame',
-				'label' => esc_html__( 'Frame', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-image-frame',
+				'label' => esc_html__( 'Frame', 'twentytwentyone' ),
 			)
 		);
 
@@ -67,8 +67,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/latest-posts',
 			array(
-				'name'  => '***REMOVED***-latest-posts-dividers',
-				'label' => esc_html__( 'Dividers', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-latest-posts-dividers',
+				'label' => esc_html__( 'Dividers', 'twentytwentyone' ),
 			)
 		);
 
@@ -76,8 +76,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/latest-posts',
 			array(
-				'name'  => '***REMOVED***-latest-posts-borders',
-				'label' => esc_html__( 'Borders', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-latest-posts-borders',
+				'label' => esc_html__( 'Borders', 'twentytwentyone' ),
 			)
 		);
 
@@ -85,8 +85,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/media-text',
 			array(
-				'name'  => '***REMOVED***-border',
-				'label' => esc_html__( 'Borders', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-border',
+				'label' => esc_html__( 'Borders', 'twentytwentyone' ),
 			)
 		);
 
@@ -94,8 +94,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/separator',
 			array(
-				'name'  => '***REMOVED***-separator-thick',
-				'label' => esc_html__( 'Thick', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-separator-thick',
+				'label' => esc_html__( 'Thick', 'twentytwentyone' ),
 			)
 		);
 
@@ -103,8 +103,8 @@ if ( function_exists( 'register_block_style' ) ) {
 		register_block_style(
 			'core/social-links',
 			array(
-				'name'  => '***REMOVED***-social-icons-color',
-				'label' => esc_html__( 'Dark gray', '***REMOVED***' ),
+				'name'  => 'twentytwentyone-social-icons-color',
+				'label' => esc_html__( 'Dark gray', 'twentytwentyone' ),
 			)
 		);
 	}

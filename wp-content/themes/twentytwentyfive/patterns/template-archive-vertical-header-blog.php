@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Right-aligned archive
- * Slug: ***REMOVED***/template-archive-vertical-header-blog
+ * Slug: twentytwentyfive/template-archive-vertical-header-blog
  * Template Types: archive
  * Viewport width: 1400
  * Inserter: no
@@ -12,7 +12,7 @@
  */
 
 ?>
-<!-- wp:columns {"***REMOVED***":false,"style":{"spacing":{"padding":{"right":"0","left":"0","top":"0","bottom":"0"},"blockGap":{"left":"0"}}}} -->
+<!-- wp:columns {"isStackedOnMobile":false,"style":{"spacing":{"padding":{"right":"0","left":"0","top":"0","bottom":"0"},"blockGap":{"left":"0"}}}} -->
 <div class="wp-block-columns is-not-stacked-on-mobile" style="padding-top:0;padding-right:0;padding-bottom:0;padding-left:0">
 	<!-- wp:column {"width":"8rem"} -->
 	<div class="wp-block-column" style="flex-basis:8rem">
@@ -33,7 +33,7 @@
 			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>
 			<!-- /wp:spacer -->
 
-			<!-- wp:pattern {"slug":"***REMOVED***/template-query-loop-vertical-header-blog"} /-->
+			<!-- wp:pattern {"slug":"twentytwentyfive/template-query-loop-vertical-header-blog"} /-->
 
 			<!-- wp:spacer {"height":"var:preset|spacing|50"} -->
 			<div style="height:var(--wp--preset--spacing--50)" aria-hidden="true" class="wp-block-spacer"></div>

@@ -16,7 +16,7 @@ namespace phpseclib3\Crypt\Common;
 use phpseclib3\Crypt\DSA;
 use phpseclib3\Crypt\Hash;
 use phpseclib3\Crypt\RSA;
-use phpseclib3\Exception\***REMOVED***;
+use phpseclib3\Exception\NoKeyLoadedException;
 use phpseclib3\Exception\UnsupportedFormatException;
 use phpseclib3\Math\BigInteger;
 
@@ -76,7 +76,7 @@ abstract class AsymmetricKey
      * @see self::initialize_static_variables()
      * @var array
      */
-    private static $***REMOVED*** = [];
+    private static $invisiblePlugins = [];
 
     /**
      * Available Engines
@@ -136,14 +136,14 @@ abstract class AsymmetricKey
     {
         self::initialize_static_variables();
 
-        $class = new \***REMOVED***(static::class);
+        $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
-            throw new \***REMOVED***('load() should not be called from final classes (' . static::class . ')');
+            throw new \RuntimeException('load() should not be called from final classes (' . static::class . ')');
         }
 
         $components = false;
         foreach (self::$plugins[static::ALGORITHM]['Keys'] as $format) {
-            if (isset(self::$***REMOVED***[static::ALGORITHM]) && in_array($format, self::$***REMOVED***[static::ALGORITHM])) {
+            if (isset(self::$invisiblePlugins[static::ALGORITHM]) && in_array($format, self::$invisiblePlugins[static::ALGORITHM])) {
                 continue;
             }
             try {
@@ -157,7 +157,7 @@ abstract class AsymmetricKey
         }
 
         if ($components === false) {
-            throw new ***REMOVED***('Unable to read key');
+            throw new NoKeyLoadedException('Unable to read key');
         }
 
         $components['format'] = $format;
@@ -178,11 +178,11 @@ abstract class AsymmetricKey
      * @param string|array $key
      * @param string $password optional
      */
-    public static function ***REMOVED***($key, $password = '')
+    public static function loadPrivateKey($key, $password = '')
     {
         $key = self::load($key, $password);
         if (!$key instanceof PrivateKey) {
-            throw new ***REMOVED***('The key that was loaded was not a private key');
+            throw new NoKeyLoadedException('The key that was loaded was not a private key');
         }
         return $key;
     }
@@ -197,7 +197,7 @@ abstract class AsymmetricKey
     {
         $key = self::load($key);
         if (!$key instanceof PublicKey) {
-            throw new ***REMOVED***('The key that was loaded was not a public key');
+            throw new NoKeyLoadedException('The key that was loaded was not a public key');
         }
         return $key;
     }
@@ -208,11 +208,11 @@ abstract class AsymmetricKey
      * @return AsymmetricKey
      * @param string|array $key
      */
-    public static function ***REMOVED***($key)
+    public static function loadParameters($key)
     {
         $key = self::load($key);
         if (!$key instanceof PrivateKey && !$key instanceof PublicKey) {
-            throw new ***REMOVED***('The key that was loaded was not a parameter');
+            throw new NoKeyLoadedException('The key that was loaded was not a parameter');
         }
         return $key;
     }
@@ -237,7 +237,7 @@ abstract class AsymmetricKey
         }
 
         if ($components === false) {
-            throw new ***REMOVED***('Unable to read key');
+            throw new NoKeyLoadedException('Unable to read key');
         }
 
         $components['format'] = $format;
@@ -258,11 +258,11 @@ abstract class AsymmetricKey
      * @param string $key
      * @param string $password optional
      */
-    public static function ***REMOVED***($type, $key, $password = false)
+    public static function loadPrivateKeyFormat($type, $key, $password = false)
     {
         $key = self::loadFormat($type, $key, $password);
         if (!$key instanceof PrivateKey) {
-            throw new ***REMOVED***('The key that was loaded was not a private key');
+            throw new NoKeyLoadedException('The key that was loaded was not a private key');
         }
         return $key;
     }
@@ -274,11 +274,11 @@ abstract class AsymmetricKey
      * @param string $type
      * @param string $key
      */
-    public static function ***REMOVED***($type, $key)
+    public static function loadPublicKeyFormat($type, $key)
     {
         $key = self::loadFormat($type, $key);
         if (!$key instanceof PublicKey) {
-            throw new ***REMOVED***('The key that was loaded was not a public key');
+            throw new NoKeyLoadedException('The key that was loaded was not a public key');
         }
         return $key;
     }
@@ -290,11 +290,11 @@ abstract class AsymmetricKey
      * @param string $type
      * @param string|array $key
      */
-    public static function ***REMOVED***($type, $key)
+    public static function loadParametersFormat($type, $key)
     {
         $key = self::loadFormat($type, $key);
         if (!$key instanceof PrivateKey && !$key instanceof PublicKey) {
-            throw new ***REMOVED***('The key that was loaded was not a parameter');
+            throw new NoKeyLoadedException('The key that was loaded was not a parameter');
         }
         return $key;
     }
@@ -307,7 +307,7 @@ abstract class AsymmetricKey
      * @param string $method optional
      * @return mixed
      */
-    protected static function ***REMOVED***($format, $type, $method = null)
+    protected static function validatePlugin($format, $type, $method = null)
     {
         $type = strtolower($type);
         if (!isset(self::$plugins[static::ALGORITHM][$format][$type])) {
@@ -330,7 +330,7 @@ abstract class AsymmetricKey
     {
         if (!isset(self::$plugins[static::ALGORITHM][$format])) {
             self::$plugins[static::ALGORITHM][$format] = [];
-            foreach (new \***REMOVED***(__DIR__ . '/../' . static::ALGORITHM . '/Formats/' . $format . '/') as $file) {
+            foreach (new \DirectoryIterator(__DIR__ . '/../' . static::ALGORITHM . '/Formats/' . $format . '/') as $file) {
                 if ($file->getExtension() != 'php') {
                     continue;
                 }
@@ -339,13 +339,13 @@ abstract class AsymmetricKey
                     continue;
                 }
                 $type = 'phpseclib3\Crypt\\' . static::ALGORITHM . '\\Formats\\' . $format . '\\' . $name;
-                $reflect = new \***REMOVED***($type);
+                $reflect = new \ReflectionClass($type);
                 if ($reflect->isTrait()) {
                     continue;
                 }
                 self::$plugins[static::ALGORITHM][$format][strtolower($name)] = $type;
                 if ($reflect->hasConstant('IS_INVISIBLE')) {
-                    self::$***REMOVED***[static::ALGORITHM][] = $type;
+                    self::$invisiblePlugins[static::ALGORITHM][] = $type;
                 }
             }
         }
@@ -378,11 +378,11 @@ abstract class AsymmetricKey
         self::initialize_static_variables();
 
         if (class_exists($fullname)) {
-            $meta = new \***REMOVED***($fullname);
+            $meta = new \ReflectionClass($fullname);
             $shortname = $meta->getShortName();
             self::$plugins[static::ALGORITHM]['Keys'][strtolower($shortname)] = $fullname;
             if ($meta->hasConstant('IS_INVISIBLE')) {
-                self::$***REMOVED***[static::ALGORITHM] = strtolower($name);
+                self::$invisiblePlugins[static::ALGORITHM] = strtolower($name);
             }
         }
     }
@@ -396,13 +396,13 @@ abstract class AsymmetricKey
      * @see self::load()
      * @return mixed
      */
-    public function ***REMOVED***()
+    public function getLoadedFormat()
     {
         if (empty($this->format)) {
-            throw new ***REMOVED***('This key was created with createKey - it was not loaded with load. Therefore there is no "loaded format"');
+            throw new NoKeyLoadedException('This key was created with createKey - it was not loaded with load. Therefore there is no "loaded format"');
         }
 
-        $meta = new \***REMOVED***($this->format);
+        $meta = new \ReflectionClass($this->format);
         return $meta->getShortName();
     }
 
@@ -440,7 +440,7 @@ abstract class AsymmetricKey
      * Flag to use internal engine only (useful for unit testing)
      *
      */
-    public static function ***REMOVED***()
+    public static function useInternalEngine()
     {
         static::$engines = [
             'PHP' => true,
@@ -507,7 +507,7 @@ abstract class AsymmetricKey
         $this->hmac->setKey($k);
         $v = $this->hmac->hash($v);
 
-        $qlen = $this->q->***REMOVED***();
+        $qlen = $this->q->getLengthInBytes();
 
         while (true) {
             $t = '';
@@ -537,7 +537,7 @@ abstract class AsymmetricKey
     private function int2octets($v)
     {
         $out = $v->toBytes();
-        $rolen = $this->q->***REMOVED***();
+        $rolen = $this->q->getLengthInBytes();
         if (strlen($out) < $rolen) {
             return str_pad($out, $rolen, "\0", STR_PAD_LEFT);
         } elseif (strlen($out) > $rolen) {

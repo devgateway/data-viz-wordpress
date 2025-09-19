@@ -5,9 +5,9 @@
  *
  * "Naked" Curve25519 private keys can pretty much be any sequence of random 32x bytes so unless
  * we have a "hidden" key handler pretty much every 32 byte string will be loaded as a curve25519
- * private key even if it probably isn't one by ***REMOVED***.
+ * private key even if it probably isn't one by PublicKeyLoader.
  *
- * "Naked" Curve25519 public keys also a string of 32 bytes so ***REMOVED*** between a "naked"
+ * "Naked" Curve25519 public keys also a string of 32 bytes so distinguishing between a "naked"
  * curve25519 private key and a public key is nigh impossible, hence separate plugins for each
  *
  * PHP version 5
@@ -20,7 +20,7 @@
 
 namespace phpseclib3\Crypt\EC\Formats\Keys;
 
-use phpseclib3\Crypt\EC\BaseCurves\Montgomery as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
 use phpseclib3\Crypt\EC\Curves\Curve25519;
 use phpseclib3\Crypt\EC\Curves\Curve448;
 use phpseclib3\Exception\UnsupportedFormatException;
@@ -31,7 +31,7 @@ use phpseclib3\Math\BigInteger;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class MontgomeryPrivate
 {
     /**
      * Is invisible flag
@@ -56,7 +56,7 @@ abstract class ***REMOVED***
                 $curve = new Curve448();
                 break;
             default:
-                throw new \***REMOVED***('The only supported lengths are 32 and 56');
+                throw new \LengthException('The only supported lengths are 32 and 56');
         }
 
         $components = ['curve' => $curve];
@@ -75,7 +75,7 @@ abstract class ***REMOVED***
      * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
      * @return string
      */
-    public static function savePublicKey(***REMOVED*** $curve, array $publicKey)
+    public static function savePublicKey(MontgomeryCurve $curve, array $publicKey)
     {
         return strrev($publicKey[0]->toBytes());
     }
@@ -90,10 +90,10 @@ abstract class ***REMOVED***
      * @param string $password optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $privateKey, ***REMOVED*** $curve, array $publicKey, $secret = null, $password = '')
+    public static function savePrivateKey(BigInteger $privateKey, MontgomeryCurve $curve, array $publicKey, $secret = null, $password = '')
     {
         if (!empty($password) && is_string($password)) {
-            throw new UnsupportedFormatException('***REMOVED*** private keys do not support encryption');
+            throw new UnsupportedFormatException('MontgomeryPrivate private keys do not support encryption');
         }
 
         return $privateKey->toBytes();

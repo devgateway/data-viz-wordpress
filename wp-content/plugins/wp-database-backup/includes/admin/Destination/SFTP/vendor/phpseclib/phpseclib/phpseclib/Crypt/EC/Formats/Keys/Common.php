@@ -17,7 +17,7 @@ use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
 use phpseclib3\Crypt\EC\BaseCurves\Binary as BinaryCurve;
 use phpseclib3\Crypt\EC\BaseCurves\Prime as PrimeCurve;
-use phpseclib3\Crypt\EC\BaseCurves\***REMOVED*** as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
 use phpseclib3\Exception\UnsupportedCurveException;
 use phpseclib3\File\ASN1;
 use phpseclib3\File\ASN1\Maps;
@@ -42,14 +42,14 @@ trait Common
      *
      * @var bool
      */
-    protected static $***REMOVED*** = false;
+    protected static $childOIDsLoaded = false;
 
     /**
      * Use Named Curves
      *
      * @var bool
      */
-    private static $***REMOVED*** = true;
+    private static $useNamedCurves = true;
 
     /**
      * Initialize static variables
@@ -150,25 +150,25 @@ trait Common
 
                 // http://www.ecc-brainpool.org/download/Domain-parameters.pdf
                 // https://tools.ietf.org/html/rfc5639
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.1',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.2',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.3',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.4',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.5',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.6',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.7',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.8',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.9',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.10',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.11',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.12',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.13',
-                '***REMOVED***' => '1.3.36.3.3.2.8.1.1.14'
+                'brainpoolP160r1' => '1.3.36.3.3.2.8.1.1.1',
+                'brainpoolP160t1' => '1.3.36.3.3.2.8.1.1.2',
+                'brainpoolP192r1' => '1.3.36.3.3.2.8.1.1.3',
+                'brainpoolP192t1' => '1.3.36.3.3.2.8.1.1.4',
+                'brainpoolP224r1' => '1.3.36.3.3.2.8.1.1.5',
+                'brainpoolP224t1' => '1.3.36.3.3.2.8.1.1.6',
+                'brainpoolP256r1' => '1.3.36.3.3.2.8.1.1.7',
+                'brainpoolP256t1' => '1.3.36.3.3.2.8.1.1.8',
+                'brainpoolP320r1' => '1.3.36.3.3.2.8.1.1.9',
+                'brainpoolP320t1' => '1.3.36.3.3.2.8.1.1.10',
+                'brainpoolP384r1' => '1.3.36.3.3.2.8.1.1.11',
+                'brainpoolP384t1' => '1.3.36.3.3.2.8.1.1.12',
+                'brainpoolP512r1' => '1.3.36.3.3.2.8.1.1.13',
+                'brainpoolP512t1' => '1.3.36.3.3.2.8.1.1.14'
             ];
             ASN1::loadOIDs([
                 'prime-field' => '1.2.840.10045.1.1',
-                '***REMOVED***-two-field' => '1.2.840.10045.1.2',
-                '***REMOVED***-two-basis' => '1.2.840.10045.1.2.3',
+                'characteristic-two-field' => '1.2.840.10045.1.2',
+                'characteristic-two-basis' => '1.2.840.10045.1.2.3',
                 // per http://www.secg.org/SEC1-Ver-1.0.pdf#page=84, gnBasis "not used here"
                 'gnBasis' => '1.2.840.10045.1.2.3.1', // NULL
                 'tpBasis' => '1.2.840.10045.1.2.3.2', // Trinomial
@@ -185,7 +185,7 @@ trait Common
      *
      * @param \phpseclib3\Crypt\EC\BaseCurves\Base $curve
      */
-    public static function ***REMOVED***(BaseCurve $curve)
+    public static function setImplicitCurve(BaseCurve $curve)
     {
         self::$implicitCurve = $curve;
     }
@@ -197,10 +197,10 @@ trait Common
      * @param array $params
      * @return \phpseclib3\Crypt\EC\BaseCurves\Base|false
      */
-    protected static function ***REMOVED***(array $params)
+    protected static function loadCurveByParam(array $params)
     {
         if (count($params) > 1) {
-            throw new \***REMOVED***('No parameters are present');
+            throw new \RuntimeException('No parameters are present');
         }
         if (isset($params['namedCurve'])) {
             $curve = '\phpseclib3\Crypt\EC\Curves\\' . $params['namedCurve'];
@@ -211,17 +211,17 @@ trait Common
         }
         if (isset($params['implicitCurve'])) {
             if (!isset(self::$implicitCurve)) {
-                throw new \***REMOVED***('Implicit curves can be provided by calling ***REMOVED***');
+                throw new \RuntimeException('Implicit curves can be provided by calling setImplicitCurve');
             }
             return self::$implicitCurve;
         }
-        if (isset($params['***REMOVED***'])) {
-            $data = $params['***REMOVED***'];
+        if (isset($params['specifiedCurve'])) {
+            $data = $params['specifiedCurve'];
             switch ($data['fieldID']['fieldType']) {
                 case 'prime-field':
                     $curve = new PrimeCurve();
                     $curve->setModulo($data['fieldID']['parameters']);
-                    $curve->***REMOVED***(
+                    $curve->setCoefficients(
                         new BigInteger($data['curve']['a'], 256),
                         new BigInteger($data['curve']['b'], 256)
                     );
@@ -229,7 +229,7 @@ trait Common
                     $curve->setBasePoint(...$point);
                     $curve->setOrder($data['order']);
                     return $curve;
-                case '***REMOVED***-two-field':
+                case 'characteristic-two-field':
                     $curve = new BinaryCurve();
                     $params = ASN1::decodeBER($data['fieldID']['parameters']);
                     $params = ASN1::asn1map($params[0], Maps\Characteristic_two::MAP);
@@ -248,7 +248,7 @@ trait Common
                     $modulo[] = 0;
                     $curve->setModulo(...$modulo);
                     $len = ceil($modulo[0] / 8);
-                    $curve->***REMOVED***(
+                    $curve->setCoefficients(
                         Strings::bin2hex($data['curve']['a']),
                         Strings::bin2hex($data['curve']['b'])
                     );
@@ -260,7 +260,7 @@ trait Common
                     throw new UnsupportedCurveException('Field Type of ' . $data['fieldID']['fieldType'] . ' is not supported');
             }
         }
-        throw new \***REMOVED***('No valid parameters are present');
+        throw new \RuntimeException('No valid parameters are present');
     }
 
     /**
@@ -274,7 +274,7 @@ trait Common
      */
     public static function extractPoint($str, BaseCurve $curve)
     {
-        if ($curve instanceof ***REMOVED***) {
+        if ($curve instanceof TwistedEdwardsCurve) {
             // first step of point deciding as discussed at the following URL's:
             // https://tools.ietf.org/html/rfc8032#section-5.1.3
             // https://tools.ietf.org/html/rfc8032#section-5.2.3
@@ -284,11 +284,11 @@ trait Common
             $y[0] = $y[0] & chr(0x7F);
             $y = new BigInteger($y, 256);
             if ($y->compare($curve->getModulo()) >= 0) {
-                throw new \***REMOVED***('The Y coordinate should not be >= the modulo');
+                throw new \RuntimeException('The Y coordinate should not be >= the modulo');
             }
             $point = $curve->recoverX($y, $sign);
             if (!$curve->verifyPoint($point)) {
-                throw new \***REMOVED***('Unable to verify that point exists on curve');
+                throw new \RuntimeException('Unable to verify that point exists on curve');
             }
             return $point;
         }
@@ -303,7 +303,7 @@ trait Common
         }
 
         $keylen = strlen($str);
-        $order = $curve->***REMOVED***();
+        $order = $curve->getLengthInBytes();
         // point compression is being used
         if ($keylen == $order + 1) {
             return $curve->derivePoint($str);
@@ -317,18 +317,18 @@ trait Common
                 throw new \UnexpectedValueException('The first byte of an uncompressed point should be 04 - not ' . Strings::bin2hex($val));
             }
             $point = [
-                $curve->***REMOVED***(new BigInteger($x, 256)),
-                $curve->***REMOVED***(new BigInteger($y, 256))
+                $curve->convertInteger(new BigInteger($x, 256)),
+                $curve->convertInteger(new BigInteger($y, 256))
             ];
 
             if (!$curve->verifyPoint($point)) {
-                throw new \***REMOVED***('Unable to verify that point exists on curve');
+                throw new \RuntimeException('Unable to verify that point exists on curve');
             }
 
             return $point;
         }
 
-        throw new \UnexpectedValueException('The string ***REMOVED*** of the points is not of an appropriate length');
+        throw new \UnexpectedValueException('The string representation of the points is not of an appropriate length');
     }
 
     /**
@@ -340,29 +340,29 @@ trait Common
      * @param array $options optional
      * @return string|false
      */
-    private static function ***REMOVED***(BaseCurve $curve, $returnArray = false, array $options = [])
+    private static function encodeParameters(BaseCurve $curve, $returnArray = false, array $options = [])
     {
-        $***REMOVED*** = isset($options['namedCurve']) ? $options['namedCurve'] : self::$***REMOVED***;
+        $useNamedCurves = isset($options['namedCurve']) ? $options['namedCurve'] : self::$useNamedCurves;
 
-        $reflect = new \***REMOVED***($curve);
+        $reflect = new \ReflectionClass($curve);
         $name = $reflect->getShortName();
-        if ($***REMOVED***) {
+        if ($useNamedCurves) {
             if (isset(self::$curveOIDs[$name])) {
                 if ($reflect->isFinal()) {
-                    $reflect = $reflect->***REMOVED***();
+                    $reflect = $reflect->getParentClass();
                     $name = $reflect->getShortName();
                 }
                 return $returnArray ?
                     ['namedCurve' => $name] :
                     ASN1::encodeDER(['namedCurve' => $name], Maps\ECParameters::MAP);
             }
-            foreach (new \***REMOVED***(__DIR__ . '/../../Curves/') as $file) {
+            foreach (new \DirectoryIterator(__DIR__ . '/../../Curves/') as $file) {
                 if ($file->getExtension() != 'php') {
                     continue;
                 }
                 $testName = $file->getBasename('.php');
                 $class = 'phpseclib3\Crypt\EC\Curves\\' . $testName;
-                $reflect = new \***REMOVED***($class);
+                $reflect = new \ReflectionClass($class);
                 if ($reflect->isFinal()) {
                     continue;
                 }
@@ -429,7 +429,7 @@ trait Common
         // https://crypto.stackexchange.com/a/27914/4520
         // https://en.wikipedia.org/wiki/Schoof%E2%80%93Elkies%E2%80%93Atkin_algorithm
         if (!$order) {
-            throw new \***REMOVED***('Specified Curves need the order to be specified');
+            throw new \RuntimeException('Specified Curves need the order to be specified');
         }
         $point = $curve->getBasePoint();
         $x = $point[0]->toBytes();
@@ -463,8 +463,8 @@ trait Common
             ];
 
             return $returnArray ?
-                ['***REMOVED***' => $data] :
-                ASN1::encodeDER(['***REMOVED***' => $data], Maps\ECParameters::MAP);
+                ['specifiedCurve' => $data] :
+                ASN1::encodeDER(['specifiedCurve' => $data], Maps\ECParameters::MAP);
         }
         if ($curve instanceof BinaryCurve) {
             $modulo = $curve->getModulo();
@@ -505,7 +505,7 @@ trait Common
             $data = [
                 'version' => 'ecdpVer1',
                 'fieldID' => [
-                    'fieldType' => '***REMOVED***-two-field',
+                    'fieldType' => 'characteristic-two-field',
                     'parameters' => $params
                 ],
                 'curve' => [
@@ -517,8 +517,8 @@ trait Common
             ];
 
             return $returnArray ?
-                ['***REMOVED***' => $data] :
-                ASN1::encodeDER(['***REMOVED***' => $data], Maps\ECParameters::MAP);
+                ['specifiedCurve' => $data] :
+                ASN1::encodeDER(['specifiedCurve' => $data], Maps\ECParameters::MAP);
         }
 
         throw new UnsupportedCurveException('Curve cannot be serialized');
@@ -530,9 +530,9 @@ trait Common
      * A specified curve has all the coefficients, the base points, etc, explicitely included.
      * A specified curve is a more verbose way of representing a curve
      */
-    public static function ***REMOVED***()
+    public static function useSpecifiedCurve()
     {
-        self::$***REMOVED*** = false;
+        self::$useNamedCurves = false;
     }
 
     /**
@@ -544,6 +544,6 @@ trait Common
      */
     public static function useNamedCurve()
     {
-        self::$***REMOVED*** = true;
+        self::$useNamedCurves = true;
     }
 }

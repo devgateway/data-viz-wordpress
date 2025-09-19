@@ -111,7 +111,7 @@
 			}
 
 			if ( ! class_exists( 'Freemius_Api_WordPress' ) ) {
-				require_once WP_FS__DIR_SDK . '/***REMOVED***.php';
+				require_once WP_FS__DIR_SDK . '/FreemiusWordPress.php';
 			}
 
 			self::$_options = FS_Option_Manager::get_manager( WP_FS__OPTIONS_OPTION_NAME, true, true );
@@ -380,7 +380,7 @@
          */
         static function remote_request( $url, $remote_args ) {
             if ( ! class_exists( 'Freemius_Api_WordPress' ) ) {
-                require_once WP_FS__DIR_SDK . '/***REMOVED***.php';
+                require_once WP_FS__DIR_SDK . '/FreemiusWordPress.php';
             }
 
             if ( method_exists( 'Freemius_Api_WordPress', 'RemoteRequest' ) ) {
@@ -531,7 +531,7 @@
 		private function get_temporary_unavailable_error() {
 			return (object) array(
 				'error' => (object) array(
-					'type'    => '***REMOVED***',
+					'type'    => 'TemporaryUnavailable',
 					'message' => 'API is temporary unavailable, please retry in ' . ( self::$_cache->get_record_expiration( 'ping_test' ) - WP_FS__SCRIPT_START_TIME ) . ' sec.',
 					'code'    => 'temporary_unavailable',
 					'http'    => 503

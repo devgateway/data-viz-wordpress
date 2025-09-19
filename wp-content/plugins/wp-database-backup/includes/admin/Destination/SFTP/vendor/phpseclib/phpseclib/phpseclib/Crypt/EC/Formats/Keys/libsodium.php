@@ -3,7 +3,7 @@
 /**
  * libsodium Key Handler
  *
- * Different NaCl ***REMOVED*** store the key differently.
+ * Different NaCl implementations store the key differently.
  * https://blog.mozilla.org/warner/2011/11/29/ed25519-keys/ elaborates.
  * libsodium appears to use the same format as SUPERCOP.
  *
@@ -56,12 +56,12 @@ abstract class libsodium
             case 96:
                 $public = substr($key, -32);
                 if (substr($key, 32, 32) != $public) {
-                    throw new \***REMOVED***('Keys with 96 bytes should have the 2nd and 3rd set of 32 bytes match');
+                    throw new \RuntimeException('Keys with 96 bytes should have the 2nd and 3rd set of 32 bytes match');
                 }
                 $private = substr($key, 0, 32);
                 break;
             default:
-                throw new \***REMOVED***('libsodium keys need to either be 32 bytes long, 64 bytes long or 96 bytes long');
+                throw new \RuntimeException('libsodium keys need to either be 32 bytes long, 64 bytes long or 96 bytes long');
         }
 
         $curve = new Ed25519();
@@ -100,13 +100,13 @@ abstract class libsodium
      * @param string $password optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $privateKey, Ed25519 $curve, array $publicKey, $secret = null, $password = '')
+    public static function savePrivateKey(BigInteger $privateKey, Ed25519 $curve, array $publicKey, $secret = null, $password = '')
     {
         if (!isset($secret)) {
-            throw new \***REMOVED***('Private Key does not have a secret set');
+            throw new \RuntimeException('Private Key does not have a secret set');
         }
         if (strlen($secret) != 32) {
-            throw new \***REMOVED***('Private Key secret is not of the correct length');
+            throw new \RuntimeException('Private Key secret is not of the correct length');
         }
         if (!empty($password) && is_string($password)) {
             throw new UnsupportedFormatException('libsodium private keys do not support encryption');

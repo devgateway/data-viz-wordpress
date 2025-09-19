@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Conditionals\Conditional;
 /**
  * Checks if the post is saved by inline-save. This is the case when doing quick edit.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded -- Base class can't be written shorter without abbreviating.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
 class Doing_Post_Quick_Edit_Save_Conditional implements Conditional {
 
@@ -22,7 +22,7 @@ class Doing_Post_Quick_Edit_Save_Conditional implements Conditional {
 		}
 
 		// Do the same nonce check as is done in wp_ajax_inline_save because we hook into that request.
-		if ( ! \check_ajax_referer( '***REMOVED***', '_inline_edit', false ) ) {
+		if ( ! \check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) ) {
 			return false;
 		}
 

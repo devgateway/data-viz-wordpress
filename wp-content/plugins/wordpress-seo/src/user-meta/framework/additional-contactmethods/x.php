@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\User_Meta\Framework\Additional_Contactmethods;
 
 use Yoast\WP\SEO\User_Meta\Domain\Additional_Contactmethod_Interface;

@@ -238,11 +238,11 @@ if ( ! class_exists( 'ACF_Taxonomy' ) ) {
 		 * @return boolean validity status
 		 */
 		public function ajax_validate_values() {
-			if ( empty( $_POST['acf_taxonomy'] ) || empty( $_POST['acf_taxonomy']['taxonomy'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			if ( empty( $_POST['acf_taxonomy'] ) || empty( $_POST['acf_taxonomy']['taxonomy'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 				return false;
 			}
 
-			$taxonomy_key = acf_sanitize_request_args( wp_unslash( $_POST['acf_taxonomy']['taxonomy'] ) ); // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			$taxonomy_key = acf_sanitize_request_args( wp_unslash( $_POST['acf_taxonomy']['taxonomy'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 			$taxonomy_key = is_string( $taxonomy_key ) ? $taxonomy_key : '';
 			$valid        = true;
 
@@ -575,7 +575,7 @@ if ( ! class_exists( 'ACF_Taxonomy' ) ) {
 			$post         = $this->validate_post( $post );
 			$taxonomy_key = $post['taxonomy'];
 			$objects      = (array) $post['object_type'];
-			$objects      = var_export( $objects, true ); // phpcs:ignore WordPress.PHP.***REMOVED*** -- Used for PHP export.
+			$objects      = var_export( $objects, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions -- Used for PHP export.
 			$args         = $this->get_taxonomy_args( $post, false );
 
 			// Restore original metabox callback.
@@ -583,7 +583,7 @@ if ( ! class_exists( 'ACF_Taxonomy' ) ) {
 				$args['meta_box_cb'] = $post['meta_box_cb'];
 			}
 
-			$args = var_export( $args, true ); // phpcs:ignore WordPress.PHP.***REMOVED*** -- Used for PHP export.
+			$args = var_export( $args, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions -- Used for PHP export.
 
 			if ( ! $args ) {
 				return $return;

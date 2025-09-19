@@ -33,7 +33,7 @@ class Introductions_Bucket {
 	}
 
 	/**
-	 * Returns the array ***REMOVED*** of the introductions.
+	 * Returns the array representation of the introductions.
 	 *
 	 * @return array
 	 */

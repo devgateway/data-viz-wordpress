@@ -54,7 +54,7 @@
 					url: acf.get('ajaxurl'),
 					dataType: 'json',
 					type: 'post',
-					data: acf.***REMOVED***({
+					data: acf.prepareForAjax({
 						action: 'acf/ajax/upgrade'
 					}),
 					success: function( json ){

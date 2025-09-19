@@ -326,8 +326,8 @@
 <!--/ Billing -->
 <script type="text/javascript">
 	(function($){
-		var $***REMOVED*** = $('#fs_billing_address'),
-		    $billingInputs = $***REMOVED***.find('input, select');
+		var $billingAddress = $('#fs_billing_address'),
+		    $billingInputs = $billingAddress.find('input, select');
 
 		var setPrevValues = function () {
 			$billingInputs.each(function () {
@@ -337,7 +337,7 @@
 
 		setPrevValues();
 
-		var ***REMOVED*** = function () {
+		var hasBillingChanged = function () {
 			for (var i = 0, len = $billingInputs.length; i < len; i++){
 				var $this = $($billingInputs[i]);
 				if ($this.attr('data-val') !== $this.val()) {
@@ -348,12 +348,12 @@
 			return false;
 		};
 
-		var ***REMOVED*** = false;
+		var isEditAllFieldsMode = false;
 
-		$***REMOVED***.find('.button').click(function(){
-			$***REMOVED***.toggleClass('fs-read-mode');
+		$billingAddress.find('.button').click(function(){
+			$billingAddress.toggleClass('fs-read-mode');
 
-			var isEditMode = !$***REMOVED***.hasClass('fs-read-mode');
+			var isEditMode = !$billingAddress.hasClass('fs-read-mode');
 
 			$(this)
 				.html(isEditMode ? '<?php echo esc_js( $update_text ) ?>' : '<?php echo esc_js( $edit_text ) ?>')
@@ -361,11 +361,11 @@
 
 			if (isEditMode) {
 				$('#business_name').focus().select();
-				***REMOVED*** = true;
+				isEditAllFieldsMode = true;
 			} else {
-				***REMOVED*** = false;
+				isEditAllFieldsMode = false;
 
-				if (!***REMOVED***())
+				if (!hasBillingChanged())
 					return;
 
 				var billing = {};
@@ -399,22 +399,22 @@
 		$billingInputs
 		// Get into edit mode upon selection.
 			.focus(function () {
-				var isEditMode = !$***REMOVED***.hasClass('fs-read-mode');
+				var isEditMode = !$billingAddress.hasClass('fs-read-mode');
 
 				if (isEditMode) {
 					return;
 				}
 
-				$***REMOVED***.toggleClass('fs-read-mode');
-				$***REMOVED***.find('.button')
+				$billingAddress.toggleClass('fs-read-mode');
+				$billingAddress.find('.button')
 					.html('<?php echo esc_js( $update_text ) ?>')
 					.toggleClass('button-primary');
 			})
 			// If blured after editing only one field without changes, exit edit mode.
 			.blur(function () {
-				if (!***REMOVED*** && !***REMOVED***()) {
-					$***REMOVED***.toggleClass('fs-read-mode');
-					$***REMOVED***.find('.button')
+				if (!isEditAllFieldsMode && !hasBillingChanged()) {
+					$billingAddress.toggleClass('fs-read-mode');
+					$billingAddress.find('.button')
 						.html('<?php echo esc_js( $edit_text ) ?>')
 						.toggleClass('button-primary');
 				}

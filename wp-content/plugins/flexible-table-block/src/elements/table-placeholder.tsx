@@ -34,19 +34,19 @@ import {
 	THRESHOLD_PREVIEW_TABLE_COL,
 	THRESHOLD_PREVIEW_TABLE_ROW,
 } from '../constants';
-import { createTable, ***REMOVED***, type VTable } from '../utils/table-state';
+import { createTable, toTableAttributes, type VTable } from '../utils/table-state';
 import { blockIcon as icon } from '../icons';
-import type { ***REMOVED*** } from '../***REMOVED***';
+import type { BlockAttributes } from '../BlockAttributes';
 
 type Props = {
-	setAttributes: ( attrs: Partial< ***REMOVED*** > ) => void;
+	setAttributes: ( attrs: Partial< BlockAttributes > ) => void;
 };
 
-export default function ***REMOVED***( { setAttributes }: Props ) {
+export default function TablePlaceholder( { setAttributes }: Props ) {
 	const [ rowCount, setRowCount ] = useState< number | undefined >( DEFAULT_PREVIEW_ROWS );
 	const [ colCount, setColCount ] = useState< number | undefined >( DEFAULT_PREVIEW_COLUMNS );
-	const [ headerSection, ***REMOVED*** ] = useState< boolean >( false );
-	const [ footerSection, ***REMOVED*** ] = useState< boolean >( false );
+	const [ headerSection, setHeaderSection ] = useState< boolean >( false );
+	const [ footerSection, setFooterSection ] = useState< boolean >( false );
 
 	const totalRowCount: number | undefined = rowCount
 		? rowCount + Number( headerSection ) + Number( footerSection )
@@ -56,7 +56,7 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 		: undefined;
 
 	const onCreateTable = ( event: FormEvent ) => {
-		event.***REMOVED***();
+		event.preventDefault();
 
 		if ( ! rowCount || ! colCount ) {
 			return;
@@ -69,10 +69,10 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 			footerSection,
 		} );
 
-		setAttributes( ***REMOVED***( vTable ) );
+		setAttributes( toTableAttributes( vTable ) );
 	};
 
-	const ***REMOVED*** = ( value: string ) => {
+	const onChangeColumnCount = ( value: string ) => {
 		const parsedValue = parseInt( value, 10 );
 		if ( isNaN( parsedValue ) ) {
 			setColCount( undefined );
@@ -81,7 +81,7 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 		}
 	};
 
-	const ***REMOVED*** = ( value: string ) => {
+	const onChangeRowCount = ( value: string ) => {
 		const parsedValue = parseInt( value );
 		if ( isNaN( parsedValue ) ) {
 			setRowCount( undefined );
@@ -90,9 +90,9 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 		}
 	};
 
-	const onToggleHeaderSection = ( section: boolean ) => ***REMOVED***( section );
+	const onToggleHeaderSection = ( section: boolean ) => setHeaderSection( section );
 
-	const onToggleFooterSection = ( section: boolean ) => ***REMOVED***( section );
+	const onToggleFooterSection = ( section: boolean ) => setFooterSection( section );
 
 	const tableClasses: string = clsx( 'ftb-placeholder__table', {
 		'is-overflow-row': totalRowCount && totalRowCount > THRESHOLD_PREVIEW_TABLE_ROW,
@@ -193,7 +193,7 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 						min="1"
 						max={ MAX_PREVIEW_TABLE_COL }
 						value={ colCount || '' }
-						onChange={ ***REMOVED*** }
+						onChange={ onChangeColumnCount }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
@@ -204,7 +204,7 @@ export default function ***REMOVED***( { setAttributes }: Props ) {
 						min="1"
 						max={ MAX_PREVIEW_TABLE_ROW }
 						value={ rowCount || '' }
-						onChange={ ***REMOVED*** }
+						onChange={ onChangeRowCount }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>

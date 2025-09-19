@@ -18,7 +18,7 @@ final class UriResolver
      *
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-5.2.4
      */
-    public static function ***REMOVED***(string $path) : string
+    public static function removeDotSegments(string $path) : string
     {
         if ($path === '' || $path === '/') {
             return $path;
@@ -55,14 +55,14 @@ final class UriResolver
             return $base;
         }
         if ($rel->getScheme() != '') {
-            return $rel->withPath(self::***REMOVED***($rel->getPath()));
+            return $rel->withPath(self::removeDotSegments($rel->getPath()));
         }
         if ($rel->getAuthority() != '') {
-            $***REMOVED*** = $rel->getAuthority();
-            $targetPath = self::***REMOVED***($rel->getPath());
+            $targetAuthority = $rel->getAuthority();
+            $targetPath = self::removeDotSegments($rel->getPath());
             $targetQuery = $rel->getQuery();
         } else {
-            $***REMOVED*** = $base->getAuthority();
+            $targetAuthority = $base->getAuthority();
             if ($rel->getPath() === '') {
                 $targetPath = $base->getPath();
                 $targetQuery = $rel->getQuery() != '' ? $rel->getQuery() : $base->getQuery();
@@ -70,7 +70,7 @@ final class UriResolver
                 if ($rel->getPath()[0] === '/') {
                     $targetPath = $rel->getPath();
                 } else {
-                    if ($***REMOVED*** != '' && $base->getPath() === '') {
+                    if ($targetAuthority != '' && $base->getPath() === '') {
                         $targetPath = '/' . $rel->getPath();
                     } else {
                         $lastSlashPos = \strrpos($base->getPath(), '/');
@@ -81,11 +81,11 @@ final class UriResolver
                         }
                     }
                 }
-                $targetPath = self::***REMOVED***($targetPath);
+                $targetPath = self::removeDotSegments($targetPath);
                 $targetQuery = $rel->getQuery();
             }
         }
-        return new \YoastSEO_Vendor\GuzzleHttp\Psr7\Uri(\YoastSEO_Vendor\GuzzleHttp\Psr7\Uri::***REMOVED***($base->getScheme(), $***REMOVED***, $targetPath, $targetQuery, $rel->getFragment()));
+        return new \YoastSEO_Vendor\GuzzleHttp\Psr7\Uri(\YoastSEO_Vendor\GuzzleHttp\Psr7\Uri::composeComponents($base->getScheme(), $targetAuthority, $targetPath, $targetQuery, $rel->getFragment()));
     }
     /**
      * Returns the target URI as a relative reference from the base URI.
@@ -127,7 +127,7 @@ final class UriResolver
         // invalid.
         $emptyPathUri = $target->withScheme('')->withPath('')->withUserInfo('')->withPort(null)->withHost('');
         if ($base->getPath() !== $target->getPath()) {
-            return $emptyPathUri->withPath(self::***REMOVED***($base, $target));
+            return $emptyPathUri->withPath(self::getRelativePath($base, $target));
         }
         if ($base->getQuery() === $target->getQuery()) {
             // Only the target fragment is left. And it must be returned even if base and target fragment are the same.
@@ -143,21 +143,21 @@ final class UriResolver
         }
         return $emptyPathUri;
     }
-    private static function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $base, \YoastSEO_Vendor\Psr\Http\Message\UriInterface $target) : string
+    private static function getRelativePath(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $base, \YoastSEO_Vendor\Psr\Http\Message\UriInterface $target) : string
     {
-        $***REMOVED*** = \explode('/', $base->getPath());
-        $***REMOVED*** = \explode('/', $target->getPath());
-        \array_pop($***REMOVED***);
-        $***REMOVED*** = \array_pop($***REMOVED***);
-        foreach ($***REMOVED*** as $i => $segment) {
-            if (isset($***REMOVED***[$i]) && $segment === $***REMOVED***[$i]) {
-                unset($***REMOVED***[$i], $***REMOVED***[$i]);
+        $sourceSegments = \explode('/', $base->getPath());
+        $targetSegments = \explode('/', $target->getPath());
+        \array_pop($sourceSegments);
+        $targetLastSegment = \array_pop($targetSegments);
+        foreach ($sourceSegments as $i => $segment) {
+            if (isset($targetSegments[$i]) && $segment === $targetSegments[$i]) {
+                unset($sourceSegments[$i], $targetSegments[$i]);
             } else {
                 break;
             }
         }
-        $***REMOVED***[] = $***REMOVED***;
-        $relativePath = \str_repeat('../', \count($***REMOVED***)) . \implode('/', $***REMOVED***);
+        $targetSegments[] = $targetLastSegment;
+        $relativePath = \str_repeat('../', \count($sourceSegments)) . \implode('/', $targetSegments);
         // A reference to am empty last segment or an empty first sub-segment must be prefixed with "./".
         // This also applies to a segment with a colon character (e.g., "file:colon") that cannot be used
         // as the first segment of a relative-path reference, as it would be mistaken for a scheme name.

@@ -1,6 +1,6 @@
 <?php
     /**
-     * @author    Daniele Alessandra (@***REMOVED***)
+     * @author    Daniele Alessandra (@danielealessandra)
      * @copyright Copyright (c) 2024, Freemius, Inc.
      * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
      * @package   Freemius
@@ -304,7 +304,7 @@
         }
 
         /**
-         * @author Daniele Alessandra (@***REMOVED***)
+         * @author Daniele Alessandra (@danielealessandra)
          * @since  2.6.2
          *
          */
@@ -314,7 +314,7 @@
         }
 
         /**
-         * @author Daniele Alessandra (@***REMOVED***)
+         * @author Daniele Alessandra (@danielealessandra)
          * @since  2.6.2
          *
          */
@@ -460,7 +460,7 @@
         }
 
         /**
-         * @author Daniele Alessandra (@***REMOVED***)
+         * @author Daniele Alessandra (@danielealessandra)
          *
          * @return void
          * @since  2.6.2
@@ -482,7 +482,7 @@
         }
 
         /**
-         * @author Daniele Alessandra (@***REMOVED***)
+         * @author Daniele Alessandra (@danielealessandra)
          *
          * @return void
          *
@@ -493,7 +493,7 @@
         }
 
         /**
-         * @author Daniele Alessandra (@***REMOVED***)
+         * @author Daniele Alessandra (@danielealessandra)
          *
          * @param int $is_on
          *

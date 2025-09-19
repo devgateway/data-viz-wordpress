@@ -32,8 +32,8 @@ class Google_LoginTicket {
   /**
    * Creates a user based on the supplied token.
    *
-   * @param string $envelope Header from a verified ***REMOVED*** token.
-   * @param string $payload Information from a verified ***REMOVED*** token.
+   * @param string $envelope Header from a verified authentication token.
+   * @param string $payload Information from a verified authentication token.
    */
   public function __construct($envelope, $payload) {
     $this->envelope = $envelope;

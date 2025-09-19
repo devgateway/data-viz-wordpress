@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * TBSCertificate
  *
  * PHP version 5
  *
@@ -16,13 +16,13 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * TBSCertificate
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class TBSCertificate
 {
-    // assert($***REMOVED***['children']['signature'] == $Certificate['children']['***REMOVED***'])
+    // assert($TBSCertificate['children']['signature'] == $Certificate['children']['signatureAlgorithm'])
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
@@ -37,22 +37,22 @@ abstract class ***REMOVED***
                 'default' => 'v1'
             ],
             'serialNumber' => CertificateSerialNumber::MAP,
-            'signature' => ***REMOVED***::MAP,
+            'signature' => AlgorithmIdentifier::MAP,
             'issuer' => Name::MAP,
             'validity' => Validity::MAP,
             'subject' => Name::MAP,
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'subjectPublicKeyInfo' => SubjectPublicKeyInfo::MAP,
             // implicit means that the T in the TLV structure is to be rewritten, regardless of the type
-            '***REMOVED***' => [
+            'issuerUniqueID' => [
                 'constant' => 1,
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP,
-            '***REMOVED***' => [
+            ] + UniqueIdentifier::MAP,
+            'subjectUniqueID' => [
                 'constant' => 2,
                 'optional' => true,
                 'implicit' => true
-            ] + ***REMOVED***::MAP,
+            ] + UniqueIdentifier::MAP,
             // <http://tools.ietf.org/html/rfc2459#page-74> doesn't use the EXPLICIT keyword but if
             // it's not IMPLICIT, it's EXPLICIT
             'extensions' => [

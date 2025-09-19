@@ -5,18 +5,18 @@
 *
 * Copyright (c) 2013, Donovan Schönknecht.  All rights reserved.
 *
-* ***REMOVED*** and use in source and binary forms, with or without
+* Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are met:
 *
-* - ***REMOVED*** of source code must retain the above copyright notice,
+* - Redistributions of source code must retain the above copyright notice,
 *   this list of conditions and the following disclaimer.
-* - ***REMOVED*** in binary form must reproduce the above copyright
+* - Redistributions in binary form must reproduce the above copyright
 *   notice, this list of conditions and the following disclaimer in the
 *   documentation and/or other materials provided with the distribution.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF ***REMOVED*** AND FITNESS FOR A PARTICULAR PURPOSE
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
 * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
 * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
 * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
@@ -119,7 +119,7 @@ class S3
 	 * @access public
 	 * @static
 	 */
-	public static $***REMOVED*** = true;
+	public static $useSSLValidation = true;
 
 	/**
 	 * Use SSL version
@@ -183,7 +183,7 @@ class S3
 	private static $__signingKeyPairId = null;
 	
 	/**
-	 * Key resource, ***REMOVED***() must be called to clear it from memory
+	 * Key resource, freeSigningKey() must be called to clear it from memory
 	 *
 	 * @var bool
 	 * @access private
@@ -256,7 +256,7 @@ class S3
 	public static function setSSL($enabled, $validate = true)
 	{
 		self::$useSSL = $enabled;
-		self::$***REMOVED*** = $validate;
+		self::$useSSLValidation = $validate;
 	}
 
 
@@ -376,7 +376,7 @@ public static function setSigningKey( $keyPairId, $signingKey, $isFile = true ) 
 	*
 	* @return void
 	*/
-	public static function ***REMOVED***()
+	public static function freeSigningKey()
 	{
 		if (self::$__signingKeyResource !== false)
 			openssl_free_key(self::$__signingKeyResource);
@@ -451,10 +451,10 @@ public static function setSigningKey( $keyPairId, $signingKey, $isFile = true ) 
 	* @param string $marker Marker (last file listed)
 	* @param string $maxKeys Max keys (maximum number of keys to return)
 	* @param string $delimiter Delimiter
-	* @param boolean $***REMOVED*** Set to true to return ***REMOVED***
+	* @param boolean $returnCommonPrefixes Set to true to return CommonPrefixes
 	* @return array | false
 	*/
-	public static function getBucket($bucket, $prefix = null, $marker = null, $maxKeys = null, $delimiter = null, $***REMOVED*** = false)
+	public static function getBucket($bucket, $prefix = null, $marker = null, $maxKeys = null, $delimiter = null, $returnCommonPrefixes = false)
 	{
 		$rest = new S3Request('GET', $bucket, '', self::$endpoint);
 		if ($maxKeys == 0) $maxKeys = null;
@@ -488,8 +488,8 @@ public static function setSigningKey( $keyPairId, $signingKey, $isFile = true ) 
 			$nextMarker = (string)$c->Key;
 		}
 
-		if ($***REMOVED*** && isset($response->body, $response->body->***REMOVED***))
-			foreach ($response->body->***REMOVED*** as $c)
+		if ($returnCommonPrefixes && isset($response->body, $response->body->CommonPrefixes))
+			foreach ($response->body->CommonPrefixes as $c)
 				$results[(string)$c->Prefix] = array('prefix' => (string)$c->Prefix);
 
 		if (isset($response->body, $response->body->IsTruncated) &&
@@ -521,8 +521,8 @@ public static function setSigningKey( $keyPairId, $signingKey, $isFile = true ) 
 				$nextMarker = (string)$c->Key;
 			}
 
-			if ($***REMOVED*** && isset($response->body, $response->body->***REMOVED***))
-				foreach ($response->body->***REMOVED*** as $c)
+			if ($returnCommonPrefixes && isset($response->body, $response->body->CommonPrefixes))
+				foreach ($response->body->CommonPrefixes as $c)
 					$results[(string)$c->Prefix] = array('prefix' => (string)$c->Prefix);
 
 			if (isset($response->body, $response->body->NextMarker))
@@ -551,8 +551,8 @@ public static function setSigningKey( $keyPairId, $signingKey, $isFile = true ) 
 		{
 			$dom = new DOMDocument;
 			$createBucketConfiguration = $dom->createElement('CreateBucketConfiguration');
-			$***REMOVED*** = $dom->createElement('***REMOVED***', $location);
-			$createBucketConfiguration->appendChild($***REMOVED***);
+			$locationConstraint = $dom->createElement('LocationConstraint', $location);
+			$createBucketConfiguration->appendChild($locationConstraint);
 			$dom->appendChild($createBucketConfiguration);
 			$rest->data = $dom->saveXML();
 			$rest->size = strlen($rest->data);
@@ -608,7 +608,7 @@ public static function setSigningKey( $keyPairId, $signingKey, $isFile = true ) 
 			self::__triggerError('S3::inputFile(): Unable to open input file: '.$file, __FILE__, __LINE__);
 			return false;
 		}
-		***REMOVED***(false, $file);
+		clearstatcache(false, $file);
 		return array('file' => $file, 'size' => filesize($file), 'md5sum' => $md5sum !== false ?
 		(is_string($md5sum) ? $md5sum : base64_encode(md5_file($file, true))) : '');
 	}
@@ -655,13 +655,13 @@ public static function setSigningKey( $keyPairId, $signingKey, $isFile = true ) 
  * @param string $uri                   The object URI.
  * @param string $acl                   The access control list.
  * @param array  $metaHeaders           The meta headers.
- * @param array  $***REMOVED***        The request headers.
+ * @param array  $requestHeaders        The request headers.
  * @param string $storageClass          The storage class.
- * @param string $***REMOVED***  The server-side encryption setting.
+ * @param string $serverSideEncryption  The server-side encryption setting.
  *
  * @return bool True on success, false on failure.
  */
-public static function putObject( $input, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $***REMOVED*** = array(), $storageClass = self::STORAGE_CLASS_STANDARD, $***REMOVED*** = self::SSE_NONE ) {
+public static function putObject( $input, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $requestHeaders = array(), $storageClass = self::STORAGE_CLASS_STANDARD, $serverSideEncryption = self::SSE_NONE ) {
     global $wp_filesystem;
 
     // Ensure WP Filesystem is loaded
@@ -702,7 +702,7 @@ public static function putObject( $input, $bucket, $uri, $acl = self::ACL_PRIVAT
         $rest->size = $input['size'];
     } else {
         if ( isset( $input['file'] ) ) {
-            ***REMOVED***( false, $input['file'] );
+            clearstatcache( false, $input['file'] );
             $rest->size = filesize( $input['file'] );
         } elseif ( isset( $input['data'] ) ) {
             $rest->size = strlen( $input['data'] );
@@ -710,18 +710,18 @@ public static function putObject( $input, $bucket, $uri, $acl = self::ACL_PRIVAT
     }
 
     // Custom request headers (Content-Type, Content-Disposition, Content-Encoding)
-    if ( is_array( $***REMOVED*** ) ) {
-        foreach ( $***REMOVED*** as $h => $v ) {
+    if ( is_array( $requestHeaders ) ) {
+        foreach ( $requestHeaders as $h => $v ) {
             strpos( $h, 'x-amz-' ) === 0 ? $rest->setAmzHeader( $h, $v ) : $rest->setHeader( $h, $v );
         }
-    } elseif ( is_string( $***REMOVED*** ) ) { // Support for legacy contentType parameter
-        $input['type'] = $***REMOVED***;
+    } elseif ( is_string( $requestHeaders ) ) { // Support for legacy contentType parameter
+        $input['type'] = $requestHeaders;
     }
 
     // Content-Type
     if ( ! isset( $input['type'] ) ) {
-        if ( isset( $***REMOVED***['Content-Type'] ) ) {
-            $input['type'] = &$***REMOVED***['Content-Type'];
+        if ( isset( $requestHeaders['Content-Type'] ) ) {
+            $input['type'] = &$requestHeaders['Content-Type'];
         } elseif ( isset( $input['file'] ) ) {
             $input['type'] = self::__getMIMEType( $input['file'] );
         } else {
@@ -733,8 +733,8 @@ public static function putObject( $input, $bucket, $uri, $acl = self::ACL_PRIVAT
         $rest->setAmzHeader( 'x-amz-storage-class', $storageClass );
     }
 
-    if ( $***REMOVED*** !== self::SSE_NONE ) { // Server-side encryption
-        $rest->setAmzHeader( 'x-amz-server-side-encryption', $***REMOVED*** );
+    if ( $serverSideEncryption !== self::SSE_NONE ) { // Server-side encryption
+        $rest->setAmzHeader( 'x-amz-server-side-encryption', $serverSideEncryption );
     }
 
     // We need to post with Content-Length and Content-Type, MD5 is optional
@@ -792,7 +792,7 @@ public static function putObject( $input, $bucket, $uri, $acl = self::ACL_PRIVAT
 	* @param string $contentType Content type
 	* @return boolean
 	*/
-	public static function ***REMOVED***($string, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $contentType = 'text/plain')
+	public static function putObjectString($string, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $contentType = 'text/plain')
 	{
 		return self::putObject($string, $bucket, $uri, $acl, $metaHeaders, $contentType);
 	}
@@ -858,7 +858,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
         // Use WP Filesystem to save the temporary file content
         fseek( $rest->fp, 0 ); // rewind the file pointer to the beginning
         $wp_filesystem->put_contents( $saveTo, stream_get_contents( $rest->fp ), FS_CHMOD_FILE );
-		//phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fclose --  WP_Filesystem does not provide a direct method for closing file pointers.
+		//phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose --  WP_Filesystem does not provide a direct method for closing file pointers.
         fclose( $rest->fp );
     }
 
@@ -897,22 +897,22 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param string $uri Destination object URI
 	* @param constant $acl ACL constant
 	* @param array $metaHeaders Optional array of x-amz-meta-* headers
-	* @param array $***REMOVED*** Optional array of request headers (content type, disposition, etc.)
+	* @param array $requestHeaders Optional array of request headers (content type, disposition, etc.)
 	* @param constant $storageClass Storage class constant
 	* @return mixed | false
 	*/
-	public static function copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $***REMOVED*** = array(), $storageClass = self::STORAGE_CLASS_STANDARD)
+	public static function copyObject($srcBucket, $srcUri, $bucket, $uri, $acl = self::ACL_PRIVATE, $metaHeaders = array(), $requestHeaders = array(), $storageClass = self::STORAGE_CLASS_STANDARD)
 	{
 		$rest = new S3Request('PUT', $bucket, $uri, self::$endpoint);
 		$rest->setHeader('Content-Length', 0);
-		foreach ($***REMOVED*** as $h => $v)
+		foreach ($requestHeaders as $h => $v)
 				strpos($h, 'x-amz-') === 0 ? $rest->setAmzHeader($h, $v) : $rest->setHeader($h, $v);
 		foreach ($metaHeaders as $h => $v) $rest->setAmzHeader('x-amz-meta-'.$h, $v);
 		if ($storageClass !== self::STORAGE_CLASS_STANDARD) // Storage class
 			$rest->setAmzHeader('x-amz-storage-class', $storageClass);
 		$rest->setAmzHeader('x-amz-acl', $acl);
 		$rest->setAmzHeader('x-amz-copy-source', sprintf('/%s/%s', $srcBucket, rawurlencode($srcUri)));
-		if (sizeof($***REMOVED***) > 0 || sizeof($metaHeaders) > 0)
+		if (sizeof($requestHeaders) > 0 || sizeof($metaHeaders) > 0)
 			$rest->setAmzHeader('x-amz-metadata-directive', 'REPLACE');
 
 		$rest = $rest->getResponse();
@@ -938,22 +938,22 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param string $location Target host name
 	* @return boolean
 	*/
-	public static function ***REMOVED***($bucket = NULL, $location = NULL)
+	public static function setBucketRedirect($bucket = NULL, $location = NULL)
 	{
 		$rest = new S3Request('PUT', $bucket, '', self::$endpoint);
 
 		if( empty($bucket) || empty($location) ) {
-			self::__triggerError("S3::***REMOVED***({$bucket}, {$location}): Empty parameter.", __FILE__, __LINE__);
+			self::__triggerError("S3::setBucketRedirect({$bucket}, {$location}): Empty parameter.", __FILE__, __LINE__);
 			return false;
 		}
 
 		$dom = new DOMDocument;
-		$***REMOVED*** = $dom->createElement('***REMOVED***');
+		$websiteConfiguration = $dom->createElement('WebsiteConfiguration');
 		$redirectAllRequestsTo = $dom->createElement('RedirectAllRequestsTo');
 		$hostName = $dom->createElement('HostName', $location);
 		$redirectAllRequestsTo->appendChild($hostName);
-		$***REMOVED***->appendChild($redirectAllRequestsTo);
-		$dom->appendChild($***REMOVED***);
+		$websiteConfiguration->appendChild($redirectAllRequestsTo);
+		$dom->appendChild($websiteConfiguration);
 		$rest->setParameter('website', null);
 		$rest->data = $dom->saveXML();
 		$rest->size = strlen($rest->data);
@@ -964,7 +964,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$bucket}, {$location}): [%s] %s",
+			self::__triggerError(sprintf("S3::setBucketRedirect({$bucket}, {$location}): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		}
@@ -980,7 +980,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param string $targetPrefix Log prefix (e,g; domain.com-)
 	* @return boolean
 	*/
-	public static function ***REMOVED***($bucket, $targetBucket, $targetPrefix = null)
+	public static function setBucketLogging($bucket, $targetBucket, $targetPrefix = null)
 	{
 		// The S3 log delivery group has to be added to the target bucket's ACP
 		if ($targetBucket !== null && ($acp = self::getAccessControlPolicy($targetBucket, '')) !== false)
@@ -1004,18 +1004,18 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 		}
 
 		$dom = new DOMDocument;
-		$***REMOVED*** = $dom->createElement('***REMOVED***');
-		$***REMOVED***->setAttribute('xmlns', 'http://s3.amazonaws.com/doc/2006-03-01/');
+		$bucketLoggingStatus = $dom->createElement('BucketLoggingStatus');
+		$bucketLoggingStatus->setAttribute('xmlns', 'http://s3.amazonaws.com/doc/2006-03-01/');
 		if ($targetBucket !== null)
 		{
 			if ($targetPrefix == null) $targetPrefix = $bucket . '-';
-			$***REMOVED*** = $dom->createElement('***REMOVED***');
-			$***REMOVED***->appendChild($dom->createElement('TargetBucket', $targetBucket));
-			$***REMOVED***->appendChild($dom->createElement('TargetPrefix', $targetPrefix));
+			$loggingEnabled = $dom->createElement('LoggingEnabled');
+			$loggingEnabled->appendChild($dom->createElement('TargetBucket', $targetBucket));
+			$loggingEnabled->appendChild($dom->createElement('TargetPrefix', $targetPrefix));
 			// TODO: Add TargetGrants?
-			$***REMOVED***->appendChild($***REMOVED***);
+			$bucketLoggingStatus->appendChild($loggingEnabled);
 		}
-		$dom->appendChild($***REMOVED***);
+		$dom->appendChild($bucketLoggingStatus);
 
 		$rest = new S3Request('PUT', $bucket, '', self::$endpoint);
 		$rest->setParameter('logging', null);
@@ -1027,7 +1027,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$bucket}, {$targetBucket}): [%s] %s",
+			self::__triggerError(sprintf("S3::setBucketLogging({$bucket}, {$targetBucket}): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		}
@@ -1044,7 +1044,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param string $bucket Bucket name
 	* @return array | false
 	*/
-	public static function ***REMOVED***($bucket)
+	public static function getBucketLogging($bucket)
 	{
 		$rest = new S3Request('GET', $bucket, '', self::$endpoint);
 		$rest->setParameter('logging', null);
@@ -1053,14 +1053,14 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$bucket}): [%s] %s",
+			self::__triggerError(sprintf("S3::getBucketLogging({$bucket}): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		}
-		if (!isset($rest->body->***REMOVED***)) return false; // No logging
+		if (!isset($rest->body->LoggingEnabled)) return false; // No logging
 		return array(
-			'targetBucket' => (string)$rest->body->***REMOVED***->TargetBucket,
-			'targetPrefix' => (string)$rest->body->***REMOVED***->TargetPrefix,
+			'targetBucket' => (string)$rest->body->LoggingEnabled->TargetBucket,
+			'targetPrefix' => (string)$rest->body->LoggingEnabled->TargetPrefix,
 		);
 	}
 
@@ -1071,9 +1071,9 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param string $bucket Bucket name
 	* @return boolean
 	*/
-	public static function ***REMOVED***($bucket)
+	public static function disableBucketLogging($bucket)
 	{
-		return self::***REMOVED***($bucket, null);
+		return self::setBucketLogging($bucket, null);
 	}
 
 
@@ -1083,7 +1083,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param string $bucket Bucket name
 	* @return string | false
 	*/
-	public static function ***REMOVED***($bucket)
+	public static function getBucketLocation($bucket)
 	{
 		$rest = new S3Request('GET', $bucket, '', self::$endpoint);
 		$rest->setParameter('location', null);
@@ -1092,7 +1092,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$bucket}): [%s] %s",
+			self::__triggerError(sprintf("S3::getBucketLocation({$bucket}): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		}
@@ -1112,14 +1112,14 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	{
 		$dom = new DOMDocument;
 		$dom->formatOutput = true;
-		$***REMOVED*** = $dom->createElement('***REMOVED***');
-		$***REMOVED*** = $dom->createElement('***REMOVED***');
+		$accessControlPolicy = $dom->createElement('AccessControlPolicy');
+		$accessControlList = $dom->createElement('AccessControlList');
 
 		// It seems the owner has to be passed along too
 		$owner = $dom->createElement('Owner');
 		$owner->appendChild($dom->createElement('ID', $acp['owner']['id']));
 		$owner->appendChild($dom->createElement('DisplayName', $acp['owner']['name']));
-		$***REMOVED***->appendChild($owner);
+		$accessControlPolicy->appendChild($owner);
 
 		foreach ($acp['acl'] as $g)
 		{
@@ -1143,11 +1143,11 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			}
 			$grant->appendChild($grantee);
 			$grant->appendChild($dom->createElement('Permission', $g['permission']));
-			$***REMOVED***->appendChild($grant);
+			$accessControlList->appendChild($grant);
 		}
 
-		$***REMOVED***->appendChild($***REMOVED***);
-		$dom->appendChild($***REMOVED***);
+		$accessControlPolicy->appendChild($accessControlList);
+		$dom->appendChild($accessControlPolicy);
 
 		$rest = new S3Request('PUT', $bucket, $uri, self::$endpoint);
 		$rest->setParameter('acl', null);
@@ -1194,10 +1194,10 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 				'id' => (string)$rest->body->Owner->ID, 'name' => (string)$rest->body->Owner->DisplayName
 			);
 
-		if (isset($rest->body->***REMOVED***))
+		if (isset($rest->body->AccessControlList))
 		{
 			$acp['acl'] = array();
-			foreach ($rest->body->***REMOVED***->Grant as $grant)
+			foreach ($rest->body->AccessControlList->Grant as $grant)
 			{
 				foreach ($grant->Grantee as $grantee)
 				{
@@ -1261,11 +1261,11 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param boolean $https Use HTTPS ($hostBucket should be false for SSL verification)
 	* @return string
 	*/
-	public static function ***REMOVED***($bucket, $uri, $lifetime, $hostBucket = false, $https = false)
+	public static function getAuthenticatedURL($bucket, $uri, $lifetime, $hostBucket = false, $https = false)
 	{
 		$expires = self::__getTime() + $lifetime;
 		$uri = str_replace(array('%2F', '%2B'), array('/', '+'), rawurlencode($uri));
-		return sprintf(($https ? 'https' : 'http').'://%s/%s?***REMOVED***=%s&Expires=%u&Signature=%s',
+		return sprintf(($https ? 'https' : 'http').'://%s/%s?AWSAccessKeyId=%s&Expires=%u&Signature=%s',
 		// $hostBucket ? $bucket : $bucket.'.s3.amazonaws.com', $uri, self::$__accessKey, $expires,
 		$hostBucket ? $bucket : self::$endpoint.'/'.$bucket, $uri, self::$__accessKey, $expires,
 		urlencode(self::__getHash("GET\n\n\n{$expires}\n/{$bucket}/{$uri}")));
@@ -1278,7 +1278,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param array $policy Policy
 	* @return string
 	*/
-	public static function ***REMOVED***($policy)
+	public static function getSignedPolicyURL($policy)
 	{
 		$data = wp_json_encode($policy);
 		$signature = '';
@@ -1301,9 +1301,9 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param integer $lifetime URL lifetime
 	* @return string
 	*/
-	public static function ***REMOVED***($url, $lifetime)
+	public static function getSignedCannedURL($url, $lifetime)
 	{
-		return self::***REMOVED***(array(
+		return self::getSignedPolicyURL(array(
 			'Statement' => array(
 				array('Resource' => $url, 'Condition' => array(
 					'DateLessThan' => array('AWS:EpochTime' => self::__getTime() + $lifetime)
@@ -1321,14 +1321,14 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param constant $acl ACL constant
 	* @param integer $lifetime Lifetime in seconds
 	* @param integer $maxFileSize Maximum filesize in bytes (default 5MB)
-	* @param string $***REMOVED*** Redirect URL or 200 / 201 status code
+	* @param string $successRedirect Redirect URL or 200 / 201 status code
 	* @param array $amzHeaders Array of x-amz-meta-* headers
 	* @param array $headers Array of request headers or content type as a string
 	* @param boolean $flashVars Includes additional "Filename" variable posted by Flash
 	* @return object
 	*/
 	public static function getHttpUploadPostParams($bucket, $uriPrefix = '', $acl = self::ACL_PRIVATE, $lifetime = 3600,
-	$maxFileSize = 5242880, $***REMOVED*** = "201", $amzHeaders = array(), $headers = array(), $flashVars = false)
+	$maxFileSize = 5242880, $successRedirect = "201", $amzHeaders = array(), $headers = array(), $flashVars = false)
 	{
 		// Create policy object
 		$policy = new stdClass;
@@ -1338,10 +1338,10 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 		$obj = new stdClass; $obj->acl = $acl; array_push($policy->conditions, $obj);
 
 		$obj = new stdClass; // 200 for non-redirect uploads
-		if (is_numeric($***REMOVED***) && in_array((int)$***REMOVED***, array(200, 201)))
-			$obj->success_action_status = (string)$***REMOVED***;
+		if (is_numeric($successRedirect) && in_array((int)$successRedirect, array(200, 201)))
+			$obj->success_action_status = (string)$successRedirect;
 		else // URL
-			$obj->success_action_redirect = $***REMOVED***;
+			$obj->success_action_redirect = $successRedirect;
 		array_push($policy->conditions, $obj);
 
 		if ($acl !== self::ACL_PUBLIC_READ)
@@ -1362,15 +1362,15 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 
 		// Create parameters
 		$params = new stdClass;
-		$params->***REMOVED*** = self::$__accessKey;
+		$params->AWSAccessKeyId = self::$__accessKey;
 		$params->key = $uriPrefix.'${filename}';
 		$params->acl = $acl;
 		$params->policy = $policy; unset($policy);
 		$params->signature = self::__getHash($params->policy);
-		if (is_numeric($***REMOVED***) && in_array((int)$***REMOVED***, array(200, 201)))
-			$params->success_action_status = (string)$***REMOVED***;
+		if (is_numeric($successRedirect) && in_array((int)$successRedirect, array(200, 201)))
+			$params->success_action_status = (string)$successRedirect;
 		else
-			$params->success_action_redirect = $***REMOVED***;
+			$params->success_action_redirect = $successRedirect;
 		foreach ($headers as $headerKey => $headerVal) $params->{$headerKey} = (string)$headerVal;
 		foreach ($amzHeaders as $headerKey => $headerVal) $params->{$headerKey} = (string)$headerVal;
 		return $params;
@@ -1384,16 +1384,16 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	* @param boolean $enabled Enabled (true/false)
 	* @param array $cnames Array containing CNAME aliases
 	* @param string $comment Use the bucket name as the hostname
-	* @param string $***REMOVED*** Default root object
-	* @param string $***REMOVED*** Origin access identity
-	* @param array $***REMOVED*** Array of trusted signers
+	* @param string $defaultRootObject Default root object
+	* @param string $originAccessIdentity Origin access identity
+	* @param array $trustedSigners Array of trusted signers
 	* @return array | false
 	*/
-	public static function ***REMOVED***($bucket, $enabled = true, $cnames = array(), $comment = null, $***REMOVED*** = null, $***REMOVED*** = null, $***REMOVED*** = array())
+	public static function createDistribution($bucket, $enabled = true, $cnames = array(), $comment = null, $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = array())
 	{
 		if (!extension_loaded('openssl'))
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$bucket}, ".(int)$enabled.", [], '$comment'): %s",
+			self::__triggerError(sprintf("S3::createDistribution({$bucket}, ".(int)$enabled.", [], '$comment'): %s",
 			"CloudFront functionality requires SSL"), __FILE__, __LINE__);
 			return false;
 		}
@@ -1407,9 +1407,9 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			(string)$comment,
 			(string)microtime(true),
 			$cnames,
-			$***REMOVED***,
-			$***REMOVED***,
-			$***REMOVED***
+			$defaultRootObject,
+			$originAccessIdentity,
+			$trustedSigners
 		);
 
 		$rest->size = strlen($rest->data);
@@ -1422,10 +1422,10 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$bucket}, ".(int)$enabled.", [], '$comment'): [%s] %s",
+			self::__triggerError(sprintf("S3::createDistribution({$bucket}, ".(int)$enabled.", [], '$comment'): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
-		} elseif ($rest->body instanceof ***REMOVED***)
+		} elseif ($rest->body instanceof SimpleXMLElement)
 			return self::__parseCloudFrontDistributionConfig($rest->body);
 		return false;
 	}
@@ -1434,21 +1434,21 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	/**
 	* Get CloudFront distribution info
 	*
-	* @param string $***REMOVED*** Distribution ID from ***REMOVED***()
+	* @param string $distributionId Distribution ID from listDistributions()
 	* @return array | false
 	*/
-	public static function ***REMOVED***($***REMOVED***)
+	public static function getDistribution($distributionId)
 	{
 		if (!extension_loaded('openssl'))
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***($***REMOVED***): %s",
+			self::__triggerError(sprintf("S3::getDistribution($distributionId): %s",
 			"CloudFront functionality requires SSL"), __FILE__, __LINE__);
 			return false;
 		}
 		$useSSL = self::$useSSL;
 
 		self::$useSSL = true; // CloudFront requires SSL
-		$rest = new S3Request('GET', '', '2010-11-01/distribution/'.$***REMOVED***, 'cloudfront.amazonaws.com');
+		$rest = new S3Request('GET', '', '2010-11-01/distribution/'.$distributionId, 'cloudfront.amazonaws.com');
 		$rest = self::__getCloudFrontResponse($rest);
 
 		self::$useSSL = $useSSL;
@@ -1457,15 +1457,15 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***($***REMOVED***): [%s] %s",
+			self::__triggerError(sprintf("S3::getDistribution($distributionId): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		}
-		elseif ($rest->body instanceof ***REMOVED***)
+		elseif ($rest->body instanceof SimpleXMLElement)
 		{
 			$dist = self::__parseCloudFrontDistributionConfig($rest->body);
 			$dist['hash'] = $rest->headers['hash'];
-			$dist['id'] = $***REMOVED***;
+			$dist['id'] = $distributionId;
 			return $dist;
 		}
 		return false;
@@ -1475,14 +1475,14 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	/**
 	* Update a CloudFront distribution
 	*
-	* @param array $dist Distribution array info identical to output of ***REMOVED***()
+	* @param array $dist Distribution array info identical to output of getDistribution()
 	* @return array | false
 	*/
-	public static function ***REMOVED***($dist)
+	public static function updateDistribution($dist)
 	{
 		if (!extension_loaded('openssl'))
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$dist['id']}): %s",
+			self::__triggerError(sprintf("S3::updateDistribution({$dist['id']}): %s",
 			"CloudFront functionality requires SSL"), __FILE__, __LINE__);
 			return false;
 		}
@@ -1495,11 +1495,11 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$dist['origin'],
 			$dist['enabled'],
 			$dist['comment'],
-			$dist['***REMOVED***'],
+			$dist['callerReference'],
 			$dist['cnames'],
-			$dist['***REMOVED***'],
-			$dist['***REMOVED***'],
-			$dist['***REMOVED***']
+			$dist['defaultRootObject'],
+			$dist['originAccessIdentity'],
+			$dist['trustedSigners']
 		);
 
 		$rest->size = strlen($rest->data);
@@ -1512,7 +1512,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$dist['id']}): [%s] %s",
+			self::__triggerError(sprintf("S3::updateDistribution({$dist['id']}): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		} else {
@@ -1527,14 +1527,14 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	/**
 	* Delete a CloudFront distribution
 	*
-	* @param array $dist Distribution array info identical to output of ***REMOVED***()
+	* @param array $dist Distribution array info identical to output of getDistribution()
 	* @return boolean
 	*/
-	public static function ***REMOVED***($dist)
+	public static function deleteDistribution($dist)
 	{
 		if (!extension_loaded('openssl'))
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$dist['id']}): %s",
+			self::__triggerError(sprintf("S3::deleteDistribution({$dist['id']}): %s",
 			"CloudFront functionality requires SSL"), __FILE__, __LINE__);
 			return false;
 		}
@@ -1552,7 +1552,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***({$dist['id']}): [%s] %s",
+			self::__triggerError(sprintf("S3::deleteDistribution({$dist['id']}): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		}
@@ -1565,11 +1565,11 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	*
 	* @return array
 	*/
-	public static function ***REMOVED***()
+	public static function listDistributions()
 	{
 		if (!extension_loaded('openssl'))
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***(): [%s] %s",
+			self::__triggerError(sprintf("S3::listDistributions(): [%s] %s",
 			"CloudFront functionality requires SSL"), __FILE__, __LINE__);
 			return false;
 		}
@@ -1584,11 +1584,11 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			self::__triggerError(sprintf("S3::***REMOVED***(): [%s] %s",
+			self::__triggerError(sprintf("S3::listDistributions(): [%s] %s",
 			$rest->error['code'], $rest->error['message']), __FILE__, __LINE__);
 			return false;
 		}
-		elseif ($rest->body instanceof ***REMOVED*** && isset($rest->body->***REMOVED***))
+		elseif ($rest->body instanceof SimpleXMLElement && isset($rest->body->DistributionSummary))
 		{
 			$list = array();
 			if (isset($rest->body->Marker, $rest->body->MaxItems, $rest->body->IsTruncated))
@@ -1597,7 +1597,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 				//$info['maxItems'] = (int)$rest->body->MaxItems;
 				//$info['isTruncated'] = (string)$rest->body->IsTruncated == 'true' ? true : false;
 			}
-			foreach ($rest->body->***REMOVED*** as $summary)
+			foreach ($rest->body->DistributionSummary as $summary)
 				$list[(string)$summary->Id] = self::__parseCloudFrontDistributionConfig($summary);
 
 			return $list;
@@ -1637,8 +1637,8 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 		{
 			$identities = array();
 			foreach ($rest->body->CloudFrontOriginAccessIdentitySummary as $identity)
-				if (isset($identity->***REMOVED***))
-					$identities[(string)$identity->Id] = array('id' => (string)$identity->Id, '***REMOVED***' => (string)$identity->***REMOVED***);
+				if (isset($identity->S3CanonicalUserId))
+					$identities[(string)$identity->Id] = array('id' => (string)$identity->Id, 's3CanonicalUserId' => (string)$identity->S3CanonicalUserId);
 			return $identities;
 		}
 		return false;
@@ -1650,11 +1650,11 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	*
 	* Thanks to Martin Lindkvist for S3::invalidateDistribution()
 	*
-	* @param string $***REMOVED*** Distribution ID from ***REMOVED***()
+	* @param string $distributionId Distribution ID from listDistributions()
 	* @param array $paths Array of object paths to invalidate
 	* @return boolean
 	*/
-	public static function invalidateDistribution($***REMOVED***, $paths)
+	public static function invalidateDistribution($distributionId, $paths)
 	{
 		if (!extension_loaded('openssl'))
 		{
@@ -1665,7 +1665,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 
 		$useSSL = self::$useSSL;
 		self::$useSSL = true; // CloudFront requires SSL
-		$rest = new S3Request('POST', '', '2010-08-01/distribution/'.$***REMOVED***.'/invalidation', 'cloudfront.amazonaws.com');
+		$rest = new S3Request('POST', '', '2010-08-01/distribution/'.$distributionId.'/invalidation', 'cloudfront.amazonaws.com');
 		$rest->data = self::__getCloudFrontInvalidationBatchXML($paths, (string)microtime(true));
 		$rest->size = strlen($rest->data);
 		$rest = self::__getCloudFrontResponse($rest);
@@ -1675,7 +1675,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			trigger_error(sprintf("S3::invalidate(".esc_html($***REMOVED***.",".esc_html($paths)."): [%s] %s",
+			trigger_error(sprintf("S3::invalidate(".esc_html($distributionId.",".esc_html($paths)."): [%s] %s",
 			esc_html($rest->error['code']), esc_html($rest->error['message'])), esc_html(E_USER_WARNING)));
 			return false;
 		}
@@ -1684,23 +1684,23 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 
 
 	/**
-	* Get a ***REMOVED*** DOMDocument
+	* Get a InvalidationBatch DOMDocument
 	*
 	* @internal Used to create XML in invalidateDistribution()
 	* @param array $paths Paths to objects to invalidateDistribution
-	* @param int $***REMOVED***
+	* @param int $callerReference
 	* @return string
 	*/
-	private static function __getCloudFrontInvalidationBatchXML($paths, $***REMOVED*** = '0')
+	private static function __getCloudFrontInvalidationBatchXML($paths, $callerReference = '0')
 	{
 		$dom = new DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
-		$***REMOVED*** = $dom->createElement('***REMOVED***');
+		$invalidationBatch = $dom->createElement('InvalidationBatch');
 		foreach ($paths as $path)
-			$***REMOVED***->appendChild($dom->createElement('Path', $path));
+			$invalidationBatch->appendChild($dom->createElement('Path', $path));
 
-		$***REMOVED***->appendChild($dom->createElement('***REMOVED***', $***REMOVED***));
-		$dom->appendChild($***REMOVED***);
+		$invalidationBatch->appendChild($dom->createElement('CallerReference', $callerReference));
+		$dom->appendChild($invalidationBatch);
 		return $dom->saveXML();
 	}
 
@@ -1708,20 +1708,20 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	/**
 	* List your invalidation batches for invalidateDistribution() in a CloudFront distribution
 	*
-	* http://docs.***REMOVED***.com/***REMOVED***/latest/APIReference/***REMOVED***.html
+	* http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListInvalidation.html
 	* returned array looks like this:
 	*	Array
 	*	(
-	*		[***REMOVED***] => InProgress
+	*		[I31TWB0CN9V6XD] => InProgress
 	*		[IT3TFE31M0IHZ] => Completed
-	*		[***REMOVED***] => Completed
-	*		[***REMOVED***] => Completed
+	*		[I12HK7MPO1UQDA] => Completed
+	*		[I1IA7R6JKTC3L2] => Completed
 	*	)
 	*
-	* @param string $***REMOVED*** Distribution ID from ***REMOVED***()
+	* @param string $distributionId Distribution ID from listDistributions()
 	* @return array
 	*/
-	public static function getDistributionInvalidationList($***REMOVED***)
+	public static function getDistributionInvalidationList($distributionId)
 	{
 		if (!extension_loaded('openssl'))
 		{
@@ -1732,7 +1732,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 
 		$useSSL = self::$useSSL;
 		self::$useSSL = true; // CloudFront requires SSL
-		$rest = new S3Request('GET', '', '2010-11-01/distribution/'.$***REMOVED***.'/invalidation', 'cloudfront.amazonaws.com');
+		$rest = new S3Request('GET', '', '2010-11-01/distribution/'.$distributionId.'/invalidation', 'cloudfront.amazonaws.com');
 		$rest = self::__getCloudFrontResponse($rest);
 		self::$useSSL = $useSSL;
 
@@ -1740,14 +1740,14 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			$rest->error = array('code' => $rest->code, 'message' => 'Unexpected HTTP status');
 		if ($rest->error !== false)
 		{
-			trigger_error(sprintf("S3::getDistributionInvalidationList('".esc_html($***REMOVED***)."'): [%s]",
+			trigger_error(sprintf("S3::getDistributionInvalidationList('".esc_html($distributionId)."'): [%s]",
 			esc_html($rest->error['code']), esc_html($rest->error['message'])), esc_html(E_USER_WARNING));
 			return false;
 		}
-		elseif ($rest->body instanceof ***REMOVED*** && isset($rest->body->***REMOVED***))
+		elseif ($rest->body instanceof SimpleXMLElement && isset($rest->body->InvalidationSummary))
 		{
 			$list = array();
-			foreach ($rest->body->***REMOVED*** as $summary)
+			foreach ($rest->body->InvalidationSummary as $summary)
 				$list[(string)$summary->Id] = (string)$summary->Status;
 
 			return $list;
@@ -1757,47 +1757,47 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 
 
 	/**
-	* Get a ***REMOVED*** DOMDocument
+	* Get a DistributionConfig DOMDocument
 	*
-	* http://docs.***REMOVED***.com/***REMOVED***/latest/APIReference/index.html?PutConfig.html
+	* http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/index.html?PutConfig.html
 	*
-	* @internal Used to create XML in ***REMOVED***() and ***REMOVED***()
+	* @internal Used to create XML in createDistribution() and updateDistribution()
 	* @param string $bucket S3 Origin bucket
 	* @param boolean $enabled Enabled (true/false)
 	* @param string $comment Comment to append
-	* @param string $***REMOVED*** Caller reference
+	* @param string $callerReference Caller reference
 	* @param array $cnames Array of CNAME aliases
-	* @param string $***REMOVED*** Default root object
-	* @param string $***REMOVED*** Origin access identity
-	* @param array $***REMOVED*** Array of trusted signers
+	* @param string $defaultRootObject Default root object
+	* @param string $originAccessIdentity Origin access identity
+	* @param array $trustedSigners Array of trusted signers
 	* @return string
 	*/
-	private static function __getCloudFrontDistributionConfigXML($bucket, $enabled, $comment, $***REMOVED*** = '0', $cnames = array(), $***REMOVED*** = null, $***REMOVED*** = null, $***REMOVED*** = array())
+	private static function __getCloudFrontDistributionConfigXML($bucket, $enabled, $comment, $callerReference = '0', $cnames = array(), $defaultRootObject = null, $originAccessIdentity = null, $trustedSigners = array())
 	{
 		$dom = new DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
-		$***REMOVED*** = $dom->createElement('***REMOVED***');
-		$***REMOVED***->setAttribute('xmlns', 'http://cloudfront.amazonaws.com/doc/2010-11-01/');
+		$distributionConfig = $dom->createElement('DistributionConfig');
+		$distributionConfig->setAttribute('xmlns', 'http://cloudfront.amazonaws.com/doc/2010-11-01/');
 
 		$origin = $dom->createElement('S3Origin');
 		$origin->appendChild($dom->createElement('DNSName', $bucket));
-		if ($***REMOVED*** !== null) $origin->appendChild($dom->createElement('***REMOVED***', $***REMOVED***));
-		$***REMOVED***->appendChild($origin);
+		if ($originAccessIdentity !== null) $origin->appendChild($dom->createElement('OriginAccessIdentity', $originAccessIdentity));
+		$distributionConfig->appendChild($origin);
 
-		if ($***REMOVED*** !== null) $***REMOVED***->appendChild($dom->createElement('***REMOVED***', $***REMOVED***));
+		if ($defaultRootObject !== null) $distributionConfig->appendChild($dom->createElement('DefaultRootObject', $defaultRootObject));
 
-		$***REMOVED***->appendChild($dom->createElement('***REMOVED***', $***REMOVED***));
+		$distributionConfig->appendChild($dom->createElement('CallerReference', $callerReference));
 		foreach ($cnames as $cname)
-			$***REMOVED***->appendChild($dom->createElement('CNAME', $cname));
-		if ($comment !== '') $***REMOVED***->appendChild($dom->createElement('Comment', $comment));
-		$***REMOVED***->appendChild($dom->createElement('Enabled', $enabled ? 'true' : 'false'));
+			$distributionConfig->appendChild($dom->createElement('CNAME', $cname));
+		if ($comment !== '') $distributionConfig->appendChild($dom->createElement('Comment', $comment));
+		$distributionConfig->appendChild($dom->createElement('Enabled', $enabled ? 'true' : 'false'));
 
-		$trusted = $dom->createElement('***REMOVED***');
-		foreach ($***REMOVED*** as $id => $type)
+		$trusted = $dom->createElement('TrustedSigners');
+		foreach ($trustedSigners as $id => $type)
 			$trusted->appendChild($id !== '' ? $dom->createElement($type, $id) : $dom->createElement($type));
-		$***REMOVED***->appendChild($trusted);
+		$distributionConfig->appendChild($trusted);
 
-		$dom->appendChild($***REMOVED***);
+		$dom->appendChild($distributionConfig);
 		//var_dump($dom->saveXML());
 		return $dom->saveXML();
 	}
@@ -1806,28 +1806,28 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	/**
 	* Parse a CloudFront distribution config
 	*
-	* See http://docs.***REMOVED***.com/***REMOVED***/latest/APIReference/index.html?***REMOVED***.html
+	* See http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/index.html?GetDistribution.html
 	*
-	* @internal Used to parse the CloudFront ***REMOVED*** node to an array
+	* @internal Used to parse the CloudFront DistributionConfig node to an array
 	* @param object &$node DOMNode
 	* @return array
 	*/
 	private static function __parseCloudFrontDistributionConfig(&$node)
 	{
-		if (isset($node->***REMOVED***))
-			return self::__parseCloudFrontDistributionConfig($node->***REMOVED***);
+		if (isset($node->DistributionConfig))
+			return self::__parseCloudFrontDistributionConfig($node->DistributionConfig);
 
 		$dist = array();
-		if (isset($node->Id, $node->Status, $node->***REMOVED***, $node->DomainName))
+		if (isset($node->Id, $node->Status, $node->LastModifiedTime, $node->DomainName))
 		{
 			$dist['id'] = (string)$node->Id;
 			$dist['status'] = (string)$node->Status;
-			$dist['time'] = strtotime((string)$node->***REMOVED***);
+			$dist['time'] = strtotime((string)$node->LastModifiedTime);
 			$dist['domain'] = (string)$node->DomainName;
 		}
 
-		if (isset($node->***REMOVED***))
-			$dist['***REMOVED***'] = (string)$node->***REMOVED***;
+		if (isset($node->CallerReference))
+			$dist['callerReference'] = (string)$node->CallerReference;
 
 		if (isset($node->Enabled))
 			$dist['enabled'] = (string)$node->Enabled == 'true' ? true : false;
@@ -1837,27 +1837,27 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 			if (isset($node->S3Origin->DNSName))
 				$dist['origin'] = (string)$node->S3Origin->DNSName;
 
-			$dist['***REMOVED***'] = isset($node->S3Origin->***REMOVED***) ?
-			(string)$node->S3Origin->***REMOVED*** : null;
+			$dist['originAccessIdentity'] = isset($node->S3Origin->OriginAccessIdentity) ?
+			(string)$node->S3Origin->OriginAccessIdentity : null;
 		}
 
-		$dist['***REMOVED***'] = isset($node->***REMOVED***) ? (string)$node->***REMOVED*** : null;
+		$dist['defaultRootObject'] = isset($node->DefaultRootObject) ? (string)$node->DefaultRootObject : null;
 
 		$dist['cnames'] = array();
 		if (isset($node->CNAME))
 			foreach ($node->CNAME as $cname)
 				$dist['cnames'][(string)$cname] = (string)$cname;
 
-		$dist['***REMOVED***'] = array();
-		if (isset($node->***REMOVED***))
-			foreach ($node->***REMOVED*** as $signer)
+		$dist['trustedSigners'] = array();
+		if (isset($node->TrustedSigners))
+			foreach ($node->TrustedSigners as $signer)
 			{
 				if (isset($signer->Self))
-					$dist['***REMOVED***'][''] = 'Self';
+					$dist['trustedSigners'][''] = 'Self';
 				elseif (isset($signer->KeyPairId))
-					$dist['***REMOVED***'][(string)$signer->KeyPairId] = 'KeyPairId';
-				elseif (isset($signer->***REMOVED***))
-					$dist['***REMOVED***'][(string)$signer->***REMOVED***] = '***REMOVED***';
+					$dist['trustedSigners'][(string)$signer->KeyPairId] = 'KeyPairId';
+				elseif (isset($signer->AwsAccountNumber))
+					$dist['trustedSigners'][(string)$signer->AwsAccountNumber] = 'AwsAccountNumber';
 			}
 
 		$dist['comment'] = isset($node->Comment) ? (string)$node->Comment : null;
@@ -1897,7 +1897,7 @@ public static function getObject( $bucket, $uri, $saveTo = false ) {
 	/**
 	* Get MIME type for file
 	*
-	* To override the putObject() Content-Type, add it to $***REMOVED***
+	* To override the putObject() Content-Type, add it to $requestHeaders
 	*
 	* To use fileinfo, ensure the MAGIC environment variable is set
 	*
@@ -2251,7 +2251,7 @@ public function getResponse() {
         'method'    => $this->verb,
         'headers'   => $headers,
         'body'      => ($this->data !== false) ? $this->data : null,
-        'sslverify' => S3::$***REMOVED***,
+        'sslverify' => S3::$useSSLValidation,
         'timeout'   => 15, // Timeout after 15 seconds
     );
 
@@ -2307,7 +2307,7 @@ public function getResponse() {
 
     // Clean up file resources
     if ($this->fp !== false && is_resource($this->fp)) {
-		//phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fclose --  WP_Filesystem does not provide a direct method for closing file pointers.
+		//phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose --  WP_Filesystem does not provide a direct method for closing file pointers.
         fclose($this->fp);
     }
 

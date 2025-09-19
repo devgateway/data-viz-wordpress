@@ -29,10 +29,10 @@
 	 *  page tab (the SDK will never add any i-frames on the sitefront). i-frames
 	 *  were never against the guidelines, but we wanted to get the team's blessings
 	 *  before we move forward. For the record, I got the final approval from
-	 *  Ulrich Pogson (@***REMOVED***), a team lead at the TRT during WordCamp
+	 *  Ulrich Pogson (@grapplerulrich), a team lead at the TRT during WordCamp
 	 *  Europe 2017 (June 16th, 2017).
 	 *
-	 * If you have any questions or need ***REMOVED***, please don't hesitate
+	 * If you have any questions or need clarifications, please don't hesitate
 	 * pinging me on slack, my username is @svovaf.
 	 *
 	 * @author Vova Feldman (@svovaf)
@@ -80,7 +80,7 @@
 					// Keep track of the i-frame height.
 					frame_height = 800,
 					base_url = '<?php echo WP_FS__ADDRESS ?>',
-					src = base_url + '/contact/?<?php echo http_build_query($query_params) ?>#' + ***REMOVED***(document.location.href),
+					src = base_url + '/contact/?<?php echo http_build_query($query_params) ?>#' + encodeURIComponent(document.location.href),
 
 					// Append the i-frame into the DOM.
 					frame = $('<i' + 'frame " src="' + src + '" width="100%" height="' + frame_height + 'px" scrolling="no" frameborder="0" style="background: transparent; width: 1px; min-width: 100%;"><\/i' + 'frame>')

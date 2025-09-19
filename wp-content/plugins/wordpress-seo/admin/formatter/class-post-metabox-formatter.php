@@ -42,7 +42,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * Determines whether the social templates should be used.
 	 *
 	 * @deprecated 23.1
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	public function get_values() {
 
 		$values = [
-			'***REMOVED***' => '',
+			'metaDescriptionDate' => '',
 		];
 
 		if ( $this->post instanceof WP_Post ) {
@@ -68,7 +68,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			$repo->set_post( $this->post );
 
 			$values_to_set = [
-				'***REMOVED***' => $this->is_insights_enabled(),
+				'isInsightsEnabled' => $this->is_insights_enabled(),
 			];
 
 			$values = ( $values_to_set + $values );

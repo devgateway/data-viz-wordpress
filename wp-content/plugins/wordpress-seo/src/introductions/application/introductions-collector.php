@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Introductions\Application;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Interface;
 use Yoast\WP\SEO\Introductions\Domain\Introduction_Item;
 use Yoast\WP\SEO\Introductions\Domain\Introductions_Bucket;
-use Yoast\WP\SEO\Introductions\***REMOVED***\Introductions_Seen_Repository;
+use Yoast\WP\SEO\Introductions\Infrastructure\Introductions_Seen_Repository;
 
 /**
  * Manages the collection of introductions.
@@ -68,7 +68,7 @@ class Introductions_Collector {
 		 * @internal
 		 *
 		 * @param Introduction_Interface $introductions This filter expects a list of Introduction_Interface instances and
-		 *                                              expects only Introduction_Interface ***REMOVED*** to be added to the list.
+		 *                                              expects only Introduction_Interface implementations to be added to the list.
 		 */
 		$filtered_introductions = (array) \apply_filters( 'wpseo_introductions', $introductions );
 

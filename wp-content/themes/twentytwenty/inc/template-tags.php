@@ -94,7 +94,7 @@ function twentytwenty_site_logo( $args = array(), $display = true ) {
 		return $html;
 	}
 
-	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -131,7 +131,7 @@ function twentytwenty_site_description( $display = true ) {
 		return $html;
 	}
 
-	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -197,7 +197,7 @@ add_filter( 'comment_reply_link', 'twentytwenty_filter_comment_reply_link' );
  */
 function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' ) {
 
-	echo twentytwenty_get_post_meta( $post_id, $location ); // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Escaped in twentytwenty_get_post_meta().
+	echo twentytwenty_get_post_meta( $post_id, $location ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in twentytwenty_get_post_meta().
 }
 
 /**
@@ -658,7 +658,7 @@ add_filter( 'walker_nav_menu_start_el', 'twentytwenty_nav_menu_social_icons', 10
 function twentytwenty_no_js_class() {
 
 	?>
-	<script>document.***REMOVED***.className = document.***REMOVED***.className.replace( 'no-js', 'js' );</script>
+	<script>document.documentElement.className = document.documentElement.className.replace( 'no-js', 'js' );</script>
 	<?php
 }
 
@@ -831,7 +831,7 @@ function twentytwenty_toggle_duration() {
 /**
  * Gets unique ID.
  *
- * This is a PHP ***REMOVED*** of Underscore's uniqueId method. A static variable
+ * This is a PHP implementation of Underscore's uniqueId method. A static variable
  * contains an integer that is incremented with each call. This number is returned
  * with the optional prefix. As such the returned value is not universally unique,
  * but it is unique across the life of the PHP process.

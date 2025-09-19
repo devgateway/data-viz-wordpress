@@ -8,15 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag;
 
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException;
 /**
  * Holds read-only parameters.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ***REMOVED*** extends \YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\ParameterBag
+class FrozenParameterBag extends \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag
 {
     /**
      * For performance reasons, the constructor assumes that
@@ -36,27 +36,27 @@ class ***REMOVED*** extends \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Par
      */
     public function clear()
     {
-        throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***('Impossible to call clear() on a frozen ParameterBag.');
+        throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException('Impossible to call clear() on a frozen ParameterBag.');
     }
     /**
      * {@inheritdoc}
      */
     public function add(array $parameters)
     {
-        throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***('Impossible to call add() on a frozen ParameterBag.');
+        throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException('Impossible to call add() on a frozen ParameterBag.');
     }
     /**
      * {@inheritdoc}
      */
     public function set($name, $value)
     {
-        throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***('Impossible to call set() on a frozen ParameterBag.');
+        throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException('Impossible to call set() on a frozen ParameterBag.');
     }
     /**
      * {@inheritdoc}
      */
     public function remove($name)
     {
-        throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***('Impossible to call remove() on a frozen ParameterBag.');
+        throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\LogicException('Impossible to call remove() on a frozen ParameterBag.');
     }
 }

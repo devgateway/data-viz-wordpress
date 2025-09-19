@@ -1,14 +1,14 @@
-function ***REMOVED***() { // jshint ignore:line
-	var toggler = document.***REMOVED***( 'dark-mode-toggler' );
+function toggleDarkMode() { // jshint ignore:line
+	var toggler = document.getElementById( 'dark-mode-toggler' );
 
 	if ( 'false' === toggler.getAttribute( 'aria-pressed' ) ) {
 		toggler.setAttribute( 'aria-pressed', 'true' );
-		document.***REMOVED***.classList.add( 'is-dark-theme' );
+		document.documentElement.classList.add( 'is-dark-theme' );
 		document.body.classList.add( 'is-dark-theme' );
 		window.localStorage.setItem( 'twentytwentyoneDarkMode', 'yes' );
 	} else {
 		toggler.setAttribute( 'aria-pressed', 'false' );
-		document.***REMOVED***.classList.remove( 'is-dark-theme' );
+		document.documentElement.classList.remove( 'is-dark-theme' );
 		document.body.classList.remove( 'is-dark-theme' );
 		window.localStorage.setItem( 'twentytwentyoneDarkMode', 'no' );
 	}
@@ -26,15 +26,15 @@ function twentytwentyoneIsDarkMode() {
 	return isDarkMode;
 }
 
-function ***REMOVED***() {
-	var toggler = document.***REMOVED***( 'dark-mode-toggler' ),
+function darkModeInitialLoad() {
+	var toggler = document.getElementById( 'dark-mode-toggler' ),
 		isDarkMode = twentytwentyoneIsDarkMode();
 
 	if ( isDarkMode ) {
-		document.***REMOVED***.classList.add( 'is-dark-theme' );
+		document.documentElement.classList.add( 'is-dark-theme' );
 		document.body.classList.add( 'is-dark-theme' );
 	} else {
-		document.***REMOVED***.classList.remove( 'is-dark-theme' );
+		document.documentElement.classList.remove( 'is-dark-theme' );
 		document.body.classList.remove( 'is-dark-theme' );
 	}
 
@@ -45,12 +45,12 @@ function ***REMOVED***() {
 
 function darkModeRepositionTogglerOnScroll() {
 
-	var toggler = document.***REMOVED***( 'dark-mode-toggler' ),
-		prevScroll = window.scrollY || document.***REMOVED***.scrollTop,
+	var toggler = document.getElementById( 'dark-mode-toggler' ),
+		prevScroll = window.scrollY || document.documentElement.scrollTop,
 		currentScroll,
 
 		checkScroll = function() {
-			currentScroll = window.scrollY || document.***REMOVED***.scrollTop;
+			currentScroll = window.scrollY || document.documentElement.scrollTop;
 			if (
 				currentScroll + ( window.innerHeight * 1.5 ) > document.body.clientHeight ||
 				currentScroll < prevScroll
@@ -63,9 +63,9 @@ function darkModeRepositionTogglerOnScroll() {
 		};
 
 	if ( toggler ) {
-		window.***REMOVED***( 'scroll', checkScroll );
+		window.addEventListener( 'scroll', checkScroll );
 	}
 }
 
-***REMOVED***();
+darkModeInitialLoad();
 darkModeRepositionTogglerOnScroll();

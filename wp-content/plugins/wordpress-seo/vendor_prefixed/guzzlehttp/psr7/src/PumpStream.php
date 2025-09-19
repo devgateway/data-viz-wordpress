@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Provides a read only stream that pumps data from a PHP callable.
  *
@@ -14,7 +14,7 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  * the read() function of the PumpStream. The provided callable MUST return
  * false when there is no more data to read.
  */
-final class PumpStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class PumpStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
     /** @var callable(int): (string|false|null)|null */
     private $source;
@@ -87,7 +87,7 @@ final class PumpStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED**
     }
     public function seek($offset, $whence = \SEEK_SET) : void
     {
-        throw new \***REMOVED***('Cannot seek a PumpStream');
+        throw new \RuntimeException('Cannot seek a PumpStream');
     }
     public function isWritable() : bool
     {
@@ -95,7 +95,7 @@ final class PumpStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED**
     }
     public function write($string) : int
     {
-        throw new \***REMOVED***('Cannot write to a PumpStream');
+        throw new \RuntimeException('Cannot write to a PumpStream');
     }
     public function isReadable() : bool
     {

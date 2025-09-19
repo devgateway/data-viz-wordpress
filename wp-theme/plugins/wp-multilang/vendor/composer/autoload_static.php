@@ -76,7 +76,7 @@ class ComposerStaticInit10f68284d303303872430af9e5a79198
         'WPM\\Includes\\Widgets\\WPM_Widget_Language_Switcher' => __DIR__ . '/../..' . '/includes/widgets/class-wpm-widget-language-switcher.php',
     );
 
-    public static function ***REMOVED***(ClassLoader $loader)
+    public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixesPsr0 = ComposerStaticInit10f68284d303303872430af9e5a79198::$prefixesPsr0;

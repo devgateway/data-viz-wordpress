@@ -43,7 +43,7 @@ class Images {
 	/**
 	 * Images constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Image_Helper $image The image helper.
 	 * @param Url_Helper   $url   The url helper.

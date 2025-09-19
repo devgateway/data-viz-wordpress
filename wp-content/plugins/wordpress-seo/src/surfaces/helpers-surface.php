@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Surfaces;
 
 use Yoast\WP\SEO\Exceptions\Forbidden_Property_Mutation_Exception;
 use Yoast\WP\SEO\Helpers;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Helpers_Surface.
@@ -52,7 +52,7 @@ class Helpers_Surface {
 	/**
 	 * The DI container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	private $container;
 
@@ -80,13 +80,13 @@ class Helpers_Surface {
 	/**
 	 * Loader constructor.
 	 *
-	 * @param ***REMOVED***         $container  The dependency injection container.
+	 * @param ContainerInterface         $container  The dependency injection container.
 	 * @param Open_Graph_Helpers_Surface $open_graph The OpenGraph helpers surface.
 	 * @param Schema_Helpers_Surface     $schema     The Schema helpers surface.
 	 * @param Twitter_Helpers_Surface    $twitter    The Twitter helpers surface.
 	 */
 	public function __construct(
-		***REMOVED*** $container,
+		ContainerInterface $container,
 		Open_Graph_Helpers_Surface $open_graph,
 		Schema_Helpers_Surface $schema,
 		Twitter_Helpers_Surface $twitter
@@ -130,7 +130,7 @@ class Helpers_Surface {
 	 *
 	 * @throws Forbidden_Property_Mutation_Exception Set is never meant to be called.
 	 */
-	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.***REMOVED*** -- __set must have a name and value - PHPCS #3715.
+	public function __set( $name, $value ) { // @phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- __set must have a name and value - PHPCS #3715.
 		throw Forbidden_Property_Mutation_Exception::cannot_set_because_property_is_immutable( $name );
 	}
 

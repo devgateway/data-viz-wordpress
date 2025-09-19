@@ -1,7 +1,7 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Endpoints;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints;
 
 use Yoast\WP\SEO\Dashboard\Domain\Endpoint\Endpoint_Interface;
 use Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics\Time_Based_SEO_Metrics_Route;
@@ -17,7 +17,7 @@ class Time_Based_SEO_Metrics_Endpoint implements Endpoint_Interface {
 	 * @return string
 	 */
 	public function get_name(): string {
-		return '***REMOVED***';
+		return 'timeBasedSeoMetrics';
 	}
 
 	/**

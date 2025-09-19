@@ -6,7 +6,7 @@
  */
 
 /**
- * Represents an ***REMOVED*** of the WPSEO_Endpoint interface to register one or multiple endpoints.
+ * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
  */
 class WPSEO_Endpoint_Statistics implements WPSEO_Endpoint {
 

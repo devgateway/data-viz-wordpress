@@ -1,9 +1,9 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Domain\Data_Provider;
 
 /**
- * Object ***REMOVED*** of the request parameters.
+ * Object representation of the request parameters.
  */
 abstract class Parameters {
 

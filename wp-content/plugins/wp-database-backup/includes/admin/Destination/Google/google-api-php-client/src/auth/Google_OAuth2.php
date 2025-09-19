@@ -21,7 +21,7 @@ require_once "Google_LoginTicket.php";
 require_once "service/Google_Utils.php";
 
 /**
- * ***REMOVED*** class that deals with the OAuth 2 web-server ***REMOVED*** flow
+ * Authentication class that deals with the OAuth 2 web-server authentication flow
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
@@ -35,11 +35,11 @@ class Google_OAuth2 extends Google_Auth {
   public $redirectUri;
   public $state;
   public $accessType = 'offline';
-  public $***REMOVED*** = 'force';
+  public $approvalPrompt = 'force';
   public $requestVisibleActions;
 
-  /** @var Google_AssertionCredentials $***REMOVED*** */
-  public $***REMOVED***;
+  /** @var Google_AssertionCredentials $assertionCredentials */
+  public $assertionCredentials;
 
   const OAUTH2_REVOKE_URI = 'https://accounts.google.com/o/oauth2/revoke';
   const OAUTH2_TOKEN_URI = 'https://accounts.google.com/o/oauth2/token';
@@ -77,7 +77,7 @@ class Google_OAuth2 extends Google_Auth {
     }
 
     if (! empty($apiConfig['oauth2_approval_prompt'])) {
-      $this->***REMOVED*** = $apiConfig['oauth2_approval_prompt'];
+      $this->approvalPrompt = $apiConfig['oauth2_approval_prompt'];
     }
 
   }
@@ -89,9 +89,9 @@ class Google_OAuth2 extends Google_Auth {
    * @return string
    */
   public function authenticate($service, $code = null) {
-    //phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Nonce verification is not required here.
+    //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required here.
     if (!$code && isset($_GET['code'])) {
-      //phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Nonce verification is not required here.
+      //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required here.
       $code = $_GET['code'];
     }
 
@@ -105,17 +105,17 @@ class Google_OAuth2 extends Google_Auth {
           'client_secret' => $this->client_secret
       )));
 
-      if ($request->***REMOVED***() == 200) {
-        $this->***REMOVED***($request->***REMOVED***());
+      if ($request->getResponseHttpCode() == 200) {
+        $this->setAccessToken($request->getResponseBody());
         $this->token['created'] = time();
-        return $this->***REMOVED***();
+        return $this->getAccessToken();
       } else {
-        $response = $request->***REMOVED***();
-        $***REMOVED*** = json_decode($response, true);
-        if ($***REMOVED*** != null && $***REMOVED***['error']) {
-          $response = $***REMOVED***['error'];
+        $response = $request->getResponseBody();
+        $decodedResponse = json_decode($response, true);
+        if ($decodedResponse != null && $decodedResponse['error']) {
+          $response = $decodedResponse['error'];
         }
-        throw new Google_AuthException("Error fetching OAuth2 access token, message:".esc_html($response), esc_html($request->***REMOVED***()));
+        throw new Google_AuthException("Error fetching OAuth2 access token, message:".esc_html($response), esc_html($request->getResponseHttpCode()));
       }
     }
 
@@ -138,7 +138,7 @@ class Google_OAuth2 extends Google_Auth {
         'client_id=' . urlencode($this->client_id),
         'scope=' . urlencode($scope),
         'access_type=' . urlencode($this->accessType),
-        'approval_prompt=' . urlencode($this->***REMOVED***),
+        'approval_prompt=' . urlencode($this->approvalPrompt),
     );
 
     // if the list of scopes contains plus.login, add request_visible_actions
@@ -159,7 +159,7 @@ class Google_OAuth2 extends Google_Auth {
    * @param string $token
    * @throws Google_AuthException
    */
-  public function ***REMOVED***($token) {
+  public function setAccessToken($token) {
     $token = json_decode($token, true);
     if ($token == null) {
       throw new Google_AuthException('Could not json decode the token');
@@ -170,11 +170,11 @@ class Google_OAuth2 extends Google_Auth {
     $this->token = $token;
   }
 
-  public function ***REMOVED***() {
+  public function getAccessToken() {
     return wp_json_encode($this->token);
   }
 
-  public function ***REMOVED***($developerKey) {
+  public function setDeveloperKey($developerKey) {
     $this->developerKey = $developerKey;
   }
 
@@ -186,16 +186,16 @@ class Google_OAuth2 extends Google_Auth {
     $this->accessType = $accessType;
   }
 
-  public function ***REMOVED***($***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setApprovalPrompt($approvalPrompt) {
+    $this->approvalPrompt = $approvalPrompt;
   }
 
   public function setAssertionCredentials(Google_AssertionCredentials $creds) {
-    $this->***REMOVED*** = $creds;
+    $this->assertionCredentials = $creds;
   }
 
   /**
-   * Include an access_token in a given ***REMOVED***.
+   * Include an access_token in a given apiHttpRequest.
    * @param Google_HttpRequest $request
    * @return Google_HttpRequest
    * @throws Google_AuthException
@@ -210,14 +210,14 @@ class Google_OAuth2 extends Google_Auth {
     }
 
     // Cannot sign the request without an OAuth access token.
-    if (null == $this->token && null == $this->***REMOVED***) {
+    if (null == $this->token && null == $this->assertionCredentials) {
       return $request;
     }
 
     // Check if the token is set to expire in the next 30 seconds
     // (or has already expired).
-    if ($this->***REMOVED***()) {
-      if ($this->***REMOVED***) {
+    if ($this->isAccessTokenExpired()) {
+      if ($this->assertionCredentials) {
         $this->refreshTokenWithAssertion();
       } else {
         if (! array_key_exists('refresh_token', $this->token)) {
@@ -230,7 +230,7 @@ class Google_OAuth2 extends Google_Auth {
     }
 
     // Add the OAuth2 header to the request
-    $request->***REMOVED***(
+    $request->setRequestHeaders(
         array('Authorization' => 'Bearer ' . $this->token['access_token'])
     );
 
@@ -243,7 +243,7 @@ class Google_OAuth2 extends Google_Auth {
    * @return void
    */
   public function refreshToken($refreshToken) {
-    $this->***REMOVED***(array(
+    $this->refreshTokenRequest(array(
         'client_id' => $this->client_id,
         'client_secret' => $this->client_secret,
         'refresh_token' => $refreshToken,
@@ -253,27 +253,27 @@ class Google_OAuth2 extends Google_Auth {
 
   /**
    * Fetches a fresh access token with a given assertion token.
-   * @param Google_AssertionCredentials $***REMOVED*** optional.
+   * @param Google_AssertionCredentials $assertionCredentials optional.
    * @return void
    */
-  public function refreshTokenWithAssertion($***REMOVED*** = null) {
-    if (!$***REMOVED***) {
-      $***REMOVED*** = $this->***REMOVED***;
+  public function refreshTokenWithAssertion($assertionCredentials = null) {
+    if (!$assertionCredentials) {
+      $assertionCredentials = $this->assertionCredentials;
     }
 
-    $this->***REMOVED***(array(
+    $this->refreshTokenRequest(array(
         'grant_type' => 'assertion',
-        'assertion_type' => $***REMOVED***->assertionType,
-        'assertion' => $***REMOVED***->***REMOVED***(),
+        'assertion_type' => $assertionCredentials->assertionType,
+        'assertion' => $assertionCredentials->generateAssertion(),
     ));
   }
 
-  private function ***REMOVED***($params) {
+  private function refreshTokenRequest($params) {
     $http = new Google_HttpRequest(self::OAUTH2_TOKEN_URI, 'POST', array(), $params);
     $request = Google_Client::$io->makeRequest($http);
 
-    $code = $request->***REMOVED***();
-    $body = $request->***REMOVED***();
+    $code = $request->getResponseHttpCode();
+    $body = $request->getResponseBody();
     if (200 == $code) {
       $token = json_decode($body, true);
       if ($token == null) {
@@ -305,7 +305,7 @@ class Google_OAuth2 extends Google_Auth {
     }
     $request = new Google_HttpRequest(self::OAUTH2_REVOKE_URI, 'POST', array(), "token=$token");
     $response = Google_Client::$io->makeRequest($request);
-    $code = $response->***REMOVED***();
+    $code = $response->getResponseHttpCode();
     if ($code == 200) {
       $this->token = null;
       return true;
@@ -318,7 +318,7 @@ class Google_OAuth2 extends Google_Auth {
    * Returns if the access_token is expired.
    * @return bool Returns True if the access_token is expired.
    */
-  public function ***REMOVED***() {
+  public function isAccessTokenExpired() {
     if (null == $this->token) {
       return true;
     }
@@ -337,20 +337,20 @@ class Google_OAuth2 extends Google_Auth {
     // This relies on makeRequest caching certificate responses.
     $request = Google_Client::$io->makeRequest(new Google_HttpRequest(
         self::OAUTH2_FEDERATED_SIGNON_CERTS_URL));
-    if ($request->***REMOVED***() == 200) {
-      $certs = json_decode($request->***REMOVED***(), true);
+    if ($request->getResponseHttpCode() == 200) {
+      $certs = json_decode($request->getResponseBody(), true);
       if ($certs) {
         return $certs;
       }
     }
     throw new Google_AuthException(
         "Failed to retrieve verification certificates: '" .
-            esc_html($request->***REMOVED***()) . "'.",
-        esc_html($request->***REMOVED***()));
+            esc_html($request->getResponseBody()) . "'.",
+        esc_html($request->getResponseHttpCode()));
   }
 
   /**
-   * Verifies an id token and returns the authenticated ***REMOVED***.
+   * Verifies an id token and returns the authenticated apiLoginTicket.
    * Throws an exception if the id token is not valid.
    * The audience parameter can be used to control which id tokens are
    * accepted.  By default, the id token must have been issued to this OAuth2 client.
@@ -379,16 +379,16 @@ class Google_OAuth2 extends Google_Auth {
       throw new Google_AuthException("Wrong number of segments in token:". esc_html($jwt));
     }
     $signed = $segments[0] . "." . $segments[1];
-    $signature = Google_Utils::***REMOVED***($segments[2]);
+    $signature = Google_Utils::urlSafeB64Decode($segments[2]);
 
     // Parse envelope.
-    $envelope = json_decode(Google_Utils::***REMOVED***($segments[0]), true);
+    $envelope = json_decode(Google_Utils::urlSafeB64Decode($segments[0]), true);
     if (!$envelope) {
       throw new Google_AuthException("Can't parse token envelope: " . esc_html($segments[0]));
     }
 
     // Parse token
-    $json_body = Google_Utils::***REMOVED***($segments[1]);
+    $json_body = Google_Utils::urlSafeB64Decode($segments[1]);
     $payload = json_decode($json_body, true);
     if (!$payload) {
       throw new Google_AuthException("Can't parse token payload: " . esc_html($segments[1]));

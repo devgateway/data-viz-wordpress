@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Setup;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
@@ -81,7 +81,7 @@ class Setup_Flow_Interceptor implements Integration_Interface {
 	 */
 	private function is_site_kit_setup_completed_page(): bool {
 		$on_setup_page = $this->current_page_helper->get_current_yoast_seo_page() === self::GOOGLE_SITE_KIT_SETUP_FINISHED_PAGE;
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$authentication_success_notification = isset( $_GET['notification'] ) && \sanitize_text_field( \wp_unslash( $_GET['notification'] ) ) === 'authentication_success';
 
 		return $on_setup_page && $authentication_success_notification;

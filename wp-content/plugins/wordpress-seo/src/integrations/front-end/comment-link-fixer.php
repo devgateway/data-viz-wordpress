@@ -38,7 +38,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	/**
 	 * Comment_Link_Fixer constructor.
 	 *
-	 * @***REMOVED*** It only sets depedencies.
+	 * @codeCoverageIgnore It only sets depedencies.
 	 *
 	 * @param Redirect_Helper $redirect The redirect helper.
 	 * @param Robots_Helper   $robots   The robots helper.
@@ -70,14 +70,14 @@ class Comment_Link_Fixer implements Integration_Interface {
 	/**
 	 * Checks if the url contains the ?replytocom query parameter.
 	 *
-	 * @***REMOVED*** Wraps the filter input.
+	 * @codeCoverageIgnore Wraps the filter input.
 	 *
 	 * @return string|null The value of replytocom or null if it does not exist.
 	 */
 	protected function get_replytocom_parameter() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['replytocom'] ) && \is_string( $_GET['replytocom'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return \sanitize_text_field( \wp_unslash( $_GET['replytocom'] ) );
 		}
 		return null;
@@ -125,7 +125,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	/**
 	 * Checks whether we can allow the feature that removes ?replytocom query parameters.
 	 *
-	 * @***REMOVED*** It just wraps a call to a filter.
+	 * @codeCoverageIgnore It just wraps a call to a filter.
 	 *
 	 * @return bool True to remove, false not to remove.
 	 */

@@ -359,7 +359,7 @@
 				   class="button button-secondary" tabindex="2"><?php fs_esc_html_echo_x_inline( 'Skip', 'verb', 'skip', $slug ) ?></a>
 			<?php endif ?>
 			<?php if ( $is_network_level_activation && $fs->apply_filters( 'show_delegation_option', true ) ) : ?>
-				<a id="delegate_to_site_admins" class="fs-tooltip-trigger <?php echo is_rtl() ? ' rtl' : '' ?>" href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_delegate_activation' ) ), $fs->get_unique_affix() . '_delegate_activation' ) ?>"><?php fs_esc_html_echo_inline( 'Delegate to Site Admins', 'delegate-to-site-admins', $slug ) ?><span class="fs-tooltip"><?php fs_esc_html_echo_inline( 'If you click it, this decision will be delegated to the sites ***REMOVED***.', 'delegate-sites-tooltip', $slug ) ?></span></a>
+				<a id="delegate_to_site_admins" class="fs-tooltip-trigger <?php echo is_rtl() ? ' rtl' : '' ?>" href="<?php echo fs_nonce_url( $fs->_get_admin_page_url( '', array( 'fs_action' => $fs->get_unique_affix() . '_delegate_activation' ) ), $fs->get_unique_affix() . '_delegate_activation' ) ?>"><?php fs_esc_html_echo_inline( 'Delegate to Site Admins', 'delegate-to-site-admins', $slug ) ?><span class="fs-tooltip"><?php fs_esc_html_echo_inline( 'If you click it, this decision will be delegated to the sites administrators.', 'delegate-sites-tooltip', $slug ) ?></span></a>
 			<?php endif ?>
 			<?php if ( $activate_with_current_user ) : ?>
 				<form action="" method="POST">
@@ -476,13 +476,13 @@
 		<?php
 		if ( $is_optin_dialog ) {
 		if ( $show_close_button ) { ?>
-		var $***REMOVED*** = $('#fs_theme_connect_wrapper');
+		var $themeConnectWrapper = $('#fs_theme_connect_wrapper');
 
-		$***REMOVED***.find('button.close').on('click', function () {
+		$themeConnectWrapper.find('button.close').on('click', function () {
 			<?php if ( ! empty( $previous_theme_activation_url ) ) { ?>
 			location.href = '<?php echo html_entity_decode( $previous_theme_activation_url ); ?>';
 			<?php } else { ?>
-			$***REMOVED***.remove();
+			$themeConnectWrapper.remove();
 			$html.css({overflow: $html.attr('fs-optin-overflow')});
 			<?php } ?>
 		});
@@ -498,99 +498,99 @@
 		?>
 
 		var $primaryCta          = $('.fs-actions .button.button-primary'),
-            ***REMOVED***      = $primaryCta.html(),
+            primaryCtaLabel      = $primaryCta.html(),
 		    $form                = $('.fs-actions form'),
-		    ***REMOVED***      = <?php echo $is_network_level_activation ? 'true' : 'false' ?>,
-		    ***REMOVED***    = <?php echo $require_license_key ? 'true' : 'false' ?>,
-		    ***REMOVED***       = <?php echo $activate_with_current_user ? 'true' : 'false' ?>,
-		    ***REMOVED*** = <?php echo $is_network_upgrade_mode ? 'true' : 'false' ?>,
+		    isNetworkActive      = <?php echo $is_network_level_activation ? 'true' : 'false' ?>,
+		    requireLicenseKey    = <?php echo $require_license_key ? 'true' : 'false' ?>,
+		    hasContextUser       = <?php echo $activate_with_current_user ? 'true' : 'false' ?>,
+		    isNetworkUpgradeMode = <?php echo $is_network_upgrade_mode ? 'true' : 'false' ?>,
 		    $licenseSecret,
-		    $***REMOVED***     = $('#fs_license_key'),
-            ***REMOVED***  = false,
-            ***REMOVED***  = false,
+		    $licenseKeyInput     = $('#fs_license_key'),
+            pauseCtaLabelUpdate  = false,
+            isNetworkDelegating  = false,
             /**
              * @author Leo Fajardo (@leorw)
              * @since 2.1.0
              */
-            ***REMOVED*** = function() {
+            resetLoadingMode = function() {
                 // Reset loading mode.
-                $primaryCta.html(***REMOVED***);
+                $primaryCta.html(primaryCtaLabel);
                 $primaryCta.prop('disabled', false);
                 $( '.fs-loading' ).removeClass( 'fs-loading' );
 
-                console.log('***REMOVED*** - Primary button was enabled');
+                console.log('resetLoadingMode - Primary button was enabled');
             },
-			***REMOVED*** = function () {
+			setLoadingMode = function () {
 				$( document.body ).addClass( 'fs-loading' );
 			};
 
 		$('.fs-actions .button').on('click', function () {
-			***REMOVED***();
+			setLoadingMode();
 
 			var $this = $(this);
 
 			setTimeout(function () {
-			    if ( ! ***REMOVED*** || ! $***REMOVED***.hasClass( 'error' ) ) {
+			    if ( ! requireLicenseKey || ! $marketingOptin.hasClass( 'error' ) ) {
                     $this.attr('disabled', 'disabled');
                 }
 			}, 200);
 		});
 
-		if ( ***REMOVED*** ) {
+		if ( isNetworkActive ) {
 			var
 				$multisiteOptionsContainer  = $( '.fs-multisite-options-container' ),
-				$***REMOVED***            = $( '.fs-all-sites-options' ),
-				$***REMOVED***            = $( '.fs-apply-on-all-sites-checkbox' ),
-				$***REMOVED***         = $( '.fs-sites-list-container' ),
+				$allSitesOptions            = $( '.fs-all-sites-options' ),
+				$applyOnAllSites            = $( '.fs-apply-on-all-sites-checkbox' ),
+				$sitesListContainer         = $( '.fs-sites-list-container' ),
 				totalSites                  = <?php echo count( $sites ) ?>,
-				***REMOVED***          = null,
-				$***REMOVED***       = $( '#skip_activation' ),
+				maxSitesListHeight          = null,
+				$skipActivationButton       = $( '#skip_activation' ),
 				$delegateToSiteAdminsButton = $( '#delegate_to_site_admins' ),
                 hasAnyInstall               = <?php echo ! is_null( $fs->find_first_install() ) ? 'true' : 'false' ?>;
 
-			$***REMOVED***.click(function() {
+			$applyOnAllSites.click(function() {
 				var isChecked = $( this ).is( ':checked' );
 
 				if ( isChecked ) {
 					$multisiteOptionsContainer.find( '.action' ).removeClass( 'selected' );
-					***REMOVED***( 'allow' );
+					updatePrimaryCtaText( 'allow' );
 				}
 
 				$multisiteOptionsContainer.find( '.action-allow' ).addClass( 'selected' );
 
-				$***REMOVED***.toggle();
+				$skipActivationButton.toggle();
 
 				$delegateToSiteAdminsButton.toggle();
 
 				$multisiteOptionsContainer.toggleClass( 'fs-apply-on-all-sites', isChecked );
 
-				$***REMOVED***.toggle( ! isChecked );
-				if ( ! isChecked && null === ***REMOVED*** ) {
+				$sitesListContainer.toggle( ! isChecked );
+				if ( ! isChecked && null === maxSitesListHeight ) {
 					/**
 					 * Set the visible number of rows to 5 (5 * height of the first row).
 					 *
 					 * @author Leo Fajardo (@leorw)
 					 */
-					***REMOVED*** = ( 5 * $***REMOVED***.find( 'tr:first' ).height() );
-					$***REMOVED***.css( 'max-height', ***REMOVED*** );
+					maxSitesListHeight = ( 5 * $sitesListContainer.find( 'tr:first' ).height() );
+					$sitesListContainer.css( 'max-height', maxSitesListHeight );
 				}
 			});
 
-			$***REMOVED***.find( '.action' ).click(function( evt ) {
+			$allSitesOptions.find( '.action' ).click(function( evt ) {
 				var actionType = $( evt.target ).data( 'action-type' );
 
 				$multisiteOptionsContainer.find( '.action' ).removeClass( 'selected' );
 				$multisiteOptionsContainer.find( '.action-' + actionType ).toggleClass( 'selected' );
 
-				***REMOVED***( actionType );
+				updatePrimaryCtaText( actionType );
 			});
 
-            $***REMOVED***.delegate( 'td:not(:first-child)', 'click', function() {
+            $sitesListContainer.delegate( 'td:not(:first-child)', 'click', function() {
                 // If a site row is clicked, trigger a click on the checkbox.
                 $( this ).parent().find( 'td:first-child input' ).click();
             } );
 
-			$***REMOVED***.delegate( '.action', 'click', function( evt ) {
+			$sitesListContainer.delegate( '.action', 'click', function( evt ) {
 				var $this = $( evt.target );
 				if ( $this.hasClass( 'selected' ) ) {
 					return false;
@@ -600,34 +600,34 @@
 				$this.toggleClass( 'selected' );
 
 				var
-					***REMOVED*** = $this.data( 'action-type' ),
-					totalSelected        = $***REMOVED***.find( '.action-' + ***REMOVED*** + '.selected' ).length;
+					singleSiteActionType = $this.data( 'action-type' ),
+					totalSelected        = $sitesListContainer.find( '.action-' + singleSiteActionType + '.selected' ).length;
 
-				$***REMOVED***.find( '.action.selected' ).removeClass( 'selected' );
+				$allSitesOptions.find( '.action.selected' ).removeClass( 'selected' );
 
 				if ( totalSelected === totalSites ) {
-					$***REMOVED***.find( '.action-' + ***REMOVED*** ).addClass( 'selected' );
+					$allSitesOptions.find( '.action-' + singleSiteActionType ).addClass( 'selected' );
 
-					***REMOVED***( ***REMOVED*** );
+					updatePrimaryCtaText( singleSiteActionType );
 				} else {
-					***REMOVED***( 'mixed' );
+					updatePrimaryCtaText( 'mixed' );
 				}
 			});
 
-            if ( ***REMOVED*** || hasAnyInstall ) {
-                $***REMOVED***.click(function(){
+            if ( isNetworkUpgradeMode || hasAnyInstall ) {
+                $skipActivationButton.click(function(){
                     $delegateToSiteAdminsButton.hide();
 
-                    $***REMOVED***.html('<?php fs_esc_js_echo_inline( 'Skipping, please wait', 'skipping-wait', $slug ) ?>...');
+                    $skipActivationButton.html('<?php fs_esc_js_echo_inline( 'Skipping, please wait', 'skipping-wait', $slug ) ?>...');
 
-                    ***REMOVED*** = true;
+                    pauseCtaLabelUpdate = true;
 
                     // Check all sites to be skipped.
-                    $***REMOVED***.find('.action.action-skip').click();
+                    $allSitesOptions.find('.action.action-skip').click();
 
                     $form.submit();
 
-                    ***REMOVED*** = false;
+                    pauseCtaLabelUpdate = false;
 
                     return false;
                 });
@@ -635,7 +635,7 @@
                 $delegateToSiteAdminsButton.click(function(){
                     $delegateToSiteAdminsButton.html('<?php fs_esc_js_echo_inline( 'Delegating, please wait', 'delegating-wait', $slug ) ?>...');
 
-                    ***REMOVED*** = true;
+                    pauseCtaLabelUpdate = true;
 
                     /**
                      * Set to true so that the form submission handler can differentiate delegation from license
@@ -645,14 +645,14 @@
                      * @author Leo Fajardo (@leorw)
                      * @since 2.3.0
                      */
-                    ***REMOVED*** = true;
+                    isNetworkDelegating = true;
 
                     // Check all sites to be skipped.
-                    $***REMOVED***.find('.action.action-delegate').click();
+                    $allSitesOptions.find('.action.action-delegate').click();
 
                     $form.submit();
 
-                    ***REMOVED*** = false;
+                    pauseCtaLabelUpdate = false;
 
                     /**
                      * Set to false so that in case the previous AJAX request has failed, the form submission handler
@@ -662,7 +662,7 @@
                      * @author Leo Fajardo (@leorw)
                      * @since 2.3.0
                      */
-                    ***REMOVED*** = false;
+                    isNetworkDelegating = false;
 
                     return false;
                 });
@@ -672,8 +672,8 @@
 		/**
 		 * @author Leo Fajardo (@leorw)
 		 */
-		function ***REMOVED***( actionType ) {
-            if (***REMOVED***)
+		function updatePrimaryCtaText( actionType ) {
+            if (pauseCtaLabelUpdate)
                 return;
 
 			var text = '<?php fs_esc_js_echo_inline( 'Continue', 'continue', $slug ) ?>';
@@ -693,17 +693,17 @@
 			$primaryCta.html( text );
 		}
 
-		var ajaxOptin = ( ***REMOVED*** || ***REMOVED*** );
+		var ajaxOptin = ( requireLicenseKey || isNetworkActive );
 
 		$form.on('submit', function () {
-            var $***REMOVED*** = $( '#fs_permission_extensions .fs-switch' ),
-                isExtensionsTrackingAllowed = ( $***REMOVED***.length > 0 ) ?
-                    $***REMOVED***.hasClass( 'fs-on' ) :
+            var $extensionsPermission = $( '#fs_permission_extensions .fs-switch' ),
+                isExtensionsTrackingAllowed = ( $extensionsPermission.length > 0 ) ?
+                    $extensionsPermission.hasClass( 'fs-on' ) :
                     null;
 
-            var $***REMOVED*** = $( '#fs_permission_diagnostic .fs-switch' ),
-                isDiagnosticTrackingAllowed = ( $***REMOVED***.length > 0 ) ?
-                    $***REMOVED***.hasClass( 'fs-on' ) :
+            var $diagnosticPermission = $( '#fs_permission_diagnostic .fs-switch' ),
+                isDiagnosticTrackingAllowed = ( $diagnosticPermission.length > 0 ) ?
+                    $diagnosticPermission.hasClass( 'fs-on' ) :
                     null;
 
             if ( null === isExtensionsTrackingAllowed ) {
@@ -722,11 +722,11 @@
 			 * @since 1.1.9
 			 */
 			if ( ajaxOptin ) {
-				if (!***REMOVED*** || ***REMOVED***) {
+				if (!hasContextUser || isNetworkUpgradeMode) {
 				    var action   = null,
                         security = null;
 
-				    if ( ***REMOVED*** && ! ***REMOVED*** ) {
+				    if ( requireLicenseKey && ! isNetworkDelegating ) {
                         action   = '<?php echo $fs->get_ajax_action( 'activate_license' ) ?>';
                         security = '<?php echo $fs->get_ajax_security( 'activate_license' ) ?>';
                     } else {
@@ -737,7 +737,7 @@
 					$('.fs-error').remove();
 
 					var
-                        licenseKey = $***REMOVED***.val(),
+                        licenseKey = $licenseKeyInput.val(),
                         data       = {
                             action     : action,
                             security   : security,
@@ -746,46 +746,46 @@
                         };
 
 					if (
-                        ***REMOVED*** &&
-                        ! ***REMOVED*** &&
-                        isMarketingAllowedByLicense.***REMOVED***(licenseKey)
+                        requireLicenseKey &&
+                        ! isNetworkDelegating &&
+                        isMarketingAllowedByLicense.hasOwnProperty(licenseKey)
                     ) {
                         var
-                            ***REMOVED*** = null,
-                            $***REMOVED***   = $***REMOVED***.find( 'input[type="radio"][name="allow-marketing"]:checked');
+                            isMarketingAllowed = null,
+                            $isMarketingAllowed   = $marketingOptin.find( 'input[type="radio"][name="allow-marketing"]:checked');
 
 
-                        if ($***REMOVED***.length > 0)
-                            ***REMOVED*** = ('true' == $***REMOVED***.val());
+                        if ($isMarketingAllowed.length > 0)
+                            isMarketingAllowed = ('true' == $isMarketingAllowed.val());
 
                         if ( null == isMarketingAllowedByLicense[ licenseKey ] &&
-                            null == ***REMOVED***
+                            null == isMarketingAllowed
                         ) {
-                            $***REMOVED***.addClass( 'error' ).show();
-                            ***REMOVED***();
+                            $marketingOptin.addClass( 'error' ).show();
+                            resetLoadingMode();
                             return false;
-                        } else if ( null == ***REMOVED*** ) {
-                            ***REMOVED*** = isMarketingAllowedByLicense[ licenseKey ];
+                        } else if ( null == isMarketingAllowed ) {
+                            isMarketingAllowed = isMarketingAllowedByLicense[ licenseKey ];
                         }
 
-                        data.is_marketing_allowed = ***REMOVED***;
+                        data.is_marketing_allowed = isMarketingAllowed;
 
 						data.is_extensions_tracking_allowed = isExtensionsTrackingAllowed;
 
 						data.is_diagnostic_tracking_allowed = isDiagnosticTrackingAllowed;
                     }
 
-                    $***REMOVED***.removeClass( 'error' );
+                    $marketingOptin.removeClass( 'error' );
 
-					if ( ***REMOVED*** ) {
+					if ( isNetworkActive ) {
 						var
 							sites           = [],
-							***REMOVED*** = $***REMOVED***.is( ':checked' );
+							applyOnAllSites = $applyOnAllSites.is( ':checked' );
 
-						$***REMOVED***.find( 'tr' ).each(function() {
+						$sitesListContainer.find( 'tr' ).each(function() {
 							var
 								$this       = $( this ),
-								includeSite = ( ! ***REMOVED*** || ***REMOVED*** || $this.find( 'input' ).is( ':checked' ) );
+								includeSite = ( ! requireLicenseKey || applyOnAllSites || $this.find( 'input' ).is( ':checked' ) );
 
 							if ( ! includeSite )
 								return;
@@ -798,9 +798,9 @@
 								blog_id : $this.find( '.blog-id' ).find( 'span' ).text()
 							};
 
-							if ( ! ***REMOVED***) {
+							if ( ! requireLicenseKey) {
                                 site.action = $this.find('.action.selected').data('action-type');
-                            } else if ( ***REMOVED*** ) {
+                            } else if ( isNetworkDelegating ) {
 							    site.action = 'delegate';
                             }
 
@@ -831,14 +831,14 @@
 								// Redirect to the "Account" page and sync the license.
 								window.location.href = resultObj.next_page;
 							} else {
-								***REMOVED***();
+								resetLoadingMode();
 
 								// Show error.
 								$('.fs-content').prepend('<div class="fs-error">' + (resultObj.error.message ?  resultObj.error.message : resultObj.error) + '</div>');
 							}
 						},
 						error: function () {
-							***REMOVED***();
+							resetLoadingMode();
 						}
 					});
 
@@ -851,7 +851,7 @@
 					}
 
 					// Update secret key if premium only plugin.
-					$licenseSecret.val($***REMOVED***.val());
+					$licenseSecret.val($licenseKeyInput.val());
 				}
 			}
 
@@ -883,14 +883,14 @@
 			return false;
 		});
 
-		if (***REMOVED***) {
+		if (requireLicenseKey) {
 			/**
 			 * Submit license key on enter.
 			 *
 			 * @author Vova Feldman (@svovaf)
 			 * @since 1.1.9
 			 */
-			$***REMOVED***.keypress(function (e) {
+			$licenseKeyInput.keypress(function (e) {
 				if (e.which == 13) {
 					if ('' !== $(this).val()) {
 						$primaryCta.click();
@@ -905,28 +905,28 @@
 			 * @author Vova Feldman (@svovaf)
 			 * @since 1.1.9
 			 */
-			$***REMOVED***.on('keyup paste delete cut', function () {
+			$licenseKeyInput.on('keyup paste delete cut', function () {
 				setTimeout(function () {
-                    var key = $***REMOVED***.val();
+                    var key = $licenseKeyInput.val();
 
-                    if (key == ***REMOVED***){
+                    if (key == previousLicenseKey){
                         return;
                     }
 
 					if ('' === key) {
 						$primaryCta.attr('disabled', 'disabled');
-                        $***REMOVED***.hide();
+                        $marketingOptin.hide();
 					} else {
                         $primaryCta.prop('disabled', false);
 
                         if (32 <= key.length){
                             fetchIsMarketingAllowedFlagAndToggleOptin();
                         } else {
-                            $***REMOVED***.hide();
+                            $marketingOptin.hide();
                         }
 					}
 
-                    ***REMOVED*** = key;
+                    previousLicenseKey = key;
 				}, 100);
 			}).focus();
 		}
@@ -958,27 +958,27 @@
 		//region GDPR
 		//--------------------------------------------------------------------------------
         var isMarketingAllowedByLicense = {},
-            $***REMOVED*** = $('#fs_marketing_optin'),
-            ***REMOVED*** = null;
+            $marketingOptin = $('#fs_marketing_optin'),
+            previousLicenseKey = null;
 
-		if (***REMOVED***) {
+		if (requireLicenseKey) {
 
 			    var
                     afterMarketingFlagLoaded = function () {
-                        var licenseKey = $***REMOVED***.val();
+                        var licenseKey = $licenseKeyInput.val();
 
                         if (null == isMarketingAllowedByLicense[licenseKey]) {
-                            $***REMOVED***.show();
+                            $marketingOptin.show();
 
-                            if ($***REMOVED***.find('input[type=radio]:checked').length > 0){
+                            if ($marketingOptin.find('input[type=radio]:checked').length > 0){
                                 // Focus on button if GDPR opt-in already selected is already selected.
                                 $primaryCta.focus();
                             } else {
                                 // Focus on the GDPR opt-in radio button.
-                                $($***REMOVED***.find('input[type=radio]')[0]).focus();
+                                $($marketingOptin.find('input[type=radio]')[0]).focus();
                             }
                         } else {
-                            $***REMOVED***.hide();
+                            $marketingOptin.hide();
                             $primaryCta.focus();
                         }
                     },
@@ -987,21 +987,21 @@
                      * @since 2.1.0
                      */
                     fetchIsMarketingAllowedFlagAndToggleOptin = function () {
-                        var licenseKey = $***REMOVED***.val();
+                        var licenseKey = $licenseKeyInput.val();
 
                         if (licenseKey.length < 32) {
-                            $***REMOVED***.hide();
+                            $marketingOptin.hide();
                             return;
                         }
 
-                        if (isMarketingAllowedByLicense.***REMOVED***(licenseKey)) {
+                        if (isMarketingAllowedByLicense.hasOwnProperty(licenseKey)) {
                             afterMarketingFlagLoaded();
                             return;
                         }
 
-                        $***REMOVED***.hide();
+                        $marketingOptin.hide();
 
-                        ***REMOVED***();
+                        setLoadingMode();
 
                         $primaryCta.addClass('fs-loading');
                         $primaryCta.attr('disabled', 'disabled');
@@ -1017,7 +1017,7 @@
                                 module_id  : '<?php echo $fs->get_id() ?>'
                             },
                             success: function (result) {
-                                ***REMOVED***();
+                                resetLoadingMode();
 
                                 if (result.success) {
                                     result = result.data;
@@ -1031,8 +1031,8 @@
                         });
                     };
 
-			$***REMOVED***.find( 'input' ).click(function() {
-				$***REMOVED***.removeClass( 'error' );
+			$marketingOptin.find( 'input' ).click(function() {
+				$marketingOptin.removeClass( 'error' );
 			});
 		}
 

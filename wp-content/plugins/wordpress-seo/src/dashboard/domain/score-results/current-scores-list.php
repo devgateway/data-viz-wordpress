@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Domain\Score_Results;
 
 /**
@@ -27,9 +27,9 @@ class Current_Scores_List {
 	}
 
 	/**
-	 * Parses the current score list to the expected key value ***REMOVED***.
+	 * Parses the current score list to the expected key value representation.
 	 *
-	 * @return array<array<string, string|int|array<string, string>>> The score list presented as the expected key value ***REMOVED***.
+	 * @return array<array<string, string|int|array<string, string>>> The score list presented as the expected key value representation.
 	 */
 	public function to_array(): array {
 		$array = [];

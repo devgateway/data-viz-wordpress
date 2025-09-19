@@ -22,7 +22,7 @@ class secp160r2 extends Prime
     {
         // same as secp160k1
         $this->setModulo(new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC73', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC70', 16),
             new BigInteger('B4E134D3FB59EB8BAB57274904664D5AF50388BA', 16)
         );

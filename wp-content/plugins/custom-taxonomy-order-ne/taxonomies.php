@@ -18,8 +18,8 @@ function custom_taxonomy_order() {
 	}
 
 	?>
-	<div class='wrap ***REMOVED***'>
-		<div id="icon-***REMOVED***"></div>
+	<div class='wrap customtaxorder'>
+		<div id="icon-customtaxorder"></div>
 		<h1><?php esc_html_e('Order Taxonomies', 'custom-taxonomy-order-ne'); ?></h1>
 
 		<form name="custom-order-form" method="post" action=""><?php

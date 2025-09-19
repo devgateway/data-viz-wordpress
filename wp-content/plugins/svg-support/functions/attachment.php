@@ -134,7 +134,7 @@ function bodhi_svgs_generate_svg_attachment_metadata( $metadata, $attachment_id 
 		$height = intval($dimensions->height);
 		$width = intval($dimensions->width);
 
-		// Generate sizes array for future ***REMOVED***, if needed
+		// Generate sizes array for future implementations, if needed
 		$sizes = array();
 		foreach ( get_intermediate_image_sizes() as $s ) {
 
@@ -211,8 +211,8 @@ function bodhi_svgs_sanitize( $file ){
 
 	global $sanitizer;
 
-	$sanitizer->***REMOVED***( new bodhi_svg_tags() );
-	$sanitizer->***REMOVED***( new bodhi_svg_attributes() );
+	$sanitizer->setAllowedTags( new bodhi_svg_tags() );
+	$sanitizer->setAllowedAttrs( new bodhi_svg_attributes() );
 
 	$dirty = '';
 

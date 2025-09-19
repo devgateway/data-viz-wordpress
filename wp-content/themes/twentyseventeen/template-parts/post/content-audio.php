@@ -55,7 +55,7 @@
 	<?php if ( '' !== get_the_post_thumbnail() && ! is_single() ) : ?>
 		<div class="post-thumbnail">
 			<a href="<?php the_permalink(); ?>">
-				<?php the_post_thumbnail( '***REMOVED***-featured-image' ); ?>
+				<?php the_post_thumbnail( 'twentyseventeen-featured-image' ); ?>
 			</a>
 		</div><!-- .post-thumbnail -->
 	<?php endif; ?>
@@ -80,14 +80,14 @@
 			the_content(
 				sprintf(
 					/* translators: %s: Post title. Only visible to screen readers. */
-					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', '***REMOVED***' ),
+					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
 					get_the_title()
 				)
 			);
 
 			wp_link_pages(
 				array(
-					'before'      => '<div class="page-links">' . __( 'Pages:', '***REMOVED***' ),
+					'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
 					'after'       => '</div>',
 					'link_before' => '<span class="page-number">',
 					'link_after'  => '</span>',

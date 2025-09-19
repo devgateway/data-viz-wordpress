@@ -155,7 +155,7 @@ class Yoast_Feature_Toggles {
 				'setting' => 'disableadvanced_meta',
 				'label'   => sprintf(
 					/* translators: 1: Yoast SEO, 2: translated version of "Off" */
-					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. The settings in the schema tab allows a user to change schema meta data for a post. These are things you might not want any author to do. That\'s why, by default, only editors and ***REMOVED*** can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
+					__( 'The advanced section of the %1$s meta box allows a user to remove posts from the search results or change the canonical. The settings in the schema tab allows a user to change schema meta data for a post. These are things you might not want any author to do. That\'s why, by default, only editors and administrators can do this. Setting to "%2$s" allows all users to change these settings.', 'wordpress-seo' ),
 					'Yoast SEO',
 					__( 'Off', 'wordpress-seo' )
 				),

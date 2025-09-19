@@ -66,7 +66,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      *
      * @param string $m
      * @param string $s
-     * @throws \***REMOVED*** if the RSA modulus is too short
+     * @throws \LengthException if the RSA modulus is too short
      * @return bool
      */
     private function rsassa_pkcs1_v1_5_verify($m, $s)
@@ -98,21 +98,21 @@ final class PublicKey extends RSA implements Common\PublicKey
         try {
             $em2 = $this->emsa_pkcs1_v1_5_encode($m, $this->k);
             $r1 = hash_equals($em, $em2);
-        } catch (\***REMOVED*** $e) {
+        } catch (\LengthException $e) {
             $exception = true;
         }
 
         try {
             $em3 = $this->emsa_pkcs1_v1_5_encode_without_null($m, $this->k);
             $r2 = hash_equals($em, $em3);
-        } catch (\***REMOVED*** $e) {
+        } catch (\LengthException $e) {
             $exception = true;
         } catch (UnsupportedAlgorithmException $e) {
             $r2 = false;
         }
 
         if ($exception) {
-            throw new \***REMOVED***('RSA modulus too short');
+            throw new \LengthException('RSA modulus too short');
         }
 
         // Compare
@@ -129,7 +129,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      * that if you're going to validate these types of signatures you "should indicate
      * whether the underlying BER encoding is a DER encoding and hence whether the signature
      * is valid with respect to the specification given in [PKCS1 v2.0+]". so if you do
-     * $rsa->***REMOVED***() and get RSA::PADDING_RELAXED_PKCS1 back instead of
+     * $rsa->getLastPadding() and get RSA::PADDING_RELAXED_PKCS1 back instead of
      * RSA::PADDING_PKCS1... that means BER encoding was used.
      *
      * @param string $m
@@ -193,15 +193,15 @@ final class PublicKey extends RSA implements Common\PublicKey
             return false;
         }
 
-        if (!isset($oids[$decoded['***REMOVED***']['algorithm']])) {
+        if (!isset($oids[$decoded['digestAlgorithm']['algorithm']])) {
             return false;
         }
 
-        if (isset($decoded['***REMOVED***']['parameters']) && $decoded['***REMOVED***']['parameters'] !== ['null' => '']) {
+        if (isset($decoded['digestAlgorithm']['parameters']) && $decoded['digestAlgorithm']['parameters'] !== ['null' => '']) {
             return false;
         }
 
-        $hash = $decoded['***REMOVED***']['algorithm'];
+        $hash = $decoded['digestAlgorithm']['algorithm'];
         $hash = substr($hash, 0, 3) == 'id-' ?
             substr($hash, 3) :
             $hash;
@@ -301,7 +301,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      */
     public function verify($message, $signature)
     {
-        switch ($this->***REMOVED***) {
+        switch ($this->signaturePadding) {
             case self::SIGNATURE_RELAXED_PKCS1:
                 return $this->rsassa_pkcs1_v1_5_relaxed_verify($message, $signature);
             case self::SIGNATURE_PKCS1:
@@ -319,7 +319,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      *
      * @param string $m
      * @param bool $pkcs15_compat optional
-     * @throws \***REMOVED*** if strlen($m) > $this->k - 11
+     * @throws \LengthException if strlen($m) > $this->k - 11
      * @return bool|string
      */
     private function rsaes_pkcs1_v1_5_encrypt($m, $pkcs15_compat = false)
@@ -329,7 +329,7 @@ final class PublicKey extends RSA implements Common\PublicKey
         // Length checking
 
         if ($mLen > $this->k - 11) {
-            throw new \***REMOVED***('Message too long');
+            throw new \LengthException('Message too long');
         }
 
         // EME-PKCS1-v1_5 encoding
@@ -361,7 +361,7 @@ final class PublicKey extends RSA implements Common\PublicKey
      * {http://en.wikipedia.org/wiki/Optimal_Asymmetric_Encryption_Padding OAES}.
      *
      * @param string $m
-     * @throws \***REMOVED*** if strlen($m) > $this->k - 2 * $this->hLen - 2
+     * @throws \LengthException if strlen($m) > $this->k - 2 * $this->hLen - 2
      * @return string
      */
     private function rsaes_oaep_encrypt($m)
@@ -374,7 +374,7 @@ final class PublicKey extends RSA implements Common\PublicKey
         // be output.
 
         if ($mLen > $this->k - 2 * $this->hLen - 2) {
-            throw new \***REMOVED***('Message too long');
+            throw new \LengthException('Message too long');
         }
 
         // EME-OAEP encoding
@@ -411,7 +411,7 @@ final class PublicKey extends RSA implements Common\PublicKey
     private function rsaep($m)
     {
         if ($m->compare(self::$zero) < 0 || $m->compare($this->modulus) > 0) {
-            throw new \***REMOVED***('Message ***REMOVED*** out of range');
+            throw new \OutOfRangeException('Message representative out of range');
         }
         return $this->exponentiate($m);
     }
@@ -423,12 +423,12 @@ final class PublicKey extends RSA implements Common\PublicKey
      *
      * @param string $m
      * @return bool|string
-     * @throws \***REMOVED*** if strlen($m) > $this->k
+     * @throws \LengthException if strlen($m) > $this->k
      */
     private function raw_encrypt($m)
     {
         if (strlen($m) > $this->k) {
-            throw new \***REMOVED***('Message too long');
+            throw new \LengthException('Message too long');
         }
 
         $temp = $this->os2ip($m);
@@ -446,11 +446,11 @@ final class PublicKey extends RSA implements Common\PublicKey
      * @see self::decrypt()
      * @param string $plaintext
      * @return bool|string
-     * @throws \***REMOVED*** if the RSA modulus is too short
+     * @throws \LengthException if the RSA modulus is too short
      */
     public function encrypt($plaintext)
     {
-        switch ($this->***REMOVED***) {
+        switch ($this->encryptionPadding) {
             case self::ENCRYPTION_NONE:
                 return $this->raw_encrypt($plaintext);
             case self::ENCRYPTION_PKCS1:
@@ -474,10 +474,10 @@ final class PublicKey extends RSA implements Common\PublicKey
      */
     public function toString($type, array $options = [])
     {
-        $type = self::***REMOVED***('Keys', $type, 'savePublicKey');
+        $type = self::validatePlugin('Keys', $type, 'savePublicKey');
 
         if ($type == PSS::class) {
-            if ($this->***REMOVED*** == self::SIGNATURE_PSS) {
+            if ($this->signaturePadding == self::SIGNATURE_PSS) {
                 $options += [
                     'hash' => $this->hash->getHash(),
                     'MGFHash' => $this->mgfHash->getHash(),
@@ -488,7 +488,7 @@ final class PublicKey extends RSA implements Common\PublicKey
             }
         }
 
-        return $type::savePublicKey($this->modulus, $this->***REMOVED***, $options);
+        return $type::savePublicKey($this->modulus, $this->publicExponent, $options);
     }
 
     /**
@@ -506,8 +506,8 @@ final class PublicKey extends RSA implements Common\PublicKey
         return $new
             ->withHash($this->hash->getHash())
             ->withMGFHash($this->mgfHash->getHash())
-            ->***REMOVED***($this->sLen)
+            ->withSaltLength($this->sLen)
             ->withLabel($this->label)
-            ->withPadding($this->***REMOVED*** | $this->***REMOVED***);
+            ->withPadding($this->signaturePadding | $this->encryptionPadding);
     }
 }

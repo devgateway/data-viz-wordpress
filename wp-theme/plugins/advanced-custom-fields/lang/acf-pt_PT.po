@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields PRO\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2021-01-12 08:46+0000\n"
 "PO-Revision-Date: 2021-01-12 08:50+0000\n"
 "Last-Translator: Pedro Mendonça <ped.gaspar@gmail.com>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: acf.php\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
-"X-Poedit-***REMOVED***-1: tests\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SearchPathExcluded-1: tests\n"
 
 #: acf.php:68
 msgid "Advanced Custom Fields"
@@ -458,7 +458,7 @@ msgstr "Rever sites e actualizar"
 
 #: includes/admin/admin.php:48 includes/admin/views/field-group-options.php:110
 msgid "Custom Fields"
-msgstr "Campos ***REMOVED***"
+msgstr "Campos personalizados"
 
 #: includes/admin/admin.php:128 includes/admin/admin.php:130
 msgid "Overview"
@@ -466,7 +466,7 @@ msgstr "Visão geral"
 
 #: includes/admin/admin.php:131
 msgid "The Advanced Custom Fields plugin provides a visual form builder to customize WordPress edit screens with extra fields, and an intuitive API to display custom field values in any theme template file."
-msgstr "O plugin Advanced Custom Fields fornece-lhe um construtor visual de formulários para personalizar os ecrãs de edição do WordPress com campos adicionais, e uma interface intuitiva para mostrar os valores dos campos ***REMOVED*** em qualquer ficheiro de modelo de tema."
+msgstr "O plugin Advanced Custom Fields fornece-lhe um construtor visual de formulários para personalizar os ecrãs de edição do WordPress com campos adicionais, e uma interface intuitiva para mostrar os valores dos campos personalizados em qualquer ficheiro de modelo de tema."
 
 #: includes/admin/admin.php:133
 #, php-format
@@ -753,7 +753,7 @@ msgstr "Regras"
 
 #: includes/admin/views/field-group-locations.php:10
 msgid "Create a set of rules to determine which edit screens will use these advanced custom fields"
-msgstr "Crie um conjunto de regras para determinar em que ecrãs de edição serão utilizados estes campos ***REMOVED*** avançados"
+msgstr "Crie um conjunto de regras para determinar em que ecrãs de edição serão utilizados estes campos personalizados avançados"
 
 #: includes/admin/views/field-group-options.php:23
 msgid "Style"
@@ -1340,7 +1340,7 @@ msgstr "Permitir personalização"
 
 #: includes/fields/class-acf-field-checkbox.php:358
 msgid "Allow 'custom' values to be added"
-msgstr "Permite adicionar valores ***REMOVED***"
+msgstr "Permite adicionar valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:364
 msgid "Save Custom"
@@ -1348,7 +1348,7 @@ msgstr "Guardar personalização"
 
 #: includes/fields/class-acf-field-checkbox.php:369
 msgid "Save 'custom' values to the field's choices"
-msgstr "Guarda valores ***REMOVED*** nas opções do campo"
+msgstr "Guarda valores personalizados nas opções do campo"
 
 #: includes/fields/class-acf-field-checkbox.php:381
 #: includes/fields/class-acf-field-select.php:374
@@ -1907,12 +1907,12 @@ msgstr "Controla como serão visualizadas novas linhas."
 #: includes/fields/class-acf-field-message.php:115
 #: includes/fields/class-acf-field-textarea.php:144
 msgid "Automatically add paragraphs"
-msgstr "Adicionar parágrafos ***REMOVED***"
+msgstr "Adicionar parágrafos automaticamente"
 
 #: includes/fields/class-acf-field-message.php:116
 #: includes/fields/class-acf-field-textarea.php:145
 msgid "Automatically add &lt;br&gt;"
-msgstr "Adicionar &lt;br&gt; ***REMOVED***"
+msgstr "Adicionar &lt;br&gt; automaticamente"
 
 #: includes/fields/class-acf-field-message.php:117
 #: includes/fields/class-acf-field-textarea.php:146
@@ -2047,7 +2047,7 @@ msgstr "Outro"
 
 #: includes/fields/class-acf-field-radio.php:246
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Adicionar opção 'outros' para permitir a inserção de valores ***REMOVED***"
+msgstr "Adicionar opção 'outros' para permitir a inserção de valores personalizados"
 
 #: includes/fields/class-acf-field-radio.php:252
 msgid "Save Other"
@@ -2457,7 +2457,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "Mostrar botões de carregar multimédia?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:419
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "Atrasar a inicialização?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:420
@@ -3073,8 +3073,8 @@ msgstr "Para permitir actualizações, por favor insira a sua chave de licença 
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Description of the plugin/theme
 msgid "Customize WordPress with powerful, professional and intuitive fields."

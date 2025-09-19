@@ -1,5 +1,5 @@
 === Duplicate Page and Post ===
-Contributors: arjunthakur, ***REMOVED***
+Contributors: arjunthakur, efficientninja
 Tags: duplicate post, duplicate page, clone page, clone post, duplicate custom posts, clone custom post, wordpress page duplicator, wordpress post duplicator, page duplicate, clone page and post,  wp post clone.
 Requires at least: 3.5
 Tested up to: 5.5

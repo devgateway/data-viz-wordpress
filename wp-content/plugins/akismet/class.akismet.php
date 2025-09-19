@@ -1,9 +1,9 @@
 <?php
 
 // We plan to gradually remove all of the disabled lint rules below.
-// phpcs:disable WordPress.Security.ValidatedSanitizedInput.***REMOVED***
-// phpcs:disable WordPress.Security.ValidatedSanitizedInput.***REMOVED***
-// phpcs:disable WordPress.Security.***REMOVED***.Missing
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+// phpcs:disable WordPress.Security.NonceVerification.Missing
 // phpcs:disable Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure
 
 class Akismet {
@@ -748,7 +748,7 @@ class Akismet {
 		$history[] = array( 'time' => 445856416, 'event' => 'status-changedtrash' );
 		$history[] = array( 'time' => 445856417, 'event' => 'status-changedspam' );
 		$history[] = array( 'time' => 445856418, 'event' => 'status-changedhold' );
-		$history[] = array( 'time' => 445856419, 'event' => 'status-***REMOVED***' );
+		$history[] = array( 'time' => 445856419, 'event' => 'status-changedapprove' );
 		$history[] = array( 'time' => 445856420, 'event' => 'status-changed-trash' );
 		$history[] = array( 'time' => 445856421, 'event' => 'status-changed-spam' );
 		$history[] = array( 'time' => 445856422, 'event' => 'status-changed-hold' );
@@ -1268,7 +1268,7 @@ class Akismet {
 			return ( $comment1['akismet_guid'] == $comment2['akismet_guid'] );
 		} else if ( ! empty( $comment1['akismet_skipped_microtime'] ) && ! empty( $comment2['akismet_skipped_microtime'] ) ) {
 			// It won't have a GUID if it didn't get sent to the API because it matched the disallowed list,
-			// but it should have a ***REMOVED*** to use here for matching against the comment DB entry it matches.
+			// but it should have a microtimestamp to use here for matching against the comment DB entry it matches.
 			return ( strval( $comment1['akismet_skipped_microtime'] ) == strval( $comment2['akismet_skipped_microtime'] ) );
 		}
 
@@ -1601,7 +1601,7 @@ class Akismet {
 			++$field_count;
 
 			$fields .= '<input type="hidden" id="ak_js_' . $field_count . '" name="' . $prefix . 'js" value="' . mt_rand( 0, 250 ) . '"/>';
-			$fields .= '<script>document.***REMOVED***( "ak_js_' . $field_count . '" ).setAttribute( "value", ( new Date() ).getTime() );</script>';
+			$fields .= '<script>document.getElementById( "ak_js_' . $field_count . '" ).setAttribute( "value", ( new Date() ).getTime() );</script>';
 		}
 
 		$fields .= '</p>';
@@ -1646,7 +1646,7 @@ class Akismet {
 		}
 
 		if ( is_null( $data ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$data = $_POST;
 		}
 

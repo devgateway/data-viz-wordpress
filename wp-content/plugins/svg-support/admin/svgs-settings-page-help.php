@@ -31,7 +31,7 @@ function bodhi_svgs_help_tab () {
 	// the settings tab content
 	$bodhi_svgs_help_tab_the_settings = '<h3>' . __( 'The Settings', 'svg-support' ) . '</h3>';
 
-	$bodhi_svgs_help_tab_the_settings .= '<p><strong>' . __( 'Restrict To ***REMOVED***:', 'svg-support' ) . '</strong><br>' . __( 'SVG files are actually XML code, so allowing regular users to upload them can pose serious security risks. Please leave this checked unless you really know what you\'re doing.', 'svg-support' ) . '</p>';
+	$bodhi_svgs_help_tab_the_settings .= '<p><strong>' . __( 'Restrict To Administrators:', 'svg-support' ) . '</strong><br>' . __( 'SVG files are actually XML code, so allowing regular users to upload them can pose serious security risks. Please leave this checked unless you really know what you\'re doing.', 'svg-support' ) . '</p>';
 
 	$bodhi_svgs_help_tab_the_settings .= '<p><strong>' . __( 'Enable Advanced Mode:', 'svg-support' ) . '</strong><br>' . __( 'When using SVG files like regular images just isn\'t enough ;)', 'svg-support' ) . '<br>' . __( 'Enabling "Advanced Mode" displays options to give you more control over how you use SVG files on your site. It also includes extra JS on the front end, so leave this disabled unless you\'re actually using any of the advanced features.', 'svg-support' ) . '</p>';
 
@@ -58,7 +58,7 @@ function bodhi_svgs_help_tab () {
 	// standard usage tab content
 	$bodhi_svgs_help_tab_usage_standard = '<h3>' . __( 'Standard Usage', 'svg-support' ) . '</h3>';
 
-	$bodhi_svgs_help_tab_usage_standard .= '<p>' . __( 'You can simply upload SVG files to your media library like any other image.<br>Make sure to select "Restrict to ***REMOVED***" if you only want to allow admins to upload SVG files.', 'svg-support' ) . '</p>';
+	$bodhi_svgs_help_tab_usage_standard .= '<p>' . __( 'You can simply upload SVG files to your media library like any other image.<br>Make sure to select "Restrict to Administrators" if you only want to allow admins to upload SVG files.', 'svg-support' ) . '</p>';
 
 	$bodhi_svgs_help_tab_usage_standard .= '<p>' . __( 'If you want to enable sanitization or minification of uploaded SVG files, please enable advanced settings and then enable sanitization and/or minification.', 'svg-support' ) . '</p>';
 

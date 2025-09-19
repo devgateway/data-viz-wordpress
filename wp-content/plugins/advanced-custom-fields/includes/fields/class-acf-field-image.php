@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_image' ) ) :
 			$this->category      = 'content';
 			$this->description   = __( 'Uses the native WordPress media picker to upload, or choose images.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-image.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/image/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/image/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'return_format' => 'array',
 				'preview_size'  => 'medium',

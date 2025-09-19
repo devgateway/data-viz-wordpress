@@ -20,7 +20,7 @@ if ( is_dir( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY ) ) {
 /**
  * Retrieves the main instance.
  *
- * @phpcs:disable WordPress.***REMOVED*** -- Should probably be renamed, but leave for now.
+ * @phpcs:disable WordPress.NamingConventions -- Should probably be renamed, but leave for now.
  *
  * @return Main The main instance.
  */

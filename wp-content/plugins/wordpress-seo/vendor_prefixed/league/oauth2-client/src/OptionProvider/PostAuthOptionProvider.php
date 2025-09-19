@@ -12,24 +12,24 @@
  * @link https://packagist.org/packages/league/oauth2-client Packagist
  * @link https://github.com/thephpleague/oauth2-client GitHub
  */
-namespace YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***;
+namespace YoastSEO_Vendor\League\OAuth2\Client\OptionProvider;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\***REMOVED***;
-use YoastSEO_Vendor\League\OAuth2\Client\Tool\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\Tool\QueryBuilderTrait;
 /**
  * Provide options for access token
  */
-class PostAuthOptionProvider implements \YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***\OptionProviderInterface
+class PostAuthOptionProvider implements \YoastSEO_Vendor\League\OAuth2\Client\OptionProvider\OptionProviderInterface
 {
-    use ***REMOVED***;
+    use QueryBuilderTrait;
     /**
      * @inheritdoc
      */
     public function getAccessTokenOptions($method, array $params)
     {
         $options = ['headers' => ['content-type' => 'application/x-www-form-urlencoded']];
-        if ($method === \YoastSEO_Vendor\League\OAuth2\Client\Provider\***REMOVED***::METHOD_POST) {
-            $options['body'] = $this->***REMOVED***($params);
+        if ($method === \YoastSEO_Vendor\League\OAuth2\Client\Provider\AbstractProvider::METHOD_POST) {
+            $options['body'] = $this->getAccessTokenBody($params);
         }
         return $options;
     }
@@ -39,8 +39,8 @@ class PostAuthOptionProvider implements \YoastSEO_Vendor\League\OAuth2\Client\**
      * @param  array $params
      * @return string
      */
-    protected function ***REMOVED***(array $params)
+    protected function getAccessTokenBody(array $params)
     {
-        return $this->***REMOVED***($params);
+        return $this->buildQueryString($params);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Cookie;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 /**
  * Cookie jar that stores cookies as an array
  */
-class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
+class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\CookieJarInterface
 {
     /**
      * @var SetCookie[] Loaded cookie data
@@ -53,11 +53,11 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
      * that survives between requests.
      *
      * @param SetCookie $cookie              Being evaluated.
-     * @param bool      $***REMOVED*** If we should persist session cookies
+     * @param bool      $allowSessionCookies If we should persist session cookies
      */
-    public static function shouldPersist(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie, bool $***REMOVED*** = \false) : bool
+    public static function shouldPersist(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie, bool $allowSessionCookies = \false) : bool
     {
-        if ($cookie->getExpires() || $***REMOVED***) {
+        if ($cookie->getExpires() || $allowSessionCookies) {
             if (!$cookie->getDiscard()) {
                 return \true;
             }
@@ -71,7 +71,7 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
      *
      * @return SetCookie|null cookie that was found or null if not found
      */
-    public function ***REMOVED***(string $name) : ?\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie
+    public function getCookieByName(string $name) : ?\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie
     {
         foreach ($this->cookies as $cookie) {
             if ($cookie->getName() !== null && \strcasecmp($cookie->getName(), $name) === 0) {
@@ -105,7 +105,7 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
             });
         }
     }
-    public function ***REMOVED***() : void
+    public function clearSessionCookies() : void
     {
         $this->cookies = \array_filter($this->cookies, static function (\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) : bool {
             return !$cookie->getDiscard() && $cookie->getExpires();
@@ -123,9 +123,9 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
         $result = $cookie->validate();
         if ($result !== \true) {
             if ($this->strictMode) {
-                throw new \***REMOVED***('Invalid cookie: ' . $result);
+                throw new \RuntimeException('Invalid cookie: ' . $result);
             }
-            $this->***REMOVED***($cookie);
+            $this->removeCookieIfEmpty($cookie);
             return \false;
         }
         // Resolve conflicts with previously set cookies
@@ -169,7 +169,7 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
     {
         return new \ArrayIterator(\array_values($this->cookies));
     }
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response) : void
+    public function extractCookies(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response) : void
     {
         if ($cookieHeader = $response->getHeader('Set-Cookie')) {
             foreach ($cookieHeader as $cookie) {
@@ -194,7 +194,7 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6265#section-5.1.4
      */
-    private function getCookiePathFromRequest(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request) : string
+    private function getCookiePathFromRequest(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request) : string
     {
         $uriPath = $request->getUri()->getPath();
         if ('' === $uriPath) {
@@ -212,7 +212,7 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
         }
         return \substr($uriPath, 0, $lastSlashPos);
     }
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function withCookieHeader(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         $values = [];
         $uri = $request->getUri();
@@ -230,7 +230,7 @@ class CookieJar implements \YoastSEO_Vendor\GuzzleHttp\Cookie\***REMOVED***
      * If a cookie already exists and the server asks to set it again with a
      * null value, the cookie must be deleted.
      */
-    private function ***REMOVED***(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) : void
+    private function removeCookieIfEmpty(\YoastSEO_Vendor\GuzzleHttp\Cookie\SetCookie $cookie) : void
     {
         $cookieValue = $cookie->getValue();
         if ($cookieValue === null || $cookieValue === '') {

@@ -26,7 +26,7 @@ abstract class AttributeTypeAndValue
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
             'type' => AttributeType::MAP,
-            'value' => ***REMOVED***::MAP
+            'value' => AttributeValue::MAP
         ]
     ];
 }

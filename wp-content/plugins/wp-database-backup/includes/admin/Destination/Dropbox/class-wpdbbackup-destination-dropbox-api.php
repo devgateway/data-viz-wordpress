@@ -26,7 +26,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		const API_CONTENT_URL = 'https://content.dropboxapi.com/';
 
 		/**
-		 * URL to Dropbox for ***REMOVED***.
+		 * URL to Dropbox for authentication.
 		 */
 		const API_WWW_URL = 'https://www.dropbox.com/';
 
@@ -69,11 +69,11 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 */
 		public function __construct( $boxtype = 'dropbox', WPDBBackup_Job $job_object = null ) {
 			if ( 'dropbox' === $boxtype ) {
-				$this->oauth_app_key    = '***REMOVED***';
-				$this->oauth_app_secret = '***REMOVED***';
+				$this->oauth_app_key    = 'cv3o964lig1qrga';
+				$this->oauth_app_secret = '7g05tjesk5fgqjk';
 			} else {
-				$this->oauth_app_key    = '***REMOVED***';
-				$this->oauth_app_secret = '***REMOVED***';
+				$this->oauth_app_key    = 'cv3o964lig1qrga';
+				$this->oauth_app_secret = '7g05tjesk5fgqjk';
 			}
 
 			if ( empty( $this->oauth_app_key ) || empty( $this->oauth_app_secret ) ) {
@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		/**
 		 * List a folder
 		 *
-		 * This is a helper method to use ***REMOVED*** and
+		 * This is a helper method to use filesListFolder and
 		 * filesListFolderContinue to construct an array of files within a given
 		 * folder path.
 		 *
@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 */
 		public function list_Folder( $path ) {
 			$files  = array();
-			$result = $this->***REMOVED***( array( 'path' => $path ) );
+			$result = $this->filesListFolder( array( 'path' => $path ) );
 			if ( ! $result ) {
 				return array();
 			}
@@ -163,7 +163,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 				}
 				
 			} else {
-				$output = $this->***REMOVED***( $file, $path, $overwrite );
+				$output = $this->multipartUpload( $file, $path, $overwrite );
 			}
 
 			return $output;
@@ -177,7 +177,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 * @return array|mixed|string
 		 * @throws WPDBBackup_Destination_Dropbox_API_Exception
 		 */
-		public function ***REMOVED***( $file, $path = '', $overwrite = true ) {
+		public function multipartUpload( $file, $path = '', $overwrite = true ) {
 			global $wp_filesystem;
 		
 			// Initialize the WordPress filesystem
@@ -283,7 +283,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 			return $response;
 		}		
 
-		// ***REMOVED***
+		// Authentication
 
 		/**
 		 * Set the oauth tokens for this request.
@@ -292,7 +292,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 *
 		 * @throws WPDBBackup_Destination_Dropbox_API_Exception
 		 */
-		public function ***REMOVED***( $token ) {
+		public function setOAuthTokens( $token ) {
 			if ( empty( $token['access_token'] ) ) {
 				throw new WPDBBackup_Destination_Dropbox_API_Exception( 'No oAuth token specified.' );
 			}
@@ -305,7 +305,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 *
 		 * @return string The authorization URL
 		 */
-		public function ***REMOVED***() {
+		public function oAuthAuthorize() {
 			return self::API_WWW_URL . 'oauth2/authorize?response_type=code&client_id=' . $this->oauth_app_key;
 		}
 
@@ -337,7 +337,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 *
 		 * @return array
 		 */
-		public function ***REMOVED***() {
+		public function authTokenRevoke() {
 			 return $this->request( 'auth/token/revoke' );
 		}
 
@@ -367,7 +367,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 *
 		 * @return array The file's metadata
 		 */
-		public function ***REMOVED***( $args ) {
+		public function filesGetMetadata( $args ) {
 			 $args['path'] = $this->formatPath( $args['path'] );
 			try {
 				return $this->request( 'files/get_metadata', $args );
@@ -399,7 +399,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 *
 		 * @return array A list of files
 		 */
-		public function ***REMOVED***( $args ) {
+		public function filesListFolder( $args ) {
 			$args['path'] = $this->formatPath( $args['path'] );
 			try {
 				return $this->request( 'files/list_folder', $args );
@@ -536,7 +536,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		 *
 		 * @return array
 		 */
-		public function ***REMOVED***() {
+		public function usersGetSpaceUsage() {
 			return $this->request( 'users/get_space_usage' );
 		}
 
@@ -545,16 +545,16 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 		/**
 		 * @param        $url
 		 * @param array  $args
-		 * @param string $***REMOVED***
+		 * @param string $endpointFormat
 		 * @param string $data
 		 * @param bool   $echo
 		 *
 		 * @throws WPDBBackup_Destination_Dropbox_API_Exception
 		 * @return array|mixed|string
 		 */
-		private function request( $endpoint, $args = array(), $***REMOVED*** = 'rpc', $echo = false ) {
+		private function request( $endpoint, $args = array(), $endpointFormat = 'rpc', $echo = false ) {
 			// Get complete URL
-			switch ( $***REMOVED*** ) {
+			switch ( $endpointFormat ) {
 				case 'oauth':
 					$url = self::API_URL . $endpoint;
 					break;
@@ -569,7 +569,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 					break;
 			}
 
-			if ( $this->job_object && method_exists($this->job_object,'is_debug')&& method_exists($this->job_object,'log') && $this->job_object->is_debug() && $***REMOVED*** != 'oauth' ) {
+			if ( $this->job_object && method_exists($this->job_object,'is_debug')&& method_exists($this->job_object,'log') && $this->job_object->is_debug() && $endpointFormat != 'oauth' ) {
 				$message    = 'Call to ' . $endpoint;
 				$parameters = $args;
 				if ( isset( $parameters['contents'] ) ) {
@@ -584,21 +584,21 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 
 			$headers['Expect'] = '';
 
-			if ( $***REMOVED*** != 'oauth' ) {
+			if ( $endpointFormat != 'oauth' ) {
 				$headers['Authorization'] = 'Bearer ' . $this->oauth_token['access_token'];
 			}
 
-			if ( $***REMOVED*** == 'oauth' ) {
+			if ( $endpointFormat == 'oauth' ) {
 				$POSTFIELDS = http_build_query( $args, null, '&' );
 				$headers['Content-Type'] = 'application/x-www-form-urlencoded';
-			} elseif ( $***REMOVED*** == 'rpc' ) {
+			} elseif ( $endpointFormat == 'rpc' ) {
 				if ( ! empty( $args ) ) {
 					$POSTFIELDS = $args;
 				} else {
 					$POSTFIELDS = array();
 				}
 				$headers['Content-Type'] = 'application/json';
-			} elseif ( $***REMOVED*** == 'upload' ) {
+			} elseif ( $endpointFormat == 'upload' ) {
 				if ( isset( $args['contents'] ) ) {
 					$POSTFIELDS = $args['contents'];
 					unset( $args['contents'] );
@@ -650,7 +650,7 @@ if ( ! class_exists( 'WPDBBackup_Destination_Dropbox_API' ) ) {
 				}
 
 				// redo request
-				return $this->request( $url, $args, $***REMOVED***, $echo );
+				return $this->request( $url, $args, $endpointFormat, $echo );
 			} // We can't really handle anything else, so throw it back to the caller
 			elseif ( isset( $output['error'] ) || wp_remote_retrieve_response_code( $result ) >= 400 ) {
 				$code = wp_remote_retrieve_response_code( $result );

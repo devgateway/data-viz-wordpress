@@ -64,7 +64,7 @@
                 'is_enabled'  => $fs->is_tracking_allowed(),
                 'prompt'      => array(
                     sprintf(
-                        $fs->esc_html_inline( 'Sharing diagnostic data helps to provide additional functionality that\'s relevant to your website, avoid WordPress or PHP version ***REMOVED*** that can break the website, and recognize which languages & regions the %s should be translated and tailored to.',
+                        $fs->esc_html_inline( 'Sharing diagnostic data helps to provide additional functionality that\'s relevant to your website, avoid WordPress or PHP version incompatibilities that can break the website, and recognize which languages & regions the %s should be translated and tailored to.',
                             'opt-out-message-clicking-opt-out' ),
                         $fs->get_module_type()
                     ),
@@ -150,7 +150,7 @@
                         <div class="fs-modal-panel active">
                             <div class="notice notice-error inline opt-out-error-message"><p></p></div>
                             <?php foreach ( $permission_group[ 'prompt' ] as $p ) : ?>
-                                <?php // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** ?>
+                                <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                                 <p><?php echo $p ?></p>
                             <?php endforeach ?>
                         </div>

@@ -261,7 +261,7 @@ class Image_Helper {
 	/**
 	 * Find the right version of an image based on size.
 	 *
-	 * @***REMOVED*** - We have to write test when this method contains own code.
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int    $attachment_id Attachment ID.
 	 * @param string $size          Size name.
@@ -275,7 +275,7 @@ class Image_Helper {
 	/**
 	 * Retrieves the best attachment variation for the given attachment.
 	 *
-	 * @***REMOVED*** - We have to write test when this method contains own code.
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int $attachment_id The attachment id.
 	 *
@@ -355,7 +355,7 @@ class Image_Helper {
 	 * Due to self::get_attachment_by_url returning 0 instead of false.
 	 * 0 is also a possibility when no ID is available.
 	 *
-	 * @***REMOVED*** - We have to write test when this method contains own code.
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param string $setting The setting the image is stored in.
 	 *
@@ -393,7 +393,7 @@ class Image_Helper {
 	/**
 	 * Retrieves the first usable content image for a post.
 	 *
-	 * @***REMOVED*** - We have to write test when this method contains own code.
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int $post_id The post id to extract the images from.
 	 *
@@ -406,7 +406,7 @@ class Image_Helper {
 	/**
 	 * Gets the term's first usable content image. Null if none is available.
 	 *
-	 * @***REMOVED*** - We have to write test when this method contains own code.
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int $term_id The term id.
 	 *

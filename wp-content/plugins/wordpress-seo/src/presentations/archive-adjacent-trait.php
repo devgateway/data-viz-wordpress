@@ -26,7 +26,7 @@ trait Archive_Adjacent {
 	 *
 	 * @required
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Pagination_Helper $pagination The pagination helper.
 	 *

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: News blog archive
- * Slug: ***REMOVED***/template-archive-news-blog
+ * Slug: twentytwentyfive/template-archive-news-blog
  * Template Types: archive
  * Viewport width: 1400
  * Inserter: no
@@ -30,7 +30,7 @@
 	<!-- /wp:group -->
 	<!-- wp:group {"align":"wide","layout":{"type":"default"}} -->
 	<div class="wp-block-group alignwide">
-		<!-- wp:pattern {"slug":"***REMOVED***/template-query-loop-news-blog"} /-->
+		<!-- wp:pattern {"slug":"twentytwentyfive/template-query-loop-news-blog"} /-->
 	</div>
 	<!-- /wp:group -->
 </main>

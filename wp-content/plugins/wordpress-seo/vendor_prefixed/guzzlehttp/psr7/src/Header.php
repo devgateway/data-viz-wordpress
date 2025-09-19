@@ -64,7 +64,7 @@ final class Header
      * This method must not be used to parse headers that are not defined as
      * a list, such as 'user-agent' or 'set-cookie'.
      *
-     * @param string|string[] $values Header value as returned by ***REMOVED***::getHeader()
+     * @param string|string[] $values Header value as returned by MessageInterface::getHeader()
      *
      * @return string[]
      */

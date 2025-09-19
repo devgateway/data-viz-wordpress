@@ -165,7 +165,7 @@ class BSR_DB {
 	 * Modified to use WordPress wpdb functions instead of PHP's native mysql/pdo functions,
 	 * and to be compatible with batch processing via AJAX.
 	 *
-	 * @link https://***REMOVED***.com/products/search-and-replace-for-wordpress-databases/
+	 * @link https://interconnectit.com/products/search-and-replace-for-wordpress-databases/
 	 *
 	 * @access public
 	 * @param  string 	$table 	The table to run the replacement on.
@@ -304,7 +304,7 @@ class BSR_DB {
 	/**
 	 * Adapated from interconnect/it's search/replace script.
 	 *
-	 * @link https://***REMOVED***.com/products/search-and-replace-for-wordpress-databases/
+	 * @link https://interconnectit.com/products/search-and-replace-for-wordpress-databases/
 	 *
 	 * Take a serialised array and unserialise it replacing elements as needed and
 	 * unserialising any subordinate arrays and performing the replace on those too.

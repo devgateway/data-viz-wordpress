@@ -48,10 +48,10 @@ class Wincher_Client extends OAuth_Client {
 				'clientId'                => 'yoast',
 				'redirectUri'             => 'https://auth.wincher.com/yoast/setup',
 				'urlAuthorize'            => 'https://auth.wincher.com/connect/authorize',
-				'***REMOVED***'          => 'https://auth.wincher.com/connect/token',
+				'urlAccessToken'          => 'https://auth.wincher.com/connect/token',
 				'urlResourceOwnerDetails' => 'https://api.wincher.com/beta/user',
 				'scopes'                  => [ 'profile', 'account', 'websites:read', 'websites:write', 'offline_access' ],
-				'***REMOVED***'          => ' ',
+				'scopeSeparator'          => ' ',
 				'pkceMethod'              => 'S256',
 			],
 			[
@@ -69,12 +69,12 @@ class Wincher_Client extends OAuth_Client {
 	/**
 	 * Return the authorization URL.
 	 *
-	 * @return string The ***REMOVED*** URL.
+	 * @return string The authentication URL.
 	 */
 	public function get_authorization_url() {
 		$parsed_site_url = \wp_parse_url( \get_site_url() );
 
-		$url = $this->provider->***REMOVED***(
+		$url = $this->provider->getAuthorizationUrl(
 			[
 				'state' => WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
 			]
@@ -96,7 +96,7 @@ class Wincher_Client extends OAuth_Client {
 	 *
 	 * @return OAuth_Token The requested tokens.
 	 *
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	public function request_tokens( $code ) {
 		$pkce_code = \get_transient( self::PKCE_TRANSIENT_NAME );
@@ -109,7 +109,7 @@ class Wincher_Client extends OAuth_Client {
 	/**
 	 * Performs the specified request.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $method  The HTTP method to use.
 	 * @param string $url     The URL to send the request to.
@@ -118,7 +118,7 @@ class Wincher_Client extends OAuth_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	protected function do_request( $method, $url, array $options ) {

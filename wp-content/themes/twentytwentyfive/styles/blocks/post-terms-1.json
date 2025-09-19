@@ -24,11 +24,11 @@
 				"typography": {
 					"fontWeight": "400",
 					"lineHeight": "2.8",
-					"***REMOVED***": "none"
+					"textDecoration": "none"
 				},
 				":hover": {
 					"typography": {
-						"***REMOVED***": "underline"
+						"textDecoration": "underline"
 					}
 				}
 			}

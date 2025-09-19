@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * Disable_Concatenate_Scripts_Integration class.
  *
  * @deprecated 23.2
- * @***REMOVED***
+ * @codeCoverageIgnore
  */
 class Disable_Concatenate_Scripts_Integration implements Integration_Interface {
 

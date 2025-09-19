@@ -45,8 +45,8 @@
 	font-style:  italic;
 	font-weight: 600;
 	font-display: swap;
-	src: url("https://s0.wp.com/i/fonts/inter/Inter-***REMOVED***.woff2?v=3.19") format("woff2"),
-	url("https://s0.wp.com/i/fonts/inter/Inter-***REMOVED***.woff?v=3.19") format("woff");
+	src: url("https://s0.wp.com/i/fonts/inter/Inter-SemiBoldItalic.woff2?v=3.19") format("woff2"),
+	url("https://s0.wp.com/i/fonts/inter/Inter-SemiBoldItalic.woff?v=3.19") format("woff");
 }
 
 @font-face {

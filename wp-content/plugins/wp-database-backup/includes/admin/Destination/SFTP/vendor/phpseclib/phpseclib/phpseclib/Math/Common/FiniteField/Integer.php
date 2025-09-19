@@ -17,7 +17,7 @@ namespace phpseclib3\Math\Common\FiniteField;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class Integer implements \***REMOVED***
+abstract class Integer implements \JsonSerializable
 {
     /**
      * JSON Serialize
@@ -29,7 +29,7 @@ abstract class Integer implements \***REMOVED***
      *
      * @return array{hex: string}
      */
-    #[\***REMOVED***]
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return ['hex' => $this->toHex(true)];

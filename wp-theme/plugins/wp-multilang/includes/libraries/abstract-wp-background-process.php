@@ -223,7 +223,7 @@ abstract class WP_Background_Process extends WP_Async_Request {
 	/**
 	 * Lock process
 	 *
-	 * Lock the process so that multiple instances can't run ***REMOVED***.
+	 * Lock the process so that multiple instances can't run simultaneously.
 	 * Override if applicable, but the duration should be greater than that
 	 * defined in the time_exceeded() method.
 	 */

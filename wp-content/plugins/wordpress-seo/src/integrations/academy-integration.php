@@ -134,12 +134,12 @@ class Academy_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// Remove the emoji script as it is incompatible with both React and any ***REMOVED*** fields.
+		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'academy' );
 		$this->asset_manager->enqueue_style( 'academy' );
-		$this->asset_manager->localize_script( 'academy', '***REMOVED***', $this->get_script_data() );
+		$this->asset_manager->localize_script( 'academy', 'wpseoScriptData', $this->get_script_data() );
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Academy_Integration implements Integration_Interface {
 				'isLocalActive'  => $local_seo_active,
 				'isRtl'          => \is_rtl(),
 				'pluginUrl'      => \plugins_url( '', \WPSEO_FILE ),
-				'***REMOVED***' => [
+				'upsellSettings' => [
 					'actionId'     => 'load-nfd-ctb',
 					'premiumCtbId' => 'f6a84663-465f-4cb5-8ba5-f7a6d72224b2',
 				],

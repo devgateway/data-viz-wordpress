@@ -21,7 +21,7 @@ class secp112r1 extends Prime
     public function __construct()
     {
         $this->setModulo(new BigInteger('DB7C2ABF62E35E668076BEAD208B', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('DB7C2ABF62E35E668076BEAD2088', 16),
             new BigInteger('659EF8BA043916EEDE8911702B22', 16)
         );

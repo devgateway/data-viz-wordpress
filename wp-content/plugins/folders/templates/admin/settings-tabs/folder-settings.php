@@ -78,24 +78,24 @@
                             </div>
                         <?php }
                     }
-                    $is_checked = !in_array("***REMOVED***", $options) ? "hide-option" : "";
-                    $selected_id = (isset($default_folders["***REMOVED***"])) ? $default_folders["***REMOVED***"] : "all";
-                    $is_exists = WCP_Folders::check_for_setting("***REMOVED***", "default_folders");
-                    $is_customized = WCP_Folders::check_for_setting("***REMOVED***", "folders_settings");
-                    $checked = in_array("***REMOVED***", $options) ? "checked" : "";
+                    $is_checked = !in_array("folders4plugins", $options) ? "hide-option" : "";
+                    $selected_id = (isset($default_folders["folders4plugins"])) ? $default_folders["folders4plugins"] : "all";
+                    $is_exists = WCP_Folders::check_for_setting("folders4plugins", "default_folders");
+                    $is_customized = WCP_Folders::check_for_setting("folders4plugins", "folders_settings");
+                    $checked = in_array("folders4plugins", $options) ? "checked" : "";
                     ?>
-                    <div class="folder-post-type hide-show-option <?php echo esc_attr($is_checked) ?>" id="folders-for-***REMOVED***">
+                    <div class="folder-post-type hide-show-option <?php echo esc_attr($is_checked) ?>" id="folders-for-folders4plugins">
                         <div class="form-field">
                             <div class="form-label">
                                 <label class="folder-label" for="folders_for_folders4plugins"><?php esc_html_e("Default folder", "folders") ?></label>
                             </div>
                             <div class="form-input">
-                                <select class="folder-post-select" id="folders_for_folders4plugins" name="default_folders[***REMOVED***]" ?>
+                                <select class="folder-post-select" id="folders_for_folders4plugins" name="default_folders[folders4plugins]" ?>
                                     <option value=""><?php printf(esc_html__("All %1\$s Folder", 'folders'), esc_html__("Plugins", "folders")) ?></option>
                                     <option value="-1" <?php echo ($selected_id == -1) ? "selected" : "" ?>><?php printf(esc_html__("Unassigned %1\$s", 'folders'), esc_html__("Plugins", "folders")) ?></option>
                                     <?php
-                                    if (isset($terms_data["***REMOVED***"]) && !empty($terms_data["***REMOVED***"])) {
-                                        foreach ($terms_data["***REMOVED***"] as $term) {
+                                    if (isset($terms_data["folders4plugins"]) && !empty($terms_data["folders4plugins"])) {
+                                        foreach ($terms_data["folders4plugins"] as $term) {
                                             echo "<option class='pro-select-item' value='folders-pro'>" . esc_attr($term->title) . " (Pro) 🔑</option>";
                                         }
                                     } ?>
@@ -232,7 +232,7 @@
                     'field_class'       => '',
                 ],
             ];
-            $***REMOVED*** = [
+            $advanceSettings = [
                 'use_max_upload_size' => [
                     'label'             => esc_html__('Max Upload File Size', 'folders'),
                     'name'              => 'customize_folders[use_max_upload_size]',
@@ -335,21 +335,21 @@
                     <div class="form-field <?php echo esc_attr($setting['field_class']) ?>" id="setting-<?php echo esc_attr($key) ?>">
                         <?php do_action('folders_field_prefix_settings', $setting, 'no'); ?>
                         <?php do_action('folders_field_label', $setting); ?>
-                        <?php do_action('folders_field_input', $setting, $customize_folders[$key], false, $this->***REMOVED***()); ?>
+                        <?php do_action('folders_field_input', $setting, $customize_folders[$key], false, $this->getFoldersUpgradeURL()); ?>
                         <?php do_action('folders_field_postfix_settings', $setting, 'no'); ?>
                     </div>
-                    <?php do_action('folders_field_after_'.$key, $setting, $customize_folders, false, $this->***REMOVED***()); ?>
+                    <?php do_action('folders_field_after_'.$key, $setting, $customize_folders, false, $this->getFoldersUpgradeURL()); ?>
                 <?php } ?>
             </div>
             <div class="form-field-title">
                 <?php esc_html_e("Advanced options", "folders") ?>
             </div>
             <div class="form-fields">
-                <?php foreach ($***REMOVED*** as $key => $setting) { ?>
+                <?php foreach ($advanceSettings as $key => $setting) { ?>
                     <div class="form-field <?php echo esc_attr($setting['field_class']) ?>" id="setting-<?php echo esc_attr($key) ?>">
                         <?php do_action('folders_field_prefix_settings', $setting, 'no'); ?>
                         <?php do_action('folders_field_label', $setting); ?>
-                        <?php do_action('folders_field_input', $setting, $customize_folders[$key], false, $this->***REMOVED***()); ?>
+                        <?php do_action('folders_field_input', $setting, $customize_folders[$key], false, $this->getFoldersUpgradeURL()); ?>
                         <?php do_action('folders_field_postfix_settings', $setting, 'no'); ?>
                     </div>
                     <?php do_action('folders_field_after', $setting, $customize_folders); ?>

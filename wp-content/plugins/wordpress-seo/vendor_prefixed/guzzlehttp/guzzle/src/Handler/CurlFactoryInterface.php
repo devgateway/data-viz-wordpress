@@ -2,18 +2,18 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-interface ***REMOVED***
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+interface CurlFactoryInterface
 {
     /**
      * Creates a cURL handle resource.
      *
-     * @param ***REMOVED*** $request Request
+     * @param RequestInterface $request Request
      * @param array            $options Transfer options
      *
-     * @throws \***REMOVED*** when an option cannot be applied
+     * @throws \RuntimeException when an option cannot be applied
      */
-    public function create(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle;
+    public function create(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Handler\EasyHandle;
     /**
      * Release an easy handle, allowing it to be reused or closed.
      *

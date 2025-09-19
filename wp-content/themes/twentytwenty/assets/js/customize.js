@@ -10,14 +10,14 @@
 			if ( 'custom' === active ) {
 				// Activate the hue color picker control and focus it.
 				control.activate( {
-					***REMOVED***: function() {
+					completeCallback: function() {
 						control.focus();
 					}
 				} );
 			} else {
 				// If the `custom` option isn't selected, deactivate the hue color picker and set a default.
 				control.deactivate( {
-					***REMOVED***: function() {
+					completeCallback: function() {
 						control.setting.set( control.params.defaultValue );
 					}
 				} );

@@ -8,13 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception;
 
 /**
- * Base ***REMOVED*** for Dependency Injection component.
+ * Base RuntimeException for Dependency Injection component.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class ***REMOVED*** extends \***REMOVED*** implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***
+class RuntimeException extends \RuntimeException implements \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ExceptionInterface
 {
 }

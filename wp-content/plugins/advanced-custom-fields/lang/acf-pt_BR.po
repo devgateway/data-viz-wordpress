@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,7 @@ msgstr "Atualizar origem"
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:810
 msgid "By default only admin users can edit this setting."
 msgstr ""
-"Por padrão, somente usuários ***REMOVED*** podem editar esta configuração."
+"Por padrão, somente usuários administradores podem editar esta configuração."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:848
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:808
@@ -660,7 +660,7 @@ msgid "Button Icon"
 msgstr ""
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr ""
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -1882,7 +1882,7 @@ msgstr "Campos do ACF"
 
 #: includes/admin/views/browse-fields-modal.php:14
 msgid "ACF PRO Feature"
-msgstr "***REMOVED*** ACF PRO"
+msgstr "Funcionalidade ACF PRO"
 
 #: includes/admin/views/browse-fields-modal.php:10
 msgid "Renew PRO to Unlock"
@@ -1988,7 +1988,7 @@ msgid ""
 "and sub-pages."
 msgstr ""
 "As <a href=\"%s\" target=\"_blank\">páginas de opções do ACF</a> são páginas "
-"de administração ***REMOVED*** para gerenciar configurações globais através "
+"de administração personalizadas para gerenciar configurações globais através "
 "de campos. Você pode criar várias páginas e subpáginas."
 
 #: includes/admin/views/global/header.php:35
@@ -2389,7 +2389,7 @@ msgstr ""
 #: includes/fields/class-acf-field-url.php:20
 msgid "A text input specifically designed for storing web addresses."
 msgstr ""
-"Uma entrada de texto projetada ***REMOVED*** para armazenar endereços da "
+"Uma entrada de texto projetada especificamente para armazenar endereços da "
 "web."
 
 #: includes/fields/class-acf-field-icon_picker.php:56
@@ -2451,7 +2451,7 @@ msgid ""
 "editing. Includes options to search and filter."
 msgstr ""
 "Uma interface de coluna dupla para selecionar uma ou mais postagens, páginas "
-"ou itens de tipo de postagem ***REMOVED*** para criar uma relação com o "
+"ou itens de tipo de postagem personalizados para criar uma relação com o "
 "item que você está editando no momento. Inclui opções para pesquisar e "
 "filtrar."
 
@@ -2503,7 +2503,7 @@ msgid ""
 "other content by making use of the native WordPress oEmbed functionality."
 msgstr ""
 "Um componente interativo para incorporar vídeos, imagens, tweets, áudio e "
-"outros conteúdos, fazendo uso da ***REMOVED*** oEmbed nativa do WordPress."
+"outros conteúdos, fazendo uso da funcionalidade oEmbed nativa do WordPress."
 
 #: includes/fields/class-acf-field-number.php:23
 msgid "An input limited to numerical values."
@@ -2555,7 +2555,7 @@ msgstr ""
 #: includes/fields/class-acf-field-email.php:23
 msgid "A text input specifically designed for storing email addresses."
 msgstr ""
-"Uma entrada de texto projetada ***REMOVED*** para armazenar endereços de e-"
+"Uma entrada de texto projetada especificamente para armazenar endereços de e-"
 "mail."
 
 #: includes/fields/class-acf-field-date_time_picker.php:24
@@ -2600,7 +2600,7 @@ msgid ""
 "Allows you to group and organize custom fields into collapsable panels that "
 "are shown while editing content. Useful for keeping large datasets tidy."
 msgstr ""
-"Permite agrupar e organizar campos ***REMOVED*** em painéis recolhíveis que "
+"Permite agrupar e organizar campos personalizados em painéis recolhíveis que "
 "são exibidos durante a edição do conteúdo. Útil para manter grandes "
 "conjuntos de dados organizados."
 
@@ -2726,7 +2726,7 @@ msgstr "Adicionar taxonomia"
 #: includes/admin/views/acf-taxonomy/list-empty.php:14
 msgid "Create custom taxonomies to classify post type content"
 msgstr ""
-"Crie taxonomias ***REMOVED*** para classificar o conteúdo do tipo de post"
+"Crie taxonomias personalizadas para classificar o conteúdo do tipo de post"
 
 #: includes/admin/views/acf-taxonomy/list-empty.php:13
 msgid "Add Your First Taxonomy"
@@ -2738,7 +2738,7 @@ msgstr "Taxonomias hierárquicas podem ter descendentes (como categorias)."
 
 #: includes/admin/views/acf-taxonomy/basic-settings.php:107
 msgid "Makes a taxonomy visible on the frontend and in the admin dashboard."
-msgstr "Torna uma taxonomia visível na interface e no painel ***REMOVED***."
+msgstr "Torna uma taxonomia visível na interface e no painel administrativo."
 
 #: includes/admin/views/acf-taxonomy/basic-settings.php:91
 msgid "One or many post types that can be classified with this taxonomy."
@@ -2821,7 +2821,7 @@ msgstr ""
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:915
 msgid "Show Admin Column"
-msgstr "Mostrar coluna ***REMOVED***"
+msgstr "Mostrar coluna administrativa"
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:902
 msgid "Show the taxonomy in the quick/bulk edit panel."
@@ -3341,8 +3341,8 @@ msgid ""
 "Expand the functionality of WordPress beyond standard posts and pages with "
 "custom post types."
 msgstr ""
-"Expanda a ***REMOVED*** do WordPress além de posts e páginas padrão com "
-"tipos de post ***REMOVED***."
+"Expanda a funcionalidade do WordPress além de posts e páginas padrão com "
+"tipos de post personalizados."
 
 #: includes/admin/views/acf-post-type/list-empty.php:12
 msgid "Add Your First Post Type"
@@ -3370,7 +3370,7 @@ msgstr "Hierárquico"
 
 #: includes/admin/views/acf-post-type/basic-settings.php:107
 msgid "Visible on the frontend and in the admin dashboard."
-msgstr "Visível na interface e no painel ***REMOVED***."
+msgstr "Visível na interface e no painel administrativo."
 
 #: includes/admin/views/acf-post-type/basic-settings.php:106
 #: includes/admin/views/acf-taxonomy/basic-settings.php:106
@@ -4241,7 +4241,7 @@ msgstr "Todos os posts"
 #: includes/admin/views/acf-post-type/advanced-settings.php:225
 #: includes/admin/views/acf-post-type/advanced-settings.php:245
 msgid "In the post type submenu in the admin dashboard."
-msgstr "No submenu do tipo de post no painel ***REMOVED***."
+msgstr "No submenu do tipo de post no painel administrativo."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:124
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:176
@@ -4738,16 +4738,16 @@ msgstr "Adicionar \"selecionar tudo\""
 
 #: includes/fields/class-acf-field-checkbox.php:379
 msgid "Save Custom Values"
-msgstr "Salvar valores ***REMOVED***"
+msgstr "Salvar valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:368
 msgid "Allow Custom Values"
-msgstr "Permitir valores ***REMOVED***"
+msgstr "Permitir valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:134
 msgid "Checkbox custom values cannot be empty. Uncheck any empty values."
 msgstr ""
-"Os valores ***REMOVED*** da caixa de seleção não podem ficar vazios. "
+"Os valores personalizados da caixa de seleção não podem ficar vazios. "
 "Desmarque todos os valores vazios."
 
 #: includes/admin/views/global/navigation.php:253
@@ -4795,7 +4795,7 @@ msgid ""
 "fields together, and then attach those fields to edit screens."
 msgstr ""
 "O ACF usa <a href=\"%s\" target=\"_blank\">grupos de campos</a> para agrupar "
-"campos ***REMOVED*** e, em seguida, anexar esses campos às telas de edição."
+"campos personalizados e, em seguida, anexar esses campos às telas de edição."
 
 #: includes/admin/views/acf-field-group/list-empty.php:12
 msgid "Add Your First Field Group"
@@ -4859,8 +4859,8 @@ msgid ""
 "Get started creating new custom fields for your posts, pages, custom post "
 "types and other WordPress content."
 msgstr ""
-"Comece a criar novos campos ***REMOVED*** para seus posts, páginas, tipos "
-"de post ***REMOVED*** e outros conteúdos do WordPress."
+"Comece a criar novos campos personalizados para seus posts, páginas, tipos "
+"de post personalizados e outros conteúdos do WordPress."
 
 #: includes/admin/views/acf-field-group/fields.php:64
 msgid "Add Your First Field"
@@ -4955,7 +4955,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields PRO."
 msgstr ""
 "O Advanced Custom Fields e o Advanced Custom Fields PRO não devem estar "
-"ativos ao mesmo tempo. Desativamos ***REMOVED*** o Advanced Custom Fields "
+"ativos ao mesmo tempo. Desativamos automaticamente o Advanced Custom Fields "
 "PRO."
 
 #: acf.php:560
@@ -4964,7 +4964,7 @@ msgid ""
 "at the same time. We've automatically deactivated Advanced Custom Fields."
 msgstr ""
 "O Advanced Custom Fields e o Advanced Custom Fields PRO não devem estar "
-"ativos ao mesmo tempo. Desativamos ***REMOVED*** o Advanced Custom Fields."
+"ativos ao mesmo tempo. Desativamos automaticamente o Advanced Custom Fields."
 
 #. translators: %1 plugin name, %2 the URL to the documentation on this error
 #: includes/acf-value-functions.php:376
@@ -5248,7 +5248,7 @@ msgid ""
 msgstr ""
 "O plugin Advanced Custom Fields fornece um construtor de formulários visuais "
 "para personalizar as telas de edição do WordPress com campos extras e uma "
-"API intuitiva para exibir valores de campos ***REMOVED*** em qualquer "
+"API intuitiva para exibir valores de campos personalizados em qualquer "
 "arquivo de modelo de tema."
 
 #: includes/admin/admin.php:131 includes/admin/admin.php:133
@@ -5345,7 +5345,7 @@ msgstr "Tipo de página"
 
 #: includes/locations/class-acf-location-current-user.php:73
 msgid "Viewing back end"
-msgstr "Visualizando o painel ***REMOVED***"
+msgstr "Visualizando o painel administrativo"
 
 #: includes/locations/class-acf-location-current-user.php:72
 msgid "Viewing front end"
@@ -5810,7 +5810,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crie um conjunto de regras para determinar quais telas de edição usarão "
-"esses campos ***REMOVED*** avançados"
+"esses campos personalizados avançados"
 
 #: includes/admin/views/acf-field-group/locations.php:9
 msgid "Rules"
@@ -5958,7 +5958,7 @@ msgstr "Atualizar o banco de dados"
 #: includes/admin/views/acf-field-group/options.php:175
 #: includes/admin/views/acf-post-type/advanced-settings.php:30
 msgid "Custom Fields"
-msgstr "Campos ***REMOVED***"
+msgstr "Campos personalizados"
 
 #: includes/admin/post-types/admin-field-group.php:609
 msgid "Move Field"
@@ -6320,11 +6320,11 @@ msgstr "Anexar uma caixa de seleção adicional para alternar todas as escolhas"
 
 #: includes/fields/class-acf-field-checkbox.php:383
 msgid "Save 'custom' values to the field's choices"
-msgstr "Salvar valores \"***REMOVED***\" nas escolhas do campo"
+msgstr "Salvar valores \"personalizados\" nas escolhas do campo"
 
 #: includes/fields/class-acf-field-checkbox.php:372
 msgid "Allow 'custom' values to be added"
-msgstr "Permite adicionar valores ***REMOVED***"
+msgstr "Permite adicionar valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:35
 msgid "Add new choice"
@@ -6460,7 +6460,7 @@ msgstr "Salvar valores de \"outros\" nas escolhas do campo"
 
 #: includes/fields/class-acf-field-radio.php:243
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Adicionar escolha de \"outros\" para permitir valores ***REMOVED***"
+msgstr "Adicionar escolha de \"outros\" para permitir valores personalizados"
 
 #: includes/admin/views/global/navigation.php:199
 msgid "Other"
@@ -6925,7 +6925,7 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "O TinyMCE não será carregado até que o campo seja clicado"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
+msgid "Delay Initialization"
 msgstr "Atrasar inicialização"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
@@ -7308,12 +7308,12 @@ msgstr "Sem formatação"
 #: includes/fields/class-acf-field-message.php:103
 #: includes/fields/class-acf-field-textarea.php:161
 msgid "Automatically add &lt;br&gt;"
-msgstr "Adicionar &lt;br&gt; ***REMOVED***"
+msgstr "Adicionar &lt;br&gt; automaticamente"
 
 #: includes/fields/class-acf-field-message.php:102
 #: includes/fields/class-acf-field-textarea.php:160
 msgid "Automatically add paragraphs"
-msgstr "Adicionar parágrafos ***REMOVED***"
+msgstr "Adicionar parágrafos automaticamente"
 
 #: includes/fields/class-acf-field-message.php:98
 #: includes/fields/class-acf-field-textarea.php:156
@@ -7679,8 +7679,8 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93
@@ -7791,8 +7791,8 @@ msgid ""
 "No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
 "Custom Field Group</a>"
 msgstr ""
-"Nenhum grupo de campos ***REMOVED*** encontrado para esta página de opções. "
-"<a href=\"%s\">Crie um grupo de campos ***REMOVED***</a>"
+"Nenhum grupo de campos personalizados encontrado para esta página de opções. "
+"<a href=\"%s\">Crie um grupo de campos personalizados</a>"
 
 #: pro/admin/admin-updates.php:52
 msgid "<b>Error</b>. Could not connect to update server"

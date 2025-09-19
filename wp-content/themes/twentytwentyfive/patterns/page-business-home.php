@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Business homepage
- * Slug: ***REMOVED***/page-business-home
+ * Slug: twentytwentyfive/page-business-home
  * Categories: twentytwentyfive_page, featured
  * Keywords: starter
  * Block Types: core/post-content
@@ -16,9 +16,9 @@
 
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/cta-centered-heading"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/overlapped-images"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/services-3-col"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/testimonials-large"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/pricing-2-col"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/cta-newsletter"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-centered-heading"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/overlapped-images"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/services-3-col"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/testimonials-large"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/pricing-2-col"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-newsletter"} /-->

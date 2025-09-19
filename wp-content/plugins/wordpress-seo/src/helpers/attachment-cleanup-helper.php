@@ -29,8 +29,8 @@ class Attachment_Cleanup_Helper {
 
 		$delete_query = "DELETE FROM $indexable_table WHERE object_type = 'post' AND object_sub_type = 'attachment'";
 
-		// phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.***REMOVED***.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query( $delete_query );
 		// phpcs:enable
@@ -60,8 +60,8 @@ class Attachment_Cleanup_Helper {
 
 		$query = "UPDATE $links_table SET target_indexable_id = NULL WHERE type = 'image-in'";
 
-		// phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
-		// phpcs:disable WordPress.DB.***REMOVED***.DirectQuery -- Reason: Most performant way.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: Is it prepared already.
 		$wpdb->query( $query );
 		// phpcs:enable

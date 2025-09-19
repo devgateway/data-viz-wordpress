@@ -47,7 +47,7 @@ abstract class OpenSSH extends Progenitor
         if (isset($parsed['paddedKey'])) {
             list($type) = Strings::unpackSSH2('s', $parsed['paddedKey']);
             if ($type != $parsed['type']) {
-                throw new \***REMOVED***("The public and private keys are not of the same type ($type vs $parsed[type])");
+                throw new \RuntimeException("The public and private keys are not of the same type ($type vs $parsed[type])");
             }
 
             list($p, $q, $g, $y, $x, $comment) = Strings::unpackSSH2('i5s', $parsed['paddedKey']);
@@ -108,11 +108,11 @@ abstract class OpenSSH extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $p, BigInteger $q, BigInteger $g, BigInteger $y, BigInteger $x, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $p, BigInteger $q, BigInteger $g, BigInteger $y, BigInteger $x, $password = '', array $options = [])
     {
         $publicKey = self::savePublicKey($p, $q, $g, $y, ['binary' => true]);
         $privateKey = Strings::packSSH2('si5', 'ssh-dss', $p, $q, $g, $y, $x);
 
-        return self::***REMOVED***($publicKey, $privateKey, $password, $options);
+        return self::wrapPrivateKey($publicKey, $privateKey, $password, $options);
     }
 }

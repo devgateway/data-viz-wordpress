@@ -3,7 +3,7 @@
 /**
  * The core plugin class.
  *
- * This is used to define ***REMOVED***, dashboard-specific hooks, and
+ * This is used to define internationalization, dashboard-specific hooks, and
  * public-facing site hooks.
  *
  * Also maintains the unique identifier of this plugin as well as the current
@@ -84,7 +84,7 @@ class Better_Search_Replace {
 	}
 
 	/**
-	 * Define the locale for this plugin for ***REMOVED***.
+	 * Define the locale for this plugin for internationalization.
 	 *
 	 * Uses the BSR_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
@@ -131,7 +131,7 @@ class Better_Search_Replace {
 
 	/**
 	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define ***REMOVED*** functionality.
+	 * WordPress and to define internationalization functionality.
 	 *
 	 * @since     1.0
 	 * @return    string    The name of the plugin.

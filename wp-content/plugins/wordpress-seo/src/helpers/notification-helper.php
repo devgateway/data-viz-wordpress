@@ -13,7 +13,7 @@ class Notification_Helper {
 	/**
 	 * Restores a notification (wrapper function).
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Notification $notification The notification to restore.
 	 *
@@ -26,7 +26,7 @@ class Notification_Helper {
 	/**
 	 * Return the notifications sorted on type and priority. (wrapper function)
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return Yoast_Notification[] Sorted Notifications
 	 */
@@ -39,7 +39,7 @@ class Notification_Helper {
 	/**
 	 * Check if the user has dismissed a notification. (wrapper function)
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Yoast_Notification $notification The notification to check for dismissal.
 	 * @param int|null           $user_id      User ID to check on.

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Post format name
- * Slug: ***REMOVED***/binding-format
+ * Slug: twentytwentyfive/binding-format
  * Categories: twentytwentyfive_post-format
  * Description: Prints the name of the post format with the help of the Block Bindings API.
  *
@@ -11,6 +11,6 @@
  */
 
 ?>
-<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"***REMOVED***/format"}}},"fontSize":"small"} -->
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"twentytwentyfive/format"}}},"fontSize":"small"} -->
 <p class="has-small-font-size"></p>
 <!-- /wp:paragraph -->

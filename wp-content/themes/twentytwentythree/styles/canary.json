@@ -76,11 +76,11 @@
 				"elements": {
 					"link": {
 						"typography": {
-							"***REMOVED***": "underline"
+							"textDecoration": "underline"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "none"
+								"textDecoration": "none"
 							}
 						}
 					}
@@ -113,11 +113,11 @@
 				"elements": {
 					"link": {
 						"typography": {
-							"***REMOVED***": "underline"
+							"textDecoration": "underline"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "none"
+								"textDecoration": "none"
 							}
 						}
 					}
@@ -239,7 +239,7 @@
 			},
 			"link": {
 				"typography": {
-					"***REMOVED***": "none"
+					"textDecoration": "none"
 				}
 			}
 		},

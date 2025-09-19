@@ -39,7 +39,7 @@ class WPSEO_Admin_User_Profile {
 	 * Updates the user metas that (might) have been set on the user profile page.
 	 *
 	 * @deprecated 22.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $user_id User ID of the updated user.
 	 *
@@ -73,7 +73,7 @@ class WPSEO_Admin_User_Profile {
 	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
 	 * @deprecated 23.4
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param WP_User $user User instance to output for.
 	 *

@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 use YoastSEO_Vendor\GuzzleHttp\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use YoastSEO_Vendor\League\OAuth2\Client\Provider\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 
 /**
  * Class SEMrush_Client
@@ -30,13 +30,13 @@ class SEMrush_Client extends OAuth_Client {
 	 * @throws Empty_Property_Exception Throws when one of the required properties is empty.
 	 */
 	public function __construct( Options_Helper $options_helper, WP_Remote_Handler $wp_remote_handler ) {
-		$provider = new ***REMOVED***(
+		$provider = new GenericProvider(
 			[
 				'clientId'                => 'yoast',
 				'clientSecret'            => 'YdqNsWwnP4vE54WO1ugThKEjGMxMAHJt',
 				'redirectUri'             => 'https://oauth.semrush.com/oauth2/yoast/success',
 				'urlAuthorize'            => 'https://oauth.semrush.com/oauth2/authorize',
-				'***REMOVED***'          => 'https://oauth.semrush.com/oauth2/access_token',
+				'urlAccessToken'          => 'https://oauth.semrush.com/oauth2/access_token',
 				'urlResourceOwnerDetails' => 'https://oauth.semrush.com/oauth2/resource',
 			],
 			[
@@ -54,7 +54,7 @@ class SEMrush_Client extends OAuth_Client {
 	/**
 	 * Performs the specified request.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $method  The HTTP method to use.
 	 * @param string $url     The URL to send the request to.
@@ -63,7 +63,7 @@ class SEMrush_Client extends OAuth_Client {
 	 * @return mixed The parsed API response.
 	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
-	 * @throws Authentication_Failed_Exception Exception thrown if ***REMOVED*** has failed.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
 	 */
 	public function do_request( $method, $url, array $options ) {

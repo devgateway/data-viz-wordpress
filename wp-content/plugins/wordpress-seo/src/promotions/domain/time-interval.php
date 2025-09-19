@@ -26,7 +26,7 @@ class Time_Interval {
 	/**
 	 * Time_Interval constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $time_start Interval start time.
 	 * @param int $time_end   Interval end time.

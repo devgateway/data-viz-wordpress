@@ -1,10 +1,10 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\Content_Types;
 
 use Yoast\WP\SEO\Dashboard\Application\Taxonomies\Taxonomies_Repository;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Content_Types\Content_Types_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Content_Types\Content_Types_Collector;
 
 /**
  * The repository to get content types.

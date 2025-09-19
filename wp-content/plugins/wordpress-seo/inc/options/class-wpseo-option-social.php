@@ -38,7 +38,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'og_frontpage_image_id' => '',
 		'opengraph'             => true,
 		'pinterest_url'         => '',
-		'***REMOVED***'       => '',
+		'pinterestverify'       => '',
 		'twitter'               => true,
 		'twitter_site'          => '', // Text field.
 		'twitter_card_type'     => 'summary_large_image',
@@ -55,7 +55,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 */
 	public $ms_exclude = [
 		/* Privacy. */
-		'***REMOVED***',
+		'pinterestverify',
 	];
 
 	/**
@@ -156,7 +156,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
-				case '***REMOVED***':
+				case 'pinterestverify':
 					$this->validate_verification_string( $key, $dirty, $old, $clean );
 					break;
 

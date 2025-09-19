@@ -11,7 +11,7 @@
 	margin: 32px 0;
 	max-width: 100%;
 
-	@include ***REMOVED***();
+	@include postContentMaxWidth();
 
 	@include media(tablet) {
 		margin: 32px 0;
@@ -80,7 +80,7 @@
 		margin-left: auto;
 		margin-right: auto;
 
-		@include ***REMOVED***();
+		@include postContentMaxWidth();
 
 		@include media(tablet) {
 			margin-left: 0;
@@ -292,7 +292,7 @@
 			padding-left: 0;
 		}
 
-		@include ***REMOVED***();
+		@include nestedSubMenuPadding();
 	}
 
 	//! Latest posts
@@ -579,12 +579,12 @@
 		&:not(.alignwide):not(.alignfull) > a > img,
 		&:not(.alignwide):not(.alignfull) > img + figcaption,
 		&:not(.alignwide):not(.alignfull) > a + figcaption {
-			@include ***REMOVED***();
+			@include postContentMaxWidth();
 		}
 
 		.aligncenter {
 
-			@include ***REMOVED***();
+			@include postContentMaxWidth();
 
 			@include media(tablet) {
 				margin: 0;
@@ -657,7 +657,7 @@
 			.wp-block-cover-image-text,
 			.wp-block-cover-text,
 			h2 {
-				@include ***REMOVED***();
+				@include postContentMaxWidth();
 			}
 
 			@include media(tablet) {
@@ -715,17 +715,17 @@
 
 		&:not(.wp-block-separator) {
 			max-width: 100%;
-			@include ***REMOVED***();
+			@include postContentMaxWidth();
 		}
 
 		&.is-style-wide {
 			max-width: 100%;
-			@include ***REMOVED***();
+			@include postContentMaxWidth();
 		}
 
 		&.is-style-dots {
 			max-width: 100%;
-			@include ***REMOVED***();
+			@include postContentMaxWidth();
 			background-color: inherit;
 			border: inherit;
 			height: inherit;

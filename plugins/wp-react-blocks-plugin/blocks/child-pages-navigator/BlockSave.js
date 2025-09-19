@@ -11,12 +11,12 @@ const SaveComponent = (props) => {
     const divClass = {}
     const divStyles = {}
 
-    const urlParams = new ***REMOVED***(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
     const parent = urlParams.get('post');
 
 
     return (<div className={"viz-component"}
-                 data-component={"***REMOVED***"}
+                 data-component={"childPagesMenu"}
                  data-parent={parent}
                  data-title={title}
                  data-show-icons={showIcon}

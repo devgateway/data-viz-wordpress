@@ -108,7 +108,7 @@ class WCP_Folder_Plugins
                     }
 
                     if ($plugin === 'real-media-library') {
-                        $wpdb->query('DELETE FROM '.$wpdb->prefix.'***REMOVED***');
+                        $wpdb->query('DELETE FROM '.$wpdb->prefix.'realmedialibrary');
 
                         $wpdb->query('DELETE FROM '.$wpdb->prefix.'realmedialibrary_meta');
                     }
@@ -183,8 +183,8 @@ class WCP_Folder_Plugins
             $attachments  = isset($this->plugins[$plugin]['attachments']) ? $this->plugins[$plugin]['attachments'] : [];
 
             $categoryByID        = [];
-            $***REMOVED***     = [];
-            $***REMOVED*** = [];
+            $foldersImported     = [];
+            $attachmentsImported = [];
             if ($plugin != 'filebird' && $plugin != 'real-media-library' && $plugin != "catfolders") {
                 $currentFolder = -1;
                 foreach ($folders as $folder) {
@@ -256,7 +256,7 @@ class WCP_Folder_Plugins
 
                     update_term_meta($new_term['term_id'], 'wcp_custom_order', $position);
 
-                    $***REMOVED***[] = $new_term;
+                    $foldersImported[] = $new_term;
 
                     $categoryByID[$folder_id] = [
                         'term_id' => $new_term['term_id'],
@@ -283,7 +283,7 @@ class WCP_Folder_Plugins
 
                                 $folderItems++;
 
-                                $***REMOVED***[] = [
+                                $attachmentsImported[] = [
                                     'cat_id'   => $newTermID,
                                     'term_ids' => $result->object_id,
                                     'set'      => $term_set,
@@ -347,7 +347,7 @@ class WCP_Folder_Plugins
 
                     update_term_meta($new_term['term_id'], 'wcp_custom_order', intval($position));
 
-                    $***REMOVED***[] = $new_term;
+                    $foldersImported[] = $new_term;
 
                     $categoryByID[$folder->id] = [
                         'name'    => $folder->name,
@@ -371,7 +371,7 @@ class WCP_Folder_Plugins
 
                                 $folderItems++;
 
-                                $***REMOVED***[] = [
+                                $attachmentsImported[] = [
                                     'cat_id'   => $newTermID,
                                     'term_ids' => $result->object_id,
                                     'set'      => $term_set,
@@ -395,14 +395,14 @@ class WCP_Folder_Plugins
 
             $totalPages         = ceil($totalFolders / 10);
             $response['status'] = 1;
-            $response['data']['imported']    = count($***REMOVED***);
-            $response['data']['attachments'] = (count($***REMOVED***) + $attachedItems);
+            $response['data']['imported']    = count($foldersImported);
+            $response['data']['attachments'] = (count($attachmentsImported) + $attachedItems);
             $response['data']['data_set']    = $dataSet;
             $response['data']['folders']     = $totalFolders;
             $response['data']['pages']       = $totalPages;
             $response['data']['current']     = $paged;
             $response['data']['plugin']      = $plugin;
-            $response['message'] = sprintf(esc_html__("%1\$s folders imported and %2\$s attachments categorized.", 'folders'), count($***REMOVED***), (count($***REMOVED***) + $attachedItems));
+            $response['message'] = sprintf(esc_html__("%1\$s folders imported and %2\$s attachments categorized.", 'folders'), count($foldersImported), (count($attachmentsImported) + $attachedItems));
         }//end if
 
         echo wp_json_encode($response);
@@ -641,7 +641,7 @@ class WCP_Folder_Plugins
 
         // Real Media Library has its own db table
         else if ($taxonomy === 'rml') {
-            $rml_folders_table = $wpdb->prefix.'***REMOVED***';
+            $rml_folders_table = $wpdb->prefix.'realmedialibrary';
 
             // Get FileBird folders (order by 'parent' to create parent categories first)
             if ($wpdb->get_var("SHOW TABLES LIKE '$rml_folders_table'") == $rml_folders_table) {

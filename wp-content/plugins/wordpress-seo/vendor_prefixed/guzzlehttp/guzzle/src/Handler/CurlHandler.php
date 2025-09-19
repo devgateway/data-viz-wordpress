@@ -2,8 +2,8 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 /**
  * HTTP handler that uses cURL easy handles as a transport layer.
  *
@@ -16,7 +16,7 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
 class CurlHandler
 {
     /**
-     * @var ***REMOVED***
+     * @var CurlFactoryInterface
      */
     private $factory;
     /**
@@ -24,13 +24,13 @@ class CurlHandler
      *
      * - handle_factory: Optional curl factory used to create cURL handles.
      *
-     * @param array{handle_factory?: ?***REMOVED***} $options Array of options to use with the handler
+     * @param array{handle_factory?: ?CurlFactoryInterface} $options Array of options to use with the handler
      */
     public function __construct(array $options = [])
     {
         $this->factory = $options['handle_factory'] ?? new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlFactory(3);
     }
-    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         if (isset($options['delay'])) {
             \usleep($options['delay'] * 1000);

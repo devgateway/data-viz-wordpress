@@ -22,8 +22,8 @@ import {
 	borderDotted,
 	borderDashed,
 	borderDouble,
-	***REMOVED*** as ***REMOVED***,
-	***REMOVED*** as ***REMOVED***,
+	borderCollapse as borderCollapseIcon,
+	borderSeparate as borderSeparateIcon,
 } from './icons';
 
 // Custom store name.
@@ -102,12 +102,12 @@ export const CONTENT_JUSTIFY_CONTROLS = [
 
 export const BORDER_COLLAPSE_CONTROLS = [
 	{
-		icon: ***REMOVED***,
+		icon: borderCollapseIcon,
 		label: __( 'Share', 'flexible-table-block' ),
 		value: 'collapse',
 	},
 	{
-		icon: ***REMOVED***,
+		icon: borderSeparateIcon,
 		label: __( 'Separate', 'flexible-table-block' ),
 		value: 'separate',
 	},

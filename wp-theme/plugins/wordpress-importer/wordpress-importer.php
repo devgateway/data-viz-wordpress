@@ -3,7 +3,7 @@
 Plugin Name: WordPress Importer
 Plugin URI: https://wordpress.org/plugins/wordpress-importer/
 Description: Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.
-Author: ***REMOVED***
+Author: wordpressdotorg
 Author URI: https://wordpress.org/
 Version: 0.7
 Text Domain: wordpress-importer
@@ -20,7 +20,7 @@ if ( ! defined( 'IMPORT_DEBUG' ) ) {
 	define( 'IMPORT_DEBUG', WP_DEBUG );
 }
 
-/** WordPress Import ***REMOVED*** API */
+/** WordPress Import Administration API */
 require_once ABSPATH . 'wp-admin/includes/import.php';
 
 if ( ! class_exists( 'WP_Importer' ) ) {

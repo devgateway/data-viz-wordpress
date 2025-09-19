@@ -14,8 +14,8 @@ namespace phpseclib3\Crypt\EC;
 use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Crypt\Common;
 use phpseclib3\Crypt\EC;
-use phpseclib3\Crypt\EC\BaseCurves\Montgomery as ***REMOVED***;
-use phpseclib3\Crypt\EC\BaseCurves\***REMOVED*** as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
+use phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
 use phpseclib3\Crypt\EC\Curves\Curve25519;
 use phpseclib3\Crypt\EC\Curves\Ed25519;
 use phpseclib3\Crypt\EC\Formats\Keys\PKCS1;
@@ -31,13 +31,13 @@ use phpseclib3\Math\BigInteger;
  */
 final class PrivateKey extends EC implements Common\PrivateKey
 {
-    use Common\Traits\***REMOVED***;
+    use Common\Traits\PasswordProtected;
 
     /**
      * Private Key dA
      *
-     * sign() converts this to a BigInteger so one might wonder why this is a ***REMOVED*** instead of
-     * a BigInteger. That's because a ***REMOVED***, when converted to a byte string, is null padded by
+     * sign() converts this to a BigInteger so one might wonder why this is a FiniteFieldInteger instead of
+     * a BigInteger. That's because a FiniteFieldInteger, when converted to a byte string, is null padded by
      * a certain amount whereas a BigInteger isn't.
      *
      * @var object
@@ -59,25 +59,25 @@ final class PrivateKey extends EC implements Common\PrivateKey
      */
     public function multiply($coordinates)
     {
-        if ($this->curve instanceof ***REMOVED***) {
+        if ($this->curve instanceof MontgomeryCurve) {
             if ($this->curve instanceof Curve25519 && self::$engines['libsodium']) {
                 return sodium_crypto_scalarmult($this->dA->toBytes(), $coordinates);
             }
 
-            $point = [$this->curve->***REMOVED***(new BigInteger(strrev($coordinates), 256))];
+            $point = [$this->curve->convertInteger(new BigInteger(strrev($coordinates), 256))];
             $point = $this->curve->multiplyPoint($point, $this->dA);
             return strrev($point[0]->toBytes(true));
         }
-        if (!$this->curve instanceof ***REMOVED***) {
+        if (!$this->curve instanceof TwistedEdwardsCurve) {
             $coordinates = "\0$coordinates";
         }
         $point = PKCS1::extractPoint($coordinates, $this->curve);
         $point = $this->curve->multiplyPoint($point, $this->dA);
-        if ($this->curve instanceof ***REMOVED***) {
+        if ($this->curve instanceof TwistedEdwardsCurve) {
             return $this->curve->encodePoint($point);
         }
         if (empty($point)) {
-            throw new \***REMOVED***('The infinity point is invalid');
+            throw new \RuntimeException('The infinity point is invalid');
         }
         return "\4" . $point[0]->toBytes(true) . $point[1]->toBytes(true);
     }
@@ -91,7 +91,7 @@ final class PrivateKey extends EC implements Common\PrivateKey
      */
     public function sign($message)
     {
-        if ($this->curve instanceof ***REMOVED***) {
+        if ($this->curve instanceof MontgomeryCurve) {
             throw new UnsupportedOperationException('Montgomery Curves cannot be used to create signatures');
         }
 
@@ -104,7 +104,7 @@ final class PrivateKey extends EC implements Common\PrivateKey
             return false;
         }
 
-        if ($this->curve instanceof ***REMOVED***) {
+        if ($this->curve instanceof TwistedEdwardsCurve) {
             if ($this->curve instanceof Ed25519 && self::$engines['libsodium'] && !isset($this->context)) {
                 $result = sodium_crypto_sign_detached($message, $this->withPassword()->toString('libsodium'));
                 return $shortFormat == 'SSH2' ? Strings::packSSH2('ss', 'ssh-' . strtolower($this->getCurve()), $result) : $result;
@@ -186,7 +186,7 @@ final class PrivateKey extends EC implements Common\PrivateKey
             }
         }
 
-        // the following is an RFC6979 compliant ***REMOVED*** of deterministic ECDSA
+        // the following is an RFC6979 compliant implementation of deterministic ECDSA
         // it's unused because it's mainly intended for use when a good CSPRNG isn't
         // available. if phpseclib's CSPRNG isn't good then even key generation is
         // suspect
@@ -220,9 +220,9 @@ final class PrivateKey extends EC implements Common\PrivateKey
      */
     public function toString($type, array $options = [])
     {
-        $type = self::***REMOVED***('Keys', $type, '***REMOVED***');
+        $type = self::validatePlugin('Keys', $type, 'savePrivateKey');
 
-        return $type::***REMOVED***($this->dA, $this->curve, $this->QA, $this->secret, $this->password, $options);
+        return $type::savePrivateKey($this->dA, $this->curve, $this->QA, $this->secret, $this->password, $options);
     }
 
     /**
@@ -234,21 +234,21 @@ final class PrivateKey extends EC implements Common\PrivateKey
     public function getPublicKey()
     {
         $format = 'PKCS8';
-        if ($this->curve instanceof ***REMOVED***) {
-            $format = '***REMOVED***';
+        if ($this->curve instanceof MontgomeryCurve) {
+            $format = 'MontgomeryPublic';
         }
 
-        $type = self::***REMOVED***('Keys', $format, 'savePublicKey');
+        $type = self::validatePlugin('Keys', $format, 'savePublicKey');
 
         $key = $type::savePublicKey($this->curve, $this->QA);
         $key = EC::loadFormat($format, $key);
-        if ($this->curve instanceof ***REMOVED***) {
+        if ($this->curve instanceof MontgomeryCurve) {
             return $key;
         }
         $key = $key
             ->withHash($this->hash->getHash())
-            ->***REMOVED***($this->shortFormat);
-        if ($this->curve instanceof ***REMOVED***) {
+            ->withSignatureFormat($this->shortFormat);
+        if ($this->curve instanceof TwistedEdwardsCurve) {
             $key = $key->withContext($this->context);
         }
         return $key;

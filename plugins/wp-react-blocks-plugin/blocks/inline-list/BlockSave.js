@@ -10,7 +10,7 @@ const SaveComponent = (props) => {
             width,
             colors,
             showIcons,
-            ***REMOVED***,
+            showContentToggle,
             contentToggleHPosition
         },
     } = props;
@@ -26,7 +26,7 @@ const SaveComponent = (props) => {
                      data-type={type} data-taxonomy={taxonomy} data-categories={categories.toString()}
                      className={"viz-component"}
                      data-show-post-icons={showIcons}
-                     data-show-content-toggle={***REMOVED***}
+                     data-show-content-toggle={showContentToggle}
                      data-content-toggle-h-position={contentToggleHPosition}
                      data-component={"inlineList"}>
                 </div>

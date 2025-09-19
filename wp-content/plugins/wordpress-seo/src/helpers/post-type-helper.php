@@ -28,7 +28,7 @@ class Post_Type_Helper {
 	/**
 	 * Checks if the request post type is public and indexable.
 	 *
-	 * @***REMOVED*** We have to write test when this method contains own code.
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @param string $post_type_name The name of the post type to lookup.
 	 *
@@ -56,7 +56,7 @@ class Post_Type_Helper {
 	/**
 	 * Returns an array with the public post types.
 	 *
-	 * @***REMOVED*** It only wraps a WordPress function.
+	 * @codeCoverageIgnore It only wraps a WordPress function.
 	 *
 	 * @param string $output The output type to use.
 	 *

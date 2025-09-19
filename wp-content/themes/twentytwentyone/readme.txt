@@ -1,5 +1,5 @@
 === Twenty Twenty-One ===
-Contributors: ***REMOVED***
+Contributors: wordpressdotorg
 Requires at least: 5.3
 Tested up to: 6.8
 Requires PHP: 5.6
@@ -122,7 +122,7 @@ the Free Software Foundation, either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-***REMOVED*** or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 

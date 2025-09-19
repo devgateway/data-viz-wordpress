@@ -17,7 +17,7 @@ namespace YoastSEO_Vendor\Psr\Log;
  * See https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md
  * for the full interface specification.
  */
-interface ***REMOVED***
+interface LoggerInterface
 {
     /**
      * System is unusable.

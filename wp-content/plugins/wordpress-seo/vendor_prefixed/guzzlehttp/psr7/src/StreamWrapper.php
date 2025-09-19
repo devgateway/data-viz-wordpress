@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Converts Guzzle streams into PHP stream resources.
  *
@@ -13,20 +13,20 @@ final class StreamWrapper
 {
     /** @var resource */
     public $context;
-    /** @var ***REMOVED*** */
+    /** @var StreamInterface */
     private $stream;
     /** @var string r, r+, or w */
     private $mode;
     /**
      * Returns a resource representing the stream.
      *
-     * @param ***REMOVED*** $stream The stream to get a resource for
+     * @param StreamInterface $stream The stream to get a resource for
      *
      * @return resource
      *
      * @throws \InvalidArgumentException if stream is not readable or writable
      */
-    public static function getResource(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream)
+    public static function getResource(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream)
     {
         self::register();
         if ($stream->isReadable()) {
@@ -36,14 +36,14 @@ final class StreamWrapper
         } else {
             throw new \InvalidArgumentException('The stream must be readable, ' . 'writable, or both.');
         }
-        return \fopen('guzzle://stream', $mode, \false, self::***REMOVED***($stream));
+        return \fopen('guzzle://stream', $mode, \false, self::createStreamContext($stream));
     }
     /**
      * Creates a stream context that can be used to open a stream as a php stream resource.
      *
      * @return resource
      */
-    public static function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream)
+    public static function createStreamContext(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream)
     {
         return \stream_context_create(['guzzle' => ['stream' => $stream]]);
     }

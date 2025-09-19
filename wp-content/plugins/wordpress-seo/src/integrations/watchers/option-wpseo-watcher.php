@@ -70,7 +70,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 * value has actually changed or not.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $old_value The old value of the option.
 	 * @param array $new_value The new value of the option.

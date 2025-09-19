@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\User_Interface\Time_Based_SEO_Metrics;
 
 use DateTime;
@@ -15,8 +15,8 @@ use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Compare_Reposito
 use Yoast\WP\SEO\Dashboard\Application\Traffic\Organic_Sessions_Daily_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_SEO_Metrics\Repository_Not_Found_Exception;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Analytics_4\Analytics_4_Parameters;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Search_Console\Search_Console_Parameters;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Analytics_4_Parameters;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Search_Console_Parameters;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Routes\Route_Interface;
@@ -186,7 +186,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 
 					$time_based_seo_metrics_container = $this->top_page_repository->get_data( $request_parameters );
 					break;
-				case '***REMOVED***':
+				case 'organicSessionsDaily':
 					$request_parameters = new Analytics_4_Parameters();
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );
@@ -207,7 +207,7 @@ final class Time_Based_SEO_Metrics_Route implements Route_Interface {
 
 					$time_based_seo_metrics_container = $this->organic_sessions_compare_repository->get_data( $request_parameters );
 					break;
-				case '***REMOVED***':
+				case 'searchRankingCompare':
 					$request_parameters = new Search_Console_Parameters();
 
 					$request_parameters = $this->set_date_range_parameters( $request_parameters );

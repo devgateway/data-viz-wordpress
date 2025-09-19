@@ -15,9 +15,9 @@
 namespace YoastSEO_Vendor\League\OAuth2\Client\Provider;
 
 /**
- * Represents a generic resource owner for use with the ***REMOVED***.
+ * Represents a generic resource owner for use with the GenericProvider.
  */
-class ***REMOVED*** implements \YoastSEO_Vendor\League\OAuth2\Client\Provider\ResourceOwnerInterface
+class GenericResourceOwner implements \YoastSEO_Vendor\League\OAuth2\Client\Provider\ResourceOwnerInterface
 {
     /**
      * @var array
@@ -26,15 +26,15 @@ class ***REMOVED*** implements \YoastSEO_Vendor\League\OAuth2\Client\Provider\Re
     /**
      * @var string
      */
-    protected $***REMOVED***;
+    protected $resourceOwnerId;
     /**
      * @param array $response
-     * @param string $***REMOVED***
+     * @param string $resourceOwnerId
      */
-    public function __construct(array $response, $***REMOVED***)
+    public function __construct(array $response, $resourceOwnerId)
     {
         $this->response = $response;
-        $this->***REMOVED*** = $***REMOVED***;
+        $this->resourceOwnerId = $resourceOwnerId;
     }
     /**
      * Returns the identifier of the authorized resource owner.
@@ -43,7 +43,7 @@ class ***REMOVED*** implements \YoastSEO_Vendor\League\OAuth2\Client\Provider\Re
      */
     public function getId()
     {
-        return $this->response[$this->***REMOVED***];
+        return $this->response[$this->resourceOwnerId];
     }
     /**
      * Returns the raw resource owner response.

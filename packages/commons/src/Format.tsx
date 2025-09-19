@@ -339,42 +339,42 @@ const CUSTOM_FORMAT = 'CUSTOM';
 export type FormatProps = {
     format: any;
     title?: string;
-    ***REMOVED***: (format: any, field: string) => void;
+    onFormatChange: (format: any, field: string) => void;
     onUseCustomAxisFormatChange?: (value: boolean) => void;
     customFormat?: any;
     hiddenCustomAxisFormat?: boolean;
-    ***REMOVED***?: boolean;
+    useCustomAxisFormat?: boolean;
 }
 
 export const Format = ({
     format,
     title,
-    ***REMOVED***,
+    onFormatChange,
     onUseCustomAxisFormatChange,
     customFormat,
     hiddenCustomAxisFormat,
-    ***REMOVED***
+    useCustomAxisFormat
 }: FormatProps) => {
 
 
-    const ***REMOVED*** = (style, ***REMOVED***) => {
-        const currentFormat = ***REMOVED*** == DEFAULT_FORMAT ? format : customFormat
-        const field = ***REMOVED*** == DEFAULT_FORMAT ? 'format' : 'customFormat'
-        ***REMOVED***(Object.assign({}, currentFormat, { style }), field)
+    const onChangeFormat = (style, formatToUpdate) => {
+        const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat
+        const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat'
+        onFormatChange(Object.assign({}, currentFormat, { style }), field)
     }
 
-    const ***REMOVED*** = (value, ***REMOVED***) => {
-        const currentFormat = ***REMOVED*** == DEFAULT_FORMAT ? format : customFormat
-        const field = ***REMOVED*** == DEFAULT_FORMAT ? 'format' : 'customFormat'
-        ***REMOVED***(Object.assign({}, currentFormat, {
+    const onDecimalChange = (value, formatToUpdate) => {
+        const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat
+        const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat'
+        onFormatChange(Object.assign({}, currentFormat, {
             minimumFractionDigits: value,
             maximumFractionDigits: value
         }), field)
     }
-    const ***REMOVED*** = (currency, ***REMOVED***) => {
-        const currentFormat = ***REMOVED*** == DEFAULT_FORMAT ? format : customFormat
-        const field = ***REMOVED*** == DEFAULT_FORMAT ? 'format' : 'customFormat'
-        ***REMOVED***(Object.assign({}, currentFormat, { currency }), field)
+    const onCurrencyChange = (currency, formatToUpdate) => {
+        const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat
+        const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat'
+        onFormatChange(Object.assign({}, currentFormat, { currency }), field)
     }
 
 
@@ -386,7 +386,7 @@ export const Format = ({
                     label={__('Style', "dg")}
                     value={[format.style]} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
-                        ***REMOVED***(value, DEFAULT_FORMAT)
+                        onChangeFormat(value, DEFAULT_FORMAT)
                     }}
                     options={styles}
                 />
@@ -395,7 +395,7 @@ export const Format = ({
                 <SelectControl
                     label={__("Currency", "dg")}
                     onChange={(value) => {
-                        ***REMOVED***(value, DEFAULT_FORMAT)
+                        onCurrencyChange(value, DEFAULT_FORMAT)
                     }}
                     value={format.currency}
                     options={currencies}
@@ -406,28 +406,28 @@ export const Format = ({
                     type="number"
                     label={__("Decimal Points", "dg")}
                     onChange={(value) => {
-                        ***REMOVED***(value, DEFAULT_FORMAT)
+                        onDecimalChange(value, DEFAULT_FORMAT)
                     }}
                     value={format.minimumFractionDigits}
                 />
             </PanelRow>
         </PanelBody>, <>
             {!hiddenCustomAxisFormat && <PanelRow>
-                <ToggleControl label={__("Use Custom Axis Format", "dg")} checked={***REMOVED***}
+                <ToggleControl label={__("Use Custom Axis Format", "dg")} checked={useCustomAxisFormat}
                     onChange={(value) => onUseCustomAxisFormatChange?.(value)} />
             </PanelRow>
             }
         </>
         ,
         <>
-            {***REMOVED*** && <PanelBody initialOpen={true} title={__("Custom Axis Format")}>
+            {useCustomAxisFormat && <PanelBody initialOpen={true} title={__("Custom Axis Format")}>
                 <PanelRow>
                     <SelectControl
                         multiple
                         label={__('Style', "dg")}
                         value={[customFormat.style]} // e.g: value = [ 'a', 'c' ]
                         onChange={(value) => {
-                            ***REMOVED***(value, CUSTOM_FORMAT)
+                            onChangeFormat(value, CUSTOM_FORMAT)
                         }}
                         options={styles}
                     />
@@ -436,7 +436,7 @@ export const Format = ({
                     <SelectControl
                         label={__("Currency", "dg")}
                         onChange={(value) => {
-                            ***REMOVED***(value, CUSTOM_FORMAT)
+                            onCurrencyChange(value, CUSTOM_FORMAT)
                         }}
                         value={customFormat.currency}
                         options={currencies}
@@ -447,7 +447,7 @@ export const Format = ({
                         type="number"
                         label={__("Decimal Points", "dg")}
                         onChange={(value) => {
-                            ***REMOVED***(value, CUSTOM_FORMAT)
+                            onDecimalChange(value, CUSTOM_FORMAT)
                         }}
                         value={customFormat.minimumFractionDigits}
                     />

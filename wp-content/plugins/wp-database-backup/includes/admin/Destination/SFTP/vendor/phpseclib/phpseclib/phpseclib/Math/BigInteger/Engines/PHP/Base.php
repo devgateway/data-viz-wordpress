@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Modular ***REMOVED*** Engine
+ * PHP Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Math\BigInteger\Engines\PHP;
 use phpseclib3\Math\BigInteger\Engines\PHP;
 
 /**
- * PHP Modular ***REMOVED*** Engine
+ * PHP Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -46,9 +46,9 @@ abstract class Base extends PHP
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
-     * The most naive approach to modular ***REMOVED*** has very unreasonable requirements, and
+     * The most naive approach to modular exponentiation has very unreasonable requirements, and
      * and although the approach involving repeated squaring does vastly better, it, too, is impractical
      * for our purposes.  The reason being that division - by far the most complicated and time-consuming
      * of the basic operations (eg. +,-,*,/) - occurs multiple times within it.
@@ -61,7 +61,7 @@ abstract class Base extends PHP
      * base is a power of two, the modulo - a product of two primes - is always going to have a gcd of 1 (because
      * the product of two odd numbers is odd), but what about when RSA isn't used?
      *
-     * In contrast, Barrett reduction has no such constraint.  As such, some bigint ***REMOVED*** perform a
+     * In contrast, Barrett reduction has no such constraint.  As such, some bigint implementations perform a
      * Barrett reduction after every operation in the modpow function.  Others perform Barrett reductions when the
      * modulo is even and Montgomery reductions when the modulo is odd.  BigInteger.java's modPow method, however,
      * uses a trick involving the Chinese Remainder Theorem to factor the even modulo into two numbers - one odd and
@@ -121,9 +121,9 @@ abstract class Base extends PHP
      * @see self::slidingWindow()
      * @return array
      */
-    protected static function ***REMOVED***(array $x, array $y, array $n, $class)
+    protected static function multiplyReduce(array $x, array $y, array $n, $class)
     {
-        $temp = $class::***REMOVED***($x, false, $y, false);
+        $temp = $class::multiplyHelper($x, false, $y, false);
         return static::reduce($temp[self::VALUE], $n, $class);
     }
 

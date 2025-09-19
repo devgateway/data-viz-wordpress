@@ -179,7 +179,7 @@ add_action( 'admin_init', 'cptui_flush_rewrite_rules' );
  */
 function cptui_get_current_action() {
 	$current_action = '';
-	if ( ! empty( $_GET ) && isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***
+	if ( ! empty( $_GET ) && isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 		$current_action .= esc_textarea( wp_unslash( $_GET['action'] ) ); // phpcs:ignore
 	}
 
@@ -390,7 +390,7 @@ function cptui_newsletter_form() {
 	<p class="email-octopus-success-message"></p>
 	<p class="email-octopus-error-message"></p>
 
-	<form method="post" action="https://emailoctopus.com/lists/2039e001-4775-11ea-be00-06b4694bee2a/members/embedded/1.3/add" class="email-octopus-form" data-sitekey="***REMOVED***">
+	<form method="post" action="https://emailoctopus.com/lists/2039e001-4775-11ea-be00-06b4694bee2a/members/embedded/1.3/add" class="email-octopus-form" data-sitekey="6LdYsmsUAAAAAPXVTt-ovRsPIJ_IVhvYBBhGvRV6">
 		<div class="email-octopus-form-row">
 
 			<?php
@@ -409,7 +409,7 @@ function cptui_newsletter_form() {
 		</div>
 
 		<div class="email-octopus-form-row-subscribe">
-			<input type="hidden" name="***REMOVED***" value="">
+			<input type="hidden" name="successRedirectUrl" value="">
 			<?php
 				echo sprintf(
 					/* translators: Placeholders are just for HTML markup that doesn't need translated */
@@ -453,9 +453,9 @@ function enqueue_email_octopus_assets() {
 		return;
 	}
 
-	wp_enqueue_style( 'cptui-emailoctopus', 'https://emailoctopus.com/bundles/***REMOVED***/css/formEmbed.css' ); // phpcs:ignore
+	wp_enqueue_style( 'cptui-emailoctopus', 'https://emailoctopus.com/bundles/emailoctopuslist/css/formEmbed.css' ); // phpcs:ignore
 
-	wp_enqueue_script( 'cptui-emailoctopus-js', 'https://emailoctopus.com/bundles/***REMOVED***/js/1.4/formEmbed.js', [ 'jquery' ], '', true ); // phpcs:ignore
+	wp_enqueue_script( 'cptui-emailoctopus-js', 'https://emailoctopus.com/bundles/emailoctopuslist/js/1.4/formEmbed.js', [ 'jquery' ], '', true ); // phpcs:ignore
 
 }
 add_action( 'admin_enqueue_scripts', 'enqueue_email_octopus_assets' );
@@ -562,9 +562,9 @@ function cptui_admin_notices_helper( $message = '', $success = true ) {
 	$class[] = $success ? 'updated' : 'error';
 	$class[] = 'notice is-dismissible';
 
-	$***REMOVED*** = '<div id="message" class="' . implode( ' ', $class ) . '"><p>';
+	$messagewrapstart = '<div id="message" class="' . implode( ' ', $class ) . '"><p>';
 
-	$***REMOVED*** = '</p></div>';
+	$messagewrapend = '</p></div>';
 
 	$action = '';
 
@@ -576,10 +576,10 @@ function cptui_admin_notices_helper( $message = '', $success = true ) {
 	 * @param string $value            Complete HTML output for notice.
 	 * @param string $action           Action whose message is being generated.
 	 * @param string $message          The message to be displayed.
-	 * @param string $***REMOVED*** Beginning wrap HTML.
-	 * @param string $***REMOVED***   Ending wrap HTML.
+	 * @param string $messagewrapstart Beginning wrap HTML.
+	 * @param string $messagewrapend   Ending wrap HTML.
 	 */
-	return apply_filters( 'cptui_admin_notice', $***REMOVED*** . $message . $***REMOVED***, $action, $message, $***REMOVED***, $***REMOVED*** );
+	return apply_filters( 'cptui_admin_notice', $messagewrapstart . $message . $messagewrapend, $action, $message, $messagewrapstart, $messagewrapend );
 }
 
 /**
@@ -592,14 +592,14 @@ function cptui_admin_notices_helper( $message = '', $success = true ) {
  * @return string
  */
 function cptui_get_object_from_post_global() {
-	if ( isset( $_POST['cpt_custom_post_type']['name'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***
+	if ( isset( $_POST['cpt_custom_post_type']['name'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 		$type_item = filter_input( INPUT_POST, 'cpt_custom_post_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 		if ( $type_item ) {
 			return sanitize_text_field( $type_item['name'] );
 		}
 	}
 
-	if ( isset( $_POST['cpt_custom_tax']['name'] ) ) { // phpcs:ignore WordPress.Security.***REMOVED***
+	if ( isset( $_POST['cpt_custom_tax']['name'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 		$tax_item = filter_input( INPUT_POST, 'cpt_custom_tax', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 		if ( $tax_item ) {
 			return sanitize_text_field( $tax_item['name'] );

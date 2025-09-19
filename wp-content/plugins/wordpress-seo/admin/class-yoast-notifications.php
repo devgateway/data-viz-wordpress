@@ -80,9 +80,9 @@ class Yoast_Notifications {
 	 * @return void
 	 */
 	private function add_hooks() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 			if ( $page === self::ADMIN_PAGE ) {
 				add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
@@ -209,11 +209,11 @@ class Yoast_Notifications {
 	 * @return Yoast_Notification|null A Yoast_Notification on success, null on failure.
 	 */
 	private function get_notification_from_ajax_request() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: This function does not handle nonce verification.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: This function does not handle nonce verification.
 		if ( ! isset( $_POST['notification'] ) || ! is_string( $_POST['notification'] ) ) {
 			return null;
 		}
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: This function does not handle nonce verification.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: This function does not handle nonce verification.
 		$notification_id = sanitize_text_field( wp_unslash( $_POST['notification'] ) );
 
 		if ( empty( $notification_id ) ) {

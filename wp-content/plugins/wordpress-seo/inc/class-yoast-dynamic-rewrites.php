@@ -58,13 +58,13 @@ class Yoast_Dynamic_Rewrites implements WPSEO_WordPress_Integration {
 	 * Sets the WP_Rewrite instance to use.
 	 *
 	 * @param WP_Rewrite|null $rewrite Optional. WP_Rewrite instance to use. Default is the $wp_rewrite global.
-	 * @throws ***REMOVED*** Throws an exception if the $wp_rewrite global is not set.
+	 * @throws RuntimeException Throws an exception if the $wp_rewrite global is not set.
 	 */
 	public function __construct( $rewrite = null ) {
 		if ( ! $rewrite ) {
 			if ( empty( $GLOBALS['wp_rewrite'] ) ) {
 				/* translators: 1: PHP class name, 2: PHP variable name */
-				throw new ***REMOVED***( sprintf( __( 'The %1$s class must not be instantiated before the %2$s global is set.', 'wordpress-seo' ), self::class, '$wp_rewrite' ) );
+				throw new RuntimeException( sprintf( __( 'The %1$s class must not be instantiated before the %2$s global is set.', 'wordpress-seo' ), self::class, '$wp_rewrite' ) );
 			}
 
 			$rewrite = $GLOBALS['wp_rewrite'];

@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_checkbox' ) ) :
 			$this->category      = 'choice';
 			$this->description   = __( 'A group of checkbox inputs that allow the user to select one, or multiple values that you specify.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-checkbox.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/checkbox/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/checkbox/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'layout'                    => 'vertical',
 				'choices'                   => array(),
@@ -93,7 +93,7 @@ if ( ! class_exists( 'acf_field_checkbox' ) ) :
 			}
 
 			// return
-			echo '<ul ' . acf_esc_attrs( $ul ) . '>' . "\n" . $li . '</ul>' . "\n"; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by specific render methods above.
+			echo '<ul ' . acf_esc_attrs( $ul ) . '>' . "\n" . $li . '</ul>' . "\n"; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by specific render methods above.
 		}
 
 

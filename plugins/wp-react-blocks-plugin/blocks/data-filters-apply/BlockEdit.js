@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, TextControl, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata} from '../commons/index'
@@ -26,7 +26,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         const iframeStyles = {height: '30px'}
 
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
                 <Panel header={__("Filter Reset Configuration")}>
                     <PanelBody initialOpen={false} title={__("Group")}>
                         <PanelRow>
@@ -58,13 +58,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelRow>
                     </PanelBody>                  
                 </Panel>
-            </***REMOVED***>),
+            </InspectorControls>),
                 (<div>
 
                         {this.state.react_ui_url &&
                         <iframe  ref={this.iframe} scrolling={"no"}
                                 style={iframeStyles}
-                                src={this.state.react_ui_url + "/embeddable/***REMOVED***"}/>}
+                                src={this.state.react_ui_url + "/embeddable/dataFiltersApply"}/>}
                     </div>
 
                 )]

@@ -3,20 +3,20 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Lazily reads or writes to a file that is opened only after an IO operation
  * take place on the stream.
  */
-final class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class LazyOpenStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
-    use ***REMOVED***;
+    use StreamDecoratorTrait;
     /** @var string */
     private $filename;
     /** @var string */
     private $mode;
     /**
-     * @var ***REMOVED***
+     * @var StreamInterface
      */
     private $stream;
     /**
@@ -34,7 +34,7 @@ final class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVE
     /**
      * Creates the underlying stream lazily when required.
      */
-    protected function createStream() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    protected function createStream() : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
     {
         return \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::streamFor(\YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::tryFopen($this->filename, $this->mode));
     }

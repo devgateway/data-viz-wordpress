@@ -267,8 +267,8 @@ class Indexable_Term_Builder {
 		$replacements[] = 'post_password';
 
 		//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
-		//phpcs:disable WordPress.DB.***REMOVED***.DirectQuery -- Reason: Most performant way.
-		//phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		return $wpdb->get_row(
 			$wpdb->prepare(
 				'

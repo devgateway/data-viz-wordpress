@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception;
 
 use YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface;
 /**
@@ -16,7 +16,7 @@ use YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class ServiceNotFoundException extends \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\InvalidArgumentException implements \YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface
+class ServiceNotFoundException extends \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException implements \YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface
 {
     private $id;
     private $sourceId;
@@ -51,7 +51,7 @@ class ServiceNotFoundException extends \YoastSEO_Vendor\Symfony\Component\***REM
     {
         return $this->sourceId;
     }
-    public function ***REMOVED***()
+    public function getAlternatives()
     {
         return $this->alternatives;
     }

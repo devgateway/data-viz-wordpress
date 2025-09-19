@@ -3,15 +3,15 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
- * Compose stream ***REMOVED*** based on a hash of functions.
+ * Compose stream implementations based on a hash of functions.
  *
  * Allows for easy testing and extension of a provided stream without needing
  * to create a concrete class for a simple extension point.
  */
 #[\AllowDynamicProperties]
-final class FnStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class FnStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
     private const SLOTS = ['__toString', 'close', 'detach', 'rewind', 'getSize', 'tell', 'eof', 'isSeekable', 'seek', 'isWritable', 'write', 'isReadable', 'read', 'getContents', 'getMetadata'];
     /** @var array<string, callable> */
@@ -48,22 +48,22 @@ final class FnStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
     /**
      * An unserialize would allow the __destruct to run when the unserialized value goes out of scope.
      *
-     * @throws \***REMOVED***
+     * @throws \LogicException
      */
     public function __wakeup() : void
     {
-        throw new \***REMOVED***('FnStream should never be unserialized');
+        throw new \LogicException('FnStream should never be unserialized');
     }
     /**
      * Adds custom functionality to an underlying stream by intercepting
      * specific method calls.
      *
-     * @param ***REMOVED***         $stream  Stream to decorate
+     * @param StreamInterface         $stream  Stream to decorate
      * @param array<string, callable> $methods Hash of method name to a closure
      *
      * @return FnStream
      */
-    public static function decorate(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, array $methods)
+    public static function decorate(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, array $methods)
     {
         // If any of the required methods were not provided, then simply
         // proxy to the decorated stream.

@@ -8,7 +8,7 @@ class XPath extends \DOMXPath
     /**
      * @var string
      */
-    protected $***REMOVED***;
+    protected $defaultNamespaceURI;
 
     public function __construct(\DOMDocument $doc)
     {
@@ -20,9 +20,9 @@ class XPath extends \DOMXPath
      * @param string $nodeName
      * @return string
      */
-    public function ***REMOVED***($nodeName)
+    public function createNodeName($nodeName)
     {
-        if (empty($this->***REMOVED***)) {
+        if (empty($this->defaultNamespaceURI)) {
             return $nodeName;
         }
         return self::DEFAULT_NAMESPACE_PREFIX . ':' . $nodeName;
@@ -30,28 +30,28 @@ class XPath extends \DOMXPath
 
     protected function handleDefaultNamespace()
     {
-        $rootElements = $this->***REMOVED***();
+        $rootElements = $this->getRootElements();
 
         if (count($rootElements) !== 1) {
-            throw new \***REMOVED***(
+            throw new \LogicException(
                 sprintf('Got %d svg elements, expected exactly one', count($rootElements)),
                 1570870568
             );
         }
-        $this->***REMOVED*** = (string)$rootElements[0]->namespaceURI;
+        $this->defaultNamespaceURI = (string)$rootElements[0]->namespaceURI;
 
-        if ($this->***REMOVED*** !== '') {
-            $this->***REMOVED***(self::DEFAULT_NAMESPACE_PREFIX, $this->***REMOVED***);
+        if ($this->defaultNamespaceURI !== '') {
+            $this->registerNamespace(self::DEFAULT_NAMESPACE_PREFIX, $this->defaultNamespaceURI);
         }
     }
 
     /**
      * @return \DOMElement[]
      */
-    protected function ***REMOVED***()
+    protected function getRootElements()
     {
         $rootElements = [];
-        $elements = $this->document->***REMOVED***('svg');
+        $elements = $this->document->getElementsByTagName('svg');
         /** @var \DOMElement $element */
         foreach ($elements as $element) {
             if ($element->parentNode !== $this->document) {

@@ -130,7 +130,7 @@ class CPTP_Module_Permalink extends CPTP_Module {
 				}
 
 				if ( '%post_id%' === $parent_structure || '%post_id%' === $last_dir ) {
-					$permalink = ***REMOVED***( $permalink ) . '/attachment/';
+					$permalink = untrailingslashit( $permalink ) . '/attachment/';
 				}
 			}
 		}

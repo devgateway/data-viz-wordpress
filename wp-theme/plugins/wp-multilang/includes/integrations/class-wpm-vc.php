@@ -44,14 +44,14 @@ class WPM_VC {
 	public function enqueue_js_frontend() {
 		wpm_enqueue_js( "
 			$( '#vc_vendor_wpm_langs_front' ).change( function () {
-				vc.***REMOVED***();
+				vc.closeActivePanel();
 				$( '#vc_logo' ).addClass( 'vc_ui-wp-spinner' );
 				window.location.href = $( this ).val();
 			} );
 			
-			var ***REMOVED*** = vc.***REMOVED***.prototype.getContent;
-			vc.***REMOVED***.prototype.getContent = function () {
-				var content = ***REMOVED***();
+			var nativeGetContent = vc.ShortcodesBuilder.prototype.getContent;
+			vc.ShortcodesBuilder.prototype.getContent = function () {
+				var content = nativeGetContent();
 				$( '#content' ).val( content );
 				return content;
 			};

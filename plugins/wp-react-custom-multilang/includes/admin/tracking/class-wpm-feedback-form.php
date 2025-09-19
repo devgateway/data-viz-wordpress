@@ -69,7 +69,7 @@ class WPM_Deactivate_Feedback_Form{
                 <ul>
                         <?php 
                         foreach ($reasons as $reason_escaped){
-                            //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- all html inside this variable already escaped above in $reasons variable
+                            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- all html inside this variable already escaped above in $reasons variable
                             echo $reason_escaped;
                         }
                         ?>

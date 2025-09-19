@@ -23,7 +23,7 @@ use phpseclib3\Math\BigInteger;
  */
 final class PrivateKey extends DSA implements Common\PrivateKey
 {
-    use Common\Traits\***REMOVED***;
+    use Common\Traits\PasswordProtected;
 
     /**
      * DSA secret exponent x
@@ -36,8 +36,8 @@ final class PrivateKey extends DSA implements Common\PrivateKey
      * Returns the public key
      *
      * If you do "openssl rsa -in private.rsa -pubout -outform PEM" you get a PKCS8 formatted key
-     * that contains a ***REMOVED*** ***REMOVED*** and a publicKey BIT STRING.
-     * An ***REMOVED*** contains an OID and a parameters field. With RSA public keys this
+     * that contains a publicKeyAlgorithm AlgorithmIdentifier and a publicKey BIT STRING.
+     * An AlgorithmIdentifier contains an OID and a parameters field. With RSA public keys this
      * parameters field is NULL. With DSA PKCS8 public keys it is not - it contains the p, q and g
      * variables. The publicKey BIT STRING contains, simply, the y variable. This can be verified
      * by getting a DSA PKCS8 public key:
@@ -55,7 +55,7 @@ final class PrivateKey extends DSA implements Common\PrivateKey
      */
     public function getPublicKey()
     {
-        $type = self::***REMOVED***('Keys', 'PKCS8', 'savePublicKey');
+        $type = self::validatePlugin('Keys', 'PKCS8', 'savePublicKey');
 
         if (!isset($this->y)) {
             $this->y = $this->g->powMod($this->x, $this->p);
@@ -65,7 +65,7 @@ final class PrivateKey extends DSA implements Common\PrivateKey
 
         return DSA::loadFormat('PKCS8', $key)
             ->withHash($this->hash->getHash())
-            ->***REMOVED***($this->shortFormat);
+            ->withSignatureFormat($this->shortFormat);
     }
 
     /**
@@ -113,7 +113,7 @@ final class PrivateKey extends DSA implements Common\PrivateKey
             }
         }
 
-        // the following is an RFC6979 compliant ***REMOVED*** of deterministic DSA
+        // the following is an RFC6979 compliant implementation of deterministic DSA
         // it's unused because it's mainly intended for use when a good CSPRNG isn't
         // available. if phpseclib's CSPRNG isn't good then even key generation is
         // suspect
@@ -141,12 +141,12 @@ final class PrivateKey extends DSA implements Common\PrivateKey
      */
     public function toString($type, array $options = [])
     {
-        $type = self::***REMOVED***('Keys', $type, '***REMOVED***');
+        $type = self::validatePlugin('Keys', $type, 'savePrivateKey');
 
         if (!isset($this->y)) {
             $this->y = $this->g->powMod($this->x, $this->p);
         }
 
-        return $type::***REMOVED***($this->p, $this->q, $this->g, $this->y, $this->x, $this->password, $options);
+        return $type::savePrivateKey($this->p, $this->q, $this->g, $this->y, $this->x, $this->password, $options);
     }
 }

@@ -254,16 +254,16 @@ class CPTUI_GraphQL {
 		// should not be required.
 		?>
 		<script type="application/javascript">
-			let singleName = document.***REMOVED***('graphql_single_name');
+			let singleName = document.getElementById('graphql_single_name');
 			let singleNameRow = singleName.closest('tr');
-			let pluralName = document.***REMOVED***('graphql_plural_name');
+			let pluralName = document.getElementById('graphql_plural_name');
 			let pluralNameRow = pluralName.closest('tr');
-			let showInGraphQL = document.***REMOVED***('show_in_graphql');
-			let label = document.***REMOVED***('label');
-			let singleLabel = document.***REMOVED***('singular_label');
+			let showInGraphQL = document.getElementById('show_in_graphql');
+			let label = document.getElementById('label');
+			let singleLabel = document.getElementById('singular_label');
 
 			// Set the values of the GraphQL fields and their display state
-			function ***REMOVED***() {
+			function updateGraphQlFields() {
 
 				// Set default state for field values and display state
 				// If the show_in_graphql value is true (or '1') show the
@@ -293,11 +293,11 @@ class CPTUI_GraphQL {
 			}
 
 			// Once the DOM is ready, listen for events
-			document.***REMOVED***("***REMOVED***", function () {
-				***REMOVED***();
+			document.addEventListener("DOMContentLoaded", function () {
+				updateGraphQlFields();
 				// When the show in graphql field changes, re-apply GraphQL Field Values
-				showInGraphQL.***REMOVED***('input', function () {
-					***REMOVED***();
+				showInGraphQL.addEventListener('input', function () {
+					updateGraphQlFields();
 				});
 			});
 		</script>
@@ -313,7 +313,7 @@ add_action( 'cptui_loaded', __NAMESPACE__ . '\cptui_graphql_init' );
 function cptui_graphql_init() {
 	if ( class_exists( 'WPGraphQL_CPT_UI' ) ) {
 		add_action( 'admin_notices', function () {
-			$link = ***REMOVED***( admin_url() ) . 'plugins.php';
+			$link = trailingslashit( admin_url() ) . 'plugins.php';
 			?>
 			<div class="notice notice-error">
 				<p><?php echo sprintf( __( 'Custom Post Type UI has native support for WPGraphQL. Please <a href="%s">de-active</a> the "WPGraphQL for Custom Post Type UI" extension to proceed.', 'custom-post-type-ui' ), $link ); ?></p>

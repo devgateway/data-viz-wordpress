@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2018-04-16 17:11+1000\n"
 "PO-Revision-Date: 2018-07-16 09:34+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -21,11 +21,11 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:81
 msgid "Advanced Custom Fields"
-msgstr "Campi ***REMOVED*** Avanzati"
+msgstr "Campi Personalizzati Avanzati"
 
 #: acf.php:388 includes/admin/admin.php:117
 msgid "Field Groups"
@@ -201,7 +201,7 @@ msgstr "Sposta nel cestino. Sei sicuro?"
 
 #: includes/admin/admin-field-group.php:158
 msgid "Move Custom Field"
-msgstr "Sposta Campo ***REMOVED***"
+msgstr "Sposta Campo Personalizzato"
 
 #: includes/admin/admin-field-group.php:159
 msgid "checked"
@@ -354,7 +354,7 @@ msgstr "Sito Web"
 
 #: includes/admin/admin-field-groups.php:620
 msgid "Documentation"
-msgstr "***REMOVED***"
+msgstr "Documentazione"
 
 #: includes/admin/admin-field-groups.php:621
 msgid "Support"
@@ -418,7 +418,7 @@ msgstr "Strumenti"
 #: includes/admin/admin.php:113
 #: includes/admin/views/field-group-options.php:118
 msgid "Custom Fields"
-msgstr "Campi ***REMOVED***"
+msgstr "Campi Personalizzati"
 
 #: includes/admin/install-network.php:88 includes/admin/install.php:70
 #: includes/admin/install.php:121
@@ -651,7 +651,7 @@ msgstr "Nome Campo"
 
 #: includes/admin/views/field-group-field.php:76
 msgid "Single word, no spaces. Underscores and dashes allowed"
-msgstr "Singola parola, nessun spazio. ***REMOVED*** e trattini consentiti"
+msgstr "Singola parola, nessun spazio. Sottolineatura e trattini consentiti"
 
 #: includes/admin/views/field-group-field.php:85
 msgid "Field Type"
@@ -739,7 +739,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Creare un insieme di regole per determinare quale schermate in modifica "
-"dovranno utilizzare i campi ***REMOVED*** avanzati"
+"dovranno utilizzare i campi personalizzati avanzati"
 
 #: includes/admin/views/field-group-options.php:23
 msgid "Style"
@@ -771,7 +771,7 @@ msgstr "A lato"
 
 #: includes/admin/views/field-group-options.php:55
 msgid "Label placement"
-msgstr "***REMOVED*** etichette"
+msgstr "Posizionamento etichette"
 
 #: includes/admin/views/field-group-options.php:62
 #: includes/fields/class-acf-field-tab.php:106
@@ -785,7 +785,7 @@ msgstr "Allineamento a sinistra"
 
 #: includes/admin/views/field-group-options.php:70
 msgid "Instruction placement"
-msgstr "***REMOVED*** Istruzione"
+msgstr "Posizionamento Istruzione"
 
 #: includes/admin/views/field-group-options.php:77
 msgid "Below labels"
@@ -1031,7 +1031,7 @@ msgstr ""
 
 #: includes/admin/views/settings-info.php:17
 msgid "A smoother custom field experience"
-msgstr "Campi ***REMOVED*** come non li avete mai visti"
+msgstr "Campi Personalizzati come non li avete mai visti"
 
 #: includes/admin/views/settings-info.php:22
 msgid "Improved Usability"
@@ -1094,7 +1094,7 @@ msgid ""
 "version of ACF</a>. With both personal and developer licenses available, "
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
-"***REMOVED*** ACF5 è la versione tutta nuova di <a href=\"%s\">ACF5 PRO</"
+"Parallelamente ACF5 è la versione tutta nuova di <a href=\"%s\">ACF5 PRO</"
 "a>! Questa versione PRO include tutti e 4 i componenti aggiuntivi premium "
 "(Repeater, Gallery, Flexible Content e Pagina Opzioni) e con le licenze "
 "personali e di sviluppo disponibili, funzionalità premium è più conveniente "
@@ -1110,9 +1110,9 @@ msgid ""
 "layouts, a beautiful gallery field and the ability to create extra admin "
 "options pages!"
 msgstr ""
-"ACF PRO contiene ***REMOVED*** ***REMOVED*** come i Campi Repeater, "
+"ACF PRO contiene caratteristiche impressionanti come i Campi Repeater, "
 "Flexible Layout, Gallery e la possibilità di creare Options Page (pagine "
-"opzioni di ***REMOVED***) ***REMOVED***!"
+"opzioni di amministrazione) personalizzabili!"
 
 #: includes/admin/views/settings-info.php:52
 #, php-format
@@ -1227,7 +1227,7 @@ msgid ""
 "placement"
 msgstr ""
 "Sono state aggiunte impostazioni di gruppo sul Campo per l'inserimento "
-"dell'etichetta e il ***REMOVED*** di istruzioni"
+"dell'etichetta e il posizionamento di istruzioni"
 
 #: includes/admin/views/settings-info.php:122
 msgid "Better Front End Forms"
@@ -1682,19 +1682,19 @@ msgstr "Aggiungi nuova scelta"
 
 #: includes/fields/class-acf-field-checkbox.php:353
 msgid "Allow Custom"
-msgstr "Consenti ***REMOVED***"
+msgstr "Consenti Personalizzato"
 
 #: includes/fields/class-acf-field-checkbox.php:358
 msgid "Allow 'custom' values to be added"
-msgstr "Consenti valori '***REMOVED***' da aggiungere"
+msgstr "Consenti valori 'personalizzati' da aggiungere"
 
 #: includes/fields/class-acf-field-checkbox.php:364
 msgid "Save Custom"
-msgstr "Salva ***REMOVED***"
+msgstr "Salva Personalizzato"
 
 #: includes/fields/class-acf-field-checkbox.php:369
 msgid "Save 'custom' values to the field's choices"
-msgstr "Salvare i valori '***REMOVED***' per le scelte del campo"
+msgstr "Salvare i valori 'personalizzati' per le scelte del campo"
 
 #: includes/fields/class-acf-field-checkbox.php:381
 #: includes/fields/class-acf-field-select.php:359
@@ -1762,7 +1762,7 @@ msgstr "Sett"
 #: includes/fields/class-acf-field-date_time_picker.php:183
 #: includes/fields/class-acf-field-time_picker.php:109
 msgid "Display Format"
-msgstr "Formato di ***REMOVED***"
+msgstr "Formato di visualizzazione"
 
 #: includes/fields/class-acf-field-date_picker.php:181
 #: includes/fields/class-acf-field-date_time_picker.php:184
@@ -1777,7 +1777,7 @@ msgstr "Il formato visualizzato durante la modifica di un post"
 #: includes/fields/class-acf-field-time_picker.php:117
 #: includes/fields/class-acf-field-time_picker.php:132
 msgid "Custom:"
-msgstr "***REMOVED***:"
+msgstr "Personalizzato:"
 
 #: includes/fields/class-acf-field-date_picker.php:199
 msgid "Save Format"
@@ -2049,7 +2049,7 @@ msgstr "Google Map"
 
 #: includes/fields/class-acf-field-google-map.php:43
 msgid "Sorry, this browser does not support geolocation"
-msgstr "Spiacente, questo browser non supporta la ***REMOVED***"
+msgstr "Spiacente, questo browser non supporta la geolocalizzazione"
 
 #: includes/fields/class-acf-field-google-map.php:114
 msgid "Clear location"
@@ -2229,12 +2229,12 @@ msgstr "Controlla come le nuove linee sono renderizzate"
 #: includes/fields/class-acf-field-message.php:115
 #: includes/fields/class-acf-field-textarea.php:144
 msgid "Automatically add paragraphs"
-msgstr "Aggiungi ***REMOVED*** paragrafi"
+msgstr "Aggiungi automaticamente paragrafi"
 
 #: includes/fields/class-acf-field-message.php:116
 #: includes/fields/class-acf-field-textarea.php:145
 msgid "Automatically add &lt;br&gt;"
-msgstr "Aggiungi ***REMOVED*** &lt;br&gt;"
+msgstr "Aggiungi automaticamente &lt;br&gt;"
 
 #: includes/fields/class-acf-field-message.php:117
 #: includes/fields/class-acf-field-textarea.php:146
@@ -2365,7 +2365,7 @@ msgstr "Altro"
 
 #: includes/fields/class-acf-field-radio.php:259
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Aggiungi scelta 'altro' per consentire valori ***REMOVED***"
+msgstr "Aggiungi scelta 'altro' per consentire valori personalizzati"
 
 #: includes/fields/class-acf-field-radio.php:265
 msgid "Save Other"
@@ -2771,8 +2771,8 @@ msgid "Show Media Upload Buttons?"
 msgstr "Mostra Bottoni caricamento Media?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:453
-msgid "Delay ***REMOVED***?"
-msgstr "Ritardo ***REMOVED***?"
+msgid "Delay initialization?"
+msgstr "Ritardo inizializzazione?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:454
 msgid "TinyMCE will not be initalized until field is clicked"
@@ -2971,8 +2971,8 @@ msgid ""
 "No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
 "Custom Field Group</a>"
 msgstr ""
-"Nessun Field Group ***REMOVED*** trovato in questa Pagina Opzioni. <a href="
-"\"%s\">Crea un Field Group ***REMOVED***</a>"
+"Nessun Field Group personalizzato trovato in questa Pagina Opzioni. <a href="
+"\"%s\">Crea un Field Group personalizzato</a>"
 
 #: pro/admin/admin-settings-updates.php:78
 msgid "<b>Error</b>. Could not connect to update server"
@@ -3334,8 +3334,8 @@ msgstr ""
 "di licenza, per favore vedi <a href=\"%s\">dettagli e prezzi</a>."
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"
@@ -3358,7 +3358,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Allineamento a sinistra"
 
 #~ msgid "Locating"
-#~ msgstr "***REMOVED***"
+#~ msgstr "Localizzazione"
 
 #~ msgid "Minimum values reached ( {min} values )"
 #~ msgstr "Valori minimi raggiunti ( valori {min} )"
@@ -3432,7 +3432,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Azioni"
 
 #~ msgid "Features"
-#~ msgstr "***REMOVED***"
+#~ msgstr "Caratteristiche"
 
 #~ msgid "How to"
 #~ msgstr "Come fare"
@@ -3598,8 +3598,8 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgid "Advanced Custom Fields Pro"
 #~ msgstr "Advanced Custom Fields Pro"
 
-#~ msgid "http://www.***REMOVED***.com/"
-#~ msgstr "http://www.***REMOVED***.com/"
+#~ msgid "http://www.advancedcustomfields.com/"
+#~ msgstr "http://www.advancedcustomfields.com/"
 
 #~ msgid "elliot condon"
 #~ msgstr "elliot condon"

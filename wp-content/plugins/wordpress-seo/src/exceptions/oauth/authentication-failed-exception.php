@@ -15,7 +15,7 @@ class Authentication_Failed_Exception extends Exception {
 	 * @param Exception $original_exception The original exception.
 	 */
 	public function __construct( Exception $original_exception ) {
-		parent::__construct( '***REMOVED*** failed', 401, $original_exception );
+		parent::__construct( 'Authentication failed', 401, $original_exception );
 	}
 
 	/**

@@ -1,9 +1,9 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Editors\Domain\Analysis_Features;
 
 /**
- * This interface describes an Analysis feature ***REMOVED***.
+ * This interface describes an Analysis feature implementation.
  */
 interface Analysis_Feature_Interface {
 

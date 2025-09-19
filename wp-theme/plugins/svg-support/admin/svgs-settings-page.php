@@ -65,12 +65,12 @@
 									<tr valign="top">
 										<!-- Swap with future feature: Multiselect Roles -->
 										<th scope="row">
-											<label for="bodhi_svgs_settings[restrict]"><strong><?php _e( 'Restrict to ***REMOVED***?', 'svg-support' ); ?></strong></label>
+											<label for="bodhi_svgs_settings[restrict]"><strong><?php _e( 'Restrict to Administrators?', 'svg-support' ); ?></strong></label>
 										</th>
 										<td>
 											<?php printf(
 												'<input id="bodhi_svgs_settings[restrict]" name="bodhi_svgs_settings[restrict]" type="checkbox" %2$s />', 'bodhi_svgs_settings_restrict', checked( isset( $bodhi_svgs_options['restrict'] ), true, false ) ); ?>
-											<?php _e( 'Yes', 'svg-support' ); ?><br /><small class="description"><?php _e(' Restricts SVG upload privileges to ***REMOVED***.', 'svg-support' ); ?></small>
+											<?php _e( 'Yes', 'svg-support' ); ?><br /><small class="description"><?php _e(' Restricts SVG upload privileges to Administrators.', 'svg-support' ); ?></small>
 										</td>
 									</tr>
 
@@ -196,7 +196,7 @@
 
 						<div class="inside">
 
-							<p><?php _e( 'You can simply upload SVG files to your media library like any other image. Make sure to select "Restrict to ***REMOVED***" if you only want to allow admins to upload SVG files.', 'svg-support' ); ?></p>
+							<p><?php _e( 'You can simply upload SVG files to your media library like any other image. Make sure to select "Restrict to Administrators" if you only want to allow admins to upload SVG files.', 'svg-support' ); ?></p>
 
 							<div class="svgs-advanced">
 								<p><?php _e( 'Now, embed your SVG image like a standard image with the addition of adding the class <code>style-svg</code> (or your custom class from above) to any IMG tags that you want this plugin to swap out with your actual SVG code.', 'svg-support' ); ?><br />
@@ -269,7 +269,7 @@
 							<ul>
 								<li><strong><?php _e( 'Basic Use', 'svg-support' ); ?></strong></li>
 								<li><?php _e( 'SVG Support for your media library', 'svg-support' ); ?></li>
-								<li><?php _e( 'Restrict to ***REMOVED*** only', 'svg-support' ); ?></li>
+								<li><?php _e( 'Restrict to Administrators only', 'svg-support' ); ?></li>
 								<hr>
 								<li><strong><?php _e( 'Advanced Mode', 'svg-support' ); ?></strong></li>
 								<li><?php _e( 'Style SVG elements using CSS', 'svg-support' ); ?></li>

@@ -10,7 +10,7 @@ import {
 	type VRow,
 	type VCell,
 } from '../table-state';
-import type { SectionName } from '../../***REMOVED***';
+import type { SectionName } from '../../BlockAttributes';
 
 const getRow = (
 	cells: number,
@@ -31,7 +31,7 @@ const getRow = (
 				rowSpan: 1,
 				colSpan: 1,
 				isHidden: false,
-				***REMOVED***: false,
+				isFirstSelected: false,
 				...options,
 			};
 		} ),

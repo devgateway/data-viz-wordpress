@@ -22,7 +22,7 @@ class Images extends Base_Images {
 	 *
 	 * @required
 	 *
-	 * @***REMOVED*** - Is handled by DI-container.
+	 * @codeCoverageIgnore - Is handled by DI-container.
 	 *
 	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for Open Graph.
 	 *
@@ -35,7 +35,7 @@ class Images extends Base_Images {
 	/**
 	 * Outputs the images.
 	 *
-	 * @***REMOVED*** - The method is empty, nothing to test.
+	 * @codeCoverageIgnore - The method is empty, nothing to test.
 	 *
 	 * @return void
 	 */

@@ -9,14 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-add_action( 'wp_db_backup_completed', array( '***REMOVED***', 'wp_db_backup_completed' ), 11 );
+add_action( 'wp_db_backup_completed', array( 'WPDBBackupLocal', 'wp_db_backup_completed' ), 11 );
 
 /**
- * ***REMOVED*** Class.
+ * WPDBBackupLocal Class.
  *
- * @class ***REMOVED***
+ * @class WPDBBackupLocal
  */
-class ***REMOVED*** {
+class WPDBBackupLocal {
 
 	/**
 	 * Run after complete backup.

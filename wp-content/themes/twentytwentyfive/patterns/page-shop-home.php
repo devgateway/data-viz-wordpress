@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Shop homepage
- * Slug: ***REMOVED***/page-shop-home
+ * Slug: twentytwentyfive/page-shop-home
  * Categories: twentytwentyfive_page
  * Keywords: starter
  * Block Types: core/post-content
@@ -16,6 +16,6 @@
 
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/banner-intro-image"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/grid-with-categories"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/media-instagram-grid"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/banner-intro-image"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/grid-with-categories"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/media-instagram-grid"} /-->

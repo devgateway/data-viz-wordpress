@@ -711,7 +711,7 @@ class acf_field_taxonomy extends acf_field {
 		$args = apply_filters('acf/fields/taxonomy/wp_list_categories/key=' . $field['key'], $args, $field);
 		
 		?>
-<div class="***REMOVED***-holder">
+<div class="categorychecklist-holder">
 	<ul class="acf-checkbox-list acf-bl">
 		<?php wp_list_categories( $args ); ?>
 	</ul>

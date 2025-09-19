@@ -65,21 +65,21 @@ abstract class PuTTY extends Progenitor
         if ($result === false) {
             throw new \UnexpectedValueException('Key appears to be malformed');
         }
-        list($***REMOVED***, $modulus) = $result;
+        list($publicExponent, $modulus) = $result;
 
         $result = Strings::unpackSSH2('iiii', $private);
         if ($result === false) {
             throw new \UnexpectedValueException('Key appears to be malformed');
         }
         $primes = $coefficients = [];
-        list($***REMOVED***, $primes[1], $primes[2], $coefficients[2]) = $result;
+        list($privateExponent, $primes[1], $primes[2], $coefficients[2]) = $result;
 
         $temp = $primes[1]->subtract($one);
-        $exponents = [1 => $***REMOVED***->modInverse($temp)];
+        $exponents = [1 => $publicExponent->modInverse($temp)];
         $temp = $primes[2]->subtract($one);
-        $exponents[] = $***REMOVED***->modInverse($temp);
+        $exponents[] = $publicExponent->modInverse($temp);
 
-        return compact('***REMOVED***', 'modulus', '***REMOVED***', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
+        return compact('publicExponent', 'modulus', 'privateExponent', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class PuTTY extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
         if (count($primes) != 2) {
             throw new \InvalidArgumentException('PuTTY does not support multi-prime RSA keys');
@@ -104,7 +104,7 @@ abstract class PuTTY extends Progenitor
         $public =  Strings::packSSH2('ii', $e, $n);
         $private = Strings::packSSH2('iiii', $d, $primes[1], $primes[2], $coefficients[2]);
 
-        return self::***REMOVED***($public, $private, 'ssh-rsa', $password, $options);
+        return self::wrapPrivateKey($public, $private, 'ssh-rsa', $password, $options);
     }
 
     /**

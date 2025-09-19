@@ -18,8 +18,8 @@
    * The "column" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_FusiontablesService(...);
-   *   $column = $***REMOVED***->column;
+   *   $fusiontablesService = new Google_FusiontablesService(...);
+   *   $column = $fusiontablesService->column;
    *  </code>
    */
   class Google_ColumnServiceResource extends Google_ServiceResource {
@@ -138,8 +138,8 @@
    * The "query" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_FusiontablesService(...);
-   *   $query = $***REMOVED***->query;
+   *   $fusiontablesService = new Google_FusiontablesService(...);
+   *   $query = $fusiontablesService->query;
    *  </code>
    */
   class Google_QueryServiceResource extends Google_ServiceResource {
@@ -190,8 +190,8 @@
    * The "style" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_FusiontablesService(...);
-   *   $style = $***REMOVED***->style;
+   *   $fusiontablesService = new Google_FusiontablesService(...);
+   *   $style = $fusiontablesService->style;
    *  </code>
    */
   class Google_StyleServiceResource extends Google_ServiceResource {
@@ -309,8 +309,8 @@
    * The "table" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_FusiontablesService(...);
-   *   $table = $***REMOVED***->table;
+   *   $fusiontablesService = new Google_FusiontablesService(...);
+   *   $table = $fusiontablesService->table;
    *  </code>
    */
   class Google_TableServiceResource extends Google_ServiceResource {
@@ -321,7 +321,7 @@
      * @param string $tableId ID of the table that is being copied.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param bool ***REMOVED*** Whether to also copy tabs, styles, and templates. Default is false.
+     * @opt_param bool copyPresentation Whether to also copy tabs, styles, and templates. Default is false.
      * @return Google_Table
      */
     public function copy($tableId, $optParams = array()) {
@@ -490,8 +490,8 @@
    * The "template" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_FusiontablesService(...);
-   *   $template = $***REMOVED***->template;
+   *   $fusiontablesService = new Google_FusiontablesService(...);
+   *   $template = $fusiontablesService->template;
    *  </code>
    */
   class Google_TemplateServiceResource extends Google_ServiceResource {
@@ -626,7 +626,7 @@ class Google_FusiontablesService extends Google_Service {
   public $table;
   public $template;
   /**
-   * Constructs the internal ***REMOVED*** of the Fusiontables service.
+   * Constructs the internal representation of the Fusiontables service.
    *
    * @param Google_Client $client
    */
@@ -638,8 +638,8 @@ class Google_FusiontablesService extends Google_Service {
     $client->addService($this->serviceName, $this->version);
     $this->column = new Google_ColumnServiceResource($this, $this->serviceName, 'column', json_decode('{"methods": {"delete": {"id": "fusiontables.column.delete", "path": "tables/{tableId}/columns/{columnId}", "httpMethod": "DELETE", "parameters": {"columnId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "get": {"id": "fusiontables.column.get", "path": "tables/{tableId}/columns/{columnId}", "httpMethod": "GET", "parameters": {"columnId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Column"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "insert": {"id": "fusiontables.column.insert", "path": "tables/{tableId}/columns", "httpMethod": "POST", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Column"}, "response": {"$ref": "Column"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "list": {"id": "fusiontables.column.list", "path": "tables/{tableId}/columns", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ColumnList"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "patch": {"id": "fusiontables.column.patch", "path": "tables/{tableId}/columns/{columnId}", "httpMethod": "PATCH", "parameters": {"columnId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Column"}, "response": {"$ref": "Column"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "update": {"id": "fusiontables.column.update", "path": "tables/{tableId}/columns/{columnId}", "httpMethod": "PUT", "parameters": {"columnId": {"type": "string", "required": true, "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Column"}, "response": {"$ref": "Column"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}}}', true));
     $this->query = new Google_QueryServiceResource($this, $this->serviceName, 'query', json_decode('{"methods": {"sql": {"id": "fusiontables.query.sql", "path": "query", "httpMethod": "POST", "parameters": {"hdrs": {"type": "boolean", "location": "query"}, "sql": {"type": "string", "required": true, "location": "query"}, "typed": {"type": "boolean", "location": "query"}}, "response": {"$ref": "Sqlresponse"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "sqlGet": {"id": "fusiontables.query.sqlGet", "path": "query", "httpMethod": "GET", "parameters": {"hdrs": {"type": "boolean", "location": "query"}, "sql": {"type": "string", "required": true, "location": "query"}, "typed": {"type": "boolean", "location": "query"}}, "response": {"$ref": "Sqlresponse"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}}}', true));
-    $this->style = new Google_StyleServiceResource($this, $this->serviceName, 'style', json_decode('{"methods": {"delete": {"id": "fusiontables.style.delete", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "DELETE", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "get": {"id": "fusiontables.style.get", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "GET", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "insert": {"id": "fusiontables.style.insert", "path": "tables/{tableId}/styles", "httpMethod": "POST", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "StyleSetting"}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "list": {"id": "fusiontables.style.list", "path": "tables/{tableId}/styles", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "patch": {"id": "fusiontables.style.patch", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "PATCH", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "StyleSetting"}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "update": {"id": "fusiontables.style.update", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "PUT", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "StyleSetting"}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}}}', true));
-    $this->table = new Google_TableServiceResource($this, $this->serviceName, 'table', json_decode('{"methods": {"copy": {"id": "fusiontables.table.copy", "path": "tables/{tableId}/copy", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "boolean", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "delete": {"id": "fusiontables.table.delete", "path": "tables/{tableId}", "httpMethod": "DELETE", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "get": {"id": "fusiontables.table.get", "path": "tables/{tableId}", "httpMethod": "GET", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "importRows": {"id": "fusiontables.table.importRows", "path": "tables/{tableId}/import", "httpMethod": "POST", "parameters": {"delimiter": {"type": "string", "location": "query"}, "encoding": {"type": "string", "location": "query"}, "endLine": {"type": "integer", "format": "int32", "location": "query"}, "isStrict": {"type": "boolean", "location": "query"}, "startLine": {"type": "integer", "format": "int32", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Import"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"], "***REMOVED***": true, "mediaUpload": {"accept": ["application/octet-stream"], "maxSize": "100MB", "protocols": {"simple": {"multipart": true, "path": "/upload/fusiontables/v1/tables/{tableId}/import"}, "resumable": {"multipart": true, "path": "/resumable/upload/fusiontables/v1/tables/{tableId}/import"}}}}, "importTable": {"id": "fusiontables.table.importTable", "path": "tables/import", "httpMethod": "POST", "parameters": {"delimiter": {"type": "string", "location": "query"}, "encoding": {"type": "string", "location": "query"}, "name": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"], "***REMOVED***": true, "mediaUpload": {"accept": ["application/octet-stream"], "maxSize": "100MB", "protocols": {"simple": {"multipart": true, "path": "/upload/fusiontables/v1/tables/import"}, "resumable": {"multipart": true, "path": "/resumable/upload/fusiontables/v1/tables/import"}}}}, "insert": {"id": "fusiontables.table.insert", "path": "tables", "httpMethod": "POST", "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "list": {"id": "fusiontables.table.list", "path": "tables", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "TableList"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "patch": {"id": "fusiontables.table.patch", "path": "tables/{tableId}", "httpMethod": "PATCH", "parameters": {"replaceViewDefinition": {"type": "boolean", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "update": {"id": "fusiontables.table.update", "path": "tables/{tableId}", "httpMethod": "PUT", "parameters": {"replaceViewDefinition": {"type": "boolean", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}}}', true));
+    $this->style = new Google_StyleServiceResource($this, $this->serviceName, 'style', json_decode('{"methods": {"delete": {"id": "fusiontables.style.delete", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "DELETE", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "get": {"id": "fusiontables.style.get", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "GET", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "insert": {"id": "fusiontables.style.insert", "path": "tables/{tableId}/styles", "httpMethod": "POST", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "StyleSetting"}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "list": {"id": "fusiontables.style.list", "path": "tables/{tableId}/styles", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "StyleSettingList"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "patch": {"id": "fusiontables.style.patch", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "PATCH", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "StyleSetting"}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "update": {"id": "fusiontables.style.update", "path": "tables/{tableId}/styles/{styleId}", "httpMethod": "PUT", "parameters": {"styleId": {"type": "integer", "required": true, "format": "int32", "location": "path"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "StyleSetting"}, "response": {"$ref": "StyleSetting"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}}}', true));
+    $this->table = new Google_TableServiceResource($this, $this->serviceName, 'table', json_decode('{"methods": {"copy": {"id": "fusiontables.table.copy", "path": "tables/{tableId}/copy", "httpMethod": "POST", "parameters": {"copyPresentation": {"type": "boolean", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "delete": {"id": "fusiontables.table.delete", "path": "tables/{tableId}", "httpMethod": "DELETE", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "get": {"id": "fusiontables.table.get", "path": "tables/{tableId}", "httpMethod": "GET", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "importRows": {"id": "fusiontables.table.importRows", "path": "tables/{tableId}/import", "httpMethod": "POST", "parameters": {"delimiter": {"type": "string", "location": "query"}, "encoding": {"type": "string", "location": "query"}, "endLine": {"type": "integer", "format": "int32", "location": "query"}, "isStrict": {"type": "boolean", "location": "query"}, "startLine": {"type": "integer", "format": "int32", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Import"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"], "supportsMediaUpload": true, "mediaUpload": {"accept": ["application/octet-stream"], "maxSize": "100MB", "protocols": {"simple": {"multipart": true, "path": "/upload/fusiontables/v1/tables/{tableId}/import"}, "resumable": {"multipart": true, "path": "/resumable/upload/fusiontables/v1/tables/{tableId}/import"}}}}, "importTable": {"id": "fusiontables.table.importTable", "path": "tables/import", "httpMethod": "POST", "parameters": {"delimiter": {"type": "string", "location": "query"}, "encoding": {"type": "string", "location": "query"}, "name": {"type": "string", "required": true, "location": "query"}}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"], "supportsMediaUpload": true, "mediaUpload": {"accept": ["application/octet-stream"], "maxSize": "100MB", "protocols": {"simple": {"multipart": true, "path": "/upload/fusiontables/v1/tables/import"}, "resumable": {"multipart": true, "path": "/resumable/upload/fusiontables/v1/tables/import"}}}}, "insert": {"id": "fusiontables.table.insert", "path": "tables", "httpMethod": "POST", "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "list": {"id": "fusiontables.table.list", "path": "tables", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}}, "response": {"$ref": "TableList"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "patch": {"id": "fusiontables.table.patch", "path": "tables/{tableId}", "httpMethod": "PATCH", "parameters": {"replaceViewDefinition": {"type": "boolean", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "update": {"id": "fusiontables.table.update", "path": "tables/{tableId}", "httpMethod": "PUT", "parameters": {"replaceViewDefinition": {"type": "boolean", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Table"}, "response": {"$ref": "Table"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}}}', true));
     $this->template = new Google_TemplateServiceResource($this, $this->serviceName, 'template', json_decode('{"methods": {"delete": {"id": "fusiontables.template.delete", "path": "tables/{tableId}/templates/{templateId}", "httpMethod": "DELETE", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}, "templateId": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "get": {"id": "fusiontables.template.get", "path": "tables/{tableId}/templates/{templateId}", "httpMethod": "GET", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}, "templateId": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "response": {"$ref": "Template"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "insert": {"id": "fusiontables.template.insert", "path": "tables/{tableId}/templates", "httpMethod": "POST", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Template"}, "response": {"$ref": "Template"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "list": {"id": "fusiontables.template.list", "path": "tables/{tableId}/templates", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "tableId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "TemplateList"}, "scopes": ["https://www.googleapis.com/auth/fusiontables", "https://www.googleapis.com/auth/fusiontables.readonly"]}, "patch": {"id": "fusiontables.template.patch", "path": "tables/{tableId}/templates/{templateId}", "httpMethod": "PATCH", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}, "templateId": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "request": {"$ref": "Template"}, "response": {"$ref": "Template"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}, "update": {"id": "fusiontables.template.update", "path": "tables/{tableId}/templates/{templateId}", "httpMethod": "PUT", "parameters": {"tableId": {"type": "string", "required": true, "location": "path"}, "templateId": {"type": "integer", "required": true, "format": "int32", "location": "path"}}, "request": {"$ref": "Template"}, "response": {"$ref": "Template"}, "scopes": ["https://www.googleapis.com/auth/fusiontables"]}}}', true));
 
   }
@@ -769,10 +769,10 @@ class Google_ColumnList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {
@@ -810,29 +810,29 @@ class Google_Geometry extends Google_Model {
 
 class Google_Import extends Google_Model {
   public $kind;
-  public $***REMOVED***;
+  public $numRowsReceived;
   public function setKind( $kind) {
     $this->kind = $kind;
   }
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumRowsReceived( $numRowsReceived) {
+    $this->numRowsReceived = $numRowsReceived;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNumRowsReceived() {
+    return $this->numRowsReceived;
   }
 }
 
 class Google_Line extends Google_Model {
   public $coordinates;
   public $type;
-  public function ***REMOVED***(/* array(Google_double) */ $coordinates) {
+  public function setCoordinates(/* array(Google_double) */ $coordinates) {
     $this->assertIsArray($coordinates, 'Google_double', __METHOD__);
     $this->coordinates = $coordinates;
   }
-  public function ***REMOVED***() {
+  public function getCoordinates() {
     return $this->coordinates;
   }
   public function setType( $type) {
@@ -847,52 +847,52 @@ class Google_LineStyle extends Google_Model {
   public $strokeColor;
   protected $__strokeColorStylerType = 'Google_StyleFunction';
   protected $__strokeColorStylerDataType = '';
-  public $***REMOVED***;
+  public $strokeColorStyler;
   public $strokeOpacity;
   public $strokeWeight;
   protected $__strokeWeightStylerType = 'Google_StyleFunction';
   protected $__strokeWeightStylerDataType = '';
-  public $***REMOVED***;
-  public function ***REMOVED***( $strokeColor) {
+  public $strokeWeightStyler;
+  public function setStrokeColor( $strokeColor) {
     $this->strokeColor = $strokeColor;
   }
-  public function ***REMOVED***() {
+  public function getStrokeColor() {
     return $this->strokeColor;
   }
-  public function ***REMOVED***(Google_StyleFunction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStrokeColorStyler(Google_StyleFunction $strokeColorStyler) {
+    $this->strokeColorStyler = $strokeColorStyler;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getStrokeColorStyler() {
+    return $this->strokeColorStyler;
   }
-  public function ***REMOVED***( $strokeOpacity) {
+  public function setStrokeOpacity( $strokeOpacity) {
     $this->strokeOpacity = $strokeOpacity;
   }
-  public function ***REMOVED***() {
+  public function getStrokeOpacity() {
     return $this->strokeOpacity;
   }
-  public function ***REMOVED***( $strokeWeight) {
+  public function setStrokeWeight( $strokeWeight) {
     $this->strokeWeight = $strokeWeight;
   }
-  public function ***REMOVED***() {
+  public function getStrokeWeight() {
     return $this->strokeWeight;
   }
-  public function setStrokeWeightStyler(Google_StyleFunction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStrokeWeightStyler(Google_StyleFunction $strokeWeightStyler) {
+    $this->strokeWeightStyler = $strokeWeightStyler;
   }
   public function getStrokeWeightStyler() {
-    return $this->***REMOVED***;
+    return $this->strokeWeightStyler;
   }
 }
 
 class Google_Point extends Google_Model {
   public $coordinates;
   public $type;
-  public function ***REMOVED***(/* array(Google_double) */ $coordinates) {
+  public function setCoordinates(/* array(Google_double) */ $coordinates) {
     $this->assertIsArray($coordinates, 'Google_double', __METHOD__);
     $this->coordinates = $coordinates;
   }
-  public function ***REMOVED***() {
+  public function getCoordinates() {
     return $this->coordinates;
   }
   public function setType( $type) {
@@ -925,11 +925,11 @@ class Google_PointStyle extends Google_Model {
 class Google_Polygon extends Google_Model {
   public $coordinates;
   public $type;
-  public function ***REMOVED***(/* array(Google_double) */ $coordinates) {
+  public function setCoordinates(/* array(Google_double) */ $coordinates) {
     $this->assertIsArray($coordinates, 'Google_double', __METHOD__);
     $this->coordinates = $coordinates;
   }
-  public function ***REMOVED***() {
+  public function getCoordinates() {
     return $this->coordinates;
   }
   public function setType( $type) {
@@ -944,64 +944,64 @@ class Google_PolygonStyle extends Google_Model {
   public $fillColor;
   protected $__fillColorStylerType = 'Google_StyleFunction';
   protected $__fillColorStylerDataType = '';
-  public $***REMOVED***;
+  public $fillColorStyler;
   public $fillOpacity;
   public $strokeColor;
   protected $__strokeColorStylerType = 'Google_StyleFunction';
   protected $__strokeColorStylerDataType = '';
-  public $***REMOVED***;
+  public $strokeColorStyler;
   public $strokeOpacity;
   public $strokeWeight;
   protected $__strokeWeightStylerType = 'Google_StyleFunction';
   protected $__strokeWeightStylerDataType = '';
-  public $***REMOVED***;
+  public $strokeWeightStyler;
   public function setFillColor( $fillColor) {
     $this->fillColor = $fillColor;
   }
   public function getFillColor() {
     return $this->fillColor;
   }
-  public function ***REMOVED***(Google_StyleFunction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFillColorStyler(Google_StyleFunction $fillColorStyler) {
+    $this->fillColorStyler = $fillColorStyler;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFillColorStyler() {
+    return $this->fillColorStyler;
   }
-  public function ***REMOVED***( $fillOpacity) {
+  public function setFillOpacity( $fillOpacity) {
     $this->fillOpacity = $fillOpacity;
   }
-  public function ***REMOVED***() {
+  public function getFillOpacity() {
     return $this->fillOpacity;
   }
-  public function ***REMOVED***( $strokeColor) {
+  public function setStrokeColor( $strokeColor) {
     $this->strokeColor = $strokeColor;
   }
-  public function ***REMOVED***() {
+  public function getStrokeColor() {
     return $this->strokeColor;
   }
-  public function ***REMOVED***(Google_StyleFunction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStrokeColorStyler(Google_StyleFunction $strokeColorStyler) {
+    $this->strokeColorStyler = $strokeColorStyler;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getStrokeColorStyler() {
+    return $this->strokeColorStyler;
   }
-  public function ***REMOVED***( $strokeOpacity) {
+  public function setStrokeOpacity( $strokeOpacity) {
     $this->strokeOpacity = $strokeOpacity;
   }
-  public function ***REMOVED***() {
+  public function getStrokeOpacity() {
     return $this->strokeOpacity;
   }
-  public function ***REMOVED***( $strokeWeight) {
+  public function setStrokeWeight( $strokeWeight) {
     $this->strokeWeight = $strokeWeight;
   }
-  public function ***REMOVED***() {
+  public function getStrokeWeight() {
     return $this->strokeWeight;
   }
-  public function setStrokeWeightStyler(Google_StyleFunction $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStrokeWeightStyler(Google_StyleFunction $strokeWeightStyler) {
+    $this->strokeWeightStyler = $strokeWeightStyler;
   }
   public function getStrokeWeightStyler() {
-    return $this->***REMOVED***;
+    return $this->strokeWeightStyler;
   }
 }
 
@@ -1119,10 +1119,10 @@ class Google_StyleSetting extends Google_Model {
   public $name;
   protected $__polygonOptionsType = 'Google_PolygonStyle';
   protected $__polygonOptionsDataType = '';
-  public $***REMOVED***;
+  public $polygonOptions;
   protected $__polylineOptionsType = 'Google_LineStyle';
   protected $__polylineOptionsDataType = '';
-  public $***REMOVED***;
+  public $polylineOptions;
   public $styleId;
   public $tableId;
   public function setKind( $kind) {
@@ -1131,10 +1131,10 @@ class Google_StyleSetting extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(Google_PointStyle $markerOptions) {
+  public function setMarkerOptions(Google_PointStyle $markerOptions) {
     $this->markerOptions = $markerOptions;
   }
-  public function ***REMOVED***() {
+  public function getMarkerOptions() {
     return $this->markerOptions;
   }
   public function setName( $name) {
@@ -1143,17 +1143,17 @@ class Google_StyleSetting extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***(Google_PolygonStyle $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPolygonOptions(Google_PolygonStyle $polygonOptions) {
+    $this->polygonOptions = $polygonOptions;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPolygonOptions() {
+    return $this->polygonOptions;
   }
-  public function ***REMOVED***(Google_LineStyle $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPolylineOptions(Google_LineStyle $polylineOptions) {
+    $this->polylineOptions = $polylineOptions;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPolylineOptions() {
+    return $this->polylineOptions;
   }
   public function setStyleId( $styleId) {
     $this->styleId = $styleId;
@@ -1189,10 +1189,10 @@ class Google_StyleSettingList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {
@@ -1205,7 +1205,7 @@ class Google_StyleSettingList extends Google_Model {
 
 class Google_Table extends Google_Model {
   public $attribution;
-  public $***REMOVED***;
+  public $attributionLink;
   public $baseTableIds;
   protected $__columnsType = 'Google_Column';
   protected $__columnsDataType = 'array';
@@ -1216,23 +1216,23 @@ class Google_Table extends Google_Model {
   public $name;
   public $sql;
   public $tableId;
-  public function ***REMOVED***( $attribution) {
+  public function setAttribution( $attribution) {
     $this->attribution = $attribution;
   }
-  public function ***REMOVED***() {
+  public function getAttribution() {
     return $this->attribution;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAttributionLink( $attributionLink) {
+    $this->attributionLink = $attributionLink;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAttributionLink() {
+    return $this->attributionLink;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $baseTableIds) {
+  public function setBaseTableIds(/* array(Google_string) */ $baseTableIds) {
     $this->assertIsArray($baseTableIds, 'Google_string', __METHOD__);
     $this->baseTableIds = $baseTableIds;
   }
-  public function ***REMOVED***() {
+  public function getBaseTableIds() {
     return $this->baseTableIds;
   }
   public function setColumns(/* array(Google_Column) */ $columns) {
@@ -1242,16 +1242,16 @@ class Google_Table extends Google_Model {
   public function getColumns() {
     return $this->columns;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
-  public function ***REMOVED***( $isExportable) {
+  public function setIsExportable( $isExportable) {
     $this->isExportable = $isExportable;
   }
-  public function ***REMOVED***() {
+  public function getIsExportable() {
     return $this->isExportable;
   }
   public function setKind( $kind) {
@@ -1299,27 +1299,27 @@ class Google_TableList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
 
 class Google_Template extends Google_Model {
-  public $***REMOVED***;
+  public $automaticColumnNames;
   public $body;
   public $kind;
   public $name;
   public $tableId;
   public $templateId;
-  public function setAutomaticColumnNames(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAutomaticColumnNames(/* array(Google_string) */ $automaticColumnNames) {
+    $this->assertIsArray($automaticColumnNames, 'Google_string', __METHOD__);
+    $this->automaticColumnNames = $automaticColumnNames;
   }
   public function getAutomaticColumnNames() {
-    return $this->***REMOVED***;
+    return $this->automaticColumnNames;
   }
   public function setBody( $body) {
     $this->body = $body;
@@ -1373,10 +1373,10 @@ class Google_TemplateList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setTotalItems( $totalItems) {

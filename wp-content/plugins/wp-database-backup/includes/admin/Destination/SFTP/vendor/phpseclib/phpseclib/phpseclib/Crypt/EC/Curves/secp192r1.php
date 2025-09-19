@@ -37,7 +37,7 @@ class secp192r1 extends Prime
            or a 64-bit OS.
         */
         /*
-        $m_length = $this->***REMOVED***();
+        $m_length = $this->getLengthInBytes();
         $this->setReduction(function($c) use ($m_length) {
             $cBytes = $c->toBytes();
             $className = $this->className;
@@ -65,7 +65,7 @@ class secp192r1 extends Prime
         });
         */
 
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFC', 16),
             new BigInteger('64210519E59C80E70FA7E9AB72243049FEB8DEECC146B9B1', 16)
         );

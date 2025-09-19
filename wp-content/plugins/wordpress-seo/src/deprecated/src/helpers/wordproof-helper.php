@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Helpers;
  * A helper object for WordProof integration.
  *
  * @deprecated 22.10
- * @***REMOVED***
+ * @codeCoverageIgnore
  */
 class Wordproof_Helper {
 
@@ -35,7 +35,7 @@ class Wordproof_Helper {
 	 * WordProof_Helper constructor.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param Woocommerce_Helper  $woocommerce  The woocommerce helper.
@@ -53,7 +53,7 @@ class Wordproof_Helper {
 	 * Remove site options after disabling the integration.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Returns if the options are deleted
 	 */
@@ -68,7 +68,7 @@ class Wordproof_Helper {
 	 * Returns if conditionals are met. If not, the integration should be disabled.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param bool $return_conditional If the conditional class name that was unmet should be returned.
 	 *
@@ -84,7 +84,7 @@ class Wordproof_Helper {
 	 * Returns if the WordProof integration toggle is turned on.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Returns if the integration toggle is set to true if conditionals are met.
 	 */
@@ -98,7 +98,7 @@ class Wordproof_Helper {
 	 * Return if WordProof should be active for this post editor page.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Returns if WordProof should be active for this page.
 	 */

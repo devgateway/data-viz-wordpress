@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * AccessDescription
  *
  * PHP version 5
  *
@@ -16,17 +16,17 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * AccessDescription
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class AccessDescription
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
             'accessMethod' => ['type' => ASN1::TYPE_OBJECT_IDENTIFIER],
-            '***REMOVED***' => GeneralName::MAP
+            'accessLocation' => GeneralName::MAP
         ]
     ];
 }

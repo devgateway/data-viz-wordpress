@@ -54,7 +54,7 @@ class Default_Tagline_Reports {
 	 */
 	private function get_actions() {
 		$query_args    = [
-			'autofocus[control]' => '***REMOVED***',
+			'autofocus[control]' => 'blogdescription',
 		];
 		$customize_url = \add_query_arg( $query_args, \wp_customize_url() );
 

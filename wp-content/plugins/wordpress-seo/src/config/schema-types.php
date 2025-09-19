@@ -22,11 +22,11 @@ class Schema_Types {
 		'QAPage'            => '',
 		'ProfilePage'       => '',
 		'ContactPage'       => '',
-		'***REMOVED***'    => '',
-		'***REMOVED***'    => '',
+		'MedicalWebPage'    => '',
+		'CollectionPage'    => '',
 		'CheckoutPage'      => '',
-		'***REMOVED***' => '',
-		'***REMOVED***' => '',
+		'RealEstateListing' => '',
+		'SearchResultsPage' => '',
 	];
 
 	/**
@@ -39,11 +39,11 @@ class Schema_Types {
 	public const ARTICLE_TYPES = [
 		'Article'                  => '',
 		'BlogPosting'              => '',
-		'***REMOVED***'       => '',
+		'SocialMediaPosting'       => '',
 		'NewsArticle'              => '',
 		'AdvertiserContentArticle' => '',
-		'***REMOVED***'         => '',
-		'***REMOVED***'         => '',
+		'SatiricalArticle'         => '',
+		'ScholarlyArticle'         => '',
 		'TechArticle'              => '',
 		'Report'                   => '',
 		'None'                     => '',
@@ -86,11 +86,11 @@ class Schema_Types {
 			],
 			[
 				'name'  => \__( 'Medical Web Page', 'wordpress-seo' ),
-				'value' => '***REMOVED***',
+				'value' => 'MedicalWebPage',
 			],
 			[
 				'name'  => \__( 'Collection Page', 'wordpress-seo' ),
-				'value' => '***REMOVED***',
+				'value' => 'CollectionPage',
 			],
 			[
 				'name'  => \__( 'Checkout Page', 'wordpress-seo' ),
@@ -98,11 +98,11 @@ class Schema_Types {
 			],
 			[
 				'name'  => \__( 'Real Estate Listing', 'wordpress-seo' ),
-				'value' => '***REMOVED***',
+				'value' => 'RealEstateListing',
 			],
 			[
 				'name'  => \__( 'Search Results Page', 'wordpress-seo' ),
-				'value' => '***REMOVED***',
+				'value' => 'SearchResultsPage',
 			],
 		];
 	}
@@ -133,7 +133,7 @@ class Schema_Types {
 				],
 				[
 					'name'  => \__( 'Social Media Posting', 'wordpress-seo' ),
-					'value' => '***REMOVED***',
+					'value' => 'SocialMediaPosting',
 				],
 				[
 					'name'  => \__( 'News Article', 'wordpress-seo' ),
@@ -145,11 +145,11 @@ class Schema_Types {
 				],
 				[
 					'name'  => \__( 'Satirical Article', 'wordpress-seo' ),
-					'value' => '***REMOVED***',
+					'value' => 'SatiricalArticle',
 				],
 				[
 					'name'  => \__( 'Scholarly Article', 'wordpress-seo' ),
-					'value' => '***REMOVED***',
+					'value' => 'ScholarlyArticle',
 				],
 				[
 					'name'  => \__( 'Tech Article', 'wordpress-seo' ),

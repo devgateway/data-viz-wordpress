@@ -16,7 +16,7 @@ use WPSEO_Replace_Vars;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Edit_Conditional;
 use Yoast\WP\SEO\Editors\Application\Site\Website_Information_Repository;
-use Yoast\WP\SEO\Elementor\***REMOVED***\Request_Post;
+use Yoast\WP\SEO\Elementor\Infrastructure\Request_Post;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -211,7 +211,7 @@ class Elementor implements Integration_Interface {
 			\wp_send_json_error( 'Bad Request', 400 );
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: No sanitization needed because we cast to an integer.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: No sanitization needed because we cast to an integer.
 		$post_id = (int) \wp_unslash( $_POST['post_id'] );
 
 		if ( $post_id <= 0 ) {
@@ -274,7 +274,7 @@ class Elementor implements Integration_Interface {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: Sanitized through sanitize_post_meta.
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Sanitized through sanitize_post_meta.
 					$data = \wp_unslash( $_POST[ $field_name ] );
 
 					// For multi-select.
@@ -356,9 +356,9 @@ class Elementor implements Integration_Interface {
 		$post_id = \get_queried_object_id();
 		if ( empty( $post_id ) ) {
 			$post_id = 0;
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.***REMOVED***.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
 				$post_id = (int) \wp_unslash( $_GET['post'] );
 			}
 		}
@@ -379,9 +379,9 @@ class Elementor implements Integration_Interface {
 		$this->asset_manager->enqueue_script( 'admin-global' );
 		$this->asset_manager->enqueue_script( 'elementor' );
 
-		$this->asset_manager->localize_script( 'elementor', '***REMOVED***', \YoastSEO()->helpers->wincher->get_admin_global_links() );
-		$this->asset_manager->localize_script( 'elementor', '***REMOVED***', WPSEO_Utils::get_admin_l10n() );
-		$this->asset_manager->localize_script( 'elementor', '***REMOVED***', WPSEO_Utils::retrieve_enabled_features() );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminGlobalL10n', \YoastSEO()->helpers->wincher->get_admin_global_links() );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		$plugins_script_data = [
 			'replaceVars' => [
@@ -415,14 +415,14 @@ class Elementor implements Integration_Interface {
 			'metabox'                   => $this->get_metabox_script_data( $permalink ),
 			'isPost'                    => true,
 			'isBlockEditor'             => WP_Screen::get()->is_block_editor(),
-			'***REMOVED***'         => true,
+			'isElementorEditor'         => true,
 			'postStatus'                => \get_post_status( $post_id ),
 			'postType'                  => \get_post_type( $post_id ),
 			'analysis'                  => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
 			],
-			'***REMOVED***'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'usedKeywordsNonce'         => \wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'isFrontPage'               => $is_front_page,
 		];
 
@@ -436,7 +436,7 @@ class Elementor implements Integration_Interface {
 		$site_information->set_permalink( $permalink );
 		$script_data = \array_merge_recursive( $site_information->get_legacy_site_information(), $script_data );
 
-		$this->asset_manager->localize_script( 'elementor', '***REMOVED***', $script_data );
+		$this->asset_manager->localize_script( 'elementor', 'wpseoScriptData', $script_data );
 		$this->asset_manager->enqueue_user_language_script();
 	}
 
@@ -454,19 +454,19 @@ class Elementor implements Integration_Interface {
 		);
 
 		\wp_nonce_field( 'wpseo_elementor_save', '_wpseo_elementor_nonce' );
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Meta_Fields_Presenter->present is considered safe.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Meta_Fields_Presenter->present is considered safe.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Meta_Fields_Presenter->present is considered safe.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
 		if ( $this->social_is_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: Meta_Fields_Presenter->present is considered safe.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Meta_Fields_Presenter->present is considered safe.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
@@ -481,7 +481,7 @@ class Elementor implements Integration_Interface {
 			\esc_attr( $this->get_metabox_post()->post_name )
 		);
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output should be escaped in the filter.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo \apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
@@ -518,8 +518,8 @@ class Elementor implements Integration_Interface {
 
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = \apply_filters( 'wpseo_cornerstone_post_types', \YoastSEO()->helpers->post_type->get_accessible_post_types() );
-		if ( $values['***REMOVED***'] && ! \in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
-			$values['***REMOVED***'] = false;
+		if ( $values['cornerstoneActive'] && ! \in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
+			$values['cornerstoneActive'] = false;
 		}
 
 		$values['elementorMarkerStatus'] = $this->is_highlighting_available() ? 'enabled' : 'hidden';

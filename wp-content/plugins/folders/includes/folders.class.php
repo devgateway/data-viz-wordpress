@@ -62,11 +62,11 @@ class WCP_Folders
     /**
      * Folders Settings
      *
-     * @var    array    $***REMOVED***    Folders Settings
+     * @var    array    $folderSettings    Folders Settings
      * @since  1.0.0
      * @access public
      */
-    private static $***REMOVED*** = false;
+    private static $folderSettings = false;
 
 
     /**
@@ -272,8 +272,8 @@ class WCP_Folders
         // Check for filter: Remove if filter by folders
         global $_REQUEST;
         $isMediaFilter = isset($_REQUEST['action']) && $_REQUEST['action'] == 'query-attachments';
-        $***REMOVED*** = isset($_REQUEST['query']['media_folder']) && !empty($_REQUEST['query']['media_folder']);
-        if($isMediaFilter && $***REMOVED*** && defined('MLA_PLUGIN_PATH')) {
+        $hasMediaFilter = isset($_REQUEST['query']['media_folder']) && !empty($_REQUEST['query']['media_folder']);
+        if($isMediaFilter && $hasMediaFilter && defined('MLA_PLUGIN_PATH')) {
             if(isset($_REQUEST['query']['s']) && is_array($_REQUEST['query']['s'])) {
                 unset($_REQUEST['query']['s']);
             }
@@ -629,22 +629,22 @@ class WCP_Folders
      */
     public static function check_for_setting($key, $setting, $default="")
     {
-        if (self::$***REMOVED*** === false) {
+        if (self::$folderSettings === false) {
             $options = get_option("premio_folder_options");
             if ($options === false || !is_array($options)) {
                 $options = [];
             }
 
-            self::$***REMOVED*** = $options;
+            self::$folderSettings = $options;
         }
 
         if ($setting == "folders_settings") {
-            if (isset(self::$***REMOVED***[$setting]) && is_array(self::$***REMOVED***[$setting])) {
-                return in_array($key, self::$***REMOVED***[$setting]);
+            if (isset(self::$folderSettings[$setting]) && is_array(self::$folderSettings[$setting])) {
+                return in_array($key, self::$folderSettings[$setting]);
             }
         } else {
-            if (isset(self::$***REMOVED***[$setting][$key])) {
-                return self::$***REMOVED***[$setting][$key];
+            if (isset(self::$folderSettings[$setting][$key])) {
+                return self::$folderSettings[$setting][$key];
             }
         }
 
@@ -878,8 +878,8 @@ class WCP_Folders
             }
 
             $post_type = esc_attr($postData['type']);
-            $***REMOVED*** = get_option('customize_folders', []);
-            if(isset($***REMOVED***['force_sorting']) && $***REMOVED***['force_sorting'] == "on"){
+            $customizeFolders = get_option('customize_folders', []);
+            if(isset($customizeFolders['force_sorting']) && $customizeFolders['force_sorting'] == "on"){
                 update_option("wcp_custom_sort_".$post_type, $order_field);
             }
 
@@ -1538,7 +1538,7 @@ class WCP_Folders
         }
 
         if ($errorCounter == 0) {
-            $***REMOVED*** = [];
+            $folderUndoSettings = [];
             $type    = self::sanitize_options($postData['type']);
             $post_id = self::sanitize_options($postData['post_id']);
 
@@ -1653,7 +1653,7 @@ class WCP_Folders
         }
 
         if ($errorCounter == 0) {
-            $***REMOVED*** = [];
+            $folderUndoSettings = [];
             $type    = self::sanitize_options($postData['type']);
             $post_id = self::sanitize_options($postData['post_id']);
 
@@ -1682,7 +1682,7 @@ class WCP_Folders
                         }
                     }
 
-                    $***REMOVED***[] = $post_terms;
+                    $folderUndoSettings[] = $post_terms;
                     if (isset($postData['remove_from']) && $postData['remove_from'] == "current" && isset($postData['remove_from']) && $postData['remove_from'] == "current" && isset($postData['active_folder']) && is_numeric($postData['active_folder'])) {
                         wp_remove_object_terms($id, intval($postData['active_folder']), $taxonomy);
                     } else {
@@ -1692,7 +1692,7 @@ class WCP_Folders
             }//end foreach
 
             delete_transient("folder_undo_settings");
-            set_transient("folder_undo_settings", $***REMOVED***, DAY_IN_SECONDS);
+            set_transient("folder_undo_settings", $folderUndoSettings, DAY_IN_SECONDS);
 
             if ($initial_trash_folders != $trash_folders) {
                 delete_transient("premio_folders_without_trash");
@@ -2173,7 +2173,7 @@ class WCP_Folders
                     'terms'         => self::get_terms_hierarchical('media_folder'),
                     'taxonomy'      => get_taxonomy('media_folder'),
                     'ajax_url'      => admin_url("admin-ajax.php"),
-                    'activate_url'  => $this->***REMOVED***(),
+                    'activate_url'  => $this->getFoldersUpgradeURL(),
                     'nonce'         => wp_create_nonce('wcp_folder_nonce_attachment'),
                     'is_key_active' => $is_active,
                     'hasStars'      => $hasStars,
@@ -2250,12 +2250,12 @@ class WCP_Folders
                 $customize_folders = get_option('customize_folders');
                 $customize_folders = (empty($customize_folders)||!is_array($customize_folders))?[]:$customize_folders;
                 $use_folder_undo   = !isset($customize_folders['use_folder_undo']) ? "yes" : $customize_folders['use_folder_undo'];
-                $***REMOVED***    = !isset($customize_folders['default_timeout']) ? 5 : intval($customize_folders['default_timeout']);
-                if (empty($***REMOVED***) || !is_numeric($***REMOVED***) || $***REMOVED*** < 0) {
-                    $***REMOVED*** = 5;
+                $defaultTimeout    = !isset($customize_folders['default_timeout']) ? 5 : intval($customize_folders['default_timeout']);
+                if (empty($defaultTimeout) || !is_numeric($defaultTimeout) || $defaultTimeout < 0) {
+                    $defaultTimeout = 5;
                 }
 
-                $***REMOVED*** = ($***REMOVED*** * 1000);
+                $defaultTimeout = ($defaultTimeout * 1000);
 
                 $default_folders = get_option("default_folders");
                 $default_folder  = "";
@@ -2280,7 +2280,7 @@ class WCP_Folders
                 $lang = $this->js_strings();
                 wp_dequeue_script("jquery-jstree");
                 // CMS Tree Page View Conflict
-                wp_enqueue_script('folders-***REMOVED***', WCP_FOLDER_URL.'assets/js/jquery.***REMOVED***.min.js', [], WCP_FOLDER_VERSION, true);
+                wp_enqueue_script('folders-overlayscrollbars', WCP_FOLDER_URL.'assets/js/jquery.overlayscrollbars.min.js', [], WCP_FOLDER_VERSION, true);
                 wp_enqueue_script('folders-tree', WCP_FOLDER_URL.'assets/js/jstree.min.js', [], WCP_FOLDER_VERSION, true);
                 wp_enqueue_script('wcp-folders-media', WCP_FOLDER_URL.'assets/js/page-post-media'.esc_attr($minified).'.js', ['jquery', 'jquery-ui-resizable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'backbone'], WCP_FOLDER_VERSION, true);
                 wp_enqueue_script('wcp-jquery-touch', plugin_dir_url(dirname(__FILE__)).'assets/js/jquery.ui.touch-punch.min.js', ['jquery'], WCP_FOLDER_VERSION, true);
@@ -2292,11 +2292,11 @@ class WCP_Folders
                         'taxonomy'          => get_taxonomy('media_folder'),
                         'ajax_url'          => admin_url("admin-ajax.php"),
                         'media_page_url'    => admin_url("upload.php?media_folder="),
-                        'activate_url'      => $this->***REMOVED***(),
+                        'activate_url'      => $this->getFoldersUpgradeURL(),
                         'nonce'             => wp_create_nonce('wcp_folder_nonce_attachment'),
                         'is_key_active'     => $is_active,
                         'folders'           => $folders,
-                        'upgrade_url'       => $this->***REMOVED***(),
+                        'upgrade_url'       => $this->getFoldersUpgradeURL(),
                         'post_type'         => 'attachment',
                         'page_url'          => $admin_url,
                         'current_url'       => "",
@@ -2313,7 +2313,7 @@ class WCP_Folders
                         'hasStars'          => $hasStars,
                         'hasChildren'       => $hasChild,
                         'useFolderUndo'     => $use_folder_undo,
-                        '***REMOVED***'    => $***REMOVED***,
+                        'defaultTimeout'    => $defaultTimeout,
                         'default_folder'    => $default_folder,
                         'use_shortcuts'     => $use_shortcuts,
                         'lang'              => $lang,
@@ -2325,7 +2325,7 @@ class WCP_Folders
                 );
                 // Free/Pro URL Change
                 wp_enqueue_style('folders-jstree', WCP_FOLDER_URL.'assets/css/jstree.min.css', [], WCP_FOLDER_VERSION);
-                wp_enqueue_style('folder-***REMOVED***', WCP_FOLDER_URL.'assets/css/***REMOVED***.min.css', [], WCP_FOLDER_VERSION);
+                wp_enqueue_style('folder-overlayscrollbars', WCP_FOLDER_URL.'assets/css/overlayscrollbars.min.css', [], WCP_FOLDER_VERSION);
                 wp_enqueue_style('folder-folders', WCP_FOLDER_URL.'assets/css/folders'.esc_attr($minified).'.css', [], WCP_FOLDER_VERSION);
                 wp_enqueue_style('folders-media', WCP_FOLDER_URL.'assets/css/page-post-media'.esc_attr($minified).'.css', [], WCP_FOLDER_VERSION);
                 wp_enqueue_style('folder-icon', WCP_FOLDER_URL.'assets/css/folder-icon.min.css', [], WCP_FOLDER_VERSION);
@@ -3142,7 +3142,7 @@ class WCP_Folders
         }//end if
 
         if ($errorCounter == 0) {
-            $***REMOVED*** = [];
+            $folderUndoSettings = [];
             $postID    = self::sanitize_options($postData['post_ids']);
             $postID    = trim($postID, ",");
             $folderID  = self::sanitize_options($postData['folder_id']);
@@ -3168,7 +3168,7 @@ class WCP_Folders
                         'post_id' => $post,
                         'terms'   => $terms,
                     ];
-                    $***REMOVED***[] = $post_terms;
+                    $folderUndoSettings[] = $post_terms;
                     if (!empty($terms)) {
                         foreach ($terms as $term) {
                             if (!empty($taxonomy) && ($term->term_id == $taxonomy || $term->slug == $taxonomy)) {
@@ -3184,7 +3184,7 @@ class WCP_Folders
             $response['status'] = 1;
             delete_transient("folder_undo_settings");
             delete_transient("premio_folders_without_trash");
-            set_transient("folder_undo_settings", $***REMOVED***, DAY_IN_SECONDS);
+            set_transient("folder_undo_settings", $folderUndoSettings, DAY_IN_SECONDS);
 
             if(!get_option("show_folder_upgrade_popup")) {
                 add_option("show_folder_upgrade_popup", "hide");
@@ -5136,7 +5136,7 @@ class WCP_Folders
                     update_option("customize_folders", $posts);
                 }
 
-                $setting_page = $this->***REMOVED***();
+                $setting_page = $this->getFolderSettingsURL();
                 if (!empty($setting_page)) {
                     $page         = filter_input(INPUT_POST, 'tab_page');
                     $type         = filter_input(INPUT_GET, 'setting_page');
@@ -5328,7 +5328,7 @@ class WCP_Folders
             wp_enqueue_style('wcp-folders-fa', plugin_dir_url(dirname(__FILE__)).'assets/css/folder-icon.min.css', [], WCP_FOLDER_VERSION);
             wp_enqueue_style('wcp-folders-admin', plugin_dir_url(dirname(__FILE__)).'assets/css/design'.esc_attr($minified).'.css', [], WCP_FOLDER_VERSION);
             wp_enqueue_style('wcp-folders-jstree', plugin_dir_url(dirname(__FILE__)).'assets/css/jstree.min.css', [], WCP_FOLDER_VERSION);
-            wp_enqueue_style('folder-***REMOVED***', WCP_FOLDER_URL.'assets/css/***REMOVED***.min.css', [], WCP_FOLDER_VERSION);
+            wp_enqueue_style('folder-overlayscrollbars', WCP_FOLDER_URL.'assets/css/overlayscrollbars.min.css', [], WCP_FOLDER_VERSION);
             wp_enqueue_style('wcp-folders-css', plugin_dir_url(dirname(__FILE__)).'assets/css/folders'.esc_attr($minified).'.css', [], WCP_FOLDER_VERSION);
         }
 
@@ -5529,7 +5529,7 @@ class WCP_Folders
             // Free/Pro Version change
             wp_dequeue_script("jquery-jstree");
             wp_enqueue_script('wcp-folders-jstree', plugin_dir_url(dirname(__FILE__)).'assets/js/jstree.min.js', ['jquery'], WCP_FOLDER_VERSION, true);
-            wp_enqueue_script('folders-***REMOVED***', WCP_FOLDER_URL.'assets/js/jquery.***REMOVED***.min.js', [], WCP_FOLDER_VERSION, true);
+            wp_enqueue_script('folders-overlayscrollbars', WCP_FOLDER_URL.'assets/js/jquery.overlayscrollbars.min.js', [], WCP_FOLDER_VERSION, true);
             wp_enqueue_script('wcp-folders-custom', plugin_dir_url(dirname(__FILE__)).'assets/js/folders'.esc_attr($minified).'.js', ['jquery', 'jquery-ui-resizable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'backbone'], WCP_FOLDER_VERSION, true);
             wp_enqueue_script('wcp-jquery-touch', plugin_dir_url(dirname(__FILE__)).'assets/js/jquery.ui.touch-punch.min.js', ['jquery'], WCP_FOLDER_VERSION, true);
 
@@ -5615,7 +5615,7 @@ class WCP_Folders
             $is_active = 1;
             $folders   = -1;
             // For free: upgrade URL, for Pro: Register Key URL
-            $register_url = $this->***REMOVED***();
+            $register_url = $this->getFoldersUpgradeURL();
 
             $is_rtl = 0;
             if (function_exists('is_rtl') && is_rtl()) {
@@ -5655,12 +5655,12 @@ class WCP_Folders
 
             $taxonomies      = self::get_terms_hierarchical($post_type);
             $use_folder_undo = !isset($customize_folders['use_folder_undo']) ? "yes" : $customize_folders['use_folder_undo'];
-            $***REMOVED***  = !isset($customize_folders['default_timeout']) ? 5 : intval($customize_folders['default_timeout']);
-            if (empty($***REMOVED***) || !is_numeric($***REMOVED***) || $***REMOVED*** < 0) {
-                $***REMOVED*** = 5;
+            $defaultTimeout  = !isset($customize_folders['default_timeout']) ? 5 : intval($customize_folders['default_timeout']);
+            if (empty($defaultTimeout) || !is_numeric($defaultTimeout) || $defaultTimeout < 0) {
+                $defaultTimeout = 5;
             }
 
-            $***REMOVED*** = ($***REMOVED*** * 1000);
+            $defaultTimeout = ($defaultTimeout * 1000);
 
             $folder_settings = [];
             foreach ($taxonomies as $taxonomy) {
@@ -5723,7 +5723,7 @@ class WCP_Folders
                 'wcp_settings',
                 [
                     'ajax_url'          => admin_url('admin-ajax.php'),
-                    'upgrade_url'       => $this->***REMOVED***(),
+                    'upgrade_url'       => $this->getFoldersUpgradeURL(),
                     'post_type'         => $typenow,
                     'custom_type'       => $post_type,
                     'page_url'          => $admin_url,
@@ -5746,7 +5746,7 @@ class WCP_Folders
                     'hasChildren'       => $hasChild,
                     'currentPage'       => $currentPage,
                     'useFolderUndo'     => $use_folder_undo,
-                    '***REMOVED***'    => $***REMOVED***,
+                    'defaultTimeout'    => $defaultTimeout,
                     'default_folder'    => $default_folder,
                     'use_shortcuts'     => $use_shortcuts,
                     'post_status'       => $post_status,
@@ -5781,7 +5781,7 @@ class WCP_Folders
                         'terms'         => self::get_terms_hierarchical('media_folder'),
                         'taxonomy'      => get_taxonomy('media_folder'),
                         'ajax_url'      => admin_url("admin-ajax.php"),
-                        'activate_url'  => $this->***REMOVED***(),
+                        'activate_url'  => $this->getFoldersUpgradeURL(),
                         'nonce'         => wp_create_nonce('wcp_folder_nonce_attachment'),
                         'is_key_active' => $is_active,
                         'folders'       => $folders,
@@ -5903,7 +5903,7 @@ class WCP_Folders
         $links['need_help'] = '<a target="_blank" href="https://premio.io/help/folders/?utm_source=pluginspage" >'.__('Need help?', 'folders').'</a>';
 
         // PRO link for only for FREE
-        $links['pro'] = '<a class="wcp-folder-upgrade-button" href="'.$this->***REMOVED***().'" >'.__('Upgrade', 'folders').'</a>';
+        $links['pro'] = '<a class="wcp-folder-upgrade-button" href="'.$this->getFoldersUpgradeURL().'" >'.__('Upgrade', 'folders').'</a>';
         return $links;
 
     }//end plugin_action_links()
@@ -5945,7 +5945,7 @@ class WCP_Folders
                     $old_plugin_status = 1;
                 }
 
-                if (in_array($key, ["folders4page", "folders4post", "***REMOVED***"])) {
+                if (in_array($key, ["folders4page", "folders4post", "folders4attachment"])) {
                     $post_array[] = str_replace("folders4", "", $key);
                 }
             }
@@ -6087,7 +6087,7 @@ class WCP_Folders
      * @access public
      * @return $url
      */
-    function ***REMOVED***()
+    function getFoldersUpgradeURL()
     {
         $customize_folders = get_option("customize_folders");
         if (isset($customize_folders['show_folder_in_settings']) && $customize_folders['show_folder_in_settings'] == "yes") {
@@ -6096,7 +6096,7 @@ class WCP_Folders
             return admin_url("admin.php?page=folders-upgrade-to-pro");
         }
 
-    }//end ***REMOVED***()
+    }//end getFoldersUpgradeURL()
 
 
     /**
@@ -6106,7 +6106,7 @@ class WCP_Folders
      * @access public
      * @return $url
      */
-    function ***REMOVED***()
+    function getFolderSettingsURL()
     {
         $customize_folders = get_option("customize_folders");
         if (isset($customize_folders['show_folder_in_settings']) && $customize_folders['show_folder_in_settings'] == "yes") {
@@ -6115,7 +6115,7 @@ class WCP_Folders
             return admin_url("admin.php?page=wcp_folders_settings");
         }
 
-    }//end ***REMOVED***()
+    }//end getFolderSettingsURL()
 
 
     /**
@@ -6124,7 +6124,7 @@ class WCP_Folders
      * @since  1.0.0
      * @access public
      */
-    function ***REMOVED***()
+    function isFoldersInSettings()
     {
         $customize_folders = get_option("customize_folders");
         if (isset($customize_folders['show_folder_in_settings']) && $customize_folders['show_folder_in_settings'] == "yes") {
@@ -6133,7 +6133,7 @@ class WCP_Folders
 
         return false;
 
-    }//end ***REMOVED***()
+    }//end isFoldersInSettings()
 
 
     /**
@@ -6429,10 +6429,10 @@ class WCP_Folders
                 $plugins = new WCP_Folder_Plugins();
                 $plugin_info = $plugins->get_plugin_information();
                 $is_plugin_exists = $plugins->is_exists;
-                $settingURL = $this->***REMOVED***();
+                $settingURL = $this->getFolderSettingsURL();
 
                 $setting_page = in_array($setting_page, ["folder-settings", "customize-folders", "folders-import", "upgrade-to-pro", "folders-by-user","notification-settings"]) ? $setting_page : "folder-settings";
-                $isInSettings = $this->***REMOVED***();
+                $isInSettings = $this->isFoldersInSettings();
 
                 include_once dirname(dirname(__FILE__)) . "/templates/admin/general-settings.php";
 
@@ -6617,7 +6617,7 @@ class WCP_Folders
             'Caesar Dressing'                => 'Google Fonts',
             'Cagliostro'                     => 'Google Fonts',
             'Cairo'                          => 'Google Fonts',
-            '***REMOVED***'                 => 'Google Fonts',
+            'Calligraffitti'                 => 'Google Fonts',
             'Cambay'                         => 'Google Fonts',
             'Cambo'                          => 'Google Fonts',
             'Candal'                         => 'Google Fonts',
@@ -7173,7 +7173,7 @@ class WCP_Folders
             'Quattrocento Sans'              => 'Google Fonts',
             'Questrial'                      => 'Google Fonts',
             'Quicksand'                      => 'Google Fonts',
-            '***REMOVED***'                 => 'Google Fonts',
+            'Quintessential'                 => 'Google Fonts',
             'Qwigley'                        => 'Google Fonts',
             'Racing Sans One'                => 'Google Fonts',
             'Radley'                         => 'Google Fonts',
@@ -7293,7 +7293,7 @@ class WCP_Folders
             'Spinnaker'                      => 'Google Fonts',
             'Spirax'                         => 'Google Fonts',
             'Squada One'                     => 'Google Fonts',
-            'Sree ***REMOVED***'           => 'Google Fonts',
+            'Sree Krushnadevaraya'           => 'Google Fonts',
             'Sriracha'                       => 'Google Fonts',
             'Srisakdi'                       => 'Google Fonts',
             'Stalemate'                      => 'Google Fonts',
@@ -7346,8 +7346,8 @@ class WCP_Folders
             'Uncial Antiqua'                 => 'Google Fonts',
             'Underdog'                       => 'Google Fonts',
             'Unica One'                      => 'Google Fonts',
-            '***REMOVED***'                 => 'Google Fonts',
-            '***REMOVED***'             => 'Google Fonts',
+            'UnifrakturCook'                 => 'Google Fonts',
+            'UnifrakturMaguntia'             => 'Google Fonts',
             'Unkempt'                        => 'Google Fonts',
             'Unlock'                         => 'Google Fonts',
             'Unna'                           => 'Google Fonts',

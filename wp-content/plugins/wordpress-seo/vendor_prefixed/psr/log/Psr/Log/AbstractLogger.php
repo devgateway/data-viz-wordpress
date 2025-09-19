@@ -3,13 +3,13 @@
 namespace YoastSEO_Vendor\Psr\Log;
 
 /**
- * This is a simple Logger ***REMOVED*** that other Loggers can inherit from.
+ * This is a simple Logger implementation that other Loggers can inherit from.
  *
  * It simply delegates all log-level-specific methods to the `log` method to
  * reduce boilerplate code that a simple Logger that does the same thing with
  * messages regardless of the error level has to implement.
  */
-abstract class ***REMOVED*** implements \YoastSEO_Vendor\Psr\Log\***REMOVED***
+abstract class AbstractLogger implements \YoastSEO_Vendor\Psr\Log\LoggerInterface
 {
     /**
      * System is unusable.

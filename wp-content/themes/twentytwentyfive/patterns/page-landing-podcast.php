@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Landing page for podcast
- * Slug: ***REMOVED***/page-landing-podcast
+ * Slug: twentytwentyfive/page-landing-podcast
  * Categories: twentytwentyfive_page, featured
  * Keywords: starter
  * Block Types: core/post-content
@@ -16,8 +16,8 @@
 
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/hero-podcast"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/heading-and-paragraph-with-image"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/logos"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/grid-videos"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/cta-newsletter"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/hero-podcast"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/heading-and-paragraph-with-image"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/logos"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/grid-videos"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfive/cta-newsletter"} /-->

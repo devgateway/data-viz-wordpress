@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
+//phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Editors\Framework\Seo\Terms;
 
 use WP_Term;

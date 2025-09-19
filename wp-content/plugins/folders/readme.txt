@@ -60,7 +60,7 @@ Upload text, images, videos, and audio. Then organize everything you upload into
 * While adding images or any kind of file from your media library to your pages and posts, use Folders to view all your media library files based on the folder the files are assigned to
 * Rename folders
 * Monitor all the unassigned media library files, posts, and page. Organize them easily to your folders
-* ***REMOVED*** assign and organize media, pages and posts while adding them to directories
+* Simultaneously assign and organize media, pages and posts while adding them to directories
 * Place content in multiple folders at once
 * Resize folders menu
 * Compatible with RTL admin panel (such as Hebrew, Arabic & more)
@@ -273,7 +273,7 @@ Improved folders drag and drop functionality
 Added WordPress Multisite support
 Added support for LMS "All courses categories" (Pro feature)
 Fixed Polylang bug
-Speed and ***REMOVED*** improvements were implemented
+Speed and infrastructure improvements were implemented
 CatFolders import was added
 File upload to folder bug fixed
 
@@ -290,7 +290,7 @@ Folders default color set bug fixed
 Bug fixed
 
 = 2.9.4 =
-***REMOVED*** improvements - Folders works faster now 🚀
+Infrastructure improvements - Folders works faster now 🚀
 Added Folders support for Plugins in the Pro version
 WooCommerce product support for Dynamic Folders
 Added support for LMS LearnPress plugin in the Pro version
@@ -334,7 +334,7 @@ WordPress 6.1 Folders compatibility adjustments
 WPML Folders bug fixed
 
 = 2.8.4 =
-***REMOVED*** improvements
+Infrastructure improvements
 
 = 2.8.3 =
 Texts changed
@@ -470,7 +470,7 @@ Translation support change
 Added translation support
 
 = 2.3.5 =
-Folder order when adding a media library file to posts/pages fix, and ***REMOVED*** improvements
+Folder order when adding a media library file to posts/pages fix, and infrastructure improvements
 
 = 2.3.4 =
 Thrive Themes Architect bug fixed

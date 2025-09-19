@@ -1,7 +1,7 @@
 /* global setTimeout */
 wp.domReady( function() {
 	// Unregister "Wide" Separator Style.
-	wp.blocks.***REMOVED***( 'core/separator', 'wide' );
+	wp.blocks.unregisterBlockStyle( 'core/separator', 'wide' );
 
 	// Add to ".block-editor__typewriter" the "is-dark-theme" class if needed.
 	function twentytwentyoneCopyDarkThemeClass() {

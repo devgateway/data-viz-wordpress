@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Values\OAuth;
 
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
-use YoastSEO_Vendor\League\OAuth2\Client\Token\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Class OAuth_Token
@@ -96,16 +96,16 @@ class OAuth_Token {
 	/**
 	 * Creates a new instance based on the passed response.
 	 *
-	 * @param ***REMOVED*** $response The response object to create a new instance from.
+	 * @param AccessTokenInterface $response The response object to create a new instance from.
 	 *
 	 * @return OAuth_Token The token object.
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
-	public static function from_response( ***REMOVED*** $response ) {
+	public static function from_response( AccessTokenInterface $response ) {
 		return new self(
 			$response->getToken(),
-			$response->***REMOVED***(),
+			$response->getRefreshToken(),
 			$response->getExpires(),
 			$response->hasExpired(),
 			\time()

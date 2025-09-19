@@ -2,7 +2,7 @@
 
 namespace YoastSEO_Vendor\Psr\Http\Client;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Exception for when a request failed.
  *
@@ -15,9 +15,9 @@ interface RequestExceptionInterface extends \YoastSEO_Vendor\Psr\Http\Client\Cli
     /**
      * Returns the request.
      *
-     * The request object MAY be a different object from the one passed to ***REMOVED***::sendRequest()
+     * The request object MAY be a different object from the one passed to ClientInterface::sendRequest()
      *
-     * @return ***REMOVED***
+     * @return RequestInterface
      */
-    public function getRequest() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function getRequest() : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 }

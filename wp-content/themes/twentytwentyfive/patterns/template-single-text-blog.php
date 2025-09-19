@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Text blog single post
- * Slug: ***REMOVED***/template-single-text-blog
+ * Slug: twentytwentyfive/template-single-text-blog
  * Template Types: posts, single
  * Viewport width: 1400
  * Inserter: no
@@ -33,15 +33,15 @@
 
 		<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"right":"var:preset|spacing|50","left":"var:preset|spacing|50"},"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
 		<div class="wp-block-group alignfull" style="margin-top:var(--wp--preset--spacing--60);margin-bottom:var(--wp--preset--spacing--60);padding-right:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
-			<!-- wp:group {"ariaLabel":"<?php esc_attr_e( 'Post navigation', '***REMOVED***' ); ?>","tagName":"nav","align":"wide","style":{"border":{"top":{"color":"var:preset|color|accent-6","width":"1px"},"right":[],"bottom":[],"left":[]},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"nowrap","***REMOVED***":"space-between"}} -->
-			<nav class="wp-block-group alignwide" aria-label="<?php esc_attr_e( 'Post navigation', '***REMOVED***' ); ?>" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
+			<!-- wp:group {"ariaLabel":"<?php esc_attr_e( 'Post navigation', 'twentytwentyfive' ); ?>","tagName":"nav","align":"wide","style":{"border":{"top":{"color":"var:preset|color|accent-6","width":"1px"},"right":[],"bottom":[],"left":[]},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+			<nav class="wp-block-group alignwide" aria-label="<?php esc_attr_e( 'Post navigation', 'twentytwentyfive' ); ?>" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
 				<!-- wp:post-navigation-link {"type":"previous","showTitle":true,"arrow":"arrow"} /-->
 				<!-- wp:post-navigation-link {"showTitle":true,"arrow":"arrow"} /-->
 			</nav>
 			<!-- /wp:group -->
 		</div>
 		<!-- /wp:group -->
-		<!-- wp:pattern {"slug":"***REMOVED***/comments"} /-->
+		<!-- wp:pattern {"slug":"twentytwentyfive/comments"} /-->
 	</div>
 	<!-- /wp:group -->
 </main>

@@ -33,7 +33,7 @@
 namespace phpseclib3\System\SSH;
 
 use phpseclib3\Common\Functions\Strings;
-use phpseclib3\Crypt\***REMOVED***;
+use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Exception\BadConfigurationException;
 use phpseclib3\Net\SSH2;
@@ -42,7 +42,7 @@ use phpseclib3\System\SSH\Agent\Identity;
 /**
  * Pure-PHP ssh-agent client identity factory
  *
- * ***REMOVED***() method pumps out \phpseclib3\System\SSH\Agent\Identity objects
+ * requestIdentities() method pumps out \phpseclib3\System\SSH\Agent\Identity objects
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -90,7 +90,7 @@ class Agent
     private $forward_status = self::FORWARD_NONE;
 
     /**
-     * Buffer for accumulating forwarded ***REMOVED***
+     * Buffer for accumulating forwarded authentication
      * agent data arriving on SSH data channel destined
      * for agent unix socket
      *
@@ -112,7 +112,7 @@ class Agent
      *
      * @return \phpseclib3\System\SSH\Agent
      * @throws \phpseclib3\Exception\BadConfigurationException if SSH_AUTH_SOCK cannot be found
-     * @throws \***REMOVED*** on connection errors
+     * @throws \RuntimeException on connection errors
      */
     public function __construct($address = null)
     {
@@ -132,16 +132,16 @@ class Agent
         if (in_array('unix', stream_get_transports())) {
             $this->fsock = fsockopen('unix://' . $address, 0, $errno, $errstr);
             if (!$this->fsock) {
-                throw new \***REMOVED***("Unable to connect to ssh-agent (Error $errno: $errstr)");
+                throw new \RuntimeException("Unable to connect to ssh-agent (Error $errno: $errstr)");
             }
         } else {
             if (substr($address, 0, 9) != '\\\\.\\pipe\\' || strpos(substr($address, 9), '\\') !== false) {
-                throw new \***REMOVED***('Address is not formatted as a named pipe should be');
+                throw new \RuntimeException('Address is not formatted as a named pipe should be');
             }
 
             $this->fsock = fopen($address, 'r+b');
             if (!$this->fsock) {
-                throw new \***REMOVED***('Unable to open address');
+                throw new \RuntimeException('Unable to open address');
             }
         }
     }
@@ -153,9 +153,9 @@ class Agent
      * Returns an array containing zero or more \phpseclib3\System\SSH\Agent\Identity objects
      *
      * @return array
-     * @throws \***REMOVED*** on receipt of unexpected packets
+     * @throws \RuntimeException on receipt of unexpected packets
      */
-    public function ***REMOVED***()
+    public function requestIdentities()
     {
         if (!$this->fsock) {
             return [];
@@ -163,7 +163,7 @@ class Agent
 
         $packet = pack('NC', 1, self::SSH_AGENTC_REQUEST_IDENTITIES);
         if (strlen($packet) != fputs($this->fsock, $packet)) {
-            throw new \***REMOVED***('Connection closed while requesting identities');
+            throw new \RuntimeException('Connection closed while requesting identities');
         }
 
         $length = current(unpack('N', $this->readBytes(4)));
@@ -171,7 +171,7 @@ class Agent
 
         list($type, $keyCount) = Strings::unpackSSH2('CN', $packet);
         if ($type != self::SSH_AGENT_IDENTITIES_ANSWER) {
-            throw new \***REMOVED***('Unable to request identities');
+            throw new \RuntimeException('Unable to request identities');
         }
 
         $identities = [];
@@ -186,13 +186,13 @@ class Agent
                 case 'ecdsa-sha2-nistp256':
                 case 'ecdsa-sha2-nistp384':
                 case 'ecdsa-sha2-nistp521':
-                    $key = ***REMOVED***::load($key_type . ' ' . base64_encode($key_blob));
+                    $key = PublicKeyLoader::load($key_type . ' ' . base64_encode($key_blob));
             }
             // resources are passed by reference by default
             if (isset($key)) {
                 $identity = (new Identity($this->fsock))
                     ->withPublicKey($key)
-                    ->***REMOVED***($key_blob);
+                    ->withPublicKeyBlob($key_blob);
                 $identities[] = $identity;
                 unset($key);
             }
@@ -207,7 +207,7 @@ class Agent
      *
      * @return void
      */
-    public function ***REMOVED***()
+    public function startSSHForwarding()
     {
         if ($this->forward_status == self::FORWARD_NONE) {
             $this->forward_status = self::FORWARD_REQUEST;
@@ -240,7 +240,7 @@ class Agent
      *
      * @param \phpseclib3\Net\SSH2 $ssh
      */
-    public function ***REMOVED***(SSH2 $ssh)
+    public function registerChannelOpen(SSH2 $ssh)
     {
         if ($this->forward_status == self::FORWARD_REQUEST) {
             $this->request_forwarding($ssh);
@@ -252,7 +252,7 @@ class Agent
      *
      * @param string $data
      * @return string Data from SSH Agent
-     * @throws \***REMOVED*** on connection errors
+     * @throws \RuntimeException on connection errors
      */
     public function forwardData($data)
     {
@@ -270,7 +270,7 @@ class Agent
         }
 
         if (strlen($this->socket_buffer) != fwrite($this->fsock, $this->socket_buffer)) {
-            throw new \***REMOVED***('Connection closed attempting to forward data to SSH agent');
+            throw new \RuntimeException('Connection closed attempting to forward data to SSH agent');
         }
 
         $this->socket_buffer = '';

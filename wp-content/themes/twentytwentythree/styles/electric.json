@@ -55,12 +55,12 @@
 				},
 				":active": {
 					"typography": {
-						"***REMOVED***": "underline dotted"
+						"textDecoration": "underline dotted"
 					}
 				},
 				":focus": {
 					"typography": {
-						"***REMOVED***": "underline dotted"
+						"textDecoration": "underline dotted"
 					}
 				},
 				":hover": {
@@ -83,12 +83,12 @@
 			"link": {
 				":focus": {
 					"typography": {
-						"***REMOVED***": "underline dotted"
+						"textDecoration": "underline dotted"
 					}
 				},
 				":active": {
 					"typography": {
-						"***REMOVED***": "underline dotted"
+						"textDecoration": "underline dotted"
 					}
 				}
 			}

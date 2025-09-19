@@ -15,7 +15,7 @@ import {
 	Flex,
 	FlexBlock,
 	FlexItem,
-	__experimentalToggleGroupControl as ***REMOVED***,
+	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOptionIcon as ToggleGroupControlOptionIcon,
 	__experimentalHStack as HStack,
 	__experimentalVStack as VStack,
@@ -27,7 +27,7 @@ import { useInstanceId } from '@wordpress/compose';
  * Internal dependencies
  */
 import { BORDER_STYLE_CONTROLS, SIDE_CONTROLS } from '../constants';
-import { ***REMOVED*** } from './indicator-control';
+import { SideIndicatorControl } from './indicator-control';
 
 const DEFAULT_VALUES = {
 	top: '',
@@ -52,7 +52,7 @@ type Props = {
 
 type ValuesKey = keyof typeof DEFAULT_VALUES;
 
-export default function ***REMOVED***( {
+export default function BorderStyleControl( {
 	label = __( 'Border style', 'flexible-table-block' ),
 	help,
 	onChange,
@@ -64,7 +64,7 @@ export default function ***REMOVED***( {
 		...DEFAULT_VALUES,
 		...valuesProp,
 	};
-	const instanceId = useInstanceId( ***REMOVED***, 'ftb-border-style-control' );
+	const instanceId = useInstanceId( BorderStyleControl, 'ftb-border-style-control' );
 	const headingId = `${ instanceId }-heading`;
 
 	const isMixed =
@@ -86,7 +86,7 @@ export default function ***REMOVED***( {
 		onChange( DEFAULT_VALUES );
 	};
 
-	const ***REMOVED*** = ( value: string | number | undefined ) => {
+	const handleOnClickAll = ( value: string | number | undefined ) => {
 		const newValue =
 			value === values.top &&
 			value === values.right &&
@@ -133,15 +133,15 @@ export default function ***REMOVED***( {
 				<HStack alignment="start" justify="space-between">
 					{ isLinked ? (
 						<HStack spacing={ 2 } justify="start">
-							{ hasIndicator && <***REMOVED*** /> }
-							<***REMOVED***
-								***REMOVED***
+							{ hasIndicator && <SideIndicatorControl /> }
+							<ToggleGroupControl
+								hideLabelFromVision
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
 								label={ label }
 								value={ allInputValue }
-								***REMOVED***
-								onChange={ ***REMOVED*** }
+								isDeselectable
+								onChange={ handleOnClickAll }
 							>
 								{ BORDER_STYLE_CONTROLS.map( ( borderStyle ) => (
 									<ToggleGroupControlOptionIcon
@@ -151,20 +151,20 @@ export default function ***REMOVED***( {
 										icon={ borderStyle.icon }
 									/>
 								) ) }
-							</***REMOVED***>
+							</ToggleGroupControl>
 						</HStack>
 					) : (
 						<VStack spacing={ 1 }>
 							{ SIDE_CONTROLS.map( ( item ) => (
 								<HStack spacing={ 2 } justify="start" key={ item.value }>
-									{ hasIndicator && <***REMOVED*** sides={ [ item.value ] } /> }
-									<***REMOVED***
-										***REMOVED***
+									{ hasIndicator && <SideIndicatorControl sides={ [ item.value ] } /> }
+									<ToggleGroupControl
+										hideLabelFromVision
 										__nextHasNoMarginBottom
 										__next40pxDefaultSize
 										label={ item.label }
 										value={ values[ item.value as ValuesKey ] }
-										***REMOVED***
+										isDeselectable
 										onChange={ ( value ) => handleOnClick( value, item.value as ValuesKey ) }
 									>
 										{ BORDER_STYLE_CONTROLS.map( ( borderStyle ) => (
@@ -175,7 +175,7 @@ export default function ***REMOVED***( {
 												icon={ borderStyle.icon }
 											/>
 										) ) }
-									</***REMOVED***>
+									</ToggleGroupControl>
 								</HStack>
 							) ) }
 						</VStack>

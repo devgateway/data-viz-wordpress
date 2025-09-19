@@ -1,5 +1,5 @@
 <?php
-// @phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;
@@ -55,7 +55,7 @@ class Wincher implements Integration_Data_Provider_Interface {
 			'active'            => $this->is_enabled(),
 			'loginStatus'       => $this->is_enabled() && $this->wincher_helper->login_status(),
 			'websiteId'         => $this->options_helper->get( 'wincher_website_id', '' ),
-			'***REMOVED***' => $this->options_helper->get( 'wincher_automatically_add_keyphrases', false ),
+			'autoAddKeyphrases' => $this->options_helper->get( 'wincher_automatically_add_keyphrases', false ),
 		];
 	}
 
@@ -67,8 +67,8 @@ class Wincher implements Integration_Data_Provider_Interface {
 	public function to_legacy_array(): array {
 		return [
 			'wincherIntegrationActive' => $this->is_enabled(),
-			'***REMOVED***'       => $this->is_enabled() && $this->wincher_helper->login_status(),
-			'***REMOVED***'         => $this->options_helper->get( 'wincher_website_id', '' ),
+			'wincherLoginStatus'       => $this->is_enabled() && $this->wincher_helper->login_status(),
+			'wincherWebsiteId'         => $this->options_helper->get( 'wincher_website_id', '' ),
 			'wincherAutoAddKeyphrases' => $this->options_helper->get( 'wincher_automatically_add_keyphrases', false ),
 		];
 	}

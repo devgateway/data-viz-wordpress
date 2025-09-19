@@ -7,13 +7,13 @@ class Helper
      * @param \DOMElement $element
      * @return string|null
      */
-    public static function ***REMOVED***(\DOMElement $element)
+    public static function getElementHref(\DOMElement $element)
     {
         if ($element->hasAttribute('href')) {
             return $element->getAttribute('href');
         }
-        if ($element->***REMOVED***('http://www.w3.org/1999/xlink', 'href')) {
-            return $element->***REMOVED***('http://www.w3.org/1999/xlink', 'href');
+        if ($element->hasAttributeNS('http://www.w3.org/1999/xlink', 'href')) {
+            return $element->getAttributeNS('http://www.w3.org/1999/xlink', 'href');
         }
         return null;
     }
@@ -35,7 +35,7 @@ class Helper
      * @param \DOMElement $haystack
      * @return bool
      */
-    public static function ***REMOVED***(\DOMElement $needle, \DOMElement $haystack)
+    public static function isElementContainedIn(\DOMElement $needle, \DOMElement $haystack)
     {
         if ($needle === $haystack) {
             return true;
@@ -44,7 +44,7 @@ class Helper
             if (!$childNode instanceof \DOMElement) {
                 continue;
             }
-            if (self::***REMOVED***($needle, $childNode)) {
+            if (self::isElementContainedIn($needle, $childNode)) {
                 return true;
             }
         }

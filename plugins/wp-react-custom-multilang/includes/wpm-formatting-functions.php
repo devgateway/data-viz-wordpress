@@ -55,7 +55,7 @@ function wpm_array_merge_recursive( array & $array1, array & $array2 ) {
 }
 
 /**
- * Diff ***REMOVED*** array
+ * Diff multidimensional array
  *
  * @param $array1
  * @param $array2
@@ -99,12 +99,12 @@ function wpm_array_insert_after( array $array, $key, array $new ) {
 /**
  * Sanitize a string destined to be a tooltip.
  *
- * @since 2.1.1 Tooltips are encoded with ***REMOVED*** to prevent XSS. Should not be used in conjunction with esc_attr()
+ * @since 2.1.1 Tooltips are encoded with htmlspecialchars to prevent XSS. Should not be used in conjunction with esc_attr()
  * @param string $var
  * @return string
  */
 function wpm_sanitize_tooltip( $var ) {
-	return ***REMOVED***( wp_kses( html_entity_decode( $var ), array(
+	return htmlspecialchars( wp_kses( html_entity_decode( $var ), array(
 		'br'     => array(),
 		'em'     => array(),
 		'strong' => array(),

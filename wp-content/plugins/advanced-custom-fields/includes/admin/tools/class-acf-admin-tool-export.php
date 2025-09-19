@@ -95,7 +95,7 @@ if ( ! class_exists( 'ACF_Admin_Tool_Export' ) ) :
 			header( 'Content-Type: application/json; charset=utf-8' );
 
 			// return
-			echo acf_json_encode( $json ) . "\r\n"; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped as JSON export.
+			echo acf_json_encode( $json ) . "\r\n"; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped as JSON export.
 			die;
 		}
 
@@ -406,7 +406,7 @@ if ( ! class_exists( 'ACF_Admin_Tool_Export' ) ) :
 						echo "\r\n";
 					}
 
-					echo "\t" . acf_export_internal_post_type_as_php( $post, $post_type ); // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- esc_textarea() used earlier.
+					echo "\t" . acf_export_internal_post_type_as_php( $post, $post_type ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_textarea() used earlier.
 					++$count;
 				}
 
@@ -415,7 +415,7 @@ if ( ! class_exists( 'ACF_Admin_Tool_Export' ) ) :
 				}
 
 				if ( 'acf-post-type' === $post_type ) {
-					echo acf_export_enter_title_here( $posts ); // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- esc_textarea() used earlier.
+					echo acf_export_enter_title_here( $posts ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_textarea() used earlier.
 				}
 			}
 
@@ -435,7 +435,7 @@ if ( ! class_exists( 'ACF_Admin_Tool_Export' ) ) :
 				}
 
 				$a.on('click', function( e ){
-					e.***REMOVED***();
+					e.preventDefault();
 
 					$textarea.get(0).select();
 

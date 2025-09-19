@@ -71,9 +71,9 @@
 						waiting = {},
 						config = {},
 						defining = {},
-						hasOwn = Object.prototype.***REMOVED***,
+						hasOwn = Object.prototype.hasOwnProperty,
 						aps = [].slice,
-						***REMOVED*** = /\.js$/;
+						jsSuffixRegExp = /\.js$/;
 
 					function hasProp( obj, prop ) {
 						return hasOwn.call( obj, prop );
@@ -99,7 +99,7 @@
 							i,
 							j,
 							part,
-							***REMOVED***,
+							normalizedBaseParts,
 							baseParts = baseName && baseName.split( '/' ),
 							map = config.map,
 							starMap = ( map && map[ '*' ] ) || {};
@@ -115,10 +115,10 @@
 							// to same file.
 							if (
 								config.nodeIdCompat &&
-								***REMOVED***.test( name[ lastIndex ] )
+								jsSuffixRegExp.test( name[ lastIndex ] )
 							) {
 								name[ lastIndex ] = name[ lastIndex ].replace(
-									***REMOVED***,
+									jsSuffixRegExp,
 									''
 								);
 							}
@@ -130,11 +130,11 @@
 								//module. For instance, baseName of 'one/two/three', maps to
 								//'one/two/three.js', but we want the directory, 'one/two' for
 								//this normalization.
-								***REMOVED*** = baseParts.slice(
+								normalizedBaseParts = baseParts.slice(
 									0,
 									baseParts.length - 1
 								);
-								name = ***REMOVED***.concat( name );
+								name = normalizedBaseParts.concat( name );
 							}
 
 							//start trimDots
@@ -315,12 +315,12 @@
 						var plugin,
 							parts = splitPrefix( name ),
 							prefix = parts[ 0 ],
-							***REMOVED*** = relParts[ 1 ];
+							relResourceName = relParts[ 1 ];
 
 						name = parts[ 1 ];
 
 						if ( prefix ) {
-							prefix = normalize( prefix, ***REMOVED*** );
+							prefix = normalize( prefix, relResourceName );
 							plugin = callDep( prefix );
 						}
 
@@ -329,13 +329,13 @@
 							if ( plugin && plugin.normalize ) {
 								name = plugin.normalize(
 									name,
-									makeNormalize( ***REMOVED*** )
+									makeNormalize( relResourceName )
 								);
 							} else {
-								name = normalize( name, ***REMOVED*** );
+								name = normalize( name, relResourceName );
 							}
 						} else {
-							name = normalize( name, ***REMOVED*** );
+							name = normalize( name, relResourceName );
 							parts = splitPrefix( name );
 							prefix = parts[ 0 ];
 							name = parts[ 1 ];
@@ -535,7 +535,7 @@
 							//http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
 							//If want a value immediately, use require('id') instead -- something
 							//that works in almond on the global level, but not guaranteed and
-							//unlikely to work in other AMD ***REMOVED***.
+							//unlikely to work in other AMD implementations.
 							setTimeout( function () {
 								main( undef, deps, callback, relName );
 							}, 4 );
@@ -612,9 +612,9 @@
 			var Utils = {};
 
 			Utils.Extend = function ( ChildClass, SuperClass ) {
-				var __hasProp = {}.***REMOVED***;
+				var __hasProp = {}.hasOwnProperty;
 
-				function ***REMOVED***() {
+				function BaseConstructor() {
 					this.constructor = ChildClass;
 				}
 
@@ -624,8 +624,8 @@
 					}
 				}
 
-				***REMOVED***.prototype = SuperClass.prototype;
-				ChildClass.prototype = new ***REMOVED***();
+				BaseConstructor.prototype = SuperClass.prototype;
+				ChildClass.prototype = new BaseConstructor();
 				ChildClass.__super__ = SuperClass.prototype;
 
 				return ChildClass;
@@ -653,16 +653,16 @@
 				return methods;
 			}
 
-			Utils.Decorate = function ( SuperClass, ***REMOVED*** ) {
-				var ***REMOVED*** = getMethods( ***REMOVED*** );
+			Utils.Decorate = function ( SuperClass, DecoratorClass ) {
+				var decoratedMethods = getMethods( DecoratorClass );
 				var superMethods = getMethods( SuperClass );
 
-				function ***REMOVED***() {
+				function DecoratedClass() {
 					var unshift = Array.prototype.unshift;
 
-					var argCount = ***REMOVED***.prototype.constructor.length;
+					var argCount = DecoratorClass.prototype.constructor.length;
 
-					var ***REMOVED*** = SuperClass.prototype.constructor;
+					var calledConstructor = SuperClass.prototype.constructor;
 
 					if ( argCount > 0 ) {
 						unshift.call(
@@ -670,57 +670,57 @@
 							SuperClass.prototype.constructor
 						);
 
-						***REMOVED*** =
-							***REMOVED***.prototype.constructor;
+						calledConstructor =
+							DecoratorClass.prototype.constructor;
 					}
 
-					***REMOVED***.apply( this, arguments );
+					calledConstructor.apply( this, arguments );
 				}
 
-				***REMOVED***.displayName = SuperClass.displayName;
+				DecoratorClass.displayName = SuperClass.displayName;
 
 				function ctr() {
-					this.constructor = ***REMOVED***;
+					this.constructor = DecoratedClass;
 				}
 
-				***REMOVED***.prototype = new ctr();
+				DecoratedClass.prototype = new ctr();
 
 				for ( var m = 0; m < superMethods.length; m++ ) {
 					var superMethod = superMethods[ m ];
 
-					***REMOVED***.prototype[ superMethod ] =
+					DecoratedClass.prototype[ superMethod ] =
 						SuperClass.prototype[ superMethod ];
 				}
 
 				var calledMethod = function ( methodName ) {
 					// Stub out the original method if it's not decorating an actual method
-					var ***REMOVED*** = function () {};
+					var originalMethod = function () {};
 
-					if ( methodName in ***REMOVED***.prototype ) {
-						***REMOVED*** = ***REMOVED***.prototype[ methodName ];
+					if ( methodName in DecoratedClass.prototype ) {
+						originalMethod = DecoratedClass.prototype[ methodName ];
 					}
 
-					var ***REMOVED*** =
-						***REMOVED***.prototype[ methodName ];
+					var decoratedMethod =
+						DecoratorClass.prototype[ methodName ];
 
 					return function () {
 						var unshift = Array.prototype.unshift;
 
-						unshift.call( arguments, ***REMOVED*** );
+						unshift.call( arguments, originalMethod );
 
-						return ***REMOVED***.apply( this, arguments );
+						return decoratedMethod.apply( this, arguments );
 					};
 				};
 
-				for ( var d = 0; d < ***REMOVED***.length; d++ ) {
-					var ***REMOVED*** = ***REMOVED***[ d ];
+				for ( var d = 0; d < decoratedMethods.length; d++ ) {
+					var decoratedMethod = decoratedMethods[ d ];
 
-					***REMOVED***.prototype[ ***REMOVED*** ] = calledMethod(
-						***REMOVED***
+					DecoratedClass.prototype[ decoratedMethod ] = calledMethod(
+						decoratedMethod
 					);
 				}
 
-				return ***REMOVED***;
+				return DecoratedClass;
 			};
 
 			var Observable = function () {
@@ -830,7 +830,7 @@
 			};
 
 			Utils.hasScroll = function ( index, el ) {
-				// Adapted from the function created by @***REMOVED***
+				// Adapted from the function created by @ShadowScripter
 				// and adapted by @BillBarry on the Stack Exchange Code Review website.
 				// The original code can be found at
 				// http://codereview.stackexchange.com/q/13338
@@ -903,7 +903,7 @@
 			Utils.__cache = {};
 
 			var id = 0;
-			Utils.***REMOVED*** = function ( element ) {
+			Utils.GetUniqueElementId = function ( element ) {
 				// Get a unique element Id. If element has no id,
 				// creates a new unique number, stores it in the id
 				// attribute and returns the new id.
@@ -926,7 +926,7 @@
 			Utils.StoreData = function ( element, name, value ) {
 				// Stores an item in the cache for a specified element.
 				// name is the cache key.
-				var id = Utils.***REMOVED***( element );
+				var id = Utils.GetUniqueElementId( element );
 				if ( ! Utils.__cache[ id ] ) {
 					Utils.__cache[ id ] = {};
 				}
@@ -939,7 +939,7 @@
 				// name is optional. If no name specified, return
 				// all cache items for the specified element.
 				// and for a specified element.
-				var id = Utils.***REMOVED***( element );
+				var id = Utils.GetUniqueElementId( element );
 				if ( name ) {
 					if ( Utils.__cache[ id ] ) {
 						if ( Utils.__cache[ id ][ name ] != null ) {
@@ -955,12 +955,12 @@
 
 			Utils.RemoveData = function ( element ) {
 				// Removes all cached items for a specified element.
-				var id = Utils.***REMOVED***( element );
+				var id = Utils.GetUniqueElementId( element );
 				if ( Utils.__cache[ id ] != null ) {
 					delete Utils.__cache[ id ];
 				}
 
-				element.***REMOVED***( 'data-select2-id' );
+				element.removeAttribute( 'data-select2-id' );
 			};
 
 			return Utils;
@@ -986,7 +986,7 @@
 					);
 
 					if ( this.options.get( 'multiple' ) ) {
-						$results.attr( 'aria-***REMOVED***', 'true' );
+						$results.attr( 'aria-multiselectable', 'true' );
 					}
 
 					this.$results = $results;
@@ -998,7 +998,7 @@
 					this.$results.empty();
 				};
 
-				Results.prototype.***REMOVED*** = function ( params ) {
+				Results.prototype.displayMessage = function ( params ) {
 					var escapeMarkup = this.options.get( 'escapeMarkup' );
 
 					this.clear();
@@ -1053,10 +1053,10 @@
 				};
 
 				Results.prototype.position = function ( $results, $dropdown ) {
-					var $***REMOVED*** = $dropdown.find(
+					var $resultsContainer = $dropdown.find(
 						'.select2-results'
 					);
-					$***REMOVED***.append( $results );
+					$resultsContainer.append( $results );
 				};
 
 				Results.prototype.sort = function ( data ) {
@@ -1065,7 +1065,7 @@
 					return sorter( data );
 				};
 
-				Results.prototype.***REMOVED*** = function () {
+				Results.prototype.highlightFirstItem = function () {
 					var $options = this.$results.find(
 						'.select2-results__option[aria-selected]'
 					);
@@ -1152,7 +1152,7 @@
 
 					var matches =
 						window.Element.prototype.matches ||
-						window.Element.prototype.***REMOVED*** ||
+						window.Element.prototype.msMatchesSelector ||
 						window.Element.prototype.webkitMatchesSelector;
 
 					if (
@@ -1207,15 +1207,15 @@
 							$children.push( $child );
 						}
 
-						var $***REMOVED*** = $( '<ul></ul>', {
+						var $childrenContainer = $( '<ul></ul>', {
 							class:
 								'select2-results__options select2-results__options--nested',
 						} );
 
-						$***REMOVED***.append( $children );
+						$childrenContainer.append( $children );
 
 						$option.append( label );
-						$option.append( $***REMOVED*** );
+						$option.append( $childrenContainer );
 					} else {
 						this.template( data, option );
 					}
@@ -1238,7 +1238,7 @@
 
 						if ( container.isOpen() ) {
 							self.setClasses();
-							self.***REMOVED***();
+							self.highlightFirstItem();
 						}
 					} );
 
@@ -1262,8 +1262,8 @@
 
 						self.setClasses();
 
-						if ( self.options.get( '***REMOVED***' ) ) {
-							self.***REMOVED***();
+						if ( self.options.get( 'scrollAfterSelect' ) ) {
+							self.highlightFirstItem();
 						}
 					} );
 
@@ -1274,8 +1274,8 @@
 
 						self.setClasses();
 
-						if ( self.options.get( '***REMOVED***' ) ) {
-							self.***REMOVED***();
+						if ( self.options.get( 'scrollAfterSelect' ) ) {
+							self.highlightFirstItem();
 						}
 					} );
 
@@ -1292,7 +1292,7 @@
 						// When the dropdown is closed, aria-expended="false"
 						self.$results.attr( 'aria-expanded', 'false' );
 						self.$results.attr( 'aria-hidden', 'true' );
-						self.$results.removeAttr( 'aria-***REMOVED***' );
+						self.$results.removeAttr( 'aria-activedescendant' );
 					} );
 
 					container.on( 'results:toggle', function () {
@@ -1402,7 +1402,7 @@
 					} );
 
 					container.on( 'results:message', function ( params ) {
-						self.***REMOVED***( params );
+						self.displayMessage( params );
 					} );
 
 					if ( $.fn.mousewheel ) {
@@ -1422,16 +1422,16 @@
 							if ( isAtTop ) {
 								self.$results.scrollTop( 0 );
 
-								e.***REMOVED***();
-								e.***REMOVED***();
+								e.preventDefault();
+								e.stopPropagation();
 							} else if ( isAtBottom ) {
 								self.$results.scrollTop(
 									self.$results.get( 0 ).scrollHeight -
 										self.$results.height()
 								);
 
-								e.***REMOVED***();
-								e.***REMOVED***();
+								e.preventDefault();
+								e.stopPropagation();
 							}
 						} );
 					}
@@ -1524,7 +1524,7 @@
 				};
 
 				Results.prototype.template = function ( result, container ) {
-					var template = this.options.get( '***REMOVED***' );
+					var template = this.options.get( 'templateResult' );
 					var escapeMarkup = this.options.get( 'escapeMarkup' );
 
 					var content = template( result, container );
@@ -1631,13 +1631,13 @@
 						self.trigger( 'keypress', evt );
 
 						if ( evt.which === KEYS.SPACE ) {
-							evt.***REMOVED***();
+							evt.preventDefault();
 						}
 					} );
 
 					container.on( 'results:focus', function ( params ) {
 						self.$selection.attr(
-							'aria-***REMOVED***',
+							'aria-activedescendant',
 							params.data._resultId
 						);
 					} );
@@ -1657,7 +1657,7 @@
 					container.on( 'close', function () {
 						// When the dropdown is closed, aria-expanded="false"
 						self.$selection.attr( 'aria-expanded', 'false' );
-						self.$selection.removeAttr( 'aria-***REMOVED***' );
+						self.$selection.removeAttr( 'aria-activedescendant' );
 						self.$selection.removeAttr( 'aria-owns' );
 
 						self.$selection.trigger( 'focus' );
@@ -1734,8 +1734,8 @@
 					$selection,
 					$container
 				) {
-					var $***REMOVED*** = $container.find( '.selection' );
-					$***REMOVED***.append( $selection );
+					var $selectionContainer = $container.find( '.selection' );
+					$selectionContainer.append( $selection );
 				};
 
 				BaseSelection.prototype.destroy = function () {
@@ -1777,17 +1777,17 @@
 			'select2/selection/single',
 			[ 'jquery', './base', '../utils', '../keys' ],
 			function ( $, BaseSelection, Utils, KEYS ) {
-				function ***REMOVED***() {
-					***REMOVED***.__super__.constructor.apply(
+				function SingleSelection() {
+					SingleSelection.__super__.constructor.apply(
 						this,
 						arguments
 					);
 				}
 
-				Utils.Extend( ***REMOVED***, BaseSelection );
+				Utils.Extend( SingleSelection, BaseSelection );
 
-				***REMOVED***.prototype.render = function () {
-					var $selection = ***REMOVED***.__super__.render.call(
+				SingleSelection.prototype.render = function () {
+					var $selection = SingleSelection.__super__.render.call(
 						this
 					);
 
@@ -1803,13 +1803,13 @@
 					return $selection;
 				};
 
-				***REMOVED***.prototype.bind = function (
+				SingleSelection.prototype.bind = function (
 					container,
 					$container
 				) {
 					var self = this;
 
-					***REMOVED***.__super__.bind.apply( this, arguments );
+					SingleSelection.__super__.bind.apply( this, arguments );
 
 					var id = container.id + '-container';
 
@@ -1846,7 +1846,7 @@
 					} );
 				};
 
-				***REMOVED***.prototype.clear = function () {
+				SingleSelection.prototype.clear = function () {
 					var $rendered = this.$selection.find(
 						'.select2-selection__rendered'
 					);
@@ -1854,21 +1854,21 @@
 					$rendered.removeAttr( 'title' ); // clear tooltip on empty
 				};
 
-				***REMOVED***.prototype.display = function (
+				SingleSelection.prototype.display = function (
 					data,
 					container
 				) {
-					var template = this.options.get( '***REMOVED***' );
+					var template = this.options.get( 'templateSelection' );
 					var escapeMarkup = this.options.get( 'escapeMarkup' );
 
 					return escapeMarkup( template( data, container ) );
 				};
 
-				***REMOVED***.prototype.***REMOVED*** = function () {
+				SingleSelection.prototype.selectionContainer = function () {
 					return $( '<span></span>' );
 				};
 
-				***REMOVED***.prototype.update = function ( data ) {
+				SingleSelection.prototype.update = function ( data ) {
 					if ( data.length === 0 ) {
 						this.clear();
 						return;
@@ -1892,7 +1892,7 @@
 					}
 				};
 
-				return ***REMOVED***;
+				return SingleSelection;
 			}
 		);
 
@@ -1900,17 +1900,17 @@
 			'select2/selection/multiple',
 			[ 'jquery', './base', '../utils' ],
 			function ( $, BaseSelection, Utils ) {
-				function ***REMOVED***( $element, options ) {
-					***REMOVED***.__super__.constructor.apply(
+				function MultipleSelection( $element, options ) {
+					MultipleSelection.__super__.constructor.apply(
 						this,
 						arguments
 					);
 				}
 
-				Utils.Extend( ***REMOVED***, BaseSelection );
+				Utils.Extend( MultipleSelection, BaseSelection );
 
-				***REMOVED***.prototype.render = function () {
-					var $selection = ***REMOVED***.__super__.render.call(
+				MultipleSelection.prototype.render = function () {
+					var $selection = MultipleSelection.__super__.render.call(
 						this
 					);
 
@@ -1923,13 +1923,13 @@
 					return $selection;
 				};
 
-				***REMOVED***.prototype.bind = function (
+				MultipleSelection.prototype.bind = function (
 					container,
 					$container
 				) {
 					var self = this;
 
-					***REMOVED***.__super__.bind.apply( this, arguments );
+					MultipleSelection.__super__.bind.apply( this, arguments );
 
 					this.$selection.on( 'click', function ( evt ) {
 						self.trigger( 'toggle', {
@@ -1959,7 +1959,7 @@
 					);
 				};
 
-				***REMOVED***.prototype.clear = function () {
+				MultipleSelection.prototype.clear = function () {
 					var $rendered = this.$selection.find(
 						'.select2-selection__rendered'
 					);
@@ -1967,17 +1967,17 @@
 					$rendered.removeAttr( 'title' );
 				};
 
-				***REMOVED***.prototype.display = function (
+				MultipleSelection.prototype.display = function (
 					data,
 					container
 				) {
-					var template = this.options.get( '***REMOVED***' );
+					var template = this.options.get( 'templateSelection' );
 					var escapeMarkup = this.options.get( 'escapeMarkup' );
 
 					return escapeMarkup( template( data, container ) );
 				};
 
-				***REMOVED***.prototype.***REMOVED*** = function () {
+				MultipleSelection.prototype.selectionContainer = function () {
 					var $container = $(
 						'<li class="select2-selection__choice">' +
 							'<span class="select2-selection__choice__remove" role="presentation">' +
@@ -1989,7 +1989,7 @@
 					return $container;
 				};
 
-				***REMOVED***.prototype.update = function ( data ) {
+				MultipleSelection.prototype.update = function ( data ) {
 					this.clear();
 
 					if ( data.length === 0 ) {
@@ -2001,7 +2001,7 @@
 					for ( var d = 0; d < data.length; d++ ) {
 						var selection = data[ d ];
 
-						var $selection = this.***REMOVED***();
+						var $selection = this.selectionContainer();
 						var formatted = this.display( selection, $selection );
 
 						$selection.append( formatted );
@@ -2024,7 +2024,7 @@
 					Utils.appendMany( $rendered, $selections );
 				};
 
-				return ***REMOVED***;
+				return MultipleSelection;
 			}
 		);
 
@@ -2033,14 +2033,14 @@
 			[ '../utils' ],
 			function ( Utils ) {
 				function Placeholder( decorated, $element, options ) {
-					this.placeholder = this.***REMOVED***(
+					this.placeholder = this.normalizePlaceholder(
 						options.get( 'placeholder' )
 					);
 
 					decorated.call( this, $element, options );
 				}
 
-				Placeholder.prototype.***REMOVED*** = function (
+				Placeholder.prototype.normalizePlaceholder = function (
 					_,
 					placeholder
 				) {
@@ -2054,11 +2054,11 @@
 					return placeholder;
 				};
 
-				Placeholder.prototype.***REMOVED*** = function (
+				Placeholder.prototype.createPlaceholder = function (
 					decorated,
 					placeholder
 				) {
-					var $placeholder = this.***REMOVED***();
+					var $placeholder = this.selectionContainer();
 
 					$placeholder.html( this.display( placeholder ) );
 					$placeholder
@@ -2069,17 +2069,17 @@
 				};
 
 				Placeholder.prototype.update = function ( decorated, data ) {
-					var ***REMOVED*** =
+					var singlePlaceholder =
 						data.length == 1 && data[ 0 ].id != this.placeholder.id;
-					var ***REMOVED*** = data.length > 1;
+					var multipleSelections = data.length > 1;
 
-					if ( ***REMOVED*** || ***REMOVED*** ) {
+					if ( multipleSelections || singlePlaceholder ) {
 						return decorated.call( this, data );
 					}
 
 					this.clear();
 
-					var $placeholder = this.***REMOVED***(
+					var $placeholder = this.createPlaceholder(
 						this.placeholder
 					);
 
@@ -2148,7 +2148,7 @@
 						return;
 					}
 
-					evt.***REMOVED***();
+					evt.stopPropagation();
 
 					var data = Utils.GetData( $clear[ 0 ], 'data' );
 
@@ -2216,7 +2216,7 @@
 
 					var removeAll = this.options
 						.get( 'translations' )
-						.get( '***REMOVED***' );
+						.get( 'removeAllItems' );
 
 					var $remove = $(
 						'<span class="select2-selection__clear" title="' +
@@ -2248,12 +2248,12 @@
 					var $search = $(
 						'<li class="select2-search select2-search--inline">' +
 							'<input class="select2-search__field" type="search" tabindex="-1"' +
-							' autocomplete="off" autocorrect="off" ***REMOVED***="none"' +
+							' autocomplete="off" autocorrect="off" autocapitalize="none"' +
 							' spellcheck="false" role="searchbox" aria-autocomplete="list" />' +
 							'</li>'
 					);
 
-					this.$***REMOVED*** = $search;
+					this.$searchContainer = $search;
 					this.$search = $search.find( 'input' );
 
 					var $rendered = decorated.call( this );
@@ -2282,7 +2282,7 @@
 					container.on( 'close', function () {
 						self.$search.val( '' );
 						self.$search.removeAttr( 'aria-controls' );
-						self.$search.removeAttr( 'aria-***REMOVED***' );
+						self.$search.removeAttr( 'aria-activedescendant' );
 						self.$search.trigger( 'focus' );
 					} );
 
@@ -2303,11 +2303,11 @@
 					container.on( 'results:focus', function ( params ) {
 						if ( params.data._resultId ) {
 							self.$search.attr(
-								'aria-***REMOVED***',
+								'aria-activedescendant',
 								params.data._resultId
 							);
 						} else {
-							self.$search.removeAttr( 'aria-***REMOVED***' );
+							self.$search.removeAttr( 'aria-activedescendant' );
 						}
 					} );
 
@@ -2331,11 +2331,11 @@
 						'keydown',
 						'.select2-search--inline',
 						function ( evt ) {
-							evt.***REMOVED***();
+							evt.stopPropagation();
 
 							self.trigger( 'keypress', evt );
 
-							self._keyUpPrevented = evt.***REMOVED***();
+							self._keyUpPrevented = evt.isDefaultPrevented();
 
 							var key = evt.which;
 
@@ -2343,19 +2343,19 @@
 								key === KEYS.BACKSPACE &&
 								self.$search.val() === ''
 							) {
-								var $***REMOVED*** = self.$***REMOVED***.prev(
+								var $previousChoice = self.$searchContainer.prev(
 									'.select2-selection__choice'
 								);
 
-								if ( $***REMOVED***.length > 0 ) {
+								if ( $previousChoice.length > 0 ) {
 									var item = Utils.GetData(
-										$***REMOVED***[ 0 ],
+										$previousChoice[ 0 ],
 										'data'
 									);
 
-									self.***REMOVED***( item );
+									self.searchRemoveChoice( item );
 
-									evt.***REMOVED***();
+									evt.preventDefault();
 								}
 							}
 						}
@@ -2366,7 +2366,7 @@
 						'.select2-search--inline',
 						function ( evt ) {
 							if ( self.$search.val() ) {
-								evt.***REMOVED***();
+								evt.stopPropagation();
 							}
 						}
 					);
@@ -2377,7 +2377,7 @@
 					// This property is not available in Edge, but Edge also doesn't have
 					// this bug.
 					var msie = document.documentMode;
-					var ***REMOVED*** = msie && msie <= 11;
+					var disableInputEvents = msie && msie <= 11;
 
 					// Workaround for browsers which do not support the `input` event
 					// This will prevent double-triggering of events for browsers which support
@@ -2389,7 +2389,7 @@
 							// IE will trigger the `input` event when a placeholder is used on a
 							// search box. To get around this issue, we are forced to ignore all
 							// `input` events in IE and keep using `keyup`.
-							if ( ***REMOVED*** ) {
+							if ( disableInputEvents ) {
 								self.$selection.off(
 									'input.search input.searchcheck'
 								);
@@ -2408,7 +2408,7 @@
 							// IE will trigger the `input` event when a placeholder is used on a
 							// search box. To get around this issue, we are forced to ignore all
 							// `input` events in IE and keep using `keyup`.
-							if ( ***REMOVED*** && evt.type === 'input' ) {
+							if ( disableInputEvents && evt.type === 'input' ) {
 								self.$selection.off(
 									'input.search input.searchcheck'
 								);
@@ -2451,7 +2451,7 @@
 					this.$selection.attr( 'tabindex', '-1' );
 				};
 
-				Search.prototype.***REMOVED*** = function (
+				Search.prototype.createPlaceholder = function (
 					decorated,
 					placeholder
 				) {
@@ -2459,7 +2459,7 @@
 				};
 
 				Search.prototype.update = function ( decorated, data ) {
-					var ***REMOVED*** =
+					var searchHadFocus =
 						this.$search[ 0 ] == document.activeElement;
 
 					this.$search.attr( 'placeholder', '' );
@@ -2468,10 +2468,10 @@
 
 					this.$selection
 						.find( '.select2-selection__rendered' )
-						.append( this.$***REMOVED*** );
+						.append( this.$searchContainer );
 
 					this.resizeSearch();
-					if ( ***REMOVED*** ) {
+					if ( searchHadFocus ) {
 						this.$search.trigger( 'focus' );
 					}
 				};
@@ -2490,7 +2490,7 @@
 					this._keyUpPrevented = false;
 				};
 
-				Search.prototype.***REMOVED*** = function (
+				Search.prototype.searchRemoveChoice = function (
 					decorated,
 					item
 				) {
@@ -2549,7 +2549,7 @@
 						'clearing',
 					];
 
-					var ***REMOVED*** = [
+					var preventableEvents = [
 						'opening',
 						'closing',
 						'selecting',
@@ -2576,11 +2576,11 @@
 						self.$element.trigger( evt );
 
 						// Only handle preventable events if it was one
-						if ( $.inArray( name, ***REMOVED*** ) === -1 ) {
+						if ( $.inArray( name, preventableEvents ) === -1 ) {
 							return;
 						}
 
-						params.prevented = evt.***REMOVED***();
+						params.prevented = evt.isDefaultPrevented();
 					} );
 				};
 
@@ -3502,7 +3502,7 @@
 				// Can be implemented in subclasses
 			};
 
-			BaseAdapter.prototype.***REMOVED*** = function (
+			BaseAdapter.prototype.generateResultId = function (
 				container,
 				data
 			) {
@@ -3721,11 +3721,11 @@
 
 					var $option = $( option );
 
-					var ***REMOVED*** = this._normalizeItem( data );
-					***REMOVED***.element = option;
+					var normalizedData = this._normalizeItem( data );
+					normalizedData.element = option;
 
 					// Override the option's data with the combined data
-					Utils.StoreData( option, 'data', ***REMOVED*** );
+					Utils.StoreData( option, 'data', normalizedData );
 
 					return $option;
 				};
@@ -3810,7 +3810,7 @@
 						item.id &&
 						this.container != null
 					) {
-						item._resultId = this.***REMOVED***(
+						item._resultId = this.generateResultId(
 							this.container,
 							item
 						);
@@ -3856,7 +3856,7 @@
 					);
 
 					this.addOptions(
-						this.***REMOVED***( this._dataToConvert )
+						this.convertToOptions( this._dataToConvert )
 					);
 				};
 
@@ -3876,7 +3876,7 @@
 					ArrayAdapter.__super__.select.call( this, data );
 				};
 
-				ArrayAdapter.prototype.***REMOVED*** = function ( data ) {
+				ArrayAdapter.prototype.convertToOptions = function ( data ) {
 					var self = this;
 
 					var $existing = this.$element.find( 'option' );
@@ -3900,11 +3900,11 @@
 
 						// Skip items which were pre-loaded, only merge the data
 						if ( $.inArray( item.id, existingIds ) >= 0 ) {
-							var $***REMOVED*** = $existing.filter(
+							var $existingOption = $existing.filter(
 								onlyItem( item )
 							);
 
-							var existingData = this.item( $***REMOVED*** );
+							var existingData = this.item( $existingOption );
 							var newData = $.extend(
 								true,
 								{},
@@ -3914,7 +3914,7 @@
 
 							var $newOption = this.option( newData );
 
-							$***REMOVED***.replaceWith( $newOption );
+							$existingOption.replaceWith( $newOption );
 
 							continue;
 						}
@@ -3922,7 +3922,7 @@
 						var $option = this.option( item );
 
 						if ( item.children ) {
-							var $children = this.***REMOVED***(
+							var $children = this.convertToOptions(
 								item.children
 							);
 
@@ -3948,8 +3948,8 @@
 						options.get( 'ajax' )
 					);
 
-					if ( this.ajaxOptions.***REMOVED*** != null ) {
-						this.***REMOVED*** = this.ajaxOptions.***REMOVED***;
+					if ( this.ajaxOptions.processResults != null ) {
+						this.processResults = this.ajaxOptions.processResults;
 					}
 
 					AjaxAdapter.__super__.constructor.call(
@@ -3981,7 +3981,7 @@
 					return $.extend( {}, defaults, options, true );
 				};
 
-				AjaxAdapter.prototype.***REMOVED*** = function ( results ) {
+				AjaxAdapter.prototype.processResults = function ( results ) {
 					return results;
 				};
 
@@ -4020,7 +4020,7 @@
 						var $request = options.transport(
 							options,
 							function ( data ) {
-								var results = self.***REMOVED***(
+								var results = self.processResults(
 									data,
 									params
 								);
@@ -4241,20 +4241,20 @@
 			) {
 				var self = this;
 
-				function ***REMOVED***( data ) {
+				function createAndSelect( data ) {
 					// Normalize the data object so we can use it for checks
 					var item = self._normalizeItem( data );
 
 					// Check if the data object already exists as a tag
 					// Select it if it doesn't
-					var $***REMOVED*** = self.$element
+					var $existingOptions = self.$element
 						.find( 'option' )
 						.filter( function () {
 							return $( this ).val() === item.id;
 						} );
 
 					// If an existing option wasn't found for it, create the option
-					if ( ! $***REMOVED***.length ) {
+					if ( ! $existingOptions.length ) {
 						var $option = self.option( item );
 						$option.attr( 'data-select2-tag', true );
 
@@ -4277,7 +4277,7 @@
 				var tokenData = this.tokenizer(
 					params,
 					this.options,
-					***REMOVED***
+					createAndSelect
 				);
 
 				if ( tokenData.term !== params.term ) {
@@ -4299,7 +4299,7 @@
 				options,
 				callback
 			) {
-				var separators = options.get( '***REMOVED***' ) || [];
+				var separators = options.get( 'tokenSeparators' ) || [];
 				var term = params.term;
 				var i = 0;
 
@@ -4348,25 +4348,25 @@
 			return Tokenizer;
 		} );
 
-		S2.define( 'select2/data/***REMOVED***', [], function () {
-			function ***REMOVED***( decorated, $e, options ) {
-				this.***REMOVED*** = options.get( '***REMOVED***' );
+		S2.define( 'select2/data/minimumInputLength', [], function () {
+			function MinimumInputLength( decorated, $e, options ) {
+				this.minimumInputLength = options.get( 'minimumInputLength' );
 
 				decorated.call( this, $e, options );
 			}
 
-			***REMOVED***.prototype.query = function (
+			MinimumInputLength.prototype.query = function (
 				decorated,
 				params,
 				callback
 			) {
 				params.term = params.term || '';
 
-				if ( params.term.length < this.***REMOVED*** ) {
+				if ( params.term.length < this.minimumInputLength ) {
 					this.trigger( 'results:message', {
 						message: 'inputTooShort',
 						args: {
-							minimum: this.***REMOVED***,
+							minimum: this.minimumInputLength,
 							input: params.term,
 							params: params,
 						},
@@ -4378,17 +4378,17 @@
 				decorated.call( this, params, callback );
 			};
 
-			return ***REMOVED***;
+			return MinimumInputLength;
 		} );
 
-		S2.define( 'select2/data/***REMOVED***', [], function () {
-			function ***REMOVED***( decorated, $e, options ) {
-				this.***REMOVED*** = options.get( '***REMOVED***' );
+		S2.define( 'select2/data/maximumInputLength', [], function () {
+			function MaximumInputLength( decorated, $e, options ) {
+				this.maximumInputLength = options.get( 'maximumInputLength' );
 
 				decorated.call( this, $e, options );
 			}
 
-			***REMOVED***.prototype.query = function (
+			MaximumInputLength.prototype.query = function (
 				decorated,
 				params,
 				callback
@@ -4396,13 +4396,13 @@
 				params.term = params.term || '';
 
 				if (
-					this.***REMOVED*** > 0 &&
-					params.term.length > this.***REMOVED***
+					this.maximumInputLength > 0 &&
+					params.term.length > this.maximumInputLength
 				) {
 					this.trigger( 'results:message', {
 						message: 'inputTooLong',
 						args: {
-							maximum: this.***REMOVED***,
+							maximum: this.maximumInputLength,
 							input: params.term,
 							params: params,
 						},
@@ -4414,7 +4414,7 @@
 				decorated.call( this, params, callback );
 			};
 
-			return ***REMOVED***;
+			return MaximumInputLength;
 		} );
 
 		S2.define( 'select2/data/maximumSelectionLength', [], function () {
@@ -4454,7 +4454,7 @@
 
 			MaximumSelectionLength.prototype._checkIfMaximumSelected = function (
 				_,
-				***REMOVED***
+				successCallback
 			) {
 				var self = this;
 
@@ -4465,7 +4465,7 @@
 						count >= self.maximumSelectionLength
 					) {
 						self.trigger( 'results:message', {
-							message: '***REMOVED***',
+							message: 'maximumSelected',
 							args: {
 								maximum: self.maximumSelectionLength,
 							},
@@ -4473,8 +4473,8 @@
 						return;
 					}
 
-					if ( ***REMOVED*** ) {
-						***REMOVED***();
+					if ( successCallback ) {
+						successCallback();
 					}
 				} );
 			};
@@ -4541,12 +4541,12 @@
 					var $search = $(
 						'<span class="select2-search select2-search--dropdown">' +
 							'<input class="select2-search__field" type="search" tabindex="-1"' +
-							' autocomplete="off" autocorrect="off" ***REMOVED***="none"' +
+							' autocomplete="off" autocorrect="off" autocapitalize="none"' +
 							' spellcheck="false" role="searchbox" aria-autocomplete="list" />' +
 							'</span>'
 					);
 
-					this.$***REMOVED*** = $search;
+					this.$searchContainer = $search;
 					this.$search = $search.find( 'input' );
 
 					$rendered.prepend( $search );
@@ -4568,7 +4568,7 @@
 					this.$search.on( 'keydown', function ( evt ) {
 						self.trigger( 'keypress', evt );
 
-						self._keyUpPrevented = evt.***REMOVED***();
+						self._keyUpPrevented = evt.isDefaultPrevented();
 					} );
 
 					// Workaround for browsers which do not support the `input` event
@@ -4597,7 +4597,7 @@
 					container.on( 'close', function () {
 						self.$search.attr( 'tabindex', -1 );
 						self.$search.removeAttr( 'aria-controls' );
-						self.$search.removeAttr( 'aria-***REMOVED***' );
+						self.$search.removeAttr( 'aria-activedescendant' );
 
 						self.$search.val( '' );
 						self.$search.trigger( 'blur' );
@@ -4617,11 +4617,11 @@
 							var showSearch = self.showSearch( params );
 
 							if ( showSearch ) {
-								self.$***REMOVED***.removeClass(
+								self.$searchContainer.removeClass(
 									'select2-search--hide'
 								);
 							} else {
-								self.$***REMOVED***.addClass(
+								self.$searchContainer.addClass(
 									'select2-search--hide'
 								);
 							}
@@ -4631,11 +4631,11 @@
 					container.on( 'results:focus', function ( params ) {
 						if ( params.data._resultId ) {
 							self.$search.attr(
-								'aria-***REMOVED***',
+								'aria-activedescendant',
 								params.data._resultId
 							);
 						} else {
-							self.$search.removeAttr( 'aria-***REMOVED***' );
+							self.$search.removeAttr( 'aria-activedescendant' );
 						}
 					} );
 				};
@@ -4660,27 +4660,27 @@
 			}
 		);
 
-		S2.define( 'select2/dropdown/***REMOVED***', [], function () {
-			function ***REMOVED***(
+		S2.define( 'select2/dropdown/hidePlaceholder', [], function () {
+			function HidePlaceholder(
 				decorated,
 				$element,
 				options,
 				dataAdapter
 			) {
-				this.placeholder = this.***REMOVED***(
+				this.placeholder = this.normalizePlaceholder(
 					options.get( 'placeholder' )
 				);
 
 				decorated.call( this, $element, options, dataAdapter );
 			}
 
-			***REMOVED***.prototype.append = function ( decorated, data ) {
-				data.results = this.***REMOVED***( data.results );
+			HidePlaceholder.prototype.append = function ( decorated, data ) {
+				data.results = this.removePlaceholder( data.results );
 
 				decorated.call( this, data );
 			};
 
-			***REMOVED***.prototype.***REMOVED*** = function (
+			HidePlaceholder.prototype.normalizePlaceholder = function (
 				_,
 				placeholder
 			) {
@@ -4694,7 +4694,7 @@
 				return placeholder;
 			};
 
-			***REMOVED***.prototype.***REMOVED*** = function ( _, data ) {
+			HidePlaceholder.prototype.removePlaceholder = function ( _, data ) {
 				var modifiedData = data.slice( 0 );
 
 				for ( var d = data.length - 1; d >= 0; d-- ) {
@@ -4708,14 +4708,14 @@
 				return modifiedData;
 			};
 
-			return ***REMOVED***;
+			return HidePlaceholder;
 		} );
 
 		S2.define(
-			'select2/dropdown/***REMOVED***',
+			'select2/dropdown/infiniteScroll',
 			[ 'jquery' ],
 			function ( $ ) {
-				function ***REMOVED***(
+				function InfiniteScroll(
 					decorated,
 					$element,
 					options,
@@ -4725,23 +4725,23 @@
 
 					decorated.call( this, $element, options, dataAdapter );
 
-					this.$loadingMore = this.***REMOVED***();
+					this.$loadingMore = this.createLoadingMore();
 					this.loading = false;
 				}
 
-				***REMOVED***.prototype.append = function ( decorated, data ) {
+				InfiniteScroll.prototype.append = function ( decorated, data ) {
 					this.$loadingMore.remove();
 					this.loading = false;
 
 					decorated.call( this, data );
 
-					if ( this.***REMOVED***( data ) ) {
+					if ( this.showLoadingMore( data ) ) {
 						this.$results.append( this.$loadingMore );
-						this.***REMOVED***();
+						this.loadMoreIfNeeded();
 					}
 				};
 
-				***REMOVED***.prototype.bind = function (
+				InfiniteScroll.prototype.bind = function (
 					decorated,
 					container,
 					$container
@@ -4762,33 +4762,33 @@
 
 					this.$results.on(
 						'scroll',
-						this.***REMOVED***.bind( this )
+						this.loadMoreIfNeeded.bind( this )
 					);
 				};
 
-				***REMOVED***.prototype.***REMOVED*** = function () {
-					var ***REMOVED*** = $.contains(
-						document.***REMOVED***,
+				InfiniteScroll.prototype.loadMoreIfNeeded = function () {
+					var isLoadMoreVisible = $.contains(
+						document.documentElement,
 						this.$loadingMore[ 0 ]
 					);
 
-					if ( this.loading || ! ***REMOVED*** ) {
+					if ( this.loading || ! isLoadMoreVisible ) {
 						return;
 					}
 
 					var currentOffset =
 						this.$results.offset().top +
 						this.$results.outerHeight( false );
-					var ***REMOVED*** =
+					var loadingMoreOffset =
 						this.$loadingMore.offset().top +
 						this.$loadingMore.outerHeight( false );
 
-					if ( currentOffset + 50 >= ***REMOVED*** ) {
+					if ( currentOffset + 50 >= loadingMoreOffset ) {
 						this.loadMore();
 					}
 				};
 
-				***REMOVED***.prototype.loadMore = function () {
+				InfiniteScroll.prototype.loadMore = function () {
 					this.loading = true;
 
 					var params = $.extend( {}, { page: 1 }, this.lastParams );
@@ -4798,14 +4798,14 @@
 					this.trigger( 'query:append', params );
 				};
 
-				***REMOVED***.prototype.***REMOVED*** = function (
+				InfiniteScroll.prototype.showLoadingMore = function (
 					_,
 					data
 				) {
 					return data.pagination && data.pagination.more;
 				};
 
-				***REMOVED***.prototype.***REMOVED*** = function () {
+				InfiniteScroll.prototype.createLoadingMore = function () {
 					var $option = $(
 						'<li ' +
 							'class="select2-results__option select2-results__option--load-more"' +
@@ -4821,7 +4821,7 @@
 					return $option;
 				};
 
-				return ***REMOVED***;
+				return InfiniteScroll;
 			}
 		);
 
@@ -4830,8 +4830,8 @@
 			[ 'jquery', '../utils' ],
 			function ( $, Utils ) {
 				function AttachBody( decorated, $element, options ) {
-					this.$***REMOVED*** = $(
-						options.get( '***REMOVED***' ) || document.body
+					this.$dropdownParent = $(
+						options.get( 'dropdownParent' ) || document.body
 					);
 
 					decorated.call( this, $element, options );
@@ -4859,15 +4859,15 @@
 						self._detachPositioningHandler( container );
 					} );
 
-					this.$***REMOVED***.on( 'mousedown', function ( evt ) {
-						evt.***REMOVED***();
+					this.$dropdownContainer.on( 'mousedown', function ( evt ) {
+						evt.stopPropagation();
 					} );
 				};
 
 				AttachBody.prototype.destroy = function ( decorated ) {
 					decorated.call( this );
 
-					this.$***REMOVED***.remove();
+					this.$dropdownContainer.remove();
 				};
 
 				AttachBody.prototype.position = function (
@@ -4895,13 +4895,13 @@
 					var $dropdown = decorated.call( this );
 					$container.append( $dropdown );
 
-					this.$***REMOVED*** = $container;
+					this.$dropdownContainer = $container;
 
 					return $container;
 				};
 
 				AttachBody.prototype._hideDropdown = function ( decorated ) {
-					this.$***REMOVED***.detach();
+					this.$dropdownContainer.detach();
 				};
 
 				AttachBody.prototype._bindContainerResultHandlers = function (
@@ -4951,8 +4951,8 @@
 
 					var scrollEvent = 'scroll.select2.' + container.id;
 					var resizeEvent = 'resize.select2.' + container.id;
-					var ***REMOVED*** =
-						'***REMOVED***.select2.' + container.id;
+					var orientationEvent =
+						'orientationchange.select2.' + container.id;
 
 					var $watchers = this.$container
 						.parents()
@@ -4977,7 +4977,7 @@
 							' ' +
 							resizeEvent +
 							' ' +
-							***REMOVED***,
+							orientationEvent,
 						function ( e ) {
 							self._positionDropdown();
 							self._resizeDropdown();
@@ -4991,8 +4991,8 @@
 				) {
 					var scrollEvent = 'scroll.select2.' + container.id;
 					var resizeEvent = 'resize.select2.' + container.id;
-					var ***REMOVED*** =
-						'***REMOVED***.select2.' + container.id;
+					var orientationEvent =
+						'orientationchange.select2.' + container.id;
 
 					var $watchers = this.$container
 						.parents()
@@ -5000,17 +5000,17 @@
 					$watchers.off( scrollEvent );
 
 					$( window ).off(
-						scrollEvent + ' ' + resizeEvent + ' ' + ***REMOVED***
+						scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent
 					);
 				};
 
 				AttachBody.prototype._positionDropdown = function () {
 					var $window = $( window );
 
-					var ***REMOVED*** = this.$dropdown.hasClass(
+					var isCurrentlyAbove = this.$dropdown.hasClass(
 						'select2-dropdown--above'
 					);
-					var ***REMOVED*** = this.$dropdown.hasClass(
+					var isCurrentlyBelow = this.$dropdown.hasClass(
 						'select2-dropdown--below'
 					);
 
@@ -5037,9 +5037,9 @@
 						bottom: $window.scrollTop() + $window.height(),
 					};
 
-					var ***REMOVED*** =
+					var enoughRoomAbove =
 						viewport.top < offset.top - dropdown.height;
-					var ***REMOVED*** =
+					var enoughRoomBelow =
 						viewport.bottom > offset.bottom + dropdown.height;
 
 					var css = {
@@ -5048,7 +5048,7 @@
 					};
 
 					// Determine what the parent element is to use for calculating the offset
-					var $offsetParent = this.$***REMOVED***;
+					var $offsetParent = this.$dropdownParent;
 
 					// For statically positioned elements, we need to get the element
 					// that is determining the offset
@@ -5071,27 +5071,27 @@
 					css.top -= parentOffset.top;
 					css.left -= parentOffset.left;
 
-					if ( ! ***REMOVED*** && ! ***REMOVED*** ) {
+					if ( ! isCurrentlyAbove && ! isCurrentlyBelow ) {
 						newDirection = 'below';
 					}
 
 					if (
-						! ***REMOVED*** &&
-						***REMOVED*** &&
-						! ***REMOVED***
+						! enoughRoomBelow &&
+						enoughRoomAbove &&
+						! isCurrentlyAbove
 					) {
 						newDirection = 'above';
 					} else if (
-						! ***REMOVED*** &&
-						***REMOVED*** &&
-						***REMOVED***
+						! enoughRoomAbove &&
+						enoughRoomBelow &&
+						isCurrentlyAbove
 					) {
 						newDirection = 'below';
 					}
 
 					if (
 						newDirection == 'above' ||
-						( ***REMOVED*** && newDirection !== 'below' )
+						( isCurrentlyAbove && newDirection !== 'below' )
 					) {
 						css.top =
 							container.top - parentOffset.top - dropdown.height;
@@ -5110,7 +5110,7 @@
 							.addClass( 'select2-container--' + newDirection );
 					}
 
-					this.$***REMOVED***.css( css );
+					this.$dropdownContainer.css( css );
 				};
 
 				AttachBody.prototype._resizeDropdown = function () {
@@ -5118,7 +5118,7 @@
 						width: this.$container.outerWidth( false ) + 'px',
 					};
 
-					if ( this.options.get( '***REMOVED***' ) ) {
+					if ( this.options.get( 'dropdownAutoWidth' ) ) {
 						css.minWidth = css.width;
 						css.position = 'relative';
 						css.width = 'auto';
@@ -5128,7 +5128,7 @@
 				};
 
 				AttachBody.prototype._showDropdown = function ( decorated ) {
-					this.$***REMOVED***.appendTo( this.$***REMOVED*** );
+					this.$dropdownContainer.appendTo( this.$dropdownParent );
 
 					this._positionDropdown();
 					this._resizeDropdown();
@@ -5213,8 +5213,8 @@
 					_,
 					params
 				) {
-					if ( params && params.***REMOVED*** != null ) {
-						var event = params.***REMOVED***;
+					if ( params && params.originalSelect2Event != null ) {
+						var event = params.originalSelect2Event;
 
 						// Don't select an item if the close event was triggered from a select or
 						// unselect event
@@ -5226,15 +5226,15 @@
 						}
 					}
 
-					var $***REMOVED*** = this.getHighlightedResults();
+					var $highlightedResults = this.getHighlightedResults();
 
 					// Only select highlighted results
-					if ( $***REMOVED***.length < 1 ) {
+					if ( $highlightedResults.length < 1 ) {
 						return;
 					}
 
 					var data = Utils.GetData(
-						$***REMOVED***[ 0 ],
+						$highlightedResults[ 0 ],
 						'data'
 					);
 
@@ -5289,7 +5289,7 @@
 
 				this.trigger( 'close', {
 					originalEvent: originalEvent,
-					***REMOVED***: evt,
+					originalSelect2Event: evt,
 				} );
 			};
 
@@ -5314,11 +5314,11 @@
 					return message;
 				},
 				inputTooShort: function ( args ) {
-					var ***REMOVED*** = args.minimum - args.input.length;
+					var remainingChars = args.minimum - args.input.length;
 
 					var message =
 						'Please enter ' +
-						***REMOVED*** +
+						remainingChars +
 						' or more characters';
 
 					return message;
@@ -5326,7 +5326,7 @@
 				loadingMore: function () {
 					return 'Loading more results…';
 				},
-				***REMOVED***: function ( args ) {
+				maximumSelected: function ( args ) {
 					var message =
 						'You can only select ' + args.maximum + ' item';
 
@@ -5342,7 +5342,7 @@
 				searching: function () {
 					return 'Searching…';
 				},
-				***REMOVED***: function () {
+				removeAllItems: function () {
 					return 'Remove all items';
 				},
 			};
@@ -5372,14 +5372,14 @@
 				'./data/ajax',
 				'./data/tags',
 				'./data/tokenizer',
-				'./data/***REMOVED***',
-				'./data/***REMOVED***',
+				'./data/minimumInputLength',
+				'./data/maximumInputLength',
 				'./data/maximumSelectionLength',
 
 				'./dropdown',
 				'./dropdown/search',
-				'./dropdown/***REMOVED***',
-				'./dropdown/***REMOVED***',
+				'./dropdown/hidePlaceholder',
+				'./dropdown/infiniteScroll',
 				'./dropdown/attachBody',
 				'./dropdown/minimumResultsForSearch',
 				'./dropdown/selectOnClose',
@@ -5393,11 +5393,11 @@
 
 				ResultsList,
 
-				***REMOVED***,
-				***REMOVED***,
+				SingleSelection,
+				MultipleSelection,
 				Placeholder,
 				AllowClear,
-				***REMOVED***,
+				SelectionSearch,
 				EventRelay,
 
 				Utils,
@@ -5409,20 +5409,20 @@
 				AjaxData,
 				Tags,
 				Tokenizer,
-				***REMOVED***,
-				***REMOVED***,
+				MinimumInputLength,
+				MaximumInputLength,
 				MaximumSelectionLength,
 
 				Dropdown,
-				***REMOVED***,
-				***REMOVED***,
-				***REMOVED***,
+				DropdownSearch,
+				HidePlaceholder,
+				InfiniteScroll,
 				AttachBody,
 				MinimumResultsForSearch,
 				SelectOnClose,
 				CloseOnSelect,
 
-				***REMOVED***
+				EnglishTranslation
 			) {
 				function Defaults() {
 					this.reset();
@@ -5440,17 +5440,17 @@
 							options.dataAdapter = SelectData;
 						}
 
-						if ( options.***REMOVED*** > 0 ) {
+						if ( options.minimumInputLength > 0 ) {
 							options.dataAdapter = Utils.Decorate(
 								options.dataAdapter,
-								***REMOVED***
+								MinimumInputLength
 							);
 						}
 
-						if ( options.***REMOVED*** > 0 ) {
+						if ( options.maximumInputLength > 0 ) {
 							options.dataAdapter = Utils.Decorate(
 								options.dataAdapter,
-								***REMOVED***
+								MaximumInputLength
 							);
 						}
 
@@ -5469,7 +5469,7 @@
 						}
 
 						if (
-							options.***REMOVED*** != null ||
+							options.tokenSeparators != null ||
 							options.tokenizer != null
 						) {
 							options.dataAdapter = Utils.Decorate(
@@ -5499,122 +5499,122 @@
 						}
 					}
 
-					if ( options.***REMOVED*** == null ) {
-						options.***REMOVED*** = ResultsList;
+					if ( options.resultsAdapter == null ) {
+						options.resultsAdapter = ResultsList;
 
 						if ( options.ajax != null ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
-								***REMOVED***
+							options.resultsAdapter = Utils.Decorate(
+								options.resultsAdapter,
+								InfiniteScroll
 							);
 						}
 
 						if ( options.placeholder != null ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
-								***REMOVED***
+							options.resultsAdapter = Utils.Decorate(
+								options.resultsAdapter,
+								HidePlaceholder
 							);
 						}
 
 						if ( options.selectOnClose ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
+							options.resultsAdapter = Utils.Decorate(
+								options.resultsAdapter,
 								SelectOnClose
 							);
 						}
 					}
 
-					if ( options.***REMOVED*** == null ) {
+					if ( options.dropdownAdapter == null ) {
 						if ( options.multiple ) {
-							options.***REMOVED*** = Dropdown;
+							options.dropdownAdapter = Dropdown;
 						} else {
-							var ***REMOVED*** = Utils.Decorate(
+							var SearchableDropdown = Utils.Decorate(
 								Dropdown,
-								***REMOVED***
+								DropdownSearch
 							);
 
-							options.***REMOVED*** = ***REMOVED***;
+							options.dropdownAdapter = SearchableDropdown;
 						}
 
 						if ( options.minimumResultsForSearch !== 0 ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
+							options.dropdownAdapter = Utils.Decorate(
+								options.dropdownAdapter,
 								MinimumResultsForSearch
 							);
 						}
 
 						if ( options.closeOnSelect ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
+							options.dropdownAdapter = Utils.Decorate(
+								options.dropdownAdapter,
 								CloseOnSelect
 							);
 						}
 
 						if (
-							options.***REMOVED*** != null ||
+							options.dropdownCssClass != null ||
 							options.dropdownCss != null ||
 							options.adaptDropdownCssClass != null
 						) {
 							var DropdownCSS = require( options.amdBase +
 								'compat/dropdownCss' );
 
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
+							options.dropdownAdapter = Utils.Decorate(
+								options.dropdownAdapter,
 								DropdownCSS
 							);
 						}
 
-						options.***REMOVED*** = Utils.Decorate(
-							options.***REMOVED***,
+						options.dropdownAdapter = Utils.Decorate(
+							options.dropdownAdapter,
 							AttachBody
 						);
 					}
 
-					if ( options.***REMOVED*** == null ) {
+					if ( options.selectionAdapter == null ) {
 						if ( options.multiple ) {
-							options.***REMOVED*** = ***REMOVED***;
+							options.selectionAdapter = MultipleSelection;
 						} else {
-							options.***REMOVED*** = ***REMOVED***;
+							options.selectionAdapter = SingleSelection;
 						}
 
 						// Add the placeholder mixin if a placeholder was specified
 						if ( options.placeholder != null ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
+							options.selectionAdapter = Utils.Decorate(
+								options.selectionAdapter,
 								Placeholder
 							);
 						}
 
 						if ( options.allowClear ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
+							options.selectionAdapter = Utils.Decorate(
+								options.selectionAdapter,
 								AllowClear
 							);
 						}
 
 						if ( options.multiple ) {
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
-								***REMOVED***
+							options.selectionAdapter = Utils.Decorate(
+								options.selectionAdapter,
+								SelectionSearch
 							);
 						}
 
 						if (
-							options.***REMOVED*** != null ||
+							options.containerCssClass != null ||
 							options.containerCss != null ||
 							options.adaptContainerCssClass != null
 						) {
 							var ContainerCSS = require( options.amdBase +
 								'compat/containerCss' );
 
-							options.***REMOVED*** = Utils.Decorate(
-								options.***REMOVED***,
+							options.selectionAdapter = Utils.Decorate(
+								options.selectionAdapter,
 								ContainerCSS
 							);
 						}
 
-						options.***REMOVED*** = Utils.Decorate(
-							options.***REMOVED***,
+						options.selectionAdapter = Utils.Decorate(
+							options.selectionAdapter,
 							EventRelay
 						);
 					}
@@ -5628,17 +5628,17 @@
 					// Always fall back to English since it will always be complete
 					options.language.push( 'en' );
 
-					var ***REMOVED*** = [];
+					var uniqueLanguages = [];
 
 					for ( var l = 0; l < options.language.length; l++ ) {
 						var language = options.language[ l ];
 
-						if ( ***REMOVED***.indexOf( language ) === -1 ) {
-							***REMOVED***.push( language );
+						if ( uniqueLanguages.indexOf( language ) === -1 ) {
+							uniqueLanguages.push( language );
 						}
 					}
 
-					options.language = ***REMOVED***;
+					options.language = uniqueLanguages;
 
 					options.translations = this._processTranslations(
 						options.language,
@@ -5649,7 +5649,7 @@
 				};
 
 				Defaults.prototype.reset = function () {
-					function ***REMOVED***( text ) {
+					function stripDiacritics( text ) {
 						// Used 'uni range + named function' from http://jsperf.com/diacritics/18
 						function match( a ) {
 							return DIACRITICS[ a ] || a;
@@ -5695,10 +5695,10 @@
 							return matcher( params, match );
 						}
 
-						var original = ***REMOVED***(
+						var original = stripDiacritics(
 							data.text
 						).toUpperCase();
-						var term = ***REMOVED***( params.term ).toUpperCase();
+						var term = stripDiacritics( params.term ).toUpperCase();
 
 						// Check if the text contains the term
 						if ( original.indexOf( term ) > -1 ) {
@@ -5711,26 +5711,26 @@
 
 					this.defaults = {
 						amdBase: './',
-						***REMOVED***: './i18n/',
+						amdLanguageBase: './i18n/',
 						closeOnSelect: true,
 						debug: false,
-						***REMOVED***: false,
+						dropdownAutoWidth: false,
 						escapeMarkup: Utils.escapeMarkup,
 						language: {},
 						matcher: matcher,
-						***REMOVED***: 0,
-						***REMOVED***: 0,
+						minimumInputLength: 0,
+						maximumInputLength: 0,
 						maximumSelectionLength: 0,
 						minimumResultsForSearch: 0,
 						selectOnClose: false,
-						***REMOVED***: false,
+						scrollAfterSelect: false,
 						sorter: function ( data ) {
 							return data;
 						},
-						***REMOVED***: function ( result ) {
+						templateResult: function ( result ) {
 							return result.text;
 						},
-						***REMOVED***: function ( selection ) {
+						templateSelection: function ( selection ) {
 							return selection.text;
 						},
 						theme: 'default',
@@ -5738,22 +5738,22 @@
 					};
 				};
 
-				Defaults.prototype.***REMOVED*** = function (
+				Defaults.prototype.applyFromElement = function (
 					options,
 					$element
 				) {
-					var ***REMOVED*** = options.language;
-					var ***REMOVED*** = this.defaults.language;
-					var ***REMOVED*** = $element.prop( 'lang' );
-					var ***REMOVED*** = $element
+					var optionLanguage = options.language;
+					var defaultLanguage = this.defaults.language;
+					var elementLanguage = $element.prop( 'lang' );
+					var parentLanguage = $element
 						.closest( '[lang]' )
 						.prop( 'lang' );
 
 					var languages = Array.prototype.concat.call(
-						this._resolveLanguage( ***REMOVED*** ),
-						this._resolveLanguage( ***REMOVED*** ),
-						this._resolveLanguage( ***REMOVED*** ),
-						this._resolveLanguage( ***REMOVED*** )
+						this._resolveLanguage( elementLanguage ),
+						this._resolveLanguage( optionLanguage ),
+						this._resolveLanguage( defaultLanguage ),
+						this._resolveLanguage( parentLanguage )
 					);
 
 					options.language = languages;
@@ -5782,10 +5782,10 @@
 						languages = language;
 					}
 
-					var ***REMOVED*** = [];
+					var resolvedLanguages = [];
 
 					for ( var l = 0; l < languages.length; l++ ) {
-						***REMOVED***.push( languages[ l ] );
+						resolvedLanguages.push( languages[ l ] );
 
 						if (
 							typeof languages[ l ] === 'string' &&
@@ -5795,11 +5795,11 @@
 							var languageParts = languages[ l ].split( '-' );
 							var baseLanguage = languageParts[ 0 ];
 
-							***REMOVED***.push( baseLanguage );
+							resolvedLanguages.push( baseLanguage );
 						}
 					}
 
-					return ***REMOVED***;
+					return resolvedLanguages;
 				};
 
 				Defaults.prototype._processTranslations = function (
@@ -5821,7 +5821,7 @@
 								try {
 									// If we couldn't load it, check if it wasn't the full path
 									language =
-										this.defaults.***REMOVED*** +
+										this.defaults.amdLanguageBase +
 										language;
 									languageData = Translation.loadPath(
 										language
@@ -5885,7 +5885,7 @@
 					}
 
 					if ( $element != null ) {
-						this.options = Defaults.***REMOVED***(
+						this.options = Defaults.applyFromElement(
 							this.options,
 							$element
 						);
@@ -5977,7 +5977,7 @@
 
 					var dataset = {};
 
-					function ***REMOVED***( _, letter ) {
+					function upperCaseLetter( _, letter ) {
 						return letter.toUpperCase();
 					}
 
@@ -6005,7 +6005,7 @@
 							// camelCase the attribute name to match the spec
 							var camelDataName = dataName.replace(
 								/-([a-z])/g,
-								***REMOVED***
+								upperCaseLetter
 							);
 
 							// Store the data attribute contents into the dataset since
@@ -6102,10 +6102,10 @@
 
 					this._placeContainer( $container );
 
-					var ***REMOVED*** = this.options.get(
-						'***REMOVED***'
+					var SelectionAdapter = this.options.get(
+						'selectionAdapter'
 					);
-					this.selection = new ***REMOVED***(
+					this.selection = new SelectionAdapter(
 						$element,
 						this.options
 					);
@@ -6113,8 +6113,8 @@
 
 					this.selection.position( this.$selection, $container );
 
-					var ***REMOVED*** = this.options.get( '***REMOVED***' );
-					this.dropdown = new ***REMOVED***(
+					var DropdownAdapter = this.options.get( 'dropdownAdapter' );
+					this.dropdown = new DropdownAdapter(
 						$element,
 						this.options
 					);
@@ -6122,8 +6122,8 @@
 
 					this.dropdown.position( this.$dropdown, $container );
 
-					var ***REMOVED*** = this.options.get( '***REMOVED***' );
-					this.results = new ***REMOVED***(
+					var ResultsAdapter = this.options.get( 'resultsAdapter' );
+					this.results = new ResultsAdapter(
 						$element,
 						this.options,
 						this.dataAdapter
@@ -6255,7 +6255,7 @@
 					}
 
 					if ( method == 'computedstyle' ) {
-						var computedStyle = window.***REMOVED***(
+						var computedStyle = window.getComputedStyle(
 							$element[ 0 ]
 						);
 
@@ -6293,15 +6293,15 @@
 
 					if ( this.$element[ 0 ].attachEvent ) {
 						this.$element[ 0 ].attachEvent(
-							'***REMOVED***',
+							'onpropertychange',
 							this._syncA
 						);
 					}
 
 					var observer =
-						window.***REMOVED*** ||
+						window.MutationObserver ||
 						window.WebKitMutationObserver ||
-						window.***REMOVED***;
+						window.MozMutationObserver;
 					if ( observer != null ) {
 						this._observer = new observer( function ( mutations ) {
 							self._syncA();
@@ -6312,19 +6312,19 @@
 							childList: true,
 							subtree: false,
 						} );
-					} else if ( this.$element[ 0 ].***REMOVED*** ) {
-						this.$element[ 0 ].***REMOVED***(
-							'***REMOVED***',
+					} else if ( this.$element[ 0 ].addEventListener ) {
+						this.$element[ 0 ].addEventListener(
+							'DOMAttrModified',
 							self._syncA,
 							false
 						);
-						this.$element[ 0 ].***REMOVED***(
-							'***REMOVED***',
+						this.$element[ 0 ].addEventListener(
+							'DOMNodeInserted',
 							self._syncS,
 							false
 						);
-						this.$element[ 0 ].***REMOVED***(
-							'***REMOVED***',
+						this.$element[ 0 ].addEventListener(
+							'DOMNodeRemoved',
 							self._syncS,
 							false
 						);
@@ -6341,10 +6341,10 @@
 
 				Select2.prototype._registerSelectionEvents = function () {
 					var self = this;
-					var ***REMOVED*** = [ 'toggle', 'focus' ];
+					var nonRelayEvents = [ 'toggle', 'focus' ];
 
 					this.selection.on( 'toggle', function () {
-						self.***REMOVED***();
+						self.toggleDropdown();
 					} );
 
 					this.selection.on( 'focus', function ( params ) {
@@ -6352,7 +6352,7 @@
 					} );
 
 					this.selection.on( '*', function ( name, params ) {
-						if ( $.inArray( name, ***REMOVED*** ) !== -1 ) {
+						if ( $.inArray( name, nonRelayEvents ) !== -1 ) {
 							return;
 						}
 
@@ -6440,23 +6440,23 @@
 							) {
 								self.close( evt );
 
-								evt.***REMOVED***();
+								evt.preventDefault();
 							} else if ( key === KEYS.ENTER ) {
 								self.trigger( 'results:select', {} );
 
-								evt.***REMOVED***();
+								evt.preventDefault();
 							} else if ( key === KEYS.SPACE && evt.ctrlKey ) {
 								self.trigger( 'results:toggle', {} );
 
-								evt.***REMOVED***();
+								evt.preventDefault();
 							} else if ( key === KEYS.UP ) {
 								self.trigger( 'results:previous', {} );
 
-								evt.***REMOVED***();
+								evt.preventDefault();
 							} else if ( key === KEYS.DOWN ) {
 								self.trigger( 'results:next', {} );
 
-								evt.***REMOVED***();
+								evt.preventDefault();
 							}
 						} else {
 							if (
@@ -6466,7 +6466,7 @@
 							) {
 								self.open();
 
-								evt.***REMOVED***();
+								evt.preventDefault();
 							}
 						}
 					} );
@@ -6577,8 +6577,8 @@
 					}
 
 					if ( name in preTriggerMap ) {
-						var ***REMOVED*** = preTriggerMap[ name ];
-						var ***REMOVED*** = {
+						var preTriggerName = preTriggerMap[ name ];
+						var preTriggerArgs = {
 							prevented: false,
 							name: name,
 							args: args,
@@ -6586,11 +6586,11 @@
 
 						actualTrigger.call(
 							this,
-							***REMOVED***,
-							***REMOVED***
+							preTriggerName,
+							preTriggerArgs
 						);
 
-						if ( ***REMOVED***.prevented ) {
+						if ( preTriggerArgs.prevented ) {
 							args.prevented = true;
 
 							return;
@@ -6600,7 +6600,7 @@
 					actualTrigger.call( this, name, args );
 				};
 
-				Select2.prototype.***REMOVED*** = function () {
+				Select2.prototype.toggleDropdown = function () {
 					if ( this.isDisabled() ) {
 						return;
 					}
@@ -6754,7 +6754,7 @@
 
 					if ( this.$element[ 0 ].detachEvent ) {
 						this.$element[ 0 ].detachEvent(
-							'***REMOVED***',
+							'onpropertychange',
 							this._syncA
 						);
 					}
@@ -6762,19 +6762,19 @@
 					if ( this._observer != null ) {
 						this._observer.disconnect();
 						this._observer = null;
-					} else if ( this.$element[ 0 ].***REMOVED*** ) {
-						this.$element[ 0 ].***REMOVED***(
-							'***REMOVED***',
+					} else if ( this.$element[ 0 ].removeEventListener ) {
+						this.$element[ 0 ].removeEventListener(
+							'DOMAttrModified',
 							this._syncA,
 							false
 						);
-						this.$element[ 0 ].***REMOVED***(
-							'***REMOVED***',
+						this.$element[ 0 ].removeEventListener(
+							'DOMNodeInserted',
 							this._syncS,
 							false
 						);
-						this.$element[ 0 ].***REMOVED***(
-							'***REMOVED***',
+						this.$element[ 0 ].removeEventListener(
+							'DOMNodeRemoved',
 							this._syncS,
 							false
 						);
@@ -6859,7 +6859,7 @@
 
 						if ( typeof options === 'object' ) {
 							this.each( function () {
-								var ***REMOVED*** = $.extend(
+								var instanceOptions = $.extend(
 									true,
 									{},
 									options
@@ -6867,7 +6867,7 @@
 
 								var instance = new Select2(
 									$( this ),
-									***REMOVED***
+									instanceOptions
 								);
 							} );
 

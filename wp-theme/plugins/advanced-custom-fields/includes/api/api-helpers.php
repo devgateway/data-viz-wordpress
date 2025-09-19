@@ -3480,7 +3480,7 @@ function acf_validate_attachment( $attachment, $field, $context = 'prepare' ) {
 		
 		$use_path = isset($attachment['filename']) ? $attachment['filename'] : $attachment['url'];
 		$file['type'] = pathinfo($use_path, PATHINFO_EXTENSION);
-		$file['size'] = acf_maybe_get($attachment, '***REMOVED***', 0);
+		$file['size'] = acf_maybe_get($attachment, 'filesizeInBytes', 0);
 		$file['width'] = acf_maybe_get($attachment, 'width', 0);
 		$file['height'] = acf_maybe_get($attachment, 'height', 0);
 	
@@ -4536,11 +4536,11 @@ function acf_encrypt( $data = '' ) {
 	$key = wp_hash('acf_encrypt');
 	
 	
-    // Generate an ***REMOVED*** vector
+    // Generate an initialization vector
     $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
     
     
-    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and ***REMOVED*** vector.
+    // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
     $encrypted_data = openssl_encrypt($data, 'aes-256-cbc', $key, 0, $iv);
     
     

@@ -49,9 +49,9 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 		// This theme uses wp_nav_menu() in two locations.
 		register_nav_menus(
 			array(
-				'menu-1' => __( 'Primary', '***REMOVED***' ),
-				'footer' => __( 'Footer Menu', '***REMOVED***' ),
-				'social' => __( 'Social Links Menu', '***REMOVED***' ),
+				'menu-1' => __( 'Primary', 'twentynineteen' ),
+				'footer' => __( 'Footer Menu', 'twentynineteen' ),
+				'social' => __( 'Social Links Menu', 'twentynineteen' ),
 			)
 		);
 
@@ -108,26 +108,26 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 			'editor-font-sizes',
 			array(
 				array(
-					'name'      => __( 'Small', '***REMOVED***' ),
-					'shortName' => __( 'S', '***REMOVED***' ),
+					'name'      => __( 'Small', 'twentynineteen' ),
+					'shortName' => __( 'S', 'twentynineteen' ),
 					'size'      => 19.5,
 					'slug'      => 'small',
 				),
 				array(
-					'name'      => __( 'Normal', '***REMOVED***' ),
-					'shortName' => __( 'M', '***REMOVED***' ),
+					'name'      => __( 'Normal', 'twentynineteen' ),
+					'shortName' => __( 'M', 'twentynineteen' ),
 					'size'      => 22,
 					'slug'      => 'normal',
 				),
 				array(
-					'name'      => __( 'Large', '***REMOVED***' ),
-					'shortName' => __( 'L', '***REMOVED***' ),
+					'name'      => __( 'Large', 'twentynineteen' ),
+					'shortName' => __( 'L', 'twentynineteen' ),
 					'size'      => 36.5,
 					'slug'      => 'large',
 				),
 				array(
-					'name'      => __( 'Huge', '***REMOVED***' ),
-					'shortName' => __( 'XL', '***REMOVED***' ),
+					'name'      => __( 'Huge', 'twentynineteen' ),
+					'shortName' => __( 'XL', 'twentynineteen' ),
 					'size'      => 49.5,
 					'slug'      => 'huge',
 				),
@@ -139,27 +139,27 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 			'editor-color-palette',
 			array(
 				array(
-					'name'  => 'default' === get_theme_mod( 'primary_color', 'default' ) ? __( 'Blue', '***REMOVED***' ) : null,
+					'name'  => 'default' === get_theme_mod( 'primary_color', 'default' ) ? __( 'Blue', 'twentynineteen' ) : null,
 					'slug'  => 'primary',
 					'color' => twentynineteen_hsl_hex( 'default' === get_theme_mod( 'primary_color' ) ? 199 : get_theme_mod( 'primary_color_hue', 199 ), 100, 33 ),
 				),
 				array(
-					'name'  => 'default' === get_theme_mod( 'primary_color', 'default' ) ? __( 'Dark Blue', '***REMOVED***' ) : null,
+					'name'  => 'default' === get_theme_mod( 'primary_color', 'default' ) ? __( 'Dark Blue', 'twentynineteen' ) : null,
 					'slug'  => 'secondary',
 					'color' => twentynineteen_hsl_hex( 'default' === get_theme_mod( 'primary_color' ) ? 199 : get_theme_mod( 'primary_color_hue', 199 ), 100, 23 ),
 				),
 				array(
-					'name'  => __( 'Dark Gray', '***REMOVED***' ),
+					'name'  => __( 'Dark Gray', 'twentynineteen' ),
 					'slug'  => 'dark-gray',
 					'color' => '#111',
 				),
 				array(
-					'name'  => __( 'Light Gray', '***REMOVED***' ),
+					'name'  => __( 'Light Gray', 'twentynineteen' ),
 					'slug'  => 'light-gray',
 					'color' => '#767676',
 				),
 				array(
-					'name'  => __( 'White', '***REMOVED***' ),
+					'name'  => __( 'White', 'twentynineteen' ),
 					'slug'  => 'white',
 					'color' => '#FFF',
 				),
@@ -185,7 +185,7 @@ if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 	 */
 	function wp_get_list_item_separator() {
 		/* translators: Used between list items, there is a space after the comma. */
-		return __( ', ', '***REMOVED***' );
+		return __( ', ', 'twentynineteen' );
 	}
 endif;
 
@@ -198,9 +198,9 @@ function twentynineteen_widgets_init() {
 
 	register_sidebar(
 		array(
-			'name'          => __( 'Footer', '***REMOVED***' ),
+			'name'          => __( 'Footer', 'twentynineteen' ),
 			'id'            => 'sidebar-1',
-			'description'   => __( 'Add widgets here to appear in your footer.', '***REMOVED***' ),
+			'description'   => __( 'Add widgets here to appear in your footer.', 'twentynineteen' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
@@ -228,7 +228,7 @@ function twentynineteen_excerpt_more( $link ) {
 		'<p class="link-more"><a href="%1$s" class="more-link">%2$s</a></p>',
 		esc_url( get_permalink( get_the_ID() ) ),
 		/* translators: %s: Post title. Only visible to screen readers. */
-		sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', '***REMOVED***' ), get_the_title( get_the_ID() ) )
+		sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentynineteen' ), get_the_title( get_the_ID() ) )
 	);
 	return ' &hellip; ' . $link;
 }
@@ -244,7 +244,7 @@ add_filter( 'excerpt_more', 'twentynineteen_excerpt_more' );
 function twentynineteen_content_width() {
 	// This variable is intended to be overruled from themes.
 	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'twentynineteen_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'twentynineteen_content_width', 0 );
@@ -253,13 +253,13 @@ add_action( 'after_setup_theme', 'twentynineteen_content_width', 0 );
  * Enqueue scripts and styles.
  */
 function twentynineteen_scripts() {
-	wp_enqueue_style( '***REMOVED***-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
+	wp_enqueue_style( 'twentynineteen-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
 
-	wp_style_add_data( '***REMOVED***-style', 'rtl', 'replace' );
+	wp_style_add_data( 'twentynineteen-style', 'rtl', 'replace' );
 
 	if ( has_nav_menu( 'menu-1' ) ) {
 		wp_enqueue_script(
-			'***REMOVED***-priority-menu',
+			'twentynineteen-priority-menu',
 			get_theme_file_uri( '/js/priority-menu.js' ),
 			array(),
 			'20200129',
@@ -269,7 +269,7 @@ function twentynineteen_scripts() {
 			)
 		);
 		wp_enqueue_script(
-			'***REMOVED***-touch-navigation',
+			'twentynineteen-touch-navigation',
 			get_theme_file_uri( '/js/touch-keyboard-navigation.js' ),
 			array(),
 			'20230621',
@@ -280,7 +280,7 @@ function twentynineteen_scripts() {
 		);
 	}
 
-	wp_enqueue_style( '***REMOVED***-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
+	wp_enqueue_style( 'twentynineteen-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -303,7 +303,7 @@ function twentynineteen_skip_link_focus_fix() {
 	// The following is minified via `terser --compress --mangle -- js/skip-link-focus-fix.js`.
 	?>
 	<script>
-	/(trident|msie)/i.test(navigator.userAgent)&&document.***REMOVED***&&window.***REMOVED***&&window.***REMOVED***("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.***REMOVED***(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
+	/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
 	</script>
 	<?php
 }
@@ -313,12 +313,12 @@ function twentynineteen_skip_link_focus_fix() {
  */
 function twentynineteen_editor_customizer_styles() {
 
-	wp_enqueue_style( '***REMOVED***-editor-customizer-styles', get_theme_file_uri( '/style-editor-customizer.css' ), false, '2.1', 'all' );
+	wp_enqueue_style( 'twentynineteen-editor-customizer-styles', get_theme_file_uri( '/style-editor-customizer.css' ), false, '2.1', 'all' );
 
 	if ( 'custom' === get_theme_mod( 'primary_color' ) ) {
 		// Include color patterns.
 		require_once get_parent_theme_file_path( '/inc/color-patterns.php' );
-		wp_add_inline_style( '***REMOVED***-editor-customizer-styles', twentynineteen_custom_colors_css() );
+		wp_add_inline_style( 'twentynineteen-editor-customizer-styles', twentynineteen_custom_colors_css() );
 	}
 }
 add_action( 'enqueue_block_editor_assets', 'twentynineteen_editor_customizer_styles' );
@@ -351,12 +351,12 @@ add_action( 'wp_head', 'twentynineteen_colors_css_wrap' );
 /**
  * SVG Icons class.
  */
-require get_template_directory() . '/classes/class-***REMOVED***-svg-icons.php';
+require get_template_directory() . '/classes/class-twentynineteen-svg-icons.php';
 
 /**
  * Custom Comment Walker template.
  */
-require get_template_directory() . '/classes/class-***REMOVED***-walker-comment.php';
+require get_template_directory() . '/classes/class-twentynineteen-walker-comment.php';
 
 /**
  * Common theme functions.

@@ -12,9 +12,9 @@ jQuery(document).ready(function(jQuery) {
 		customtaxorder_ordersubmit();
 	});
 
-	/* Button to sort the list ***REMOVED*** */
+	/* Button to sort the list alphabetically */
 	jQuery("#order-alpha").on( 'click', function(e) {
-		e.***REMOVED***();
+		e.preventDefault();
 		jQuery("#custom-loading").show();
 		customtaxorder_orderalpha();
 		setTimeout(function(){
@@ -25,7 +25,7 @@ jQuery(document).ready(function(jQuery) {
 
 	/* Button to sort the list on slug */
 	jQuery("#order-slug").on( 'click', function(e) {
-		e.***REMOVED***();
+		e.preventDefault();
 		jQuery("#custom-loading").show();
 		customtaxorder_orderslug();
 		setTimeout(function(){
@@ -102,7 +102,7 @@ function customtaxorder_slug_sort(a, b) {
 /* Keep menu for Tools.php open on our pages. */
 jQuery(document).ready(function($) {
 
-	if ( jQuery( "div.***REMOVED***" ).hasClass( 'wrap-***REMOVED***' ) ) {
+	if ( jQuery( "div.customtaxorder" ).hasClass( 'wrap-customtaxorder' ) ) {
 		jQuery( 'li#menu-tools' ).removeClass( 'wp-not-current-submenu' );
 		jQuery( 'li#menu-tools' ).addClass( 'wp-has-current-submenu' );
 		jQuery( 'li#menu-tools' ).addClass( 'wp-menu-open' );
@@ -117,13 +117,13 @@ jQuery(document).ready(function($) {
  * @since 4.0.1
  */
 jQuery(document).ready(function($) {
-	jQuery( '#***REMOVED***-toggle-slug' ).on( 'click', function() {
+	jQuery( '#customtaxorder-toggle-slug' ).on( 'click', function() {
 
-		var height = jQuery( '.***REMOVED*** li.lineitem' ).first().css( 'height' );
+		var height = jQuery( '.customtaxorder li.lineitem' ).first().css( 'height' );
 		if ( height == '24px' ) {
-			jQuery( '.***REMOVED*** li.lineitem' ).css( 'height', '48px' );
+			jQuery( '.customtaxorder li.lineitem' ).css( 'height', '48px' );
 		} else if ( height == '48px' ) {
-			jQuery( '.***REMOVED*** li.lineitem' ).css( 'height', '24px' );
+			jQuery( '.customtaxorder li.lineitem' ).css( 'height', '24px' );
 		}
 
 	});

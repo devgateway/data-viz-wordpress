@@ -43,16 +43,16 @@ class WCP_Folder_WPML
     /**
      * The Name of this plugin.
      *
-     * @var    string    $***REMOVED***    WPML translation table
+     * @var    string    $tableIclTranslations    WPML translation table
      * @since  1.0.0
      * @access private
      */
-    private $***REMOVED***;
+    private $tableIclTranslations;
 
     /**
      * The Name of this plugin.
      *
-     * @var    string    $***REMOVED***    WPML translated post
+     * @var    string    $tableIclTranslations    WPML translated post
      * @since  1.0.0
      * @access protected
      */
@@ -113,7 +113,7 @@ class WCP_Folder_WPML
                 $this->isWPMLActive = true;
                 $this->settings     = $settings;
                 $this->lang         = $sitepress->get_current_language();
-                $this->***REMOVED*** = $wpdb->prefix.'icl_translations';
+                $this->tableIclTranslations = $wpdb->prefix.'icl_translations';
             }
 
             $this->sitepress         = $sitepress;
@@ -141,7 +141,7 @@ class WCP_Folder_WPML
         if ($this->isWPMLActive && isset($this->settings[$post_type]) && $this->settings[$post_type]) {
             global $wpdb;
             $select = "SELECT COUNT(DISTINCT(P.id))
-                FROM {$this->***REMOVED***} AS wpmlt
+                FROM {$this->tableIclTranslations} AS wpmlt
                 INNER JOIN {$wpdb->posts} AS P ON P.id = wpmlt.element_id";
             $where = ["wpmlt.element_type =  'post_".esc_attr($post_type)."'"];
             $where[] = "wpmlt.language_code =  '%s'";
@@ -177,7 +177,7 @@ class WCP_Folder_WPML
         if ($this->isWPMLActive && isset($this->settings[$post_type]) && $this->settings[$post_type]) {
             global $wpdb;
             $term_taxonomy_id = get_term_by('id', (int) $term_id, $taxonomy, OBJECT)->term_taxonomy_id;
-            $query            = "SELECT count(wpmlt.element_id) as total_records FROM {$this->***REMOVED***} AS wpmlt 
+            $query            = "SELECT count(wpmlt.element_id) as total_records FROM {$this->tableIclTranslations} AS wpmlt 
                                     INNER JOIN {$wpdb->term_relationships} AS term_rela ON term_rela.object_id = wpmlt.element_id
                                     WHERE wpmlt.element_type =  'post_".esc_attr($post_type)."' 
                                         AND term_rela.term_taxonomy_id = '%s' 
@@ -224,7 +224,7 @@ class WCP_Folder_WPML
 
         if ($this->isWPMLActive && isset($this->settings[$post_type]) && $this->settings[$post_type]) {
             global $wpdb;
-            $subQuery = "SELECT * FROM {$this->***REMOVED***} as wpmlt
+            $subQuery = "SELECT * FROM {$this->tableIclTranslations} as wpmlt
                         INNER JOIN {$wpdb->posts} as p on p.id = wpmlt.element_id
                         WHERE wpmlt.element_type = 'post_".esc_attr($post_type)."'
                         and wpmlt.language_code = '%s'";

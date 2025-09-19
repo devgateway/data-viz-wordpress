@@ -28,12 +28,12 @@ class Curve25519 extends Montgomery
         $this->setOrder(new BigInteger('1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED', 16));
 
         /*
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('486662'), // a
         );
         $this->setBasePoint(
             new BigInteger(9),
-            new BigInteger('***REMOVED***')
+            new BigInteger('14781619447589544791020593568409986887264606134616475288964881837755586237401')
         );
         */
     }
@@ -75,7 +75,7 @@ class Curve25519 extends Montgomery
     public function rangeCheck(BigInteger $x)
     {
         if ($x->getLength() > 256 || $x->isNegative()) {
-            throw new \***REMOVED***('x must be a positive integer less than 256 bytes in length');
+            throw new \RangeException('x must be a positive integer less than 256 bytes in length');
         }
     }
 }

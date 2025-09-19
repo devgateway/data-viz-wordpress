@@ -160,7 +160,7 @@ fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
             });
 
             $modal.on('click', '.fs-modal-footer .button', function (evt) {
-                evt.***REMOVED***();
+                evt.preventDefault();
 
                 if ($(this).hasClass('disabled')) {
                     return;
@@ -182,9 +182,9 @@ fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
 
             $modal.on('click', 'input[type="radio"]', function () {
                 var
-                    $***REMOVED*** = $( this ),
+                    $selectedOption = $( this ),
                     $primaryButton  = $modal.find( '.button-primary' ),
-                    isSelected      = ( 'true' === $***REMOVED***.val() );
+                    isSelected      = ( 'true' === $selectedOption.val() );
 
                 if ( isSelected ) {
                     $primaryButton.html( <?php echo json_encode( sprintf(
@@ -235,12 +235,12 @@ fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
         }
 
         function closeModal() {
-            var ***REMOVED*** = $( '.fs-modal.active' ).length;
+            var activeModalsCount = $( '.fs-modal.active' ).length;
 
             $modal.removeClass('active');
 
             // If child modal, do not remove the "has-fs-modal" class of the <body> element to keep its scrollbars hidden.
-            if ( ***REMOVED*** > 1 ) {
+            if ( activeModalsCount > 1 ) {
                 return;
             }
 
@@ -248,7 +248,7 @@ fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
         }
 
         function resetModal() {
-            ***REMOVED***();
+            updateButtonLabels();
 
             if ( 0 === $modal.find( '.subscription-actions' ).length ) {
                 $modal.find('.button-deactivate').removeClass('disabled');
@@ -268,7 +268,7 @@ fs_enqueue_local_style( 'fs_dialog_boxes', '/admin/dialog-boxes.css' );
             $modal.find('.message').text(message).show();
         }
 
-        function ***REMOVED***() {
+        function updateButtonLabels() {
             $modal.find('.button-primary').text( <?php fs_json_encode_echo_inline( 'Proceed', 'proceed', $slug ) ?> );
 
             $modal.find('.button-secondary').text( <?php fs_json_encode_echo_inline( 'Cancel', 'cancel', $slug ) ?> );

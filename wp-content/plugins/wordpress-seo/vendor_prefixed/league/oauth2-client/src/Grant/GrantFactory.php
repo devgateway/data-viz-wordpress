@@ -47,7 +47,7 @@ class GrantFactory
     public function getGrant($name)
     {
         if (empty($this->registry[$name])) {
-            $this->***REMOVED***($name);
+            $this->registerDefaultGrant($name);
         }
         return $this->registry[$name];
     }
@@ -57,9 +57,9 @@ class GrantFactory
      * @param  string $name
      * @return self
      */
-    protected function ***REMOVED***($name)
+    protected function registerDefaultGrant($name)
     {
-        // PascalCase the grant. E.g: 'authorization_code' becomes '***REMOVED***'
+        // PascalCase the grant. E.g: 'authorization_code' becomes 'AuthorizationCode'
         $class = \str_replace(' ', '', \ucwords(\str_replace(['-', '_'], ' ', $name)));
         $class = 'YoastSEO_Vendor\\League\\OAuth2\\Client\\Grant\\' . $class;
         $this->checkGrant($class);

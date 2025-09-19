@@ -318,7 +318,7 @@ class ACF_Field_User extends ACF_Field {
 	}
 	
 	/**
-	 * Runs during the AJAX query ***REMOVED***.
+	 * Runs during the AJAX query initialization.
 	 *
 	 * @date	9/3/20
 	 * @since	5.8.8

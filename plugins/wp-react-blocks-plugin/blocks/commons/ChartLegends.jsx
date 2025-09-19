@@ -8,21 +8,21 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/block-editor';
+import {PanelColorSettings} from '@wordpress/block-editor';
 
 const ChartLegends = (props) => {
     const {
         setAttributes, attributes: {
-            showLegends, ***REMOVED***, marginLeft,
+            showLegends, legendPosition, marginLeft,
             marginRight,
             marginBottom,
             marginTop,
             legendLabel,
-            ***REMOVED***,
+            useLabelBackground,
             useCheckBoxBackground,
-            ***REMOVED***,
+            legendLabelColor,
             reverseLegend,
-            ***REMOVED***,
+            showLegendsInColumns,
             numberOfLegendColumns
         }
     } = props;
@@ -43,7 +43,7 @@ const ChartLegends = (props) => {
                 <RangeControl
                     label={__('Margin Left (Space between chart area and left border)')}
                     value={marginLeft}
-                    ***REMOVED***={0}
+                    initialPosition={0}
                     onChange={(marginLeft) => setAttributes({marginLeft})}
                     step={1}
                     min={0}
@@ -80,10 +80,10 @@ const ChartLegends = (props) => {
             {showLegends && <PanelRow>
                 <ToggleControl
                     label={__("Show Legends in Columns")}
-                    checked={***REMOVED***}
-                    onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                    checked={showLegendsInColumns}
+                    onChange={() => setAttributes({showLegendsInColumns: !showLegendsInColumns})}/>
             </PanelRow>}
-            {showLegends && ***REMOVED*** && <PanelRow>
+            {showLegends && showLegendsInColumns && <PanelRow>
                 <TextControl
                     label={__('Number of Legend Columns')}
                     value={numberOfLegendColumns}
@@ -103,8 +103,8 @@ const ChartLegends = (props) => {
                 </PanelRow>
             }
             {showLegends && <PanelRow>
-                <ToggleControl label={__("Use Label Background")} checked={***REMOVED***}
-                               onChange={e => setAttributes({***REMOVED***: !***REMOVED***})}></ToggleControl>
+                <ToggleControl label={__("Use Label Background")} checked={useLabelBackground}
+                               onChange={e => setAttributes({useLabelBackground: !useLabelBackground})}></ToggleControl>
 
             </PanelRow>
             }
@@ -118,23 +118,23 @@ const ChartLegends = (props) => {
            
              {showLegends && <PanelRow>
                 <ButtonGroup>
-                    <Button isPrimary={***REMOVED*** == 'left'} isSecondary={***REMOVED*** != 'left'}
-                            onClick={e => setAttributes({***REMOVED***: "left"})}>
+                    <Button isPrimary={legendPosition == 'left'} isSecondary={legendPosition != 'left'}
+                            onClick={e => setAttributes({legendPosition: "left"})}>
                         {__("Left")}
                     </Button>
-                    <Button isPrimary={***REMOVED*** == 'top'}
-                            isSecondary={***REMOVED*** != 'top'}
-                            onClick={e => setAttributes({***REMOVED***: "top"})}>
+                    <Button isPrimary={legendPosition == 'top'}
+                            isSecondary={legendPosition != 'top'}
+                            onClick={e => setAttributes({legendPosition: "top"})}>
                         {__("Top")}
                     </Button>
-                    <Button isPrimary={***REMOVED*** == 'right'}
-                            isSecondary={***REMOVED*** != 'right'}
-                            onClick={e => setAttributes({***REMOVED***: "right"})}>
+                    <Button isPrimary={legendPosition == 'right'}
+                            isSecondary={legendPosition != 'right'}
+                            onClick={e => setAttributes({legendPosition: "right"})}>
                         {__("Right")}
                     </Button>
-                    <Button isPrimary={***REMOVED*** == 'bottom'}
-                            isSecondary={***REMOVED*** != 'bottom'}
-                            onClick={e => setAttributes({***REMOVED***: "bottom"})}>
+                    <Button isPrimary={legendPosition == 'bottom'}
+                            isSecondary={legendPosition != 'bottom'}
+                            onClick={e => setAttributes({legendPosition: "bottom"})}>
                         {__("Bottom")}
                     </Button>
                 </ButtonGroup>
@@ -149,18 +149,18 @@ const ChartLegends = (props) => {
             </PanelRow>
             }
             {showLegends && <PanelRow>
-                <***REMOVED***
+                <PanelColorSettings
                     title={__('Legends text color')}
                     colorSettings={[
                         {
-                            value: ***REMOVED***(***REMOVED*** ? ***REMOVED*** : "#000000"),
+                            value: decodeURIComponent(legendLabelColor ? legendLabelColor : "#000000"),
 
                             onChange: (color) => {
 
                                 if (color) {
-                                    setAttributes({***REMOVED***: ***REMOVED***(color)})
+                                    setAttributes({legendLabelColor: encodeURIComponent(color)})
                                 } else {
-                                    setAttributes({***REMOVED***: null})
+                                    setAttributes({legendLabelColor: null})
                                 }
                             },
 

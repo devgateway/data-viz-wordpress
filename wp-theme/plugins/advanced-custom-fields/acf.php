@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Advanced Custom Fields
-Plugin URI: https://www.***REMOVED***.com
+Plugin URI: https://www.advancedcustomfields.com
 Description: Customize WordPress with powerful, professional and intuitive fields.
 Version: 5.9.9
 Author: Delicious Brains
-Author URI: https://www.***REMOVED***.com
+Author URI: https://www.advancedcustomfields.com
 Text Domain: acf
 Domain Path: /lang
 */
@@ -306,7 +306,7 @@ class ACF {
 		do_action( 'acf/include_location_rules', ACF_MAJOR_VERSION );
 		
 		/**
-		 * Fires during ***REMOVED***. Used to add local fields.
+		 * Fires during initialization. Used to add local fields.
 		 *
 		 * @date	28/09/13
 		 * @since	5.0.0

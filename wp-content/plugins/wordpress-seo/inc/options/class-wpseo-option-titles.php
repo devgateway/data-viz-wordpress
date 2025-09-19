@@ -30,7 +30,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	protected $defaults = [
 		// Form fields.
-		'***REMOVED***'                => false,
+		'forcerewritetitle'                => false,
 		'separator'                        => 'sc-dash',
 		'title-home-wpseo'                 => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
 		'title-author-wpseo'               => '', // Text field.
@@ -86,7 +86,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'company_or_person'                => 'company',
 		'company_or_person_user_id'        => false,
 
-		'***REMOVED***'                => false,
+		'stripcategorybase'                => false,
 
 		'open_graph_frontpage_title'       => '%%sitename%%', // Text field.
 		'open_graph_frontpage_desc'        => '', // Text field.
@@ -172,7 +172,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @var string[]
 	 */
 	public $ms_exclude = [
-		'***REMOVED***',
+		'forcerewritetitle',
 	];
 
 	/**
@@ -393,7 +393,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 			$switch_key = $this->get_switch_key( $key );
 
 			switch ( $switch_key ) {
-				// Only ever set ***REMOVED***, so no reason for intense validation.
+				// Only ever set programmatically, so no reason for intense validation.
 				case 'company_logo_meta':
 				case 'person_logo_meta':
 					if ( isset( $dirty[ $key ] ) ) {
@@ -419,7 +419,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo', // phpcs:ignore Squiz.PHP.***REMOVED***.Found -- This isn't commented out code.
+				 *  'title-home-wpseo', 'title-author-wpseo', 'title-archive-wpseo', // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
 				 *  'title-search-wpseo', 'title-404-wpseo'
 				 *  'title-' . $pt->name
 				 *  'title-ptarchive-' . $pt->name
@@ -455,7 +455,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'company_logo', 'person_logo' // phpcs:ignore Squiz.PHP.***REMOVED***.Found -- This isn't commented out code.
+				 *  'company_logo', 'person_logo' // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
 				 */
 				case 'company_logo':
 				case 'person_logo':
@@ -504,7 +504,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				/*
-				 * Covers: 'rssbefore', 'rssafter' // phpcs:ignore Squiz.PHP.***REMOVED***.Found -- This isn't commented out code.
+				 * Covers: 'rssbefore', 'rssafter' // phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- This isn't commented out code.
 				 */
 				case 'rssbefore':
 				case 'rssafter':
@@ -681,7 +681,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'noindex-' . $pt->name
 				 *  'noindex-ptarchive-' . $pt->name
 				 *  'noindex-tax-' . $tax->name
-				 *  '***REMOVED***':
+				 *  'forcerewritetitle':
 				 *  'noodp':
 				 *  'noydir':
 				 *  'disable-author':
@@ -695,7 +695,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *  'breadcrumbs-display-blog-page'
 				 *  'breadcrumbs-boldlast'
 				 *  'breadcrumbs-enable'
-				 *  '***REMOVED***'
+				 *  'stripcategorybase'
 				 */
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -782,7 +782,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'noindexdate'       => 'noindex-archive',
 				'noindexcat'        => 'noindex-category',
 				'noindextag'        => 'noindex-post_tag',
-				'***REMOVED***' => 'noindex-post_format',
+				'noindexpostformat' => 'noindex-post_format',
 			];
 			foreach ( $move as $old => $new ) {
 				if ( isset( $old_option[ $old ] ) && ! isset( $option_value[ $new ] ) ) {

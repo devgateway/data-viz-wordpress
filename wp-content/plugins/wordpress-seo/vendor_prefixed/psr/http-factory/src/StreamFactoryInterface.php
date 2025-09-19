@@ -11,9 +11,9 @@ interface StreamFactoryInterface
      *
      * @param string $content String content with which to populate the stream.
      *
-     * @return ***REMOVED***
+     * @return StreamInterface
      */
-    public function createStream(string $content = '') : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function createStream(string $content = '') : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
     /**
      * Create a stream from an existing file.
      *
@@ -25,11 +25,11 @@ interface StreamFactoryInterface
      * @param string $filename Filename or stream URI to use as basis of stream.
      * @param string $mode Mode with which to open the underlying filename/stream.
      *
-     * @return ***REMOVED***
-     * @throws \***REMOVED*** If the file cannot be opened.
+     * @return StreamInterface
+     * @throws \RuntimeException If the file cannot be opened.
      * @throws \InvalidArgumentException If the mode is invalid.
      */
-    public function ***REMOVED***(string $filename, string $mode = 'r') : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function createStreamFromFile(string $filename, string $mode = 'r') : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
     /**
      * Create a new stream from an existing resource.
      *
@@ -37,7 +37,7 @@ interface StreamFactoryInterface
      *
      * @param resource $resource PHP resource to use as basis of stream.
      *
-     * @return ***REMOVED***
+     * @return StreamInterface
      */
-    public function createStreamFromResource($resource) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function createStreamFromResource($resource) : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 }

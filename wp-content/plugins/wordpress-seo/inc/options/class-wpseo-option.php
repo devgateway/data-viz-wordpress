@@ -318,7 +318,7 @@ abstract class WPSEO_Option {
 						break;
 
 					case 'msverify':
-					case '***REMOVED***':
+					case 'pinterestverify':
 					case 'yandexverify':
 						break;
 				}

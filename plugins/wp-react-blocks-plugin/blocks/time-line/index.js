@@ -1,11 +1,11 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from "../icons";
 
 
-***REMOVED***(process.env.BLOCKS_NS + '/time-line',
+registerBlockType(process.env.BLOCKS_NS + '/time-line',
     {
         title: __('Time Line',"dg"),
         icon: Generic,
@@ -71,7 +71,7 @@ import {Generic} from "../icons";
                 type: 'Numeric',
                 default: 120
             },
-            ***REMOVED***: {
+            subtitleHeight: {
                 type: 'Numeric',
                 default: 20
             },                        
@@ -92,12 +92,12 @@ import {Generic} from "../icons";
                         titleColor: "#6acbd5",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     },
                     {
                         circleColor: "#fcb535",
@@ -105,12 +105,12 @@ import {Generic} from "../icons";
                         titleColor: "#fcb535",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     },
                     {
                         circleColor: "#f79132",
@@ -118,12 +118,12 @@ import {Generic} from "../icons";
                         titleColor: "#f79132",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     },
                     {
                         circleColor: "#f79132",
@@ -131,48 +131,48 @@ import {Generic} from "../icons";
                         titleColor: "#f79132",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     }, {
                         circleColor: "#e54957",
                         lineColor: "#e54957",
                         titleColor: "#e54957",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     }, {
                         circleColor: "#0e5583",
                         lineColor: "#0e5583",
                         titleColor: "#0e5583",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     }, {
                         circleColor: "#2fb2e4",
                         lineColor: "#2fb2e4",
                         titleColor: "#2fb2e4",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: -120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "top",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     },
                     {
                         circleColor: "#fcb535",
@@ -180,27 +180,27 @@ import {Generic} from "../icons";
                         titleColor: "#fcb535",
                         labelColor: "#000000",
                         size: 10,
-                        ***REMOVED***: 20,
+                        subtitleOffset: 20,
                         titleOffset: 120,
-                        ***REMOVED***: 100,
+                        connectorLineHeight: 100,
                         position: "bottom",
                         readMoreLabel: "read more",
-                        ***REMOVED***: "#fff"
+                        tooltipFontColor: "#fff"
                     }],
             },
-            ***REMOVED***: {
+            enableTitlePopup: {
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            enableCirclePopup: {
                 type: "Boolean",
                 default: true
             },
-            ***REMOVED***: {
+            enableDefaultPopup: {
                 type: "Boolean",
                 default: false
             },
-            ***REMOVED***: {
+            closePopupOnMouseOut: {
                 type: "Boolean",
                 default: false 
             }

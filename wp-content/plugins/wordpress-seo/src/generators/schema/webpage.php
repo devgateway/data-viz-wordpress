@@ -107,7 +107,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	public function add_image( $data ) {
 		if ( $this->context->has_image ) {
-			$data['***REMOVED***'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
+			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
 			$data['image']              = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
 			$data['thumbnailUrl']       = $this->context->main_image_url;
 		}
@@ -136,18 +136,18 @@ class WebPage extends Abstract_Schema_Piece {
 	 */
 	private function add_potential_action( $data ) {
 		$url = $this->context->canonical;
-		if ( $data['@type'] === '***REMOVED***' || ( \is_array( $data['@type'] ) && \in_array( '***REMOVED***', $data['@type'], true ) ) ) {
+		if ( $data['@type'] === 'CollectionPage' || ( \is_array( $data['@type'] ) && \in_array( 'CollectionPage', $data['@type'], true ) ) ) {
 			return $data;
 		}
 
 		/**
-		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage ***REMOVED*** target.
+		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
 		 *
-		 * @param array<string> $targets The URLs for the WebPage ***REMOVED*** target.
+		 * @param array<string> $targets The URLs for the WebPage potentialAction target.
 		 */
 		$targets = \apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $url ] );
 
-		$data['***REMOVED***'][] = [
+		$data['potentialAction'][] = [
 			'@type'  => 'ReadAction',
 			'target' => $targets,
 		];

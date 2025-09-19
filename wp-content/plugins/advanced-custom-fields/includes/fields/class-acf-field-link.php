@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_link' ) ) :
 			$this->category      = 'relational';
 			$this->description   = __( 'Allows you to specify a link and its properties such as title and target using the WordPress native link picker.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-link.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/link/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/link/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'return_format' => 'array',
 			);

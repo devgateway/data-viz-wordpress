@@ -13,7 +13,7 @@ class Import_Tool_Selected_Conditional implements Conditional {
 	 * @return bool Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- We just check whether a URL parameter does not exist.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We just check whether a URL parameter does not exist.
 		return ( isset( $_GET['tool'] ) && $_GET['tool'] === 'import-export' );
 	}
 }

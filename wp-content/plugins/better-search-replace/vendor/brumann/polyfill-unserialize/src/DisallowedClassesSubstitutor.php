@@ -2,8 +2,8 @@
 namespace BSR\Brumann\Polyfill;
 
 /**
- * Worker ***REMOVED*** for identifying and skipping false-positives
- * not to be substituted - like nested ***REMOVED*** in string literals.
+ * Worker implementation for identifying and skipping false-positives
+ * not to be substituted - like nested serializations in string literals.
  *
  * @internal This class should only be used by \Brumann\Polyfill\Unserialize
  */
@@ -20,7 +20,7 @@ final class DisallowedClassesSubstitutor
     /**
      * @var string[]
      */
-    private $***REMOVED***;
+    private $allowedClasses;
 
     /**
      * Each array item consists of `[<offset-start>, <offset-end>]` and
@@ -32,15 +32,15 @@ final class DisallowedClassesSubstitutor
 
     /**
      * @param string $serialized
-     * @param string[] $***REMOVED***
+     * @param string[] $allowedClasses
      */
-    public function __construct($serialized, array $***REMOVED***)
+    public function __construct($serialized, array $allowedClasses)
     {
         $this->serialized = $serialized;
-        $this->***REMOVED*** = $***REMOVED***;
+        $this->allowedClasses = $allowedClasses;
 
-        $this->***REMOVED***();
-        $this->***REMOVED***();
+        $this->buildIgnoreItems();
+        $this->substituteObjects();
     }
 
     /**
@@ -52,9 +52,9 @@ final class DisallowedClassesSubstitutor
     }
 
     /**
-     * Identifies items to be ignored - like nested ***REMOVED*** in string literals.
+     * Identifies items to be ignored - like nested serializations in string literals.
      */
-    private function ***REMOVED***()
+    private function buildIgnoreItems()
     {
         $offset = 0;
         while (preg_match(self::PATTERN_STRING, $this->serialized, $matches, PREG_OFFSET_CAPTURE, $offset)) {
@@ -75,21 +75,21 @@ final class DisallowedClassesSubstitutor
     /**
      * Substitutes disallowed object class names and respects items to be ignored.
      */
-    private function ***REMOVED***()
+    private function substituteObjects()
     {
         $offset = 0;
         while (preg_match(self::PATTERN_OBJECT, $this->serialized, $matches, PREG_OFFSET_CAPTURE, $offset)) {
             $completeMatch = (string)$matches[0][0];
-            $***REMOVED*** = strlen($completeMatch);
+            $completeLength = strlen($completeMatch);
             $start = $matches[0][1];
-            $end = $start + $***REMOVED***;
+            $end = $start + $completeLength;
             $leftBorder = (string)$matches[1][0];
             $className = (string)$matches[2][0];
             $objectSize = (int)$matches[3][0];
             $offset = $end + 1;
 
             // class name is actually allowed - skip this item
-            if (in_array($className, $this->***REMOVED***, true)) {
+            if (in_array($className, $this->allowedClasses, true)) {
                 continue;
             }
             // serialized object nested in outer serialized string
@@ -97,12 +97,12 @@ final class DisallowedClassesSubstitutor
                 continue;
             }
 
-            $***REMOVED*** = $this->sanitizeItem($className, $leftBorder, $objectSize);
-            $***REMOVED*** = strlen($***REMOVED***);
-            $offset = $start + $***REMOVED*** + 1;
+            $incompleteItem = $this->sanitizeItem($className, $leftBorder, $objectSize);
+            $incompleteItemLength = strlen($incompleteItem);
+            $offset = $start + $incompleteItemLength + 1;
 
-            $this->replace($***REMOVED***, $start, $end);
-            $this->shift($end, $***REMOVED*** - $***REMOVED***);
+            $this->replace($incompleteItem, $start, $end);
+            $this->shift($end, $incompleteItemLength - $completeLength);
         }
     }
 

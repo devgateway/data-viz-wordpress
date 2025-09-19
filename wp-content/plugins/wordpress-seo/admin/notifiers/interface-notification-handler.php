@@ -6,7 +6,7 @@
  */
 
 /**
- * Dictates the required methods for a Notification Handler ***REMOVED***.
+ * Dictates the required methods for a Notification Handler implementation.
  */
 interface WPSEO_Notification_Handler {
 

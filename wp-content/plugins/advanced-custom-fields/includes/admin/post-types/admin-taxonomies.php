@@ -306,7 +306,7 @@ if ( ! class_exists( 'ACF_Admin_Taxonomies' ) ) :
 			$count = (int) $count;
 
 			switch ( $action ) {
-				case '***REMOVED***':
+				case 'acfactivatecomplete':
 					$text = sprintf(
 						/* translators: %s number of taxonomies activated */
 						_n( 'Taxonomy activated.', '%s taxonomies activated.', $count, 'acf' ),
@@ -320,14 +320,14 @@ if ( ! class_exists( 'ACF_Admin_Taxonomies' ) ) :
 						$count
 					);
 					break;
-				case '***REMOVED***':
+				case 'acfduplicatecomplete':
 					$text = sprintf(
 						/* translators: %s number of taxonomies duplicated */
 						_n( 'Taxonomy duplicated.', '%s taxonomies duplicated.', $count, 'acf' ),
 						$count
 					);
 					break;
-				case '***REMOVED***':
+				case 'acfsynccomplete':
 					$text = sprintf(
 						/* translators: %s number of taxonomies synchronized */
 						_n( 'Taxonomy synchronized.', '%s taxonomies synchronized.', $count, 'acf' ),

@@ -6,7 +6,7 @@ class ComposerAutoloaderInit94e23cbc47a4750e27ee21b7644f1866
 {
     private static $loader;
 
-    public static function ***REMOVED***($class)
+    public static function loadClassLoader($class)
     {
         if ('Composer\Autoload\ClassLoader' === $class) {
             require __DIR__ . '/ClassLoader.php';
@@ -22,12 +22,12 @@ class ComposerAutoloaderInit94e23cbc47a4750e27ee21b7644f1866
             return self::$loader;
         }
 
-        spl_autoload_register(array('ComposerAutoloaderInit94e23cbc47a4750e27ee21b7644f1866', '***REMOVED***'), true, true);
+        spl_autoload_register(array('ComposerAutoloaderInit94e23cbc47a4750e27ee21b7644f1866', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(__DIR__));
-        spl_autoload_unregister(array('ComposerAutoloaderInit94e23cbc47a4750e27ee21b7644f1866', '***REMOVED***'));
+        spl_autoload_unregister(array('ComposerAutoloaderInit94e23cbc47a4750e27ee21b7644f1866', 'loadClassLoader'));
 
         require __DIR__ . '/autoload_static.php';
-        call_user_func(\Composer\Autoload\ComposerStaticInit94e23cbc47a4750e27ee21b7644f1866::***REMOVED***($loader));
+        call_user_func(\Composer\Autoload\ComposerStaticInit94e23cbc47a4750e27ee21b7644f1866::getInitializer($loader));
 
         $loader->register(true);
 

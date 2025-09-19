@@ -52,7 +52,7 @@
   var settings = {
     readonly: false,
     minCount: 0,
-    ***REMOVED***: '',
+    minCountErrorMessage: '',
     limitCount: Infinity,
     limitCountErrorMessage: '',
     input: '<input type="text" maxLength="20" placeholder="Search...">',
@@ -80,12 +80,12 @@
   var ALERT_TIMEOUT_PERIOD = 1000;
 
   // 创建模板
-  function ***REMOVED***() {
+  function createTemplate() {
     var isLabelMode = this.isLabelMode;
     var searchable = this.config.searchable;
-    var ***REMOVED*** = searchable ? '<span class="dropdown-search">' + this.config.input + '</span>' : '';
+    var templateSearch = searchable ? '<span class="dropdown-search">' + this.config.input + '</span>' : '';
 
-    return isLabelMode ? '<div class="dropdown-display-label"><div class="dropdown-chose-list">' + ***REMOVED*** + '</div></div><div class="dropdown-main">{{ul}}</div>' : '<a href="javascript:;" class="dropdown-display" tabindex="0"><span class="dropdown-chose-list"></span><a href="javascript:;"  class="dropdown-clear-all" tabindex="0">\xD7</a></a><div class="dropdown-main">' + ***REMOVED*** + '{{ul}}</div>';
+    return isLabelMode ? '<div class="dropdown-display-label"><div class="dropdown-chose-list">' + templateSearch + '</div></div><div class="dropdown-main">{{ul}}</div>' : '<a href="javascript:;" class="dropdown-display" tabindex="0"><span class="dropdown-chose-list"></span><a href="javascript:;"  class="dropdown-clear-all" tabindex="0">\xD7</a></a><div class="dropdown-main">' + templateSearch + '{{ul}}</div>';
   }
 
   // 小于minCount提示的元素
@@ -94,8 +94,8 @@
     var _config = _dropdown.config;
     var $el = _dropdown.$el;
     var $alert = $el.find('.dropdown-minItem-alert');
-    var alertMessage = _config.***REMOVED***;
-    clearTimeout(_dropdown.***REMOVED***);
+    var alertMessage = _config.minCountErrorMessage;
+    clearTimeout(_dropdown.itemCountAlertTimer);
 
     if ($alert.length === 0) {
       if (!alertMessage) {
@@ -105,7 +105,7 @@
     }
 
     $el.append($alert);
-    _dropdown.***REMOVED*** = setTimeout(function () {
+    _dropdown.itemCountAlertTimer = setTimeout(function () {
       $el.find('.dropdown-minItem-alert').remove();
     }, ALERT_TIMEOUT_PERIOD);
   }
@@ -117,7 +117,7 @@
     var $el = _dropdown.$el;
     var $alert = $el.find('.dropdown-maxItem-alert');
     var alertMessage = _config.limitCountErrorMessage;
-    clearTimeout(_dropdown.***REMOVED***);
+    clearTimeout(_dropdown.itemLimitAlertTimer);
 
     if ($alert.length === 0) {
       if (!alertMessage) {
@@ -127,7 +127,7 @@
     }
 
     $el.append($alert);
-    _dropdown.***REMOVED*** = setTimeout(function () {
+    _dropdown.itemLimitAlertTimer = setTimeout(function () {
       $el.find('.dropdown-maxItem-alert').remove();
     }, ALERT_TIMEOUT_PERIOD);
   }
@@ -162,7 +162,7 @@
   }
 
   // object-data 转 select-option
-  function ***REMOVED***(data) {
+  function objectToSelect(data) {
     var dropdown = this;
     var map = {};
     var result = '';
@@ -220,7 +220,7 @@
 
   // select-option 转 object-data
   //
-  function ***REMOVED***(el) {
+  function selectToObject(el) {
     var $select = el;
     var result = [];
 
@@ -252,7 +252,7 @@
 
   var action = {
     show: function (event) {
-      event.***REMOVED***();
+      event.stopPropagation();
       var _dropdown = this;
       $(document).trigger('click.dropdown');
       _dropdown.$el.addClass('active');
@@ -273,7 +273,7 @@
           result.push(value);
         }
       });
-      $el.find('ul').html(selectToDiv(***REMOVED***.call(_dropdown, result)[0]) || _config.searchNoData);
+      $el.find('ul').html(selectToDiv(objectToSelect.call(_dropdown, result)[0]) || _config.searchNoData);
     }, 300),
     control: function (event) {
       var keyCode = event.keyCode;
@@ -300,7 +300,7 @@
           index = 0;
         }
         $items.eq(index).focus();
-        event.***REMOVED***();
+        event.preventDefault();
       }
     },
     multiChoose: function (event, status) {
@@ -422,7 +422,7 @@
     clearAll: function (event) {
       var _dropdown = this;
       var _config = _dropdown.config;
-      event && event.***REMOVED***();
+      event && event.preventDefault();
       console.log(this)
       this.$choseList.find('.del').each(function (index, el) {
         $(el).trigger('click');
@@ -443,9 +443,9 @@
     this.placeholder = this.$select.attr('placeholder');
     this.config = options;
     this.name = [];
-    this.***REMOVED*** = !this.$select.prop('multiple');
+    this.isSingleSelect = !this.$select.prop('multiple');
     this.selectAmount = 0;
-    this.***REMOVED*** = null;
+    this.itemLimitAlertTimer = null;
     this.isLabelMode = this.config.multipleMode === 'label';
     this.init();
   }
@@ -457,13 +457,13 @@
       var $el = _this.$el;
       _this.$select.hide();
       //  判断dropdown是否单选，是否token模式
-      $el.addClass(_this.***REMOVED*** ? 'dropdown-single' : _this.isLabelMode ? 'dropdown-multiple-label' : 'dropdown-multiple');
+      $el.addClass(_this.isSingleSelect ? 'dropdown-single' : _this.isLabelMode ? 'dropdown-multiple-label' : 'dropdown-multiple');
 
       if (_config.data.length === 0) {
-        _config.data = ***REMOVED***(_this.$select);
+        _config.data = selectToObject(_this.$select);
       }
 
-      var processResult = ***REMOVED***.call(_this, _config.data);
+      var processResult = objectToSelect.call(_this, _config.data);
 
       _this.name = processResult[1];
       _this.selectAmount = processResult[2];
@@ -485,7 +485,7 @@
       if (isUpdate) {
         $el.find('ul')[isCover ? 'html' : 'append'](elemLi);
       } else {
-        template = ***REMOVED***.call(_this).replace('{{ul}}', '<ul>' + elemLi + '</ul>');
+        template = createTemplate.call(_this).replace('{{ul}}', '<ul>' + elemLi + '</ul>');
         $el.append(template).find('ul').removeAttr('style class');
       }
 
@@ -509,7 +509,7 @@
       var openHandle = isSafari ? EVENT_SPACE.click : EVENT_SPACE.focus;
 
       $el.on(EVENT_SPACE.click, function (event) {
-        event.***REMOVED***();
+        event.stopPropagation();
       });
 
       $el.on(EVENT_SPACE.click, '.del', $.proxy(action.del, _this));
@@ -542,14 +542,14 @@
         var keyCode = event.keyCode;
         var KC = KEY_CODE;
         if (keyCode === KC.enter) {
-          $.proxy(_this.***REMOVED*** ? action.singleChoose : action.multiChoose, _this, event)();
+          $.proxy(_this.isSingleSelect ? action.singleChoose : action.multiChoose, _this, event)();
         }
       });
 
       // 按下上下键切换token
       $el.on(EVENT_SPACE.keydown, $.proxy(action.control, _this));
 
-      $el.on(EVENT_SPACE.click, 'li[tabindex]', $.proxy(_this.***REMOVED*** ? action.singleChoose : action.multiChoose, _this));
+      $el.on(EVENT_SPACE.click, 'li[tabindex]', $.proxy(_this.isSingleSelect ? action.singleChoose : action.multiChoose, _this));
     },
     unbindEvent: function () {
       var _this = this;
@@ -600,7 +600,7 @@
 
       _config.data = _isCover ? data.slice(0) : _config.data.concat(data);
 
-      var processResult = ***REMOVED***.call(_this, _config.data);
+      var processResult = objectToSelect.call(_this, _config.data);
 
       _this.name = processResult[1];
       _this.selectAmount = processResult[2];

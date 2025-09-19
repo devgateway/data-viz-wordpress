@@ -18,21 +18,21 @@ type NestedObject = {
 };
 
 // Controls Attributes value types
-export type ***REMOVED*** = ( typeof CAPTION_SIDE_CONTROLS )[ number ][ 'value' ];
+export type CaptionSideValue = ( typeof CAPTION_SIDE_CONTROLS )[ number ][ 'value' ];
 export type CellTagValue = ( typeof CELL_TAG_CONTROLS )[ number ][ 'value' ];
-export type ***REMOVED*** = ( typeof CELL_SCOPE_CONTROLS )[ number ][ 'value' ];
+export type CellScopeValue = ( typeof CELL_SCOPE_CONTROLS )[ number ][ 'value' ];
 export type CornerValue = ( typeof CORNER_CONTROLS )[ number ][ 'value' ];
-export type ***REMOVED*** = ( typeof DIRECTION_CONTROLS )[ number ][ 'value' ];
+export type DirectionValue = ( typeof DIRECTION_CONTROLS )[ number ][ 'value' ];
 export type SideValue = ( typeof SIDE_CONTROLS )[ number ][ 'value' ];
-export type ***REMOVED*** = ( typeof CONTENT_JUSTIFY_CONTROLS )[ number ][ 'value' ];
-export type ***REMOVED*** = ( typeof BORDER_COLLAPSE_CONTROLS )[ number ][ 'value' ];
+export type ContentJustifyValue = ( typeof CONTENT_JUSTIFY_CONTROLS )[ number ][ 'value' ];
+export type BorderCollapseValue = ( typeof BORDER_COLLAPSE_CONTROLS )[ number ][ 'value' ];
 export type StickyValue = ( typeof STICKY_CONTROLS )[ number ][ 'value' ];
 
 // Table section name types
 export type SectionName = 'head' | 'body' | 'foot';
 
 // Table attributes
-export type ***REMOVED*** = Record< SectionName, Row[] >;
+export type TableAttributes = Record< SectionName, Row[] >;
 
 // Table row attributes
 export interface Row {
@@ -47,22 +47,22 @@ export interface Cell {
 	className?: string;
 	id?: string;
 	headers?: string;
-	scope?: ***REMOVED***;
+	scope?: CellScopeValue;
 	rowSpan?: string;
 	colSpan?: string;
 }
 
 // Block attributes
-export interface ***REMOVED*** extends ***REMOVED*** {
-	***REMOVED***: ***REMOVED*** | undefined;
-	***REMOVED***: boolean;
+export interface BlockAttributes extends TableAttributes {
+	contentJustification: ContentJustifyValue | undefined;
+	hasFixedLayout: boolean;
 	isScrollOnPc: boolean;
-	***REMOVED***: boolean;
-	***REMOVED***: boolean;
+	isScrollOnMobile: boolean;
+	isStackedOnMobile: boolean;
 	sticky: StickyValue;
 	tableStyles?: string;
 	captionStyles?: string;
-	captionSide: ***REMOVED***;
+	captionSide: CaptionSideValue;
 	caption?: string;
 	style: NestedObject;
 }
@@ -78,7 +78,7 @@ export interface CoreTableBlockAttributes {
 	foot: {
 		cells: CoreTableCell[];
 	}[];
-	***REMOVED***: boolean;
+	hasFixedLayout: boolean;
 	caption: string;
 	style: NestedObject;
 }

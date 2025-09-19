@@ -18,7 +18,7 @@
 /**
  * Implements the actual methods/resources of the discovered Google API using magic function
  * calling overloading (__call()), which on call will see if the method name (plus.activities.list)
- * is available in this service, and if so construct an ***REMOVED*** representing it.
+ * is available in this service, and if so construct an apiHttpRequest representing it.
  *
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
@@ -26,7 +26,7 @@
  */
 class Google_ServiceResource {
   // Valid query parameters that work, but don't appear in discovery.
-  private $***REMOVED*** = array(
+  private $stackParameters = array(
       'alt' => array('type' => 'string', 'location' => 'query'),
       'boundary' => array('type' => 'string', 'location' => 'query'),
       'fields' => array('type' => 'string', 'location' => 'query'),
@@ -105,7 +105,7 @@ class Google_ServiceResource {
       $method['parameters'] = array();
     }
     
-    $method['parameters'] = array_merge($method['parameters'], $this->***REMOVED***);
+    $method['parameters'] = array_merge($method['parameters'], $this->stackParameters);
     foreach ($parameters as $key => $val) {
       if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
         throw new Google_Exception("(".esc_html($name).") unknown parameter: ".esc_html($key));
@@ -151,17 +151,17 @@ class Google_ServiceResource {
       }
     }
 
-    $url = Google_REST::***REMOVED***($servicePath, $method['path'], $parameters);
+    $url = Google_REST::createRequestUri($servicePath, $method['path'], $parameters);
     $httpRequest = new Google_HttpRequest($url, $method['httpMethod'], null, $postBody);
     if ($postBody) {
-      $***REMOVED*** = array();
+      $contentTypeHeader = array();
       if (isset($contentType) && $contentType) {
-        $***REMOVED***['content-type'] = $contentType;
+        $contentTypeHeader['content-type'] = $contentType;
       } else {
-        $***REMOVED***['content-type'] = 'application/json; charset=UTF-8';
-        $***REMOVED***['content-length'] = Google_Utils::getStrLen($postBody);
+        $contentTypeHeader['content-type'] = 'application/json; charset=UTF-8';
+        $contentTypeHeader['content-length'] = Google_Utils::getStrLen($postBody);
       }
-      $httpRequest->***REMOVED***($***REMOVED***);
+      $httpRequest->setRequestHeaders($contentTypeHeader);
     }
 
     $httpRequest = Google_Client::$auth->sign($httpRequest);
@@ -172,11 +172,11 @@ class Google_ServiceResource {
     // Terminate immediately if this is a resumable request.
     if (isset($parameters['uploadType']['value'])
         && Google_MediaFileUpload::UPLOAD_RESUMABLE_TYPE == $parameters['uploadType']['value']) {
-      $***REMOVED*** = array();
+      $contentTypeHeader = array();
       if (isset($contentType) && $contentType) {
-        $***REMOVED***['content-type'] = $contentType;
+        $contentTypeHeader['content-type'] = $contentType;
       }
-      $httpRequest->***REMOVED***($***REMOVED***);
+      $httpRequest->setRequestHeaders($contentTypeHeader);
       if ($postBody) {
         $httpRequest->setPostBody($postBody);
       }

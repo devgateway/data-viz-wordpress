@@ -3,8 +3,8 @@
 namespace Yoast\WP\Lib;
 
 use Exception;
-use ***REMOVED***;
-use ***REMOVED***;
+use JsonSerializable;
+use ReturnTypeWillChange;
 
 /**
  * Make Model compatible with WordPress.
@@ -15,7 +15,7 @@ use ***REMOVED***;
  * class Widget extends Model {
  * }
  */
-class Model implements ***REMOVED*** {
+class Model implements JsonSerializable {
 
 	/**
 	 * Default ID column for all models. Can be overridden by adding
@@ -469,7 +469,7 @@ class Model implements ***REMOVED*** {
 		$key_to_base_table       = static::build_foreign_key_name( $key_to_base_table, $base_table_name );
 		$key_to_associated_table = static::build_foreign_key_name( $key_to_associated_table, $associated_table_name );
 
-		/* phpcs:ignore Squiz.PHP.***REMOVED***.Found -- Reason: This is commented out code.
+		/* phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- Reason: This is commented out code.
 			"   SELECT {$associated_table_name}.*
 				FROM {$associated_table_name} JOIN {$join_table_name}
 					ON {$associated_table_name}.{$associated_table_id_column} = {$join_table_name}.{$key_to_associated_table}
@@ -561,7 +561,7 @@ class Model implements ***REMOVED*** {
 	 *
 	 * @return array The data of this object.
 	 */
-	#[***REMOVED***]
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return $this->orm->as_array();
 	}

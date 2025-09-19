@@ -110,9 +110,9 @@ class HelpScout_Beacon implements Integration_Interface {
 		$this->options       = $options;
 		$this->asset_manager = $asset_manager;
 		$this->ask_consent   = ! $this->options->get( 'tracking' );
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			$this->page = \sanitize_text_field( \wp_unslash( $_GET['page'] ) );
 		}
 		else {
@@ -166,9 +166,9 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		\printf(
 			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
-			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : '***REMOVED***',
+			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
 			\esc_html( $this->pages_ids[ $this->page ] ),
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaping done in format_json_encode.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaping done in format_json_encode.
 			WPSEO_Utils::format_json_encode( (array) $this->get_session_data() )
 		);
 	}
@@ -356,7 +356,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		$active_plugins = '';
 		foreach ( \wp_get_active_and_valid_plugins() as $plugin ) {
 			$plugin_data             = \get_plugin_data( $plugin );
-			$plugin_file             = \str_replace( \***REMOVED***( \WP_PLUGIN_DIR ), '', $plugin );
+			$plugin_file             = \str_replace( \trailingslashit( \WP_PLUGIN_DIR ), '', $plugin );
 			$plugin_update_available = '';
 
 			if ( isset( $updates_available->response[ $plugin_file ] ) ) {

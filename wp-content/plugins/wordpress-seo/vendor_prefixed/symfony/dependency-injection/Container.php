@@ -8,16 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection;
 
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\***REMOVED***;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\InvalidArgumentException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterCircularReferenceException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceCircularReferenceException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceNotFoundException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\EnvPlaceholderParameterBag;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\***REMOVED***;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\ParameterBagInterface;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 /**
  * Container is a dependency injection container.
  *
@@ -35,7 +35,7 @@ use YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\ParameterBagInt
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\ResettableContainerInterface
+class Container implements \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ResettableContainerInterface
 {
     protected $parameterBag;
     protected $services = [];
@@ -57,9 +57,9 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
     private $envCache = [];
     private $compiled = \false;
     private $getEnv;
-    public function __construct(\YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\ParameterBagInterface $parameterBag = null)
+    public function __construct(\YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag = null)
     {
-        $this->parameterBag = $parameterBag ?: new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\EnvPlaceholderParameterBag();
+        $this->parameterBag = $parameterBag ?: new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag();
     }
     /**
      * Compiles the container.
@@ -72,7 +72,7 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
     public function compile()
     {
         $this->parameterBag->resolve();
-        $this->parameterBag = new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\***REMOVED***($this->parameterBag->all());
+        $this->parameterBag = new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag($this->parameterBag->all());
         $this->compiled = \true;
     }
     /**
@@ -94,14 +94,14 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
     public function isFrozen()
     {
         @\trigger_error(\sprintf('The %s() method is deprecated since Symfony 3.3 and will be removed in 4.0. Use the isCompiled() method instead.', __METHOD__), \E_USER_DEPRECATED);
-        return $this->parameterBag instanceof \YoastSEO_Vendor\Symfony\Component\***REMOVED***\ParameterBag\***REMOVED***;
+        return $this->parameterBag instanceof \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
     }
     /**
      * Gets the service container parameter bag.
      *
      * @return ParameterBagInterface A ParameterBagInterface instance
      */
-    public function ***REMOVED***()
+    public function getParameterBag()
     {
         return $this->parameterBag;
     }
@@ -158,7 +158,7 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
         }
         $id = $this->normalizeId($id);
         if ('service_container' === $id) {
-            throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\InvalidArgumentException('You cannot set service "service_container".');
+            throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException('You cannot set service "service_container".');
         }
         if (isset($this->privates[$id]) || !(isset($this->fileMap[$id]) || isset($this->methodMap[$id]))) {
             if (!isset($this->privates[$id]) && !isset($this->getRemovedIds()[$id])) {
@@ -214,9 +214,9 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
                 $id = $normalizedId;
                 continue;
             }
-            // We only check the convention-based factory in a compiled container (i.e. a child class other than a ***REMOVED***,
+            // We only check the convention-based factory in a compiled container (i.e. a child class other than a ContainerBuilder,
             // and only when the dumper has not generated the method map (otherwise the method map is considered to be fully populated by the dumper)
-            if (!$this->methodMap && !$this instanceof \YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED*** && __CLASS__ !== static::class && \method_exists($this, 'get' . \strtr($id, $this->underscoreMap) . 'Service')) {
+            if (!$this->methodMap && !$this instanceof \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder && __CLASS__ !== static::class && \method_exists($this, 'get' . \strtr($id, $this->underscoreMap) . 'Service')) {
                 @\trigger_error('Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', \E_USER_DEPRECATED);
                 return \true;
             }
@@ -230,7 +230,7 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
      * with a get{$id}Service() method, the former has always precedence.
      *
      * @param string $id              The service identifier
-     * @param int    $***REMOVED*** The behavior when the service does not exist
+     * @param int    $invalidBehavior The behavior when the service does not exist
      *
      * @return object|null The associated service
      *
@@ -240,7 +240,7 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
      *
      * @see Reference
      */
-    public function get($id, $***REMOVED*** = 1)
+    public function get($id, $invalidBehavior = 1)
     {
         // Attempt to retrieve the service by checking first aliases then
         // available services. Service IDs are case insensitive, however since
@@ -261,23 +261,23 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
                 return $this;
             }
             if (isset($this->loading[$id])) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceCircularReferenceException($id, \array_merge(\array_keys($this->loading), [$id]));
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException($id, \array_merge(\array_keys($this->loading), [$id]));
             }
             $this->loading[$id] = \true;
             try {
                 if (isset($this->fileMap[$id])) {
-                    return 4 === $***REMOVED*** ? null : $this->load($this->fileMap[$id]);
+                    return 4 === $invalidBehavior ? null : $this->load($this->fileMap[$id]);
                 } elseif (isset($this->methodMap[$id])) {
-                    return 4 === $***REMOVED*** ? null : $this->{$this->methodMap[$id]}();
+                    return 4 === $invalidBehavior ? null : $this->{$this->methodMap[$id]}();
                 } elseif (--$i && $id !== ($normalizedId = $this->normalizeId($id))) {
                     unset($this->loading[$id]);
                     $id = $normalizedId;
                     continue;
-                } elseif (!$this->methodMap && !$this instanceof \YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED*** && __CLASS__ !== static::class && \method_exists($this, $method = 'get' . \strtr($id, $this->underscoreMap) . 'Service')) {
-                    // We only check the convention-based factory in a compiled container (i.e. a child class other than a ***REMOVED***,
+                } elseif (!$this->methodMap && !$this instanceof \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder && __CLASS__ !== static::class && \method_exists($this, $method = 'get' . \strtr($id, $this->underscoreMap) . 'Service')) {
+                    // We only check the convention-based factory in a compiled container (i.e. a child class other than a ContainerBuilder,
                     // and only when the dumper has not generated the method map (otherwise the method map is considered to be fully populated by the dumper)
                     @\trigger_error('Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', \E_USER_DEPRECATED);
-                    return 4 === $***REMOVED*** ? null : $this->{$method}();
+                    return 4 === $invalidBehavior ? null : $this->{$method}();
                 }
                 break;
             } catch (\Exception $e) {
@@ -287,15 +287,15 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
                 unset($this->loading[$id]);
             }
         }
-        if (1 === $***REMOVED***) {
+        if (1 === $invalidBehavior) {
             if (!$id) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceNotFoundException($id);
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException($id);
             }
             if (isset($this->syntheticIds[$id])) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceNotFoundException($id, null, null, [], \sprintf('The "%s" service is synthetic, it needs to be set at boot time before it can be used.', $id));
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException($id, null, null, [], \sprintf('The "%s" service is synthetic, it needs to be set at boot time before it can be used.', $id));
             }
             if (isset($this->getRemovedIds()[$id])) {
-                throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceNotFoundException($id, null, null, [], \sprintf('The "%s" service or alias has been removed or inlined when the container was compiled. You should either make it public, or stop using the container directly and use dependency injection instead.', $id));
+                throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException($id, null, null, [], \sprintf('The "%s" service or alias has been removed or inlined when the container was compiled. You should either make it public, or stop using the container directly and use dependency injection instead.', $id));
             }
             $alternatives = [];
             foreach ($this->getServiceIds() as $knownId) {
@@ -304,7 +304,7 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
                     $alternatives[] = $knownId;
                 }
             }
-            throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceNotFoundException($id, null, null, $alternatives);
+            throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException($id, null, null, $alternatives);
         }
     }
     /**
@@ -318,7 +318,7 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
     {
         $id = $this->normalizeId($id);
         if (isset($this->privates[$id])) {
-            @\trigger_error(\sprintf('Checking for the ***REMOVED*** of the "%s" private service is deprecated since Symfony 3.4 and won\'t be supported anymore in Symfony 4.0.', $id), \E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('Checking for the initialization of the "%s" private service is deprecated since Symfony 3.4 and won\'t be supported anymore in Symfony 4.0.', $id), \E_USER_DEPRECATED);
         }
         if (isset($this->aliases[$id])) {
             $id = $this->aliases[$id];
@@ -343,8 +343,8 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
     public function getServiceIds()
     {
         $ids = [];
-        if (!$this->methodMap && !$this instanceof \YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED*** && __CLASS__ !== static::class) {
-            // We only check the convention-based factory in a compiled container (i.e. a child class other than a ***REMOVED***,
+        if (!$this->methodMap && !$this instanceof \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerBuilder && __CLASS__ !== static::class) {
+            // We only check the convention-based factory in a compiled container (i.e. a child class other than a ContainerBuilder,
             // and only when the dumper has not generated the method map (otherwise the method map is considered to be fully populated by the dumper)
             @\trigger_error('Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.', \E_USER_DEPRECATED);
             foreach (\get_class_methods($this) as $method) {
@@ -401,21 +401,21 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
      *
      * @return mixed The value to use for the provided environment variable name
      *
-     * @throws ***REMOVED*** When the environment variable is not found and has no default value
+     * @throws EnvNotFoundException When the environment variable is not found and has no default value
      */
     protected function getEnv($name)
     {
         if (isset($this->resolving[$envName = "env({$name})"])) {
-            throw new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ParameterCircularReferenceException(\array_keys($this->resolving));
+            throw new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException(\array_keys($this->resolving));
         }
         if (isset($this->envCache[$name]) || \array_key_exists($name, $this->envCache)) {
             return $this->envCache[$name];
         }
         if (!$this->has($id = 'container.env_var_processors_locator')) {
-            $this->set($id, new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***([]));
+            $this->set($id, new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\ServiceLocator([]));
         }
         if (!$this->getEnv) {
-            $this->getEnv = new \***REMOVED***($this, __FUNCTION__);
+            $this->getEnv = new \ReflectionMethod($this, __FUNCTION__);
             $this->getEnv->setAccessible(\true);
             $this->getEnv = $this->getEnv->getClosure($this);
         }
@@ -427,7 +427,7 @@ class Container implements \YoastSEO_Vendor\Symfony\Component\***REMOVED***\Rese
             $prefix = 'string';
             $localName = $name;
         }
-        $processor = $processors->has($prefix) ? $processors->get($prefix) : new \YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***($this);
+        $processor = $processors->has($prefix) ? $processors->get($prefix) : new \YoastSEO_Vendor\Symfony\Component\DependencyInjection\EnvVarProcessor($this);
         $this->resolving[$envName] = \true;
         try {
             return $this->envCache[$name] = $processor->getEnv($prefix, $localName, $this->getEnv);

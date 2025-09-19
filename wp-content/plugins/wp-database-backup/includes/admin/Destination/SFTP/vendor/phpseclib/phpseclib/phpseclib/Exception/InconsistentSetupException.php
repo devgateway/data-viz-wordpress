@@ -18,6 +18,6 @@ namespace phpseclib3\Exception;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-class InconsistentSetupException extends \***REMOVED***
+class InconsistentSetupException extends \RuntimeException
 {
 }

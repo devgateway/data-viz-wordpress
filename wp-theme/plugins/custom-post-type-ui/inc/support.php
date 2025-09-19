@@ -142,7 +142,7 @@ function cptui_support() {
 							<div class="answer" id="q11"><?php esc_html_e( 'Make sure your theme has post "post-thumbnails" theme support enabled.', 'custom-post-type-ui' ); ?> <a href="https://codex.wordpress.org/Function_Reference/add_theme_support" target="_blank">https://codex.wordpress.org/Function_Reference/add_theme_support</a></div>
 						</li>
 						<li>
-							<span tabindex="0" class="question" aria-controls="q12" aria-expanded="false"><?php esc_html_e( 'Do you have any ***REMOVED*** for an alternative to Visual Composer?', 'custom-post-type-ui' ); ?></span>
+							<span tabindex="0" class="question" aria-controls="q12" aria-expanded="false"><?php esc_html_e( 'Do you have any recommendations for an alternative to Visual Composer?', 'custom-post-type-ui' ); ?></span>
 							<div class="answer" id="q12"><?php esc_html_e( 'We recommend using VelocityPage.', 'custom-post-type-ui' ); ?>
 								<a href="https://velocitypage.com" target="_blank">https://velocitypage.com</a>
 							</div>
@@ -245,7 +245,7 @@ function cptui_support() {
 								printf(
 									esc_html__( '%s has an excellent %spost%s introducing users to the %sPosts 2 Posts%s plugin that should be a good start.', 'custom-post-type-ui' ),
 									'Pippin Williamson',
-									'<a href="https://***REMOVED***.com/introduction-posts-2-posts-plugin/" target="_blank">',
+									'<a href="https://pippinsplugins.com/introduction-posts-2-posts-plugin/" target="_blank">',
 									'</a>',
 									'<a href="https://wordpress.org/plugins/posts-to-posts/" target="_blank">',
 									'</a>'

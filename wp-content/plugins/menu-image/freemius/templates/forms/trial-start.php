@@ -45,14 +45,14 @@ HTML;
 <script type="text/javascript">
 	(function ($) {
 		$(document).ready(function () {
-			var ***REMOVED*** = <?php echo json_encode( $modal_content_html ); ?>,
+			var modalContentHtml = <?php echo json_encode( $modal_content_html ); ?>,
 			    modalHtml        =
 				    '<div class="fs-modal fs-modal-license-key-resend">'
 				    + '	<div class="fs-modal-dialog">'
 				    + '		<div class="fs-modal-header">'
 				    + '		    <h4><?php echo esc_js( fs_text_x_inline( 'Start free trial', 'call to action', 'start-free-trial', $slug ) ) ?></h4>'
 				    + '		</div>'
-				    + '		<div class="fs-modal-body">' + ***REMOVED*** + '</div>'
+				    + '		<div class="fs-modal-body">' + modalContentHtml + '</div>'
 				    + '		<div class="fs-modal-footer">'
 				    + '			<button class="button button-secondary button-close">' + <?php fs_json_encode_echo_inline( 'Cancel', 'cancel', $slug ) ?> +'</button>'
 				    + '			<button class="button button-primary button-connect">' + <?php fs_json_encode_echo_inline( 'Approve & Start Trial', 'approve-start-trial', $slug ) ?> +'</button>'
@@ -75,7 +75,7 @@ HTML;
 				});
 
 				$modal.on('click', '.button-connect', function (evt) {
-					evt.***REMOVED***();
+					evt.preventDefault();
 
 					var $button = $(this);
 
@@ -94,7 +94,7 @@ HTML;
 
 							$button.text(<?php fs_json_encode_echo_inline( 'Starting trial', 'starting-trial', $slug ) ?> + '...');
 
-							***REMOVED***();
+							setLoadingMode();
 						},
 						success   : function (resultObj) {
 							if (resultObj.success) {
@@ -105,7 +105,7 @@ HTML;
 							} else {
 								$button.text(<?php fs_json_encode_echo( 'approve-start-trial', $slug ) ?>);
 
-								***REMOVED***();
+								resetLoadingMode();
 								showError(resultObj.error);
 							}
 						}
@@ -125,7 +125,7 @@ HTML;
 				    $var;
 
 				for (var key in data) {
-					if (data.***REMOVED***(key)) {
+					if (data.hasOwnProperty(key)) {
 						$var = $modalBody.find('.var-' + key);
 
 						if ($var.length > 0)
@@ -150,7 +150,7 @@ HTML;
 				$errorNotice.hide();
 			}
 
-			function ***REMOVED***() {
+			function setLoadingMode() {
 				$modal.find('.button')
 				// Re-enable all buttons.
 					.prop('disabled', trialData)
@@ -161,7 +161,7 @@ HTML;
 				$(document.body).css({'cursor': 'wait'});
 			}
 
-			function ***REMOVED***() {
+			function resetLoadingMode() {
 				$modal.find('.button')
 				// Re-enable all buttons.
 					.prop('disabled', false)

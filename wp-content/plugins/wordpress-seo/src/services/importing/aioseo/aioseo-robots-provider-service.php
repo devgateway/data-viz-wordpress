@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
 use Yoast\WP\SEO\Helpers\Aioseo_Helper;
@@ -39,7 +39,7 @@ class Aioseo_Robots_Provider_Service {
 			return false;
 		}
 
-		$global_robot_settings = $aioseo_settings['***REMOVED***']['advanced']['***REMOVED***'];
+		$global_robot_settings = $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'];
 		if ( $global_robot_settings['default'] === true ) {
 			return false;
 		}
@@ -57,6 +57,6 @@ class Aioseo_Robots_Provider_Service {
 	public function get_subtype_robot_setting( $mapping ) {
 		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], '' ), true );
 
-		return $aioseo_settings['***REMOVED***'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ];
+		return $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ];
 	}
 }

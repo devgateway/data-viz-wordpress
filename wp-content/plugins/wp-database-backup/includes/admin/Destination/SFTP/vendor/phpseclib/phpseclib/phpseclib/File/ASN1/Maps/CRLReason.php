@@ -28,13 +28,13 @@ abstract class CRLReason
             'unspecified',
             'keyCompromise',
             'cACompromise',
-            '***REMOVED***',
+            'affiliationChanged',
             'superseded',
-            '***REMOVED***',
-            '***REMOVED***',
+            'cessationOfOperation',
+            'certificateHold',
             // Value 7 is not used.
             8 => 'removeFromCRL',
-            '***REMOVED***',
+            'privilegeWithdrawn',
             'aACompromise'
         ]
     ];

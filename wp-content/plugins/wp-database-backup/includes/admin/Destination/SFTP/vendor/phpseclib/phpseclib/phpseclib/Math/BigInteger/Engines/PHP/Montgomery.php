@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Montgomery Modular ***REMOVED*** Engine
+ * PHP Montgomery Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -18,7 +18,7 @@ use phpseclib3\Math\BigInteger\Engines\PHP;
 use phpseclib3\Math\BigInteger\Engines\PHP\Reductions\PowerOfTwo;
 
 /**
- * PHP Montgomery Modular ***REMOVED*** Engine
+ * PHP Montgomery Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -35,7 +35,7 @@ abstract class Montgomery extends Base
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @template T of Engine
      * @param Engine $x

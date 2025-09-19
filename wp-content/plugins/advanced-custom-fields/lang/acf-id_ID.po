@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: id_ID\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -153,7 +153,7 @@ msgid ""
 "<b>Error</b>. Could not authenticate update package. Please check again or "
 "deactivate and reactivate your ACF PRO license."
 msgstr ""
-"<b>Terjadi Kesalahan</b>. Tidak dapat ***REMOVED*** paket pembaruan. "
+"<b>Terjadi Kesalahan</b>. Tidak dapat mengautentikasi paket pembaruan. "
 "Silakan periksa lagi atau nonaktifkan dan aktifkan kembali lisensi ACF PRO "
 "Anda."
 
@@ -166,7 +166,7 @@ msgid ""
 "<b>Error</b>. Your license for this site has expired or been deactivated. "
 "Please reactivate your ACF PRO license."
 msgstr ""
-"<b>Terjadi Kesalahan</b>. Tidak dapat ***REMOVED*** paket pembaruan. "
+"<b>Terjadi Kesalahan</b>. Tidak dapat mengautentikasi paket pembaruan. "
 "Silakan periksa lagi atau nonaktifkan dan aktifkan kembali lisensi ACF PRO "
 "Anda."
 

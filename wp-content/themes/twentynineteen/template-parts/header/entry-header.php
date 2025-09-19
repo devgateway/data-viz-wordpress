@@ -31,7 +31,7 @@ if ( ! is_page() ) :
 			sprintf(
 				wp_kses(
 					/* translators: %s: Post title. Only visible to screen readers. */
-					__( 'Edit <span class="screen-reader-text">%s</span>', '***REMOVED***' ),
+					__( 'Edit <span class="screen-reader-text">%s</span>', 'twentynineteen' ),
 					array(
 						'span' => array(
 							'class' => array(),

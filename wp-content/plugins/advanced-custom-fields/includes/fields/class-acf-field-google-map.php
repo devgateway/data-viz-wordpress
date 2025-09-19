@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_google_map' ) ) :
 			$this->category       = 'advanced';
 			$this->description    = __( 'An interactive UI for selecting a location using Google Maps. Requires a Google Maps API key and additional configuration to display correctly.', 'acf' );
 			$this->preview_image  = acf_get_url() . '/assets/images/field-type-previews/field-preview-google-map.png';
-			$this->doc_url        = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/google-map/', 'docs', 'field-type-selection' );
+			$this->doc_url        = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/google-map/', 'docs', 'field-type-selection' );
 			$this->defaults       = array(
 				'height'     => '',
 				'center_lat' => '',

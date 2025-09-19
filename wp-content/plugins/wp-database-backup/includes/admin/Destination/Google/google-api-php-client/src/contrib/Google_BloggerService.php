@@ -18,8 +18,8 @@
    * The "blogUserInfos" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BloggerService(...);
-   *   $blogUserInfos = $***REMOVED***->blogUserInfos;
+   *   $bloggerService = new Google_BloggerService(...);
+   *   $blogUserInfos = $bloggerService->blogUserInfos;
    *  </code>
    */
   class Google_BlogUserInfosServiceResource extends Google_ServiceResource {
@@ -50,8 +50,8 @@
    * The "blogs" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BloggerService(...);
-   *   $blogs = $***REMOVED***->blogs;
+   *   $bloggerService = new Google_BloggerService(...);
+   *   $blogs = $bloggerService->blogs;
    *  </code>
    */
   class Google_BlogsServiceResource extends Google_ServiceResource {
@@ -115,8 +115,8 @@
    * The "comments" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BloggerService(...);
-   *   $comments = $***REMOVED***->comments;
+   *   $bloggerService = new Google_BloggerService(...);
+   *   $comments = $bloggerService->comments;
    *  </code>
    */
   class Google_CommentsServiceResource extends Google_ServiceResource {
@@ -170,8 +170,8 @@
    * The "pages" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BloggerService(...);
-   *   $pages = $***REMOVED***->pages;
+   *   $bloggerService = new Google_BloggerService(...);
+   *   $pages = $bloggerService->pages;
    *  </code>
    */
   class Google_PagesServiceResource extends Google_ServiceResource {
@@ -219,8 +219,8 @@
    * The "posts" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BloggerService(...);
-   *   $posts = $***REMOVED***->posts;
+   *   $bloggerService = new Google_BloggerService(...);
+   *   $posts = $bloggerService->posts;
    *  </code>
    */
   class Google_PostsServiceResource extends Google_ServiceResource {
@@ -382,8 +382,8 @@
    * The "users" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_BloggerService(...);
-   *   $users = $***REMOVED***->users;
+   *   $bloggerService = new Google_BloggerService(...);
+   *   $users = $bloggerService->users;
    *  </code>
    */
   class Google_UsersServiceResource extends Google_ServiceResource {
@@ -429,7 +429,7 @@ class Google_BloggerService extends Google_Service {
   public $posts;
   public $users;
   /**
-   * Constructs the internal ***REMOVED*** of the Blogger service.
+   * Constructs the internal representation of the Blogger service.
    *
    * @param Google_Client $client
    */
@@ -452,7 +452,7 @@ class Google_BloggerService extends Google_Service {
 
 
 class Google_Blog extends Google_Model {
-  public $***REMOVED***;
+  public $customMetaData;
   public $description;
   public $id;
   public $kind;
@@ -470,16 +470,16 @@ class Google_Blog extends Google_Model {
   public $selfLink;
   public $updated;
   public $url;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCustomMetaData( $customMetaData) {
+    $this->customMetaData = $customMetaData;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCustomMetaData() {
+    return $this->customMetaData;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setId( $id) {
@@ -608,7 +608,7 @@ class Google_BlogPages extends Google_Model {
 class Google_BlogPerUserInfo extends Google_Model {
   public $blogId;
   public $kind;
-  public $***REMOVED***;
+  public $photosAlbumKey;
   public $userId;
   public function setBlogId( $blogId) {
     $this->blogId = $blogId;
@@ -622,11 +622,11 @@ class Google_BlogPerUserInfo extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPhotosAlbumKey( $photosAlbumKey) {
+    $this->photosAlbumKey = $photosAlbumKey;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPhotosAlbumKey() {
+    return $this->photosAlbumKey;
   }
   public function setUserId( $userId) {
     $this->userId = $userId;
@@ -779,10 +779,10 @@ class Google_CommentAuthor extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $url;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -855,16 +855,16 @@ class Google_CommentList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $prevPageToken) {
+  public function setPrevPageToken( $prevPageToken) {
     $this->prevPageToken = $prevPageToken;
   }
-  public function ***REMOVED***() {
+  public function getPrevPageToken() {
     return $this->prevPageToken;
   }
 }
@@ -963,10 +963,10 @@ class Google_PageAuthor extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $url;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -1037,7 +1037,7 @@ class Google_Post extends Google_Model {
   protected $__blogDataType = '';
   public $blog;
   public $content;
-  public $***REMOVED***;
+  public $customMetaData;
   public $id;
   public $kind;
   public $labels;
@@ -1070,11 +1070,11 @@ class Google_Post extends Google_Model {
   public function getContent() {
     return $this->content;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setCustomMetaData( $customMetaData) {
+    $this->customMetaData = $customMetaData;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCustomMetaData() {
+    return $this->customMetaData;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -1146,10 +1146,10 @@ class Google_PostAuthor extends Google_Model {
   protected $__imageDataType = '';
   public $image;
   public $url;
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {
@@ -1212,16 +1212,16 @@ class Google_PostList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
-  public function ***REMOVED***( $prevPageToken) {
+  public function setPrevPageToken( $prevPageToken) {
     $this->prevPageToken = $prevPageToken;
   }
-  public function ***REMOVED***() {
+  public function getPrevPageToken() {
     return $this->prevPageToken;
   }
 }
@@ -1316,10 +1316,10 @@ class Google_User extends Google_Model {
   public function getCreated() {
     return $this->created;
   }
-  public function ***REMOVED***( $displayName) {
+  public function setDisplayName( $displayName) {
     $this->displayName = $displayName;
   }
-  public function ***REMOVED***() {
+  public function getDisplayName() {
     return $this->displayName;
   }
   public function setId( $id) {

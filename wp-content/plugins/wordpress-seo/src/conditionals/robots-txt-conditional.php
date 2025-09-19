@@ -48,17 +48,17 @@ class Robots_Txt_Conditional implements Conditional {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED*** -- This is not a form.
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
 		if ( isset( $_GET['page'] ) && $_GET['page'] === 'wpseo_files' && \is_multisite() && \is_network_admin() ) {
 			return true;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED*** -- This is not a form.
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
 		if ( ! ( isset( $_GET['page'] ) && $_GET['page'] === 'wpseo_tools' ) ) {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED*** -- This is not a form.
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
 		if ( isset( $_GET['tool'] ) && $_GET['tool'] === 'file-editor' ) {
 			return true;
 		}

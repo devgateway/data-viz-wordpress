@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 /**
  * Class WPSEO_Breadcrumbs
  *
- * @***REMOVED*** Because of deprecation.
+ * @codeCoverageIgnore Because of deprecation.
  */
 class WPSEO_Breadcrumbs {
 

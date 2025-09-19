@@ -8,19 +8,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace YoastSEO_Vendor\Symfony\Component\***REMOVED***;
+namespace YoastSEO_Vendor\Symfony\Component\DependencyInjection;
 
-use YoastSEO_Vendor\Psr\Container\***REMOVED*** as PsrContainerInterface;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\InvalidArgumentException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceCircularReferenceException;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceNotFoundException;
+use YoastSEO_Vendor\Psr\Container\ContainerInterface as PsrContainerInterface;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 /**
- * ***REMOVED*** is the interface implemented by service container classes.
+ * ContainerInterface is the interface implemented by service container classes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Container\***REMOVED***
+interface ContainerInterface extends \YoastSEO_Vendor\Psr\Container\ContainerInterface
 {
     const EXCEPTION_ON_INVALID_REFERENCE = 1;
     const NULL_ON_INVALID_REFERENCE = 2;
@@ -37,7 +37,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Container\***REMOVED***
      * Gets a service.
      *
      * @param string $id              The service identifier
-     * @param int    $***REMOVED*** The behavior when the service does not exist
+     * @param int    $invalidBehavior The behavior when the service does not exist
      *
      * @return object|null The associated service
      *
@@ -46,7 +46,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Container\***REMOVED***
      *
      * @see Reference
      */
-    public function get($id, $***REMOVED*** = self::EXCEPTION_ON_INVALID_REFERENCE);
+    public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE);
     /**
      * Returns true if the given service is defined.
      *

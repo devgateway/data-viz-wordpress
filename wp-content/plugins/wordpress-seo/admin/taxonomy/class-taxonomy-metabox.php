@@ -74,7 +74,7 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return void
 	 */
 	public function display() {
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $this->get_product_title() returns a hard-coded string.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $this->get_product_title() );
 
 		echo '<div class="inside">';
@@ -113,7 +113,7 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	protected function render_tabs() {
 		echo '<div class="wpseo-metabox-content">';
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $this->get_product_title() returns a hard-coded string.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
 		$tabs = $this->get_tabs();
@@ -184,7 +184,7 @@ class WPSEO_Taxonomy_Metabox {
 		 * Meant for internal use only. Allows adding additional tabs to the Yoast SEO metabox for taxonomies.
 		 *
 		 * @param array[] $tabs {
-		 *     An array of arrays with tab ***REMOVED***.
+		 *     An array of arrays with tab specifications.
 		 *
 		 *     @type array $tab {
 		 *          A tab specification.

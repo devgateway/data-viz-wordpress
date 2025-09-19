@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound -- included template file.
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included template file.
 
 // Define input name prefix using unique identifier.
 $input_prefix = 'acf_fields[' . $field['ID'] . ']';

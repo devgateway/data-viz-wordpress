@@ -1,7 +1,7 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Taxonomies;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Taxonomies;
 
 use WP_Taxonomy;
 use Yoast\WP\SEO\Dashboard\Domain\Taxonomies\Taxonomy;

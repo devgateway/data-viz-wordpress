@@ -57,10 +57,10 @@ class WPSEO_Metabox_Formatter {
 			'metadesc_template'                  => '',
 			'schema'                             => [
 				'displayFooter'      => WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' ),
-				'***REMOVED***'    => $schema_types->get_page_type_options(),
-				'***REMOVED***' => $schema_types->get_article_type_options(),
+				'pageTypeOptions'    => $schema_types->get_page_type_options(),
+				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
-			'***REMOVED***'                    => 'summary_large_image',
+			'twitterCardType'                    => 'summary_large_image',
 			/**
 			 * Filter to determine if the markers should be enabled or not.
 			 *

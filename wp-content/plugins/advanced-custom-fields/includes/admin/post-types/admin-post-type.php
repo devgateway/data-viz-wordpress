@@ -307,8 +307,8 @@ if ( ! class_exists( 'ACF_Admin_Post_Type' ) ) :
 			// Disable filters to ensure ACF loads raw data from DB.
 			acf_disable_filters();
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing -- Validated in $this->verify_save_post() above.
-			// phpcs:disable WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Sanitized when saved.
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- Validated in $this->verify_save_post() above.
+			// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized when saved.
 			$_POST['acf_post_type']['ID']    = $post_id;
 			$_POST['acf_post_type']['title'] = isset( $_POST['acf_post_type']['labels']['name'] ) ? $_POST['acf_post_type']['labels']['name'] : '';
 
@@ -322,9 +322,9 @@ if ( ! class_exists( 'ACF_Admin_Post_Type' ) ) :
 			}
 
 			// Save the post type.
-			acf_update_internal_post_type( $_POST['acf_post_type'], $this->post_type ); // phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Validated in verify_save_post
-			// phpcs:enable WordPress.Security.ValidatedSanitizedInput.***REMOVED***
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			acf_update_internal_post_type( $_POST['acf_post_type'], $this->post_type ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Validated in verify_save_post
+			// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 			return $post_id;
 		}

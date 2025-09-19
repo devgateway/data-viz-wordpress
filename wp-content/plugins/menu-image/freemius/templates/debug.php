@@ -68,46 +68,46 @@
                 });
 
                 // Countdown
-                var ***REMOVED*** = document.querySelector('.auto-off-debug-countdown');
-                var timeElement = ***REMOVED***.querySelector('.time');
+                var countdownElement = document.querySelector('.auto-off-debug-countdown');
+                var timeElement = countdownElement.querySelector('.time');
                 var targetTime = <?php echo wp_json_encode( $auto_off_timestamp ); ?>;
-                var ***REMOVED***;
+                var countdownTimeout;
 
-                function ***REMOVED***() {
+                function updateCountdown() {
                     var currentTime = new Date().getTime();
-                    var ***REMOVED*** = targetTime - currentTime;
-                    var hours = Math.floor((***REMOVED*** % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((***REMOVED*** % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((***REMOVED*** % (1000 * 60)) / 1000);
+                    var remainingTimeInMs = targetTime - currentTime;
+                    var hours = Math.floor((remainingTimeInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((remainingTimeInMs % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((remainingTimeInMs % (1000 * 60)) / 1000);
 
 
-                    if (***REMOVED*** < 1000) {
-                        ***REMOVED***.classList.add('hidden');
-                        ***REMOVED*** = null;
+                    if (remainingTimeInMs < 1000) {
+                        countdownElement.classList.add('hidden');
+                        countdownTimeout = null;
                     } else {
                         timeElement.innerHTML = hours + ":"
                             + minutes.toString().padStart(2, '0') + ":"
                             + seconds.toString().padStart(2, '0');
-                        ***REMOVED***.classList.remove('hidden');
+                        countdownElement.classList.remove('hidden');
 
-                        if (***REMOVED***) {
-                            clearTimeout(***REMOVED***);
+                        if (countdownTimeout) {
+                            clearTimeout(countdownTimeout);
                         }
-                        ***REMOVED*** = setTimeout(***REMOVED***, 1000);
+                        countdownTimeout = setTimeout(updateCountdown, 1000);
                     }
                 }
 
                 function startCountdownManually() {
                     targetTime = ( new Date().getTime() ) + (24 * 60 * 60 * 1000) - 1;
-                    ***REMOVED***();
+                    updateCountdown();
                 }
 
                 function stopCountdownManually() {
                     targetTime = new Date().getTime();
-                    ***REMOVED***();
+                    updateCountdown();
                 }
 
-                ***REMOVED***();
+                updateCountdown();
                 // End countdown
 
             });
@@ -786,10 +786,10 @@
     </div>
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            var ***REMOVED***       = false,
+            var filtersChanged       = false,
                 offset               = 0,
                 limit                = 200,
-                ***REMOVED*** = null;
+                prevFiltersSignature = null;
 
             var getFilters = function () {
                 var filters   = {},
@@ -809,11 +809,11 @@
                     }
                 });
 
-                if (signature != ***REMOVED***) {
-                    ***REMOVED*** = true;
-                    ***REMOVED*** = signature;
+                if (signature != prevFiltersSignature) {
+                    filtersChanged = true;
+                    prevFiltersSignature = signature;
                 } else {
-                    ***REMOVED*** = false;
+                    filtersChanged = false;
                 }
 
                 return filters;
@@ -824,7 +824,7 @@
                     hiddenFields = '';
 
                 for (var f in filters) {
-                    if (filters.***REMOVED***(f)) {
+                    if (filters.hasOwnProperty(f)) {
                         hiddenFields += '<input type="hidden" name="filters[' + f + ']" value="' + filters[f] + '" />';
                     }
                 }
@@ -837,7 +837,7 @@
                     template = $tbody.find('tr:first-child').html(),
                     filters  = getFilters();
 
-                if (!***REMOVED***) {
+                if (!filtersChanged) {
                     offset += limit;
                 } else {
                     // Cleanup table for new filter (only keep template row).
@@ -868,7 +868,7 @@
                             response.data[i].message;
 
                         for (var p in response.data[i]) {
-                            if (response.data[i].***REMOVED***(p)) {
+                            if (response.data[i].hasOwnProperty(p)) {
                                 templateCopy = templateCopy.replace('{$log.' + p + '}', response.data[i][p]);
                             }
                         }

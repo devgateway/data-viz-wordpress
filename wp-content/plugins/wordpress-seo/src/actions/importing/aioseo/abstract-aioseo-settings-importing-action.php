@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Exception;
@@ -62,7 +62,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	protected $import_helper;
 
 	/**
-	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data ***REMOVED*** method.
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
@@ -188,7 +188,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	 * @return bool Whether the settings are set.
 	 */
 	public function isset_settings_tab( $aioseo_settings ) {
-		return isset( $aioseo_settings['***REMOVED***'][ $this->settings_tab ] );
+		return isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] );
 	}
 
 	/**
@@ -206,7 +206,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		}
 
 		// We specifically want the setttings of the tab we're working with, eg. postTypes, taxonomies, etc.
-		$settings_values = $aioseo_settings['***REMOVED***'][ $this->settings_tab ];
+		$settings_values = $aioseo_settings['searchAppearance'][ $this->settings_tab ];
 		if ( ! \is_array( $settings_values ) ) {
 			return [];
 		}
@@ -242,7 +242,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 			return \array_slice( $importable_data, 0, $limit, true );
 		}
 
-		// Let's find the position of the cursor in the ***REMOVED*** sorted importable data, so we can return only the unimported data.
+		// Let's find the position of the cursor in the alphabetically sorted importable data, so we can return only the unimported data.
 		$keys = \array_flip( \array_keys( $importable_data ) );
 		// If the stored cursor now no longer exists in the data, we have no choice but to start over.
 		$position = ( isset( $keys[ $cursor ] ) ) ? ( $keys[ $cursor ] + 1 ) : 0;

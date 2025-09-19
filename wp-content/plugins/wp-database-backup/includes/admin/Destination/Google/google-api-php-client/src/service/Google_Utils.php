@@ -22,7 +22,7 @@
  * @author Chirag Shah <chirags@google.com>
  */
 class Google_Utils {
-  public static function ***REMOVED***($data) {
+  public static function urlSafeB64Encode($data) {
     $b64 = base64_encode($data);
     $b64 = str_replace(array('+', '/', '\r', '\n', '='),
                        array('-', '_'),
@@ -30,7 +30,7 @@ class Google_Utils {
     return $b64;
   }
 
-  public static function ***REMOVED***($b64) {
+  public static function urlSafeB64Decode($b64) {
     $b64 = str_replace(array('-', '_'),
                        array('+', '/'),
                        $b64);
@@ -39,7 +39,7 @@ class Google_Utils {
 
   /**
    * Misc function used to count the number of bytes in a post body, in the world of multi-byte chars
-   * and the ***REMOVED*** of strlen/mb_strlen/sizeof, this is the only way to do that in a sane
+   * and the unpredictability of strlen/mb_strlen/sizeof, this is the only way to do that in a sane
    * manner at the moment.
    *
    * This algorithm was originally developed for the

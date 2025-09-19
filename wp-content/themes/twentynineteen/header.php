@@ -26,7 +26,7 @@
 	<a class="skip-link screen-reader-text" href="#content">
 		<?php
 		/* translators: Hidden accessibility text. */
-		_e( 'Skip to content', '***REMOVED***' );
+		_e( 'Skip to content', 'twentynineteen' );
 		?>
 	</a>
 

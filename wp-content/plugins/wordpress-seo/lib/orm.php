@@ -5,7 +5,7 @@ namespace Yoast\WP\Lib;
 use ArrayAccess;
 use Exception;
 use InvalidArgumentException;
-use ***REMOVED***;
+use ReturnTypeWillChange;
 use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
@@ -25,19 +25,19 @@ use Yoast\WP\SEO\Config\Migration_Status;
  * Copyright (c) 2010, Jamie Matthews
  * All rights reserved.
  *
- * ***REMOVED*** and use in source and binary forms, with or without
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * * ***REMOVED*** of source code must retain the above copyright notice, this
+ * * Redistributions of source code must retain the above copyright notice, this
  *   list of conditions and the following disclaimer.
  *
- * * ***REMOVED*** in binary form must reproduce the above copyright notice,
+ * * Redistributions in binary form must reproduce the above copyright notice,
  *   this list of conditions and the following disclaimer in the documentation
  *   and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF ***REMOVED*** AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
@@ -540,7 +540,7 @@ class ORM implements ArrayAccess {
 			if ( ! \is_numeric( $result->{$alias} ) ) {
 				$return_value = $result->{$alias};
 			}
-			// phpcs:ignore Universal.Operators.***REMOVED*** -- Reason: This loose comparison seems intentional.
+			// phpcs:ignore Universal.Operators.StrictComparisons -- Reason: This loose comparison seems intentional.
 			elseif ( (int) $result->{$alias} == (float) $result->{$alias} ) {
 				$return_value = (int) $result->{$alias};
 			}
@@ -2456,7 +2456,7 @@ class ORM implements ArrayAccess {
 	 *
 	 * @return bool Whether the data has the key.
 	 */
-	#[***REMOVED***]
+	#[ReturnTypeWillChange]
 	public function offsetExists( $offset ) {
 		return \array_key_exists( $offset, $this->data );
 	}
@@ -2468,7 +2468,7 @@ class ORM implements ArrayAccess {
 	 *
 	 * @return array|mixed|null The value.
 	 */
-	#[***REMOVED***]
+	#[ReturnTypeWillChange]
 	public function offsetGet( $offset ) {
 		return $this->get( $offset );
 	}
@@ -2481,7 +2481,7 @@ class ORM implements ArrayAccess {
 	 *
 	 * @return void
 	 */
-	#[***REMOVED***]
+	#[ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ) {
 		if ( $offset === null ) {
 			return;
@@ -2496,7 +2496,7 @@ class ORM implements ArrayAccess {
 	 *
 	 * @return void
 	 */
-	#[***REMOVED***]
+	#[ReturnTypeWillChange]
 	public function offsetUnset( $offset ) {
 		unset( $this->data[ $offset ] );
 		unset( $this->dirty_fields[ $offset ] );

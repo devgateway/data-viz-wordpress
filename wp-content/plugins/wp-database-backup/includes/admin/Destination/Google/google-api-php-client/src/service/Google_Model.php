@@ -44,19 +44,19 @@ class Google_Model {
       $keyTypeName = "__$key" . 'Type';
       $keyDataType = "__$key" . 'DataType';
       if ($this->useObjects() && property_exists($this, $keyTypeName)) {
-        if ($this->***REMOVED***($val)) {
+        if ($this->isAssociativeArray($val)) {
           if (isset($this->$keyDataType) && 'map' == $this->$keyDataType) {
             foreach($val as $arrayKey => $arrayItem) {
-              $val[$arrayKey] = $this->***REMOVED***($keyTypeName, $arrayItem);
+              $val[$arrayKey] = $this->createObjectFromName($keyTypeName, $arrayItem);
             }
             $this->$key = $val;
           } else {
-            $this->$key = $this->***REMOVED***($keyTypeName, $val);
+            $this->$key = $this->createObjectFromName($keyTypeName, $val);
           }
         } else if (is_array($val)) {
           $arrayObject = array();
           foreach ($val as $arrayIndex => $arrayItem) {
-            $arrayObject[$arrayIndex] = $this->***REMOVED***($keyTypeName, $arrayItem);
+            $arrayObject[$arrayIndex] = $this->createObjectFromName($keyTypeName, $arrayItem);
           }
           $this->$key = $arrayObject;
         }
@@ -69,7 +69,7 @@ class Google_Model {
    * @param array $array
    * @return bool True if the array is associative.
    */
-  protected function ***REMOVED***($array) {
+  protected function isAssociativeArray($array) {
     if (!is_array($array)) {
       return false;
     }
@@ -89,7 +89,7 @@ class Google_Model {
    * @param $item
    * @return object The object from the item.
    */
-  private function ***REMOVED***($name, $item) {
+  private function createObjectFromName($name, $item) {
     $type = $this->$name;
     return new $type($item);
   }

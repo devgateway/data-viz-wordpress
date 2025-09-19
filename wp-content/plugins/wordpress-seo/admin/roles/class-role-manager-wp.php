@@ -6,7 +6,7 @@
  */
 
 /**
- * WordPress' default ***REMOVED*** of the Role Manager.
+ * WordPress' default implementation of the Role Manager.
  */
 final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 

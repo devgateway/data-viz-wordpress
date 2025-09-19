@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Front_End_Integration.
@@ -30,7 +30,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The container.
 	 *
-	 * @var ***REMOVED***
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
@@ -194,17 +194,17 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Front_End_Integration constructor.
 	 *
-	 * @***REMOVED*** It sets dependencies.
+	 * @codeCoverageIgnore It sets dependencies.
 	 *
 	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
-	 * @param ***REMOVED***         $service_container The DI container.
+	 * @param ContainerInterface         $service_container The DI container.
 	 * @param Options_Helper             $options           The options helper.
 	 * @param Helpers_Surface            $helpers           The helpers surface.
 	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
-		***REMOVED*** $service_container,
+		ContainerInterface $service_container,
 		Options_Helper $options,
 		Helpers_Surface $helpers,
 		WPSEO_Replace_Vars $replace_vars
@@ -375,7 +375,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 *
-	 * @***REMOVED*** It just calls a WordPress function.
+	 * @codeCoverageIgnore It just calls a WordPress function.
 	 *
 	 * @return void
 	 */
@@ -383,7 +383,7 @@ class Front_End_Integration implements Integration_Interface {
 		global $wp_query;
 
 		$old_wp_query = $wp_query;
-		// phpcs:ignore WordPress.WP.***REMOVED***.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
+		// phpcs:ignore WordPress.WP.DiscouragedFunctions.wp_reset_query_wp_reset_query -- Reason: The recommended function, wp_reset_postdata, doesn't reset wp_query.
 		\wp_reset_query();
 
 		\do_action( 'wpseo_head' );
@@ -559,7 +559,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return bool True when the title presenter should be removed, false otherwise.
 	 */
 	public function should_title_presenter_be_removed() {
-		return ! \get_theme_support( 'title-tag' ) && ! $this->options->get( '***REMOVED***', false );
+		return ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false );
 	}
 
 	/**

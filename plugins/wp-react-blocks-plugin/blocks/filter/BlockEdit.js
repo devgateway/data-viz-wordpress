@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata} from '../commons/index'
@@ -9,7 +9,7 @@ const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'
 const HIGHEST_VALUE = 'HIGHEST_VALUE'
 
-const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
+const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             if (a.position !== undefined && b.position !== undefined) {        
@@ -24,7 +24,7 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
 
         return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
                                                               onChange={e => {
-                                                                  ***REMOVED***(v.id, index)
+                                                                  onUpdateFilterValue(v.id, index)
                                                               }}/></PanelRow>)
     } else {
         return null;
@@ -35,12 +35,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
         this.iframe = React.createRef();
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        //this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.updateHiddenFilters = this.updateHiddenFilters.bind(this)
+        //this.onFilterChange = this.onFilterChange.bind(this)
         this.items = this.items.bind(this)
     }
 
-    ***REMOVED***(value, idx) {
+    updateHiddenFilters(value, idx) {
         const {attributes: {hiddenFilters}, setAttributes} = this.props
         if (hiddenFilters.indexOf(value) > -1) {
             setAttributes({hiddenFilters: hiddenFilters.filter(item => item !== value)})
@@ -65,8 +65,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
-        super.***REMOVED***(prevProps, prevState, snapshot)
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        super.componentDidUpdate(prevProps, prevState, snapshot)
         const {setAttributes} = this.props
     }
 
@@ -80,30 +80,30 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 csvValue,
                 isRange,
                 allLabel,
-                ***REMOVED***,
+                alphabeticalSort,
                 ascOrder,
                 noneLabel,
                 startLabel,
                 endLabel,
-                ***REMOVED***,
-                ***REMOVED***,
+                useSingleColumn,
+                enableTextSearch,
                 filterType,
                 defaultValues,
-                ***REMOVED***,
-                ***REMOVED***,
+                showNoDataOption,
+                defaultValueCriteria,
                 hiddenFilters,
-                ***REMOVED***,
+                allNoneSameBehaviour,
                 autoApply,
                 closeOnSelect,
-                ***REMOVED***,
-                ***REMOVED***
+                useFilterItems,
+                dvzProxyDatasetId
             }
         } = this.props;
 
         const iframeStyles = {height: '65px','width': '100%', border: 'none', 'overflow': 'hidden'}
-        const ***REMOVED*** = this.state.filters ? this.state.filters.filter(f => f.param == param && f.type != 'Boolean') : null
+        const selectedFilters = this.state.filters ? this.state.filters.filter(f => f.param == param && f.type != 'Boolean') : null
 
-        const filter = ***REMOVED*** && ***REMOVED***.length > 0 ? ***REMOVED***[0] : null
+        const filter = selectedFilters && selectedFilters.length > 0 ? selectedFilters[0] : null
         const  datasets = [{label: 'Select Dataset', value: '0'}]
         if (this.state.datasets) {
             this.state.datasets.forEach(d => {
@@ -111,7 +111,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             })
         }
 
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
                 <Panel header={__("Filter Configuration")}>
                     <PanelBody initialOpen={false} title={__("Group")}>
                         <PanelRow>
@@ -138,10 +138,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                                         <SelectControl
                                             label={__('Datasets')}
-                                            value={[***REMOVED***]}
+                                            value={[dvzProxyDatasetId]}
                                             onChange={(newDatasetId)   => {
                                                 setAttributes({
-                                                    ***REMOVED***: newDatasetId,
+                                                    dvzProxyDatasetId: newDatasetId,
                                                     dimension1: 'none',
                                                     dimension2: 'none'
 
@@ -179,9 +179,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         <PanelRow>
                             <SelectControl
                                 label={__('Default Value Criteria')}
-                                value={***REMOVED***}
-                                onChange={(***REMOVED***) => {
-                                    setAttributes({***REMOVED***: ***REMOVED***})
+                                value={defaultValueCriteria}
+                                onChange={(defaultValueCriteria) => {
+                                    setAttributes({defaultValueCriteria: defaultValueCriteria})
                                 }}
                                 options={[{
                                     value: DEFAULT_VALUE_INPUT, label: 'Enter default value'
@@ -190,7 +190,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 }]}
                             />
                         </PanelRow>
-                        {***REMOVED*** == DEFAULT_VALUE_INPUT && <PanelRow>
+                        {defaultValueCriteria == DEFAULT_VALUE_INPUT && <PanelRow>
                             <TextControl label={__("Default Values")} value={defaultValues}
                                          onChange={(defaultValues) => setAttributes({defaultValues})}></TextControl>
                         </PanelRow>}
@@ -237,25 +237,25 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         <PanelRow>
                             <ToggleControl
                               label={__("Filter items")}
-                              checked={***REMOVED***}
-                              onChange={() => setAttributes({***REMOVED***: !***REMOVED***, filters: [], hiddenFilters: []})}/>
+                              checked={useFilterItems}
+                              onChange={() => setAttributes({useFilterItems: !useFilterItems, filters: [], hiddenFilters: []})}/>
                         </PanelRow>
                         <PanelRow>
                             <ToggleControl
                               label={__("Hide items")}
-                              checked={!***REMOVED***}
-                              onChange={() => setAttributes({***REMOVED***: !***REMOVED***, filters: [], hiddenFilters: []})}/>
+                              checked={!useFilterItems}
+                              onChange={() => setAttributes({useFilterItems: !useFilterItems, filters: [], hiddenFilters: []})}/>
                         </PanelRow>
-                            {***REMOVED*** && <DataFilters
+                            {useFilterItems && <DataFilters
                               allFilters={this.state.filters}
                               allCategories={this.state.categories}
                               {...this.props}/>
                             }
-                            {!***REMOVED*** && <PanelBody initialOpen={false} title={__("Hidden Filter Options")}>
-                                {(***REMOVED*** || []).map((f, index) => {
+                            {!useFilterItems && <PanelBody initialOpen={false} title={__("Hidden Filter Options")}>
+                                {(selectedFilters || []).map((f, index) => {
                                     return (
-                                      <***REMOVED*** value={hiddenFilters} index={index} items={this.items(f.type)}
-                                                         ***REMOVED***={this.***REMOVED***}/>)
+                                      <CategoricalFilter value={hiddenFilters} index={index} items={this.items(f.type)}
+                                                         onUpdateFilterValue={this.updateHiddenFilters}/>)
                                 })}
                             </PanelBody>
                             }
@@ -287,8 +287,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         <PanelRow>
                             <ToggleControl
                                 label={__("Alphabetical Sort")}
-                                checked={***REMOVED***}
-                                onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                                checked={alphabeticalSort}
+                                onChange={() => setAttributes({alphabeticalSort: !alphabeticalSort})}/>
                         </PanelRow>
                         <PanelRow>
                             <ToggleControl
@@ -299,18 +299,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         <PanelRow>
                             <ToggleControl
                                 label={__("Use single column to display dropdown items")}
-                                checked={***REMOVED***}
-                                onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                                checked={useSingleColumn}
+                                onChange={() => setAttributes({useSingleColumn: !useSingleColumn})}/>
                         </PanelRow>
                         <PanelRow>
                             <ToggleControl label={__("Enable Text Search")}
-                                           checked={***REMOVED***}
-                                           onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                                           checked={enableTextSearch}
+                                           onChange={() => setAttributes({enableTextSearch: !enableTextSearch})}/>
                         </PanelRow>
                         <PanelRow>
                             <ToggleControl label={__("Show No Data Option (if available)")}
-                                           checked={***REMOVED***}
-                                           onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                                           checked={showNoDataOption}
+                                           onChange={() => setAttributes({showNoDataOption: !showNoDataOption})}/>
                         </PanelRow>
                         {filterType == "multi-select" && <>
                             <PanelRow>
@@ -322,8 +322,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <PanelRow>
                                 <ToggleControl
                                     label={__("All and None have same behaviour")}
-                                    checked={***REMOVED***}
-                                    onChange={() => setAttributes({***REMOVED***: !***REMOVED***})}/>
+                                    checked={allNoneSameBehaviour}
+                                    onChange={() => setAttributes({allNoneSameBehaviour: !allNoneSameBehaviour})}/>
                             </PanelRow>
                         </>}
 
@@ -340,7 +340,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </PanelBody>
 
                 </Panel>
-            </***REMOVED***>),
+            </InspectorControls>),
 
                 (<div>
 

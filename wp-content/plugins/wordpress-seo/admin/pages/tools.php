@@ -13,9 +13,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $tool_page = '';
 
-// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 if ( isset( $_GET['tool'] ) && is_string( $_GET['tool'] ) ) {
-	// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 	$tool_page = sanitize_text_field( wp_unslash( $_GET['tool'] ) );
 }
 

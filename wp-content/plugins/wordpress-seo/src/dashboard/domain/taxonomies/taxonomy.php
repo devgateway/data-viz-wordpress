@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Domain\Taxonomies;
 
 /**
@@ -55,9 +55,9 @@ class Taxonomy {
 	}
 
 	/**
-	 * Parses the taxonomy to the expected key value ***REMOVED***.
+	 * Parses the taxonomy to the expected key value representation.
 	 *
-	 * @return array<string, array<string, string>> The taxonomy presented as the expected key value ***REMOVED***.
+	 * @return array<string, array<string, string>> The taxonomy presented as the expected key value representation.
 	 */
 	public function to_array(): array {
 		return [

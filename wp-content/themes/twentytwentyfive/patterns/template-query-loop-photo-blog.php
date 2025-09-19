@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Photo blog posts
- * Slug: ***REMOVED***/template-query-loop-photo-blog
+ * Slug: twentytwentyfive/template-query-loop-photo-blog
  * Categories: query
  * Block Types: core/query
  * Viewport width: 1400
@@ -19,7 +19,7 @@
 		<div class="wp-block-group">
 		<!-- wp:query-no-results -->
 		<!-- wp:paragraph {"align":"center"} -->
-		<p class="has-text-align-center"><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', '***REMOVED***' ); ?></p>
+		<p class="has-text-align-center"><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 		<!-- /wp:paragraph -->
 		<!-- /wp:query-no-results -->
 	</div>
@@ -27,7 +27,7 @@
 
 	<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"}}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);">
-		<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","columnCount":null,"***REMOVED***":"23rem"}} -->
+		<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|50"}},"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"23rem"}} -->
 			<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"1"} /-->
 		<!-- /wp:post-template -->
 	</div>
@@ -35,7 +35,7 @@
 
 	<!-- wp:group {"layout":{"type":"default"}} -->
 	<div class="wp-block-group">
-		<!-- wp:query-pagination {"***REMOVED***":"arrow","align":"full","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+		<!-- wp:query-pagination {"paginationArrow":"arrow","align":"full","layout":{"type":"flex","justifyContent":"space-between"}} -->
 		<!-- wp:query-pagination-previous /-->
 		<!-- wp:query-pagination-numbers /-->
 		<!-- wp:query-pagination-next /-->

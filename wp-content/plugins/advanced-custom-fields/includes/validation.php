@@ -142,7 +142,7 @@ if ( ! class_exists( 'acf_validation' ) ) :
 								'message' => $nonce_error,
 								'action'  => array(
 									'label' => __( 'Learn more', 'acf' ),
-									'url'   => acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/validation-nonce-errors/', 'docs', 'validation-nonce' ),
+									'url'   => acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/validation-nonce-errors/', 'docs', 'validation-nonce' ),
 								),
 							),
 						),
@@ -171,7 +171,7 @@ if ( ! class_exists( 'acf_validation' ) ) :
 		 * @since   5.4.0
 		 */
 		public function acf_validate_save_post() {
-			// phpcs:disable WordPress.Security.***REMOVED***.Missing -- Verified elsewhere.
+			// phpcs:disable WordPress.Security.NonceVerification.Missing -- Verified elsewhere.
 			$post_type = acf_request_arg( 'post_type', false );
 			$screen    = acf_request_arg( '_acf_screen', false );
 
@@ -185,9 +185,9 @@ if ( ! class_exists( 'acf_validation' ) ) :
 					return;
 				}
 
-				acf_validate_values( $_POST['acf'], 'acf' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***
+				acf_validate_values( $_POST['acf'], 'acf' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			}
-			// phpcs:enable WordPress.Security.***REMOVED***.Missing
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 		}
 	}
 

@@ -18,7 +18,7 @@ namespace phpseclib3\Crypt\Common\Traits;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-trait ***REMOVED***
+trait PasswordProtected
 {
     /**
      * Password

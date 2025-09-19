@@ -2,10 +2,10 @@
  * Internal dependencies
  */
 import {
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	pickBorderColor,
+	pickBorderRadius,
+	pickBorderSpacing,
+	pickBorderWidth,
 	pickPadding,
 } from '../style-picker';
 
@@ -48,9 +48,9 @@ describe( 'style-picker', () => {
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'pickBorderWidth', () => {
 		it( 'should separate shorthand prop', () => {
-			expect( ***REMOVED***( { borderWidth: '10px' } ) ).toStrictEqual( {
+			expect( pickBorderWidth( { borderWidth: '10px' } ) ).toStrictEqual( {
 				bottom: '10px',
 				left: '10px',
 				right: '10px',
@@ -59,7 +59,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should separate vertical and horizontal', () => {
-			expect( ***REMOVED***( { borderWidth: '30px 10px' } ) ).toStrictEqual( {
+			expect( pickBorderWidth( { borderWidth: '30px 10px' } ) ).toStrictEqual( {
 				top: '30px',
 				right: '10px',
 				bottom: '30px',
@@ -68,7 +68,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should split vertical and horizontal and side', () => {
-			expect( ***REMOVED***( { borderWidth: '30px 10px 20px' } ) ).toStrictEqual( {
+			expect( pickBorderWidth( { borderWidth: '30px 10px 20px' } ) ).toStrictEqual( {
 				top: '30px',
 				right: '10px',
 				bottom: '20px',
@@ -77,7 +77,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should split four direction', () => {
-			expect( ***REMOVED***( { borderWidth: '30px 10px 20px 40px' } ) ).toStrictEqual( {
+			expect( pickBorderWidth( { borderWidth: '30px 10px 20px 40px' } ) ).toStrictEqual( {
 				top: '30px',
 				right: '10px',
 				bottom: '20px',
@@ -86,9 +86,9 @@ describe( 'style-picker', () => {
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'pickBorderColor', () => {
 		it( 'should separate shorthand prop', () => {
-			expect( ***REMOVED***( { borderColor: 'red' } ) ).toStrictEqual( {
+			expect( pickBorderColor( { borderColor: 'red' } ) ).toStrictEqual( {
 				top: 'red',
 				right: 'red',
 				bottom: 'red',
@@ -97,7 +97,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should separate vertical and horizontal', () => {
-			expect( ***REMOVED***( { borderColor: 'red #f015ca' } ) ).toStrictEqual( {
+			expect( pickBorderColor( { borderColor: 'red #f015ca' } ) ).toStrictEqual( {
 				top: 'red',
 				right: '#f015ca',
 				bottom: 'red',
@@ -107,7 +107,7 @@ describe( 'style-picker', () => {
 
 		it( 'should split vertical and horizontal and side', () => {
 			expect(
-				***REMOVED***( {
+				pickBorderColor( {
 					borderColor: 'red rgb(240,30,50,.7) green',
 				} )
 			).toStrictEqual( {
@@ -119,7 +119,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should split four direction', () => {
-			expect( ***REMOVED***( { borderColor: 'red yellow green blue' } ) ).toStrictEqual( {
+			expect( pickBorderColor( { borderColor: 'red yellow green blue' } ) ).toStrictEqual( {
 				top: 'red',
 				right: 'yellow',
 				bottom: 'green',
@@ -128,9 +128,9 @@ describe( 'style-picker', () => {
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'pickBorderRadius', () => {
 		it( 'should separate shorthand prop', () => {
-			expect( ***REMOVED***( { borderRadius: '10px' } ) ).toStrictEqual( {
+			expect( pickBorderRadius( { borderRadius: '10px' } ) ).toStrictEqual( {
 				topLeft: '10px',
 				topRight: '10px',
 				bottomRight: '10px',
@@ -139,7 +139,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should separate two value', () => {
-			expect( ***REMOVED***( { borderRadius: '10px 5%' } ) ).toStrictEqual( {
+			expect( pickBorderRadius( { borderRadius: '10px 5%' } ) ).toStrictEqual( {
 				topLeft: '10px',
 				topRight: '5%',
 				bottomRight: '10px',
@@ -148,7 +148,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should split three value', () => {
-			expect( ***REMOVED***( { borderRadius: '2px 4px 2px' } ) ).toStrictEqual( {
+			expect( pickBorderRadius( { borderRadius: '2px 4px 2px' } ) ).toStrictEqual( {
 				topLeft: '2px',
 				topRight: '4px',
 				bottomRight: '2px',
@@ -157,7 +157,7 @@ describe( 'style-picker', () => {
 		} );
 
 		it( 'should split four value', () => {
-			expect( ***REMOVED***( { borderRadius: '1px 0 3px 4px' } ) ).toStrictEqual( {
+			expect( pickBorderRadius( { borderRadius: '1px 0 3px 4px' } ) ).toStrictEqual( {
 				topLeft: '1px',
 				topRight: '0',
 				bottomRight: '3px',
@@ -166,16 +166,16 @@ describe( 'style-picker', () => {
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'pickBorderSpacing', () => {
 		it( 'should split value', () => {
-			expect( ***REMOVED***( { borderSpacing: '2px' } ) ).toStrictEqual( {
+			expect( pickBorderSpacing( { borderSpacing: '2px' } ) ).toStrictEqual( {
 				vertical: '2px',
 				horizontal: '2px',
 			} );
 		} );
 
 		it( 'should parsed correctly', () => {
-			expect( ***REMOVED***( { borderSpacing: '1rem 2em' } ) ).toStrictEqual( {
+			expect( pickBorderSpacing( { borderSpacing: '1rem 2em' } ) ).toStrictEqual( {
 				vertical: '2em',
 				horizontal: '1rem',
 			} );

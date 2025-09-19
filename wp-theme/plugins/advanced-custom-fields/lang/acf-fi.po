@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2020-10-29 10:30+0930\n"
 "PO-Revision-Date: 2021-01-17 11:10+0200\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:68
 msgid "Advanced Custom Fields"
@@ -155,7 +155,7 @@ msgstr "Valikot"
 
 #: includes/acf-wp-functions.php:75
 msgid "Menu items"
-msgstr "***REMOVED***"
+msgstr "Valikkokohteet"
 
 #: includes/acf-wp-functions.php:79
 msgid "Users"
@@ -470,9 +470,9 @@ msgid ""
 "display custom field values in any theme template file."
 msgstr ""
 "Advanced Custom Fields -lisäosa tarjoaa visuaalisen lomaketyökalun "
-"WordPressin muokkausnäyttöjen ***REMOVED*** ylimääräisillä kentillä ja "
+"WordPressin muokkausnäyttöjen mukauttamiseksi ylimääräisillä kentillä ja "
 "intuitiivisen API:n mukautettujen kenttäarvojen näyttämiseksi missä tahansa "
-"teeman ***REMOVED***."
+"teeman mallitiedostossa."
 
 #: includes/admin/admin.php:133
 #, php-format
@@ -482,7 +482,7 @@ msgid ""
 "yourself with the plugin's philosophy and best practises."
 msgstr ""
 "Ennen kuin luot ensimmäisen kenttäryhmäsi, suosittelemme lukemaan <a href="
-"\"%s\" target=\"_blank\">***REMOVED***</a>, jossa tutustutaan lisäosan "
+"\"%s\" target=\"_blank\">aloitusoppaamme</a>, jossa tutustutaan lisäosan "
 "filosofiaan ja parhaisiin käytäntöihin."
 
 #: includes/admin/admin.php:136
@@ -504,7 +504,7 @@ msgid ""
 "you can find help:"
 msgstr ""
 "Olemme fanaattisia tuen suhteen ja haluamme, että saat kaiken mahdollisen "
-"irti ***REMOVED*** ACF:n avulla. Jos kohtaat ongelmia, apua löytyy "
+"irti verkkosivustostasi ACF:n avulla. Jos kohtaat ongelmia, apua löytyy "
 "useista paikoista:"
 
 #: includes/admin/admin.php:151
@@ -514,7 +514,7 @@ msgid ""
 "documentation contains references and guides for most situations you may "
 "encounter."
 msgstr ""
-"<a href=\"%s\" target=\"_blank\">Dokumentaatio</a>. Laaja ***REMOVED*** "
+"<a href=\"%s\" target=\"_blank\">Dokumentaatio</a>. Laaja dokumentaatiomme "
 "sisältää viittauksia ja oppaita useimpiin kohtaamiisi tilanteisiin."
 
 #: includes/admin/admin.php:155
@@ -534,7 +534,7 @@ msgid ""
 "<a href=\"%s\" target=\"_blank\">Help Desk</a>. The support professionals on "
 "our Help Desk will assist with your more in depth, technical challenges."
 msgstr ""
-"<a href=\"%s\" target=\"_blank\">Tukipalvelu</a>. ***REMOVED*** "
+"<a href=\"%s\" target=\"_blank\">Tukipalvelu</a>. Tukipalvelumme "
 "ammattilaiset auttavat syvällisemmissä teknisissä haasteissasi."
 
 #: includes/admin/admin.php:168
@@ -552,7 +552,7 @@ msgstr "Näytä tarkemmat tiedot"
 
 #: includes/admin/admin.php:171
 msgid "Visit website"
-msgstr "Siirry ***REMOVED***"
+msgstr "Siirry verkkosivuille"
 
 #: includes/admin/admin.php:200
 #: includes/admin/views/field-group-field-conditional-logic.php:138
@@ -594,7 +594,7 @@ msgid ""
 "import to another ACF installation. Use the generate button to export to PHP "
 "code which you can place in your theme."
 msgstr ""
-"Valitse kenttäryhmät, jotka haluat viedä ja valitse sitten ***REMOVED***. "
+"Valitse kenttäryhmät, jotka haluat viedä ja valitse sitten vientimetodisi. "
 "Käytä Lataa-painiketta viedäksesi .json-tiedoston, jonka voit sitten tuoda "
 "toisessa ACF asennuksessa. Käytä Generoi-painiketta luodaksesi PHP koodia, "
 "jonka voit sijoittaa teemaasi."
@@ -613,7 +613,7 @@ msgid ""
 msgstr ""
 "Tällä koodilla voit rekisteröidä valitut kenttäryhmät paikallisesti. "
 "Paikallinen kenttäryhmä tarjoaa monia etuja, kuten nopeammat latausajat, "
-"***REMOVED*** & dynaamiset kentät/asetukset. Kopioi ja liitä koodi "
+"versionhallinnan & dynaamiset kentät/asetukset. Kopioi ja liitä koodi "
 "teemasi functions.php tiedostoon tai sisällytä se ulkoisen tiedoston avulla."
 
 #: includes/admin/tools/class-acf-admin-tool-export.php:446
@@ -748,7 +748,7 @@ msgstr "Ohjeet"
 
 #: includes/admin/views/field-group-field.php:97
 msgid "Instructions for authors. Shown when submitting data"
-msgstr "Ohjeet ***REMOVED***. Näytetään tietojen lähettämisen yhteydessä"
+msgstr "Ohjeet kirjoittajille. Näytetään tietojen lähettämisen yhteydessä"
 
 #: includes/admin/views/field-group-field.php:106
 msgid "Required?"
@@ -946,7 +946,7 @@ msgstr "Piilota näytöltä"
 
 #: includes/admin/views/field-group-options.php:129
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
-msgstr "<b>Valitse</b> kohteita <b>***REMOVED***</b> ne muokkausnäkymästä."
+msgstr "<b>Valitse</b> kohteita <b>piilottaaksesi</b> ne muokkausnäkymästä."
 
 #: includes/admin/views/field-group-options.php:129
 msgid ""
@@ -1097,7 +1097,7 @@ msgstr "Virheellinen kenttäryhmän tunnus."
 #: includes/ajax/class-acf-ajax-local-json-diff.php:51
 msgid "Sorry, this field group is unavailable for diff comparison."
 msgstr ""
-"Tämä kenttäryhmä ei ***REMOVED*** ole käytettävissä diff-vertailua varten."
+"Tämä kenttäryhmä ei valitettavasti ole käytettävissä diff-vertailua varten."
 
 #: includes/ajax/class-acf-ajax-local-json-diff.php:57
 #, php-format
@@ -1249,7 +1249,7 @@ msgstr "Valintakentät"
 
 #: includes/fields.php:352
 msgid "Relational"
-msgstr "***REMOVED***"
+msgstr "Relationaalinen"
 
 #: includes/fields.php:353
 msgid "jQuery"
@@ -1372,13 +1372,13 @@ msgstr "Kentän oletusarvo"
 #: includes/fields/class-acf-field-checkbox.php:396
 #: includes/fields/class-acf-field-radio.php:297
 msgid "Horizontal"
-msgstr "***REMOVED***"
+msgstr "Vaakasuuntainen"
 
 #: includes/fields/class-acf-field-button-group.php:184
 #: includes/fields/class-acf-field-checkbox.php:395
 #: includes/fields/class-acf-field-radio.php:296
 msgid "Vertical"
-msgstr "***REMOVED***"
+msgstr "Pystysuuntainen"
 
 #: includes/fields/class-acf-field-button-group.php:191
 #: includes/fields/class-acf-field-checkbox.php:413
@@ -1439,7 +1439,7 @@ msgstr "Tallenna mukautettu"
 #: includes/fields/class-acf-field-checkbox.php:369
 msgid "Save 'custom' values to the field's choices"
 msgstr ""
-"Tallenna 'Muu’-kentän arvo kentän valinta vaihtoehdoksi ***REMOVED***"
+"Tallenna 'Muu’-kentän arvo kentän valinta vaihtoehdoksi tulevaisuudessa"
 
 #: includes/fields/class-acf-field-checkbox.php:381
 #: includes/fields/class-acf-field-select.php:374
@@ -1534,7 +1534,7 @@ msgstr "Mukautettu:"
 
 #: includes/fields/class-acf-field-date_picker.php:197
 msgid "Save Format"
-msgstr "***REMOVED***"
+msgstr "Tallennusmuoto"
 
 #: includes/fields/class-acf-field-date_picker.php:198
 msgid "The format used when saving a value"
@@ -1565,7 +1565,7 @@ msgstr "Viikon ensimmäinen päivä"
 
 #: includes/fields/class-acf-field-date_time_picker.php:25
 msgid "Date Time Picker"
-msgstr "Päivämäärä- ja ***REMOVED***"
+msgstr "Päivämäärä- ja kellonaikavalitsin"
 
 #: includes/fields/class-acf-field-date_time_picker.php:68
 msgctxt "Date Time Picker JS timeOnlyTitle"
@@ -1748,7 +1748,7 @@ msgstr "Kirjasto"
 #: includes/fields/class-acf-field-image.php:220
 #: pro/fields/class-acf-field-gallery.php:593
 msgid "Limit the media library choice"
-msgstr "Rajoita valintaa ***REMOVED***"
+msgstr "Rajoita valintaa mediakirjastosta"
 
 #: includes/fields/class-acf-field-file.php:235
 #: includes/fields/class-acf-field-image.php:225
@@ -1791,7 +1791,7 @@ msgstr "Maksimiarvo(t)"
 #: includes/fields/class-acf-field-image.php:291
 #: pro/fields/class-acf-field-gallery.php:678
 msgid "Allowed file types"
-msgstr "Sallitut ***REMOVED***"
+msgstr "Sallitut tiedostotyypit"
 
 #: includes/fields/class-acf-field-file.php:266
 #: includes/fields/class-acf-field-image.php:292
@@ -1832,7 +1832,7 @@ msgstr "Sijainti"
 #: includes/fields/class-acf-field-google-map.php:182
 #: includes/fields/class-acf-field-google-map.php:193
 msgid "Center the initial map"
-msgstr "Kartan ***REMOVED***"
+msgstr "Kartan oletussijainti"
 
 #: includes/fields/class-acf-field-google-map.php:204
 msgid "Zoom"
@@ -1937,7 +1937,7 @@ msgstr "Kuvan ID"
 #: includes/fields/class-acf-field-image.php:209
 #: pro/fields/class-acf-field-gallery.php:571
 msgid "Preview Size"
-msgstr "***REMOVED*** koko"
+msgstr "Esikatselukuvan koko"
 
 #: includes/fields/class-acf-field-image.php:234
 #: includes/fields/class-acf-field-image.php:263
@@ -1968,7 +1968,7 @@ msgstr "Avaa uuteen ikkunaan/välilehteen"
 
 #: includes/fields/class-acf-field-link.php:172
 msgid "Link Array"
-msgstr "***REMOVED*** (array)"
+msgstr "Linkkitaulukko (array)"
 
 #: includes/fields/class-acf-field-link.php:173
 msgid "Link URL"
@@ -1993,12 +1993,12 @@ msgstr "Määrittää kuinka uudet rivit muotoillaan"
 #: includes/fields/class-acf-field-message.php:115
 #: includes/fields/class-acf-field-textarea.php:144
 msgid "Automatically add paragraphs"
-msgstr "Lisää ***REMOVED*** kappale"
+msgstr "Lisää automaattisesti kappale"
 
 #: includes/fields/class-acf-field-message.php:116
 #: includes/fields/class-acf-field-textarea.php:145
 msgid "Automatically add &lt;br&gt;"
-msgstr "Lisää ***REMOVED*** &lt;br&gt;"
+msgstr "Lisää automaattisesti &lt;br&gt;"
 
 #: includes/fields/class-acf-field-message.php:117
 #: includes/fields/class-acf-field-textarea.php:146
@@ -2083,7 +2083,7 @@ msgstr "Suodata tyypin mukaan"
 #: includes/fields/class-acf-field-post_object.php:391
 #: includes/fields/class-acf-field-relationship.php:562
 msgid "All post types"
-msgstr "Kaikki ***REMOVED***"
+msgstr "Kaikki artikkelityypit"
 
 #: includes/fields/class-acf-field-page_link.php:492
 #: includes/fields/class-acf-field-post_object.php:397
@@ -2165,7 +2165,7 @@ msgstr "Ei yhtään osumaa"
 
 #: includes/fields/class-acf-field-relationship.php:411
 msgid "Select post type"
-msgstr "Valitse ***REMOVED***"
+msgstr "Valitse artikkelityyppi"
 
 #: includes/fields/class-acf-field-relationship.php:420
 msgid "Select taxonomy"
@@ -2182,7 +2182,7 @@ msgstr "Suodattimet"
 #: includes/fields/class-acf-field-relationship.php:588
 #: includes/locations/class-acf-location-post-type.php:20
 msgid "Post Type"
-msgstr "***REMOVED***"
+msgstr "Artikkelityyppi"
 
 #: includes/fields/class-acf-field-relationship.php:589
 #: includes/fields/class-acf-field-taxonomy.php:28
@@ -2418,7 +2418,7 @@ msgstr "Teksti"
 #: includes/fields/class-acf-field-text.php:131
 #: includes/fields/class-acf-field-textarea.php:120
 msgid "Character Limit"
-msgstr "***REMOVED***"
+msgstr "Merkkirajoitus"
 
 #: includes/fields/class-acf-field-text.php:132
 #: includes/fields/class-acf-field-textarea.php:121
@@ -2445,7 +2445,7 @@ msgstr "Aseta tekstialueen koko"
 
 #: includes/fields/class-acf-field-time_picker.php:25
 msgid "Time Picker"
-msgstr "***REMOVED***"
+msgstr "Kellonaikavalitsin"
 
 #: includes/fields/class-acf-field-true_false.php:25
 msgid "True / False"
@@ -2549,7 +2549,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "Näytä Lisää media -painike?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:419
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "Viivytä alustusta?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:420
@@ -2590,7 +2590,7 @@ msgstr "Luokkaa \"%s\" ei ole."
 #: includes/locations.php:34
 #, php-format
 msgid "Location type \"%s\" is already registered."
-msgstr "***REMOVED*** \"%s\" on jo rekisteröity."
+msgstr "Sijaintityyppi \"%s\" on jo rekisteröity."
 
 #: includes/locations.php:97 includes/locations/class-acf-location-post.php:20
 msgid "Post"
@@ -2659,7 +2659,7 @@ msgstr "Valikko"
 
 #: includes/locations/class-acf-location-nav-menu.php:78
 msgid "Menu Locations"
-msgstr "***REMOVED***"
+msgstr "Valikkosijainnit"
 
 #: includes/locations/class-acf-location-page-parent.php:20
 msgid "Page Parent"
@@ -2813,7 +2813,7 @@ msgstr "Aktivoi lisenssi"
 
 #: pro/admin/views/html-settings-updates.php:16
 msgid "License Information"
-msgstr "Näytä ***REMOVED***"
+msgstr "Näytä lisenssitiedot"
 
 #: pro/admin/views/html-settings-updates.php:19
 #, php-format
@@ -2822,8 +2822,8 @@ msgid ""
 "licence key, please see <a href=\"%s\" target=\"_blank\">details & pricing</"
 "a>."
 msgstr ""
-"Ottaaksesi käyttöön päivitykset, syötä alle ***REMOVED***. Jos sinulla ei "
-"ole ***REMOVED***, katso <a href=\"%s\" target=\"_blank\">tarkemmat tiedot "
+"Ottaaksesi käyttöön päivitykset, syötä alle lisenssiavaimesi. Jos sinulla ei "
+"ole lisenssiavainta, katso <a href=\"%s\" target=\"_blank\">tarkemmat tiedot "
 "ja hinnoittelu</a>."
 
 #: pro/admin/views/html-settings-updates.php:26
@@ -3069,7 +3069,7 @@ msgstr "Kuvateksti"
 
 #: pro/fields/class-acf-field-gallery.php:371
 msgid "Alt Text"
-msgstr "***REMOVED*** teksti"
+msgstr "Vaihtoehtoinen teksti"
 
 #: pro/fields/class-acf-field-gallery.php:487
 msgid "Add to gallery"
@@ -3077,7 +3077,7 @@ msgstr "Lisää galleriaan"
 
 #: pro/fields/class-acf-field-gallery.php:491
 msgid "Bulk actions"
-msgstr "***REMOVED***"
+msgstr "Massatoiminnot"
 
 #: pro/fields/class-acf-field-gallery.php:492
 msgid "Sort by date uploaded"
@@ -3179,19 +3179,19 @@ msgid ""
 "\">Updates</a> page. If you don't have a licence key, please see <a href=\"%s"
 "\">details & pricing</a>."
 msgstr ""
-"Ottaaksesi käyttöön päivitykset, ole hyvä ja syötä ***REMOVED*** <a href="
-"\"%s\">Päivitykset</a> -sivulle. Jos sinulla ei ole ***REMOVED***, katso "
+"Ottaaksesi käyttöön päivitykset, ole hyvä ja syötä lisenssiavaimesi <a href="
+"\"%s\">Päivitykset</a> -sivulle. Jos sinulla ei ole lisenssiavainta, katso "
 "<a href=\"%s\">tarkemmat tiedot ja hinnoittelu</a>."
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
-msgid "https://www.***REMOVED***.com"
-msgstr "http://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "http://www.advancedcustomfields.com"
 
 #. Description of the plugin/theme
 msgid "Customize WordPress with powerful, professional and intuitive fields."
 msgstr ""
-"Mukauta WordPressiä tehokkailla, ***REMOVED*** ja ***REMOVED*** kentillä."
+"Mukauta WordPressiä tehokkailla, ammattimaisilla ja intuitiivisilla kentillä."
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"
@@ -3230,7 +3230,7 @@ msgstr "Elliot Condon"
 #~ msgstr "﻿Käytä"
 
 #~ msgid "Bulk Actions"
-#~ msgstr "***REMOVED***"
+#~ msgstr "Massatoiminnot"
 
 #~ msgid "Info"
 #~ msgstr "Info"
@@ -3261,7 +3261,7 @@ msgstr "Elliot Condon"
 #~ "taxonomy and select."
 #~ msgstr ""
 #~ "Mukaan otettu Select2-kirjasto on parantanut sekä käytettävyyttä että "
-#~ "nopeutta erilaisissa kenttätyypeissä kuten ***REMOVED***, sivun "
+#~ "nopeutta erilaisissa kenttätyypeissä kuten artikkelioliossa, sivun "
 #~ "linkissä, taksonomiassa ja valinnassa."
 
 #~ msgid "Improved Design"
@@ -3284,8 +3284,8 @@ msgstr "Elliot Condon"
 #~ "independently from their parents. This allows you to drag and drop fields "
 #~ "in and out of parent fields!"
 #~ msgstr ""
-#~ "Data-***REMOVED*** ***REMOVED*** mahdollisti alakenttien "
-#~ "***REMOVED*** vanhemmistaan. Tämän muutoksen myötä voit vetää ja "
+#~ "Data-arkkitehtuurin uudelleensuunnittelu mahdollisti alakenttien "
+#~ "riippumattomuuden vanhemmistaan. Tämän muutoksen myötä voit vetää ja "
 #~ "pudottaa kenttiä riippumatta kenttähierarkiasta!"
 
 #~ msgid "Goodbye Add-ons. Hello PRO"
@@ -3298,7 +3298,7 @@ msgstr "Elliot Condon"
 #~ "We're changing the way premium functionality is delivered in an exciting "
 #~ "way!"
 #~ msgstr ""
-#~ "Olemme muuttamassa tapaa, jolla Premium-***REMOVED*** toimitetaan "
+#~ "Olemme muuttamassa tapaa, jolla Premium-toiminnallisuus toimitetaan "
 #~ "jännittävällä tavalla!"
 
 #, php-format
@@ -3309,8 +3309,8 @@ msgstr "Elliot Condon"
 #~ msgstr ""
 #~ "Kaikki neljä premium-lisäosaa on yhdistetty uuteen <a href=\"%s\">ACF PRO "
 #~ "-versioon</a>. Lisensseistä saatavilla on sekä henkilökohtaisia että "
-#~ "kehittäjien lisenssejä, joten ***REMOVED*** ***REMOVED*** ovat nyt "
-#~ "edullisimpia ja ***REMOVED*** kuin koskaan ennen!"
+#~ "kehittäjien lisenssejä, joten korkealuokkaiset toiminnallisuudet ovat nyt "
+#~ "edullisimpia ja saavutettavampia kuin koskaan ennen!"
 
 #~ msgid "Powerful Features"
 #~ msgstr "Tehokkaat ominaisuudet"
@@ -3326,7 +3326,7 @@ msgstr "Elliot Condon"
 
 #, php-format
 #~ msgid "Read more about <a href=\"%s\">ACF PRO features</a>."
-#~ msgstr "Lue lisää <a href=\"%s\">ACF PRO:n ***REMOVED***</a>."
+#~ msgstr "Lue lisää <a href=\"%s\">ACF PRO:n ominaisuuksista</a>."
 
 #~ msgid "Easy Upgrading"
 #~ msgstr "Helppo päivitys"
@@ -3346,7 +3346,7 @@ msgstr "Elliot Condon"
 #~ msgstr ""
 #~ "Kirjoitimme myös <a href=\"%s\">päivitysoppaan</a> vastataksemme "
 #~ "kysymyksiin. Jos jokin asia vielä vaivaa mieltäsi, ota yhteyttä "
-#~ "***REMOVED*** <a href=\"%s\">***REMOVED***</a> kautta."
+#~ "asiakaspalveluumme <a href=\"%s\">neuvontapalvelun</a> kautta."
 
 #~ msgid "New Features"
 #~ msgstr "Uudet ominaisuudet"
@@ -3358,14 +3358,14 @@ msgstr "Elliot Condon"
 #~ "The Link field provides a simple way to select or define a link (url, "
 #~ "title, target)."
 #~ msgstr ""
-#~ "Linkki-kentässä on ***REMOVED*** tapa valita tai määrittää linkki (URL, "
+#~ "Linkki-kentässä on yksinkertainen tapa valita tai määrittää linkki (URL, "
 #~ "otsikko, kohde)."
 
 #~ msgid "Group Field"
 #~ msgstr "Ryhmä-kenttä"
 
 #~ msgid "The Group field provides a simple way to create a group of fields."
-#~ msgstr "Ryhmä-kentässä on ***REMOVED*** tapa luoda kenttäryhmiä."
+#~ msgstr "Ryhmä-kentässä on yksinkertainen tapa luoda kenttäryhmiä."
 
 #~ msgid "oEmbed Field"
 #~ msgstr "oEmbed-kenttä"
@@ -3394,7 +3394,7 @@ msgstr "Elliot Condon"
 
 #~ msgid ""
 #~ "New auto export to JSON feature improves speed and allows for "
-#~ "***REMOVED***."
+#~ "syncronisation."
 #~ msgstr ""
 #~ "Uusi automaattinen vienti JSON:iin parantaa nopeutta ja mahdollistaa "
 #~ "synkronoinnin."
@@ -3407,13 +3407,13 @@ msgstr "Elliot Condon"
 #~ "Sekä tuonti että vienti voidaan tehdä helposti uudella työkalut-sivulla."
 
 #~ msgid "New Form Locations"
-#~ msgstr "Uudet ***REMOVED***"
+#~ msgstr "Uudet valikkosijainnit"
 
 #~ msgid ""
 #~ "Fields can now be mapped to menus, menu items, comments, widgets and all "
 #~ "user forms!"
 #~ msgstr ""
-#~ "Kentät voidaan nyt linkittää valikkoihin, ***REMOVED***, "
+#~ "Kentät voidaan nyt linkittää valikkoihin, valikkokohteisiin, "
 #~ "kommentteihin, vimpaimiin ja kaikkiin käyttäjälomakkeisiin!"
 
 #~ msgid "More Customization"
@@ -3423,7 +3423,7 @@ msgstr "Elliot Condon"
 #~ "New PHP (and JS) actions and filters have been added to allow for more "
 #~ "customization."
 #~ msgstr ""
-#~ "Uudet PHP (ja JS) -toiminnot ja -suodattimet on lisätty ***REMOVED*** "
+#~ "Uudet PHP (ja JS) -toiminnot ja -suodattimet on lisätty mahdollistamaan "
 #~ "kattavamman mukautuksen."
 
 #~ msgid "Fresh UI"
@@ -3443,7 +3443,7 @@ msgstr "Elliot Condon"
 #~ "Field group settings have been added for Active, Label Placement, "
 #~ "Instructions Placement and Description."
 #~ msgstr ""
-#~ "Kenttäryhmän asetukset on lisätty ***REMOVED*** Aktiivinen, Nimiön "
+#~ "Kenttäryhmän asetukset on lisätty ominaisuuksiin Aktiivinen, Nimiön "
 #~ "sijoittelu, Ohjeiden sijoittelu ja Kuvaus."
 
 #~ msgid "Better Front End Forms"
@@ -3471,7 +3471,7 @@ msgstr "Elliot Condon"
 #~ "New field group functionality allows you to move a field between groups & "
 #~ "parents."
 #~ msgstr ""
-#~ "Uusi kenttäryhmien ***REMOVED*** sallii kenttien siirtämisen ryhmien ja "
+#~ "Uusi kenttäryhmien toiminnallisuus sallii kenttien siirtämisen ryhmien ja "
 #~ "vanhempien välillä."
 
 #, php-format
@@ -3539,16 +3539,16 @@ msgstr "Elliot Condon"
 #~ msgstr "Älykkäämmät kenttäasetukset"
 
 #~ msgid "ACF now saves its field settings as individual post objects"
-#~ msgstr "ACF tallentaa nyt kenttäasetukset yksittäisenä ***REMOVED***"
+#~ msgstr "ACF tallentaa nyt kenttäasetukset yksittäisenä artikkelioliona"
 
 #~ msgid "Better version control"
-#~ msgstr "Parempi ***REMOVED***"
+#~ msgstr "Parempi versionhallinta"
 
 #~ msgid ""
 #~ "New auto export to JSON feature allows field settings to be version "
 #~ "controlled"
 #~ msgstr ""
-#~ "Uusi automaattinen JSON-vienti sallii kenttäasetuksia ***REMOVED***"
+#~ "Uusi automaattinen JSON-vienti sallii kenttäasetuksia versionhallinnan"
 
 #~ msgid "Swapped XML for JSON"
 #~ msgstr "XML vaihdettu JSON:iin"
@@ -3566,7 +3566,7 @@ msgstr "Elliot Condon"
 #~ msgstr "Uusi galleria"
 
 #~ msgid "The gallery field has undergone a much needed facelift"
-#~ msgstr "Galleriakenttä on käynyt läpi suuresti tarvitun ***REMOVED***"
+#~ msgstr "Galleriakenttä on käynyt läpi suuresti tarvitun kasvojenkohotuksen"
 
 #~ msgid "Relationship Field"
 #~ msgstr "Suodata artikkeleita -kenttä"
@@ -3575,7 +3575,7 @@ msgstr "Elliot Condon"
 #~ "New Relationship field setting for 'Filters' (Search, Post Type, Taxonomy)"
 #~ msgstr ""
 #~ "Uudet Suodata artikkeleita -kentän asetukset 'Suodattamille' (Etsi, "
-#~ "***REMOVED***, Taksonomia)"
+#~ "Artikkelityyppi, Taksonomia)"
 
 #~ msgid "New archives group in page_link field selection"
 #~ msgstr "Uusi arkistoryhmä page_link -kentän valintana"
@@ -3587,14 +3587,14 @@ msgstr "Elliot Condon"
 #~ "New functions for options page allow creation of both parent and child "
 #~ "menu pages"
 #~ msgstr ""
-#~ "Uusi ***REMOVED*** asetukset-sivulle, joka sallii sekä vanhempi että "
+#~ "Uusi toiminnallisuus asetukset-sivulle, joka sallii sekä vanhempi että "
 #~ "lapsi menu-sivujen luomisen"
 
 #~ msgid "Export Field Groups to PHP"
 #~ msgstr "Vie kenttäryhmä PHP:llä"
 
 #~ msgid "Download export file"
-#~ msgstr "Lataa ***REMOVED***"
+#~ msgstr "Lataa vientitiedosto"
 
 #~ msgid "Generate export code"
 #~ msgstr "Generoi vientikoodi"
@@ -3762,8 +3762,8 @@ msgstr "Elliot Condon"
 #~ "To unlock updates, please enter your license key below. If you don't have "
 #~ "a licence key, please see"
 #~ msgstr ""
-#~ "Saadaksesi ***REMOVED*** päivityksiin, syötä lisenssiavain. Jos sinulla "
-#~ "ei ole ***REMOVED***, katso"
+#~ "Saadaksesi mahdollisuuden päivityksiin, syötä lisenssiavain. Jos sinulla "
+#~ "ei ole lisenssiavainta, katso"
 
 #~ msgid "details & pricing"
 #~ msgstr "lisätiedot & hinnoittelu"
@@ -3846,4 +3846,4 @@ msgstr "Elliot Condon"
 #~ "Load value based on the post's terms and update the post's terms on save"
 #~ msgstr ""
 #~ "Lataa arvo perustuen artikkelin ehtoihin ja päivitä artikkelin ehdot "
-#~ "***REMOVED***"
+#~ "tallennettaessa"

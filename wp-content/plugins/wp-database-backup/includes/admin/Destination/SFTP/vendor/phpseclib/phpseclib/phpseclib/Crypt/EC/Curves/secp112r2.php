@@ -22,7 +22,7 @@ class secp112r2 extends Prime
     {
         // same modulo as secp112r1
         $this->setModulo(new BigInteger('DB7C2ABF62E35E668076BEAD208B', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('6127C24C05F38A0AAAF65C0EF02C', 16),
             new BigInteger('51DEF1815DB5ED74FCC34C85D709', 16)
         );

@@ -27,7 +27,7 @@ abstract class DigestInfo
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'digestAlgorithm' => AlgorithmIdentifier::MAP,
             'digest' => ['type' => ASN1::TYPE_OCTET_STRING]
         ]
     ];

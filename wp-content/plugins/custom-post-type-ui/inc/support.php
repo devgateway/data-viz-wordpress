@@ -261,7 +261,7 @@ function cptui_support() {
 									/* translators: Placeholders are just for HTML markup that doesn't need translated */
 									esc_html__( '%1$s has an excellent %2$spost%3$s introducing users to the %4$sPosts 2 Posts%5$s plugin that should be a good start.', 'custom-post-type-ui' ),
 									'Pippin Williamson',
-									'<a href="https://***REMOVED***.com/introduction-posts-2-posts-plugin/" target="_blank" rel="noopener">',
+									'<a href="https://pippinsplugins.com/introduction-posts-2-posts-plugin/" target="_blank" rel="noopener">',
 									'</a>',
 									'<a href="https://wordpress.org/plugins/posts-to-posts/" target="_blank" rel="noopener">',
 									'</a>'

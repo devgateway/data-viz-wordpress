@@ -6,10 +6,10 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
 /**
  * Interface used with classes that return a promise.
  */
-interface ***REMOVED***
+interface PromisorInterface
 {
     /**
      * Returns a promise.
      */
-    public function promise() : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+    public function promise() : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
 }

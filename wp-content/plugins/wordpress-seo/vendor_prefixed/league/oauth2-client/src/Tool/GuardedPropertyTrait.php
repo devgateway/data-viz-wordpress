@@ -18,7 +18,7 @@ namespace YoastSEO_Vendor\League\OAuth2\Client\Tool;
  * Provides support for blacklisting explicit properties from the
  * mass assignment behavior.
  */
-trait ***REMOVED***
+trait GuardedPropertyTrait
 {
     /**
      * The properties that aren't mass assignable.
@@ -33,7 +33,7 @@ trait ***REMOVED***
      * @param array $options
      * @return mixed
      */
-    protected function ***REMOVED***(array $options = [])
+    protected function fillProperties(array $options = [])
     {
         if (isset($options['guarded'])) {
             unset($options['guarded']);

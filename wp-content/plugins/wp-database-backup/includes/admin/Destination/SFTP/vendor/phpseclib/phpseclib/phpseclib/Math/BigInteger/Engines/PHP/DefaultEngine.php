@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Default Modular ***REMOVED*** Engine
+ * PHP Default Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Math\BigInteger\Engines\PHP;
 use phpseclib3\Math\BigInteger\Engines\PHP\Reductions\EvalBarrett;
 
 /**
- * PHP Default Modular ***REMOVED*** Engine
+ * PHP Default Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */

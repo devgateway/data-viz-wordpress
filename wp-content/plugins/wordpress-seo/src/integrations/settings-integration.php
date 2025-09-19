@@ -41,7 +41,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @var string[]
 	 */
-	public const WP_OPTIONS = [ '***REMOVED***' ];
+	public const WP_OPTIONS = [ 'blogdescription' ];
 
 	/**
 	 * Holds the allowed option groups.
@@ -258,15 +258,15 @@ class Settings_Integration implements Integration_Interface {
 		// Are we saving the settings?
 		if ( $this->current_page_helper->get_current_admin_page() === 'options.php' ) {
 			$post_action = '';
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 			if ( isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
-				// phpcs:ignore WordPress.Security.***REMOVED***.Missing, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information.
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
 				$post_action = \wp_unslash( $_POST['action'] );
 			}
 			$option_page = '';
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 			if ( isset( $_POST['option_page'] ) && \is_string( $_POST['option_page'] ) ) {
-				// phpcs:ignore WordPress.Security.***REMOVED***.Missing, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information.
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information.
 				$option_page = \wp_unslash( $_POST['option_page'] );
 			}
 
@@ -373,7 +373,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// Remove the emoji script as it is incompatible with both React and any ***REMOVED*** fields.
+		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
 		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		\wp_enqueue_media();
 		$this->asset_manager->enqueue_script( 'new-settings' );
@@ -381,7 +381,7 @@ class Settings_Integration implements Integration_Interface {
 		if ( \YoastSEO()->classes->get( Promotion_Manager::class )->is( 'black-friday-2024-promotion' ) ) {
 			$this->asset_manager->enqueue_style( 'black-friday-banner' );
 		}
-		$this->asset_manager->localize_script( 'new-settings', '***REMOVED***', $this->get_script_data() );
+		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
 	}
 
 	/**
@@ -432,12 +432,12 @@ class Settings_Integration implements Integration_Interface {
 
 		return [
 			'settings'                       => $this->transform_settings( $settings ),
-			'***REMOVED***'           => $default_setting_values,
-			'***REMOVED***'               => $this->get_disabled_settings( $settings ),
+			'defaultSettingValues'           => $default_setting_values,
+			'disabledSettings'               => $this->get_disabled_settings( $settings ),
 			'endpoint'                       => \admin_url( 'options.php' ),
 			'nonce'                          => \wp_create_nonce( self::PAGE . '-options' ),
 			'separators'                     => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
-			'***REMOVED***'           => $this->get_replacement_variables(),
+			'replacementVariables'           => $this->get_replacement_variables(),
 			'schema'                         => $this->get_schema( $transformed_post_types ),
 			'preferences'                    => $this->get_preferences( $settings ),
 			'linkParams'                     => WPSEO_Shortlinker::get_query_params(),
@@ -445,7 +445,7 @@ class Settings_Integration implements Integration_Interface {
 			'taxonomies'                     => $transformed_taxonomies,
 			'fallbacks'                      => $this->get_fallbacks(),
 			'showNewContentTypeNotification' => $show_new_content_type_notification,
-			'***REMOVED***'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
+			'currentPromotions'              => \YoastSEO()->classes->get( Promotion_Manager::class )->get_current_promotions(),
 		];
 	}
 
@@ -482,12 +482,12 @@ class Settings_Integration implements Integration_Interface {
 		return [
 			'isPremium'                     => $this->product_helper->is_premium(),
 			'isRtl'                         => \is_rtl(),
-			'***REMOVED***'                => \is_network_admin(),
+			'isNetworkAdmin'                => \is_network_admin(),
 			'isMainSite'                    => \is_main_site(),
 			'isMultisite'                   => \is_multisite(),
-			'***REMOVED***'           => $this->woocommerce_helper->is_active(),
-			'***REMOVED***'              => \defined( 'WPSEO_LOCAL_FILE' ),
-			'***REMOVED***'               => \defined( 'WPSEO_NEWS_FILE' ),
+			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
+			'isLocalSeoActive'              => \defined( 'WPSEO_LOCAL_FILE' ),
+			'isNewsSeoActive'               => \defined( 'WPSEO_NEWS_FILE' ),
 			'isWooCommerceSEOActive'        => $woocommerce_seo_active,
 			'siteUrl'                       => \get_bloginfo( 'url' ),
 			'siteTitle'                     => \get_bloginfo( 'name' ),
@@ -497,25 +497,25 @@ class Settings_Integration implements Integration_Interface {
 			'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
 			'localSeoPageSettingUrl'        => $business_settings_url,
 			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
-			'***REMOVED***'           => \get_edit_post_link( $page_on_front, 'js' ),
-			'***REMOVED***'          => \get_edit_post_link( $page_for_posts, 'js' ),
+			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
+			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 			'createUserUrl'                 => \admin_url( 'user-new.php' ),
 			'createPageUrl'                 => \admin_url( 'post-new.php?post_type=page' ),
 			'editUserUrl'                   => \admin_url( 'user-edit.php' ),
-			'***REMOVED***'               => \admin_url( 'edit-tags.php' ),
-			'***REMOVED***'            => \admin_url( 'options-general.php' ),
+			'editTaxonomyUrl'               => \admin_url( 'edit-tags.php' ),
+			'generalSettingsUrl'            => \admin_url( 'options-general.php' ),
 			'companyOrPersonMessage'        => \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' ),
 			'currentUserId'                 => \get_current_user_id(),
-			'***REMOVED***'                => \current_user_can( 'create_users' ),
-			'***REMOVED***'                => \current_user_can( 'edit_pages' ),
+			'canCreateUsers'                => \current_user_can( 'create_users' ),
+			'canCreatePages'                => \current_user_can( 'edit_pages' ),
 			'canEditUsers'                  => \current_user_can( 'edit_users' ),
-			'***REMOVED***'              => \current_user_can( 'manage_options' ),
+			'canManageOptions'              => \current_user_can( 'manage_options' ),
 			'userLocale'                    => \str_replace( '_', '-', \get_user_locale() ),
 			'pluginUrl'                     => \plugins_url( '', \WPSEO_FILE ),
 			'showForceRewriteTitlesSetting' => ! \current_theme_supports( 'title-tag' ) && ! ( \function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ),
-			'***REMOVED***'                => $this->get_upsell_settings(),
-			'***REMOVED***'          => $this->get_site_represents_person( $settings ),
-			'***REMOVED***'            => $this->get_site_basics_policies( $settings ),
+			'upsellSettings'                => $this->get_upsell_settings(),
+			'siteRepresentsPerson'          => $this->get_site_represents_person( $settings ),
+			'siteBasicsPolicies'            => $this->get_site_basics_policies( $settings ),
 		];
 	}
 
@@ -645,7 +645,7 @@ class Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Retrieves the organization schema values from Local SEO for defaults in Site ***REMOVED*** fields.
+	 * Retrieves the organization schema values from Local SEO for defaults in Site representation fields.
 	 * Specifically for the org-vat-id, org-tax-id, org-email and org-phone options.
 	 *
 	 * @param array<string|int|bool> $defaults The settings defaults.
@@ -752,8 +752,8 @@ class Settings_Integration implements Integration_Interface {
 		/**
 		 * Decode some WP options.
 		 */
-		$settings['***REMOVED***'] = \html_entity_decode(
-			$settings['***REMOVED***'],
+		$settings['blogdescription'] = \html_entity_decode(
+			$settings['blogdescription'],
 			( \ENT_NOQUOTES | \ENT_HTML5 ),
 			'UTF-8'
 		);
@@ -849,11 +849,11 @@ class Settings_Integration implements Integration_Interface {
 			];
 		}
 
-		$schema['***REMOVED***'] = [];
-		$schema['***REMOVED***']    = [];
+		$schema['articleTypeDefaults'] = [];
+		$schema['pageTypeDefaults']    = [];
 		foreach ( $post_types as $name => $post_type ) {
-			$schema['***REMOVED***'][ $name ] = WPSEO_Options::get_default( 'wpseo_titles', "schema-article-type-$name" );
-			$schema['***REMOVED***'][ $name ]    = WPSEO_Options::get_default( 'wpseo_titles', "schema-page-type-$name" );
+			$schema['articleTypeDefaults'][ $name ] = WPSEO_Options::get_default( 'wpseo_titles', "schema-article-type-$name" );
+			$schema['pageTypeDefaults'][ $name ]    = WPSEO_Options::get_default( 'wpseo_titles', "schema-page-type-$name" );
 		}
 
 		return $schema;
@@ -876,7 +876,7 @@ class Settings_Integration implements Integration_Interface {
 				'label'                => $post_type->label,
 				'singularLabel'        => $post_type->labels->singular_name,
 				'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
-				'***REMOVED***' => $this->article_helper->is_article_post_type( $post_type->name ),
+				'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
 				'menuPosition'         => $post_type->menu_position,
 				'isNew'                => \in_array( $post_type->name, $new_post_types, true ),
 			];
@@ -904,7 +904,7 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		if ( $a['menuPosition'] === null && $b['menuPosition'] === null ) {
-			// No position specified, order ***REMOVED*** by label.
+			// No position specified, order alphabetically by label.
 			return \strnatcmp( $a['label'], $b['label'] );
 		}
 

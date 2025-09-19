@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of SFTP.
+ * Pure-PHP implementation of SFTP.
  *
  * PHP version 5
  *
@@ -37,7 +37,7 @@ use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Exception\FileNotFoundException;
 
 /**
- * Pure-PHP ***REMOVED*** of SFTP.
+ * Pure-PHP implementations of SFTP.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -168,7 +168,7 @@ class SFTP extends SSH2
      * @var int
      * @see self::_initChannel()
      */
-    private $***REMOVED***;
+    private $defaultVersion;
 
     /**
      * Preferred SFTP version
@@ -176,7 +176,7 @@ class SFTP extends SSH2
      * @var int
      * @see self::_initChannel()
      */
-    private $***REMOVED*** = 3;
+    private $preferredVersion = 3;
 
     /**
      * Current working directory
@@ -240,7 +240,7 @@ class SFTP extends SSH2
      * Error information
      *
      * @see self::getSFTPErrors()
-     * @see self::***REMOVED***()
+     * @see self::getLastSFTPError()
      * @var array
      */
     private $sftp_errors = [];
@@ -270,8 +270,8 @@ class SFTP extends SSH2
     /**
      * Stat Cache Flag
      *
-     * @see self::***REMOVED***()
-     * @see self::***REMOVED***()
+     * @see self::disableStatCache()
+     * @see self::enableStatCache()
      * @var bool
      */
     private $use_stat_cache = true;
@@ -286,7 +286,7 @@ class SFTP extends SSH2
     protected $sortOptions = [];
 
     /**
-     * ***REMOVED*** Flag
+     * Canonicalization Flag
      *
      * Determines whether or not paths should be canonicalized before being
      * passed on to the remote server.
@@ -448,7 +448,7 @@ class SFTP extends SSH2
                 0x00008000 => 'NET_SFTP_ATTR_CTIME',
                 // 0x80000000 will yield a floating point on 32-bit systems and converting floating points to integers
                 // yields inconsistent behavior depending on how php is compiled.  so we left shift -1 (which, in
-                // two's compliment, consists of all 1 bits) by 31.  on 64-bit systems this'll yield ***REMOVED***.
+                // two's compliment, consists of all 1 bits) by 31.  on 64-bit systems this'll yield 0xFFFFFFFF80000000.
                 // that's not a problem, however, and 'anded' and a 32-bit number, as all the leading 1 bits are ignored.
                 (PHP_INT_SIZE == 4 ? (-1 << 31) : 0x80000000) => 'NET_SFTP_ATTR_EXTENDED'
             ];
@@ -603,7 +603,7 @@ class SFTP extends SSH2
 
         $this->use_request_id = true;
 
-        list($this->***REMOVED***) = Strings::unpackSSH2('N', $response);
+        list($this->defaultVersion) = Strings::unpackSSH2('N', $response);
         while (!empty($response)) {
             list($key, $value) = Strings::unpackSSH2('ss', $response);
             $this->extensions[$key] = $value;
@@ -648,13 +648,13 @@ class SFTP extends SSH2
          in draft-ietf-secsh-filexfer-13 would be quite impossible.  As such, what \phpseclib3\Net\SFTP would do is close the
          channel and reopen it with a new and updated SSH_FXP_INIT packet.
         */
-        $this->version = $this->***REMOVED***;
-        if (isset($this->extensions['versions']) && (!$this->***REMOVED*** || $this->***REMOVED*** != $this->version)) {
+        $this->version = $this->defaultVersion;
+        if (isset($this->extensions['versions']) && (!$this->preferredVersion || $this->preferredVersion != $this->version)) {
             $versions = explode(',', $this->extensions['versions']);
             $supported = [6, 5, 4];
-            if ($this->***REMOVED***) {
-                $supported = array_diff($supported, [$this->***REMOVED***]);
-                array_unshift($supported, $this->***REMOVED***);
+            if ($this->preferredVersion) {
+                $supported = array_diff($supported, [$this->preferredVersion]);
+                array_unshift($supported, $this->preferredVersion);
             }
             foreach ($supported as $ver) {
                 if (in_array($ver, $versions)) {
@@ -717,7 +717,7 @@ class SFTP extends SSH2
      * Disable the stat cache
      *
      */
-    public function ***REMOVED***()
+    public function disableStatCache()
     {
         $this->use_stat_cache = false;
     }
@@ -726,7 +726,7 @@ class SFTP extends SSH2
      * Enable the stat cache
      *
      */
-    public function ***REMOVED***()
+    public function enableStatCache()
     {
         $this->use_stat_cache = true;
     }
@@ -735,13 +735,13 @@ class SFTP extends SSH2
      * Clear the stat cache
      *
      */
-    public function ***REMOVED***()
+    public function clearStatCache()
     {
         $this->stat_cache = [];
     }
 
     /**
-     * Enable path ***REMOVED***
+     * Enable path canonicalization
      *
      */
     public function enablePathCanonicalization()
@@ -750,7 +750,7 @@ class SFTP extends SSH2
     }
 
     /**
-     * Disable path ***REMOVED***
+     * Disable path canonicalization
      *
      * If this is enabled then $sftp->pwd() will not return the canonicalized absolute path
      *
@@ -1130,7 +1130,7 @@ class SFTP extends SSH2
                         if ($this->version < 4) {
                             list($longname) = Strings::unpackSSH2('s', $response);
                         }
-                        $attributes = $this->***REMOVED***($response);
+                        $attributes = $this->parseAttributes($response);
                         if (!isset($attributes['type']) && $this->version < 4) {
                             $fileType = $this->parseLongname($longname);
                             if ($fileType) {
@@ -1510,7 +1510,7 @@ class SFTP extends SSH2
         $response = $this->get_sftp_packet();
         switch ($this->packet_type) {
             case NET_SFTP_ATTRS:
-                return $this->***REMOVED***($response);
+                return $this->parseAttributes($response);
             case NET_SFTP_STATUS:
                 $this->logError($response);
                 return false;
@@ -1595,7 +1595,7 @@ class SFTP extends SSH2
      *
      * $uid should be an int for SFTPv3 and a string for SFTPv4+. Ideally the string
      * would be of the form "user@dns_domain" but it does not need to be.
-     * `$sftp->***REMOVED***()['version']` will return the specific version
+     * `$sftp->getSupportedVersions()['version']` will return the specific version
      * that's being used.
      *
      * Returns true on success or false on error.
@@ -1610,11 +1610,11 @@ class SFTP extends SSH2
         /*
          quoting <https://datatracker.ietf.org/doc/html/draft-ietf-secsh-filexfer-13#section-7.5>,
 
-         "To avoid a ***REMOVED*** that is tied to a particular underlying
-          ***REMOVED*** at the client or server, the use of UTF-8 strings has
+         "To avoid a representation that is tied to a particular underlying
+          implementation at the client or server, the use of UTF-8 strings has
           been chosen.  The string should be of the form "user@dns_domain".
           This will allow for a client and server that do not use the same
-          local ***REMOVED*** the ability to translate to a common syntax that
+          local representation the ability to translate to a common syntax that
           can be interpreted by both.  In the case where there is no
           translation available to the client or server, the attribute value
           must be constructed without the "@"."
@@ -1642,7 +1642,7 @@ class SFTP extends SSH2
      *
      * $gid should be an int for SFTPv3 and a string for SFTPv4+. Ideally the string
      * would be of the form "user@dns_domain" but it does not need to be.
-     * `$sftp->***REMOVED***()['version']` will return the specific version
+     * `$sftp->getSupportedVersions()['version']` will return the specific version
      * that's being used.
      *
      * Returns true on success or false on error.
@@ -1699,7 +1699,7 @@ class SFTP extends SSH2
         $response = $this->get_sftp_packet();
         switch ($this->packet_type) {
             case NET_SFTP_ATTRS:
-                $attrs = $this->***REMOVED***($response);
+                $attrs = $this->parseAttributes($response);
                 return $attrs['mode'];
             case NET_SFTP_STATUS:
                 $this->logError($response);
@@ -1905,7 +1905,7 @@ class SFTP extends SSH2
 
            Changed the SYMLINK packet to be LINK and give it the ability to
            create hard links.  Also change it's packet number because many
-           ***REMOVED*** implemented SYMLINK with the arguments reversed.
+           implementation implemented SYMLINK with the arguments reversed.
            Hopefully the new argument names make it clear which way is which.
         */
         if ($this->version == 6) {
@@ -1920,7 +1920,7 @@ class SFTP extends SSH2
                When OpenSSH's sftp-server was implemented, the order of the arguments
                to the SSH_FXP_SYMLINK method was inadvertently reversed. Unfortunately,
                the reversal was not noticed until the server was widely deployed. Since
-               fixing this to follow the specification would cause ***REMOVED***, the
+               fixing this to follow the specification would cause incompatibility, the
                current order was retained. For correct operation, clients should send
                SSH_FXP_SYMLINK as follows:
 
@@ -2097,13 +2097,13 @@ class SFTP extends SSH2
      * @param int $mode
      * @param int $start
      * @param int $local_start
-     * @param callable|null $***REMOVED***
+     * @param callable|null $progressCallback
      * @throws \UnexpectedValueException on receipt of unexpected packets
      * @throws \BadFunctionCallException if you're uploading via a callback and the callback function is invalid
      * @throws \phpseclib3\Exception\FileNotFoundException if you're uploading via a file and the file doesn't exist
      * @return bool
      */
-    public function put($remote_file, $data, $mode = self::SOURCE_STRING, $start = -1, $local_start = -1, $***REMOVED*** = null)
+    public function put($remote_file, $data, $mode = self::SOURCE_STRING, $start = -1, $local_start = -1, $progressCallback = null)
     {
         if (!$this->precheck()) {
             return false;
@@ -2240,8 +2240,8 @@ class SFTP extends SSH2
                 throw $e;
             }
             $sent += strlen($temp);
-            if (is_callable($***REMOVED***)) {
-                $***REMOVED***($sent);
+            if (is_callable($progressCallback)) {
+                $progressCallback($sent);
             }
 
             $i++;
@@ -2276,7 +2276,7 @@ class SFTP extends SSH2
                     pack('N3', NET_SFTP_ATTR_ACCESSTIME, $stat['atime'], $stat['mtime']) :
                     Strings::packSSH2('NQ2', NET_SFTP_ATTR_ACCESSTIME | NET_SFTP_ATTR_MODIFYTIME, $stat['atime'], $stat['mtime']);
                 if (!$this->setstat($remote_file, $attr, false)) {
-                    throw new \***REMOVED***('Error setting file time');
+                    throw new \RuntimeException('Error setting file time');
                 }
             }
         }
@@ -2354,11 +2354,11 @@ class SFTP extends SSH2
      * @param string|bool|resource|callable $local_file
      * @param int $offset
      * @param int $length
-     * @param callable|null $***REMOVED***
+     * @param callable|null $progressCallback
      * @throws \UnexpectedValueException on receipt of unexpected packets
      * @return string|bool
      */
-    public function get($remote_file, $local_file = false, $offset = 0, $length = -1, $***REMOVED*** = null)
+    public function get($remote_file, $local_file = false, $offset = 0, $length = -1, $progressCallback = null)
     {
         if (!$this->precheck()) {
             return false;
@@ -2458,8 +2458,8 @@ class SFTP extends SSH2
                         } else {
                             fputs($fp, $temp);
                         }
-                        if (is_callable($***REMOVED***)) {
-                            call_user_func($***REMOVED***, $offset);
+                        if (is_callable($progressCallback)) {
+                            call_user_func($progressCallback, $offset);
                         }
                         $temp = null;
                         break;
@@ -2829,7 +2829,7 @@ class SFTP extends SSH2
      *
      * @return int
      */
-    private static function ***REMOVED***(array $files)
+    private static function recursiveFilesize(array $files)
     {
         $size = 0;
         foreach ($files as $name => $file) {
@@ -2837,7 +2837,7 @@ class SFTP extends SSH2
                 continue;
             }
             $size += is_array($file) ?
-                self::***REMOVED***($file) :
+                self::recursiveFilesize($file) :
                 $file->size;
         }
         return $size;
@@ -2854,7 +2854,7 @@ class SFTP extends SSH2
     {
         return !$recursive || $this->filetype($path) != 'dir' ?
             $this->get_stat_cache_prop($path, 'size') :
-            self::***REMOVED***($this->rawlist($path, true));
+            self::recursiveFilesize($this->rawlist($path, true));
     }
 
     /**
@@ -3039,7 +3039,7 @@ class SFTP extends SSH2
      * @param string $response
      * @return array
      */
-    protected function ***REMOVED***(&$response)
+    protected function parseAttributes(&$response)
     {
         if ($this->version >= 4) {
             list($flags, $attr['type']) = Strings::unpackSSH2('NC', $response);
@@ -3180,7 +3180,7 @@ class SFTP extends SSH2
     /**
      * Attempt to identify the file type
      *
-     * Quoting the SFTP RFC, "***REMOVED*** MUST NOT send bits that are not defined" but they seem to anyway
+     * Quoting the SFTP RFC, "Implementations MUST NOT send bits that are not defined" but they seem to anyway
      *
      * @param int $mode
      * @return int
@@ -3340,7 +3340,7 @@ class SFTP extends SSH2
             $this->packet_buffer .= $temp;
         }
         if (strlen($this->packet_buffer) < 4) {
-            throw new \***REMOVED***('Packet is too small');
+            throw new \RuntimeException('Packet is too small');
         }
         extract(unpack('Nlength', Strings::shift($this->packet_buffer, 4)));
         /** @var integer $length */
@@ -3350,7 +3350,7 @@ class SFTP extends SSH2
 
         // 256 * 1024 is what SFTP_MAX_MSG_LENGTH is set to in OpenSSH's sftp-common.h
         if (!$this->allow_arbitrary_length_packets && !$this->use_request_id && $tempLength > 256 * 1024) {
-            throw new \***REMOVED***('Invalid Size');
+            throw new \RuntimeException('Invalid Size');
         }
 
         // SFTP packet type and data payload
@@ -3459,7 +3459,7 @@ class SFTP extends SSH2
      *
      * @return string
      */
-    public function ***REMOVED***()
+    public function getLastSFTPError()
     {
         return count($this->sftp_errors) ? $this->sftp_errors[count($this->sftp_errors) - 1] : '';
     }
@@ -3469,7 +3469,7 @@ class SFTP extends SSH2
      *
      * @return array
      */
-    public function ***REMOVED***()
+    public function getSupportedVersions()
     {
         if (!($this->bitmap & SSH2::MASK_LOGIN)) {
             return false;
@@ -3479,7 +3479,7 @@ class SFTP extends SSH2
             $this->partial_init_sftp_connection();
         }
 
-        $temp = ['version' => $this->***REMOVED***];
+        $temp = ['version' => $this->defaultVersion];
         if (isset($this->extensions['versions'])) {
             $temp['extensions'] = $this->extensions['versions'];
         }
@@ -3491,7 +3491,7 @@ class SFTP extends SSH2
      *
      * @return int|false
      */
-    public function ***REMOVED***()
+    public function getNegotiatedVersion()
     {
         if (!$this->precheck()) {
             return false;
@@ -3509,9 +3509,9 @@ class SFTP extends SSH2
      *
      * @param int $version
      */
-    public function ***REMOVED***($version)
+    public function setPreferredVersion($version)
     {
-        $this->***REMOVED*** = $version;
+        $this->preferredVersion = $version;
     }
 
     /**

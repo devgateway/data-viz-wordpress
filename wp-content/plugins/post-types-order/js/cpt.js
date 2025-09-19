@@ -1,17 +1,17 @@
 
 
-    var ***REMOVED*** = function ***REMOVED***(sParam) 
+    var getUrlParameter = function getUrlParameter(sParam) 
         {
-            var sPageURL = ***REMOVED***(window.location.search.substring(1)),
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
                 sURLVariables = sPageURL.split('&'),
-                ***REMOVED***,
+                sParameterName,
                 i;
 
             for (i = 0; i < sURLVariables.length; i++) {
-                ***REMOVED*** = sURLVariables[i].split('=');
+                sParameterName = sURLVariables[i].split('=');
 
-                if (***REMOVED***[0] === sParam) {
-                    return ***REMOVED***[1] === undefined ? true : ***REMOVED***[1];
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
                 }
             }
         };
@@ -39,7 +39,7 @@
                                                             var post_type           =   CPTO.post_type;
                                                             var order               =   jQuery('#the-list').sortable('serialize');
                                                             
-                                                            var paged       =   ***REMOVED***('paged');
+                                                            var paged       =   getUrlParameter('paged');
                                                             if(typeof paged === 'undefined')
                                                                 paged   =   1;
                                                             

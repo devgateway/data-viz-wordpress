@@ -34,7 +34,7 @@ class WPM_Meta_Box_Post_Languages {
 		$i         = 0;
 		?>
 		<h4><?php _e( 'Show post only in:', 'wp-multilang' ); ?></h4>
-		<ul class="***REMOVED***">
+		<ul class="languagechecklist">
 			<?php foreach ( $languages as $code => $language ) { ?>
 				<li>
 					<label>

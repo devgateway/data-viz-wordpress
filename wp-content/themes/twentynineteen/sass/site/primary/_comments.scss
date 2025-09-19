@@ -13,7 +13,7 @@
 	hyphens: auto;
 	margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit;
 	word-wrap: break-word;
-	@include ***REMOVED***();
+	@include postContentMaxWidth();
 
 	@include media(tablet) {
 		margin: calc(3 * #{$size__spacing-unit}) $size__site-margins;

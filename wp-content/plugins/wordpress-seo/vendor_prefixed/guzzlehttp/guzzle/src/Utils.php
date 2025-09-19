@@ -4,7 +4,7 @@ namespace YoastSEO_Vendor\GuzzleHttp;
 
 use YoastSEO_Vendor\GuzzleHttp\Exception\InvalidArgumentException;
 use YoastSEO_Vendor\GuzzleHttp\Handler\CurlHandler;
-use YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Handler\CurlMultiHandler;
 use YoastSEO_Vendor\GuzzleHttp\Handler\Proxy;
 use YoastSEO_Vendor\GuzzleHttp\Handler\StreamHandler;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
@@ -29,9 +29,9 @@ final class Utils
                 \ob_start();
                 \var_dump($input);
                 // normalize float vs double
-                /** @var string $***REMOVED*** */
-                $***REMOVED*** = \ob_get_clean();
-                return \str_replace('double(', 'float(', \rtrim($***REMOVED***));
+                /** @var string $varDumpContent */
+                $varDumpContent = \ob_get_clean();
+                return \str_replace('double(', 'float(', \rtrim($varDumpContent));
         }
     }
     /**
@@ -40,7 +40,7 @@ final class Utils
      * @param iterable $lines Header lines array of strings in the following
      *                        format: "Name: Value"
      */
-    public static function ***REMOVED***(iterable $lines) : array
+    public static function headersFromLines(iterable $lines) : array
     {
         $headers = [];
         foreach ($lines as $line) {
@@ -71,35 +71,35 @@ final class Utils
      *
      * The returned handler is not wrapped by any default middlewares.
      *
-     * @return callable(\Psr\Http\Message\***REMOVED***, array): \GuzzleHttp\Promise\***REMOVED*** Returns the best handler for the given system.
+     * @return callable(\Psr\Http\Message\RequestInterface, array): \GuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
      *
-     * @throws \***REMOVED*** if no viable Handler is available.
+     * @throws \RuntimeException if no viable Handler is available.
      */
     public static function chooseHandler() : callable
     {
         $handler = null;
         if (\defined('CURLOPT_CUSTOMREQUEST')) {
             if (\function_exists('curl_multi_exec') && \function_exists('curl_exec')) {
-                $handler = \YoastSEO_Vendor\GuzzleHttp\Handler\Proxy::wrapSync(new \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***(), new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlHandler());
+                $handler = \YoastSEO_Vendor\GuzzleHttp\Handler\Proxy::wrapSync(new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlMultiHandler(), new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlHandler());
             } elseif (\function_exists('curl_exec')) {
                 $handler = new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlHandler();
             } elseif (\function_exists('curl_multi_exec')) {
-                $handler = new \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***();
+                $handler = new \YoastSEO_Vendor\GuzzleHttp\Handler\CurlMultiHandler();
             }
         }
         if (\ini_get('allow_url_fopen')) {
             $handler = $handler ? \YoastSEO_Vendor\GuzzleHttp\Handler\Proxy::wrapStreaming($handler, new \YoastSEO_Vendor\GuzzleHttp\Handler\StreamHandler()) : new \YoastSEO_Vendor\GuzzleHttp\Handler\StreamHandler();
         } elseif (!$handler) {
-            throw new \***REMOVED***('GuzzleHttp requires cURL, the allow_url_fopen ini setting, or a custom HTTP handler.');
+            throw new \RuntimeException('GuzzleHttp requires cURL, the allow_url_fopen ini setting, or a custom HTTP handler.');
         }
         return $handler;
     }
     /**
      * Get the default User-Agent string to use with Guzzle.
      */
-    public static function ***REMOVED***() : string
+    public static function defaultUserAgent() : string
     {
-        return \sprintf('GuzzleHttp/%d', \YoastSEO_Vendor\GuzzleHttp\***REMOVED***::MAJOR_VERSION);
+        return \sprintf('GuzzleHttp/%d', \YoastSEO_Vendor\GuzzleHttp\ClientInterface::MAJOR_VERSION);
     }
     /**
      * Returns the default cacert bundle for the current system.
@@ -112,11 +112,11 @@ final class Utils
      *
      * Note: the result of this function is cached for subsequent calls.
      *
-     * @throws \***REMOVED*** if no bundle can be found.
+     * @throws \RuntimeException if no bundle can be found.
      *
-     * @deprecated Utils::***REMOVED*** will be removed in guzzlehttp/guzzle:8.0. This method is not needed in PHP 5.6+.
+     * @deprecated Utils::defaultCaBundle will be removed in guzzlehttp/guzzle:8.0. This method is not needed in PHP 5.6+.
      */
-    public static function ***REMOVED***() : string
+    public static function defaultCaBundle() : string
     {
         static $cached = null;
         static $cafiles = [
@@ -150,7 +150,7 @@ final class Utils
                 return $cached = $filename;
             }
         }
-        throw new \***REMOVED***(<<<EOT
+        throw new \RuntimeException(<<<EOT
 No system CA bundle could be found in any of the the common system locations.
 PHP versions earlier than 5.6 are not properly configured to use the system's
 CA bundle by default. In order to verify peer certificates, you will need to
@@ -169,7 +169,7 @@ EOT
      * Creates an associative array of lowercase header names to the actual
      * header casing.
      */
-    public static function ***REMOVED***(array $headers) : array
+    public static function normalizeHeaderKeys(array $headers) : array
     {
         $result = [];
         foreach (\array_keys($headers) as $key) {
@@ -196,7 +196,7 @@ EOT
      *
      * @throws InvalidArgumentException
      */
-    public static function ***REMOVED***(string $host, array $noProxyArray) : bool
+    public static function isHostInNoProxy(string $host, array $noProxyArray) : bool
     {
         if (\strlen($host) === 0) {
             throw new \YoastSEO_Vendor\GuzzleHttp\Exception\InvalidArgumentException('Empty host provided');
@@ -291,11 +291,11 @@ EOT
             $asciiHost = self::idnToAsci($uri->getHost(), $options, $info);
             if ($asciiHost === \false) {
                 $errorBitSet = $info['errors'] ?? 0;
-                $***REMOVED*** = \array_filter(\array_keys(\get_defined_constants()), static function (string $name) : bool {
+                $errorConstants = \array_filter(\array_keys(\get_defined_constants()), static function (string $name) : bool {
                     return \substr($name, 0, 11) === 'IDNA_ERROR_';
                 });
                 $errors = [];
-                foreach ($***REMOVED*** as $errorConstant) {
+                foreach ($errorConstants as $errorConstant) {
                     if ($errorBitSet & \constant($errorConstant)) {
                         $errors[] = $errorConstant;
                     }

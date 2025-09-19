@@ -1,7 +1,7 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Analytics_4;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4;
 
 use Google\Site_Kit\Core\REST_API\REST_Routes;
 use WP_REST_Request;
@@ -10,7 +10,7 @@ use WP_REST_Response;
 /**
  * Class that hold the code to do the REST call to the Site Kit api.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Site_Kit_Analytics_4_Api_Call {
 

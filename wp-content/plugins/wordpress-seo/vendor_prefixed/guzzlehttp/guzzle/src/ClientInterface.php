@@ -2,15 +2,15 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Exception\GuzzleException;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 /**
  * Client interface for sending HTTP requests.
  */
-interface ***REMOVED***
+interface ClientInterface
 {
     /**
      * The Guzzle major version.
@@ -19,21 +19,21 @@ interface ***REMOVED***
     /**
      * Send an HTTP request.
      *
-     * @param ***REMOVED*** $request Request to send
+     * @param RequestInterface $request Request to send
      * @param array            $options Request options to apply to the given
      *                                  request and to the transfer.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function send(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function send(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
     /**
-     * ***REMOVED*** send an HTTP request.
+     * Asynchronously send an HTTP request.
      *
-     * @param ***REMOVED*** $request Request to send
+     * @param RequestInterface $request Request to send
      * @param array            $options Request options to apply to the given
      *                                  request and to the transfer.
      */
-    public function sendAsync(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+    public function sendAsync(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
     /**
      * Create and send an HTTP request.
      *
@@ -45,9 +45,9 @@ interface ***REMOVED***
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function request(string $method, $uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function request(string $method, $uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
     /**
      * Create and send an asynchronous HTTP request.
      *
@@ -60,7 +60,7 @@ interface ***REMOVED***
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public function requestAsync(string $method, $uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+    public function requestAsync(string $method, $uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
     /**
      * Get a client configuration option.
      *
@@ -72,7 +72,7 @@ interface ***REMOVED***
      *
      * @return mixed
      *
-     * @deprecated ***REMOVED***::getConfig will be removed in guzzlehttp/guzzle:8.0.
+     * @deprecated ClientInterface::getConfig will be removed in guzzlehttp/guzzle:8.0.
      */
     public function getConfig(string $option = null);
 }

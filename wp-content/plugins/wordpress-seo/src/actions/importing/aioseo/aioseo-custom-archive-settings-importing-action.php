@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 /**
  * Importing action for AIOSEO custom archive settings data.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
 
@@ -80,7 +80,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	}
 
 	/**
-	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data ***REMOVED*** method.
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 					'yoast_name'       => 'title-ptarchive-' . $pt->name,
 					'transform_method' => 'simple_import',
 				];
-				$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/***REMOVED***' ]             = [
+				$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/metaDescription' ]             = [
 					'yoast_name'       => 'metadesc-ptarchive-' . $pt->name,
 					'transform_method' => 'simple_import',
 				];

@@ -14,8 +14,8 @@ namespace phpseclib3\Crypt\EC;
 use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Crypt\Common;
 use phpseclib3\Crypt\EC;
-use phpseclib3\Crypt\EC\BaseCurves\Montgomery as ***REMOVED***;
-use phpseclib3\Crypt\EC\BaseCurves\***REMOVED*** as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
+use phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
 use phpseclib3\Crypt\EC\Curves\Ed25519;
 use phpseclib3\Crypt\EC\Formats\Keys\PKCS1;
 use phpseclib3\Crypt\EC\Formats\Signature\ASN1 as ASN1Signature;
@@ -42,7 +42,7 @@ final class PublicKey extends EC implements Common\PublicKey
      */
     public function verify($message, $signature)
     {
-        if ($this->curve instanceof ***REMOVED***) {
+        if ($this->curve instanceof MontgomeryCurve) {
             throw new UnsupportedOperationException('Montgomery Curves cannot be used to create signatures');
         }
 
@@ -54,7 +54,7 @@ final class PublicKey extends EC implements Common\PublicKey
 
         $order = $this->curve->getOrder();
 
-        if ($this->curve instanceof ***REMOVED***) {
+        if ($this->curve instanceof TwistedEdwardsCurve) {
             if ($shortFormat == 'SSH2') {
                 list(, $signature) = Strings::unpackSSH2('ss', $signature);
             }
@@ -73,7 +73,7 @@ final class PublicKey extends EC implements Common\PublicKey
 
             try {
                 $R = PKCS1::extractPoint($R, $curve);
-                $R = $this->curve->***REMOVED***($R);
+                $R = $this->curve->convertToInternal($R);
             } catch (\Exception $e) {
                 return false;
             }
@@ -101,12 +101,12 @@ final class PublicKey extends EC implements Common\PublicKey
             $k = new BigInteger($k, 256);
             list(, $k) = $k->divide($order);
 
-            $qa = $curve->***REMOVED***($this->QA);
+            $qa = $curve->convertToInternal($this->QA);
 
             $lhs = $curve->multiplyPoint($curve->getBasePoint(), $S);
             $rhs = $curve->multiplyPoint($qa, $k);
             $rhs = $curve->addPoint($rhs, $R);
-            $rhs = $curve->***REMOVED***($rhs);
+            $rhs = $curve->convertToAffine($rhs);
 
             return $lhs[0]->equals($rhs[0]) && $lhs[1]->equals($rhs[1]);
         }
@@ -142,10 +142,10 @@ final class PublicKey extends EC implements Common\PublicKey
         list(, $u1) = $z->multiply($w)->divide($order);
         list(, $u2) = $r->multiply($w)->divide($order);
 
-        $u1 = $this->curve->***REMOVED***($u1);
-        $u2 = $this->curve->***REMOVED***($u2);
+        $u1 = $this->curve->convertInteger($u1);
+        $u2 = $this->curve->convertInteger($u2);
 
-        list($x1, $y1) = $this->curve->***REMOVED***(
+        list($x1, $y1) = $this->curve->multiplyAddPoints(
             [$this->curve->getBasePoint(), $this->QA],
             [$u1, $u2]
         );
@@ -165,7 +165,7 @@ final class PublicKey extends EC implements Common\PublicKey
      */
     public function toString($type, array $options = [])
     {
-        $type = self::***REMOVED***('Keys', $type, 'savePublicKey');
+        $type = self::validatePlugin('Keys', $type, 'savePublicKey');
 
         return $type::savePublicKey($this->curve, $this->QA, $options);
     }

@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Config;
  * Class WordProof_Translations
  *
  * @deprecated 22.10
- * @***REMOVED***
+ * @codeCoverageIgnore
  *
  * @package Yoast\WP\SEO\Config
  */
@@ -16,11 +16,11 @@ class Wordproof_Translations {
 	 * Returns no balance notice translation.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */
-	public function ***REMOVED***() {
+	public function getNoBalanceNotice() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );
 
 		/* translators: %s expands to WordProof. */
@@ -31,7 +31,7 @@ class Wordproof_Translations {
 	 * Returns no balance notice translation.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */
@@ -46,7 +46,7 @@ class Wordproof_Translations {
 	 * Returns timestamp failed notice translation.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */
@@ -61,7 +61,7 @@ class Wordproof_Translations {
 	 * Returns webhook failed notice translation.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */
@@ -73,10 +73,10 @@ class Wordproof_Translations {
 	}
 
 	/**
-	 * Returns no ***REMOVED*** notice translation.
+	 * Returns no authentication notice translation.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */
@@ -91,21 +91,21 @@ class Wordproof_Translations {
 	 * Returns authenticate button text.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */
 	public function getOpenAuthenticationButtonText() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 22.10' );
 
-		return \__( 'Open ***REMOVED***', 'wordpress-seo' );
+		return \__( 'Open authentication', 'wordpress-seo' );
 	}
 
 	/**
 	 * Returns open settings button translation.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */
@@ -119,7 +119,7 @@ class Wordproof_Translations {
 	 * Returns get contact WordProof Support button translation.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The translation.
 	 */

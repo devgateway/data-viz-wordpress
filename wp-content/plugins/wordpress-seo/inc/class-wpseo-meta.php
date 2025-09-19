@@ -485,7 +485,7 @@ class WPSEO_Meta {
 	/**
 	 * Validate a meta-robots-adv meta value.
 	 *
-	 * @todo [JRF => Yoast] Verify that this logic for the ***REMOVED*** is correct.
+	 * @todo [JRF => Yoast] Verify that this logic for the prioritisation is correct.
 	 *
 	 * @param array|string $meta_value The value to validate.
 	 *
@@ -807,7 +807,7 @@ class WPSEO_Meta {
 		 * {@internal Unfortunately we can't use the normal delete_meta() with key/value combination
 		 *            as '' (empty string) values will be ignored and would result in all metas
 		 *            with that key being deleted, not just the empty fields.
-		 *            Still, the below ***REMOVED*** is largely based on the delete_meta() function.}}
+		 *            Still, the below implementation is largely based on the delete_meta() function.}}
 		 */
 		$query = [];
 

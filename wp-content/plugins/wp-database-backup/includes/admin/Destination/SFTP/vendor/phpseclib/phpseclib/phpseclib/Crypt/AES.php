@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of AES.
+ * Pure-PHP implementation of AES.
  *
- * Uses mcrypt, if available/possible, and an internal ***REMOVED***, otherwise.
+ * Uses mcrypt, if available/possible, and an internal implementation, otherwise.
  *
  * PHP version 5
  *
@@ -17,7 +17,7 @@
  * is called, again, at which point, it'll be recalculated.
  *
  * Since \phpseclib3\Crypt\AES extends \phpseclib3\Crypt\Rijndael, some functions are available to be called that, in the context of AES, don't
- * make a whole lot of sense.  {@link self::***REMOVED***() ***REMOVED***()}, for instance.  Calling that function,
+ * make a whole lot of sense.  {@link self::setBlockLength() setBlockLength()}, for instance.  Calling that function,
  * however possible, won't do anything (AES has a fixed block length whereas Rijndael has a variable one).
  *
  * Here's a short example of how to use this library:
@@ -27,7 +27,7 @@
  *
  *    $aes = new \phpseclib3\Crypt\AES('ctr');
  *
- *    $aes->setKey('***REMOVED***');
+ *    $aes->setKey('abcdefghijklmnop');
  *
  *    $size = 10 * 1024;
  *    $plaintext = '';
@@ -48,7 +48,7 @@
 namespace phpseclib3\Crypt;
 
 /**
- * Pure-PHP ***REMOVED*** of AES.
+ * Pure-PHP implementation of AES.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -59,11 +59,11 @@ class AES extends Rijndael
      *
      * Since \phpseclib3\Crypt\AES extends \phpseclib3\Crypt\Rijndael, this function is, technically, available, but it doesn't do anything.
      *
-     * @see \phpseclib3\Crypt\Rijndael::***REMOVED***()
+     * @see \phpseclib3\Crypt\Rijndael::setBlockLength()
      * @param int $length
      * @throws \BadMethodCallException anytime it's called
      */
-    public function ***REMOVED***($length)
+    public function setBlockLength($length)
     {
         throw new \BadMethodCallException('The block length cannot be set for AES.');
     }
@@ -75,7 +75,7 @@ class AES extends Rijndael
      *
      * @see \phpseclib3\Crypt\Rijndael:setKeyLength()
      * @param int $length
-     * @throws \***REMOVED*** if the key length isn't supported
+     * @throws \LengthException if the key length isn't supported
      */
     public function setKeyLength($length)
     {
@@ -85,7 +85,7 @@ class AES extends Rijndael
             case 256:
                 break;
             default:
-                throw new \***REMOVED***('Key of size ' . $length . ' not supported by this algorithm. Only keys of sizes 128, 192 or 256 supported');
+                throw new \LengthException('Key of size ' . $length . ' not supported by this algorithm. Only keys of sizes 128, 192 or 256 supported');
         }
         parent::setKeyLength($length);
     }
@@ -98,7 +98,7 @@ class AES extends Rijndael
      * @see \phpseclib3\Crypt\Rijndael:setKey()
      * @see setKeyLength()
      * @param string $key
-     * @throws \***REMOVED*** if the key length isn't supported
+     * @throws \LengthException if the key length isn't supported
      */
     public function setKey($key)
     {
@@ -108,7 +108,7 @@ class AES extends Rijndael
             case 32:
                 break;
             default:
-                throw new \***REMOVED***('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
+                throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes 16, 24 or 32 supported');
         }
 
         parent::setKey($key);

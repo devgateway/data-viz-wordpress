@@ -21,7 +21,7 @@
 		"node": ">=16",
 		"npm": ">=9.8.1"
 	},
-	"***REMOVED***": {
+	"devDependencies": {
 		"@wordpress/browserslist-config": "^6.14.0",
 		"@wordpress/scripts": "^30.7.0",
 		"autoprefixer": "^10.4.20",
@@ -37,7 +37,7 @@
 	"rtlcssConfig": {
 		"options": {
 			"autoRename": false,
-			"***REMOVED***": false,
+			"autoRenameStrict": false,
 			"clean": true,
 			"greedy": false,
 			"processUrls": false,

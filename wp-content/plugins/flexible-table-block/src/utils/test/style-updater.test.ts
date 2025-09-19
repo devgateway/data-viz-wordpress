@@ -2,11 +2,11 @@
  * Internal dependencies
  */
 import {
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	updateBorderColor,
+	updateBorderRadius,
+	updateBorderSpacing,
+	updateBorderStyle,
+	updateBorderWidth,
 	updatePadding,
 } from '../style-updater';
 
@@ -64,9 +64,9 @@ describe( 'style-updater', () => {
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'updateBorderWidth', () => {
 		it( 'should pass through if 2nd arg is undefined', () => {
-			expect( ***REMOVED***( { borderWidth: '15px', color: 'red' }, undefined ) ).toStrictEqual(
+			expect( updateBorderWidth( { borderWidth: '15px', color: 'red' }, undefined ) ).toStrictEqual(
 				{
 					borderWidth: '15px',
 					color: 'red',
@@ -75,20 +75,20 @@ describe( 'style-updater', () => {
 		} );
 
 		it( 'should remove padding props', () => {
-			expect( ***REMOVED***( { borderWidth: '15px', color: 'red' }, {} ) ).toStrictEqual( {
+			expect( updateBorderWidth( { borderWidth: '15px', color: 'red' }, {} ) ).toStrictEqual( {
 				color: 'red',
 			} );
 		} );
 
 		it( 'should return a long hand', () => {
-			expect( ***REMOVED***( {}, { top: '20px' } ) ).toStrictEqual( {
-				***REMOVED***: '20px',
+			expect( updateBorderWidth( {}, { top: '20px' } ) ).toStrictEqual( {
+				borderTopWidth: '20px',
 			} );
 		} );
 
 		it( 'should return a short hand', () => {
 			expect(
-				***REMOVED***( {}, { top: '20px', right: '20px', bottom: '20px', left: '20px' } )
+				updateBorderWidth( {}, { top: '20px', right: '20px', bottom: '20px', left: '20px' } )
 			).toStrictEqual( {
 				borderWidth: '20px',
 			} );
@@ -96,7 +96,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 2value', () => {
 			expect(
-				***REMOVED***( {}, { top: '20px', right: '30px', bottom: '20px', left: '30px' } )
+				updateBorderWidth( {}, { top: '20px', right: '30px', bottom: '20px', left: '30px' } )
 			).toStrictEqual( {
 				borderWidth: '20px 30px',
 			} );
@@ -104,7 +104,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 3value', () => {
 			expect(
-				***REMOVED***( {}, { top: '20px', right: '30px', left: '30px', bottom: '40px' } )
+				updateBorderWidth( {}, { top: '20px', right: '30px', left: '30px', bottom: '40px' } )
 			).toStrictEqual( {
 				borderWidth: '20px 30px 40px',
 			} );
@@ -112,16 +112,16 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 4value', () => {
 			expect(
-				***REMOVED***( {}, { top: '20px', right: '30px', left: '40px', bottom: '50px' } )
+				updateBorderWidth( {}, { top: '20px', right: '30px', left: '40px', bottom: '50px' } )
 			).toStrictEqual( {
 				borderWidth: '20px 30px 50px 40px',
 			} );
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'updateBorderColor', () => {
 		it( 'should pass through if 2nd arg is undefined', () => {
-			expect( ***REMOVED***( { borderColor: 'red', color: 'red' }, undefined ) ).toStrictEqual(
+			expect( updateBorderColor( { borderColor: 'red', color: 'red' }, undefined ) ).toStrictEqual(
 				{
 					borderColor: 'red',
 					color: 'red',
@@ -130,20 +130,20 @@ describe( 'style-updater', () => {
 		} );
 
 		it( 'should remove padding props', () => {
-			expect( ***REMOVED***( { borderColor: 'red', color: 'red' }, {} ) ).toStrictEqual( {
+			expect( updateBorderColor( { borderColor: 'red', color: 'red' }, {} ) ).toStrictEqual( {
 				color: 'red',
 			} );
 		} );
 
 		it( 'should return a long hand', () => {
-			expect( ***REMOVED***( {}, { top: 'red' } ) ).toStrictEqual( {
-				***REMOVED***: 'red',
+			expect( updateBorderColor( {}, { top: 'red' } ) ).toStrictEqual( {
+				borderTopColor: 'red',
 			} );
 		} );
 
 		it( 'should return a short hand', () => {
 			expect(
-				***REMOVED***( {}, { top: 'red', right: 'red', left: 'red', bottom: 'red' } )
+				updateBorderColor( {}, { top: 'red', right: 'red', left: 'red', bottom: 'red' } )
 			).toStrictEqual( {
 				borderColor: 'red',
 			} );
@@ -151,7 +151,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 2value', () => {
 			expect(
-				***REMOVED***( {}, { top: 'red', right: 'blue', left: 'blue', bottom: 'red' } )
+				updateBorderColor( {}, { top: 'red', right: 'blue', left: 'blue', bottom: 'red' } )
 			).toStrictEqual( {
 				borderColor: 'red blue',
 			} );
@@ -159,7 +159,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 3value', () => {
 			expect(
-				***REMOVED***( {}, { top: 'red', right: 'blue', left: 'blue', bottom: 'yellow' } )
+				updateBorderColor( {}, { top: 'red', right: 'blue', left: 'blue', bottom: 'yellow' } )
 			).toStrictEqual( {
 				borderColor: 'red blue yellow',
 			} );
@@ -167,17 +167,17 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 4value', () => {
 			expect(
-				***REMOVED***( {}, { top: 'red', right: 'blue', left: 'green', bottom: 'yellow' } )
+				updateBorderColor( {}, { top: 'red', right: 'blue', left: 'green', bottom: 'yellow' } )
 			).toStrictEqual( {
 				borderColor: 'red blue yellow green',
 			} );
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'updateBorderStyle', () => {
 		it( 'should pass through if 2nd arg is undefined', () => {
 			expect(
-				***REMOVED***( { borderStyle: 'solid', color: 'red' }, undefined )
+				updateBorderStyle( { borderStyle: 'solid', color: 'red' }, undefined )
 			).toStrictEqual( {
 				borderStyle: 'solid',
 				color: 'red',
@@ -185,20 +185,20 @@ describe( 'style-updater', () => {
 		} );
 
 		it( 'should remove borderStyle props', () => {
-			expect( ***REMOVED***( { borderStyle: 'solid', color: 'red' }, {} ) ).toStrictEqual( {
+			expect( updateBorderStyle( { borderStyle: 'solid', color: 'red' }, {} ) ).toStrictEqual( {
 				color: 'red',
 			} );
 		} );
 
 		it( 'should return a long hand', () => {
-			expect( ***REMOVED***( {}, { top: 'solid' } ) ).toStrictEqual( {
-				***REMOVED***: 'solid',
+			expect( updateBorderStyle( {}, { top: 'solid' } ) ).toStrictEqual( {
+				borderTopStyle: 'solid',
 			} );
 		} );
 
 		it( 'should return a short hand', () => {
 			expect(
-				***REMOVED***( {}, { top: 'solid', right: 'solid', left: 'solid', bottom: 'solid' } )
+				updateBorderStyle( {}, { top: 'solid', right: 'solid', left: 'solid', bottom: 'solid' } )
 			).toStrictEqual( {
 				borderStyle: 'solid',
 			} );
@@ -206,7 +206,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 2value', () => {
 			expect(
-				***REMOVED***( {}, { top: 'solid', right: 'dotted', left: 'dotted', bottom: 'solid' } )
+				updateBorderStyle( {}, { top: 'solid', right: 'dotted', left: 'dotted', bottom: 'solid' } )
 			).toStrictEqual( {
 				borderStyle: 'solid dotted',
 			} );
@@ -214,7 +214,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 3value', () => {
 			expect(
-				***REMOVED***( {}, { top: 'solid', right: 'dotted', left: 'dotted', bottom: 'dashed' } )
+				updateBorderStyle( {}, { top: 'solid', right: 'dotted', left: 'dotted', bottom: 'dashed' } )
 			).toStrictEqual( {
 				borderStyle: 'solid dotted dashed',
 			} );
@@ -222,17 +222,17 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 4value', () => {
 			expect(
-				***REMOVED***( {}, { top: 'solid', right: 'dotted', left: 'double', bottom: 'dashed' } )
+				updateBorderStyle( {}, { top: 'solid', right: 'dotted', left: 'double', bottom: 'dashed' } )
 			).toStrictEqual( {
 				borderStyle: 'solid dotted dashed double',
 			} );
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'updateBorderSpacing', () => {
 		it( 'should pass through if 2nd arg is undefined', () => {
 			expect(
-				***REMOVED***( { borderSpacing: '10px', color: 'red' }, undefined )
+				updateBorderSpacing( { borderSpacing: '10px', color: 'red' }, undefined )
 			).toStrictEqual( {
 				borderSpacing: '10px',
 				color: 'red',
@@ -240,28 +240,28 @@ describe( 'style-updater', () => {
 		} );
 
 		it( 'should remove borderSpacing props', () => {
-			expect( ***REMOVED***( { borderSpacing: '10px', color: 'red' }, {} ) ).toStrictEqual( {
+			expect( updateBorderSpacing( { borderSpacing: '10px', color: 'red' }, {} ) ).toStrictEqual( {
 				color: 'red',
 			} );
 		} );
 
 		it( 'should return one value', () => {
-			expect( ***REMOVED***( {}, { vertical: '10px', horizontal: '10px' } ) ).toStrictEqual( {
+			expect( updateBorderSpacing( {}, { vertical: '10px', horizontal: '10px' } ) ).toStrictEqual( {
 				borderSpacing: '10px',
 			} );
 		} );
 
 		it( 'should return two values', () => {
-			expect( ***REMOVED***( {}, { vertical: '20px', horizontal: '10px' } ) ).toStrictEqual( {
+			expect( updateBorderSpacing( {}, { vertical: '20px', horizontal: '10px' } ) ).toStrictEqual( {
 				borderSpacing: '10px 20px',
 			} );
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'updateBorderRadius', () => {
 		it( 'should pass through if 2nd arg is undefined', () => {
 			expect(
-				***REMOVED***( { borderRadius: '15px', color: 'red' }, undefined )
+				updateBorderRadius( { borderRadius: '15px', color: 'red' }, undefined )
 			).toStrictEqual( {
 				borderRadius: '15px',
 				color: 'red',
@@ -269,20 +269,20 @@ describe( 'style-updater', () => {
 		} );
 
 		it( 'should remove borderRadius props', () => {
-			expect( ***REMOVED***( { borderRadius: '15px', color: 'red' }, {} ) ).toStrictEqual( {
+			expect( updateBorderRadius( { borderRadius: '15px', color: 'red' }, {} ) ).toStrictEqual( {
 				color: 'red',
 			} );
 		} );
 
 		it( 'should return a long hand', () => {
-			expect( ***REMOVED***( {}, { topLeft: '20px' } ) ).toStrictEqual( {
-				***REMOVED***: '20px',
+			expect( updateBorderRadius( {}, { topLeft: '20px' } ) ).toStrictEqual( {
+				borderTopLeftRadius: '20px',
 			} );
 		} );
 
 		it( 'should return a short hand', () => {
 			expect(
-				***REMOVED***(
+				updateBorderRadius(
 					{},
 					{ topLeft: '20px', topRight: '20px', bottomRight: '20px', bottomLeft: '20px' }
 				)
@@ -293,7 +293,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 2value', () => {
 			expect(
-				***REMOVED***(
+				updateBorderRadius(
 					{},
 					{ topLeft: '20px', topRight: '30px', bottomRight: '20px', bottomLeft: '30px' }
 				)
@@ -304,7 +304,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 3value', () => {
 			expect(
-				***REMOVED***(
+				updateBorderRadius(
 					{},
 					{ topLeft: '2px', topRight: '4px', bottomRight: '3px', bottomLeft: '4px' }
 				)
@@ -315,7 +315,7 @@ describe( 'style-updater', () => {
 
 		it( 'should return a short hand 4value', () => {
 			expect(
-				***REMOVED***(
+				updateBorderRadius(
 					{},
 					{ topLeft: '2px', topRight: '3px', bottomRight: '4px', bottomLeft: '5px' }
 				)

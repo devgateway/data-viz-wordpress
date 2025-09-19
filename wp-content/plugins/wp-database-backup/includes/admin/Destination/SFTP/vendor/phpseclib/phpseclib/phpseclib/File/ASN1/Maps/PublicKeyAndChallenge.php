@@ -25,7 +25,7 @@ abstract class PublicKeyAndChallenge
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            'spki' => ***REMOVED***::MAP,
+            'spki' => SubjectPublicKeyInfo::MAP,
             'challenge' => ['type' => ASN1::TYPE_IA5_STRING]
         ]
     ];

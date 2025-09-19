@@ -22,7 +22,7 @@ if ( ! class_exists( 'acf_field_number' ) ) :
 			$this->label         = __( 'Number', 'acf' );
 			$this->description   = __( 'An input limited to numerical values.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-number.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/number/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/number/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'default_value' => '',
 				'min'           => '',
@@ -90,7 +90,7 @@ if ( ! class_exists( 'acf_field_number' ) ) :
 			$html .= '<div class="acf-input-wrap">' . acf_get_text_input( $atts ) . '</div>';
 
 			// return
-			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by individual html functions above.
+			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by individual html functions above.
 		}
 
 

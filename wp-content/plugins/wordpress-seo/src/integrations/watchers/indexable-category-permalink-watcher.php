@@ -6,7 +6,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 
 /**
- * Watches the ***REMOVED*** key in wpseo_titles, in order to clear the permalink of the category indexables.
+ * Watches the stripcategorybase key in wpseo_titles, in order to clear the permalink of the category indexables.
  */
 class Indexable_Category_Permalink_Watcher extends Indexable_Permalink_Watcher {
 
@@ -22,7 +22,7 @@ class Indexable_Category_Permalink_Watcher extends Indexable_Permalink_Watcher {
 	}
 
 	/**
-	 * Checks if the ***REMOVED*** key in wpseo_titles has a change in value, and if so,
+	 * Checks if the stripcategorybase key in wpseo_titles has a change in value, and if so,
 	 * clears the permalink for category indexables.
 	 *
 	 * @param array $old_value The old value of the wpseo_titles option.
@@ -42,12 +42,12 @@ class Indexable_Category_Permalink_Watcher extends Indexable_Permalink_Watcher {
 		}
 
 		// If both values aren't set, they haven't changed.
-		if ( ! isset( $old_value['***REMOVED***'] ) && ! isset( $new_value['***REMOVED***'] ) ) {
+		if ( ! isset( $old_value['stripcategorybase'] ) && ! isset( $new_value['stripcategorybase'] ) ) {
 			return;
 		}
 
-		// If a new value has been set for '***REMOVED***', clear the category permalinks.
-		if ( $old_value['***REMOVED***'] !== $new_value['***REMOVED***'] ) {
+		// If a new value has been set for 'stripcategorybase', clear the category permalinks.
+		if ( $old_value['stripcategorybase'] !== $new_value['stripcategorybase'] ) {
 			$this->indexable_helper->reset_permalink_indexables( 'term', 'category', Indexing_Reasons::REASON_CATEGORY_BASE_PREFIX );
 			// Clear the rewrites, so the new permalink structure is used.
 			WPSEO_Utils::clear_rewrites();

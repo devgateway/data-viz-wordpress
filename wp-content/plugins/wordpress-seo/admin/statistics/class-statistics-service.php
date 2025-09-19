@@ -68,7 +68,7 @@ class WPSEO_Statistics_Service {
 	 * @return string The header summing up the statistics results.
 	 */
 	private function get_header_from_statistics( array $statistics ) {
-		// Personal ***REMOVED*** to allow release, should be looked at later.
+		// Personal interpretation to allow release, should be looked at later.
 		if ( $statistics['division'] === false ) {
 			return __( 'You don\'t have any published posts, your SEO scores will appear here once you make your first post!', 'wordpress-seo' );
 		}

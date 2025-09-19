@@ -95,9 +95,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 		}
 
 		return [
-			'@type'           => '***REMOVED***',
+			'@type'           => 'BreadcrumbList',
 			'@id'             => $this->context->canonical . Schema_IDs::BREADCRUMB_HASH,
-			'***REMOVED***' => $list_elements,
+			'itemListElement' => $list_elements,
 		];
 	}
 

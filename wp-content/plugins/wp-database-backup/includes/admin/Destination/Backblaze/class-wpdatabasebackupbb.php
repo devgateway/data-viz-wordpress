@@ -12,14 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 
-add_action( 'wp_db_backup_completed', array( '***REMOVED***', 'wp_db_backup_completed' ) );
+add_action( 'wp_db_backup_completed', array( 'WPDatabaseBackupBB', 'wp_db_backup_completed' ) );
 
 /**
- * ***REMOVED*** Class.
+ * WPDatabaseBackupBB Class.
  *
- * @class ***REMOVED***
+ * @class WPDatabaseBackupBB
  */
-class ***REMOVED*** {
+class WPDatabaseBackupBB {
 
 // Function to upload files to Backblaze B2
 public static function upload_backup_to_backblaze($file_path, $file_name) {
@@ -53,11 +53,11 @@ public static function upload_backup_to_backblaze($file_path, $file_name) {
         $body = wp_remote_retrieve_body($response);
         $data = json_decode($body);
 
-        if (empty($data->***REMOVED***)) {
+        if (empty($data->authorizationToken)) {
             return array('success' => false, 'message' => esc_html__('Failed to authorize with Backblaze.', 'wpdbbkp'));
         }
 
-        $auth_token = $data->***REMOVED***;
+        $auth_token = $data->authorizationToken;
         set_transient('b2_authorization_token', $auth_token, 1 * HOUR_IN_SECONDS);
         set_transient('b2_api_url', $data->apiUrl, 1 * HOUR_IN_SECONDS);
     } else {
@@ -119,7 +119,7 @@ public static function handle_large_file_upload($file_path, $file_name, $auth_to
     $part_size = 100 * 1024 * 1024; // 100MB per part
     $num_parts = ceil($file_size / $part_size); // Calculate the number of parts
 
-    $handle = fopen($file_path, 'rb'); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fopen --required for large files
+    $handle = fopen($file_path, 'rb'); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen --required for large files
     $part_sha1_array = array(); 
 
     for ($i = 0; $i < $num_parts; $i++) {
@@ -137,18 +137,18 @@ public static function handle_large_file_upload($file_path, $file_name, $auth_to
         ));
 
         if (is_wp_error($response_2)) {
-            fclose($handle); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fclose --required for large files
+            fclose($handle); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose --required for large files
             return array('success' => false, 'message' => esc_html__('Failed to get upload part URL: ', 'wpdbbkp') . $response_2->get_error_message());
         }
 
         $data_2 = json_decode(wp_remote_retrieve_body($response_2));
         $upload_part_url = $data_2->uploadUrl;
-        $upload_part_auth_token = $data_2->***REMOVED***;
+        $upload_part_auth_token = $data_2->authorizationToken;
 
         // Read the part from the file
-        $file_part = fread($handle, $part_size); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fread --required for large files
+        $file_part = fread($handle, $part_size); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread --required for large files
         if ($file_part === false) {
-            fclose($handle); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fclose --required for large files
+            fclose($handle); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose --required for large files
             return array('success' => false, 'message' => esc_html__('Failed to read part ', 'wpdbbkp') . $i . ' from file.');
         }
 
@@ -168,19 +168,19 @@ public static function handle_large_file_upload($file_path, $file_name, $auth_to
         ));
 
         if (is_wp_error($response)) {
-            fclose($handle); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fclose --required for large files
+            fclose($handle); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose --required for large files
             return array('success' => false, 'message' => esc_html__('Upload request failed for part ', 'wpdbbkp') . $i . ': ' . $response->get_error_message());
         }
 
         // Check response code
         $response_code = wp_remote_retrieve_response_code($response);
         if ($response_code != 200) {
-            fclose($handle); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fclose --required for large files
+            fclose($handle); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose --required for large files
             return array('success' => false, 'message' => esc_html__('Failed to upload part ', 'wpdbbkp') . $i);
         }
     }
 
-    fclose($handle); //phpcs:ignore WordPress.WP.***REMOVED***.file_system_operations_fclose --required for large files
+    fclose($handle); //phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose --required for large files
 
     // Finalize large file upload
     $finish_large_file_url = get_transient('b2_api_url') . '/b2api/v2/b2_finish_large_file';
@@ -232,7 +232,7 @@ public static function upload_single_file($file_path, $file_name, $auth_token, $
     }
 
     $upload_url = $data->uploadUrl;
-    $upload_auth_token = $data->***REMOVED***;
+    $upload_auth_token = $data->authorizationToken;
 
     // Check if file exists
     if (!$wp_filesystem->exists($file_path)) {
@@ -284,7 +284,7 @@ public static function upload_single_file($file_path, $file_name, $auth_token, $
 			
 			try {
 		
-                $ret = ***REMOVED***::upload_backup_to_backblaze($args[1], $args[1]);
+                $ret = WPDatabaseBackupBB::upload_backup_to_backblaze($args[1], $args[1]);
 				$args[2] = $args[2] .$ret['message'];
                 if ($ret['success']) {
                     $args[4] .= 'Backblaze, ';

@@ -13,7 +13,7 @@ class WPSEO_Metabox_Editor {
 	/**
 	 * Registers hooks to WordPress.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -21,7 +21,7 @@ class WPSEO_Metabox_Editor {
 		// For the Classic editor.
 		add_filter( 'mce_css', [ $this, 'add_css_inside_editor' ] );
 		// For the Block/Gutenberg editor.
-		// See https://github.com/***REMOVED***/gutenberg-migration-guide/blob/master/filter-mce-css.md.
+		// See https://github.com/danielbachhuber/gutenberg-migration-guide/blob/master/filter-mce-css.md.
 		add_action( 'enqueue_block_editor_assets', [ $this, 'add_editor_styles' ] );
 
 		add_filter( 'tiny_mce_before_init', [ $this, 'add_custom_element' ] );

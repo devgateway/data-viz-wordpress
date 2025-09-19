@@ -145,7 +145,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 			'Yoast SEO'
 		);
 
-		$this->redirect_helper->do_safe_redirect( \***REMOVED***( $this->url_helper->recreate_current_url( false ) ) . \ltrim( $new_path, '/' ), 301, $message );
+		$this->redirect_helper->do_safe_redirect( \trailingslashit( $this->url_helper->recreate_current_url( false ) ) . \ltrim( $new_path, '/' ), 301, $message );
 	}
 
 	/**

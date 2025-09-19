@@ -40,13 +40,13 @@ class WPM_NGG {
 			$data   = array();
 
 			foreach ( $fields as $key => $field ) {
-				// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
 				if( isset( $_POST[ $key ] ) ) {
 					$data[ $key ] = sanitize_text_field( wp_unslash( $_POST[ $key ] ) );
 				}
 			}
 
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- this is a dependent function and its all security measurament is done wherever it has been used.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- this is a dependent function and its all security measurament is done wherever it has been used.
 			if ( isset( $_POST['act_album'] ) &&  $album = \C_Album_Mapper::get_instance()->find( wpm_clean( $_POST['act_album'] ) ) ) {
 				foreach ( $data as $key => $value ) {
 					if ( ! wpm_is_ml_string( $value ) ) {
@@ -58,7 +58,7 @@ class WPM_NGG {
 
 		if ( isset( $_POST['page'] ) && 'manage-images' === $_POST['page'] ) {
 
-			if ( isset( $_POST['***REMOVED***'] ) ) {
+			if ( isset( $_POST['updatepictures'] ) ) {
 
 				check_admin_referer( 'ngg_updategallery' );
 
@@ -76,7 +76,7 @@ class WPM_NGG {
 					// Update the gallery
 					$mapper = \C_Gallery_Mapper::get_instance();
 					
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason this is a dependent function and its all security measurament is done wherever it has been used.
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason this is a dependent function and its all security measurament is done wherever it has been used.
 					if ( isset( $_GET['gid'] ) && $entity = $mapper->find( wpm_clean( $_GET['gid'] ) ) ) {
 						foreach ( $data as $key => $value ) {
 							if ( ! wpm_is_ml_string( $value ) ) {
@@ -88,9 +88,9 @@ class WPM_NGG {
 
 				$image_mapper = \C_Image_Mapper::get_instance();
 
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 				if( isset( $_POST['images'] ) ) {
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 					foreach ( $_POST['images'] as $pid => $image ) {
 
 						$data = array();
@@ -167,7 +167,7 @@ class WPM_NGG {
 				$html_tags = array();
 
 				if ( '_page_nggallery-manage-album' === $admin_page ) {
-					// phpcs:ignore WordPress.Security.***REMOVED***.Missing  -- this is a dependent function and its all security measurament is done wherever it has been used.
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing  -- this is a dependent function and its all security measurament is done wherever it has been used.
 					if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['act_album'] ) ) {
 						$html_tags = array(
 							'value' => array(
@@ -179,8 +179,8 @@ class WPM_NGG {
 				}
 
 				if ( '_page_nggallery-manage-gallery' === $admin_page ) {
-					// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
-					if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && ( isset( $_POST['page'] ) && 'manage-images' === $_POST['page'] ) && isset( $_POST['***REMOVED***'] ) ) {
+					// phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
+					if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && ( isset( $_POST['page'] ) && 'manage-images' === $_POST['page'] ) && isset( $_POST['updatepictures'] ) ) {
 						$html_tags = array(
 							'value' => array(
 								'#gallery_title',

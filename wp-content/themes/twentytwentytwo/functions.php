@@ -46,14 +46,14 @@ if ( ! function_exists( 'twentytwentytwo_styles' ) ) :
 
 		$version_string = is_string( $theme_version ) ? $theme_version : false;
 		wp_register_style(
-			'***REMOVED***-style',
+			'twentytwentytwo-style',
 			get_template_directory_uri() . '/style.css',
 			array(),
 			$version_string
 		);
 
 		// Enqueue theme stylesheet.
-		wp_enqueue_style( '***REMOVED***-style' );
+		wp_enqueue_style( 'twentytwentytwo-style' );
 	}
 
 endif;

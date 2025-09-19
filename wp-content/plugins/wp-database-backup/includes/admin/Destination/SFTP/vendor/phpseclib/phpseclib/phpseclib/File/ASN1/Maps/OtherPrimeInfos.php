@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * OtherPrimeInfos
  *
  * PHP version 5
  *
@@ -16,17 +16,17 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * OtherPrimeInfos
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class OtherPrimeInfos
 {
-    // version must be multi if ***REMOVED*** present
+    // version must be multi if otherPrimeInfos present
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'min' => 1,
         'max' => -1,
-        'children' => ***REMOVED***::MAP
+        'children' => OtherPrimeInfo::MAP
     ];
 }

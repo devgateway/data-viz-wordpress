@@ -79,7 +79,7 @@ class Conflicting_Plugins {
 		'sewn-in-xml-sitemap/sewn-xml-sitemap.php',
 		// Sewn In XML Sitemap (jcow).
 		'rps-sitemap-generator/rps-sitemap-generator.php',
-		// RPS Sitemap Generator (***REMOVED***).
+		// RPS Sitemap Generator (redpixelstudios).
 	];
 
 	public const CLOAKING_PLUGINS = [

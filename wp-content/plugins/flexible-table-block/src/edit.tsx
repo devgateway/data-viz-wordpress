@@ -11,16 +11,16 @@ import { __ } from '@wordpress/i18n';
 import { useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import {
-	***REMOVED***,
+	InspectorControls,
 	BlockControls,
 	useBlockProps,
 	// @ts-ignore: has no exported member
-	***REMOVED***,
+	useBlockEditingMode,
 } from '@wordpress/block-editor';
-import { ***REMOVED***, PanelBody } from '@wordpress/components';
+import { ToolbarDropdownMenu, PanelBody } from '@wordpress/components';
 import { blockTable, justifyLeft } from '@wordpress/icons';
 import { store as noticesStore } from '@wordpress/notices';
-import type { ***REMOVED*** } from '@wordpress/blocks';
+import type { BlockEditProps } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
@@ -28,73 +28,73 @@ import type { ***REMOVED*** } from '@wordpress/blocks';
 import './editor.scss';
 import { CONTENT_JUSTIFY_CONTROLS } from './constants';
 import { STORE_NAME, type StoreOptions } from './store';
-import { TableSettings, ***REMOVED***, ***REMOVED*** } from './settings';
-import { Table, ***REMOVED***, TableCaption } from './elements';
+import { TableSettings, TableCaptionSettings, TableCellSettings } from './settings';
+import { Table, TablePlaceholder, TableCaption } from './elements';
 import {
 	insertRow,
 	deleteRow,
 	insertColumn,
 	deleteColumn,
 	mergeCells,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	splitMergedCells,
+	hasMergedCells,
+	isRectangleSelected,
+	toTableAttributes,
+	toVirtualTable,
+	isEmptySection,
 	type VTable,
 	type VSelectedLine,
-	type ***REMOVED***,
+	type VSelectedCells,
 } from './utils/table-state';
-import { ***REMOVED*** } from './utils/style-converter';
+import { convertToObject } from './utils/style-converter';
 import {
 	tableRowAfter,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	tableRowBefore,
+	tableColumnBefore,
+	tableColumnAfter,
+	tableColumnDelete,
+	tableRowDelete,
+	tableMergeCell,
+	tableSplitCell,
 } from './icons';
-import type { ***REMOVED***, SectionName, ***REMOVED*** } from './***REMOVED***';
+import type { BlockAttributes, SectionName, ContentJustifyValue } from './BlockAttributes';
 
-function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
+function TableEdit( props: BlockEditProps< BlockAttributes > ) {
 	const {
 		attributes,
 		setAttributes,
-		isSelected: ***REMOVED***,
-		// @ts-ignore: `***REMOVED***` prop is not exist at @types
-		***REMOVED***,
+		isSelected: isSingleSelected,
+		// @ts-ignore: `insertBlocksAfter` prop is not exist at @types
+		insertBlocksAfter,
 	} = props;
-	const { ***REMOVED***, tableStyles, captionStyles, captionSide } = attributes;
-	const [ selectedCells, ***REMOVED*** ] = useState< ***REMOVED*** >( undefined );
-	const [ selectedLine, ***REMOVED*** ] = useState< VSelectedLine >( undefined );
+	const { contentJustification, tableStyles, captionStyles, captionSide } = attributes;
+	const [ selectedCells, setSelectedCells ] = useState< VSelectedCells >( undefined );
+	const [ selectedLine, setSelectedLine ] = useState< VSelectedLine >( undefined );
 
-	const ***REMOVED***: Properties = ***REMOVED***( tableStyles );
-	const ***REMOVED***: Properties = ***REMOVED***( captionStyles );
+	const tableStylesObj: Properties = convertToObject( tableStyles );
+	const captionStylesObj: Properties = convertToObject( captionStyles );
 	const options = useSelect( ( select ) => {
 		const { getOptions }: { getOptions: () => StoreOptions } = select( STORE_NAME );
 		return getOptions();
 	}, [] );
-	const { ***REMOVED*** } = useDispatch( noticesStore );
-	const ***REMOVED*** = ***REMOVED***();
-	const ***REMOVED*** = ***REMOVED*** === 'contentOnly';
+	const { createWarningNotice } = useDispatch( noticesStore );
+	const blockEditingMode = useBlockEditingMode();
+	const isContentOnlyMode = blockEditingMode === 'contentOnly';
 
 	// Release cell selection.
 	useEffect( () => {
-		if ( ! ***REMOVED*** ) {
-			***REMOVED***( undefined );
-			***REMOVED***( undefined );
+		if ( ! isSingleSelected ) {
+			setSelectedCells( undefined );
+			setSelectedLine( undefined );
 		}
-	}, [ ***REMOVED*** ] );
+	}, [ isSingleSelected ] );
 
 	// Create virtual table object with the cells placed in positions based on how they actually look.
-	const vTable: VTable = ***REMOVED***( attributes );
+	const vTable: VTable = toVirtualTable( attributes );
 
-	const onChangeContentJustification = ( value: ***REMOVED*** ) => {
-		const newValue = ***REMOVED*** === value ? undefined : value;
-		setAttributes( { ***REMOVED***: newValue } );
+	const onChangeContentJustification = ( value: ContentJustifyValue ) => {
+		const newValue = contentJustification === value ? undefined : value;
+		setAttributes( { contentJustification: newValue } );
 	};
 
 	const onInsertRow = ( offset: number ) => {
@@ -105,13 +105,13 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 		const { sectionName, rowIndex, rowSpan } = selectedCells[ 0 ];
 
 		// Calculate row index to be inserted considering rowspan of the selected cell.
-		const ***REMOVED*** = offset === 0 ? rowIndex : rowIndex + offset + rowSpan - 1;
+		const insertRowIndex = offset === 0 ? rowIndex : rowIndex + offset + rowSpan - 1;
 
-		const newVTable = insertRow( vTable, { sectionName, rowIndex: ***REMOVED*** } );
+		const newVTable = insertRow( vTable, { sectionName, rowIndex: insertRowIndex } );
 
-		setAttributes( ***REMOVED***( newVTable ) );
-		***REMOVED***( undefined );
-		***REMOVED***( undefined );
+		setAttributes( toTableAttributes( newVTable ) );
+		setSelectedCells( undefined );
+		setSelectedLine( undefined );
 	};
 
 	const onDeleteRow = () => {
@@ -125,10 +125,10 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 		if (
 			sectionName === 'body' &&
 			vTable.body.length === 1 &&
-			( ! ***REMOVED***( vTable.head ) || ! ***REMOVED***( vTable.foot ) )
+			( ! isEmptySection( vTable.head ) || ! isEmptySection( vTable.foot ) )
 		) {
 			// @ts-ignore
-			***REMOVED***(
+			createWarningNotice(
 				__( 'The table body must have one or more rows.', 'flexible-table-block' ),
 				{
 					id: 'flexible-table-block-body-row',
@@ -139,12 +139,12 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 		}
 
 		const newVTable = deleteRow( vTable, { sectionName, rowIndex } );
-		setAttributes( ***REMOVED***( newVTable ) );
-		***REMOVED***( undefined );
-		***REMOVED***( undefined );
+		setAttributes( toTableAttributes( newVTable ) );
+		setSelectedCells( undefined );
+		setSelectedLine( undefined );
 	};
 
-	const ***REMOVED*** = ( offset: number ) => {
+	const onInsertColumn = ( offset: number ) => {
 		if ( ! selectedCells || selectedCells.length !== 1 ) {
 			return;
 		}
@@ -152,16 +152,16 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 		const { vColIndex, colSpan } = selectedCells[ 0 ];
 
 		// Calculate column index to be inserted considering colspan of the selected cell.
-		const ***REMOVED*** = offset === 0 ? vColIndex : vColIndex + offset + colSpan - 1;
+		const insertVColIndex = offset === 0 ? vColIndex : vColIndex + offset + colSpan - 1;
 
-		const newVTable = insertColumn( vTable, { vColIndex: ***REMOVED*** } );
+		const newVTable = insertColumn( vTable, { vColIndex: insertVColIndex } );
 
-		setAttributes( ***REMOVED***( newVTable ) );
-		***REMOVED***( undefined );
-		***REMOVED***( undefined );
+		setAttributes( toTableAttributes( newVTable ) );
+		setSelectedCells( undefined );
+		setSelectedLine( undefined );
 	};
 
-	const ***REMOVED*** = () => {
+	const onDeleteColumn = () => {
 		if ( ! selectedCells || selectedCells.length !== 1 ) {
 			return;
 		}
@@ -169,36 +169,36 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 		const { vColIndex } = selectedCells[ 0 ];
 
 		const newVTable = deleteColumn( vTable, { vColIndex } );
-		setAttributes( ***REMOVED***( newVTable ) );
-		***REMOVED***( undefined );
-		***REMOVED***( undefined );
+		setAttributes( toTableAttributes( newVTable ) );
+		setSelectedCells( undefined );
+		setSelectedLine( undefined );
 	};
 
 	const onMergeCells = () => {
 		const newVTable = mergeCells( vTable, selectedCells, options.merge_content );
-		setAttributes( ***REMOVED***( newVTable ) );
-		***REMOVED***( undefined );
-		***REMOVED***( undefined );
+		setAttributes( toTableAttributes( newVTable ) );
+		setSelectedCells( undefined );
+		setSelectedLine( undefined );
 	};
 
-	const ***REMOVED*** = () => {
-		const newVTable = ***REMOVED***( vTable, selectedCells );
-		setAttributes( ***REMOVED***( newVTable ) );
-		***REMOVED***( undefined );
-		***REMOVED***( undefined );
+	const onSplitMergedCells = () => {
+		const newVTable = splitMergedCells( vTable, selectedCells );
+		setAttributes( toTableAttributes( newVTable ) );
+		setSelectedCells( undefined );
+		setSelectedLine( undefined );
 	};
 
-	const ***REMOVED*** = CONTENT_JUSTIFY_CONTROLS.map( ( { icon, label, value } ) => ( {
+	const TableJustifyControls = CONTENT_JUSTIFY_CONTROLS.map( ( { icon, label, value } ) => ( {
 		icon,
 		title: label,
-		isActive: ***REMOVED*** === value,
+		isActive: contentJustification === value,
 		value,
 		onClick: () => onChangeContentJustification( value ),
 	} ) );
 
-	const ***REMOVED*** = [
+	const TableEditControls = [
 		{
-			icon: ***REMOVED***,
+			icon: tableRowBefore,
 			title: __( 'Insert row before', 'flexible-table-block' ),
 			isDisabled: ( selectedCells || [] ).length !== 1,
 			onClick: () => onInsertRow( 0 ),
@@ -210,79 +210,79 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 			onClick: () => onInsertRow( 1 ),
 		},
 		{
-			icon: ***REMOVED***,
+			icon: tableRowDelete,
 			title: __( 'Delete row', 'flexible-table-block' ),
 			isDisabled: ( selectedCells || [] ).length !== 1,
 			onClick: () => onDeleteRow(),
 		},
 		{
-			icon: ***REMOVED***,
+			icon: tableColumnBefore,
 			title: __( 'Insert column before', 'flexible-table-block' ),
 			isDisabled: ( selectedCells || [] ).length !== 1,
-			onClick: () => ***REMOVED***( 0 ),
+			onClick: () => onInsertColumn( 0 ),
 		},
 		{
-			icon: ***REMOVED***,
+			icon: tableColumnAfter,
 			title: __( 'Insert column after', 'flexible-table-block' ),
 			isDisabled: ( selectedCells || [] ).length !== 1,
-			onClick: () => ***REMOVED***( 1 ),
+			onClick: () => onInsertColumn( 1 ),
 		},
 		{
-			icon: ***REMOVED***,
+			icon: tableColumnDelete,
 			title: __( 'Delete column', 'flexible-table-block' ),
 			isDisabled: ( selectedCells || [] ).length !== 1,
-			onClick: () => ***REMOVED***(),
+			onClick: () => onDeleteColumn(),
 		},
 		{
-			icon: ***REMOVED***,
+			icon: tableSplitCell,
 			title: __( 'Split merged cells', 'flexible-table-block' ),
-			isDisabled: ! selectedCells || ! ***REMOVED***( selectedCells ),
-			onClick: () => ***REMOVED***(),
+			isDisabled: ! selectedCells || ! hasMergedCells( selectedCells ),
+			onClick: () => onSplitMergedCells(),
 		},
 		{
-			icon: ***REMOVED***,
+			icon: tableMergeCell,
 			title: __( 'Merge cells', 'flexible-table-block' ),
-			isDisabled: ! selectedCells || ! ***REMOVED***( selectedCells ),
+			isDisabled: ! selectedCells || ! isRectangleSelected( selectedCells ),
 			onClick: () => onMergeCells(),
 		},
 	];
 
 	const isEmpty: boolean = ! [ 'head', 'body', 'foot' ].filter(
-		( sectionName ) => ! ***REMOVED***( vTable[ sectionName as SectionName ] )
+		( sectionName ) => ! isEmptySection( vTable[ sectionName as SectionName ] )
 	).length;
 
 	const tablePlaceholderProps = useBlockProps();
 
-	const ***REMOVED*** = useBlockProps( {
+	const tableFigureProps = useBlockProps( {
 		className: clsx( `is-caption-side-${ captionSide }`, {
-			[ `is-content-justification-${ ***REMOVED*** }` ]: ***REMOVED***,
+			[ `is-content-justification-${ contentJustification }` ]: contentJustification,
 			'show-dot-on-th': options.show_dot_on_th,
 			'show-control-button': options.show_control_button,
-			'is-content-only': ***REMOVED***,
+			'is-content-only': isContentOnlyMode,
 		} ),
 	} );
 
 	const tableProps = {
 		attributes,
 		setAttributes,
-		isSelected: ***REMOVED***,
+		isSelected: isSingleSelected,
 		options,
 		vTable,
-		***REMOVED***,
+		tableStylesObj,
 		selectedCells,
-		***REMOVED***,
+		setSelectedCells,
 		selectedLine,
-		***REMOVED***,
-		***REMOVED***,
+		setSelectedLine,
+		isContentOnlyMode,
 	};
 
-	const ***REMOVED*** = {
+	const tableSettingsProps = {
 		attributes,
 		setAttributes,
 		vTable,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
+		setSelectedCells,
+		setSelectedLine,
+		tableStylesObj,
 	};
 
 	const tableCellSettingsProps = {
@@ -296,75 +296,75 @@ function TableEdit( props: ***REMOVED***< ***REMOVED*** > ) {
 			? __( 'Multi cells settings', 'flexible-table-block' )
 			: __( 'Cell settings', 'flexible-table-block' );
 
-	const ***REMOVED*** = {
+	const tableCaptionProps = {
 		attributes,
 		setAttributes,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
-		isSelected: ***REMOVED***,
+		insertBlocksAfter,
+		setSelectedLine,
+		setSelectedCells,
+		captionStylesObj,
+		isSelected: isSingleSelected,
 	};
 
 	const tableCaptionSettingProps = {
 		attributes,
 		setAttributes,
-		***REMOVED***,
+		captionStylesObj,
 	};
 
 	return (
 		<>
 			{ isEmpty && (
 				<div { ...tablePlaceholderProps }>
-					<***REMOVED*** { ...props } />
+					<TablePlaceholder { ...props } />
 				</div>
 			) }
 			{ ! isEmpty && (
-				<figure { ...***REMOVED*** }>
-					{ ! ***REMOVED*** && (
+				<figure { ...tableFigureProps }>
+					{ ! isContentOnlyMode && (
 						<>
 							<BlockControls group="block">
-								<***REMOVED***
+								<ToolbarDropdownMenu
 									label={ __( 'Change table justification', 'flexible-table-block' ) }
 									icon={
-										( ***REMOVED*** &&
-											***REMOVED***.find(
-												( control ) => control.value === ***REMOVED***
+										( contentJustification &&
+											TableJustifyControls.find(
+												( control ) => control.value === contentJustification
 											)?.icon ) ||
 										justifyLeft
 									}
-									controls={ ***REMOVED*** }
+									controls={ TableJustifyControls }
 								/>
-								<***REMOVED***
+								<ToolbarDropdownMenu
 									label={ __( 'Edit table', 'flexible-table-block' ) }
 									icon={ blockTable }
-									controls={ ***REMOVED*** }
+									controls={ TableEditControls }
 								/>
 							</BlockControls>
 						</>
 					) }
-					<***REMOVED***>
+					<InspectorControls>
 						<PanelBody
 							title={ __( 'Table settings', 'flexible-table-block' ) }
 							initialOpen={ false }
 						>
-							<TableSettings { ...***REMOVED*** } />
+							<TableSettings { ...tableSettingsProps } />
 						</PanelBody>
 						{ selectedCells && !! selectedCells.length && (
 							<PanelBody title={ tableCellSettingsLabel } initialOpen={ false }>
-								<***REMOVED*** { ...tableCellSettingsProps } />
+								<TableCellSettings { ...tableCellSettingsProps } />
 							</PanelBody>
 						) }
 						<PanelBody
 							title={ __( 'Caption settings', 'flexible-table-block' ) }
 							initialOpen={ false }
 						>
-							<***REMOVED*** { ...tableCaptionSettingProps } />
+							<TableCaptionSettings { ...tableCaptionSettingProps } />
 						</PanelBody>
-					</***REMOVED***>
-					{ 'top' === captionSide && <TableCaption { ...***REMOVED*** } /> }
+					</InspectorControls>
+					{ 'top' === captionSide && <TableCaption { ...tableCaptionProps } /> }
 					<Table { ...tableProps } />
-					{ 'bottom' === captionSide && <TableCaption { ...***REMOVED*** } /> }
+					{ 'bottom' === captionSide && <TableCaption { ...tableCaptionProps } /> }
 				</figure>
 			) }
 		</>

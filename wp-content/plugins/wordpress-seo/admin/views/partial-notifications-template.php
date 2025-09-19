@@ -84,7 +84,7 @@ if ( ! $yoast_seo_active ) {
 
 		<div class="container yoast-notifications-active" id="<?php echo esc_attr( 'yoast-' . $yoast_seo_type . '-active' ); ?>">
 			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: _yoast_display_notifications() as declared above is safe.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_notifications() as declared above is safe.
 			echo _yoast_display_notifications( $yoast_seo_active, 'active' );
 			?>
 		</div>
@@ -103,7 +103,7 @@ if ( ! $yoast_seo_active ) {
 					'collapsible_header_class' => 'yoast-notification',
 				]
 			);
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: get_output() output is properly escaped.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: get_output() output is properly escaped.
 			echo $dismissed_paper->get_output();
 		}
 		?>

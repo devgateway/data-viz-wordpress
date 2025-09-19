@@ -732,7 +732,7 @@ msgid "Dropbox"
 msgstr ""
 
 #: includes/admin/Destination/Dropbox/dropboxupload.php:48
-msgid "***REMOVED***"
+msgid "Authentication"
 msgstr ""
 
 #: includes/admin/Destination/Dropbox/dropboxupload.php:50

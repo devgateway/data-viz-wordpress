@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PHP Dynamic Barrett Modular ***REMOVED*** Engine
+ * PHP Dynamic Barrett Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -17,7 +17,7 @@ use phpseclib3\Math\BigInteger\Engines\PHP;
 use phpseclib3\Math\BigInteger\Engines\PHP\Base;
 
 /**
- * PHP Dynamic Barrett Modular ***REMOVED*** Engine
+ * PHP Dynamic Barrett Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -113,19 +113,19 @@ abstract class EvalBarrett extends Base
             $lsd = array_slice($n, 0, ' . $cutoff . ');
             $msd = array_slice($n, ' . $cutoff . ');';
 
-        $code .= self::***REMOVED***('msd');
+        $code .= self::generateInlineTrim('msd');
         $code .= self::generateInlineMultiply('msd', $m1, 'temp', $class);
-        $code .= self::***REMOVED***('lsd', 'temp', 'n', $class);
+        $code .= self::generateInlineAdd('lsd', 'temp', 'n', $class);
 
         $code .= '$temp = array_slice($n, ' . (count($m) - 1) . ');';
         $code .= self::generateInlineMultiply('temp', $u, 'temp2', $class);
-        $code .= self::***REMOVED***('temp2');
+        $code .= self::generateInlineTrim('temp2');
 
         $code .= $class::BASE == 26 ?
             '$temp = array_slice($temp2, ' . (count($m) + 1) . ');' :
             '$temp = array_slice($temp2, ' . ((count($m) >> 1) + 1) . ');';
         $code .= self::generateInlineMultiply('temp', $m, 'temp2', $class);
-        $code .= self::***REMOVED***('temp2');
+        $code .= self::generateInlineTrim('temp2');
 
         /*
         if ($class::BASE == 26) {
@@ -160,7 +160,7 @@ abstract class EvalBarrett extends Base
      * @param string $name
      * @return string
      */
-    private static function ***REMOVED***($name)
+    private static function generateInlineTrim($name)
     {
         return '
             for ($i = count($' . $name . ') - 1; $i >= 0; --$i) {
@@ -255,7 +255,7 @@ abstract class EvalBarrett extends Base
      * @param string $class
      * @return string
      */
-    private static function ***REMOVED***($x, $y, $result, $class)
+    private static function generateInlineAdd($x, $y, $result, $class)
     {
         $code = '
             $length = max(count($' . $x . '), count($' . $y . '));
@@ -287,7 +287,7 @@ abstract class EvalBarrett extends Base
                 }
                 ++$' . $result . '[$i];
             }';
-            $code .= self::***REMOVED***($result);
+            $code .= self::generateInlineTrim($result);
 
             return $code;
     }
@@ -346,7 +346,7 @@ abstract class EvalBarrett extends Base
                 --$' . $result . '[$i];
             }';
 
-        $code .= self::***REMOVED***($result);
+        $code .= self::generateInlineTrim($result);
 
         return $code;
     }
@@ -410,7 +410,7 @@ abstract class EvalBarrett extends Base
                 }
                 --$' . $result . '[$i];
             }';
-        $code .= self::***REMOVED***($result);
+        $code .= self::generateInlineTrim($result);
 
         return $code;
     }
@@ -457,7 +457,7 @@ abstract class EvalBarrett extends Base
     /**
      * Convert a float to a string
      *
-     * If you do echo floatval(pow(2, 52)) you'll get 4.***REMOVED***+18. It /can/ be displayed without a loss of
+     * If you do echo floatval(pow(2, 52)) you'll get 4.6116860184274E+18. It /can/ be displayed without a loss of
      * precision but displayed in this way there will be precision loss, hence the need for this method.
      *
      * @param int|float $num

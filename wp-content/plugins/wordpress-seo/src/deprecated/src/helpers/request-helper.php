@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Helpers;
  * A helper object for the request state.
  *
  * @deprecated 23.6
- * @***REMOVED*** Because of deprecation.
+ * @codeCoverageIgnore Because of deprecation.
  */
 class Request_Helper {
 
@@ -14,7 +14,7 @@ class Request_Helper {
 	 * Checks if the current request is a REST request.
 	 *
 	 * @deprecated 23.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True when the current request is a REST request.
 	 */

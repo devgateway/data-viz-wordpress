@@ -11,7 +11,7 @@ namespace YoastSEO_Vendor\GuzzleHttp\Promise;
  *
  * @final
  */
-class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+class FulfilledPromise implements \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
 {
     private $value;
     /**
@@ -20,11 +20,11 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     public function __construct($value)
     {
         if (\is_object($value) && \method_exists($value, 'then')) {
-            throw new \InvalidArgumentException('You cannot create a ***REMOVED*** with a promise.');
+            throw new \InvalidArgumentException('You cannot create a FulfilledPromise with a promise.');
         }
         $this->value = $value;
     }
-    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         // Return itself if there is no onFulfilled function.
         if (!$onFulfilled) {
@@ -44,7 +44,7 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
         });
         return $p;
     }
-    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->then(null, $onRejected);
     }
@@ -59,12 +59,12 @@ class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
     public function resolve($value) : void
     {
         if ($value !== $this->value) {
-            throw new \***REMOVED***('Cannot resolve a fulfilled promise');
+            throw new \LogicException('Cannot resolve a fulfilled promise');
         }
     }
     public function reject($reason) : void
     {
-        throw new \***REMOVED***('Cannot reject a fulfilled promise');
+        throw new \LogicException('Cannot reject a fulfilled promise');
     }
     public function cancel() : void
     {

@@ -185,7 +185,7 @@ class ACF_WPML_Compatibility {
 		}
 		
 		// ammend
-		$path = ***REMOVED***($path) . '/' . acf_get_setting('current_language');
+		$path = untrailingslashit($path) . '/' . acf_get_setting('current_language');
 		
 		// make dir if does not exist
 		if( !file_exists($path) ) {
@@ -212,7 +212,7 @@ class ACF_WPML_Compatibility {
 		// loop
 		if( $paths ) {
 		foreach( $paths as $i => $path ) {
-			$paths[ $i ] = ***REMOVED***($path) . '/' . acf_get_setting('current_language');
+			$paths[ $i ] = untrailingslashit($path) . '/' . acf_get_setting('current_language');
 		}}
 		
 		// return

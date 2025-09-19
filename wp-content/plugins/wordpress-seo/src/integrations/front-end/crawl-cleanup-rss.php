@@ -140,7 +140,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		}
 
 		if ( \is_search() && $this->is_true( 'remove_feed_search' ) ) {
-			$url = \***REMOVED***( \home_url() ) . '?s=' . \get_search_query();
+			$url = \trailingslashit( \home_url() ) . '?s=' . \get_search_query();
 			$this->redirect_feed( $url, 'We disable search RSS feeds for performance reasons.' );
 		}
 	}

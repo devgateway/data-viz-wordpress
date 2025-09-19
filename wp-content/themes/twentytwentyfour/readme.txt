@@ -1,5 +1,5 @@
 === Twenty Twenty-Four ===
-Contributors: ***REMOVED***
+Contributors: wordpressdotorg
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.0
@@ -45,7 +45,7 @@ the Free Software Foundation, either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-***REMOVED*** or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 
@@ -71,11 +71,11 @@ Source: https://github.com/rsms/inter
 Jost Font
 Copyright 2020 The Jost Project Authors.
 License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Source: https://github.com/***REMOVED***-type/Jost
+Source: https://github.com/indestructible-type/Jost
 
 === Images ===
 
-License: CC0 https://***REMOVED***.org/publicdomain/zero/1.0/
+License: CC0 https://creativecommons.org/publicdomain/zero/1.0/
 
 museum.webp - https://www.rawpixel.com/image/3297419/free-photo-image-interior-hallway-architecture
 tourist-and-building.webp - https://www.rawpixel.com/image/5928004/photo-image-public-domain-hand-person

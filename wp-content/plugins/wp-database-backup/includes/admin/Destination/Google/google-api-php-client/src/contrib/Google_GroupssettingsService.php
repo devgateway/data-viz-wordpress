@@ -96,17 +96,17 @@
 class Google_GroupssettingsService extends Google_Service {
   public $groups;
   /**
-   * Constructs the internal ***REMOVED*** of the ***REMOVED*** service.
+   * Constructs the internal representation of the Groupssettings service.
    *
    * @param Google_Client $client
    */
   public function __construct(Google_Client $client) {
     $this->servicePath = 'groups/v1/groups/';
     $this->version = 'v1';
-    $this->serviceName = '***REMOVED***';
+    $this->serviceName = 'groupssettings';
 
     $client->addService($this->serviceName, $this->version);
-    $this->groups = new Google_GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"get": {"id": "***REMOVED***.groups.get", "path": "{groupUniqueId}", "httpMethod": "GET", "parameters": {"groupUniqueId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Groups"}, "scopes": ["https://www.googleapis.com/auth/apps.groups.settings"]}, "patch": {"id": "***REMOVED***.groups.patch", "path": "{groupUniqueId}", "httpMethod": "PATCH", "parameters": {"groupUniqueId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Groups"}, "response": {"$ref": "Groups"}, "scopes": ["https://www.googleapis.com/auth/apps.groups.settings"]}, "update": {"id": "***REMOVED***.groups.update", "path": "{groupUniqueId}", "httpMethod": "PUT", "parameters": {"groupUniqueId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Groups"}, "response": {"$ref": "Groups"}, "scopes": ["https://www.googleapis.com/auth/apps.groups.settings"]}}}', true));
+    $this->groups = new Google_GroupsServiceResource($this, $this->serviceName, 'groups', json_decode('{"methods": {"get": {"id": "groupsSettings.groups.get", "path": "{groupUniqueId}", "httpMethod": "GET", "parameters": {"groupUniqueId": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Groups"}, "scopes": ["https://www.googleapis.com/auth/apps.groups.settings"]}, "patch": {"id": "groupsSettings.groups.patch", "path": "{groupUniqueId}", "httpMethod": "PATCH", "parameters": {"groupUniqueId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Groups"}, "response": {"$ref": "Groups"}, "scopes": ["https://www.googleapis.com/auth/apps.groups.settings"]}, "update": {"id": "groupsSettings.groups.update", "path": "{groupUniqueId}", "httpMethod": "PUT", "parameters": {"groupUniqueId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Groups"}, "response": {"$ref": "Groups"}, "scopes": ["https://www.googleapis.com/auth/apps.groups.settings"]}}}', true));
 
   }
 }
@@ -114,9 +114,9 @@ class Google_GroupssettingsService extends Google_Service {
 
 
 class Google_Groups extends Google_Model {
-  public $***REMOVED***;
+  public $allowExternalMembers;
   public $allowGoogleCommunication;
-  public $***REMOVED***;
+  public $allowWebPosting;
   public $archiveOnly;
   public $customReplyTo;
   public $defaultMessageDenyNotificationText;
@@ -125,26 +125,26 @@ class Google_Groups extends Google_Model {
   public $includeInGlobalAddressList;
   public $isArchived;
   public $kind;
-  public $***REMOVED***;
+  public $maxMessageBytes;
   public $membersCanPostAsTheGroup;
-  public $***REMOVED***;
+  public $messageDisplayFont;
   public $messageModerationLevel;
   public $name;
-  public $***REMOVED***;
+  public $primaryLanguage;
   public $replyTo;
   public $sendMessageDenyNotification;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $showInGroupDirectory;
+  public $spamModerationLevel;
   public $whoCanInvite;
   public $whoCanJoin;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function setAllowExternalMembers( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $whoCanPostMessage;
+  public $whoCanViewGroup;
+  public $whoCanViewMembership;
+  public function setAllowExternalMembers( $allowExternalMembers) {
+    $this->allowExternalMembers = $allowExternalMembers;
   }
   public function getAllowExternalMembers() {
-    return $this->***REMOVED***;
+    return $this->allowExternalMembers;
   }
   public function setAllowGoogleCommunication( $allowGoogleCommunication) {
     $this->allowGoogleCommunication = $allowGoogleCommunication;
@@ -152,22 +152,22 @@ class Google_Groups extends Google_Model {
   public function getAllowGoogleCommunication() {
     return $this->allowGoogleCommunication;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAllowWebPosting( $allowWebPosting) {
+    $this->allowWebPosting = $allowWebPosting;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getAllowWebPosting() {
+    return $this->allowWebPosting;
   }
-  public function ***REMOVED***( $archiveOnly) {
+  public function setArchiveOnly( $archiveOnly) {
     $this->archiveOnly = $archiveOnly;
   }
-  public function ***REMOVED***() {
+  public function getArchiveOnly() {
     return $this->archiveOnly;
   }
-  public function ***REMOVED***( $customReplyTo) {
+  public function setCustomReplyTo( $customReplyTo) {
     $this->customReplyTo = $customReplyTo;
   }
-  public function ***REMOVED***() {
+  public function getCustomReplyTo() {
     return $this->customReplyTo;
   }
   public function setDefaultMessageDenyNotificationText( $defaultMessageDenyNotificationText) {
@@ -176,10 +176,10 @@ class Google_Groups extends Google_Model {
   public function getDefaultMessageDenyNotificationText() {
     return $this->defaultMessageDenyNotificationText;
   }
-  public function ***REMOVED***( $description) {
+  public function setDescription( $description) {
     $this->description = $description;
   }
-  public function ***REMOVED***() {
+  public function getDescription() {
     return $this->description;
   }
   public function setEmail( $email) {
@@ -206,11 +206,11 @@ class Google_Groups extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMaxMessageBytes( $maxMessageBytes) {
+    $this->maxMessageBytes = $maxMessageBytes;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMaxMessageBytes() {
+    return $this->maxMessageBytes;
   }
   public function setMembersCanPostAsTheGroup( $membersCanPostAsTheGroup) {
     $this->membersCanPostAsTheGroup = $membersCanPostAsTheGroup;
@@ -218,11 +218,11 @@ class Google_Groups extends Google_Model {
   public function getMembersCanPostAsTheGroup() {
     return $this->membersCanPostAsTheGroup;
   }
-  public function setMessageDisplayFont( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMessageDisplayFont( $messageDisplayFont) {
+    $this->messageDisplayFont = $messageDisplayFont;
   }
   public function getMessageDisplayFont() {
-    return $this->***REMOVED***;
+    return $this->messageDisplayFont;
   }
   public function setMessageModerationLevel( $messageModerationLevel) {
     $this->messageModerationLevel = $messageModerationLevel;
@@ -236,11 +236,11 @@ class Google_Groups extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPrimaryLanguage( $primaryLanguage) {
+    $this->primaryLanguage = $primaryLanguage;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPrimaryLanguage() {
+    return $this->primaryLanguage;
   }
   public function setReplyTo( $replyTo) {
     $this->replyTo = $replyTo;
@@ -254,22 +254,22 @@ class Google_Groups extends Google_Model {
   public function getSendMessageDenyNotification() {
     return $this->sendMessageDenyNotification;
   }
-  public function setShowInGroupDirectory( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setShowInGroupDirectory( $showInGroupDirectory) {
+    $this->showInGroupDirectory = $showInGroupDirectory;
   }
   public function getShowInGroupDirectory() {
-    return $this->***REMOVED***;
+    return $this->showInGroupDirectory;
   }
-  public function setSpamModerationLevel( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSpamModerationLevel( $spamModerationLevel) {
+    $this->spamModerationLevel = $spamModerationLevel;
   }
   public function getSpamModerationLevel() {
-    return $this->***REMOVED***;
+    return $this->spamModerationLevel;
   }
-  public function ***REMOVED***( $whoCanInvite) {
+  public function setWhoCanInvite( $whoCanInvite) {
     $this->whoCanInvite = $whoCanInvite;
   }
-  public function ***REMOVED***() {
+  public function getWhoCanInvite() {
     return $this->whoCanInvite;
   }
   public function setWhoCanJoin( $whoCanJoin) {
@@ -278,22 +278,22 @@ class Google_Groups extends Google_Model {
   public function getWhoCanJoin() {
     return $this->whoCanJoin;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setWhoCanPostMessage( $whoCanPostMessage) {
+    $this->whoCanPostMessage = $whoCanPostMessage;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getWhoCanPostMessage() {
+    return $this->whoCanPostMessage;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setWhoCanViewGroup( $whoCanViewGroup) {
+    $this->whoCanViewGroup = $whoCanViewGroup;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getWhoCanViewGroup() {
+    return $this->whoCanViewGroup;
   }
-  public function setWhoCanViewMembership( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setWhoCanViewMembership( $whoCanViewMembership) {
+    $this->whoCanViewMembership = $whoCanViewMembership;
   }
   public function getWhoCanViewMembership() {
-    return $this->***REMOVED***;
+    return $this->whoCanViewMembership;
   }
 }

@@ -29,8 +29,8 @@ final class Parameters extends DH
      */
     public function toString($type = 'PKCS1', array $options = [])
     {
-        $type = self::***REMOVED***('Keys', 'PKCS1', '***REMOVED***');
+        $type = self::validatePlugin('Keys', 'PKCS1', 'saveParameters');
 
-        return $type::***REMOVED***($this->prime, $this->base, $options);
+        return $type::saveParameters($this->prime, $this->base, $options);
     }
 }

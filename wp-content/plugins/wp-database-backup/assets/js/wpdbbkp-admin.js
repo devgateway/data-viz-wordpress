@@ -1,10 +1,10 @@
 jQuery(document).ready(function($) {
     $(".wpdbbkp-send-query").on("click", function(e){
-    e.***REMOVED***();   
+    e.preventDefault();   
     var message     = $("#wpdbbkp_query_message").val();  
     var email       = $("#wpdbbkp_query_email").val();  
     
-    if($.trim(message) !='' && $.trim(email) !='' && ***REMOVED***(email) == true){
+    if($.trim(message) !='' && $.trim(email) !='' && wpdbbkpIsEmail(email) == true){
       $(".wpdbbkp-send-query").text('Sending request...');
      $.ajax({
                     type: "POST",    
@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
         if($.trim(email) == ''){
             alert('Please enter the email');
         }
-        if(***REMOVED***(email) == false){
+        if(wpdbbkpIsEmail(email) == false){
             alert('Please enter a valid email');
         }
             
@@ -57,7 +57,7 @@ if (history.replaceState) {
 }
   });
 
-  function ***REMOVED***(email) {
+  function wpdbbkpIsEmail(email) {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
 }
@@ -100,7 +100,7 @@ jQuery('.nav-tabs a ').on('shown', function (e) {
 });
 
 
-var wpdbbkp_modal = document.***REMOVED***("wpdbbkpModal");
+var wpdbbkp_modal = document.getElementById("wpdbbkpModal");
 
 if(wpdbbkp_modal){
   window.onclick = function(event) {
@@ -129,7 +129,7 @@ wpdbbkp_modal.style.display = "block";
 }
 
 function wpdbbkp_schduler_switch(){
-	var db_backups =document.***REMOVED***('enable_autobackups');
+	var db_backups =document.getElementById('enable_autobackups');
   if(db_backups){
 		if(db_backups.checked){
             document.querySelector('.autobackup_type').style.display="block";
@@ -164,7 +164,7 @@ jQuery('#enable_autobackups').change(function(){
 });
 
 function wpdbbkp_autobackup_type_switch(){
-    var enable_autobackups =document.***REMOVED***('enable_autobackups');
+    var enable_autobackups =document.getElementById('enable_autobackups');
     if(enable_autobackups && !enable_autobackups.checked){
 
         document.querySelector('.autobackup_frequency').style.display="none";
@@ -172,7 +172,7 @@ function wpdbbkp_autobackup_type_switch(){
         return false;
 
     }
-	var db_backups =document.***REMOVED***('autobackup_type');
+	var db_backups =document.getElementById('autobackup_type');
   if(db_backups.value){
         document.querySelector('.autobackup_frequency').style.display="block";
         document.querySelector('.autobackup_daily_lite').style.display="block";
@@ -196,7 +196,7 @@ jQuery('#autobackup_type').change(function(){
 
 
 function wpdbbkp_autobackup_frequency_switch(){
-	var db_backups =document.***REMOVED***('autobackup_type');
+	var db_backups =document.getElementById('autobackup_type');
   if(db_backups.value){
         document.querySelector('.autobackup_frequency').style.display="block";
 	}else{
@@ -267,7 +267,7 @@ jQuery('#wpdbbkp_sftp_auth_select').change(function(){
     }
 });
 
-document.querySelector('#wpdbbkp_sftp_sshkey').***REMOVED***('input', function() {
+document.querySelector('#wpdbbkp_sftp_sshkey').addEventListener('input', function() {
     const file = this.files[0]
     let fr = new FileReader()
     fr.readAsText(file)
@@ -284,11 +284,11 @@ if(jQuery("#create_backup")){
 
     jQuery("#create_backup").click(function(event) {
        if(!bkpforwp_token_check()){
-        event.***REMOVED***();
+        event.preventDefault();
         let  wpdbbkp_offer_modal = jQuery('#wpdbbkp_offer_modal').modal({ keyboard: true , backdrop: 'true',});
 		wpdbbkp_offer_modal.show();
 		// When the user selects an option, set the cookie and hide the modal
-		document.***REMOVED***("wpdbbkp_server_backup").***REMOVED***("click", function() {
+		document.getElementById("wpdbbkp_server_backup").addEventListener("click", function() {
 			wpdbbkp_offer_modal.hide();
             jQuery(".wpdbbkp_notification").hide();
             jQuery("#backup_process").show();
@@ -296,11 +296,11 @@ if(jQuery("#create_backup")){
             window.location.href = jQuery("#create_backup").attr("href");
 		});
 
-		document.***REMOVED***("wpdbbkp_remote_backup").***REMOVED***("click", function() {
+		document.getElementById("wpdbbkp_remote_backup").addEventListener("click", function() {
             let register_url = 'https://app.backupforwp.com/register?token='+wpdbbkp_script_vars.siteurl+'&un='+wpdbbkp_script_vars.ud.name+'&ue='+wpdbbkp_script_vars.ud.email;
             let loginWindow = window.open(register_url, '_blank', 'width=800,height=600,resizable=yes,scrollbars=yes,top=100,left=200');
 			
-            window.***REMOVED***('message', function(event) {
+            window.addEventListener('message', function(event) {
 				// Check the origin of the message to ensure it's from the expected source
 				if (event.origin === 'https://app.backupforwp.com') {
 					let  token = event.data;
@@ -334,9 +334,9 @@ if(jQuery("#create_backup")){
 
 
 function bkpforwp_anonymization_logic(){
-	var anon_enable =document.***REMOVED***('enable_anonymization');
+	var anon_enable =document.getElementById('enable_anonymization');
   if(anon_enable){
-		var anon_type = document.***REMOVED***('anonymization_type_div');
+		var anon_type = document.getElementById('anonymization_type_div');
 		if(anon_enable.checked){
 			if(anon_type){
 				anon_type.style.display="block";
@@ -347,16 +347,16 @@ function bkpforwp_anonymization_logic(){
 				anon_type.style.display="none";
 			}
 		}
-		anon_enable.***REMOVED***('change',function(e){
+		anon_enable.addEventListener('change',function(e){
 			bkpforwp_anonymization_logic();
 		});
 	}
   }
 
   function bkpforwp_anonymization_encypt_logic(){
-	var anon_type =document.***REMOVED***('anonymization_type');
-	var anon_enable =document.***REMOVED***('enable_anonymization');
-	var anon_ip =document.***REMOVED***('anonymization_enc_ip');
+	var anon_type =document.getElementById('anonymization_type');
+	var anon_enable =document.getElementById('enable_anonymization');
+	var anon_ip =document.getElementById('anonymization_enc_ip');
   if(anon_type && anon_enable){
 		if(anon_type.value=='encrypted_data' && anon_enable.checked){
 			if(anon_ip){
@@ -368,15 +368,15 @@ function bkpforwp_anonymization_logic(){
 				anon_ip.style.display="none";
 			}
 		}
-		anon_type.***REMOVED***('change',function(e){
+		anon_type.addEventListener('change',function(e){
 			bkpforwp_anonymization_encypt_logic();
 		});
 	}
   }
   function bkpforwp_backup_encypt_logic(){
-	var anon_enable =document.***REMOVED***('enable_backup_encryption');
+	var anon_enable =document.getElementById('enable_backup_encryption');
   if(anon_enable){
-		var anon_type = document.***REMOVED***('encryption_pass_div');
+		var anon_type = document.getElementById('encryption_pass_div');
 		if(anon_enable.checked){
 			if(anon_type){
 				anon_type.style.display="block";
@@ -387,7 +387,7 @@ function bkpforwp_anonymization_logic(){
 				anon_type.style.display="none";
 			}
 		}
-		anon_enable.***REMOVED***('change',function(e){
+		anon_enable.addEventListener('change',function(e){
 			bkpforwp_backup_encypt_logic();
 		});
 	}
@@ -412,7 +412,7 @@ jQuery('.nav-tabs a').on('click', function (e) {
 
 
 function bkpforwp_database_schduler(){
-	var db_backups =document.***REMOVED***('enable_autobackups');
+	var db_backups =document.getElementById('enable_autobackups');
   if(db_backups){
 		if(db_backups.checked){
 			var autobackup_frequency = jQuery('#autobackup_frequency').val();
@@ -479,7 +479,7 @@ bkpforwp_backup_encypt_logic();
 bkpforwp_database_schduler();
 
 function bkpforwp_token_check() {
-    var wpdb_clouddrive_token = document.***REMOVED***('wpdb_clouddrive_token');
+    var wpdb_clouddrive_token = document.getElementById('wpdb_clouddrive_token');
     if (wpdb_clouddrive_token && wpdb_clouddrive_token.value) {
         return true;
     }

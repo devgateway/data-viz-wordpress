@@ -33,7 +33,7 @@ class Missing_Indexable_Bucket {
 	}
 
 	/**
-	 * Returns the array ***REMOVED*** of all indexable counts.
+	 * Returns the array representation of all indexable counts.
 	 *
 	 * @return array
 	 */

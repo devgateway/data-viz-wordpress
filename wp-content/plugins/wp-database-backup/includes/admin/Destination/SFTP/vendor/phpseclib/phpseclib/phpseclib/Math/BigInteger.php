@@ -4,7 +4,7 @@
  * Pure-PHP arbitrary precision integer arithmetic library.
  *
  * Supports base-2, base-10, base-16, and base-256 numbers.  Uses the GMP or BCMath extensions, if available,
- * and an internal ***REMOVED***, otherwise.
+ * and an internal implementation, otherwise.
  *
  * PHP version 5 and 7
  *
@@ -36,7 +36,7 @@ use phpseclib3\Math\BigInteger\Engines\Engine;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-class BigInteger implements \***REMOVED***
+class BigInteger implements \JsonSerializable
 {
     /**
      * Main Engine
@@ -103,7 +103,7 @@ class BigInteger implements \***REMOVED***
         $found = false;
         foreach ($modexps as $modexp) {
             try {
-                $fqmain::***REMOVED***($modexp);
+                $fqmain::setModExpEngine($modexp);
                 $found = true;
                 break;
             } catch (\Exception $e) {
@@ -111,7 +111,7 @@ class BigInteger implements \***REMOVED***
         }
 
         if (!$found) {
-            throw new BadConfigurationException("No valid modular ***REMOVED*** engine found for $main");
+            throw new BadConfigurationException("No valid modular exponentiation engine found for $main");
         }
 
         self::$engines = [$main, $modexp];
@@ -441,7 +441,7 @@ class BigInteger implements \***REMOVED***
      *
      * @return array{hex: string, precision?: int]
      */
-    #[\***REMOVED***]
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $result = ['hex' => $this->toHex(true)];
@@ -452,7 +452,7 @@ class BigInteger implements \***REMOVED***
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param BigInteger $e
      * @param BigInteger $n
@@ -464,7 +464,7 @@ class BigInteger implements \***REMOVED***
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param BigInteger $e
      * @param BigInteger $n
@@ -642,9 +642,9 @@ class BigInteger implements \***REMOVED***
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getLengthInBytes()
     {
-        return $this->value->***REMOVED***();
+        return $this->value->getLengthInBytes();
     }
 
     /**
@@ -688,10 +688,10 @@ class BigInteger implements \***REMOVED***
      * @param BigInteger $max
      * @return false|BigInteger
      */
-    public static function ***REMOVED***(BigInteger $min, BigInteger $max)
+    public static function randomRangePrime(BigInteger $min, BigInteger $max)
     {
         $class = self::$mainEngine;
-        return new static($class::***REMOVED***($min->value, $max->value));
+        return new static($class::randomRangePrime($min->value, $max->value));
     }
 
     /**
@@ -717,7 +717,7 @@ class BigInteger implements \***REMOVED***
      * Checks a numer to see if it's prime
      *
      * Assuming the $t parameter is not set, this function has an error rate of 2**-80.  The main motivation for the
-     * $t parameter is ***REMOVED***.  BigInteger::randomPrime() can be distributed across multiple pageloads
+     * $t parameter is distributability.  BigInteger::randomPrime() can be distributed across multiple pageloads
      * on a website instead of just one.
      *
      * @param int|bool $t
@@ -742,7 +742,7 @@ class BigInteger implements \***REMOVED***
     }
 
     /**
-     * Performs ***REMOVED***.
+     * Performs exponentiation.
      *
      * @param BigInteger $n
      * @return BigInteger
@@ -863,7 +863,7 @@ class BigInteger implements \***REMOVED***
      * Create Recurring Modulo Function
      *
      * Sometimes it may be desirable to do repeated modulos with the same number outside of
-     * modular ***REMOVED***
+     * modular exponentiation
      *
      * @return callable
      */

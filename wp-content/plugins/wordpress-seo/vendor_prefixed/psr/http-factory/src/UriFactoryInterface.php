@@ -2,7 +2,7 @@
 
 namespace YoastSEO_Vendor\Psr\Http\Message;
 
-interface ***REMOVED***
+interface UriFactoryInterface
 {
     /**
      * Create a new URI.

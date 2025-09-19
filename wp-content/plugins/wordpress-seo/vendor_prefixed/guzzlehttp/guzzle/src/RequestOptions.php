@@ -7,13 +7,13 @@ namespace YoastSEO_Vendor\GuzzleHttp;
  *
  * @see https://docs.guzzlephp.org/en/latest/request-options.html
  */
-final class ***REMOVED***
+final class RequestOptions
 {
     /**
      * allow_redirects: (bool|array) Controls redirect behavior. Pass false
      * to disable redirects, pass true to enable redirects, pass an
      * associative to provide custom redirect settings. Defaults to "false".
-     * This option only works if your handler has the ***REMOVED***. When
+     * This option only works if your handler has the RedirectMiddleware. When
      * passing an associative array, you can provide the following key value
      * pairs:
      *
@@ -32,15 +32,15 @@ final class ***REMOVED***
      */
     public const ALLOW_REDIRECTS = 'allow_redirects';
     /**
-     * auth: (array) Pass an array of HTTP ***REMOVED*** parameters to use
+     * auth: (array) Pass an array of HTTP authentication parameters to use
      * with the request. The array must contain the username in index [0],
      * the password in index [1], and you can optionally provide a built-in
-     * ***REMOVED*** type in index [2]. Pass null to disable ***REMOVED***
+     * authentication type in index [2]. Pass null to disable authentication
      * for a request.
      */
     public const AUTH = 'auth';
     /**
-     * body: (resource|string|null|int|float|***REMOVED***|callable|\Iterator)
+     * body: (resource|string|null|int|float|StreamInterface|callable|\Iterator)
      * Body to send in the request.
      */
     public const BODY = 'body';
@@ -53,11 +53,11 @@ final class ***REMOVED***
      */
     public const CERT = 'cert';
     /**
-     * cookies: (bool|GuzzleHttp\Cookie\***REMOVED***, default=false)
+     * cookies: (bool|GuzzleHttp\Cookie\CookieJarInterface, default=false)
      * Specifies whether or not cookies are used in a request or what cookie
      * jar to use or what cookies to send. This option only works if your
      * handler has the `cookie` middleware. Valid values are `false` and
-     * an instance of {@see \GuzzleHttp\Cookie\***REMOVED***}.
+     * an instance of {@see \GuzzleHttp\Cookie\CookieJarInterface}.
      */
     public const COOKIES = 'cookies';
     /**
@@ -145,7 +145,7 @@ final class ***REMOVED***
     /**
      * multipart: (array) Array of associative arrays, each containing a
      * required "name" key mapping to the form field, name, a required
-     * "contents" key mapping to a ***REMOVED***|resource|string, an
+     * "contents" key mapping to a StreamInterface|resource|string, an
      * optional "headers" associative array of custom headers, and an
      * optional "filename" key mapping to a string to send as the filename in
      * the part. If no "filename" key is present, then no "filename" attribute
@@ -185,12 +185,12 @@ final class ***REMOVED***
     /**
      * query: (array|string) Associative array of query string values to add
      * to the request. This option uses PHP's http_build_query() to create
-     * the string ***REMOVED***. Pass a string value if you need more
+     * the string representation. Pass a string value if you need more
      * control than what this method provides
      */
     public const QUERY = 'query';
     /**
-     * sink: (resource|string|***REMOVED***) Where the data of the
+     * sink: (resource|string|StreamInterface) Where the data of the
      * response is written to. Defaults to a PHP temp stream. Providing a
      * string will write data to a file by the given name.
      */

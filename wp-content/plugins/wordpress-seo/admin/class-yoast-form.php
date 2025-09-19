@@ -104,7 +104,7 @@ class Yoast_Form {
 			echo '<form action="'
 				. esc_url( $action_url )
 				. '" method="post" id="wpseo-conf"'
-				. $enctype . ' accept-charset="' // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- nothing to escape.
+				. $enctype . ' accept-charset="' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nothing to escape.
 				. esc_attr( get_bloginfo( 'charset' ) )
 				. '" novalidate="novalidate">';
 			call_user_func( $hidden_fields_cb, $option_long_name );
@@ -201,7 +201,7 @@ class Yoast_Form {
 		}
 
 		$sidebar_presenter = new Sidebar_Presenter();
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in presenter.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in presenter.
 		echo $sidebar_presenter->present();
 	}
 
@@ -229,7 +229,7 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before. Specifically, the $text variable can contain escaped html.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before. Specifically, the $text variable can contain escaped html.
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
@@ -254,7 +254,7 @@ class Yoast_Form {
 		$attr     = wp_parse_args( $attr, $defaults );
 
 		$id = ( $attr['id'] === '' ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<legend class="' . esc_attr( 'yoast-form-legend ' . $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
 	}
 
@@ -435,7 +435,7 @@ class Yoast_Form {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
 		echo '<input', $attributes, $aria_attributes, ' class="', esc_attr( 'textinput ' . $attr['class'] ), '" placeholder="', esc_attr( $attr['placeholder'] ), '" type="', $type, '" id="', esc_attr( $variable ), '" name="', esc_attr( $this->option_name . '[' . $variable . ']' ), '" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in getter.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in getter.
 		echo Yoast_Input_Validation::get_the_error_description( $variable );
 	}
 
@@ -475,7 +475,7 @@ class Yoast_Form {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
 		echo '<input' . $aria_attributes . ' class="' . esc_attr( $attr['class'] ) . '" type="' . $type . '" id="', esc_attr( $variable ), '" min="', esc_attr( $attr['min'] ), '" max="', esc_attr( $attr['max'] ), '" name="', esc_attr( $this->option_name . '[' . $variable . ']' ), '" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in getter.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in getter.
 		echo Yoast_Input_Validation::get_the_error_description( $variable );
 	}
 
@@ -666,10 +666,10 @@ class Yoast_Form {
 			$wrapper_end_tag   = '</span>';
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo $wrapper_start_tag;
 		$select->output_html();
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo $wrapper_end_tag;
 		echo '<br class="clear"/>';
 	}
@@ -724,7 +724,7 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 * @deprecated 23.5
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $variable Option name.
 	 * @param string $label    Label message.
@@ -759,16 +759,16 @@ class Yoast_Form {
 		echo '<span>';
 			echo '<input',
 				' class="textinput"',
-				' id="wpseo_', $var_esc, '"', // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+				' id="wpseo_', $var_esc, '"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				' type="text" size="36"',
-				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"', // phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				' value="', esc_attr( $val ), '"',
 				' readonly="readonly"',
 				' /> ';
 			echo '<input',
 				' type="hidden"',
 				' id="', esc_attr( $id_field_id ), '"',
-				// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, '_id]"',
 				' value="', esc_attr( $id_value ), '"',
 				' />';
@@ -802,7 +802,7 @@ class Yoast_Form {
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
 
 		if ( is_string( $legend ) && $legend !== '' ) {
@@ -890,17 +890,17 @@ class Yoast_Form {
 		$var_esc = esc_attr( $variable );
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class . $upsell_class ) );
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
 
 		// Show disabled note if attribute does not exists or does exist and is set to true.
 		if ( ! isset( $attr['show_disabled_note'] ) || ( $attr['show_disabled_note'] === true ) ) {
 			if ( isset( $attr['note_when_disabled'] ) ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				echo $this->get_disabled_note( $variable, $attr['note_when_disabled'] );
 			}
 			else {
-				// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				echo $this->get_disabled_note( $variable );
 			}
 		}
@@ -922,7 +922,7 @@ class Yoast_Form {
 
 			// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
 			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . $disabled_attribute . ' />',
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- output escaped before.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
@@ -936,7 +936,7 @@ class Yoast_Form {
 							. '<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- All variable output is escaped above.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All variable output is escaped above.
 		echo '<a></a></div></fieldset><div class="clear"></div>' . $upsell_button . '</div>' . PHP_EOL . PHP_EOL;
 	}
 

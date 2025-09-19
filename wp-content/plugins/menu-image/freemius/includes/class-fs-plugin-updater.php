@@ -5,7 +5,7 @@
      * @license     https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License Version 3
      * @since       1.0.4
      *
-     * @link        https://github.com/***REMOVED***/EDD-License-handler/blob/master/EDD_SL_Plugin_Updater.php
+     * @link        https://github.com/easydigitaldownloads/EDD-License-handler/blob/master/EDD_SL_Plugin_Updater.php
      */
 
     if ( ! defined( 'ABSPATH' ) ) {
@@ -481,7 +481,7 @@
          * During development mode we want to be able updating plugin versions via our localhost repository. This
          * filter white-list all domains including "api.freemius".
          *
-         * @link   http://www.***REMOVED***.com/wordpress-download-failed-valid-url-provided/
+         * @link   http://www.emanueletessore.com/wordpress-download-failed-valid-url-provided/
          *
          * @author Vova Feldman (@svovaf)
          * @since  1.0.4
@@ -1284,7 +1284,7 @@ if ( !isset($info->error) ) {
                     $filename = basename( $basename );
 
                     $new_basename = plugin_basename(
-                        ***REMOVED***( $this->_fs->is_premium() ? $this->_fs->get_premium_slug() : $this->_fs->get_slug() ) .
+                        trailingslashit( $this->_fs->is_premium() ? $this->_fs->get_premium_slug() : $this->_fs->get_slug() ) .
                         $filename
                     );
 
@@ -1311,7 +1311,7 @@ if ( !isset($info->error) ) {
          *
          * This logic was inspired by the TGMPA GPL licensed library by Thomas Griffin.
          *
-         * @link   http://***REMOVED***.com/
+         * @link   http://tgmpluginactivation.com/
          *
          * @author Vova Feldman
          * @since  1.2.1.7
@@ -1609,14 +1609,14 @@ if ( !isset($info->error) ) {
                 }
             }
 
-            $subdir_name = ***REMOVED***( str_replace( ***REMOVED***( $remote_source ), '', $source ) );
+            $subdir_name = untrailingslashit( str_replace( trailingslashit( $remote_source ), '', $source ) );
 
             if ( ! empty( $subdir_name ) && $subdir_name !== $desired_slug ) {
-                $from_path = ***REMOVED***( $source );
-                $to_path   = ***REMOVED***( $remote_source ) . $desired_slug;
+                $from_path = untrailingslashit( $source );
+                $to_path   = trailingslashit( $remote_source ) . $desired_slug;
 
                 if ( true === $GLOBALS['wp_filesystem']->move( $from_path, $to_path ) ) {
-                    return ***REMOVED***( $to_path );
+                    return trailingslashit( $to_path );
                 }
 
                 return new WP_Error(

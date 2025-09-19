@@ -21,7 +21,7 @@ class sect163r2 extends Binary
     public function __construct()
     {
         $this->setModulo(163, 7, 6, 3, 0);
-        $this->***REMOVED***(
+        $this->setCoefficients(
             '000000000000000000000000000000000000000001',
             '020A601907B8C953CA1481EB10512F78744A3205FD'
         );

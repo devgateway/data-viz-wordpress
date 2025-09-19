@@ -20,19 +20,19 @@ final class Unserialize
         if (!array_key_exists('allowed_classes', $options) || true === $options['allowed_classes']) {
             return \unserialize($serialized);
         }
-        $***REMOVED*** = $options['allowed_classes'];
-        if (false === $***REMOVED***) {
-            $***REMOVED*** = array();
+        $allowedClasses = $options['allowed_classes'];
+        if (false === $allowedClasses) {
+            $allowedClasses = array();
         }
-        if (!is_array($***REMOVED***)) {
-            $***REMOVED*** = array();
+        if (!is_array($allowedClasses)) {
+            $allowedClasses = array();
             trigger_error(
                 'unserialize(): allowed_classes option should be array or boolean',
                 E_USER_WARNING
             );
         }
 
-        $worker = new DisallowedClassesSubstitutor($serialized, $***REMOVED***);
+        $worker = new DisallowedClassesSubstitutor($serialized, $allowedClasses);
 
         return \unserialize($worker->getSubstitutedSerialized());
     }

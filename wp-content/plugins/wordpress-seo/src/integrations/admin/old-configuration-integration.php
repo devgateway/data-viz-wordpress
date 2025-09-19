@@ -60,7 +60,7 @@ class Old_Configuration_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function redirect_to_new_configuration() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Data is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_configurator' ) {
 			return;
 		}

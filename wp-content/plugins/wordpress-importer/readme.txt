@@ -1,6 +1,6 @@
 === WordPress Importer ===
-Contributors: ***REMOVED***
-Donate link: https://***REMOVED***.org/donate/
+Contributors: wordpressdotorg
+Donate link: https://wordpressfoundation.org/donate/
 Tags: importer, wordpress
 Requires at least: 5.2
 Tested up to: 6.7.2
@@ -41,7 +41,7 @@ If you would prefer to do things manually then follow these instructions:
 == Changelog ==
 
 = 0.8.4 =
-* Fix a bug on ***REMOVED*** of untrusted input.
+* Fix a bug on deserialization of untrusted input.
 * Update compatibility tested-up-to to WordPress 6.7.2.
 
 = 0.8.3 =

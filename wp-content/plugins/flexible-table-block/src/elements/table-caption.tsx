@@ -2,7 +2,7 @@
  * External dependencies
  */
 import type { Properties } from 'csstype';
-import type { Dispatch, ***REMOVED*** } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
 /**
  * WordPress dependencies
@@ -18,55 +18,55 @@ import { usePrevious } from '@wordpress/compose';
 /**
  * Internal dependencies
  */
-import type { ***REMOVED*** } from '../***REMOVED***';
-import type { ***REMOVED***, VSelectedLine } from '../utils/table-state';
+import type { BlockAttributes } from '../BlockAttributes';
+import type { VSelectedCells, VSelectedLine } from '../utils/table-state';
 
 type Props = {
-	attributes: ***REMOVED***;
-	setAttributes: ( attrs: Partial< ***REMOVED*** > ) => void;
-	***REMOVED***: ( blocks: BlockInstance[] ) => void;
-	***REMOVED***: Dispatch< ***REMOVED***< VSelectedLine > >;
-	***REMOVED***: Dispatch< ***REMOVED***< ***REMOVED*** > >;
-	***REMOVED***: Properties;
+	attributes: BlockAttributes;
+	setAttributes: ( attrs: Partial< BlockAttributes > ) => void;
+	insertBlocksAfter: ( blocks: BlockInstance[] ) => void;
+	setSelectedLine: Dispatch< SetStateAction< VSelectedLine > >;
+	setSelectedCells: Dispatch< SetStateAction< VSelectedCells > >;
+	captionStylesObj: Properties;
 	isSelected?: boolean;
 };
 
 export default function TableCaption( {
 	attributes,
 	setAttributes,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	insertBlocksAfter,
+	setSelectedLine,
+	setSelectedCells,
+	captionStylesObj,
 	isSelected,
 }: Props ) {
 	const { caption = '' } = attributes;
 	const prevCaption = usePrevious( caption );
-	const ***REMOVED*** = RichText.isEmpty( caption );
-	const ***REMOVED*** = RichText.isEmpty( prevCaption || '' );
-	const [ showCaption, ***REMOVED*** ] = useState( ! ***REMOVED*** );
+	const isCaptionEmpty = RichText.isEmpty( caption );
+	const isPrevCaptionEmpty = RichText.isEmpty( prevCaption || '' );
+	const [ showCaption, setShowCaption ] = useState( ! isCaptionEmpty );
 
 	const onChange = ( value: string | undefined ) => setAttributes( { caption: value } );
 
 	useEffect( () => {
-		if ( ! ***REMOVED*** && ***REMOVED*** ) {
-			***REMOVED***( true );
+		if ( ! isCaptionEmpty && isPrevCaptionEmpty ) {
+			setShowCaption( true );
 		}
-	}, [ ***REMOVED***, ***REMOVED*** ] );
+	}, [ isCaptionEmpty, isPrevCaptionEmpty ] );
 
 	useEffect( () => {
-		if ( ! isSelected && ***REMOVED*** ) {
-			***REMOVED***( false );
+		if ( ! isSelected && isCaptionEmpty ) {
+			setShowCaption( false );
 		}
-	}, [ isSelected, ***REMOVED*** ] );
+	}, [ isSelected, isCaptionEmpty ] );
 
 	const ref = useCallback(
 		( node: any ) => {
-			if ( node && ***REMOVED*** ) {
+			if ( node && isCaptionEmpty ) {
 				node?.focus();
 			}
 		},
-		[ ***REMOVED*** ]
+		[ isCaptionEmpty ]
 	);
 
 	return (
@@ -75,7 +75,7 @@ export default function TableCaption( {
 				<BlockControls group="block">
 					<ToolbarButton
 						onClick={ () => {
-							***REMOVED***( ! showCaption );
+							setShowCaption( ! showCaption );
 							if ( showCaption && caption ) {
 								onChange( undefined );
 							}
@@ -95,16 +95,16 @@ export default function TableCaption( {
 					aria-label={ __( 'Table caption text', 'flexible-table-block' ) }
 					placeholder={ __( 'Add caption', 'flexible-table-block' ) }
 					tagName="figcaption"
-					style={ ***REMOVED*** }
+					style={ captionStylesObj }
 					value={ caption }
 					ref={ ref }
 					onChange={ onChange }
 					onFocus={ () => {
-						***REMOVED***( undefined );
-						***REMOVED***( undefined );
+						setSelectedLine( undefined );
+						setSelectedCells( undefined );
 					} }
 					// @ts-ignore: `__unstableOnSplitAtEnd` prop is not exist at @types
-					__unstableOnSplitAtEnd={ () => ***REMOVED***( createBlock( 'core/paragraph' ) ) }
+					__unstableOnSplitAtEnd={ () => insertBlocksAfter( createBlock( 'core/paragraph' ) ) }
 				/>
 			) }
 		</>

@@ -28,7 +28,7 @@
 	<a class="skip-link screen-reader-text" href="#content">
 		<?php
 		/* translators: Hidden accessibility text. */
-		_e( 'Skip to content', '***REMOVED***' );
+		_e( 'Skip to content', 'twentyseventeen' );
 		?>
 	</a>
 
@@ -49,7 +49,7 @@
 	<?php
 	if ( twentyseventeen_should_show_featured_image() ) :
 		echo '<div class="single-featured-image-header">';
-		echo get_the_post_thumbnail( get_queried_object_id(), '***REMOVED***-featured-image' );
+		echo get_the_post_thumbnail( get_queried_object_id(), 'twentyseventeen-featured-image' );
 		echo '</div><!-- .single-featured-image-header -->';
 	endif;
 	?>

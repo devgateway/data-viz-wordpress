@@ -238,7 +238,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->presentation->permalink;
 		}
 
-		return \add_query_arg( 's', \rawurlencode( \get_search_query() ), \***REMOVED***( $this->site_url ) );
+		return \add_query_arg( 's', \rawurlencode( \get_search_query() ), \trailingslashit( $this->site_url ) );
 	}
 
 	/**
@@ -291,10 +291,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$home_page_indexable = $this->indexable_repository->find_for_home_page();
 
 		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
-			return \***REMOVED***( $this->permalink_helper->get_permalink_for_indexable( $home_page_indexable ) );
+			return \trailingslashit( $this->permalink_helper->get_permalink_for_indexable( $home_page_indexable ) );
 		}
 
-		return \***REMOVED***( $home_page_indexable->permalink );
+		return \trailingslashit( $home_page_indexable->permalink );
 	}
 
 	/**
@@ -506,7 +506,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case 'system-page':
 				switch ( $this->indexable->object_sub_type ) {
 					case 'search-result':
-						$type = [ '***REMOVED***', '***REMOVED***' ];
+						$type = [ 'CollectionPage', 'SearchResultsPage' ];
 						break;
 					default:
 						$type = 'WebPage';
@@ -519,7 +519,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case 'date-archive':
 			case 'term':
 			case 'post-type-archive':
-				$type = '***REMOVED***';
+				$type = 'CollectionPage';
 				break;
 			default:
 				$additional_type = $this->indexable->schema_page_type;
@@ -531,7 +531,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 				// Is this indexable set as a page for posts, e.g. in the WordPress reading settings as a static homepage?
 				if ( (int) \get_option( 'page_for_posts' ) === $this->indexable->object_id ) {
-					$type[] = '***REMOVED***';
+					$type[] = 'CollectionPage';
 				}
 
 				// Ensure we get only unique values, and remove any null values and the index.

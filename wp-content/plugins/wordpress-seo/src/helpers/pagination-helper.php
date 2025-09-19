@@ -77,19 +77,19 @@ class Pagination_Helper {
 				// We need to first remove the query params, before potentially adding the pagination parts.
 				\wp_parse_str( $url_parts['query'], $query_parts );
 
-				$url = \***REMOVED***( \remove_query_arg( \array_keys( $query_parts ), $url ) );
+				$url = \trailingslashit( \remove_query_arg( \array_keys( $query_parts ), $url ) );
 
 				if ( $add_pagination_base ) {
-					$url .= \***REMOVED***( $wp_rewrite->pagination_base );
+					$url .= \trailingslashit( $wp_rewrite->pagination_base );
 				}
 
 				// We can now re-add the query params, after appending the last pagination parts.
 				return \add_query_arg( $query_parts, \user_trailingslashit( $url . $page ) );
 			}
 
-			$url = \***REMOVED***( $url );
+			$url = \trailingslashit( $url );
 			if ( $add_pagination_base ) {
-				$url .= \***REMOVED***( $wp_rewrite->pagination_base );
+				$url .= \trailingslashit( $wp_rewrite->pagination_base );
 			}
 
 			return \user_trailingslashit( $url . $page );
@@ -175,7 +175,7 @@ class Pagination_Helper {
 	 */
 	public function get_key_query_loop() {
 		$regex_pattern = '/^query-\d+-page$/';
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- not form data.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- not form data.
 		foreach ( $_GET as $key => $value ) {
 			if ( \preg_match( $regex_pattern, $key ) ) {
 				return $key;
@@ -193,7 +193,7 @@ class Pagination_Helper {
 		$key_query_loop = $this->get_key_query_loop();
 
 		if ( $key_query_loop ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.***REMOVED***.Recommended -- Validated in get_key_query_loop().
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Recommended -- Validated in get_key_query_loop().
 			$page_number = (int) $_GET[ $key_query_loop ];
 			if ( $page_number > 1 ) {
 				return $page_number;

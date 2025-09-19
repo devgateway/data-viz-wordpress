@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
 
-	function ***REMOVED***(){
+	function svgsDismissNotice(){
 
 		jQuery.ajax({
 			url: ajaxurl,
@@ -11,6 +11,6 @@ jQuery(document).ready(function ($) {
 
 	}
 
-	$('.svgs-upgrade-notice .notice-dismiss').click(***REMOVED***);
+	$('.svgs-upgrade-notice .notice-dismiss').click(svgsDismissNotice);
 
 });

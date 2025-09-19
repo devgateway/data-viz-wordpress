@@ -1,4 +1,4 @@
-# phpseclib - PHP Secure ***REMOVED*** Library
+# phpseclib - PHP Secure Communications Library
 
 [![CI Status](https://github.com/phpseclib/phpseclib/actions/workflows/ci.yml/badge.svg?branch=3.0&event=push "CI Status")](https://github.com/phpseclib/phpseclib)
 
@@ -10,7 +10,7 @@
 
 ## Introduction
 
-MIT-licensed pure-PHP ***REMOVED*** of the following:
+MIT-licensed pure-PHP implementations of the following:
 
 SSH-2, SFTP, X.509, an arbitrary-precision integer arithmetic library, Ed25519 / Ed449 / Curve25519 / Curve449, ECDSA / ECDH (with support for 66 curves), RSA (PKCS#1 v2.2 compliant), DSA / DH, DES / 3DES / RC4 / Rijndael / AES / Blowfish / Twofish / Salsa20 / ChaCha20, GCM / Poly1305
 

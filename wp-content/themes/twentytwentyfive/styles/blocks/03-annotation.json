@@ -28,7 +28,7 @@
 		"elements": {
 			"link": {
 				"typography": {
-					"***REMOVED***": "none"
+					"textDecoration": "none"
 				}
 			}
 		}

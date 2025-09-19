@@ -98,7 +98,7 @@ class WPM_Admin_Edit_Menus {
 	 * @param int $item_id
 	 * @param object $item
 	 *
-	 * @see http://web.archive.org/web/***REMOVED***/http://shazdeh.me/2014/06/25/custom-fields-nav-menu-items
+	 * @see http://web.archive.org/web/20141021012233/http://shazdeh.me/2014/06/25/custom-fields-nav-menu-items
 	 * @see https://core.trac.wordpress.org/ticket/18584
 	 */
 	public function menu_item_custom_fields( $item_id, $item ) {

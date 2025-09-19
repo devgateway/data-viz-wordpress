@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Conditionals;
 /**
  * Conditional that is only met when the current user has the `edit_users` capability.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class User_Can_Edit_Users_Conditional implements Conditional {
 

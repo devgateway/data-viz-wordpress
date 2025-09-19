@@ -22,7 +22,7 @@ import HelpModal from './help-modal';
 import SettingModal from './setting-modal';
 import type { StoreOptions } from '../../store';
 
-export default function ***REMOVED***() {
+export default function GlobalSettings() {
 	const storeOptions: StoreOptions = useSelect(
 		( select ) =>
 			select( STORE_NAME )
@@ -31,13 +31,13 @@ export default function ***REMOVED***() {
 		[]
 	);
 
-	const ***REMOVED***: boolean = useSelect(
+	const isAdministrator: boolean = useSelect(
 		( select ) => select( coreStore ).canUser( 'create', 'users' ),
 		[]
 	);
 
-	const [ ***REMOVED***, setIsSettingModalOpen ] = useState< boolean >( false );
-	const [ ***REMOVED***, ***REMOVED*** ] = useState< boolean >( false );
+	const [ isSettingModalOpen, setIsSettingModalOpen ] = useState< boolean >( false );
+	const [ isHelpModalOpen, setIsHelpModalOpen ] = useState< boolean >( false );
 	const [ options, setOptions ] = useState< StoreOptions >();
 
 	// Set options to state.
@@ -45,8 +45,8 @@ export default function ***REMOVED***() {
 		setOptions( storeOptions );
 	}, [ storeOptions ] );
 
-	const isGlobalSettingLoaded = ***REMOVED*** !== undefined && options !== undefined;
-	const ***REMOVED*** = ***REMOVED*** || options?.show_global_setting;
+	const isGlobalSettingLoaded = isAdministrator !== undefined && options !== undefined;
+	const showGlobalSetting = isAdministrator || options?.show_global_setting;
 
 	return (
 		<>
@@ -57,7 +57,7 @@ export default function ***REMOVED***() {
 				style={ { borderTop: '1px solid #e0e0e0' } }
 			>
 				{ ! isGlobalSettingLoaded && <Spinner /> }
-				{ isGlobalSettingLoaded && ***REMOVED*** && (
+				{ isGlobalSettingLoaded && showGlobalSetting && (
 					<Button
 						icon={ cog }
 						variant="primary"
@@ -70,17 +70,17 @@ export default function ***REMOVED***() {
 				<Button
 					icon={ help }
 					variant="link"
-					onClick={ () => ***REMOVED***( true ) }
+					onClick={ () => setIsHelpModalOpen( true ) }
 					label={ __( 'Help', 'flexible-table-block' ) }
 					size="compact"
 				/>
 			</Spacer>
-			{ ***REMOVED*** && <HelpModal { ...{ ***REMOVED*** } } /> }
-			{ options && ***REMOVED*** && ( ***REMOVED*** || options?.show_global_setting ) && (
+			{ isHelpModalOpen && <HelpModal { ...{ setIsHelpModalOpen } } /> }
+			{ options && isSettingModalOpen && ( isAdministrator || options?.show_global_setting ) && (
 				<SettingModal
 					{ ...{
 						options,
-						***REMOVED***,
+						isAdministrator,
 						setIsSettingModalOpen,
 					} }
 				/>

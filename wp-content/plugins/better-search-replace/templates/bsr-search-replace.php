@@ -2,7 +2,7 @@
 /**
  * Displays the main "Search/Replace" tab.
  *
- * @link       https://***REMOVED***.com
+ * @link       https://bettersearchreplace.com
  * @since      1.1
  *
  * @package    Better_Search_Replace

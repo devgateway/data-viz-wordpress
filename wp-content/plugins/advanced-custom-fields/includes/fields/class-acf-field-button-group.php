@@ -24,7 +24,7 @@ if ( ! class_exists( 'acf_field_button_group' ) ) :
 			$this->category      = 'choice';
 			$this->description   = __( 'A group of buttons with values that you specify, users can choose one option from the values provided.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-button-group.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/button-group/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/button-group/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'choices'       => array(),
 				'default_value' => '',
@@ -112,7 +112,7 @@ if ( ! class_exists( 'acf_field_button_group' ) ) :
 			$html .= '</div>';
 
 			// return
-			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- safe HTML, escaped by input building functions.
+			echo $html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- safe HTML, escaped by input building functions.
 		}
 
 

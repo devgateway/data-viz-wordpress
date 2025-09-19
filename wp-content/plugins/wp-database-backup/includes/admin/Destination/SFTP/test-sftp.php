@@ -23,7 +23,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
 require __DIR__ . '/vendor/autoload.php';
 use phpseclib3\Net\SFTP;
-use phpseclib3\Crypt\***REMOVED***;
+use phpseclib3\Crypt\PublicKeyLoader;
 /**
  * Test app.
  */
@@ -58,7 +58,7 @@ function wpdbbkp_test_sftp() {
 	}
 
 	if($wpdbbkp_auth_type_=='key'){
-		$key = ***REMOVED***::load($pkey,$key_pass);
+		$key = PublicKeyLoader::load($pkey,$key_pass);
 		$result = $sftp->login($user, $key);
 	}else{
 		$result = $sftp->login($user, $pass);

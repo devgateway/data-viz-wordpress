@@ -1,14 +1,14 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Application\Search_Rankings;
 
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Data_Source_Not_Available_Exception;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Indexables\Top_Page_Indexable_Collector;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Integrations\Site_Kit;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Search_Console\Site_Kit_Search_Console_Adapter;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Indexables\Top_Page_Indexable_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Search_Console\Site_Kit_Search_Console_Adapter;
 
 /**
  * The data provider for top page data.

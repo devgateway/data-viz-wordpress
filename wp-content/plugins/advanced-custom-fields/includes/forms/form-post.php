@@ -197,7 +197,7 @@ if ( ! class_exists( 'ACF_Form_Post' ) ) :
 			}
 
 			// Render dynamic field group style, using wp_strip_all_tags as this is filterable, but should only contain valid styles and no html.
-			echo '<style type="text/css" id="acf-style">' . wp_strip_all_tags( $style ) . '</style>'; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- CSS only, escaped by wp_strip_all_tags.
+			echo '<style type="text/css" id="acf-style">' . wp_strip_all_tags( $style ) . '</style>'; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS only, escaped by wp_strip_all_tags.
 		}
 
 		/**

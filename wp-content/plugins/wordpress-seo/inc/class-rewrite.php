@@ -32,7 +32,7 @@ class WPSEO_Rewrite {
 	 * @return void
 	 */
 	public function schedule_flush() {
-		if ( WPSEO_Options::get( '***REMOVED***' ) === true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 			add_action( 'shutdown', 'flush_rewrite_rules' );
 		}
 	}
@@ -47,7 +47,7 @@ class WPSEO_Rewrite {
 	 * @return string
 	 */
 	public function no_category_base( $link, $term, $taxonomy ) {
-		if ( WPSEO_Options::get( '***REMOVED***' ) !== true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
 			return $link;
 		}
 
@@ -75,14 +75,14 @@ class WPSEO_Rewrite {
 	}
 
 	/**
-	 * Update the query vars with the redirect var when ***REMOVED*** is active.
+	 * Update the query vars with the redirect var when stripcategorybase is active.
 	 *
 	 * @param array<string> $query_vars Main query vars to filter.
 	 *
 	 * @return array<string> The query vars.
 	 */
 	public function query_vars( $query_vars ) {
-		if ( WPSEO_Options::get( '***REMOVED***' ) === true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
 			$query_vars[] = 'wpseo_category_redirect';
 		}
 
@@ -97,7 +97,7 @@ class WPSEO_Rewrite {
 	 * @return array<string> The query vars.
 	 */
 	public function request( $query_vars ) {
-		if ( WPSEO_Options::get( '***REMOVED***' ) !== true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
 			return $query_vars;
 		}
 
@@ -117,7 +117,7 @@ class WPSEO_Rewrite {
 	 * @return array<string> The category rewrite rules.
 	 */
 	public function category_rewrite_rules_wrapper( $rules ) {
-		if ( WPSEO_Options::get( '***REMOVED***' ) !== true ) {
+		if ( WPSEO_Options::get( 'stripcategorybase' ) !== true ) {
 			return $rules;
 		}
 
@@ -242,13 +242,13 @@ class WPSEO_Rewrite {
 	/**
 	 * Redirect the "old" category URL to the new one.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $category_redirect The category page to redirect to.
 	 * @return void
 	 */
 	protected function redirect( $category_redirect ) {
-		$catlink = ***REMOVED***( get_option( 'home' ) ) . user_trailingslashit( $category_redirect, 'category' );
+		$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $category_redirect, 'category' );
 
 		wp_safe_redirect( $catlink, 301, 'Yoast SEO' );
 		exit;

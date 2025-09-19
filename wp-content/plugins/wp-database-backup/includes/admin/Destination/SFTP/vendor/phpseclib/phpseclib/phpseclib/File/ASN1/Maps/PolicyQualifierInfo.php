@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * PolicyQualifierInfo
  *
  * PHP version 5
  *
@@ -16,16 +16,16 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * PolicyQualifierInfo
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class PolicyQualifierInfo
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'policyQualifierId' => PolicyQualifierId::MAP,
             'qualifier' => ['type' => ASN1::TYPE_ANY]
         ]
     ];

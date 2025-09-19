@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -78,7 +78,7 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	}
 
 	/**
-	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data ***REMOVED*** method.
+	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
@@ -92,11 +92,11 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 				'yoast_name'       => 'title-home-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/***REMOVED***'         => [
+			'/metaDescription'         => [
 				'yoast_name'       => 'metadesc-home-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/schema/***REMOVED***'   => [
+			'/schema/siteRepresents'   => [
 				'yoast_name'       => 'company_or_person',
 				'transform_method' => 'transform_site_represents',
 			],
@@ -104,11 +104,11 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 				'yoast_name'       => 'company_or_person_user_id',
 				'transform_method' => 'simple_import',
 			],
-			'/schema/***REMOVED***' => [
+			'/schema/organizationName' => [
 				'yoast_name'       => 'company_name',
 				'transform_method' => 'simple_import',
 			],
-			'/schema/***REMOVED***' => [
+			'/schema/organizationLogo' => [
 				'yoast_name'       => 'company_logo',
 				'transform_method' => 'import_company_logo',
 			],

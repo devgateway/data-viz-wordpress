@@ -41,7 +41,7 @@ class Indexable_Head_Action {
 	 * @return object Object with head and status properties.
 	 */
 	public function for_url( $url ) {
-		if ( $url === \***REMOVED***( \get_home_url() ) ) {
+		if ( $url === \trailingslashit( \get_home_url() ) ) {
 			return $this->with_404_fallback( $this->with_cache( 'home_page' ) );
 		}
 		return $this->with_404_fallback( $this->with_cache( 'url', $url ) );

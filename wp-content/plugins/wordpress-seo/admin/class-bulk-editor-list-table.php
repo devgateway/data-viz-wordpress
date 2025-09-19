@@ -208,12 +208,12 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * @return void
 	 */
 	public function display_tablenav( $which ) {
-		// phpcs:disable WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$post_status      = isset( $_GET['post_status'] ) && is_string( $_GET['post_status'] ) ? sanitize_text_field( wp_unslash( $_GET['post_status'] ) ) : '';
 		$order_by         = isset( $_GET['orderby'] ) && is_string( $_GET['orderby'] ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : '';
 		$order            = isset( $_GET['order'] ) && is_string( $_GET['order'] ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : '';
 		$post_type_filter = isset( $_GET['post_type_filter'] ) && is_string( $_GET['post_type_filter'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type_filter'] ) ) : '';
-		// phpcs:enable WordPress.Security.***REMOVED***.Recommended;
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended;
 		?>
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 

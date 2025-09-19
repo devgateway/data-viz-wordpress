@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * SubjectPublicKeyInfo
  *
  * PHP version 5
  *
@@ -16,17 +16,17 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * SubjectPublicKeyInfo
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class SubjectPublicKeyInfo
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            'algorithm' => ***REMOVED***::MAP,
-            '***REMOVED***' => ['type' => ASN1::TYPE_BIT_STRING]
+            'algorithm' => AlgorithmIdentifier::MAP,
+            'subjectPublicKey' => ['type' => ASN1::TYPE_BIT_STRING]
         ]
     ];
 }

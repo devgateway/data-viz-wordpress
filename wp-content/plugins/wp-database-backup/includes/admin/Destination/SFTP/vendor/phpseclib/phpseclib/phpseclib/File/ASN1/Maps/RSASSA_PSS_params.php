@@ -31,14 +31,14 @@ abstract class RSASSA_PSS_params
                 'constant' => 0,
                 'optional' => true,
                 'explicit' => true,
-                //'default'  => '***REMOVED***'
+                //'default'  => 'sha1Identifier'
             ] + HashAlgorithm::MAP,
-            '***REMOVED***' => [
+            'maskGenAlgorithm' => [
                 'constant' => 1,
                 'optional' => true,
                 'explicit' => true,
-                //'default'  => '***REMOVED***'
-            ] + ***REMOVED***::MAP,
+                //'default'  => 'mgf1SHA1Identifier'
+            ] + MaskGenAlgorithm::MAP,
             'saltLength' => [
                 'type' => ASN1::TYPE_INTEGER,
                 'constant' => 2,

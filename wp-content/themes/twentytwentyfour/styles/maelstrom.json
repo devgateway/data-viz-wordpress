@@ -81,7 +81,7 @@
 					"slug": "heading"
 				},
 				{
-					"fontFamily": "-apple-system, ***REMOVED***, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
+					"fontFamily": "-apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
 					"name": "System Sans-serif",
 					"slug": "system-sans-serif"
 				},

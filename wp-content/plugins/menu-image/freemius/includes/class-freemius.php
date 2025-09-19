@@ -806,7 +806,7 @@
          *      2. wp.org themes are not allowed to redirect the user
          *         after the theme activation, therefore, the agreed UX
          *         is showing the opt-in as a modal dialog box after
-         *         activation (approved by @otto42, @emiluzelac, @greenshady, @***REMOVED***).
+         *         activation (approved by @otto42, @emiluzelac, @greenshady, @grapplerulrich).
          *
          * @author Vova Feldman (@svovaf)
          * @since  1.2.2.7
@@ -1387,13 +1387,13 @@
                         var $this = $( this ),
                             $parent = $this.parent(),
                             externalLink = $this.data( 'fs-external-url' ),
-                            ***REMOVED*** = $this.data( 'fs-new-tab' );
+                            isOpensInNewTab = $this.data( 'fs-new-tab' );
 
                         if ( externalLink ) {
                             $parent.attr( 'href', externalLink );
                         }
 
-                        if ( ***REMOVED*** ) {
+                        if ( isOpensInNewTab ) {
                             $parent.attr( { target: '_blank', rel: 'noopener noreferrer' } );
                         }
                     } );
@@ -1417,7 +1417,7 @@
                         /**
                          * Unless the `fs_allow_updater_and_dialog` URL param exists and its value is `true`, make
                          * Freemius-related updates unavailable on the "Add Plugins" admin page (/plugin-install.php)
-                         * so that they won't interfere with the .org plugins' ***REMOVED*** on that page (e.g.
+                         * so that they won't interfere with the .org plugins' functionalities on that page (e.g.
                          * updating of a .org plugin).
                          */
                         add_filter( 'site_transient_update_plugins', array( 'Freemius', '_remove_fs_updates_from_plugin_install_page' ), 10, 2 );
@@ -1655,7 +1655,7 @@
 
         /**
          * Makes Freemius-related updates unavailable on the "Add Plugins" admin page (/plugin-install.php) so that
-         * they won't interfere with the .org plugins' ***REMOVED*** on that page (e.g. updating of a .org plugin).
+         * they won't interfere with the .org plugins' functionalities on that page (e.g. updating of a .org plugin).
          *
          * @author Leo Fajardo (@leorw)
          * @since 2.2.3
@@ -1698,18 +1698,18 @@
             ?>
             <script type="text/javascript">
             (function( $ ) {
-                var ***REMOVED*** = <?php echo json_encode( $slug_basename_map ) ?>;
-                for ( var slug in ***REMOVED*** ) {
-                    var basename = ***REMOVED***[ slug ];
+                var slugBasenameMap = <?php echo json_encode( $slug_basename_map ) ?>;
+                for ( var slug in slugBasenameMap ) {
+                    var basename = slugBasenameMap[ slug ];
 
                     // Try to get the plugin rows if on the "Plugins" page.
                     var $pluginRows = $( '.wp-list-table.plugins tr[data-plugin="' + basename + '"]');
 
                     if ( 0 === $pluginRows.length ) {
                         // Try to get the plugin rows if on the "Updates" page.
-                        var $***REMOVED*** = $( '#update-plugins-table input[type="checkbox"][value="' + basename + '"]' );
-                        if ( 0 !== $***REMOVED***.length ) {
-                            $pluginRows = $***REMOVED***.parents( 'tr:first' );
+                        var $pluginCheckbox = $( '#update-plugins-table input[type="checkbox"][value="' + basename + '"]' );
+                        if ( 0 !== $pluginCheckbox.length ) {
+                            $pluginRows = $pluginCheckbox.parents( 'tr:first' );
                         }
                     }
 
@@ -1806,21 +1806,21 @@
                 ( function( $ ) {
                     var betaData = <?php echo json_encode( $beta_data ) ?>;
 
-                    for ( var ***REMOVED*** in betaData ) {
-                        if ( ! betaData.***REMOVED***( ***REMOVED*** ) ) {
+                    for ( var pluginBasename in betaData ) {
+                        if ( ! betaData.hasOwnProperty( pluginBasename ) ) {
                             continue;
                         }
 
-                        if ( ! betaData[ ***REMOVED*** ].is_installed_version_beta ) {
+                        if ( ! betaData[ pluginBasename ].is_installed_version_beta ) {
                             continue;
                         }
 
-                        var $***REMOVED*** = $( '.wp-list-table.plugins tr[data-plugin="' + ***REMOVED*** + '"]' );
-                        if ( 0 === $***REMOVED***.length ) {
+                        var $parentContainer = $( '.wp-list-table.plugins tr[data-plugin="' + pluginBasename + '"]' );
+                        if ( 0 === $parentContainer.length ) {
                             continue;
                         }
 
-                        $***REMOVED***.find( '.plugin-title > strong:first-child').append(
+                        $parentContainer.find( '.plugin-title > strong:first-child').append(
                             '<span class="fs-tag fs-info"><?php fs_esc_js_echo_inline( 'Beta', 'beta' ) ?></span>'
                         );
                     }
@@ -1828,15 +1828,15 @@
                     setTimeout( function() {
                         // Wait a little bit before adding the event handler, otherwise, it will be overridden by the core WP logic.
                         $( '.plugins .update-message .update-link, .themes .theme .update-message' ).on( 'click', function() {
-                            var $***REMOVED*** = $( this ).parents( 'tr:first' );
-                            ***REMOVED***   = ( 0 !== $***REMOVED***.length ) ?
-                                $***REMOVED***.data( 'plugin' ) :
+                            var $parentContainer = $( this ).parents( 'tr:first' );
+                            pluginBasename   = ( 0 !== $parentContainer.length ) ?
+                                $parentContainer.data( 'plugin' ) :
                                 $( this ).parents( '.theme:first' ).data( 'slug' );
 
                             if (
-                                betaData[ ***REMOVED*** ] &&
-                                betaData[ ***REMOVED*** ].beta_version_update_confirmation_message &&
-                                ! confirm( betaData[ ***REMOVED*** ].beta_version_update_confirmation_message )
+                                betaData[ pluginBasename ] &&
+                                betaData[ pluginBasename ].beta_version_update_confirmation_message &&
+                                ! confirm( betaData[ pluginBasename ].beta_version_update_confirmation_message )
                             ) {
                                 return false;
                             }
@@ -1851,7 +1851,7 @@
          * Keeping the uninstall hook registered for free or premium plugin version may result to a fatal error that
          * could happen when a user tries to uninstall either version while one of them is still active. Uninstalling a
          * plugin will trigger inclusion of the free or premium version and if one of them is active during the
-         * ***REMOVED***, a fatal error may occur in case the plugin's class or functions are already defined.
+         * uninstallation, a fatal error may occur in case the plugin's class or functions are already defined.
          *
          * @author Leo Fajardo (@leorw)
          *
@@ -2087,7 +2087,7 @@
                 $this->is_plugin() :
                 ( WP_FS__MODULE_TYPE_PLUGIN === $module_type );
 
-            return fs_normalize_path( ***REMOVED***( $is_plugin ?
+            return fs_normalize_path( trailingslashit( $is_plugin ?
                 WP_PLUGIN_DIR :
                 get_theme_root( get_stylesheet() ) ) );
         }
@@ -2296,7 +2296,7 @@
                      * @since  1.2.2.5
                      */
 
-                    if ( $caller_file_path == fs_normalize_path( realpath( ***REMOVED***( $themes_dir ) . basename( dirname( $caller_file_path ) ) . '/' . basename( $caller_file_path ) ) ) ) {
+                    if ( $caller_file_path == fs_normalize_path( realpath( trailingslashit( $themes_dir ) . basename( dirname( $caller_file_path ) ) . '/' . basename( $caller_file_path ) ) ) ) {
                         $module_type = WP_FS__MODULE_TYPE_THEME;
 
                         /**
@@ -2475,7 +2475,7 @@
             $reason_temporary_deactivation = array(
                 'id'                => self::REASON_TEMPORARY_DEACTIVATION,
                 'text'              => sprintf(
-                    $this->get_text_inline( "It's a temporary %s - I'm ***REMOVED*** an issue", 'reason-temporary-x' ),
+                    $this->get_text_inline( "It's a temporary %s - I'm troubleshooting an issue", 'reason-temporary-x' ),
                     strtolower( $this->is_plugin() ?
                         $this->get_text_inline( 'Deactivation', 'deactivation' ) :
                         $this->get_text_inline( 'Theme Switch', 'theme-switch' )
@@ -3533,7 +3533,7 @@
             }
 
             if ( $add_trailing_slash ) {
-                $url = ***REMOVED***( $url );
+                $url = trailingslashit( $url );
             }
 
             return $url;
@@ -3809,7 +3809,7 @@
             $max = 100;
 
             if ( function_exists( 'random_int' ) ) {
-                $random = random_int( $min, $max ); // phpcs:ignore ***REMOVED***.FunctionUse.NewFunctions.random_intFound
+                $random = random_int( $min, $max ); // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctions.random_intFound
             } else {
                 $random = rand( $min, $max );
             }
@@ -3991,7 +3991,7 @@
                 }
 
                 /**
-                 * Base the unique identifier on the WP secure ***REMOVED*** key. Which
+                 * Base the unique identifier on the WP secure authentication key. Which
                  * turns the key into a secret anonymous identifier. This will help us
                  * to avoid duplicate installs generation on the backend upon opt-in.
                  *
@@ -4144,7 +4144,7 @@
             if ( $is_new_idn_available ) {
                 $domain = idn_to_ascii( $parts[1], IDNA_DEFAULT, INTL_IDNA_VARIANT_UTS46 );
             } else {
-                $domain = idn_to_ascii( $parts[1] );  // phpcs:ignore ***REMOVED***.***REMOVED***.***REMOVED***.NotSet
+                $domain = idn_to_ascii( $parts[1] );  // phpcs:ignore PHPCompatibility.ParameterValues.NewIDNVariantDefault.NotSet
             }
 
             $domain = $domain . '.';
@@ -4308,7 +4308,7 @@
                         ),
                         'server_addr' => array(
                             'SERVER_ADDR',
-                            '<a href="http://www.***REMOVED***.org/ip_' . $server_ip . '">' . $server_ip . '</a>'
+                            '<a href="http://www.projecthoneypot.org/ip_' . $server_ip . '">' . $server_ip . '</a>'
                         )
                     )
                 ),
@@ -4343,7 +4343,7 @@
         #endregion
 
         #----------------------------------------------------------------------------------
-        #region ***REMOVED***
+        #region Initialization
         #----------------------------------------------------------------------------------
 
         /**
@@ -4712,7 +4712,7 @@
                  * Allow updater and dialog when the `fs_allow_updater_and_dialog` URL query param exists and has `true`
                  * value, or when the current page is not the "Add Plugins" page (/plugin-install.php) and the `action`
                  * URL query param doesn't exist or its value is not `install-plugin` so that there will be no conflicts
-                 * with the .org plugins' ***REMOVED*** (e.g. installation from the "Add Plugins" page and viewing
+                 * with the .org plugins' functionalities (e.g. installation from the "Add Plugins" page and viewing
                  * plugin details from .org).
                  */
                 ( true === fs_request_get_bool( 'fs_allow_updater_and_dialog' ) ) ||
@@ -5133,7 +5133,7 @@
             if ( false === $id ) {
                 throw new Freemius_Exception( array(
                     'error' => array(
-                        'type'    => '***REMOVED***',
+                        'type'    => 'ParameterNotSet',
                         'message' => 'Plugin id parameter is not set.',
                         'code'    => 'plugin_id_not_set',
                         'http'    => 500,
@@ -5143,7 +5143,7 @@
             if ( false === $public_key ) {
                 throw new Freemius_Exception( array(
                     'error' => array(
-                        'type'    => '***REMOVED***',
+                        'type'    => 'ParameterNotSet',
                         'message' => 'Plugin public_key parameter is not set.',
                         'code'    => 'plugin_public_key_not_set',
                         'http'    => 500,
@@ -5294,7 +5294,7 @@
                  * Don't execute Freemius until plugin was fully loaded at least once,
                  * to give the opportunity for the activation hook to run before pinging
                  * the API for connectivity test. This logic is relevant for the
-                 * ***REMOVED*** of new plugin install vs. plugin update.
+                 * identification of new plugin install vs. plugin update.
                  *
                  * @author Vova Feldman (@svovaf)
                  * @since  1.1.9
@@ -6842,7 +6842,7 @@
                     )
                 ) {
                     /**
-                     * Don't redirect if activating during the deactivation snooze period (aka ***REMOVED***), unless activating a paid product version that the admin didn't enter its license key yet.
+                     * Don't redirect if activating during the deactivation snooze period (aka troubleshooting), unless activating a paid product version that the admin didn't enter its license key yet.
                      */
                 } else if ( ! $is_migration ) {
                     $this->_redirect_on_activation_hook();
@@ -7452,7 +7452,7 @@
                  *  2. WordPress DEBUG mode.
                  *  3. If a plugin and the user skipped the exact same version before.
                  *
-                 * @since 1.2.2.7 Ulrich Pogson (@***REMOVED***) asked to not reset the SKIPPED flag if the exact same THEME version was activated before unless the developer is running with WP_DEBUG on, or Freemius debug mode on (WP_FS__DEV_MODE).
+                 * @since 1.2.2.7 Ulrich Pogson (@grapplerulrich) asked to not reset the SKIPPED flag if the exact same THEME version was activated before unless the developer is running with WP_DEBUG on, or Freemius debug mode on (WP_FS__DEV_MODE).
                  *
                  * @todo  4. If explicitly asked to retry after every activation.
                  */
@@ -9146,8 +9146,8 @@
                              * @author Leo Fajardo (@leorw)
                              * @since 2.5.0
                              */
-                            fs_strip_url_protocol( ***REMOVED***( $clone_install_url ) ) === fs_strip_url_protocol( ***REMOVED***( $clone_subsite_data['url'] ) ) ||
-                            fs_strip_url_protocol( ***REMOVED***( $install->url ) ) !== fs_strip_url_protocol( ***REMOVED***( $url ) )
+                            fs_strip_url_protocol( untrailingslashit( $clone_install_url ) ) === fs_strip_url_protocol( untrailingslashit( $clone_subsite_data['url'] ) ) ||
+                            fs_strip_url_protocol( untrailingslashit( $install->url ) ) !== fs_strip_url_protocol( untrailingslashit( $url ) )
                         ) {
                             $skip = true;
                         }
@@ -9563,7 +9563,7 @@
             foreach ( $result->installs as $install ) {
                 $this->_site = new FS_Site( $install );
 
-                $address = ***REMOVED***( fs_strip_url_protocol( $install->url ) );
+                $address = trailingslashit( fs_strip_url_protocol( $install->url ) );
                 $blog_id = $address_to_blog_map[ $address ];
 
                 $this->_store_site( true, $blog_id );
@@ -10738,7 +10738,7 @@
         }
 
         /**
-         * @author Daniele Alessandra (@***REMOVED***)
+         * @author Daniele Alessandra (@danielealessandra)
          * @return FS_Storage
          * @since  2.6.2
          *
@@ -12230,7 +12230,7 @@
                 $first_blog_id = null;
 
                 foreach ( $installs as $install ) {
-                    $address = ***REMOVED***( fs_strip_url_protocol( $install->url ) );
+                    $address = trailingslashit( fs_strip_url_protocol( $install->url ) );
                     $blog_id = $address_to_blog_map[ $address ];
 
                     $this->_store_site( true, $blog_id, $install );
@@ -13650,7 +13650,7 @@
         }
 
         /**
-         * The ***REMOVED*** of this method was previously in `_activate_license_ajax_action()`.
+         * The implementation of this method was previously in `_activate_license_ajax_action()`.
          *
          * @author Vova Feldman (@svovaf)
          * @since  2.2.4
@@ -16366,7 +16366,7 @@
              * data stored for the module as a JSON in the database.
              *
              * I used the same suggested hack by the theme review team.
-             * For more details, look at the function `***REMOVED***()`
+             * For more details, look at the function `Base64UrlDecode()`
              * in `./sdk/FreemiusBase.php`.
              *
              * @todo   Remove this hack once the base64 error is removed from the Theme Check.
@@ -16390,7 +16390,7 @@
              * data stored for the module as a JSON in the database.
              *
              * I used the same suggested hack by the theme review team.
-             * For more details, look at the function `***REMOVED***()`
+             * For more details, look at the function `Base64UrlDecode()`
              * in `./sdk/FreemiusBase.php`.
              *
              * @todo   Remove this hack once the base64 error is removed from the Theme Check.
@@ -18203,7 +18203,7 @@
                 $first_blog_id      = null;
                 $blog_2_install_map = array();
                 foreach ( $installs as $install ) {
-                    $address = ***REMOVED***( fs_strip_url_protocol( $install->url ) );
+                    $address = trailingslashit( fs_strip_url_protocol( $install->url ) );
                     $blog_id = $address_to_blog_map[ $address ];
 
                     $this->_store_site( true, $blog_id, $install );
@@ -20998,9 +20998,9 @@
                                 }
                             }
                         } else if ( is_object( $result ) ) {
-                            // ***REMOVED*** params are broken.
+                            // Authentication params are broken.
                             $this->_admin_notices->add(
-                                $this->get_text_inline( 'It seems like one of the ***REMOVED*** parameters is wrong. Update your Public Key, Secret Key & User ID, and try again.', 'wrong-***REMOVED***-param-message' ) . '<br> ' . $this->get_text_inline( 'Error received from the server:', 'server-error-message' ) . var_export( $result->error, true ),
+                                $this->get_text_inline( 'It seems like one of the authentication parameters is wrong. Update your Public Key, Secret Key & User ID, and try again.', 'wrong-authentication-param-message' ) . '<br> ' . $this->get_text_inline( 'Error received from the server:', 'server-error-message' ) . var_export( $result->error, true ),
                                 '',
                                 'error'
                             );
@@ -21026,7 +21026,7 @@
                         if ( $install->id == $this->_site->id ) {
                             $site = new FS_Site( $install );
                         } else {
-                            $address = ***REMOVED***( fs_strip_url_protocol( $install->url ) );
+                            $address = trailingslashit( fs_strip_url_protocol( $install->url ) );
                             $blog_id = $address_to_blog_map[ $address ];
 
                             $this->_store_site( true, $blog_id, new FS_Site( $install ) );
@@ -21203,7 +21203,7 @@
                              * If license was expired but it is not anymore.
                              *
                              *
-                             * @author Daniele Alessandra (@***REMOVED***)
+                             * @author Daniele Alessandra (@danielealessandra)
                              */
                             $plan_change = 'extended';
                         }
@@ -21405,7 +21405,7 @@
             }
             
             $error_message = sprintf(
-                $this->get_text_inline( 'Your server is blocking the access to Freemius\' API, which is crucial for %1$s ***REMOVED***. Please contact your host to whitelist the following domains:%2$s', 'server-blocking-access' ),
+                $this->get_text_inline( 'Your server is blocking the access to Freemius\' API, which is crucial for %1$s synchronization. Please contact your host to whitelist the following domains:%2$s', 'server-blocking-access' ),
                 $this->get_plugin_name(),
                 "<ol>{$api_domains_list_items}</ol><a href='#' class='fs-api-request-error-show-details-link'>" . $this->get_text_inline( 'Show error details', 'show-error-details' ) . " <span class='dashicons dashicons-arrow-down-alt2'></span></a>"
             );
@@ -22814,7 +22814,7 @@
                                 if ( $this->is_tracking_prohibited( $blog_id ) ) {
                                     if ( $this->toggle_site_tracking( true, $blog_id ) ) {
                                         $this->_admin_notices->add(
-                                            sprintf( $this->get_text_inline( 'Sharing diagnostic data with %s helps to provide functionality that\'s more relevant to your website, avoid WordPress or PHP version ***REMOVED*** that can break your website, and recognize which languages & regions the plugin should be translated and tailored to.', 'opt-out-message-appreciation' ), "<b>{$this->get_plugin_title()}</b>" ),
+                                            sprintf( $this->get_text_inline( 'Sharing diagnostic data with %s helps to provide functionality that\'s more relevant to your website, avoid WordPress or PHP version incompatibilities that can break your website, and recognize which languages & regions the plugin should be translated and tailored to.', 'opt-out-message-appreciation' ), "<b>{$this->get_plugin_title()}</b>" ),
                                             $this->get_text_inline( 'Thank you!', 'thank-you' )
                                         );
                                     }
@@ -23004,7 +23004,7 @@
                                 $this->_admin_notices->add_sticky(
                                     sprintf( $this->get_text_inline( '%s is the new owner of the account.', 'change-owner-request_candidate-confirmed' ), '<b>' . $this->_user->email . '</b>' ),
                                     'ownership_changed',
-                                    $this->get_text_x_inline( 'Congrats', 'as ***REMOVED***', 'congrats' ) . '!'
+                                    $this->get_text_x_inline( 'Congrats', 'as congratulations', 'congrats' ) . '!'
                                 );
                             } else {
                                 // @todo Handle failed ownership change message.
@@ -23616,8 +23616,8 @@
                 FS_Api::is_api_result_entity( $result ) &&
                 isset( $result->url )
             ) {
-                $stored_local_url  = ***REMOVED***( $this->_site->url );
-                $stored_remote_url = ***REMOVED***( $result->url );
+                $stored_local_url  = trailingslashit( $this->_site->url );
+                $stored_remote_url = trailingslashit( $result->url );
 
                 if ( $stored_local_url !== $stored_remote_url ) {
                     $this->_site->url = $result->url;
@@ -23702,7 +23702,7 @@
             if (
                 'cUrlMissing' !== $result->error->type &&
                 ( 'CurlException' !== $result->error->type || CURLE_COULDNT_CONNECT != $result->error->code )  &&
-                ( '***REMOVED***' !== $result->error->type || false === strpos( $result->error->message, 'cURL error ' . CURLE_COULDNT_CONNECT ) )
+                ( 'HttpRequestFailed' !== $result->error->type || false === strpos( $result->error->message, 'cURL error ' . CURLE_COULDNT_CONNECT ) )
             ) {
                 return;
             }
@@ -25341,7 +25341,7 @@
          * If the theme has a paid version, add some custom
          * styling to the theme's premium version (if exists)
          * to highlight that it's the premium version of the
-         * same theme, making it easier for ***REMOVED***
+         * same theme, making it easier for identification
          * after the user upgrades and upload it to the site.
          *
          * @author Vova Feldman (@svovaf)

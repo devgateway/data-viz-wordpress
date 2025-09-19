@@ -784,7 +784,7 @@
             } else {
                 $activate_action = sprintf(
                     '<a class="button button-primary edit" href="%s" title="%s" target="_parent">%s</a>',
-                    wp_nonce_url( ( is_numeric( $blog_id ) ? ***REMOVED***( get_admin_url( $blog_id ) ) : '' ) . 'plugins.php?action=activate&amp;plugin=' . $this->status['file'], 'activate-plugin_' . $this->status['file'] ),
+                    wp_nonce_url( ( is_numeric( $blog_id ) ? trailingslashit( get_admin_url( $blog_id ) ) : '' ) . 'plugins.php?action=activate&amp;plugin=' . $this->status['file'], 'activate-plugin_' . $this->status['file'] ),
                     fs_esc_attr_inline( 'Activate this add-on', 'activate-this-addon', $api->slug ),
                     $can_activate_free_version ?
                         fs_text_inline( 'Activate Free Version', 'activate-free', $api->slug ) :
@@ -1168,9 +1168,9 @@
                                                             return '<?php fs_esc_attr_echo_inline( 'Up to %s Sites', 'license-x-sites', $api->slug ) ?>'.replace('%s', pricing.licenses);
                                                     }
                                                 },
-                                                _formatPrice            = function (pricing, cycle, ***REMOVED***) {
-                                                    if (undef === ***REMOVED***)
-                                                        ***REMOVED*** = true;
+                                                _formatPrice            = function (pricing, cycle, multipleLicenses) {
+                                                    if (undef === multipleLicenses)
+                                                        multipleLicenses = true;
 
                                                     var priceCycle;
                                                     switch (cycle) {
@@ -1186,7 +1186,7 @@
                                                             break;
                                                     }
 
-                                                    if (!***REMOVED*** && 1 == pricing.licenses) {
+                                                    if (!multipleLicenses && 1 == pricing.licenses) {
                                                         return '$' + pricing.price + priceCycle;
                                                     }
 
@@ -1619,7 +1619,7 @@
                                      * @since 2.3.0
                                      */
                                     $( '.fs-dropdown.active' ).each( function() {
-                                        ***REMOVED***( $( this ), false );
+                                        toggleDropdown( $( this ), false );
                                     } );
                                 }
 
@@ -1629,7 +1629,7 @@
                                  * @author Leo Fajardo (@leorw)
                                  * @since 2.3.0
                                  */
-                                ***REMOVED***( $dropdown, ! isActive );
+                                toggleDropdown( $dropdown, ! isActive );
 
                                 return true;
                             }
@@ -1640,7 +1640,7 @@
                              * @author Leo Fajardo (@leorw)
                              * @since 2.3.0
                              */
-                            ***REMOVED***( $( this ).find( '.fs-dropdown' ), false );
+                            toggleDropdown( $( this ).find( '.fs-dropdown' ), false );
                         });
 
                     if ( 0 !== $dropdowns.length ) {
@@ -1662,11 +1662,11 @@
                      * @param {Object}  [$dropdown]
                      * @param {Boolean} [state]
                      */
-                    function ***REMOVED***( $dropdown, state ) {
+                    function toggleDropdown( $dropdown, state ) {
                         if ( undef === $dropdown ) {
-                            var $***REMOVED*** = $dropdowns.find( '.active' );
-                            if ( 0 !== $***REMOVED***.length ) {
-                                $dropdown = $***REMOVED***;
+                            var $activeDropdown = $dropdowns.find( '.active' );
+                            if ( 0 !== $activeDropdown.length ) {
+                                $dropdown = $activeDropdown;
                             }
                         }
 

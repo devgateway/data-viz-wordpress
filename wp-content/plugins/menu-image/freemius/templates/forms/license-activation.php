@@ -78,8 +78,8 @@
                          * @author Leo Fajardo (@leorw)
                          * @since 2.5.0
                          */
-                        fs_strip_url_protocol( ***REMOVED***( $clone_install_url ) ) === fs_strip_url_protocol( ***REMOVED***( $clone_subsite_url ) ) ||
-                        fs_strip_url_protocol( ***REMOVED***( $install->url ) ) !== fs_strip_url_protocol( ***REMOVED***( $site_details['url'] ) )
+                        fs_strip_url_protocol( untrailingslashit( $clone_install_url ) ) === fs_strip_url_protocol( untrailingslashit( $clone_subsite_url ) ) ||
+                        fs_strip_url_protocol( untrailingslashit( $install->url ) ) !== fs_strip_url_protocol( untrailingslashit( $site_details['url'] ) )
                     ) {
                         continue;
                     }
@@ -236,7 +236,7 @@ HTML;
 <script type="text/javascript">
 (function( $ ) {
 	$( document ).ready(function() {
-		var ***REMOVED*** = <?php echo json_encode($modal_content_html); ?>,
+		var modalContentHtml = <?php echo json_encode($modal_content_html); ?>,
 			modalHtml =
 				'<div class="fs-modal fs-modal-license-activation fs-modal-license-activation-<?php echo $unique_affix ?>">'
 				+ '	<div class="fs-modal-dialog">'
@@ -245,7 +245,7 @@ HTML;
 				+ '         <a href="!#" class="fs-close"><i class="dashicons dashicons-no" title="<?php echo esc_js( fs_text_x_inline( 'Dismiss', 'as close a window', 'dismiss', $slug ) ) ?>"></i></a>'
 				+ '		</div>'
 				+ '		<div class="fs-modal-body">'
-				+ '			<div class="fs-modal-panel active">' + ***REMOVED*** + '</div>'
+				+ '			<div class="fs-modal-panel active">' + modalContentHtml + '</div>'
 				+ '		</div>'
 				+ '		<div class="fs-modal-footer">'
 				+ '			<button class="button button-secondary button-close" tabindex="4"><?php fs_esc_js_echo_inline( 'Cancel', 'cancel', $slug ) ?></button>'
@@ -255,9 +255,9 @@ HTML;
 				+ '</div>',
 			$modal = $(modalHtml),
 			$activateLicenseButton          = $modal.find('.button-activate-license'),
-			$***REMOVED***                = $modal.find( 'input.fs-license-key' ),
+			$licenseKeyInput                = $modal.find( 'input.fs-license-key' ),
 			$licenseActivationMessage       = $modal.find( '.license-activation-message' ),
-            ***REMOVED***             = <?php echo $is_network_activation ? 'true' : 'false' ?>,
+            isNetworkActivation             = <?php echo $is_network_activation ? 'true' : 'false' ?>,
             isUserChangeSupported           = <?php echo $is_user_change_supported ? 'true' : 'false' ?>,
             isSingleSiteActivation          = false,
             $ownershipChangeOptionContainer = $modal.find( '.ownership-change-option-container' ),
@@ -266,41 +266,41 @@ HTML;
 		$modal.appendTo( $body );
 
         var
-            $***REMOVED***    = $modal.find( '.fs-licenses' ),
+            $licensesDropdown    = $modal.find( '.fs-licenses' ),
             $licenseTypes        = $modal.find( 'input[type="radio"][name="license_type"]' ),
-            $***REMOVED***     = $modal.find( '.fs-apply-on-all-sites-checkbox' ),
-            $***REMOVED***  = $modal.find( '.fs-sites-list-container' ),
-            $***REMOVED*** = $modal.find( '.fs-available-license-key' ),
-            $***REMOVED***     = $modal.find( '#other_license_key_<?php echo $unique_affix ?>' ),
+            $applyOnAllSites     = $modal.find( '.fs-apply-on-all-sites-checkbox' ),
+            $sitesListContainer  = $modal.find( '.fs-sites-list-container' ),
+            $availableLicenseKey = $modal.find( '.fs-available-license-key' ),
+            $otherLicenseKey     = $modal.find( '#other_license_key_<?php echo $unique_affix ?>' ),
             $multisiteOptionsContainer = $modal.find( '.fs-multisite-options-container' ),
-            $***REMOVED***     = null,
-            ***REMOVED***  = ( $***REMOVED***.length > 0 ),
-            ***REMOVED***      = ( $licenseTypes.length > 0 ),
-            ***REMOVED***   = null,
+            $activationsLeft     = null,
+            hasLicensesDropdown  = ( $licensesDropdown.length > 0 ),
+            hasLicenseTypes      = ( $licenseTypes.length > 0 ),
+            maxSitesListHeight   = null,
             totalSites           = <?php echo count( $sites_details ) ?>,
             singleBlogID         = null;
 
         var
-            ***REMOVED***  = null,
-            ***REMOVED*** = null,
+            previousLicenseKey  = null,
+            otherLicenseOwnerID = null,
             /**
              * @author Leo Fajardo (@leorw)
              * @since 2.3.2
              */
-            ***REMOVED*** = function () {
+            resetLoadingMode = function () {
                 // Reset loading mode.
                 $activateLicenseButton.text( <?php echo json_encode( $activate_button_text ) ?> );
                 $activateLicenseButton.prop( 'disabled', false );
                 $( document.body ).css( { 'cursor': 'auto' } );
                 $( '.fs-loading' ).removeClass( 'fs-loading' );
 
-                console.log( '***REMOVED*** - Primary button was enabled' );
+                console.log( 'resetLoadingMode - Primary button was enabled' );
             },
             /**
              * @author Leo Fajardo (@leorw)
              * @since 2.3.2
              */
-            ***REMOVED*** = function () {
+            setLoadingMode = function () {
                 $( document.body ).css( { 'cursor': 'wait' } );
             },
             /**
@@ -309,8 +309,8 @@ HTML;
              */
             afterLicenseUserDataLoaded = function () {
                 if (
-                    null !== ***REMOVED*** &&
-                    ***REMOVED*** != <?php echo $fs->is_registered() ? $fs->get_user()->id : 'null' ?>
+                    null !== otherLicenseOwnerID &&
+                    otherLicenseOwnerID != <?php echo $fs->is_registered() ? $fs->get_user()->id : 'null' ?>
                 ) {
                     $ownershipChangeOptionContainer.show();
                 } else {
@@ -322,28 +322,28 @@ HTML;
              * @author Leo Fajardo (@leorw)
              * @since 2.3.2
              */
-            ***REMOVED*** = function () {
+            fetchLicenseUserData = function () {
                 var hideAndUncheckUserChangeCheckbox = ( ! isUserChangeSupported ),
                     otherLicenseKeyIsSelected      = isOtherLicenseKeySelected();
 
                 if ( ! hideAndUncheckUserChangeCheckbox ) {
                     // User change is supported only on the site level.
-                    hideAndUncheckUserChangeCheckbox = ( ***REMOVED*** || isSingleSiteActivation );
+                    hideAndUncheckUserChangeCheckbox = ( isNetworkActivation || isSingleSiteActivation );
                 }
 
                 if ( ! hideAndUncheckUserChangeCheckbox ) {
-                    hideAndUncheckUserChangeCheckbox = ( ***REMOVED*** && ! otherLicenseKeyIsSelected );
+                    hideAndUncheckUserChangeCheckbox = ( hasLicenseTypes && ! otherLicenseKeyIsSelected );
                 }
 
-                var licenseKey = $***REMOVED***.val().trim();
+                var licenseKey = $licenseKeyInput.val().trim();
 
                 if ( ! hideAndUncheckUserChangeCheckbox && otherLicenseKeyIsSelected ) {
                     hideAndUncheckUserChangeCheckbox = ( licenseKey.length < 32 );
                 }
 
-                if ( licenseKey !== ***REMOVED*** ) {
+                if ( licenseKey !== previousLicenseKey ) {
                     // If the license key has not been changed, keep the owner ID in order to prevent another API call.
-                    ***REMOVED*** = null;
+                    otherLicenseOwnerID = null;
                 }
 
                 if ( hideAndUncheckUserChangeCheckbox ) {
@@ -352,12 +352,12 @@ HTML;
                     return;
                 }
 
-                if ( null !== ***REMOVED*** ) {
+                if ( null !== otherLicenseOwnerID ) {
                     afterLicenseUserDataLoaded();
                     return;
                 }
 
-                ***REMOVED***();
+                setLoadingMode();
 
                 $activateLicenseButton.addClass( 'fs-loading' );
                 $activateLicenseButton.attr( 'disabled', 'disabled' );
@@ -373,13 +373,13 @@ HTML;
                         module_id  : '<?php echo $fs->get_id() ?>'
                     },
                     success: function ( result ) {
-                        ***REMOVED***();
+                        resetLoadingMode();
 
                         if ( result.success ) {
                             result = result.data;
 
                             // Cache license owner's ID.
-                            ***REMOVED*** = result.license_owner_id;
+                            otherLicenseOwnerID = result.license_owner_id;
                         }
 
                         afterLicenseUserDataLoaded();
@@ -391,30 +391,30 @@ HTML;
             var
                 $otherLicenseKeyContainer = $modal.find( '.fs-other-license-key-container' );
 
-            if ( ***REMOVED*** ) {
-                $***REMOVED***.click(function() {
-                    var ***REMOVED*** = $( this ).is( ':checked' );
+            if ( isNetworkActivation ) {
+                $applyOnAllSites.click(function() {
+                    var applyOnAllSites = $( this ).is( ':checked' );
 
-                    $multisiteOptionsContainer.toggleClass( 'fs-apply-on-all-sites', ***REMOVED*** );
+                    $multisiteOptionsContainer.toggleClass( 'fs-apply-on-all-sites', applyOnAllSites );
 
-                    showSites( ! ***REMOVED*** );
+                    showSites( ! applyOnAllSites );
 
-                    if ( ***REMOVED***() && ( ***REMOVED*** || ***REMOVED***() ) ) {
+                    if ( hasValidLicenseKey() && ( applyOnAllSites || hasSelectedSite() ) ) {
                         enableActivateLicenseButton();
                     } else {
                         disableActivateLicenseButton();
                     }
                 });
 
-                $***REMOVED***.delegate( 'td:not(:first-child)', 'click', function() {
+                $sitesListContainer.delegate( 'td:not(:first-child)', 'click', function() {
                     // If a site row is clicked, trigger a click on the checkbox.
                     $( this ).parent().find( 'td:first-child input' ).click();
                 });
 
-                $***REMOVED***.delegate( 'input[type="checkbox"]', 'click', function() {
+                $sitesListContainer.delegate( 'input[type="checkbox"]', 'click', function() {
                     enableDisableSitesSelection();
 
-                    if ( ***REMOVED***() && ***REMOVED***() ) {
+                    if ( hasValidLicenseKey() && hasSelectedSite() ) {
                         enableActivateLicenseButton();
                     } else {
                         disableActivateLicenseButton();
@@ -422,12 +422,12 @@ HTML;
                 });
             }
 
-            if ( ***REMOVED*** ) {
-                $***REMOVED***.change(function() {
+            if ( hasLicensesDropdown ) {
+                $licensesDropdown.change(function() {
                     // When a license is selected, select the associated radio button.
                     $licenseTypes.filter( '[value="available"]' ).attr( 'checked', true );
 
-                    if ( ! ***REMOVED*** || $modal.hasClass( 'is-single-site-activation' ) ) {
+                    if ( ! isNetworkActivation || $modal.hasClass( 'is-single-site-activation' ) ) {
                         enableActivateLicenseButton();
                         return true;
                     }
@@ -436,14 +436,14 @@ HTML;
                 })
             }
 
-            if ( ***REMOVED*** ) {
+            if ( hasLicenseTypes ) {
                 $licenseTypes.change(function() {
                     var
                         licenseKey              = $modal.find( 'input.fs-license-key' ).val().trim(),
                         otherLicenseKeySelected = isOtherLicenseKeySelected();
 
-                    if ( ( licenseKey.length > 0 || ( ***REMOVED*** && ! otherLicenseKeySelected ) ) &&
-                        ( $modal.hasClass( 'is-single-site-activation' ) || ! ***REMOVED*** || ***REMOVED***() )
+                    if ( ( licenseKey.length > 0 || ( hasLicenseTypes && ! otherLicenseKeySelected ) ) &&
+                        ( $modal.hasClass( 'is-single-site-activation' ) || ! isNetworkActivation || hasSelectedSite() )
                     ) {
                         /**
                          * If the "other" license is not empty or an available license is selected, enable the activate
@@ -457,15 +457,15 @@ HTML;
                     }
 
                     if ( '' !== licenseKey ) {
-                        ***REMOVED***();
+                        fetchLicenseUserData();
                     }
 
-                    if ( ! ***REMOVED*** ) {
+                    if ( ! isNetworkActivation ) {
                         return;
                     }
 
                     if ( otherLicenseKeySelected ) {
-                        $***REMOVED***.attr( 'disabled', false );
+                        $applyOnAllSites.attr( 'disabled', false );
                         enableDisableSitesSelection();
                         resetActivateLicenseCheckboxLabel();
                     } else if ( ! $modal.hasClass( 'is-single-site-activation' ) ) {
@@ -473,8 +473,8 @@ HTML;
                     }
                 });
 
-                if ( ! ***REMOVED*** ) {
-                    $***REMOVED***.click(function() {
+                if ( ! hasLicensesDropdown ) {
+                    $availableLicenseKey.click(function() {
                         $licenseTypes.filter( '[value="available"]' ).click();
                     });
                 }
@@ -485,12 +485,12 @@ HTML;
             }
 
             $body.on( 'click', 'span.activate-license.<?php echo $unique_affix ?> a, .activate-license-trigger.<?php echo $unique_affix ?>', function (evt) {
-				evt.***REMOVED***();
+				evt.preventDefault();
 
 				showModal( evt );
 			});
 
-            var ***REMOVED*** = null;
+            var licenseTimeout = null;
 
             /**
              * Disable activation button when license key is empty.
@@ -499,12 +499,12 @@ HTML;
              * @since 2.3.2
              */
             $modal.on( 'keyup paste delete cut', 'input.fs-license-key', function () {
-                clearTimeout(***REMOVED***);
+                clearTimeout(licenseTimeout);
 
-                ***REMOVED*** = setTimeout( function () {
-                    var licenseKey = $***REMOVED***.val().trim();
+                licenseTimeout = setTimeout( function () {
+                    var licenseKey = $licenseKeyInput.val().trim();
 
-                    if ( licenseKey == ***REMOVED*** ) {
+                    if ( licenseKey == previousLicenseKey ) {
                         afterLicenseUserDataLoaded();
                         return;
                     }
@@ -516,24 +516,24 @@ HTML;
                         enableActivateLicenseButton();
 
                         if ( 32 <= licenseKey.length ) {
-                            ***REMOVED***();
+                            fetchLicenseUserData();
                         } else {
                             $ownershipChangeOptionContainer.hide();
                         }
                     }
 
-                    ***REMOVED*** = licenseKey;
+                    previousLicenseKey = licenseKey;
                 }, 200 );
             } ).focus();
 
-			$modal.on('input ***REMOVED***', 'input.fs-license-key', function () {
+			$modal.on('input propertychange', 'input.fs-license-key', function () {
 
 				var licenseKey = $(this).val().trim();
 
 				/**
 				 * If license key is not empty, enable the license activation button.
 				 */
-				if ( licenseKey.length > 0 && ( $modal.hasClass( 'is-single-site-activation' ) || ! ***REMOVED*** || ***REMOVED***() ) ) {
+				if ( licenseKey.length > 0 && ( $modal.hasClass( 'is-single-site-activation' ) || ! isNetworkActivation || hasSelectedSite() ) ) {
 					enableActivateLicenseButton();
 				}
 			});
@@ -541,21 +541,21 @@ HTML;
 			$modal.on( 'blur', 'input.fs-license-key', function( evt ) {
 				var
                     licenseKey                  = $(this).val().trim(),
-                    $***REMOVED***             = $( evt.relatedTarget ),
-                    hasSelectedAvailableLicense = ( ***REMOVED*** && $***REMOVED***.parents( '.fs-available-license-key-container' ).length > 0 );
+                    $focusedElement             = $( evt.relatedTarget ),
+                    hasSelectedAvailableLicense = ( hasLicenseTypes && $focusedElement.parents( '.fs-available-license-key-container' ).length > 0 );
 
                 /**
                  * If license key is empty, disable the license activation button.
                  */
-                if ( ( 0 === licenseKey.length && ( ! ***REMOVED*** || ! hasSelectedAvailableLicense ) ) ||
-                   ( ***REMOVED*** && ! ***REMOVED***() )
+                if ( ( 0 === licenseKey.length && ( ! hasLicenseTypes || ! hasSelectedAvailableLicense ) ) ||
+                   ( isNetworkActivation && ! hasSelectedSite() )
                 ) {
                    disableActivateLicenseButton();
                 }
 			});
 
 			$modal.on('click', '.button-activate-license', function (evt) {
-				evt.***REMOVED***();
+				evt.preventDefault();
 
 				if ($(this).hasClass('disabled')) {
 					return;
@@ -564,18 +564,18 @@ HTML;
                 var licenseKey = '',
                     licenseID  = '';
 
-				if ( ***REMOVED*** ) {
+				if ( hasLicenseTypes ) {
 				    if ( isOtherLicenseKeySelected() ) {
-				        licenseKey = $***REMOVED***.val();
+				        licenseKey = $otherLicenseKey.val();
                     } else {
-				        if ( ! ***REMOVED*** ) {
-                            licenseID = $***REMOVED***.data( 'id' );
+				        if ( ! hasLicensesDropdown ) {
+                            licenseID = $availableLicenseKey.data( 'id' );
                         } else {
-                            licenseID = $***REMOVED***.val();
+                            licenseID = $licensesDropdown.val();
                         }
                     }
                 } else {
-                    licenseKey = $***REMOVED***.val().trim();
+                    licenseKey = $licenseKeyInput.val().trim();
                 }
 
 				disableActivateLicenseButton();
@@ -596,18 +596,18 @@ HTML;
                     data.license_key = licenseKey;
                 }
 
-                if ( ***REMOVED*** ) {
+                if ( isNetworkActivation ) {
                     var
                         sites = [];
 
                     if ( null === singleBlogID ) {
                         var
-                            ***REMOVED*** = $***REMOVED***.is( ':checked' );
+                            applyOnAllSites = $applyOnAllSites.is( ':checked' );
 
-                        $***REMOVED***.find( 'tr' ).each(function() {
+                        $sitesListContainer.find( 'tr' ).each(function() {
                             var
                                 $this       = $( this ),
-                                includeSite = ( ***REMOVED*** || $this.find( 'input' ).is( ':checked' ) );
+                                includeSite = ( applyOnAllSites || $this.find( 'input' ).is( ':checked' ) );
 
                             if ( ! includeSite )
                                 return;
@@ -630,7 +630,7 @@ HTML;
                 }
 
                 if ( $ownershipChangeOptionContainer.find( 'input:checked' ).length > 0 ) {
-                    data.user_id = ***REMOVED***;
+                    data.user_id = otherLicenseOwnerID;
                 }
 
 				$.ajax({
@@ -672,22 +672,22 @@ HTML;
          */
 		function enableDisableSitesSelection() {
             var
-                ***REMOVED***    = $***REMOVED***.is( ':enabled' ),
+                canApplyOnAllSites    = $applyOnAllSites.is( ':enabled' ),
                 disableSitesSelection = null;
 
-            if ( ! ***REMOVED*** ) {
+            if ( ! canApplyOnAllSites ) {
                 var
-                    selectedSites         = $***REMOVED***.find( 'input[type="checkbox"]:checked' ).length,
-                    ***REMOVED***       = Math.max( 0, $***REMOVED***.data( 'left' ) - selectedSites );
+                    selectedSites         = $sitesListContainer.find( 'input[type="checkbox"]:checked' ).length,
+                    activationsLeft       = Math.max( 0, $activationsLeft.data( 'left' ) - selectedSites );
 
-                    disableSitesSelection = ( 0 === ***REMOVED*** );
+                    disableSitesSelection = ( 0 === activationsLeft );
 
-                    $***REMOVED***.text( ***REMOVED*** );
+                    $activationsLeft.text( activationsLeft );
             } else {
                 disableSitesSelection = false;
             }
 
-            $***REMOVED***
+            $sitesListContainer
                 .find( 'input[type="checkbox"]:not(:checked)' )
                 .attr( 'disabled', disableSitesSelection );
         }
@@ -699,7 +699,7 @@ HTML;
          * @returns {Boolean}
          */
         function isOtherLicenseKeySelected() {
-            return ( ***REMOVED*** && 'other' === $licenseTypes.filter( ':checked' ).val() );
+            return ( hasLicenseTypes && 'other' === $licenseTypes.filter( ':checked' ).val() );
         }
 
         /**
@@ -708,13 +708,13 @@ HTML;
          *
          * @returns {Boolean}
          */
-        function ***REMOVED***() {
+        function hasValidLicenseKey() {
             var licenseKey = '';
-            if ( ***REMOVED*** ) {
+            if ( hasLicenseTypes ) {
                 if ( 'available' === $licenseTypes.filter( ':checked' ).val() ) {
                     return true;
                 } else {
-                    licenseKey = $***REMOVED***.val();
+                    licenseKey = $otherLicenseKey.val();
                 }
             } else {
                 licenseKey = $modal.find( 'input.fs-license-key' ).val();
@@ -729,9 +729,9 @@ HTML;
          *
          * @returns {Boolean}
          */
-        function ***REMOVED***() {
-            return ( $***REMOVED***.is( ':checked' ) ||
-                $***REMOVED***.find( 'input[type="checkbox"]:checked:not(:disabled)' ).length > 0 );
+        function hasSelectedSite() {
+            return ( $applyOnAllSites.is( ':checked' ) ||
+                $sitesListContainer.find( 'input[type="checkbox"]:checked:not(:disabled)' ).length > 0 );
         }
 
         /**
@@ -739,16 +739,16 @@ HTML;
          * @since 2.0.0
          */
         function toggleActivationOnAllSites() {
-            var ***REMOVED***,
+            var activationsLeft,
                 licenseID;
 
-            if (***REMOVED***) {
-                var $***REMOVED*** = $***REMOVED***.find( ':selected' );
-                ***REMOVED*** = $***REMOVED***.data('left');
-                licenseID = $***REMOVED***.data('id');
+            if (hasLicensesDropdown) {
+                var $selectedOption = $licensesDropdown.find( ':selected' );
+                activationsLeft = $selectedOption.data('left');
+                licenseID = $selectedOption.data('id');
             } else {
-                ***REMOVED*** = $***REMOVED***.data('left');
-                licenseID = $***REMOVED***.data('id');
+                activationsLeft = $availableLicenseKey.data('left');
+                licenseID = $availableLicenseKey.data('id');
             }
 
             // Cleanup previously auto-selected site.
@@ -762,11 +762,11 @@ HTML;
                 $blogsWithActiveLicense.attr('checked', true)
                     .attr('disabled', true);
 
-                ***REMOVED*** += $blogsWithActiveLicense.length;
+                activationsLeft += $blogsWithActiveLicense.length;
             }
 
-            if ( ***REMOVED*** >= totalSites ) {
-                $***REMOVED***.attr( 'disabled', false );
+            if ( activationsLeft >= totalSites ) {
+                $applyOnAllSites.attr( 'disabled', false );
                 enableDisableSitesSelection();
 
                 resetActivateLicenseCheckboxLabel();
@@ -774,21 +774,21 @@ HTML;
                 return;
             }
 
-            $***REMOVED***.attr( 'checked', false );
-            $***REMOVED***.attr( 'disabled', true );
+            $applyOnAllSites.attr( 'checked', false );
+            $applyOnAllSites.attr( 'disabled', true );
 
             showSites( true );
 
             var
                 activateLicenseCheckboxLabel = '<?php fs_esc_js_echo_inline( 'Choose up to %s site(s) to activate the license on.', 'choose-up-to-n-sites-to-activate-the-license-on', $slug ) ?>';
 
-            activateLicenseCheckboxLabel = activateLicenseCheckboxLabel.replace( '%s', '<span data-left="' + ***REMOVED*** + '" class="activations-left">' + ***REMOVED*** + '</span>' );
+            activateLicenseCheckboxLabel = activateLicenseCheckboxLabel.replace( '%s', '<span data-left="' + activationsLeft + '" class="activations-left">' + activationsLeft + '</span>' );
 
             // Update the label of the "Activate license on all sites" checkbox.
-            $***REMOVED***.parent().find( 'span' ).html( activateLicenseCheckboxLabel );
-            $***REMOVED*** = $modal.find( '.activations-left' );
+            $applyOnAllSites.parent().find( 'span' ).html( activateLicenseCheckboxLabel );
+            $activationsLeft = $modal.find( '.activations-left' );
 
-            if ( ***REMOVED***() ) {
+            if ( hasSelectedSite() ) {
                 enableActivateLicenseButton();
                 enableDisableSitesSelection();
             } else {
@@ -802,7 +802,7 @@ HTML;
          */
         function resetActivateLicenseCheckboxLabel() {
             var activateLicenseCheckboxLabel = '<?php fs_esc_js_echo_inline( 'Activate license on all sites in the network.', 'activate-license-on-all-sites-in-the-network', $slug ) ?>';
-            $***REMOVED***.parent().find( 'span' ).text( activateLicenseCheckboxLabel );
+            $applyOnAllSites.parent().find( 'span' ).text( activateLicenseCheckboxLabel );
         }
 
         /**
@@ -812,15 +812,15 @@ HTML;
          * @param {Boolean} show
          */
 		function showSites( show ) {
-            $***REMOVED***.toggle( show );
-            if ( show && null === ***REMOVED*** ) {
+            $sitesListContainer.toggle( show );
+            if ( show && null === maxSitesListHeight ) {
                 /**
                  * Set the visible number of rows to 5 (5 * height of the first row).
                  *
                  * @author Leo Fajardo (@leorw)
                  */
-                ***REMOVED*** = ( 5 * $***REMOVED***.find( 'tr:first' ).height() );
-                $***REMOVED***.css( 'max-height', ***REMOVED*** );
+                maxSitesListHeight = ( 5 * $sitesListContainer.find( 'tr:first' ).height() );
+                $sitesListContainer.css( 'max-height', maxSitesListHeight );
             }
         }
 
@@ -832,32 +832,32 @@ HTML;
 			$body.addClass('has-fs-modal');
 
             var
-                $***REMOVED***  = $( evt.target ).parents( 'tr.fs-install-details' ),
-                isSingleSiteActivation = ( $***REMOVED***.length > 0 );
+                $singleInstallDetails  = $( evt.target ).parents( 'tr.fs-install-details' ),
+                isSingleSiteActivation = ( $singleInstallDetails.length > 0 );
 
             $modal.toggleClass( 'is-single-site-activation', isSingleSiteActivation );
 
             singleBlogID = isSingleSiteActivation ?
-                $***REMOVED***.prev().data( 'blog-id' ) :
+                $singleInstallDetails.prev().data( 'blog-id' ) :
                 null;
 
             <?php if ( $fs->apply_filters( 'enable_per_site_activation', true ) ) : ?>
-            $multisiteOptionsContainer.toggle( ***REMOVED*** && ! isSingleSiteActivation );
+            $multisiteOptionsContainer.toggle( isNetworkActivation && ! isSingleSiteActivation );
             <?php endif ?>
 
-            if ( ***REMOVED*** ) {
+            if ( hasLicenseTypes ) {
                 $licenseTypes.attr( 'checked', false );
 
-                if ( ***REMOVED*** ) {
-                    $***REMOVED***.find( 'option:first' ).attr( 'selected', true ).trigger( 'change' );
+                if ( hasLicensesDropdown ) {
+                    $licensesDropdown.find( 'option:first' ).attr( 'selected', true ).trigger( 'change' );
                 } else {
                     $licenseTypes.filter( '[value="available"]' ).click();
                 }
 
-                $***REMOVED***.val( '' );
+                $otherLicenseKey.val( '' );
             } else {
-                $***REMOVED***.val( '' );
-                $***REMOVED***.focus();
+                $licenseKeyInput.val( '' );
+                $licenseKeyInput.focus();
             }
 		}
 

@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Uses PHP's zlib.inflate filter to inflate zlib (HTTP deflate, RFC1950) or gzipped (RFC1952) content.
  *
@@ -15,12 +15,12 @@ use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
  * @see https://datatracker.ietf.org/doc/html/rfc1952
  * @see https://www.php.net/manual/en/filters.compression.php
  */
-final class InflateStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class InflateStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
-    use ***REMOVED***;
-    /** @var ***REMOVED*** */
+    use StreamDecoratorTrait;
+    /** @var StreamInterface */
     private $stream;
-    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream)
+    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream)
     {
         $resource = \YoastSEO_Vendor\GuzzleHttp\Psr7\StreamWrapper::getResource($stream);
         // Specify window=15+32, so zlib will use header detection to both gzip (with header) and zlib data

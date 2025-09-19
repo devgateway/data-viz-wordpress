@@ -23,7 +23,7 @@ class Wpdbbkp_Newsletter {
                 if ( ! isset( $_POST['wpdbbkp_security_nonce'] ) ){
                     return; 
                 }
-                if ( !wp_verify_nonce( wp_unslash( $_POST['wpdbbkp_security_nonce']), 'wpdbbkp_ajax_check_nonce' ) ){ //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***
+                if ( !wp_verify_nonce( wp_unslash( $_POST['wpdbbkp_security_nonce']), 'wpdbbkp_ajax_check_nonce' ) ){ //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                    return;  
                 }
                 if( ! current_user_can( 'manage_options' ) ) { 
@@ -70,7 +70,7 @@ class Wpdbbkp_Newsletter {
                         
                 global $current_user;                
 		$tour     = array ();
-                //phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Nonce verification is not required here.
+                //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not required here.
                 $tab      = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : '';                   
                 
                 if (!array_key_exists($tab, $tour)) {                

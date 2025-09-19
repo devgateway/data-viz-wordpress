@@ -33,7 +33,7 @@ class To_Be_Cleaned_Indexable_Count {
 	}
 
 	/**
-	 * Returns an array ***REMOVED*** of the data.
+	 * Returns an array representation of the data.
 	 *
 	 * @return array Returns both values in an array format.
 	 */

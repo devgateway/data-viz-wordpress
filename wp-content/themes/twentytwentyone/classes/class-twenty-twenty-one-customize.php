@@ -36,7 +36,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 
 			// Change site-title & description to postMessage.
 			$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage'; // @phpstan-ignore-line. Assume that this setting exists.
-			$wp_customize->get_setting( '***REMOVED***' )->transport = 'postMessage'; // @phpstan-ignore-line. Assume that this setting exists.
+			$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage'; // @phpstan-ignore-line. Assume that this setting exists.
 
 			// Add partial for blogname.
 			$wp_customize->selective_refresh->add_partial(
@@ -47,9 +47,9 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 				)
 			);
 
-			// Add partial for ***REMOVED***.
+			// Add partial for blogdescription.
 			$wp_customize->selective_refresh->add_partial(
-				'***REMOVED***',
+				'blogdescription',
 				array(
 					'selector'        => '.site-description',
 					'render_callback' => array( $this, 'partial_blogdescription' ),
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 				array(
 					'type'    => 'checkbox',
 					'section' => 'title_tagline',
-					'label'   => esc_html__( 'Display Site Title & Tagline', '***REMOVED***' ),
+					'label'   => esc_html__( 'Display Site Title & Tagline', 'twentytwentyone' ),
 				)
 			);
 
@@ -82,7 +82,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 			$wp_customize->add_section(
 				'excerpt_settings',
 				array(
-					'title'    => esc_html__( 'Excerpt Settings', '***REMOVED***' ),
+					'title'    => esc_html__( 'Excerpt Settings', 'twentytwentyone' ),
 					'priority' => 120,
 				)
 			);
@@ -103,17 +103,17 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 				array(
 					'type'    => 'radio',
 					'section' => 'excerpt_settings',
-					'label'   => esc_html__( 'On Archive Pages, posts show:', '***REMOVED***' ),
+					'label'   => esc_html__( 'On Archive Pages, posts show:', 'twentytwentyone' ),
 					'choices' => array(
-						'excerpt' => esc_html__( 'Summary', '***REMOVED***' ),
-						'full'    => esc_html__( 'Full text', '***REMOVED***' ),
+						'excerpt' => esc_html__( 'Summary', 'twentytwentyone' ),
+						'full'    => esc_html__( 'Full text', 'twentytwentyone' ),
 					),
 				)
 			);
 
 			// Background color.
 			// Include the custom control class.
-			require_once get_theme_file_path( 'classes/class-twenty-twenty-one-customize-color-control.php' ); // phpcs:ignore WPThemeReview.***REMOVED***.FileInclude.***REMOVED***
+			require_once get_theme_file_path( 'classes/class-twenty-twenty-one-customize-color-control.php' ); // phpcs:ignore WPThemeReview.CoreFunctionality.FileInclude.FileIncludeFound
 
 			// Register the custom control.
 			$wp_customize->register_control_type( 'Twenty_Twenty_One_Customize_Color_Control' );
@@ -135,7 +135,7 @@ if ( ! class_exists( 'Twenty_Twenty_One_Customize' ) ) {
 					$wp_customize,
 					'background_color',
 					array(
-						'label'   => esc_html_x( 'Background color', 'Customizer control', '***REMOVED***' ),
+						'label'   => esc_html_x( 'Background color', 'Customizer control', 'twentytwentyone' ),
 						'section' => 'colors',
 						'palette' => $colors,
 					)

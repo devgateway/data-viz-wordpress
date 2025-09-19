@@ -300,7 +300,7 @@ if ( ! class_exists( 'ACF_Admin_Post_Types' ) ) :
 			$count = (int) $count;
 
 			switch ( $action ) {
-				case '***REMOVED***':
+				case 'acfactivatecomplete':
 					$text = sprintf(
 						/* translators: %s number of post types activated */
 						_n( 'Post type activated.', '%s post types activated.', $count, 'acf' ),
@@ -314,14 +314,14 @@ if ( ! class_exists( 'ACF_Admin_Post_Types' ) ) :
 						$count
 					);
 					break;
-				case '***REMOVED***':
+				case 'acfduplicatecomplete':
 					$text = sprintf(
 						/* translators: %s number of post types duplicated */
 						_n( 'Post type duplicated.', '%s post types duplicated.', $count, 'acf' ),
 						$count
 					);
 					break;
-				case '***REMOVED***':
+				case 'acfsynccomplete':
 					$text = sprintf(
 						/* translators: %s number of post types synchronized */
 						_n( 'Post type synchronized.', '%s post types synchronized.', $count, 'acf' ),

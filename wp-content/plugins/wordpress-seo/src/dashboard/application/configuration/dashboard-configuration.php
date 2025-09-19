@@ -1,14 +1,14 @@
 <?php
 
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Dashboard\Application\Configuration;
 
 use Yoast\WP\SEO\Dashboard\Application\Content_Types\Content_Types_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Endpoints\Endpoints_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Tracking\Setup_Steps_Tracking;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Integrations\Site_Kit;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Nonces\Nonce_Repository;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Nonces\Nonce_Repository;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Editors\Framework\Readability_Analysis;
@@ -118,7 +118,7 @@ class Dashboard_Configuration {
 	public function get_configuration(): array {
 		$configuration = [
 			'contentTypes'            => $this->content_types_repository->get_content_types(),
-			'***REMOVED***'       => $this->indexable_helper->should_index_indexables(),
+			'indexablesEnabled'       => $this->indexable_helper->should_index_indexables(),
 			'displayName'             => $this->user_helper->get_current_user_display_name(),
 			'enabledAnalysisFeatures' => $this->enabled_analysis_features_repository->get_features_by_keys(
 				[
@@ -128,13 +128,13 @@ class Dashboard_Configuration {
 			)->to_array(),
 			'endpoints'               => $this->endpoints_repository->get_all_endpoints()->to_array(),
 			'nonce'                   => $this->nonce_repository->get_rest_nonce(),
-			'***REMOVED***'      => $this->setup_steps_tracking->to_array(),
+			'setupStepsTracking'      => $this->setup_steps_tracking->to_array(),
 		];
 
 		$site_kit_integration_data = $this->site_kit_integration_data->to_array();
 
 		if ( ! empty( $site_kit_integration_data ) ) {
-			$configuration ['***REMOVED***'] = $site_kit_integration_data;
+			$configuration ['siteKitConfiguration'] = $site_kit_integration_data;
 		}
 		return $configuration;
 	}

@@ -31,18 +31,18 @@ abstract class TBSCertList
                 'optional' => true,
                 'default' => 'v2'
             ],
-            'signature' => ***REMOVED***::MAP,
+            'signature' => AlgorithmIdentifier::MAP,
             'issuer' => Name::MAP,
             'thisUpdate' => Time::MAP,
             'nextUpdate' => [
                 'optional' => true
             ] + Time::MAP,
-            '***REMOVED***' => [
+            'revokedCertificates' => [
                 'type' => ASN1::TYPE_SEQUENCE,
                 'optional' => true,
                 'min' => 0,
                 'max' => -1,
-                'children' => ***REMOVED***::MAP
+                'children' => RevokedCertificate::MAP
             ],
             'crlExtensions' => [
                 'constant' => 0,

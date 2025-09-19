@@ -20,7 +20,7 @@ use YoastSEO_Vendor\GuzzleHttp\Psr7\Request;
  *
  * @link https://github.com/guzzle/guzzle/pull/1101
  */
-class ***REMOVED***
+class RequestFactory
 {
     /**
      * Creates a PSR-7 Request instance.
@@ -28,7 +28,7 @@ class ***REMOVED***
      * @param  null|string $method HTTP method for the request.
      * @param  null|string $uri URI for the request.
      * @param  array $headers Headers for the message.
-     * @param  string|resource|***REMOVED*** $body Message body.
+     * @param  string|resource|StreamInterface $body Message body.
      * @param  string $version HTTP protocol version.
      *
      * @return Request

@@ -2,11 +2,11 @@
 	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
 	"version": 3,
 	"settings": {
-		"***REMOVED***": true,
+		"appearanceTools": true,
 		"color": {
-			"***REMOVED***": false,
-			"***REMOVED***": false,
-			"***REMOVED***": false,
+			"defaultDuotone": false,
+			"defaultGradients": false,
+			"defaultPalette": false,
 			"palette": [
 				{
 					"color": "#FFFFFF",
@@ -55,7 +55,7 @@
 			"wideSize": "1340px"
 		},
 		"spacing": {
-			"***REMOVED***": false,
+			"defaultSpacingSizes": false,
 			"spacingSizes": [
 				{
 					"name": "Tiny",
@@ -104,7 +104,7 @@
 		},
 		"typography": {
 			"writingMode": true,
-			"***REMOVED***": false,
+			"defaultFontSizes": false,
 			"fluid": true,
 			"fontSizes": [
 				{
@@ -268,11 +268,11 @@
 							"text": "var:preset|color|accent-4"
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						}
 					}
@@ -386,11 +386,11 @@
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				},
@@ -415,11 +415,11 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				}
@@ -557,11 +557,11 @@
 				"elements": {
 					"link": {
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						},
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						}
 					}
@@ -580,11 +580,11 @@
 					"link": {
 						":hover": {
 							"typography": {
-								"***REMOVED***": "underline"
+								"textDecoration": "underline"
 							}
 						},
 						"typography": {
-							"***REMOVED***": "none"
+							"textDecoration": "none"
 						}
 					}
 				}
@@ -679,7 +679,7 @@
 				},
 				":hover": {
 					"typography": {
-						"***REMOVED***": "none"
+						"textDecoration": "none"
 					}
 				}
 			}
@@ -723,7 +723,7 @@
 			"title": "Sidebar"
 		}
 	],
-	"***REMOVED***": [
+	"customTemplates": [
 		{
 			"name": "page-no-title",
 			"postTypes": ["page"],

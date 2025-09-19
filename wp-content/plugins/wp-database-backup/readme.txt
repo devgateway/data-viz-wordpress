@@ -1,5 +1,5 @@
 === WP Database Backup - Unlimited Database & Files Backup by Backup for WP ===
-Contributors: ***REMOVED***
+Contributors: databasebackup
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Database backup, backup, cloud backup, files backup, wordpress backup.
@@ -87,7 +87,7 @@ Bug reports for WP Database Backup  are [welcomed on GitHub](https://github.com/
 * Improvement: Modify the UI of the "Access your Data" button under the Cloud Backup section #105
 * Improvement: Change tag on wordpress plugin page #107
 * Improvement: Code Improvement Part 3 #108
-* Security Fix: ***REMOVED*** BackUp Exposure disclosed by Noah Stead (TurtleBurg)
+* Security Fix: Unauthenticated BackUp Exposure disclosed by Noah Stead (TurtleBurg)
 * Test: Tested upto WP 6.7
 
 = 7.3 =
@@ -252,7 +252,7 @@ This plugin uses the following third-party libraries:
    - License: Apache License, Version 2.0 (the "License")
    - License URL: http://www.apache.org/licenses/LICENSE-2.0
 
-2. <strong> PHP Secure ***REMOVED*** Library </strong>
+2. <strong> PHP Secure Communications Library </strong>
    - Author: phpseclib
    - URL:https://github.com/phpseclib/phpseclib
    - License: MIT License (or any other applicable license)
@@ -265,4 +265,4 @@ This plugin uses the following third-party libraries:
 
 4.  <strong>phpFileTree </strong>
    - Author: Cory S.N. LaViska's
-   - URL: https://www.***REMOVED***.net/blog/2007/06/php-file-tree/
+   - URL: https://www.abeautifulsite.net/blog/2007/06/php-file-tree/

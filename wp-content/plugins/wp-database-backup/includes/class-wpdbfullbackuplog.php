@@ -1,12 +1,12 @@
 <?php
-add_action( 'wpdbbkp_backup_completed', array( '***REMOVED***', 'wpdbbkp_backup_completed' ), 11 );
+add_action( 'wpdbbkp_backup_completed', array( 'WPDBFullBackupLog', 'wpdbbkp_backup_completed' ), 11 );
 
 /**
- * Class ***REMOVED***
+ * Class WPDBFullBackupLog
  *
  * Handles logging and updating backup completion details.
  */
-class ***REMOVED*** {
+class WPDBFullBackupLog {
 
     /**
      * Processes backup completion details and updates options.

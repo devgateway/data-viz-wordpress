@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Pure-PHP ***REMOVED*** of RC2.
+ * Pure-PHP implementation of RC2.
  *
- * Uses mcrypt, if available, and an internal ***REMOVED***, otherwise.
+ * Uses mcrypt, if available, and an internal implementation, otherwise.
  *
  * PHP version 5
  *
@@ -34,10 +34,10 @@
 namespace phpseclib3\Crypt;
 
 use phpseclib3\Crypt\Common\BlockCipher;
-use phpseclib3\Exception\***REMOVED***;
+use phpseclib3\Exception\BadModeException;
 
 /**
- * Pure-PHP ***REMOVED*** of RC2.
+ * Pure-PHP implementation of RC2.
  *
  */
 class RC2 extends BlockCipher
@@ -252,7 +252,7 @@ class RC2 extends BlockCipher
         parent::__construct($mode);
 
         if ($this->mode == self::MODE_STREAM) {
-            throw new ***REMOVED***('Block ciphers cannot be ran in stream mode');
+            throw new BadModeException('Block ciphers cannot be ran in stream mode');
         }
     }
 
@@ -265,7 +265,7 @@ class RC2 extends BlockCipher
      * @param int $engine
      * @return bool
      */
-    protected function ***REMOVED***($engine)
+    protected function isValidEngineHelper($engine)
     {
         switch ($engine) {
             case self::ENGINE_OPENSSL:
@@ -282,7 +282,7 @@ class RC2 extends BlockCipher
                 $this->cipher_name_openssl = 'rc2-' . $this->openssl_translate_mode();
         }
 
-        return parent::***REMOVED***($engine);
+        return parent::isValidEngineHelper($engine);
     }
 
     /**
@@ -293,12 +293,12 @@ class RC2 extends BlockCipher
      *  \phpseclib3\Crypt\RC2::setKey() call.
      *
      * @param int $length in bits
-     * @throws \***REMOVED*** if the key length isn't supported
+     * @throws \LengthException if the key length isn't supported
      */
     public function setKeyLength($length)
     {
         if ($length < 8 || $length > 1024) {
-            throw new \***REMOVED***('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys between 1 and 1024 bits, inclusive, are supported');
+            throw new \LengthException('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys between 1 and 1024 bits, inclusive, are supported');
         }
 
         $this->default_key_length = $this->current_key_length = $length;
@@ -326,7 +326,7 @@ class RC2 extends BlockCipher
      * @see \phpseclib3\Crypt\Common\SymmetricKey::setKey()
      * @param string $key
      * @param int|boolean $t1 optional Effective key length in bits.
-     * @throws \***REMOVED*** if the key length isn't supported
+     * @throws \LengthException if the key length isn't supported
      */
     public function setKey($key, $t1 = false)
     {
@@ -337,17 +337,17 @@ class RC2 extends BlockCipher
         }
 
         if ($t1 < 1 || $t1 > 1024) {
-            throw new \***REMOVED***('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys between 1 and 1024 bits, inclusive, are supported');
+            throw new \LengthException('Key size of ' . $length . ' bits is not supported by this algorithm. Only keys between 1 and 1024 bits, inclusive, are supported');
         }
 
         $this->current_key_length = $t1;
         if (strlen($key) < 1 || strlen($key) > 128) {
-            throw new \***REMOVED***('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes between 8 and 1024 bits, inclusive, are supported');
+            throw new \LengthException('Key of size ' . strlen($key) . ' not supported by this algorithm. Only keys of sizes between 8 and 1024 bits, inclusive, are supported');
         }
 
         $t = strlen($key);
 
-        // The mcrypt RC2 ***REMOVED*** only supports effective key length
+        // The mcrypt RC2 implementation only supports effective key length
         // of 1024 bits. It is however possible to handle effective key
         // lengths in range 1..1024 by expanding the key and applying
         // inverse pitable mapping to the first byte before submitting it
@@ -534,9 +534,9 @@ class RC2 extends BlockCipher
     /**
      * Setup the performance-optimized function for de/encrypt()
      *
-     * @see \phpseclib3\Crypt\Common\SymmetricKey::***REMOVED***()
+     * @see \phpseclib3\Crypt\Common\SymmetricKey::setupInlineCrypt()
      */
-    protected function ***REMOVED***()
+    protected function setupInlineCrypt()
     {
         // Init code for both, encrypt and decrypt.
         $init_crypt = '$keys = $this->keys;';

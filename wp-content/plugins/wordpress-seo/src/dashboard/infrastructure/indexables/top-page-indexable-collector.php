@@ -1,7 +1,7 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Indexables;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Indexables;
 
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
@@ -83,7 +83,7 @@ class Top_Page_Indexable_Collector {
 	 */
 	protected function get_top_page_indexable( string $url ) {
 		// First check if the URL is the static homepage.
-		if ( \***REMOVED***( $url ) === \***REMOVED***( \get_home_url() ) && \get_option( 'show_on_front' ) === 'page' ) {
+		if ( \trailingslashit( $url ) === \trailingslashit( \get_home_url() ) && \get_option( 'show_on_front' ) === 'page' ) {
 			return $this->indexable_repository->find_by_id_and_type( \get_option( 'page_on_front' ), 'post', false );
 		}
 

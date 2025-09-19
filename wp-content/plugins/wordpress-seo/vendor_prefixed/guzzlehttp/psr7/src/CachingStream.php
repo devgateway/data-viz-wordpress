@@ -3,29 +3,29 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Stream decorator that can cache previously read bytes from a sequentially
  * read stream.
  */
-final class CachingStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+final class CachingStream implements \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
 {
-    use ***REMOVED***;
-    /** @var ***REMOVED*** Stream being wrapped */
+    use StreamDecoratorTrait;
+    /** @var StreamInterface Stream being wrapped */
     private $remoteStream;
     /** @var int Number of bytes to skip reading due to a write on the buffer */
     private $skipReadBytes = 0;
     /**
-     * @var ***REMOVED***
+     * @var StreamInterface
      */
     private $stream;
     /**
      * We will treat the buffer object as the body of the stream
      *
-     * @param ***REMOVED*** $stream Stream to cache. The cursor is assumed to be at the beginning of the stream.
-     * @param ***REMOVED*** $target Optionally specify where data is cached
+     * @param StreamInterface $stream Stream to cache. The cursor is assumed to be at the beginning of the stream.
+     * @param StreamInterface $target Optionally specify where data is cached
      */
-    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $target = null)
+    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream, \YoastSEO_Vendor\Psr\Http\Message\StreamInterface $target = null)
     {
         $this->remoteStream = $stream;
         $this->stream = $target ?: new \YoastSEO_Vendor\GuzzleHttp\Psr7\Stream(\YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::tryFopen('php://temp', 'r+'));
@@ -51,7 +51,7 @@ final class CachingStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVE
         } elseif ($whence === \SEEK_END) {
             $size = $this->remoteStream->getSize();
             if ($size === null) {
-                $size = $this->***REMOVED***();
+                $size = $this->cacheEntireStream();
             }
             $byte = $size + $offset;
         } else {
@@ -116,7 +116,7 @@ final class CachingStream implements \YoastSEO_Vendor\Psr\Http\Message\***REMOVE
         $this->remoteStream->close();
         $this->stream->close();
     }
-    private function ***REMOVED***() : int
+    private function cacheEntireStream() : int
     {
         $target = new \YoastSEO_Vendor\GuzzleHttp\Psr7\FnStream(['write' => 'strlen']);
         \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::copyToStream($this, $target);

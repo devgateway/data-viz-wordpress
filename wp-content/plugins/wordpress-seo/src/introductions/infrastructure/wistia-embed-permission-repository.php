@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Introductions\***REMOVED***;
+namespace Yoast\WP\SEO\Introductions\Infrastructure;
 
 use Exception;
 use Yoast\WP\SEO\Helpers\User_Helper;

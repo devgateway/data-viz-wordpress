@@ -34,7 +34,7 @@ class BCMath extends Engine
     /**
      * Engine Directory
      *
-     * @see parent::***REMOVED***
+     * @see parent::setModExpEngine
      */
     const ENGINE_DIR = 'BCMath';
 
@@ -236,7 +236,7 @@ class BCMath extends Engine
      */
     public function modInverse(BCMath $n)
     {
-        return $this->***REMOVED***($n);
+        return $this->modInverseHelper($n);
     }
 
     /**
@@ -325,7 +325,7 @@ class BCMath extends Engine
      */
     public function bitwise_and(BCMath $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseAndHelper($x);
     }
 
     /**
@@ -336,7 +336,7 @@ class BCMath extends Engine
      */
     public function bitwise_or(BCMath $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseXorHelper($x);
     }
 
     /**
@@ -347,7 +347,7 @@ class BCMath extends Engine
      */
     public function bitwise_xor(BCMath $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseXorHelper($x);
     }
 
     /**
@@ -419,7 +419,7 @@ class BCMath extends Engine
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param BCMath $e
      * @param BCMath $n
@@ -431,7 +431,7 @@ class BCMath extends Engine
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * Alias for modPow().
      *
@@ -445,7 +445,7 @@ class BCMath extends Engine
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param BCMath $e
      * @param BCMath $n
@@ -490,7 +490,7 @@ class BCMath extends Engine
      * @param BCMath $max
      * @return false|BCMath
      */
-    public static function ***REMOVED***(BCMath $min, BCMath $max)
+    public static function randomRangePrime(BCMath $min, BCMath $max)
     {
         return self::randomRangePrimeOuter($min, $max);
     }
@@ -510,7 +510,7 @@ class BCMath extends Engine
      */
     public static function randomRange(BCMath $min, BCMath $max)
     {
-        return self::***REMOVED***($min, $max);
+        return self::randomRangeHelper($min, $max);
     }
 
     /**
@@ -532,7 +532,7 @@ class BCMath extends Engine
      *
      * @see self::isPrime()
      */
-    protected function ***REMOVED***()
+    protected function testSmallPrimes()
     {
         if ($this->value === '1') {
             return false;
@@ -579,7 +579,7 @@ class BCMath extends Engine
     }
 
     /**
-     * Performs ***REMOVED***.
+     * Performs exponentiation.
      *
      * @param BCMath $n
      * @return BCMath

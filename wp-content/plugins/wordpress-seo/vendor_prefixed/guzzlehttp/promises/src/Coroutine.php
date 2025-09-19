@@ -19,7 +19,7 @@ use Throwable;
  *     use GuzzleHttp\Promise;
  *
  *     function createPromise($value) {
- *         return new Promise\***REMOVED***($value);
+ *         return new Promise\FulfilledPromise($value);
  *     }
  *
  *     $promise = Promise\Coroutine::of(function () {
@@ -41,12 +41,12 @@ use Throwable;
  *
  * @see https://github.com/petkaantonov/bluebird/blob/master/API.md#generators inspiration
  */
-final class Coroutine implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+final class Coroutine implements \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
 {
     /**
-     * @var ***REMOVED***|null
+     * @var PromiseInterface|null
      */
-    private $***REMOVED***;
+    private $currentPromise;
     /**
      * @var Generator
      */
@@ -59,8 +59,8 @@ final class Coroutine implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*
     {
         $this->generator = $generatorFn();
         $this->result = new \YoastSEO_Vendor\GuzzleHttp\Promise\Promise(function () : void {
-            while (isset($this->***REMOVED***)) {
-                $this->***REMOVED***->wait();
+            while (isset($this->currentPromise)) {
+                $this->currentPromise->wait();
             }
         });
         try {
@@ -76,11 +76,11 @@ final class Coroutine implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*
     {
         return new self($generatorFn);
     }
-    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function then(callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->result->then($onFulfilled, $onRejected);
     }
-    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function otherwise(callable $onRejected) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->result->otherwise($onRejected);
     }
@@ -102,19 +102,19 @@ final class Coroutine implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*
     }
     public function cancel() : void
     {
-        $this->***REMOVED***->cancel();
+        $this->currentPromise->cancel();
         $this->result->cancel();
     }
     private function nextCoroutine($yielded) : void
     {
-        $this->***REMOVED*** = \YoastSEO_Vendor\GuzzleHttp\Promise\Create::promiseFor($yielded)->then([$this, '_handleSuccess'], [$this, '_handleFailure']);
+        $this->currentPromise = \YoastSEO_Vendor\GuzzleHttp\Promise\Create::promiseFor($yielded)->then([$this, '_handleSuccess'], [$this, '_handleFailure']);
     }
     /**
      * @internal
      */
     public function _handleSuccess($value) : void
     {
-        unset($this->***REMOVED***);
+        unset($this->currentPromise);
         try {
             $next = $this->generator->send($value);
             if ($this->generator->valid()) {
@@ -131,7 +131,7 @@ final class Coroutine implements \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*
      */
     public function _handleFailure($reason) : void
     {
-        unset($this->***REMOVED***);
+        unset($this->currentPromise);
         try {
             $nextYield = $this->generator->throw(\YoastSEO_Vendor\GuzzleHttp\Promise\Create::exceptionFor($reason));
             // The throw was caught, so keep iterating on the coroutine

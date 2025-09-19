@@ -106,7 +106,7 @@
 			onClick: function( e, $el ){
 				
 				// prevent default
-				e.***REMOVED***();
+				e.preventDefault();
 				
 				// bail early if no selection
 				if( !this.$inputs().length ) {
@@ -148,7 +148,7 @@
 			    	url: acf.get('ajaxurl'),
 					dataType: 'json',
 					type: 'post',
-					data: acf.***REMOVED***({
+					data: acf.prepareForAjax({
 						action: 'acf/ajax/upgrade',
 						blog_id: $input.val()
 					}),

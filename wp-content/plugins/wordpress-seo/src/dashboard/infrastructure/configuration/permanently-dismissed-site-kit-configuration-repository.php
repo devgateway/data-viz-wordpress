@@ -1,13 +1,13 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Configuration;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Stores and retrieves whether the Site Kit configuration is permanently dismissed.
  *
- * @phpcs:disable Yoast.***REMOVED***.***REMOVED***.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Permanently_Dismissed_Site_Kit_Configuration_Repository implements Permanently_Dismissed_Site_Kit_Configuration_Repository_Interface {
 

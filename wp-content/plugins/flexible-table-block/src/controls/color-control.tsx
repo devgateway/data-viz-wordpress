@@ -22,13 +22,13 @@ import {
 	__experimentalSpacer as Spacer,
 	__experimentalText as Text,
 } from '@wordpress/components';
-import { store as ***REMOVED*** } from '@wordpress/block-editor';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 import { useInstanceId } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
-import ***REMOVED*** from './color-indicator-button';
+import ColorIndicatorButton from './color-indicator-button';
 
 type Props = {
 	label: string | ReactElement;
@@ -54,21 +54,21 @@ export default function ColorControl( {
 
 	const colors = useSelect( ( select ) => {
 		const settings = select(
-			***REMOVED***
+			blockEditorStore
 			// @ts-ignore
 		).getSettings();
 		return settings?.colors ?? [];
 	}, [] );
 
-	const [ isPickerOpen, ***REMOVED*** ] = useState< boolean >( false );
+	const [ isPickerOpen, setIsPickerOpen ] = useState< boolean >( false );
 
 	const handleOnReset = () => onChange( undefined );
 
-	const ***REMOVED*** = ( inputValue: Property.Color | undefined ) => onChange( inputValue );
+	const handleOnChange = ( inputValue: Property.Color | undefined ) => onChange( inputValue );
 
-	const ***REMOVED*** = () => ***REMOVED***( true );
+	const handleOnPickerOpen = () => setIsPickerOpen( true );
 
-	const ***REMOVED*** = () => ***REMOVED***( false );
+	const handleOnPickerClose = () => setIsPickerOpen( false );
 
 	return (
 		<BaseControl className="ftb-color-control" help={ help } __nextHasNoMarginBottom>
@@ -83,21 +83,21 @@ export default function ColorControl( {
 						</Button>
 					</FlexItem>
 				</Flex>
-				<***REMOVED***
+				<ColorIndicatorButton
 					label={ __( 'Color', 'flexible-table-block' ) }
 					value={ value }
-					onClick={ ***REMOVED*** }
+					onClick={ handleOnPickerOpen }
 					isNone={ ! value }
 					isTransparent={ value === 'transparent' }
 				/>
 			</VStack>
 			{ isPickerOpen && (
-				<Popover placement="left-start" shift offset={ 36 } onClose={ ***REMOVED*** }>
+				<Popover placement="left-start" shift offset={ 36 } onClose={ handleOnPickerClose }>
 					<Spacer padding={ 4 } marginBottom={ 0 }>
 						<ColorPalette
 							colors={ [ ...colors, ...colorsProp ] }
 							value={ value || '' }
-							onChange={ ***REMOVED*** }
+							onChange={ handleOnChange }
 						/>
 					</Spacer>
 				</Popover>

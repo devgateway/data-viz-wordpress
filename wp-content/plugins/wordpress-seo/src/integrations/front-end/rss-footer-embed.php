@@ -30,7 +30,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Sets the required helpers.
 	 *
-	 * @***REMOVED*** It only handles dependencies.
+	 * @codeCoverageIgnore It only handles dependencies.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */
@@ -152,7 +152,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Retrieves the replacement variables.
 	 *
-	 * @***REMOVED*** It just contains too much WordPress functions.
+	 * @codeCoverageIgnore It just contains too much WordPress functions.
 	 *
 	 * @param string $link_template The link template.
 	 * @param mixed  $post          The post to use.

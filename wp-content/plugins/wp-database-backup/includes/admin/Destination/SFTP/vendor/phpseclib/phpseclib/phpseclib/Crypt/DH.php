@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP (EC)DH ***REMOVED***
+ * Pure-PHP (EC)DH implementation
  *
  * PHP version 5
  *
@@ -28,12 +28,12 @@ use phpseclib3\Crypt\Common\AsymmetricKey;
 use phpseclib3\Crypt\DH\Parameters;
 use phpseclib3\Crypt\DH\PrivateKey;
 use phpseclib3\Crypt\DH\PublicKey;
-use phpseclib3\Exception\***REMOVED***;
+use phpseclib3\Exception\NoKeyLoadedException;
 use phpseclib3\Exception\UnsupportedOperationException;
 use phpseclib3\Math\BigInteger;
 
 /**
- * Pure-PHP (EC)DH ***REMOVED***
+ * Pure-PHP (EC)DH implementation
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -79,11 +79,11 @@ abstract class DH extends AsymmetricKey
      *
      * @return Parameters
      */
-    public static function ***REMOVED***(...$args)
+    public static function createParameters(...$args)
     {
-        $class = new \***REMOVED***(static::class);
+        $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
-            throw new \***REMOVED***('***REMOVED***() should not be called from final classes (' . static::class . ')');
+            throw new \RuntimeException('createParameters() should not be called from final classes (' . static::class . ')');
         }
 
         $params = new Parameters();
@@ -247,9 +247,9 @@ abstract class DH extends AsymmetricKey
      */
     public static function createKey(Parameters $params, $length = 0)
     {
-        $class = new \***REMOVED***(static::class);
+        $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
-            throw new \***REMOVED***('createKey() should not be called from final classes (' . static::class . ')');
+            throw new \RuntimeException('createKey() should not be called from final classes (' . static::class . ')');
         }
 
         $one = new BigInteger(1);
@@ -333,7 +333,7 @@ abstract class DH extends AsymmetricKey
     {
         try {
             return EC::load($key, $password);
-        } catch (***REMOVED*** $e) {
+        } catch (NoKeyLoadedException $e) {
         }
 
         return parent::load($key, $password);
@@ -397,9 +397,9 @@ abstract class DH extends AsymmetricKey
      */
     public function getParameters()
     {
-        $type = DH::***REMOVED***('Keys', 'PKCS1', '***REMOVED***');
+        $type = DH::validatePlugin('Keys', 'PKCS1', 'saveParameters');
 
-        $key = $type::***REMOVED***($this->prime, $this->base);
+        $key = $type::saveParameters($this->prime, $this->base);
         return DH::load($key, 'PKCS1');
     }
 }

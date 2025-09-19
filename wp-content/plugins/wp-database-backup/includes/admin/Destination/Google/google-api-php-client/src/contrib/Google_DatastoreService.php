@@ -18,8 +18,8 @@
    * The "datasets" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_DatastoreService(...);
-   *   $datasets = $***REMOVED***->datasets;
+   *   $datastoreService = new Google_DatastoreService(...);
+   *   $datasets = $datastoreService->datasets;
    *  </code>
    */
   class Google_DatasetsServiceResource extends Google_ServiceResource {
@@ -44,17 +44,17 @@
       }
     }
     /**
-     * Begin a new transaction. (datasets.***REMOVED***)
+     * Begin a new transaction. (datasets.beginTransaction)
      *
      * @param string $datasetId Identifies the dataset.
      * @param Google_BeginTransactionRequest $postBody
      * @param array $optParams Optional parameters.
      * @return Google_BeginTransactionResponse
      */
-    public function ***REMOVED***($datasetId, Google_BeginTransactionRequest $postBody, $optParams = array()) {
+    public function beginTransaction($datasetId, Google_BeginTransactionRequest $postBody, $optParams = array()) {
       $params = array('datasetId' => $datasetId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('beginTransaction', array($params));
       if ($this->useObjects()) {
         return new Google_BeginTransactionResponse($data);
       } else {
@@ -170,7 +170,7 @@
 class Google_DatastoreService extends Google_Service {
   public $datasets;
   /**
-   * Constructs the internal ***REMOVED*** of the Datastore service.
+   * Constructs the internal representation of the Datastore service.
    *
    * @param Google_Client $client
    */
@@ -180,7 +180,7 @@ class Google_DatastoreService extends Google_Service {
     $this->serviceName = 'datastore';
 
     $client->addService($this->serviceName, $this->version);
-    $this->datasets = new Google_DatasetsServiceResource($this, $this->serviceName, 'datasets', json_decode('{"methods": {"allocateIds": {"id": "datastore.datasets.allocateIds", "path": "{datasetId}/allocateIds", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "***REMOVED***": {"id": "datastore.datasets.***REMOVED***", "path": "{datasetId}/***REMOVED***", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "BeginTransactionRequest"}, "response": {"$ref": "BeginTransactionResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "blindWrite": {"id": "datastore.datasets.blindWrite", "path": "{datasetId}/blindWrite", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "commit": {"id": "datastore.datasets.commit", "path": "{datasetId}/commit", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "CommitRequest"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "lookup": {"id": "datastore.datasets.lookup", "path": "{datasetId}/lookup", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "LookupRequest"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "rollback": {"id": "datastore.datasets.rollback", "path": "{datasetId}/rollback", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "runQuery": {"id": "datastore.datasets.runQuery", "path": "{datasetId}/runQuery", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}}}', true));
+    $this->datasets = new Google_DatasetsServiceResource($this, $this->serviceName, 'datasets', json_decode('{"methods": {"allocateIds": {"id": "datastore.datasets.allocateIds", "path": "{datasetId}/allocateIds", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "AllocateIdsRequest"}, "response": {"$ref": "AllocateIdsResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "beginTransaction": {"id": "datastore.datasets.beginTransaction", "path": "{datasetId}/beginTransaction", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "BeginTransactionRequest"}, "response": {"$ref": "BeginTransactionResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "blindWrite": {"id": "datastore.datasets.blindWrite", "path": "{datasetId}/blindWrite", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "BlindWriteRequest"}, "response": {"$ref": "BlindWriteResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "commit": {"id": "datastore.datasets.commit", "path": "{datasetId}/commit", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "CommitRequest"}, "response": {"$ref": "CommitResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "lookup": {"id": "datastore.datasets.lookup", "path": "{datasetId}/lookup", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "LookupRequest"}, "response": {"$ref": "LookupResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "rollback": {"id": "datastore.datasets.rollback", "path": "{datasetId}/rollback", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "RollbackRequest"}, "response": {"$ref": "RollbackResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}, "runQuery": {"id": "datastore.datasets.runQuery", "path": "{datasetId}/runQuery", "httpMethod": "POST", "parameters": {"datasetId": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "RunQueryRequest"}, "response": {"$ref": "RunQueryResponse"}, "scopes": ["https://www.googleapis.com/auth/userinfo.email"]}}}', true));
 
   }
 }
@@ -221,12 +221,12 @@ class Google_AllocateIdsResponse extends Google_Model {
 }
 
 class Google_BeginTransactionRequest extends Google_Model {
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $isolationLevel;
+  public function setIsolationLevel( $isolationLevel) {
+    $this->isolationLevel = $isolationLevel;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIsolationLevel() {
+    return $this->isolationLevel;
   }
 }
 
@@ -239,10 +239,10 @@ class Google_BeginTransactionResponse extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $transaction) {
+  public function setTransaction( $transaction) {
     $this->transaction = $transaction;
   }
-  public function ***REMOVED***() {
+  public function getTransaction() {
     return $this->transaction;
   }
 }
@@ -263,18 +263,18 @@ class Google_BlindWriteResponse extends Google_Model {
   public $kind;
   protected $__mutationResultType = 'Google_MutationResult';
   protected $__mutationResultDataType = '';
-  public $***REMOVED***;
+  public $mutationResult;
   public function setKind( $kind) {
     $this->kind = $kind;
   }
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(Google_MutationResult $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMutationResult(Google_MutationResult $mutationResult) {
+    $this->mutationResult = $mutationResult;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMutationResult() {
+    return $this->mutationResult;
   }
 }
 
@@ -289,10 +289,10 @@ class Google_CommitRequest extends Google_Model {
   public function getMutation() {
     return $this->mutation;
   }
-  public function ***REMOVED***( $transaction) {
+  public function setTransaction( $transaction) {
     $this->transaction = $transaction;
   }
-  public function ***REMOVED***() {
+  public function getTransaction() {
     return $this->transaction;
   }
 }
@@ -301,18 +301,18 @@ class Google_CommitResponse extends Google_Model {
   public $kind;
   protected $__mutationResultType = 'Google_MutationResult';
   protected $__mutationResultDataType = '';
-  public $***REMOVED***;
+  public $mutationResult;
   public function setKind( $kind) {
     $this->kind = $kind;
   }
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(Google_MutationResult $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMutationResult(Google_MutationResult $mutationResult) {
+    $this->mutationResult = $mutationResult;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMutationResult() {
+    return $this->mutationResult;
   }
 }
 
@@ -377,21 +377,21 @@ class Google_EntityResult extends Google_Model {
 class Google_Filter extends Google_Model {
   protected $__compositeFilterType = 'Google_CompositeFilter';
   protected $__compositeFilterDataType = '';
-  public $***REMOVED***;
+  public $compositeFilter;
   protected $__propertyFilterType = 'Google_PropertyFilter';
   protected $__propertyFilterDataType = '';
-  public $***REMOVED***;
-  public function ***REMOVED***(Google_CompositeFilter $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $propertyFilter;
+  public function setCompositeFilter(Google_CompositeFilter $compositeFilter) {
+    $this->compositeFilter = $compositeFilter;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getCompositeFilter() {
+    return $this->compositeFilter;
   }
-  public function ***REMOVED***(Google_PropertyFilter $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPropertyFilter(Google_PropertyFilter $propertyFilter) {
+    $this->propertyFilter = $propertyFilter;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPropertyFilter() {
+    return $this->propertyFilter;
   }
 }
 
@@ -402,10 +402,10 @@ class Google_Key extends Google_Model {
   protected $__pathType = 'Google_KeyPathElement';
   protected $__pathDataType = 'array';
   public $path;
-  public function ***REMOVED***(Google_PartitionId $partitionId) {
+  public function setPartitionId(Google_PartitionId $partitionId) {
     $this->partitionId = $partitionId;
   }
-  public function ***REMOVED***() {
+  public function getPartitionId() {
     return $this->partitionId;
   }
   public function setPath(/* array(Google_KeyPathElement) */ $path) {
@@ -465,10 +465,10 @@ class Google_LookupRequest extends Google_Model {
   public function getKeys() {
     return $this->keys;
   }
-  public function ***REMOVED***(Google_ReadOptions $readOptions) {
+  public function setReadOptions(Google_ReadOptions $readOptions) {
     $this->readOptions = $readOptions;
   }
-  public function ***REMOVED***() {
+  public function getReadOptions() {
     return $this->readOptions;
   }
 }
@@ -550,11 +550,11 @@ class Google_Mutation extends Google_Model {
   public function getInsert() {
     return $this->insert;
   }
-  public function ***REMOVED***(/* array(Google_Entity) */ $insertAutoId) {
+  public function setInsertAutoId(/* array(Google_Entity) */ $insertAutoId) {
     $this->assertIsArray($insertAutoId, 'Google_Entity', __METHOD__);
     $this->insertAutoId = $insertAutoId;
   }
-  public function ***REMOVED***() {
+  public function getInsertAutoId() {
     return $this->insertAutoId;
   }
   public function setUpdate(/* array(Google_Entity) */ $update) {
@@ -577,19 +577,19 @@ class Google_MutationResult extends Google_Model {
   public $indexUpdates;
   protected $__insertAutoIdKeysType = 'Google_Key';
   protected $__insertAutoIdKeysDataType = 'array';
-  public $***REMOVED***;
-  public function ***REMOVED***( $indexUpdates) {
+  public $insertAutoIdKeys;
+  public function setIndexUpdates( $indexUpdates) {
     $this->indexUpdates = $indexUpdates;
   }
-  public function ***REMOVED***() {
+  public function getIndexUpdates() {
     return $this->indexUpdates;
   }
-  public function ***REMOVED***(/* array(Google_Key) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_Key', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setInsertAutoIdKeys(/* array(Google_Key) */ $insertAutoIdKeys) {
+    $this->assertIsArray($insertAutoIdKeys, 'Google_Key', __METHOD__);
+    $this->insertAutoIdKeys = $insertAutoIdKeys;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getInsertAutoIdKeys() {
+    return $this->insertAutoIdKeys;
   }
 }
 
@@ -631,15 +631,15 @@ class Google_Property extends Google_Model {
 }
 
 class Google_PropertyExpression extends Google_Model {
-  public $***REMOVED***;
+  public $aggregationFunction;
   protected $__propertyType = 'Google_PropertyReference';
   protected $__propertyDataType = '';
   public $property;
-  public function setAggregationFunction( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setAggregationFunction( $aggregationFunction) {
+    $this->aggregationFunction = $aggregationFunction;
   }
   public function getAggregationFunction() {
-    return $this->***REMOVED***;
+    return $this->aggregationFunction;
   }
   public function setProperty(Google_PropertyReference $property) {
     $this->property = $property;
@@ -778,78 +778,78 @@ class Google_Query extends Google_Model {
   public function getProjection() {
     return $this->projection;
   }
-  public function ***REMOVED***( $startCursor) {
+  public function setStartCursor( $startCursor) {
     $this->startCursor = $startCursor;
   }
-  public function ***REMOVED***() {
+  public function getStartCursor() {
     return $this->startCursor;
   }
 }
 
 class Google_QueryResultBatch extends Google_Model {
   public $endCursor;
-  public $***REMOVED***;
+  public $entityResultType;
   protected $__entityResultsType = 'Google_EntityResult';
   protected $__entityResultsDataType = 'array';
   public $entityResults;
   public $moreResults;
-  public $***REMOVED***;
+  public $skippedResults;
   public function setEndCursor( $endCursor) {
     $this->endCursor = $endCursor;
   }
   public function getEndCursor() {
     return $this->endCursor;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setEntityResultType( $entityResultType) {
+    $this->entityResultType = $entityResultType;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getEntityResultType() {
+    return $this->entityResultType;
   }
-  public function ***REMOVED***(/* array(Google_EntityResult) */ $entityResults) {
+  public function setEntityResults(/* array(Google_EntityResult) */ $entityResults) {
     $this->assertIsArray($entityResults, 'Google_EntityResult', __METHOD__);
     $this->entityResults = $entityResults;
   }
-  public function ***REMOVED***() {
+  public function getEntityResults() {
     return $this->entityResults;
   }
-  public function ***REMOVED***( $moreResults) {
+  public function setMoreResults( $moreResults) {
     $this->moreResults = $moreResults;
   }
-  public function ***REMOVED***() {
+  public function getMoreResults() {
     return $this->moreResults;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSkippedResults( $skippedResults) {
+    $this->skippedResults = $skippedResults;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSkippedResults() {
+    return $this->skippedResults;
   }
 }
 
 class Google_ReadOptions extends Google_Model {
-  public $***REMOVED***;
+  public $readConsistency;
   public $transaction;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setReadConsistency( $readConsistency) {
+    $this->readConsistency = $readConsistency;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getReadConsistency() {
+    return $this->readConsistency;
   }
-  public function ***REMOVED***( $transaction) {
+  public function setTransaction( $transaction) {
     $this->transaction = $transaction;
   }
-  public function ***REMOVED***() {
+  public function getTransaction() {
     return $this->transaction;
   }
 }
 
 class Google_RollbackRequest extends Google_Model {
   public $transaction;
-  public function ***REMOVED***( $transaction) {
+  public function setTransaction( $transaction) {
     $this->transaction = $transaction;
   }
-  public function ***REMOVED***() {
+  public function getTransaction() {
     return $this->transaction;
   }
 }
@@ -874,10 +874,10 @@ class Google_RunQueryRequest extends Google_Model {
   protected $__readOptionsType = 'Google_ReadOptions';
   protected $__readOptionsDataType = '';
   public $readOptions;
-  public function ***REMOVED***(Google_PartitionId $partitionId) {
+  public function setPartitionId(Google_PartitionId $partitionId) {
     $this->partitionId = $partitionId;
   }
-  public function ***REMOVED***() {
+  public function getPartitionId() {
     return $this->partitionId;
   }
   public function setQuery(Google_Query $query) {
@@ -886,10 +886,10 @@ class Google_RunQueryRequest extends Google_Model {
   public function getQuery() {
     return $this->query;
   }
-  public function ***REMOVED***(Google_ReadOptions $readOptions) {
+  public function setReadOptions(Google_ReadOptions $readOptions) {
     $this->readOptions = $readOptions;
   }
-  public function ***REMOVED***() {
+  public function getReadOptions() {
     return $this->readOptions;
   }
 }
@@ -929,10 +929,10 @@ class Google_Value extends Google_Model {
   public $keyValue;
   public $meaning;
   public $stringValue;
-  public function ***REMOVED***( $blobKeyValue) {
+  public function setBlobKeyValue( $blobKeyValue) {
     $this->blobKeyValue = $blobKeyValue;
   }
-  public function ***REMOVED***() {
+  public function getBlobKeyValue() {
     return $this->blobKeyValue;
   }
   public function setBlobValue( $blobValue) {
@@ -941,28 +941,28 @@ class Google_Value extends Google_Model {
   public function getBlobValue() {
     return $this->blobValue;
   }
-  public function ***REMOVED***( $booleanValue) {
+  public function setBooleanValue( $booleanValue) {
     $this->booleanValue = $booleanValue;
   }
-  public function ***REMOVED***() {
+  public function getBooleanValue() {
     return $this->booleanValue;
   }
-  public function ***REMOVED***( $dateTimeValue) {
+  public function setDateTimeValue( $dateTimeValue) {
     $this->dateTimeValue = $dateTimeValue;
   }
-  public function ***REMOVED***() {
+  public function getDateTimeValue() {
     return $this->dateTimeValue;
   }
-  public function ***REMOVED***( $doubleValue) {
+  public function setDoubleValue( $doubleValue) {
     $this->doubleValue = $doubleValue;
   }
-  public function ***REMOVED***() {
+  public function getDoubleValue() {
     return $this->doubleValue;
   }
-  public function ***REMOVED***(Google_Entity $entityValue) {
+  public function setEntityValue(Google_Entity $entityValue) {
     $this->entityValue = $entityValue;
   }
-  public function ***REMOVED***() {
+  public function getEntityValue() {
     return $this->entityValue;
   }
   public function setIndexed( $indexed) {
@@ -971,10 +971,10 @@ class Google_Value extends Google_Model {
   public function getIndexed() {
     return $this->indexed;
   }
-  public function ***REMOVED***( $integerValue) {
+  public function setIntegerValue( $integerValue) {
     $this->integerValue = $integerValue;
   }
-  public function ***REMOVED***() {
+  public function getIntegerValue() {
     return $this->integerValue;
   }
   public function setKeyValue(Google_Key $keyValue) {
@@ -989,10 +989,10 @@ class Google_Value extends Google_Model {
   public function getMeaning() {
     return $this->meaning;
   }
-  public function ***REMOVED***( $stringValue) {
+  public function setStringValue( $stringValue) {
     $this->stringValue = $stringValue;
   }
-  public function ***REMOVED***() {
+  public function getStringValue() {
     return $this->stringValue;
   }
 }

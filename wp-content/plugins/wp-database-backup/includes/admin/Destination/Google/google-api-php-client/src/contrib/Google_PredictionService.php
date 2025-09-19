@@ -18,8 +18,8 @@
    * The "hostedmodels" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_PredictionService(...);
-   *   $hostedmodels = $***REMOVED***->hostedmodels;
+   *   $predictionService = new Google_PredictionService(...);
+   *   $hostedmodels = $predictionService->hostedmodels;
    *  </code>
    */
   class Google_HostedmodelsServiceResource extends Google_ServiceResource {
@@ -28,13 +28,13 @@
      * Submit input and request an output against a hosted model. (hostedmodels.predict)
      *
      * @param string $project The project associated with the model.
-     * @param string $***REMOVED*** The name of a hosted model.
+     * @param string $hostedModelName The name of a hosted model.
      * @param Google_Input $postBody
      * @param array $optParams Optional parameters.
      * @return Google_Output
      */
-    public function predict($project, $***REMOVED***, Google_Input $postBody, $optParams = array()) {
-      $params = array('project' => $project, '***REMOVED***' => $***REMOVED***, 'postBody' => $postBody);
+    public function predict($project, $hostedModelName, Google_Input $postBody, $optParams = array()) {
+      $params = array('project' => $project, 'hostedModelName' => $hostedModelName, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('predict', array($params));
       if ($this->useObjects()) {
@@ -49,8 +49,8 @@
    * The "trainedmodels" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_PredictionService(...);
-   *   $trainedmodels = $***REMOVED***->trainedmodels;
+   *   $predictionService = new Google_PredictionService(...);
+   *   $trainedmodels = $predictionService->trainedmodels;
    *  </code>
    */
   class Google_TrainedmodelsServiceResource extends Google_ServiceResource {
@@ -132,7 +132,7 @@
      * @opt_param string pageToken Pagination token.
      * @return Google_PredictionList
      */
-    public function ***REMOVED***($project, $optParams = array()) {
+    public function listTrainedmodels($project, $optParams = array()) {
       $params = array('project' => $project);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -200,7 +200,7 @@ class Google_PredictionService extends Google_Service {
   public $hostedmodels;
   public $trainedmodels;
   /**
-   * Constructs the internal ***REMOVED*** of the Prediction service.
+   * Constructs the internal representation of the Prediction service.
    *
    * @param Google_Client $client
    */
@@ -210,7 +210,7 @@ class Google_PredictionService extends Google_Service {
     $this->serviceName = 'prediction';
 
     $client->addService($this->serviceName, $this->version);
-    $this->hostedmodels = new Google_HostedmodelsServiceResource($this, $this->serviceName, 'hostedmodels', json_decode('{"methods": {"predict": {"id": "prediction.hostedmodels.predict", "path": "{project}/hostedmodels/{***REMOVED***}/predict", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Input"}, "response": {"$ref": "Output"}, "scopes": ["https://www.googleapis.com/auth/prediction"]}}}', true));
+    $this->hostedmodels = new Google_HostedmodelsServiceResource($this, $this->serviceName, 'hostedmodels', json_decode('{"methods": {"predict": {"id": "prediction.hostedmodels.predict", "path": "{project}/hostedmodels/{hostedModelName}/predict", "httpMethod": "POST", "parameters": {"hostedModelName": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Input"}, "response": {"$ref": "Output"}, "scopes": ["https://www.googleapis.com/auth/prediction"]}}}', true));
     $this->trainedmodels = new Google_TrainedmodelsServiceResource($this, $this->serviceName, 'trainedmodels', json_decode('{"methods": {"analyze": {"id": "prediction.trainedmodels.analyze", "path": "{project}/trainedmodels/{id}/analyze", "httpMethod": "GET", "parameters": {"id": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Analyze"}, "scopes": ["https://www.googleapis.com/auth/prediction"]}, "delete": {"id": "prediction.trainedmodels.delete", "path": "{project}/trainedmodels/{id}", "httpMethod": "DELETE", "parameters": {"id": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/prediction"]}, "get": {"id": "prediction.trainedmodels.get", "path": "{project}/trainedmodels/{id}", "httpMethod": "GET", "parameters": {"id": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Insert2"}, "scopes": ["https://www.googleapis.com/auth/prediction"]}, "insert": {"id": "prediction.trainedmodels.insert", "path": "{project}/trainedmodels", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Insert"}, "response": {"$ref": "Insert2"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write", "https://www.googleapis.com/auth/prediction"]}, "list": {"id": "prediction.trainedmodels.list", "path": "{project}/trainedmodels/list", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "List"}, "scopes": ["https://www.googleapis.com/auth/prediction"]}, "predict": {"id": "prediction.trainedmodels.predict", "path": "{project}/trainedmodels/{id}/predict", "httpMethod": "POST", "parameters": {"id": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Input"}, "response": {"$ref": "Output"}, "scopes": ["https://www.googleapis.com/auth/prediction"]}, "update": {"id": "prediction.trainedmodels.update", "path": "{project}/trainedmodels/{id}", "httpMethod": "PUT", "parameters": {"id": {"type": "string", "required": true, "location": "path"}, "project": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Update"}, "response": {"$ref": "Insert2"}, "scopes": ["https://www.googleapis.com/auth/prediction"]}}}', true));
 
   }
@@ -221,19 +221,19 @@ class Google_PredictionService extends Google_Service {
 class Google_Analyze extends Google_Model {
   protected $__dataDescriptionType = 'Google_AnalyzeDataDescription';
   protected $__dataDescriptionDataType = '';
-  public $***REMOVED***;
+  public $dataDescription;
   public $errors;
   public $id;
   public $kind;
   protected $__modelDescriptionType = 'Google_AnalyzeModelDescription';
   protected $__modelDescriptionDataType = '';
-  public $***REMOVED***;
+  public $modelDescription;
   public $selfLink;
-  public function ***REMOVED***(Google_AnalyzeDataDescription $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDataDescription(Google_AnalyzeDataDescription $dataDescription) {
+    $this->dataDescription = $dataDescription;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDataDescription() {
+    return $this->dataDescription;
   }
   public function setErrors(/* array(Google_string) */ $errors) {
     $this->assertIsArray($errors, 'Google_string', __METHOD__);
@@ -254,11 +254,11 @@ class Google_Analyze extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(Google_AnalyzeModelDescription $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setModelDescription(Google_AnalyzeModelDescription $modelDescription) {
+    $this->modelDescription = $modelDescription;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getModelDescription() {
+    return $this->modelDescription;
   }
   public function setSelfLink( $selfLink) {
     $this->selfLink = $selfLink;
@@ -282,10 +282,10 @@ class Google_AnalyzeDataDescription extends Google_Model {
   public function getFeatures() {
     return $this->features;
   }
-  public function ***REMOVED***(Google_AnalyzeDataDescriptionOutputFeature $outputFeature) {
+  public function setOutputFeature(Google_AnalyzeDataDescriptionOutputFeature $outputFeature) {
     $this->outputFeature = $outputFeature;
   }
-  public function ***REMOVED***() {
+  public function getOutputFeature() {
     return $this->outputFeature;
   }
 }
@@ -301,10 +301,10 @@ class Google_AnalyzeDataDescriptionFeatures extends Google_Model {
   protected $__textType = 'Google_AnalyzeDataDescriptionFeaturesText';
   protected $__textDataType = '';
   public $text;
-  public function ***REMOVED***(Google_AnalyzeDataDescriptionFeaturesCategorical $categorical) {
+  public function setCategorical(Google_AnalyzeDataDescriptionFeaturesCategorical $categorical) {
     $this->categorical = $categorical;
   }
-  public function ***REMOVED***() {
+  public function getCategorical() {
     return $this->categorical;
   }
   public function setIndex( $index) {
@@ -462,16 +462,16 @@ class Google_AnalyzeDataDescriptionOutputFeatureText extends Google_Model {
 }
 
 class Google_AnalyzeModelDescription extends Google_Model {
-  public $***REMOVED***;
+  public $confusionMatrix;
   public $confusionMatrixRowTotals;
   protected $__modelinfoType = 'Google_Insert2';
   protected $__modelinfoDataType = '';
   public $modelinfo;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setConfusionMatrix( $confusionMatrix) {
+    $this->confusionMatrix = $confusionMatrix;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getConfusionMatrix() {
+    return $this->confusionMatrix;
   }
   public function setConfusionMatrixRowTotals( $confusionMatrixRowTotals) {
     $this->confusionMatrixRowTotals = $confusionMatrixRowTotals;
@@ -501,11 +501,11 @@ class Google_Input extends Google_Model {
 
 class Google_InputInput extends Google_Model {
   public $csvInstance;
-  public function ***REMOVED***(/* array(Google_object) */ $csvInstance) {
+  public function setCsvInstance(/* array(Google_object) */ $csvInstance) {
     $this->assertIsArray($csvInstance, 'Google_object', __METHOD__);
     $this->csvInstance = $csvInstance;
   }
-  public function ***REMOVED***() {
+  public function getCsvInstance() {
     return $this->csvInstance;
   }
 }
@@ -514,12 +514,12 @@ class Google_Insert extends Google_Model {
   public $id;
   public $modelType;
   public $sourceModel;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $storageDataLocation;
+  public $storagePMMLLocation;
   public $storagePMMLModelLocation;
   protected $__trainingInstancesType = 'Google_InsertTrainingInstances';
   protected $__trainingInstancesDataType = 'array';
-  public $***REMOVED***;
+  public $trainingInstances;
   public $utility;
   public function setId( $id) {
     $this->id = $id;
@@ -533,23 +533,23 @@ class Google_Insert extends Google_Model {
   public function getModelType() {
     return $this->modelType;
   }
-  public function ***REMOVED***( $sourceModel) {
+  public function setSourceModel( $sourceModel) {
     $this->sourceModel = $sourceModel;
   }
-  public function ***REMOVED***() {
+  public function getSourceModel() {
     return $this->sourceModel;
   }
-  public function setStorageDataLocation( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStorageDataLocation( $storageDataLocation) {
+    $this->storageDataLocation = $storageDataLocation;
   }
   public function getStorageDataLocation() {
-    return $this->***REMOVED***;
+    return $this->storageDataLocation;
   }
-  public function setStoragePMMLLocation( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStoragePMMLLocation( $storagePMMLLocation) {
+    $this->storagePMMLLocation = $storagePMMLLocation;
   }
   public function getStoragePMMLLocation() {
-    return $this->***REMOVED***;
+    return $this->storagePMMLLocation;
   }
   public function setStoragePMMLModelLocation( $storagePMMLModelLocation) {
     $this->storagePMMLModelLocation = $storagePMMLModelLocation;
@@ -557,12 +557,12 @@ class Google_Insert extends Google_Model {
   public function getStoragePMMLModelLocation() {
     return $this->storagePMMLModelLocation;
   }
-  public function ***REMOVED***(/* array(Google_InsertTrainingInstances) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_InsertTrainingInstances', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTrainingInstances(/* array(Google_InsertTrainingInstances) */ $trainingInstances) {
+    $this->assertIsArray($trainingInstances, 'Google_InsertTrainingInstances', __METHOD__);
+    $this->trainingInstances = $trainingInstances;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTrainingInstances() {
+    return $this->trainingInstances;
   }
   public function setUtility(/* array(Google_double) */ $utility) {
     $this->assertIsArray($utility, 'Google_double', __METHOD__);
@@ -582,11 +582,11 @@ class Google_Insert2 extends Google_Model {
   public $modelInfo;
   public $modelType;
   public $selfLink;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $storageDataLocation;
+  public $storagePMMLLocation;
   public $storagePMMLModelLocation;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $trainingComplete;
+  public $trainingStatus;
   public function setCreated( $created) {
     $this->created = $created;
   }
@@ -623,17 +623,17 @@ class Google_Insert2 extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function setStorageDataLocation( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStorageDataLocation( $storageDataLocation) {
+    $this->storageDataLocation = $storageDataLocation;
   }
   public function getStorageDataLocation() {
-    return $this->***REMOVED***;
+    return $this->storageDataLocation;
   }
-  public function setStoragePMMLLocation( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setStoragePMMLLocation( $storagePMMLLocation) {
+    $this->storagePMMLLocation = $storagePMMLLocation;
   }
   public function getStoragePMMLLocation() {
-    return $this->***REMOVED***;
+    return $this->storagePMMLLocation;
   }
   public function setStoragePMMLModelLocation( $storagePMMLModelLocation) {
     $this->storagePMMLModelLocation = $storagePMMLModelLocation;
@@ -641,26 +641,26 @@ class Google_Insert2 extends Google_Model {
   public function getStoragePMMLModelLocation() {
     return $this->storagePMMLModelLocation;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTrainingComplete( $trainingComplete) {
+    $this->trainingComplete = $trainingComplete;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTrainingComplete() {
+    return $this->trainingComplete;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setTrainingStatus( $trainingStatus) {
+    $this->trainingStatus = $trainingStatus;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getTrainingStatus() {
+    return $this->trainingStatus;
   }
 }
 
 class Google_Insert2ModelInfo extends Google_Model {
   public $classWeightedAccuracy;
   public $classificationAccuracy;
-  public $***REMOVED***;
+  public $meanSquaredError;
   public $modelType;
-  public $***REMOVED***;
+  public $numberInstances;
   public $numberLabels;
   public function setClassWeightedAccuracy( $classWeightedAccuracy) {
     $this->classWeightedAccuracy = $classWeightedAccuracy;
@@ -674,11 +674,11 @@ class Google_Insert2ModelInfo extends Google_Model {
   public function getClassificationAccuracy() {
     return $this->classificationAccuracy;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMeanSquaredError( $meanSquaredError) {
+    $this->meanSquaredError = $meanSquaredError;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMeanSquaredError() {
+    return $this->meanSquaredError;
   }
   public function setModelType( $modelType) {
     $this->modelType = $modelType;
@@ -686,16 +686,16 @@ class Google_Insert2ModelInfo extends Google_Model {
   public function getModelType() {
     return $this->modelType;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumberInstances( $numberInstances) {
+    $this->numberInstances = $numberInstances;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNumberInstances() {
+    return $this->numberInstances;
   }
-  public function ***REMOVED***( $numberLabels) {
+  public function setNumberLabels( $numberLabels) {
     $this->numberLabels = $numberLabels;
   }
-  public function ***REMOVED***() {
+  public function getNumberLabels() {
     return $this->numberLabels;
   }
 }
@@ -703,11 +703,11 @@ class Google_Insert2ModelInfo extends Google_Model {
 class Google_InsertTrainingInstances extends Google_Model {
   public $csvInstance;
   public $output;
-  public function ***REMOVED***(/* array(Google_object) */ $csvInstance) {
+  public function setCsvInstance(/* array(Google_object) */ $csvInstance) {
     $this->assertIsArray($csvInstance, 'Google_object', __METHOD__);
     $this->csvInstance = $csvInstance;
   }
-  public function ***REMOVED***() {
+  public function getCsvInstance() {
     return $this->csvInstance;
   }
   public function setOutput( $output) {
@@ -739,23 +739,23 @@ class Google_Output extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $outputLabel) {
+  public function setOutputLabel( $outputLabel) {
     $this->outputLabel = $outputLabel;
   }
-  public function ***REMOVED***() {
+  public function getOutputLabel() {
     return $this->outputLabel;
   }
-  public function ***REMOVED***(/* array(Google_OutputOutputMulti) */ $outputMulti) {
+  public function setOutputMulti(/* array(Google_OutputOutputMulti) */ $outputMulti) {
     $this->assertIsArray($outputMulti, 'Google_OutputOutputMulti', __METHOD__);
     $this->outputMulti = $outputMulti;
   }
-  public function ***REMOVED***() {
+  public function getOutputMulti() {
     return $this->outputMulti;
   }
-  public function ***REMOVED***( $outputValue) {
+  public function setOutputValue( $outputValue) {
     $this->outputValue = $outputValue;
   }
-  public function ***REMOVED***() {
+  public function getOutputValue() {
     return $this->outputValue;
   }
   public function setSelfLink( $selfLink) {
@@ -803,10 +803,10 @@ class Google_PredictionList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setSelfLink( $selfLink) {
@@ -820,11 +820,11 @@ class Google_PredictionList extends Google_Model {
 class Google_Update extends Google_Model {
   public $csvInstance;
   public $output;
-  public function ***REMOVED***(/* array(Google_object) */ $csvInstance) {
+  public function setCsvInstance(/* array(Google_object) */ $csvInstance) {
     $this->assertIsArray($csvInstance, 'Google_object', __METHOD__);
     $this->csvInstance = $csvInstance;
   }
-  public function ***REMOVED***() {
+  public function getCsvInstance() {
     return $this->csvInstance;
   }
   public function setOutput( $output) {

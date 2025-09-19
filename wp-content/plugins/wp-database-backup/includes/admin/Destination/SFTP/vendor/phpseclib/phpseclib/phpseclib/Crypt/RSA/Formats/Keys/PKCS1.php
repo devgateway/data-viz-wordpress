@@ -60,21 +60,21 @@ abstract class PKCS1 extends Progenitor
 
         $decoded = ASN1::decodeBER($key);
         if (!$decoded) {
-            throw new \***REMOVED***('Unable to decode BER');
+            throw new \RuntimeException('Unable to decode BER');
         }
 
         $key = ASN1::asn1map($decoded[0], Maps\RSAPrivateKey::MAP);
         if (is_array($key)) {
             $components += [
                 'modulus' => $key['modulus'],
-                '***REMOVED***' => $key['***REMOVED***'],
-                '***REMOVED***' => $key['***REMOVED***'],
+                'publicExponent' => $key['publicExponent'],
+                'privateExponent' => $key['privateExponent'],
                 'primes' => [1 => $key['prime1'], $key['prime2']],
                 'exponents' => [1 => $key['exponent1'], $key['exponent2']],
                 'coefficients' => [2 => $key['coefficient']]
             ];
             if ($key['version'] == 'multi') {
-                foreach ($key['***REMOVED***'] as $primeInfo) {
+                foreach ($key['otherPrimeInfos'] as $primeInfo) {
                     $components['primes'][] = $primeInfo['prime'];
                     $components['exponents'][] = $primeInfo['exponent'];
                     $components['coefficients'][] = $primeInfo['coefficient'];
@@ -89,7 +89,7 @@ abstract class PKCS1 extends Progenitor
         $key = ASN1::asn1map($decoded[0], Maps\RSAPublicKey::MAP);
 
         if (!is_array($key)) {
-            throw new \***REMOVED***('Unable to perform ASN1 mapping');
+            throw new \RuntimeException('Unable to perform ASN1 mapping');
         }
 
         if (!isset($components['isPublicKey'])) {
@@ -112,14 +112,14 @@ abstract class PKCS1 extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
         $num_primes = count($primes);
         $key = [
             'version' => $num_primes == 2 ? 'two-prime' : 'multi',
             'modulus' => $n,
-            '***REMOVED***' => $e,
-            '***REMOVED***' => $d,
+            'publicExponent' => $e,
+            'privateExponent' => $d,
             'prime1' => $primes[1],
             'prime2' => $primes[2],
             'exponent1' => $exponents[1],
@@ -127,7 +127,7 @@ abstract class PKCS1 extends Progenitor
             'coefficient' => $coefficients[2]
         ];
         for ($i = 3; $i <= $num_primes; $i++) {
-            $key['***REMOVED***'][] = [
+            $key['otherPrimeInfos'][] = [
                 'prime' => $primes[$i],
                 'exponent' => $exponents[$i],
                 'coefficient' => $coefficients[$i]
@@ -136,7 +136,7 @@ abstract class PKCS1 extends Progenitor
 
         $key = ASN1::encodeDER($key, Maps\RSAPrivateKey::MAP);
 
-        return self::***REMOVED***($key, 'RSA', $password, $options);
+        return self::wrapPrivateKey($key, 'RSA', $password, $options);
     }
 
     /**
@@ -150,7 +150,7 @@ abstract class PKCS1 extends Progenitor
     {
         $key = [
             'modulus' => $n,
-            '***REMOVED***' => $e
+            'publicExponent' => $e
         ];
 
         $key = ASN1::encodeDER($key, Maps\RSAPublicKey::MAP);

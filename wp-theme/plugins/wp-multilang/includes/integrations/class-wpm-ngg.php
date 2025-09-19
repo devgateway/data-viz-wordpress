@@ -54,7 +54,7 @@ class WPM_NGG {
 
 		if ( isset( $_POST['page'] ) && 'manage-images' === $_POST['page'] ) {
 
-			if ( isset( $_POST['***REMOVED***'] ) ) {
+			if ( isset( $_POST['updatepictures'] ) ) {
 
 				check_admin_referer( 'ngg_updategallery' );
 
@@ -166,7 +166,7 @@ class WPM_NGG {
 				}
 
 				if ( '_page_nggallery-manage-gallery' === $admin_page ) {
-					if ( 'POST' === $_SERVER['REQUEST_METHOD'] && ( isset( $_POST['page'] ) && 'manage-images' === $_POST['page'] ) && isset( $_POST['***REMOVED***'] ) ) {
+					if ( 'POST' === $_SERVER['REQUEST_METHOD'] && ( isset( $_POST['page'] ) && 'manage-images' === $_POST['page'] ) && isset( $_POST['updatepictures'] ) ) {
 						$html_tags = array(
 							'value' => array(
 								'#gallery_title',

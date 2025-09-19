@@ -825,7 +825,7 @@
 		 *  This method will not run for wp.org themes (only plugins) since theme
 		 *  admin settings/options are now only allowed in the customizer.
 		 *
-		 *  If you have any questions or need ***REMOVED***, please don't hesitate
+		 *  If you have any questions or need clarifications, please don't hesitate
 		 *  pinging me on slack, my username is @svovaf.
 		 *
 		 * @author Vova Feldman (@svovaf)
@@ -928,7 +928,7 @@
 		 *  This method will not run for wp.org themes (only plugins) since theme
 		 *  admin settings/options are now only allowed in the customizer.
 		 *
-		 *  If you have any questions or need ***REMOVED***, please don't hesitate
+		 *  If you have any questions or need clarifications, please don't hesitate
 		 *  pinging me on slack, my username is @svovaf.
 		 *
 		 * @author Vova Feldman (@svovaf)

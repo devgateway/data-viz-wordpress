@@ -150,7 +150,7 @@ class ACF_Local_JSON {
 						}
 						
 						// Ignore sub directories.
-						$file = ***REMOVED***( $path ) . '/' . $filename;
+						$file = untrailingslashit( $path ) . '/' . $filename;
 						if( is_dir($file) ) {
 							continue;
 						}
@@ -204,7 +204,7 @@ class ACF_Local_JSON {
 	 */
 	public function save_file( $key, $field_group ) {
 		$path = acf_get_setting( 'save_json' );
-		$file = ***REMOVED***( $path ) . '/' . $key . '.json';
+		$file = untrailingslashit( $path ) . '/' . $key . '.json';
 		if( !is_writable($path) ) {
 			return false;
 		}
@@ -235,7 +235,7 @@ class ACF_Local_JSON {
 	 */
 	public function delete_file( $key ) {
 		$path = acf_get_setting( 'save_json' );
-		$file = ***REMOVED***( $path ) . '/' . $key . '.json';
+		$file = untrailingslashit( $path ) . '/' . $key . '.json';
 		if( is_readable($file) ) {
 			unlink( $file );
 			return true;

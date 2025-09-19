@@ -8,7 +8,7 @@ namespace Yoast\WP\SEO\Helpers;
 class Import_Helper {
 
 	/**
-	 * Flattens a ***REMOVED*** array of settings. Recursive.
+	 * Flattens a multidimensional array of settings. Recursive.
 	 *
 	 * @param array  $array_to_flatten The array to be flattened.
 	 * @param string $key_prefix       The key to be used as a prefix.

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: News blog home
- * Slug: ***REMOVED***/template-home-news-blog
+ * Slug: twentytwentyfive/template-home-news-blog
  * Template Types: front-page, index, home
  * Viewport width: 1400
  * Inserter: no
@@ -22,7 +22,7 @@
 		<div class="wp-block-columns alignwide">
 			<!-- wp:column {"width":"25%"} -->
 			<div class="wp-block-column" style="flex-basis:25%">
-				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"flex","orientation":"vertical","***REMOVED***":"stretch"}} -->
+				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
 				<div class="wp-block-group">
 					<!-- wp:query {"query":{"perPage":1,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[]}} -->
 					<div class="wp-block-query">
@@ -37,7 +37,7 @@
 						<!-- /wp:post-template -->
 						<!-- wp:query-no-results -->
 							<!-- wp:paragraph -->
-							<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', '***REMOVED***' ); ?></p>
+							<p><?php echo esc_html_x( 'Sorry, but nothing was found. Please try a search with different keywords.', 'Message explaining that there are no results returned from a search.', 'twentytwentyfive' ); ?></p>
 							<!-- /wp:paragraph -->
 						<!-- /wp:query-no-results -->
 					</div>
@@ -79,7 +79,7 @@
 			<!-- /wp:column -->
 			<!-- wp:column {"width":"25%"} -->
 			<div class="wp-block-column" style="flex-basis:25%">
-				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"flex","orientation":"vertical","***REMOVED***":"stretch"}} -->
+				<!-- wp:group {"style":{"layout":{"columnSpan":1,"rowSpan":1}},"layout":{"type":"flex","orientation":"vertical","justifyContent":"stretch"}} -->
 				<div class="wp-block-group">
 					<!-- wp:query {"query":{"perPage":1,"pages":0,"offset":"2","postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"taxQuery":null,"parents":[]}} -->
 					<div class="wp-block-query">
@@ -149,7 +149,7 @@
 			<!-- /wp:post-template -->
 			<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
 			<div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
-				<!-- wp:query-pagination {"align":"wide","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+				<!-- wp:query-pagination {"align":"wide","layout":{"type":"flex","justifyContent":"space-between"}} -->
 					<!-- wp:query-pagination-previous /-->
 					<!-- wp:query-pagination-numbers /-->
 					<!-- wp:query-pagination-next /-->

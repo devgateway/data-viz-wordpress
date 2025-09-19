@@ -36,7 +36,7 @@ abstract class JWK extends Progenitor
         $key = parent::load($key, $password);
 
         if ($key->kty != 'RSA') {
-            throw new \***REMOVED***('Only RSA JWK keys are supported');
+            throw new \RuntimeException('Only RSA JWK keys are supported');
         }
 
         $count = $publicCount = 0;
@@ -54,10 +54,10 @@ abstract class JWK extends Progenitor
                     break;
                 case 'e':
                     $publicCount++;
-                    $components['***REMOVED***'] = $value;
+                    $components['publicExponent'] = $value;
                     break;
                 case 'd':
-                    $components['***REMOVED***'] = $value;
+                    $components['privateExponent'] = $value;
                     break;
                 case 'p':
                     $components['primes'][1] = $value;
@@ -100,7 +100,7 @@ abstract class JWK extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
         if (count($primes) != 2) {
             throw new \InvalidArgumentException('JWK does not support multi-prime RSA keys');

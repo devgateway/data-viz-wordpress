@@ -59,7 +59,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	/**
 	 * Primary_Term_Watcher constructor.
 	 *
-	 * @***REMOVED*** It sets dependencies.
+	 * @codeCoverageIgnore It sets dependencies.
 	 *
 	 * @param Primary_Term_Repository $repository           The primary term repository.
 	 * @param Site_Helper             $site                 The site helper.
@@ -122,7 +122,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
 		if ( isset( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] ) && \is_string( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are casting to an integer.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting to an integer.
 			$primary_term_id = (int) \wp_unslash( $_POST[ WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term' ] );
 
 			if ( $primary_term_id <= 0 ) {

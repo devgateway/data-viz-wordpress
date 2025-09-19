@@ -16,7 +16,7 @@
   var saveClones = /^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i;
 
   /** Detect whether the browser supports default html5 styles */
-  var ***REMOVED***;
+  var supportsHtml5Styles;
 
   /** Name of the expando, to work with multiple documents or to re-shiv one document */
   var expando = '_html5shiv';
@@ -35,7 +35,7 @@
         var a = document.createElement('a');
         a.innerHTML = '<xyz></xyz>';
         //if the hidden property is implemented we can assume, that the browser supports basic HTML5 Styles
-        ***REMOVED*** = ('hidden' in a);
+        supportsHtml5Styles = ('hidden' in a);
 
         supportsUnknownElements = a.childNodes.length == 1 || (function() {
           // assign a false positive if unable to shiv
@@ -49,7 +49,7 @@
         }());
     } catch(e) {
       // assign a false positive if detection fails => unable to shiv
-      ***REMOVED*** = true;
+      supportsHtml5Styles = true;
       supportsUnknownElements = true;
     }
 
@@ -66,7 +66,7 @@
    */
   function addStyleSheet(ownerDocument, cssText) {
     var p = ownerDocument.createElement('p'),
-        parent = ownerDocument.***REMOVED***('head')[0] || ownerDocument.***REMOVED***;
+        parent = ownerDocument.getElementsByTagName('head')[0] || ownerDocument.documentElement;
 
     p.innerHTML = 'x<style>' + cssText + '</style>';
     return parent.insertBefore(p.lastChild, parent.firstChild);
@@ -106,7 +106,7 @@
    * @param {Document} ownerDocument The document.
    * @returns {Object} An object of data.
    */
-  function ***REMOVED***(ownerDocument) {
+  function getExpandoData(ownerDocument) {
     var data = expandoData[ownerDocument[expando]];
     if (!data) {
         data = {};
@@ -121,7 +121,7 @@
    * returns a shived element for the given nodeName and document
    * @memberOf html5
    * @param {String} nodeName name of the element
-   * @param {Document|***REMOVED***} ownerDocument The context document.
+   * @param {Document|DocumentFragment} ownerDocument The context document.
    * @returns {Object} The shived element.
    */
   function createElement(nodeName, ownerDocument, data){
@@ -132,7 +132,7 @@
         return ownerDocument.createElement(nodeName);
     }
     if (!data) {
-        data = ***REMOVED***(ownerDocument);
+        data = getExpandoData(ownerDocument);
     }
     var node;
 
@@ -151,14 +151,14 @@
     //   a 403 response, will cause the tab/window to crash
     // * Script elements appended to fragments will execute when their `src`
     //   or `text` property is set
-    return node.***REMOVED*** && !reSkip.test(nodeName) && !node.tagUrn ? data.frag.appendChild(node) : node;
+    return node.canHaveChildren && !reSkip.test(nodeName) && !node.tagUrn ? data.frag.appendChild(node) : node;
   }
 
   /**
-   * returns a shived ***REMOVED*** for the given document
+   * returns a shived DocumentFragment for the given document
    * @memberOf html5
    * @param {Document} ownerDocument The context document.
-   * @returns {Object} The shived ***REMOVED***.
+   * @returns {Object} The shived DocumentFragment.
    */
   function createDocumentFragment(ownerDocument, data){
     if (!ownerDocument) {
@@ -167,7 +167,7 @@
     if(supportsUnknownElements){
         return ownerDocument.createDocumentFragment();
     }
-    data = data || ***REMOVED***(ownerDocument);
+    data = data || getExpandoData(ownerDocument);
     var clone = data.frag.cloneNode(),
         i = 0,
         elems = getElements(),
@@ -181,7 +181,7 @@
   /**
    * Shivs the `createElement` and `createDocumentFragment` methods of the document.
    * @private
-   * @param {Document|***REMOVED***} ownerDocument The document.
+   * @param {Document|DocumentFragment} ownerDocument The document.
    * @param {Object} data of the document.
    */
   function shivMethods(ownerDocument, data) {
@@ -226,9 +226,9 @@
     if (!ownerDocument) {
         ownerDocument = document;
     }
-    var data = ***REMOVED***(ownerDocument);
+    var data = getExpandoData(ownerDocument);
 
-    if (html5.shivCSS && !***REMOVED*** && !data.hasCSS) {
+    if (html5.shivCSS && !supportsHtml5Styles && !data.hasCSS) {
       data.hasCSS = !!addStyleSheet(ownerDocument,
         // corrects block display not defined in IE6/7/8/9
         'article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}' +
@@ -304,7 +304,7 @@
     //creates a shived element
     createElement: createElement,
 
-    //creates a shived ***REMOVED***
+    //creates a shived documentFragment
     createDocumentFragment: createDocumentFragment,
 
     //extends list of elements

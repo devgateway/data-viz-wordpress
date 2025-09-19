@@ -58,7 +58,7 @@ msgid ""
 msgstr ""
 "<p>Durante la búsqueda y sustitución, se han realizado búsquedas en <strong>"
 "%d</strong> tablas, y se han modificado <strong>%d</strong> celdas en "
-"<strong>%d</strong> ***REMOVED***.</p><p><a href=\"%s\" class=\"thickbox\" "
+"<strong>%d</strong> actualizaciones.</p><p><a href=\"%s\" class=\"thickbox\" "
 "title=\"Detalles sobre la búsqueda y sustitución\">Haz clic aquí</a> para "
 "ver más detalles.</p>"
 

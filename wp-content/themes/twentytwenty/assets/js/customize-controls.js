@@ -1,4 +1,4 @@
-/* global ***REMOVED***, ***REMOVED***, jQuery, wp, _ */
+/* global twentyTwentyBgColors, twentyTwentyColor, jQuery, wp, _ */
 /**
  * Customizer enhancements for a better user experience.
  *
@@ -14,21 +14,21 @@
 		wp.customize( 'accent_hue', function( value ) {
 			value.bind( function( to ) {
 				// Update the value for our accessible colors for all areas.
-				Object.keys( ***REMOVED*** ).forEach( function( context ) {
-					var ***REMOVED***;
-					if ( ***REMOVED***[ context ].color ) {
-						***REMOVED*** = ***REMOVED***[ context ].color;
+				Object.keys( twentyTwentyBgColors ).forEach( function( context ) {
+					var backgroundColorValue;
+					if ( twentyTwentyBgColors[ context ].color ) {
+						backgroundColorValue = twentyTwentyBgColors[ context ].color;
 					} else {
-						***REMOVED*** = wp.customize( ***REMOVED***[ context ].setting ).get();
+						backgroundColorValue = wp.customize( twentyTwentyBgColors[ context ].setting ).get();
 					}
-					twentyTwentySetAccessibleColorsValue( context, ***REMOVED***, to );
+					twentyTwentySetAccessibleColorsValue( context, backgroundColorValue, to );
 				} );
 			} );
 		} );
 
 		// Add a listener for background-color changes.
-		Object.keys( ***REMOVED*** ).forEach( function( context ) {
-			wp.customize( ***REMOVED***[ context ].setting, function( value ) {
+		Object.keys( twentyTwentyBgColors ).forEach( function( context ) {
+			wp.customize( twentyTwentyBgColors[ context ].setting, function( value ) {
 				value.bind( function( to ) {
 					// Update the value for our accessible colors for this area.
 					twentyTwentySetAccessibleColorsValue( context, to, wp.customize( 'accent_hue' ).get(), to );
@@ -54,12 +54,12 @@
 	 * @since Twenty Twenty 1.0
 	 *
 	 * @param {string} context The area for which we want to get colors. Can be for example "content", "header" etc.
-	 * @param {string} ***REMOVED*** The background color (HEX value).
-	 * @param {number} accentHue Numeric ***REMOVED*** of the selected hue (0 - 359).
+	 * @param {string} backgroundColor The background color (HEX value).
+	 * @param {number} accentHue Numeric representation of the selected hue (0 - 359).
 	 *
 	 * @return {void}
 	 */
-	function twentyTwentySetAccessibleColorsValue( context, ***REMOVED***, accentHue ) {
+	function twentyTwentySetAccessibleColorsValue( context, backgroundColor, accentHue ) {
 		var value, colors;
 
 		// Get the current value for our accessible colors, and make sure it's an object.
@@ -67,15 +67,15 @@
 		value = ( _.isObject( value ) && ! _.isArray( value ) ) ? value : {};
 
 		// Get accessible colors for the defined background-color and hue.
-		colors = ***REMOVED***( ***REMOVED***, accentHue );
+		colors = twentyTwentyColor( backgroundColor, accentHue );
 
 		// Confidence check.
-		if ( colors.***REMOVED***() && 'function' === typeof colors.***REMOVED***().toCSS ) {
+		if ( colors.getAccentColor() && 'function' === typeof colors.getAccentColor().toCSS ) {
 			// Update the value for this context.
 			value[ context ] = {
 				text: colors.getTextColor(),
-				accent: colors.***REMOVED***().toCSS(),
-				background: ***REMOVED***
+				accent: colors.getAccentColor().toCSS(),
+				background: backgroundColor
 			};
 
 			// Get borders color.

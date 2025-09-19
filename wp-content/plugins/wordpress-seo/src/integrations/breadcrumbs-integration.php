@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Presenters\Breadcrumbs_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
- * Adds ***REMOVED*** to the front end for breadcrumbs.
+ * Adds customizations to the front end for breadcrumbs.
  */
 class Breadcrumbs_Integration implements Integration_Interface {
 
@@ -56,7 +56,7 @@ class Breadcrumbs_Integration implements Integration_Interface {
 	/**
 	 * Registers the `wpseo_breadcrumb` shortcode.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */

@@ -45,7 +45,7 @@ img {
 /* Fixes linked images */
 .entry-content a img,
 .widget a img {
-	filter: progid:***REMOVED***.Microsoft.DropShadow(OffX=0, OffY=5, Color=#ffffff);
+	filter: progid:DXImageTransform.Microsoft.DropShadow(OffX=0, OffY=5, Color=#ffffff);
 }
 
 /* Layout */
@@ -60,7 +60,7 @@ img {
 	overflow: hidden;
 }
 
-.has-header-image.***REMOVED***-front-page .custom-header,
+.has-header-image.twentyseventeen-front-page .custom-header,
 .has-header-image.home.blog .custom-header {
 	display: block;
 }
@@ -73,7 +73,7 @@ img {
 	padding: 45px 0;
 }
 
-.has-header-image.***REMOVED***-front-page .site-branding,
+.has-header-image.twentyseventeen-front-page .site-branding,
 .has-header-image.home.blog .site-branding {
 	bottom: 0;
 	display: block;
@@ -124,16 +124,16 @@ img {
 }
 
 .dropdown-toggle .svg-fallback.icon-angle-down {
-	-ms-filter: "progid:***REMOVED***.Microsoft.Matrix(M11=-1, M12=1.***REMOVED***-16, M21=-1.***REMOVED***-16, M22=-1, SizingMethod='auto expand')";
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=-1, M12=1.2246467991473532e-16, M21=-1.2246467991473532e-16, M22=-1, SizingMethod='auto expand')";
 }
 
 .dropdown-toggle.toggled-on .svg-fallback.icon-angle-down {
-	-ms-filter: "progid:***REMOVED***.Microsoft.Matrix(M11=1, M12=0, M21=0, M22=1, SizingMethod='auto expand')";
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=1, M12=0, M21=0, M22=1, SizingMethod='auto expand')";
 }
 
 /* Front Page */
 
-.***REMOVED***-front-page.has-header-image .custom-header,
+.twentyseventeen-front-page.has-header-image .custom-header,
 .blog.home.has-header-image .custom-header,
 .panel-image {
 	height: 800px;
@@ -141,12 +141,12 @@ img {
 	padding-top: 0;
 }
 
-.***REMOVED***-front-page .custom-header-media,
+.twentyseventeen-front-page .custom-header-media,
 .blog.home .custom-header-media {
 	background-position: center center;
 }
 
-.***REMOVED***-front-page.has-header-image .site-branding,
+.twentyseventeen-front-page.has-header-image .site-branding,
 .home.blog.has-header-image .site-branding {
 	bottom: 20px;
 	position: absolute;
@@ -208,7 +208,7 @@ ol.children .children {
 
 /* RTL Styles */
 
-.rtl .has-header-image.***REMOVED***-front-page .site-branding,
+.rtl .has-header-image.twentyseventeen-front-page .site-branding,
 .rtl .has-header-image.home.blog .site-branding {
 	left: auto;
 	right: 0;

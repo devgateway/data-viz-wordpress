@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.6.6\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2017-11-22 15:53+0200\n"
 "PO-Revision-Date: 2019-03-25 09:21+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
-"Language-Team: Derk Oosterveld <derk@***REMOVED***.nl>\n"
+"Language-Team: Derk Oosterveld <derk@derkoosterveld.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:67
 msgid "Advanced Custom Fields"
@@ -268,19 +268,19 @@ msgstr[1] "%s groepen gedupliceerd."
 #: includes/admin/admin-field-groups.php:227
 #, php-format
 msgid "Field group synchronised. %s"
-msgstr "Groep ***REMOVED***. %s"
+msgstr "Groep gesynchroniseerd. %s"
 
 #: includes/admin/admin-field-groups.php:231
 #, php-format
 msgid "%s field group synchronised."
 msgid_plural "%s field groups synchronised."
-msgstr[0] "%s groep ***REMOVED***."
-msgstr[1] "%s groepen ***REMOVED***."
+msgstr[0] "%s groep gesynchroniseerd."
+msgstr[1] "%s groepen gesynchroniseerd."
 
 #: includes/admin/admin-field-groups.php:394
 #: includes/admin/admin-field-groups.php:557
 msgid "Sync available"
-msgstr "***REMOVED*** beschikbaar"
+msgstr "Synchronisatie beschikbaar"
 
 #: includes/admin/admin-field-groups.php:507 includes/forms/form-front.php:38
 #: pro/fields/class-acf-field-gallery.php:355
@@ -646,7 +646,7 @@ msgstr "Hoog (onder titel)"
 
 #: includes/admin/views/field-group-options.php:46
 msgid "Normal (after content)"
-msgstr "Normaal (onder ***REMOVED***)"
+msgstr "Normaal (onder tekstverwerker)"
 
 #: includes/admin/views/field-group-options.php:47
 msgid "Side"
@@ -944,7 +944,7 @@ msgid ""
 "independently from their parents. This allows you to drag and drop fields in "
 "and out of parent fields!"
 msgstr ""
-"Het herontwerp van de ***REMOVED*** zorgt ervoor dat velden los van hun "
+"Het herontwerp van de dataverwerking zorgt ervoor dat velden los van hun "
 "hoofdvelden kunnen functioneren. Hiermee wordt het mogelijk om velden te "
 "drag-and-droppen tussen hoofdvelden."
 
@@ -972,7 +972,7 @@ msgid ""
 msgstr ""
 "Alle 4 de premium add-ons zijn samengevoegd tot een <a href=\"%s\">PRO "
 "versie van ACF</a>. Er zijn zowel persoonlijke als developer licenties "
-"verkrijgbaar tegen een ***REMOVED*** prijs!"
+"verkrijgbaar tegen een aantrekkelijke prijs!"
 
 #: includes/admin/views/settings-info.php:50
 msgid "Powerful Features"
@@ -991,7 +991,7 @@ msgstr ""
 #: includes/admin/views/settings-info.php:52
 #, php-format
 msgid "Read more about <a href=\"%s\">ACF PRO features</a>."
-msgstr "Lees meer over de <a href=\"%s\">ACF PRO ***REMOVED***</a>."
+msgstr "Lees meer over de <a href=\"%s\">ACF PRO functionaliteiten</a>."
 
 #: includes/admin/views/settings-info.php:56
 msgid "Easy Upgrading"
@@ -1036,7 +1036,7 @@ msgstr "Meer AJAX"
 #: includes/admin/views/settings-info.php:77
 msgid "More fields use AJAX powered search to speed up page loading"
 msgstr ""
-"Steeds meer velden maken gebruik van AJAX gestuurde ***REMOVED***. Dit "
+"Steeds meer velden maken gebruik van AJAX gestuurde zoekopdrachten. Dit "
 "maakt het laden een stuk sneller"
 
 #: includes/admin/views/settings-info.php:81
@@ -1139,7 +1139,7 @@ msgid ""
 "New field group functionality allows you to move a field between groups & "
 "parents"
 msgstr ""
-"Nieuwe veld groep ***REMOVED*** laat je velden tussen groepen "
+"Nieuwe veld groep functionaliteiten laat je velden tussen groepen "
 "verplaatsen."
 
 #: includes/admin/views/settings-info.php:144
@@ -1283,7 +1283,7 @@ msgstr "Afbeelding mag niet hoger zijn dan %dpx."
 #: includes/api/api-helpers.php:3929
 #, php-format
 msgid "File size must be at least %s."
-msgstr "***REMOVED*** moet tenminste %s zijn."
+msgstr "Bestandsgrootte moet tenminste %s zijn."
 
 #: includes/api/api-helpers.php:3934
 #, php-format
@@ -1684,7 +1684,7 @@ msgstr "E-mail"
 #: includes/fields/class-acf-field-textarea.php:111
 #: includes/fields/class-acf-field-url.php:109
 msgid "Placeholder Text"
-msgstr "***REMOVED*** tekst"
+msgstr "Plaatsvervangende tekst"
 
 #: includes/fields/class-acf-field-email.php:128
 #: includes/fields/class-acf-field-number.php:137
@@ -1757,7 +1757,7 @@ msgstr "Bestandsnaam"
 #: pro/fields/class-acf-field-gallery.php:690
 #: pro/fields/class-acf-field-gallery.php:719
 msgid "File size"
-msgstr "***REMOVED***"
+msgstr "Bestandsgrootte"
 
 #: includes/fields/class-acf-field-file.php:139
 #: includes/fields/class-acf-field-image.php:124
@@ -2356,7 +2356,7 @@ msgstr "Bepaal hier de output weergave"
 
 #: includes/fields/class-acf-field-separator.php:25
 msgid "Separator"
-msgstr "***REMOVED***"
+msgstr "Scheidingsteken"
 
 #: includes/fields/class-acf-field-tab.php:25
 msgid "Tab"
@@ -2612,7 +2612,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "Toon media upload buttons?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:453
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "Vertraag initialisatie?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:454
@@ -3214,8 +3214,8 @@ msgstr ""
 "\">details & prijzen</a>."
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"
@@ -3275,7 +3275,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr[1] "%d velden vragen om aandacht"
 
 #~ msgid "<b>Connection Error</b>. Sorry, please try again"
-#~ msgstr "<b>***REMOVED***</b>. Onze excuses, probeer het later nog eens"
+#~ msgstr "<b>Verbindingsfout</b>. Onze excuses, probeer het later nog eens"
 
 #~ msgid "See what's new in"
 #~ msgstr "Bekijk alle vernieuwingen en verbeteringen van"
@@ -3330,7 +3330,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Bestandsnaam"
 
 #~ msgid "File Size"
-#~ msgstr "***REMOVED***"
+#~ msgstr "Bestandsformaat"
 
 #~ msgid "No File selected"
 #~ msgstr "Geen bestand geselecteerd"
@@ -3345,7 +3345,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "To unlock updates, please enter your license key below. If you don't have "
 #~ "a licence key, please see"
 #~ msgstr ""
-#~ "Voor het verkrijgen van updates is een ***REMOVED*** vereist. Indien je "
+#~ "Voor het verkrijgen van updates is een licentiesleutel vereist. Indien je "
 #~ "niet beschikt over een licentiecode kun je deze aanschaffen, zie:"
 
 #~ msgid "details & pricing"
@@ -3356,15 +3356,15 @@ msgstr "http://www.elliotcondon.com/"
 #~ "\">Updates</a> page. If you don't have a licence key, please see <a href="
 #~ "\"%s\">details & pricing</a>"
 #~ msgstr ""
-#~ "Voor het verkrijgen van updates is een ***REMOVED*** vereist. Vul uw "
+#~ "Voor het verkrijgen van updates is een licentiesleutel vereist. Vul uw "
 #~ "licentiecode in op de <a href=\"%s\">Updates</a> pagina, of schaf een "
 #~ "licentiecode aan via <a href=\"%s\">details & prijzen</a>."
 
 #~ msgid "Advanced Custom Fields Pro"
 #~ msgstr "Advanced Custom Fields Pro"
 
-#~ msgid "http://www.***REMOVED***.com/"
-#~ msgstr "http://www.***REMOVED***.com/"
+#~ msgid "http://www.advancedcustomfields.com/"
+#~ msgstr "http://www.advancedcustomfields.com/"
 
 #~ msgid "elliot condon"
 #~ msgstr "elliot condon"

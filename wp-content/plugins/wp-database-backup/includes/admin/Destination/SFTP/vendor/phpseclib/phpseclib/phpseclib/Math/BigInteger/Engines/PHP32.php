@@ -39,7 +39,7 @@ class PHP32 extends PHP
      * MAX10 = 10**MAX10LEN <= 2**BASE.
      */
     const MAX10LEN = 7;
-    const MAX_DIGIT2 = ***REMOVED***;
+    const MAX_DIGIT2 = 4503599627370496;
 
     /**
      * Initialize a PHP32 BigInteger Engine instance
@@ -102,7 +102,7 @@ class PHP32 extends PHP
      */
     public static function isValidEngine()
     {
-        return PHP_INT_SIZE >= 4 && !self::***REMOVED***();
+        return PHP_INT_SIZE >= 4 && !self::testJITOnWindows();
     }
 
     /**
@@ -126,7 +126,7 @@ class PHP32 extends PHP
      */
     public function subtract(PHP32 $y)
     {
-        $temp = self::***REMOVED***($this->value, $this->is_negative, $y->value, $y->is_negative);
+        $temp = self::subtractHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
 
         return $this->convertToObj($temp);
     }
@@ -139,7 +139,7 @@ class PHP32 extends PHP
      */
     public function multiply(PHP32 $y)
     {
-        $temp = self::***REMOVED***($this->value, $this->is_negative, $y->value, $y->is_negative);
+        $temp = self::multiplyHelper($this->value, $this->is_negative, $y->value, $y->is_negative);
 
         return $this->convertToObj($temp);
     }
@@ -169,7 +169,7 @@ class PHP32 extends PHP
      */
     public function modInverse(PHP32 $n)
     {
-        return $this->***REMOVED***($n);
+        return $this->modInverseHelper($n);
     }
 
     /**
@@ -181,7 +181,7 @@ class PHP32 extends PHP
      */
     public function extendedGCD(PHP32 $n)
     {
-        return $this->***REMOVED***($n);
+        return $this->extendedGCDHelper($n);
     }
 
     /**
@@ -205,7 +205,7 @@ class PHP32 extends PHP
      */
     public function bitwise_and(PHP32 $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseAndHelper($x);
     }
 
     /**
@@ -216,7 +216,7 @@ class PHP32 extends PHP
      */
     public function bitwise_or(PHP32 $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseOrHelper($x);
     }
 
     /**
@@ -227,7 +227,7 @@ class PHP32 extends PHP
      */
     public function bitwise_xor(PHP32 $x)
     {
-        return $this->***REMOVED***($x);
+        return $this->bitwiseXorHelper($x);
     }
 
     /**
@@ -267,7 +267,7 @@ class PHP32 extends PHP
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param PHP32 $e
      * @param PHP32 $n
@@ -279,7 +279,7 @@ class PHP32 extends PHP
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * Alias for modPow().
      *
@@ -301,7 +301,7 @@ class PHP32 extends PHP
      * @param PHP32 $max
      * @return false|PHP32
      */
-    public static function ***REMOVED***(PHP32 $min, PHP32 $max)
+    public static function randomRangePrime(PHP32 $min, PHP32 $max)
     {
         return self::randomRangePrimeOuter($min, $max);
     }
@@ -321,11 +321,11 @@ class PHP32 extends PHP
      */
     public static function randomRange(PHP32 $min, PHP32 $max)
     {
-        return self::***REMOVED***($min, $max);
+        return self::randomRangeHelper($min, $max);
     }
 
     /**
-     * Performs ***REMOVED***.
+     * Performs exponentiation.
      *
      * @param PHP32 $n
      * @return PHP32

@@ -26,6 +26,6 @@ abstract class SubjectInfoAccessSyntax
         'type' => ASN1::TYPE_SEQUENCE,
         'min' => 1,
         'max' => -1,
-        'children' => ***REMOVED***::MAP
+        'children' => AccessDescription::MAP
     ];
 }

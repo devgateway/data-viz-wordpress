@@ -1,5 +1,5 @@
 === Twenty Twenty-Three ===
-Contributors: ***REMOVED***
+Contributors: wordpressdotorg
 Requires at least: 6.1
 Tested up to: 6.7
 Requires PHP: 5.6
@@ -62,14 +62,14 @@ the Free Software Foundation, either version 2 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-***REMOVED*** or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 
 This theme bundles the following third-party resources:
 
 DM Sans Font
-Copyright 2014-2017 Indian Type Foundry (info@***REMOVED***.com)
+Copyright 2014-2017 Indian Type Foundry (info@indiantypefoundry.com)
 Copyright 2019 Google LLC
 Copyright 2014-2018 Adobe (http://www.adobe.com/)
 License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1

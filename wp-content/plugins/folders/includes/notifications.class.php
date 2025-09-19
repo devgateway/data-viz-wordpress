@@ -50,7 +50,7 @@ class Folders_Notifications_Free
                 }
             }
         }
-        if(in_array("***REMOVED***",$folders_settings)) {
+        if(in_array("folders4plugins",$folders_settings)) {
             $default_post_type['plugin'] = "Plugins";
         }
         $default_settings = [

@@ -47,12 +47,12 @@ HTML;
 <script type="text/javascript">
 ( function( $ ) {
 	$( document ).ready( function() {
-		var ***REMOVED***          = <?php echo json_encode( $modal_content_html ) ?>,
+		var modalContentHtml          = <?php echo json_encode( $modal_content_html ) ?>,
 			modalHtml                 =
 				'<div class="fs-modal fs-modal-developer-license-debug-mode fs-modal-developer-license-debug-mode-<?php echo $unique_affix ?>">'
 				+ '	<div class="fs-modal-dialog">'
 				+ '		<div class="fs-modal-body">'
-				+ '			<div class="fs-modal-panel active">' + ***REMOVED*** + '</div>'
+				+ '			<div class="fs-modal-panel active">' + modalContentHtml + '</div>'
 				+ '		</div>'
 				+ '		<div class="fs-modal-footer">'
 				+ '			<button class="button button-secondary button-close" tabindex="4"><?php fs_esc_js_echo_inline( 'Cancel', 'cancel', $slug ) ?></button>'
@@ -61,8 +61,8 @@ HTML;
 				+ '	</div>'
 				+ '</div>',
 			$modal                             = $( modalHtml ),
-            $***REMOVED***                  = $( '.debug-license-trigger' ),
-			$***REMOVED***                   = $modal.find( '.button-submit-license-or-user-key' ),
+            $debugLicenseLink                  = $( '.debug-license-trigger' ),
+			$submitKeyButton                   = $modal.find( '.button-submit-license-or-user-key' ),
 			$licenseOrUserKeyInput             = $modal.find( 'input.fs-license-or-user-key' ),
 			$licenseOrUserKeySubmissionMessage = $modal.find( '.license-or-user-key-submission-message' ),
             isDebugMode                        = <?php echo $fs->is_data_debug_mode() ? 'true' : 'false' ?>;
@@ -70,8 +70,8 @@ HTML;
 		$modal.appendTo( $( 'body' ) );
 
 		function registerEventHandlers() {
-            $***REMOVED***.click(function (evt) {
-                evt.***REMOVED***();
+            $debugLicenseLink.click(function (evt) {
+                evt.preventDefault();
 
                 if ( isDebugMode ) {
                     setDeveloperLicenseDebugMode();
@@ -81,44 +81,44 @@ HTML;
                 showModal( evt );
             });
 
-			$modal.on( 'input ***REMOVED***', 'input.fs-license-or-user-key', function () {
-				var ***REMOVED*** = $( this ).val().trim();
+			$modal.on( 'input propertychange', 'input.fs-license-or-user-key', function () {
+				var licenseOrUserKey = $( this ).val().trim();
 
 				/**
 				 * If license or user key is not empty, enable the submission button.
 				 */
-				if ( ***REMOVED***.length > 0 ) {
-					***REMOVED***();
+				if ( licenseOrUserKey.length > 0 ) {
+					enableSubmitButton();
 				}
 			});
 
 			$modal.on( 'blur', 'input.fs-license-or-user-key', function () {
-				var ***REMOVED*** = $( this ).val().trim();
+				var licenseOrUserKey = $( this ).val().trim();
 
                 /**
                  * If license or user key is empty, disable the submission button.
                  */
-                if ( 0 === ***REMOVED***.length ) {
-                   ***REMOVED***();
+                if ( 0 === licenseOrUserKey.length ) {
+                   disableSubmitButton();
                 }
 			});
 
 			$modal.on( 'click', '.button-submit-license-or-user-key', function ( evt ) {
-				evt.***REMOVED***();
+				evt.preventDefault();
 
 				if ( $( this ).hasClass( 'disabled' ) ) {
 					return;
 				}
 
-				var ***REMOVED*** = $licenseOrUserKeyInput.val().trim();
+				var licenseOrUserKey = $licenseOrUserKeyInput.val().trim();
 
-				***REMOVED***();
+				disableSubmitButton();
 
-				if ( 0 === ***REMOVED***.length ) {
+				if ( 0 === licenseOrUserKey.length ) {
 					return;
 				}
 
-                setDeveloperLicenseDebugMode( ***REMOVED*** );
+                setDeveloperLicenseDebugMode( licenseOrUserKey );
 			});
 
 			// If the user has clicked outside the window, close the modal.
@@ -130,11 +130,11 @@ HTML;
 
 		registerEventHandlers();
 
-		function setDeveloperLicenseDebugMode( ***REMOVED*** ) {
+		function setDeveloperLicenseDebugMode( licenseOrUserKey ) {
             var data = {
                 action             : '<?php echo $fs->get_ajax_action( 'set_data_debug_mode' ) ?>',
                 security           : '<?php echo $fs->get_ajax_security( 'set_data_debug_mode' ) ?>',
-                license_or_user_key: ***REMOVED***,
+                license_or_user_key: licenseOrUserKey,
                 is_debug_mode      : isDebugMode,
                 module_id          : '<?php echo $fs->get_id() ?>'
             };
@@ -144,8 +144,8 @@ HTML;
                 method    : 'POST',
                 data      : data,
                 beforeSend: function () {
-                    $***REMOVED***.find('span').text( '<?php echo $processing_text ?>' );
-                    $***REMOVED***.text( '<?php echo $processing_text ?>' );
+                    $debugLicenseLink.find('span').text( '<?php echo $processing_text ?>' );
+                    $submitKeyButton.text( '<?php echo $processing_text ?>' );
                 },
                 success   : function ( result ) {
                     if ( result.success ) {
@@ -182,9 +182,9 @@ HTML;
 		}
 
 		function resetButtons() {
-			***REMOVED***();
-			$***REMOVED***.text( <?php echo json_encode( $submit_button_text ) ?> );
-			$***REMOVED***.find('span').text( <?php echo json_encode( $debug_license_link_text ) ?> );
+			enableSubmitButton();
+			$submitKeyButton.text( <?php echo json_encode( $submit_button_text ) ?> );
+			$debugLicenseLink.find('span').text( <?php echo json_encode( $debug_license_link_text ) ?> );
 		}
 
 		function resetModal() {
@@ -192,12 +192,12 @@ HTML;
 			resetButtons();
 		}
 
-		function ***REMOVED***() {
-			$***REMOVED***.removeClass( 'disabled' );
+		function enableSubmitButton() {
+			$submitKeyButton.removeClass( 'disabled' );
 		}
 
-		function ***REMOVED***() {
-			$***REMOVED***.addClass( 'disabled' );
+		function disableSubmitButton() {
+			$submitKeyButton.addClass( 'disabled' );
 		}
 
 		function hideError() {

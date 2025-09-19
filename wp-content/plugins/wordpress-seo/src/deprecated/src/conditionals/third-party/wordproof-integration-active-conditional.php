@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Wordproof_Helper;
  * Conditional that is met when the WordProof integration is toggled on.
  *
  * @deprecated 22.10
- * @***REMOVED***
+ * @codeCoverageIgnore
  */
 class Wordproof_Integration_Active_Conditional implements Conditional {
 
@@ -24,7 +24,7 @@ class Wordproof_Integration_Active_Conditional implements Conditional {
 	 * WordProof integration active constructor.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Wordproof_Helper $wordproof The options helper.
 	 */
@@ -38,7 +38,7 @@ class Wordproof_Integration_Active_Conditional implements Conditional {
 	 * Returns whether or not the WordProof Timestamp plugin is active.
 	 *
 	 * @deprecated 22.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether or not the WordProof Timestamp plugin is active.
 	 */

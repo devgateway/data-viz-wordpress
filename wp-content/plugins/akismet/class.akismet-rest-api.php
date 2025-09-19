@@ -419,7 +419,7 @@ class Akismet_REST_API {
 		/**
 		 * The request body should look like this:
 		 * array(
-		 *     'key' => '***REMOVED***',
+		 *     'key' => '1234567890abcd',
 		 *     'endpoint' => '[comment-check|submit-ham|submit-spam]',
 		 *     'comments' => array(
 		 *         array(

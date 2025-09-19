@@ -28,7 +28,7 @@ abstract class PBEParameter
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
             'salt' => ['type' => ASN1::TYPE_OCTET_STRING],
-            '***REMOVED***' => ['type' => ASN1::TYPE_INTEGER]
+            'iterationCount' => ['type' => ASN1::TYPE_INTEGER]
         ]
     ];
 }

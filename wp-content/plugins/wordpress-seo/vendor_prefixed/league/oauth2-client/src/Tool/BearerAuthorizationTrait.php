@@ -14,7 +14,7 @@
  */
 namespace YoastSEO_Vendor\League\OAuth2\Client\Tool;
 
-use YoastSEO_Vendor\League\OAuth2\Client\Token\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 /**
  * Enables `Bearer` header authorization for providers.
  *
@@ -25,7 +25,7 @@ trait BearerAuthorizationTrait
     /**
      * Returns authorization headers for the 'bearer' grant.
      *
-     * @param  ***REMOVED***|string|null $token Either a string or an access token instance
+     * @param  AccessTokenInterface|string|null $token Either a string or an access token instance
      * @return array
      */
     protected function getAuthorizationHeaders($token = null)

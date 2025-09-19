@@ -15,17 +15,17 @@
 
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "dimensionValues" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_DfareportingService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $dfareportingService = new Google_DfareportingService(...);
+   *   $dimensionValues = $dfareportingService->dimensionValues;
    *  </code>
    */
   class Google_DimensionValuesServiceResource extends Google_ServiceResource {
 
     /**
-     * Retrieves list of report dimension values for a list of filters. (***REMOVED***.query)
+     * Retrieves list of report dimension values for a list of filters. (dimensionValues.query)
      *
      * @param string $profileId The DFA user profile ID.
      * @param Google_DimensionValueRequest $postBody
@@ -51,8 +51,8 @@
    * The "files" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_DfareportingService(...);
-   *   $files = $***REMOVED***->files;
+   *   $dfareportingService = new Google_DfareportingService(...);
+   *   $files = $dfareportingService->files;
    *  </code>
    */
   class Google_FilesServiceResource extends Google_ServiceResource {
@@ -104,8 +104,8 @@
    * The "reports" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_DfareportingService(...);
-   *   $reports = $***REMOVED***->reports;
+   *   $dfareportingService = new Google_DfareportingService(...);
+   *   $reports = $dfareportingService->reports;
    *  </code>
    */
   class Google_ReportsServiceResource extends Google_ServiceResource {
@@ -243,11 +243,11 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "compatibleFields" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_DfareportingService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $dfareportingService = new Google_DfareportingService(...);
+   *   $compatibleFields = $dfareportingService->compatibleFields;
    *  </code>
    */
   class Google_ReportsCompatibleFieldsServiceResource extends Google_ServiceResource {
@@ -255,7 +255,7 @@
     /**
      * Returns the fields that are compatible to be selected in the respective sections of a report
      * criteria, given the fields already selected in the input report and user permissions.
-     * (***REMOVED***.query)
+     * (compatibleFields.query)
      *
      * @param string $profileId The DFA user profile ID.
      * @param Google_Report $postBody
@@ -277,8 +277,8 @@
    * The "files" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_DfareportingService(...);
-   *   $files = $***REMOVED***->files;
+   *   $dfareportingService = new Google_DfareportingService(...);
+   *   $files = $dfareportingService->files;
    *  </code>
    */
   class Google_ReportsFilesServiceResource extends Google_ServiceResource {
@@ -315,7 +315,7 @@
      * @opt_param string sortOrder Order of sorted results, default is 'DESCENDING'.
      * @return Google_FileList
      */
-    public function ***REMOVED***($profileId, $reportId, $optParams = array()) {
+    public function listReportsFiles($profileId, $reportId, $optParams = array()) {
       $params = array('profileId' => $profileId, 'reportId' => $reportId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -331,8 +331,8 @@
    * The "userProfiles" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_DfareportingService(...);
-   *   $userProfiles = $***REMOVED***->userProfiles;
+   *   $dfareportingService = new Google_DfareportingService(...);
+   *   $userProfiles = $dfareportingService->userProfiles;
    *  </code>
    */
   class Google_UserProfilesServiceResource extends Google_ServiceResource {
@@ -360,7 +360,7 @@
      * @param array $optParams Optional parameters.
      * @return Google_UserProfileList
      */
-    public function ***REMOVED***($optParams = array()) {
+    public function listUserProfiles($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -387,14 +387,14 @@
  * @author Google, Inc.
  */
 class Google_DfareportingService extends Google_Service {
-  public $***REMOVED***;
+  public $dimensionValues;
   public $files;
   public $reports;
   public $reports_compatibleFields;
   public $reports_files;
   public $userProfiles;
   /**
-   * Constructs the internal ***REMOVED*** of the Dfareporting service.
+   * Constructs the internal representation of the Dfareporting service.
    *
    * @param Google_Client $client
    */
@@ -404,12 +404,12 @@ class Google_DfareportingService extends Google_Service {
     $this->serviceName = 'dfareporting';
 
     $client->addService($this->serviceName, $this->version);
-    $this->***REMOVED*** = new Google_DimensionValuesServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"query": {"id": "dfareporting.***REMOVED***.query", "path": "userprofiles/{profileId}/***REMOVED***/query", "httpMethod": "POST", "parameters": {"maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "DimensionValueRequest"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
+    $this->dimensionValues = new Google_DimensionValuesServiceResource($this, $this->serviceName, 'dimensionValues', json_decode('{"methods": {"query": {"id": "dfareporting.dimensionValues.query", "path": "userprofiles/{profileId}/dimensionvalues/query", "httpMethod": "POST", "parameters": {"maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "100", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "DimensionValueRequest"}, "response": {"$ref": "DimensionValueList"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
     $this->files = new Google_FilesServiceResource($this, $this->serviceName, 'files', json_decode('{"methods": {"get": {"id": "dfareporting.files.get", "path": "reports/{reportId}/files/{fileId}", "httpMethod": "GET", "parameters": {"fileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "File"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"], "supportsMediaDownload": true}, "list": {"id": "dfareporting.files.list", "path": "userprofiles/{profileId}/files", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "10", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "scope": {"type": "string", "default": "MINE", "enum": ["ALL", "MINE", "SHARED_WITH_ME"], "location": "query"}, "sortField": {"type": "string", "default": "LAST_MODIFIED_TIME", "enum": ["ID", "LAST_MODIFIED_TIME"], "location": "query"}, "sortOrder": {"type": "string", "default": "DESCENDING", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "FileList"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
     $this->reports = new Google_ReportsServiceResource($this, $this->serviceName, 'reports', json_decode('{"methods": {"delete": {"id": "dfareporting.reports.delete", "path": "userprofiles/{profileId}/reports/{reportId}", "httpMethod": "DELETE", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "get": {"id": "dfareporting.reports.get", "path": "userprofiles/{profileId}/reports/{reportId}", "httpMethod": "GET", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "insert": {"id": "dfareporting.reports.insert", "path": "userprofiles/{profileId}/reports", "httpMethod": "POST", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "Report"}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "list": {"id": "dfareporting.reports.list", "path": "userprofiles/{profileId}/reports", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "10", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "scope": {"type": "string", "default": "MINE", "enum": ["ALL", "MINE"], "location": "query"}, "sortField": {"type": "string", "default": "LAST_MODIFIED_TIME", "enum": ["ID", "LAST_MODIFIED_TIME", "NAME"], "location": "query"}, "sortOrder": {"type": "string", "default": "DESCENDING", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "ReportList"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "patch": {"id": "dfareporting.reports.patch", "path": "userprofiles/{profileId}/reports/{reportId}", "httpMethod": "PATCH", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "Report"}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "run": {"id": "dfareporting.reports.run", "path": "userprofiles/{profileId}/reports/{reportId}/run", "httpMethod": "POST", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "synchronous": {"type": "boolean", "location": "query"}}, "response": {"$ref": "File"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "update": {"id": "dfareporting.reports.update", "path": "userprofiles/{profileId}/reports/{reportId}", "httpMethod": "PUT", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "Report"}, "response": {"$ref": "Report"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
-    $this->reports_compatibleFields = new Google_ReportsCompatibleFieldsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"query": {"id": "dfareporting.reports.***REMOVED***.query", "path": "userprofiles/{profileId}/reports/***REMOVED***/query", "httpMethod": "POST", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "Report"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
+    $this->reports_compatibleFields = new Google_ReportsCompatibleFieldsServiceResource($this, $this->serviceName, 'compatibleFields', json_decode('{"methods": {"query": {"id": "dfareporting.reports.compatibleFields.query", "path": "userprofiles/{profileId}/reports/compatiblefields/query", "httpMethod": "POST", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "request": {"$ref": "Report"}, "response": {"$ref": "CompatibleFields"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
     $this->reports_files = new Google_ReportsFilesServiceResource($this, $this->serviceName, 'files', json_decode('{"methods": {"get": {"id": "dfareporting.reports.files.get", "path": "userprofiles/{profileId}/reports/{reportId}/files/{fileId}", "httpMethod": "GET", "parameters": {"fileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "File"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"], "supportsMediaDownload": true}, "list": {"id": "dfareporting.reports.files.list", "path": "userprofiles/{profileId}/reports/{reportId}/files", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "int32", "minimum": "0", "maximum": "10", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "reportId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "sortField": {"type": "string", "default": "LAST_MODIFIED_TIME", "enum": ["ID", "LAST_MODIFIED_TIME"], "location": "query"}, "sortOrder": {"type": "string", "default": "DESCENDING", "enum": ["ASCENDING", "DESCENDING"], "location": "query"}}, "response": {"$ref": "FileList"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
-    $this->userProfiles = new Google_UserProfilesServiceResource($this, $this->serviceName, 'userProfiles', json_decode('{"methods": {"get": {"id": "dfareporting.userProfiles.get", "path": "userprofiles/{profileId}", "httpMethod": "GET", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "UserProfile"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "list": {"id": "dfareporting.userProfiles.list", "path": "userprofiles", "httpMethod": "GET", "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
+    $this->userProfiles = new Google_UserProfilesServiceResource($this, $this->serviceName, 'userProfiles', json_decode('{"methods": {"get": {"id": "dfareporting.userProfiles.get", "path": "userprofiles/{profileId}", "httpMethod": "GET", "parameters": {"profileId": {"type": "string", "required": true, "format": "int64", "location": "path"}}, "response": {"$ref": "UserProfile"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}, "list": {"id": "dfareporting.userProfiles.list", "path": "userprofiles", "httpMethod": "GET", "response": {"$ref": "UserProfileList"}, "scopes": ["https://www.googleapis.com/auth/dfareporting"]}}}', true));
 
   }
 }
@@ -435,11 +435,11 @@ class Google_Activities extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $metricNames) {
+  public function setMetricNames(/* array(Google_string) */ $metricNames) {
     $this->assertIsArray($metricNames, 'Google_string', __METHOD__);
     $this->metricNames = $metricNames;
   }
-  public function ***REMOVED***() {
+  public function getMetricNames() {
     return $this->metricNames;
   }
 }
@@ -505,14 +505,14 @@ class Google_CrossDimensionReachReportCompatibleFields extends Google_Model {
   public $breakdown;
   protected $__dimensionFiltersType = 'Google_Dimension';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   public $kind;
   protected $__metricsType = 'Google_Metric';
   protected $__metricsDataType = 'array';
   public $metrics;
   protected $__overlapMetricsType = 'Google_Metric';
   protected $__overlapMetricsDataType = 'array';
-  public $***REMOVED***;
+  public $overlapMetrics;
   public function setBreakdown(/* array(Google_Dimension) */ $breakdown) {
     $this->assertIsArray($breakdown, 'Google_Dimension', __METHOD__);
     $this->breakdown = $breakdown;
@@ -520,12 +520,12 @@ class Google_CrossDimensionReachReportCompatibleFields extends Google_Model {
   public function getBreakdown() {
     return $this->breakdown;
   }
-  public function ***REMOVED***(/* array(Google_Dimension) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_Dimension', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_Dimension) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_Dimension', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -540,26 +540,26 @@ class Google_CrossDimensionReachReportCompatibleFields extends Google_Model {
   public function getMetrics() {
     return $this->metrics;
   }
-  public function ***REMOVED***(/* array(Google_Metric) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_Metric', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOverlapMetrics(/* array(Google_Metric) */ $overlapMetrics) {
+    $this->assertIsArray($overlapMetrics, 'Google_Metric', __METHOD__);
+    $this->overlapMetrics = $overlapMetrics;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOverlapMetrics() {
+    return $this->overlapMetrics;
   }
 }
 
 class Google_CustomRichMediaEvents extends Google_Model {
   protected $__filteredEventIdsType = 'Google_DimensionValue';
   protected $__filteredEventIdsDataType = 'array';
-  public $***REMOVED***;
+  public $filteredEventIds;
   public $kind;
-  public function ***REMOVED***(/* array(Google_DimensionValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DimensionValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFilteredEventIds(/* array(Google_DimensionValue) */ $filteredEventIds) {
+    $this->assertIsArray($filteredEventIds, 'Google_DimensionValue', __METHOD__);
+    $this->filteredEventIds = $filteredEventIds;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getFilteredEventIds() {
+    return $this->filteredEventIds;
   }
   public function setKind( $kind) {
     $this->kind = $kind;
@@ -572,7 +572,7 @@ class Google_CustomRichMediaEvents extends Google_Model {
 class Google_DateRange extends Google_Model {
   public $endDate;
   public $kind;
-  public $***REMOVED***;
+  public $relativeDateRange;
   public $startDate;
   public function setEndDate( $endDate) {
     $this->endDate = $endDate;
@@ -586,11 +586,11 @@ class Google_DateRange extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRelativeDateRange( $relativeDateRange) {
+    $this->relativeDateRange = $relativeDateRange;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getRelativeDateRange() {
+    return $this->relativeDateRange;
   }
   public function setStartDate( $startDate) {
     $this->startDate = $startDate;
@@ -609,7 +609,7 @@ class Google_DfareportingFile extends Google_Model {
   public $format;
   public $id;
   public $kind;
-  public $***REMOVED***;
+  public $lastModifiedTime;
   public $reportId;
   public $status;
   protected $__urlsType = 'Google_DfareportingFileUrls';
@@ -651,11 +651,11 @@ class Google_DfareportingFile extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLastModifiedTime( $lastModifiedTime) {
+    $this->lastModifiedTime = $lastModifiedTime;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLastModifiedTime() {
+    return $this->lastModifiedTime;
   }
   public function setReportId( $reportId) {
     $this->reportId = $reportId;
@@ -715,10 +715,10 @@ class Google_DimensionFilter extends Google_Model {
   public $dimensionName;
   public $kind;
   public $value;
-  public function ***REMOVED***( $dimensionName) {
+  public function setDimensionName( $dimensionName) {
     $this->dimensionName = $dimensionName;
   }
-  public function ***REMOVED***() {
+  public function getDimensionName() {
     return $this->dimensionName;
   }
   public function setKind( $kind) {
@@ -742,10 +742,10 @@ class Google_DimensionValue extends Google_Model {
   public $kind;
   public $matchType;
   public $value;
-  public function ***REMOVED***( $dimensionName) {
+  public function setDimensionName( $dimensionName) {
     $this->dimensionName = $dimensionName;
   }
-  public function ***REMOVED***() {
+  public function getDimensionName() {
     return $this->dimensionName;
   }
   public function setEtag( $etag) {
@@ -806,10 +806,10 @@ class Google_DimensionValueList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -822,10 +822,10 @@ class Google_DimensionValueRequest extends Google_Model {
   public $filters;
   public $kind;
   public $startDate;
-  public function ***REMOVED***( $dimensionName) {
+  public function setDimensionName( $dimensionName) {
     $this->dimensionName = $dimensionName;
   }
-  public function ***REMOVED***() {
+  public function getDimensionName() {
     return $this->dimensionName;
   }
   public function setEndDate( $endDate) {
@@ -881,10 +881,10 @@ class Google_FileList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -892,7 +892,7 @@ class Google_FileList extends Google_Model {
 class Google_FloodlightReportCompatibleFields extends Google_Model {
   protected $__dimensionFiltersType = 'Google_Dimension';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   protected $__dimensionsType = 'Google_Dimension';
   protected $__dimensionsDataType = 'array';
   public $dimensions;
@@ -900,12 +900,12 @@ class Google_FloodlightReportCompatibleFields extends Google_Model {
   protected $__metricsType = 'Google_Metric';
   protected $__metricsDataType = 'array';
   public $metrics;
-  public function ***REMOVED***(/* array(Google_Dimension) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_Dimension', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_Dimension) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_Dimension', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setDimensions(/* array(Google_Dimension) */ $dimensions) {
     $this->assertIsArray($dimensions, 'Google_Dimension', __METHOD__);
@@ -949,7 +949,7 @@ class Google_Metric extends Google_Model {
 class Google_PathToConversionReportCompatibleFields extends Google_Model {
   protected $__conversionDimensionsType = 'Google_Dimension';
   protected $__conversionDimensionsDataType = 'array';
-  public $***REMOVED***;
+  public $conversionDimensions;
   protected $__customFloodlightVariablesType = 'Google_Dimension';
   protected $__customFloodlightVariablesDataType = 'array';
   public $customFloodlightVariables;
@@ -960,12 +960,12 @@ class Google_PathToConversionReportCompatibleFields extends Google_Model {
   protected $__perInteractionDimensionsType = 'Google_Dimension';
   protected $__perInteractionDimensionsDataType = 'array';
   public $perInteractionDimensions;
-  public function setConversionDimensions(/* array(Google_Dimension) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_Dimension', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setConversionDimensions(/* array(Google_Dimension) */ $conversionDimensions) {
+    $this->assertIsArray($conversionDimensions, 'Google_Dimension', __METHOD__);
+    $this->conversionDimensions = $conversionDimensions;
   }
   public function getConversionDimensions() {
-    return $this->***REMOVED***;
+    return $this->conversionDimensions;
   }
   public function setCustomFloodlightVariables(/* array(Google_Dimension) */ $customFloodlightVariables) {
     $this->assertIsArray($customFloodlightVariables, 'Google_Dimension', __METHOD__);
@@ -999,7 +999,7 @@ class Google_PathToConversionReportCompatibleFields extends Google_Model {
 class Google_ReachReportCompatibleFields extends Google_Model {
   protected $__dimensionFiltersType = 'Google_Dimension';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   protected $__dimensionsType = 'Google_Dimension';
   protected $__dimensionsDataType = 'array';
   public $dimensions;
@@ -1013,12 +1013,12 @@ class Google_ReachReportCompatibleFields extends Google_Model {
   protected $__reachByFrequencyMetricsType = 'Google_Metric';
   protected $__reachByFrequencyMetricsDataType = 'array';
   public $reachByFrequencyMetrics;
-  public function ***REMOVED***(/* array(Google_Dimension) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_Dimension', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_Dimension) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_Dimension', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setDimensions(/* array(Google_Dimension) */ $dimensions) {
     $this->assertIsArray($dimensions, 'Google_Dimension', __METHOD__);
@@ -1060,10 +1060,10 @@ class Google_Recipient extends Google_Model {
   public $deliveryType;
   public $email;
   public $kind;
-  public function ***REMOVED***( $deliveryType) {
+  public function setDeliveryType( $deliveryType) {
     $this->deliveryType = $deliveryType;
   }
-  public function ***REMOVED***() {
+  public function getDeliveryType() {
     return $this->deliveryType;
   }
   public function setEmail( $email) {
@@ -1084,7 +1084,7 @@ class Google_Report extends Google_Model {
   public $accountId;
   protected $__activeGrpCriteriaType = 'Google_ReportActiveGrpCriteria';
   protected $__activeGrpCriteriaDataType = '';
-  public $***REMOVED***;
+  public $activeGrpCriteria;
   protected $__criteriaType = 'Google_ReportCriteria';
   protected $__criteriaDataType = '';
   public $criteria;
@@ -1098,13 +1098,13 @@ class Google_Report extends Google_Model {
   public $fileName;
   protected $__floodlightCriteriaType = 'Google_ReportFloodlightCriteria';
   protected $__floodlightCriteriaDataType = '';
-  public $***REMOVED***;
+  public $floodlightCriteria;
   public $format;
   public $id;
   public $kind;
-  public $***REMOVED***;
+  public $lastModifiedTime;
   public $name;
-  public $***REMOVED***;
+  public $ownerProfileId;
   protected $__pathToConversionCriteriaType = 'Google_ReportPathToConversionCriteria';
   protected $__pathToConversionCriteriaDataType = '';
   public $pathToConversionCriteria;
@@ -1122,11 +1122,11 @@ class Google_Report extends Google_Model {
   public function getAccountId() {
     return $this->accountId;
   }
-  public function ***REMOVED***(Google_ReportActiveGrpCriteria $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setActiveGrpCriteria(Google_ReportActiveGrpCriteria $activeGrpCriteria) {
+    $this->activeGrpCriteria = $activeGrpCriteria;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getActiveGrpCriteria() {
+    return $this->activeGrpCriteria;
   }
   public function setCriteria(Google_ReportCriteria $criteria) {
     $this->criteria = $criteria;
@@ -1158,11 +1158,11 @@ class Google_Report extends Google_Model {
   public function getFileName() {
     return $this->fileName;
   }
-  public function setFloodlightCriteria(Google_ReportFloodlightCriteria $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFloodlightCriteria(Google_ReportFloodlightCriteria $floodlightCriteria) {
+    $this->floodlightCriteria = $floodlightCriteria;
   }
   public function getFloodlightCriteria() {
-    return $this->***REMOVED***;
+    return $this->floodlightCriteria;
   }
   public function setFormat( $format) {
     $this->format = $format;
@@ -1182,11 +1182,11 @@ class Google_Report extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLastModifiedTime( $lastModifiedTime) {
+    $this->lastModifiedTime = $lastModifiedTime;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLastModifiedTime() {
+    return $this->lastModifiedTime;
   }
   public function setName( $name) {
     $this->name = $name;
@@ -1194,11 +1194,11 @@ class Google_Report extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOwnerProfileId( $ownerProfileId) {
+    $this->ownerProfileId = $ownerProfileId;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOwnerProfileId() {
+    return $this->ownerProfileId;
   }
   public function setPathToConversionCriteria(Google_ReportPathToConversionCriteria $pathToConversionCriteria) {
     $this->pathToConversionCriteria = $pathToConversionCriteria;
@@ -1206,10 +1206,10 @@ class Google_Report extends Google_Model {
   public function getPathToConversionCriteria() {
     return $this->pathToConversionCriteria;
   }
-  public function ***REMOVED***(Google_ReportReachCriteria $reachCriteria) {
+  public function setReachCriteria(Google_ReportReachCriteria $reachCriteria) {
     $this->reachCriteria = $reachCriteria;
   }
-  public function ***REMOVED***() {
+  public function getReachCriteria() {
     return $this->reachCriteria;
   }
   public function setSchedule(Google_ReportSchedule $schedule) {
@@ -1218,10 +1218,10 @@ class Google_Report extends Google_Model {
   public function getSchedule() {
     return $this->schedule;
   }
-  public function ***REMOVED***( $subAccountId) {
+  public function setSubAccountId( $subAccountId) {
     $this->subAccountId = $subAccountId;
   }
-  public function ***REMOVED***() {
+  public function getSubAccountId() {
     return $this->subAccountId;
   }
   public function setType( $type) {
@@ -1238,7 +1238,7 @@ class Google_ReportActiveGrpCriteria extends Google_Model {
   public $dateRange;
   protected $__dimensionFiltersType = 'Google_DimensionValue';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   protected $__dimensionsType = 'Google_SortedDimension';
   protected $__dimensionsDataType = 'array';
   public $dimensions;
@@ -1249,12 +1249,12 @@ class Google_ReportActiveGrpCriteria extends Google_Model {
   public function getDateRange() {
     return $this->dateRange;
   }
-  public function ***REMOVED***(/* array(Google_DimensionValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DimensionValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_DimensionValue) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_DimensionValue', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setDimensions(/* array(Google_SortedDimension) */ $dimensions) {
     $this->assertIsArray($dimensions, 'Google_SortedDimension', __METHOD__);
@@ -1263,11 +1263,11 @@ class Google_ReportActiveGrpCriteria extends Google_Model {
   public function getDimensions() {
     return $this->dimensions;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $metricNames) {
+  public function setMetricNames(/* array(Google_string) */ $metricNames) {
     $this->assertIsArray($metricNames, 'Google_string', __METHOD__);
     $this->metricNames = $metricNames;
   }
-  public function ***REMOVED***() {
+  public function getMetricNames() {
     return $this->metricNames;
   }
 }
@@ -1275,7 +1275,7 @@ class Google_ReportActiveGrpCriteria extends Google_Model {
 class Google_ReportCompatibleFields extends Google_Model {
   protected $__dimensionFiltersType = 'Google_Dimension';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   protected $__dimensionsType = 'Google_Dimension';
   protected $__dimensionsDataType = 'array';
   public $dimensions;
@@ -1286,12 +1286,12 @@ class Google_ReportCompatibleFields extends Google_Model {
   protected $__pivotedActivityMetricsType = 'Google_Metric';
   protected $__pivotedActivityMetricsDataType = 'array';
   public $pivotedActivityMetrics;
-  public function ***REMOVED***(/* array(Google_Dimension) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_Dimension', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_Dimension) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_Dimension', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setDimensions(/* array(Google_Dimension) */ $dimensions) {
     $this->assertIsArray($dimensions, 'Google_Dimension', __METHOD__);
@@ -1334,7 +1334,7 @@ class Google_ReportCriteria extends Google_Model {
   public $dateRange;
   protected $__dimensionFiltersType = 'Google_DimensionValue';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   protected $__dimensionsType = 'Google_SortedDimension';
   protected $__dimensionsDataType = 'array';
   public $dimensions;
@@ -1357,12 +1357,12 @@ class Google_ReportCriteria extends Google_Model {
   public function getDateRange() {
     return $this->dateRange;
   }
-  public function ***REMOVED***(/* array(Google_DimensionValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DimensionValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_DimensionValue) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_DimensionValue', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setDimensions(/* array(Google_SortedDimension) */ $dimensions) {
     $this->assertIsArray($dimensions, 'Google_SortedDimension', __METHOD__);
@@ -1371,11 +1371,11 @@ class Google_ReportCriteria extends Google_Model {
   public function getDimensions() {
     return $this->dimensions;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $metricNames) {
+  public function setMetricNames(/* array(Google_string) */ $metricNames) {
     $this->assertIsArray($metricNames, 'Google_string', __METHOD__);
     $this->metricNames = $metricNames;
   }
-  public function ***REMOVED***() {
+  public function getMetricNames() {
     return $this->metricNames;
   }
 }
@@ -1390,9 +1390,9 @@ class Google_ReportCrossDimensionReachCriteria extends Google_Model {
   public $dimension;
   protected $__dimensionFiltersType = 'Google_DimensionValue';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   public $metricNames;
-  public $***REMOVED***;
+  public $overlapMetricNames;
   public $pivoted;
   public function setBreakdown(/* array(Google_SortedDimension) */ $breakdown) {
     $this->assertIsArray($breakdown, 'Google_SortedDimension', __METHOD__);
@@ -1413,26 +1413,26 @@ class Google_ReportCrossDimensionReachCriteria extends Google_Model {
   public function getDimension() {
     return $this->dimension;
   }
-  public function ***REMOVED***(/* array(Google_DimensionValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DimensionValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_DimensionValue) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_DimensionValue', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $metricNames) {
+  public function setMetricNames(/* array(Google_string) */ $metricNames) {
     $this->assertIsArray($metricNames, 'Google_string', __METHOD__);
     $this->metricNames = $metricNames;
   }
-  public function ***REMOVED***() {
+  public function getMetricNames() {
     return $this->metricNames;
   }
-  public function setOverlapMetricNames(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOverlapMetricNames(/* array(Google_string) */ $overlapMetricNames) {
+    $this->assertIsArray($overlapMetricNames, 'Google_string', __METHOD__);
+    $this->overlapMetricNames = $overlapMetricNames;
   }
   public function getOverlapMetricNames() {
-    return $this->***REMOVED***;
+    return $this->overlapMetricNames;
   }
   public function setPivoted( $pivoted) {
     $this->pivoted = $pivoted;
@@ -1485,17 +1485,17 @@ class Google_ReportFloodlightCriteria extends Google_Model {
   public $dateRange;
   protected $__dimensionFiltersType = 'Google_DimensionValue';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   protected $__dimensionsType = 'Google_SortedDimension';
   protected $__dimensionsDataType = 'array';
   public $dimensions;
   protected $__floodlightConfigIdType = 'Google_DimensionValue';
   protected $__floodlightConfigIdDataType = '';
-  public $***REMOVED***;
+  public $floodlightConfigId;
   public $metricNames;
   protected $__reportPropertiesType = 'Google_ReportFloodlightCriteriaReportProperties';
   protected $__reportPropertiesDataType = '';
-  public $***REMOVED***;
+  public $reportProperties;
   public function setCustomRichMediaEvents(/* array(Google_DimensionValue) */ $customRichMediaEvents) {
     $this->assertIsArray($customRichMediaEvents, 'Google_DimensionValue', __METHOD__);
     $this->customRichMediaEvents = $customRichMediaEvents;
@@ -1509,12 +1509,12 @@ class Google_ReportFloodlightCriteria extends Google_Model {
   public function getDateRange() {
     return $this->dateRange;
   }
-  public function ***REMOVED***(/* array(Google_DimensionValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DimensionValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_DimensionValue) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_DimensionValue', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setDimensions(/* array(Google_SortedDimension) */ $dimensions) {
     $this->assertIsArray($dimensions, 'Google_SortedDimension', __METHOD__);
@@ -1523,24 +1523,24 @@ class Google_ReportFloodlightCriteria extends Google_Model {
   public function getDimensions() {
     return $this->dimensions;
   }
-  public function setFloodlightConfigId(Google_DimensionValue $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFloodlightConfigId(Google_DimensionValue $floodlightConfigId) {
+    $this->floodlightConfigId = $floodlightConfigId;
   }
   public function getFloodlightConfigId() {
-    return $this->***REMOVED***;
+    return $this->floodlightConfigId;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $metricNames) {
+  public function setMetricNames(/* array(Google_string) */ $metricNames) {
     $this->assertIsArray($metricNames, 'Google_string', __METHOD__);
     $this->metricNames = $metricNames;
   }
-  public function ***REMOVED***() {
+  public function getMetricNames() {
     return $this->metricNames;
   }
-  public function ***REMOVED***(Google_ReportFloodlightCriteriaReportProperties $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setReportProperties(Google_ReportFloodlightCriteriaReportProperties $reportProperties) {
+    $this->reportProperties = $reportProperties;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getReportProperties() {
+    return $this->reportProperties;
   }
 }
 
@@ -1594,10 +1594,10 @@ class Google_ReportList extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -1605,10 +1605,10 @@ class Google_ReportList extends Google_Model {
 class Google_ReportPathToConversionCriteria extends Google_Model {
   protected $__activityFiltersType = 'Google_DimensionValue';
   protected $__activityFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $activityFilters;
   protected $__conversionDimensionsType = 'Google_SortedDimension';
   protected $__conversionDimensionsDataType = 'array';
-  public $***REMOVED***;
+  public $conversionDimensions;
   protected $__customFloodlightVariablesType = 'Google_SortedDimension';
   protected $__customFloodlightVariablesDataType = 'array';
   public $customFloodlightVariables;
@@ -1620,27 +1620,27 @@ class Google_ReportPathToConversionCriteria extends Google_Model {
   public $dateRange;
   protected $__floodlightConfigIdType = 'Google_DimensionValue';
   protected $__floodlightConfigIdDataType = '';
-  public $***REMOVED***;
+  public $floodlightConfigId;
   public $metricNames;
   protected $__perInteractionDimensionsType = 'Google_SortedDimension';
   protected $__perInteractionDimensionsDataType = 'array';
   public $perInteractionDimensions;
   protected $__reportPropertiesType = 'Google_ReportPathToConversionCriteriaReportProperties';
   protected $__reportPropertiesDataType = '';
-  public $***REMOVED***;
-  public function ***REMOVED***(/* array(Google_DimensionValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DimensionValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public $reportProperties;
+  public function setActivityFilters(/* array(Google_DimensionValue) */ $activityFilters) {
+    $this->assertIsArray($activityFilters, 'Google_DimensionValue', __METHOD__);
+    $this->activityFilters = $activityFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getActivityFilters() {
+    return $this->activityFilters;
   }
-  public function setConversionDimensions(/* array(Google_SortedDimension) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_SortedDimension', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setConversionDimensions(/* array(Google_SortedDimension) */ $conversionDimensions) {
+    $this->assertIsArray($conversionDimensions, 'Google_SortedDimension', __METHOD__);
+    $this->conversionDimensions = $conversionDimensions;
   }
   public function getConversionDimensions() {
-    return $this->***REMOVED***;
+    return $this->conversionDimensions;
   }
   public function setCustomFloodlightVariables(/* array(Google_SortedDimension) */ $customFloodlightVariables) {
     $this->assertIsArray($customFloodlightVariables, 'Google_SortedDimension', __METHOD__);
@@ -1662,17 +1662,17 @@ class Google_ReportPathToConversionCriteria extends Google_Model {
   public function getDateRange() {
     return $this->dateRange;
   }
-  public function setFloodlightConfigId(Google_DimensionValue $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setFloodlightConfigId(Google_DimensionValue $floodlightConfigId) {
+    $this->floodlightConfigId = $floodlightConfigId;
   }
   public function getFloodlightConfigId() {
-    return $this->***REMOVED***;
+    return $this->floodlightConfigId;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $metricNames) {
+  public function setMetricNames(/* array(Google_string) */ $metricNames) {
     $this->assertIsArray($metricNames, 'Google_string', __METHOD__);
     $this->metricNames = $metricNames;
   }
-  public function ***REMOVED***() {
+  public function getMetricNames() {
     return $this->metricNames;
   }
   public function setPerInteractionDimensions(/* array(Google_SortedDimension) */ $perInteractionDimensions) {
@@ -1682,16 +1682,16 @@ class Google_ReportPathToConversionCriteria extends Google_Model {
   public function getPerInteractionDimensions() {
     return $this->perInteractionDimensions;
   }
-  public function ***REMOVED***(Google_ReportPathToConversionCriteriaReportProperties $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setReportProperties(Google_ReportPathToConversionCriteriaReportProperties $reportProperties) {
+    $this->reportProperties = $reportProperties;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getReportProperties() {
+    return $this->reportProperties;
   }
 }
 
 class Google_ReportPathToConversionCriteriaReportProperties extends Google_Model {
-  public $***REMOVED***;
+  public $clicksLookbackWindow;
   public $impressionsLookbackWindow;
   public $includeAttributedIPConversions;
   public $includeUnattributedCookieConversions;
@@ -1700,11 +1700,11 @@ class Google_ReportPathToConversionCriteriaReportProperties extends Google_Model
   public $maximumImpressionInteractions;
   public $maximumInteractionGap;
   public $pivotOnInteractionPath;
-  public function setClicksLookbackWindow( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setClicksLookbackWindow( $clicksLookbackWindow) {
+    $this->clicksLookbackWindow = $clicksLookbackWindow;
   }
   public function getClicksLookbackWindow() {
-    return $this->***REMOVED***;
+    return $this->clicksLookbackWindow;
   }
   public function setImpressionsLookbackWindow( $impressionsLookbackWindow) {
     $this->impressionsLookbackWindow = $impressionsLookbackWindow;
@@ -1768,7 +1768,7 @@ class Google_ReportReachCriteria extends Google_Model {
   public $dateRange;
   protected $__dimensionFiltersType = 'Google_DimensionValue';
   protected $__dimensionFiltersDataType = 'array';
-  public $***REMOVED***;
+  public $dimensionFilters;
   protected $__dimensionsType = 'Google_SortedDimension';
   protected $__dimensionsDataType = 'array';
   public $dimensions;
@@ -1792,12 +1792,12 @@ class Google_ReportReachCriteria extends Google_Model {
   public function getDateRange() {
     return $this->dateRange;
   }
-  public function ***REMOVED***(/* array(Google_DimensionValue) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_DimensionValue', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDimensionFilters(/* array(Google_DimensionValue) */ $dimensionFilters) {
+    $this->assertIsArray($dimensionFilters, 'Google_DimensionValue', __METHOD__);
+    $this->dimensionFilters = $dimensionFilters;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDimensionFilters() {
+    return $this->dimensionFilters;
   }
   public function setDimensions(/* array(Google_SortedDimension) */ $dimensions) {
     $this->assertIsArray($dimensions, 'Google_SortedDimension', __METHOD__);
@@ -1806,11 +1806,11 @@ class Google_ReportReachCriteria extends Google_Model {
   public function getDimensions() {
     return $this->dimensions;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $metricNames) {
+  public function setMetricNames(/* array(Google_string) */ $metricNames) {
     $this->assertIsArray($metricNames, 'Google_string', __METHOD__);
     $this->metricNames = $metricNames;
   }
-  public function ***REMOVED***() {
+  public function getMetricNames() {
     return $this->metricNames;
   }
   public function setReachByFrequencyMetricNames(/* array(Google_string) */ $reachByFrequencyMetricNames) {
@@ -1825,10 +1825,10 @@ class Google_ReportReachCriteria extends Google_Model {
 class Google_ReportSchedule extends Google_Model {
   public $active;
   public $every;
-  public $***REMOVED***;
+  public $expirationDate;
   public $repeats;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $repeatsOnWeekDays;
+  public $runsOnDayOfMonth;
   public $startDate;
   public function setActive( $active) {
     $this->active = $active;
@@ -1842,11 +1842,11 @@ class Google_ReportSchedule extends Google_Model {
   public function getEvery() {
     return $this->every;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setExpirationDate( $expirationDate) {
+    $this->expirationDate = $expirationDate;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getExpirationDate() {
+    return $this->expirationDate;
   }
   public function setRepeats( $repeats) {
     $this->repeats = $repeats;
@@ -1854,18 +1854,18 @@ class Google_ReportSchedule extends Google_Model {
   public function getRepeats() {
     return $this->repeats;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRepeatsOnWeekDays(/* array(Google_string) */ $repeatsOnWeekDays) {
+    $this->assertIsArray($repeatsOnWeekDays, 'Google_string', __METHOD__);
+    $this->repeatsOnWeekDays = $repeatsOnWeekDays;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getRepeatsOnWeekDays() {
+    return $this->repeatsOnWeekDays;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setRunsOnDayOfMonth( $runsOnDayOfMonth) {
+    $this->runsOnDayOfMonth = $runsOnDayOfMonth;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getRunsOnDayOfMonth() {
+    return $this->runsOnDayOfMonth;
   }
   public function setStartDate( $startDate) {
     $this->startDate = $startDate;
@@ -1906,7 +1906,7 @@ class Google_UserProfile extends Google_Model {
   public $kind;
   public $profileId;
   public $subAccountId;
-  public $***REMOVED***;
+  public $subAccountName;
   public $userName;
   public function setAccountId( $accountId) {
     $this->accountId = $accountId;
@@ -1914,10 +1914,10 @@ class Google_UserProfile extends Google_Model {
   public function getAccountId() {
     return $this->accountId;
   }
-  public function ***REMOVED***( $accountName) {
+  public function setAccountName( $accountName) {
     $this->accountName = $accountName;
   }
-  public function ***REMOVED***() {
+  public function getAccountName() {
     return $this->accountName;
   }
   public function setEtag( $etag) {
@@ -1938,17 +1938,17 @@ class Google_UserProfile extends Google_Model {
   public function getProfileId() {
     return $this->profileId;
   }
-  public function ***REMOVED***( $subAccountId) {
+  public function setSubAccountId( $subAccountId) {
     $this->subAccountId = $subAccountId;
   }
-  public function ***REMOVED***() {
+  public function getSubAccountId() {
     return $this->subAccountId;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setSubAccountName( $subAccountName) {
+    $this->subAccountName = $subAccountName;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getSubAccountName() {
+    return $this->subAccountName;
   }
   public function setUserName( $userName) {
     $this->userName = $userName;

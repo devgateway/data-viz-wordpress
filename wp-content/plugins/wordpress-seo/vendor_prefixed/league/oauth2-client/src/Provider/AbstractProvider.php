@@ -15,33 +15,33 @@
 namespace YoastSEO_Vendor\League\OAuth2\Client\Provider;
 
 use YoastSEO_Vendor\GuzzleHttp\Client as HttpClient;
-use YoastSEO_Vendor\GuzzleHttp\***REMOVED*** as ***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\ClientInterface as HttpClientInterface;
+use YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException;
 use InvalidArgumentException;
 use YoastSEO_Vendor\League\OAuth2\Client\Grant\AbstractGrant;
 use YoastSEO_Vendor\League\OAuth2\Client\Grant\GrantFactory;
-use YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***\OptionProviderInterface;
-use YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***\PostAuthOptionProvider;
+use YoastSEO_Vendor\League\OAuth2\Client\OptionProvider\OptionProviderInterface;
+use YoastSEO_Vendor\League\OAuth2\Client\OptionProvider\PostAuthOptionProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use YoastSEO_Vendor\League\OAuth2\Client\Token\***REMOVED***;
-use YoastSEO_Vendor\League\OAuth2\Client\Tool\***REMOVED***;
-use YoastSEO_Vendor\League\OAuth2\Client\Tool\***REMOVED***;
-use YoastSEO_Vendor\League\OAuth2\Client\Tool\***REMOVED***;
-use YoastSEO_Vendor\League\OAuth2\Client\Tool\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
+use YoastSEO_Vendor\League\OAuth2\Client\Tool\ArrayAccessorTrait;
+use YoastSEO_Vendor\League\OAuth2\Client\Tool\GuardedPropertyTrait;
+use YoastSEO_Vendor\League\OAuth2\Client\Tool\QueryBuilderTrait;
+use YoastSEO_Vendor\League\OAuth2\Client\Tool\RequestFactory;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 use UnexpectedValueException;
 /**
  * Represents a service provider (authorization server).
  *
  * @link http://tools.ietf.org/html/rfc6749#section-1.1 Roles (RFC 6749, §1.1)
  */
-abstract class ***REMOVED***
+abstract class AbstractProvider
 {
-    use ***REMOVED***;
-    use ***REMOVED***;
-    use ***REMOVED***;
+    use ArrayAccessorTrait;
+    use GuardedPropertyTrait;
+    use QueryBuilderTrait;
     /**
      * @var string|null Key used in a token response to identify the resource owner.
      */
@@ -90,17 +90,17 @@ abstract class ***REMOVED***
      */
     protected $grantFactory;
     /**
-     * @var ***REMOVED***
+     * @var RequestFactory
      */
-    protected $***REMOVED***;
+    protected $requestFactory;
     /**
-     * @var ***REMOVED***
+     * @var HttpClientInterface
      */
     protected $httpClient;
     /**
      * @var OptionProviderInterface
      */
-    protected $***REMOVED***;
+    protected $optionProvider;
     /**
      * Constructs an OAuth 2.0 service provider.
      *
@@ -109,31 +109,31 @@ abstract class ***REMOVED***
      *     Individual providers may introduce more options, as needed.
      * @param array $collaborators An array of collaborators that may be used to
      *     override this provider's default behavior. Collaborators include
-     *     `grantFactory`, `***REMOVED***`, and `httpClient`.
+     *     `grantFactory`, `requestFactory`, and `httpClient`.
      *     Individual providers may introduce more collaborators, as needed.
      */
     public function __construct(array $options = [], array $collaborators = [])
     {
-        // We'll let the ***REMOVED*** handle mass assignment of incoming
+        // We'll let the GuardedPropertyTrait handle mass assignment of incoming
         // options, skipping any blacklisted properties defined in the provider
-        $this->***REMOVED***($options);
+        $this->fillProperties($options);
         if (empty($collaborators['grantFactory'])) {
             $collaborators['grantFactory'] = new \YoastSEO_Vendor\League\OAuth2\Client\Grant\GrantFactory();
         }
-        $this->***REMOVED***($collaborators['grantFactory']);
-        if (empty($collaborators['***REMOVED***'])) {
-            $collaborators['***REMOVED***'] = new \YoastSEO_Vendor\League\OAuth2\Client\Tool\***REMOVED***();
+        $this->setGrantFactory($collaborators['grantFactory']);
+        if (empty($collaborators['requestFactory'])) {
+            $collaborators['requestFactory'] = new \YoastSEO_Vendor\League\OAuth2\Client\Tool\RequestFactory();
         }
-        $this->***REMOVED***($collaborators['***REMOVED***']);
+        $this->setRequestFactory($collaborators['requestFactory']);
         if (empty($collaborators['httpClient'])) {
             $client_options = $this->getAllowedClientOptions($options);
             $collaborators['httpClient'] = new \YoastSEO_Vendor\GuzzleHttp\Client(\array_intersect_key($options, \array_flip($client_options)));
         }
         $this->setHttpClient($collaborators['httpClient']);
-        if (empty($collaborators['***REMOVED***'])) {
-            $collaborators['***REMOVED***'] = new \YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***\PostAuthOptionProvider();
+        if (empty($collaborators['optionProvider'])) {
+            $collaborators['optionProvider'] = new \YoastSEO_Vendor\League\OAuth2\Client\OptionProvider\PostAuthOptionProvider();
         }
-        $this->***REMOVED***($collaborators['***REMOVED***']);
+        $this->setOptionProvider($collaborators['optionProvider']);
     }
     /**
      * Returns the list of options that can be passed to the HttpClient
@@ -158,7 +158,7 @@ abstract class ***REMOVED***
      * @param  GrantFactory $factory
      * @return self
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\League\OAuth2\Client\Grant\GrantFactory $factory)
+    public function setGrantFactory(\YoastSEO_Vendor\League\OAuth2\Client\Grant\GrantFactory $factory)
     {
         $this->grantFactory = $factory;
         return $this;
@@ -168,37 +168,37 @@ abstract class ***REMOVED***
      *
      * @return GrantFactory
      */
-    public function ***REMOVED***()
+    public function getGrantFactory()
     {
         return $this->grantFactory;
     }
     /**
      * Sets the request factory instance.
      *
-     * @param  ***REMOVED*** $factory
+     * @param  RequestFactory $factory
      * @return self
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\League\OAuth2\Client\Tool\***REMOVED*** $factory)
+    public function setRequestFactory(\YoastSEO_Vendor\League\OAuth2\Client\Tool\RequestFactory $factory)
     {
-        $this->***REMOVED*** = $factory;
+        $this->requestFactory = $factory;
         return $this;
     }
     /**
      * Returns the request factory instance.
      *
-     * @return ***REMOVED***
+     * @return RequestFactory
      */
-    public function ***REMOVED***()
+    public function getRequestFactory()
     {
-        return $this->***REMOVED***;
+        return $this->requestFactory;
     }
     /**
      * Sets the HTTP client instance.
      *
-     * @param  ***REMOVED*** $client
+     * @param  HttpClientInterface $client
      * @return self
      */
-    public function setHttpClient(\YoastSEO_Vendor\GuzzleHttp\***REMOVED*** $client)
+    public function setHttpClient(\YoastSEO_Vendor\GuzzleHttp\ClientInterface $client)
     {
         $this->httpClient = $client;
         return $this;
@@ -206,7 +206,7 @@ abstract class ***REMOVED***
     /**
      * Returns the HTTP client instance.
      *
-     * @return ***REMOVED***
+     * @return HttpClientInterface
      */
     public function getHttpClient()
     {
@@ -218,9 +218,9 @@ abstract class ***REMOVED***
      * @param  OptionProviderInterface $provider
      * @return self
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\League\OAuth2\Client\***REMOVED***\OptionProviderInterface $provider)
+    public function setOptionProvider(\YoastSEO_Vendor\League\OAuth2\Client\OptionProvider\OptionProviderInterface $provider)
     {
-        $this->***REMOVED*** = $provider;
+        $this->optionProvider = $provider;
         return $this;
     }
     /**
@@ -228,9 +228,9 @@ abstract class ***REMOVED***
      *
      * @return OptionProviderInterface
      */
-    public function ***REMOVED***()
+    public function getOptionProvider()
     {
-        return $this->***REMOVED***;
+        return $this->optionProvider;
     }
     /**
      * Returns the current value of the state parameter.
@@ -298,7 +298,7 @@ abstract class ***REMOVED***
      * @param  int $length Length of the random string to be generated.
      * @return string
      */
-    protected function ***REMOVED***($length = 32)
+    protected function getRandomState($length = 32)
     {
         // Converting bytes to hex will always double length. Hence, we can reduce
         // the amount of bytes by half to produce the correct length.
@@ -312,7 +312,7 @@ abstract class ***REMOVED***
      * @param  int $length Length of the random string to be generated.
      * @return string
      */
-    protected function ***REMOVED***($length = 64)
+    protected function getRandomPkceCode($length = 64)
     {
         return \substr(\strtr(\base64_encode(\random_bytes($length)), '+/', '-_'), 0, $length);
     }
@@ -324,14 +324,14 @@ abstract class ***REMOVED***
      *
      * @return array
      */
-    protected abstract function ***REMOVED***();
+    protected abstract function getDefaultScopes();
     /**
      * Returns the string that should be used to separate scopes when building
      * the URL for requesting an access token.
      *
      * @return string Scope separator, defaults to ','
      */
-    protected function ***REMOVED***()
+    protected function getScopeSeparator()
     {
         return ',';
     }
@@ -351,21 +351,21 @@ abstract class ***REMOVED***
     protected function getAuthorizationParameters(array $options)
     {
         if (empty($options['state'])) {
-            $options['state'] = $this->***REMOVED***();
+            $options['state'] = $this->getRandomState();
         }
         if (empty($options['scope'])) {
-            $options['scope'] = $this->***REMOVED***();
+            $options['scope'] = $this->getDefaultScopes();
         }
         $options += ['response_type' => 'code', 'approval_prompt' => 'auto'];
         if (\is_array($options['scope'])) {
-            $separator = $this->***REMOVED***();
+            $separator = $this->getScopeSeparator();
             $options['scope'] = \implode($separator, $options['scope']);
         }
         // Store the state as it may need to be accessed later on.
         $this->state = $options['state'];
         $pkceMethod = $this->getPkceMethod();
         if (!empty($pkceMethod)) {
-            $this->pkceCode = $this->***REMOVED***();
+            $this->pkceCode = $this->getRandomPkceCode();
             if ($pkceMethod === static::PKCE_METHOD_S256) {
                 $options['code_challenge'] = \trim(\strtr(\base64_encode(\hash('sha256', $this->pkceCode, \true)), '+/', '-_'), '=');
             } elseif ($pkceMethod === static::PKCE_METHOD_PLAIN) {
@@ -391,7 +391,7 @@ abstract class ***REMOVED***
      */
     protected function getAuthorizationQuery(array $params)
     {
-        return $this->***REMOVED***($params);
+        return $this->buildQueryString($params);
     }
     /**
      * Builds the authorization URL.
@@ -399,7 +399,7 @@ abstract class ***REMOVED***
      * @param  array $options
      * @return string Authorization URL
      */
-    public function ***REMOVED***(array $options = [])
+    public function getAuthorizationUrl(array $options = [])
     {
         $base = $this->getBaseAuthorizationUrl();
         $params = $this->getAuthorizationParameters($options);
@@ -410,14 +410,14 @@ abstract class ***REMOVED***
      * Redirects the client for authorization.
      *
      * @param  array $options
-     * @param  callable|null $***REMOVED***
+     * @param  callable|null $redirectHandler
      * @return mixed
      */
-    public function authorize(array $options = [], callable $***REMOVED*** = null)
+    public function authorize(array $options = [], callable $redirectHandler = null)
     {
-        $url = $this->***REMOVED***($options);
-        if ($***REMOVED***) {
-            return $***REMOVED***($url, $this);
+        $url = $this->getAuthorizationUrl($options);
+        if ($redirectHandler) {
+            return $redirectHandler($url, $this);
         }
         // @codeCoverageIgnoreStart
         \header('Location: ' . $url);
@@ -445,7 +445,7 @@ abstract class ***REMOVED***
      *
      * @return string HTTP method
      */
-    protected function ***REMOVED***()
+    protected function getAccessTokenMethod()
     {
         return self::METHOD_POST;
     }
@@ -464,9 +464,9 @@ abstract class ***REMOVED***
      * @param  array $params Query parameters
      * @return string Query string
      */
-    protected function ***REMOVED***(array $params)
+    protected function getAccessTokenQuery(array $params)
     {
-        return $this->***REMOVED***($params);
+        return $this->buildQueryString($params);
     }
     /**
      * Checks that a provided grant is valid, or attempts to produce one if the
@@ -489,11 +489,11 @@ abstract class ***REMOVED***
      * @param array $params Query parameters
      * @return string
      */
-    protected function ***REMOVED***(array $params)
+    protected function getAccessTokenUrl(array $params)
     {
         $url = $this->getBaseAccessTokenUrl($params);
-        if ($this->***REMOVED***() === self::METHOD_GET) {
-            $query = $this->***REMOVED***($params);
+        if ($this->getAccessTokenMethod() === self::METHOD_GET) {
+            $query = $this->getAccessTokenQuery($params);
             return $this->appendQuery($url, $query);
         }
         return $url;
@@ -502,13 +502,13 @@ abstract class ***REMOVED***
      * Returns a prepared request for requesting an access token.
      *
      * @param array $params Query string parameters
-     * @return ***REMOVED***
+     * @return RequestInterface
      */
     protected function getAccessTokenRequest(array $params)
     {
-        $method = $this->***REMOVED***();
-        $url = $this->***REMOVED***($params);
-        $options = $this->***REMOVED***->getAccessTokenOptions($this->***REMOVED***(), $params);
+        $method = $this->getAccessTokenMethod();
+        $url = $this->getAccessTokenUrl($params);
+        $options = $this->optionProvider->getAccessTokenOptions($this->getAccessTokenMethod(), $params);
         return $this->getRequest($method, $url, $options);
     }
     /**
@@ -517,9 +517,9 @@ abstract class ***REMOVED***
      * @param  mixed                $grant
      * @param  array<string, mixed> $options
      * @throws IdentityProviderException
-     * @return ***REMOVED***
+     * @return AccessTokenInterface
      */
-    public function ***REMOVED***($grant, array $options = [])
+    public function getAccessToken($grant, array $options = [])
     {
         $grant = $this->verifyGrant($grant);
         $params = ['client_id' => $this->clientId, 'client_secret' => $this->clientSecret, 'redirect_uri' => $this->redirectUri];
@@ -528,12 +528,12 @@ abstract class ***REMOVED***
         }
         $params = $grant->prepareRequestParameters($params, $options);
         $request = $this->getAccessTokenRequest($params);
-        $response = $this->***REMOVED***($request);
+        $response = $this->getParsedResponse($request);
         if (\false === \is_array($response)) {
             throw new \UnexpectedValueException('Invalid response received from Authorization Server. Expected JSON.');
         }
         $prepared = $this->prepareAccessTokenResponse($response);
-        $token = $this->***REMOVED***($prepared, $grant);
+        $token = $this->createAccessToken($prepared, $grant);
         return $token;
     }
     /**
@@ -542,7 +542,7 @@ abstract class ***REMOVED***
      * @param  string $method
      * @param  string $url
      * @param  array $options
-     * @return ***REMOVED***
+     * @return RequestInterface
      */
     public function getRequest($method, $url, array $options = [])
     {
@@ -553,9 +553,9 @@ abstract class ***REMOVED***
      *
      * @param  string $method
      * @param  string $url
-     * @param  ***REMOVED***|string|null $token
-     * @param  array $options Any of "headers", "body", and "***REMOVED***".
-     * @return ***REMOVED***
+     * @param  AccessTokenInterface|string|null $token
+     * @param  array $options Any of "headers", "body", and "protocolVersion".
+     * @return RequestInterface
      */
     public function getAuthenticatedRequest($method, $url, $token, array $options = [])
     {
@@ -566,15 +566,15 @@ abstract class ***REMOVED***
      *
      * @param  string $method
      * @param  string $url
-     * @param  ***REMOVED***|string|null $token
+     * @param  AccessTokenInterface|string|null $token
      * @param  array $options
-     * @return ***REMOVED***
+     * @return RequestInterface
      */
     protected function createRequest($method, $url, $token, array $options)
     {
         $defaults = ['headers' => $this->getHeaders($token)];
         $options = \array_merge_recursive($defaults, $options);
-        $factory = $this->***REMOVED***();
+        $factory = $this->getRequestFactory();
         return $factory->getRequestWithOptions($method, $url, $options);
     }
     /**
@@ -583,25 +583,25 @@ abstract class ***REMOVED***
      * WARNING: This method does not attempt to catch exceptions caused by HTTP
      * errors! It is recommended to wrap this method in a try/catch block.
      *
-     * @param  ***REMOVED*** $request
-     * @return ***REMOVED***
+     * @param  RequestInterface $request
+     * @return ResponseInterface
      */
-    public function getResponse(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request)
+    public function getResponse(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request)
     {
         return $this->getHttpClient()->send($request);
     }
     /**
      * Sends a request and returns the parsed response.
      *
-     * @param  ***REMOVED*** $request
+     * @param  RequestInterface $request
      * @throws IdentityProviderException
      * @return mixed
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request)
+    public function getParsedResponse(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request)
     {
         try {
             $response = $this->getResponse($request);
-        } catch (\YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED*** $e) {
+        } catch (\YoastSEO_Vendor\GuzzleHttp\Exception\BadResponseException $e) {
             $response = $e->getResponse();
         }
         $parsed = $this->parseResponse($response);
@@ -626,10 +626,10 @@ abstract class ***REMOVED***
     /**
      * Returns the content type header of a response.
      *
-     * @param  ***REMOVED*** $response
+     * @param  ResponseInterface $response
      * @return string Semi-colon separated join of content-type headers.
      */
-    protected function ***REMOVED***(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response)
+    protected function getContentType(\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response)
     {
         return \join(';', (array) $response->getHeader('content-type'));
     }
@@ -637,13 +637,13 @@ abstract class ***REMOVED***
      * Parses the response according to its content-type header.
      *
      * @throws UnexpectedValueException
-     * @param  ***REMOVED*** $response
+     * @param  ResponseInterface $response
      * @return array
      */
-    protected function parseResponse(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response)
+    protected function parseResponse(\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response)
     {
         $content = (string) $response->getBody();
-        $type = $this->***REMOVED***($response);
+        $type = $this->getContentType($response);
         if (\strpos($type, 'urlencoded') !== \false) {
             \parse_str($content, $parsed);
             return $parsed;
@@ -667,11 +667,11 @@ abstract class ***REMOVED***
      * Checks a provider response for errors.
      *
      * @throws IdentityProviderException
-     * @param  ***REMOVED*** $response
+     * @param  ResponseInterface $response
      * @param  array|string $data Parsed response data
      * @return void
      */
-    protected abstract function checkResponse(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response, $data);
+    protected abstract function checkResponse(\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response, $data);
     /**
      * Prepares an parsed access token response for a grant.
      *
@@ -696,9 +696,9 @@ abstract class ***REMOVED***
      *
      * @param  array $response
      * @param  AbstractGrant $grant
-     * @return ***REMOVED***
+     * @return AccessTokenInterface
      */
-    protected function ***REMOVED***(array $response, \YoastSEO_Vendor\League\OAuth2\Client\Grant\AbstractGrant $grant)
+    protected function createAccessToken(array $response, \YoastSEO_Vendor\League\OAuth2\Client\Grant\AbstractGrant $grant)
     {
         return new \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken($response);
     }
@@ -710,17 +710,17 @@ abstract class ***REMOVED***
      * @param  AccessToken $token
      * @return ResourceOwnerInterface
      */
-    protected abstract function ***REMOVED***(array $response, \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken $token);
+    protected abstract function createResourceOwner(array $response, \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken $token);
     /**
      * Requests and returns the resource owner of given access token.
      *
      * @param  AccessToken $token
      * @return ResourceOwnerInterface
      */
-    public function ***REMOVED***(\YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken $token)
+    public function getResourceOwner(\YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken $token)
     {
         $response = $this->fetchResourceOwnerDetails($token);
-        return $this->***REMOVED***($response, $token);
+        return $this->createResourceOwner($response, $token);
     }
     /**
      * Requests resource owner details.
@@ -732,7 +732,7 @@ abstract class ***REMOVED***
     {
         $url = $this->getResourceOwnerDetailsUrl($token);
         $request = $this->getAuthenticatedRequest(self::METHOD_GET, $url, $token);
-        $response = $this->***REMOVED***($request);
+        $response = $this->getParsedResponse($request);
         if (\false === \is_array($response)) {
             throw new \UnexpectedValueException('Invalid response received from Authorization Server. Expected JSON.');
         }
@@ -745,7 +745,7 @@ abstract class ***REMOVED***
      *
      * @return array
      */
-    protected function ***REMOVED***()
+    protected function getDefaultHeaders()
     {
         return [];
     }
@@ -776,8 +776,8 @@ abstract class ***REMOVED***
     public function getHeaders($token = null)
     {
         if ($token) {
-            return \array_merge($this->***REMOVED***(), $this->getAuthorizationHeaders($token));
+            return \array_merge($this->getDefaultHeaders(), $this->getAuthorizationHeaders($token));
         }
-        return $this->***REMOVED***();
+        return $this->getDefaultHeaders();
     }
 }

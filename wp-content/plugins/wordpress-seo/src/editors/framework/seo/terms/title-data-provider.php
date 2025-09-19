@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Editors\Framework\Seo\Terms;
 
 use Yoast\WP\SEO\Editors\Domain\Seo\Seo_Plugin_Data_Interface;

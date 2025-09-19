@@ -9,59 +9,59 @@
 		$navWrap = $navigation.find( '.wrap' ),
 		$navMenuItem = $navigation.find( '.menu-item' ),
 		$menuToggle = $navigation.find( '.menu-toggle' ),
-		$***REMOVED*** = $body.find( '.menu-scroll-down' ),
+		$menuScrollDown = $body.find( '.menu-scroll-down' ),
 		$sidebar = $body.find( '#secondary' ),
 		$entryContent = $body.find( '.entry-content' ),
 		$formatQuote = $body.find( '.format-quote blockquote' ),
-		isFrontPage = $body.hasClass( '***REMOVED***-front-page' ) || $body.hasClass( 'home blog' ),
-		***REMOVED*** = 'site-navigation-fixed',
-		***REMOVED***,
+		isFrontPage = $body.hasClass( 'twentyseventeen-front-page' ) || $body.hasClass( 'home blog' ),
+		navigationFixedClass = 'site-navigation-fixed',
+		navigationHeight,
 		navigationOuterHeight,
 		navPadding,
-		***REMOVED***,
-		***REMOVED***,
-		***REMOVED***,
+		navMenuItemHeight,
+		idealNavHeight,
+		navIsNotTooTall,
 		headerOffset,
 		menuTop = 0,
 		resizeTimer;
 
 	// Ensure the sticky navigation doesn't cover current focused links.
-	$( 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [***REMOVED***]', '.site-content-contain' ).filter( ':visible' ).on( 'focus', function() {
+	$( 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]', '.site-content-contain' ).filter( ':visible' ).on( 'focus', function() {
 		if ( $navigation.hasClass( 'site-navigation-fixed' ) ) {
-			var ***REMOVED*** = $( window ).scrollTop(),
-				***REMOVED*** = $navigation.height(),
+			var windowScrollTop = $( window ).scrollTop(),
+				fixedNavHeight = $navigation.height(),
 				itemScrollTop = $( this ).offset().top,
-				offsetDiff = itemScrollTop - ***REMOVED***;
+				offsetDiff = itemScrollTop - windowScrollTop;
 
 			// Account for Admin bar.
 			if ( $( '#wpadminbar' ).length ) {
 				offsetDiff -= $( '#wpadminbar' ).height();
 			}
 
-			if ( offsetDiff < ***REMOVED*** ) {
-				$( window ).scrollTo( itemScrollTop - ( ***REMOVED*** + 50 ), 0 );
+			if ( offsetDiff < fixedNavHeight ) {
+				$( window ).scrollTo( itemScrollTop - ( fixedNavHeight + 50 ), 0 );
 			}
 		}
 	});
 
 	// Set properties of navigation.
 	function setNavProps() {
-		***REMOVED***      = $navigation.height();
+		navigationHeight      = $navigation.height();
 		navigationOuterHeight = $navigation.outerHeight();
 		navPadding            = parseFloat( $navWrap.css( 'padding-top' ) ) * 2;
-		***REMOVED***     = $navMenuItem.outerHeight() * 2;
-		***REMOVED***        = navPadding + ***REMOVED***;
-		***REMOVED***       = ***REMOVED*** <= ***REMOVED***;
+		navMenuItemHeight     = $navMenuItem.outerHeight() * 2;
+		idealNavHeight        = navPadding + navMenuItemHeight;
+		navIsNotTooTall       = navigationHeight <= idealNavHeight;
 	}
 
 	// Make navigation 'stick'.
-	function ***REMOVED***() {
+	function adjustScrollClass() {
 
 		// Make sure we're not on a mobile screen.
 		if ( 'none' === $menuToggle.css( 'display' ) ) {
 
 			// Make sure the nav isn't taller than two rows.
-			if ( ***REMOVED*** ) {
+			if ( navIsNotTooTall ) {
 
 				// When there's a custom header image or video, the header offset includes the height of the navigation.
 				if ( isFrontPage && ( $body.hasClass( 'has-header-image' ) || $body.hasClass( 'has-header-video' ) ) ) {
@@ -72,21 +72,21 @@
 
 				// If the scroll is more than the custom header, set the fixed class.
 				if ( $( window ).scrollTop() >= headerOffset ) {
-					$navigation.addClass( ***REMOVED*** );
+					$navigation.addClass( navigationFixedClass );
 				} else {
-					$navigation.removeClass( ***REMOVED*** );
+					$navigation.removeClass( navigationFixedClass );
 				}
 
 			} else {
 
 				// Remove 'fixed' class if nav is taller than two rows.
-				$navigation.removeClass( ***REMOVED*** );
+				$navigation.removeClass( navigationFixedClass );
 			}
 		}
 	}
 
 	// Set margins of branding in header.
-	function ***REMOVED***() {
+	function adjustHeaderHeight() {
 		if ( 'none' === $menuToggle.css( 'display' ) ) {
 
 			// The margin should be applied to different elements on front-page or home vs interior pages.
@@ -108,8 +108,8 @@
 	}
 
 	// Add 'below-entry-meta' class to elements.
-	function ***REMOVED***( param ) {
-		var sidebarPos, ***REMOVED***;
+	function belowEntryMetaClass( param ) {
+		var sidebarPos, sidebarPosBottom;
 
 		if ( ! $body.hasClass( 'has-sidebar' ) ||
 			typeof $sidebar === 'undefined' ||
@@ -117,13 +117,13 @@
 			$body.hasClass( 'search' ) ||
 			$body.hasClass( 'single-attachment' ) ||
 			$body.hasClass( 'error404' ) ||
-			$body.hasClass( '***REMOVED***-front-page' )
+			$body.hasClass( 'twentyseventeen-front-page' )
 		) ) {
 			return;
 		}
 
 		sidebarPos       = $sidebar.offset();
-		***REMOVED*** = sidebarPos.top + ( $sidebar.height() + 28 );
+		sidebarPosBottom = sidebarPos.top + ( $sidebar.height() + 28 );
 
 		$entryContent.find( param ).each( function() {
 			var $element = $( this ),
@@ -131,7 +131,7 @@
 				elementPosTop = elementPos.top;
 
 			// Add 'below-entry-meta' to elements below the entry meta.
-			if ( elementPosTop > ***REMOVED*** ) {
+			if ( elementPosTop > sidebarPosBottom ) {
 				$element.addClass( 'below-entry-meta' );
 			} else {
 				$element.removeClass( 'below-entry-meta' );
@@ -143,7 +143,7 @@
 	 * Test if inline SVGs are supported.
 	 * @link https://github.com/Modernizr/Modernizr/
 	 */
-	function ***REMOVED***() {
+	function supportsInlineSVG() {
 		var div = document.createElement( 'div' );
 		div.innerHTML = '<svg/>';
 		return 'http://www.w3.org/2000/svg' === ( 'undefined' !== typeof SVGRect && div.firstChild && div.firstChild.namespaceURI );
@@ -165,11 +165,11 @@
 			isSupported;
 
 		try {
-			if ( ! ( '***REMOVED***' in el.style ) || checkiOS() ) {
+			if ( ! ( 'backgroundAttachment' in el.style ) || checkiOS() ) {
 				return false;
 			}
-			el.style.***REMOVED*** = 'fixed';
-			isSupported = ( 'fixed' === el.style.***REMOVED*** );
+			el.style.backgroundAttachment = 'fixed';
+			isSupported = ( 'fixed' === el.style.backgroundAttachment );
 			return isSupported;
 		}
 		catch (e) {
@@ -180,14 +180,14 @@
 	// Fire on document ready.
 	$( function() {
 
-		// If navigation menu is present on page, setNavProps and ***REMOVED***.
+		// If navigation menu is present on page, setNavProps and adjustScrollClass.
 		if ( $navigation.length ) {
 			setNavProps();
-			***REMOVED***();
+			adjustScrollClass();
 		}
 
 		// If 'Scroll Down' arrow in present on page, calculate scroll offset and bind an event handler to the click event.
-		if ( $***REMOVED***.length ) {
+		if ( $menuScrollDown.length ) {
 
 			if ( $( 'body' ).hasClass( 'admin-bar' ) ) {
 				menuTop -= 32;
@@ -199,8 +199,8 @@
 				navigationOuterHeight = 0;
 			}
 
-			$***REMOVED***.on( 'click', function( e ) {
-				e.***REMOVED***();
+			$menuScrollDown.on( 'click', function( e ) {
+				e.preventDefault();
 				$( window ).scrollTo( '#primary', {
 					duration: 600,
 					offset: { top: menuTop - navigationOuterHeight }
@@ -208,15 +208,15 @@
 			});
 		}
 
-		***REMOVED***();
+		adjustHeaderHeight();
 		setQuotesIcon();
-		***REMOVED***( 'blockquote.alignleft, blockquote.alignright' );
-		if ( true === ***REMOVED***() ) {
-			document.***REMOVED***.className = document.***REMOVED***.className.replace( /(\s*)no-svg(\s*)/, '$1svg$2' );
+		belowEntryMetaClass( 'blockquote.alignleft, blockquote.alignright' );
+		if ( true === supportsInlineSVG() ) {
+			document.documentElement.className = document.documentElement.className.replace( /(\s*)no-svg(\s*)/, '$1svg$2' );
 		}
 
 		if ( true === supportsFixedBackground() ) {
-			document.***REMOVED***.className += ' background-fixed';
+			document.documentElement.className += ' background-fixed';
 		}
 	} );
 
@@ -225,23 +225,23 @@
 
 		// On scroll, we want to stick/unstick the navigation.
 		$( window ).on( 'scroll', function() {
-			***REMOVED***();
-			***REMOVED***();
+			adjustScrollClass();
+			adjustHeaderHeight();
 		});
 
 		// Also want to make sure the navigation is where it should be on resize.
 		$( window ).on( 'resize', function() {
 			setNavProps();
-			setTimeout( ***REMOVED***, 500 );
+			setTimeout( adjustScrollClass, 500 );
 		});
 	}
 
 	$( window ).on( 'resize', function() {
 		clearTimeout( resizeTimer );
 		resizeTimer = setTimeout( function() {
-			***REMOVED***( 'blockquote.alignleft, blockquote.alignright' );
+			belowEntryMetaClass( 'blockquote.alignleft, blockquote.alignright' );
 		}, 300 );
-		setTimeout( ***REMOVED***, 1000 );
+		setTimeout( adjustHeaderHeight, 1000 );
 	});
 
 	// Add header video class after the video is loaded.

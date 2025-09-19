@@ -13,7 +13,7 @@
  * @package         tiptip
  */
 
-namespace ***REMOVED***;
+namespace hyperlinkGroup;
 
 function render_block_core( $attributes, $content, $block ) {
 	$align_class_name   = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";

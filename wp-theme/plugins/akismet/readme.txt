@@ -42,7 +42,7 @@ Upload the Akismet plugin to your blog, activate it, and then enter your Akismet
 * Simplified the code around checking comments in REST API and XML-RPC requests.
 * Updated Plus plan terminology in notices to match current subscription names.
 * Added `rel="noopener"` to the widget link to avoid warnings in Google Lighthouse.
-* Set the Akismet JavaScript as deferred instead of async to improve ***REMOVED***.
+* Set the Akismet JavaScript as deferred instead of async to improve responsiveness.
 * Improved the preloading of screenshot popups on the edit comments admin page.
 
 = 4.1.9 =

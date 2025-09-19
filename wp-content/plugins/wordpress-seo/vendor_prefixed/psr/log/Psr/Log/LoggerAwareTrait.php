@@ -3,22 +3,22 @@
 namespace YoastSEO_Vendor\Psr\Log;
 
 /**
- * Basic ***REMOVED*** of ***REMOVED***.
+ * Basic Implementation of LoggerAwareInterface.
  */
-trait ***REMOVED***
+trait LoggerAwareTrait
 {
     /**
      * The logger instance.
      *
-     * @var ***REMOVED***|null
+     * @var LoggerInterface|null
      */
     protected $logger;
     /**
      * Sets a logger.
      *
-     * @param ***REMOVED*** $logger
+     * @param LoggerInterface $logger
      */
-    public function setLogger(\YoastSEO_Vendor\Psr\Log\***REMOVED*** $logger)
+    public function setLogger(\YoastSEO_Vendor\Psr\Log\LoggerInterface $logger)
     {
         $this->logger = $logger;
     }

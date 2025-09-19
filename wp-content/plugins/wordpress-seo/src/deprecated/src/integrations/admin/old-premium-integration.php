@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  * Old_Premium_Integration class
  *
  * @deprecated 20.10
- * @***REMOVED***
+ * @codeCoverageIgnore
  */
 class Old_Premium_Integration implements Integration_Interface {
 
@@ -64,7 +64,7 @@ class Old_Premium_Integration implements Integration_Interface {
 	 * Old_Premium_Integration constructor.
 	 *
 	 * @deprecated 20.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Options_Helper            $options_helper      The options helper.
 	 * @param Product_Helper            $product_helper      The product helper.
@@ -90,7 +90,7 @@ class Old_Premium_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 *
 	 * @deprecated 20.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		\_deprecated_function( __METHOD__, 'Yoast SEO 20.7' );
@@ -100,7 +100,7 @@ class Old_Premium_Integration implements Integration_Interface {
 	 * Shows a notice if Premium is older than 20.0-RC1 so Settings might be missing from the UI.
 	 *
 	 * @deprecated 20.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class Old_Premium_Integration implements Integration_Interface {
 	 * Dismisses the old premium notice.
 	 *
 	 * @deprecated 20.10
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */

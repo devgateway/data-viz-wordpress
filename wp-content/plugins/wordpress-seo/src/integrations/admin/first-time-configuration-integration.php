@@ -137,7 +137,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Date is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || ( $_GET['page'] !== 'wpseo_dashboard' && $_GET['page'] !== General_Page_Integration::PAGE ) || \is_network_admin() ) {
 			return;
 		}
@@ -166,7 +166,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		 */
 		$data = \apply_filters( 'wpseo_indexing_data', $data );
 
-		$this->admin_asset_manager->localize_script( 'indexation', '***REMOVED***', $data );
+		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
 		$person_id       = $this->get_person_id();
 		$social_profiles = $this->get_social_profiles();
@@ -190,37 +190,37 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 
 		$data_ftc = [
 			'canEditUser'                => $this->can_edit_profile( $person_id ),
-			'***REMOVED***'            => $this->is_company_or_person(),
-			'***REMOVED***'       => $selected_option_label,
+			'companyOrPerson'            => $this->is_company_or_person(),
+			'companyOrPersonLabel'       => $selected_option_label,
 			'companyName'                => $this->get_company_name(),
-			'***REMOVED***'        => $this->get_fallback_company_name( $this->get_company_name() ),
+			'fallbackCompanyName'        => $this->get_fallback_company_name( $this->get_company_name() ),
 			'websiteName'                => $this->get_website_name(),
-			'***REMOVED***'        => $this->get_fallback_website_name( $this->get_website_name() ),
+			'fallbackWebsiteName'        => $this->get_fallback_website_name( $this->get_website_name() ),
 			'companyLogo'                => $this->get_company_logo(),
-			'***REMOVED***'        => $this->get_company_fallback_logo( $this->get_company_logo() ),
+			'companyLogoFallback'        => $this->get_company_fallback_logo( $this->get_company_logo() ),
 			'companyLogoId'              => $this->get_person_logo_id(),
 			'finishedSteps'              => $finished_steps,
 			'personId'                   => (int) $person_id,
 			'personName'                 => $this->get_person_name(),
 			'personLogo'                 => $this->get_person_logo(),
-			'***REMOVED***'         => $this->get_person_fallback_logo( $this->get_person_logo() ),
+			'personLogoFallback'         => $this->get_person_fallback_logo( $this->get_person_logo() ),
 			'personLogoId'               => $this->get_person_logo_id(),
 			'siteTagline'                => $this->get_site_tagline(),
-			'***REMOVED***'             => [
+			'socialProfiles'             => [
 				'facebookUrl'     => $social_profiles['facebook_site'],
-				'***REMOVED***' => $social_profiles['twitter_site'],
-				'***REMOVED***' => $social_profiles['other_social_urls'],
+				'twitterUsername' => $social_profiles['twitter_site'],
+				'otherSocialUrls' => $social_profiles['other_social_urls'],
 			],
 			'isPremium'                  => $this->product_helper->is_premium(),
 			'tracking'                   => $this->has_tracking_enabled(),
 			'isTrackingAllowedMultisite' => $this->is_tracking_enabled_multisite(),
 			'isMainSite'                 => $this->is_main_site(),
 			'companyOrPersonOptions'     => $options,
-			'***REMOVED***'         => $this->should_force_company(),
+			'shouldForceCompany'         => $this->should_force_company(),
 			'knowledgeGraphMessage'      => $knowledge_graph_message,
 			'shortlinks'                 => [
 				'gdpr'                     => $this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
-				'***REMOVED***'         => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
+				'configIndexables'         => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
 				'configIndexablesBenefits' => $this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' ),
 			],
 		];
@@ -240,7 +240,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			'posts'              => Indexing_Route::FULL_POSTS_ROUTE,
 			'archives'           => Indexing_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
 			'general'            => Indexing_Route::FULL_GENERAL_ROUTE,
-			'***REMOVED***' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
+			'indexablesComplete' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
 			'post_link'          => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
 			'term_link'          => Indexing_Route::FULL_TERM_LINKS_INDEXING_ROUTE,
 		];

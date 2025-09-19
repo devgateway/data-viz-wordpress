@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modular ***REMOVED*** Engine
+ * Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Math\BigInteger\Engines\BCMath;
 use phpseclib3\Math\BigInteger\Engines\BCMath;
 
 /**
- * Sliding Window ***REMOVED*** Engine
+ * Sliding Window Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -46,7 +46,7 @@ abstract class Base extends BCMath
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param BCMath $x
      * @param BCMath $e
@@ -89,7 +89,7 @@ abstract class Base extends BCMath
      * @see self::slidingWindow()
      * @return string
      */
-    protected static function ***REMOVED***($x, $y, $n, $class)
+    protected static function multiplyReduce($x, $y, $n, $class)
     {
         return static::reduce(bcmul($x, $y), $n);
     }

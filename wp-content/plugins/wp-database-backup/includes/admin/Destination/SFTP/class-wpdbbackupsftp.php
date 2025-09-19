@@ -5,14 +5,14 @@
  * @package wpdbbkp
  */
 
-add_action( 'wp_db_backup_completed', array( '***REMOVED***', 'wp_db_backup_completed' ) );
+add_action( 'wp_db_backup_completed', array( 'WPDBBackupSFTP', 'wp_db_backup_completed' ) );
 
 /**
  * WPDBBackupFTP Class.
  *
  * @class WPDBBackupFTP
  */
-class ***REMOVED*** {
+class WPDBBackupSFTP {
 
 	/**
 	 * Run after complete backup.

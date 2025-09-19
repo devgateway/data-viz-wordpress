@@ -28,7 +28,7 @@ export const get = (url, _params = {}) => {
     })
 }
 
-export const ***REMOVED*** = async () => {
+export const fetchAllCategories = async () => {
     const categories = [];
     let page = 1;
     let hasMore = true;

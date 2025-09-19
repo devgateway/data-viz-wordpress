@@ -22,7 +22,7 @@ class secp160k1 extends KoblitzPrime
     {
         // same as secp160r2
         $this->setModulo(new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC73', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('0000000000000000000000000000000000000000', 16),
             new BigInteger('0000000000000000000000000000000000000007', 16)
         );
@@ -39,8 +39,8 @@ class secp160k1 extends KoblitzPrime
         ];
         $this->basis[] = [
             'a' => new BigInteger('01BDCB3A09AAAABEAFF4A8', -16),
-            'b' => new BigInteger('***REMOVED***', -16)
+            'b' => new BigInteger('04D12329FF0EF498EA67', -16)
         ];
-        $this->beta = $this->factory->newInteger(new BigInteger('***REMOVED***', -16));
+        $this->beta = $this->factory->newInteger(new BigInteger('645B7345A143464942CC46D7CF4D5D1E1E6CBB68', -16));
     }
 }

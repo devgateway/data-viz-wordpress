@@ -30,7 +30,7 @@ class BbPress implements Integration_Interface {
 	/**
 	 * BbPress constructor.
 	 *
-	 * @***REMOVED*** It only sets dependencies.
+	 * @codeCoverageIgnore It only sets dependencies.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */

@@ -30,7 +30,7 @@ class BinaryField extends FiniteField
      *
      * @var int
      */
-    private static $***REMOVED*** = 0;
+    private static $instanceCounter = 0;
 
     /**
      * Keeps track of current instance
@@ -53,15 +53,15 @@ class BinaryField extends FiniteField
                altho theoretically there may be legit reasons to use binary finite fields with larger degrees
                imposing a limit on the maximum size is both reasonable and precedented. in particular,
                http://tools.ietf.org/html/rfc4253#section-6.1 (The Secure Shell (SSH) Transport Layer Protocol) says
-               "***REMOVED*** SHOULD check that the packet length is reasonable in order for the ***REMOVED*** to
+               "implementations SHOULD check that the packet length is reasonable in order for the implementation to
                 avoid denial of service and/or buffer overflow attacks" */
-            throw new \***REMOVED***('Degrees larger than 571 are not supported');
+            throw new \OutOfBoundsException('Degrees larger than 571 are not supported');
         }
         $val = str_repeat('0', $m) . '1';
         foreach ($indices as $index) {
             $val[$index] = '1';
         }
-        $modulo = static::***REMOVED***(strrev($val));
+        $modulo = static::base2ToBase256(strrev($val));
 
         $mStart = 2 * $m - 2;
         $t = ceil($m / 8);
@@ -75,9 +75,9 @@ class BinaryField extends FiniteField
         $h = $h ? 8 - $h : 0;
 
         $r = rtrim(substr($val, 0, -1), '0');
-        $u = [static::***REMOVED***(strrev($r))];
+        $u = [static::base2ToBase256(strrev($r))];
         for ($i = 1; $i < 8; $i++) {
-            $u[] = static::***REMOVED***(strrev(str_repeat('0', $i) . $r));
+            $u[] = static::base2ToBase256(strrev(str_repeat('0', $i) . $r));
         }
 
         // implements algorithm 2.40 (in section 2.3.5) in "Guide to Elliptic Curve Cryptography"
@@ -110,7 +110,7 @@ class BinaryField extends FiniteField
             return ltrim($c, "\0");
         };
 
-        $this->instanceID = self::$***REMOVED***++;
+        $this->instanceID = self::$instanceCounter++;
         Integer::setModulo($this->instanceID, $modulo);
         Integer::setRecurringModuloFunction($this->instanceID, $reduce);
 
@@ -118,7 +118,7 @@ class BinaryField extends FiniteField
     }
 
     /**
-     * Returns an instance of a dynamically generated ***REMOVED*** class
+     * Returns an instance of a dynamically generated PrimeFieldInteger class
      *
      * @param string $num
      * @return Integer
@@ -148,7 +148,7 @@ class BinaryField extends FiniteField
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getLengthInBytes()
     {
         return strlen(Integer::getModulo($this->instanceID));
     }
@@ -170,7 +170,7 @@ class BinaryField extends FiniteField
      * @param int|null $size
      * @return string
      */
-    public static function ***REMOVED***($x, $size = null)
+    public static function base2ToBase256($x, $size = null)
     {
         $str = Strings::bits2bin($x);
 
@@ -192,7 +192,7 @@ class BinaryField extends FiniteField
      * @param string $x
      * @return string
      */
-    public static function ***REMOVED***($x)
+    public static function base256ToBase2($x)
     {
         if (function_exists('gmp_import')) {
             return gmp_strval(gmp_import($x), 2);

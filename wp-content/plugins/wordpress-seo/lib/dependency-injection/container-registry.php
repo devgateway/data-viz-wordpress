@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\Lib\Dependency_Injection;
 
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\***REMOVED***;
-use YoastSEO_Vendor\Symfony\Component\***REMOVED***\Exception\ServiceNotFoundException;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * Container_Registry class.
@@ -13,7 +13,7 @@ class Container_Registry {
 	/**
 	 * The registered containers.
 	 *
-	 * @var ***REMOVED***[]
+	 * @var ContainerInterface[]
 	 */
 	private static $containers = [];
 
@@ -21,11 +21,11 @@ class Container_Registry {
 	 * Register a container.
 	 *
 	 * @param string             $name      The name of the container.
-	 * @param ***REMOVED*** $container The container.
+	 * @param ContainerInterface $container The container.
 	 *
 	 * @return void
 	 */
-	public static function register( $name, ***REMOVED*** $container ) {
+	public static function register( $name, ContainerInterface $container ) {
 		self::$containers[ $name ] = $container;
 	}
 
@@ -45,7 +45,7 @@ class Container_Registry {
 	 */
 	public static function get( $name, $id, $invalid_behaviour = 1 ) {
 		if ( ! \array_key_exists( $name, self::$containers ) ) {
-			if ( $invalid_behaviour === ***REMOVED***::EXCEPTION_ON_INVALID_REFERENCE ) {
+			if ( $invalid_behaviour === ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE ) {
 				throw new ServiceNotFoundException( $id );
 			}
 			return null;

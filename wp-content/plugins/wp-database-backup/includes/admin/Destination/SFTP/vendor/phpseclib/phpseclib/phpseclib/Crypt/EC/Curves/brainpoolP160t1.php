@@ -1,9 +1,9 @@
 <?php
 
 /**
- * ***REMOVED***
+ * brainpoolP160t1
  *
- * This curve is a twisted version of ***REMOVED*** with A = -3. With brainpool,
+ * This curve is a twisted version of brainpoolP160r1 with A = -3. With brainpool,
  * the curves ending in r1 are the "regular" curves and the curves ending in "t1"
  * are the twisted version of the r1 curves. Per https://tools.ietf.org/html/rfc5639#page-7
  * you can convert a point on an r1 curve to a point on a t1 curve thusly:
@@ -29,12 +29,12 @@ namespace phpseclib3\Crypt\EC\Curves;
 use phpseclib3\Crypt\EC\BaseCurves\Prime;
 use phpseclib3\Math\BigInteger;
 
-class ***REMOVED*** extends Prime
+class brainpoolP160t1 extends Prime
 {
     public function __construct()
     {
         $this->setModulo(new BigInteger('E95E4A5F737059DC60DFC7AD95B3D8139515620F', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('E95E4A5F737059DC60DFC7AD95B3D8139515620C', 16), // eg. -3
             new BigInteger('7A556B6DAE535B7B51ED2C4D7DAA7A0B5C55F380', 16)
         );

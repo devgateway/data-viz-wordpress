@@ -36,7 +36,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @***REMOVED*** It just handles dependencies.
+	 * @codeCoverageIgnore It just handles dependencies.
 	 *
 	 * @param Options_Helper   $options  Options helper.
 	 * @param WP_Query_Wrapper $wp_query WP query wrapper.
@@ -60,13 +60,13 @@ class Force_Rewrite_Title implements Integration_Interface {
 	 *
 	 * This is the place to register hooks and filters.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
 		// When the option is disabled.
-		if ( ! $this->options->get( '***REMOVED***', false ) ) {
+		if ( ! $this->options->get( 'forcerewritetitle', false ) ) {
 			return;
 		}
 
@@ -160,7 +160,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 	/**
 	 * Starts the output buffering.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -171,7 +171,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 	/**
 	 * Retrieves the buffered output.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string|false The buffered output.
 	 */

@@ -31,7 +31,7 @@ class Table {
 	private $options;
 
 	/**
-	 * The SQL ***REMOVED*** of this table.
+	 * The SQL representation of this table.
 	 *
 	 * @var string
 	 */

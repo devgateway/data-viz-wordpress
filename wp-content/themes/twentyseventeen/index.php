@@ -24,7 +24,7 @@ get_header(); ?>
 		</header>
 	<?php else : ?>
 	<header class="page-header">
-		<h2 class="page-title"><?php _e( 'Posts', '***REMOVED***' ); ?></h2>
+		<h2 class="page-title"><?php _e( 'Posts', 'twentyseventeen' ); ?></h2>
 	</header>
 	<?php endif; ?>
 
@@ -51,11 +51,11 @@ get_header(); ?>
 				the_posts_pagination(
 					array(
 						/* translators: Hidden accessibility text. */
-						'prev_text'          => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', '***REMOVED***' ) . '</span>',
+						'prev_text'          => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
 						/* translators: Hidden accessibility text. */
-						'next_text'          => '<span class="screen-reader-text">' . __( 'Next page', '***REMOVED***' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
+						'next_text'          => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
 						/* translators: Hidden accessibility text. */
-						'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', '***REMOVED***' ) . ' </span>',
+						'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
 					)
 				);
 

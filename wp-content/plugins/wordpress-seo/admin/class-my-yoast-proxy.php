@@ -30,7 +30,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the hooks when the user is on the right page.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -47,7 +47,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the proxy page. It does not actually add a link to the dashboard.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Renders the requested proxy page and exits to prevent the WordPress UI from loading.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Tries to load the given url via `wp_remote_get`.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $url The url to load.
 	 *
@@ -157,12 +157,12 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Checks if the current page is the MyYoast proxy page.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True when the page request parameter equals the proxy page.
 	 */
 	protected function is_proxy_page() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$page = isset( $_GET['page'] ) && is_string( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 		return $page === self::PAGE_IDENTIFIER;
 	}
@@ -170,14 +170,14 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the proxy file from the HTTP request parameters.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The sanitized file request parameter or an empty string if it does not exist.
 	 */
 	protected function get_proxy_file() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['file'] ) && is_string( $_GET['file'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			return sanitize_text_field( wp_unslash( $_GET['file'] ) );
 		}
 		return '';
@@ -186,14 +186,14 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns the plugin version from the HTTP request parameters.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The sanitized plugin_version request parameter or an empty string if it does not exist.
 	 */
 	protected function get_plugin_version() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['plugin_version'] ) && is_string( $_GET['plugin_version'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			$plugin_version = sanitize_text_field( wp_unslash( $_GET['plugin_version'] ) );
 			// Replace slashes to secure against requiring a file from another path.
 			return str_replace( [ '/', '\\' ], '_', $plugin_version );
@@ -206,7 +206,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 *
 	 * This is a tiny helper function to enable better testing.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $header The header to set.
 	 *

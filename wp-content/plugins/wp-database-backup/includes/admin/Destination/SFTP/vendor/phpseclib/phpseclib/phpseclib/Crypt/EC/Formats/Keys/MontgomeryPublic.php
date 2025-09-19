@@ -13,7 +13,7 @@
 
 namespace phpseclib3\Crypt\EC\Formats\Keys;
 
-use phpseclib3\Crypt\EC\BaseCurves\Montgomery as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\Montgomery as MontgomeryCurve;
 use phpseclib3\Crypt\EC\Curves\Curve25519;
 use phpseclib3\Crypt\EC\Curves\Curve448;
 use phpseclib3\Math\BigInteger;
@@ -23,7 +23,7 @@ use phpseclib3\Math\BigInteger;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class MontgomeryPublic
 {
     /**
      * Is invisible flag
@@ -48,11 +48,11 @@ abstract class ***REMOVED***
                 $curve = new Curve448();
                 break;
             default:
-                throw new \***REMOVED***('The only supported lengths are 32 and 56');
+                throw new \LengthException('The only supported lengths are 32 and 56');
         }
 
         $components = ['curve' => $curve];
-        $components['QA'] = [$components['curve']->***REMOVED***(new BigInteger(strrev($key), 256))];
+        $components['QA'] = [$components['curve']->convertInteger(new BigInteger(strrev($key), 256))];
 
         return $components;
     }
@@ -64,7 +64,7 @@ abstract class ***REMOVED***
      * @param \phpseclib3\Math\Common\FiniteField\Integer[] $publicKey
      * @return string
      */
-    public static function savePublicKey(***REMOVED*** $curve, array $publicKey)
+    public static function savePublicKey(MontgomeryCurve $curve, array $publicKey)
     {
         return strrev($publicKey[0]->toBytes());
     }

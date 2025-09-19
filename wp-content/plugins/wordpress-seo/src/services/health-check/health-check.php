@@ -20,7 +20,7 @@ abstract class Health_Check {
 	private $runner;
 
 	/**
-	 * The health check ***REMOVED*** sets the runner so this class can start a health check.
+	 * The health check implementation sets the runner so this class can start a health check.
 	 *
 	 * @param  Runner_Interface $runner The health check runner.
 	 * @return void
@@ -30,7 +30,7 @@ abstract class Health_Check {
 	}
 
 	/**
-	 * Returns the identifier of health check ***REMOVED***. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
+	 * Returns the identifier of health check implementation. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
 	 *
 	 * @return string The identifier that WordPress requires.
 	 */
@@ -51,7 +51,7 @@ abstract class Health_Check {
 	}
 
 	/**
-	 * Returns the name of health check ***REMOVED*** that the user can see. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
+	 * Returns the name of health check implementation that the user can see. WordPress needs this to manage the health check (https://developer.wordpress.org/reference/hooks/site_status_tests/).
 	 *
 	 * @return string A human-readable label for the health check.
 	 */
@@ -68,7 +68,7 @@ abstract class Health_Check {
 	}
 
 	/**
-	 * Gets the result from the health check ***REMOVED***.
+	 * Gets the result from the health check implementation.
 	 *
 	 * @return string[] The array containing a WordPress site status report.
 	 */

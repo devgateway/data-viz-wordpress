@@ -21,7 +21,7 @@ if ( ! class_exists( 'acf_field_taxonomy' ) ) :
 			$this->category      = 'relational';
 			$this->description   = __( 'Allows the selection of one or more taxonomy terms based on the criteria and options specified in the fields settings.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-taxonomy.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/taxonomy/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/taxonomy/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'taxonomy'             => 'category',
 				'field_type'           => 'checkbox',
@@ -602,7 +602,7 @@ if ( ! class_exists( 'acf_field_taxonomy' ) ) :
 			$args = apply_filters( 'acf/fields/taxonomy/wp_list_categories/key=' . $field['key'], $args, $field );
 
 			?>
-<div class="***REMOVED***-holder">
+<div class="categorychecklist-holder">
 	<ul class="acf-checkbox-list acf-bl">
 			<?php wp_list_categories( $args ); ?>
 	</ul>

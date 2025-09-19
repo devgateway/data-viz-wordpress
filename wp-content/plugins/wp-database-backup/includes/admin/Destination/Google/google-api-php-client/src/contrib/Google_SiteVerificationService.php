@@ -73,13 +73,13 @@
     /**
      * Attempt verification of a website or domain. (webResource.insert)
      *
-     * @param string $***REMOVED*** The method to use for verifying a site or domain.
+     * @param string $verificationMethod The method to use for verifying a site or domain.
      * @param Google_SiteVerificationWebResourceResource $postBody
      * @param array $optParams Optional parameters.
      * @return Google_SiteVerificationWebResourceResource
      */
-    public function insert($***REMOVED***, Google_SiteVerificationWebResourceResource $postBody, $optParams = array()) {
-      $params = array('***REMOVED***' => $***REMOVED***, 'postBody' => $postBody);
+    public function insert($verificationMethod, Google_SiteVerificationWebResourceResource $postBody, $optParams = array()) {
+      $params = array('verificationMethod' => $verificationMethod, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('insert', array($params));
       if ($this->useObjects()) {
@@ -94,7 +94,7 @@
      * @param array $optParams Optional parameters.
      * @return Google_SiteVerificationWebResourceListResponse
      */
-    public function ***REMOVED***($optParams = array()) {
+    public function listWebResource($optParams = array()) {
       $params = array();
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -147,7 +147,7 @@
  * Service definition for Google_SiteVerification (v1).
  *
  * <p>
- * Lets you ***REMOVED*** verify ownership of websites or domains with Google.
+ * Lets you programatically verify ownership of websites or domains with Google.
  * </p>
  *
  * <p>
@@ -160,17 +160,17 @@
 class Google_SiteVerificationService extends Google_Service {
   public $webResource;
   /**
-   * Constructs the internal ***REMOVED*** of the ***REMOVED*** service.
+   * Constructs the internal representation of the SiteVerification service.
    *
    * @param Google_Client $client
    */
   public function __construct(Google_Client $client) {
-    $this->servicePath = '***REMOVED***/v1/';
+    $this->servicePath = 'siteVerification/v1/';
     $this->version = 'v1';
-    $this->serviceName = '***REMOVED***';
+    $this->serviceName = 'siteVerification';
 
     $client->addService($this->serviceName, $this->version);
-    $this->webResource = new Google_WebResourceServiceResource($this, $this->serviceName, 'webResource', json_decode('{"methods": {"delete": {"id": "***REMOVED***.webResource.delete", "path": "webResource/{id}", "httpMethod": "DELETE", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/***REMOVED***"]}, "get": {"id": "***REMOVED***.webResource.get", "path": "webResource/{id}", "httpMethod": "GET", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/***REMOVED***"]}, "getToken": {"id": "***REMOVED***.webResource.getToken", "path": "token", "httpMethod": "POST", "request": {"$ref": "SiteVerificationWebResourceGettokenRequest"}, "response": {"$ref": "SiteVerificationWebResourceGettokenResponse"}, "scopes": ["https://www.googleapis.com/auth/***REMOVED***", "https://www.googleapis.com/auth/***REMOVED***.verify_only"]}, "insert": {"id": "***REMOVED***.webResource.insert", "path": "webResource", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "query"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/***REMOVED***", "https://www.googleapis.com/auth/***REMOVED***.verify_only"]}, "list": {"id": "***REMOVED***.webResource.list", "path": "webResource", "httpMethod": "GET", "response": {"$ref": "SiteVerificationWebResourceListResponse"}, "scopes": ["https://www.googleapis.com/auth/***REMOVED***"]}, "patch": {"id": "***REMOVED***.webResource.patch", "path": "webResource/{id}", "httpMethod": "PATCH", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/***REMOVED***"]}, "update": {"id": "***REMOVED***.webResource.update", "path": "webResource/{id}", "httpMethod": "PUT", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/***REMOVED***"]}}}', true));
+    $this->webResource = new Google_WebResourceServiceResource($this, $this->serviceName, 'webResource', json_decode('{"methods": {"delete": {"id": "siteVerification.webResource.delete", "path": "webResource/{id}", "httpMethod": "DELETE", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/siteverification"]}, "get": {"id": "siteVerification.webResource.get", "path": "webResource/{id}", "httpMethod": "GET", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/siteverification"]}, "getToken": {"id": "siteVerification.webResource.getToken", "path": "token", "httpMethod": "POST", "request": {"$ref": "SiteVerificationWebResourceGettokenRequest"}, "response": {"$ref": "SiteVerificationWebResourceGettokenResponse"}, "scopes": ["https://www.googleapis.com/auth/siteverification", "https://www.googleapis.com/auth/siteverification.verify_only"]}, "insert": {"id": "siteVerification.webResource.insert", "path": "webResource", "httpMethod": "POST", "parameters": {"verificationMethod": {"type": "string", "required": true, "location": "query"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/siteverification", "https://www.googleapis.com/auth/siteverification.verify_only"]}, "list": {"id": "siteVerification.webResource.list", "path": "webResource", "httpMethod": "GET", "response": {"$ref": "SiteVerificationWebResourceListResponse"}, "scopes": ["https://www.googleapis.com/auth/siteverification"]}, "patch": {"id": "siteVerification.webResource.patch", "path": "webResource/{id}", "httpMethod": "PATCH", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/siteverification"]}, "update": {"id": "siteVerification.webResource.update", "path": "webResource/{id}", "httpMethod": "PUT", "parameters": {"id": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "SiteVerificationWebResourceResource"}, "response": {"$ref": "SiteVerificationWebResourceResource"}, "scopes": ["https://www.googleapis.com/auth/siteverification"]}}}', true));
 
   }
 }
@@ -181,18 +181,18 @@ class Google_SiteVerificationWebResourceGettokenRequest extends Google_Model {
   protected $__siteType = 'Google_SiteVerificationWebResourceGettokenRequestSite';
   protected $__siteDataType = '';
   public $site;
-  public $***REMOVED***;
+  public $verificationMethod;
   public function setSite(Google_SiteVerificationWebResourceGettokenRequestSite $site) {
     $this->site = $site;
   }
   public function getSite() {
     return $this->site;
   }
-  public function setVerificationMethod( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setVerificationMethod( $verificationMethod) {
+    $this->verificationMethod = $verificationMethod;
   }
   public function getVerificationMethod() {
-    return $this->***REMOVED***;
+    return $this->verificationMethod;
   }
 }
 

@@ -29,7 +29,7 @@ class Woocommerce_Beta_Editor_Presenter extends Abstract_Presenter {
 	/**
 	 * Returns the notification as an HTML string.
 	 *
-	 * @return string The notification in an HTML string ***REMOVED***.
+	 * @return string The notification in an HTML string representation.
 	 */
 	public function present() {
 		$notification_text  = '<p>';

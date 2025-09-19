@@ -2,15 +2,15 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Exception\RequestException;
 use YoastSEO_Vendor\GuzzleHttp\HandlerStack;
 use YoastSEO_Vendor\GuzzleHttp\Promise as P;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
 use YoastSEO_Vendor\GuzzleHttp\TransferStats;
 use YoastSEO_Vendor\GuzzleHttp\Utils;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Handler that returns responses or throw exceptions from a queue.
  *
@@ -23,7 +23,7 @@ class MockHandler implements \Countable
      */
     private $queue = [];
     /**
-     * @var ***REMOVED***|null
+     * @var RequestInterface|null
      */
     private $lastRequest;
     /**
@@ -46,13 +46,13 @@ class MockHandler implements \Countable
      * @param callable|null $onFulfilled Callback to invoke when the return value is fulfilled.
      * @param callable|null $onRejected  Callback to invoke when the return value is rejected.
      */
-    public static function ***REMOVED***(array $queue = null, callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\HandlerStack
+    public static function createWithMiddleware(array $queue = null, callable $onFulfilled = null, callable $onRejected = null) : \YoastSEO_Vendor\GuzzleHttp\HandlerStack
     {
         return \YoastSEO_Vendor\GuzzleHttp\HandlerStack::create(new self($queue, $onFulfilled, $onRejected));
     }
     /**
      * The passed in value must be an array of
-     * {@see \Psr\Http\Message\***REMOVED***} objects, Exceptions,
+     * {@see \Psr\Http\Message\ResponseInterface} objects, Exceptions,
      * callables, or Promises.
      *
      * @param array<int, mixed>|null $queue       The parameters to be passed to the append function, as an indexed array.
@@ -68,10 +68,10 @@ class MockHandler implements \Countable
             $this->append(...\array_values($queue));
         }
     }
-    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         if (!$this->queue) {
-            throw new \***REMOVED***('Mock queue is empty');
+            throw new \OutOfBoundsException('Mock queue is empty');
         }
         if (isset($options['delay']) && \is_numeric($options['delay'])) {
             \usleep((int) $options['delay'] * 1000);
@@ -87,14 +87,14 @@ class MockHandler implements \Countable
                 $options['on_headers']($response);
             } catch (\Exception $e) {
                 $msg = 'An error was encountered during the on_headers event';
-                $response = new \YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***($msg, $request, $response, $e);
+                $response = new \YoastSEO_Vendor\GuzzleHttp\Exception\RequestException($msg, $request, $response, $e);
             }
         }
         if (\is_callable($response)) {
             $response = $response($request, $options);
         }
         $response = $response instanceof \Throwable ? \YoastSEO_Vendor\GuzzleHttp\Promise\Create::rejectionFor($response) : \YoastSEO_Vendor\GuzzleHttp\Promise\Create::promiseFor($response);
-        return $response->then(function (?\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $value) use($request, $options) {
+        return $response->then(function (?\YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $value) use($request, $options) {
             $this->invokeStats($request, $options, $value);
             if ($this->onFulfilled) {
                 ($this->onFulfilled)($value);
@@ -106,7 +106,7 @@ class MockHandler implements \Countable
                     \fwrite($sink, $contents);
                 } elseif (\is_string($sink)) {
                     \file_put_contents($sink, $contents);
-                } elseif ($sink instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
+                } elseif ($sink instanceof \YoastSEO_Vendor\Psr\Http\Message\StreamInterface) {
                     $sink->write($contents);
                 }
             }
@@ -128,7 +128,7 @@ class MockHandler implements \Countable
     public function append(...$values) : void
     {
         foreach ($values as $value) {
-            if ($value instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** || $value instanceof \Throwable || $value instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED*** || \is_callable($value)) {
+            if ($value instanceof \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface || $value instanceof \Throwable || $value instanceof \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface || \is_callable($value)) {
                 $this->queue[] = $value;
             } else {
                 throw new \TypeError('Expected a Response, Promise, Throwable or callable. Found ' . \YoastSEO_Vendor\GuzzleHttp\Utils::describeType($value));
@@ -138,14 +138,14 @@ class MockHandler implements \Countable
     /**
      * Get the last received request.
      */
-    public function ***REMOVED***() : ?\YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function getLastRequest() : ?\YoastSEO_Vendor\Psr\Http\Message\RequestInterface
     {
         return $this->lastRequest;
     }
     /**
      * Get the last received request options.
      */
-    public function ***REMOVED***() : array
+    public function getLastOptions() : array
     {
         return $this->lastOptions;
     }
@@ -163,7 +163,7 @@ class MockHandler implements \Countable
     /**
      * @param mixed $reason Promise or reason.
      */
-    private function invokeStats(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options, \YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $response = null, $reason = null) : void
+    private function invokeStats(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options, \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface $response = null, $reason = null) : void
     {
         if (isset($options['on_stats'])) {
             $transferTime = $options['transfer_time'] ?? 0;

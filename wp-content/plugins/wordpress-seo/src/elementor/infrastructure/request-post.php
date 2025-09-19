@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Elementor\***REMOVED***;
+namespace Yoast\WP\SEO\Elementor\Infrastructure;
 
 use WP_Post;
 
@@ -26,9 +26,9 @@ class Request_Post {
 	public function get_post_id(): ?int {
 		switch ( $this->get_server_request_method() ) {
 			case 'GET':
-				// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 				if ( isset( $_GET['post'] ) && \is_numeric( $_GET['post'] ) ) {
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.***REMOVED***.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Recommended -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
 					return (int) \wp_unslash( $_GET['post'] );
 				}
 
@@ -42,9 +42,9 @@ class Request_Post {
 				switch ( $this->get_post_action() ) {
 					// Our Yoast SEO form submission, it should include `post_id`.
 					case 'wpseo_elementor_save':
-						// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information.
+						// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 						if ( isset( $_POST['post_id'] ) && \is_numeric( $_POST['post_id'] ) ) {
-							// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.***REMOVED***.Missing -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
+							// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing -- Reason: No sanitization needed because we cast to an integer,We are not processing form information.
 							return (int) \wp_unslash( $_POST['post_id'] );
 						}
 
@@ -74,7 +74,7 @@ class Request_Post {
 			return null;
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are only comparing it later.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only comparing it later.
 		return \strtoupper( \wp_unslash( $_SERVER['REQUEST_METHOD'] ) );
 	}
 
@@ -84,9 +84,9 @@ class Request_Post {
 	 * @return string|null The action or null if not found.
 	 */
 	private function get_post_action(): ?string {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 		if ( isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, we are only strictly comparing.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, we are only strictly comparing.
 			return (string) \wp_unslash( $_POST['action'] );
 		}
 
@@ -104,12 +104,12 @@ class Request_Post {
 	 * @return int|null The document ID or null if not found.
 	 */
 	private function get_document_id(): ?int {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information.
 		if ( ! ( isset( $_POST['actions'] ) && \is_string( $_POST['actions'] ) ) ) {
 			return null;
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***,WordPress.Security.***REMOVED***.Missing -- Reason: No sanitization needed because we cast to an integer (after JSON decode and type/exist checks),We are not processing form information.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.NonceVerification.Missing -- Reason: No sanitization needed because we cast to an integer (after JSON decode and type/exist checks),We are not processing form information.
 		$actions = \json_decode( \wp_unslash( $_POST['actions'] ), true );
 		if ( ! \is_array( $actions ) ) {
 			return null;

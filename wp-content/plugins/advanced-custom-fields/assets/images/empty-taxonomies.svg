@@ -12,14 +12,14 @@
 <rect x="73.6848" y="58.1133" width="10" height="3" rx="1.5" fill="#F9FAFB"/>
 <rect x="73.6848" y="65.1133" width="15" height="3" rx="1.5" fill="#F9FAFB"/>
 <defs>
-<filter id="filter0_d_91_9934" x="63.2848" y="34.1133" width="40" height="49" filterUnits="***REMOVED***" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="***REMOVED***"/>
+<filter id="filter0_d_91_9934" x="63.2848" y="34.1133" width="40" height="49" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="2"/>
-<***REMOVED*** stdDeviation="2"/>
+<feGaussianBlur stdDeviation="2"/>
 <feComposite in2="hardAlpha" operator="out"/>
 <feColorMatrix type="matrix" values="0 0 0 0 0.0627451 0 0 0 0 0.0941176 0 0 0 0 0.156863 0 0 0 0.13 0"/>
-<feBlend mode="normal" in2="***REMOVED***" result="effect1_dropShadow_91_9934"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_91_9934"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_91_9934" result="shape"/>
 </filter>
 </defs>

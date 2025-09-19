@@ -9,7 +9,7 @@ import type { Properties } from 'csstype';
  * @param inlineStyles Inline CSS styles.
  * @return CSS styles object.
  */
-export function ***REMOVED***( inlineStyles: string | undefined ): Properties {
+export function convertToObject( inlineStyles: string | undefined ): Properties {
 	if ( ! inlineStyles ) {
 		return {};
 	}
@@ -39,7 +39,7 @@ export function ***REMOVED***( inlineStyles: string | undefined ): Properties {
  * @param stylesObj CSS styles object.
  * @return Inline CSS styles
  */
-export function ***REMOVED***( stylesObj: Properties ): string {
+export function convertToInline( stylesObj: Properties ): string {
 	const lines: string[] = Object.keys( stylesObj ).reduce< string[] >(
 		( result: string[], key: string ) => {
 			const property = key.replace( /([a-z])([A-Z])/g, '$1-$2' ).toLowerCase();

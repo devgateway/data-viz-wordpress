@@ -1,6 +1,6 @@
 <?php
 
-//phpcs:disable ***REMOVED***
+//phpcs:disable VariableAnalysis
 // There are "undefined" variables here because they're defined in the code that includes this file as a template.
 
 ?>
@@ -48,7 +48,7 @@
 <?php elseif ( $type == 'missing-functions' ) :?>
 <div class="akismet-alert akismet-critical">
 	<h3 class="akismet-key-status failed"><?php esc_html_e('Network functions are disabled.', 'akismet'); ?></h3>
-	<p class="akismet-description"><?php printf( __('Your web host or server administrator has disabled PHP&#8217;s <code>***REMOVED***</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href="%s" target="_blank">this information about Akismet&#8217;s system requirements</a>.', 'akismet'), 'https://blog.akismet.com/akismet-hosting-faq/'); ?></p>
+	<p class="akismet-description"><?php printf( __('Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href="%s" target="_blank">this information about Akismet&#8217;s system requirements</a>.', 'akismet'), 'https://blog.akismet.com/akismet-hosting-faq/'); ?></p>
 </div>
 <?php elseif ( $type == 'servers-be-down' ) :?>
 <div class="akismet-alert akismet-critical">

@@ -2,9 +2,9 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\GuzzleHttp\Exception\***REMOVED***;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Exception\GuzzleException;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 /**
  * Client interface for sending HTTP requests.
@@ -22,9 +22,9 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public abstract function request(string $method, $uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public abstract function request(string $method, $uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
     /**
      * Create and send an HTTP GET request.
      *
@@ -35,9 +35,9 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function get($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function get($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         return $this->request('GET', $uri, $options);
     }
@@ -51,9 +51,9 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function head($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function head($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         return $this->request('HEAD', $uri, $options);
     }
@@ -67,9 +67,9 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function put($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function put($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         return $this->request('PUT', $uri, $options);
     }
@@ -83,9 +83,9 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function post($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function post($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         return $this->request('POST', $uri, $options);
     }
@@ -99,9 +99,9 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function patch($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function patch($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         return $this->request('PATCH', $uri, $options);
     }
@@ -115,9 +115,9 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      *
-     * @throws ***REMOVED***
+     * @throws GuzzleException
      */
-    public function delete($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function delete($uri, array $options = []) : \YoastSEO_Vendor\Psr\Http\Message\ResponseInterface
     {
         return $this->request('DELETE', $uri, $options);
     }
@@ -133,7 +133,7 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public abstract function requestAsync(string $method, $uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+    public abstract function requestAsync(string $method, $uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
     /**
      * Create and send an asynchronous HTTP GET request.
      *
@@ -145,7 +145,7 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public function getAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function getAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->requestAsync('GET', $uri, $options);
     }
@@ -160,7 +160,7 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public function headAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function headAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->requestAsync('HEAD', $uri, $options);
     }
@@ -175,7 +175,7 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public function putAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function putAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->requestAsync('PUT', $uri, $options);
     }
@@ -190,7 +190,7 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public function postAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function postAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->requestAsync('POST', $uri, $options);
     }
@@ -205,7 +205,7 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public function patchAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function patchAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->requestAsync('PATCH', $uri, $options);
     }
@@ -220,7 +220,7 @@ trait ClientTrait
      * @param string|UriInterface $uri     URI object or string.
      * @param array               $options Request options to apply.
      */
-    public function deleteAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function deleteAsync($uri, array $options = []) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         return $this->requestAsync('DELETE', $uri, $options);
     }

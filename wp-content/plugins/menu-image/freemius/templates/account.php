@@ -516,7 +516,7 @@
 													<?php if ( in_array( $p['id'], array( 'license_key', 'site_secret_key' ) ) ) : ?>
 														<code><?php echo FS_Plugin_License::mask_secret_key_for_html( $p['value'] ) ?></code>
 														<?php if ( ! $is_whitelabeled ) : ?>
-                                                        <input type="text" value="<?php echo ***REMOVED***( $p['value'] ) ?>" style="display: none"
+                                                        <input type="text" value="<?php echo htmlspecialchars( $p['value'] ) ?>" style="display: none"
 														       readonly/>
                                                         <?php endif ?>
                                                     <?php elseif ( 'beta_program' === $p['id'] ) : ?>
@@ -525,7 +525,7 @@
                                                                 fs_esc_html_echo_inline( 'Join the Beta program', 'join-beta', $slug )
                                                         ?></span></label>
 													<?php else : ?>
-														<code><?php echo ***REMOVED***( $p['value'] ) ?></code>
+														<code><?php echo htmlspecialchars( $p['value'] ) ?></code>
 													<?php endif ?>
 													<?php if ( 'email' === $p['id'] && ! $user->is_verified() ) : ?>
 														<label class="fs-tag fs-warn"><?php fs_esc_html_echo_inline( 'not verified', 'not-verified', $slug ) ?></label>
@@ -979,7 +979,7 @@
 	        });
 
 	        $( '#fs_downgrade' ).submit(function( event ) {
-                event.***REMOVED***();
+                event.preventDefault();
 
 		        setLoading( $( this ).find( '.button' ), '<?php fs_esc_js_echo_inline( 'Downgrading', 'downgrading' ) ?>...' );
 	        });
@@ -992,7 +992,7 @@
                 $subscriptionCancellationModal  = $( '.fs-modal-subscription-cancellation-<?php echo $fs->get_id() ?>' );
 
             if ( 0 !== $subscriptionCancellationModal.length ) {
-                $subscriptionCancellationModal.on( '<?php echo $fs->get_action_tag( 'subscription_cancellation_action' ) ?>', function( evt, ***REMOVED*** ) {
+                $subscriptionCancellationModal.on( '<?php echo $fs->get_action_tag( 'subscription_cancellation_action' ) ?>', function( evt, cancelSubscription ) {
                     setLoading(
                         $deactivateLicenseOrCancelTrial,
                         ( ! $deactivateLicenseOrCancelTrial.hasClass( 'fs-cancel-trial' ) ?
@@ -1003,7 +1003,7 @@
                     $subscriptionCancellationModal.find( '.fs-modal-footer .button' ).addClass( 'disabled' );
                     $deactivateLicenseOrCancelTrial.unbind( 'click' );
 
-                    if ( false === ***REMOVED*** || $deactivateLicenseOrCancelTrial.hasClass( 'fs-cancel-trial' ) ) {
+                    if ( false === cancelSubscription || $deactivateLicenseOrCancelTrial.hasClass( 'fs-cancel-trial' ) ) {
                         $subscriptionCancellationModal.find( '.fs-modal-footer .button-primary' ).text( $deactivateLicenseOrCancelTrial.text() );
 
                         $deactivateLicenseOrCancelTrial[0].parentNode.submit();
@@ -1045,7 +1045,7 @@
 
             var $sitesSection = $('#fs_sites'),
                 $sitesTable = $sitesSection.find('.fs-scrollable-table'),
-                $***REMOVED*** = $sitesTable.find('.fs-site-details');
+                $sitesTableRows = $sitesTable.find('.fs-site-details');
 
             $('.fs-show-install-details').click(function(){
                 var installID = $(this).parents('.fs-site-details').attr('data-install-id');
@@ -1053,7 +1053,7 @@
             });
 
 
-            var ***REMOVED*** = function($table) {
+            var adjustColumnWidth = function($table) {
                 var $headerColumns = $table.find('.fs-table-head td'),
                     $bodyColumns   = $table.find('.fs-table-body tr:first > td');
 
@@ -1065,20 +1065,20 @@
                 }
             };
 
-            ***REMOVED***($sitesTable);
+            adjustColumnWidth($sitesTable);
 
             $sitesSection.find('.fs-search').keyup(function(){
                 var search = $(this).val().trim();
 
                 if ('' === search){
                     // Show all.
-                    $***REMOVED***.show();
+                    $sitesTableRows.show();
                     return;
                 }
 
                 var url;
 
-                $***REMOVED***.each(function(index){
+                $sitesTableRows.each(function(index){
                     url = $(this).find('.fs-field-url').html();
 
                     if (-1 < url.indexOf(search)){

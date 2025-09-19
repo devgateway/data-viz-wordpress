@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Pure-PHP FIPS 186-4 compliant ***REMOVED*** of DSA.
+ * Pure-PHP FIPS 186-4 compliant implementation of DSA.
  *
  * PHP version 5
  *
@@ -37,7 +37,7 @@ use phpseclib3\Exception\InsufficientSetupException;
 use phpseclib3\Math\BigInteger;
 
 /**
- * Pure-PHP FIPS 186-4 compliant ***REMOVED*** of DSA.
+ * Pure-PHP FIPS 186-4 compliant implementation of DSA.
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -101,13 +101,13 @@ abstract class DSA extends AsymmetricKey
      * @param int $N
      * @return \phpseclib3\Crypt\DSA|bool
      */
-    public static function ***REMOVED***($L = 2048, $N = 224)
+    public static function createParameters($L = 2048, $N = 224)
     {
         self::initialize_static_variables();
 
-        $class = new \***REMOVED***(static::class);
+        $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
-            throw new \***REMOVED***('***REMOVED***() should not be called from final classes (' . static::class . ')');
+            throw new \RuntimeException('createParameters() should not be called from final classes (' . static::class . ')');
         }
 
         if (!isset(self::$engines['PHP'])) {
@@ -119,7 +119,7 @@ abstract class DSA extends AsymmetricKey
             /*
               in FIPS 186-1 and 186-2 N was fixed at 160 whereas K had an upper bound of 1024.
               RFC 4253 (SSH Transport Layer Protocol) references FIPS 186-2 and as such most
-              SSH DSA ***REMOVED*** only support keys with an N of 160.
+              SSH DSA implementations only support keys with an N of 160.
               puttygen let's you set the size of L (but not the size of N) and uses 2048 as the
               default L value. that's not really compliant with any of the FIPS standards, however,
               for the purposes of maintaining compatibility with puttygen, we'll support it
@@ -185,9 +185,9 @@ abstract class DSA extends AsymmetricKey
     {
         self::initialize_static_variables();
 
-        $class = new \***REMOVED***(static::class);
+        $class = new \ReflectionClass(static::class);
         if ($class->isFinal()) {
-            throw new \***REMOVED***('createKey() should not be called from final classes (' . static::class . ')');
+            throw new \RuntimeException('createKey() should not be called from final classes (' . static::class . ')');
         }
 
         if (!isset(self::$engines['PHP'])) {
@@ -195,11 +195,11 @@ abstract class DSA extends AsymmetricKey
         }
 
         if (count($args) == 2 && is_int($args[0]) && is_int($args[1])) {
-            $params = self::***REMOVED***($args[0], $args[1]);
+            $params = self::createParameters($args[0], $args[1]);
         } elseif (count($args) == 1 && $args[0] instanceof Parameters) {
             $params = $args[0];
         } elseif (!count($args)) {
-            $params = self::***REMOVED***();
+            $params = self::createParameters();
         } else {
             throw new InsufficientSetupException('Valid parameters are either two integers (L and N), a single DSA object or no parameters at all.');
         }
@@ -217,7 +217,7 @@ abstract class DSA extends AsymmetricKey
 
         return $private
             ->withHash($params->hash->getHash())
-            ->***REMOVED***($params->shortFormat);
+            ->withSignatureFormat($params->shortFormat);
     }
 
     /**
@@ -258,7 +258,7 @@ abstract class DSA extends AsymmetricKey
      */
     protected function __construct()
     {
-        $this->sigFormat = self::***REMOVED***('Signature', 'ASN1');
+        $this->sigFormat = self::validatePlugin('Signature', 'ASN1');
         $this->shortFormat = 'ASN1';
 
         parent::__construct();
@@ -279,7 +279,7 @@ abstract class DSA extends AsymmetricKey
     /**
      * Returns the current engine being used
      *
-     * @see self::***REMOVED***()
+     * @see self::useInternalEngine()
      * @see self::useBestEngine()
      * @return string
      */
@@ -303,12 +303,12 @@ abstract class DSA extends AsymmetricKey
      */
     public function getParameters()
     {
-        $type = self::***REMOVED***('Keys', 'PKCS1', '***REMOVED***');
+        $type = self::validatePlugin('Keys', 'PKCS1', 'saveParameters');
 
-        $key = $type::***REMOVED***($this->p, $this->q, $this->g);
+        $key = $type::saveParameters($this->p, $this->q, $this->g);
         return DSA::load($key, 'PKCS1')
             ->withHash($this->hash->getHash())
-            ->***REMOVED***($this->shortFormat);
+            ->withSignatureFormat($this->shortFormat);
     }
 
     /**
@@ -318,11 +318,11 @@ abstract class DSA extends AsymmetricKey
      *
      * @param string $format
      */
-    public function ***REMOVED***($format)
+    public function withSignatureFormat($format)
     {
         $new = clone $this;
         $new->shortFormat = $format;
-        $new->sigFormat = self::***REMOVED***('Signature', $format);
+        $new->sigFormat = self::validatePlugin('Signature', $format);
         return $new;
     }
 
@@ -330,7 +330,7 @@ abstract class DSA extends AsymmetricKey
      * Returns the signature format currently being used
      *
      */
-    public function ***REMOVED***()
+    public function getSignatureFormat()
     {
         return $this->shortFormat;
     }

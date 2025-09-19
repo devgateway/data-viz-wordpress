@@ -25,7 +25,7 @@ abstract class EncryptedPrivateKeyInfo
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'encryptionAlgorithm' => AlgorithmIdentifier::MAP,
             'encryptedData' => EncryptedData::MAP
         ]
     ];

@@ -35,7 +35,7 @@ class WPM_Meta_Box_Comment_Languages {
 		$i         = 0;
 		?>
 		<h4><?php esc_html_e( 'Show comment only in:', 'wp-multilang' ); ?></h4>
-		<ul class="***REMOVED***">
+		<ul class="languagechecklist">
 			<?php foreach ( $languages as $code => $language ) { ?>
 				<li>
 					<label>
@@ -59,7 +59,7 @@ class WPM_Meta_Box_Comment_Languages {
 	 */
 	public static function save( $location, $comment_id ) {
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 		if ( isset( $_POST['wpm_meta_nonce'] ) && ! wp_verify_nonce( $_POST['wpm_meta_nonce'], 'wpm_save_data' ) ) {
 			return $location;
 		}

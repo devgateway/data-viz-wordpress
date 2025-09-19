@@ -31,18 +31,18 @@
      * @param string $applicationId Application ID of the application on which the event was performed.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** Application ID of the application which interacted on behalf of the user while performing the event.
+     * @opt_param string actorApplicationId Application ID of the application which interacted on behalf of the user while performing the event.
      * @opt_param string actorEmail Email address of the user who performed the action.
-     * @opt_param string ***REMOVED*** IP Address of host where the event was performed. Supports both IPv4 and IPv6 addresses.
+     * @opt_param string actorIpAddress IP Address of host where the event was performed. Supports both IPv4 and IPv6 addresses.
      * @opt_param string caller Type of the caller.
-     * @opt_param string ***REMOVED*** Next page URL.
+     * @opt_param string continuationToken Next page URL.
      * @opt_param string endTime Return events which occured at or before this time.
      * @opt_param string eventName Name of the event being queried.
      * @opt_param int maxResults Number of activity records to be shown in each page.
      * @opt_param string startTime Return events which occured at or after this time.
      * @return Google_Activities
      */
-    public function ***REMOVED***($customerId, $applicationId, $optParams = array()) {
+    public function listActivities($customerId, $applicationId, $optParams = array()) {
       $params = array('customerId' => $customerId, 'applicationId' => $applicationId);
       $params = array_merge($params, $optParams);
       $data = $this->__call('list', array($params));
@@ -71,7 +71,7 @@
 class Google_AuditService extends Google_Service {
   public $activities;
   /**
-   * Constructs the internal ***REMOVED*** of the Audit service.
+   * Constructs the internal representation of the Audit service.
    *
    * @param Google_Client $client
    */
@@ -81,7 +81,7 @@ class Google_AuditService extends Google_Service {
     $this->serviceName = 'audit';
 
     $client->addService($this->serviceName, $this->version);
-    $this->activities = new Google_ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"list": {"id": "audit.activities.list", "path": "{customerId}/{applicationId}", "httpMethod": "GET", "parameters": {"***REMOVED***": {"type": "string", "format": "int64", "location": "query"}, "actorEmail": {"type": "string", "location": "query"}, "***REMOVED***": {"type": "string", "location": "query"}, "applicationId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "caller": {"type": "string", "enum": ["application_owner", "customer"], "location": "query"}, "***REMOVED***": {"type": "string", "location": "query"}, "customerId": {"type": "string", "required": true, "location": "path"}, "endTime": {"type": "string", "location": "query"}, "eventName": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "maximum": "1000", "location": "query"}, "startTime": {"type": "string", "location": "query"}}, "response": {"$ref": "Activities"}}}}', true));
+    $this->activities = new Google_ActivitiesServiceResource($this, $this->serviceName, 'activities', json_decode('{"methods": {"list": {"id": "audit.activities.list", "path": "{customerId}/{applicationId}", "httpMethod": "GET", "parameters": {"actorApplicationId": {"type": "string", "format": "int64", "location": "query"}, "actorEmail": {"type": "string", "location": "query"}, "actorIpAddress": {"type": "string", "location": "query"}, "applicationId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "caller": {"type": "string", "enum": ["application_owner", "customer"], "location": "query"}, "continuationToken": {"type": "string", "location": "query"}, "customerId": {"type": "string", "required": true, "location": "path"}, "endTime": {"type": "string", "location": "query"}, "eventName": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "int32", "minimum": "1", "maximum": "1000", "location": "query"}, "startTime": {"type": "string", "location": "query"}}, "response": {"$ref": "Activities"}}}}', true));
 
   }
 }
@@ -159,10 +159,10 @@ class Google_Activity extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $ownerDomain) {
+  public function setOwnerDomain( $ownerDomain) {
     $this->ownerDomain = $ownerDomain;
   }
-  public function ***REMOVED***() {
+  public function getOwnerDomain() {
     return $this->ownerDomain;
   }
 }
@@ -172,10 +172,10 @@ class Google_ActivityActor extends Google_Model {
   public $callerType;
   public $email;
   public $key;
-  public function ***REMOVED***( $applicationId) {
+  public function setApplicationId( $applicationId) {
     $this->applicationId = $applicationId;
   }
-  public function ***REMOVED***() {
+  public function getApplicationId() {
     return $this->applicationId;
   }
   public function setCallerType( $callerType) {
@@ -247,10 +247,10 @@ class Google_ActivityId extends Google_Model {
   public $customerId;
   public $time;
   public $uniqQualifier;
-  public function ***REMOVED***( $applicationId) {
+  public function setApplicationId( $applicationId) {
     $this->applicationId = $applicationId;
   }
-  public function ***REMOVED***() {
+  public function getApplicationId() {
     return $this->applicationId;
   }
   public function setCustomerId( $customerId) {
@@ -265,10 +265,10 @@ class Google_ActivityId extends Google_Model {
   public function getTime() {
     return $this->time;
   }
-  public function ***REMOVED***( $uniqQualifier) {
+  public function setUniqQualifier( $uniqQualifier) {
     $this->uniqQualifier = $uniqQualifier;
   }
-  public function ***REMOVED***() {
+  public function getUniqQualifier() {
     return $this->uniqQualifier;
   }
 }

@@ -1,4 +1,4 @@
-<?php // phpcs:ignore Yoast.Files.FileName.***REMOVED*** -- Reason: this explicitly concerns the Yoast admin and dashboard.
+<?php // phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- Reason: this explicitly concerns the Yoast admin and dashboard.
 
 namespace Yoast\WP\SEO\Conditionals;
 

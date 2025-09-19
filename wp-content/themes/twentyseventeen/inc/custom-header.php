@@ -1,6 +1,6 @@
 <?php
 /**
- * Custom header ***REMOVED***
+ * Custom header implementation
  *
  * @link https://codex.wordpress.org/Custom_Headers
  *
@@ -53,7 +53,7 @@ function twentyseventeen_custom_header_setup() {
 			'default-image' => array(
 				'url'           => '%s/assets/images/header.jpg',
 				'thumbnail_url' => '%s/assets/images/header.jpg',
-				'description'   => __( 'Default Header Image', '***REMOVED***' ),
+				'description'   => __( 'Default Header Image', 'twentyseventeen' ),
 			),
 		)
 	);
@@ -77,7 +77,7 @@ if ( ! function_exists( 'twentyseventeen_header_style' ) ) :
 
 		// If we get this far, we have custom styles. Let's do this.
 		?>
-		<style id="***REMOVED***-custom-header-styles" type="text/css">
+		<style id="twentyseventeen-custom-header-styles" type="text/css">
 		<?php
 		// Has the text been hidden?
 		if ( 'blank' === $header_text_color ) :
@@ -125,9 +125,9 @@ endif; // End of twentyseventeen_header_style().
  */
 function twentyseventeen_video_controls( $settings ) {
 	/* translators: Hidden accessibility text. */
-	$settings['l10n']['play'] = '<span class="screen-reader-text">' . __( 'Play background video', '***REMOVED***' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'play' ) );
+	$settings['l10n']['play'] = '<span class="screen-reader-text">' . __( 'Play background video', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'play' ) );
 	/* translators: Hidden accessibility text. */
-	$settings['l10n']['pause'] = '<span class="screen-reader-text">' . __( 'Pause background video', '***REMOVED***' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'pause' ) );
+	$settings['l10n']['pause'] = '<span class="screen-reader-text">' . __( 'Pause background video', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'pause' ) );
 	return $settings;
 }
 add_filter( 'header_video_settings', 'twentyseventeen_video_controls' );

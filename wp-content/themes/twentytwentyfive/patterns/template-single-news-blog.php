@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: News blog single post with sidebar
- * Slug: ***REMOVED***/template-single-news-blog
+ * Slug: twentytwentyfive/template-single-news-blog
  * Template Types: posts, single
  * Viewport width: 1400
  * Inserter: no
@@ -30,13 +30,13 @@
 			<!-- /wp:spacer -->
 			<!-- wp:group {"layout":{"type":"default"}} -->
 			<div class="wp-block-group">
-				<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}},"layout":{"type":"flex","flexWrap":"wrap","***REMOVED***":"space-between"}} -->
+				<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 				<div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)">
 					<!-- wp:group {"style":{"spacing":{"blockGap":"4px"}},"fontSize":"small","layout":{"type":"flex","flexWrap":"nowrap"}} -->
 					<div class="wp-block-group has-small-font-size">
 						<!-- wp:post-date /-->
 						<!-- wp:paragraph -->
-						<p><?php echo esc_html_x( '·', 'Separator between date and categories.', '***REMOVED***' ); ?></p>
+						<p><?php echo esc_html_x( '·', 'Separator between date and categories.', 'twentytwentyfive' ); ?></p>
 						<!-- /wp:paragraph -->
 						<!-- wp:post-terms {"term":"category","style":{"typography":{"textTransform":"uppercase","letterSpacing":"1.4px"}}} /-->
 					</div>
@@ -92,8 +92,8 @@
 
 	<!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
 	<div class="wp-block-group alignwide" style="margin-top:var(--wp--preset--spacing--60);margin-bottom:var(--wp--preset--spacing--60)">
-		<!-- wp:group {"ariaLabel":"<?php esc_attr_e( 'Post navigation', '***REMOVED***' ); ?>","tagName":"nav","align":"wide","style":{"border":{"top":{"color":"var:preset|color|accent-6","width":"1px"}},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"nowrap","***REMOVED***":"space-between"}} -->
-		<nav class="wp-block-group alignwide" aria-label="<?php esc_attr_e( 'Post navigation', '***REMOVED***' ); ?>" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
+		<!-- wp:group {"ariaLabel":"<?php esc_attr_e( 'Post navigation', 'twentytwentyfive' ); ?>","tagName":"nav","align":"wide","style":{"border":{"top":{"color":"var:preset|color|accent-6","width":"1px"}},"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
+		<nav class="wp-block-group alignwide" aria-label="<?php esc_attr_e( 'Post navigation', 'twentytwentyfive' ); ?>" style="border-top-color:var(--wp--preset--color--accent-6);border-top-width:1px;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
 			<!-- wp:post-navigation-link {"type":"previous","showTitle":true,"arrow":"arrow"} /-->
 			<!-- wp:post-navigation-link {"showTitle":true,"arrow":"arrow"} /-->
 		</nav>
@@ -101,7 +101,7 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"constrained","***REMOVED***":"center"}} -->
+	<!-- wp:group {"align":"wide","layout":{"type":"constrained","justifyContent":"center"}} -->
 	<div class="wp-block-group alignwide">
 		<!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"left":"var:preset|spacing|40"},"margin":{"top":"0","bottom":"0"}}}} -->
 		<div class="wp-block-columns alignwide" style="margin-top:0;margin-bottom:0">
@@ -113,7 +113,7 @@
 			<div class="wp-block-column" style="padding-top:0;padding-bottom:0;flex-basis:65%">
 				<!-- wp:group {"style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"0","right":"0"}}},"layout":{"type":"default"}} -->
 				<div class="wp-block-group" style="padding-top:0;padding-right:0;padding-bottom:0;padding-left:0">
-					<!-- wp:pattern {"slug":"***REMOVED***/comments"} /-->
+					<!-- wp:pattern {"slug":"twentytwentyfive/comments"} /-->
 				</div>
 				<!-- /wp:group -->
 			</div>

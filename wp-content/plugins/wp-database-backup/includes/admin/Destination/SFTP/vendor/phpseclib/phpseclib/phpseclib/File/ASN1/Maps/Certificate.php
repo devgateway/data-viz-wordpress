@@ -25,8 +25,8 @@ abstract class Certificate
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
         'children' => [
-            '***REMOVED***' => ***REMOVED***::MAP,
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'tbsCertificate' => TBSCertificate::MAP,
+            'signatureAlgorithm' => AlgorithmIdentifier::MAP,
             'signature' => ['type' => ASN1::TYPE_BIT_STRING]
         ]
     ];

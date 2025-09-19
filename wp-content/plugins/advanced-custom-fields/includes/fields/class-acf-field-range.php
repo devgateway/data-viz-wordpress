@@ -22,7 +22,7 @@ if ( ! class_exists( 'acf_field_range' ) ) :
 			$this->label         = __( 'Range', 'acf' );
 			$this->description   = __( 'An input for selecting a numerical value within a specified range using a range slider element.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-range.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/range/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/range/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'default_value' => '',
 				'min'           => '',

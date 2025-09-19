@@ -4,9 +4,9 @@ namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
 use YoastSEO_Vendor\GuzzleHttp\Psr7\Response;
 use YoastSEO_Vendor\GuzzleHttp\Utils;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
+use YoastSEO_Vendor\Psr\Http\Message\ResponseInterface;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Represents a cURL easy handle and the data it populates.
  *
@@ -19,7 +19,7 @@ final class EasyHandle
      */
     public $handle;
     /**
-     * @var ***REMOVED*** Where data is being written
+     * @var StreamInterface Where data is being written
      */
     public $sink;
     /**
@@ -27,11 +27,11 @@ final class EasyHandle
      */
     public $headers = [];
     /**
-     * @var ***REMOVED***|null Received response (if any)
+     * @var ResponseInterface|null Received response (if any)
      */
     public $response;
     /**
-     * @var ***REMOVED*** Request being sent
+     * @var RequestInterface Request being sent
      */
     public $request;
     /**
@@ -45,31 +45,31 @@ final class EasyHandle
     /**
      * @var \Throwable|null Exception during on_headers (if any)
      */
-    public $***REMOVED***;
+    public $onHeadersException;
     /**
-     * @var \Exception|null Exception during ***REMOVED*** (if any)
+     * @var \Exception|null Exception during createResponse (if any)
      */
     public $createResponseException;
     /**
      * Attach a response to the easy handle based on the received headers.
      *
-     * @throws \***REMOVED*** if no headers have been received or the first
+     * @throws \RuntimeException if no headers have been received or the first
      *                           header line is invalid.
      */
-    public function ***REMOVED***() : void
+    public function createResponse() : void
     {
-        [$ver, $status, $reason, $headers] = \YoastSEO_Vendor\GuzzleHttp\Handler\***REMOVED***::parseHeaders($this->headers);
-        $***REMOVED*** = \YoastSEO_Vendor\GuzzleHttp\Utils::***REMOVED***($headers);
-        if (!empty($this->options['decode_content']) && isset($***REMOVED***['content-encoding'])) {
-            $headers['x-encoded-content-encoding'] = $headers[$***REMOVED***['content-encoding']];
-            unset($headers[$***REMOVED***['content-encoding']]);
-            if (isset($***REMOVED***['content-length'])) {
-                $headers['x-encoded-content-length'] = $headers[$***REMOVED***['content-length']];
+        [$ver, $status, $reason, $headers] = \YoastSEO_Vendor\GuzzleHttp\Handler\HeaderProcessor::parseHeaders($this->headers);
+        $normalizedKeys = \YoastSEO_Vendor\GuzzleHttp\Utils::normalizeHeaderKeys($headers);
+        if (!empty($this->options['decode_content']) && isset($normalizedKeys['content-encoding'])) {
+            $headers['x-encoded-content-encoding'] = $headers[$normalizedKeys['content-encoding']];
+            unset($headers[$normalizedKeys['content-encoding']]);
+            if (isset($normalizedKeys['content-length'])) {
+                $headers['x-encoded-content-length'] = $headers[$normalizedKeys['content-length']];
                 $bodyLength = (int) $this->sink->getSize();
                 if ($bodyLength) {
-                    $headers[$***REMOVED***['content-length']] = $bodyLength;
+                    $headers[$normalizedKeys['content-length']] = $bodyLength;
                 } else {
-                    unset($headers[$***REMOVED***['content-length']]);
+                    unset($headers[$normalizedKeys['content-length']]);
                 }
             }
         }

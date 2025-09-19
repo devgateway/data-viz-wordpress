@@ -106,7 +106,7 @@ interface UriInterface
      * Retrieve the path component of the URI.
      *
      * The path can either be empty or absolute (starting with a slash) or
-     * rootless (not starting with a slash). ***REMOVED*** MUST support all
+     * rootless (not starting with a slash). Implementations MUST support all
      * three syntaxes.
      *
      * Normally, the empty path "" and absolute path "/" are considered equal as
@@ -172,7 +172,7 @@ interface UriInterface
      * This method MUST retain the state of the current instance, and return
      * an instance that contains the specified scheme.
      *
-     * ***REMOVED*** MUST support the schemes "http" and "https" case
+     * Implementations MUST support the schemes "http" and "https" case
      * insensitively, and MAY accommodate other schemes if required.
      *
      * An empty scheme is equivalent to removing the scheme.
@@ -216,7 +216,7 @@ interface UriInterface
      * This method MUST retain the state of the current instance, and return
      * an instance that contains the specified port.
      *
-     * ***REMOVED*** MUST raise an exception for ports outside the
+     * Implementations MUST raise an exception for ports outside the
      * established TCP and UDP port ranges.
      *
      * A null value provided for the port is equivalent to removing the port
@@ -235,7 +235,7 @@ interface UriInterface
      * an instance that contains the specified path.
      *
      * The path can either be empty or absolute (starting with a slash) or
-     * rootless (not starting with a slash). ***REMOVED*** MUST support all
+     * rootless (not starting with a slash). Implementations MUST support all
      * three syntaxes.
      *
      * If the path is intended to be domain-relative rather than path relative then
@@ -244,7 +244,7 @@ interface UriInterface
      * consumer.
      *
      * Users can provide both encoded and decoded path characters.
-     * ***REMOVED*** ensure the correct encoding as outlined in getPath().
+     * Implementations ensure the correct encoding as outlined in getPath().
      *
      * @param string $path The path to use with the new instance.
      * @return static A new instance with the specified path.
@@ -258,7 +258,7 @@ interface UriInterface
      * an instance that contains the specified query string.
      *
      * Users can provide both encoded and decoded query characters.
-     * ***REMOVED*** ensure the correct encoding as outlined in getQuery().
+     * Implementations ensure the correct encoding as outlined in getQuery().
      *
      * An empty query string value is equivalent to removing the query string.
      *
@@ -274,7 +274,7 @@ interface UriInterface
      * an instance that contains the specified URI fragment.
      *
      * Users can provide both encoded and decoded fragment characters.
-     * ***REMOVED*** ensure the correct encoding as outlined in getFragment().
+     * Implementations ensure the correct encoding as outlined in getFragment().
      *
      * An empty fragment value is equivalent to removing the fragment.
      *
@@ -283,7 +283,7 @@ interface UriInterface
      */
     public function withFragment(string $fragment) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface;
     /**
-     * Return the string ***REMOVED*** as a URI reference.
+     * Return the string representation as a URI reference.
      *
      * Depending on which components of the URI are present, the resulting
      * string is either a full URI or relative reference according to RFC 3986,

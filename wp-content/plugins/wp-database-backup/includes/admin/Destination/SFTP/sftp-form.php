@@ -16,7 +16,7 @@ if ( isset( $_POST[ 'sftp_submit' ] ) && 'Save' === $_POST[ 'sftp_submit' ] ) {
 	if ( ! isset( $_POST['wpdbbackup_update_setting'] ) ) {
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
-	if ( ! wp_verify_nonce( wp_unslash($_POST['wpdbbackup_update_setting']) , 'wpdbbackup-update-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+	if ( ! wp_verify_nonce( wp_unslash($_POST['wpdbbackup_update_setting']) , 'wpdbbackup-update-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
 	// Read their posted value.
@@ -81,7 +81,7 @@ if ( isset( $_POST[ 'sftp_test'  ] ) && 'Test Connection' === $_POST[ 'sftp_test
 	if ( ! isset( $_POST['wpdbbackup_update_setting'] ) ) {
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
-	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_setting'] ) , 'wpdbbackup-update-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+	if ( ! wp_verify_nonce( wp_unslash( $_POST['wpdbbackup_update_setting'] ) , 'wpdbbackup-update-setting' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 		wp_die( esc_html__('Invalid form data. form request came from the somewhere else not current site!','wpdbbkp') );
 	}
 	include plugin_dir_path( __FILE__ ) . 'test-sftp.php';

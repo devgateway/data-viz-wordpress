@@ -160,7 +160,7 @@ class Integer extends Base
      * @return string[]
      * @link https://en.wikipedia.org/wiki/Polynomial_greatest_common_divisor#Euclidean_division
      */
-    private static function ***REMOVED***($x, $y)
+    private static function polynomialDivide($x, $y)
     {
         // in wikipedia's description of the algorithm, lc() is the leading coefficient. over a binary field that's
         // always going to be 1.
@@ -170,12 +170,12 @@ class Integer extends Base
         $r = $x;
         while (($degr = static::deg($r)) >= $d) {
             $s = '1' . str_repeat('0', $degr - $d);
-            $s = BinaryField::***REMOVED***($s);
+            $s = BinaryField::base2ToBase256($s);
             $length = max(strlen($s), strlen($q));
             $q = !isset($q) ? $s :
                 str_pad($q, $length, "\0", STR_PAD_LEFT) ^
                 str_pad($s, $length, "\0", STR_PAD_LEFT);
-            $s = static::***REMOVED***($s, $y);
+            $s = static::polynomialMultiply($s, $y);
             $length = max(strlen($r), strlen($s));
             $r = str_pad($r, $length, "\0", STR_PAD_LEFT) ^
                  str_pad($s, $length, "\0", STR_PAD_LEFT);
@@ -188,13 +188,13 @@ class Integer extends Base
      * Perform polynomial multiplation in the traditional way
      *
      * @return string
-     * @link https://en.wikipedia.org/wiki/Finite_field_arithmetic#***REMOVED***
+     * @link https://en.wikipedia.org/wiki/Finite_field_arithmetic#Multiplication
      */
     private static function regularPolynomialMultiply($x, $y)
     {
         $precomputed = [ltrim($x, "\0")];
-        $x = strrev(BinaryField::***REMOVED***($x));
-        $y = strrev(BinaryField::***REMOVED***($y));
+        $x = strrev(BinaryField::base256ToBase2($x));
+        $y = strrev(BinaryField::base256ToBase2($y));
         if (strlen($x) == strlen($y)) {
             $length = strlen($x);
         } else {
@@ -203,13 +203,13 @@ class Integer extends Base
             $y = str_pad($y, $length, '0');
         }
         $result = str_repeat('0', 2 * $length - 1);
-        $result = BinaryField::***REMOVED***($result);
+        $result = BinaryField::base2ToBase256($result);
         $size = strlen($result);
         $x = strrev($x);
 
         // precompute left shift 1 through 7
         for ($i = 1; $i < 8; $i++) {
-            $precomputed[$i] = BinaryField::***REMOVED***($x . str_repeat('0', $i));
+            $precomputed[$i] = BinaryField::base2ToBase256($x . str_repeat('0', $i));
         }
         for ($i = 0; $i < strlen($y); $i++) {
             if ($y[$i] == '1') {
@@ -224,12 +224,12 @@ class Integer extends Base
     /**
      * Perform polynomial multiplation
      *
-     * Uses karatsuba ***REMOVED*** to reduce x-bit ***REMOVED*** to a series of 32-bit ***REMOVED***
+     * Uses karatsuba multiplication to reduce x-bit multiplications to a series of 32-bit multiplications
      *
      * @return string
      * @link https://en.wikipedia.org/wiki/Karatsuba_algorithm
      */
-    private static function ***REMOVED***($x, $y)
+    private static function polynomialMultiply($x, $y)
     {
         if (strlen($x) == strlen($y)) {
             $length = strlen($x);
@@ -255,9 +255,9 @@ class Integer extends Base
         $y1 = substr($y, 0, -$m);
         $y0 = substr($y, -$m);
 
-        $z2 = self::***REMOVED***($x1, $y1);
-        $z0 = self::***REMOVED***($x0, $y0);
-        $z1 = self::***REMOVED***(
+        $z2 = self::polynomialMultiply($x1, $y1);
+        $z0 = self::polynomialMultiply($x0, $y0);
+        $z1 = self::polynomialMultiply(
             self::subAdd2($x1, $x0),
             self::subAdd2($y1, $y0)
         );
@@ -274,7 +274,7 @@ class Integer extends Base
     }
 
     /**
-     * Perform polynomial ***REMOVED*** on 2x 32-bit numbers, returning
+     * Perform polynomial multiplication on 2x 32-bit numbers, returning
      * a 64-bit number
      *
      * @param string $x
@@ -302,10 +302,10 @@ class Integer extends Base
         $z2 = ($x0 * $y2) ^ ($x1 * $y1) ^ ($x2 * $y0) ^ ($x3 * $y3);
         $z3 = ($x0 * $y3) ^ ($x1 * $y2) ^ ($x2 * $y1) ^ ($x3 * $y0);
 
-        $z0 &= ***REMOVED***;
-        $z1 &= ***REMOVED***;
-        $z2 &= ***REMOVED***;
-        $z3 &= -***REMOVED***; // ***REMOVED*** gets interpreted as a float
+        $z0 &= 0x1111111111111111;
+        $z1 &= 0x2222222222222222;
+        $z2 &= 0x4444444444444444;
+        $z3 &= -8608480567731124088; // 0x8888888888888888 gets interpreted as a float
 
         $z = $z0 | $z1 | $z2 | $z3;
 
@@ -344,7 +344,7 @@ class Integer extends Base
     }
 
     /**
-     * Adds two ***REMOVED***.
+     * Adds two BinaryFieldIntegers.
      *
      * @return static
      */
@@ -361,7 +361,7 @@ class Integer extends Base
     }
 
     /**
-     * Subtracts two ***REMOVED***.
+     * Subtracts two BinaryFieldIntegers.
      *
      * @return static
      */
@@ -371,7 +371,7 @@ class Integer extends Base
     }
 
     /**
-     * Multiplies two ***REMOVED***.
+     * Multiplies two BinaryFieldIntegers.
      *
      * @return static
      */
@@ -379,11 +379,11 @@ class Integer extends Base
     {
         static::checkInstance($this, $y);
 
-        return new static($this->instanceID, static::***REMOVED***($this->value, $y->value));
+        return new static($this->instanceID, static::polynomialMultiply($this->value, $y->value));
     }
 
     /**
-     * Returns the modular inverse of a ***REMOVED***
+     * Returns the modular inverse of a BinaryFieldInteger
      *
      * @return static
      */
@@ -399,13 +399,13 @@ class Integer extends Base
         $aux0 = "\0";
         $aux1 = "\1";
         while ($remainder1 != "\1") {
-            list($q, $r) = static::***REMOVED***($remainder0, $remainder1);
+            list($q, $r) = static::polynomialDivide($remainder0, $remainder1);
             $remainder0 = $remainder1;
             $remainder1 = $r;
             // the auxiliary in row n is given by the sum of the auxiliary in
             // row n-2 and the product of the quotient and the auxiliary in row
             // n-1
-            $temp = static::***REMOVED***($aux1, $q);
+            $temp = static::polynomialMultiply($aux1, $q);
             $aux = str_pad($aux0, strlen($temp), "\0", STR_PAD_LEFT) ^
                    str_pad($temp, strlen($aux0), "\0", STR_PAD_LEFT);
             $aux0 = $aux1;
@@ -418,7 +418,7 @@ class Integer extends Base
     }
 
     /**
-     * Divides two ***REMOVED***.
+     * Divides two PrimeFieldIntegers.
      *
      * @return static
      */
@@ -482,8 +482,8 @@ class Integer extends Base
      */
     public function toBits()
     {
-        //return str_pad(BinaryField::***REMOVED***($this->value), strlen(static::$modulo[$this->instanceID]), '0', STR_PAD_LEFT);
-        return BinaryField::***REMOVED***($this->value);
+        //return str_pad(BinaryField::base256ToBase2($this->value), strlen(static::$modulo[$this->instanceID]), '0', STR_PAD_LEFT);
+        return BinaryField::base256ToBase2($this->value);
     }
 
     /**

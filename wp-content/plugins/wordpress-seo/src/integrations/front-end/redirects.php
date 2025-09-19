@@ -68,7 +68,7 @@ class Redirects implements Integration_Interface {
 	/**
 	 * Sets the helpers.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Options_Helper      $options      Options helper.
 	 * @param Meta_Helper         $meta         Meta helper.
@@ -185,7 +185,7 @@ class Redirects implements Integration_Interface {
 	/**
 	 * Checks if certain archive pages are disabled to determine if a archive redirect is needed.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether or not to redirect an archive page.
 	 */
@@ -208,7 +208,7 @@ class Redirects implements Integration_Interface {
 	/**
 	 * Retrieves the attachment url for the current page.
 	 *
-	 * @***REMOVED*** It wraps WordPress functions.
+	 * @codeCoverageIgnore It wraps WordPress functions.
 	 *
 	 * @return string The attachment url.
 	 */
@@ -263,9 +263,9 @@ class Redirects implements Integration_Interface {
 		 */
 		$should_remove_parameter = \apply_filters( 'wpseo_remove_cat_parameter', true );
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Data is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
 		if ( $should_remove_parameter && isset( $_GET['cat'] ) && $_GET['cat'] === '-1' ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Data is not processed or saved.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Data is not processed or saved.
 			unset( $_GET['cat'] );
 			if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- This is just a replace and the data is never saved.

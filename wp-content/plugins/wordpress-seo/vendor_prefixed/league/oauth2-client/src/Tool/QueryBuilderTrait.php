@@ -17,7 +17,7 @@ namespace YoastSEO_Vendor\League\OAuth2\Client\Tool;
 /**
  * Provides a standard way to generate query strings.
  */
-trait ***REMOVED***
+trait QueryBuilderTrait
 {
     /**
      * Build a query string from an array.
@@ -26,7 +26,7 @@ trait ***REMOVED***
      *
      * @return string
      */
-    protected function ***REMOVED***(array $params)
+    protected function buildQueryString(array $params)
     {
         return \http_build_query($params, '', '&', \PHP_QUERY_RFC3986);
     }

@@ -154,7 +154,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'</a>'
 		);
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped above.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 		echo new Alert_Presenter( $content );
 	}
 
@@ -165,7 +165,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 *
 	 * @deprecated 23.5
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -287,8 +287,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$values = $post_formatter->get_values();
 		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
-		if ( $values['***REMOVED***'] && ! in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
-			$values['***REMOVED***'] = false;
+		if ( $values['cornerstoneActive'] && ! in_array( $this->get_metabox_post()->post_type, $post_types, true ) ) {
+			$values['cornerstoneActive'] = false;
 		}
 
 		if ( $values['semrushIntegrationActive'] && $this->post->post_type === 'attachment' ) {
@@ -345,19 +345,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	protected function render_hidden_fields() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in class.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'general' );
 
 		if ( $this->is_advanced_metadata_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in class.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'advanced' );
 		}
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in class.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 		echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'schema', $this->get_metabox_post()->post_type );
 
 		if ( $this->social_is_enabled ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output escaped in class.
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in class.
 			echo new Meta_Fields_Presenter( $this->get_metabox_post(), 'social' );
 		}
 
@@ -366,7 +366,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *
 		 * @param string $post_content The metabox content string.
 		 */
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Output should be escaped in the filter.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo apply_filters( 'wpseo_content_meta_section_content', '' );
 	}
 
@@ -377,7 +377,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	protected function render_tabs() {
 		echo '<div class="wpseo-metabox-content">';
-		// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- Reason: $this->get_product_title() returns a hard-coded string.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title() returns a hard-coded string.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
 		$tabs = $this->get_tabs();
@@ -461,7 +461,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 * @since 11.9
 		 *
 		 * @param array[] $tabs {
-		 *     An array of arrays with tab ***REMOVED***.
+		 *     An array of arrays with tab specifications.
 		 *
 		 *     @type array $tab {
 		 *          A tab specification.
@@ -499,7 +499,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Adds a line in the meta box.
 	 *
 	 * @deprecated 23.5
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param string[] $meta_field_def Contains the vars based on which output is generated.
 	 * @param string   $key            Internal key (without prefix).
@@ -691,7 +691,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Sanitized in wp_verify_none.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized in wp_verify_none.
 		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['yoast_free_metabox_nonce'] ), 'yoast_free_metabox' ) ) {
 			return false;
 		}
@@ -748,7 +748,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			else {
 				if ( isset( $_POST[ $field_name ] ) ) {
-					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- We're preparing to do just that.
+					// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- We're preparing to do just that.
 					$data = wp_unslash( $_POST[ $field_name ] );
 
 					// For multi-select.
@@ -820,9 +820,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_id = get_queried_object_id();
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( empty( $post_id ) && isset( $_GET['post'] ) && is_string( $_GET['post'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			$post_id = sanitize_text_field( wp_unslash( $_GET['post'] ) );
 		}
 
@@ -847,11 +847,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any
-		 * ***REMOVED*** fields.
+		 * contenteditable fields.
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
-		$asset_manager->localize_script( $post_edit_handle, '***REMOVED***', WPSEO_Utils::get_admin_l10n() );
+		$asset_manager->localize_script( $post_edit_handle, 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 
 		$plugins_script_data = [
 			'replaceVars' => [
@@ -885,7 +885,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'postId'                     => $post_id,
 			'postStatus'                 => get_post_status( $post_id ),
 			'postType'                   => get_post_type( $post_id ),
-			'***REMOVED***'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
+			'usedKeywordsNonce'          => wp_create_nonce( 'wpseo-keyword-usage-and-post-types' ),
 			'analysis'                   => [
 				'plugins' => $plugins_script_data,
 				'worker'  => $worker_script_data,
@@ -907,7 +907,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'featured-image' );
 		}
 
-		$asset_manager->localize_script( $post_edit_handle, '***REMOVED***', $script_data );
+		$asset_manager->localize_script( $post_edit_handle, 'wpseoScriptData', $script_data );
 		$asset_manager->enqueue_user_language_script();
 	}
 
@@ -921,9 +921,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return $this->post;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['post'] ) && is_string( $_GET['post'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, Sanitization happens in the validate_int function.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, Sanitization happens in the validate_int function.
 			$post_id = (int) WPSEO_Utils::validate_int( wp_unslash( $_GET['post'] ) );
 
 			$this->post = get_post( $post_id );

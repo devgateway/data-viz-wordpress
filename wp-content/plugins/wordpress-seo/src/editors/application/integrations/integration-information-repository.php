@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Application\Integrations;
 
 use Yoast\WP\SEO\Editors\Domain\Integrations\Integration_Data_Provider_Interface;

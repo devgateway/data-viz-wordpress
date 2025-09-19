@@ -152,7 +152,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @return array
 	 *
-	 * @throws ***REMOVED*** When an invalid page is requested.
+	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
@@ -160,7 +160,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$post_type = $type;
 
 		if ( ! $this->is_valid_post_type( $post_type ) ) {
-			throw new ***REMOVED***( 'Invalid sitemap page requested' );
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
 		$steps  = min( 100, $max_entries );
@@ -179,7 +179,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		// If total post type count is lower than the offset, an invalid page is requested.
 		if ( $post_type_entries < $offset ) {
-			throw new ***REMOVED***( 'Invalid sitemap page requested' );
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
 		if ( $post_type_entries === 0 ) {
@@ -539,7 +539,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/*
 		 * Optimized query per this thread:
 		 * {@link http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion}.
-		 * Also see {@link http://***REMOVED***.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/}.
+		 * Also see {@link http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/}.
 		 */
 		$sql = "
 			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_status, post_modified_gmt, post_date, post_date_gmt
@@ -699,8 +699,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			]
 		);
 
-		//phpcs:disable WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching -- We need to use a direct query here.
-		//phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		return $wpdb->get_col(
 			//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 			$wpdb->prepare(

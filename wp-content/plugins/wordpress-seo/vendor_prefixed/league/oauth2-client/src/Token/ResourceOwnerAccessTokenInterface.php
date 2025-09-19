@@ -14,12 +14,12 @@
  */
 namespace YoastSEO_Vendor\League\OAuth2\Client\Token;
 
-interface ResourceOwnerAccessTokenInterface extends \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMOVED***
+interface ResourceOwnerAccessTokenInterface extends \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface
 {
     /**
      * Returns the resource owner identifier, if defined.
      *
      * @return string|null
      */
-    public function ***REMOVED***();
+    public function getResourceOwnerId();
 }

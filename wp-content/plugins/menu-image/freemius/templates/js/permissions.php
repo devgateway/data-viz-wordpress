@@ -18,7 +18,7 @@
 
         //region Switches
 
-        function ***REMOVED***( $switches, isOn ) {
+        function toggleSwitches( $switches, isOn ) {
             $switches
                 .toggleClass( 'fs-on', ( null != isOn ? ( true === isOn ) : isOn ) )
                 .toggleClass( 'fs-off', ( null != isOn ? ( false === isOn ) : isOn ) );
@@ -28,7 +28,7 @@
             return $switch.hasClass( isOn ? 'fs-on' : 'fs-off' );
         }
 
-        function ***REMOVED***( $switches, isEnabled ) {
+        function getSwitchesStates( $switches, isEnabled ) {
             var switchStates = [];
             for ( var i = 0; i < $switches.length; i++ ) {
                 switchStates.push( isSwitch( $( $switches[ i ] ), isEnabled ) );
@@ -39,33 +39,33 @@
 
         //endregion
 
-        function ***REMOVED***( $button, isEnabled ) {
+        function toggleGroupOptOut( $button, isEnabled ) {
             setOptInLabel( $button, ! isEnabled );
 
             $button.data( 'is-enabled', isEnabled );
         }
 
         /**
-         * @param {object} $***REMOVED***
+         * @param {object} $permissionsSection
          *
          * @returns {string[]}
          */
-        function getGroupPermissionIDs( $***REMOVED*** ) {
+        function getGroupPermissionIDs( $permissionsSection ) {
             var permissions = [];
-            $***REMOVED***.find( 'ul li').each( function() {
+            $permissionsSection.find( 'ul li').each( function() {
                 permissions.push( $( this ).data( 'permission-id' ) );
             });
 
             return permissions;
         }
 
-        function ***REMOVED***( $section ) {
+        function getGroupOptOutButton( $section ) {
             return $section.find( '.fs-group-opt-out-button' );
         }
 
         //region Opt-in/out Labels
 
-        function ***REMOVED***( $button, isEnabled ) {
+        function setUpdatingLabel( $button, isEnabled ) {
             $button.text( isEnabled ?
                 '<?php fs_esc_js_echo_inline( 'Opting in', 'opting-in' ) ?>...' :
                 '<?php fs_esc_js_echo_inline( 'Opting out', 'opting-out' ) ?>...'
@@ -92,7 +92,7 @@
                 $body.addClass( 'fs-loading' );
             }
 
-            function ***REMOVED***() {
+            function updateCompleted() {
                 isUpdating = false;
                 $body.removeClass( 'fs-loading' );
             }
@@ -109,7 +109,7 @@
                  * @param {Callback} [failure]
                  * @param {Callback} [complete]
                  */
-                ***REMOVED***: function(
+                updatePermissions: function(
                     pluginID,
                     permissions,
                     isEnabled,
@@ -124,14 +124,14 @@
                     updateStarted();
 
                     var
-                        $***REMOVED*** = $( '#fs_opt_out_' + pluginID );
+                        $permissionsContainer = $( '#fs_opt_out_' + pluginID );
 
                     $.ajax( {
                         url     : <?php echo Freemius::ajax_url() ?>,
                         method  : 'POST',
                         data    : {
-                            action          : $***REMOVED***.data( 'action' ),
-                            security        : $***REMOVED***.data( 'security' ),
+                            action          : $permissionsContainer.data( 'action' ),
+                            security        : $permissionsContainer.data( 'security' ),
                             module_id       : pluginID,
                             _wp_http_referer: '<?php echo Freemius::current_page_url() ?>',
                             permissions     : permissions.join( ',' ),
@@ -154,7 +154,7 @@
                                 complete();
                             }
 
-                            ***REMOVED***();
+                            updateCompleted();
                         }
                     });
                 },
@@ -172,30 +172,30 @@
 
                     var
                         $modal              = $( '#fs_opt_out_' + pluginID ),
-                        $***REMOVED*** = $modal.find( '.fs-permissions-section.fs-' + groupID + '-permissions' ),
-                        $optOutButton       = ***REMOVED***( $***REMOVED*** ),
-                        $permissions        = $***REMOVED***.find( 'ul li'),
+                        $permissionsSection = $modal.find( '.fs-permissions-section.fs-' + groupID + '-permissions' ),
+                        $optOutButton       = getGroupOptOutButton( $permissionsSection ),
+                        $permissions        = $permissionsSection.find( 'ul li'),
                         permissions         = [];
 
                     $permissions.each( function() {
                         permissions.push( $( this ).data( 'permission-id' ) );
                     });
 
-                    ***REMOVED***( $optOutButton, isEnabled );
+                    setUpdatingLabel( $optOutButton, isEnabled );
 
-                    this.***REMOVED***(
+                    this.updatePermissions(
                         pluginID,
                         permissions,
                         isEnabled,
                         function( resultObj ) {
                             if ( resultObj.success ) {
-                                ***REMOVED***( $optOutButton, isEnabled );
+                                toggleGroupOptOut( $optOutButton, isEnabled );
 
                                 // Update permissions state.
                                 $permissions.toggleClass( 'fs-disabled', ! isEnabled );
 
                                 // Update switches state, if there are any.
-                                ***REMOVED***( $permissions.find( '.fs-switch' ), isEnabled );
+                                toggleSwitches( $permissions.find( '.fs-switch' ), isEnabled );
 
                                 if ( success ) {
                                     success();
@@ -222,22 +222,22 @@
             slug,
             type,
             isRegistered,
-            ***REMOVED***,
+            isTrackingAllowed,
             reconnectUrl
         ) {
             var $modal = $( '#fs_opt_out_' + pluginID ),
-                ***REMOVED***  = ('theme' === type ? '#fs_theme_opt_in_out' : 'span.opt-in-or-opt-out.' + slug + ' a' );
+                actionLinkSelector  = ('theme' === type ? '#fs_theme_opt_in_out' : 'span.opt-in-or-opt-out.' + slug + ' a' );
 
             //region Error Handling
 
-            function hideError( $***REMOVED*** ) {
-                $***REMOVED*** = $***REMOVED*** || $modal.find( '.opt-out-error-message' );
-                $***REMOVED***.hide();
+            function hideError( $optOutErrorMessage ) {
+                $optOutErrorMessage = $optOutErrorMessage || $modal.find( '.opt-out-error-message' );
+                $optOutErrorMessage.hide();
             }
 
-            function showError( $***REMOVED***, msg ) {
-                $***REMOVED***.find( ' > p' ).html( msg );
-                $***REMOVED***.show();
+            function showError( $optOutErrorMessage, msg ) {
+                $optOutErrorMessage.find( ' > p' ).html( msg );
+                $optOutErrorMessage.show();
             }
 
             //endregion
@@ -281,8 +281,8 @@
             //endregion
 
             function registerActionLinkClick() {
-                $body.on( 'click', ***REMOVED***, function( evt ) {
-                    evt.***REMOVED***();
+                $body.on( 'click', actionLinkSelector, function( evt ) {
+                    evt.preventDefault();
 
                     showModal();
 
@@ -305,13 +305,13 @@
                     var $switch = $( this ),
                         $permission = $switch.closest( '.fs-permission' );
 
-                    ***REMOVED***( $switch );
+                    toggleSwitches( $switch );
 
                     $permission.toggleClass( 'fs-disabled' );
 
-                    var $***REMOVED*** = $switch.closest( '.fs-modal-opt-out' );
+                    var $optOutContainer = $switch.closest( '.fs-modal-opt-out' );
 
-                    if ( 0 === $***REMOVED***.length ) {
+                    if ( 0 === $optOutContainer.length ) {
                         return;
                     }
 
@@ -320,49 +320,49 @@
                            .find( '.fs-switch-feedback' )
                            .remove();
 
-                    var $***REMOVED*** = $( '<span class="fs-switch-feedback"><i class="fs-ajax-spinner"></i></span>' );
+                    var $switchFeedback = $( '<span class="fs-switch-feedback"><i class="fs-ajax-spinner"></i></span>' );
 
-                    $switch.after( $***REMOVED*** )
+                    $switch.after( $switchFeedback )
 
                     var
                         permissionID = $permission.data( 'permission-id' ),
                         isEnabled = isSwitch( $switch, true );
 
-                    FS.Permissions.***REMOVED***(
-                        $***REMOVED***.data( 'plugin-id' ),
+                    FS.Permissions.updatePermissions(
+                        $optOutContainer.data( 'plugin-id' ),
                         [ permissionID ],
                         isEnabled,
                         function () {
-                            $***REMOVED***.addClass( 'success' );
-                            $***REMOVED***.html( '<i class="dashicons dashicons-yes"></i> <?php echo esc_js( fs_text_inline( 'Saved', 'saved' ) ) ?>' );
+                            $switchFeedback.addClass( 'success' );
+                            $switchFeedback.html( '<i class="dashicons dashicons-yes"></i> <?php echo esc_js( fs_text_inline( 'Saved', 'saved' ) ) ?>' );
 
                             var
-                                $***REMOVED*** = $switch.closest( '.fs-permissions-section' ),
-                                $***REMOVED*** = $***REMOVED***.find( 'ul li' );
+                                $permissionsGroup = $switch.closest( '.fs-permissions-section' ),
+                                $groupPermissions = $permissionsGroup.find( 'ul li' );
 
                             var allGroupPermissionsUseSameValue = false;
 
                             if (
                                 isEnabled &&
-                                0 === $***REMOVED***.filter( '.fs-disabled' ).length )
+                                0 === $groupPermissions.filter( '.fs-disabled' ).length )
                             {
                                 allGroupPermissionsUseSameValue = true;
                             } else if (
                                 ! isEnabled &&
-                                $***REMOVED***.length === $***REMOVED***.filter( '.fs-disabled' ).length
+                                $groupPermissions.length === $groupPermissions.filter( '.fs-disabled' ).length
                             ) {
                                 allGroupPermissionsUseSameValue = true;
                             }
 
                             if ( allGroupPermissionsUseSameValue ) {
-                                ***REMOVED***( ***REMOVED***( $***REMOVED*** ), isEnabled );
+                                toggleGroupOptOut( getGroupOptOutButton( $permissionsGroup ), isEnabled );
                             }
                         },
                         function () {
                             // Revert switch.
-                            ***REMOVED***( $switch );
+                            toggleSwitches( $switch );
 
-                            $***REMOVED***.remove();
+                            $switchFeedback.remove();
                         }
                     )
                 });
@@ -375,15 +375,15 @@
                 $modal.on( 'click', '.fs-opt-out-disclaimer .fs-modal-footer .fs-opt-out-button', function ( evt ) {
                     var
                         $optOutButton     = $( this ),
-                        $actionLink       = $( ***REMOVED*** ),
+                        $actionLink       = $( actionLinkSelector ),
                         isEnabled         = true,
-                        $***REMOVED*** = $( $optOutButton.closest( '.fs-opt-out-disclaimer' )[ 0 ] ),
-                        groupID           = $***REMOVED***.data( 'group-id' ),
-                        $errorMessage     = $***REMOVED***.find( '.opt-out-error-message' );
+                        $optOutDisclaimer = $( $optOutButton.closest( '.fs-opt-out-disclaimer' )[ 0 ] ),
+                        groupID           = $optOutDisclaimer.data( 'group-id' ),
+                        $errorMessage     = $optOutDisclaimer.find( '.opt-out-error-message' );
 
-                    ***REMOVED***( $optOutButton, ! isEnabled );
+                    setUpdatingLabel( $optOutButton, ! isEnabled );
 
-                    $***REMOVED***.find( '.button-primary' ).prop( 'disabled', true );
+                    $optOutDisclaimer.find( '.button-primary' ).prop( 'disabled', true );
 
                     hideError( $errorMessage );
 
@@ -410,13 +410,13 @@
                                 setOptInLabel( $optOutButton, false );
                             }
 
-                            $***REMOVED***.find( '.button-primary' ).prop( 'disabled', false );
+                            $optOutDisclaimer.find( '.button-primary' ).prop( 'disabled', false );
                         }
                     );
                 } );
 
                 $modal.on( 'click', '.fs-group-opt-out-button', function ( evt ) {
-                    evt.***REMOVED***();
+                    evt.preventDefault();
 
                     if ( FS.Permissions.isUpdating() ) {
                         return;
@@ -426,19 +426,19 @@
                         $optOutButton     = $( this ),
                         groupID           = $optOutButton.data( 'group-id' ),
                         isEnabled         = $optOutButton.data( 'is-enabled' ),
-                        $***REMOVED*** = $modal.find( '.fs-' + groupID + '-opt-out' ),
-                        ***REMOVED*** = ( 0 < $***REMOVED***.length ),
+                        $optOutDisclaimer = $modal.find( '.fs-' + groupID + '-opt-out' ),
+                        isConfirmRequired = ( 0 < $optOutDisclaimer.length ),
                         $errorMessage     = $modal.find( '.fs-opt-out-permissions .opt-out-error-message' );
 
                     $errorMessage.hide();
 
-                    if ( ***REMOVED*** ) {
+                    if ( isConfirmRequired ) {
                         if ( isEnabled ) {
                             // Move to disclaimer window.
                             $modal.find( '.fs-opt-out-permissions' )
                                   .hide();
 
-                            $***REMOVED***.show();
+                            $optOutDisclaimer.show();
                         } else {
                             // Opt-in.
                             FS.Permissions.updateGroupPermissions(
@@ -463,39 +463,39 @@
                         var $switches = $optOutButton.closest( '.fs-permissions-section' )
                                                      .find( '.fs-permission .fs-switch' );
 
-                        var switchStates = ***REMOVED***( $switches, isEnabled );
+                        var switchStates = getSwitchesStates( $switches, isEnabled );
 
-                        ***REMOVED***( $switches, ! isEnabled );
+                        toggleSwitches( $switches, ! isEnabled );
 
                         $switches.closest( '.fs-permission' )
                                  .toggleClass( 'fs-disabled', isEnabled );
 
-                        var $***REMOVED*** = $( '<span class="fs-switch-feedback"><i class="fs-ajax-spinner"></i></span>' );
+                        var $switchFeedback = $( '<span class="fs-switch-feedback"><i class="fs-ajax-spinner"></i></span>' );
 
-                        $optOutButton.after( $***REMOVED*** )
+                        $optOutButton.after( $switchFeedback )
 
-                        ***REMOVED***( $optOutButton, ! isEnabled );
+                        setUpdatingLabel( $optOutButton, ! isEnabled );
 
-                        FS.Permissions.***REMOVED***(
+                        FS.Permissions.updatePermissions(
                             pluginID,
                             getGroupPermissionIDs( $modal.find( '.fs-permissions-section.fs-' + groupID + '-permissions' ) ),
                             ! isEnabled,
                             function () {
-                                $***REMOVED***.addClass( 'success' );
-                                $***REMOVED***.html( '<i class="dashicons dashicons-yes"></i> <?php echo esc_js( fs_text_inline( 'Saved', 'saved' ) ) ?>' );
+                                $switchFeedback.addClass( 'success' );
+                                $switchFeedback.html( '<i class="dashicons dashicons-yes"></i> <?php echo esc_js( fs_text_inline( 'Saved', 'saved' ) ) ?>' );
 
-                                ***REMOVED***( $optOutButton, ! isEnabled );
+                                toggleGroupOptOut( $optOutButton, ! isEnabled );
                             },
                             function () {
                                 // Revert switches to their previous state.
                                 for ( var i = 0; i < switchStates.length; i++ ) {
                                     if ( switchStates[ i ] ) {
-                                        ***REMOVED***( $( $switches[ i ] ), isEnabled );
+                                        toggleSwitches( $( $switches[ i ] ), isEnabled );
                                         $( $switches[ i ] ).removeClass( 'fs-disabled' );
                                     }
                                 }
 
-                                ***REMOVED***( $optOutButton, isEnabled );
+                                toggleGroupOptOut( $optOutButton, isEnabled );
                             }
                         )
                     }
@@ -521,8 +521,8 @@
                         return;
                     }
 
-                    var label       = getOptInLabel( ! ***REMOVED*** ),
-                        href        = ( ***REMOVED*** || isRegistered ) ? '' : reconnectUrl,
+                    var label       = getOptInLabel( ! isTrackingAllowed ),
+                        href        = ( isTrackingAllowed || isRegistered ) ? '' : reconnectUrl,
                         $actionLink = $( '<a id="fs_theme_opt_in_out" href="' + encodeURI( href ) + '" class="button">' + label + '</a>' );
 
                     $( '.theme-wrap .theme-actions .active-theme' ).append( $actionLink );

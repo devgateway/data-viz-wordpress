@@ -309,7 +309,7 @@
                         }
                 
                     global $wp_fastest_cache;
-                    if ( method_exists( '***REMOVED***', 'deleteCache' ) && !empty( $wp_fastest_cache ) )
+                    if ( method_exists( 'WpFastestCache', 'deleteCache' ) && !empty( $wp_fastest_cache ) )
                         {
                             $wp_fastest_cache->deleteCache();
                             $cleared_cache  =   TRUE;
@@ -328,9 +328,9 @@
                             $cleared_cache  =   TRUE;
                         }
                     
-                    if ( class_exists( '***REMOVED***' ) )     
+                    if ( class_exists( 'autoptimizeCache' ) )     
                         {
-                            ***REMOVED***::clearall();
+                            autoptimizeCache::clearall();
                             $cleared_cache  =   TRUE;
                         }
 
@@ -378,7 +378,7 @@
 
                             @unlink(FLYING_PRESS_CACHE_DIR . '/preload.txt');
 
-                            // Delete all files and ***REMOVED***
+                            // Delete all files and subdirectories
                             FlyingPress\Purge::purge_everything();
 
                             @mkdir(FLYING_PRESS_CACHE_DIR, 0755, true);

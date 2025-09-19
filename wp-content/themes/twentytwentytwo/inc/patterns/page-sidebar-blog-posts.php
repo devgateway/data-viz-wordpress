@@ -3,7 +3,7 @@
  * Blog posts with left sidebar block pattern
  */
 return array(
-	'title'      => __( 'Blog posts with left sidebar', '***REMOVED***' ),
+	'title'      => __( 'Blog posts with left sidebar', 'twentytwentytwo' ),
 	'categories' => array( 'twentytwentytwo_pages' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull" style="padding-top:var(--wp--custom--spacing--small, 1.25rem);padding-bottom:var(--wp--custom--spacing--small, 1.25rem)"><!-- wp:columns {"align":"wide","style":{"spacing":{"margin":{"top":"0px","bottom":"0px"},"blockGap":"5%"},"elements":{"link":{"color":{"text":"var:preset|color|primary"}}}},"textColor":"primary"} -->
@@ -65,7 +65,7 @@ return array(
 					<!-- /wp:spacer -->
 					<!-- /wp:post-template -->
 
-					<!-- wp:query-pagination {"***REMOVED***":"arrow","align":"wide","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+					<!-- wp:query-pagination {"paginationArrow":"arrow","align":"wide","layout":{"type":"flex","justifyContent":"space-between"}} -->
 					<!-- wp:query-pagination-previous {"fontSize":"small"} /-->
 
 					<!-- wp:query-pagination-numbers /-->

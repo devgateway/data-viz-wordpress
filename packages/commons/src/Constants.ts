@@ -9,7 +9,7 @@ export const DEFAULT_FORMAT_SETTINGS = {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     },
-    ***REMOVED***: false
+    useCustomAxisFormat: false
 }; 
 
 export const BLOCKS_CATEGORY = 'wp-react-lib-blocks';

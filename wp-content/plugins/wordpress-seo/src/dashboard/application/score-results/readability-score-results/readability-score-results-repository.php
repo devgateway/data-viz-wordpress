@@ -1,11 +1,11 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Dashboard\Application\Score_Results\Readability_Score_Results;
 
 use Yoast\WP\SEO\Dashboard\Application\Score_Results\Abstract_Score_Results_Repository;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Interface;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Score_Results\Readability_Score_Results\Cached_Readability_Score_Results_Collector;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Readability_Score_Results\Cached_Readability_Score_Results_Collector;
 
 /**
  * The repository to get readability score results.

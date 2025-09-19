@@ -176,7 +176,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @return array
 	 *
-	 * @throws ***REMOVED*** When an invalid page is requested.
+	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 		global $wpdb;
@@ -207,7 +207,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		// If there are no terms fetched for this range, we are on an invalid page.
 		if ( empty( $terms ) ) {
-			throw new ***REMOVED***( 'Invalid sitemap page requested' );
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
 		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses() );
@@ -262,8 +262,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			array_splice( $current_replacements, 9, 0, $term->taxonomy );
 			array_splice( $current_replacements, 11, 0, $term->term_id );
 
-			//phpcs:disable WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching -- We need to use a direct query here.
-			//phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+			//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 			$url['mod'] = $wpdb->get_var(
 				//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
 				$wpdb->prepare(

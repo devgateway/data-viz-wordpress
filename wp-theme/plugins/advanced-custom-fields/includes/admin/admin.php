@@ -131,7 +131,7 @@ class ACF_Admin {
 					'<p>' . __( 'The Advanced Custom Fields plugin provides a visual form builder to customize WordPress edit screens with extra fields, and an intuitive API to display custom field values in any theme template file.', 'acf' ) . '</p>' .
 					'<p>' . sprintf(
 						__( 'Before creating your first Field Group, we recommend first reading our <a href="%s" target="_blank">Getting started</a> guide to familiarize yourself with the plugin\'s philosophy and best practises.', 'acf' ),
-						'https://www.***REMOVED***.com/resources/getting-started-with-acf/'
+						'https://www.advancedcustomfields.com/resources/getting-started-with-acf/'
 					) . '</p>' .
 					'<p>' . __( 'Please use the Help & Support tab to get in touch should you find yourself requiring assistance.', 'acf' ) . '</p>' .
 					''
@@ -149,15 +149,15 @@ class ACF_Admin {
 					'<ul>' .
 						'<li>' . sprintf(
 							__( '<a href="%s" target="_blank">Documentation</a>. Our extensive documentation contains references and guides for most situations you may encounter.', 'acf' ),
-							'https://www.***REMOVED***.com/resources/'
+							'https://www.advancedcustomfields.com/resources/'
 						) . '</li>' .
 						'<li>' . sprintf(
 							__( '<a href="%s" target="_blank">Discussions</a>. We have an active and friendly community on our Community Forums who may be able to help you figure out the ‘how-tos’ of the ACF world.', 'acf' ),
-							'https://support.***REMOVED***.com/'
+							'https://support.advancedcustomfields.com/'
 						) . '</li>' .
 						'<li>' . sprintf(
 							__( '<a href="%s" target="_blank">Help Desk</a>. The support professionals on our Help Desk will assist with your more in depth, technical challenges.', 'acf' ),
-							'https://www.***REMOVED***.com/support/'
+							'https://www.advancedcustomfields.com/support/'
 						) . '</li>' .
 					'</ul>'
 			)
@@ -168,7 +168,7 @@ class ACF_Admin {
 			'<p><strong>' . __( 'Information', 'acf' ) . '</strong></p>' .
 			'<p><span class="dashicons dashicons-admin-plugins"></span> ' . sprintf( __( 'Version %s', 'acf' ), ACF_VERSION ) . '</p>' .
 			'<p><span class="dashicons dashicons-wordpress"></span> <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">' . __( 'View details', 'acf' ) . '</a></p>' .
-			'<p><span class="dashicons dashicons-admin-home"></span> <a href="https://www.***REMOVED***.com/" target="_blank" target="_blank">' . __( 'Visit website', 'acf' ) . '</a></p>' .
+			'<p><span class="dashicons dashicons-admin-home"></span> <a href="https://www.advancedcustomfields.com/" target="_blank" target="_blank">' . __( 'Visit website', 'acf' ) . '</a></p>' .
 			''
 		);
 	}
@@ -197,7 +197,7 @@ class ACF_Admin {
 	 */
 	function admin_footer_text( $text ) {
 		// Use RegExp to append "ACF" after the <a> element allowing translations to read correctly.
-		return preg_replace( '/(<a[\S\s]+?\/a>)/', '$1 ' . __('and', 'acf') . ' <a href="https://www.***REMOVED***.com" target="_blank">ACF</a>', $text, 1 );
+		return preg_replace( '/(<a[\S\s]+?\/a>)/', '$1 ' . __('and', 'acf') . ' <a href="https://www.advancedcustomfields.com" target="_blank">ACF</a>', $text, 1 );
 	}
 }
 

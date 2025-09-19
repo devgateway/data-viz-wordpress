@@ -55,7 +55,7 @@ abstract class PKCS8 extends Progenitor
      *
      * @var bool
      */
-    protected static $***REMOVED*** = false;
+    protected static $childOIDsLoaded = false;
 
     /**
      * Break a public or private key down into its constituent components
@@ -98,11 +98,11 @@ abstract class PKCS8 extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
-        $key = PKCS1::***REMOVED***($n, $e, $d, $primes, $exponents, $coefficients);
+        $key = PKCS1::savePrivateKey($n, $e, $d, $primes, $exponents, $coefficients);
         $key = ASN1::extractBER($key);
-        return self::***REMOVED***($key, [], null, $password, null, '', $options);
+        return self::wrapPrivateKey($key, [], null, $password, null, '', $options);
     }
 
     /**

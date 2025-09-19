@@ -18,8 +18,8 @@
    * The "text" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_FreebaseService(...);
-   *   $text = $***REMOVED***->text;
+   *   $freebaseService = new Google_FreebaseService(...);
+   *   $text = $freebaseService->text;
    *  </code>
    */
   class Google_TextServiceResource extends Google_ServiceResource {
@@ -30,7 +30,7 @@
      * @param string $id The id of the item that you want data about
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string format Sanitizing ***REMOVED***.
+     * @opt_param string format Sanitizing transformation.
      * @opt_param string maxlength The max number of characters to return. Valid only for 'plain' format.
      * @return Google_ContentserviceGet
      */
@@ -50,8 +50,8 @@
    * The "topic" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_FreebaseService(...);
-   *   $topic = $***REMOVED***->topic;
+   *   $freebaseService = new Google_FreebaseService(...);
+   *   $topic = $freebaseService->topic;
    *  </code>
    */
   class Google_TopicServiceResource extends Google_ServiceResource {
@@ -99,7 +99,7 @@ class Google_FreebaseService extends Google_Service {
   public $text;
   public $topic;
   /**
-   * Constructs the internal ***REMOVED*** of the Freebase service.
+   * Constructs the internal representation of the Freebase service.
    *
    * @param Google_Client $client
    */
@@ -109,7 +109,7 @@ class Google_FreebaseService extends Google_Service {
     $this->serviceName = 'freebase';
 
     $client->addService($this->serviceName, $this->version);
-    $this->text = new Google_TextServiceResource($this, $this->serviceName, 'text', json_decode('{"methods": {"get": {"id": "freebase.text.get", "path": "text{/id*}", "httpMethod": "GET", "parameters": {"format": {"type": "string", "default": "plain", "enum": ["html", "plain", "raw"], "location": "query"}, "id": {"type": "string", "required": true, "repeated": true, "location": "path"}, "maxlength": {"type": "integer", "format": "uint32", "location": "query"}}, "response": {"$ref": "***REMOVED***"}}}}', true));
+    $this->text = new Google_TextServiceResource($this, $this->serviceName, 'text', json_decode('{"methods": {"get": {"id": "freebase.text.get", "path": "text{/id*}", "httpMethod": "GET", "parameters": {"format": {"type": "string", "default": "plain", "enum": ["html", "plain", "raw"], "location": "query"}, "id": {"type": "string", "required": true, "repeated": true, "location": "path"}, "maxlength": {"type": "integer", "format": "uint32", "location": "query"}}, "response": {"$ref": "ContentserviceGet"}}}}', true));
     $this->topic = new Google_TopicServiceResource($this, $this->serviceName, 'topic', json_decode('{"methods": {"lookup": {"id": "freebase.topic.lookup", "path": "topic{/id*}", "httpMethod": "GET", "parameters": {"dateline": {"type": "string", "location": "query"}, "filter": {"type": "string", "repeated": true, "location": "query"}, "id": {"type": "string", "required": true, "repeated": true, "location": "path"}, "lang": {"type": "string", "default": "en", "location": "query"}, "limit": {"type": "integer", "default": "10", "format": "uint32", "location": "query"}, "raw": {"type": "boolean", "default": "false", "location": "query"}}, "response": {"$ref": "TopicLookup"}}}}', true));
 
     $this->image = new Google_ImageServiceResource($this, $this->serviceName, 'image', json_decode('{"httpMethod": "GET", "path": "image{/id*}", "supportsMediaDownload": true, "id": "freebase.image", "parameters": {"fallbackid": {"type": "string", "default": "/freebase/no_image_png", "location": "query"}, "id": {"type": "string", "required": true, "repeated": true, "location": "path"}, "maxheight": {"type": "integer", "format": "uint32", "maximum": "4096", "location": "query"}, "maxwidth": {"type": "integer", "format": "uint32", "maximum": "4096", "location": "query"}, "mode": {"type": "string", "default": "fit", "enum": ["fill", "fillcrop", "fillcropmid", "fit"], "location": "query"}, "pad": {"type": "boolean", "default": "false", "location": "query"}}}', true));

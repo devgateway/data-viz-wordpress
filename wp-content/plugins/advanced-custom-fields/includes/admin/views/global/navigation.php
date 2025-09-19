@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound -- included template file.
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included template file.
 /**
  * The template for displaying admin navigation.
  *
@@ -93,7 +93,7 @@ if ( ! defined( 'PWP_NAME' ) ) {
 	$acf_wpengine_logo     = sprintf( '<span><img class="acf-wp-engine-pro" src="%s" alt="WP Engine" /></span>', $acf_wpengine_logo );
 	$utm_content           = acf_is_pro() ? 'acf_pro_plugin_topbar_dropdown_cta' : 'acf_free_plugin_topbar_dropdown_cta';
 	$wpengine_more_items[] = array(
-		'url'      => acf_add_url_utm_tags( 'https://wpengine.com/plans/?coupon=***REMOVED***', 'bx_prod_referral', $utm_content, false, 'acf_plugin', 'referral' ),
+		'url'      => acf_add_url_utm_tags( 'https://wpengine.com/plans/?coupon=freedomtocreate', 'bx_prod_referral', $utm_content, false, 'acf_plugin', 'referral' ),
 		'text'     => $acf_wpengine_logo . '<span class="acf-wp-engine-upsell-pill">' . __( '4 Months Free', 'acf' ) . '</span>',
 		'target'   => '_blank',
 		'li_class' => 'acf-wp-engine',
@@ -166,7 +166,7 @@ function acf_print_menu_section( $menu_items, $section = '' ) {
 		$section_html .= $html;
 	}
 
-	echo $section_html; //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- safely built and escaped HTML above.
+	echo $section_html; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- safely built and escaped HTML above.
 }
 ?>
 <div class="acf-admin-toolbar">
@@ -210,7 +210,7 @@ function acf_print_menu_section( $menu_items, $section = '' ) {
 		<div class="acf-nav-upgrade-wrap">
 			<?php
 			if ( ! acf_is_pro() || ! acf_pro_is_license_active() ) {
-				$unlock_url    = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/pro/', 'ACF upgrade', 'header' );
+				$unlock_url    = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/pro/', 'ACF upgrade', 'header' );
 				$unlock_target = '_blank';
 				$unlock_text   = __( 'Unlock Extra Features with ACF PRO', 'acf' );
 
@@ -234,7 +234,7 @@ function acf_print_menu_section( $menu_items, $section = '' ) {
 				<?php
 			}
 			?>
-			<a href="<?php echo $acf_wpengine_logo_link; ?>" target="_blank" class="acf-nav-wpengine-logo"><?php //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped on generation. ?>
+			<a href="<?php echo $acf_wpengine_logo_link; ?>" target="_blank" class="acf-nav-wpengine-logo"><?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped on generation. ?>
 				<img src="<?php echo esc_url( acf_get_url( 'assets/images/wp-engine-horizontal-white.svg' ) ); ?>" alt="<?php esc_html_e( 'WP Engine logo', 'acf' ); ?>" />
 			</a>
 		</div>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2017-06-27 15:33+1000\n"
 "PO-Revision-Date: 2018-02-06 10:06+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:63
 msgid "Advanced Custom Fields"
@@ -146,7 +146,7 @@ msgstr "Feltgruppe planlagt for"
 
 #: includes/admin/admin-field-group.php:77
 msgid "Field group draft updated."
-msgstr "***REMOVED*** oppdatert."
+msgstr "Feltgruppekladd oppdatert."
 
 #: includes/admin/admin-field-group.php:183
 msgid "Location"
@@ -170,7 +170,7 @@ msgstr "Ingen av/på- felter tilgjengelig"
 
 #: includes/admin/admin-field-group.php:272
 msgid "Field group title is required"
-msgstr "***REMOVED*** er påkrevd"
+msgstr "Feltgruppetittel er påkrevd"
 
 #: includes/admin/admin-field-group.php:273
 #: includes/api/api-field-group.php:732
@@ -188,7 +188,7 @@ msgstr "eller"
 
 #: includes/admin/admin-field-group.php:276
 msgid "Parent fields"
-msgstr "***REMOVED***"
+msgstr "Foreldrefelter"
 
 #: includes/admin/admin-field-group.php:277
 msgid "Sibling fields"
@@ -279,7 +279,7 @@ msgstr[1] "%s feltgrupper synkronisert."
 #: includes/admin/admin-field-groups.php:394
 #: includes/admin/admin-field-groups.php:557
 msgid "Sync available"
-msgstr "***REMOVED*** tilgjengelig"
+msgstr "Synkronisering tilgjengelig"
 
 #: includes/admin/admin-field-groups.php:507 includes/forms/form-front.php:38
 #: pro/fields/class-acf-field-gallery.php:370
@@ -378,7 +378,7 @@ msgstr ""
 #: includes/admin/admin-field-groups.php:798
 #, fuzzy
 msgid "Bulk Actions"
-msgstr "***REMOVED***"
+msgstr "Massehandlinger"
 
 #: includes/admin/admin.php:113
 #: includes/admin/views/field-group-options.php:118
@@ -620,7 +620,7 @@ msgid ""
 "Create a set of rules to determine which edit screens will use these "
 "advanced custom fields"
 msgstr ""
-"Lag et sett regler for å bestemme hvilke ***REMOVED*** som vil bruke "
+"Lag et sett regler for å bestemme hvilke redigeringsvinduer som vil bruke "
 "disse feltene."
 
 #: includes/admin/views/field-group-options.php:23
@@ -653,7 +653,7 @@ msgstr "Side"
 
 #: includes/admin/views/field-group-options.php:55
 msgid "Label placement"
-msgstr "***REMOVED***"
+msgstr "Etikettplassering"
 
 #: includes/admin/views/field-group-options.php:62
 #: includes/fields/class-acf-field-tab.php:116
@@ -663,7 +663,7 @@ msgstr "Toppjustert"
 #: includes/admin/views/field-group-options.php:63
 #: includes/fields/class-acf-field-tab.php:117
 msgid "Left aligned"
-msgstr "***REMOVED***"
+msgstr "Venstrejustert"
 
 #: includes/admin/views/field-group-options.php:70
 msgid "Instruction placement"
@@ -687,7 +687,7 @@ msgstr "Feltgrupper med lavere rekkefølge vises først"
 
 #: includes/admin/views/field-group-options.php:97
 msgid "Shown in field group list"
-msgstr "Vist i ***REMOVED***"
+msgstr "Vist i feltgruppeliste"
 
 #: includes/admin/views/field-group-options.php:107
 msgid "Hide on screen"
@@ -695,14 +695,14 @@ msgstr "Skjul på skjermen"
 
 #: includes/admin/views/field-group-options.php:108
 msgid "<b>Select</b> items to <b>hide</b> them from the edit screen."
-msgstr "<b>Velg</b> elementer som skal <b>skjules</b> fra ***REMOVED***."
+msgstr "<b>Velg</b> elementer som skal <b>skjules</b> fra redigeringsvinduet."
 
 #: includes/admin/views/field-group-options.php:108
 msgid ""
 "If multiple field groups appear on an edit screen, the first field group's "
 "options will be used (the one with the lowest order number)"
 msgstr ""
-"Hvis flere feltgrupper vises i et ***REMOVED***, vil den første "
+"Hvis flere feltgrupper vises i et redigeringsvindu, vil den første "
 "feltgruppens alternativer benyttes. (Den med laveste nummer i rekkefølgen)"
 
 #: includes/admin/views/field-group-options.php:115
@@ -711,7 +711,7 @@ msgstr "Permalenke"
 
 #: includes/admin/views/field-group-options.php:116
 msgid "Content Editor"
-msgstr "***REMOVED***"
+msgstr "Innholdsredigerer"
 
 #: includes/admin/views/field-group-options.php:117
 msgid "Excerpt"
@@ -743,7 +743,7 @@ msgstr "Format"
 
 #: includes/admin/views/field-group-options.php:125
 msgid "Page Attributes"
-msgstr "***REMOVED***"
+msgstr "Sideattributter"
 
 #: includes/admin/views/field-group-options.php:126
 #: includes/fields/class-acf-field-relationship.php:751
@@ -760,7 +760,7 @@ msgstr "Merkelapper"
 
 #: includes/admin/views/field-group-options.php:129
 msgid "Send Trackbacks"
-msgstr "Send ***REMOVED***"
+msgstr "Send tilbakesporinger"
 
 #: includes/admin/views/html-location-group.php:3
 msgid "Show this field group if"
@@ -773,7 +773,7 @@ msgstr "Oppgrader nettsteder"
 #: includes/admin/views/install-network.php:9
 #: includes/admin/views/install.php:3
 msgid "Advanced Custom Fields Database Upgrade"
-msgstr "***REMOVED*** for Advanced Custom Fields"
+msgstr "Databaseoppgradering for Advanced Custom Fields"
 
 #: includes/admin/views/install-network.php:11
 #, php-format
@@ -781,7 +781,7 @@ msgid ""
 "The following sites require a DB upgrade. Check the ones you want to update "
 "and then click %s."
 msgstr ""
-"Følgende nettsteder krever en ***REMOVED***. Kryss av for de du vil "
+"Følgende nettsteder krever en databaseoppgradering. Kryss av for de du vil "
 "oppdatere og klikk deretter %s."
 
 #: includes/admin/views/install-network.php:20
@@ -792,7 +792,7 @@ msgstr "Nettsted"
 #: includes/admin/views/install-network.php:48
 #, php-format
 msgid "Site requires database upgrade from %s to %s"
-msgstr "Siden krever ***REMOVED*** fra%s til%s"
+msgstr "Siden krever databaseoppgradering fra%s til%s"
 
 #: includes/admin/views/install-network.php:50
 msgid "Site is up to date"
@@ -803,8 +803,8 @@ msgstr "Nettstedet er oppdatert"
 msgid ""
 "Database Upgrade complete. <a href=\"%s\">Return to network dashboard</a>"
 msgstr ""
-"***REMOVED*** er fullført. <a href=\"%s\">Gå tilbake til "
-"***REMOVED***</a>"
+"Databaseoppgradering er fullført. <a href=\"%s\">Gå tilbake til "
+"nettverksdashboard</a>"
 
 #: includes/admin/views/install-network.php:102
 #: includes/admin/views/install-notice.php:42
@@ -812,7 +812,7 @@ msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
 msgstr ""
-"Det anbefales sterkt at du ***REMOVED*** databasen før du fortsetter. "
+"Det anbefales sterkt at du sikkerhetskopierer databasen før du fortsetter. "
 "Er du sikker på at du vil kjøre oppdateringen nå?"
 
 #: includes/admin/views/install-network.php:158
@@ -847,7 +847,7 @@ msgstr "Alternativer-side"
 
 #: includes/admin/views/install-notice.php:26
 msgid "Database Upgrade Required"
-msgstr "***REMOVED*** er påkrevd"
+msgstr "Databaseoppgradering er påkrevd"
 
 #: includes/admin/views/install-notice.php:28
 #, php-format
@@ -877,7 +877,7 @@ msgstr "Leser oppgraderingsoppgaver ..."
 #, php-format
 msgid "Database Upgrade complete. <a href=\"%s\">See what's new</a>"
 msgstr ""
-"***REMOVED*** er fullført. <a href=\"%s\">Se hva som er nytt</a>"
+"Databaseoppgradering er fullført. <a href=\"%s\">Se hva som er nytt</a>"
 
 #: includes/admin/views/settings-addons.php:17
 msgid "Download & Install"
@@ -906,7 +906,7 @@ msgstr "En velfungerende opplevelse av egendefinerte felter"
 
 #: includes/admin/views/settings-info.php:22
 msgid "Improved Usability"
-msgstr "Forbedret ***REMOVED***"
+msgstr "Forbedret brukervennlighet"
 
 #: includes/admin/views/settings-info.php:23
 msgid ""
@@ -914,9 +914,9 @@ msgid ""
 "across a number of field types including post object, page link, taxonomy "
 "and select."
 msgstr ""
-"Å inkludere det populære Select2-biblioteket har økt både ***REMOVED*** "
-"og lastetid for flere felttyper, inkludert ***REMOVED***, sidelinker, "
-"taksonomi og ***REMOVED***."
+"Å inkludere det populære Select2-biblioteket har økt både brukervennlighet "
+"og lastetid for flere felttyper, inkludert innleggsobjekter, sidelinker, "
+"taksonomi og nedtrekksmenyer."
 
 #: includes/admin/views/settings-info.php:27
 msgid "Improved Design"
@@ -941,9 +941,9 @@ msgid ""
 "independently from their parents. This allows you to drag and drop fields in "
 "and out of parent fields!"
 msgstr ""
-"Omskriving av ***REMOVED*** tillater underfelter å leve uavhengig av "
+"Omskriving av dataarkitekturen tillater underfelter å leve uavhengig av "
 "foreldrene sine. Det betyr at du kan dra og slippe felter til og fra "
-"***REMOVED*** sine!"
+"foreldrefeltene sine!"
 
 #: includes/admin/views/settings-info.php:39
 msgid "Goodbye Add-ons. Hello PRO"
@@ -956,7 +956,7 @@ msgstr "Vi presenterer ACF PRO"
 #: includes/admin/views/settings-info.php:45
 msgid ""
 "We're changing the way premium functionality is delivered in an exciting way!"
-msgstr "Vi endrer måten premium-***REMOVED*** leveres på en spennende måte!"
+msgstr "Vi endrer måten premium-funksjonalitet leveres på en spennende måte!"
 
 #: includes/admin/views/settings-info.php:46
 #, php-format
@@ -966,7 +966,7 @@ msgid ""
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
 "Alle fire premium-tilleggene har blitt kombinert i en ny <a href=\"%s\">Pro-"
-"versjon av ACF</a>. Med både personlig- og ***REMOVED*** tilgjengelig er "
+"versjon av ACF</a>. Med både personlig- og utviklerlisenser tilgjengelig er "
 "premiumfunksjonalitet billigere og mer tilgjengelig enn noensinne!"
 
 #: includes/admin/views/settings-info.php:50
@@ -980,13 +980,13 @@ msgid ""
 "options pages!"
 msgstr ""
 "ACF PRO inneholder kraftige funksjoner som repeterende data, fleksible "
-"***REMOVED***, et vakkert gallerifelt og muligheten til å lage ekstra "
+"innholdsstrukturer, et vakkert gallerifelt og muligheten til å lage ekstra "
 "administrasjonsegenskapssider!"
 
 #: includes/admin/views/settings-info.php:52
 #, php-format
 msgid "Read more about <a href=\"%s\">ACF PRO features</a>."
-msgstr "Les mer om <a href=\"%s\">ACF PRO-***REMOVED***</a>."
+msgstr "Les mer om <a href=\"%s\">ACF PRO-funksjonaliteten</a>."
 
 #: includes/admin/views/settings-info.php:56
 msgid "Easy Upgrading"
@@ -1018,11 +1018,11 @@ msgstr "Under panseret"
 
 #: includes/admin/views/settings-info.php:71
 msgid "Smarter field settings"
-msgstr "Smartere ***REMOVED***"
+msgstr "Smartere feltinnstillinger"
 
 #: includes/admin/views/settings-info.php:72
 msgid "ACF now saves its field settings as individual post objects"
-msgstr "ACF lagrer nå ***REMOVED*** som individuelle ***REMOVED***"
+msgstr "ACF lagrer nå feltegenskapene som individuelle innleggsobjekter"
 
 #: includes/admin/views/settings-info.php:76
 msgid "More AJAX"
@@ -1030,7 +1030,7 @@ msgstr "Mer AJAX"
 
 #: includes/admin/views/settings-info.php:77
 msgid "More fields use AJAX powered search to speed up page loading"
-msgstr "Flere felter bruker AJAX-drevet søk for å kutte ned ***REMOVED***"
+msgstr "Flere felter bruker AJAX-drevet søk for å kutte ned innlastingstiden"
 
 #: includes/admin/views/settings-info.php:81
 msgid "Local JSON"
@@ -1042,13 +1042,13 @@ msgstr "Ny automatisk eksport til JSON sparer tid"
 
 #: includes/admin/views/settings-info.php:88
 msgid "Better version control"
-msgstr "Bedre ***REMOVED***"
+msgstr "Bedre versjonskontroll"
 
 #: includes/admin/views/settings-info.php:89
 msgid ""
 "New auto export to JSON feature allows field settings to be version "
 "controlled"
-msgstr "Ny autoeksport til JSON lar ***REMOVED*** bli ***REMOVED***"
+msgstr "Ny autoeksport til JSON lar feltinnstillinger bli versjonskontrollert"
 
 #: includes/admin/views/settings-info.php:93
 msgid "Swapped XML for JSON"
@@ -1065,7 +1065,7 @@ msgstr "Nye skjemaer"
 #: includes/admin/views/settings-info.php:99
 msgid "Fields can now be mapped to comments, widgets and all user forms!"
 msgstr ""
-"Feltene kan nå tilordnes til kommentarer, widgets og alle ***REMOVED***!"
+"Feltene kan nå tilordnes til kommentarer, widgets og alle brukerskjemaer!"
 
 #: includes/admin/views/settings-info.php:106
 msgid "A new field for embedding content has been added"
@@ -1077,7 +1077,7 @@ msgstr "Nytt galleri"
 
 #: includes/admin/views/settings-info.php:111
 msgid "The gallery field has undergone a much needed facelift"
-msgstr "***REMOVED*** har gjennomgått en sårt tiltrengt ansiktsløftning"
+msgstr "Gallerietfeltet har gjennomgått en sårt tiltrengt ansiktsløftning"
 
 #: includes/admin/views/settings-info.php:115
 msgid "New Settings"
@@ -1088,7 +1088,7 @@ msgid ""
 "Field group settings have been added for label placement and instruction "
 "placement"
 msgstr ""
-"Feltgruppeinnstillinger er lagt til for ***REMOVED*** og "
+"Feltgruppeinnstillinger er lagt til for etikettplassering og "
 "instruksjonsplassering"
 
 #: includes/admin/views/settings-info.php:122
@@ -1105,7 +1105,7 @@ msgstr "Bedre validering"
 
 #: includes/admin/views/settings-info.php:128
 msgid "Form validation is now done via PHP + AJAX in favour of only JS"
-msgstr "***REMOVED*** skjer nå via PHP + AJAX framfor kun JavaScript"
+msgstr "Skjemavalidering skjer nå via PHP + AJAX framfor kun JavaScript"
 
 #: includes/admin/views/settings-info.php:132
 msgid "Relationship Field"
@@ -1169,7 +1169,7 @@ msgid ""
 msgstr ""
 "Følgende kode kan brukes for å registrere en lokal versjon av de(n) valgte "
 "feltgruppen(e). En lokal feltgruppe kan gi mange fordeler som raskere "
-"lastetid, ***REMOVED*** og dynamiske felter/innstillinger. Kopier og lim "
+"lastetid, versjonskontroll og dynamiske felter/innstillinger. Kopier og lim "
 "inn den følgende koden i ditt temas functions.php-fil, eller inkluder det "
 "med en ekstern fil."
 
@@ -1188,9 +1188,9 @@ msgid ""
 "import to another ACF installation. Use the generate button to export to PHP "
 "code which you can place in your theme."
 msgstr ""
-"Velg feltgruppene du vil eksportere og velg ***REMOVED***. Bruk "
-"***REMOVED*** for å eksportere til en .json-fil du kan importere i en "
-"annen installasjon av ACF. Bruk ***REMOVED*** for å eksportere PHP-kode du "
+"Velg feltgruppene du vil eksportere og velg eksporteringsmetode. Bruk "
+"nedlastingsknappen for å eksportere til en .json-fil du kan importere i en "
+"annen installasjon av ACF. Bruk genererknappen for å eksportere PHP-kode du "
 "kan legge inn i ditt tema."
 
 #: includes/admin/views/settings-tools.php:50
@@ -1210,7 +1210,7 @@ msgid ""
 "Select the Advanced Custom Fields JSON file you would like to import. When "
 "you click the import button below, ACF will import the field groups."
 msgstr ""
-"Velg ACF JSON-filen du vil importere. Når du klikker ***REMOVED*** under, "
+"Velg ACF JSON-filen du vil importere. Når du klikker importerknappen under, "
 "vil ACF importere feltgruppene."
 
 #: includes/admin/views/settings-tools.php:77
@@ -1327,7 +1327,7 @@ msgstr "Ukjent feltgruppe"
 #: includes/fields/class-acf-field-checkbox.php:36
 #: includes/fields/class-acf-field-taxonomy.php:786
 msgid "Checkbox"
-msgstr "***REMOVED***"
+msgstr "Avkryssingsboks"
 
 #: includes/fields/class-acf-field-checkbox.php:150
 msgid "Toggle All"
@@ -1412,7 +1412,7 @@ msgstr "Veksle"
 
 #: includes/fields/class-acf-field-checkbox.php:301
 msgid "Prepend an extra checkbox to toggle all choices"
-msgstr "Legg til ekstra ***REMOVED*** for å velge alle alternativer"
+msgstr "Legg til ekstra avkryssingsboks for å velge alle alternativer"
 
 #: includes/fields/class-acf-field-checkbox.php:310
 #: includes/fields/class-acf-field-file.php:219
@@ -1496,13 +1496,13 @@ msgstr "uke"
 #: includes/fields/class-acf-field-date_time_picker.php:197
 #: includes/fields/class-acf-field-time_picker.php:127
 msgid "Display Format"
-msgstr "***REMOVED***"
+msgstr "Visningsformat"
 
 #: includes/fields/class-acf-field-date_picker.php:224
 #: includes/fields/class-acf-field-date_time_picker.php:198
 #: includes/fields/class-acf-field-time_picker.php:128
 msgid "The format displayed when editing a post"
-msgstr "***REMOVED*** når du redigerer et innlegg"
+msgstr "Visningsformat når du redigerer et innlegg"
 
 #: includes/fields/class-acf-field-date_picker.php:232
 #: includes/fields/class-acf-field-date_picker.php:263
@@ -1642,7 +1642,7 @@ msgstr "Vises når du oppretter et nytt innlegg"
 #: includes/fields/class-acf-field-textarea.php:148
 #: includes/fields/class-acf-field-url.php:123
 msgid "Placeholder Text"
-msgstr "***REMOVED***"
+msgstr "Plassholdertekst"
 
 #: includes/fields/class-acf-field-email.php:143
 #: includes/fields/class-acf-field-number.php:155
@@ -1739,7 +1739,7 @@ msgstr "Bibliotek"
 #: includes/fields/class-acf-field-image.php:232
 #: pro/fields/class-acf-field-gallery.php:671
 msgid "Limit the media library choice"
-msgstr "Begrense valg av ***REMOVED***"
+msgstr "Begrense valg av mediebibliotek"
 
 #: includes/fields/class-acf-field-file.php:240
 #: includes/fields/class-acf-field-image.php:237
@@ -2123,7 +2123,7 @@ msgstr "Passord"
 #: includes/fields/class-acf-field-post_object.php:452
 #: includes/fields/class-acf-field-relationship.php:783
 msgid "Post Object"
-msgstr "***REMOVED***"
+msgstr "Innleggsobjekt"
 
 #: includes/fields/class-acf-field-post_object.php:453
 #: includes/fields/class-acf-field-relationship.php:784
@@ -2156,11 +2156,11 @@ msgstr "Forhold"
 
 #: includes/fields/class-acf-field-relationship.php:48
 msgid "Minimum values reached ( {min} values )"
-msgstr "***REMOVED*** nådd ({min} verdier)"
+msgstr "Minimumsverdier nådd ({min} verdier)"
 
 #: includes/fields/class-acf-field-relationship.php:49
 msgid "Maximum values reached ( {max} values )"
-msgstr "***REMOVED*** nådd ( {max} verdier )"
+msgstr "Maksimumsverdier nådd ( {max} verdier )"
 
 #: includes/fields/class-acf-field-relationship.php:50
 msgid "Loading"
@@ -2300,7 +2300,7 @@ msgstr "Velg"
 #: includes/fields/class-acf-field-select.php:504
 #: includes/fields/class-acf-field-true_false.php:159
 msgid "Stylised UI"
-msgstr "Stilisert ***REMOVED***"
+msgstr "Stilisert brukergrensesnitt"
 
 #: includes/fields/class-acf-field-select.php:514
 msgid "Use AJAX to lazy load choices?"
@@ -2415,7 +2415,7 @@ msgstr "Hent termer"
 
 #: includes/fields/class-acf-field-taxonomy.php:830
 msgid "Load value from posts terms"
-msgstr "Hent verdier fra andre ***REMOVED***"
+msgstr "Hent verdier fra andre innleggstermer"
 
 #: includes/fields/class-acf-field-taxonomy.php:844
 msgid "Term Object"
@@ -2451,7 +2451,7 @@ msgstr "Tekst"
 #: includes/fields/class-acf-field-text.php:178
 #: includes/fields/class-acf-field-textarea.php:157
 msgid "Character Limit"
-msgstr "***REMOVED***"
+msgstr "Karakterbegrensning"
 
 #: includes/fields/class-acf-field-text.php:179
 #: includes/fields/class-acf-field-textarea.php:158
@@ -2486,7 +2486,7 @@ msgstr "Ja"
 
 #: includes/fields/class-acf-field-true_false.php:142
 msgid "Displays text alongside the checkbox"
-msgstr "Viser tekst ved siden av ***REMOVED***"
+msgstr "Viser tekst ved siden av avkryssingsboksen"
 
 #: includes/fields/class-acf-field-true_false.php:170
 msgid "On Text"
@@ -2563,11 +2563,11 @@ msgstr "Verktøylinje"
 
 #: includes/fields/class-acf-field-wysiwyg.php:469
 msgid "Show Media Upload Buttons?"
-msgstr "Vise knapper for ***REMOVED***?"
+msgstr "Vise knapper for mediaopplasting?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:479
-msgid "Delay ***REMOVED***?"
-msgstr "Utsette ***REMOVED***?"
+msgid "Delay initialization?"
+msgstr "Utsette initialisering?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:480
 msgid "TinyMCE will not be initalized until field is clicked"
@@ -2734,19 +2734,19 @@ msgstr "Barn-side (har foreldre)"
 
 #: includes/locations/class-acf-location-post-category.php:27
 msgid "Post Category"
-msgstr "***REMOVED***"
+msgstr "Innleggskategori"
 
 #: includes/locations/class-acf-location-post-format.php:27
 msgid "Post Format"
-msgstr "***REMOVED***"
+msgstr "Innleggsformat"
 
 #: includes/locations/class-acf-location-post-status.php:27
 msgid "Post Status"
-msgstr "***REMOVED***"
+msgstr "Innleggsstatus"
 
 #: includes/locations/class-acf-location-post-taxonomy.php:27
 msgid "Post Taxonomy"
-msgstr "***REMOVED***"
+msgstr "Innleggstaksonomi"
 
 #: includes/locations/class-acf-location-post-template.php:29
 #, fuzzy
@@ -2812,7 +2812,7 @@ msgstr ""
 
 #: pro/admin/admin-settings-updates.php:78
 msgid "<b>Error</b>. Could not connect to update server"
-msgstr "<b>Feil</b>. Kan ikke koble til ***REMOVED***"
+msgstr "<b>Feil</b>. Kan ikke koble til oppdateringsserveren"
 
 #: pro/admin/admin-settings-updates.php:162
 #: pro/admin/views/html-settings-updates.php:17
@@ -2829,7 +2829,7 @@ msgstr "Aktiver lisens"
 
 #: pro/admin/views/html-settings-updates.php:21
 msgid "License Information"
-msgstr "***REMOVED***"
+msgstr "Lisensinformasjon"
 
 #: pro/admin/views/html-settings-updates.php:24
 #, php-format
@@ -2876,7 +2876,7 @@ msgstr "Sjekk igjen"
 
 #: pro/admin/views/html-settings-updates.php:121
 msgid "Upgrade Notice"
-msgstr "***REMOVED***"
+msgstr "Oppgraderingsvarsel"
 
 #: pro/fields/class-acf-field-clone.php:36
 msgctxt "noun"
@@ -3065,7 +3065,7 @@ msgstr "Legg til galleri"
 
 #: pro/fields/class-acf-field-gallery.php:563
 msgid "Bulk actions"
-msgstr "***REMOVED***"
+msgstr "Massehandlinger"
 
 #: pro/fields/class-acf-field-gallery.php:564
 msgid "Sort by date uploaded"
@@ -3167,8 +3167,8 @@ msgstr ""
 "priser</a> dersom du ikke har lisensnøkkel."
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"
@@ -3241,7 +3241,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Feil ved lasting av oppdatering"
 
 #~ msgid "Database Upgrade complete"
-#~ msgstr "***REMOVED*** fullført"
+#~ msgstr "Databaseoppgradering fullført"
 
 #~ msgid "Return to network dashboard"
 #~ msgstr "Tilbake til nettverkskontrollpanel"
@@ -3304,7 +3304,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgstr "Vise en annen måned"
 
 #~ msgid "<b>Connection Error</b>. Sorry, please try again"
-#~ msgstr "<b>***REMOVED***</b>. Beklager, prøv på nytt"
+#~ msgstr "<b>Tilkoblingsfeil</b>. Beklager, prøv på nytt"
 
 #~ msgid "See what's new in"
 #~ msgstr "Se hva som er nytt i"
@@ -3364,8 +3364,8 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgid "Advanced Custom Fields Pro"
 #~ msgstr "Advanced Custom Fields Pro"
 
-#~ msgid "http://www.***REMOVED***.com/"
-#~ msgstr "http://www.***REMOVED***.com/"
+#~ msgid "http://www.advancedcustomfields.com/"
+#~ msgstr "http://www.advancedcustomfields.com/"
 
 #~ msgid "elliot condon"
 #~ msgstr "elliot condon"

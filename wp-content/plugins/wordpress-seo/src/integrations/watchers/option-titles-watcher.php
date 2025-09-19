@@ -108,7 +108,7 @@ class Option_Titles_Watcher implements Integration_Interface {
 		$hierarchy_table = Model::get_table_name( 'Indexable_Hierarchy' );
 		$indexable_table = Model::get_table_name( 'Indexable' );
 
-		// phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery,WordPress.DB.***REMOVED***.NoCaching -- Delete query.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Delete query.
 		$result = $wpdb->query(
 			$wpdb->prepare(
 				"

@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Given it's a very specific case.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
 /**
@@ -37,11 +37,11 @@ class Aioseo_Robots_Transformer_Service {
 		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], '' ), true );
 
 		// Let's check first if it defers to global robot settings.
-		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['***REMOVED***'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
+		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
 			return $setting_value;
 		}
 
-		$defers_to_defaults = $aioseo_settings['***REMOVED***'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'];
+		$defers_to_defaults = $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'];
 
 		if ( $defers_to_defaults ) {
 			return $this->robots_provider->get_global_robot_settings( $setting_name );

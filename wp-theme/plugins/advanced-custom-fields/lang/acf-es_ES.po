@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2017-06-27 15:35+1000\n"
 "PO-Revision-Date: 2018-02-06 10:05+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:63
 msgid "Advanced Custom Fields"
@@ -383,7 +383,7 @@ msgstr "Acciones en lote"
 #: includes/admin/admin.php:113
 #: includes/admin/views/field-group-options.php:118
 msgid "Custom Fields"
-msgstr "Campos ***REMOVED***"
+msgstr "Campos Personalizados"
 
 #: includes/admin/install-network.php:88 includes/admin/install.php:70
 #: includes/admin/install.php:121
@@ -400,7 +400,7 @@ msgstr "¡Error al validar la solicitud!"
 
 #: includes/admin/install.php:210 includes/admin/views/install.php:105
 msgid "No updates available."
-msgstr "No hay ***REMOVED*** disponibles."
+msgstr "No hay actualizaciones disponibles."
 
 #: includes/admin/settings-addons.php:51
 #: includes/admin/views/settings-addons.php:3
@@ -623,7 +623,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crea un conjunto de reglas para determinar qué pantallas de edición "
-"utilizarán estos campos ***REMOVED***"
+"utilizarán estos campos personalizados"
 
 #: includes/admin/views/field-group-options.php:23
 msgid "Style"
@@ -910,7 +910,7 @@ msgstr ""
 
 #: includes/admin/views/settings-info.php:17
 msgid "A smoother custom field experience"
-msgstr "Una experiencia de campos ***REMOVED*** más fluida"
+msgstr "Una experiencia de campos personalizados más fluida"
 
 #: includes/admin/views/settings-info.php:22
 msgid "Improved Usability"
@@ -951,7 +951,7 @@ msgid ""
 "and out of parent fields!"
 msgstr ""
 "Rediseñar la arquitectura de datos ha permitido que los sub campos vivan "
-"***REMOVED*** de sus padres.  Esto permite arrastrar y soltar campos "
+"independientemente de sus padres.  Esto permite arrastrar y soltar campos "
 "desde y hacia otros campos padres!"
 
 #: includes/admin/views/settings-info.php:39
@@ -966,7 +966,7 @@ msgstr "Presentando ACF PRO"
 msgid ""
 "We're changing the way premium functionality is delivered in an exciting way!"
 msgstr ""
-"Estamos cambiando la manera en que las ***REMOVED*** premium son brindadas "
+"Estamos cambiando la manera en que las funcionalidades premium son brindadas "
 "de un modo muy interesante!"
 
 #: includes/admin/views/settings-info.php:46
@@ -977,7 +977,7 @@ msgid ""
 "premium functionality is more affordable and accessible than ever before!"
 msgstr ""
 "Todos los 4 agregados premium han sido combinados en una nueva <a href=\"%s"
-"\">version Pro de ACF</a>. Con lincencias personales y para ***REMOVED*** "
+"\">version Pro de ACF</a>. Con lincencias personales y para desarrolladores "
 "disponibles, la funcionalidad premium es más acequible que nunca!"
 
 #: includes/admin/views/settings-info.php:50
@@ -1105,7 +1105,7 @@ msgid ""
 "Field group settings have been added for label placement and instruction "
 "placement"
 msgstr ""
-"Se agregaron ajustes de grupos de campos para ***REMOVED*** de las "
+"Se agregaron ajustes de grupos de campos para posicionamiento de las "
 "etiquetas y las instrucciones"
 
 #: includes/admin/views/settings-info.php:122
@@ -1388,7 +1388,7 @@ msgstr "Permitir personalización"
 
 #: includes/fields/class-acf-field-checkbox.php:260
 msgid "Allow 'custom' values to be added"
-msgstr "Permite añadir valores ***REMOVED***"
+msgstr "Permite añadir valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:266
 msgid "Save Custom"
@@ -1396,7 +1396,7 @@ msgstr "Guardar personalización"
 
 #: includes/fields/class-acf-field-checkbox.php:271
 msgid "Save 'custom' values to the field's choices"
-msgstr "Guardar los valores \"***REMOVED***\" a las opciones del campo"
+msgstr "Guardar los valores \"personalizados\" a las opciones del campo"
 
 #: includes/fields/class-acf-field-checkbox.php:277
 #: includes/fields/class-acf-field-color_picker.php:146
@@ -2158,7 +2158,7 @@ msgstr "Otro"
 
 #: includes/fields/class-acf-field-radio.php:274
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Agregar la opción 'otros' para permitir valores ***REMOVED***"
+msgstr "Agregar la opción 'otros' para permitir valores personalizados"
 
 #: includes/fields/class-acf-field-radio.php:280
 msgid "Save Other"
@@ -2342,7 +2342,7 @@ msgid ""
 "The tab field will display incorrectly when added to a Table style repeater "
 "field or flexible content field layout"
 msgstr ""
-"El campo pestaña se visualizará ***REMOVED*** cuando sea agregado a un "
+"El campo pestaña se visualizará incorrectamente cuando sea agregado a un "
 "campo de repetición con estilo Tabla o a un layout de contenido flexible"
 
 #: includes/fields/class-acf-field-tab.php:97
@@ -2589,7 +2589,7 @@ msgid "Show Media Upload Buttons?"
 msgstr "¿Mostrar el botón Media Upload?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:479
-msgid "Delay ***REMOVED***?"
+msgid "Delay initialization?"
 msgstr "¿Inicialización retrasada?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:480
@@ -2711,7 +2711,7 @@ msgstr "Menú"
 
 #: includes/locations/class-acf-location-nav-menu.php:113
 msgid "Menu Locations"
-msgstr "***REMOVED*** de menú"
+msgstr "Localizaciones de menú"
 
 #: includes/locations/class-acf-location-nav-menu.php:123
 msgid "Menus"
@@ -2828,8 +2828,8 @@ msgid ""
 "No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
 "Custom Field Group</a>"
 msgstr ""
-"No se encontraron grupos de campos ***REMOVED*** para esta página de "
-"opciones. <a href=\"%s\">Crear Grupo de Campos ***REMOVED***</a>"
+"No se encontraron grupos de campos personalizados para esta página de "
+"opciones. <a href=\"%s\">Crear Grupo de Campos Personalizados</a>"
 
 #: pro/admin/admin-settings-updates.php:78
 msgid "<b>Error</b>. Could not connect to update server"
@@ -2839,7 +2839,7 @@ msgstr ""
 #: pro/admin/admin-settings-updates.php:162
 #: pro/admin/views/html-settings-updates.php:17
 msgid "Updates"
-msgstr "***REMOVED***"
+msgstr "Actualizaciones"
 
 #: pro/admin/views/html-settings-updates.php:11
 msgid "Deactivate License"
@@ -2860,7 +2860,7 @@ msgid ""
 "licence key, please see <a href=\"%s\" target=\"_blank\">details & pricing</"
 "a>."
 msgstr ""
-"Para desbloquear las ***REMOVED***, por favor a continuación introduce tu "
+"Para desbloquear las actualizaciones, por favor a continuación introduce tu "
 "clave de licencia. Si no tienes una clave de licencia, consulta <a href=\"%s"
 "\" target=\"_blank\">detalles y precios</a>."
 
@@ -2890,7 +2890,7 @@ msgstr "Actualizar Plugin"
 
 #: pro/admin/views/html-settings-updates.php:98
 msgid "Please enter your license key above to unlock updates"
-msgstr "Por favor ingresa tu clave de licencia para habilitar ***REMOVED***"
+msgstr "Por favor ingresa tu clave de licencia para habilitar actualizaciones"
 
 #: pro/admin/views/html-settings-updates.php:104
 msgid "Check Again"
@@ -3185,13 +3185,13 @@ msgid ""
 "\">Updates</a> page. If you don't have a licence key, please see <a href=\"%s"
 "\">details & pricing</a>."
 msgstr ""
-"Para habilitar ***REMOVED***, por favor, introduzca su llave de licencia "
-"en la <a href=\"%s\">página de ***REMOVED***</a>. Si no tiene una llave de "
+"Para habilitar actualizaciones, por favor, introduzca su llave de licencia "
+"en la <a href=\"%s\">página de actualizaciones</a>. Si no tiene una llave de "
 "licencia, por favor, consulta <a href=\"%s\">detalles y precios</a>."
 
 #. Plugin URI of the plugin/theme
-msgid "https://www.***REMOVED***.com/"
-msgstr "https://www.***REMOVED***.com/"
+msgid "https://www.advancedcustomfields.com/"
+msgstr "https://www.advancedcustomfields.com/"
 
 #. Author of the plugin/theme
 msgid "Elliot Condon"
@@ -3207,7 +3207,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ msgid "Disabled <span class=\"count\">(%s)</span>"
 #~ msgid_plural "Disabled <span class=\"count\">(%s)</span>"
 #~ msgstr[0] "Deshabilitado <span class=\"count\">(%s)</span>"
-#~ msgstr[1] "***REMOVED*** <span class=\"count\">(%s)</span>"
+#~ msgstr[1] "Deshabilitados <span class=\"count\">(%s)</span>"
 
 #~ msgid "See what's new in"
 #~ msgstr "Que hay de nuevo en"
@@ -3309,7 +3309,7 @@ msgstr "http://www.elliotcondon.com/"
 #~ "To unlock updates, please enter your license key below. If you don't have "
 #~ "a licence key, please see"
 #~ msgstr ""
-#~ "Para desbloquear las ***REMOVED***, por favor ingresa tu clabe de "
+#~ "Para desbloquear las actualizaciones, por favor ingresa tu clabe de "
 #~ "licencia debajo.  Si no tienes una clave de licencia, por favor mira"
 
 #~ msgid "details & pricing"

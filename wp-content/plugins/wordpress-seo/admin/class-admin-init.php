@@ -109,7 +109,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function on_wpseo_admin_page() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( ! isset( $_GET['page'] ) || ! is_string( $_GET['page'] ) ) {
 			return false;
 		}
@@ -118,7 +118,7 @@ class WPSEO_Admin_Init {
 			return false;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		$current_page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 		return strpos( $current_page, 'wpseo' ) === 0;
 	}
@@ -146,7 +146,7 @@ class WPSEO_Admin_Init {
 		}
 
 		// If we are doing an inline save.
-		if ( check_ajax_referer( '***REMOVED***', '_inline_edit', false ) && isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'inline-save' ) {
+		if ( check_ajax_referer( 'inlineeditnonce', '_inline_edit', false ) && isset( $_POST['action'] ) && sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'inline-save' ) {
 			return true;
 		}
 
@@ -209,9 +209,9 @@ class WPSEO_Admin_Init {
 
 			$page = null;
 
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 			if ( isset( $_GET['page'] ) && is_string( $_GET['page'] ) ) {
-				// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 				$page = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 			}
 
@@ -312,7 +312,7 @@ class WPSEO_Admin_Init {
 		// Show notice for each deprecated filter or action that has been registered.
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			$deprecation_info = $deprecated_filters[ $deprecated_filter ];
-			// phpcs:disable WordPress.Security.EscapeOutput.***REMOVED*** -- Only uses the hardcoded values from above.
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Only uses the hardcoded values from above.
 			_deprecated_hook(
 				$deprecated_filter,
 				'WPSEO ' . $deprecation_info['version'],

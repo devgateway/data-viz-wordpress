@@ -37,11 +37,11 @@ class WooCommerce_Post_Edit implements Integration_Interface {
 	 * @param array   $values Key-value map of variables we enqueue in the JavaScript of the post editor.
 	 * @param WP_Post $post   The post currently opened in the editor.
 	 *
-	 * @return array The values, where the `***REMOVED***` is set to the empty string.
+	 * @return array The values, where the `metaDescriptionDate` is set to the empty string.
 	 */
 	public function remove_meta_description_date( $values, $post ) {
 		if ( $post->post_type === 'product' ) {
-			$values['***REMOVED***'] = '';
+			$values['metaDescriptionDate'] = '';
 		}
 
 		return $values;

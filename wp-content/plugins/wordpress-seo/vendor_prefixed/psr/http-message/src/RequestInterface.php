@@ -3,7 +3,7 @@
 namespace YoastSEO_Vendor\Psr\Http\Message;
 
 /**
- * ***REMOVED*** of an outgoing, client-side request.
+ * Representation of an outgoing, client-side request.
  *
  * Per the HTTP specification, this interface includes properties for
  * each of the following:
@@ -14,32 +14,32 @@ namespace YoastSEO_Vendor\Psr\Http\Message;
  * - Headers
  * - Message body
  *
- * During construction, ***REMOVED*** MUST attempt to set the Host header from
+ * During construction, implementations MUST attempt to set the Host header from
  * a provided URI if no Host header is provided.
  *
  * Requests are considered immutable; all methods that might change state MUST
  * be implemented such that they retain the internal state of the current
  * message and return an instance that contains the changed state.
  */
-interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+interface RequestInterface extends \YoastSEO_Vendor\Psr\Http\Message\MessageInterface
 {
     /**
      * Retrieves the message's request target.
      *
      * Retrieves the message's request-target either as it will appear (for
      * clients), as it appeared at request (for servers), or as it was
-     * specified for the instance (see ***REMOVED***()).
+     * specified for the instance (see withRequestTarget()).
      *
      * In most cases, this will be the origin-form of the composed URI,
-     * unless a value was provided to the concrete ***REMOVED*** (see
-     * ***REMOVED***() below).
+     * unless a value was provided to the concrete implementation (see
+     * withRequestTarget() below).
      *
      * If no URI is available, and no request-target has been specifically
      * provided, this method MUST return the string "/".
      *
      * @return string
      */
-    public function ***REMOVED***() : string;
+    public function getRequestTarget() : string;
     /**
      * Return an instance with the specific request-target.
      *
@@ -57,7 +57,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @param string $requestTarget
      * @return static
      */
-    public function ***REMOVED***(string $requestTarget) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withRequestTarget(string $requestTarget) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
     /**
      * Retrieves the HTTP method of the request.
      *
@@ -68,7 +68,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * Return an instance with the provided HTTP method.
      *
      * While HTTP method names are typically all uppercase characters, HTTP
-     * method names are case-sensitive and thus ***REMOVED*** SHOULD NOT
+     * method names are case-sensitive and thus implementations SHOULD NOT
      * modify the given string.
      *
      * This method MUST be implemented in such a way as to retain the
@@ -79,7 +79,7 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @return static
      * @throws \InvalidArgumentException for invalid HTTP methods.
      */
-    public function withMethod(string $method) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withMethod(string $method) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
     /**
      * Retrieves the URI instance.
      *
@@ -120,5 +120,5 @@ interface ***REMOVED*** extends \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
      * @param bool $preserveHost Preserve the original state of the Host header.
      * @return static
      */
-    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, bool $preserveHost = \false) : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+    public function withUri(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri, bool $preserveHost = \false) : \YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 }

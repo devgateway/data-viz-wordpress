@@ -7,13 +7,13 @@
 # https://translate.wordpress.org/projects/wp-plugins/advanced-custom-fields/stable/
 #
 # For additional ACF PRO strings, please submit a pull request over on the ACF GitHub repo at
-# http://github.com/***REMOVED***/acf using the .pot (and any existing .po) files in /lang/pro/
+# http://github.com/advancedcustomfields/acf using the .pot (and any existing .po) files in /lang/pro/
 #
 # This file is distributed under the same license as Advanced Custom Fields.
 msgid ""
 msgstr ""
 "PO-Revision-Date: 2025-04-04T12:09:00+00:00\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,13 +55,13 @@ msgstr "Actualizar la fuente"
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:810
 msgid "By default only admin users can edit this setting."
 msgstr ""
-"Por defecto, solo los usuarios ***REMOVED*** pueden editar este ajuste."
+"Por defecto, solo los usuarios administradores pueden editar este ajuste."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:848
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:808
 msgid "By default only super admin users can edit this setting."
 msgstr ""
-"Por defecto, solo los usuarios súper ***REMOVED*** pueden editar este "
+"Por defecto, solo los usuarios súper administradores pueden editar este "
 "ajuste."
 
 #: includes/admin/views/acf-field-group/field.php:322
@@ -439,7 +439,7 @@ msgstr "Icono de voltear verticalmente"
 
 #: includes/fields/class-acf-field-icon_picker.php:577
 msgid "Flip Horizontal Icon"
-msgstr "Icono de voltear ***REMOVED***"
+msgstr "Icono de voltear horizontalmente"
 
 #: includes/fields/class-acf-field-icon_picker.php:575
 msgid "Crop Icon"
@@ -683,7 +683,7 @@ msgid "Button Icon"
 msgstr "Icono de botón"
 
 #: includes/fields/class-acf-field-icon_picker.php:452
-msgid "***REMOVED*** Icon"
+msgid "Businessperson Icon"
 msgstr "Icono de empresario"
 
 #: includes/fields/class-acf-field-icon_picker.php:449
@@ -1485,7 +1485,7 @@ msgstr "Icono de inicio"
 
 #: includes/fields/class-acf-field-icon_picker.php:388
 msgid "Customizer Icon"
-msgstr "Icono del ***REMOVED***"
+msgstr "Icono del personalizador"
 
 #: includes/fields/class-acf-field-icon_picker.php:387
 #: includes/fields/class-acf-field-icon_picker.php:711
@@ -1786,7 +1786,7 @@ msgstr ""
 
 #: includes/admin/views/escaped-html-notice.php:25
 msgid "Dismiss permanently"
-msgstr "Descartar ***REMOVED***"
+msgstr "Descartar permanentemente"
 
 #: includes/admin/views/acf-field-group/field.php:220
 msgid "Instructions for content editors. Shown when submitting data."
@@ -2028,7 +2028,7 @@ msgid ""
 "and sub-pages."
 msgstr ""
 "Las <a href=\"%s\" target=\"_blank\">páginas de opciones</a> de ACF son "
-"páginas de administrador ***REMOVED*** para gestionar ajustes globales a "
+"páginas de administrador personalizadas para gestionar ajustes globales a "
 "través de campos. Puedes crear múltiples páginas y subpáginas."
 
 #: includes/admin/views/global/header.php:35
@@ -2526,7 +2526,7 @@ msgid ""
 "An interactive and customizable UI for picking one or many posts, pages or "
 "post type items with the option to search. "
 msgstr ""
-"Una interfaz de usuario interactiva y ***REMOVED*** para seleccionar una o "
+"Una interfaz de usuario interactiva y personalizable para seleccionar una o "
 "varias entradas, páginas o elementos de tipo contenido con la opción de "
 "buscar. "
 
@@ -2619,7 +2619,7 @@ msgid ""
 "customized using the field settings."
 msgstr ""
 "Una interfaz de usuario interactiva para elegir una fecha y una hora. El "
-"formato de devolución de la fecha puede ***REMOVED*** mediante los ajustes "
+"formato de devolución de la fecha puede personalizarse mediante los ajustes "
 "del campo."
 
 #: includes/fields/class-acf-field-date_picker.php:24
@@ -2650,14 +2650,14 @@ msgid ""
 "from the values provided."
 msgstr ""
 "Un grupo de botones con valores que tú especifiques, los usuarios pueden "
-"elegir una opción de entre los valores ***REMOVED***."
+"elegir una opción de entre los valores proporcionados."
 
 #: includes/fields/class-acf-field-accordion.php:26
 msgid ""
 "Allows you to group and organize custom fields into collapsable panels that "
 "are shown while editing content. Useful for keeping large datasets tidy."
 msgstr ""
-"Te permite agrupar y organizar campos ***REMOVED*** en paneles plegables "
+"Te permite agrupar y organizar campos personalizados en paneles plegables "
 "que se muestran al editar el contenido. Útil para mantener ordenados grandes "
 "conjuntos de datos."
 
@@ -2784,7 +2784,7 @@ msgstr "Añadir taxonomía"
 #: includes/admin/views/acf-taxonomy/list-empty.php:14
 msgid "Create custom taxonomies to classify post type content"
 msgstr ""
-"Crear taxonomías ***REMOVED*** para clasificar el contenido del tipo de "
+"Crear taxonomías personalizadas para clasificar el contenido del tipo de "
 "contenido"
 
 #: includes/admin/views/acf-taxonomy/list-empty.php:13
@@ -3037,7 +3037,7 @@ msgid ""
 "The description is not prominent by default; however, some themes may show "
 "it."
 msgstr ""
-"La descripción no es prominente de forma ***REMOVED***; Sin embargo, "
+"La descripción no es prominente de forma predeterminada; Sin embargo, "
 "algunos temas pueden mostrarlo."
 
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:574
@@ -3410,7 +3410,7 @@ msgid ""
 "custom post types."
 msgstr ""
 "Amplía la funcionalidad de WordPress más allá de las entradas y páginas "
-"estándar con tipos de contenido ***REMOVED***."
+"estándar con tipos de contenido personalizados."
 
 #: includes/admin/views/acf-post-type/list-empty.php:12
 msgid "Add Your First Post Type"
@@ -3551,7 +3551,7 @@ msgstr ""
 #: includes/admin/views/acf-post-type/advanced-settings.php:1210
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1047
 msgid "Query Variable Support"
-msgstr "***REMOVED*** con variables de consulta"
+msgstr "Compatibilidad con variables de consulta"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1185
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:1023
@@ -3588,7 +3588,7 @@ msgstr "Archivo"
 #: includes/admin/views/acf-post-type/advanced-settings.php:1128
 msgid "Pagination support for the items URLs such as the archives."
 msgstr ""
-"***REMOVED*** de paginación para las URL de los elementos, como los "
+"Compatibilidad de paginación para las URL de los elementos, como los "
 "archivos."
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:1127
@@ -3740,7 +3740,7 @@ msgstr ""
 #: includes/admin/views/acf-post-type/advanced-settings.php:914
 #: includes/admin/views/acf-taxonomy/advanced-settings.php:873
 msgid "Appearance Menus Support"
-msgstr "***REMOVED*** con menús de apariencia"
+msgstr "Compatibilidad con menús de apariencia"
 
 #: includes/admin/views/acf-post-type/advanced-settings.php:896
 msgid "Appears as an item in the 'New' menu in the admin bar."
@@ -4834,21 +4834,21 @@ msgstr "Añade un «Alternar todos»"
 
 #: includes/fields/class-acf-field-checkbox.php:379
 msgid "Save Custom Values"
-msgstr "Guardar los valores ***REMOVED***"
+msgstr "Guardar los valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:368
 msgid "Allow Custom Values"
-msgstr "Permitir valores ***REMOVED***"
+msgstr "Permitir valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:134
 msgid "Checkbox custom values cannot be empty. Uncheck any empty values."
 msgstr ""
-"Los valores ***REMOVED*** de la casilla de verificación no pueden estar "
+"Los valores personalizados de la casilla de verificación no pueden estar "
 "vacíos. Desmarca cualquier valor vacío."
 
 #: includes/admin/views/global/navigation.php:253
 msgid "Updates"
-msgstr "***REMOVED***"
+msgstr "Actualizaciones"
 
 #: includes/admin/views/global/navigation.php:177
 #: includes/admin/views/global/navigation.php:181
@@ -4891,7 +4891,7 @@ msgid ""
 "fields together, and then attach those fields to edit screens."
 msgstr ""
 "ACF utiliza <a href=\"%s\" target=\"_blank\">grupos de campos</a> para "
-"agrupar campos ***REMOVED*** juntos, y después añadir esos campos a las "
+"agrupar campos personalizados juntos, y después añadir esos campos a las "
 "pantallas de edición."
 
 #: includes/admin/views/acf-field-group/list-empty.php:12
@@ -4956,8 +4956,8 @@ msgid ""
 "Get started creating new custom fields for your posts, pages, custom post "
 "types and other WordPress content."
 msgstr ""
-"Comienza creando nuevos campos ***REMOVED*** para tus entradas, páginas, "
-"tipos de contenido ***REMOVED*** y otros contenidos de WordPress."
+"Comienza creando nuevos campos personalizados para tus entradas, páginas, "
+"tipos de contenido personalizados y otros contenidos de WordPress."
 
 #: includes/admin/views/acf-field-group/fields.php:64
 msgid "Add Your First Field"
@@ -5338,7 +5338,7 @@ msgid ""
 msgstr ""
 "Antes de crear tu primer grupo de campos te recomendamos que primero leas "
 "nuestra <a href=\"%s\" target=\"_blank\">guía de primeros pasos</a> para "
-"***REMOVED*** con la filosofía y buenas prácticas del plugin."
+"familiarizarte con la filosofía y buenas prácticas del plugin."
 
 #: includes/admin/admin.php:134
 msgid ""
@@ -5348,7 +5348,7 @@ msgid ""
 msgstr ""
 "El plugin Advanced Custom Fields ofrece un constructor visual con el que "
 "personalizar las pantallas de WordPress con campos adicionales, y una API "
-"intuitiva parra mostrar valores de campos ***REMOVED*** en cualquier "
+"intuitiva parra mostrar valores de campos personalizados en cualquier "
 "archivo de plantilla de cualquier tema."
 
 #: includes/admin/admin.php:131 includes/admin/admin.php:133
@@ -5490,7 +5490,7 @@ msgstr "Rol del usuario actual"
 #: includes/locations/class-acf-location-page-template.php:73
 #: includes/locations/class-acf-location-post-template.php:85
 msgid "Default Template"
-msgstr "Plantilla ***REMOVED***"
+msgstr "Plantilla predeterminada"
 
 #: includes/locations/class-acf-location-post-template.php:22
 msgid "Post Template"
@@ -5819,7 +5819,7 @@ msgstr "Mostrar este grupo de campos si"
 #: includes/admin/views/upgrade/upgrade.php:93
 #: includes/ajax/class-acf-ajax-upgrade.php:34
 msgid "No updates available."
-msgstr "No hay ***REMOVED*** disponibles."
+msgstr "No hay actualizaciones disponibles."
 
 #. translators: %s the url to the field group page.
 #: includes/admin/views/upgrade/upgrade.php:32
@@ -5910,7 +5910,7 @@ msgid ""
 "advanced custom fields"
 msgstr ""
 "Crea un conjunto de reglas para determinar qué pantallas de edición "
-"utilizarán estos campos ***REMOVED***"
+"utilizarán estos campos personalizados"
 
 #: includes/admin/views/acf-field-group/locations.php:9
 msgid "Rules"
@@ -6058,7 +6058,7 @@ msgstr "Actualizar base de datos"
 #: includes/admin/views/acf-field-group/options.php:175
 #: includes/admin/views/acf-post-type/advanced-settings.php:30
 msgid "Custom Fields"
-msgstr "Campos ***REMOVED***"
+msgstr "Campos personalizados"
 
 #: includes/admin/post-types/admin-field-group.php:609
 msgid "Move Field"
@@ -6422,11 +6422,11 @@ msgstr ""
 
 #: includes/fields/class-acf-field-checkbox.php:383
 msgid "Save 'custom' values to the field's choices"
-msgstr "Guardar los valores «***REMOVED***» a las opciones del campo"
+msgstr "Guardar los valores «personalizados» a las opciones del campo"
 
 #: includes/fields/class-acf-field-checkbox.php:372
 msgid "Allow 'custom' values to be added"
-msgstr "Permite añadir valores ***REMOVED***"
+msgstr "Permite añadir valores personalizados"
 
 #: includes/fields/class-acf-field-checkbox.php:35
 msgid "Add new choice"
@@ -6562,7 +6562,7 @@ msgstr "Guardar los valores de 'otros' en las opciones del campo"
 
 #: includes/fields/class-acf-field-radio.php:243
 msgid "Add 'other' choice to allow for custom values"
-msgstr "Añade la opción 'otros' para permitir valores ***REMOVED***"
+msgstr "Añade la opción 'otros' para permitir valores personalizados"
 
 #: includes/admin/views/global/navigation.php:199
 msgid "Other"
@@ -7027,7 +7027,7 @@ msgid "TinyMCE will not be initialized until field is clicked"
 msgstr "TinyMCE no se inicializará hasta que se haga clic en el campo"
 
 #: includes/fields/class-acf-field-wysiwyg.php:366
-msgid "Delay ***REMOVED***"
+msgid "Delay Initialization"
 msgstr "Inicialización del retardo"
 
 #: includes/fields/class-acf-field-wysiwyg.php:355
@@ -7780,8 +7780,8 @@ msgstr "Personaliza WordPress con campos potentes, profesionales e intuitivos."
 
 #. Plugin URI of the plugin
 #: acf.php
-msgid "https://www.***REMOVED***.com"
-msgstr "https://www.***REMOVED***.com"
+msgid "https://www.advancedcustomfields.com"
+msgstr "https://www.advancedcustomfields.com"
 
 #. Plugin Name of the plugin
 #: acf.php acf.php:93
@@ -7841,8 +7841,8 @@ msgid ""
 "href=\"%1$s\">Updates</a> page. If you don't have a licence key, please see "
 "<a href=\"%2$s\" target=\"_blank\">details & pricing</a>."
 msgstr ""
-"Para habilitar las ***REMOVED***, introduzca su clave de licencia en la "
-"página <a href=\"%1$s\">***REMOVED***.</a> Si no tiene una clave de "
+"Para habilitar las actualizaciones, introduzca su clave de licencia en la "
+"página <a href=\"%1$s\">Actualizaciones.</a> Si no tiene una clave de "
 "licencia, consulte los <a href=\"%2$s\" target=\"_blank\">detalles y los "
 "precios.</a>."
 
@@ -7892,8 +7892,8 @@ msgid ""
 "No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
 "Custom Field Group</a>"
 msgstr ""
-"No se encontraron grupos de campos ***REMOVED*** para esta página de "
-"opciones. <a href=\"%s\">Crear Grupo de Campos ***REMOVED***</a>"
+"No se encontraron grupos de campos personalizados para esta página de "
+"opciones. <a href=\"%s\">Crear Grupo de Campos Personalizados</a>"
 
 #: pro/admin/admin-updates.php:52
 msgid "<b>Error</b>. Could not connect to update server"
@@ -8322,7 +8322,7 @@ msgid ""
 "licence key, please see <a href=\"%s\" target=\"_blank\">details & pricing</"
 "a>."
 msgstr ""
-"Para desbloquear las ***REMOVED***, por favor a continuación introduce tu "
+"Para desbloquear las actualizaciones, por favor a continuación introduce tu "
 "clave de licencia. Si no tienes una clave de licencia, consulta <a "
 "href=\"%s\" target=\"_blank\">detalles y precios</a>."
 
@@ -8366,7 +8366,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Please enter your license key above to unlock updates"
 msgid "Enter your license key to unlock updates"
-msgstr "Por favor ingresa tu clave de licencia para habilitar ***REMOVED***"
+msgstr "Por favor ingresa tu clave de licencia para habilitar actualizaciones"
 
 #: pro/admin/views/html-settings-updates.php:119
 msgid "Update Plugin"
@@ -8374,4 +8374,4 @@ msgstr "Actualizar Plugin"
 
 #: pro/admin/views/html-settings-updates.php:117
 msgid "Please reactivate your license to unlock updates"
-msgstr "Reactive su licencia para desbloquear ***REMOVED***"
+msgstr "Reactive su licencia para desbloquear actualizaciones"

@@ -1,11 +1,11 @@
 jQuery( function ( $ ) {
-	var ***REMOVED*** = null;
-	var ***REMOVED*** = null;
+	var mshotRemovalTimer = null;
+	var mshotRetryTimer = null;
 	var mshotTries = 0;
-	var ***REMOVED*** = 1000;
+	var mshotRetryInterval = 1000;
 	var mshotEnabledLinkSelector = 'a[id^="author_comment_url"], tr.pingback td.column-author a:first-of-type, td.comment p a';
 
-	var ***REMOVED*** = [];
+	var preloadedMshotURLs = [];
 
 	$('.akismet-status').each(function () {
 		var thisId = $(this).attr('commentid');
@@ -88,7 +88,7 @@ jQuery( function ( $ ) {
 	// Show a preview image of the hovered URL. Applies to author URLs and URLs inside the comments.
 	if ( "enable_mshots" in WPAkismet && WPAkismet.enable_mshots ) {
 		$( '#the-comment-list' ).on( 'mouseover', mshotEnabledLinkSelector, function () {
-			clearTimeout( ***REMOVED*** );
+			clearTimeout( mshotRemovalTimer );
 
 			if ( $( '.akismet-mshot' ).length > 0 ) {
 				if ( $( '.akismet-mshot:first' ).data( 'link' ) == this ) {
@@ -101,11 +101,11 @@ jQuery( function ( $ ) {
 				}
 			}
 
-			clearTimeout( ***REMOVED*** );
+			clearTimeout( mshotRetryTimer );
 
 			var linkUrl = $( this ).attr( 'href' );
 
-			if ( ***REMOVED***.indexOf( linkUrl ) !== -1 ) {
+			if ( preloadedMshotURLs.indexOf( linkUrl ) !== -1 ) {
 				// This preview image was already preloaded, so begin with a retry URL so the user doesn't see the placeholder image for the first second.
 				mshotTries = 2;
 			}
@@ -130,21 +130,21 @@ jQuery( function ( $ ) {
 
 			$( 'body' ).append( mShot );
 
-			***REMOVED*** = setTimeout( retryMshotUntilLoaded, ***REMOVED*** );
+			mshotRetryTimer = setTimeout( retryMshotUntilLoaded, mshotRetryInterval );
 		} ).on( 'mouseout', 'a[id^="author_comment_url"], tr.pingback td.column-author a:first-of-type, td.comment p a', function () {
-			***REMOVED*** = setTimeout( function () {
-				clearTimeout( ***REMOVED*** );
+			mshotRemovalTimer = setTimeout( function () {
+				clearTimeout( mshotRetryTimer );
 
 				$( '.akismet-mshot' ).remove();
 			}, 200 );
 		} );
 
-		var ***REMOVED*** = null;
+		var preloadDelayTimer = null;
 
 		$( window ).on( 'scroll resize', function () {
-			clearTimeout( ***REMOVED*** );
+			clearTimeout( preloadDelayTimer );
 
-			***REMOVED*** = setTimeout( preloadMshotsInViewport, 500 );
+			preloadDelayTimer = setTimeout( preloadMshotsInViewport, 500 );
 		} );
 
 		preloadMshotsInViewport();
@@ -158,13 +158,13 @@ jQuery( function ( $ ) {
 	 * actual screenshot.
 	 */
 	function retryMshotUntilLoaded() {
-		clearTimeout( ***REMOVED*** );
+		clearTimeout( mshotRetryTimer );
 
 		var imageWidth = $( '.akismet-mshot img' ).get(0).naturalWidth;
 
 		if ( imageWidth == 0 ) {
 			// It hasn't finished loading yet the first time. Check again shortly.
-			setTimeout( retryMshotUntilLoaded, ***REMOVED*** );
+			setTimeout( retryMshotUntilLoaded, mshotRetryInterval );
 		}
 		else if ( imageWidth == 400 ) {
 			// It loaded the preview image.
@@ -182,7 +182,7 @@ jQuery( function ( $ ) {
 				$( '.akismet-mshot .mshot-image' ).attr( 'src', akismet_mshot_url( $( '.akismet-mshot' ).data( 'url' ), mshotTries ) );
 			}
 
-			***REMOVED*** = setTimeout( retryMshotUntilLoaded, ***REMOVED*** );
+			mshotRetryTimer = setTimeout( retryMshotUntilLoaded, mshotRetryInterval );
 		}
 		else {
 			// All done.
@@ -197,7 +197,7 @@ jQuery( function ( $ ) {
 			var linkUrl = $( this ).attr( 'href' );
 
 			// Don't attempt to preload an mshot for a single link twice.
-			if ( ***REMOVED***.indexOf( linkUrl ) !== -1 ) {
+			if ( preloadedMshotURLs.indexOf( linkUrl ) !== -1 ) {
 				// The URL is already preloaded.
 				return true;
 			}
@@ -222,7 +222,7 @@ jQuery( function ( $ ) {
 			return;
 		}
 
-		e.***REMOVED***();
+		e.preventDefault();
 
 		if ( $( this ).hasClass( 'button-disabled' ) ) {
 			window.location.href = $( this ).data( 'success-url' ).replace( '__recheck_count__', 0 ).replace( '__spam_count__', 0 );
@@ -283,12 +283,12 @@ jQuery( function ( $ ) {
 		$( '.checkforspam' ).click();
 	}
 	
-	if ( typeof ***REMOVED*** !== 'undefined' ) {
+	if ( typeof MutationObserver !== 'undefined' ) {
 		// Dynamically add the "X" next the the author URL links when a comment is quick-edited.
-		var comment_list_container = document.***REMOVED***( 'the-comment-list' );
+		var comment_list_container = document.getElementById( 'the-comment-list' );
 
 		if ( comment_list_container ) {
-			var observer = new ***REMOVED***( function ( mutations ) {
+			var observer = new MutationObserver( function ( mutations ) {
 				for ( var i = 0, _len = mutations.length; i < _len; i++ ) {
 					if ( mutations[i].addedNodes.length > 0 ) {
 						akismet_enable_comment_author_url_removal();
@@ -316,8 +316,8 @@ jQuery( function ( $ ) {
 		
 			// Ignore any links to the current domain, which are diagnostic tools, like the IP address link
 			// or any other links another plugin might add.
-			var ***REMOVED*** = document.location.href.split( '/' );
-			var currentHost = ***REMOVED***[0] + '//' + ***REMOVED***[2] + '/';
+			var currentHostParts = document.location.href.split( '/' );
+			var currentHost = currentHostParts[0] + '//' + currentHostParts[2] + '/';
 		
 			if ( linkHref.indexOf( currentHost ) != 0 ) {
 				var thisCommentId = $(this).parents('tr:first').attr('id').split("-");
@@ -341,10 +341,10 @@ jQuery( function ( $ ) {
 	 * @return string The mShot URL;
 	 */
 	function akismet_mshot_url( linkUrl, retry ) {
-		var mshotUrl = '//s0.wp.com/mshots/v1/' + ***REMOVED***( linkUrl ) + '?w=900';
+		var mshotUrl = '//s0.wp.com/mshots/v1/' + encodeURIComponent( linkUrl ) + '?w=900';
 
 		if ( retry > 1 ) {
-			mshotUrl += '&r=' + ***REMOVED***( retry );
+			mshotUrl += '&r=' + encodeURIComponent( retry );
 		}
 
 		mshotUrl += '&source=akismet';
@@ -361,7 +361,7 @@ jQuery( function ( $ ) {
 		var img = new Image();
 		img.src = akismet_mshot_url( linkUrl );
 		
-		***REMOVED***.push( linkUrl );
+		preloadedMshotURLs.push( linkUrl );
 	}
 
 	$( '.akismet-could-be-primary' ).each( function () {
@@ -386,7 +386,7 @@ jQuery( function ( $ ) {
 	 * Shows the Enter API key form
 	 */
 	$( '.akismet-enter-api-key-box__reveal' ).on( 'click', function ( e ) {
-		e.***REMOVED***();
+		e.preventDefault();
 
 		var div = $( '.akismet-enter-api-key-box__form-wrapper' );
 		div.show( 500 );
@@ -399,7 +399,7 @@ jQuery( function ( $ ) {
 	 * Hides the Connect with Jetpack form | Shows the Activate Akismet Account form
 	 */
 	$( 'a.toggle-ak-connect' ).on( 'click', function ( e ) {
-		e.***REMOVED***();
+		e.preventDefault();
 
 		$( '.akismet-ak-connect' ).slideToggle('slow');
 		$( 'a.toggle-ak-connect' ).hide();
@@ -411,7 +411,7 @@ jQuery( function ( $ ) {
 	 * Shows the Connect with Jetpack form | Hides the Activate Akismet Account form
 	 */
 	$( 'a.toggle-jp-connect' ).on( 'click', function ( e ) {
-		e.***REMOVED***();
+		e.preventDefault();
 
 		$( '.akismet-jp-connect' ).slideToggle('slow');
 		$( 'a.toggle-jp-connect' ).hide();

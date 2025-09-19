@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_select' ) ) :
 			$this->category      = 'choice';
 			$this->description   = __( 'A dropdown list with a selection of choices that you specify.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-select.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/select/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/select/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'multiple'      => 0,
 				'allow_null'    => 0,

@@ -96,7 +96,7 @@ class WPSEO_Sitemaps_Renderer {
 	public function get_sitemap( $links, $type, $current_page ) {
 
 		$urlset = '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" '
-					. 'xsi:***REMOVED***="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd '
+					. 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd '
 					. 'http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" '
 					. 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
@@ -195,11 +195,11 @@ class WPSEO_Sitemaps_Renderer {
 			$date = YoastSEO()->helpers->date->format( $url['lastmod'] );
 		}
 
-		$url['loc'] = ***REMOVED***( $url['loc'], ENT_COMPAT, $this->output_charset, false );
+		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );
 
 		$output  = "\t<sitemap>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
-		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . ***REMOVED***( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
 		$output .= "\t</sitemap>\n";
 
 		return $output;
@@ -225,7 +225,7 @@ class WPSEO_Sitemaps_Renderer {
 
 		$output  = "\t<url>\n";
 		$output .= "\t\t<loc>" . $this->encode_and_escape( $url['loc'] ) . "</loc>\n";
-		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . ***REMOVED***( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
 
 		if ( empty( $url['images'] ) ) {
 			$url['images'] = [];
@@ -265,7 +265,7 @@ class WPSEO_Sitemaps_Renderer {
 	 *    really make a difference in practice, to quote Jono: "I'd be nervous about &#038;
 	 *    given how many weird and wonderful things eat sitemaps", so better safe than sorry.
 	 *
-	 * @link https://www.sitemaps.org/protocol.html#***REMOVED***
+	 * @link https://www.sitemaps.org/protocol.html#xmlTagDefinitions
 	 * @link https://www.sitemaps.org/protocol.html#escaping
 	 * @link https://developer.wordpress.org/reference/functions/esc_url/
 	 *

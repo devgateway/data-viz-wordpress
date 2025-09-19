@@ -60,7 +60,7 @@ class Check_Required_Version implements Integration_Interface {
 			return $source;
 		}
 
-		$working_directory = \str_replace( $wp_filesystem->wp_content_dir(), \***REMOVED***( \WP_CONTENT_DIR ), $source );
+		$working_directory = \str_replace( $wp_filesystem->wp_content_dir(), \trailingslashit( \WP_CONTENT_DIR ), $source );
 		if ( ! \is_dir( $working_directory ) ) { // Confidence check, if the above fails, let's not prevent installation.
 			return $source;
 		}

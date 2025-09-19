@@ -189,7 +189,7 @@
                             <td>
                                 <nobr><?php fs_esc_html_echo_inline( 'Owner Name', 'owner-name', $slug ) ?>:</nobr>
                             </td>
-                            <td colspan="2"><code><?php echo ***REMOVED***( $user->get_name() ) ?></code></td>
+                            <td colspan="2"><code><?php echo htmlspecialchars( $user->get_name() ) ?></code></td>
                         </tr>
                         <?php $row_index ++ ?>
                         <!--/ User Name -->
@@ -201,7 +201,7 @@
                             <td>
                                 <nobr><?php fs_esc_html_echo_inline( 'Owner Email', 'owner-email', $slug ) ?>:</nobr>
                             </td>
-                            <td colspan="2"><code><?php echo ***REMOVED***( $user->email ) ?></code></td>
+                            <td colspan="2"><code><?php echo htmlspecialchars( $user->email ) ?></code></td>
                         </tr>
                         <?php $row_index ++ ?>
                         <!--/ User Email -->
@@ -227,7 +227,7 @@
                     <td>
                         <nobr><?php fs_esc_html_echo_inline( 'Public Key', 'public-key', $slug ) ?>:</nobr>
                     </td>
-                    <td><code><?php echo ***REMOVED***( $install->public_key ) ?></code></td>
+                    <td><code><?php echo htmlspecialchars( $install->public_key ) ?></code></td>
                     <td></td>
                 </tr>
                 <?php $row_index ++ ?>
@@ -243,7 +243,7 @@
                     <td>
                         <code><?php echo FS_Plugin_License::mask_secret_key_for_html( $install->secret_key ) ?></code>
                         <?php if ( ! $is_whitelabeled ) : ?>
-                        <input type="text" value="<?php echo ***REMOVED***( $install->secret_key ) ?>"
+                        <input type="text" value="<?php echo htmlspecialchars( $install->secret_key ) ?>"
                                style="display: none" readonly/></td>
                         <?php endif ?>
                     <?php if ( ! $is_whitelabeled ) : ?>
@@ -264,7 +264,7 @@
                         <td>
                             <code><?php echo $license->get_html_escaped_masked_secret_key() ?></code>
                             <?php if ( ! $is_whitelabeled ) : ?>
-                            <input type="text" value="<?php echo ***REMOVED***( $license->secret_key ) ?>"
+                            <input type="text" value="<?php echo htmlspecialchars( $license->secret_key ) ?>"
                                    style="display: none" readonly/></td>
                             <?php endif ?>
                         <?php if ( ! $is_whitelabeled ) : ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Search
- * Slug: ***REMOVED***/hidden-search
+ * Slug: twentytwentyfive/hidden-search
  * Inserter: no
  *
  * @package WordPress
@@ -11,4 +11,4 @@
 
 ?>
 
-<!-- wp:search {"label":"<?php echo esc_html_x( 'Search', 'Search form label.', '***REMOVED***' ); ?>","showLabel":false,"placeholder":"<?php echo esc_attr_x( 'Type here...', 'Search input field placeholder text.', '***REMOVED***' ); ?>","buttonText":"<?php echo esc_attr_x( 'Search', 'Button text. Verb.', '***REMOVED***' ); ?>"} /-->
+<!-- wp:search {"label":"<?php echo esc_html_x( 'Search', 'Search form label.', 'twentytwentyfive' ); ?>","showLabel":false,"placeholder":"<?php echo esc_attr_x( 'Type here...', 'Search input field placeholder text.', 'twentytwentyfive' ); ?>","buttonText":"<?php echo esc_attr_x( 'Search', 'Button text. Verb.', 'twentytwentyfive' ); ?>"} /-->

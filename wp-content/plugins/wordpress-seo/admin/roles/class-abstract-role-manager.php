@@ -101,7 +101,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	/**
 	 * Filters out capabilities that are already set for the role.
 	 *
-	 * This makes sure we don't override ***REMOVED*** that have been previously set.
+	 * This makes sure we don't override configurations that have been previously set.
 	 *
 	 * @param string $role         The role to check against.
 	 * @param array  $capabilities The capabilities that should be set.

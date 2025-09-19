@@ -1817,9 +1817,9 @@ function cptui_manage_post_types() {
 					<input type="submit" class="button-primary" name="cpt_submit" value="<?php echo esc_attr( apply_filters( 'cptui_post_type_submit_add', esc_attr__( 'Add Post Type', 'custom-post-type-ui' ) ) ); ?>" />
 				<?php
 			}
-				$ajax_nonce = wp_create_nonce( '***REMOVED***' );
+				$ajax_nonce = wp_create_nonce( 'closedpostboxes' );
 			?>
-			<input type="hidden" id="***REMOVED***" value="<?php echo esc_attr( $ajax_nonce ); ?>" />
+			<input type="hidden" id="closedpostboxesnonce" value="<?php echo esc_attr( $ajax_nonce ); ?>" />
 			</p>
 		</div>
 	</form>
@@ -2089,7 +2089,7 @@ function cptui_update_post_type( $data = [] ) {
 		}
 
 		$label = str_replace( '"', '', htmlspecialchars_decode( $label ) );
-		$label = ***REMOVED***( $label, ENT_QUOTES );
+		$label = htmlspecialchars( $label, ENT_QUOTES );
 		$label = trim( $label );
 		if ( 'parent' === $key ) {
 			$data['cpt_labels']['parent_item_colon'] = stripslashes_deep( $label );
@@ -2111,13 +2111,13 @@ function cptui_update_post_type( $data = [] ) {
 	$label = ucwords( str_replace( '_', ' ', $data['cpt_custom_post_type']['name'] ) );
 	if ( ! empty( $data['cpt_custom_post_type']['label'] ) ) {
 		$label = str_replace( '"', '', htmlspecialchars_decode( $data['cpt_custom_post_type']['label'] ) );
-		$label = ***REMOVED***( stripslashes( $label ), ENT_QUOTES );
+		$label = htmlspecialchars( stripslashes( $label ), ENT_QUOTES );
 	}
 
 	$singular_label = ucwords( str_replace( '_', ' ', $data['cpt_custom_post_type']['name'] ) );
 	if ( ! empty( $data['cpt_custom_post_type']['singular_label'] ) ) {
 		$singular_label = str_replace( '"', '', htmlspecialchars_decode( $data['cpt_custom_post_type']['singular_label'] ) );
-		$singular_label = ***REMOVED***( stripslashes( $singular_label ), ENT_QUOTES );
+		$singular_label = htmlspecialchars( stripslashes( $singular_label ), ENT_QUOTES );
 	}
 
 	// We are handling this special because we can't accurately get to exclude the description index

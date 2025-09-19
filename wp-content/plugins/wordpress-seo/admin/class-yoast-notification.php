@@ -113,7 +113,7 @@ class Yoast_Notification {
 	 * Retrieve the user to show the notification for.
 	 *
 	 * @deprecated 21.6
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return WP_User|null The user to show this notification for.
 	 */

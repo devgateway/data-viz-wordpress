@@ -197,7 +197,7 @@ class WPSEO_Sitemap_Image_Parser {
 		 *
 		 * @var DOMElement $img
 		 */
-		foreach ( $post_dom->***REMOVED***( 'img' ) as $img ) {
+		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
 
 			$src = $img->getAttribute( 'src' );
 

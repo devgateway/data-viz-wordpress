@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\User_Meta\Application;
 
-use Yoast\WP\SEO\User_Meta\***REMOVED***\Cleanup_Repository;
+use Yoast\WP\SEO\User_Meta\Infrastructure\Cleanup_Repository;
 
 /**
  * Service with all usermeta cleanup queries.
@@ -10,7 +10,7 @@ use Yoast\WP\SEO\User_Meta\***REMOVED***\Cleanup_Repository;
 class Cleanup_Service {
 
 	/**
-	 * The additional ***REMOVED*** collector.
+	 * The additional contactmethods collector.
 	 *
 	 * @var Additional_Contactmethods_Collector
 	 */
@@ -33,7 +33,7 @@ class Cleanup_Service {
 	/**
 	 * The constructor.
 	 *
-	 * @param Additional_Contactmethods_Collector $additional_contactmethods_collector The additional ***REMOVED*** collector.
+	 * @param Additional_Contactmethods_Collector $additional_contactmethods_collector The additional contactmethods collector.
 	 * @param Custom_Meta_Collector               $custom_meta_collector               The custom meta collector.
 	 * @param Cleanup_Repository                  $cleanup_repository                  The cleanup repository.
 	 */

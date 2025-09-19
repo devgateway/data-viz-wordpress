@@ -15,18 +15,18 @@
 
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "bucketAccessControls" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_StorageService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $storageService = new Google_StorageService(...);
+   *   $bucketAccessControls = $storageService->bucketAccessControls;
    *  </code>
    */
   class Google_BucketAccessControlsServiceResource extends Google_ServiceResource {
 
     /**
      * Permanently deletes the ACL entry for the specified entity on the specified bucket.
-     * (***REMOVED***.delete)
+     * (bucketAccessControls.delete)
      *
      * @param string $bucket Name of a bucket.
      * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
@@ -40,7 +40,7 @@
     }
     /**
      * Returns the ACL entry for the specified entity on the specified bucket.
-     * (***REMOVED***.get)
+     * (bucketAccessControls.get)
      *
      * @param string $bucket Name of a bucket.
      * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
@@ -58,7 +58,7 @@
       }
     }
     /**
-     * Creates a new ACL entry on the specified bucket. (***REMOVED***.insert)
+     * Creates a new ACL entry on the specified bucket. (bucketAccessControls.insert)
      *
      * @param string $bucket Name of a bucket.
      * @param Google_BucketAccessControl $postBody
@@ -76,7 +76,7 @@
       }
     }
     /**
-     * Retrieves ACL entries on the specified bucket. (***REMOVED***.list)
+     * Retrieves ACL entries on the specified bucket. (bucketAccessControls.list)
      *
      * @param string $bucket Name of a bucket.
      * @param array $optParams Optional parameters.
@@ -94,7 +94,7 @@
     }
     /**
      * Updates an ACL entry on the specified bucket. This method supports patch semantics.
-     * (***REMOVED***.patch)
+     * (bucketAccessControls.patch)
      *
      * @param string $bucket Name of a bucket.
      * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
@@ -113,7 +113,7 @@
       }
     }
     /**
-     * Updates an ACL entry on the specified bucket. (***REMOVED***.update)
+     * Updates an ACL entry on the specified bucket. (bucketAccessControls.update)
      *
      * @param string $bucket Name of a bucket.
      * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
@@ -137,8 +137,8 @@
    * The "buckets" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_StorageService(...);
-   *   $buckets = $***REMOVED***->buckets;
+   *   $storageService = new Google_StorageService(...);
+   *   $buckets = $storageService->buckets;
    *  </code>
    */
   class Google_BucketsServiceResource extends Google_ServiceResource {
@@ -149,8 +149,8 @@
      * @param string $bucket Name of a bucket.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration does not match the given value.
      */
     public function delete($bucket, $optParams = array()) {
       $params = array('bucket' => $bucket);
@@ -164,8 +164,8 @@
      * @param string $bucket Name of a bucket.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration does not match the given value.
      * @opt_param string projection Set of properties to return. Defaults to noAcl.
      * @return Google_Bucket
      */
@@ -186,7 +186,7 @@
      * @param Google_Bucket $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string projection Set of properties to return. Defaults to noAcl, unless the bucket resource specifies acl or ***REMOVED*** properties, when it defaults to full.
+     * @opt_param string projection Set of properties to return. Defaults to noAcl, unless the bucket resource specifies acl or defaultObjectAcl properties, when it defaults to full.
      * @return Google_Bucket
      */
     public function insert($project, Google_Bucket $postBody, $optParams = array()) {
@@ -227,8 +227,8 @@
      * @param Google_Bucket $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration does not match the given value.
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_Bucket
      */
@@ -249,8 +249,8 @@
      * @param Google_Bucket $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket metadata conditional on whether the bucket's current metageneration does not match the given value.
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_Bucket
      */
@@ -270,8 +270,8 @@
    * The "channels" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_StorageService(...);
-   *   $channels = $***REMOVED***->channels;
+   *   $storageService = new Google_StorageService(...);
+   *   $channels = $storageService->channels;
    *  </code>
    */
   class Google_ChannelsServiceResource extends Google_ServiceResource {
@@ -294,8 +294,8 @@
    * The "defaultObjectAccessControls" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_StorageService(...);
-   *   $defaultObjectAccessControls = $***REMOVED***->defaultObjectAccessControls;
+   *   $storageService = new Google_StorageService(...);
+   *   $defaultObjectAccessControls = $storageService->defaultObjectAccessControls;
    *  </code>
    */
   class Google_DefaultObjectAccessControlsServiceResource extends Google_ServiceResource {
@@ -411,18 +411,18 @@
   }
 
   /**
-   * The "***REMOVED***" collection of methods.
+   * The "objectAccessControls" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_StorageService(...);
-   *   $***REMOVED*** = $***REMOVED***->***REMOVED***;
+   *   $storageService = new Google_StorageService(...);
+   *   $objectAccessControls = $storageService->objectAccessControls;
    *  </code>
    */
   class Google_ObjectAccessControlsServiceResource extends Google_ServiceResource {
 
     /**
      * Permanently deletes the ACL entry for the specified entity on the specified object.
-     * (***REMOVED***.delete)
+     * (objectAccessControls.delete)
      *
      * @param string $bucket Name of a bucket.
      * @param string $object Name of the object.
@@ -439,7 +439,7 @@
     }
     /**
      * Returns the ACL entry for the specified entity on the specified object.
-     * (***REMOVED***.get)
+     * (objectAccessControls.get)
      *
      * @param string $bucket Name of a bucket.
      * @param string $object Name of the object.
@@ -460,7 +460,7 @@
       }
     }
     /**
-     * Creates a new ACL entry on the specified object. (***REMOVED***.insert)
+     * Creates a new ACL entry on the specified object. (objectAccessControls.insert)
      *
      * @param string $bucket Name of a bucket.
      * @param string $object Name of the object.
@@ -481,7 +481,7 @@
       }
     }
     /**
-     * Retrieves ACL entries on the specified object. (***REMOVED***.list)
+     * Retrieves ACL entries on the specified object. (objectAccessControls.list)
      *
      * @param string $bucket Name of a bucket.
      * @param string $object Name of the object.
@@ -502,7 +502,7 @@
     }
     /**
      * Updates an ACL entry on the specified object. This method supports patch semantics.
-     * (***REMOVED***.patch)
+     * (objectAccessControls.patch)
      *
      * @param string $bucket Name of a bucket.
      * @param string $object Name of the object.
@@ -524,7 +524,7 @@
       }
     }
     /**
-     * Updates an ACL entry on the specified object. (***REMOVED***.update)
+     * Updates an ACL entry on the specified object. (objectAccessControls.update)
      *
      * @param string $bucket Name of a bucket.
      * @param string $object Name of the object.
@@ -551,8 +551,8 @@
    * The "objects" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_StorageService(...);
-   *   $objects = $***REMOVED***->objects;
+   *   $storageService = new Google_StorageService(...);
+   *   $objects = $storageService->objects;
    *  </code>
    */
   class Google_ObjectsServiceResource extends Google_ServiceResource {
@@ -560,17 +560,17 @@
     /**
      * Concatenates a list of existing objects into a new object in the same bucket. (objects.compose)
      *
-     * @param string $***REMOVED*** Name of the bucket in which to store the new object.
-     * @param string $***REMOVED*** Name of the new object.
+     * @param string $destinationBucket Name of the bucket in which to store the new object.
+     * @param string $destinationObject Name of the new object.
      * @param Google_ComposeRequest $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation matches the given value.
-     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current ***REMOVED*** matches the given value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on whether the object's current generation matches the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current metageneration matches the given value.
      * @return Google_StorageObject
      */
-    public function compose($***REMOVED***, $***REMOVED***, Google_ComposeRequest $postBody, $optParams = array()) {
-      $params = array('***REMOVED***' => $***REMOVED***, '***REMOVED***' => $***REMOVED***, 'postBody' => $postBody);
+    public function compose($destinationBucket, $destinationObject, Google_ComposeRequest $postBody, $optParams = array()) {
+      $params = array('destinationBucket' => $destinationBucket, 'destinationObject' => $destinationObject, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('compose', array($params));
       if ($this->useObjects()) {
@@ -585,25 +585,25 @@
      *
      * @param string $sourceBucket Name of the bucket in which to find the source object.
      * @param string $sourceObject Name of the source object.
-     * @param string $***REMOVED*** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any.
-     * @param string $***REMOVED*** Name of the new object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any.
+     * @param string $destinationBucket Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any.
+     * @param string $destinationObject Name of the new object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any.
      * @param Google_StorageObject $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the destination object's current generation matches the given value.
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the destination object's current generation does not match the given value.
-     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the destination object's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the destination object's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on whether the destination object's current generation matches the given value.
+     * @opt_param string ifGenerationNotMatch Makes the operation conditional on whether the destination object's current generation does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the destination object's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the destination object's current metageneration does not match the given value.
      * @opt_param string ifSourceGenerationMatch Makes the operation conditional on whether the source object's generation matches the given value.
      * @opt_param string ifSourceGenerationNotMatch Makes the operation conditional on whether the source object's generation does not match the given value.
-     * @opt_param string ifSourceMetagenerationMatch Makes the operation conditional on whether the source object's current ***REMOVED*** matches the given value.
-     * @opt_param string ifSourceMetagenerationNotMatch Makes the operation conditional on whether the source object's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifSourceMetagenerationMatch Makes the operation conditional on whether the source object's current metageneration matches the given value.
+     * @opt_param string ifSourceMetagenerationNotMatch Makes the operation conditional on whether the source object's current metageneration does not match the given value.
      * @opt_param string projection Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
-     * @opt_param string ***REMOVED*** If present, selects a specific revision of the source object (as opposed to the latest version, the default).
+     * @opt_param string sourceGeneration If present, selects a specific revision of the source object (as opposed to the latest version, the default).
      * @return Google_StorageObject
      */
-    public function copy($sourceBucket, $sourceObject, $***REMOVED***, $***REMOVED***, Google_StorageObject $postBody, $optParams = array()) {
-      $params = array('sourceBucket' => $sourceBucket, 'sourceObject' => $sourceObject, '***REMOVED***' => $***REMOVED***, '***REMOVED***' => $***REMOVED***, 'postBody' => $postBody);
+    public function copy($sourceBucket, $sourceObject, $destinationBucket, $destinationObject, Google_StorageObject $postBody, $optParams = array()) {
+      $params = array('sourceBucket' => $sourceBucket, 'sourceObject' => $sourceObject, 'destinationBucket' => $destinationBucket, 'destinationObject' => $destinationObject, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('copy', array($params));
       if ($this->useObjects()) {
@@ -621,10 +621,10 @@
      * @param array $optParams Optional parameters.
      *
      * @opt_param string generation If present, permanently deletes a specific revision of this object (as opposed to the latest version, the default).
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation matches the given value.
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation does not match the given value.
-     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on whether the object's current generation matches the given value.
+     * @opt_param string ifGenerationNotMatch Makes the operation conditional on whether the object's current generation does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current metageneration does not match the given value.
      */
     public function delete($bucket, $object, $optParams = array()) {
       $params = array('bucket' => $bucket, 'object' => $object);
@@ -640,10 +640,10 @@
      * @param array $optParams Optional parameters.
      *
      * @opt_param string generation If present, selects a specific revision of this object (as opposed to the latest version, the default).
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's generation matches the given value.
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's generation does not match the given value.
-     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on whether the object's generation matches the given value.
+     * @opt_param string ifGenerationNotMatch Makes the operation conditional on whether the object's generation does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current metageneration does not match the given value.
      * @opt_param string projection Set of properties to return. Defaults to noAcl.
      * @return Google_StorageObject
      */
@@ -664,10 +664,10 @@
      * @param Google_StorageObject $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation matches the given value.
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation does not match the given value.
-     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on whether the object's current generation matches the given value.
+     * @opt_param string ifGenerationNotMatch Makes the operation conditional on whether the object's current generation does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current metageneration does not match the given value.
      * @opt_param string name Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any.
      * @opt_param string projection Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl property, when it defaults to full.
      * @return Google_StorageObject
@@ -715,10 +715,10 @@
      * @param array $optParams Optional parameters.
      *
      * @opt_param string generation If present, selects a specific revision of this object (as opposed to the latest version, the default).
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation matches the given value.
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation does not match the given value.
-     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on whether the object's current generation matches the given value.
+     * @opt_param string ifGenerationNotMatch Makes the operation conditional on whether the object's current generation does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current metageneration does not match the given value.
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_StorageObject
      */
@@ -741,10 +741,10 @@
      * @param array $optParams Optional parameters.
      *
      * @opt_param string generation If present, selects a specific revision of this object (as opposed to the latest version, the default).
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation matches the given value.
-     * @opt_param string ***REMOVED*** Makes the operation conditional on whether the object's current generation does not match the given value.
-     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current ***REMOVED*** matches the given value.
-     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current ***REMOVED*** does not match the given value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on whether the object's current generation matches the given value.
+     * @opt_param string ifGenerationNotMatch Makes the operation conditional on whether the object's current generation does not match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on whether the object's current metageneration matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on whether the object's current metageneration does not match the given value.
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_StorageObject
      */
@@ -800,14 +800,14 @@
  * @author Google, Inc.
  */
 class Google_StorageService extends Google_Service {
-  public $***REMOVED***;
+  public $bucketAccessControls;
   public $buckets;
   public $channels;
   public $defaultObjectAccessControls;
-  public $***REMOVED***;
+  public $objectAccessControls;
   public $objects;
   /**
-   * Constructs the internal ***REMOVED*** of the Storage service.
+   * Constructs the internal representation of the Storage service.
    *
    * @param Google_Client $client
    */
@@ -817,12 +817,12 @@ class Google_StorageService extends Google_Service {
     $this->serviceName = 'storage';
 
     $client->addService($this->serviceName, $this->version);
-    $this->***REMOVED*** = new Google_BucketAccessControlsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "storage.***REMOVED***.delete", "path": "b/{bucket}/acl/{entity}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "get": {"id": "storage.***REMOVED***.get", "path": "b/{bucket}/acl/{entity}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "insert": {"id": "storage.***REMOVED***.insert", "path": "b/{bucket}/acl", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "list": {"id": "storage.***REMOVED***.list", "path": "b/{bucket}/acl", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "patch": {"id": "storage.***REMOVED***.patch", "path": "b/{bucket}/acl/{entity}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "update": {"id": "storage.***REMOVED***.update", "path": "b/{bucket}/acl/{entity}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}}}', true));
+    $this->bucketAccessControls = new Google_BucketAccessControlsServiceResource($this, $this->serviceName, 'bucketAccessControls', json_decode('{"methods": {"delete": {"id": "storage.bucketAccessControls.delete", "path": "b/{bucket}/acl/{entity}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "get": {"id": "storage.bucketAccessControls.get", "path": "b/{bucket}/acl/{entity}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "BucketAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "insert": {"id": "storage.bucketAccessControls.insert", "path": "b/{bucket}/acl", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "BucketAccessControl"}, "response": {"$ref": "BucketAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "list": {"id": "storage.bucketAccessControls.list", "path": "b/{bucket}/acl", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "BucketAccessControls"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "patch": {"id": "storage.bucketAccessControls.patch", "path": "b/{bucket}/acl/{entity}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "BucketAccessControl"}, "response": {"$ref": "BucketAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "update": {"id": "storage.bucketAccessControls.update", "path": "b/{bucket}/acl/{entity}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "BucketAccessControl"}, "response": {"$ref": "BucketAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}}}', true));
     $this->buckets = new Google_BucketsServiceResource($this, $this->serviceName, 'buckets', json_decode('{"methods": {"delete": {"id": "storage.buckets.delete", "path": "b/{bucket}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}, "get": {"id": "storage.buckets.get", "path": "b/{bucket}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "response": {"$ref": "Bucket"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"]}, "insert": {"id": "storage.buckets.insert", "path": "b", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Bucket"}, "response": {"$ref": "Bucket"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}, "list": {"id": "storage.buckets.list", "path": "b", "httpMethod": "GET", "parameters": {"maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "project": {"type": "string", "required": true, "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "response": {"$ref": "Buckets"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"]}, "patch": {"id": "storage.buckets.patch", "path": "b/{bucket}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Bucket"}, "response": {"$ref": "Bucket"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}, "update": {"id": "storage.buckets.update", "path": "b/{bucket}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Bucket"}, "response": {"$ref": "Bucket"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}}}', true));
     $this->channels = new Google_ChannelsServiceResource($this, $this->serviceName, 'channels', json_decode('{"methods": {"stop": {"id": "storage.channels.stop", "path": "channels/stop", "httpMethod": "POST", "request": {"$ref": "Channel"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"]}}}', true));
-    $this->defaultObjectAccessControls = new Google_DefaultObjectAccessControlsServiceResource($this, $this->serviceName, 'defaultObjectAccessControls', json_decode('{"methods": {"delete": {"id": "storage.defaultObjectAccessControls.delete", "path": "b/{bucket}/***REMOVED***/{entity}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "get": {"id": "storage.defaultObjectAccessControls.get", "path": "b/{bucket}/***REMOVED***/{entity}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "insert": {"id": "storage.defaultObjectAccessControls.insert", "path": "b/{bucket}/***REMOVED***", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "list": {"id": "storage.defaultObjectAccessControls.list", "path": "b/{bucket}/***REMOVED***", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "patch": {"id": "storage.defaultObjectAccessControls.patch", "path": "b/{bucket}/***REMOVED***/{entity}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "update": {"id": "storage.defaultObjectAccessControls.update", "path": "b/{bucket}/***REMOVED***/{entity}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}}}', true));
-    $this->***REMOVED*** = new Google_ObjectAccessControlsServiceResource($this, $this->serviceName, '***REMOVED***', json_decode('{"methods": {"delete": {"id": "storage.***REMOVED***.delete", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "get": {"id": "storage.***REMOVED***.get", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "insert": {"id": "storage.***REMOVED***.insert", "path": "b/{bucket}/o/{object}/acl", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "list": {"id": "storage.***REMOVED***.list", "path": "b/{bucket}/o/{object}/acl", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "patch": {"id": "storage.***REMOVED***.patch", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "update": {"id": "storage.***REMOVED***.update", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}}}', true));
-    $this->objects = new Google_ObjectsServiceResource($this, $this->serviceName, 'objects', json_decode('{"methods": {"compose": {"id": "storage.objects.compose", "path": "b/{***REMOVED***}/o/{***REMOVED***}/compose", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "copy": {"id": "storage.objects.copy", "path": "b/{sourceBucket}/o/{sourceObject}/copyTo/b/{***REMOVED***}/o/{***REMOVED***}", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}, "sourceBucket": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "sourceObject": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "delete": {"id": "storage.objects.delete", "path": "b/{bucket}/o/{object}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}, "get": {"id": "storage.objects.get", "path": "b/{bucket}/o/{object}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "insert": {"id": "storage.objects.insert", "path": "b/{bucket}/o", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "name": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true, "***REMOVED***": true, "mediaUpload": {"accept": ["*/*"], "protocols": {"simple": {"multipart": true, "path": "/upload/storage/v1beta2/b/{bucket}/o"}, "resumable": {"multipart": true, "path": "/resumable/upload/storage/v1beta2/b/{bucket}/o"}}}}, "list": {"id": "storage.objects.list", "path": "b/{bucket}/o", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "delimiter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "prefix": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}, "versions": {"type": "boolean", "location": "query"}}, "response": {"$ref": "Objects"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "***REMOVED***": true}, "patch": {"id": "storage.objects.patch", "path": "b/{bucket}/o/{object}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}, "update": {"id": "storage.objects.update", "path": "b/{bucket}/o/{object}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "***REMOVED***": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "watchAll": {"id": "storage.objects.watchAll", "path": "b/{bucket}/o/watch", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "delimiter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "prefix": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}, "versions": {"type": "boolean", "location": "query"}}, "request": {"$ref": "Channel"}, "response": {"$ref": "Channel"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "***REMOVED***": true}}}', true));
+    $this->defaultObjectAccessControls = new Google_DefaultObjectAccessControlsServiceResource($this, $this->serviceName, 'defaultObjectAccessControls', json_decode('{"methods": {"delete": {"id": "storage.defaultObjectAccessControls.delete", "path": "b/{bucket}/defaultObjectAcl/{entity}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "get": {"id": "storage.defaultObjectAccessControls.get", "path": "b/{bucket}/defaultObjectAcl/{entity}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "insert": {"id": "storage.defaultObjectAccessControls.insert", "path": "b/{bucket}/defaultObjectAcl", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "ObjectAccessControl"}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "list": {"id": "storage.defaultObjectAccessControls.list", "path": "b/{bucket}/defaultObjectAcl", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ObjectAccessControls"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "patch": {"id": "storage.defaultObjectAccessControls.patch", "path": "b/{bucket}/defaultObjectAcl/{entity}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "ObjectAccessControl"}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "update": {"id": "storage.defaultObjectAccessControls.update", "path": "b/{bucket}/defaultObjectAcl/{entity}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "ObjectAccessControl"}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}}}', true));
+    $this->objectAccessControls = new Google_ObjectAccessControlsServiceResource($this, $this->serviceName, 'objectAccessControls', json_decode('{"methods": {"delete": {"id": "storage.objectAccessControls.delete", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "get": {"id": "storage.objectAccessControls.get", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "insert": {"id": "storage.objectAccessControls.insert", "path": "b/{bucket}/o/{object}/acl", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "ObjectAccessControl"}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "list": {"id": "storage.objectAccessControls.list", "path": "b/{bucket}/o/{object}/acl", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "ObjectAccessControls"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "patch": {"id": "storage.objectAccessControls.patch", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "ObjectAccessControl"}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}, "update": {"id": "storage.objectAccessControls.update", "path": "b/{bucket}/o/{object}/acl/{entity}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "entity": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "ObjectAccessControl"}, "response": {"$ref": "ObjectAccessControl"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control"]}}}', true));
+    $this->objects = new Google_ObjectsServiceResource($this, $this->serviceName, 'objects', json_decode('{"methods": {"compose": {"id": "storage.objects.compose", "path": "b/{destinationBucket}/o/{destinationObject}/compose", "httpMethod": "POST", "parameters": {"destinationBucket": {"type": "string", "required": true, "location": "path"}, "destinationObject": {"type": "string", "required": true, "location": "path"}, "ifGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}}, "request": {"$ref": "ComposeRequest"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "copy": {"id": "storage.objects.copy", "path": "b/{sourceBucket}/o/{sourceObject}/copyTo/b/{destinationBucket}/o/{destinationObject}", "httpMethod": "POST", "parameters": {"destinationBucket": {"type": "string", "required": true, "location": "path"}, "destinationObject": {"type": "string", "required": true, "location": "path"}, "ifGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifSourceMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}, "sourceBucket": {"type": "string", "required": true, "location": "path"}, "sourceGeneration": {"type": "string", "format": "uint64", "location": "query"}, "sourceObject": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "delete": {"id": "storage.objects.delete", "path": "b/{bucket}/o/{object}", "httpMethod": "DELETE", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}, "get": {"id": "storage.objects.get", "path": "b/{bucket}/o/{object}", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "insert": {"id": "storage.objects.insert", "path": "b/{bucket}/o", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "ifGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "name": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true, "supportsMediaUpload": true, "mediaUpload": {"accept": ["*/*"], "protocols": {"simple": {"multipart": true, "path": "/upload/storage/v1beta2/b/{bucket}/o"}, "resumable": {"multipart": true, "path": "/resumable/upload/storage/v1beta2/b/{bucket}/o"}}}}, "list": {"id": "storage.objects.list", "path": "b/{bucket}/o", "httpMethod": "GET", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "delimiter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "prefix": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}, "versions": {"type": "boolean", "location": "query"}}, "response": {"$ref": "Objects"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsSubscription": true}, "patch": {"id": "storage.objects.patch", "path": "b/{bucket}/o/{object}", "httpMethod": "PATCH", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"]}, "update": {"id": "storage.objects.update", "path": "b/{bucket}/o/{object}", "httpMethod": "PUT", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "generation": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifGenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationMatch": {"type": "string", "format": "uint64", "location": "query"}, "ifMetagenerationNotMatch": {"type": "string", "format": "uint64", "location": "query"}, "object": {"type": "string", "required": true, "location": "path"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}}, "request": {"$ref": "Object"}, "response": {"$ref": "Object"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsMediaDownload": true}, "watchAll": {"id": "storage.objects.watchAll", "path": "b/{bucket}/o/watch", "httpMethod": "POST", "parameters": {"bucket": {"type": "string", "required": true, "location": "path"}, "delimiter": {"type": "string", "location": "query"}, "maxResults": {"type": "integer", "format": "uint32", "minimum": "0", "location": "query"}, "pageToken": {"type": "string", "location": "query"}, "prefix": {"type": "string", "location": "query"}, "projection": {"type": "string", "enum": ["full", "noAcl"], "location": "query"}, "versions": {"type": "boolean", "location": "query"}}, "request": {"$ref": "Channel"}, "response": {"$ref": "Channel"}, "scopes": ["https://www.googleapis.com/auth/devstorage.full_control", "https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/devstorage.read_write"], "supportsSubscription": true}}}', true));
 
   }
 }
@@ -838,7 +838,7 @@ class Google_Bucket extends Google_Model {
   public $cors;
   protected $__defaultObjectAclType = 'Google_ObjectAccessControl';
   protected $__defaultObjectAclDataType = 'array';
-  public $***REMOVED***;
+  public $defaultObjectAcl;
   public $etag;
   public $id;
   public $kind;
@@ -849,7 +849,7 @@ class Google_Bucket extends Google_Model {
   protected $__loggingType = 'Google_BucketLogging';
   protected $__loggingDataType = '';
   public $logging;
-  public $***REMOVED***;
+  public $metageneration;
   public $name;
   protected $__ownerType = 'Google_BucketOwner';
   protected $__ownerDataType = '';
@@ -877,12 +877,12 @@ class Google_Bucket extends Google_Model {
   public function getCors() {
     return $this->cors;
   }
-  public function ***REMOVED***(/* array(Google_ObjectAccessControl) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_ObjectAccessControl', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setDefaultObjectAcl(/* array(Google_ObjectAccessControl) */ $defaultObjectAcl) {
+    $this->assertIsArray($defaultObjectAcl, 'Google_ObjectAccessControl', __METHOD__);
+    $this->defaultObjectAcl = $defaultObjectAcl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getDefaultObjectAcl() {
+    return $this->defaultObjectAcl;
   }
   public function setEtag( $etag) {
     $this->etag = $etag;
@@ -920,11 +920,11 @@ class Google_Bucket extends Google_Model {
   public function getLogging() {
     return $this->logging;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMetageneration( $metageneration) {
+    $this->metageneration = $metageneration;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMetageneration() {
+    return $this->metageneration;
   }
   public function setName( $name) {
     $this->name = $name;
@@ -944,16 +944,16 @@ class Google_Bucket extends Google_Model {
   public function getSelfLink() {
     return $this->selfLink;
   }
-  public function ***REMOVED***( $storageClass) {
+  public function setStorageClass( $storageClass) {
     $this->storageClass = $storageClass;
   }
-  public function ***REMOVED***() {
+  public function getStorageClass() {
     return $this->storageClass;
   }
-  public function ***REMOVED***( $timeCreated) {
+  public function setTimeCreated( $timeCreated) {
     $this->timeCreated = $timeCreated;
   }
-  public function ***REMOVED***() {
+  public function getTimeCreated() {
     return $this->timeCreated;
   }
   public function setVersioning(Google_BucketVersioning $versioning) {
@@ -1067,11 +1067,11 @@ class Google_BucketCors extends Google_Model {
   public $maxAgeSeconds;
   public $method;
   public $origin;
-  public $***REMOVED***;
-  public function ***REMOVED***( $maxAgeSeconds) {
+  public $responseHeader;
+  public function setMaxAgeSeconds( $maxAgeSeconds) {
     $this->maxAgeSeconds = $maxAgeSeconds;
   }
-  public function ***REMOVED***() {
+  public function getMaxAgeSeconds() {
     return $this->maxAgeSeconds;
   }
   public function setMethod(/* array(Google_string) */ $method) {
@@ -1088,12 +1088,12 @@ class Google_BucketCors extends Google_Model {
   public function getOrigin() {
     return $this->origin;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setResponseHeader(/* array(Google_string) */ $responseHeader) {
+    $this->assertIsArray($responseHeader, 'Google_string', __METHOD__);
+    $this->responseHeader = $responseHeader;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getResponseHeader() {
+    return $this->responseHeader;
   }
 }
 
@@ -1145,17 +1145,17 @@ class Google_BucketLifecycleRuleCondition extends Google_Model {
   public $age;
   public $createdBefore;
   public $isLive;
-  public $***REMOVED***;
+  public $numNewerVersions;
   public function setAge( $age) {
     $this->age = $age;
   }
   public function getAge() {
     return $this->age;
   }
-  public function ***REMOVED***( $createdBefore) {
+  public function setCreatedBefore( $createdBefore) {
     $this->createdBefore = $createdBefore;
   }
-  public function ***REMOVED***() {
+  public function getCreatedBefore() {
     return $this->createdBefore;
   }
   public function setIsLive( $isLive) {
@@ -1164,28 +1164,28 @@ class Google_BucketLifecycleRuleCondition extends Google_Model {
   public function getIsLive() {
     return $this->isLive;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumNewerVersions( $numNewerVersions) {
+    $this->numNewerVersions = $numNewerVersions;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNumNewerVersions() {
+    return $this->numNewerVersions;
   }
 }
 
 class Google_BucketLogging extends Google_Model {
   public $logBucket;
-  public $***REMOVED***;
+  public $logObjectPrefix;
   public function setLogBucket( $logBucket) {
     $this->logBucket = $logBucket;
   }
   public function getLogBucket() {
     return $this->logBucket;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLogObjectPrefix( $logObjectPrefix) {
+    $this->logObjectPrefix = $logObjectPrefix;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLogObjectPrefix() {
+    return $this->logObjectPrefix;
   }
 }
 
@@ -1217,18 +1217,18 @@ class Google_BucketVersioning extends Google_Model {
 }
 
 class Google_BucketWebsite extends Google_Model {
-  public $***REMOVED***;
+  public $mainPageSuffix;
   public $notFoundPage;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMainPageSuffix( $mainPageSuffix) {
+    $this->mainPageSuffix = $mainPageSuffix;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMainPageSuffix() {
+    return $this->mainPageSuffix;
   }
-  public function ***REMOVED***( $notFoundPage) {
+  public function setNotFoundPage( $notFoundPage) {
     $this->notFoundPage = $notFoundPage;
   }
-  public function ***REMOVED***() {
+  public function getNotFoundPage() {
     return $this->notFoundPage;
   }
 }
@@ -1252,10 +1252,10 @@ class Google_Buckets extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
 }
@@ -1306,10 +1306,10 @@ class Google_Channel extends Google_Model {
   public function getResourceId() {
     return $this->resourceId;
   }
-  public function ***REMOVED***( $resourceUri) {
+  public function setResourceUri( $resourceUri) {
     $this->resourceUri = $resourceUri;
   }
-  public function ***REMOVED***() {
+  public function getResourceUri() {
     return $this->resourceUri;
   }
   public function setToken( $token) {
@@ -1334,10 +1334,10 @@ class Google_ComposeRequest extends Google_Model {
   protected $__sourceObjectsType = 'Google_ComposeRequestSourceObjects';
   protected $__sourceObjectsDataType = 'array';
   public $sourceObjects;
-  public function ***REMOVED***(Google_StorageObject $destination) {
+  public function setDestination(Google_StorageObject $destination) {
     $this->destination = $destination;
   }
-  public function ***REMOVED***() {
+  public function getDestination() {
     return $this->destination;
   }
   public function setKind( $kind) {
@@ -1346,11 +1346,11 @@ class Google_ComposeRequest extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(/* array(Google_ComposeRequestSourceObjects) */ $sourceObjects) {
+  public function setSourceObjects(/* array(Google_ComposeRequestSourceObjects) */ $sourceObjects) {
     $this->assertIsArray($sourceObjects, 'Google_ComposeRequestSourceObjects', __METHOD__);
     $this->sourceObjects = $sourceObjects;
   }
-  public function ***REMOVED***() {
+  public function getSourceObjects() {
     return $this->sourceObjects;
   }
 }
@@ -1360,7 +1360,7 @@ class Google_ComposeRequestSourceObjects extends Google_Model {
   public $name;
   protected $__objectPreconditionsType = 'Google_ComposeRequestSourceObjectsObjectPreconditions';
   protected $__objectPreconditionsDataType = '';
-  public $***REMOVED***;
+  public $objectPreconditions;
   public function setGeneration( $generation) {
     $this->generation = $generation;
   }
@@ -1373,21 +1373,21 @@ class Google_ComposeRequestSourceObjects extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function setObjectPreconditions(Google_ComposeRequestSourceObjectsObjectPreconditions $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setObjectPreconditions(Google_ComposeRequestSourceObjectsObjectPreconditions $objectPreconditions) {
+    $this->objectPreconditions = $objectPreconditions;
   }
   public function getObjectPreconditions() {
-    return $this->***REMOVED***;
+    return $this->objectPreconditions;
   }
 }
 
 class Google_ComposeRequestSourceObjectsObjectPreconditions extends Google_Model {
-  public $***REMOVED***;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public $ifGenerationMatch;
+  public function setIfGenerationMatch( $ifGenerationMatch) {
+    $this->ifGenerationMatch = $ifGenerationMatch;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getIfGenerationMatch() {
+    return $this->ifGenerationMatch;
   }
 }
 
@@ -1516,10 +1516,10 @@ class Google_Objects extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $nextPageToken) {
+  public function setNextPageToken( $nextPageToken) {
     $this->nextPageToken = $nextPageToken;
   }
-  public function ***REMOVED***() {
+  public function getNextPageToken() {
     return $this->nextPageToken;
   }
   public function setPrefixes(/* array(Google_string) */ $prefixes) {
@@ -1537,10 +1537,10 @@ class Google_StorageObject extends Google_Model {
   public $acl;
   public $bucket;
   public $cacheControl;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $componentCount;
+  public $contentDisposition;
+  public $contentEncoding;
+  public $contentLanguage;
   public $contentType;
   public $crc32c;
   public $etag;
@@ -1550,7 +1550,7 @@ class Google_StorageObject extends Google_Model {
   public $md5Hash;
   public $mediaLink;
   public $metadata;
-  public $***REMOVED***;
+  public $metageneration;
   public $name;
   protected $__ownerType = 'Google_StorageObjectOwner';
   protected $__ownerDataType = '';
@@ -1572,40 +1572,40 @@ class Google_StorageObject extends Google_Model {
   public function getBucket() {
     return $this->bucket;
   }
-  public function ***REMOVED***( $cacheControl) {
+  public function setCacheControl( $cacheControl) {
     $this->cacheControl = $cacheControl;
   }
-  public function ***REMOVED***() {
+  public function getCacheControl() {
     return $this->cacheControl;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setComponentCount( $componentCount) {
+    $this->componentCount = $componentCount;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getComponentCount() {
+    return $this->componentCount;
   }
-  public function setContentDisposition( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentDisposition( $contentDisposition) {
+    $this->contentDisposition = $contentDisposition;
   }
   public function getContentDisposition() {
-    return $this->***REMOVED***;
+    return $this->contentDisposition;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentEncoding( $contentEncoding) {
+    $this->contentEncoding = $contentEncoding;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getContentEncoding() {
+    return $this->contentEncoding;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setContentLanguage( $contentLanguage) {
+    $this->contentLanguage = $contentLanguage;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getContentLanguage() {
+    return $this->contentLanguage;
   }
-  public function ***REMOVED***( $contentType) {
+  public function setContentType( $contentType) {
     $this->contentType = $contentType;
   }
-  public function ***REMOVED***() {
+  public function getContentType() {
     return $this->contentType;
   }
   public function setCrc32c( $crc32c) {
@@ -1656,11 +1656,11 @@ class Google_StorageObject extends Google_Model {
   public function getMetadata() {
     return $this->metadata;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setMetageneration( $metageneration) {
+    $this->metageneration = $metageneration;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getMetageneration() {
+    return $this->metageneration;
   }
   public function setName( $name) {
     $this->name = $name;
@@ -1686,10 +1686,10 @@ class Google_StorageObject extends Google_Model {
   public function getSize() {
     return $this->size;
   }
-  public function ***REMOVED***( $timeDeleted) {
+  public function setTimeDeleted( $timeDeleted) {
     $this->timeDeleted = $timeDeleted;
   }
-  public function ***REMOVED***() {
+  public function getTimeDeleted() {
     return $this->timeDeleted;
   }
   public function setUpdated( $updated) {

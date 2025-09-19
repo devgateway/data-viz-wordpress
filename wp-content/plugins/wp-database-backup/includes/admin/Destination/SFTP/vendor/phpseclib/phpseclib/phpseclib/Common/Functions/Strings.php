@@ -88,7 +88,7 @@ abstract class Strings
                 case 'C':
                 case 'b':
                     if (!strlen($data)) {
-                        throw new \***REMOVED***('At least one byte needs to be present for successful C / b decodes');
+                        throw new \LengthException('At least one byte needs to be present for successful C / b decodes');
                     }
                     break;
                 case 'N':
@@ -96,12 +96,12 @@ abstract class Strings
                 case 's':
                 case 'L':
                     if (strlen($data) < 4) {
-                        throw new \***REMOVED***('At least four byte needs to be present for successful N / i / s / L decodes');
+                        throw new \LengthException('At least four byte needs to be present for successful N / i / s / L decodes');
                     }
                     break;
                 case 'Q':
                     if (strlen($data) < 8) {
-                        throw new \***REMOVED***('At least eight byte needs to be present for successful N / i / s / L decodes');
+                        throw new \LengthException('At least eight byte needs to be present for successful N / i / s / L decodes');
                     }
                     break;
 
@@ -135,7 +135,7 @@ abstract class Strings
             }
             list(, $length) = unpack('N', self::shift($data, 4));
             if (strlen($data) < $length) {
-                throw new \***REMOVED***("$length bytes needed; " . strlen($data) . ' bytes available');
+                throw new \LengthException("$length bytes needed; " . strlen($data) . ' bytes available');
             }
             $temp = self::shift($data, $length);
             switch ($format[$i]) {
@@ -266,7 +266,7 @@ abstract class Strings
         */
 
         if (preg_match('#[^01]#', $x)) {
-            throw new \***REMOVED***('The only valid characters are 0 and 1');
+            throw new \RuntimeException('The only valid characters are 0 and 1');
         }
 
         if (!defined('PHP_INT_MIN')) {
@@ -340,7 +340,7 @@ abstract class Strings
      * @param string $x
      * @return string
      */
-    public static function ***REMOVED***($x)
+    public static function switchEndianness($x)
     {
         $r = '';
         for ($i = strlen($x) - 1; $i >= 0; $i--) {
@@ -348,7 +348,7 @@ abstract class Strings
             if (PHP_INT_SIZE === 8) {
                 // 3 operations
                 // from http://graphics.stanford.edu/~seander/bithacks.html#ReverseByteWith64BitsDiv
-                $r .= chr((($b * 0x0202020202) & ***REMOVED***) % 1023);
+                $r .= chr((($b * 0x0202020202) & 0x010884422010) % 1023);
             } else {
                 // 7 operations
                 // from http://graphics.stanford.edu/~seander/bithacks.html#ReverseByteWith32Bits

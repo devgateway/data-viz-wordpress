@@ -1,7 +1,7 @@
 <?php
 
 /**
- * BCMath Barrett Modular ***REMOVED*** Engine
+ * BCMath Barrett Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Math\BigInteger\Engines\BCMath\Reductions;
 use phpseclib3\Math\BigInteger\Engines\BCMath\Base;
 
 /**
- * PHP Barrett Modular ***REMOVED*** Engine
+ * PHP Barrett Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
@@ -72,7 +72,7 @@ abstract class Barrett extends Base
 
         // if (m.length >> 1) + 2 <= m.length then m is too small and n can't be reduced
         if ($m_length < 5) {
-            return self::***REMOVED***($n, $m);
+            return self::regularBarrett($n, $m);
         }
         // n = 2 * m.length
 
@@ -100,7 +100,7 @@ abstract class Barrett extends Base
         $temp = bcmul($msd, $m1); // m.length + (m.length >> 1)
         $n = bcadd($lsd, $temp); // m.length + (m.length >> 1) + 1 (so basically we're adding two same length numbers)
         //if ($m_length & 1) {
-        //    return self::***REMOVED***($n, $m);
+        //    return self::regularBarrett($n, $m);
         //}
 
         // (m.length + (m.length >> 1) + 1) - (m.length - 1) == (m.length >> 1) + 2
@@ -144,7 +144,7 @@ abstract class Barrett extends Base
      * @param string $n
      * @return string
      */
-    private static function ***REMOVED***($x, $n)
+    private static function regularBarrett($x, $n)
     {
         static $cache = [
             self::VARIABLE => [],

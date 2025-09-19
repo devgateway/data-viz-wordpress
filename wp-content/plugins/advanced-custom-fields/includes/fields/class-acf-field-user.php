@@ -16,7 +16,7 @@ if ( ! class_exists( 'ACF_Field_User' ) ) :
 			$this->category      = 'relational';
 			$this->description   = __( 'Allows the selection of one or more users which can be used to create relationships between data objects.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-user.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/user/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/user/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'role'                 => '',
 				'multiple'             => 0,
@@ -365,7 +365,7 @@ if ( ! class_exists( 'ACF_Field_User' ) ) :
 		 */
 		function ajax_query() {
 
-			// phpcs:disable WordPress.Security.***REMOVED***.Recommended
+			// phpcs:disable WordPress.Security.NonceVerification.Recommended
 			// Modify Request args.
 			if ( isset( $_REQUEST['s'] ) ) {
 				$_REQUEST['search'] = sanitize_text_field( $_REQUEST['s'] );
@@ -373,7 +373,7 @@ if ( ! class_exists( 'ACF_Field_User' ) ) :
 			if ( isset( $_REQUEST['paged'] ) ) {
 				$_REQUEST['page'] = absint( $_REQUEST['paged'] );
 			}
-			// phpcs:enable WordPress.Security.***REMOVED***.Recommended
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 			// Add query hooks.
 			add_action( 'acf/ajax/query_users/init', array( $this, 'ajax_query_init' ), 10, 2 );
@@ -385,7 +385,7 @@ if ( ! class_exists( 'ACF_Field_User' ) ) :
 		}
 
 		/**
-		 * Runs during the AJAX query ***REMOVED***.
+		 * Runs during the AJAX query initialization.
 		 *
 		 * @date    9/3/20
 		 * @since   5.8.8

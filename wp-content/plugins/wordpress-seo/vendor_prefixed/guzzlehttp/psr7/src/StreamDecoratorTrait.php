@@ -3,26 +3,26 @@
 declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 /**
  * Stream decorator trait
  *
- * @property ***REMOVED*** $stream
+ * @property StreamInterface $stream
  */
-trait ***REMOVED***
+trait StreamDecoratorTrait
 {
     /**
-     * @param ***REMOVED*** $stream Stream to decorate
+     * @param StreamInterface $stream Stream to decorate
      */
-    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $stream)
+    public function __construct(\YoastSEO_Vendor\Psr\Http\Message\StreamInterface $stream)
     {
         $this->stream = $stream;
     }
     /**
      * Magic method used to create a new stream if streams are not added in
-     * the constructor of a decorator (e.g., ***REMOVED***).
+     * the constructor of a decorator (e.g., LazyOpenStream).
      *
-     * @return ***REMOVED***
+     * @return StreamInterface
      */
     public function __get(string $name)
     {
@@ -124,7 +124,7 @@ trait ***REMOVED***
      *
      * @throws \BadMethodCallException
      */
-    protected function createStream() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    protected function createStream() : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
     {
         throw new \BadMethodCallException('Not implemented');
     }

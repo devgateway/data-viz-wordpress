@@ -25,7 +25,7 @@ if ( ! class_exists( 'acf_field_icon_picker' ) ) :
 			$this->category      = 'advanced';
 			$this->description   = __( 'An interactive UI for selecting an icon. Select from Dashicons, the media library, or a standalone URL input.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-icon-picker.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/icon-picker/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/icon-picker/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'library'       => 'all',
 				'tabs'          => array_keys( $this->get_tabs() ),
@@ -244,7 +244,7 @@ if ( ! class_exists( 'acf_field_icon_picker' ) ) :
 
 			$return_format_doc = sprintf(
 				'<a href="%s" target="_blank">%s</a>',
-				acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/icon-picker/', 'docs', 'icon-picker-return-format' ),
+				acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/icon-picker/', 'docs', 'icon-picker-return-format' ),
 				__( 'Learn More', 'acf' )
 			);
 
@@ -284,7 +284,7 @@ if ( ! class_exists( 'acf_field_icon_picker' ) ) :
 						'noResultsForSearchTerm'       => esc_html__( 'No results found for that search term', 'acf' ),
 						'newResultsFoundForSearchTerm' => esc_html__( 'The available icons matching your search query have been updated in the icon picker below.', 'acf' ),
 					),
-					'***REMOVED***'        => $this->get_dashicons(),
+					'iconPickeri10n'        => $this->get_dashicons(),
 				)
 			);
 		}
@@ -449,7 +449,7 @@ if ( ! class_exists( 'acf_field_icon_picker' ) ) :
 				'dashicons-buddicons-tracking'        => esc_html__( 'Tracking Icon', 'acf' ),
 				'dashicons-building'                  => esc_html__( 'Building Icon', 'acf' ),
 				'dashicons-businessman'               => esc_html__( 'Businessman Icon', 'acf' ),
-				'dashicons-***REMOVED***'            => esc_html__( '***REMOVED*** Icon', 'acf' ),
+				'dashicons-businessperson'            => esc_html__( 'Businessperson Icon', 'acf' ),
 				'dashicons-businesswoman'             => esc_html__( 'Businesswoman Icon', 'acf' ),
 				'dashicons-button'                    => esc_html__( 'Button Icon', 'acf' ),
 				'dashicons-calculator'                => esc_html__( 'Calculator Icon', 'acf' ),
@@ -521,7 +521,7 @@ if ( ! class_exists( 'acf_field_icon_picker' ) ) :
 				'dashicons-editor-paste-text'         => esc_html__( 'Paste Text Icon', 'acf' ),
 				'dashicons-editor-paste-word'         => esc_html__( 'Paste Word Icon', 'acf' ),
 				'dashicons-editor-quote'              => esc_html__( 'Quote Icon', 'acf' ),
-				'dashicons-editor-***REMOVED***'   => esc_html__( 'Remove Formatting Icon', 'acf' ),
+				'dashicons-editor-removeformatting'   => esc_html__( 'Remove Formatting Icon', 'acf' ),
 				'dashicons-editor-rtl'                => esc_html__( 'RTL Icon', 'acf' ),
 				'dashicons-editor-spellcheck'         => esc_html__( 'Spellcheck Icon', 'acf' ),
 				'dashicons-editor-strikethrough'      => esc_html__( 'Strikethrough Icon', 'acf' ),

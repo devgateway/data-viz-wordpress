@@ -1,5 +1,5 @@
 <?php
-// @phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
+// @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the original class.
 namespace Yoast\WP\SEO\Editors\Framework\Integrations;
 
 use Yoast\WP\SEO\Conditionals\Third_Party\Polylang_Conditional;
@@ -27,7 +27,7 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	private $polylang_conditional;
 
 	/**
-	 * The ***REMOVED*** conditional.
+	 * The TranslatePress conditional.
 	 *
 	 * @var TranslatePress_Conditional
 	 */
@@ -61,7 +61,7 @@ class Multilingual implements Integration_Data_Provider_Interface {
 	 * @return array<string, bool> Returns the name and if the feature is enabled.
 	 */
 	public function to_array(): array {
-		return [ '***REMOVED***' => $this->is_enabled() ];
+		return [ 'isMultilingualActive' => $this->is_enabled() ];
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Multilingual implements Integration_Data_Provider_Interface {
 
 	/**
 	 * Checks whether a multilingual plugin is currently active. Currently, we only check the following plugins:
-	 * WPML, Polylang, and ***REMOVED***.
+	 * WPML, Polylang, and TranslatePress.
 	 *
 	 * @return bool Whether a multilingual plugin is currently active.
 	 */

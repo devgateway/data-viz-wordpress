@@ -18,7 +18,7 @@ if($wpdbbkp_email_enabled==1 && !empty($wpdbbkp_email_id))
 if ( isset( $_POST[ 'email_notification_submit' ] ) && 'Save Settings' === $_POST[ 'email_notification_submit' ] ) {
 
 	// This is a hidden field used to validate the form.
-	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), 'wp-database-backup' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- using as nonce
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['_wpnonce'] ), 'wp-database-backup' ) ) { //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- using as nonce
 		return;
 	}
 	if ( isset( $_POST['wp_db_backup_destination_Email'] ) ) {

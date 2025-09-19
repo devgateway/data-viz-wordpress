@@ -1,5 +1,5 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\Editors\Framework;
 
 use Yoast\WP\SEO\Editors\Domain\Analysis_Features\Analysis_Feature_Interface;

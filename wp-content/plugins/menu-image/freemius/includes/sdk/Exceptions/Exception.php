@@ -63,7 +63,7 @@
 			/**
 			 * To make debugging easier.
 			 *
-			 * @return string The string ***REMOVED*** of the error
+			 * @return string The string representation of the error
 			 */
 			public function __toString() {
 				$str = $this->getType() . ': ';

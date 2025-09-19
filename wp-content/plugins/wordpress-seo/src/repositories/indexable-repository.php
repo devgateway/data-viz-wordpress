@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Repositories;
 
-use Psr\Log\***REMOVED***;
+use Psr\Log\LoggerInterface;
 use wpdb;
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
@@ -42,7 +42,7 @@ class Indexable_Repository {
 	/**
 	 * The logger object.
 	 *
-	 * @var ***REMOVED***
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 
@@ -480,15 +480,15 @@ class Indexable_Repository {
 	 *
 	 * Will be deprecated in 17.3 - Use upgrade_indexable instead.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return bool|Indexable The indexable.
 	 */
 	public function ensure_permalink( $indexable ) {
-		// @phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- self::class is safe.
-		// @phpcs:ignore Squiz.PHP.***REMOVED***.Found
+		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- self::class is safe.
+		// @phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 		// _deprecated_function( __METHOD__, 'Yoast SEO 17.3', self::class . '::upgrade_indexable' );
 
 		return $this->upgrade_indexable( $indexable );

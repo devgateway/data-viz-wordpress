@@ -119,14 +119,14 @@
 			var $modal             = $('.fs-modal-auto-install'),
 			    $body              = $('body'),
 			    $countdown         = $modal.find('.fs-countdown'),
-			    ***REMOVED*** = <?php echo json_encode( $require_credentials ) ?>,
-			    $***REMOVED***   = $('#request-filesystem-credentials-dialog'),
+			    requireCredentials = <?php echo json_encode( $require_credentials ) ?>,
+			    $credentialsForm   = $('#request-filesystem-credentials-dialog'),
 			    $errorNotice       = $modal.find('.fs-notice-error'),
 			    installing         = false;
 
 			$modal.appendTo($body);
 
-			var ***REMOVED*** = function () {
+			var startAutoInstall = function () {
 				if (installing)
 					return;
 
@@ -134,8 +134,8 @@
 
 				// Start auto-install.
 				$modal.addClass('fs-warn');
-				if (***REMOVED***) {
-					$***REMOVED***.hide();
+				if (requireCredentials) {
+					$credentialsForm.hide();
 				} else {
 					$modal.find('.fs-installation-notice').hide();
 				}
@@ -153,7 +153,7 @@
                     target_module_id: '<?php echo $plugin_id ?>'
 				};
 
-				if (***REMOVED***) {
+				if (requireCredentials) {
 					// Add filesystem credentials.
 					data.hostname = $('#hostname').val();
 					data.username = $('#username').val();
@@ -191,8 +191,8 @@
 
 									$errorNotice.find('p').text(resultObj.error.message);
 									$errorNotice.addClass('notice notice-alt notice-error').show();
-									if (***REMOVED***) {
-										$***REMOVED***.show();
+									if (requireCredentials) {
+										$credentialsForm.show();
 									}
 									break;
 							}
@@ -207,12 +207,12 @@
 				});
 			};
 
-			var ***REMOVED*** = function () {
-				clearInterval(***REMOVED***);
-				***REMOVED*** = null;
+			var clearCountdown = function () {
+				clearInterval(countdownInterval);
+				countdownInterval = null;
 			};
 
-			var ***REMOVED*** = function () {
+			var cancelAutoInstall = function () {
 				$modal.fadeOut(function () {
 					$modal.remove();
 					$body.removeClass('has-fs-modal');
@@ -220,11 +220,11 @@
 			};
 
 			var countdown         = <?php echo $sec_countdown ?>,
-			    ***REMOVED*** = ***REMOVED*** ? null : setInterval(function () {
+			    countdownInterval = requireCredentials ? null : setInterval(function () {
 				    $countdown.html(--countdown);
 				    if (0 == countdown) {
-					    ***REMOVED***();
-					    ***REMOVED***();
+					    clearCountdown();
+					    startAutoInstall();
 				    }
 			    }, 1000);
 
@@ -232,16 +232,16 @@
 			$body.addClass('has-fs-modal');
 
 			$modal.find('.button-primary').click(function () {
-				***REMOVED***();
-				***REMOVED***();
+				clearCountdown();
+				startAutoInstall();
 			});
 
 			$modal.find('.button-cancel').click(function () {
-				***REMOVED***();
-				***REMOVED***();
+				clearCountdown();
+				cancelAutoInstall();
 			});
 
-			if (***REMOVED***) {
+			if (requireCredentials) {
 
 			}
 		});

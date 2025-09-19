@@ -536,7 +536,7 @@ class Akismet {
 		$history[] = array( 'time' => 445856416, 'event' => 'status-changedtrash' );
 		$history[] = array( 'time' => 445856417, 'event' => 'status-changedspam' );
 		$history[] = array( 'time' => 445856418, 'event' => 'status-changedhold' );
-		$history[] = array( 'time' => 445856419, 'event' => 'status-***REMOVED***' );
+		$history[] = array( 'time' => 445856419, 'event' => 'status-changedapprove' );
 		$history[] = array( 'time' => 445856420, 'event' => 'status-changed-trash' );
 		$history[] = array( 'time' => 445856421, 'event' => 'status-changed-spam' );
 		$history[] = array( 'time' => 445856422, 'event' => 'status-changed-hold' );

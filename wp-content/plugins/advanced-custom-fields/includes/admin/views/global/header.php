@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound -- included template file.
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included template file.
 
 global $post_type, $post_type_object, $acf_page_title;
 $post_new_file = sprintf(

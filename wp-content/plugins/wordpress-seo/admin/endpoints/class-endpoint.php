@@ -6,7 +6,7 @@
  */
 
 /**
- * Dictates the required methods for an Endpoint ***REMOVED***.
+ * Dictates the required methods for an Endpoint implementation.
  */
 interface WPSEO_Endpoint {
 

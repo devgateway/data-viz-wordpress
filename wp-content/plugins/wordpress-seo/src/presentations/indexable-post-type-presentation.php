@@ -45,7 +45,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @param Post_Type_Helper  $post_type  The post type helper.
 	 * @param Date_Helper       $date       The date helper.
@@ -406,7 +406,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Wraps the get_paginated_url pagination helper method.
 	 *
-	 * @***REMOVED*** A wrapper method.
+	 * @codeCoverageIgnore A wrapper method.
 	 *
 	 * @param string $url  The un-paginated URL of the current archive.
 	 * @param string $page The page number to add on to $url for the $link tag.

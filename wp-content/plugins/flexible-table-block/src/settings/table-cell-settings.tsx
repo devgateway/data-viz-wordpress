@@ -17,11 +17,11 @@ import {
 	TextControl,
 	__experimentalHStack as HStack,
 	__experimentalSpacer as Spacer,
-	__experimentalToggleGroupControl as ***REMOVED***,
+	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	__experimentalToggleGroupControlOptionIcon as ToggleGroupControlOptionIcon,
 	__experimentalUnitControl as UnitControl,
-	__experimentalUseCustomUnits as ***REMOVED***,
+	__experimentalUseCustomUnits as useCustomUnits,
 	__experimentalParseQuantityAndUnitFromRawValue as parseQuantityAndUnitFromRawValue,
 } from '@wordpress/components';
 
@@ -37,48 +37,48 @@ import {
 	VERTICAL_ALIGNMENT_CONTROLS,
 } from '../constants';
 import {
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	BorderRadiusControl,
+	BorderWidthControl,
+	BorderStyleControl,
+	BorderColorControl,
+	PaddingControl,
 	ColorControl,
 } from '../controls';
 import {
-	***REMOVED***,
+	toTableAttributes,
 	updateCells,
 	type VTable,
-	type ***REMOVED***,
+	type VSelectedCells,
 } from '../utils/table-state';
-import { ***REMOVED*** } from '../utils/style-converter';
+import { convertToObject } from '../utils/style-converter';
 import {
 	pickPadding,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	pickBorderWidth,
+	pickBorderRadius,
+	pickBorderStyle,
+	pickBorderColor,
 	type CornerProps,
-	type ***REMOVED***,
+	type DirectionProps,
 } from '../utils/style-picker';
-import { ***REMOVED*** } from '../utils/helper';
+import { sanitizeUnitValue } from '../utils/helper';
 import type {
 	CellTagValue,
-	***REMOVED***,
+	CellScopeValue,
 	SectionName,
-	***REMOVED***,
-} from '../***REMOVED***';
+	BlockAttributes,
+} from '../BlockAttributes';
 
 const PERCENTAGE_WIDTHS = [ 25, 50, 75, 100 ];
 
 type Props = {
-	setAttributes: ( attrs: Partial< ***REMOVED*** > ) => void;
+	setAttributes: ( attrs: Partial< BlockAttributes > ) => void;
 	vTable: VTable;
-	selectedCells: ***REMOVED***;
+	selectedCells: VSelectedCells;
 };
 
-export default function ***REMOVED***( { setAttributes, vTable, selectedCells = [] }: Props ) {
-	const ***REMOVED*** = ***REMOVED***( { ***REMOVED***: CELL_WIDTH_UNITS } );
-	const fontSizeUnits = ***REMOVED***( { ***REMOVED***: FONT_SIZE_UNITS } );
+export default function TableCellSettings( { setAttributes, vTable, selectedCells = [] }: Props ) {
+	const cellWidthUnits = useCustomUnits( { availableUnits: CELL_WIDTH_UNITS } );
+	const fontSizeUnits = useCustomUnits( { availableUnits: FONT_SIZE_UNITS } );
 
 	if ( ! selectedCells.length ) {
 		return null;
@@ -92,7 +92,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 		return null;
 	}
 
-	const ***REMOVED*** = selectedCells.reduce( ( result: CellTagValue[], selectedCell ) => {
+	const selectedCellTags = selectedCells.reduce( ( result: CellTagValue[], selectedCell ) => {
 		const { tag } =
 			vTable[ selectedCell.sectionName ][ selectedCell.rowIndex ].cells[ selectedCell.vColIndex ];
 		if ( ! result.includes( tag ) ) {
@@ -101,71 +101,71 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 		return result;
 	}, [] );
 
-	const cellStylesObj = ***REMOVED***( targetCell.styles );
-	const [ ***REMOVED***, ***REMOVED*** ] = parseQuantityAndUnitFromRawValue(
+	const cellStylesObj = convertToObject( targetCell.styles );
+	const [ parsedWidthQuantity, parsedWidthUnit ] = parseQuantityAndUnitFromRawValue(
 		cellStylesObj?.width
 	);
 
-	const ***REMOVED*** = ( state: {
+	const updateCellsState = ( state: {
 		styles?: any;
 		tag?: CellTagValue;
 		className?: string;
 		id?: string;
 		headers?: string;
-		scope?: ***REMOVED***;
+		scope?: CellScopeValue;
 	} ) => {
 		const newVTable = updateCells( vTable, state, selectedCells );
-		setAttributes( ***REMOVED***( newVTable ) );
+		setAttributes( toTableAttributes( newVTable ) );
 	};
 
-	const ***REMOVED*** = ( value: string | undefined ) => {
-		***REMOVED***( { styles: { fontSize: ***REMOVED***( value ) } } );
+	const onChangeFontSize = ( value: string | undefined ) => {
+		updateCellsState( { styles: { fontSize: sanitizeUnitValue( value ) } } );
 	};
 
-	const ***REMOVED*** = ( value: Property.LineHeight ) => {
-		***REMOVED***( { styles: { lineHeight: value } } );
+	const onChangeLineHeight = ( value: Property.LineHeight ) => {
+		updateCellsState( { styles: { lineHeight: value } } );
 	};
 
 	const onChangeColor = ( value: Property.Color ) => {
-		***REMOVED***( { styles: { color: value } } );
+		updateCellsState( { styles: { color: value } } );
 	};
 
-	const onChangeBackgroundColor = ( value: Property.***REMOVED*** ) => {
-		***REMOVED***( { styles: { ***REMOVED***: value } } );
+	const onChangeBackgroundColor = ( value: Property.BackgroundColor ) => {
+		updateCellsState( { styles: { backgroundColor: value } } );
 	};
 
 	const onChangeWidth = ( value: string | number | undefined ) => {
-		***REMOVED***( { styles: { width: ***REMOVED***( value ) } } );
+		updateCellsState( { styles: { width: sanitizeUnitValue( value ) } } );
 	};
 
-	const ***REMOVED*** = ( values: Partial< ***REMOVED*** > ) => {
-		***REMOVED***( { styles: { padding: values } } );
+	const onChangePadding = ( values: Partial< DirectionProps > ) => {
+		updateCellsState( { styles: { padding: values } } );
 	};
 
-	const ***REMOVED*** = ( values: Partial< ***REMOVED*** > ) => {
-		***REMOVED***( { styles: { borderWidth: values } } );
+	const onChangeBorderWidth = ( values: Partial< DirectionProps > ) => {
+		updateCellsState( { styles: { borderWidth: values } } );
 	};
 
-	const ***REMOVED*** = ( values: Partial< CornerProps > ) => {
-		***REMOVED***( { styles: { borderRadius: values } } );
+	const onChangeBorderRadius = ( values: Partial< CornerProps > ) => {
+		updateCellsState( { styles: { borderRadius: values } } );
 	};
 
-	const ***REMOVED*** = ( values: Partial< ***REMOVED*** > ) => {
-		***REMOVED***( { styles: { borderStyle: values } } );
+	const onChangeBorderStyle = ( values: Partial< DirectionProps > ) => {
+		updateCellsState( { styles: { borderStyle: values } } );
 	};
 
-	const ***REMOVED*** = ( values: Partial< ***REMOVED*** > ) => {
-		***REMOVED***( { styles: { borderColor: values } } );
+	const onChangeBorderColor = ( values: Partial< DirectionProps > ) => {
+		updateCellsState( { styles: { borderColor: values } } );
 	};
 
-	const ***REMOVED*** = ( value: string | number | undefined ) => {
-		***REMOVED***( {
+	const onChangeTextAlign = ( value: string | number | undefined ) => {
+		updateCellsState( {
 			styles: { textAlign: value === cellStylesObj.textAlign ? undefined : value },
 		} );
 	};
 
 	const onChangeVerticalAlign = ( value: string | number | undefined ) => {
-		***REMOVED***( {
+		updateCellsState( {
 			styles: { verticalAlign: value === cellStylesObj.verticalAlign ? undefined : value },
 		} );
 	};
@@ -175,34 +175,34 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 			return CELL_TAG_CONTROLS.some( ( control ) => control.value === _value );
 		};
 		if ( isAllowedTag( value ) ) {
-			***REMOVED***( { tag: value, id: undefined, headers: undefined, scope: undefined } );
+			updateCellsState( { tag: value, id: undefined, headers: undefined, scope: undefined } );
 		}
 	};
 
 	const onChangeClass = ( value: string ) => {
-		***REMOVED***( { className: value !== '' ? value : undefined } );
+		updateCellsState( { className: value !== '' ? value : undefined } );
 	};
 
 	const onChangeId = ( value: string ) => {
-		***REMOVED***( { id: value !== '' ? value : undefined } );
+		updateCellsState( { id: value !== '' ? value : undefined } );
 	};
 
-	const ***REMOVED*** = ( value: string ) => {
-		***REMOVED***( { headers: value !== '' ? value : undefined } );
+	const onChangeHeaders = ( value: string ) => {
+		updateCellsState( { headers: value !== '' ? value : undefined } );
 	};
 
-	const onChangeScope = ( value: ***REMOVED*** ) => {
-		***REMOVED***( { scope: 'none' === value ? undefined : value } );
+	const onChangeScope = ( value: CellScopeValue ) => {
+		updateCellsState( { scope: 'none' === value ? undefined : value } );
 	};
 
-	const ***REMOVED*** = () => {
-		***REMOVED***( {
+	const onResetCellSettings = () => {
+		updateCellsState( {
 			styles: {
 				fontSize: undefined,
 				lineHeight: undefined,
 				width: undefined,
 				color: undefined,
-				***REMOVED***: undefined,
+				backgroundColor: undefined,
 				padding: { top: undefined, right: undefined, bottom: undefined, left: undefined },
 				borderRadius: {
 					topLeft: undefined,
@@ -226,7 +226,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 	return (
 		<>
 			<Spacer marginBottom="4" as={ Flex } justify="end">
-				<Button variant="link" isDestructive onClick={ ***REMOVED*** }>
+				<Button variant="link" isDestructive onClick={ onResetCellSettings }>
 					{ __( 'Clear cell settings', 'flexible-table-block' ) }
 				</Button>
 			</Spacer>
@@ -237,7 +237,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 						value={ cellStylesObj?.fontSize }
 						units={ fontSizeUnits }
 						min={ 0 }
-						onChange={ ***REMOVED*** }
+						onChange={ onChangeFontSize }
 						size="__unstable-large"
 					/>
 				</FlexBlock>
@@ -249,7 +249,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 						type="number"
 						step={ 0.1 }
 						min={ 0 }
-						onChange={ ***REMOVED*** }
+						onChange={ onChangeLineHeight }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
@@ -259,7 +259,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 				<UnitControl
 					label={ __( 'Cell width', 'flexible-table-block' ) }
 					value={ cellStylesObj?.width }
-					units={ ***REMOVED*** }
+					units={ cellWidthUnits }
 					min={ 0 }
 					onChange={ onChangeWidth }
 					size="__unstable-large"
@@ -269,16 +269,16 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 					{ __( 'Reset', 'flexible-table-block' ) }
 				</Button>
 			</HStack>
-			<***REMOVED***
+			<ToggleGroupControl
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
-				***REMOVED***
+				hideLabelFromVision
 				label={ __( 'Cell percentage width', 'flexible-table-block' ) }
 				isBlock
 				value={
-					***REMOVED*** &&
-					PERCENTAGE_WIDTHS.includes( ***REMOVED*** ) &&
-					***REMOVED*** === '%'
+					parsedWidthQuantity &&
+					PERCENTAGE_WIDTHS.includes( parsedWidthQuantity ) &&
+					parsedWidthUnit === '%'
 						? cellStylesObj?.width
 						: undefined
 				}
@@ -293,7 +293,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 						/>
 					);
 				} ) }
-			</***REMOVED***>
+			</ToggleGroupControl>
 			<hr />
 			<ColorControl
 				label={ __( 'Cell text color', 'flexible-table-block' ) }
@@ -302,7 +302,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 			/>
 			<ColorControl
 				label={ __( 'Cell background color', 'flexible-table-block' ) }
-				value={ cellStylesObj.***REMOVED*** }
+				value={ cellStylesObj.backgroundColor }
 				colors={ [
 					{
 						name: __( 'Transparent', 'flexible-table-block' ),
@@ -313,31 +313,31 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 				onChange={ onChangeBackgroundColor }
 			/>
 			<hr />
-			<***REMOVED***
+			<PaddingControl
 				label={ __( 'Cell padding', 'flexible-table-block' ) }
 				values={ pickPadding( cellStylesObj ) }
-				onChange={ ***REMOVED*** }
+				onChange={ onChangePadding }
 			/>
 			<hr />
-			<***REMOVED***
+			<BorderRadiusControl
 				label={ __( 'Cell border radius', 'flexible-table-block' ) }
-				values={ ***REMOVED***( cellStylesObj ) }
-				onChange={ ***REMOVED*** }
+				values={ pickBorderRadius( cellStylesObj ) }
+				onChange={ onChangeBorderRadius }
 			/>
-			<***REMOVED***
+			<BorderWidthControl
 				label={ __( 'Cell border width', 'flexible-table-block' ) }
-				values={ ***REMOVED***( cellStylesObj ) }
-				onChange={ ***REMOVED*** }
+				values={ pickBorderWidth( cellStylesObj ) }
+				onChange={ onChangeBorderWidth }
 			/>
-			<***REMOVED***
+			<BorderStyleControl
 				label={ __( 'Cell border style', 'flexible-table-block' ) }
-				values={ ***REMOVED***( cellStylesObj ) }
-				onChange={ ***REMOVED*** }
+				values={ pickBorderStyle( cellStylesObj ) }
+				onChange={ onChangeBorderStyle }
 			/>
-			<***REMOVED***
+			<BorderColorControl
 				label={ __( 'Cell border color', 'flexible-table-block' ) }
-				values={ ***REMOVED***( cellStylesObj ) }
-				onChange={ ***REMOVED*** }
+				values={ pickBorderColor( cellStylesObj ) }
+				onChange={ onChangeBorderColor }
 			/>
 			<hr />
 			<BaseControl id="flexible-table-block-cell-text-align" __nextHasNoMarginBottom>
@@ -349,14 +349,14 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 						{ __( 'Cell alignment', 'flexible-table-block' ) }
 					</span>
 					<Flex style={ { marginBottom: '-16px' } } justify="start" align="start">
-						<***REMOVED***
-							***REMOVED***
+						<ToggleGroupControl
+							hideLabelFromVision
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 							label={ __( 'Text alignment', 'flexible-table-block' ) }
 							value={ cellStylesObj?.textAlign }
-							***REMOVED***
-							onChange={ ***REMOVED*** }
+							isDeselectable
+							onChange={ onChangeTextAlign }
 						>
 							{ TEXT_ALIGNMENT_CONTROLS.map( ( { icon, label, value } ) => (
 								<ToggleGroupControlOptionIcon
@@ -366,14 +366,14 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 									label={ label }
 								/>
 							) ) }
-						</***REMOVED***>
-						<***REMOVED***
-							***REMOVED***
+						</ToggleGroupControl>
+						<ToggleGroupControl
+							hideLabelFromVision
 							__nextHasNoMarginBottom
 							__next40pxDefaultSize
 							label={ __( 'Vertical alignment', 'flexible-table-block' ) }
 							value={ cellStylesObj?.verticalAlign }
-							***REMOVED***
+							isDeselectable
 							onChange={ onChangeVerticalAlign }
 						>
 							{ VERTICAL_ALIGNMENT_CONTROLS.map( ( { icon, label, value } ) => (
@@ -384,12 +384,12 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 									label={ label }
 								/>
 							) ) }
-						</***REMOVED***>
+						</ToggleGroupControl>
 					</Flex>
 				</div>
 			</BaseControl>
 			<hr />
-			<***REMOVED***
+			<ToggleGroupControl
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
 				label={ __( 'Cell tag', 'flexible-table-block' ) }
@@ -400,7 +400,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 				{ CELL_TAG_CONTROLS.map( ( { label, value } ) => (
 					<ToggleGroupControlOption key={ value } value={ value } label={ label } />
 				) ) }
-			</***REMOVED***>
+			</ToggleGroupControl>
 			<TextControl
 				label={ __( 'Cell CSS class(es)', 'flexible-table-block' ) }
 				autoComplete="off"
@@ -410,10 +410,10 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 				__nextHasNoMarginBottom
 				__next40pxDefaultSize
 			/>
-			{ ***REMOVED***.length === 1 && (
+			{ selectedCellTags.length === 1 && (
 				<>
 					<hr />
-					{ ***REMOVED***.includes( 'th' ) && (
+					{ selectedCellTags.includes( 'th' ) && (
 						<TextControl
 							label={ createInterpolateElement(
 								__( '<code>id</code> attribute', 'flexible-table-block' ),
@@ -433,11 +433,11 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 						) }
 						autoComplete="off"
 						value={ targetCell.headers || '' }
-						onChange={ ***REMOVED*** }
+						onChange={ onChangeHeaders }
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
-					{ ***REMOVED***.includes( 'th' ) && (
+					{ selectedCellTags.includes( 'th' ) && (
 						<SelectControl
 							label={ createInterpolateElement(
 								__( '<code>scope</code> attribute', 'flexible-table-block' ),
@@ -447,7 +447,7 @@ export default function ***REMOVED***( { setAttributes, vTable, selectedCells = 
 							options={ CELL_SCOPE_CONTROLS.map( ( { label, value } ) => {
 								return { label, value };
 							} ) }
-							onChange={ ( value ) => onChangeScope( value as ***REMOVED*** ) }
+							onChange={ ( value ) => onChangeScope( value as CellScopeValue ) }
 							size="__unstable-large"
 							__nextHasNoMarginBottom
 						/>

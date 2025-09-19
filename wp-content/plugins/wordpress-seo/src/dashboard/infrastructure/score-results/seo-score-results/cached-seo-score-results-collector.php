@@ -1,13 +1,13 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Score_Results\SEO_Score_Results;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\SEO_Score_Results;
 
 use WPSEO_Utils;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Results_Not_Found_Exception;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Score_Results\Score_Results_Collector_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_Interface;
 
 /**
  * The caching decorator to get readability score results.
@@ -17,7 +17,7 @@ class Cached_SEO_Score_Results_Collector implements Score_Results_Collector_Inte
 	public const SEO_SCORES_TRANSIENT = 'wpseo_seo_scores';
 
 	/**
-	 * The actual collector ***REMOVED***.
+	 * The actual collector implementation.
 	 *
 	 * @var SEO_Score_Results_Collector
 	 */
@@ -26,7 +26,7 @@ class Cached_SEO_Score_Results_Collector implements Score_Results_Collector_Inte
 	/**
 	 * The constructor.
 	 *
-	 * @param SEO_Score_Results_Collector $seo_score_results_collector The collector ***REMOVED*** to use.
+	 * @param SEO_Score_Results_Collector $seo_score_results_collector The collector implementation to use.
 	 */
 	public function __construct( SEO_Score_Results_Collector $seo_score_results_collector ) {
 		$this->seo_score_results_collector = $seo_score_results_collector;
@@ -39,7 +39,7 @@ class Cached_SEO_Score_Results_Collector implements Score_Results_Collector_Inte
 	 * @param SEO_Score_Groups_Interface[] $score_groups       All SEO score groups.
 	 * @param Content_Type                 $content_type       The content type.
 	 * @param int|null                     $term_id            The ID of the term we're filtering for.
-	 * @param bool|null                    $is_troubleshooting Whether we're in ***REMOVED*** mode.
+	 * @param bool|null                    $is_troubleshooting Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, object|bool|float> The SEO score results for a content type.
 	 *

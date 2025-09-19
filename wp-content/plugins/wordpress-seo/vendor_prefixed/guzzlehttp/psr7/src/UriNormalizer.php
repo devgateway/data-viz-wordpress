@@ -14,7 +14,7 @@ use YoastSEO_Vendor\Psr\Http\Message\UriInterface;
 final class UriNormalizer
 {
     /**
-     * Default ***REMOVED*** which only include the ones that preserve semantics.
+     * Default normalizations which only include the ones that preserve semantics.
      */
     public const PRESERVING_NORMALIZATIONS = self::CAPITALIZE_PERCENT_ENCODING | self::DECODE_UNRESERVED_CHARACTERS | self::CONVERT_EMPTY_PATH | self::REMOVE_DEFAULT_HOST | self::REMOVE_DEFAULT_PORT | self::REMOVE_DOT_SEGMENTS;
     /**
@@ -46,7 +46,7 @@ final class UriNormalizer
      * All of `file:/myfile`, `file:///myfile`, and `file://localhost/myfile`
      * are equivalent according to RFC 3986. The first format is not accepted
      * by PHPs stream functions and thus already normalized implicitly to the
-     * second format in the Uri class. See `GuzzleHttp\Psr7\Uri::***REMOVED***`.
+     * second format in the Uri class. See `GuzzleHttp\Psr7\Uri::composeComponents`.
      *
      * Example: file://localhost/myfile → file:///myfile
      */
@@ -92,7 +92,7 @@ final class UriNormalizer
      * Returns a normalized URI.
      *
      * The scheme and host component are already normalized to lowercase per PSR-7 UriInterface.
-     * This methods adds additional ***REMOVED*** that can be configured with the $flags parameter.
+     * This methods adds additional normalizations that can be configured with the $flags parameter.
      *
      * PSR-7 UriInterface cannot distinguish between an empty component and a missing component as
      * getQuery(), getFragment() etc. always return a string. This means the URIs "/?#" and "/" are
@@ -100,7 +100,7 @@ final class UriNormalizer
      * is highly uncommon in reality. So this potential normalization is implied in PSR-7 as well.
      *
      * @param UriInterface $uri   The URI to normalize
-     * @param int          $flags A bitmask of ***REMOVED*** to apply, see constants
+     * @param int          $flags A bitmask of normalizations to apply, see constants
      *
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-6.2
      */
@@ -122,35 +122,35 @@ final class UriNormalizer
             $uri = $uri->withPort(null);
         }
         if ($flags & self::REMOVE_DOT_SEGMENTS && !\YoastSEO_Vendor\GuzzleHttp\Psr7\Uri::isRelativePathReference($uri)) {
-            $uri = $uri->withPath(\YoastSEO_Vendor\GuzzleHttp\Psr7\UriResolver::***REMOVED***($uri->getPath()));
+            $uri = $uri->withPath(\YoastSEO_Vendor\GuzzleHttp\Psr7\UriResolver::removeDotSegments($uri->getPath()));
         }
         if ($flags & self::REMOVE_DUPLICATE_SLASHES) {
             $uri = $uri->withPath(\preg_replace('#//++#', '/', $uri->getPath()));
         }
         if ($flags & self::SORT_QUERY_PARAMETERS && $uri->getQuery() !== '') {
-            $***REMOVED*** = \explode('&', $uri->getQuery());
-            \sort($***REMOVED***);
-            $uri = $uri->withQuery(\implode('&', $***REMOVED***));
+            $queryKeyValues = \explode('&', $uri->getQuery());
+            \sort($queryKeyValues);
+            $uri = $uri->withQuery(\implode('&', $queryKeyValues));
         }
         return $uri;
     }
     /**
      * Whether two URIs can be considered equivalent.
      *
-     * Both URIs are normalized automatically before comparison with the given $***REMOVED*** bitmask. The method also
+     * Both URIs are normalized automatically before comparison with the given $normalizations bitmask. The method also
      * accepts relative URI references and returns true when they are equivalent. This of course assumes they will be
      * resolved against the same base URI. If this is not the case, determination of equivalence or difference of
      * relative references does not mean anything.
      *
      * @param UriInterface $uri1           An URI to compare
      * @param UriInterface $uri2           An URI to compare
-     * @param int          $***REMOVED*** A bitmask of ***REMOVED*** to apply, see constants
+     * @param int          $normalizations A bitmask of normalizations to apply, see constants
      *
      * @see https://datatracker.ietf.org/doc/html/rfc3986#section-6.1
      */
-    public static function isEquivalent(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri1, \YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri2, int $***REMOVED*** = self::PRESERVING_NORMALIZATIONS) : bool
+    public static function isEquivalent(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri1, \YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri2, int $normalizations = self::PRESERVING_NORMALIZATIONS) : bool
     {
-        return (string) self::normalize($uri1, $***REMOVED***) === (string) self::normalize($uri2, $***REMOVED***);
+        return (string) self::normalize($uri1, $normalizations) === (string) self::normalize($uri2, $normalizations);
     }
     private static function capitalizePercentEncoding(\YoastSEO_Vendor\Psr\Http\Message\UriInterface $uri) : \YoastSEO_Vendor\Psr\Http\Message\UriInterface
     {

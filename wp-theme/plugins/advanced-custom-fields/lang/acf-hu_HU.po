@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields Pro v5.2.9\n"
-"Report-Msgid-Bugs-To: http://support.***REMOVED***.com\n"
+"Report-Msgid-Bugs-To: http://support.advancedcustomfields.com\n"
 "POT-Creation-Date: 2015-08-11 23:26+0200\n"
 "PO-Revision-Date: 2018-02-06 10:06+1000\n"
 "Last-Translator: Elliot Condon <e@elliotcondon.com>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-WPHeader: acf.php\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-***REMOVED***-0: *.js\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: acf.php:63
 msgid "Advanced Custom Fields"
@@ -1112,7 +1112,7 @@ msgstr "Jobb beállítás oldalak"
 #: admin/views/settings-info.php:156
 msgid "New functions for options page allow creation of both parent and child menu pages"
 msgstr ""
-"A beállítás oldalakhoz kapcsolódó új funkciók segítségével szülő- és ***REMOVED*** is létrehozhatók."
+"A beállítás oldalakhoz kapcsolódó új funkciók segítségével szülő- és gyermekoldalak is létrehozhatók."
 
 #: admin/views/settings-info.php:165
 #, php-format
@@ -2213,7 +2213,7 @@ msgid ""
 "To unlock updates, please enter your license key below. If you don't have a licence key, please see"
 msgstr ""
 "A frissítések engedélyezéséhez adjuk meg a licenckulcsot az alábbi beviteli mezőben. Ha még nem "
-"rendelkezünk ***REMOVED***, tájékozódáshoz:"
+"rendelkezünk licenckulccsal, tájékozódáshoz:"
 
 #: pro/admin/views/settings-updates.php:24
 msgid "details & pricing"
@@ -2496,7 +2496,7 @@ msgid "Advanced Custom Fields Pro"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://www.***REMOVED***.com/"
+msgid "http://www.advancedcustomfields.com/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -2558,7 +2558,7 @@ msgstr ""
 #~ msgstr "Import/export"
 
 #~ msgid "Logged in User Type"
-#~ msgstr "***REMOVED*** felhasználó szerepköre"
+#~ msgstr "Bejelentkezett felhasználó szerepköre"
 
 #~ msgid "Field groups are created in order <br />from lowest to highest"
 #~ msgstr "Az egyes mezőcsoportok az alacsonyabbtól a magasabb érték felé haladva jönnek létre"
@@ -2570,7 +2570,7 @@ msgstr ""
 #~ "If multiple field groups appear on an edit screen, the first field group's options will be used. "
 #~ "(the one with the lowest order number)"
 #~ msgstr ""
-#~ "Ha a szerkesztőképernyőn több mezőcsoport is megjelenik, úgy a legelső csoport (***REMOVED*** "
+#~ "Ha a szerkesztőképernyőn több mezőcsoport is megjelenik, úgy a legelső csoport (legalacsonyabb "
 #~ "sorszám) beállításai érvényesülnek."
 
 #~ msgid "We're changing the way premium functionality is delivered in an exiting way!"
@@ -2584,7 +2584,7 @@ msgstr ""
 #~ "(%s) which are no longer compatible with ACF."
 #~ msgstr ""
 #~ "Egy figyelmet igénylő problémát észleltünk: A honlap olyan prémium kiegészítőket használ (%s), "
-#~ "amelyek már nem ***REMOVED*** az új ACF verzióval."
+#~ "amelyek már nem kompatibilisek az új ACF verzióval."
 
 #~ msgid "Don't panic, you can simply roll back the plugin and continue using ACF as you know it!"
 #~ msgstr "Aggodalomra nincs ok, könnyedén visszatérhetünk a bővítmény korábbi, már ismert verziójához!"

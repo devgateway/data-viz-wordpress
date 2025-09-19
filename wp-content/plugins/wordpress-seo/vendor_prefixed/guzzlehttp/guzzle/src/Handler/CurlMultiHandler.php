@@ -4,22 +4,22 @@ namespace YoastSEO_Vendor\GuzzleHttp\Handler;
 
 use YoastSEO_Vendor\GuzzleHttp\Promise as P;
 use YoastSEO_Vendor\GuzzleHttp\Promise\Promise;
-use YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***;
+use YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface;
 use YoastSEO_Vendor\GuzzleHttp\Utils;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\RequestInterface;
 /**
  * Returns an asynchronous response using curl_multi_* functions.
  *
- * When using the ***REMOVED***, custom curl options can be specified as an
+ * When using the CurlMultiHandler, custom curl options can be specified as an
  * associative array of curl option constants mapping to values in the
  * **curl** key of the provided request options.
  *
  * @final
  */
-class ***REMOVED***
+class CurlMultiHandler
 {
     /**
-     * @var ***REMOVED***
+     * @var CurlFactoryInterface
      */
     private $factory;
     /**
@@ -33,20 +33,20 @@ class ***REMOVED***
     /**
      * @var array Request entry handles, indexed by handle id in `addRequest`.
      *
-     * @see ***REMOVED***::addRequest
+     * @see CurlMultiHandler::addRequest
      */
     private $handles = [];
     /**
      * @var array<int, float> An array of delay times, indexed by handle id in `addRequest`.
      *
-     * @see ***REMOVED***::addRequest
+     * @see CurlMultiHandler::addRequest
      */
     private $delays = [];
     /**
      * @var array<mixed> An associative array of CURLMOPT_* options and corresponding values for curl_multi_setopt()
      */
     private $options = [];
-    /** @var resource|\***REMOVED*** */
+    /** @var resource|\CurlMultiHandle */
     private $_mh;
     /**
      * This handler accepts the following options:
@@ -76,10 +76,10 @@ class ***REMOVED***
     /**
      * @param string $name
      *
-     * @return resource|\***REMOVED***
+     * @return resource|\CurlMultiHandle
      *
      * @throws \BadMethodCallException when another field as `_mh` will be gotten
-     * @throws \***REMOVED***       when curl can not initialize a multi handle
+     * @throws \RuntimeException       when curl can not initialize a multi handle
      */
     public function __get($name)
     {
@@ -88,7 +88,7 @@ class ***REMOVED***
         }
         $multiHandle = \curl_multi_init();
         if (\false === $multiHandle) {
-            throw new \***REMOVED***('Can not initialize curl multi handle.');
+            throw new \RuntimeException('Can not initialize curl multi handle.');
         }
         $this->_mh = $multiHandle;
         foreach ($this->options as $option => $value) {
@@ -104,7 +104,7 @@ class ***REMOVED***
             unset($this->_mh);
         }
     }
-    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\***REMOVED***
+    public function __invoke(\YoastSEO_Vendor\Psr\Http\Message\RequestInterface $request, array $options) : \YoastSEO_Vendor\GuzzleHttp\Promise\PromiseInterface
     {
         $easy = $this->factory->create($request, $options);
         $id = (int) $easy->handle;
@@ -138,7 +138,7 @@ class ***REMOVED***
         }
         while (\curl_multi_exec($this->_mh, $this->active) === \CURLM_CALL_MULTI_PERFORM) {
         }
-        $this->***REMOVED***();
+        $this->processMessages();
     }
     /**
      * Runs until all outstanding connections have completed.
@@ -187,7 +187,7 @@ class ***REMOVED***
         \curl_close($handle);
         return \true;
     }
-    private function ***REMOVED***() : void
+    private function processMessages() : void
     {
         while ($done = \curl_multi_info_read($this->_mh)) {
             if ($done['msg'] !== \CURLMSG_DONE) {

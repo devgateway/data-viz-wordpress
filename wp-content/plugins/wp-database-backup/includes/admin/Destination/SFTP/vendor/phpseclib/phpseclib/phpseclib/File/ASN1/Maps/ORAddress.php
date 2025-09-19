@@ -27,7 +27,7 @@ abstract class ORAddress
         'children' => [
             'built-in-standard-attributes' => BuiltInStandardAttributes::MAP,
             'built-in-domain-defined-attributes' => ['optional' => true] + BuiltInDomainDefinedAttributes::MAP,
-            'extension-attributes' => ['optional' => true] + ***REMOVED***::MAP
+            'extension-attributes' => ['optional' => true] + ExtensionAttributes::MAP
         ]
     ];
 }

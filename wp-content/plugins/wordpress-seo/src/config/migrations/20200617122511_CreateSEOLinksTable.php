@@ -6,9 +6,9 @@ use Yoast\WP\Lib\Migrations\Migration;
 use Yoast\WP\Lib\Model;
 
 /**
- * ***REMOVED*** class.
+ * CreateSEOLinksTable class.
  */
-class ***REMOVED*** extends Migration {
+class CreateSEOLinksTable extends Migration {
 
 	/**
 	 * The plugin this migration belongs to.

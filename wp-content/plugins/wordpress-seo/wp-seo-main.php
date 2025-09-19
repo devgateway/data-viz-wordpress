@@ -341,7 +341,7 @@ function wpseo_init() {
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1, [ 'wpseo' ] ), WPSEO_VERSION, '<' ) ) {
 		if ( function_exists( 'opcache_reset' ) ) {
-			// phpcs:ignore WordPress.PHP.***REMOVED***.Discouraged -- Prevent notices when opcache.restrict_api is set.
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Prevent notices when opcache.restrict_api is set.
 			@opcache_reset();
 		}
 
@@ -424,9 +424,9 @@ if ( ! wp_installing() && ( $spl_autoload_exists ) ) {
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
 
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- Reason: We are not processing form information but only loading the admin init class.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only loading the admin init class.
 			if ( isset( $_POST['action'] ) && is_string( $_POST['action'] ) ) {
-				// phpcs:ignore WordPress.Security.***REMOVED***.Missing,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information but only loading the admin init class, We are strictly comparing only.
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only loading the admin init class, We are strictly comparing only.
 				if ( wp_unslash( $_POST['action'] ) === 'inline-save' ) {
 					add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 				}
@@ -531,7 +531,7 @@ function yoast_wpseo_missing_autoload_notice() {
  *
  * @since 2.0
  * @deprecated 23.3
- * @***REMOVED***
+ * @codeCoverageIgnore
  *
  * @return void
  */
@@ -543,7 +543,7 @@ function yoast_wpseo_missing_filter() {
  * Returns the notice in case of missing filter extension.
  *
  * @deprecated 23.3
- * @***REMOVED***
+ * @codeCoverageIgnore
  *
  * @return void
  */
@@ -565,7 +565,7 @@ function yoast_wpseo_activation_failed_notice( $message ) {
 		'Yoast SEO'
 	);
 
-	// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- This function is only called in 3 places that are safe.
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- This function is only called in 3 places that are safe.
 	echo '<div class="error yoast-migrated-notice"><h4 class="yoast-notice-migrated-header">' . $title . '</h4><div class="notice-yoast-content"><p>' . strip_tags( $message, '<a>' ) . '</p></div></div>';
 }
 

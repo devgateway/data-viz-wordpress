@@ -31,10 +31,10 @@ class Estimated_Reading_Time_Conditional implements Conditional {
 	 * @return bool Whether the conditional is met.
 	 */
 	public function is_met() {
-		// phpcs:disable WordPress.Security.***REMOVED***.Recommended,WordPress.Security.***REMOVED***.Missing -- Reason: Nonce verification should not be done in a conditional but rather in the classes using the conditional.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing -- Reason: Nonce verification should not be done in a conditional but rather in the classes using the conditional.
 		// Check if we are in our Elementor ajax request (for saving).
 		if ( \wp_doing_ajax() && isset( $_POST['action'] ) && \is_string( $_POST['action'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are only strictly comparing the variable.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are only strictly comparing the variable.
 			$post_action = \wp_unslash( $_POST['action'] );
 			if ( $post_action === 'wpseo_elementor_save' ) {
 				return true;
@@ -47,7 +47,7 @@ class Estimated_Reading_Time_Conditional implements Conditional {
 
 		// We don't support Estimated Reading Time on the attachment post type.
 		if ( isset( $_GET['post'] ) && \is_string( $_GET['post'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are casting to an integer.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are casting to an integer.
 			$post_id = (int) \wp_unslash( $_GET['post'] );
 			if ( $post_id !== 0 && \get_post_type( $post_id ) === 'attachment' ) {
 				return false;
@@ -55,6 +55,6 @@ class Estimated_Reading_Time_Conditional implements Conditional {
 		}
 
 		return true;
-		// phpcs:enable WordPress.Security.***REMOVED***.Recommended,WordPress.Security.***REMOVED***.Missing
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing
 	}
 }

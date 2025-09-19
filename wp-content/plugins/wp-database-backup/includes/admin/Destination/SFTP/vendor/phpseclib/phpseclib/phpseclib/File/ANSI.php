@@ -440,7 +440,7 @@ class ANSI
      * @param string $char
      * @return string
      */
-    private function ***REMOVED***(\stdClass $last_attr, \stdClass $cur_attr, $char)
+    private function processCoordinate(\stdClass $last_attr, \stdClass $cur_attr, $char)
     {
         $output = '';
 
@@ -486,7 +486,7 @@ class ANSI
             $output .= $close . $open;
         }
 
-        $output .= ***REMOVED***($char);
+        $output .= htmlspecialchars($char);
 
         return $output;
     }
@@ -496,21 +496,21 @@ class ANSI
      *
      * @return string
      */
-    private function ***REMOVED***()
+    private function getScreenHelper()
     {
         $output = '';
         $last_attr = $this->base_attr_cell;
         for ($i = 0; $i <= $this->max_y; $i++) {
             for ($j = 0; $j <= $this->max_x; $j++) {
                 $cur_attr = $this->attrs[$i][$j];
-                $output .= $this->***REMOVED***($last_attr, $cur_attr, isset($this->screen[$i][$j]) ? $this->screen[$i][$j] : '');
+                $output .= $this->processCoordinate($last_attr, $cur_attr, isset($this->screen[$i][$j]) ? $this->screen[$i][$j] : '');
                 $last_attr = $this->attrs[$i][$j];
             }
             $output .= "\r\n";
         }
         $output = substr($output, 0, -2);
         // close any remaining open tags
-        $output .= $this->***REMOVED***($last_attr, $this->base_attr_cell, '');
+        $output .= $this->processCoordinate($last_attr, $this->base_attr_cell, '');
         return rtrim($output);
     }
 
@@ -521,7 +521,7 @@ class ANSI
      */
     public function getScreen()
     {
-        return '<pre width="' . ($this->max_x + 1) . '" style="color: white; background: black">' . $this->***REMOVED***() . '</pre>';
+        return '<pre width="' . ($this->max_x + 1) . '" style="color: white; background: black">' . $this->getScreenHelper() . '</pre>';
     }
 
     /**
@@ -536,7 +536,7 @@ class ANSI
         for ($i = 0; $i < count($this->history); $i++) {
             for ($j = 0; $j <= $this->max_x + 1; $j++) {
                 $cur_attr = $this->history_attrs[$i][$j];
-                $scrollback .= $this->***REMOVED***($last_attr, $cur_attr, isset($this->history[$i][$j]) ? $this->history[$i][$j] : '');
+                $scrollback .= $this->processCoordinate($last_attr, $cur_attr, isset($this->history[$i][$j]) ? $this->history[$i][$j] : '');
                 $last_attr = $this->history_attrs[$i][$j];
             }
             $scrollback .= "\r\n";

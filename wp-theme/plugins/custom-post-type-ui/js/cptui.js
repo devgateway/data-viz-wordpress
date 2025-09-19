@@ -4,14 +4,14 @@
 postboxes.add_postbox_toggles(pagenow);
 
 /**
- * The rest of our ***REMOVED***.
+ * The rest of our customizations.
  */
 (function($) {
 
 	$('#cptui_select_post_type_submit').hide();
 	$('#cptui_select_taxonomy_submit').hide();
 
-	if ('edit' === ***REMOVED***('action')) {
+	if ('edit' === getParameterByName('action')) {
 		// Store our original slug on page load for edit checking.
 		var original_slug = $('#name').val();
 	}
@@ -27,7 +27,7 @@ postboxes.add_postbox_toggles(pagenow);
 
 	// Confirm our deletions
 	$('.cptui-delete-top, .cptui-delete-bottom').on('click',function(e) {
-		e.***REMOVED***();
+		e.preventDefault();
 		var msg = '';
 		if (typeof cptui_type_data !== 'undefined') {
 			msg = cptui_type_data.confirm;
@@ -58,7 +58,7 @@ postboxes.add_postbox_toggles(pagenow);
 			if(e.type==='keydown' && e.keyCode!==32 && e.keyCode!==13) {
 				return;
 			}
-			e.***REMOVED***();
+			e.preventDefault();
 			state = !state;
 			answer.slideToggle(state);
 			tis.toggleClass('active',state);
@@ -74,7 +74,7 @@ postboxes.add_postbox_toggles(pagenow);
 		if ( e.keyCode !== 9 && e.keyCode !== 37 && e.keyCode !== 38 && e.keyCode !== 39 && e.keyCode !== 40 ) {
 			value = value.replace(/ /g, "_");
 			value = value.toLowerCase();
-			value = ***REMOVED***(value);
+			value = replaceDiacritics(value);
 			value = transliterate(value);
 			value = replaceSpecialCharacters(value);
 			if ( value !== original_value ) {
@@ -94,14 +94,14 @@ postboxes.add_postbox_toggles(pagenow);
 
 		var $slugexists = $('#slugexists');
 		if ( typeof cptui_type_data != 'undefined' ) {
-			if (cptui_type_data.existing_post_types.***REMOVED***(value) && value !== original_slug) {
+			if (cptui_type_data.existing_post_types.hasOwnProperty(value) && value !== original_slug) {
 				$slugexists.removeClass('hidemessage');
 			} else {
 				$slugexists.addClass('hidemessage');
 			}
 		}
 		if ( typeof cptui_tax_data != 'undefined' ) {
-			if (cptui_tax_data.existing_taxonomies.***REMOVED***(value) && value !== original_slug) {
+			if (cptui_tax_data.existing_taxonomies.hasOwnProperty(value) && value !== original_slug) {
 				$slugexists.removeClass('hidemessage');
 			} else {
 				$slugexists.addClass('hidemessage');
@@ -110,7 +110,7 @@ postboxes.add_postbox_toggles(pagenow);
 	});
 
 	// Replace diacritic characters with latin characters.
-	function ***REMOVED***(s) {
+	function replaceDiacritics(s) {
 		var diacritics = [
 			/[\300-\306]/g, /[\340-\346]/g,  // A, a
 			/[\310-\313]/g, /[\350-\353]/g,  // E, e
@@ -165,18 +165,18 @@ postboxes.add_postbox_toggles(pagenow);
 			_orig_send_attachment = wp.media.editor.send.attachment;
 	}
 
-	function ***REMOVED***(name, url) {
+	function getParameterByName(name, url) {
 		if (!url) url = window.location.href;
 		name = name.replace(/[\[\]]/g, "\\$&");
 		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
 			results = regex.exec(url);
 		if (!results) return null;
 		if (!results[2]) return '';
-		return ***REMOVED***(results[2].replace(/\+/g, " "));
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
 	$('#cptui_choose_icon').on('click',function(e){
-		e.***REMOVED***();
+		e.preventDefault();
 
 		var button = $(this);
 		var id = jQuery('#menu_icon').attr('id');
@@ -199,12 +199,12 @@ postboxes.add_postbox_toggles(pagenow);
 	});
 
 	$('.cptui-help').on('click',function(e){
-		e.***REMOVED***();
+		e.preventDefault();
 	});
 
 	$('.cptui-taxonomy-submit').on('click',function(e){
 		if ( $('.cptui-table :checkbox:checked').length == 0 ) {
-			e.***REMOVED***();
+			e.preventDefault();
 			var no_associated_type_warning = $('<div class="cptui-taxonomy-empty-types-dialog">' + cptui_tax_data.no_associated_type + '</div>').appendTo('#poststuff').dialog({
 				'dialogClass'   : 'wp-dialog',
 				'modal'         : true,
@@ -219,7 +219,7 @@ postboxes.add_postbox_toggles(pagenow);
 	});
 
 	$('#auto-populate').on( 'click tap', function(e){
-		e.***REMOVED***();
+		e.preventDefault();
 
 		var slug     = $('#name').val();
 		var plural   = $('#label').val();

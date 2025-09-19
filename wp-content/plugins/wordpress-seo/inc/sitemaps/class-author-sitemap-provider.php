@@ -134,7 +134,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @return array
 	 *
-	 * @throws ***REMOVED*** When an invalid page is requested.
+	 * @throws OutOfBoundsException When an invalid page is requested.
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
@@ -153,7 +153,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		// Throw an exception when there are no users in the sitemap.
 		if ( count( $users ) === 0 ) {
-			throw new ***REMOVED***( 'Invalid sitemap page requested' );
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
 		$users = $this->exclude_users( $users );

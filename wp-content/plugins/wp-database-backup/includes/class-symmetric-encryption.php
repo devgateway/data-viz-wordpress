@@ -1,6 +1,6 @@
 <?php
 
-class ***REMOVED*** {
+class SymmetricEncryption {
 
     private $cipher;
 

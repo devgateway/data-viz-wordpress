@@ -1,6 +1,6 @@
 === WordPress Importer ===
-Contributors: ***REMOVED***
-Donate link: https://***REMOVED***.org/donate/
+Contributors: wordpressdotorg
+Donate link: https://wordpressfoundation.org/donate/
 Tags: importer, wordpress
 Requires at least: 3.7
 Tested up to: 5.4

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * ExtensionAttributes
  *
  * PHP version 5
  *
@@ -16,16 +16,16 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * ExtensionAttributes
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class ExtensionAttributes
 {
     const MAP = [
         'type' => ASN1::TYPE_SET,
         'min' => 1,
         'max' => 256, // ub-extension-attributes
-        'children' => ***REMOVED***::MAP
+        'children' => ExtensionAttribute::MAP
     ];
 }

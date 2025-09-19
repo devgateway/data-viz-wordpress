@@ -22,7 +22,7 @@ class Images extends Base_Images {
 	 *
 	 * @required
 	 *
-	 * @***REMOVED*** - Is handled by DI-container.
+	 * @codeCoverageIgnore - Is handled by DI-container.
 	 *
 	 * @param Twitter_Image_Helper $twitter_image Image helper for twitter.
 	 *

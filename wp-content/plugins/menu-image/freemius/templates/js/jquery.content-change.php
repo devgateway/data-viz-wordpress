@@ -31,11 +31,11 @@
 
 				element.data("lastContents", element.html());
 
-				window.***REMOVED*** = window.***REMOVED*** ?
-					window.***REMOVED*** :
+				window.watchContentChange = window.watchContentChange ?
+					window.watchContentChange :
 					[];
 
-				window.***REMOVED***.push({
+				window.watchContentChange.push({
 					"element" : element,
 					"callback": callback
 				});
@@ -45,11 +45,11 @@
 		};
 
         setInterval(function() {
-            if ( window.***REMOVED*** ) {
-                for ( var i in window.***REMOVED*** ) {
-                    if ( window.***REMOVED***[ i ].element.data( 'lastContents' ) !== window.***REMOVED***[ i ].element.html() ) {
-                        window.***REMOVED***[ i ].callback.apply( undefined, [ false ] );
-                        window.***REMOVED***[ i ].element.data( 'lastContents', window.***REMOVED***[ i ].element.html() )
+            if ( window.watchContentChange ) {
+                for ( var i in window.watchContentChange ) {
+                    if ( window.watchContentChange[ i ].element.data( 'lastContents' ) !== window.watchContentChange[ i ].element.html() ) {
+                        window.watchContentChange[ i ].callback.apply( undefined, [ false ] );
+                        window.watchContentChange[ i ].element.data( 'lastContents', window.watchContentChange[ i ].element.html() )
                     }
                 }
             }

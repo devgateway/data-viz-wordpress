@@ -146,22 +146,22 @@ abstract class ASN1
         self::TYPE_BIT_STRING           => 'bitString',
         self::TYPE_OCTET_STRING         => 'octetString',
         self::TYPE_NULL                 => 'null',
-        self::TYPE_OBJECT_IDENTIFIER    => '***REMOVED***',
+        self::TYPE_OBJECT_IDENTIFIER    => 'objectIdentifier',
         self::TYPE_REAL                 => true,
         self::TYPE_ENUMERATED           => 'enumerated',
         self::TYPE_UTF8_STRING          => 'utf8String',
         self::TYPE_NUMERIC_STRING       => 'numericString',
-        self::TYPE_PRINTABLE_STRING     => '***REMOVED***',
+        self::TYPE_PRINTABLE_STRING     => 'printableString',
         self::TYPE_TELETEX_STRING       => 'teletexString',
-        self::TYPE_VIDEOTEX_STRING      => '***REMOVED***',
+        self::TYPE_VIDEOTEX_STRING      => 'videotexString',
         self::TYPE_IA5_STRING           => 'ia5String',
         self::TYPE_UTC_TIME             => 'utcTime',
         self::TYPE_GENERALIZED_TIME     => 'generalTime',
         self::TYPE_GRAPHIC_STRING       => 'graphicString',
         self::TYPE_VISIBLE_STRING       => 'visibleString',
         self::TYPE_GENERAL_STRING       => 'generalString',
-        self::TYPE_UNIVERSAL_STRING     => '***REMOVED***',
-        //self::TYPE_CHARACTER_STRING     => '***REMOVED***',
+        self::TYPE_UNIVERSAL_STRING     => 'universalString',
+        //self::TYPE_CHARACTER_STRING     => 'characterString',
         self::TYPE_BMP_STRING           => 'bmpString'
     ];
 
@@ -289,7 +289,7 @@ abstract class ASN1
         // at this point $length can be overwritten. it's only accurate for definite length things as is
 
         /* Class is UNIVERSAL, APPLICATION, PRIVATE, or CONTEXT-SPECIFIC. The UNIVERSAL class is restricted to the ASN.1
-           built-in types. It defines an application-independent data type that must be ***REMOVED*** from all other
+           built-in types. It defines an application-independent data type that must be distinguishable from all other
            data types. The other three classes are user defined. The APPLICATION class distinguishes data types that
            have a wide, scattered use within a particular presentation context. PRIVATE distinguishes data types within
            a particular organization or country. CONTEXT-SPECIFIC distinguishes members of a sequence or set, the
@@ -312,8 +312,8 @@ abstract class ASN1
                 }
 
                 $newcontent = [];
-                $***REMOVED*** = $length;
-                while ($***REMOVED*** > 0) {
+                $remainingLength = $length;
+                while ($remainingLength > 0) {
                     $temp = self::decode_ber($content, $start, $content_pos);
                     if ($temp === false) {
                         break;
@@ -327,7 +327,7 @@ abstract class ASN1
                         break;
                     }
                     $start += $length;
-                    $***REMOVED*** -= $length;
+                    $remainingLength -= $length;
                     $newcontent[] = $temp;
                     $content_pos += $length;
                 }
@@ -928,7 +928,7 @@ abstract class ASN1
                             ...
                             c) the "Tag Type" alternative is used and the value of "TagDefault" for the module is IMPLICIT TAGS or
                             AUTOMATIC TAGS, but the type defined by "Type" is an untagged choice type, an untagged open type, or
-                            an untagged "***REMOVED***" (see ITU-T Rec. X.683 | ISO/IEC 8824-4, 8.3)."
+                            an untagged "DummyReference" (see ITU-T Rec. X.683 | ISO/IEC 8824-4, 8.3)."
                          */
                         if (isset($child['explicit']) || $child['type'] == self::TYPE_CHOICE) {
                             $subtag = chr((self::CLASS_CONTEXT_SPECIFIC << 6) | 0x20 | $child['constant']);
@@ -1088,7 +1088,7 @@ abstract class ASN1
                     $filters = $filters[$part];
                 }
                 if ($filters === false) {
-                    throw new \***REMOVED***('No filters defined for ' . implode('/', $loc));
+                    throw new \RuntimeException('No filters defined for ' . implode('/', $loc));
                 }
                 return self::encode_der($source, $filters + $mapping, null, $special);
             case self::TYPE_NULL:
@@ -1111,7 +1111,7 @@ abstract class ASN1
                 $value = $source ? "\xFF" : "\x00";
                 break;
             default:
-                throw new \***REMOVED***('Mapping provides no type definition for ' . implode('/', self::$location));
+                throw new \RuntimeException('Mapping provides no type definition for ' . implode('/', self::$location));
         }
 
         if (isset($idx)) {
@@ -1205,7 +1205,7 @@ abstract class ASN1
             $oid = $source;
         }
         if ($oid === false) {
-            throw new \***REMOVED***('Invalid OID');
+            throw new \RuntimeException('Invalid OID');
         }
 
         $parts = explode('.', $oid);
@@ -1254,7 +1254,7 @@ abstract class ASN1
            http://tools.ietf.org/html/rfc5280#section-4.1.2.5.1
            http://www.obj-sys.com/asn1tutorial/node15.html
 
-           ***REMOVED***:
+           GeneralizedTime:
            http://tools.ietf.org/html/rfc5280#section-4.1.2.5.2
            http://www.obj-sys.com/asn1tutorial/node14.html */
 
@@ -1283,7 +1283,7 @@ abstract class ASN1
 
         // error supression isn't necessary as of PHP 7.0:
         // http://php.net/manual/en/migration70.other-changes.php
-        return @\DateTime::***REMOVED***($format, $content);
+        return @\DateTime::createFromFormat($format, $content);
     }
 
     /**

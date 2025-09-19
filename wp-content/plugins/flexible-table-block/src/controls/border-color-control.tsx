@@ -23,26 +23,26 @@ import {
 	__experimentalSpacer as Spacer,
 	__experimentalText as Text,
 } from '@wordpress/components';
-import { store as ***REMOVED*** } from '@wordpress/block-editor';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 import { useInstanceId } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
-import ***REMOVED*** from './color-indicator-button';
-import { ***REMOVED*** } from './indicator-control';
+import ColorIndicatorButton from './color-indicator-button';
+import { SideIndicatorControl } from './indicator-control';
 import { SIDE_CONTROLS } from '../constants';
-import type { SideValue } from '../***REMOVED***';
+import type { SideValue } from '../BlockAttributes';
 
 type Props = {
 	label: string;
 	help?: string;
 	onChange: ( event: any ) => void;
 	values: {
-		top?: Property.***REMOVED***;
-		right?: Property.***REMOVED***;
-		bottom?: Property.***REMOVED***;
-		left?: Property.***REMOVED***;
+		top?: Property.BorderTopColor;
+		right?: Property.BorderRightColor;
+		bottom?: Property.BorderBottomColor;
+		left?: Property.BorderLeftColor;
 	};
 };
 
@@ -53,7 +53,7 @@ const DEFAULT_VALUES = {
 	left: '',
 };
 
-export default function ***REMOVED***( {
+export default function BorderColorControl( {
 	label = __( 'Border color', 'flexible-table-block' ),
 	help,
 	onChange,
@@ -63,7 +63,7 @@ export default function ***REMOVED***( {
 		...DEFAULT_VALUES,
 		...valuesProp,
 	};
-	const instanceId = useInstanceId( ***REMOVED***, 'ftb-border-color-control' );
+	const instanceId = useInstanceId( BorderColorControl, 'ftb-border-color-control' );
 	const headingId = `${ instanceId }-heading`;
 
 	const isMixed = ! (
@@ -74,15 +74,15 @@ export default function ***REMOVED***( {
 
 	const colors = useSelect( ( select ) => {
 		const settings = select(
-			***REMOVED***
+			blockEditorStore
 			// @ts-ignore
 		).getSettings();
 		return settings?.colors ?? [];
 	}, [] );
 
 	const [ isLinked, setIsLinked ] = useState< boolean >( true );
-	const [ isPickerOpen, ***REMOVED*** ] = useState< boolean >( false );
-	const [ pickerIndex, ***REMOVED*** ] = useState< number | undefined >( undefined );
+	const [ isPickerOpen, setIsPickerOpen ] = useState< boolean >( false );
+	const [ pickerIndex, setPickerIndex ] = useState< number | undefined >( undefined );
 
 	const linkedLabel: string = isLinked
 		? __( 'Unlink sides', 'flexible-table-block' )
@@ -97,7 +97,7 @@ export default function ***REMOVED***( {
 		onChange( DEFAULT_VALUES );
 	};
 
-	const ***REMOVED*** = ( inputValue: string | undefined ) => {
+	const handleOnChangeAll = ( inputValue: string | undefined ) => {
 		onChange( {
 			top: inputValue,
 			right: inputValue,
@@ -106,21 +106,21 @@ export default function ***REMOVED***( {
 		} );
 	};
 
-	const ***REMOVED*** = ( inputValue: string | undefined, targetSide: SideValue ) => {
+	const handleOnChange = ( inputValue: string | undefined, targetSide: SideValue ) => {
 		onChange( {
 			...values,
 			[ targetSide ]: inputValue,
 		} );
 	};
 
-	const ***REMOVED*** = ( ***REMOVED***: number | undefined ) => {
-		***REMOVED***( true );
-		***REMOVED***( ***REMOVED*** );
+	const handleOnPickerOpen = ( targetPickerIndex: number | undefined ) => {
+		setIsPickerOpen( true );
+		setPickerIndex( targetPickerIndex );
 	};
 
-	const ***REMOVED*** = () => {
-		***REMOVED***( false );
-		***REMOVED***( undefined );
+	const handleOnPickerClose = () => {
+		setIsPickerOpen( false );
+		setPickerIndex( undefined );
 	};
 
 	return (
@@ -139,22 +139,22 @@ export default function ***REMOVED***( {
 				<HStack alignment="start" justify="space-between">
 					{ isLinked ? (
 						<HStack spacing={ 3 } justify="start">
-							<***REMOVED*** />
-							<***REMOVED***
+							<SideIndicatorControl />
+							<ColorIndicatorButton
 								label={ __( 'All', 'flexible-table-block' ) }
 								value={ allInputValue }
-								onClick={ () => ***REMOVED***( undefined ) }
+								onClick={ () => handleOnPickerOpen( undefined ) }
 								isNone={ ! allInputValue && ! isMixed }
 								isTransparent={ allInputValue === 'transparent' }
 								isMixed={ isMixed }
 							/>
 							{ isPickerOpen && ! pickerIndex && (
-								<Popover placement="left-start" shift offset={ 36 } onClose={ ***REMOVED*** }>
+								<Popover placement="left-start" shift offset={ 36 } onClose={ handleOnPickerClose }>
 									<Spacer padding={ 4 } marginBottom={ 0 }>
 										<ColorPalette
 											colors={ colors }
 											value={ allInputValue || '' }
-											onChange={ ***REMOVED*** }
+											onChange={ handleOnChangeAll }
 										/>
 									</Spacer>
 								</Popover>
@@ -164,11 +164,11 @@ export default function ***REMOVED***( {
 						<VStack>
 							{ SIDE_CONTROLS.map( ( item, index ) => (
 								<HStack spacing={ 3 } justify="start" key={ item.value }>
-									<***REMOVED*** sides={ [ item.value ] } />
-									<***REMOVED***
+									<SideIndicatorControl sides={ [ item.value ] } />
+									<ColorIndicatorButton
 										label={ item.label }
 										value={ values[ item.value ] }
-										onClick={ () => ***REMOVED***( index ) }
+										onClick={ () => handleOnPickerOpen( index ) }
 										isNone={ ! values[ item.value ] }
 										isTransparent={ values[ item.value ] === 'transparent' }
 									/>
@@ -177,13 +177,13 @@ export default function ***REMOVED***( {
 											placement="left-start"
 											shift
 											offset={ 36 }
-											onClose={ ***REMOVED*** }
+											onClose={ handleOnPickerClose }
 										>
 											<Spacer padding={ 4 } marginBottom={ 0 }>
 												<ColorPalette
 													colors={ colors }
 													value={ values[ item.value ] || '' }
-													onChange={ ( value ) => ***REMOVED***( value, item.value ) }
+													onChange={ ( value ) => handleOnChange( value, item.value ) }
 												/>
 											</Spacer>
 										</Popover>

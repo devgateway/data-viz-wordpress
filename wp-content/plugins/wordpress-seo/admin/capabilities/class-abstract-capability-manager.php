@@ -33,7 +33,7 @@ abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Man
 			return;
 		}
 
-		// Combine ***REMOVED***.
+		// Combine configurations.
 		$this->capabilities[ $capability ] = array_merge( $roles, $this->capabilities[ $capability ] );
 
 		// Remove doubles.
@@ -41,7 +41,7 @@ abstract class WPSEO_Abstract_Capability_Manager implements WPSEO_Capability_Man
 	}
 
 	/**
-	 * Returns the list of registered ***REMOVED***.
+	 * Returns the list of registered capabilitities.
 	 *
 	 * @return string[] Registered capabilities.
 	 */

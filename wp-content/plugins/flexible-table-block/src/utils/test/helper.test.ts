@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { parseCssValue, parseUnit, ***REMOVED***, toInteger } from '../helper';
+import { parseCssValue, parseUnit, sanitizeUnitValue, toInteger } from '../helper';
 
 describe( 'helper', () => {
 	describe( 'parseCssValue', () => {
@@ -24,48 +24,48 @@ describe( 'helper', () => {
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'sanitizeUnitValue', () => {
 		it( 'should not change the correct value', () => {
-			expect( ***REMOVED***( '10px' ) ).toBe( '10px' );
-			expect( ***REMOVED***( '10%' ) ).toBe( '10%' );
+			expect( sanitizeUnitValue( '10px' ) ).toBe( '10px' );
+			expect( sanitizeUnitValue( '10%' ) ).toBe( '10%' );
 		} );
 
 		it( 'should remove the unit for zero', () => {
-			expect( ***REMOVED***( '0px' ) ).toBe( '0' );
-			expect( ***REMOVED***( '0%' ) ).toBe( '0' );
+			expect( sanitizeUnitValue( '0px' ) ).toBe( '0' );
+			expect( sanitizeUnitValue( '0%' ) ).toBe( '0' );
 		} );
 
 		it( 'should return lowercase unit', () => {
-			expect( ***REMOVED***( '10PX' ) ).toBe( '10px' );
-			expect( ***REMOVED***( '10CM' ) ).toBe( '10cm' );
+			expect( sanitizeUnitValue( '10PX' ) ).toBe( '10px' );
+			expect( sanitizeUnitValue( '10CM' ) ).toBe( '10cm' );
 		} );
 
 		it( 'should return empty string if it is not a number or minus value', () => {
-			expect( ***REMOVED***( '' ) ).toBe( '' );
-			expect( ***REMOVED***( '-10rem' ) ).toBe( '' );
-			expect( ***REMOVED***( 'red' ) ).toBe( '' );
+			expect( sanitizeUnitValue( '' ) ).toBe( '' );
+			expect( sanitizeUnitValue( '-10rem' ) ).toBe( '' );
+			expect( sanitizeUnitValue( 'red' ) ).toBe( '' );
 		} );
 
 		it( 'should return minNum option value if minNum option is set', () => {
-			expect( ***REMOVED***( '10px', { minNum: 40 } ) ).toBe( '40px' );
-			expect( ***REMOVED***( '20.11%', { minNum: 40 } ) ).toBe( '40%' );
+			expect( sanitizeUnitValue( '10px', { minNum: 40 } ) ).toBe( '40px' );
+			expect( sanitizeUnitValue( '20.11%', { minNum: 40 } ) ).toBe( '40%' );
 		} );
 
 		it( 'should return maxNum option value if maxNum option is set', () => {
-			expect( ***REMOVED***( '40em', { maxNum: 10 } ) ).toBe( '10em' );
-			expect( ***REMOVED***( '20.11px', { maxNum: 10 } ) ).toBe( '10px' );
+			expect( sanitizeUnitValue( '40em', { maxNum: 10 } ) ).toBe( '10em' );
+			expect( sanitizeUnitValue( '20.11px', { maxNum: 10 } ) ).toBe( '10px' );
 		} );
 
 		it( 'should return truncated value', () => {
-			expect( ***REMOVED***( '10.11111111px' ) ).toBe( '10.1111px' );
+			expect( sanitizeUnitValue( '10.11111111px' ) ).toBe( '10.1111px' );
 		} );
 
 		it( 'should return truncated value if precision option is set', () => {
-			expect( ***REMOVED***( '10.11111111em', { precision: 6 } ) ).toBe( '10.111111em' );
+			expect( sanitizeUnitValue( '10.11111111em', { precision: 6 } ) ).toBe( '10.111111em' );
 		} );
 
 		it( 'should return sanitized value if multiple option is set', () => {
-			expect( ***REMOVED***( '10.11111111CM', { maxNum: 10 } ) ).toBe( '10cm' );
+			expect( sanitizeUnitValue( '10.11111111CM', { maxNum: 10 } ) ).toBe( '10cm' );
 		} );
 	} );
 

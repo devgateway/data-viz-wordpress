@@ -1,11 +1,11 @@
 <?php
 
 // We plan to gradually remove all of the disabled lint rules below.
-// phpcs:disable WordPress.Security.ValidatedSanitizedInput.***REMOVED***
-// phpcs:disable WordPress.Security.ValidatedSanitizedInput.***REMOVED***
-// phpcs:disable WordPress.Security.ValidatedSanitizedInput.***REMOVED***
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 // phpcs:disable Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure
-// phpcs:disable WordPress.Security.EscapeOutput.***REMOVED***
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 
 class Akismet_Admin {
 	const NONCE = 'akismet-update-key';
@@ -800,13 +800,13 @@ class Akismet_Admin {
 						printf(
 							/* translators: %1$s is a human-readable time difference, like "3 hours ago", and %2$s is an already-translated phrase describing how a comment's status changed, like "This comment was reported as spam." */
 							esc_html( __( '%1$s - %2$s', 'akismet' ) ),
-							// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							$time_html,
-							// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							$message
 						); // esc_html() is done above so that we can use HTML in $message.
 					} else {
-						// phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo $message; // esc_html() is done above so that we can use HTML in $message.
 					}
 
@@ -855,9 +855,9 @@ class Akismet_Admin {
 		$servers = $ips = array();
 
 		// Some web hosts may disable this function
-		if ( function_exists( '***REMOVED***' ) ) {
+		if ( function_exists( 'gethostbynamel' ) ) {
 
-			$ips = ***REMOVED***( 'rest.akismet.com' );
+			$ips = gethostbynamel( 'rest.akismet.com' );
 			if ( $ips && is_array( $ips ) && count( $ips ) ) {
 				$api_key = Akismet::get_api_key();
 
@@ -900,7 +900,7 @@ class Akismet_Admin {
 			$response = wp_remote_get( 'http://rest.akismet.com/1.1/test' );
 		}
 
-		$debug['***REMOVED***']  = function_exists( '***REMOVED***' ) ? 'exists' : 'not here';
+		$debug['gethostbynamel']  = function_exists( 'gethostbynamel' ) ? 'exists' : 'not here';
 		$debug['Servers']         = $servers;
 		$debug['Test Connection'] = $response;
 
@@ -1385,7 +1385,7 @@ class Akismet_Admin {
 			if ( ( is_countable( $responses ) ? count( $responses ) : 0 ) > 1 ) {
 				// Due to a quirk in how Jetpack does multi-calls, the response order
 				// can't be trusted to match the call order. It's a good thing our
-				// return values can be mostly ***REMOVED*** from each other.
+				// return values can be mostly differentiated from each other.
 				$first_response_value  = array_shift( $responses[0] );
 				$second_response_value = array_shift( $responses[1] );
 

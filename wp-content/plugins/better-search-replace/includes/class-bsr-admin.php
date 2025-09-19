@@ -3,10 +3,10 @@
 /**
  * The dashboard-specific functionality of the plugin.
  *
- * Registers styles and scripts, adds the custom ***REMOVED*** page,
+ * Registers styles and scripts, adds the custom administration page,
  * and processes user input on the "search/replace" form.
  *
- * @link       https://***REMOVED***.com
+ * @link       https://bettersearchreplace.com
  * @since      1.0.0
  *
  * @package    Better_Search_Replace
@@ -243,7 +243,7 @@ class BSR_Admin {
 
 								$upgrade_link = sprintf(
 									__( '<a href="%s" target="_blank">UPGRADE</a> to view details on the exact changes that will be made.', 'better-search-replace'),
-									'https://***REMOVED***.com/better-search-replace/upgrade/?utm_source=insideplugin&utm_medium=web&utm_content=tooltip&utm_campaign=bsr-to-migrate'
+									'https://deliciousbrains.com/better-search-replace/upgrade/?utm_source=insideplugin&utm_medium=web&utm_content=tooltip&utm_campaign=bsr-to-migrate'
 								);
 
 								$report['change'] .= '<span class="helper-message right">' . $upgrade_link . '</span>';
@@ -300,7 +300,7 @@ class BSR_Admin {
 		if ( $file == $plugin ) {
 			return array_merge(
 				$links,
-				array( '<a href="https://***REMOVED***.com/?utm_source=insideplugin&utm_medium=web&utm_content=plugins-page&utm_campaign=pro-upsell">' . __( 'Upgrade to Pro', 'better-search-replace' ) . '</a>' )
+				array( '<a href="https://bettersearchreplace.com/?utm_source=insideplugin&utm_medium=web&utm_content=plugins-page&utm_campaign=pro-upsell">' . __( 'Upgrade to Pro', 'better-search-replace' ) . '</a>' )
 			);
 		}
 

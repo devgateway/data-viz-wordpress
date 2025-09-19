@@ -776,7 +776,7 @@ function bkpforwp_anonimize_database($value, $table, $column)
         $check_str = implode(',', $bkpforwp_process_cols);
         if (stripos($check_str, $column) !== false) {
           $enc_pass = $anonymization_pass;
-          $encryption = new ***REMOVED***();
+          $encryption = new SymmetricEncryption();
           return str_replace($value, '<==>' . $encryption->encrypt($value, $enc_pass, $enc_pass) . '<==>', $value);
         }
 
@@ -807,7 +807,7 @@ function bkpforwp_sql_restore_replace($matches)
   $enc_pass = isset($anonymization_pass) ? $anonymization_pass : false;
   if ($enc_pass) {
     require_once 'class-symmetric-encryption.php';
-    $encryption = new ***REMOVED***();
+    $encryption = new SymmetricEncryption();
     return $encryption->decrypt($matches[0], $enc_pass, $enc_pass);
   }
   return $matches[0];
@@ -1070,7 +1070,7 @@ function wpdbbkp_fix_htaccess_on_update()
 
     $path_info = wp_upload_dir();
     $backup_folder = $path_info['basedir'] . '/' . WPDB_BACKUPS_DIR . '/';
-    $htaccess_file = ***REMOVED***($backup_folder) . '.htaccess';
+    $htaccess_file = trailingslashit($backup_folder) . '.htaccess';
 
     if ($wp_filesystem->exists($htaccess_file)) {
       $wp_filesystem->delete($htaccess_file);

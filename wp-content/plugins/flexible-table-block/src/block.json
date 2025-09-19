@@ -7,10 +7,10 @@
 	"description": "Create a flexible configuration table.",
 	"textdomain": "flexible-table-block",
 	"attributes": {
-		"***REMOVED***": {
+		"contentJustification": {
 			"type": "string"
 		},
-		"***REMOVED***": {
+		"hasFixedLayout": {
 			"type": "boolean",
 			"default": true
 		},
@@ -18,11 +18,11 @@
 			"type": "boolean",
 			"default": false
 		},
-		"***REMOVED***": {
+		"isScrollOnMobile": {
 			"type": "boolean",
 			"default": false
 		},
-		"***REMOVED***": {
+		"isStackedOnMobile": {
 			"type": "boolean",
 			"default": false
 		},

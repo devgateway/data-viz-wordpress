@@ -3,7 +3,7 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       https://***REMOVED***.com
+ * @link       https://bettersearchreplace.com
  * @since      1.0.0
  *
  * @package    Better_Search_Replace

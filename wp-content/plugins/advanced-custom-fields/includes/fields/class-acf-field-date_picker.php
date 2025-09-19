@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_date_picker' ) ) :
 			$this->category      = 'advanced';
 			$this->description   = __( 'An interactive UI for picking a date. The date return format can be customized using the field settings.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-date-picker.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/date-picker/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/date-picker/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'display_format' => 'd/m/Y',
 				'return_format'  => 'd/m/Y',
@@ -53,14 +53,14 @@ if ( ! class_exists( 'acf_field_date_picker' ) ) :
 			global $wp_locale;
 			acf_localize_data(
 				array(
-					'***REMOVED***' => array(
+					'datePickerL10n' => array(
 						'closeText'       => _x( 'Done', 'Date Picker JS closeText', 'acf' ),
 						'currentText'     => _x( 'Today', 'Date Picker JS currentText', 'acf' ),
 						'nextText'        => _x( 'Next', 'Date Picker JS nextText', 'acf' ),
 						'prevText'        => _x( 'Prev', 'Date Picker JS prevText', 'acf' ),
 						'weekHeader'      => _x( 'Wk', 'Date Picker JS weekHeader', 'acf' ),
 						'monthNames'      => array_values( $wp_locale->month ),
-						'***REMOVED***' => array_values( $wp_locale->month_abbrev ),
+						'monthNamesShort' => array_values( $wp_locale->month_abbrev ),
 						'dayNames'        => array_values( $wp_locale->weekday ),
 						'dayNamesMin'     => array_values( $wp_locale->weekday_initial ),
 						'dayNamesShort'   => array_values( $wp_locale->weekday_abbrev ),

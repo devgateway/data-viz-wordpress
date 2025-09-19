@@ -16,7 +16,7 @@ namespace phpseclib3\Crypt\EC\Formats\Keys;
 use phpseclib3\Common\Functions\Strings;
 use phpseclib3\Crypt\Common\Formats\Keys\PuTTY as Progenitor;
 use phpseclib3\Crypt\EC\BaseCurves\Base as BaseCurve;
-use phpseclib3\Crypt\EC\BaseCurves\***REMOVED*** as ***REMOVED***;
+use phpseclib3\Crypt\EC\BaseCurves\TwistedEdwards as TwistedEdwardsCurve;
 use phpseclib3\Math\BigInteger;
 
 /**
@@ -66,9 +66,9 @@ abstract class PuTTY extends Progenitor
         $temp = Strings::base64_encode(Strings::packSSH2('s', $components['type']) . $components['public']);
         $components = OpenSSH::load($components['type'] . ' ' . $temp . ' ' . $components['comment']);
 
-        if ($components['curve'] instanceof ***REMOVED***) {
+        if ($components['curve'] instanceof TwistedEdwardsCurve) {
             if (Strings::shift($private, 4) != "\0\0\0\x20") {
-                throw new \***REMOVED***('Length of ssh-ed25519 key should be 32');
+                throw new \RuntimeException('Length of ssh-ed25519 key should be 32');
             }
             $arr = $components['curve']->extractSecret($private);
             $components['dA'] = $arr['dA'];
@@ -92,7 +92,7 @@ abstract class PuTTY extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = false, array $options = [])
+    public static function savePrivateKey(BigInteger $privateKey, BaseCurve $curve, array $publicKey, $secret = null, $password = false, array $options = [])
     {
         self::initialize_static_variables();
 
@@ -104,18 +104,18 @@ abstract class PuTTY extends Progenitor
 
         // PuTTY pads private keys with a null byte per the following:
         // https://github.com/github/putty/blob/a3d14d77f566a41fc61dfdc5c2e0e384c9e6ae8b/sshecc.c#L1926
-        if (!$curve instanceof ***REMOVED***) {
+        if (!$curve instanceof TwistedEdwardsCurve) {
             $private = $privateKey->toBytes();
             if (!(strlen($privateKey->toBits()) & 7)) {
                 $private = "\0$private";
             }
         }
 
-        $private = $curve instanceof ***REMOVED*** ?
+        $private = $curve instanceof TwistedEdwardsCurve ?
             Strings::packSSH2('s', $secret) :
             Strings::packSSH2('s', $private);
 
-        return self::***REMOVED***($public, $private, $name, $password, $options);
+        return self::wrapPrivateKey($public, $private, $name, $password, $options);
     }
 
     /**

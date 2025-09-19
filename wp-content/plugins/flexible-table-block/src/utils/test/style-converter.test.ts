@@ -1,13 +1,13 @@
 /**
  * Internal dependencies
  */
-import { ***REMOVED***, ***REMOVED*** } from '../style-converter';
+import { convertToInline, convertToObject } from '../style-converter';
 
 describe( 'style-converter', () => {
-	describe( '***REMOVED***', () => {
+	describe( 'convertToObject', () => {
 		it( 'should convert inline style to object', () => {
 			expect(
-				***REMOVED***( `
+				convertToObject( `
 				background: red;
 				border-radius: 10px;
 				border-right: 1px solid blue;
@@ -20,10 +20,10 @@ describe( 'style-converter', () => {
 		} );
 	} );
 
-	describe( '***REMOVED***', () => {
+	describe( 'convertToInline', () => {
 		it( 'should convert object to inline', () => {
 			expect(
-				***REMOVED***( {
+				convertToInline( {
 					background: 'red',
 					borderRadius: '10px',
 					borderRight: '1px solid blue',

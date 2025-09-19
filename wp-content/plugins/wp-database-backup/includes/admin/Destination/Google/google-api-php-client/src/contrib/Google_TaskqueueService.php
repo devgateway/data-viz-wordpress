@@ -18,8 +18,8 @@
    * The "taskqueues" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_TaskqueueService(...);
-   *   $taskqueues = $***REMOVED***->taskqueues;
+   *   $taskqueueService = new Google_TaskqueueService(...);
+   *   $taskqueues = $taskqueueService->taskqueues;
    *  </code>
    */
   class Google_TaskqueuesServiceResource extends Google_ServiceResource {
@@ -50,8 +50,8 @@
    * The "tasks" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_TaskqueueService(...);
-   *   $tasks = $***REMOVED***->tasks;
+   *   $taskqueueService = new Google_TaskqueueService(...);
+   *   $tasks = $taskqueueService->tasks;
    *  </code>
    */
   class Google_TasksServiceResource extends Google_ServiceResource {
@@ -156,13 +156,13 @@
      * @param string $project The project under which the queue lies.
      * @param string $taskqueue
      * @param string $task
-     * @param int $***REMOVED*** The new lease in seconds.
+     * @param int $newLeaseSeconds The new lease in seconds.
      * @param Google_Task $postBody
      * @param array $optParams Optional parameters.
      * @return Google_Task
      */
-    public function patch($project, $taskqueue, $task, $***REMOVED***, Google_Task $postBody, $optParams = array()) {
-      $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task, '***REMOVED***' => $***REMOVED***, 'postBody' => $postBody);
+    public function patch($project, $taskqueue, $task, $newLeaseSeconds, Google_Task $postBody, $optParams = array()) {
+      $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task, 'newLeaseSeconds' => $newLeaseSeconds, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('patch', array($params));
       if ($this->useObjects()) {
@@ -177,13 +177,13 @@
      * @param string $project The project under which the queue lies.
      * @param string $taskqueue
      * @param string $task
-     * @param int $***REMOVED*** The new lease in seconds.
+     * @param int $newLeaseSeconds The new lease in seconds.
      * @param Google_Task $postBody
      * @param array $optParams Optional parameters.
      * @return Google_Task
      */
-    public function update($project, $taskqueue, $task, $***REMOVED***, Google_Task $postBody, $optParams = array()) {
-      $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task, '***REMOVED***' => $***REMOVED***, 'postBody' => $postBody);
+    public function update($project, $taskqueue, $task, $newLeaseSeconds, Google_Task $postBody, $optParams = array()) {
+      $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task, 'newLeaseSeconds' => $newLeaseSeconds, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
       $data = $this->__call('update', array($params));
       if ($this->useObjects()) {
@@ -212,7 +212,7 @@ class Google_TaskqueueService extends Google_Service {
   public $taskqueues;
   public $tasks;
   /**
-   * Constructs the internal ***REMOVED*** of the Taskqueue service.
+   * Constructs the internal representation of the Taskqueue service.
    *
    * @param Google_Client $client
    */
@@ -223,7 +223,7 @@ class Google_TaskqueueService extends Google_Service {
 
     $client->addService($this->serviceName, $this->version);
     $this->taskqueues = new Google_TaskqueuesServiceResource($this, $this->serviceName, 'taskqueues', json_decode('{"methods": {"get": {"id": "taskqueue.taskqueues.get", "path": "{project}/taskqueues/{taskqueue}", "httpMethod": "GET", "parameters": {"getStats": {"type": "boolean", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "TaskQueue"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}}}', true));
-    $this->tasks = new Google_TasksServiceResource($this, $this->serviceName, 'tasks', json_decode('{"methods": {"delete": {"id": "taskqueue.tasks.delete", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "DELETE", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "get": {"id": "taskqueue.tasks.get", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "insert": {"id": "taskqueue.tasks.insert", "path": "{project}/taskqueues/{taskqueue}/tasks", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Task"}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "lease": {"id": "taskqueue.tasks.lease", "path": "{project}/taskqueues/{taskqueue}/tasks/lease", "httpMethod": "POST", "parameters": {"groupByTag": {"type": "boolean", "location": "query"}, "leaseSecs": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "numTasks": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "tag": {"type": "string", "location": "query"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Tasks"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "list": {"id": "taskqueue.tasks.list", "path": "{project}/taskqueues/{taskqueue}/tasks", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Tasks2"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "patch": {"id": "taskqueue.tasks.patch", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "PATCH", "parameters": {"***REMOVED***": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Task"}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "update": {"id": "taskqueue.tasks.update", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "POST", "parameters": {"***REMOVED***": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Task"}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}}}', true));
+    $this->tasks = new Google_TasksServiceResource($this, $this->serviceName, 'tasks', json_decode('{"methods": {"delete": {"id": "taskqueue.tasks.delete", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "DELETE", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "get": {"id": "taskqueue.tasks.get", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "insert": {"id": "taskqueue.tasks.insert", "path": "{project}/taskqueues/{taskqueue}/tasks", "httpMethod": "POST", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Task"}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "lease": {"id": "taskqueue.tasks.lease", "path": "{project}/taskqueues/{taskqueue}/tasks/lease", "httpMethod": "POST", "parameters": {"groupByTag": {"type": "boolean", "location": "query"}, "leaseSecs": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "numTasks": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "tag": {"type": "string", "location": "query"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Tasks"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "list": {"id": "taskqueue.tasks.list", "path": "{project}/taskqueues/{taskqueue}/tasks", "httpMethod": "GET", "parameters": {"project": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "response": {"$ref": "Tasks2"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "patch": {"id": "taskqueue.tasks.patch", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "PATCH", "parameters": {"newLeaseSeconds": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Task"}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}, "update": {"id": "taskqueue.tasks.update", "path": "{project}/taskqueues/{taskqueue}/tasks/{task}", "httpMethod": "POST", "parameters": {"newLeaseSeconds": {"type": "integer", "required": true, "format": "int32", "location": "query"}, "project": {"type": "string", "required": true, "location": "path"}, "task": {"type": "string", "required": true, "location": "path"}, "taskqueue": {"type": "string", "required": true, "location": "path"}}, "request": {"$ref": "Task"}, "response": {"$ref": "Task"}, "scopes": ["https://www.googleapis.com/auth/taskqueue", "https://www.googleapis.com/auth/taskqueue.consumer"]}}}', true));
 
   }
 }
@@ -231,19 +231,19 @@ class Google_TaskqueueService extends Google_Service {
 
 
 class Google_Task extends Google_Model {
-  public $***REMOVED***;
+  public $enqueueTimestamp;
   public $id;
   public $kind;
-  public $***REMOVED***;
+  public $leaseTimestamp;
   public $payloadBase64;
   public $queueName;
   public $retry_count;
   public $tag;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setEnqueueTimestamp( $enqueueTimestamp) {
+    $this->enqueueTimestamp = $enqueueTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getEnqueueTimestamp() {
+    return $this->enqueueTimestamp;
   }
   public function setId( $id) {
     $this->id = $id;
@@ -257,16 +257,16 @@ class Google_Task extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLeaseTimestamp( $leaseTimestamp) {
+    $this->leaseTimestamp = $leaseTimestamp;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLeaseTimestamp() {
+    return $this->leaseTimestamp;
   }
-  public function ***REMOVED***( $payloadBase64) {
+  public function setPayloadBase64( $payloadBase64) {
     $this->payloadBase64 = $payloadBase64;
   }
-  public function ***REMOVED***() {
+  public function getPayloadBase64() {
     return $this->payloadBase64;
   }
   public function setQueueName( $queueName) {
@@ -333,47 +333,47 @@ class Google_TaskQueue extends Google_Model {
 
 class Google_TaskQueueAcl extends Google_Model {
   public $adminEmails;
-  public $***REMOVED***;
-  public $***REMOVED***;
-  public function ***REMOVED***(/* array(Google_string) */ $adminEmails) {
+  public $consumerEmails;
+  public $producerEmails;
+  public function setAdminEmails(/* array(Google_string) */ $adminEmails) {
     $this->assertIsArray($adminEmails, 'Google_string', __METHOD__);
     $this->adminEmails = $adminEmails;
   }
-  public function ***REMOVED***() {
+  public function getAdminEmails() {
     return $this->adminEmails;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setConsumerEmails(/* array(Google_string) */ $consumerEmails) {
+    $this->assertIsArray($consumerEmails, 'Google_string', __METHOD__);
+    $this->consumerEmails = $consumerEmails;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getConsumerEmails() {
+    return $this->consumerEmails;
   }
-  public function ***REMOVED***(/* array(Google_string) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_string', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setProducerEmails(/* array(Google_string) */ $producerEmails) {
+    $this->assertIsArray($producerEmails, 'Google_string', __METHOD__);
+    $this->producerEmails = $producerEmails;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getProducerEmails() {
+    return $this->producerEmails;
   }
 }
 
 class Google_TaskQueueStats extends Google_Model {
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $leasedLastHour;
+  public $leasedLastMinute;
   public $oldestTask;
   public $totalTasks;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLeasedLastHour( $leasedLastHour) {
+    $this->leasedLastHour = $leasedLastHour;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLeasedLastHour() {
+    return $this->leasedLastHour;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setLeasedLastMinute( $leasedLastMinute) {
+    $this->leasedLastMinute = $leasedLastMinute;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getLeasedLastMinute() {
+    return $this->leasedLastMinute;
   }
   public function setOldestTask( $oldestTask) {
     $this->oldestTask = $oldestTask;

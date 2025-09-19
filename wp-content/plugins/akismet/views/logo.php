@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable ***REMOVED***
+//phpcs:disable VariableAnalysis
 // There are "undefined" variables here because they're defined in the code that includes this file as a template.
 ?>
 <div class="akismet-masthead__logo-container">

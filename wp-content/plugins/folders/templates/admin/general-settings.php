@@ -51,10 +51,10 @@ if (! defined('ABSPATH')) {
                 $("#folders_post_type").on("change", function (e) {
                     $(".folder-post-type").addClass("hide-option");
                     if($(this).find("option:selected[value='folders-pro']").length) {
-                        e.***REMOVED***();
+                        e.preventDefault();
                         $(this).find("option:selected[value='folders-pro']").prop("selected", false);
                         $(this).trigger("change");
-                        window.open("<?php echo esc_url($this->***REMOVED***()) ?>", "_blank");
+                        window.open("<?php echo esc_url($this->getFoldersUpgradeURL()) ?>", "_blank");
                     }
                     $(this).find("option:selected").each(function () {
                         $("#folders-for-" + $(this).attr("value")).removeClass("hide-option");
@@ -63,7 +63,7 @@ if (! defined('ABSPATH')) {
                 $(".folder-post-select").on("change", function () {
                     if ($(this).val() == "folders-pro") {
                         $(this).val("").trigger("change");
-                        window.open("<?php echo esc_url($this->***REMOVED***()) ?>", "_blank");
+                        window.open("<?php echo esc_url($this->getFoldersUpgradeURL()) ?>", "_blank");
                     }
                 });
             <?php } ?>
@@ -97,7 +97,7 @@ if (! defined('ABSPATH')) {
             $("#save-settings").on("click", function(){
                 $("#setting-form #submit").trigger("click");
             });
-            const form = document.***REMOVED***('setting-form');
+            const form = document.getElementById('setting-form');
             let isFormDirty = false;
             const formOldValues = $('#setting-form').serialize();
 
@@ -105,23 +105,23 @@ if (! defined('ABSPATH')) {
                 isFormDirty = formOldValues !== $('#setting-form').serialize()
             });
 
-            window.***REMOVED***('beforeunload', (event) => {
+            window.addEventListener('beforeunload', (event) => {
                 if (isFormDirty) {
-                    const ***REMOVED*** = 'You have unsaved changes. Are you sure you want to leave this page?';
-                    event.returnValue = ***REMOVED***;
-                    return ***REMOVED***;
+                    const confirmationMessage = 'You have unsaved changes. Are you sure you want to leave this page?';
+                    event.returnValue = confirmationMessage;
+                    return confirmationMessage;
                 }
             });
 
             // Reset isFormDirty on form submit
-            form.***REMOVED***('submit', () => {
+            form.addEventListener('submit', () => {
                 isFormDirty = false;
             });
             $(document).on("click",".import-folders-button", function(e){
                 $("#import-folders-popup").show();
             });
             $(document).on("click",".popup-form-content", function(e){
-                e.***REMOVED***();
+                e.stopPropagation();
                 e.stopImmediatePropagation();
             });
             $(document).on("click",".folder-select",function(){
@@ -144,28 +144,28 @@ if (! defined('ABSPATH')) {
                 if($(this).val() == "folders-pro") {
                     $(this).find("option").prop("selected", false);
                     $(this).find("option:first").prop("selected", true);
-                    window.open("<?php echo esc_url($this->***REMOVED***()) ?>", "_blank");
+                    window.open("<?php echo esc_url($this->getFoldersUpgradeURL()) ?>", "_blank");
                 }
             });
             $(document).on("change", "#folder_font", function(){
                 if($(this).val() == "folders-pro") {
                     $(this).val("").trigger("change");
-                    window.open("<?php echo esc_url($this->***REMOVED***()) ?>", "_blank");
+                    window.open("<?php echo esc_url($this->getFoldersUpgradeURL()) ?>", "_blank");
                 }
             });
             $(document).on("click",".view-shortcodes", function(e){
-                e.***REMOVED***();
+                e.preventDefault();
                 $("#keyboard-shortcut").show();
             });
             $(document).on("change", "#folder_size", function(){
                 if($(this).val() == "folders-pro" || $(this).val() == "folders-pro-item" || $(this).val() == "folders-item-pro") {
                     $(this).val("16").trigger("change");
-                    window.open("<?php echo esc_url($this->***REMOVED***()) ?>", "_blank");
+                    window.open("<?php echo esc_url($this->getFoldersUpgradeURL()) ?>", "_blank");
                 }
             });
             $(".accordion-header:first").trigger("click");
             $("#folder_font, #folder_size").change(function(){
-                ***REMOVED***();
+                setCSSProperties();
             });
             $(document).on("click", "input[name='customize_folders[show_media_details]']", function(){
                 if($("#show_media_details").is(":checked")) {
@@ -175,21 +175,21 @@ if (! defined('ABSPATH')) {
                 }
             });
             $(document).on("change", "input[name='customize_folders[default_icon_color]']:checked", function(){
-                ***REMOVED***();
+                setCSSProperties();
             });
-            ***REMOVED***();
+            setCSSProperties();
             $('.color-field').spectrum({
                 chooseText: "Submit",
-                ***REMOVED***: "hex",
+                preferredFormat: "hex",
                 showInput: true,
                 cancelText: "Cancel",
                 move: function (color) {
                     $(this).val(color.toHexString());
-                    ***REMOVED***();
+                    setCSSProperties();
                 },
                 change: function (color) {
                     $(this).val(color.toHexString());
-                    ***REMOVED***();
+                    setCSSProperties();
                 }
             });
             $(document).on("click", "input[name='customize_folders[remove_folders_when_removed]']", function(e){
@@ -212,11 +212,11 @@ if (! defined('ABSPATH')) {
                     $(".import-folder-note").html(popupDesc);
                     $("#import-plugin-data").show();
                 } else {
-                    ***REMOVED***();
+                    importPluginData();
                 }
             });
             $(document).on("click", ".remove-folders-data", function(e){
-                e.***REMOVED***();
+                e.preventDefault();
                 $("#remove-confirmation-box").show();
                 $("#delete-input").focus();
             });
@@ -245,7 +245,7 @@ if (! defined('ABSPATH')) {
                 }
             });
             $(document).on("submit", "#remove_folders_data", function(e){
-                e.***REMOVED***();
+                e.preventDefault();
                 if($.trim($("#delete-input").val()).toLowerCase() == "delete") {
                     $.ajax({
                         url: "<?php echo esc_url(admin_url("admin-ajax.php")) ?>",
@@ -256,7 +256,7 @@ if (! defined('ABSPATH')) {
                         type: 'post',
                         success: function(res) {
                             <?php
-                            $redirectURL = $this->***REMOVED***();
+                            $redirectURL = $this->getFolderSettingsURL();
                             if (!empty($redirectURL)) {
                                 $page        = filter_input(INPUT_POST, 'tab_page');
                                 $type        = filter_input(INPUT_GET, 'setting_page');
@@ -283,7 +283,7 @@ if (! defined('ABSPATH')) {
                 }
             });
             $(document).on("click", "#import-folder-button", function(e){
-                ***REMOVED***();
+                importPluginData();
             });
             $(document).on("click", "#folders_by_user_roles", function(e){
                 if($(this).is(":checked")) {
@@ -304,16 +304,16 @@ if (! defined('ABSPATH')) {
                 $("#remove-plugin-data").show();
             });
             $(document).on("click", "#remove-folder-button", function(){
-                ***REMOVED***();
+                removePluginData();
             });
-            ***REMOVED***();
+            setTooltipPosition();
 
             $(document).on("click", ".checkbox-color", function(){
-                ***REMOVED***();
+                setCSSProperties();
             });
 
             $(document).on("change", ".checkbox-color", function(){
-                ***REMOVED***();
+                setCSSProperties();
             });
             $(document).on("click", "#use_folder_undo", function(){
                 if($(this).is(":checked")) {
@@ -355,14 +355,14 @@ if (! defined('ABSPATH')) {
             });
         }
 
-        var ***REMOVED*** = 0;
+        var totalAttachments = 0;
 
-        function ***REMOVED***() {
+        function importPluginData() {
             $("#import-folder-button").addClass("button");
             $("#import-folder-button").prop("disabled", true);
             $(".import-folder-data").prop("disabled", true);
             $(".other-plugins-"+selectedItem+" .import-folder-data .spinner").addClass("active");
-            ***REMOVED*** = 0;
+            totalAttachments = 0;
             importPluginDataByPage(1);
         }
 
@@ -374,13 +374,13 @@ if (! defined('ABSPATH')) {
                     'nonce': $(".other-plugins-"+selectedItem).data("nonce"),
                     'action': 'wcp_import_plugin_folders_data',
                     'paged' : pageNo,
-                    'attached': ***REMOVED***
+                    'attached': totalAttachments
                 },
                 type: 'post',
                 success: function(res){
                     var response = $.parseJSON(res);
                     if(response.status == -1) {
-                        ***REMOVED*** = 0;
+                        totalAttachments = 0;
                         $(".import-folder-data").prop("disabled", false);
                         $(".other-plugins-"+selectedItem+" .import-folder-data .spinner").removeClass("active");
                         $("#import-third-party-plugin-data").hide();
@@ -391,10 +391,10 @@ if (! defined('ABSPATH')) {
                         $(".other-plugins-"+response.data.plugin+" .import-message").html(response.message).addClass("success-import");
 
                         if(parseInt(response.data.pages) > parseInt(response.data.current)) {
-                            ***REMOVED*** = response.data.attachments;
+                            totalAttachments = response.data.attachments;
                             importPluginDataByPage(parseInt(response.data.current)+1);
                         } else {
-                            ***REMOVED*** = 0;
+                            totalAttachments = 0;
                             $(".other-plugins-"+response.data.plugin+" .import-folder-data").remove();
                             $(".import-folder-data").prop("disabled", false);
                         }
@@ -402,7 +402,7 @@ if (! defined('ABSPATH')) {
                         $(".other-plugins-"+response.data.plugin+" .import-message").html(response.message).addClass("error-import");
                         $(".other-plugins-"+response.data.plugin+" .import-folder-data").remove();
                         $(".import-folder-data").prop("disabled", false);
-                        ***REMOVED*** = 0;
+                        totalAttachments = 0;
                     }
                     $("#import-folder-button").prop("disabled", false);
                     $("#import-plugin-data").hide();
@@ -410,7 +410,7 @@ if (! defined('ABSPATH')) {
             });
         }
 
-        function ***REMOVED***() {
+        function removePluginData() {
             $(".other-plugins-"+selectedItem+" .remove-folder-data .spinner").addClass("active");
             $.ajax({
                 url: "<?php echo esc_url(admin_url("admin-ajax.php")) ?>",
@@ -439,7 +439,7 @@ if (! defined('ABSPATH')) {
             });
         }
 
-        function ***REMOVED***() {
+        function setCSSProperties() {
             if(jQuery("#new_folder_color").length && $("#new_folder_color").val() != "") {
                 $("#add-new-folder").css("border-color", $("#new_folder_color").val());
                 $("#add-new-folder").css("background-color", $("#new_folder_color").val());
@@ -480,7 +480,7 @@ if (! defined('ABSPATH')) {
             if($("#folder_font").val() != "") {
                 font_val = $("#folder_font").val();
                 if(font_val == "System Stack") {
-                    font_val = "-apple-system,***REMOVED***,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif";
+                    font_val = "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif";
                 } else {
                     $('head').append('<link href="https://fonts.googleapis.com/css?family=' + font_val + ':400,600,700" rel="stylesheet" type="text/css" class="chaty-google-font">');
                 }
@@ -502,12 +502,12 @@ if (! defined('ABSPATH')) {
         }
 
         $(window).on("scroll", function(){
-            ***REMOVED***();
+            setTooltipPosition();
         }).on("resize", function(){
-            ***REMOVED***();
+            setTooltipPosition();
         });
 
-        function ***REMOVED***() {
+        function setTooltipPosition() {
             if($(".html-tooltip:not(.no-position)").length) {
                 $(".html-tooltip:not(.no-position)").each(function(){
                     if($(this).offset().top - $(window).scrollTop() > 540) {
@@ -879,7 +879,7 @@ if (($option == "show" || get_option("folder_redirect_status") == 2) && $is_plug
             </div>
             <div class="folder-form-buttons">
                 <a href="javascript:;" class="form-cancel-btn"><?php esc_html_e("Cancel", 'folders'); ?></a>
-                <a href="<?php echo esc_url($this->***REMOVED***()) ?>" target="_blank" class="form-submit-btn"><?php esc_html_e("See Pro Plans", 'folders'); ?></a>
+                <a href="<?php echo esc_url($this->getFoldersUpgradeURL()) ?>" target="_blank" class="form-submit-btn"><?php esc_html_e("See Pro Plans", 'folders'); ?></a>
             </div>
         </div>
     </div>

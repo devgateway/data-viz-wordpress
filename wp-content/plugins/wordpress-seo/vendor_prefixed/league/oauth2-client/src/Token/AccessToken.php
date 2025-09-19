@@ -15,13 +15,13 @@
 namespace YoastSEO_Vendor\League\OAuth2\Client\Token;
 
 use InvalidArgumentException;
-use ***REMOVED***;
+use RuntimeException;
 /**
  * Represents an access token.
  *
  * @link http://tools.ietf.org/html/rfc6749#section-1.4 Access Token (RFC 6749, §1.4)
  */
-class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMOVED***, \YoastSEO_Vendor\League\OAuth2\Client\Token\ResourceOwnerAccessTokenInterface
+class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface, \YoastSEO_Vendor\League\OAuth2\Client\Token\ResourceOwnerAccessTokenInterface
 {
     /**
      * @var string
@@ -38,7 +38,7 @@ class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMO
     /**
      * @var string
      */
-    protected $***REMOVED***;
+    protected $resourceOwnerId;
     /**
      * @var array
      */
@@ -87,7 +87,7 @@ class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMO
         }
         $this->accessToken = $options['access_token'];
         if (!empty($options['resource_owner_id'])) {
-            $this->***REMOVED*** = $options['resource_owner_id'];
+            $this->resourceOwnerId = $options['resource_owner_id'];
         }
         if (!empty($options['refresh_token'])) {
             $this->refreshToken = $options['refresh_token'];
@@ -124,9 +124,9 @@ class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMO
     {
         // If the given value is larger than the original OAuth 2 draft date,
         // assume that it is meant to be a (possible expired) timestamp.
-        $***REMOVED*** = 1349067600;
+        $oauth2InceptionDate = 1349067600;
         // 2012-10-01
-        return $value > $***REMOVED***;
+        return $value > $oauth2InceptionDate;
     }
     /**
      * @inheritdoc
@@ -138,7 +138,7 @@ class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMO
     /**
      * @inheritdoc
      */
-    public function ***REMOVED***()
+    public function getRefreshToken()
     {
         return $this->refreshToken;
     }
@@ -152,9 +152,9 @@ class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMO
     /**
      * @inheritdoc
      */
-    public function ***REMOVED***()
+    public function getResourceOwnerId()
     {
-        return $this->***REMOVED***;
+        return $this->resourceOwnerId;
     }
     /**
      * @inheritdoc
@@ -163,7 +163,7 @@ class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMO
     {
         $expires = $this->getExpires();
         if (empty($expires)) {
-            throw new \***REMOVED***('"expires" is not set on the token');
+            throw new \RuntimeException('"expires" is not set on the token');
         }
         return $expires < \time();
     }
@@ -196,8 +196,8 @@ class AccessToken implements \YoastSEO_Vendor\League\OAuth2\Client\Token\***REMO
         if ($this->expires) {
             $parameters['expires'] = $this->expires;
         }
-        if ($this->***REMOVED***) {
-            $parameters['resource_owner_id'] = $this->***REMOVED***;
+        if ($this->resourceOwnerId) {
+            $parameters['resource_owner_id'] = $this->resourceOwnerId;
         }
         return $parameters;
     }

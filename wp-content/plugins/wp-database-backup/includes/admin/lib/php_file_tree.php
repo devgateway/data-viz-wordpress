@@ -1,6 +1,6 @@
 <?php
 /* 	== DOCUMENTATION ==	
-  For documentation and updates, visit http://***REMOVED***.net/notebook.php?article=21
+  For documentation and updates, visit http://abeautifulsite.net/notebook.php?article=21
  */
 
 function php_file_tree($directory, $return_link, $extensions = array()) {
@@ -65,7 +65,7 @@ function php_file_tree_dir($siteURL, $directory, $return_link, $extensions = arr
 
                 if (is_dir("$directory/$this_file")) {
                     // Directory
-                    $php_file_tree .= "<li class=\"pft-directory\"><input type='checkbox' name='wpall_exclude[]' $exclude_file value='$exclude_dir_file'><a >" . ***REMOVED***($this_file) . "</a>";
+                    $php_file_tree .= "<li class=\"pft-directory\"><input type='checkbox' name='wpall_exclude[]' $exclude_file value='$exclude_dir_file'><a >" . htmlspecialchars($this_file) . "</a>";
                     $php_file_tree .= php_file_tree_dir($siteURL, "$directory/$this_file", $return_link, $extensions, false);
                     $php_file_tree .= "</li>";
                 } else {
@@ -73,7 +73,7 @@ function php_file_tree_dir($siteURL, $directory, $return_link, $extensions = arr
                     // Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
                     $ext = "ext-" . substr($this_file, strrpos($this_file, ".") + 1);
                     $link = str_replace("[link]", "$directory/" . urlencode($this_file), $return_link);
-                    $php_file_tree .= "<li class=\"pft-file " . strtolower($ext) . "\"><input type='checkbox'  name='wpall_exclude[]' $exclude_file value='$exclude_dir_file'> <a>" . ***REMOVED***($this_file) . "</a></li>";
+                    $php_file_tree .= "<li class=\"pft-file " . strtolower($ext) . "\"><input type='checkbox'  name='wpall_exclude[]' $exclude_file value='$exclude_dir_file'> <a>" . htmlspecialchars($this_file) . "</a></li>";
                 }
             }
         }

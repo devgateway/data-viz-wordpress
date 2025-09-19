@@ -21,7 +21,7 @@ class secp224k1 extends KoblitzPrime
     public function __construct()
     {
         $this->setModulo(new BigInteger('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFE56D', 16));
-        $this->***REMOVED***(
+        $this->setCoefficients(
             new BigInteger('00000000000000000000000000000000000000000000000000000000', 16),
             new BigInteger('00000000000000000000000000000000000000000000000000000005', 16)
         );

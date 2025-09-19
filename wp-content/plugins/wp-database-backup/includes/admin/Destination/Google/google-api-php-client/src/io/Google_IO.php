@@ -34,17 +34,17 @@ abstract class Google_IO {
    * @param Google_HttpRequest $request
    * @return Google_HttpRequest $request
    */
-  abstract function ***REMOVED***(Google_HttpRequest $request);
+  abstract function authenticatedRequest(Google_HttpRequest $request);
 
   /**
-   * Executes a ***REMOVED*** and returns the resulting populated httpRequest
+   * Executes a apIHttpRequest and returns the resulting populated httpRequest
    * @param Google_HttpRequest $request
    * @return Google_HttpRequest $request
    */
   abstract function makeRequest(Google_HttpRequest $request);
 
   /**
-   * Set options that update the transport ***REMOVED***'s behavior.
+   * Set options that update the transport implementation's behavior.
    * @param $options
    */
   abstract function setOptions($options);
@@ -56,9 +56,9 @@ abstract class Google_IO {
    * @return bool Returns true if the insertion was successful.
    * Otherwise, return false.
    */
-  protected function ***REMOVED***(Google_HttpRequest $request) {
+  protected function setCachedRequest(Google_HttpRequest $request) {
     // Determine if the request is cacheable.
-    if (Google_CacheParser::***REMOVED***($request)) {
+    if (Google_CacheParser::isResponseCacheable($request)) {
       Google_Client::$cache->set($request->getCacheKey(), $request);
       return true;
     }
@@ -72,8 +72,8 @@ abstract class Google_IO {
    * @return Google_HttpRequest|bool Returns the cached object or
    * false if the operation was unsuccessful.
    */
-  protected function ***REMOVED***(Google_HttpRequest $request) {
-    if (false == Google_CacheParser::***REMOVED***($request)) {
+  protected function getCachedRequest(Google_HttpRequest $request) {
+    if (false == Google_CacheParser::isRequestCacheable($request)) {
       false;
     }
 
@@ -86,14 +86,14 @@ abstract class Google_IO {
    * @param Google_HttpRequest $request
    * @return Google_HttpRequest Processed request with the enclosed entity.
    */
-  protected function ***REMOVED***(Google_HttpRequest $request) {
+  protected function processEntityRequest(Google_HttpRequest $request) {
     $postBody = $request->getPostBody();
-    $contentType = $request->***REMOVED***("content-type");
+    $contentType = $request->getRequestHeader("content-type");
 
     // Set the default content-type as application/x-www-form-urlencoded.
     if (false == $contentType) {
       $contentType = self::FORM_URLENCODED;
-      $request->***REMOVED***(array('content-type' => $contentType));
+      $request->setRequestHeaders(array('content-type' => $contentType));
     }
 
     // Force the payload to match the content-type asserted in the header.
@@ -105,7 +105,7 @@ abstract class Google_IO {
     // Make sure the content-length header is set.
     if (!$postBody || is_string($postBody)) {
       $postsLength = strlen($postBody);
-      $request->***REMOVED***(array('content-length' => $postsLength));
+      $request->setRequestHeaders(array('content-length' => $postsLength));
     }
 
     return $request;
@@ -120,17 +120,17 @@ abstract class Google_IO {
    * still current and can be re-used.
    */
   protected function checkMustRevaliadateCachedRequest($cached, $request) {
-    if (Google_CacheParser::***REMOVED***($cached)) {
+    if (Google_CacheParser::mustRevalidate($cached)) {
       $addHeaders = array();
-      if ($cached->***REMOVED***('etag')) {
+      if ($cached->getResponseHeader('etag')) {
         // [13.3.4] If an entity tag has been provided by the origin server,
         // we must use that entity tag in any cache-conditional request.
-        $addHeaders['If-None-Match'] = $cached->***REMOVED***('etag');
-      } elseif ($cached->***REMOVED***('date')) {
-        $addHeaders['If-Modified-Since'] = $cached->***REMOVED***('date');
+        $addHeaders['If-None-Match'] = $cached->getResponseHeader('etag');
+      } elseif ($cached->getResponseHeader('date')) {
+        $addHeaders['If-Modified-Since'] = $cached->getResponseHeader('date');
       }
 
-      $request->***REMOVED***($addHeaders);
+      $request->setRequestHeaders($addHeaders);
       return true;
     } else {
       return false;
@@ -142,20 +142,20 @@ abstract class Google_IO {
    * @param Google_HttpRequest $cached A previously cached response.
    * @param mixed Associative array of response headers from the last request.
    */
-  protected function ***REMOVED***($cached, $***REMOVED***) {
-    if (isset($***REMOVED***['connection'])) {
+  protected function updateCachedRequest($cached, $responseHeaders) {
+    if (isset($responseHeaders['connection'])) {
       $hopByHop = array_merge(
         self::$HOP_BY_HOP,
-        explode(',', $***REMOVED***['connection'])
+        explode(',', $responseHeaders['connection'])
       );
 
       $endToEnd = array();
       foreach($hopByHop as $key) {
-        if (isset($***REMOVED***[$key])) {
-          $endToEnd[$key] = $***REMOVED***[$key];
+        if (isset($responseHeaders[$key])) {
+          $endToEnd[$key] = $responseHeaders[$key];
         }
       }
-      $cached->***REMOVED***($endToEnd);
+      $cached->setResponseHeaders($endToEnd);
     }
   }
 }

@@ -10,7 +10,7 @@
 if ( is_active_sidebar( 'sidebar-1' ) ) :
 	?>
 
-	<aside class="widget-area" aria-label="<?php esc_attr_e( 'Footer', '***REMOVED***' ); ?>">
+	<aside class="widget-area" aria-label="<?php esc_attr_e( 'Footer', 'twentynineteen' ); ?>">
 		<?php
 		if ( is_active_sidebar( 'sidebar-1' ) ) {
 			?>

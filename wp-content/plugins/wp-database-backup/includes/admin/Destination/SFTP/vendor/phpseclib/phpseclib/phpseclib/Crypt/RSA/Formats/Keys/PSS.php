@@ -62,7 +62,7 @@ abstract class PSS extends Progenitor
      *
      * @var bool
      */
-    protected static $***REMOVED*** = false;
+    protected static $childOIDsLoaded = false;
 
     /**
      * Initialize static variables
@@ -121,14 +121,14 @@ abstract class PSS extends Progenitor
             $params = [];
         }
 
-        if (isset($params['***REMOVED***']['parameters'])) {
-            $decoded = ASN1::decodeBER($params['***REMOVED***']['parameters']);
+        if (isset($params['maskGenAlgorithm']['parameters'])) {
+            $decoded = ASN1::decodeBER($params['maskGenAlgorithm']['parameters']);
             if ($decoded === false) {
                 throw new \UnexpectedValueException('Unable to decode parameters');
             }
-            $params['***REMOVED***']['parameters'] = ASN1::asn1map($decoded[0], Maps\HashAlgorithm::MAP);
+            $params['maskGenAlgorithm']['parameters'] = ASN1::asn1map($decoded[0], Maps\HashAlgorithm::MAP);
         } else {
-            $params['***REMOVED***'] = [
+            $params['maskGenAlgorithm'] = [
                 'algorithm' => 'id-mgf1',
                 'parameters' => ['algorithm' => 'id-sha1']
             ];
@@ -139,7 +139,7 @@ abstract class PSS extends Progenitor
         }
 
         $result['hash'] = str_replace('id-', '', $params['hashAlgorithm']['algorithm']);
-        $result['MGFHash'] = str_replace('id-', '', $params['***REMOVED***']['parameters']['algorithm']);
+        $result['MGFHash'] = str_replace('id-', '', $params['maskGenAlgorithm']['parameters']['algorithm']);
         if (isset($params['saltLength'])) {
             $result['saltLength'] = (int) $params['saltLength']->toString();
         }
@@ -164,14 +164,14 @@ abstract class PSS extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
         self::initialize_static_variables();
 
-        $key = PKCS1::***REMOVED***($n, $e, $d, $primes, $exponents, $coefficients);
+        $key = PKCS1::savePrivateKey($n, $e, $d, $primes, $exponents, $coefficients);
         $key = ASN1::extractBER($key);
         $params = self::savePSSParams($options);
-        return self::***REMOVED***($key, [], $params, $password, null, '', $options);
+        return self::wrapPrivateKey($key, [], $params, $password, null, '', $options);
     }
 
     /**
@@ -206,10 +206,10 @@ abstract class PSS extends Progenitor
          MUST be 1, which represents the trailer field with hexadecimal
          value 0xBC.  Other trailer fields, including the trailer field
          composed of HashID concatenated with 0xCC that is specified in
-         IEEE Std 1363a, are not supported.  ***REMOVED*** that
+         IEEE Std 1363a, are not supported.  Implementations that
          perform signature generation MUST omit the trailerField field,
          indicating that the default trailer field value was used.
-         ***REMOVED*** that perform signature validation MUST
+         Implementations that perform signature validation MUST
          recognize both a present trailerField field with value 1 and an
          absent trailerField field.
 
@@ -224,7 +224,7 @@ abstract class PSS extends Progenitor
         if (isset($options['MGFHash'])) {
             $temp = ['algorithm' => 'id-' . $options['MGFHash']];
             $temp = ASN1::encodeDER($temp, Maps\HashAlgorithm::MAP);
-            $params['***REMOVED***'] = [
+            $params['maskGenAlgorithm'] = [
                 'algorithm' => 'id-mgf1',
                 'parameters' => new ASN1\Element($temp)
             ];

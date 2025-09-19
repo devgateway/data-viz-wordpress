@@ -42,7 +42,7 @@
 	 * @param {Element} container
 	 * @param {Element} element
 	 */
-	function ***REMOVED***(container, element) {
+	function prependElement(container, element) {
 		if (container.firstChild.nextSibling) {
 			return container.insertBefore(element, container.firstChild.nextSibling);
 		} else {
@@ -77,7 +77,7 @@
 	 *
 	 * @returns {number} Available space
 	 */
-	function ***REMOVED***( button, container ) {
+	function getAvailableSpace( button, container ) {
 		return container.offsetWidth - button.offsetWidth - 22;
 	}
 
@@ -87,7 +87,7 @@
 	 * @returns {boolean} Is overflowing
 	 */
 	function isOverflowingNavivation( list, button, container ) {
-		return list.offsetWidth > ***REMOVED***( button, container );
+		return list.offsetWidth > getAvailableSpace( button, container );
 	}
 
 	/**
@@ -106,7 +106,7 @@
 	/**
 	 * Refreshes the list item from the menu depending on the menu size.
 	 */
-	function ***REMOVED***( container ) {
+	function updateNavigationMenu( container ) {
 
 		/**
 		 * Let’s bail if our menu is empty.
@@ -117,22 +117,22 @@
 
 		// Adds the necessary UI to operate the menu.
 		var visibleList  = container.parentNode.querySelector('.main-menu[id]');
-		var hiddenList   = visibleList.parentNode.***REMOVED***.querySelector('.hidden-links');
-		var toggleButton = visibleList.parentNode.***REMOVED***.querySelector('.main-menu-more-toggle');
+		var hiddenList   = visibleList.parentNode.nextElementSibling.querySelector('.hidden-links');
+		var toggleButton = visibleList.parentNode.nextElementSibling.querySelector('.main-menu-more-toggle');
 
 		if ( isOverflowingNavivation( visibleList, toggleButton, container ) ) {
 
 			// Record the width of the list.
 			breaks.push( visibleList.offsetWidth );
 			// Move last item to the hidden list.
-			***REMOVED***( hiddenList, ! visibleList.lastChild || null === visibleList.lastChild ? visibleList.previousElementSibling : visibleList.lastChild );
+			prependElement( hiddenList, ! visibleList.lastChild || null === visibleList.lastChild ? visibleList.previousElementSibling : visibleList.lastChild );
 			// Show the toggle button.
 			showButton( toggleButton );
 
 		} else {
 
 			// There is space for another item in the nav.
-			if ( ***REMOVED***( toggleButton, container ) > breaks[breaks.length - 1] ) {
+			if ( getAvailableSpace( toggleButton, container ) > breaks[breaks.length - 1] ) {
 				// Move the item to the visible list.
 				visibleList.appendChild( hiddenList.firstChild.nextSibling );
 				breaks.pop();
@@ -146,28 +146,28 @@
 
 		// Recur if the visible list is still overflowing the nav.
 		if ( isOverflowingNavivation( visibleList, toggleButton, container ) ) {
-			***REMOVED***( container );
+			updateNavigationMenu( container );
 		}
 	}
 
 	/**
 	 * Run our priority+ function as soon as the document is `ready`.
 	 */
-	document.***REMOVED***( '***REMOVED***', function() {
+	document.addEventListener( 'DOMContentLoaded', function() {
 
-		***REMOVED***( navContainer );
+		updateNavigationMenu( navContainer );
 
 		// Also, run our priority+ function on selective refresh in the customizer.
-		var ***REMOVED*** = (
+		var hasSelectiveRefresh = (
 			'undefined' !== typeof wp &&
 			wp.customize &&
-			wp.customize.***REMOVED*** &&
-			wp.customize.***REMOVED***.NavMenuInstancePartial
+			wp.customize.selectiveRefresh &&
+			wp.customize.navMenusPreview.NavMenuInstancePartial
 		);
 
-		if ( ***REMOVED*** ) {
+		if ( hasSelectiveRefresh ) {
 			// Re-run our priority+ function on Nav Menu partial refreshes.
-			wp.customize.***REMOVED***.bind( 'partial-content-rendered', function ( placement ) {
+			wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function ( placement ) {
 
 				var isNewNavMenu = (
 					placement &&
@@ -177,7 +177,7 @@
 				);
 
 				if ( isNewNavMenu ) {
-					***REMOVED***( placement.container[0].parentNode );
+					updateNavigationMenu( placement.container[0].parentNode );
 				}
 			});
         }
@@ -186,15 +186,15 @@
 	/**
 	 * Run our priority+ function on load.
 	 */
-	window.***REMOVED***( 'load', function() {
-		***REMOVED***( navContainer );
+	window.addEventListener( 'load', function() {
+		updateNavigationMenu( navContainer );
 	});
 
 	/**
 	 * Run our priority+ function every time the window resizes.
 	 */
 	var isResizing = false;
-	window.***REMOVED***( 'resize',
+	window.addEventListener( 'resize',
 		debounce( function() {
 			if ( isResizing ) {
 				return;
@@ -202,7 +202,7 @@
 
 			isResizing = true;
 			setTimeout( function() {
-				***REMOVED***( navContainer );
+				updateNavigationMenu( navContainer );
 				isResizing = false;
 			}, 150 );
 		} )
@@ -211,6 +211,6 @@
 	/**
 	 * Run our priority+ function.
 	 */
-	***REMOVED***( navContainer );
+	updateNavigationMenu( navContainer );
 
 })();

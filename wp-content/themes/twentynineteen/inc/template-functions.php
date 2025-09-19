@@ -75,25 +75,25 @@ add_filter( 'comment_form_defaults', 'twentynineteen_comment_form_defaults' );
  */
 function twentynineteen_get_the_archive_title() {
 	if ( is_category() ) {
-		$title = __( 'Category Archives: ', '***REMOVED***' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
+		$title = __( 'Category Archives: ', 'twentynineteen' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
 	} elseif ( is_tag() ) {
-		$title = __( 'Tag Archives: ', '***REMOVED***' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
+		$title = __( 'Tag Archives: ', 'twentynineteen' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
 	} elseif ( is_author() ) {
-		$title = __( 'Author Archives: ', '***REMOVED***' ) . '<span class="page-description">' . get_the_author_meta( 'display_name' ) . '</span>';
+		$title = __( 'Author Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_author_meta( 'display_name' ) . '</span>';
 	} elseif ( is_year() ) {
-		$title = __( 'Yearly Archives: ', '***REMOVED***' ) . '<span class="page-description">' . get_the_date( _x( 'Y', 'yearly archives date format', '***REMOVED***' ) ) . '</span>';
+		$title = __( 'Yearly Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date( _x( 'Y', 'yearly archives date format', 'twentynineteen' ) ) . '</span>';
 	} elseif ( is_month() ) {
-		$title = __( 'Monthly Archives: ', '***REMOVED***' ) . '<span class="page-description">' . get_the_date( _x( 'F Y', 'monthly archives date format', '***REMOVED***' ) ) . '</span>';
+		$title = __( 'Monthly Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date( _x( 'F Y', 'monthly archives date format', 'twentynineteen' ) ) . '</span>';
 	} elseif ( is_day() ) {
-		$title = __( 'Daily Archives: ', '***REMOVED***' ) . '<span class="page-description">' . get_the_date() . '</span>';
+		$title = __( 'Daily Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date() . '</span>';
 	} elseif ( is_post_type_archive() ) {
-		$title = __( 'Post Type Archives: ', '***REMOVED***' ) . '<span class="page-description">' . post_type_archive_title( '', false ) . '</span>';
+		$title = __( 'Post Type Archives: ', 'twentynineteen' ) . '<span class="page-description">' . post_type_archive_title( '', false ) . '</span>';
 	} elseif ( is_tax() ) {
 		$tax = get_taxonomy( get_queried_object()->taxonomy );
 		/* translators: %s: Taxonomy singular name. */
-		$title = sprintf( esc_html__( '%s Archives:', '***REMOVED***' ), $tax->labels->singular_name );
+		$title = sprintf( esc_html__( '%s Archives:', 'twentynineteen' ), $tax->labels->singular_name );
 	} else {
-		$title = __( 'Archives:', '***REMOVED***' );
+		$title = __( 'Archives:', 'twentynineteen' );
 	}
 	return $title;
 }
@@ -138,14 +138,14 @@ function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
 				<ul class="main-menu">
 					<li class="menu-item menu-item-has-children">
 						<button class="submenu-expand main-menu-more-toggle is-empty" tabindex="-1"
-							aria-label="' . esc_attr__( 'More', '***REMOVED***' ) . '" aria-haspopup="true" aria-expanded="false">' .
+							aria-label="' . esc_attr__( 'More', 'twentynineteen' ) . '" aria-haspopup="true" aria-expanded="false">' .
 							twentynineteen_get_icon_svg( 'arrow_drop_down_ellipsis' ) . '
 						</button>
 						<ul class="sub-menu hidden-links">
 							<li class="mobile-parent-nav-menu-item">
 								<button class="menu-item-link-return">' .
 									twentynineteen_get_icon_svg( 'chevron_left' ) .
-									esc_html__( 'Back', '***REMOVED***' ) . '
+									esc_html__( 'Back', 'twentynineteen' ) . '
 								</button>
 							</li>
 						</ul>
@@ -162,7 +162,7 @@ add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
 /**
  * Handles WCAG 2.0 attributes for dropdown menus.
  *
- * Adjustments to menu attributes to support WCAG 2.0 ***REMOVED***
+ * Adjustments to menu attributes to support WCAG 2.0 recommendations
  * for flyout and dropdown menus.
  *
  * @link https://www.w3.org/WAI/tutorials/menus/flyout/

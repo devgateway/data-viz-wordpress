@@ -46,12 +46,12 @@ abstract class PKCS1 extends Progenitor
 
         $decoded = ASN1::decodeBER($key);
         if (!$decoded) {
-            throw new \***REMOVED***('Unable to decode BER');
+            throw new \RuntimeException('Unable to decode BER');
         }
 
         $components = ASN1::asn1map($decoded[0], Maps\DHParameter::MAP);
         if (!is_array($components)) {
-            throw new \***REMOVED***('Unable to perform ASN1 mapping on parameters');
+            throw new \RuntimeException('Unable to perform ASN1 mapping on parameters');
         }
 
         return $components;
@@ -62,7 +62,7 @@ abstract class PKCS1 extends Progenitor
      *
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $prime, BigInteger $base, array $options = [])
+    public static function saveParameters(BigInteger $prime, BigInteger $base, array $options = [])
     {
         $params = [
             'prime' => $prime,

@@ -14,7 +14,7 @@ class Options_Helper {
 	/**
 	 * Retrieves a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @***REMOVED*** We have to write test when this method contains own code.
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @param string $key           The key it should return.
 	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
@@ -101,7 +101,7 @@ class Options_Helper {
 	/**
 	 * Retrieves the default option titles.
 	 *
-	 * @***REMOVED*** We have to write test when this method contains own code.
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @return array The title defaults.
 	 */

@@ -2,21 +2,21 @@
 
 namespace Yoast\WP\SEO\Loggers;
 
-use YoastSEO_Vendor\Psr\Log\***REMOVED***;
+use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use YoastSEO_Vendor\Psr\Log\LoggerTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
  * Our logger class.
  */
-class Logger implements ***REMOVED*** {
+class Logger implements LoggerInterface {
 
 	use LoggerTrait;
 
 	/**
 	 * The logger object.
 	 *
-	 * @var ***REMOVED***
+	 * @var LoggerInterface
 	 */
 	protected $wrapped_logger;
 
@@ -29,9 +29,9 @@ class Logger implements ***REMOVED*** {
 		/**
 		 * Gives the possibility to set override the logger interface.
 		 *
-		 * @param ***REMOVED*** $logger Instance of NullLogger.
+		 * @param LoggerInterface $logger Instance of NullLogger.
 		 *
-		 * @return ***REMOVED*** The logger object.
+		 * @return LoggerInterface The logger object.
 		 */
 		$this->wrapped_logger = \apply_filters( 'wpseo_logger', $this->wrapped_logger );
 	}

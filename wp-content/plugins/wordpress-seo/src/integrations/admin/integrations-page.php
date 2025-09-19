@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use Easy_Digital_Downloads;
-use SeriouslySimplePodcasting\Integrations\Yoast\Schema\***REMOVED***;
+use SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode;
 use TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema;
 use WP_Recipe_Maker;
 use WPSEO_Addon_Manager;
@@ -11,8 +11,8 @@ use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Endpoints\Site_Kit_Consent_Management_Endpoint;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Integrations\Site_Kit;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Endpoints\Site_Kit_Consent_Management_Endpoint;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -145,7 +145,7 @@ class Integrations_Page implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Date is not processed or saved.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
 		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_integrations' ) {
 			return;
 		}
@@ -176,7 +176,7 @@ class Integrations_Page implements Integration_Interface {
 		$edd_active               = \class_exists( Easy_Digital_Downloads::class );
 		$old_algolia_active       = \is_plugin_active( $old_algolia_file );
 		$tec_active               = \class_exists( Events_Schema::class );
-		$ssp_active               = \class_exists( ***REMOVED***::class );
+		$ssp_active               = \class_exists( PodcastEpisode::class );
 		$wp_recipe_maker_active   = \class_exists( WP_Recipe_Maker::class );
 		$mastodon_active          = $this->is_mastodon_active();
 

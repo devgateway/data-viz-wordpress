@@ -1,5 +1,5 @@
 /* eslint-env jquery */
-/* global svgSettings, ***REMOVED***, cssTarget, frontSanitizationEnabled, DOMPurify, jQuery */
+/* global svgSettings, ForceInlineSVGActive, cssTarget, frontSanitizationEnabled, DOMPurify, jQuery */
 
 jQuery(document).ready(function ($) {
 
@@ -7,20 +7,20 @@ jQuery(document).ready(function ($) {
     let target;
 
     // Function to replace the img tag with the SVG
-    function ***REMOVED***(img) {
-        const ***REMOVED*** = img.hasClass(target);
-        const ***REMOVED*** = img.parent().hasClass(target);
+    function bodhisvgsReplace(img) {
+        const hasTargetClass = img.hasClass(target);
+        const parentHasTargetClass = img.parent().hasClass(target);
         const insideTargetContainer = img.closest('.' + target).length > 0;
         
         // First check if we should process at all
-        if (***REMOVED*** !== 'true' && !***REMOVED*** && !insideTargetContainer) {
+        if (ForceInlineSVGActive !== 'true' && !hasTargetClass && !insideTargetContainer) {
             return;
         }
 
         // If skip nested is enabled, only skip if:
         // 1. Image doesn't have target class AND
         // 2. Image's parent is not the target container but is inside one
-        if (svgSettings.skipNested && !***REMOVED*** && !***REMOVED*** && insideTargetContainer) {
+        if (svgSettings.skipNested && !hasTargetClass && !parentHasTargetClass && insideTargetContainer) {
             return;
         }
 
@@ -85,7 +85,7 @@ jQuery(document).ready(function ($) {
     (bodhisvgsInlineSupport = function () {
 
         // If force inline SVG option is active then add class
-        if (***REMOVED*** === 'true') {
+        if (ForceInlineSVGActive === 'true') {
 
             // Find all SVG inside img and add class if it hasn't got it
             jQuery('img').each(function () {
@@ -97,8 +97,8 @@ jQuery(document).ready(function ($) {
                     if (jQuery(this).attr('src').match(/\.(svg)/)) {
 
                         // Add our class name
-                        if (!jQuery(this).hasClass(cssTarget.***REMOVED***)) {
-                            jQuery(this).addClass(cssTarget.***REMOVED***);
+                        if (!jQuery(this).hasClass(cssTarget.ForceInlineSVG)) {
+                            jQuery(this).addClass(cssTarget.ForceInlineSVG);
                         }
                     }
                 }
@@ -127,8 +127,8 @@ jQuery(document).ready(function ($) {
         // End snippet to support IE11
 
         // Set target before we use it
-        if (***REMOVED*** === 'true') {
-            target = cssTarget.Bodhi !== 'img.' ? cssTarget.***REMOVED*** : 'style-svg';
+        if (ForceInlineSVGActive === 'true') {
+            target = cssTarget.Bodhi !== 'img.' ? cssTarget.ForceInlineSVG : 'style-svg';
         } else {
             target = cssTarget.Bodhi !== 'img.' ? cssTarget.Bodhi : 'style-svg';
         }
@@ -145,14 +145,14 @@ jQuery(document).ready(function ($) {
 
             // If image then send for replacement
             if (typeof $(this).attr('src') !== typeof undefined && $(this).attr('src') !== false) {
-                ***REMOVED***($(this));
+                bodhisvgsReplace($(this));
             } else {
 
                 // Look for SVG children and send for replacement
                 $(this).find("img").each(function (i) {
 
                     if (typeof $(this).attr('src') !== typeof undefined && $(this).attr('src') !== false) {
-                        ***REMOVED***($(this));
+                        bodhisvgsReplace($(this));
                     }
 
                 });

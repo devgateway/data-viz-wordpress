@@ -52,15 +52,15 @@ abstract class OpenSSH extends Progenitor
         if (isset($parsed['paddedKey'])) {
             list($type) = Strings::unpackSSH2('s', $parsed['paddedKey']);
             if ($type != $parsed['type']) {
-                throw new \***REMOVED***("The public and private keys are not of the same type ($type vs $parsed[type])");
+                throw new \RuntimeException("The public and private keys are not of the same type ($type vs $parsed[type])");
             }
 
             $primes = $coefficients = [];
 
             list(
                 $modulus,
-                $***REMOVED***,
-                $***REMOVED***,
+                $publicExponent,
+                $privateExponent,
                 $coefficients[2],
                 $primes[1],
                 $primes[2],
@@ -68,21 +68,21 @@ abstract class OpenSSH extends Progenitor
             ) = Strings::unpackSSH2('i6s', $parsed['paddedKey']);
 
             $temp = $primes[1]->subtract($one);
-            $exponents = [1 => $***REMOVED***->modInverse($temp)];
+            $exponents = [1 => $publicExponent->modInverse($temp)];
             $temp = $primes[2]->subtract($one);
-            $exponents[] = $***REMOVED***->modInverse($temp);
+            $exponents[] = $publicExponent->modInverse($temp);
 
             $isPublicKey = false;
 
-            return compact('***REMOVED***', 'modulus', '***REMOVED***', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
+            return compact('publicExponent', 'modulus', 'privateExponent', 'primes', 'coefficients', 'exponents', 'comment', 'isPublicKey');
         }
 
-        list($***REMOVED***, $modulus) = Strings::unpackSSH2('ii', $parsed['publicKey']);
+        list($publicExponent, $modulus) = Strings::unpackSSH2('ii', $parsed['publicKey']);
 
         return [
             'isPublicKey' => true,
             'modulus' => $modulus,
-            '***REMOVED***' => $***REMOVED***,
+            'publicExponent' => $publicExponent,
             'comment' => $parsed['comment']
         ];
     }
@@ -122,11 +122,11 @@ abstract class OpenSSH extends Progenitor
      * @param array $options optional
      * @return string
      */
-    public static function ***REMOVED***(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
+    public static function savePrivateKey(BigInteger $n, BigInteger $e, BigInteger $d, array $primes, array $exponents, array $coefficients, $password = '', array $options = [])
     {
         $publicKey = self::savePublicKey($n, $e, ['binary' => true]);
         $privateKey = Strings::packSSH2('si6', 'ssh-rsa', $n, $e, $d, $coefficients[2], $primes[1], $primes[2]);
 
-        return self::***REMOVED***($publicKey, $privateKey, $password, $options);
+        return self::wrapPrivateKey($publicKey, $privateKey, $password, $options);
     }
 }

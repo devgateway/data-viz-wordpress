@@ -43,7 +43,7 @@ abstract class PHP extends Engine
     /**
      * Karatsuba Cutoff
      *
-     * At what point do we switch between Karatsuba ***REMOVED*** and schoolbook long ***REMOVED***?
+     * At what point do we switch between Karatsuba multiplication and schoolbook long multiplication?
      *
      */
     const KARATSUBA_CUTOFF = 25;
@@ -59,7 +59,7 @@ abstract class PHP extends Engine
     /**
      * Engine Directory
      *
-     * @see parent::***REMOVED***
+     * @see parent::setModExpEngine
      */
     const ENGINE_DIR = 'PHP';
 
@@ -245,7 +245,7 @@ abstract class PHP extends Engine
                 ];
             }
 
-            $temp = self::***REMOVED***($x_value, false, $y_value, false);
+            $temp = self::subtractHelper($x_value, false, $y_value, false);
             $temp[self::SIGN] = self::compareHelper($x_value, false, $y_value, false) > 0 ?
                 $x_negative : $y_negative;
 
@@ -304,7 +304,7 @@ abstract class PHP extends Engine
      * @param bool $y_negative
      * @return array
      */
-    public static function ***REMOVED***(array $x_value, $x_negative, array $y_value, $y_negative)
+    public static function subtractHelper(array $x_value, $x_negative, array $y_value, $y_negative)
     {
         $x_size = count($x_value);
         $y_size = count($y_value);
@@ -386,7 +386,7 @@ abstract class PHP extends Engine
     }
 
     /**
-     * Performs ***REMOVED***.
+     * Performs multiplication.
      *
      * @param array $x_value
      * @param bool $x_negative
@@ -394,7 +394,7 @@ abstract class PHP extends Engine
      * @param bool $y_negative
      * @return array
      */
-    protected static function ***REMOVED***(array $x_value, $x_negative, array $y_value, $y_negative)
+    protected static function multiplyHelper(array $x_value, $x_negative, array $y_value, $y_negative)
     {
         //if ( $x_value == $y_value ) {
         //    return [
@@ -415,14 +415,14 @@ abstract class PHP extends Engine
 
         return [
             self::VALUE => min($x_length, $y_length) < 2 * self::KARATSUBA_CUTOFF ?
-                self::trim(self::***REMOVED***($x_value, $y_value)) :
+                self::trim(self::regularMultiply($x_value, $y_value)) :
                 self::trim(self::karatsuba($x_value, $y_value)),
             self::SIGN => $x_negative != $y_negative
         ];
     }
 
     /**
-     * Performs Karatsuba ***REMOVED*** on two BigIntegers
+     * Performs Karatsuba multiplication on two BigIntegers
      *
      * See {@link http://en.wikipedia.org/wiki/Karatsuba_algorithm Karatsuba algorithm} and
      * {@link http://math.libtomcrypt.com/files/tommath.pdf#page=120 MPM 5.2.3}.
@@ -436,7 +436,7 @@ abstract class PHP extends Engine
         $m = min(count($x_value) >> 1, count($y_value) >> 1);
 
         if ($m < self::KARATSUBA_CUTOFF) {
-            return self::***REMOVED***($x_value, $y_value);
+            return self::regularMultiply($x_value, $y_value);
         }
 
         $x1 = array_slice($x_value, $m);
@@ -451,7 +451,7 @@ abstract class PHP extends Engine
         $temp = self::addHelper($y1, false, $y0, false);
         $z1 = self::karatsuba($z1[self::VALUE], $temp[self::VALUE]);
         $temp = self::addHelper($z2, false, $z0, false);
-        $z1 = self::***REMOVED***($z1, false, $temp[self::VALUE], false);
+        $z1 = self::subtractHelper($z1, false, $temp[self::VALUE], false);
 
         $z2 = array_merge(array_fill(0, 2 * $m, 0), $z2);
         $z1[self::VALUE] = array_merge(array_fill(0, $m, 0), $z1[self::VALUE]);
@@ -463,15 +463,15 @@ abstract class PHP extends Engine
     }
 
     /**
-     * Performs long ***REMOVED*** on two BigIntegers
+     * Performs long multiplication on two BigIntegers
      *
-     * Modeled after 'multiply' in ***REMOVED***.java.
+     * Modeled after 'multiply' in MutableBigInteger.java.
      *
      * @param array $x_value
      * @param array $y_value
      * @return array
      */
-    protected static function ***REMOVED***(array $x_value, array $y_value)
+    protected static function regularMultiply(array $x_value, array $y_value)
     {
         $x_length = count($x_value);
         $y_length = count($y_value);
@@ -968,7 +968,7 @@ abstract class PHP extends Engine
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param PHP $e
      * @param PHP $n
@@ -994,7 +994,7 @@ abstract class PHP extends Engine
     {
         return count($x) < 2 * self::KARATSUBA_CUTOFF ?
             self::trim(self::baseSquare($x)) :
-            self::trim(self::***REMOVED***($x));
+            self::trim(self::karatsubaSquare($x));
     }
 
     /**
@@ -1021,7 +1021,7 @@ abstract class PHP extends Engine
             $carry = static::BASE === 26 ? intval($temp / 0x4000000) : ($temp >> 31);
             $square_value[$i2] = (int)($temp - static::BASE_FULL * $carry);
 
-            // note how we start from $i+1 instead of 0 as we do in ***REMOVED***.
+            // note how we start from $i+1 instead of 0 as we do in multiplication.
             for ($j = $i + 1, $k = $i2 + 1; $j <= $max_index; ++$j, ++$k) {
                 $temp = $square_value[$k] + 2 * $value[$j] * $value[$i] + $carry;
                 $carry = static::BASE === 26 ? intval($temp / 0x4000000) : ($temp >> 31);
@@ -1045,7 +1045,7 @@ abstract class PHP extends Engine
      * @param array $value
      * @return array
      */
-    protected static function ***REMOVED***(array $value)
+    protected static function karatsubaSquare(array $value)
     {
         $m = count($value) >> 1;
 
@@ -1056,13 +1056,13 @@ abstract class PHP extends Engine
         $x1 = array_slice($value, $m);
         $x0 = array_slice($value, 0, $m);
 
-        $z2 = self::***REMOVED***($x1);
-        $z0 = self::***REMOVED***($x0);
+        $z2 = self::karatsubaSquare($x1);
+        $z0 = self::karatsubaSquare($x0);
 
         $z1 = self::addHelper($x1, false, $x0, false);
-        $z1 = self::***REMOVED***($z1[self::VALUE]);
+        $z1 = self::karatsubaSquare($z1[self::VALUE]);
         $temp = self::addHelper($z2, false, $z0, false);
-        $z1 = self::***REMOVED***($z1, false, $temp[self::VALUE], false);
+        $z1 = self::subtractHelper($z1, false, $temp[self::VALUE], false);
 
         $z2 = array_merge(array_fill(0, 2 * $m, 0), $z2);
         $z1[self::VALUE] = array_merge(array_fill(0, $m, 0), $z1[self::VALUE]);
@@ -1090,7 +1090,7 @@ abstract class PHP extends Engine
      *
      * @see self::isPrime()
      */
-    protected function ***REMOVED***()
+    protected function testSmallPrimes()
     {
         if ($this->value == [1]) {
             return false;
@@ -1139,7 +1139,7 @@ abstract class PHP extends Engine
     }
 
     /**
-     * Performs ***REMOVED***.
+     * Performs exponentiation.
      *
      * @param PHP $n
      * @return PHP
@@ -1222,7 +1222,7 @@ abstract class PHP extends Engine
     public function bitwise_split($split)
     {
         if ($split < 1) {
-            throw new \***REMOVED***('Offset must be greater than 1');
+            throw new \RuntimeException('Offset must be greater than 1');
         }
 
         $width = (int)($split / static::BASE);
@@ -1330,7 +1330,7 @@ abstract class PHP extends Engine
     /**
      * @return bool
      */
-    protected static function ***REMOVED***()
+    protected static function testJITOnWindows()
     {
         // see https://github.com/php/php-src/issues/11917
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' && function_exists('opcache_get_status') && PHP_VERSION_ID < 80213 && !defined('PHPSECLIB_ALLOW_JIT')) {

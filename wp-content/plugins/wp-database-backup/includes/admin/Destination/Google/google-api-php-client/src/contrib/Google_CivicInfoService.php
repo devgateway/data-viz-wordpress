@@ -18,8 +18,8 @@
    * The "elections" collection of methods.
    * Typical usage is:
    *  <code>
-   *   $***REMOVED*** = new Google_CivicInfoService(...);
-   *   $elections = $***REMOVED***->elections;
+   *   $civicinfoService = new Google_CivicInfoService(...);
+   *   $elections = $civicinfoService->elections;
    *  </code>
    */
   class Google_ElectionsServiceResource extends Google_ServiceResource {
@@ -42,7 +42,7 @@
     }
     /**
      * Looks up information relevant to a voter based on the voter's registered address.
-     * (elections.***REMOVED***)
+     * (elections.voterInfoQuery)
      *
      * @param string $electionId The unique ID of the election to look up. A list of election IDs can be obtained at.https://www.googleapis.com/civicinfo/{version}/elections
      * @param Google_VoterInfoRequest $postBody
@@ -51,10 +51,10 @@
      * @opt_param bool officialOnly If set to true, only data from official state sources will be returned.
      * @return Google_VoterInfoResponse
      */
-    public function ***REMOVED***($electionId, Google_VoterInfoRequest $postBody, $optParams = array()) {
+    public function voterInfoQuery($electionId, Google_VoterInfoRequest $postBody, $optParams = array()) {
       $params = array('electionId' => $electionId, 'postBody' => $postBody);
       $params = array_merge($params, $optParams);
-      $data = $this->__call('***REMOVED***', array($params));
+      $data = $this->__call('voterInfoQuery', array($params));
       if ($this->useObjects()) {
         return new Google_VoterInfoResponse($data);
       } else {
@@ -80,7 +80,7 @@
 class Google_CivicInfoService extends Google_Service {
   public $elections;
   /**
-   * Constructs the internal ***REMOVED*** of the CivicInfo service.
+   * Constructs the internal representation of the CivicInfo service.
    *
    * @param Google_Client $client
    */
@@ -90,7 +90,7 @@ class Google_CivicInfoService extends Google_Service {
     $this->serviceName = 'civicinfo';
 
     $client->addService($this->serviceName, $this->version);
-    $this->elections = new Google_ElectionsServiceResource($this, $this->serviceName, 'elections', json_decode('{"methods": {"electionQuery": {"id": "civicinfo.elections.electionQuery", "path": "elections", "httpMethod": "GET", "response": {"$ref": "ElectionsQueryResponse"}}, "***REMOVED***": {"id": "civicinfo.elections.***REMOVED***", "path": "voterinfo/{electionId}/lookup", "httpMethod": "POST", "parameters": {"electionId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "officialOnly": {"type": "boolean", "default": "false", "location": "query"}}, "request": {"$ref": "***REMOVED***"}, "response": {"$ref": "***REMOVED***"}}}}', true));
+    $this->elections = new Google_ElectionsServiceResource($this, $this->serviceName, 'elections', json_decode('{"methods": {"electionQuery": {"id": "civicinfo.elections.electionQuery", "path": "elections", "httpMethod": "GET", "response": {"$ref": "ElectionsQueryResponse"}}, "voterInfoQuery": {"id": "civicinfo.elections.voterInfoQuery", "path": "voterinfo/{electionId}/lookup", "httpMethod": "POST", "parameters": {"electionId": {"type": "string", "required": true, "format": "int64", "location": "path"}, "officialOnly": {"type": "boolean", "default": "false", "location": "query"}}, "request": {"$ref": "VoterInfoRequest"}, "response": {"$ref": "VoterInfoResponse"}}}}', true));
 
   }
 }
@@ -148,18 +148,18 @@ class Google_AdministrativeBody extends Google_Model {
   protected $__correspondenceAddressType = 'Google_SimpleAddressType';
   protected $__correspondenceAddressDataType = '';
   public $correspondenceAddress;
-  public $***REMOVED***;
+  public $electionInfoUrl;
   protected $__electionOfficialsType = 'Google_ElectionOfficial';
   protected $__electionOfficialsDataType = 'array';
-  public $***REMOVED***;
+  public $electionOfficials;
   public $electionRegistrationConfirmationUrl;
   public $electionRegistrationUrl;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $electionRulesUrl;
+  public $hoursOfOperation;
   public $name;
   protected $__physicalAddressType = 'Google_SimpleAddressType';
   protected $__physicalAddressDataType = '';
-  public $***REMOVED***;
+  public $physicalAddress;
   public $voter_services;
   public $votingLocationFinderUrl;
   public function setAbsenteeVotingInfoUrl( $absenteeVotingInfoUrl) {
@@ -168,10 +168,10 @@ class Google_AdministrativeBody extends Google_Model {
   public function getAbsenteeVotingInfoUrl() {
     return $this->absenteeVotingInfoUrl;
   }
-  public function ***REMOVED***( $ballotInfoUrl) {
+  public function setBallotInfoUrl( $ballotInfoUrl) {
     $this->ballotInfoUrl = $ballotInfoUrl;
   }
-  public function ***REMOVED***() {
+  public function getBallotInfoUrl() {
     return $this->ballotInfoUrl;
   }
   public function setCorrespondenceAddress(Google_SimpleAddressType $correspondenceAddress) {
@@ -180,18 +180,18 @@ class Google_AdministrativeBody extends Google_Model {
   public function getCorrespondenceAddress() {
     return $this->correspondenceAddress;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setElectionInfoUrl( $electionInfoUrl) {
+    $this->electionInfoUrl = $electionInfoUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getElectionInfoUrl() {
+    return $this->electionInfoUrl;
   }
-  public function ***REMOVED***(/* array(Google_ElectionOfficial) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_ElectionOfficial', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setElectionOfficials(/* array(Google_ElectionOfficial) */ $electionOfficials) {
+    $this->assertIsArray($electionOfficials, 'Google_ElectionOfficial', __METHOD__);
+    $this->electionOfficials = $electionOfficials;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getElectionOfficials() {
+    return $this->electionOfficials;
   }
   public function setElectionRegistrationConfirmationUrl( $electionRegistrationConfirmationUrl) {
     $this->electionRegistrationConfirmationUrl = $electionRegistrationConfirmationUrl;
@@ -205,17 +205,17 @@ class Google_AdministrativeBody extends Google_Model {
   public function getElectionRegistrationUrl() {
     return $this->electionRegistrationUrl;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setElectionRulesUrl( $electionRulesUrl) {
+    $this->electionRulesUrl = $electionRulesUrl;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getElectionRulesUrl() {
+    return $this->electionRulesUrl;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setHoursOfOperation( $hoursOfOperation) {
+    $this->hoursOfOperation = $hoursOfOperation;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getHoursOfOperation() {
+    return $this->hoursOfOperation;
   }
   public function setName( $name) {
     $this->name = $name;
@@ -223,11 +223,11 @@ class Google_AdministrativeBody extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***(Google_SimpleAddressType $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPhysicalAddress(Google_SimpleAddressType $physicalAddress) {
+    $this->physicalAddress = $physicalAddress;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPhysicalAddress() {
+    return $this->physicalAddress;
   }
   public function setVoter_services(/* array(Google_string) */ $voter_services) {
     $this->assertIsArray($voter_services, 'Google_string', __METHOD__);
@@ -255,10 +255,10 @@ class Google_Candidate extends Google_Model {
   public $party;
   public $phone;
   public $photoUrl;
-  public function ***REMOVED***( $candidateUrl) {
+  public function setCandidateUrl( $candidateUrl) {
     $this->candidateUrl = $candidateUrl;
   }
-  public function ***REMOVED***() {
+  public function getCandidateUrl() {
     return $this->candidateUrl;
   }
   public function setChannels(/* array(Google_Channel) */ $channels) {
@@ -280,10 +280,10 @@ class Google_Candidate extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $orderOnBallot) {
+  public function setOrderOnBallot( $orderOnBallot) {
     $this->orderOnBallot = $orderOnBallot;
   }
-  public function ***REMOVED***() {
+  public function getOrderOnBallot() {
     return $this->orderOnBallot;
   }
   public function setParty( $party) {
@@ -324,7 +324,7 @@ class Google_Channel extends Google_Model {
 }
 
 class Google_Contest extends Google_Model {
-  public $***REMOVED***;
+  public $ballotPlacement;
   protected $__candidatesType = 'Google_Candidate';
   protected $__candidatesDataType = 'array';
   public $candidates;
@@ -335,22 +335,22 @@ class Google_Contest extends Google_Model {
   public $id;
   public $level;
   public $numberElected;
-  public $***REMOVED***;
+  public $numberVotingFor;
   public $office;
   public $primaryParty;
-  public $***REMOVED***;
-  public $***REMOVED***;
+  public $referendumSubtitle;
+  public $referendumTitle;
   public $referendumUrl;
   protected $__sourcesType = 'Google_Source';
   protected $__sourcesDataType = 'array';
   public $sources;
   public $special;
   public $type;
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setBallotPlacement( $ballotPlacement) {
+    $this->ballotPlacement = $ballotPlacement;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getBallotPlacement() {
+    return $this->ballotPlacement;
   }
   public function setCandidates(/* array(Google_Candidate) */ $candidates) {
     $this->assertIsArray($candidates, 'Google_Candidate', __METHOD__);
@@ -383,17 +383,17 @@ class Google_Contest extends Google_Model {
   public function getLevel() {
     return $this->level;
   }
-  public function ***REMOVED***( $numberElected) {
+  public function setNumberElected( $numberElected) {
     $this->numberElected = $numberElected;
   }
-  public function ***REMOVED***() {
+  public function getNumberElected() {
     return $this->numberElected;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNumberVotingFor( $numberVotingFor) {
+    $this->numberVotingFor = $numberVotingFor;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNumberVotingFor() {
+    return $this->numberVotingFor;
   }
   public function setOffice( $office) {
     $this->office = $office;
@@ -401,28 +401,28 @@ class Google_Contest extends Google_Model {
   public function getOffice() {
     return $this->office;
   }
-  public function ***REMOVED***( $primaryParty) {
+  public function setPrimaryParty( $primaryParty) {
     $this->primaryParty = $primaryParty;
   }
-  public function ***REMOVED***() {
+  public function getPrimaryParty() {
     return $this->primaryParty;
   }
-  public function setReferendumSubtitle( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setReferendumSubtitle( $referendumSubtitle) {
+    $this->referendumSubtitle = $referendumSubtitle;
   }
   public function getReferendumSubtitle() {
-    return $this->***REMOVED***;
+    return $this->referendumSubtitle;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setReferendumTitle( $referendumTitle) {
+    $this->referendumTitle = $referendumTitle;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getReferendumTitle() {
+    return $this->referendumTitle;
   }
-  public function ***REMOVED***( $referendumUrl) {
+  public function setReferendumUrl( $referendumUrl) {
     $this->referendumUrl = $referendumUrl;
   }
-  public function ***REMOVED***() {
+  public function getReferendumUrl() {
     return $this->referendumUrl;
   }
   public function setSources(/* array(Google_Source) */ $sources) {
@@ -450,10 +450,10 @@ class Google_Election extends Google_Model {
   public $electionDay;
   public $id;
   public $name;
-  public function ***REMOVED***( $electionDay) {
+  public function setElectionDay( $electionDay) {
     $this->electionDay = $electionDay;
   }
-  public function ***REMOVED***() {
+  public function getElectionDay() {
     return $this->electionDay;
   }
   public function setId( $id) {
@@ -474,12 +474,12 @@ class Google_ElectionOfficial extends Google_Model {
   public $emailAddress;
   public $faxNumber;
   public $name;
-  public $***REMOVED***;
+  public $officePhoneNumber;
   public $title;
-  public function ***REMOVED***( $emailAddress) {
+  public function setEmailAddress( $emailAddress) {
     $this->emailAddress = $emailAddress;
   }
-  public function ***REMOVED***() {
+  public function getEmailAddress() {
     return $this->emailAddress;
   }
   public function setFaxNumber( $faxNumber) {
@@ -494,11 +494,11 @@ class Google_ElectionOfficial extends Google_Model {
   public function getName() {
     return $this->name;
   }
-  public function ***REMOVED***( $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setOfficePhoneNumber( $officePhoneNumber) {
+    $this->officePhoneNumber = $officePhoneNumber;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getOfficePhoneNumber() {
+    return $this->officePhoneNumber;
   }
   public function setTitle( $title) {
     $this->title = $title;
@@ -596,10 +596,10 @@ class Google_PollingLocation extends Google_Model {
   public function getNotes() {
     return $this->notes;
   }
-  public function ***REMOVED***( $pollingHours) {
+  public function setPollingHours( $pollingHours) {
     $this->pollingHours = $pollingHours;
   }
-  public function ***REMOVED***() {
+  public function getPollingHours() {
     return $this->pollingHours;
   }
   public function setSources(/* array(Google_Source) */ $sources) {
@@ -615,10 +615,10 @@ class Google_PollingLocation extends Google_Model {
   public function getStartDate() {
     return $this->startDate;
   }
-  public function ***REMOVED***( $voterServices) {
+  public function setVoterServices( $voterServices) {
     $this->voterServices = $voterServices;
   }
-  public function ***REMOVED***() {
+  public function getVoterServices() {
     return $this->voterServices;
   }
 }
@@ -655,10 +655,10 @@ class Google_SimpleAddressType extends Google_Model {
   public function getLine3() {
     return $this->line3;
   }
-  public function ***REMOVED***( $locationName) {
+  public function setLocationName( $locationName) {
     $this->locationName = $locationName;
   }
-  public function ***REMOVED***() {
+  public function getLocationName() {
     return $this->locationName;
   }
   public function setState( $state) {
@@ -708,17 +708,17 @@ class Google_VoterInfoResponse extends Google_Model {
   public $contests;
   protected $__earlyVoteSitesType = 'Google_PollingLocation';
   protected $__earlyVoteSitesDataType = 'array';
-  public $***REMOVED***;
+  public $earlyVoteSites;
   protected $__electionType = 'Google_Election';
   protected $__electionDataType = '';
   public $election;
   public $kind;
   protected $__normalizedInputType = 'Google_SimpleAddressType';
   protected $__normalizedInputDataType = '';
-  public $***REMOVED***;
+  public $normalizedInput;
   protected $__pollingLocationsType = 'Google_PollingLocation';
   protected $__pollingLocationsDataType = 'array';
-  public $***REMOVED***;
+  public $pollingLocations;
   protected $__stateType = 'Google_AdministrationRegion';
   protected $__stateDataType = 'array';
   public $state;
@@ -730,12 +730,12 @@ class Google_VoterInfoResponse extends Google_Model {
   public function getContests() {
     return $this->contests;
   }
-  public function ***REMOVED***(/* array(Google_PollingLocation) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_PollingLocation', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setEarlyVoteSites(/* array(Google_PollingLocation) */ $earlyVoteSites) {
+    $this->assertIsArray($earlyVoteSites, 'Google_PollingLocation', __METHOD__);
+    $this->earlyVoteSites = $earlyVoteSites;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getEarlyVoteSites() {
+    return $this->earlyVoteSites;
   }
   public function setElection(Google_Election $election) {
     $this->election = $election;
@@ -749,18 +749,18 @@ class Google_VoterInfoResponse extends Google_Model {
   public function getKind() {
     return $this->kind;
   }
-  public function ***REMOVED***(Google_SimpleAddressType $***REMOVED***) {
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setNormalizedInput(Google_SimpleAddressType $normalizedInput) {
+    $this->normalizedInput = $normalizedInput;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getNormalizedInput() {
+    return $this->normalizedInput;
   }
-  public function ***REMOVED***(/* array(Google_PollingLocation) */ $***REMOVED***) {
-    $this->assertIsArray($***REMOVED***, 'Google_PollingLocation', __METHOD__);
-    $this->***REMOVED*** = $***REMOVED***;
+  public function setPollingLocations(/* array(Google_PollingLocation) */ $pollingLocations) {
+    $this->assertIsArray($pollingLocations, 'Google_PollingLocation', __METHOD__);
+    $this->pollingLocations = $pollingLocations;
   }
-  public function ***REMOVED***() {
-    return $this->***REMOVED***;
+  public function getPollingLocations() {
+    return $this->pollingLocations;
   }
   public function setState(/* array(Google_AdministrationRegion) */ $state) {
     $this->assertIsArray($state, 'Google_AdministrationRegion', __METHOD__);

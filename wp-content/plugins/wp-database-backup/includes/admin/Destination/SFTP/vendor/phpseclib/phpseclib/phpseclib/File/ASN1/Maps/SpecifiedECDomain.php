@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * SpecifiedECDomain
  *
  * From: http://www.secg.org/sec1-v2.pdf#page=109
  *
@@ -18,11 +18,11 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * SpecifiedECDomain
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class SpecifiedECDomain
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,

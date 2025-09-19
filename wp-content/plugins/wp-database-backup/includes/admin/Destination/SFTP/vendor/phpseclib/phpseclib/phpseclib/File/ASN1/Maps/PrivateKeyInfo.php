@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * PrivateKeyInfo
  *
  * PHP version 5
  *
@@ -16,11 +16,11 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * PrivateKeyInfo
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class PrivateKeyInfo
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
@@ -29,7 +29,7 @@ abstract class ***REMOVED***
                 'type' => ASN1::TYPE_INTEGER,
                 'mapping' => ['v1']
             ],
-            '***REMOVED***' => ***REMOVED***::MAP,
+            'privateKeyAlgorithm' => AlgorithmIdentifier::MAP,
             'privateKey' => PrivateKey::MAP,
             'attributes' => [
                 'constant' => 0,

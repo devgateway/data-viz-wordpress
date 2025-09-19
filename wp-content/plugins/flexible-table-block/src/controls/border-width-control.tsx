@@ -20,7 +20,7 @@ import {
 	__experimentalVStack as VStack,
 	__experimentalText as Text,
 	__experimentalUnitControl as UnitControl,
-	__experimentalUseCustomUnits as ***REMOVED***,
+	__experimentalUseCustomUnits as useCustomUnits,
 } from '@wordpress/components';
 import { useInstanceId } from '@wordpress/compose';
 
@@ -28,9 +28,9 @@ import { useInstanceId } from '@wordpress/compose';
  * Internal dependencies
  */
 import { BORDER_WIDTH_UNITS, MAX_BORDER_WIDTH, SIDE_CONTROLS } from '../constants';
-import { parseUnit, ***REMOVED*** } from '../utils/helper';
-import { ***REMOVED*** } from './indicator-control';
-import type { SideValue } from '../***REMOVED***';
+import { parseUnit, sanitizeUnitValue } from '../utils/helper';
+import { SideIndicatorControl } from './indicator-control';
+import type { SideValue } from '../BlockAttributes';
 
 const DEFAULT_VALUES = {
 	top: '',
@@ -44,19 +44,19 @@ type Props = {
 	help?: string;
 	onChange: ( event: any ) => void;
 	values: {
-		top?: Property.***REMOVED***;
-		right?: Property.***REMOVED***;
-		bottom?: Property.***REMOVED***;
-		left?: Property.***REMOVED***;
+		top?: Property.BorderTopWidth;
+		right?: Property.BorderRightWidth;
+		bottom?: Property.BorderBottomWidth;
+		left?: Property.BorderLeftWidth;
 	};
 	allowSides?: boolean;
 	hasIndicator?: boolean;
 };
 
 type ValuesKey = keyof typeof DEFAULT_VALUES;
-type ***REMOVED*** = keyof typeof MAX_BORDER_WIDTH;
+type MaxBorderWidthKey = keyof typeof MAX_BORDER_WIDTH;
 
-export default function ***REMOVED***( {
+export default function BorderWidthControl( {
 	label = __( 'Border width', 'flexible-table-block' ),
 	help,
 	onChange,
@@ -68,14 +68,14 @@ export default function ***REMOVED***( {
 		...DEFAULT_VALUES,
 		...valuesProp,
 	};
-	const instanceId = useInstanceId( ***REMOVED***, 'ftb-border-width-control' );
+	const instanceId = useInstanceId( BorderWidthControl, 'ftb-border-width-control' );
 	const headingId = `${ instanceId }-heading`;
 
 	const isMixed =
 		allowSides &&
 		! ( values.top === values.right && values.top === values.bottom && values.top === values.left );
 
-	const ***REMOVED*** = ***REMOVED***( { ***REMOVED***: BORDER_WIDTH_UNITS } );
+	const borderWidthUnits = useCustomUnits( { availableUnits: BORDER_WIDTH_UNITS } );
 
 	const [ isLinked, setIsLinked ] = useState< boolean >( true );
 	const [ side, setSide ] = useState< SideValue | undefined >( undefined );
@@ -84,7 +84,7 @@ export default function ***REMOVED***( {
 		? __( 'Unlink sides', 'flexible-table-block' )
 		: __( 'Link sides', 'flexible-table-block' );
 
-	const ***REMOVED***: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
+	const allInputPlaceholder: string = isMixed ? __( 'Mixed', 'flexible-table-block' ) : '';
 	const allInputValue: string | 0 = isMixed ? '' : values.top;
 
 	const toggleLinked = () => {
@@ -100,17 +100,17 @@ export default function ***REMOVED***( {
 
 	const handleOnFocus = ( focusSide: SideValue ) => setSide( focusSide );
 
-	const ***REMOVED*** = ( inputValue: string | undefined ) => {
+	const handleOnChangeAll = ( inputValue: string | undefined ) => {
 		if ( inputValue ) {
 			const [ , unit ] = parseUnit( inputValue );
-			const ***REMOVED*** = ***REMOVED***( inputValue, {
-				maxNum: MAX_BORDER_WIDTH[ unit as ***REMOVED*** ],
+			const sanitizedValue = sanitizeUnitValue( inputValue, {
+				maxNum: MAX_BORDER_WIDTH[ unit as MaxBorderWidthKey ],
 			} );
 			onChange( {
-				top: ***REMOVED***,
-				right: ***REMOVED***,
-				bottom: ***REMOVED***,
-				left: ***REMOVED***,
+				top: sanitizedValue,
+				right: sanitizedValue,
+				bottom: sanitizedValue,
+				left: sanitizedValue,
 			} );
 		} else {
 			onChange( {
@@ -122,15 +122,15 @@ export default function ***REMOVED***( {
 		}
 	};
 
-	const ***REMOVED*** = ( inputValue: string | undefined, targetSide: SideValue ) => {
+	const handleOnChange = ( inputValue: string | undefined, targetSide: SideValue ) => {
 		if ( inputValue ) {
 			const [ , unit ] = parseUnit( inputValue );
-			const ***REMOVED*** = ***REMOVED***( inputValue, {
-				maxNum: MAX_BORDER_WIDTH[ unit as ***REMOVED*** ],
+			const sanitizedValue = sanitizeUnitValue( inputValue, {
+				maxNum: MAX_BORDER_WIDTH[ unit as MaxBorderWidthKey ],
 			} );
 			onChange( {
 				...values,
-				[ targetSide ]: ***REMOVED***,
+				[ targetSide ]: sanitizedValue,
 			} );
 		} else {
 			onChange( {
@@ -156,16 +156,16 @@ export default function ***REMOVED***( {
 				<HStack alignment="center" justify="space-between" style={ { minHeight: '40px' } }>
 					<HStack justify="start">
 						{ hasIndicator && (
-							<***REMOVED*** sides={ side === undefined ? undefined : [ side ] } />
+							<SideIndicatorControl sides={ side === undefined ? undefined : [ side ] } />
 						) }
 						{ ( isLinked || ! allowSides ) && (
 							<div>
 								<UnitControl
 									aria-label={ __( 'All', 'flexible-table-block' ) }
 									value={ allInputValue }
-									units={ ***REMOVED*** }
-									placeholder={ ***REMOVED*** }
-									onChange={ ***REMOVED*** }
+									units={ borderWidthUnits }
+									placeholder={ allInputPlaceholder }
+									onChange={ handleOnChangeAll }
 									size="__unstable-large"
 									__unstableInputWidth="100px"
 								/>
@@ -192,7 +192,7 @@ export default function ***REMOVED***( {
 									};
 								}
 								if ( value === 'right' ) {
-									return { gridColumn: 2, display: 'flex', ***REMOVED***: 'flex-end' };
+									return { gridColumn: 2, display: 'flex', justifyContent: 'flex-end' };
 								}
 								return { gridRow: 2 };
 							};
@@ -201,9 +201,9 @@ export default function ***REMOVED***( {
 									<UnitControl
 										aria-label={ item.label }
 										value={ values[ item.value as ValuesKey ] }
-										units={ ***REMOVED*** }
+										units={ borderWidthUnits }
 										onFocus={ () => handleOnFocus( item.value ) }
-										onChange={ ( value ) => ***REMOVED***( value, item.value ) }
+										onChange={ ( value ) => handleOnChange( value, item.value ) }
 										size="__unstable-large"
 										__unstableInputWidth="100px"
 									/>

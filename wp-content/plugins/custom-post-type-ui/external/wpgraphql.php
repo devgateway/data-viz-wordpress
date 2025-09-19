@@ -139,7 +139,7 @@ class CPTUI_GraphQL {
 	 * @param cptui_admin_ui $ui Admin UI instance.
 	 */
 	public function add_graphql_post_type_settings( $ui ) {
-		$tab        = ( ! empty( $_GET ) && ! empty( $_GET['action'] ) && 'edit' === $_GET['action'] ) ? 'edit' : 'new'; // phpcs:ignore WordPress.Security.***REMOVED***
+		$tab        = ( ! empty( $_GET ) && ! empty( $_GET['action'] ) && 'edit' === $_GET['action'] ) ? 'edit' : 'new'; // phpcs:ignore WordPress.Security.NonceVerification
 		$current    = [];
 		$name_array = 'cpt_custom_post_type';
 		if ( 'edit' === $tab ) {
@@ -160,7 +160,7 @@ class CPTUI_GraphQL {
 	 * @param cptui_admin_ui $ui Admin UI instance.
 	 */
 	public function add_taxonomy_graphql_settings( $ui ) {
-		$tab        = ( ! empty( $_GET ) && ! empty( $_GET['action'] ) && 'edit' === $_GET['action'] ) ? 'edit' : 'new'; // phpcs:ignore WordPress.Security.***REMOVED***
+		$tab        = ( ! empty( $_GET ) && ! empty( $_GET['action'] ) && 'edit' === $_GET['action'] ) ? 'edit' : 'new'; // phpcs:ignore WordPress.Security.NonceVerification
 		$name_array = 'cpt_custom_tax';
 		$current    = [];
 		if ( 'edit' === $tab ) {
@@ -269,16 +269,16 @@ class CPTUI_GraphQL {
 		// should not be required.
 		?>
 		<script type="application/javascript">
-			let singleName = document.***REMOVED***('graphql_single_name');
+			let singleName = document.getElementById('graphql_single_name');
 			let singleNameRow = singleName.closest('tr');
-			let pluralName = document.***REMOVED***('graphql_plural_name');
+			let pluralName = document.getElementById('graphql_plural_name');
 			let pluralNameRow = pluralName.closest('tr');
-			let showInGraphQL = document.***REMOVED***('show_in_graphql');
-			let label = document.***REMOVED***('label');
-			let singleLabel = document.***REMOVED***('singular_label');
+			let showInGraphQL = document.getElementById('show_in_graphql');
+			let label = document.getElementById('label');
+			let singleLabel = document.getElementById('singular_label');
 
 			// Set the values of the GraphQL fields and their display state
-			function ***REMOVED***() {
+			function updateGraphQlFields() {
 
 				// Set default state for field values and display state
 				// If the show_in_graphql value is true (or '1') show the
@@ -308,11 +308,11 @@ class CPTUI_GraphQL {
 			}
 
 			// Once the DOM is ready, listen for events
-			document.***REMOVED***("***REMOVED***", function () {
-				***REMOVED***();
+			document.addEventListener("DOMContentLoaded", function () {
+				updateGraphQlFields();
 				// When the show in graphql field changes, re-apply GraphQL Field Values
-				showInGraphQL.***REMOVED***('input', function () {
-					***REMOVED***();
+				showInGraphQL.addEventListener('input', function () {
+					updateGraphQlFields();
 				});
 			});
 		</script>
@@ -330,7 +330,7 @@ function cptui_graphql_init() {
 		add_action(
 			'admin_notices',
 			function () {
-				$link = ***REMOVED***( admin_url() ) . 'plugins.php';
+				$link = trailingslashit( admin_url() ) . 'plugins.php';
 				?>
 			<div class="notice notice-error">
 				<p>

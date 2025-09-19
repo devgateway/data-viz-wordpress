@@ -1,13 +1,13 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Dashboard\Application\Traffic;
 
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Dashboard_Repository_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Data_Container;
 use Yoast\WP\SEO\Dashboard\Domain\Data_Provider\Parameters;
 use Yoast\WP\SEO\Dashboard\Domain\Time_Based_Seo_Metrics\Data_Source_Not_Available_Exception;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Analytics_4\Site_Kit_Analytics_4_Adapter;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Integrations\Site_Kit;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Analytics_4\Site_Kit_Analytics_4_Adapter;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Integrations\Site_Kit;
 
 /**
  * The data provider for comparison organic sessions data.

@@ -104,7 +104,7 @@ class Google_MediaFileUpload {
       // This is a standard file upload with curl.
       $file = $params['file']['value'];
       unset($params['file']);
-      return self::***REMOVED***($file, $mimeType);
+      return self::processFileUpload($file, $mimeType);
     }
 
     $data = isset($params['data'])
@@ -148,7 +148,7 @@ class Google_MediaFileUpload {
    * @return array Includes the processed file name.
    * @visible For testing.
    */
-  public static function ***REMOVED***($file, $mime) {
+  public static function processFileUpload($file, $mime) {
     if (!$file) return array();
     if (substr($file, 0, 1) != '@') {
       $file = '@' . $file;
@@ -222,20 +222,20 @@ class Google_MediaFileUpload {
     $lastBytePos = $this->progress + strlen($chunk) - 1;
     $headers = array(
       'content-range' => "bytes $this->progress-$lastBytePos/$this->size",
-      'content-type' => $req->***REMOVED***('content-type'),
+      'content-type' => $req->getRequestHeader('content-type'),
       'content-length' => $this->chunkSize,
       'expect' => '',
     );
 
     $httpRequest = new Google_HttpRequest($this->resumeUri, 'PUT', $headers, $chunk);
-    $response = Google_Client::$io->***REMOVED***($httpRequest);
-    $code = $response->***REMOVED***();
+    $response = Google_Client::$io->authenticatedRequest($httpRequest);
+    $code = $response->getResponseHttpCode();
     if (308 == $code) {
-      $range = explode('-', $response->***REMOVED***('range'));
+      $range = explode('-', $response->getResponseHeader('range'));
       $this->progress = $range[1] + 1;
       return false;
     } else {
-      return Google_REST::***REMOVED***($response);
+      return Google_REST::decodeHttpResponse($response);
     }
   }
 
@@ -243,7 +243,7 @@ class Google_MediaFileUpload {
     $result = null;
     $body = $httpRequest->getPostBody();
     if ($body) {
-      $httpRequest->***REMOVED***(array(
+      $httpRequest->setRequestHeaders(array(
         'content-type' => 'application/json; charset=UTF-8',
         'content-length' => Google_Utils::getStrLen($body),
         'x-upload-content-type' => $this->mimeType,
@@ -253,8 +253,8 @@ class Google_MediaFileUpload {
     }
 
     $response = Google_Client::$io->makeRequest($httpRequest);
-    $location = $response->***REMOVED***('location');
-    $code = $response->***REMOVED***();
+    $location = $response->getResponseHeader('location');
+    $code = $response->getResponseHttpCode();
     if (200 == $code && true == $location) {
       return $location;
     }

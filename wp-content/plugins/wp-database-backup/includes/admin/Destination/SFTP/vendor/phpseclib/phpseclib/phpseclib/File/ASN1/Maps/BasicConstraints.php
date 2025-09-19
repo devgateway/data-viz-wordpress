@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ***REMOVED***
+ * BasicConstraints
  *
  * PHP version 5
  *
@@ -16,11 +16,11 @@ namespace phpseclib3\File\ASN1\Maps;
 use phpseclib3\File\ASN1;
 
 /**
- * ***REMOVED***
+ * BasicConstraints
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class ***REMOVED***
+abstract class BasicConstraints
 {
     const MAP = [
         'type' => ASN1::TYPE_SEQUENCE,
@@ -30,7 +30,7 @@ abstract class ***REMOVED***
                 'optional' => true,
                 'default' => false
             ],
-            '***REMOVED***' => [
+            'pathLenConstraint' => [
                 'type' => ASN1::TYPE_INTEGER,
                 'optional' => true
             ]

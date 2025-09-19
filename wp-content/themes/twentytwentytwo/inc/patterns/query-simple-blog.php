@@ -3,7 +3,7 @@
  * Simple blog posts block pattern
  */
 return array(
-	'title'      => __( 'Simple blog posts', '***REMOVED***' ),
+	'title'      => __( 'Simple blog posts', 'twentytwentytwo' ),
 	'categories' => array( 'query' ),
 	'blockTypes' => array( 'core/query' ),
 	'content'    => '<!-- wp:query {"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"perPage":10},"layout":{"inherit":true}} -->
@@ -27,7 +27,7 @@ return array(
 					<!-- /wp:spacer -->
 					<!-- /wp:post-template -->
 
-					<!-- wp:query-pagination {"***REMOVED***":"arrow","align":"wide","layout":{"type":"flex","***REMOVED***":"space-between"}} -->
+					<!-- wp:query-pagination {"paginationArrow":"arrow","align":"wide","layout":{"type":"flex","justifyContent":"space-between"}} -->
 					<!-- wp:query-pagination-previous {"fontSize":"small"} /-->
 
 					<!-- wp:query-pagination-numbers /-->

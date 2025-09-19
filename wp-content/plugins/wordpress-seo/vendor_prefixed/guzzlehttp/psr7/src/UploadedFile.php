@@ -4,20 +4,20 @@ declare (strict_types=1);
 namespace YoastSEO_Vendor\GuzzleHttp\Psr7;
 
 use InvalidArgumentException;
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
+use YoastSEO_Vendor\Psr\Http\Message\StreamInterface;
 use YoastSEO_Vendor\Psr\Http\Message\UploadedFileInterface;
-use ***REMOVED***;
+use RuntimeException;
 class UploadedFile implements \YoastSEO_Vendor\Psr\Http\Message\UploadedFileInterface
 {
     private const ERRORS = [\UPLOAD_ERR_OK, \UPLOAD_ERR_INI_SIZE, \UPLOAD_ERR_FORM_SIZE, \UPLOAD_ERR_PARTIAL, \UPLOAD_ERR_NO_FILE, \UPLOAD_ERR_NO_TMP_DIR, \UPLOAD_ERR_CANT_WRITE, \UPLOAD_ERR_EXTENSION];
     /**
      * @var string|null
      */
-    private $***REMOVED***;
+    private $clientFilename;
     /**
      * @var string|null
      */
-    private $***REMOVED***;
+    private $clientMediaType;
     /**
      * @var int
      */
@@ -35,36 +35,36 @@ class UploadedFile implements \YoastSEO_Vendor\Psr\Http\Message\UploadedFileInte
      */
     private $size;
     /**
-     * @var ***REMOVED***|null
+     * @var StreamInterface|null
      */
     private $stream;
     /**
-     * @param ***REMOVED***|string|resource $streamOrFile
+     * @param StreamInterface|string|resource $streamOrFile
      */
-    public function __construct($streamOrFile, ?int $size, int $errorStatus, string $***REMOVED*** = null, string $***REMOVED*** = null)
+    public function __construct($streamOrFile, ?int $size, int $errorStatus, string $clientFilename = null, string $clientMediaType = null)
     {
         $this->setError($errorStatus);
         $this->size = $size;
-        $this->***REMOVED*** = $***REMOVED***;
-        $this->***REMOVED*** = $***REMOVED***;
+        $this->clientFilename = $clientFilename;
+        $this->clientMediaType = $clientMediaType;
         if ($this->isOk()) {
-            $this->***REMOVED***($streamOrFile);
+            $this->setStreamOrFile($streamOrFile);
         }
     }
     /**
      * Depending on the value set file or stream variable
      *
-     * @param ***REMOVED***|string|resource $streamOrFile
+     * @param StreamInterface|string|resource $streamOrFile
      *
      * @throws InvalidArgumentException
      */
-    private function ***REMOVED***($streamOrFile) : void
+    private function setStreamOrFile($streamOrFile) : void
     {
         if (\is_string($streamOrFile)) {
             $this->file = $streamOrFile;
         } elseif (\is_resource($streamOrFile)) {
             $this->stream = new \YoastSEO_Vendor\GuzzleHttp\Psr7\Stream($streamOrFile);
-        } elseif ($streamOrFile instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
+        } elseif ($streamOrFile instanceof \YoastSEO_Vendor\Psr\Http\Message\StreamInterface) {
             $this->stream = $streamOrFile;
         } else {
             throw new \InvalidArgumentException('Invalid stream or file provided for UploadedFile');
@@ -80,7 +80,7 @@ class UploadedFile implements \YoastSEO_Vendor\Psr\Http\Message\UploadedFileInte
         }
         $this->error = $error;
     }
-    private static function ***REMOVED***($param) : bool
+    private static function isStringNotEmpty($param) : bool
     {
         return \is_string($param) && \false === empty($param);
     }
@@ -96,41 +96,41 @@ class UploadedFile implements \YoastSEO_Vendor\Psr\Http\Message\UploadedFileInte
         return $this->moved;
     }
     /**
-     * @throws ***REMOVED*** if is moved or not ok
+     * @throws RuntimeException if is moved or not ok
      */
-    private function ***REMOVED***() : void
+    private function validateActive() : void
     {
         if (\false === $this->isOk()) {
-            throw new \***REMOVED***('Cannot retrieve stream due to upload error');
+            throw new \RuntimeException('Cannot retrieve stream due to upload error');
         }
         if ($this->isMoved()) {
-            throw new \***REMOVED***('Cannot retrieve stream after it has already been moved');
+            throw new \RuntimeException('Cannot retrieve stream after it has already been moved');
         }
     }
-    public function getStream() : \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***
+    public function getStream() : \YoastSEO_Vendor\Psr\Http\Message\StreamInterface
     {
-        $this->***REMOVED***();
-        if ($this->stream instanceof \YoastSEO_Vendor\Psr\Http\Message\***REMOVED***) {
+        $this->validateActive();
+        if ($this->stream instanceof \YoastSEO_Vendor\Psr\Http\Message\StreamInterface) {
             return $this->stream;
         }
         /** @var string $file */
         $file = $this->file;
-        return new \YoastSEO_Vendor\GuzzleHttp\Psr7\***REMOVED***($file, 'r+');
+        return new \YoastSEO_Vendor\GuzzleHttp\Psr7\LazyOpenStream($file, 'r+');
     }
     public function moveTo($targetPath) : void
     {
-        $this->***REMOVED***();
-        if (\false === self::***REMOVED***($targetPath)) {
+        $this->validateActive();
+        if (\false === self::isStringNotEmpty($targetPath)) {
             throw new \InvalidArgumentException('Invalid path provided for move operation; must be a non-empty string');
         }
         if ($this->file) {
             $this->moved = \PHP_SAPI === 'cli' ? \rename($this->file, $targetPath) : \move_uploaded_file($this->file, $targetPath);
         } else {
-            \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::copyToStream($this->getStream(), new \YoastSEO_Vendor\GuzzleHttp\Psr7\***REMOVED***($targetPath, 'w'));
+            \YoastSEO_Vendor\GuzzleHttp\Psr7\Utils::copyToStream($this->getStream(), new \YoastSEO_Vendor\GuzzleHttp\Psr7\LazyOpenStream($targetPath, 'w'));
             $this->moved = \true;
         }
         if (\false === $this->moved) {
-            throw new \***REMOVED***(\sprintf('Uploaded file could not be moved to %s', $targetPath));
+            throw new \RuntimeException(\sprintf('Uploaded file could not be moved to %s', $targetPath));
         }
     }
     public function getSize() : ?int
@@ -141,12 +141,12 @@ class UploadedFile implements \YoastSEO_Vendor\Psr\Http\Message\UploadedFileInte
     {
         return $this->error;
     }
-    public function ***REMOVED***() : ?string
+    public function getClientFilename() : ?string
     {
-        return $this->***REMOVED***;
+        return $this->clientFilename;
     }
-    public function ***REMOVED***() : ?string
+    public function getClientMediaType() : ?string
     {
-        return $this->***REMOVED***;
+        return $this->clientMediaType;
     }
 }

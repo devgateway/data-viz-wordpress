@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Portfolio project overview
- * Slug: ***REMOVED***/page-portfolio-overview
+ * Slug: twentytwentyfour/page-portfolio-overview
  * Categories: twentytwentyfour_page, featured
  * Keywords: starter
  * Block Types: core/post-content
@@ -11,8 +11,8 @@
  */
 ?>
 
-<!-- wp:pattern {"slug":"***REMOVED***/banner-project-description"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/text-project-details"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/gallery-full-screen-image"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/text-centered-statement"} /-->
-<!-- wp:pattern {"slug":"***REMOVED***/gallery-project-layout"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/banner-project-description"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-project-details"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/gallery-full-screen-image"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/text-centered-statement"} /-->
+<!-- wp:pattern {"slug":"twentytwentyfour/gallery-project-layout"} /-->

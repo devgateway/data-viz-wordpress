@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Introductions\***REMOVED***;
+namespace Yoast\WP\SEO\Introductions\Infrastructure;
 
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Introductions\Domain\Invalid_User_Id_Exception;

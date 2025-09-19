@@ -3,7 +3,7 @@
 /**
  * Displays the main Better Search Replace page under Tools -> Better Search Replace.
  *
- * @link       https://***REMOVED***.com
+ * @link       https://bettersearchreplace.com
  * @since      1.0.0
  *
  * @package    Better_Search_Replace
@@ -68,7 +68,7 @@ switch( $active_tab ) {
 
 			<div id="bsr-upgrade">
 
-				<a href="https://***REMOVED***.com/?utm_source=insideplugin&utm_medium=web&utm_content=sidebar&utm_campaign=pro-upsell">
+				<a href="https://bettersearchreplace.com/?utm_source=insideplugin&utm_medium=web&utm_content=sidebar&utm_campaign=pro-upsell">
 
 					<img src="<?php echo BSR_URL; ?>/assets/img/bsr-logo-white.svg" />
 					<h1><?php _e( 'Upgrade to Pro', 'better-search-replace' ); ?></h1>
@@ -83,7 +83,7 @@ switch( $active_tab ) {
 
 			</div>
 
-			<form id="bsr-upgrade-form" method="post" action="https://***REMOVED***.com/email-subscribe/" target="_blank" class="subscribe block">
+			<form id="bsr-upgrade-form" method="post" action="https://deliciousbrains.com/email-subscribe/" target="_blank" class="subscribe block">
 				<h1><?php _e( '20% Off!', 'better-search-replace' ); ?></h1>
 
 				<?php $user = wp_get_current_user(); ?>

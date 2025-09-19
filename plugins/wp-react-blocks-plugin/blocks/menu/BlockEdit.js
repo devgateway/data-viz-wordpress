@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps, MediaUpload} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps, MediaUpload} from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -27,8 +27,8 @@ class BlockEdit extends ComponentWithSettings {
 
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***()
+    componentDidMount() {
+        super.componentDidMount()
         apiFetch({
             path: '/menus/v1/menus',
             method: 'GET'
@@ -46,7 +46,7 @@ class BlockEdit extends ComponentWithSettings {
 
     render() {
         const {
-            ***REMOVED***, isSelected, setAttributes, attributes: {
+            toggleSelection, isSelected, setAttributes, attributes: {
                 label,
                 height, icon, name, showIcons, showLabels,
             }
@@ -54,7 +54,7 @@ class BlockEdit extends ComponentWithSettings {
 
         const iframeStyles = {height: height + "px", width: "100%"}
 
-        return ([isSelected && (<***REMOVED***>
+        return ([isSelected && (<InspectorControls>
             <Panel header={__("Menu Configuration")}>
                 <PanelBody>
                     <PanelRow>
@@ -119,7 +119,7 @@ class BlockEdit extends ComponentWithSettings {
 
                 </PanelBody>
             </Panel>
-        </***REMOVED***>), (<ResizableBox
+        </InspectorControls>), (<ResizableBox
             size={{height}}
             style={{"margin": "auto", width: "100%"}}
             minHeight="30"
@@ -138,10 +138,10 @@ class BlockEdit extends ComponentWithSettings {
                 setAttributes({
                     height: parseInt(height + delta.height, 10),
                 });
-                ***REMOVED***(true);
+                toggleSelection(true);
             }}
             onResizeStart={() => {
-                ***REMOVED***(false);
+                toggleSelection(false);
             }}>
             <div>
 

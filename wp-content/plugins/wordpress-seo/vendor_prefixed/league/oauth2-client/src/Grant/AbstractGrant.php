@@ -44,7 +44,7 @@ abstract class AbstractGrant
      */
     protected abstract function getRequiredRequestParameters();
     /**
-     * Returns this grant's name as its string ***REMOVED***. This allows for
+     * Returns this grant's name as its string representation. This allows for
      * string interpolation when building URL query parameters.
      *
      * @return string

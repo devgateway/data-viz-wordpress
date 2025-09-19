@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
             <div class="clear"></div>
         </div>
         <div class="folder-popup-content">
-            <?php printf(esc_html__("Select the places where you want Folders to appear (Media Library, Posts, Pages, Custom Posts). Need help? Visit our %1\$s", "folders"), '<a target="_blank" href="https://premio.io/help/folders/?utm_soruce=***REMOVED***">'.esc_html__("Help Center", "folders")."</a>.") ?>
+            <?php printf(esc_html__("Select the places where you want Folders to appear (Media Library, Posts, Pages, Custom Posts). Need help? Visit our %1\$s", "folders"), '<a target="_blank" href="https://premio.io/help/folders/?utm_soruce=wordpressfolders">'.esc_html__("Help Center", "folders")."</a>.") ?>
             <iframe width="420" height="240" src="https://www.youtube.com/embed/1SqDey4idlQ?rel=0"></iframe>
         </div>
         <div class="folder-popup-footer">
@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
 <script>
     jQuery(document).ready(function(){
         jQuery(document).on("click", ".folder-popup-box button, #folder-intro-popup", function(e){
-            e.***REMOVED***();
+            e.stopPropagation();
             var nonceVal = "<?php echo esc_attr(wp_create_nonce("folder_update_popup_status")) ?>";
             jQuery("#folder-intro-popup").remove();
             jQuery.ajax({
@@ -82,7 +82,7 @@ if (!defined('ABSPATH')) {
         });
 
         jQuery(document).on("click", ".folder-popup-box", function(e){
-            e.***REMOVED***();
+            e.stopPropagation();
         });
     });
 </script>

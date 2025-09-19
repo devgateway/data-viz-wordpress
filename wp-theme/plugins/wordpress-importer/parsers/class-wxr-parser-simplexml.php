@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress eXtended RSS file parser ***REMOVED***
+ * WordPress eXtended RSS file parser implementations
  *
  * @package WordPress
  * @subpackage Importer
@@ -56,7 +56,7 @@ class WXR_Parser_SimpleXML {
 			$base_blog_url = $base_url;
 		}
 
-		$namespaces = $xml->***REMOVED***();
+		$namespaces = $xml->getDocNamespaces();
 		if ( ! isset( $namespaces['wp'] ) )
 			$namespaces['wp'] = 'http://wordpress.org/export/1.1/';
 		if ( ! isset( $namespaces['excerpt'] ) )

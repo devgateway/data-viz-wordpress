@@ -66,8 +66,8 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 
 		register_nav_menus(
 			array(
-				'primary' => esc_html__( 'Primary menu', '***REMOVED***' ),
-				'footer'  => esc_html__( 'Secondary menu', '***REMOVED***' ),
+				'primary' => esc_html__( 'Primary menu', 'twentytwentyone' ),
+				'footer'  => esc_html__( 'Secondary menu', 'twentytwentyone' ),
 			)
 		);
 
@@ -140,44 +140,44 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 			'editor-font-sizes',
 			array(
 				array(
-					'name'      => esc_html__( 'Extra small', '***REMOVED***' ),
-					'shortName' => esc_html_x( 'XS', 'Font size', '***REMOVED***' ),
+					'name'      => esc_html__( 'Extra small', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XS', 'Font size', 'twentytwentyone' ),
 					'size'      => 16,
 					'slug'      => 'extra-small',
 				),
 				array(
-					'name'      => esc_html__( 'Small', '***REMOVED***' ),
-					'shortName' => esc_html_x( 'S', 'Font size', '***REMOVED***' ),
+					'name'      => esc_html__( 'Small', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'S', 'Font size', 'twentytwentyone' ),
 					'size'      => 18,
 					'slug'      => 'small',
 				),
 				array(
-					'name'      => esc_html__( 'Normal', '***REMOVED***' ),
-					'shortName' => esc_html_x( 'M', 'Font size', '***REMOVED***' ),
+					'name'      => esc_html__( 'Normal', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'M', 'Font size', 'twentytwentyone' ),
 					'size'      => 20,
 					'slug'      => 'normal',
 				),
 				array(
-					'name'      => esc_html__( 'Large', '***REMOVED***' ),
-					'shortName' => esc_html_x( 'L', 'Font size', '***REMOVED***' ),
+					'name'      => esc_html__( 'Large', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'L', 'Font size', 'twentytwentyone' ),
 					'size'      => 24,
 					'slug'      => 'large',
 				),
 				array(
-					'name'      => esc_html__( 'Extra large', '***REMOVED***' ),
-					'shortName' => esc_html_x( 'XL', 'Font size', '***REMOVED***' ),
+					'name'      => esc_html__( 'Extra large', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XL', 'Font size', 'twentytwentyone' ),
 					'size'      => 40,
 					'slug'      => 'extra-large',
 				),
 				array(
-					'name'      => esc_html__( 'Huge', '***REMOVED***' ),
-					'shortName' => esc_html_x( 'XXL', 'Font size', '***REMOVED***' ),
+					'name'      => esc_html__( 'Huge', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XXL', 'Font size', 'twentytwentyone' ),
 					'size'      => 96,
 					'slug'      => 'huge',
 				),
 				array(
-					'name'      => esc_html__( 'Gigantic', '***REMOVED***' ),
-					'shortName' => esc_html_x( 'XXXL', 'Font size', '***REMOVED***' ),
+					'name'      => esc_html__( 'Gigantic', 'twentytwentyone' ),
+					'shortName' => esc_html_x( 'XXXL', 'Font size', 'twentytwentyone' ),
 					'size'      => 144,
 					'slug'      => 'gigantic',
 				),
@@ -208,52 +208,52 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 			'editor-color-palette',
 			array(
 				array(
-					'name'  => esc_html__( 'Black', '***REMOVED***' ),
+					'name'  => esc_html__( 'Black', 'twentytwentyone' ),
 					'slug'  => 'black',
 					'color' => $black,
 				),
 				array(
-					'name'  => esc_html__( 'Dark gray', '***REMOVED***' ),
+					'name'  => esc_html__( 'Dark gray', 'twentytwentyone' ),
 					'slug'  => 'dark-gray',
 					'color' => $dark_gray,
 				),
 				array(
-					'name'  => esc_html__( 'Gray', '***REMOVED***' ),
+					'name'  => esc_html__( 'Gray', 'twentytwentyone' ),
 					'slug'  => 'gray',
 					'color' => $gray,
 				),
 				array(
-					'name'  => esc_html__( 'Green', '***REMOVED***' ),
+					'name'  => esc_html__( 'Green', 'twentytwentyone' ),
 					'slug'  => 'green',
 					'color' => $green,
 				),
 				array(
-					'name'  => esc_html__( 'Blue', '***REMOVED***' ),
+					'name'  => esc_html__( 'Blue', 'twentytwentyone' ),
 					'slug'  => 'blue',
 					'color' => $blue,
 				),
 				array(
-					'name'  => esc_html__( 'Purple', '***REMOVED***' ),
+					'name'  => esc_html__( 'Purple', 'twentytwentyone' ),
 					'slug'  => 'purple',
 					'color' => $purple,
 				),
 				array(
-					'name'  => esc_html__( 'Red', '***REMOVED***' ),
+					'name'  => esc_html__( 'Red', 'twentytwentyone' ),
 					'slug'  => 'red',
 					'color' => $red,
 				),
 				array(
-					'name'  => esc_html__( 'Orange', '***REMOVED***' ),
+					'name'  => esc_html__( 'Orange', 'twentytwentyone' ),
 					'slug'  => 'orange',
 					'color' => $orange,
 				),
 				array(
-					'name'  => esc_html__( 'Yellow', '***REMOVED***' ),
+					'name'  => esc_html__( 'Yellow', 'twentytwentyone' ),
 					'slug'  => 'yellow',
 					'color' => $yellow,
 				),
 				array(
-					'name'  => esc_html__( 'White', '***REMOVED***' ),
+					'name'  => esc_html__( 'White', 'twentytwentyone' ),
 					'slug'  => 'white',
 					'color' => $white,
 				),
@@ -264,42 +264,42 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 			'editor-gradient-presets',
 			array(
 				array(
-					'name'     => esc_html__( 'Purple to yellow', '***REMOVED***' ),
+					'name'     => esc_html__( 'Purple to yellow', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $purple . ' 0%, ' . $yellow . ' 100%)',
 					'slug'     => 'purple-to-yellow',
 				),
 				array(
-					'name'     => esc_html__( 'Yellow to purple', '***REMOVED***' ),
+					'name'     => esc_html__( 'Yellow to purple', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $yellow . ' 0%, ' . $purple . ' 100%)',
 					'slug'     => 'yellow-to-purple',
 				),
 				array(
-					'name'     => esc_html__( 'Green to yellow', '***REMOVED***' ),
+					'name'     => esc_html__( 'Green to yellow', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $green . ' 0%, ' . $yellow . ' 100%)',
 					'slug'     => 'green-to-yellow',
 				),
 				array(
-					'name'     => esc_html__( 'Yellow to green', '***REMOVED***' ),
+					'name'     => esc_html__( 'Yellow to green', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $yellow . ' 0%, ' . $green . ' 100%)',
 					'slug'     => 'yellow-to-green',
 				),
 				array(
-					'name'     => esc_html__( 'Red to yellow', '***REMOVED***' ),
+					'name'     => esc_html__( 'Red to yellow', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $red . ' 0%, ' . $yellow . ' 100%)',
 					'slug'     => 'red-to-yellow',
 				),
 				array(
-					'name'     => esc_html__( 'Yellow to red', '***REMOVED***' ),
+					'name'     => esc_html__( 'Yellow to red', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $yellow . ' 0%, ' . $red . ' 100%)',
 					'slug'     => 'yellow-to-red',
 				),
 				array(
-					'name'     => esc_html__( 'Purple to red', '***REMOVED***' ),
+					'name'     => esc_html__( 'Purple to red', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $purple . ' 0%, ' . $red . ' 100%)',
 					'slug'     => 'purple-to-red',
 				),
 				array(
-					'name'     => esc_html__( 'Red to purple', '***REMOVED***' ),
+					'name'     => esc_html__( 'Red to purple', 'twentytwentyone' ),
 					'gradient' => 'linear-gradient(160deg, ' . $red . ' 0%, ' . $purple . ' 100%)',
 					'slug'     => 'red-to-purple',
 				),
@@ -351,9 +351,9 @@ function twenty_twenty_one_widgets_init() {
 
 	register_sidebar(
 		array(
-			'name'          => esc_html__( 'Footer', '***REMOVED***' ),
+			'name'          => esc_html__( 'Footer', 'twentytwentyone' ),
 			'id'            => 'sidebar-1',
-			'description'   => esc_html__( 'Add widgets here to appear in your footer.', '***REMOVED***' ),
+			'description'   => esc_html__( 'Add widgets here to appear in your footer.', 'twentytwentyone' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
@@ -377,7 +377,7 @@ add_action( 'widgets_init', 'twenty_twenty_one_widgets_init' );
 function twenty_twenty_one_content_width() {
 	// This variable is intended to be overruled from themes.
 	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 	$GLOBALS['content_width'] = apply_filters( 'twenty_twenty_one_content_width', 750 );
 }
 add_action( 'after_setup_theme', 'twenty_twenty_one_content_width', 0 );
@@ -476,7 +476,7 @@ add_action( 'wp_enqueue_scripts', 'twenty_twenty_one_scripts' );
  */
 function twentytwentyone_block_editor_script() {
 
-	wp_enqueue_script( '***REMOVED***-editor', get_theme_file_uri( '/assets/js/editor.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentytwentyone-editor', get_theme_file_uri( '/assets/js/editor.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), array( 'in_footer' => true ) );
 }
 
 add_action( 'enqueue_block_editor_assets', 'twentytwentyone_block_editor_script' );
@@ -503,7 +503,7 @@ function twenty_twenty_one_skip_link_focus_fix() {
 		// The following is minified via `npx terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
 		?>
 		<script>
-		/(trident|msie)/i.test(navigator.userAgent)&&document.***REMOVED***&&window.***REMOVED***&&window.***REMOVED***("hashchange",(function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.***REMOVED***(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())}),!1);
+		/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",(function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())}),!1);
 		</script>
 		<?php
 	}
@@ -564,7 +564,7 @@ new Twenty_Twenty_One_Dark_Mode();
  */
 function twentytwentyone_customize_preview_init() {
 	wp_enqueue_script(
-		'***REMOVED***-customize-helpers',
+		'twentytwentyone-customize-helpers',
 		get_theme_file_uri( '/assets/js/customize-helpers.js' ),
 		array(),
 		wp_get_theme()->get( 'Version' ),
@@ -572,9 +572,9 @@ function twentytwentyone_customize_preview_init() {
 	);
 
 	wp_enqueue_script(
-		'***REMOVED***-customize-preview',
+		'twentytwentyone-customize-preview',
 		get_theme_file_uri( '/assets/js/customize-preview.js' ),
-		array( 'customize-preview', 'customize-selective-refresh', 'jquery', '***REMOVED***-customize-helpers' ),
+		array( 'customize-preview', 'customize-selective-refresh', 'jquery', 'twentytwentyone-customize-helpers' ),
 		wp_get_theme()->get( 'Version' ),
 		array( 'in_footer' => true )
 	);
@@ -591,7 +591,7 @@ add_action( 'customize_preview_init', 'twentytwentyone_customize_preview_init' )
 function twentytwentyone_customize_controls_enqueue_scripts() {
 
 	wp_enqueue_script(
-		'***REMOVED***-customize-helpers',
+		'twentytwentyone-customize-helpers',
 		get_theme_file_uri( '/assets/js/customize-helpers.js' ),
 		array(),
 		wp_get_theme()->get( 'Version' ),
@@ -650,6 +650,6 @@ if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
 	 */
 	function wp_get_list_item_separator() {
 		/* translators: Used between list items, there is a space after the comma. */
-		return __( ', ', '***REMOVED***' );
+		return __( ', ', 'twentytwentyone' );
 	}
 endif;

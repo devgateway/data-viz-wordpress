@@ -170,7 +170,7 @@ class WPM_Posts extends WPM_Object {
 				return $data;
 			}
 
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing,WordPress.Security.***REMOVED***.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.NonceVerification.Recommended -- this is a dependent function and its all security measurament is done wherever it has been used.
 			if ( isset( $_GET['action'] ) && 'untrash' === $_GET['action'] ) {
 				return $data;
 			}
@@ -201,7 +201,7 @@ class WPM_Posts extends WPM_Object {
 		if ( 'nav_menu_item' === $data['post_type'] ) {
 			$screen = get_current_screen();
 
-			// phpcs:ignore WordPress.Security.***REMOVED***.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
 			if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['action'] ) && 'update' === $_POST['action'] && ( $screen && 'nav-menus' === $screen->id ) ) {
 				// hack to get wp to create a post object when too many properties are empty
 				if ( '' === $data['post_title'] && '' === $data['post_content'] ) {

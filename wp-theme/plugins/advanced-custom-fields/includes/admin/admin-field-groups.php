@@ -327,7 +327,7 @@ class ACF_Admin_Field_Groups {
 	}
 	
 	/**
-	 * Displays a visual ***REMOVED*** of the field group's locations.
+	 * Displays a visual representation of the field group's locations.
 	 *
 	 * @date	1/4/20
 	 * @since	5.9.0
@@ -543,8 +543,8 @@ class ACF_Admin_Field_Groups {
 	public function check_duplicate() {
 		
 		// Display notice on success redirect.
-		if( isset($_GET['***REMOVED***']) ) {
-			$ids = array_map( 'intval', explode(',', $_GET['***REMOVED***']) );
+		if( isset($_GET['acfduplicatecomplete']) ) {
+			$ids = array_map( 'intval', explode(',', $_GET['acfduplicatecomplete']) );
 			
 			// Generate text.
 			$text = sprintf( 
@@ -583,7 +583,7 @@ class ACF_Admin_Field_Groups {
 			}
 			
 			// Redirect.
-			wp_redirect( $this->get_admin_url( '&***REMOVED***=' . implode(',', $new_ids) ) );
+			wp_redirect( $this->get_admin_url( '&acfduplicatecomplete=' . implode(',', $new_ids) ) );
 			exit;
 		}
 	}
@@ -600,8 +600,8 @@ class ACF_Admin_Field_Groups {
 	public function check_sync() {
 		
 		// Display notice on success redirect.
-		if( isset($_GET['***REMOVED***']) ) {
-			$ids = array_map( 'intval', explode(',', $_GET['***REMOVED***']) );
+		if( isset($_GET['acfsynccomplete']) ) {
+			$ids = array_map( 'intval', explode(',', $_GET['acfsynccomplete']) );
 			
 			// Generate text.
 			$text = sprintf( 
@@ -654,7 +654,7 @@ class ACF_Admin_Field_Groups {
 			}
 			
 			// Redirect.
-			wp_redirect( $this->get_current_admin_url( '&***REMOVED***=' . implode(',', $new_ids) ) );
+			wp_redirect( $this->get_current_admin_url( '&acfsynccomplete=' . implode(',', $new_ids) ) );
 			exit;
 		}
 	}
@@ -724,7 +724,7 @@ class ACF_Admin_Field_Groups {
 			url: acf.get('ajaxurl'),
 			method: 'POST',
 			dataType: 'json',
-			data: acf.***REMOVED***({
+			data: acf.prepareForAjax({
 				action:	'acf/ajax/local_json_diff',
 				id: props.id
 			})
@@ -742,7 +742,7 @@ class ACF_Admin_Field_Groups {
 	
 	// Add event listener.
 	$(document).on('click', 'a[data-event="review-sync"]', function( e ){
-		e.***REMOVED***();
+		e.preventDefault();
 		reviewSync( $(this).data() );
 	});
 })(jQuery);

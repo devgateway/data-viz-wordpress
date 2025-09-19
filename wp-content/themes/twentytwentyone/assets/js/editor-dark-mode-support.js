@@ -1,7 +1,7 @@
 /* global twentytwentyoneIsDarkMode, setTimeout */
 
 // Check the color scheme preference and inject the classes if necessary.
-if ( document.body.classList.contains( '***REMOVED***-supports-dark-theme' ) ) {
+if ( document.body.classList.contains( 'twentytwentyone-supports-dark-theme' ) ) {
 	twentytwentyoneDarkModeEditorInit();
 }
 
@@ -38,7 +38,7 @@ function twentytwentyoneDarkModeEditorInit( attempt ) {
 		}
 
 		document.body.classList.add( 'is-dark-theme' );
-		document.***REMOVED***.classList.add( 'is-dark-theme' );
+		document.documentElement.classList.add( 'is-dark-theme' );
 		container.classList.add( 'is-dark-theme' );
 	}
 }

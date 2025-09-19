@@ -3,7 +3,7 @@
  * Irregular grid of posts block pattern
  */
 return array(
-	'title'      => __( 'Irregular grid of posts', '***REMOVED***' ),
+	'title'      => __( 'Irregular grid of posts', 'twentytwentytwo' ),
 	'categories' => array( 'query' ),
 	'blockTypes' => array( 'core/query' ),
 	'content'    => '<!-- wp:group {"align":"wide"} -->

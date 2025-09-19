@@ -1,11 +1,11 @@
-import {***REMOVED***, ***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
     PanelRow, RangeControl,
     ResizableBox,
     SelectControl,
-    ***REMOVED***,
+    TextareaControl,
     TextControl,
     ToggleControl
 } from '@wordpress/components';
@@ -13,12 +13,12 @@ import {
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
-import ***REMOVED*** from "../commons/***REMOVED***";
+import CSVSourceConfig from "../commons/CSVSourceConfig";
 import Tooltip from "../commons/Tooltip.jsx";
 import {togglePanel} from "../commons/Util";
 import Measures from "../commons/Measures";
 import {categorical, sequential, diverging} from "../commons/ChartColors";
-import {***REMOVED***} from "../commons/APIutils";
+import {getTranslation} from "../commons/APIutils";
 import ChartLegends from "../commons/ChartLegends";
 import Papa from "papaparse";
 import DataFilters from "../commons/DataFilters";
@@ -26,28 +26,28 @@ import DataFilters from "../commons/DataFilters";
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
-        this.***REMOVED*** = ['tooltip']
+        this.ignoreAttributes = ['tooltip']
     }
 
-    ***REMOVED***() {
-        super.***REMOVED***()
-        this.***REMOVED***()
+    componentDidMount() {
+        super.componentDidMount()
+        this.initCSVManualColors()
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {attributes: {csv}} = this.props
-        super.***REMOVED***(prevProps, prevState, snapshot);
+        super.componentDidUpdate(prevProps, prevState, snapshot);
         if (csv != prevProps.attributes.csv) {
-            this.***REMOVED***()
+            this.initCSVManualColors()
         }
     }
 
-    ***REMOVED***() {
+    initCSVManualColors() {
         const {setAttributes, attributes: {app, manualColors, csv}} = this.props
         const dataParsed = Papa.parse(csv, {header: true, dynamicTyping: true});
         const sourceList = dataParsed.meta.fields
-        const ***REMOVED*** = sourceList.shift()
-        const targetList = dataParsed.data.map(d => d[***REMOVED***])
+        const targetParameter = sourceList.shift()
+        const targetList = dataParsed.data.map(d => d[targetParameter])
         const nodes = [...sourceList.map(s => {return {id: s}}), ...targetList.map(s => {return {id: s}})]
         const newColors = Object.assign({}, manualColors)
         if (!newColors[app]) {
@@ -63,7 +63,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
     }
 
-    ***REMOVED***(dimension) {
+    initDimensionColors(dimension) {
         const {setAttributes, attributes: {app, manualColors}} = this.props
         const {categories} = this.state
         const itemsList = []
@@ -86,7 +86,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
     }
 
-    ***REMOVED***() {
+    getManualColorsPanel() {
         const {setAttributes, attributes: {app, manualColors, dimension1, dimension2, dimension3, csv}} = this.props
         const {categories} = this.state
         let itemsList = []
@@ -106,8 +106,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } else {
             const dataParsed = Papa.parse(csv, {header: true, dynamicTyping: true});
             const sourceList = dataParsed.meta.fields
-            const ***REMOVED*** = sourceList.shift()
-            const targetList = dataParsed.data.map(d => d[***REMOVED***])
+            const targetParameter = sourceList.shift()
+            const targetList = dataParsed.data.map(d => d[targetParameter])
             itemsList = [...sourceList.map(s => {return {value: s}}), ...targetList.map(s => {return {value: s}})]
         }
         const updateColor = (value, color) => {
@@ -117,7 +117,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
         return <PanelBody initialOpen={false} title={__("Set Colors")}>
             {itemsList.map(item => {
-                return <***REMOVED***
+                return <PanelColorSettings
                   colorSettings={[{
                       value: manualColors[app][item.value],
                       onChange: (color) => {
@@ -126,7 +126,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                           } else {
                               updateColor(item.value, item.categoryStyle ? item.categoryStyle.color : "#eeeeee")
                           }
-                      }, label: ***REMOVED***(item)
+                      }, label: getTranslation(item)
                   }]}
                 />
             })}
@@ -136,7 +136,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     render() {
         const {
             className, isSelected,
-            ***REMOVED***, setAttributes,
+            toggleSelection, setAttributes,
             attributes: {
                 measures,
                 height,
@@ -151,29 +151,29 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 layout,
                 group,
                 noDataMessage,
-                ***REMOVED***,
+                tooltipEnabled,
                 tooltipEnableMarkdown,
                 panelStatus,
                 sort,
                 nodeThickness,
                 nodeOpacity,
-                ***REMOVED***,
-                ***REMOVED***,
+                nodeHoverOpacity,
+                nodeInnerPadding,
                 nodeSpacing,
                 nodeHoverOthersOpacity,
-                ***REMOVED***,
-                ***REMOVED***,
+                nodeBorderWidth,
+                nodeBorderRadius,
                 linkOpacity,
-                ***REMOVED***,
+                linkHoverOpacity,
                 linkHoverOthersOpacity,
                 linkContract,
-                ***REMOVED***,
+                enableLinkGradient,
                 enableLabels,
                 labelPosition,
                 labelPadding,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***
+                useCustomLabelColor,
+                labelTextColor,
+                labelOrientation
             }
         } = this.props;
 
@@ -188,7 +188,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const colorOptions = [{value: "manual", label: 'Manual'}, ...categorical, ...sequential]
 
         return ([isSelected && (
-            <***REMOVED***>
+            <InspectorControls>
                 <Panel header={__("Chart Configuration")}>
                     <PanelBody
                       panelStatus={panelStatus['GROUP']}
@@ -225,7 +225,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                   label={__('First Dimension')}
                                   value={[dimension1]}
                                   onChange={(value) => {
-                                      this.***REMOVED***(value)
+                                      this.initDimensionColors(value)
                                       setAttributes({dimension1: value, dimension2: value == 'none' ? 'none' : dimension2 , dimension3: value == 'none' ? 'none' : dimension3})
                                   }}
                                   options={dimensions ? dimensions.filter(d => d.value == 'none' || (d.value != dimension2 && d.value != dimension3)) : []}
@@ -236,7 +236,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                   label={__('Second Dimension')}
                                   value={[dimension2]}
                                   onChange={(value) => {
-                                      this.***REMOVED***(value)
+                                      this.initDimensionColors(value)
                                       setAttributes({dimension2: value, dimension3: value == 'none' ? 'none' : dimension3})
                                   }}
                                   options={dimensions ? dimensions.filter(d => d.value == 'none' || (d.value != dimension1 && d.value != dimension3)) : []}
@@ -248,7 +248,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                   label={__('Third Dimension')}
                                   value={[dimension3]}
                                   onChange={(value) => {
-                                      this.***REMOVED***(value)
+                                      this.initDimensionColors(value)
                                       setAttributes({dimension3: value})
                                   }}
                                   options={dimensions ? dimensions.filter(d => d.value == 'none' || (d.value != dimension1 && d.value != dimension2)) : []}
@@ -259,10 +259,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         {app != 'csv' &&  <Measures
                               title={__(`Link Measure`)}
-                              ***REMOVED***={value => {
+                              onSetSingleMeasure={value => {
                                   setAttributes({measures: [value]})
                               }}
-                              ***REMOVED***={value => {
+                              onFormatChange={value => {
                                   setAttributes({format: value})
                               }}
                               allMeasures={this.state.measures}
@@ -272,8 +272,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         }
 
                         {app == 'csv' &&
-                        <***REMOVED*** {...this.props}>
-                        </***REMOVED***>}
+                        <CSVSourceConfig {...this.props}>
+                        </CSVSourceConfig>}
 
                         <PanelBody initialOpen={false} title={__("Options")}>
                             <PanelBody initialOpen={false} title={__("Layout")}>
@@ -310,14 +310,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                       options={colorOptions}
                                     />
                                 </PanelRow>
-                                {scheme === 'manual' && this.***REMOVED***()}
+                                {scheme === 'manual' && this.getManualColorsPanel()}
                             </PanelBody>
                             <PanelBody initialOpen={false} title={__("Nodes")}>
                                 <PanelRow>
                                     <RangeControl
                                       label={__('Node Thickness')}
                                       value={nodeThickness}
-                                      ***REMOVED***={12}
+                                      initialPosition={12}
                                       onChange={(nodeThickness) => setAttributes({nodeThickness})}
                                       step={1}
                                       min={0}
@@ -327,7 +327,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <RangeControl
                                       label={__('Node Opacity')}
                                       value={nodeOpacity}
-                                      ***REMOVED***={0.75}
+                                      initialPosition={0.75}
                                       onChange={(nodeOpacity) => setAttributes({nodeOpacity})}
                                       step={0.05}
                                       min={0}
@@ -336,9 +336,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <PanelRow>
                                     <RangeControl
                                       label={__('Node Hover Opacity')}
-                                      value={***REMOVED***}
-                                      ***REMOVED***={1}
-                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      value={nodeHoverOpacity}
+                                      initialPosition={1}
+                                      onChange={(nodeHoverOpacity) => setAttributes({nodeHoverOpacity})}
                                       step={0.05}
                                       min={0}
                                       max={1}/>
@@ -347,7 +347,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <RangeControl
                                       label={__('Node Hover Others Opacity')}
                                       value={nodeHoverOthersOpacity}
-                                      ***REMOVED***={0.15}
+                                      initialPosition={0.15}
                                       onChange={(nodeHoverOthersOpacity) => setAttributes({nodeHoverOthersOpacity})}
                                       step={0.05}
                                       min={0}
@@ -357,7 +357,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <RangeControl
                                       label={__('Node Spacing')}
                                       value={nodeSpacing}
-                                      ***REMOVED***={12}
+                                      initialPosition={12}
                                       onChange={(nodeSpacing) => setAttributes({nodeSpacing})}
                                       step={1}
                                       min={0}
@@ -366,9 +366,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <PanelRow>
                                     <RangeControl
                                       label={__('Node Inner Padding')}
-                                      value={***REMOVED***}
-                                      ***REMOVED***={0}
-                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      value={nodeInnerPadding}
+                                      initialPosition={0}
+                                      onChange={(nodeInnerPadding) => setAttributes({nodeInnerPadding})}
                                       step={1}
                                       min={0}
                                       max={20}/>
@@ -376,9 +376,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <PanelRow>
                                     <RangeControl
                                       label={__('Node Border Width')}
-                                      value={***REMOVED***}
-                                      ***REMOVED***={1}
-                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      value={nodeBorderWidth}
+                                      initialPosition={1}
+                                      onChange={(nodeBorderWidth) => setAttributes({nodeBorderWidth})}
                                       step={1}
                                       min={0}
                                       max={20}/>
@@ -387,9 +387,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <PanelRow>
                                     <RangeControl
                                       label={__('Node Border Radius')}
-                                      value={***REMOVED***}
-                                      ***REMOVED***={1}
-                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      value={nodeBorderRadius}
+                                      initialPosition={1}
+                                      onChange={(nodeBorderRadius) => setAttributes({nodeBorderRadius})}
                                       step={1}
                                       min={0}
                                       max={12}/>
@@ -400,7 +400,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <RangeControl
                                       label={__('Link Opacity')}
                                       value={linkOpacity}
-                                      ***REMOVED***={0.25}
+                                      initialPosition={0.25}
                                       onChange={(linkOpacity) => setAttributes({linkOpacity})}
                                       step={0.05}
                                       min={0}
@@ -409,9 +409,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <PanelRow>
                                     <RangeControl
                                       label={__('Link Hover Opacity')}
-                                      value={***REMOVED***}
-                                      ***REMOVED***={0.6}
-                                      onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                      value={linkHoverOpacity}
+                                      initialPosition={0.6}
+                                      onChange={(linkHoverOpacity) => setAttributes({linkHoverOpacity})}
                                       step={0.05}
                                       min={0}
                                       max={1}/>
@@ -420,7 +420,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <RangeControl
                                       label={__('Link Hover Others Opacity')}
                                       value={linkHoverOthersOpacity}
-                                      ***REMOVED***={0.15}
+                                      initialPosition={0.15}
                                       onChange={(linkHoverOthersOpacity) => setAttributes({linkHoverOthersOpacity})}
                                       step={0.05}
                                       min={0}
@@ -430,7 +430,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <RangeControl
                                       label={__('Link Contact')}
                                       value={linkContract}
-                                      ***REMOVED***={0}
+                                      initialPosition={0}
                                       onChange={(linkContract) => setAttributes({linkContract})}
                                       step={1}
                                       min={0}
@@ -438,8 +438,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 </PanelRow>
                                 <PanelRow>
                                     <ToggleControl label={__("Enable Link Gradient")}
-                                       checked={***REMOVED***}
-                                       onChange={(***REMOVED***) => setAttributes({***REMOVED***})
+                                       checked={enableLinkGradient}
+                                       onChange={(enableLinkGradient) => setAttributes({enableLinkGradient})
                                        }/>
                                 </PanelRow>
                             </PanelBody>
@@ -464,7 +464,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <RangeControl
                                       label={__('Label Padding')}
                                       value={labelPadding}
-                                      ***REMOVED***={9}
+                                      initialPosition={9}
                                       onChange={(labelPadding) => setAttributes({labelPadding})}
                                       step={1}
                                       min={0}
@@ -472,15 +472,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 </PanelRow>
                                 <PanelRow>
                                     <ToggleControl label={__("Use Custom Label Color")}
-                                       checked={***REMOVED***}
-                                       onChange={(***REMOVED***) => setAttributes({***REMOVED***})
+                                       checked={useCustomLabelColor}
+                                       onChange={(useCustomLabelColor) => setAttributes({useCustomLabelColor})
                                        }/>
                                 </PanelRow>
-                                {***REMOVED*** && <PanelRow>
-                                    <***REMOVED***
+                                {useCustomLabelColor && <PanelRow>
+                                    <PanelColorSettings
                                       colorSettings={[{
-                                          value: ***REMOVED***,
-                                          onChange: (***REMOVED***) => setAttributes({***REMOVED***}),
+                                          value: labelTextColor,
+                                          onChange: (labelTextColor) => setAttributes({labelTextColor}),
                                           label: __("Label Color")
                                       }]}
                                     />
@@ -489,9 +489,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <PanelRow>
                                     <SelectControl
                                       label={__('Label Orientation')}
-                                      value={***REMOVED***}
-                                      onChange={(***REMOVED***) => {
-                                          setAttributes({***REMOVED***})
+                                      value={labelOrientation}
+                                      onChange={(labelOrientation) => {
+                                          setAttributes({labelOrientation})
                                       }}
                                       options={[{label: 'Horizontal', value: 'horizontal'}, {label: 'Vertical', value: 'vertical'}]}
                                     />
@@ -510,15 +510,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         <PanelBody initialOpen={false} title={__("Tooltip")}>
                             <PanelRow>
-                                <ToggleControl label={__("Enable Tooltip")} checked={***REMOVED***}
-                                               onChange={(***REMOVED***) => {
+                                <ToggleControl label={__("Enable Tooltip")} checked={tooltipEnabled}
+                                               onChange={(tooltipEnabled) => {
                                                    setAttributes({
-                                                       ***REMOVED***,
+                                                       tooltipEnabled,
                                                        tooltipHTML: "{value}"
                                                    })
                                                }}/>
                             </PanelRow>
-                            {***REMOVED*** &&
+                            {tooltipEnabled &&
                             <>
                                 <PanelRow>
                                     <ToggleControl label={__("Enable Markdown Syntax Support")}
@@ -531,7 +531,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 </PanelRow>
                                 {app == 'csv' &&
                                 <PanelRow>
-                                    <***REMOVED***
+                                    <TextareaControl
                                       label={__("Tooltip")}
                                       value={tooltipHTML}
                                       help={__("You can use variables {var_name}")}
@@ -560,7 +560,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelBody>
                     </>
                 </Panel>
-            </***REMOVED***>),
+            </InspectorControls>),
               (<ResizableBox
                   size={{height}}
                   style={{"margin": "auto", width: "100%"}}
@@ -580,10 +580,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                       setAttributes({
                           height: parseInt(height + delta.height, 10),
                       });
-                      ***REMOVED***(true);
+                      toggleSelection(true);
                   }}
                   onResizeStart={() => {
-                      ***REMOVED***(false);
+                      toggleSelection(false);
                   }}>
 
                     <div className={className}>

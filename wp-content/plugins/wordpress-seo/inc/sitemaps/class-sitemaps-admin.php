@@ -52,14 +52,14 @@ class WPSEO_Sitemaps_Admin {
 
 		$post_type = get_post_type( $post );
 
-		wp_cache_delete( '***REMOVED***:gmt:' . $post_type, 'timeinfo' ); // #17455.
+		wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 	}
 
 	/**
 	 * Notify Google of the updated sitemap.
 	 *
 	 * @deprecated 22.0
-	 * @***REMOVED***
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class WPSEO_Sitemaps_Admin {
 		$ping_search_engines = false;
 
 		foreach ( $this->importing_post_types as $post_type ) {
-			wp_cache_delete( '***REMOVED***:gmt:' . $post_type, 'timeinfo' ); // #17455.
+			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
 			// Just have the cache deleted for nav_menu_item.
 			if ( $post_type === 'nav_menu_item' ) {

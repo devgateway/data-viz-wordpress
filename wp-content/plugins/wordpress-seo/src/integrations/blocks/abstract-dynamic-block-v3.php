@@ -85,9 +85,9 @@ abstract class Dynamic_Block_V3 implements Integration_Interface {
 	 * @return bool returns if the block should be opened in another window.
 	 */
 	protected function should_link_target_blank(): bool {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['context'] ) && \is_string( $_GET['context'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information, We are only strictly comparing.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information, We are only strictly comparing.
 			if ( \wp_unslash( $_GET['context'] ) === 'edit' ) {
 				return true;
 			}

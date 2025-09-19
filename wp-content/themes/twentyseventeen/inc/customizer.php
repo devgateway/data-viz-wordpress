@@ -14,7 +14,7 @@
  */
 function twentyseventeen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
-	$wp_customize->get_setting( '***REMOVED***' )->transport  = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
 	$wp_customize->selective_refresh->add_partial(
@@ -25,7 +25,7 @@ function twentyseventeen_customize_register( $wp_customize ) {
 		)
 	);
 	$wp_customize->selective_refresh->add_partial(
-		'***REMOVED***',
+		'blogdescription',
 		array(
 			'selector'        => '.site-description',
 			'render_callback' => 'twentyseventeen_customize_partial_blogdescription',
@@ -57,11 +57,11 @@ function twentyseventeen_customize_register( $wp_customize ) {
 		'colorscheme',
 		array(
 			'type'     => 'radio',
-			'label'    => __( 'Color Scheme', '***REMOVED***' ),
+			'label'    => __( 'Color Scheme', 'twentyseventeen' ),
 			'choices'  => array(
-				'light'  => __( 'Light', '***REMOVED***' ),
-				'dark'   => __( 'Dark', '***REMOVED***' ),
-				'custom' => __( 'Custom', '***REMOVED***' ),
+				'light'  => __( 'Light', 'twentyseventeen' ),
+				'dark'   => __( 'Dark', 'twentyseventeen' ),
+				'custom' => __( 'Custom', 'twentyseventeen' ),
 			),
 			'section'  => 'colors',
 			'priority' => 5,
@@ -86,7 +86,7 @@ function twentyseventeen_customize_register( $wp_customize ) {
 	$wp_customize->add_section(
 		'theme_options',
 		array(
-			'title'    => __( 'Theme Options', '***REMOVED***' ),
+			'title'    => __( 'Theme Options', 'twentyseventeen' ),
 			'priority' => 130, // Before Additional CSS.
 		)
 	);
@@ -103,13 +103,13 @@ function twentyseventeen_customize_register( $wp_customize ) {
 	$wp_customize->add_control(
 		'page_layout',
 		array(
-			'label'           => __( 'Page Layout', '***REMOVED***' ),
+			'label'           => __( 'Page Layout', 'twentyseventeen' ),
 			'section'         => 'theme_options',
 			'type'            => 'radio',
-			'description'     => __( 'When the two-column layout is assigned, the page title is in one column and content is in the other.', '***REMOVED***' ),
+			'description'     => __( 'When the two-column layout is assigned, the page title is in one column and content is in the other.', 'twentyseventeen' ),
 			'choices'         => array(
-				'one-column' => __( 'One Column', '***REMOVED***' ),
-				'two-column' => __( 'Two Column', '***REMOVED***' ),
+				'one-column' => __( 'One Column', 'twentyseventeen' ),
+				'two-column' => __( 'Two Column', 'twentyseventeen' ),
 			),
 			'active_callback' => 'twentyseventeen_is_view_with_layout_option',
 		)
@@ -139,8 +139,8 @@ function twentyseventeen_customize_register( $wp_customize ) {
 			'panel_' . $i,
 			array(
 				/* translators: %d: The front page section number. */
-				'label'           => sprintf( __( 'Front Page Section %d Content', '***REMOVED***' ), $i ),
-				'description'     => ( 1 !== $i ? '' : __( 'Select pages to feature in each area from the dropdowns. Add an image to a section by setting a featured image in the page editor. Empty sections will not be displayed.', '***REMOVED***' ) ),
+				'label'           => sprintf( __( 'Front Page Section %d Content', 'twentyseventeen' ), $i ),
+				'description'     => ( 1 !== $i ? '' : __( 'Select pages to feature in each area from the dropdowns. Add an image to a section by setting a featured image in the page editor. Empty sections will not be displayed.', 'twentyseventeen' ) ),
 				'section'         => 'theme_options',
 				'type'            => 'dropdown-pages',
 				'allow_addition'  => true,
@@ -167,8 +167,8 @@ add_action( 'customize_register', 'twentyseventeen_customize_register' );
  */
 function twentyseventeen_sanitize_page_layout( $input ) {
 	$valid = array(
-		'one-column' => __( 'One Column', '***REMOVED***' ),
-		'two-column' => __( 'Two Column', '***REMOVED***' ),
+		'one-column' => __( 'One Column', 'twentyseventeen' ),
+		'two-column' => __( 'Two Column', 'twentyseventeen' ),
 	);
 
 	if ( array_key_exists( $input, $valid ) ) {
@@ -245,7 +245,7 @@ function twentyseventeen_is_view_with_layout_option() {
  * Bind JS handlers to instantly live-preview changes.
  */
 function twentyseventeen_customize_preview_js() {
-	wp_enqueue_script( '***REMOVED***-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview' ), '20161002', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentyseventeen-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview' ), '20161002', array( 'in_footer' => true ) );
 }
 add_action( 'customize_preview_init', 'twentyseventeen_customize_preview_js' );
 
@@ -253,6 +253,6 @@ add_action( 'customize_preview_init', 'twentyseventeen_customize_preview_js' );
  * Load dynamic logic for the customizer controls area.
  */
 function twentyseventeen_panels_js() {
-	wp_enqueue_script( '***REMOVED***-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '20161020', array( 'in_footer' => true ) );
+	wp_enqueue_script( 'twentyseventeen-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '20161020', array( 'in_footer' => true ) );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentyseventeen_panels_js' );

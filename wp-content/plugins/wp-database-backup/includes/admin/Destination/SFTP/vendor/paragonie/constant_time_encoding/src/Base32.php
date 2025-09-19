@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace ParagonIE\ConstantTime;
 
 use InvalidArgumentException;
-use ***REMOVED***;
+use RangeException;
 use TypeError;
 
 /**
@@ -21,8 +21,8 @@ use TypeError;
  *  copies or substantial portions of the Software.
  *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF ***REMOVED***,
- *  FITNESS FOR A PARTICULAR PURPOSE AND ***REMOVED***. IN NO EVENT SHALL THE
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -35,7 +35,7 @@ use TypeError;
  *
  * @package ParagonIE\ConstantTime
  */
-abstract class Base32 implements ***REMOVED***
+abstract class Base32 implements EncoderInterface
 {
     /**
      * Decode a Base32-encoded string into raw binary
@@ -79,7 +79,7 @@ abstract class Base32 implements ***REMOVED***
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $src): string
+    public static function encodeUnpadded(string $src): string
     {
         return static::doEncode($src, false, false);
     }
@@ -103,7 +103,7 @@ abstract class Base32 implements ***REMOVED***
      * @return string
      * @throws TypeError
      */
-    public static function ***REMOVED***(string $src): string
+    public static function encodeUpperUnpadded(string $src): string
     {
         return static::doEncode($src, true, false);
     }
@@ -137,7 +137,7 @@ abstract class Base32 implements ***REMOVED***
      * @param int $src
      * @return int
      */
-    protected static function ***REMOVED***(int $src): int
+    protected static function decode5BitsUpper(int $src): int
     {
         $ret = -1;
 
@@ -176,7 +176,7 @@ abstract class Base32 implements ***REMOVED***
      * @param int $src
      * @return string
      */
-    protected static function ***REMOVED***(int $src): string
+    protected static function encode5BitsUpper(int $src): string
     {
         $diff = 0x41;
 
@@ -191,7 +191,7 @@ abstract class Base32 implements ***REMOVED***
      * @param bool $upper
      * @return string
      */
-    public static function ***REMOVED***(string $encodedString, bool $upper = false): string
+    public static function decodeNoPadding(string $encodedString, bool $upper = false): string
     {
         $srcLen = Binary::safeStrlen($encodedString);
         if ($srcLen === 0) {
@@ -201,7 +201,7 @@ abstract class Base32 implements ***REMOVED***
             for ($j = 0; $j < 7 && $j < $srcLen; ++$j) {
                 if ($encodedString[$srcLen - $j - 1] === '=') {
                     throw new InvalidArgumentException(
-                        "***REMOVED***() doesn't tolerate padding"
+                        "decodeNoPadding() doesn't tolerate padding"
                     );
                 }
             }
@@ -222,7 +222,7 @@ abstract class Base32 implements ***REMOVED***
      * @return string
      *
      * @throws TypeError
-     * @psalm-suppress ***REMOVED***
+     * @psalm-suppress RedundantCondition
      */
     protected static function doDecode(
         string $src,
@@ -231,7 +231,7 @@ abstract class Base32 implements ***REMOVED***
     ): string {
         // We do this to reduce code duplication:
         $method = $upper
-            ? '***REMOVED***'
+            ? 'decode5BitsUpper'
             : 'decode5Bits';
 
         // Remove padding
@@ -250,7 +250,7 @@ abstract class Base32 implements ***REMOVED***
                 }
             }
             if (($srcLen & 7) === 1) {
-                throw new ***REMOVED***(
+                throw new RangeException(
                     'Incorrect padding'
                 );
             }
@@ -418,7 +418,7 @@ abstract class Base32 implements ***REMOVED***
         }
         $check = ($err === 0);
         if (!$check) {
-            throw new ***REMOVED***(
+            throw new RangeException(
                 'Base32::doDecode() only expects characters in the correct base32 alphabet'
             );
         }
@@ -438,7 +438,7 @@ abstract class Base32 implements ***REMOVED***
     {
         // We do this to reduce code duplication:
         $method = $upper
-            ? '***REMOVED***'
+            ? 'encode5BitsUpper'
             : 'encode5Bits';
         
         $dest = '';

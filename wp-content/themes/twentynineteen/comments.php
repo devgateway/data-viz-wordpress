@@ -30,14 +30,14 @@ $discussion = twentynineteen_get_discussion_data();
 		<?php
 		if ( comments_open() ) {
 			if ( have_comments() ) {
-				_e( 'Join the Conversation', '***REMOVED***' );
+				_e( 'Join the Conversation', 'twentynineteen' );
 			} else {
-				_e( 'Leave a comment', '***REMOVED***' );
+				_e( 'Leave a comment', 'twentynineteen' );
 			}
 		} else {
 			if ( '1' === (string) $discussion->responses ) {
 				/* translators: %s: Post title. */
-				printf( _x( 'One reply on &ldquo;%s&rdquo;', 'comments title', '***REMOVED***' ), get_the_title() );
+				printf( _x( 'One reply on &ldquo;%s&rdquo;', 'comments title', 'twentynineteen' ), get_the_title() );
 			} else {
 				printf(
 					/* translators: 1: Number of comments, 2: Post title. */
@@ -46,7 +46,7 @@ $discussion = twentynineteen_get_discussion_data();
 						'%1$s replies on &ldquo;%2$s&rdquo;',
 						$discussion->responses,
 						'comments title',
-						'***REMOVED***'
+						'twentynineteen'
 					),
 					number_format_i18n( $discussion->responses ),
 					get_the_title()
@@ -95,12 +95,12 @@ $discussion = twentynineteen_get_discussion_data();
 						'%1$s <span class="nav-prev-text">%2$s</span>',
 						$prev_icon,
 						/* translators: Comments navigation link text. The secondary-text element is hidden on small screens. */
-						__( '<span class="primary-text">Previous</span> <span class="secondary-text">Comments</span>', '***REMOVED***' )
+						__( '<span class="primary-text">Previous</span> <span class="secondary-text">Comments</span>', 'twentynineteen' )
 					),
 					'next_text' => sprintf(
 						'<span class="nav-next-text">%1$s</span> %2$s',
 						/* translators: Comments navigation link text. The secondary-text element is hidden on small screens. */
-						__( '<span class="primary-text">Next</span> <span class="secondary-text">Comments</span>', '***REMOVED***' ),
+						__( '<span class="primary-text">Next</span> <span class="secondary-text">Comments</span>', 'twentynineteen' ),
 						$next_icon
 					),
 				)
@@ -111,7 +111,7 @@ $discussion = twentynineteen_get_discussion_data();
 		if ( comments_open() && 'asc' === strtolower( get_option( 'comment_order', 'asc' ) ) ) :
 			?>
 			<div class="comment-form-flex comment-form-wrapper">
-				<h2 class="comments-title"><?php _e( 'Leave a comment', '***REMOVED***' ); ?></h2>
+				<h2 class="comments-title"><?php _e( 'Leave a comment', 'twentynineteen' ); ?></h2>
 				<?php twentynineteen_comment_form( 'asc' ); ?>
 			</div>
 			<?php
@@ -121,7 +121,7 @@ $discussion = twentynineteen_get_discussion_data();
 		if ( ! comments_open() ) :
 			?>
 			<p class="no-comments">
-				<?php _e( 'Comments are closed.', '***REMOVED***' ); ?>
+				<?php _e( 'Comments are closed.', 'twentynineteen' ); ?>
 			</p>
 			<?php
 		endif;

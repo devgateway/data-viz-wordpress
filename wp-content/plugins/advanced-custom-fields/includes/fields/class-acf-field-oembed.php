@@ -23,7 +23,7 @@ if ( ! class_exists( 'acf_field_oembed' ) ) :
 			$this->category      = 'content';
 			$this->description   = __( 'An interactive component for embedding videos, images, tweets, audio and other content by making use of the native WordPress oEmbed functionality.', 'acf' );
 			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-oembed.png';
-			$this->doc_url       = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/resources/oembed/', 'docs', 'field-type-selection' );
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/oembed/', 'docs', 'field-type-selection' );
 			$this->defaults      = array(
 				'width'  => '',
 				'height' => '',
@@ -209,7 +209,7 @@ if ( ! class_exists( 'acf_field_oembed' ) ) :
 		<div class="canvas-media">
 			<?php
 			if ( $field['value'] ) {
-				echo $this->wp_oembed_get( $field['value'], $field['width'], $field['height'] ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- wp_ombed_get generates HTML safe output.
+				echo $this->wp_oembed_get( $field['value'], $field['width'], $field['height'] ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_ombed_get generates HTML safe output.
 			}
 			?>
 		</div>

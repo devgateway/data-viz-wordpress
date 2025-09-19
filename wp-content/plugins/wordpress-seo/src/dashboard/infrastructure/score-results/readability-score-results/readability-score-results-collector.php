@@ -1,13 +1,13 @@
 <?php
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.MaxExceeded
-namespace Yoast\WP\SEO\Dashboard\***REMOVED***\Score_Results\Readability_Score_Results;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Readability_Score_Results;
 
 use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Dashboard\Domain\Content_Types\Content_Type;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Interface;
 use Yoast\WP\SEO\Dashboard\Domain\Score_Results\Score_Results_Not_Found_Exception;
-use Yoast\WP\SEO\Dashboard\***REMOVED***\Score_Results\Score_Results_Collector_Interface;
+use Yoast\WP\SEO\Dashboard\Infrastructure\Score_Results\Score_Results_Collector_Interface;
 
 /**
  * Getting readability score results from the indexable database table.
@@ -20,7 +20,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
 	 * @param Content_Type                         $content_type             The content type.
 	 * @param int|null                             $term_id                  The ID of the term we're filtering for.
-	 * @param bool|null                            $is_troubleshooting       Whether we're in ***REMOVED*** mode.
+	 * @param bool|null                            $is_troubleshooting       Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, object|bool|float> The readability score results for a content type.
 	 *
@@ -81,8 +81,8 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 		$start_time = \microtime( true );
 
 		//phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- $query is prepared above.
-		//phpcs:disable WordPress.DB.***REMOVED***.DirectQuery -- Reason: Most performant way.
-		//phpcs:disable WordPress.DB.***REMOVED***.NoCaching -- Reason: No relevant caches.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery -- Reason: Most performant way.
+		//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
 		$current_scores = $wpdb->get_row( $query );
 		//phpcs:enable
 
@@ -101,7 +101,7 @@ class Readability_Score_Results_Collector implements Score_Results_Collector_Int
 	 * Builds the select statement for the readability scores query.
 	 *
 	 * @param Readability_Score_Groups_Interface[] $readability_score_groups All readability score groups.
-	 * @param bool|null                            $is_troubleshooting       Whether we're in ***REMOVED*** mode.
+	 * @param bool|null                            $is_troubleshooting       Whether we're in troubleshooting mode.
 	 *
 	 * @return array<string, string> The select statement for the readability scores query.
 	 */

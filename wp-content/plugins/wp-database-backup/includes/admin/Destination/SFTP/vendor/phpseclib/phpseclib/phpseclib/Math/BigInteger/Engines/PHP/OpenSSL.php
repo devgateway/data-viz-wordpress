@@ -1,7 +1,7 @@
 <?php
 
 /**
- * OpenSSL Modular ***REMOVED*** Engine
+ * OpenSSL Modular Exponentiation Engine
  *
  * PHP version 5 and 7
  *
@@ -16,7 +16,7 @@ namespace phpseclib3\Math\BigInteger\Engines\PHP;
 use phpseclib3\Math\BigInteger\Engines\OpenSSL as Progenitor;
 
 /**
- * OpenSSL Modular ***REMOVED*** Engine
+ * OpenSSL Modular Exponentiation Engine
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */

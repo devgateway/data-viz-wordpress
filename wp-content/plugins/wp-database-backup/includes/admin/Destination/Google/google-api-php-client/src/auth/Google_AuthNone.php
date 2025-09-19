@@ -16,7 +16,7 @@
  */
 
 /**
- * Do-nothing ***REMOVED*** ***REMOVED***, use this if you want to make un-authenticated calls
+ * Do-nothing authentication implementation, use this if you want to make un-authenticated calls
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
@@ -26,14 +26,14 @@ class Google_AuthNone extends Google_Auth {
   public function __construct() {
     global $apiConfig;
     if (!empty($apiConfig['developer_key'])) {
-      $this->***REMOVED***($apiConfig['developer_key']);
+      $this->setDeveloperKey($apiConfig['developer_key']);
     }
   }
 
-  public function ***REMOVED***($key) {$this->key = $key;}
+  public function setDeveloperKey($key) {$this->key = $key;}
   public function authenticate($service) {/*noop*/}
-  public function ***REMOVED***($access_token) {/* noop*/}
-  public function ***REMOVED***() {return null;}
+  public function setAccessToken($access_token) {/* noop*/}
+  public function getAccessToken() {return null;}
   public function createAuthUrl($scope) {return null;}
   public function refreshToken($refreshToken) {/* noop*/}
   public function revokeToken() {/* noop*/}

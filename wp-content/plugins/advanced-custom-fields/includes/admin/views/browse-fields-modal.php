@@ -1,5 +1,5 @@
 <?php
-//phpcs:disable WordPress.***REMOVED***.***REMOVED***.NonPrefixedVariableFound -- included template file.
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included template file.
 
 $browse_fields_tabs = array( 'popular' => __( 'Popular', 'acf' ) );
 $browse_fields_tabs = $browse_fields_tabs + acf_get_field_categories_i18n();
@@ -10,7 +10,7 @@ if ( acf_is_pro() && acf_pro_is_license_expired() ) {
 	$acf_pro_feature_text = __( 'Renew PRO to Unlock', 'acf' );
 } else {
 	$acf_upgrade_text     = __( 'Upgrade to PRO', 'acf' );
-	$acf_upgrade_link     = acf_add_url_utm_tags( 'https://www.***REMOVED***.com/pro/', 'field-type-modal', '' );
+	$acf_upgrade_link     = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/pro/', 'field-type-modal', '' );
 	$acf_pro_feature_text = __( 'ACF PRO Feature', 'acf' );
 }
 ?>
@@ -58,7 +58,7 @@ if ( acf_is_pro() && acf_pro_is_license_expired() ) {
 						printf(
 							/* translators: %s: A link to the popular fields used in ACF */
 							acf_esc_html( __( 'Try a different search term or browse %s', 'acf' ) ),
-							$browse_popular_link //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+							$browse_popular_link //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						);
 						?>
 					</p>

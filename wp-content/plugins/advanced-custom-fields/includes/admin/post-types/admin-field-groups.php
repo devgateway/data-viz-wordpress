@@ -61,7 +61,7 @@ if ( ! class_exists( 'ACF_Admin_Field_Groups' ) ) :
 		 * @since 5.7.6
 		 */
 		public function handle_redirection() {
-			if ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'acf' ) { // phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+			if ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'acf' ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				wp_safe_redirect( $this->get_admin_url() );
 				exit;
 			}
@@ -147,7 +147,7 @@ if ( ! class_exists( 'ACF_Admin_Field_Groups' ) ) :
 		}
 
 		/**
-		 * Displays a visual ***REMOVED*** of the field group's locations.
+		 * Displays a visual representation of the field group's locations.
 		 *
 		 * @date    1/4/20
 		 * @since   5.9.0
@@ -347,7 +347,7 @@ if ( ! class_exists( 'ACF_Admin_Field_Groups' ) ) :
 			$count = (int) $count;
 
 			switch ( $action ) {
-				case '***REMOVED***':
+				case 'acfactivatecomplete':
 					$text = sprintf(
 						/* translators: %s number of field groups activated */
 						_n( 'Field group activated.', '%s field groups activated.', $count, 'acf' ),
@@ -361,14 +361,14 @@ if ( ! class_exists( 'ACF_Admin_Field_Groups' ) ) :
 						$count
 					);
 					break;
-				case '***REMOVED***':
+				case 'acfduplicatecomplete':
 					$text = sprintf(
 						/* translators: %s number of field groups duplicated */
 						_n( 'Field group duplicated.', '%s field groups duplicated.', $count, 'acf' ),
 						$count
 					);
 					break;
-				case '***REMOVED***':
+				case 'acfsynccomplete':
 					$text = sprintf(
 						/* translators: %s number of field groups synchronized */
 						_n( 'Field group synchronized.', '%s field groups synchronized.', $count, 'acf' ),

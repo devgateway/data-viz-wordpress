@@ -73,9 +73,9 @@ class Yoast_Plugin_Conflict {
 		// Set active plugins.
 		$this->all_active_plugins = get_option( 'active_plugins' );
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['action'] ) && is_string( $_GET['action'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended,WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information and only comparing the variable in a condition.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information and only comparing the variable in a condition.
 			$action = wp_unslash( $_GET['action'] );
 			if ( $action === 'deactivate' ) {
 				$this->remove_deactivated_plugin();
@@ -138,7 +138,7 @@ class Yoast_Plugin_Conflict {
 		 * Get all sections that are inactive.
 		 * These plugins need to be cleared.
 		 *
-		 * This happens when Sitemaps or OpenGraph ***REMOVED*** toggle active/disabled.
+		 * This happens when Sitemaps or OpenGraph implementations toggle active/disabled.
 		 */
 		$inactive_sections = array_diff( $all_plugin_sections, $sections );
 		if ( ! empty( $inactive_sections ) ) {
@@ -315,12 +315,12 @@ class Yoast_Plugin_Conflict {
 	 * @return void
 	 */
 	private function remove_deactivated_plugin() {
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.
 		if ( ! isset( $_GET['plugin'] ) || ! is_string( $_GET['plugin'] ) ) {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: On the deactivation screen the nonce is already checked by WordPress itself.
 		$deactivated_plugin = sanitize_text_field( wp_unslash( $_GET['plugin'] ) );
 		$key_to_remove      = array_search( $deactivated_plugin, $this->all_active_plugins, true );
 

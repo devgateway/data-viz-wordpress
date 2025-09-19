@@ -101,9 +101,9 @@
                 } else {
                     // Try to handle theme assets that may be located in a non-standard themes directory.
                     $active_theme_stylesheet = get_stylesheet();
-                    $wp_themes_dir           = fs_normalize_path( ***REMOVED***( get_theme_root( $active_theme_stylesheet ) ) );
+                    $wp_themes_dir           = fs_normalize_path( trailingslashit( get_theme_root( $active_theme_stylesheet ) ) );
                     $asset_rel_path          = str_replace( $wp_themes_dir, '', fs_normalize_path( $asset_abs_path ) );
-                    $asset_url               = ***REMOVED***( get_theme_root_uri( $active_theme_stylesheet ) ) . fs_normalize_path( $asset_rel_path );
+                    $asset_url               = trailingslashit( get_theme_root_uri( $active_theme_stylesheet ) ) . fs_normalize_path( $asset_rel_path );
                 }
             }
 
@@ -161,15 +161,15 @@
              */
             switch ( $type ) {
                 case 'post':
-                    // phpcs:ignore WordPress.Security.***REMOVED***.Missing
+                    // phpcs:ignore WordPress.Security.NonceVerification.Missing
                     $value = isset( $_POST[ $key ] ) ? $_POST[ $key ] : $def;
                     break;
                 case 'get':
-                    // phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+                    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                     $value = isset( $_GET[ $key ] ) ? $_GET[ $key ] : $def;
                     break;
                 default:
-                    // phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+                    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                     $value = isset( $_REQUEST[ $key ] ) ? $_REQUEST[ $key ] : $def;
                     break;
             }
@@ -227,7 +227,7 @@
 
     if ( ! function_exists( 'fs_request_has' ) ) {
         function fs_request_has( $key ) {
-            // phpcs:ignore WordPress.Security.***REMOVED***.Recommended
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             return isset( $_REQUEST[ $key ] );
         }
     }
@@ -286,7 +286,7 @@
 
     if ( ! function_exists( 'fs_get_action' ) ) {
         function fs_get_action( $action_key = 'action' ) {
-            // phpcs:disable WordPress.Security.***REMOVED***.Recommended
+            // phpcs:disable WordPress.Security.NonceVerification.Recommended
             if ( ! empty( $_REQUEST[ $action_key ] ) && is_string( $_REQUEST[ $action_key ] ) ) {
                 return strtolower( $_REQUEST[ $action_key ] );
             }
@@ -300,7 +300,7 @@
             }
 
             return false;
-            // phpcs:enable WordPress.Security.***REMOVED***.Recommended
+            // phpcs:enable WordPress.Security.NonceVerification.Recommended
         }
     }
 
@@ -722,7 +722,7 @@
             $values = fs_urlencode_rfc3986( array_values( $params ) );
             $params = array_combine( $keys, $values );
 
-            // Parameters are sorted by name, using ***REMOVED*** byte value ordering.
+            // Parameters are sorted by name, using lexicographical byte value ordering.
             // Ref: Spec: 9.1.1 (1)
             uksort( $params, 'strcmp' );
 

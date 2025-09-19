@@ -6,23 +6,23 @@ import type { Properties } from 'csstype';
 /**
  * Internal dependencies
  */
-import { ***REMOVED***, ***REMOVED*** } from './style-converter';
+import { convertToInline, convertToObject } from './style-converter';
 import {
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
-	***REMOVED***,
+	updateBorderColor,
+	updateBorderRadius,
+	updateBorderStyle,
+	updateBorderWidth,
 	updatePadding,
 } from './style-updater';
 import { toInteger } from './helper';
 import type {
 	CellTagValue,
-	***REMOVED***,
+	CellScopeValue,
 	Cell,
 	Row,
 	SectionName,
-	***REMOVED***,
-} from '../***REMOVED***';
+	TableAttributes,
+} from '../BlockAttributes';
 
 // Virtual table
 export type VTable = Record< SectionName, VRow[] >;
@@ -43,7 +43,7 @@ export interface VCell extends Omit< Cell, 'rowSpan' | 'colSpan' > {
 	rowIndex: number;
 	vColIndex: number;
 	isHidden: boolean;
-	***REMOVED***?: boolean;
+	isFirstSelected?: boolean;
 	isFilled?: boolean;
 }
 
@@ -54,7 +54,7 @@ export type VSelectedLine =
 	| undefined;
 
 // Virtual table selected cells state
-export type ***REMOVED*** = VCell[] | undefined;
+export type VSelectedCells = VCell[] | undefined;
 
 // Minimum / maximum row / column virtual indexes on virtual table
 interface VRangeIndexes {
@@ -97,7 +97,7 @@ export function createTable( {
 						sectionName,
 						rowIndex,
 						vColIndex,
-						***REMOVED***: false,
+						isFirstSelected: false,
 						isHidden: false,
 					} )
 				),
@@ -127,13 +127,13 @@ export function insertRow(
 	{ sectionName, rowIndex }: { sectionName: SectionName; rowIndex: number }
 ): VTable {
 	// Number of columns in the row to be inserted.
-	const ***REMOVED***: number = vTable.body[ 0 ].cells.length;
+	const newRowColCount: number = vTable.body[ 0 ].cells.length;
 
 	const vRows: VRow[] = toVirtualRows( vTable );
 
 	// Row state to be inserted.
 	const newRow: VRow = {
-		cells: Array.from( { length: ***REMOVED*** } ).map( ( _, vColIndex ): VCell => {
+		cells: Array.from( { length: newRowColCount } ).map( ( _, vColIndex ): VCell => {
 			// Find the cell with rowspan that covers the cell in the inserted row.
 			const rowSpanCells: VCell[] = vRows
 				.reduce( ( cells: VCell[], row ) => cells.concat( row.cells ), [] )
@@ -154,7 +154,7 @@ export function insertRow(
 				sectionName,
 				rowIndex,
 				vColIndex,
-				***REMOVED***: false,
+				isFirstSelected: false,
 				isHidden: !! rowSpanCells.length,
 			};
 		} ),
@@ -211,19 +211,19 @@ export function deleteRow(
 	{ sectionName, rowIndex }: { sectionName: SectionName; rowIndex: number }
 ) {
 	// Find the number of rowspan cells in the row to be deleted.
-	const ***REMOVED***: number = vTable[ sectionName ][ rowIndex ].cells.filter(
+	const rowSpanCellsCount: number = vTable[ sectionName ][ rowIndex ].cells.filter(
 		( cell ) => cell.rowSpan > 1
 	).length;
 
 	// Split the found rowspan cells.
-	if ( ***REMOVED*** ) {
-		for ( let i = 0; i < ***REMOVED***; i++ ) {
+	if ( rowSpanCellsCount ) {
+		for ( let i = 0; i < rowSpanCellsCount; i++ ) {
 			const vMergedCells: VCell[] = vTable[ sectionName ]
 				.reduce( ( cells: VCell[], row: VRow ) => cells.concat( row.cells ), [] )
 				.filter( ( cell: VCell ) => cell.rowSpan > 1 && cell.rowIndex === rowIndex );
 
 			if ( vMergedCells.length ) {
-				vTable = ***REMOVED***( vTable, vMergedCells[ 0 ] );
+				vTable = splitMergedCell( vTable, vMergedCells[ 0 ] );
 			}
 		}
 	}
@@ -275,7 +275,7 @@ export function deleteRow(
  */
 export function insertColumn( vTable: VTable, { vColIndex }: { vColIndex: number } ): VTable {
 	// Whether to add a column after the last column.
-	const ***REMOVED***: boolean = vTable.body[ 0 ].cells.length === vColIndex;
+	const isLastColumnInsert: boolean = vTable.body[ 0 ].cells.length === vColIndex;
 
 	const vRows: VRow[] = toVirtualRows( vTable );
 
@@ -300,7 +300,7 @@ export function insertColumn( vTable: VTable, { vColIndex }: { vColIndex: number
 					}
 
 					// Insert cell (after the last column).
-					if ( ***REMOVED*** && cVColIndex + 1 === vColIndex ) {
+					if ( isLastColumnInsert && cVColIndex + 1 === vColIndex ) {
 						newCells.push( cell, {
 							content: '',
 							tag: 'head' === sectionName ? 'th' : 'td',
@@ -389,7 +389,7 @@ export function deleteColumn( vTable: VTable, { vColIndex }: { vColIndex: number
 
 	// Split the found colspan cells.
 	if ( colSpanCells.length ) {
-		colSpanCells.forEach( ( cell ) => ( vTable = ***REMOVED***( vTable, cell ) ) );
+		colSpanCells.forEach( ( cell ) => ( vTable = splitMergedCell( vTable, cell ) ) );
 	}
 
 	return Object.entries( vTable ).reduce(
@@ -445,13 +445,13 @@ export function deleteColumn( vTable: VTable, { vColIndex }: { vColIndex: number
  *
  * @param vTable         Current virtual table state.
  * @param selectedCells  Current selected cells.
- * @param ***REMOVED*** Whether keep the contents of all cells when merging cells.
+ * @param isMergeContent Whether keep the contents of all cells when merging cells.
  * @return New virtual table state.
  */
 export function mergeCells(
 	vTable: VTable,
-	selectedCells: ***REMOVED***,
-	***REMOVED***: boolean
+	selectedCells: VSelectedCells,
+	isMergeContent: boolean
 ): VTable {
 	if ( ! selectedCells || ! selectedCells.length ) {
 		return vTable;
@@ -465,13 +465,13 @@ export function mergeCells(
 	const { minRowIndex, maxRowIndex, minColIndex, maxColIndex } = vRangeIndexes;
 
 	// Find the rowspan & colspan cells in selected cells.
-	const ***REMOVED***: number = selectedCells.filter(
+	const rowColSpanCellsCount: number = selectedCells.filter(
 		( { rowSpan, colSpan } ) => rowSpan > 1 || colSpan > 1
 	).length;
 
 	// Split the found rowspan & colspan cells before merge cell.
-	if ( ***REMOVED*** ) {
-		for ( let i = 0; i < ***REMOVED***; i++ ) {
+	if ( rowColSpanCellsCount ) {
+		for ( let i = 0; i < rowColSpanCellsCount; i++ ) {
 			const vMergedCells: VCell[] = vTable[ sectionName as SectionName ]
 				.reduce( ( cells: VCell[], row ) => cells.concat( row.cells ), [] )
 				.filter(
@@ -484,13 +484,13 @@ export function mergeCells(
 				);
 
 			if ( vMergedCells.length ) {
-				vTable = ***REMOVED***( vTable, vMergedCells[ 0 ] );
+				vTable = splitMergedCell( vTable, vMergedCells[ 0 ] );
 			}
 		}
 	}
 
 	// Merge the contents of the cells to be merged.
-	const ***REMOVED***: string = vTable[ sectionName as SectionName ]
+	const mergedCellsContent: string = vTable[ sectionName as SectionName ]
 		.reduce( ( cells: VCell[], row: VRow ) => cells.concat( row.cells ), [] )
 		.reduce( ( result: string[], cell: VCell ) => {
 			if (
@@ -522,7 +522,7 @@ export function mergeCells(
 							...cell,
 							rowSpan: Math.abs( maxRowIndex - minRowIndex ) + 1,
 							colSpan: Math.abs( maxColIndex - minColIndex ) + 1,
-							content: ***REMOVED*** ? ***REMOVED*** : cell.content,
+							content: isMergeContent ? mergedCellsContent : cell.content,
 						};
 					}
 
@@ -554,19 +554,19 @@ export function mergeCells(
  * @param selectedCells Current selected cells.
  * @return  New virtual table state.
  */
-export function ***REMOVED***( vTable: VTable, selectedCells: ***REMOVED*** ): VTable {
+export function splitMergedCells( vTable: VTable, selectedCells: VSelectedCells ): VTable {
 	if ( ! selectedCells ) {
 		return vTable;
 	}
 	// Find the rowspan & colspan cells.
-	const ***REMOVED***: VCell[] = selectedCells.filter(
+	const rowColSpanCells: VCell[] = selectedCells.filter(
 		( { rowSpan, colSpan } ) => rowSpan > 1 || colSpan > 1
 	);
 
 	// Split the found rowspan & colspan cells.
-	if ( ***REMOVED***.length ) {
-		***REMOVED***.forEach( ( cell ) => {
-			vTable = ***REMOVED***( vTable, cell );
+	if ( rowColSpanCells.length ) {
+		rowColSpanCells.forEach( ( cell ) => {
+			vTable = splitMergedCell( vTable, cell );
 		} );
 	}
 
@@ -580,7 +580,7 @@ export function ***REMOVED***( vTable: VTable, selectedCells: ***REMOVED*** ): V
  * @param selectedCell Current selected cells.
  * @return New virtual table state.
  */
-export function ***REMOVED***( vTable: VTable, selectedCell: VCell ): VTable {
+export function splitMergedCell( vTable: VTable, selectedCell: VCell ): VTable {
 	const { sectionName, rowIndex, vColIndex, rowSpan, colSpan } = selectedCell;
 
 	const vSection: VSection = vTable[ sectionName as SectionName ];
@@ -654,7 +654,7 @@ export function updateCells(
 		className?: string;
 		id?: string;
 		headers?: string;
-		scope?: ***REMOVED***;
+		scope?: CellScopeValue;
 	},
 	selectedCells: VCell[]
 ): VTable {
@@ -677,7 +677,7 @@ export function updateCells(
 						return cell;
 					}
 
-					let stylesObj: Properties = ***REMOVED***( cell?.styles );
+					let stylesObj: Properties = convertToObject( cell?.styles );
 
 					if ( cellState.styles ) {
 						stylesObj = {
@@ -686,15 +686,15 @@ export function updateCells(
 						};
 
 						stylesObj = updatePadding( stylesObj, cellState.styles?.padding );
-						stylesObj = ***REMOVED***( stylesObj, cellState.styles?.borderWidth );
-						stylesObj = ***REMOVED***( stylesObj, cellState.styles?.borderRadius );
-						stylesObj = ***REMOVED***( stylesObj, cellState.styles?.borderStyle );
-						stylesObj = ***REMOVED***( stylesObj, cellState.styles?.borderColor );
+						stylesObj = updateBorderWidth( stylesObj, cellState.styles?.borderWidth );
+						stylesObj = updateBorderRadius( stylesObj, cellState.styles?.borderRadius );
+						stylesObj = updateBorderStyle( stylesObj, cellState.styles?.borderStyle );
+						stylesObj = updateBorderColor( stylesObj, cellState.styles?.borderColor );
 					}
 
 					return {
 						...cell,
-						styles: ***REMOVED***( stylesObj ),
+						styles: convertToInline( stylesObj ),
 						tag: cellState.tag || cell.tag,
 						className: 'className' in cellState ? cellState.className : cell.className,
 						id: 'id' in cellState ? cellState.id : cell.id,
@@ -719,7 +719,7 @@ export function updateCells(
  * @param section Virtual section state.
  * @return True if the virtual section is empty, false otherwise.
  */
-export function ***REMOVED***( section: VSection ): boolean {
+export function isEmptySection( section: VSection ): boolean {
 	return (
 		! section ||
 		! section.length ||
@@ -734,7 +734,7 @@ export function ***REMOVED***( section: VSection ): boolean {
  * @return True if multiple sections are selected, false otherwise.
  */
 export function isMultiSectionSelected( selectedCells: VCell[] ): boolean {
-	const ***REMOVED***: SectionName[] = selectedCells.reduce(
+	const selectedSections: SectionName[] = selectedCells.reduce(
 		( result: SectionName[], selectedCell ) => {
 			if ( ! result.includes( selectedCell.sectionName as SectionName ) ) {
 				result.push( selectedCell.sectionName as SectionName );
@@ -744,7 +744,7 @@ export function isMultiSectionSelected( selectedCells: VCell[] ): boolean {
 		[]
 	);
 
-	return ***REMOVED***.length > 1;
+	return selectedSections.length > 1;
 }
 
 /**
@@ -754,7 +754,7 @@ export function isMultiSectionSelected( selectedCells: VCell[] ): boolean {
  * @param state Current table state.
  * @return Object of virtual table.
  */
-export function ***REMOVED***( state: ***REMOVED*** ): VTable {
+export function toVirtualTable( state: TableAttributes ): VTable {
 	const { head, body, foot } = state;
 	const vSections = {
 		head,
@@ -857,13 +857,13 @@ export function ***REMOVED***( state: ***REMOVED*** ): VTable {
  * @param  vTable Current table state.
  * @return {Object} Table attributes.
  */
-export function ***REMOVED***( vTable: VTable ): ***REMOVED*** {
+export function toTableAttributes( vTable: VTable ): TableAttributes {
 	return Object.entries( vTable ).reduce(
-		( ***REMOVED***: ***REMOVED***, [ sectionName, section ] ) => {
+		( newTableAttributes: TableAttributes, [ sectionName, section ] ) => {
 			if ( ! section.length ) {
-				return ***REMOVED***;
+				return newTableAttributes;
 			}
-			***REMOVED***[ sectionName as SectionName ] = section.map( ( { cells } ) => ( {
+			newTableAttributes[ sectionName as SectionName ] = section.map( ( { cells } ) => ( {
 				cells: cells
 					// Delete cells marked as deletion.
 					.filter( ( cell ) => ! cell.isHidden )
@@ -880,7 +880,7 @@ export function ***REMOVED***( vTable: VTable ): ***REMOVED*** {
 						colSpan: cell.colSpan > 1 ? String( cell.colSpan ) : undefined,
 					} ) ),
 			} ) );
-			return ***REMOVED***;
+			return newTableAttributes;
 		},
 		{
 			head: [],
@@ -898,7 +898,7 @@ export function ***REMOVED***( vTable: VTable ): ***REMOVED*** {
  */
 export function toVirtualRows( vTable: VTable ): VRow[] {
 	return Object.keys( vTable ).reduce( ( result: VRow[], sectionName ) => {
-		if ( ***REMOVED***( vTable[ sectionName as SectionName ] ) ) {
+		if ( isEmptySection( vTable[ sectionName as SectionName ] ) ) {
 			return result;
 		}
 		result.push( ...vTable[ sectionName as SectionName ] );
@@ -942,7 +942,7 @@ export function getVirtualRangeIndexes( selectedCells: VCell[] ): VRangeIndexes 
  * @param selectedCells Current selected cells.
  * @return True if a rectangle will be formed from the selected cells, false otherwise.
  */
-export function ***REMOVED***( selectedCells: ***REMOVED*** ): boolean {
+export function isRectangleSelected( selectedCells: VSelectedCells ): boolean {
 	if ( ! selectedCells ) {
 		return false;
 	}
@@ -1028,15 +1028,15 @@ export function toRectangledSelectedCells(
 
 	let { minRowIndex, maxRowIndex, minColIndex, maxColIndex } = vRangeIndexes;
 
-	const ***REMOVED***: VSection = vTable[ fromCell.sectionName as SectionName ];
-	const rowCount: number = ***REMOVED***.length;
-	const colCount: number = ***REMOVED***[ 0 ].cells.length;
+	const currentSection: VSection = vTable[ fromCell.sectionName as SectionName ];
+	const rowCount: number = currentSection.length;
+	const colCount: number = currentSection[ 0 ].cells.length;
 
-	const VCells: VCell[] = ***REMOVED***
+	const VCells: VCell[] = currentSection
 		.reduce( ( cells: VCell[], row: VRow ) => cells.concat( row.cells ), [] )
 		.map( ( cell: VCell ) => {
 			if ( cell.rowIndex === fromCell.rowIndex && cell.vColIndex === fromCell.vColIndex ) {
-				cell.***REMOVED*** = true;
+				cell.isFirstSelected = true;
 			}
 			return cell;
 		} )
@@ -1131,7 +1131,7 @@ export function toRectangledSelectedCells(
  * @param selectedCells Current selected cells.
  * @return True if the selected cells in the virtual table contain merged cells, false otherwise.
  */
-export function ***REMOVED***( selectedCells: ***REMOVED*** ): boolean {
+export function hasMergedCells( selectedCells: VSelectedCells ): boolean {
 	if ( ! selectedCells ) {
 		return false;
 	}
@@ -1149,7 +1149,7 @@ export function ***REMOVED***( selectedCells: ***REMOVED*** ): boolean {
  */
 export function toggleSection( vTable: VTable, sectionName: SectionName ): VTable {
 	// Section exists, replace it with an empty row to remove it.
-	if ( ! ***REMOVED***( vTable[ sectionName ] ) ) {
+	if ( ! isEmptySection( vTable[ sectionName ] ) ) {
 		return {
 			...vTable,
 			[ sectionName ]: [],
@@ -1157,11 +1157,11 @@ export function toggleSection( vTable: VTable, sectionName: SectionName ): VTabl
 	}
 
 	// Number of columns in the row to be inserted.
-	const ***REMOVED***: number = vTable.body[ 0 ].cells.length;
+	const newRowColCount: number = vTable.body[ 0 ].cells.length;
 
 	// Row state to be inserted.
 	const newRow: VRow = {
-		cells: Array.from( { length: ***REMOVED*** } ).map( ( _, vColIndex ) => ( {
+		cells: Array.from( { length: newRowColCount } ).map( ( _, vColIndex ) => ( {
 			content: '',
 			tag: 'head' === sectionName ? 'th' : 'td',
 			rowSpan: 1,
@@ -1170,7 +1170,7 @@ export function toggleSection( vTable: VTable, sectionName: SectionName ): VTabl
 			rowIndex: 0,
 			vColIndex,
 			isHidden: false,
-			***REMOVED***: false,
+			isFirstSelected: false,
 		} ) ),
 	};
 

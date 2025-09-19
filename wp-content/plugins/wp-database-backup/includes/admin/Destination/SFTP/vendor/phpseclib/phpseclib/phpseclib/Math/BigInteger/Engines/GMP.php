@@ -33,7 +33,7 @@ class GMP extends Engine
     /**
      * Engine Directory
      *
-     * @see parent::***REMOVED***
+     * @see parent::setModExpEngine
      */
     const ENGINE_DIR = 'GMP';
 
@@ -410,7 +410,7 @@ class GMP extends Engine
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param GMP $e
      * @param GMP $n
@@ -422,7 +422,7 @@ class GMP extends Engine
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * Alias for modPow().
      *
@@ -436,7 +436,7 @@ class GMP extends Engine
     }
 
     /**
-     * Performs modular ***REMOVED***.
+     * Performs modular exponentiation.
      *
      * @param GMP $e
      * @param GMP $n
@@ -476,7 +476,7 @@ class GMP extends Engine
     }
 
     /**
-     * Performs some post-processing for ***REMOVED***
+     * Performs some post-processing for randomRangePrime
      *
      * @param Engine $x
      * @param Engine $min
@@ -495,7 +495,7 @@ class GMP extends Engine
             $x = new self($x->value - 1);
         }
 
-        return self::***REMOVED***($min, $x);
+        return self::randomRangePrime($min, $x);
     }
 
     /**
@@ -507,7 +507,7 @@ class GMP extends Engine
      * @param GMP $max
      * @return false|GMP
      */
-    public static function ***REMOVED***(GMP $min, GMP $max)
+    public static function randomRangePrime(GMP $min, GMP $max)
     {
         return self::randomRangePrimeOuter($min, $max);
     }
@@ -527,7 +527,7 @@ class GMP extends Engine
      */
     public static function randomRange(GMP $min, GMP $max)
     {
-        return self::***REMOVED***($min, $max);
+        return self::randomRangeHelper($min, $max);
     }
 
     /**
@@ -569,7 +569,7 @@ class GMP extends Engine
     }
 
     /**
-     * Performs ***REMOVED***.
+     * Performs exponentiation.
      *
      * @param GMP $n
      * @return GMP
@@ -620,7 +620,7 @@ class GMP extends Engine
      * Create Recurring Modulo Function
      *
      * Sometimes it may be desirable to do repeated modulos with the same number outside of
-     * modular ***REMOVED***
+     * modular exponentiation
      *
      * @return callable
      */

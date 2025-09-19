@@ -2,8 +2,8 @@
 
 namespace YoastSEO_Vendor\GuzzleHttp;
 
-use YoastSEO_Vendor\Psr\Http\Message\***REMOVED***;
-final class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\BodySummarizerInterface
+use YoastSEO_Vendor\Psr\Http\Message\MessageInterface;
+final class BodySummarizer implements \YoastSEO_Vendor\GuzzleHttp\BodySummarizerInterface
 {
     /**
      * @var int|null
@@ -16,7 +16,7 @@ final class ***REMOVED*** implements \YoastSEO_Vendor\GuzzleHttp\BodySummarizerI
     /**
      * Returns a summarized message body.
      */
-    public function summarize(\YoastSEO_Vendor\Psr\Http\Message\***REMOVED*** $message) : ?string
+    public function summarize(\YoastSEO_Vendor\Psr\Http\Message\MessageInterface $message) : ?string
     {
         return $this->truncateAt === null ? \YoastSEO_Vendor\GuzzleHttp\Psr7\Message::bodySummary($message) : \YoastSEO_Vendor\GuzzleHttp\Psr7\Message::bodySummary($message, $this->truncateAt);
     }

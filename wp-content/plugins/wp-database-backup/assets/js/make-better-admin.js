@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
     wpdbbkp_deactivate_link_url = wpdbbkp_deactivate_link.attr('href');
 
     wpdbbkp_deactivate_link.click(function (e) {
-        e.***REMOVED***();
+        e.preventDefault();
         
         // only show feedback form once per 30 days
         var c_value = wpdbbkp_admin_get_cookie("wpdbbkp_hide_deactivate_feedback");
@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
     });
     // send form or close it
     $('#wpdbbkp-feedback-content .button').click(function (e) {
-        e.***REMOVED***();
+        e.preventDefault();
         // set cookie for 30 days
         var exdate = new Date();
         exdate.setSeconds(exdate.getSeconds() + 2592000);

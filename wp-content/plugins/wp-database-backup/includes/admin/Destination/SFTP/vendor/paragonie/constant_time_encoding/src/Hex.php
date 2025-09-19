@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace ParagonIE\ConstantTime;
 
-use ***REMOVED***;
+use RangeException;
 use TypeError;
 
 /**
@@ -20,8 +20,8 @@ use TypeError;
  *  copies or substantial portions of the Software.
  *
  *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF ***REMOVED***,
- *  FITNESS FOR A PARTICULAR PURPOSE AND ***REMOVED***. IN NO EVENT SHALL THE
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -32,7 +32,7 @@ use TypeError;
  * Class Hex
  * @package ParagonIE\ConstantTime
  */
-abstract class Hex implements ***REMOVED***
+abstract class Hex implements EncoderInterface
 {
     /**
      * Convert a binary string into a hexadecimal string without cache-timing
@@ -96,7 +96,7 @@ abstract class Hex implements ***REMOVED***
      * @param string $encodedString
      * @param bool $strictPadding
      * @return string (raw binary)
-     * @throws ***REMOVED***
+     * @throws RangeException
      */
     public static function decode(
         string $encodedString,
@@ -109,7 +109,7 @@ abstract class Hex implements ***REMOVED***
         $state = 0;
         if (($hex_len & 1) !== 0) {
             if ($strictPadding) {
-                throw new ***REMOVED***(
+                throw new RangeException(
                     'Expected an even number of hexadecimal characters'
                 );
             } else {
@@ -129,7 +129,7 @@ abstract class Hex implements ***REMOVED***
             $c_alpha0 = (($c_alpha - 10) ^ ($c_alpha - 16)) >> 8;
 
             if (($c_num0 | $c_alpha0) === 0) {
-                throw new ***REMOVED***(
+                throw new RangeException(
                     'Expected hexadecimal character'
                 );
             }

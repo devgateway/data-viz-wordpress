@@ -23,7 +23,7 @@ use phpseclib3\Math\BigInteger;
  *
  * @author  Jim Wigginton <terrafrost@php.net>
  */
-abstract class Engine implements \***REMOVED***
+abstract class Engine implements \JsonSerializable
 {
     /* final protected */ const PRIMES = [
         3,   5,   7,   11,  13,  17,  19,  23,  29,  31,  37,  41,  43,  47,  53,  59,
@@ -61,7 +61,7 @@ abstract class Engine implements \***REMOVED***
     protected static $two = [];
 
     /**
-     * Modular ***REMOVED*** Engine
+     * Modular Exponentiation Engine
      *
      * @var array<class-string<static>, class-string<static>>
      */
@@ -221,7 +221,7 @@ abstract class Engine implements \***REMOVED***
      *
      * @param class-string<Engine> $engine
      */
-    public static function ***REMOVED***($engine)
+    public static function setModExpEngine($engine)
     {
         $fqengine = '\\phpseclib3\\Math\\BigInteger\\Engines\\' . static::ENGINE_DIR . '\\' . $engine;
         if (!class_exists($fqengine) || !method_exists($fqengine, 'isValidEngine')) {
@@ -305,7 +305,7 @@ abstract class Engine implements \***REMOVED***
      * @param Engine $n
      * @return static|false
      */
-    protected function ***REMOVED***(Engine $n)
+    protected function modInverseHelper(Engine $n)
     {
         // $x mod -$n == $x mod $n.
         $n = $n->abs();
@@ -373,7 +373,7 @@ abstract class Engine implements \***REMOVED***
      *
      * @return array{hex: string, precision?: int]
      */
-    #[\***REMOVED***]
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $result = ['hex' => $this->toHex(true)];
@@ -617,7 +617,7 @@ abstract class Engine implements \***REMOVED***
      *
      * @return int
      */
-    public function ***REMOVED***()
+    public function getLengthInBytes()
     {
         return strlen($this->toBytes());
     }
@@ -653,11 +653,11 @@ abstract class Engine implements \***REMOVED***
     }
 
     /**
-     * Sliding Window k-ary Modular ***REMOVED***
+     * Sliding Window k-ary Modular Exponentiation
      *
      * Based on {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=27 HAC 14.85} /
      * {@link http://math.libtomcrypt.com/files/tommath.pdf#page=210 MPM 7.7}.  In a departure from those algorithims,
-     * however, this function performs a modular reduction after every ***REMOVED*** and squaring operation.
+     * however, this function performs a modular reduction after every multiplication and squaring operation.
      * As such, this function has the same preconditions that the reductions being used do.
      *
      * @template T of Engine
@@ -696,7 +696,7 @@ abstract class Engine implements \***REMOVED***
         $temp = 1 << ($window_size - 1);
         for ($i = 1; $i < $temp; ++$i) {
             $i2 = $i << 1;
-            $powers[$i2 + 1] = static::***REMOVED***($powers[$i2 - 1], $powers[2], $n_value, $class);
+            $powers[$i2 + 1] = static::multiplyReduce($powers[$i2 - 1], $powers[2], $n_value, $class);
         }
 
         $result = new $class(1);
@@ -718,7 +718,7 @@ abstract class Engine implements \***REMOVED***
                     $result = static::squareReduce($result, $n_value, $class);
                 }
 
-                $result = static::***REMOVED***($result, $powers[bindec(substr($e_bits, $i, $j + 1))], $n_value, $class);
+                $result = static::multiplyReduce($result, $powers[bindec(substr($e_bits, $i, $j + 1))], $n_value, $class);
 
                 $i += $j + 1;
             }
@@ -763,11 +763,11 @@ abstract class Engine implements \***REMOVED***
          * @var static $min
          * @var static $max
          */
-        return static::***REMOVED***($min, $max);
+        return static::randomRangePrime($min, $max);
     }
 
     /**
-     * Performs some pre-processing for ***REMOVED***
+     * Performs some pre-processing for randomRangePrime
      *
      * @param Engine $min
      * @param Engine $max
@@ -804,7 +804,7 @@ abstract class Engine implements \***REMOVED***
      * @param Engine $max
      * @return Engine
      */
-    protected static function ***REMOVED***(Engine $min, Engine $max)
+    protected static function randomRangeHelper(Engine $min, Engine $max)
     {
         $compare = $max->compare($min);
 
@@ -838,7 +838,7 @@ abstract class Engine implements \***REMOVED***
 
             phpseclib works around this using the technique described here:
 
-            http://crypto.stackexchange.com/questions/5708/creating-a-small-number-from-a-***REMOVED***-secure-random-string
+            http://crypto.stackexchange.com/questions/5708/creating-a-small-number-from-a-cryptographically-secure-random-string
         */
         $random_max = new static(chr(1) . str_repeat("\0", $size), 256);
         $random = new static(Random::string($size), 256);
@@ -861,7 +861,7 @@ abstract class Engine implements \***REMOVED***
     }
 
     /**
-     * Performs some post-processing for ***REMOVED***
+     * Performs some post-processing for randomRangePrime
      *
      * @param Engine $x
      * @param Engine $min
@@ -914,7 +914,7 @@ abstract class Engine implements \***REMOVED***
      */
     protected function setupIsPrime()
     {
-        $length = $this->***REMOVED***();
+        $length = $this->getLengthInBytes();
 
         // see HAC 4.49 "Note (controlling the error probability)"
         // @codingStandardsIgnoreStart
@@ -946,7 +946,7 @@ abstract class Engine implements \***REMOVED***
      */
     protected function testPrimality($t)
     {
-        if (!$this->***REMOVED***()) {
+        if (!$this->testSmallPrimes()) {
             return false;
         }
 
@@ -982,7 +982,7 @@ abstract class Engine implements \***REMOVED***
      * Checks a numer to see if it's prime
      *
      * Assuming the $t parameter is not set, this function has an error rate of 2**-80.  The main motivation for the
-     * $t parameter is ***REMOVED***.  BigInteger::randomPrime() can be distributed across multiple pageloads
+     * $t parameter is distributability.  BigInteger::randomPrime() can be distributed across multiple pageloads
      * on a website instead of just one.
      *
      * @param int|bool $t
@@ -1130,7 +1130,7 @@ abstract class Engine implements \***REMOVED***
      * Create Recurring Modulo Function
      *
      * Sometimes it may be desirable to do repeated modulos with the same number outside of
-     * modular ***REMOVED***
+     * modular exponentiation
      *
      * @return callable
      */
@@ -1163,7 +1163,7 @@ abstract class Engine implements \***REMOVED***
      * @param Engine $n
      * @return array{gcd: Engine, x: Engine, y: Engine}
      */
-    protected function ***REMOVED***(Engine $n)
+    protected function extendedGCDHelper(Engine $n)
     {
         $u = clone $this;
         $v = clone $n;
@@ -1210,7 +1210,7 @@ abstract class Engine implements \***REMOVED***
     public function bitwise_split($split)
     {
         if ($split < 1) {
-            throw new \***REMOVED***('Offset must be greater than 1');
+            throw new \RuntimeException('Offset must be greater than 1');
         }
 
         $mask = static::$one[static::class]->bitwise_leftShift($split)->subtract(static::$one[static::class]);
@@ -1232,7 +1232,7 @@ abstract class Engine implements \***REMOVED***
      * @param Engine $x
      * @return Engine
      */
-    protected function ***REMOVED***(Engine $x)
+    protected function bitwiseAndHelper(Engine $x)
     {
         $left = $this->toBytes(true);
         $right = $x->toBytes(true);
@@ -1251,7 +1251,7 @@ abstract class Engine implements \***REMOVED***
      * @param Engine $x
      * @return Engine
      */
-    protected function ***REMOVED***(Engine $x)
+    protected function bitwiseOrHelper(Engine $x)
     {
         $left = $this->toBytes(true);
         $right = $x->toBytes(true);
@@ -1270,7 +1270,7 @@ abstract class Engine implements \***REMOVED***
      * @param Engine $x
      * @return Engine
      */
-    protected function ***REMOVED***(Engine $x)
+    protected function bitwiseXorHelper(Engine $x)
     {
         $left = $this->toBytes(true);
         $right = $x->toBytes(true);

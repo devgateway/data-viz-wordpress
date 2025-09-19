@@ -29,7 +29,7 @@ class Feed_Improvements implements Integration_Interface {
 	/**
 	 * Canonical_Header constructor.
 	 *
-	 * @***REMOVED*** It only sets depedencies.
+	 * @codeCoverageIgnore It only sets depedencies.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 * @param Meta_Surface   $meta    The meta surface.

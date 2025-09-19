@@ -94,10 +94,10 @@ function acf_esc_html( $string = '' ) {
  * @return array
  */
 function _acf_kses_allowed_html( $tags, $context ) {
-	global $***REMOVED***;
+	global $allowedposttags;
 
 	if ( $context === 'acf' ) {
-		return $***REMOVED***;
+		return $allowedposttags;
 	}
 	return $tags;
 }
@@ -131,7 +131,7 @@ add_filter( 'wp_kses_allowed_html', '_acf_kses_allowed_html', 0, 2 );
  * @return  string
  */
 function acf_hidden_input( $attrs = array() ) {
-	echo acf_get_hidden_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by input generation function.
+	echo acf_get_hidden_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by input generation function.
 }
 
 /**
@@ -161,7 +161,7 @@ function acf_get_hidden_input( $attrs = array() ) {
  * @return  string
  */
 function acf_text_input( $attrs = array() ) {
-	echo acf_get_text_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by input generation function.
+	echo acf_get_text_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by input generation function.
 }
 
 /**
@@ -183,7 +183,7 @@ function acf_get_text_input( $attrs = array() ) {
 		)
 	);
 	if ( isset( $attrs['value'] ) && is_string( $attrs['value'] ) ) {
-		$attrs['value'] = ***REMOVED***( $attrs['value'] );
+		$attrs['value'] = htmlspecialchars( $attrs['value'] );
 	}
 	return sprintf( '<input %s/>', acf_esc_attrs( $attrs ) );
 }
@@ -200,7 +200,7 @@ function acf_get_text_input( $attrs = array() ) {
  * @return  string
  */
 function acf_file_input( $attrs = array() ) {
-	echo acf_get_file_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by input generation function.
+	echo acf_get_file_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by input generation function.
 }
 
 /**
@@ -265,7 +265,7 @@ function acf_get_file_input( $attrs = array() ) {
  * @return  string
  */
 function acf_textarea_input( $attrs = array() ) {
-	echo acf_get_textarea_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by input generation function.
+	echo acf_get_textarea_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by input generation function.
 }
 
 /**
@@ -300,7 +300,7 @@ function acf_get_textarea_input( $attrs = array() ) {
  * @return  string
  */
 function acf_checkbox_input( $attrs = array() ) {
-	echo acf_get_checkbox_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by input generation function.
+	echo acf_get_checkbox_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by input generation function.
 }
 
 /**
@@ -348,7 +348,7 @@ function acf_get_checkbox_input( $attrs = array() ) {
  * @return  string
  */
 function acf_radio_input( $attrs = array() ) {
-	echo acf_get_radio_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by input generation function.
+	echo acf_get_radio_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by input generation function.
 }
 
 /**
@@ -379,7 +379,7 @@ function acf_get_radio_input( $attrs = array() ) {
  * @return  string
  */
 function acf_select_input( $attrs = array() ) {
-	echo acf_get_select_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED*** -- escaped by input generation function.
+	echo acf_get_select_input( $attrs ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by input generation function.
 }
 
 /**

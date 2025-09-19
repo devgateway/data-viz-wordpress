@@ -117,9 +117,9 @@ class First_Time_Configuration_Notice_Helper {
 			return true;
 		}
 
-		// phpcs:ignore WordPress.Security.***REMOVED***.Recommended -- Reason: We are not processing form information.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information.
 		if ( isset( $_GET['page'] ) && \is_string( $_GET['page'] ) ) {
-			// phpcs:ignore WordPress.Security.***REMOVED***.Recommended, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason: We are not processing form information and only comparing the variable in a condition.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information and only comparing the variable in a condition.
 			$page_from_get = \wp_unslash( $_GET['page'] );
 
 			// Show on Yoast SEO pages, with some exceptions.
@@ -150,9 +150,9 @@ class First_Time_Configuration_Notice_Helper {
 	}
 
 	/**
-	 * Whether the site ***REMOVED*** name and logo have been set.
+	 * Whether the site representation name and logo have been set.
 	 *
-	 * @return bool  Whether the site ***REMOVED*** name and logo have been set.
+	 * @return bool  Whether the site representation name and logo have been set.
 	 */
 	private function are_site_representation_name_and_logo_set() {
 		$company_or_person = $this->options_helper->get( 'company_or_person', '' );

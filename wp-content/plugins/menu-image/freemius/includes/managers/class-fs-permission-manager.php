@@ -192,7 +192,7 @@
                 $fs->get_text_inline( 'Homepage URL & title, WP & PHP versions, and site language', 'permissions-site_desc' ),
                 sprintf(
                 /* translators: %s: 'Plugin' or 'Theme' */
-                    $fs->get_text_inline( 'To provide additional functionality that\'s relevant to your website, avoid WordPress or PHP version ***REMOVED*** that can break your website, and recognize which languages & regions the %s should be translated and tailored to.', 'permissions-site_tooltip' ),
+                    $fs->get_text_inline( 'To provide additional functionality that\'s relevant to your website, avoid WordPress or PHP version incompatibilities that can break your website, and recognize which languages & regions the %s should be translated and tailored to.', 'permissions-site_tooltip' ),
                     $fs->get_module_label( true )
                 ),
                 10,
@@ -327,7 +327,7 @@
                 $this->_fs->get_text_inline( 'WordPress & PHP versions, site language & title', 'permissions-diagnostic_desc' ),
                 sprintf(
                 /* translators: %s: 'Plugin' or 'Theme' */
-                    $this->_fs->get_text_inline( 'To avoid breaking your website due to WordPress or PHP version ***REMOVED***, and recognize which languages & regions the %s should be translated and tailored to.', 'permissions-diagnostic_tooltip' ),
+                    $this->_fs->get_text_inline( 'To avoid breaking your website due to WordPress or PHP version incompatibilities, and recognize which languages & regions the %s should be translated and tailored to.', 'permissions-diagnostic_tooltip' ),
                     $this->_fs->get_module_label( true )
                 ),
                 25,

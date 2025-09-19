@@ -1,4 +1,4 @@
-import {***REMOVED***, ***REMOVED***} from '@wordpress/block-editor';
+import {InspectorControls, PanelColorSettings} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, RangeControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {addFilter} from '@wordpress/hooks';
@@ -9,7 +9,7 @@ import classnames from 'classnames'
 const allowedBlocks = ['core/columns', 'core/column'];
 
 
-const ***REMOVED*** = createHigherOrderComponent((***REMOVED***) => {
+const editorBlockListBlock = createHigherOrderComponent((BlockListBlock) => {
     return (props) => {
         const {
             name,
@@ -38,12 +38,12 @@ const ***REMOVED*** = createHigherOrderComponent((***REMOVED***) => {
 
             return <Fragment>
 
-                <***REMOVED*** {...newProps} wrapperProps={{style: newStyles}}/>
+                <BlockListBlock {...newProps} wrapperProps={{style: newStyles}}/>
 
             </Fragment>
         } else {
             return <Fragment>
-                <***REMOVED*** {...props} />
+                <BlockListBlock {...props} />
             </Fragment>
         }
     };
@@ -115,7 +115,7 @@ function saveContent(extraProps, blockType, attributes) {
     return extraProps
 }
 
-const ***REMOVED*** = createHigherOrderComponent((BlockEdit) => {
+const editorBlockEdit = createHigherOrderComponent((BlockEdit) => {
     return (props) => {
 
         const {
@@ -139,7 +139,7 @@ const ***REMOVED*** = createHigherOrderComponent((BlockEdit) => {
                 <BlockEdit {...props}/>
 
 
-                {isSelected && allowedBlocks.includes(name) && <***REMOVED***>
+                {isSelected && allowedBlocks.includes(name) && <InspectorControls>
 
                     <Panel header={__("Additional Styles","dg")}>
                         <PanelBody>
@@ -180,7 +180,7 @@ const ***REMOVED*** = createHigherOrderComponent((BlockEdit) => {
                                 />
                             </PanelRow>
                             <PanelRow>
-                                <***REMOVED***
+                                <PanelColorSettings
                                     colorSettings={[
                                         {
                                             value: borderColor,
@@ -198,29 +198,29 @@ const ***REMOVED*** = createHigherOrderComponent((BlockEdit) => {
                             </PanelRow>
                         </PanelBody>
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
                 }
 
             </Fragment>
         );
     };
-}, '***REMOVED***');
+}, 'withAdvancedControls');
 
 
 addFilter(
-    'blocks.***REMOVED***',
+    'blocks.registerBlockType',
     'dg/custom-columns-attributes',
     blocksRegisterBlockType
 );
 addFilter(
     'editor.BlockEdit',
     'dg/custom-column-control',
-    ***REMOVED***
+    editorBlockEdit
 );
 addFilter(
-    'blocks.***REMOVED***.extraProps',
-    'dg/***REMOVED***',
+    'blocks.getSaveContent.extraProps',
+    'dg/applyExtraClass',
     saveContent
 );
 
-addFilter('editor.***REMOVED***', 'dg/with-additional-styles', ***REMOVED***);
+addFilter('editor.BlockListBlock', 'dg/with-additional-styles', editorBlockListBlock);

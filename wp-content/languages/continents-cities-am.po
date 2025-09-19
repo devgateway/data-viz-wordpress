@@ -1220,7 +1220,7 @@ msgid "Macquarie"
 msgstr "ማካሪ"
 
 #: wp-admin/includes/continents-cities.php:237
-msgid "***REMOVED***"
+msgid "DumontDUrville"
 msgstr "ዱምቶንዲያቪል"
 
 #: wp-admin/includes/continents-cities.php:236
@@ -1856,7 +1856,7 @@ msgid "Cordoba"
 msgstr "ኮርዶባ"
 
 #: wp-admin/includes/continents-cities.php:77
-msgid "***REMOVED***"
+msgid "ComodRivadavia"
 msgstr "ኮሞድ ሪቫዴቪያ"
 
 #: wp-admin/includes/continents-cities.php:76

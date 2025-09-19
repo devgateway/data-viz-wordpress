@@ -23,7 +23,7 @@ Translations of post types, taxonomies, meta fields, options, text fields in mil
 * 100% free.
 * Translation at PHP.
 * Compatible with REST.
-* Support configuration for translate ***REMOVED*** arrays in options, meta fields, post content.
+* Support configuration for translate multidimensional arrays in options, meta fields, post content.
 * Support multisite.
 * Support WordPress in sub-folder.
 * Separate menu items, posts, terms, widgets, comments per language.
@@ -66,7 +66,7 @@ Manage translation settings via json.
 
 Add in the root of your theme or plugin file `wpm-config.json`.
 
-Sample ***REMOVED*** can be viewed in config files in folder 'configs' in root the plugin.
+Sample configurations can be viewed in config files in folder 'configs' in root the plugin.
 
 Configuration is updated after switching theme, enable or update any plugins.
 
@@ -90,7 +90,7 @@ There are two ways:
 
 To enable translation pass an empty array in php `array()` or empty object in json `{}`.
 
-Supports translation ***REMOVED*** array of options, meta fields and post_content.
+Supports translation multidimensional array of options, meta fields and post_content.
 Supports the removal of established localizations.
 Supports translation via GET parameter. Add in the GET parameter `lang` code desired language.
 Supports clean database of translations when removing the plugin. Translations are only removed from the built-in tables.
@@ -109,7 +109,7 @@ Or using the shortcode `wpm_lang_switcher`. It accept two not necessary paramete
 Available features for translation:
 `wpm_translate_url( $url, $language = '' );` - translate url
 `wpm_translate_string( $string, $language = '' );` - translate multilingual string
-`wpm_translate_value( $value, $language = '' );` - translate ***REMOVED*** array with multilingual strings
+`wpm_translate_value( $value, $language = '' );` - translate multidimensional array with multilingual strings
 
 Update translation occurs at PHP. Therefore plugin has high adaptability, compatibility and easily integrates with other plugins. This is what distinguishes it among similar.
 
@@ -131,7 +131,7 @@ Where:
 `attribute` - attribute what need to translate. Available 'text' - for translate text node, 'value' - for translate form values. Or other tag attribute, like 'title', 'alt'.
 `selector` - css selector for search needed tag. Each selector is a new array item.
 
-If You need to add translation for ***REMOVED*** array for repeated elements You can use custom tag 'wpm_each' for set config to each element in array.
+If You need to add translation for multidimentional array for repeated elements You can use custom tag 'wpm_each' for set config to each element in array.
 Example, add config for each item 'title' in custom post field array:
 `
 "post_fields": {

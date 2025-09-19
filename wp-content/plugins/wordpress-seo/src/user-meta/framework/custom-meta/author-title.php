@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:disable Yoast.***REMOVED***.NamespaceName.TooLong
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong
 namespace Yoast\WP\SEO\User_Meta\Framework\Custom_Meta;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
