@@ -1,10 +1,10 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
-import { ***REMOVED***, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl } from '@wordpress/components';
+import { CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl } from '@wordpress/components';
 
 import Format from './Format'
 import { togglePanel } from "./Util";
-import { ***REMOVED*** } from "./APIutils";
+import { getTranslation } from "./APIutils";
 import { Measure } from './types';
 
 const defaultFormat = {
@@ -16,12 +16,12 @@ const defaultFormat = {
 }
 
 export type MeasuresProps = {
-    ***REMOVED***?: (measure: string) => void;
-    ***REMOVED***: (format: string, field: string) => void;
+    onMeasuresChange?: (measure: string) => void;
+    onFormatChange: (format: string, field: string) => void;
     onUseCustomAxisFormatChange?: (value: boolean) => void;
-    ***REMOVED***: (measure: string) => void;
+    onSetSingleMeasure: (measure: string) => void;
     onCustomLabelToggleChange?: (measure: string) => void;
-    ***REMOVED***?: (measure: string, value: string) => void;
+    onCustomLabelChange?: (measure: string, value: string) => void;
     allMeasures: Measure[];
     setAttributes: (attributes: any) => void;
     title?: string;
@@ -39,12 +39,12 @@ export type MeasuresProps = {
 
 export const Measures = (props: MeasuresProps) => {
     const {
-        ***REMOVED***,
-        ***REMOVED***,
+        onMeasuresChange,
+        onFormatChange,
         onUseCustomAxisFormatChange,
-        ***REMOVED***,
+        onSetSingleMeasure,
         onCustomLabelToggleChange,
-        ***REMOVED***,
+        onCustomLabelChange,
         allMeasures,
         setAttributes,
         title,
@@ -64,9 +64,9 @@ export const Measures = (props: MeasuresProps) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
 
         return (<ToggleControl
-            label={***REMOVED***(measure)}
+            label={getTranslation(measure)}
             checked={userMeasure ? userMeasure.selected : false}
-            onChange={(value) => ***REMOVED***?.(measure.value)} />)
+            onChange={(value) => onMeasuresChange?.(measure.value)} />)
     }
 
     const MCheckbox = ({ measure }) => {
@@ -78,14 +78,14 @@ export const Measures = (props: MeasuresProps) => {
             isChecked = userMeasure ? userMeasure.selected : false
         }
 
-        return <***REMOVED***
-            label={***REMOVED***(measure)}
+        return <CheckboxControl
+            label={getTranslation(measure)}
             checked={isChecked}
-            onChange={(value) => ***REMOVED***(measure.value)} />
+            onChange={(value) => onSetSingleMeasure(measure.value)} />
     }
 
 
-    const ***REMOVED*** = ({ measure, single }) => {
+    const MeasureOptions = ({ measure, single }) => {
         return <PanelRow>
             {single && <MCheckbox measure={measure}></MCheckbox>}
             {!single && <MToggle measure={measure}></MToggle>}
@@ -95,7 +95,7 @@ export const Measures = (props: MeasuresProps) => {
 
     const countSelected = (g) => {
         if (measures[app]) {
-            const mG = allMeasures.filter(f => ***REMOVED***(f.group) === g)
+            const mG = allMeasures.filter(f => getTranslation(f.group) === g)
             let count = 0
             Object.keys(measures[app]).filter(l => mG.map(m => m.value).indexOf(l) > -1).forEach(k => {
                 if (measures[app][k].selected) {
@@ -108,13 +108,13 @@ export const Measures = (props: MeasuresProps) => {
     }
     const countTotal = (g) => {
         if (g) {
-            return allMeasures.filter(f => ***REMOVED***(f.group) === g).length
+            return allMeasures.filter(f => getTranslation(f.group) === g).length
         }
 
         return 0
     }
 
-    const ***REMOVED*** = () => {
+    const getSelectedMeasures = () => {
         if (measures[app] && allMeasures) {
             return Object.keys(measures[app]).filter(k => measures[app][k].selected).map(k => {
                 return allMeasures.filter(m => m.value === k)[0]
@@ -124,7 +124,7 @@ export const Measures = (props: MeasuresProps) => {
     }
 
 
-    const ***REMOVED*** = ***REMOVED***()
+    const selectedMeasures = getSelectedMeasures()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
         onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
 
@@ -147,13 +147,13 @@ export const Measures = (props: MeasuresProps) => {
 
             ((type == 'line') || (type == 'radar') ||
                 (type == 'bar' && dimension2 == 'none') ||
-                (type == 'pie' && dimension1 == 'none' && dimension2 == 'none')) && allMeasures && [...new Set(allMeasures.map(p => ***REMOVED***(p.group)))].map(g => {
+                (type == 'pie' && dimension1 == 'none' && dimension2 == 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody initialOpen={panelStatus[g]}
                         onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                         title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
-                        {allMeasures.filter(f => ***REMOVED***(f.group) === g)
+                        {allMeasures.filter(f => getTranslation(f.group) === g)
                             .map(m => <PanelRow>
-                                <***REMOVED*** single={false} measure={m}></***REMOVED***>
+                                <MeasureOptions single={false} measure={m}></MeasureOptions>
                             </PanelRow>)}
                     </PanelBody>
 
@@ -175,15 +175,15 @@ export const Measures = (props: MeasuresProps) => {
               any dimensions selected
 
         */
-            ((type == 'big-number') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => ***REMOVED***(p.group)))].map(g => {
+            ((type == 'big-number') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody
                     initialOpen={panelStatus[g]}
                     onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                     title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
 
-                    {allMeasures.filter(f => ***REMOVED***(f.group) === g)
+                    {allMeasures.filter(f => getTranslation(f.group) === g)
                         .map(m => <PanelRow>
-                            <***REMOVED*** single={true} measure={m}></***REMOVED***>
+                            <MeasureOptions single={true} measure={m}></MeasureOptions>
                         </PanelRow>)}
 
                 </PanelBody>
@@ -197,9 +197,9 @@ export const Measures = (props: MeasuresProps) => {
             (type == 'overlay') && allMeasures && <SelectControl
                 label="Measure"
                 // @ts-ignore
-                value={***REMOVED*** && ***REMOVED***[0] ? ***REMOVED***[0].value : null}
+                value={selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null}
                 options={[{ value: '', label: 'Select Measure' }, ...allMeasures]}
-                onChange={(measure) => ***REMOVED***(measure)}
+                onChange={(measure) => onSetSingleMeasure(measure)}
                 __nextHasNoMarginBottom
             />
 
@@ -212,9 +212,9 @@ export const Measures = (props: MeasuresProps) => {
                 hiddenCustomAxisFormat={type == 'radar' || type == 'big-number'}
                 format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
-                ***REMOVED***={measures[app] ? measures[app].***REMOVED*** : false}
-                ***REMOVED***={(format, field) => {
-                    ***REMOVED***(format, field)
+                useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}
+                onFormatChange={(format, field) => {
+                    onFormatChange(format, field)
                 }}
                 onUseCustomAxisFormatChange={value => {
                     onUseCustomAxisFormatChange?.(value)
@@ -224,27 +224,27 @@ export const Measures = (props: MeasuresProps) => {
         </PanelBody>}
 
     </PanelBody>
-        {(type != 'overlay') && ***REMOVED*** && ***REMOVED***.length > 0 &&
+        {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
             <PanelBody title={__("Measure Label Customization")}
                 initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
                 onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
 
-                {***REMOVED*** && [...new Set(***REMOVED***.map(p => ***REMOVED***(p.group)))].map(g => {
+                {selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
                         onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
                         title={`${g}`}>
-                        {***REMOVED***.filter(f => ***REMOVED***(f.group) === g)
+                        {selectedMeasures.filter(f => getTranslation(f.group) === g)
                             .map(m => {
                                 const userMeasure = measures[app] ? measures[app][m.value] : {}
                                 return (<><PanelRow><ToggleControl
-                                    label={***REMOVED***(m)}
-                                    checked={userMeasure ? userMeasure.***REMOVED*** : false}
+                                    label={getTranslation(m)}
+                                    checked={userMeasure ? userMeasure.hasCustomLabel : false}
                                     onChange={(value) => onCustomLabelToggleChange?.(m.value)} /> </PanelRow>
-                                    {userMeasure.***REMOVED*** &&
+                                    {userMeasure.hasCustomLabel &&
                                         <PanelRow>
                                             <TextControl label={__("Custom Label")}
                                                 value={userMeasure ? userMeasure.customLabel : ""}
-                                                onChange={(value) => ***REMOVED***?.(m.value, value)} />
+                                                onChange={(value) => onCustomLabelChange?.(m.value, value)} />
                                         </PanelRow>
                                     }
                                 </>)

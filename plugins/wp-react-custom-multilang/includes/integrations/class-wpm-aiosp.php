@@ -95,7 +95,7 @@ class WPM_AIOSP {
 		if ( isset( $this->meta_fields[ $meta_key ] ) ) {
 			global $wpdb;
 
-			//phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching
+			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$old_value = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s AND post_id = %d;", $meta_key, $object_id ) );
 
 			if ( $old_value ) {
@@ -128,7 +128,7 @@ class WPM_AIOSP {
 			$meta_value = wpm_set_new_value( $this->meta_fields[ $meta_key ], $meta_value );
 			$meta_value = maybe_serialize( $meta_value );
 
-			//phpcs:ignore WordPress.DB.***REMOVED***.DirectQuery
+			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$result = $wpdb->insert( $wpdb->postmeta, array(
 				'post_id'    => $object_id,
 				//phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -197,13 +197,13 @@ class WPM_AIOSP {
 				$meta_key_array = array('_aioseo_title', '_aioseo_description', '_aioseo_twitter_title', '_aioseo_twitter_description', '_aioseo_og_title', '_aioseo_og_description', '_aioseo_wpm_schema', '_aioseo_wpm_canonical_url', '_aioseo_wpm_og_video', '_aioseo_og_article_section', '_aioseo_og_article_tags', '_aioseo_wpm_keyphrases', '_aioseo_wpm_og_object_type', '_aioseo_wpm_twitter_card', '_aioseo_wpm_og_image_type', '_aioseo_wpm_og_image_url', '_aioseo_wpm_og_image_custom_url', '_aioseo_wpm_og_custom_url', '_aioseo_wpm_twitter_image_type', '_aioseo_wpm_twitter_image_url', '_aioseo_wpm_twitter_image_custom_url');
 
 				// Get _aioseo_description and _aioseo_title values from table
-				//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching
+				//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$post_meta_result 	=	array();
 				if ( $is_post == 1 ) {
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.***REMOVED***.DirectQuery,WordPress.DB.***REMOVED***.NoCaching
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 					$post_meta_result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->postmeta} WHERE post_id = %d AND (meta_key IN('".implode("','", $meta_key_array)."') )", $post_id ));
 				}else if ( $is_term == 1 ) {
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.***REMOVED***.DirectQuery,WordPress.DB.***REMOVED***.NoCaching
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 					$post_meta_result = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->termmeta} WHERE term_id = %d AND (meta_key IN('".implode("','", $meta_key_array)."') )", $post_id ));
 				}
 				
@@ -396,7 +396,7 @@ class WPM_AIOSP {
 			global $wpdb;
 
 			$table 					=	$wpdb->prefix.'aioseo_posts';
-			//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$post_data 				= 	$wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE post_id = %d" , $post_id ) );
 			
 			if ( ! empty( $post_data ) && is_object($post_data) ) { 
@@ -421,7 +421,7 @@ class WPM_AIOSP {
 			global $wpdb;
 
 			$table 					=	$wpdb->prefix.'aioseo_terms';
-			//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			//phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.QuotedDynamicPlaceholderGeneration, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$term_data 				= 	$wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE term_id = %d" , $post_id ) );
 			
 			if ( ! empty( $term_data ) && is_object($term_data) ) { 

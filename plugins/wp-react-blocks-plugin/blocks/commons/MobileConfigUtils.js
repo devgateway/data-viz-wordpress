@@ -1,24 +1,24 @@
 import _ from 'lodash';
-import {***REMOVED***} from "./APIutils";
+import {getTranslatedOptions} from "./APIutils";
 
 
-export function ***REMOVED***(csvData) {
+export function extractAxisValues(csvData) {
     const lines = csvData.split("\n");
-    const ***REMOVED*** = lines?.slice(1)?.map((row) => {
+    const firstColumnValues = lines?.slice(1)?.map((row) => {
         return row.split(",")[0];
     });
-    return ***REMOVED***;
+    return firstColumnValues;
 }
 
-export function transformDataToAppObject(data, appName, ***REMOVED*** = {}) {
-    if (***REMOVED***[appName] !== undefined) {
-        return ***REMOVED***;
+export function transformDataToAppObject(data, appName, existingObject = {}) {
+    if (existingObject[appName] !== undefined) {
+        return existingObject;
     }
-    ***REMOVED***[appName] = {};
+    existingObject[appName] = {};
     if (data) {
         data.forEach((item) => {
             const key = item.value;
-            ***REMOVED***[appName][key] = {
+            existingObject[appName][key] = {
                 selected: false,
                 format: {
                     style: "percent",
@@ -26,28 +26,28 @@ export function transformDataToAppObject(data, appName, ***REMOVED*** = {}) {
                     maximumFractionDigits: 1,
                     currency: "USD",
                 },
-                ***REMOVED***: false,
+                hasCustomLabel: false,
                 customLabel: item.label || key,
             };
         });
     }
-    return ***REMOVED***;
+    return existingObject;
 }
 
 export function getSelectedItemsForApp(config, appName) {
     const appConfig = config[appName];
     if (!appConfig) return {};
 
-    const ***REMOVED*** = {};
+    const selectedEntries = {};
 
     for (const key in appConfig) {
         const value = appConfig[key];
         if (value && typeof value === 'object' && value.selected === true) {
-            ***REMOVED***[key] = value;
+            selectedEntries[key] = value;
         }
     }
 
-    return ***REMOVED***;
+    return selectedEntries;
 }
 
 
@@ -59,15 +59,15 @@ export function getSelectedLabelsForApp(data, appName) {
     return Object.keys(appData)
         .filter((key) => appData[key].selected) // Filter out the selected items
         .map((key) => {
-            return appData[key].***REMOVED***
+            return appData[key].hasCustomLabel
                 ? appData[key].customLabel
                 : appData[key].label;
         });
 }
 
-export function ***REMOVED***(data, measures, app) {
+export function updateMeasureLabels(data, measures, app) {
     transformDataToAppObject(data, app, measures);
-    const apiMeasures = ***REMOVED***(data);
+    const apiMeasures = getTranslatedOptions(data);
     // for each api measure, find the corresponding measure in the measures array
     // and add a label property to the measure in the measures array
     apiMeasures?.forEach((apiMeasure) => {
@@ -79,16 +79,16 @@ export function ***REMOVED***(data, measures, app) {
 };
 
 
-export function ***REMOVED***(key, fallback, overwrite = false) {
+export function getStoredOrSetItem(key, fallback, overwrite = false) {
     const fallbackValue = fallback || [];
     if (overwrite && !_.isEmpty(fallbackValue)) {
-        ***REMOVED***
+        sessionStorage
             .setItem(key, JSON.stringify(fallbackValue));
         return fallbackValue;
     }
-    const stored = JSON.parse(***REMOVED***.getItem(key));
+    const stored = JSON.parse(sessionStorage.getItem(key));
     if (!stored) {
-        ***REMOVED***.setItem(key, JSON.stringify(fallbackValue));
+        sessionStorage.setItem(key, JSON.stringify(fallbackValue));
         return fallbackValue;
     }
     return stored;

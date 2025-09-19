@@ -16,21 +16,21 @@ const SaveComponent = (props) => {
             noneLabel,
             startLabel,
             endLabel,
-            ***REMOVED***,
-            ***REMOVED***,
+            useSingleColumn,
+            enableTextSearch,
             filterType,
             defaultValues,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            showNoDataOption,
+            defaultValueCriteria,
+            booleanTrueLabel,
+            booleanFalseLabel,
             hiddenFilters,
-            ***REMOVED***,
+            allNoneSameBehaviour,
             closeOnSelect,
-            ***REMOVED***,
+            alphabeticalSort,
             ascOrder,
-            ***REMOVED***,
-            ***REMOVED***,
+            useFilterItems,
+            dvzProxyDatasetId,
             autoApply
         }
     } = props;
@@ -42,9 +42,9 @@ const SaveComponent = (props) => {
     return (<div className={"viz-component"}
                  data-component={"filter"}
                  data-app={app}
-                 data-dvz-proxy-dataset-id={***REMOVED***}
+                 data-dvz-proxy-dataset-id={dvzProxyDatasetId}
                  data-icon={icon}
-                 data-alphabetical-sort={***REMOVED***}
+                 data-alphabetical-sort={alphabeticalSort}
                  data-asc-order={ascOrder}
                  data-type={type}
                  data-group={group}
@@ -57,19 +57,19 @@ const SaveComponent = (props) => {
                  data-none-label={noneLabel}
                  data-start-label={startLabel}
                  data-end-label={endLabel}
-                 data-use-single-column={***REMOVED***}
-                 data-enable-text-search={***REMOVED***}
+                 data-use-single-column={useSingleColumn}
+                 data-enable-text-search={enableTextSearch}
                  data-filter-type={filterType}
                  data-default-values={defaultValues}
-                 data-filters={***REMOVED***(JSON.stringify(filters))}
-                 data-show-no-data-option={***REMOVED***}
-                 data-default-value-criteria={***REMOVED***}
-                 data-boolean-true-label={***REMOVED***}
-                 data-boolean-false-label={***REMOVED***}
-                 data-hidden-filters={***REMOVED***(JSON.stringify(hiddenFilters))}
+                 data-filters={encodeURIComponent(JSON.stringify(filters))}
+                 data-show-no-data-option={showNoDataOption}
+                 data-default-value-criteria={defaultValueCriteria}
+                 data-boolean-true-label={booleanTrueLabel}
+                 data-boolean-false-label={booleanFalseLabel}
+                 data-hidden-filters={encodeURIComponent(JSON.stringify(hiddenFilters))}
                  data-close-on-select={closeOnSelect}
-                 data-use-filter-items={***REMOVED***}
-                 data-all-none-same-behaviour={***REMOVED***}
+                 data-use-filter-items={useFilterItems}
+                 data-all-none-same-behaviour={allNoneSameBehaviour}
                  data-auto-apply={autoApply}>
     </div>);
 }

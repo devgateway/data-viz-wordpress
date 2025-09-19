@@ -7,10 +7,10 @@ const Settings = ({setAttributes,allMeasures,
                     attributes: {
                         app,
                         csv,
-                        ***REMOVED***,
-                        ***REMOVED***,
+                        groupTotalFormat,
+                        groupTotalMeasure,
                         groupTotalLabelOffset,
-                        ***REMOVED***,
+                        groupTotalLabel,
                         groupTotalFixedPosition
                     }
                 }) => {
@@ -27,27 +27,27 @@ const Settings = ({setAttributes,allMeasures,
             {(app !== "csv")&&
                 <SelectControl
                     label={__('Measure')}
-                    value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
+                    value={[groupTotalMeasure]} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
-                        setAttributes({***REMOVED***: value})
+                        setAttributes({groupTotalMeasure: value})
                     }}
                     options={allMeasures ? allMeasures.map(({value, label}) => ({label, value})) : []}
                 />}
             {(app == "csv")&&
                 <SelectControl
                     label={__('Measure')}
-                    value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
+                    value={[groupTotalMeasure]} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
-                        setAttributes({***REMOVED***: value})
+                        setAttributes({groupTotalMeasure: value})
                     }}
                     options={data&&data.meta?data.meta.fields.map((k) => ({label:k,value:k})): []}
                 />}
         </PanelRow>
         <Format title={__("Group Total Format")}
-                format={***REMOVED***}
-                ***REMOVED***={***REMOVED*** => {
+                format={groupTotalFormat}
+                onFormatChange={groupTotalFormat => {
 
-                    setAttributes({***REMOVED***})
+                    setAttributes({groupTotalFormat})
                 }}>
         </Format>
         <PanelRow>
@@ -62,15 +62,15 @@ const Settings = ({setAttributes,allMeasures,
                 value={groupTotalLabelOffset}
                 onChange={(groupTotalLabelOffset) => setAttributes({groupTotalLabelOffset})}
                 allowReset
-                ***REMOVED***={0}
+                resetFallbackValue={0}
                 step={5}
                 min={-250}
                 max={250}
             />
         </PanelRow>
         <PanelRow>
-            <TextControl value={***REMOVED***} label={__("Label")}
-                         onChange={(value) => setAttributes({***REMOVED***: value})} type="string"/>
+            <TextControl value={groupTotalLabel} label={__("Label")}
+                         onChange={(value) => setAttributes({groupTotalLabel: value})} type="string"/>
         </PanelRow>
 
     </PanelBody>

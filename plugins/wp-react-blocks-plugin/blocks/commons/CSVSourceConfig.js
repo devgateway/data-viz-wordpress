@@ -1,4 +1,4 @@
-import {PanelBody, PanelRow, ***REMOVED***} from '@wordpress/components';
+import {PanelBody, PanelRow, TextareaControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import Format from "../charts/Format.jsx";
 import {togglePanel} from "./Util";
@@ -12,11 +12,11 @@ const defaultFormat = {
 
 const CSVConfig = ({attributes: {csv, panelStatus, measures, type}, setAttributes}) => {
 
-    const ***REMOVED*** = (format, field) => {           
+    const onFormatChange = (format, field) => {           
         const app = "csv"
         const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {}
         if (!uMs[app]) {
-            uMs[app] = {***REMOVED***: false, format: Object.assign({}, defaultFormat), customFormat: Object.assign({}, {...defaultFormat}), selected: false}
+            uMs[app] = {allowSelection: false, format: Object.assign({}, defaultFormat), customFormat: Object.assign({}, {...defaultFormat}), selected: false}
         }     
         uMs[app][field] = format
         setAttributes({measures: uMs})
@@ -28,15 +28,15 @@ const CSVConfig = ({attributes: {csv, panelStatus, measures, type}, setAttribute
         const app = "csv"
         const uMs = measures ? JSON.parse(JSON.stringify(measures)) : {}
         if (uMs[app]) {
-            uMs[app].***REMOVED*** = value
+            uMs[app].useCustomAxisFormat = value
 
             if (!uMs[app].customFormat) {
                 uMs[app].customFormat = Object.assign({}, {...defaultFormat})
             } 
             setAttributes({ measures: uMs })
         }  else {
-            uMs[app] = {***REMOVED***: false, format: Object.assign({}, {...defaultFormat}), customFormat: Object.assign({}, {...defaultFormat}), selected: false}
-            uMs[app].***REMOVED*** = value
+            uMs[app] = {allowSelection: false, format: Object.assign({}, {...defaultFormat}), customFormat: Object.assign({}, {...defaultFormat}), selected: false}
+            uMs[app].useCustomAxisFormat = value
             setAttributes({ measures: uMs })
         }
 
@@ -46,7 +46,7 @@ const CSVConfig = ({attributes: {csv, panelStatus, measures, type}, setAttribute
         [<PanelBody initialOpen={false} title={__("CSV Configuration")}
                     onToggle={e => togglePanel("csv_cfg",panelStatus,setAttributes)}>
             <PanelRow>
-                <***REMOVED***
+                <TextareaControl
                     label={__("CSV Data")}
                     value={csv}
                     onChange={(csv) => setAttributes({csv})}
@@ -57,9 +57,9 @@ const CSVConfig = ({attributes: {csv, panelStatus, measures, type}, setAttribute
                 hiddenCustomAxisFormat={type=='radar' || type=='big-number'}              
                 format={measures["csv"] && measures["csv"].format ? measures["csv"].format : {}}
                 customFormat={measures["csv"] && measures["csv"].customFormat ? measures["csv"].customFormat : {}}
-                ***REMOVED***={measures["csv"] ? measures["csv"].***REMOVED*** : false}
-                ***REMOVED***={(newFormat, field) => {
-                    ***REMOVED***(newFormat, field)
+                useCustomAxisFormat={measures["csv"] ? measures["csv"].useCustomAxisFormat : false}
+                onFormatChange={(newFormat, field) => {
+                    onFormatChange(newFormat, field)
                 }}
                 onUseCustomAxisFormatChange = {value => {
                     onUseCustomAxisFormatChange(value)

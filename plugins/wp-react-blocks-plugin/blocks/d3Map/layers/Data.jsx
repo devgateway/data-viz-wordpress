@@ -2,26 +2,26 @@ import {Component} from "@wordpress/element";
 import {__} from '@wordpress/i18n';
 import {
     Button, ButtonGroup,
-    ***REMOVED***,
+    CheckboxControl,
     PanelBody,
     PanelRow,
     RangeControl,
     SelectControl,
-    ***REMOVED***,
+    TextareaControl,
     TextControl,
     ToggleControl
 } from '@wordpress/components';
 import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
-import ***REMOVED*** from "./utils/***REMOVED***";
-import {***REMOVED***} from "@wordpress/block-editor";
-import ***REMOVED*** from "./utils/***REMOVED***";
+import BreaksGenerator from "./utils/BreaksGenerator";
+import {PanelColorSettings} from "@wordpress/block-editor";
+import PatternGenerator from "./utils/PatternGenerator";
 import Format from '../../charts/Format.jsx'
 import {isSupersetAPI} from "../../commons/APIutils";
-import ***REMOVED*** from "./utils/***REMOVED***";
+import GradientGenerator from "./utils/GradientGenerator";
 
 
-const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
+const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
     const sortedOptions = options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
@@ -29,11 +29,11 @@ const ***REMOVED*** = ({param, index, options, ***REMOVED***}) => {
     });
 
     return <SelectControl onChange={(value) => {
-        ***REMOVED***(value, index)
+        onUpdateFilterParam(value, index)
     }} value={param} options={sortedOptions}/>
 }
 
-const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
+const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             /*
@@ -45,25 +45,25 @@ const ***REMOVED*** = ({value, index, items, ***REMOVED***}) => {
         });
         return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
                                                               onChange={e => {
-                                                                  ***REMOVED***(v.id, index)
+                                                                  onUpdateFilterValue(v.id, index)
                                                               }}/></PanelRow>)
     } else {
         return null;
     }
 }
 
-export class ***REMOVED*** extends Component {
+export class DataLayerSetting extends Component {
     constructor(props) {
         super(props);
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this)
         this.addFilter = this.addFilter.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.updateFilterParam = this.updateFilterParam.bind(this)
+        this.updateFilterValue = this.updateFilterValue.bind(this)
+        this.setFilterValue = this.setFilterValue.bind(this)
         this.removeFilter = this.removeFilter.bind(this)
         this.items = this.items.bind(this)
         this.getCSValue = this.getCSValue.bind(this)
-        this.***REMOVED*** = this.***REMOVED***.bind(this)
+        this.onFormatChange = this.onFormatChange.bind(this)
         this.state = {
             measures: [], dimensions: [], filters: [], categories: []
         }
@@ -73,38 +73,38 @@ export class ***REMOVED*** extends Component {
 
 
 
-    ***REMOVED***(format, field) {
+    onFormatChange(format, field) {
         const {
-            ***REMOVED***, allDimensions, allFilters, allMeasures, features, apps, layer: {
+            onChangeProperty, allDimensions, allFilters, allMeasures, features, apps, layer: {
                 app,
                 csv,
                 measures,
                 filters,
-                ***REMOVED***,
-                ***REMOVED***,
+                featureJoinAttribute,
+                apiJoinAttribute,
                 type,
                 fillColor,
                 borderColor,
                 breaks,
                 markFillColor,
-                ***REMOVED***,
+                markBorderColor,
                 markSizeScale,
                 tooltip
             }
         } = this.props
 
-        ***REMOVED***("format", format);
+        onChangeProperty("format", format);
     }
 
 
     getCSValue() {
-        const {apps, features, layer: {csv, ***REMOVED***}} = this.props
+        const {apps, features, layer: {csv, featureJoinAttribute}} = this.props
         if (csv == '') {
             let generatedCSV = 'id,value\n'
             if (features && features.length > 0) {
                 features.forEach(f => {
-                    if (f.properties[***REMOVED***]) {
-                        generatedCSV = generatedCSV + f.properties[***REMOVED***] + ', \n'
+                    if (f.properties[featureJoinAttribute]) {
+                        generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n'
                     }          
                 })
             }
@@ -114,30 +114,30 @@ export class ***REMOVED*** extends Component {
         return csv
     }
 
-    ***REMOVED***(prevState) {
+    cleanSelection(prevState) {
 
-        const {***REMOVED***} = this.props
-        ***REMOVED***("measures", [])
-        ***REMOVED***("filters", [])
+        const {onChangeProperty} = this.props
+        onChangeProperty("measures", [])
+        onChangeProperty("filters", [])
 
         //setAttributes({measures: [], filters: []})
     }
 
-    ***REMOVED***(param, idx) {
+    updateFilterParam(param, idx) {
 
-        const {layer: {filters}, ***REMOVED***, allFilters} = this.props
+        const {layer: {filters}, onChangeProperty, allFilters} = this.props
         const newFilters = filters.slice()
         const selected = allFilters.filter(f => f.param === param)[0]
         newFilters[idx] = {...selected, value: []}
         // setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
 
 
     }
 
-    ***REMOVED***(value, idx) {
+    updateFilterValue(value, idx) {
 
-        const {layer: {filters}, ***REMOVED***} = this.props
+        const {layer: {filters}, onChangeProperty} = this.props
         const selected = filters[idx]
         let values = selected.value
         if (values.indexOf(value) > -1) {
@@ -149,25 +149,25 @@ export class ***REMOVED*** extends Component {
         const newFilters = filters.slice()
         newFilters[idx].value = values
         // setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
     }
 
-    ***REMOVED***(value, idx) {
+    setFilterValue(value, idx) {
 
-        const {layer: {filters}, ***REMOVED***} = this.props
+        const {layer: {filters}, onChangeProperty} = this.props
         const selected = filters[idx]
         let values = selected.value
         values = value.split(",")
         const newFilters = filters.slice()
         newFilters[idx].value = values
         //setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
 
     }
 
     addFilter() {
 
-        const {layer: {filters}, ***REMOVED***, allFilters} = this.props
+        const {layer: {filters}, onChangeProperty, allFilters} = this.props
         let index = filters.length > allFilters.length ? allFilters.length : filters.length
         const newFilter = (allFilters && allFilters.length > 0) ? {
             ...allFilters[index], "value": []
@@ -175,25 +175,25 @@ export class ***REMOVED*** extends Component {
         let newFilters = filters.slice()
         newFilters.push(newFilter)
         //setAttributes({filters: newFilters})
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
     }
 
     removeFilter(f) {
-        const {layer: {filters}, ***REMOVED***, allFilters} = this.props
+        const {layer: {filters}, onChangeProperty, allFilters} = this.props
         let newFilters = filters.slice(0, -1)
-        ***REMOVED***("filters", newFilters)
+        onChangeProperty("filters", newFilters)
     }
 
 
-    ***REMOVED***(prevProps) {
-        const {***REMOVED***, layer: {type, dimension2, types}} = this.props
-        const {layer: {type: prevType, dimension2: ***REMOVED***}} = prevProps
+    componentDidUpdate(prevProps) {
+        const {onChangeProperty, layer: {type, dimension2, types}} = this.props
+        const {layer: {type: prevType, dimension2: prevDimension2}} = prevProps
     }
 
 
-    ***REMOVED***(value) {
-        const {***REMOVED***} = this.props
-        ***REMOVED***("measures", [value])
+    onSetSingleMeasure(value) {
+        const {onChangeProperty} = this.props
+        onChangeProperty("measures", [value])
     }
 
     items(type) {
@@ -212,7 +212,7 @@ export class ***REMOVED*** extends Component {
 
     render() {
         const {
-            ***REMOVED***,
+            onChangeProperty,
             allDimensions,
             allFilters,
             allMeasures,
@@ -228,10 +228,10 @@ export class ***REMOVED*** extends Component {
                 csv,
                 measures,
                 filters,
-                ***REMOVED***,
-                ***REMOVED***,
+                featureJoinAttribute,
+                apiJoinAttribute,
                 type,
-                ***REMOVED***,
+                useCentroidPoint,
                 useBreaks,
                 useGradients,
                 fillColor,
@@ -239,47 +239,47 @@ export class ***REMOVED*** extends Component {
                 format,
 
                 breaks,
-                ***REMOVED***,
-                ***REMOVED***,
+                gradientScheme,
+                gradientReverse,
                 labelFontSize,
                 markFillColor,
-                ***REMOVED***,
-                ***REMOVED***,
+                markLabelColor,
+                markBorderColor,
                 markSizeScale,
-                ***REMOVED***,
+                markerLabelSize,
                 tooltip,
                 usePattern,
                 patterns,
-                ***REMOVED***,
-                ***REMOVED***,
+                customMeasuresLabels,
+                patternDiscriminator,
                 onRemoveLayer,
                 onMoveLayer,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***                       
+                dvzProxyDatasetId,
+                patternsVisible,
+                colorLayerVisible                       
             }
         } = this.props
 
         
         
 
-        let ***REMOVED*** = ""
-        let ***REMOVED*** = ""
+        let selectedMeasureLabel = ""
+        let selectedMeasureValue = ""
 
         
 
         if (app != 'csv') {
             const theMeasure = measures ? measures[0] : null
-            const ***REMOVED*** = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null
-            if (***REMOVED***) {
-                ***REMOVED*** = ***REMOVED***.label
-                ***REMOVED*** = ***REMOVED***.value
+            const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null
+            if (selectedMeasure) {
+                selectedMeasureLabel = selectedMeasure.label
+                selectedMeasureValue = selectedMeasure.value
 
 
-                if (***REMOVED*** && (!***REMOVED***[***REMOVED***] || ***REMOVED***[***REMOVED***] == "")) {
-                    ***REMOVED***("***REMOVED***", {
-                        ...***REMOVED***,
-                        [***REMOVED***]: ***REMOVED***
+                if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
+                    onChangeProperty("customMeasuresLabels", {
+                        ...customMeasuresLabels,
+                        [selectedMeasureValue]: selectedMeasureLabel
                     })
                 }
             }
@@ -290,7 +290,7 @@ export class ***REMOVED*** extends Component {
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
                     onChange={(app) => {  
-                       ***REMOVED***("app", app)                            
+                       onChangeProperty("app", app)                            
                     }}
                     options={apps}
                 />
@@ -299,51 +299,51 @@ export class ***REMOVED*** extends Component {
             <PanelRow>
                 <SelectControl
                     label={__('Datasets')}
-                    value={[***REMOVED***]}
+                    value={[dvzProxyDatasetId]}
                     onChange={(newDatasetId) => {
-                        ***REMOVED***("***REMOVED***", newDatasetId)
+                        onChangeProperty("dvzProxyDatasetId", newDatasetId)
                     }}
                     options={allDatasets}
                 />
             </PanelRow>
             }
-            {type != 'dataPoints' && <Property property={"***REMOVED***"}
-                                               type={"select"} ***REMOVED***={***REMOVED***}
+            {type != 'dataPoints' && <Property property={"featureJoinAttribute"}
+                                               type={"select"} onChangeProperty={onChangeProperty}
                                                features={features}
-                                               value={***REMOVED***}
+                                               value={featureJoinAttribute}
                                                title={"Shape Attribute"}>
 
             </Property>}
 
             {app == 'csv' && <PanelRow>
-                <***REMOVED***
+                <TextareaControl
                     label={__("CSV Data")}
                     value={this.getCSValue(csv)}
-                    onChange={(csv) => ***REMOVED***("csv", csv)}
+                    onChange={(csv) => onChangeProperty("csv", csv)}
                 />
             </PanelRow>}
 
             {app == 'csv' && <PanelRow>
                 <Format title={"Format"} format={format} hiddenCustomAxisFormat={true}
-                        ***REMOVED***={this.***REMOVED***}></Format>
+                        onFormatChange={this.onFormatChange}></Format>
             </PanelRow>}
 
             {app != 'csv' && <PanelRow>
                 <SelectControl
                     label={'Dimension' + (type == 'dataPoints' ? 'LatLong' : '')}
-                    value={[***REMOVED***]} // e.g: value = [ 'a', 'c' ]
+                    value={[apiJoinAttribute]} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
-                        ***REMOVED***("***REMOVED***", value)
+                        onChangeProperty("apiJoinAttribute", value)
                     }}
                     options={allDimensions}
                 />
             </PanelRow>}
             <PanelRow>
-                <***REMOVED***
+                <TextareaControl
                     label={__("Tooltip")}
                     value={tooltip}
                     help={__("You can use variables {var_name}")}
-                    onChange={(tooltip) => ***REMOVED***("tooltip", tooltip)}
+                    onChange={(tooltip) => onChangeProperty("tooltip", tooltip)}
                     rows={10}
                 />
 
@@ -358,8 +358,8 @@ export class ***REMOVED*** extends Component {
         </PanelBody>,
             <React.Fragment>
                 {app != 'csv' && <Measures
-                    ***REMOVED***={this.***REMOVED***}
-                    ***REMOVED***={this.***REMOVED***}
+                    onFormatChange={this.onFormatChange}
+                    onSetSingleMeasure={this.onSetSingleMeasure}
                     measures={layer.measures}
                     format={layer.format}
                     {...this.props}/>}
@@ -368,10 +368,10 @@ export class ***REMOVED*** extends Component {
                 {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
                 {filters.map((f, index) => {
                     return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
-                    <***REMOVED*** param={f.param} index={index} options={allFilters}
-                    ***REMOVED***={this.***REMOVED***}/>
-                {<***REMOVED*** value={f.value} index={index} items={this.items(f.type)}
-                    ***REMOVED***={this.***REMOVED***}/>}
+                    <FilterSelector param={f.param} index={index} options={allFilters}
+                    onUpdateFilterParam={this.updateFilterParam}/>
+                {<CategoricalFilter value={f.value} index={index} items={this.items(f.type)}
+                    onUpdateFilterValue={this.updateFilterValue}/>}
                     </PanelBody>)
                 })}
 
@@ -382,14 +382,14 @@ export class ***REMOVED*** extends Component {
                     </PanelBody>}
                     </React.Fragment>,
                     <PanelBody initialOpen={false} title={"Symbols and Styles"}>
-                {app != "csv" && ***REMOVED*** && <PanelRow>
+                {app != "csv" && selectedMeasureValue && <PanelRow>
                     <TextControl
-                    label={***REMOVED***}
+                    label={selectedMeasureLabel}
                     help={__("Customize Measure Label")}
-                    value={***REMOVED*** ? ***REMOVED***[***REMOVED***] : ""}
+                    value={customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : ""}
                     onChange={(measureLabel) => {
-                    ***REMOVED***("***REMOVED***", {
-                    ...***REMOVED***, [***REMOVED***]: measureLabel
+                    onChangeProperty("customMeasuresLabels", {
+                    ...customMeasuresLabels, [selectedMeasureValue]: measureLabel
                 })
 
 
@@ -397,13 +397,13 @@ export class ***REMOVED*** extends Component {
                     </TextControl>
                     </PanelRow>}
                     <PanelRow>
-                    <***REMOVED***
+                    <PanelColorSettings
                     title={__(`Default Fill Color`)}
                     value={fillColor}
                     colorSettings={[{
                     clearable: true, enableAlpha: true,
                     value: fillColor, onChange: (fillColor) => {
-                    ***REMOVED***("fillColor", fillColor)
+                    onChangeProperty("fillColor", fillColor)
                 },
 
                 }]}
@@ -412,41 +412,41 @@ export class ***REMOVED*** extends Component {
                     <PanelRow>
                     <ToggleControl
                     label="Use Centroid Points"
-                    checked={***REMOVED***}
+                    checked={useCentroidPoint}
                     onChange={(value) => {
-                    ***REMOVED***("***REMOVED***", true)
+                    onChangeProperty("useCentroidPoint", true)
                 }}
                     />
                     </PanelRow>
                     <PanelRow>
                     <ToggleControl
                     label="Use Shape Colors"
-                    checked={!***REMOVED***}
+                    checked={!useCentroidPoint}
                     onChange={(value) => {
-                    ***REMOVED***("***REMOVED***", false)
+                    onChangeProperty("useCentroidPoint", false)
                 }}
                     />
                     </PanelRow>
 
 
-                {***REMOVED*** && <PanelRow>
+                {useCentroidPoint && <PanelRow>
                     <RangeControl
                     label="Point Base Size"
                     value={markSizeScale}
                     onChange={(value) => {
-                    ***REMOVED***("markSizeScale", value)
+                    onChangeProperty("markSizeScale", value)
                 }}
                     step={1}
                     min={0}
                     max={100}
                     />
                     </PanelRow>}
-                {***REMOVED*** && <PanelRow>
+                {useCentroidPoint && <PanelRow>
                     <RangeControl
                     label="Point Label Size"
-                    value={***REMOVED***}
-                    onChange={(***REMOVED***) => {
-                    ***REMOVED***("***REMOVED***", ***REMOVED***)
+                    value={markerLabelSize}
+                    onChange={(markerLabelSize) => {
+                    onChangeProperty("markerLabelSize", markerLabelSize)
                 }}
                     step={1}
                     min={0}
@@ -455,41 +455,41 @@ export class ***REMOVED*** extends Component {
 
                     </RangeControl>
                     </PanelRow>}
-                {***REMOVED*** && <PanelRow>
+                {useCentroidPoint && <PanelRow>
 
-                    <***REMOVED***
+                    <PanelColorSettings
                     title={__(`Circle Fill Color`)}
                     value={markFillColor}
                     colorSettings={[{
                     clearable: true, enableAlpha: true, value: markFillColor, onChange: (markFillColor) => {
-                    ***REMOVED***("markFillColor", markFillColor)
+                    onChangeProperty("markFillColor", markFillColor)
                 },
 
                 }]}
                     /></PanelRow>}
 
-                {***REMOVED*** && <PanelRow>
-                    <***REMOVED***
+                {useCentroidPoint && <PanelRow>
+                    <PanelColorSettings
                     title={__(`Circle Label Color`)}
-                    value={***REMOVED***}
+                    value={markLabelColor}
                     colorSettings={[{
                     clearable: true,
                     enableAlpha: true,
-                    value: ***REMOVED***,
-                    onChange: (***REMOVED***) => {
-                    ***REMOVED***("***REMOVED***", ***REMOVED***)
+                    value: markLabelColor,
+                    onChange: (markLabelColor) => {
+                    onChangeProperty("markLabelColor", markLabelColor)
                 },
 
                 }]}
                     />
                     </PanelRow>}
-                {***REMOVED*** && <PanelRow>
-                    <***REMOVED***
+                {useCentroidPoint && <PanelRow>
+                    <PanelColorSettings
                     title={__(`Circle Border Color`)}
                     value={borderColor}
                     colorSettings={[{
-                    clearable: true, enableAlpha: true, value: ***REMOVED***, onChange: (borderColor) => {
-                    ***REMOVED***("***REMOVED***", borderColor)
+                    clearable: true, enableAlpha: true, value: markBorderColor, onChange: (borderColor) => {
+                    onChangeProperty("markBorderColor", borderColor)
                 },
 
                 }]}
@@ -501,7 +501,7 @@ export class ***REMOVED*** extends Component {
                                 label="Use Breaks"
                                 checked={useBreaks}
                                 onChange={e => {
-                                    ***REMOVED***(["useBreaks", !useBreaks], ["useGradients", false])
+                                    onChangeProperty(["useBreaks", !useBreaks], ["useGradients", false])
                                 }}
                             />
                         </PanelRow>
@@ -511,7 +511,7 @@ export class ***REMOVED*** extends Component {
                                 label="Use Gradients"
                                 checked={useGradients}
                                 onChange={e => {
-                                    ***REMOVED***(["useGradients", !useGradients], ["useBreaks", false])
+                                    onChangeProperty(["useGradients", !useGradients], ["useBreaks", false])
                                 }}
                             />
                         </PanelRow>
@@ -519,45 +519,45 @@ export class ***REMOVED*** extends Component {
                          <PanelRow>
                             <ToggleControl
                                 label="Show Color Layer"
-                                checked={***REMOVED***}
+                                checked={colorLayerVisible}
                                 onChange={e => {
-                                    ***REMOVED***("***REMOVED***", !***REMOVED***)
+                                    onChangeProperty("colorLayerVisible", !colorLayerVisible)
                                 }}
                             />
                         </PanelRow>
 
-                {useBreaks && <***REMOVED***
+                {useBreaks && <BreaksGenerator
                     app={app}
                     csv={csv}
-                    ***REMOVED***={***REMOVED***}
+                    dvzProxyDatasetId={dvzProxyDatasetId}
                     measures={measures}
                     filters={filters}
-                    ***REMOVED***={***REMOVED***}
-                    showSize={***REMOVED***}
-                    ***REMOVED***={***REMOVED***}
-                    ***REMOVED***={markFillColor}
+                    apiJoinAttribute={apiJoinAttribute}
+                    showSize={useCentroidPoint}
+                    defaultBorderColor={markBorderColor}
+                    defaultFillColor={markFillColor}
                     format={format}
-                    ***REMOVED***={***REMOVED***} breaks={breaks}/>}
+                    onChangeProperty={onChangeProperty} breaks={breaks}/>}
 
-                {useGradients && <***REMOVED***
-                    ***REMOVED***={***REMOVED***} ***REMOVED***={***REMOVED***} ***REMOVED***={***REMOVED***}/>}
+                {useGradients && <GradientGenerator
+                    onChangeProperty={onChangeProperty} gradientReverse={gradientReverse} gradientScheme={gradientScheme}/>}
 
                     <PanelRow>
                     <ToggleControl
                     label="Use Patterns"
                     checked={usePattern}
                     onChange={e => {
-                    ***REMOVED***("usePattern", !usePattern)
+                    onChangeProperty("usePattern", !usePattern)
                 }}
                     />
                     </PanelRow>
 
                        
 
-                {usePattern && <***REMOVED*** allCategories={allCategories} allDimensions={allDimensions}
-                    ***REMOVED***={fillColor} ***REMOVED***={***REMOVED***}
+                {usePattern && <PatternGenerator allCategories={allCategories} allDimensions={allDimensions}
+                    defaultFillColor={fillColor} onChangeProperty={onChangeProperty}
                     patterns={patterns} app={app} csv={csv}
-                    ***REMOVED***={***REMOVED***}/>}
+                    patternDiscriminator={patternDiscriminator}/>}
                     </PanelBody>
 
 
@@ -568,4 +568,4 @@ export class ***REMOVED*** extends Component {
                 }
 
 
-export default ***REMOVED***;
+export default DataLayerSetting;

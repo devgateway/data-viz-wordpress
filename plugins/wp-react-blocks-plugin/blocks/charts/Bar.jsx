@@ -4,10 +4,10 @@ import ChartColors from "../commons/ChartColors.jsx"
 import ChartLegends from '../commons/ChartLegends.jsx'
 import AxisConfig from './AxisConfig.jsx'
 import Labels from "./Labels.jsx"
-import LineOverlay from "./***REMOVED***.jsx";
+import LineOverlay from "./LineOverlayConfig.jsx";
 import ConfidenceIntervalConfig from "./ConfidenceIntervalConfig.jsx"
 import Papa from 'papaparse'
-import ***REMOVED*** from "./***REMOVED***.jsx";
+import GroupTotalSetting from "./GroupTotalSetting.jsx";
 import Sort from "./Sort.jsx";
 
 const BarOptions = (props) => {
@@ -27,7 +27,7 @@ const BarOptions = (props) => {
             groupMode,
             reverse,
             colorBy,
-            ***REMOVED***,
+            lineLayerEnabled,
             valueScale,
             maxValue,
             swap,
@@ -35,22 +35,22 @@ const BarOptions = (props) => {
             fixedMaxValue,
             fixedMinValue,
             barPadding,
-            ***REMOVED***,
+            barLabelPosition,
             showGrid,
-            ***REMOVED***,
+            includeOverall,
             overallLabel,
-            ***REMOVED***,
-            ***REMOVED***,
+            barInnerPadding,
+            highlightXAxisLine,
             showTickLine,
             showRightAxis,
             hiddenBars,
             format,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
-            ***REMOVED***,
+            showGroupTotal,
+            groupTotalMeasure,
+            groupTotalLabel,
+            groupTotalFormat,
             groupTotalLabelOffset,
-            ***REMOVED***,
+            groupTotalOffset,
             enableGridX,
             enableGridY,
             sort,
@@ -62,22 +62,22 @@ const BarOptions = (props) => {
         if (allCategories) {
 
             let byDimension = false;
-            let ***REMOVED*** = null;
+            let whichDimension = null;
             if (dimension2 == "none" && colorBy === "index" && swap) { //Multi measure colored by first dimension but  swapped (Colored by Measure)
                 byDimension = true
-                ***REMOVED*** = dimension1
+                whichDimension = dimension1
 
             } else if (dimension2 == "none" && colorBy === "id" && !swap) {  //Multi Measure chart colored by second dimension (Measure)
                 byDimension = false
             } else {
 
                 byDimension = true
-                ***REMOVED*** = colorBy == "index" ? dimension1 : dimension2
+                whichDimension = colorBy == "index" ? dimension1 : dimension2
 
             }
 
             if (byDimension) {
-                const ds = allDimensions ? allDimensions.filter(d => d.value == ***REMOVED***) : [];
+                const ds = allDimensions ? allDimensions.filter(d => d.value == whichDimension) : [];
                 if (ds.length > 0) {
                     const {type} = ds[0]
                     const cat = allCategories.filter(a => a.type === type)
@@ -117,11 +117,11 @@ const BarOptions = (props) => {
     }
 
 
-    let ***REMOVED*** = []
+    let selectedMeasures = []
     if (allMeasures) {
         allMeasures.forEach(m => {
             if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
-                ***REMOVED***.push(m.value)
+                selectedMeasures.push(m.value)
             }
         })
     }
@@ -179,7 +179,7 @@ const BarOptions = (props) => {
           {app !== "csv" &&
             dimension1 != "none" &&
             dimension2 == "none" &&
-            ***REMOVED***.length > 0 && (
+            selectedMeasures.length > 0 && (
               <PanelRow>
                 <ToggleControl
                   label={__("Swap Values")}
@@ -207,13 +207,13 @@ const BarOptions = (props) => {
               <PanelRow>
                 <ToggleControl
                   label={__("Include Overall")}
-                  checked={***REMOVED***}
-                  onChange={(***REMOVED***) =>
-                    setAttributes({ ***REMOVED*** })
+                  checked={includeOverall}
+                  onChange={(includeOverall) =>
+                    setAttributes({ includeOverall })
                   }
                 />
               </PanelRow>
-              {***REMOVED*** && (
+              {includeOverall && (
                 <PanelRow>
                   <TextControl
                     label={__("Overall Label")}
@@ -227,15 +227,15 @@ const BarOptions = (props) => {
           <PanelRow>
             <ToggleControl
               label={__("Display Group Total")}
-              checked={***REMOVED***}
-              onChange={(***REMOVED***) => {
-                if (!***REMOVED*** || ***REMOVED*** == "") {
+              checked={showGroupTotal}
+              onChange={(showGroupTotal) => {
+                if (!groupTotalMeasure || groupTotalMeasure == "") {
                   setAttributes({
-                    ***REMOVED***,
-                    ***REMOVED***: allMeasures ? allMeasures[0].value : "",
+                    showGroupTotal,
+                    groupTotalMeasure: allMeasures ? allMeasures[0].value : "",
                   });
                 } else {
-                  setAttributes({ ***REMOVED*** });
+                  setAttributes({ showGroupTotal });
                 }
               }}
             />
@@ -244,7 +244,7 @@ const BarOptions = (props) => {
           <Labels {...props}></Labels>
         </PanelBody>
 
-        {***REMOVED*** && <***REMOVED*** {...props}></***REMOVED***>}
+        {showGroupTotal && <GroupTotalSetting {...props}></GroupTotalSetting>}
 
         {getSeries() && (
           <PanelBody initialOpen={false} title={__("Hidden Bars")}>
@@ -261,7 +261,7 @@ const BarOptions = (props) => {
                   }
                   onChange={() => {
                     // Check if the bar or any of its labels is hidden
-                    const ***REMOVED*** = p.labels
+                    const hiddenBarsHasLabel = p.labels
                       ? Object.values(p.labels).some((label) =>
                           hiddenBars.includes(label)
                         )
@@ -269,7 +269,7 @@ const BarOptions = (props) => {
 
                     let updatedBars = [...hiddenBars];
 
-                    if (hiddenBars.includes(p.value) || ***REMOVED***) {
+                    if (hiddenBars.includes(p.value) || hiddenBarsHasLabel) {
                       // Remove the bar and its associated labels
                       updatedBars = updatedBars.filter(
                         (item) =>
@@ -307,7 +307,7 @@ const BarOptions = (props) => {
                 "Bar Padding (Space between bars that are not in the same group)"
               )}
               value={barPadding}
-              ***REMOVED***={0.15}
+              initialPosition={0.15}
               onChange={(barPadding) => setAttributes({ barPadding })}
               step={0.05}
               min={0}
@@ -320,9 +320,9 @@ const BarOptions = (props) => {
               label={__(
                 "Bar Inner Padding (Space between bars in the same group)"
               )}
-              value={***REMOVED***}
-              ***REMOVED***={0.75}
-              onChange={(***REMOVED***) => setAttributes({ ***REMOVED*** })}
+              value={barInnerPadding}
+              initialPosition={0.75}
+              onChange={(barInnerPadding) => setAttributes({ barInnerPadding })}
               step={0.25}
               min={0}
               max={50}
@@ -336,13 +336,13 @@ const BarOptions = (props) => {
           <PanelRow>
             <ToggleControl
               label={__("Enable Overlay")}
-              checked={***REMOVED*** === true}
+              checked={lineLayerEnabled === true}
               onChange={(value) =>
-                setAttributes({ ***REMOVED***: !***REMOVED*** })
+                setAttributes({ lineLayerEnabled: !lineLayerEnabled })
               }
             />
           </PanelRow>
-          {***REMOVED*** && (
+          {lineLayerEnabled && (
             <LineOverlay
               allMeasures={allMeasures}
               apps={apps}

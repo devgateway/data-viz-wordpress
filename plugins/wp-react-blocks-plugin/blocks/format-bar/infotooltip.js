@@ -1,9 +1,9 @@
 import {__} from '@wordpress/i18n';
 import {useState} from "@wordpress/element";
 import {
-    ***REMOVED***,
+    getTextContent,
     insertObject,
-    ***REMOVED***,
+    registerFormatType,
     removeFormat,
     slice,
     useAnchorRef
@@ -11,7 +11,7 @@ import {
 import {RichTextToolbarButton} from '@wordpress/block-editor';
 import {speak} from '@wordpress/a11y';
 import {info as linkIcon} from '@wordpress/icons';
-import {Button, Modal, Panel, PanelBody, PanelRow, Popover, ***REMOVED***} from '@wordpress/components';
+import {Button, Modal, Panel, PanelBody, PanelRow, Popover, TextareaControl} from '@wordpress/components';
 
 const name = process.env.BLOCKS_NS + '/info-tooltip';
 const reference = {
@@ -31,11 +31,11 @@ const reference = {
 
 const PopUI = ({onClose, onCancel}) => {
     const [text, setText] = useState("")
-    return <Modal title={__("Reference")} ***REMOVED***={e => onCancel()}>
-        <***REMOVED***
+    return <Modal title={__("Reference")} onRequestClose={e => onCancel()}>
+        <TextareaControl
             label={__("Description")}
-            value={***REMOVED***(text)}
-            onChange={(value) => setText(***REMOVED***(value))}
+            value={decodeURIComponent(text)}
+            onChange={(value) => setText(encodeURIComponent(value))}
         />
 
         <Button isPrimary onClick={e => onClose(text)}>
@@ -67,8 +67,8 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
                     <form
                         style={{"width": "300px"}}
                         onSubmit={(event) => {
-                            const ***REMOVED*** = value.replacements.slice();
-                            ***REMOVED***[value.start] = {
+                            const newReplacements = value.replacements.slice();
+                            newReplacements[value.start] = {
                                 type: name,
                                 attributes: {
                                     ...activeObjectAttributes,
@@ -79,18 +79,18 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
 
                             onChange({
                                 ...value,
-                                replacements: ***REMOVED***,
+                                replacements: newReplacements,
                             });
                             onClose()
-                            event.***REMOVED***();
+                            event.preventDefault();
                         }}
                     >
                         <PanelRow>
 
-                            <***REMOVED***
+                            <TextareaControl
                                 rows={5}
                                 label={__("Description")}
-                                value={***REMOVED*** (content)}
+                                value={decodeURIComponent (content)}
                                 onChange={(content) => setContent(content)}
                             />
                         </PanelRow>
@@ -113,10 +113,10 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
 
 function edit(props) {
     const {
-        ***REMOVED***,
+        isObjectActive,
         isActive,
         activeObjectAttributes,
-        ***REMOVED***,
+        activeAttributes,
         value,
         onChange,
         onFocus,
@@ -129,17 +129,17 @@ function edit(props) {
         settings: {},
     });
 
-    const [isModalOpen, ***REMOVED***] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [showInline, setShowInline] = useState(true);
 
     function openModal() {
-        ***REMOVED***(true);
+        setIsModalOpen(true);
     }
 
     function closeModal(referenceText) {
 
         
-        const text = ***REMOVED***(slice(value));
+        const text = getTextContent(slice(value));
         const obj = insertObject(value, {
             type: name,
             attributes: {
@@ -154,14 +154,14 @@ function edit(props) {
         );
 
 
-        ***REMOVED***(false);
+        setIsModalOpen(false);
     }
 
     function onCancel() {
-        ***REMOVED***(false);
+        setIsModalOpen(false);
     }
 
-    function ***REMOVED***() {
+    function onRemoveFormat() {
         onChange(removeFormat(value, name));
         speak(__('Link removed.'), 'assertive');
     }
@@ -174,11 +174,11 @@ function edit(props) {
                 title={__('Tooltip')}
                 isActive={isActive}
                 onClick={openModal}
-                isActive={***REMOVED***}
+                isActive={isObjectActive}
                 shortcutType="primaryShift"
-                ***REMOVED***="t"/>
+                shortcutCharacter="t"/>
             {isModalOpen && <PopUI value={value} onCancel={onCancel} onClose={closeModal}/>}
-            {***REMOVED*** && <InlineUI value={value}
+            {isObjectActive && <InlineUI value={value}
                                          onClose={e => {
                                              setShowInline(false)
                                          }}
@@ -191,4 +191,4 @@ function edit(props) {
     );
 }
 
-***REMOVED***(name, reference);
+registerFormatType(name, reference);

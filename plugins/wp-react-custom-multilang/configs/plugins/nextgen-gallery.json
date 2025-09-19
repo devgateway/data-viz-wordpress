@@ -4,9 +4,9 @@
   },
   "options": {
     "ngg_options": {
-      "***REMOVED***": {},
+      "relatedHeading": {},
       "galTextSlide": {},
-      "***REMOVED***": {}
+      "galTextGallery": {}
     }
   }
 }

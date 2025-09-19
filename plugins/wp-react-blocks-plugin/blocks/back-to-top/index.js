@@ -1,11 +1,11 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from "../icons";
 
 
-***REMOVED***(process.env.BLOCKS_NS+'/back-to-top',
+registerBlockType(process.env.BLOCKS_NS+'/back-to-top',
     {
         title: __('Back To Top','dg'),
         icon: Generic,
@@ -23,7 +23,7 @@ import {Generic} from "../icons";
                 type: 'Numeric',
                 default: 100,
             },
-            ***REMOVED***: {
+            backgroundColor: {
                 type: 'string',
                 default: "#ecb040",
             },

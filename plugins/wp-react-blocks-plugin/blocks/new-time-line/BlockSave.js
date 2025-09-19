@@ -30,8 +30,8 @@ const SaveComponent = (props) => {
                  className={"viz-component"}
                  data-height={height}
                  data-component={"newTimeLine"}
-                 data-config={***REMOVED***(JSON.stringify(config))}
-                 data-line-color={***REMOVED***(lineColor)}
+                 data-config={encodeURIComponent(JSON.stringify(config))}
+                 data-line-color={encodeURIComponent(lineColor)}
                  data-position={position}
                  data-line-width={lineWidth}
                  data-margin-left={marginLeft}

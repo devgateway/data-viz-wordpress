@@ -69,15 +69,15 @@ class WPM_Newsletter {
 		/**
 		 * Compatibility with extension WP Users Integration
 		 */
-		if ( class_exists( '***REMOVED***' ) ) {
-			\***REMOVED***::$instance->options = wpm_translate_value( \***REMOVED***::$instance->options );
+		if ( class_exists( 'NewsletterWpUsers' ) ) {
+			\NewsletterWpUsers::$instance->options = wpm_translate_value( \NewsletterWpUsers::$instance->options );
 		}
 
 		/**
 		 * Compatibility with extension Locked Content
 		 */
-		if ( class_exists( '***REMOVED***' ) ) {
-			\***REMOVED***::$instance->options = wpm_translate_value( \***REMOVED***::$instance->options );
+		if ( class_exists( 'NewsletterLock' ) ) {
+			\NewsletterLock::$instance->options = wpm_translate_value( \NewsletterLock::$instance->options );
 		}
 	}
 

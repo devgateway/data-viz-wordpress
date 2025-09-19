@@ -1,4 +1,4 @@
-export const ***REMOVED*** = (options) => {
+export const getTranslatedOptions = (options) => {
     const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase()
     if (options && options instanceof Array) {
         debugger;
@@ -17,7 +17,7 @@ export const ***REMOVED*** = (options) => {
 
 }
 
-export const ***REMOVED*** = (translatable) => {
+export const getTranslation = (translatable) => {
     
     const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase()
     let {label, labels, value} = translatable
@@ -37,4 +37,4 @@ export const isSupersetAPI = (app, apps) => {
     && appObj.settings.metadata.superset == 'true';
 }
 
-export default ***REMOVED***
+export default getTranslatedOptions

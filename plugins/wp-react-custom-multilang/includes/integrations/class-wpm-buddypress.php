@@ -57,7 +57,7 @@ class WPM_BuddyPress {
 
 		if ( bp_is_email_customizer() ) {
 			add_filter( 'wpm_customizer_url', function () {
-				// phpcs:ignore WordPress.Security.***REMOVED***.Recommended, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
 				return rawurldecode( wpm_clean( $_GET['url'] ) );
 			} );
 		}

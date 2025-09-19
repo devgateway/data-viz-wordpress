@@ -1,16 +1,16 @@
 import {Button, ButtonGroup, PanelBody, PanelRow, RangeControl, TextControl} from "@wordpress/components";
-import {***REMOVED***} from "@wordpress/block-editor";
+import {PanelColorSettings} from "@wordpress/block-editor";
 import {__} from '@wordpress/i18n';
 
 var ss = require('simple-statistics')
-const ***REMOVED*** = ({
-                             ***REMOVED***, breaks = [], ***REMOVED***, ***REMOVED***, showSize, app,
-                             csv, ***REMOVED***,
-                             ***REMOVED***,
+const BreaksGenerator = ({
+                             onChangeProperty, breaks = [], defaultFillColor, defaultBorderColor, showSize, app,
+                             csv, apiJoinAttribute,
+                             dvzProxyDatasetId,
                              measures,
                              filters,
                              format,
-                             ***REMOVED***
+                             hasSecondDimension
                          }) => {
 
 
@@ -29,10 +29,10 @@ const ***REMOVED*** = ({
         const newBreaks = []
         const queryString = filters.map(f => f.param + "=" + f.value.map(v => v).toString()).join('&')
 
-        fetch(`/api/${app}/stats/${***REMOVED***}?***REMOVED***=${***REMOVED***}&${queryString}`).then(response => response.json()).then(data => {
+        fetch(`/api/${app}/stats/${apiJoinAttribute}?dvzProxyDatasetId=${dvzProxyDatasetId}&${queryString}`).then(response => response.json()).then(data => {
 
             let values = []
-            if (***REMOVED***) {
+            if (hasSecondDimension) {
                 values = data.children.flatMap(d => d.children).map(d => d[measures[0]])
             } else {
                 values = data.children.map(d => d[measures[0]])
@@ -58,24 +58,24 @@ const ***REMOVED*** = ({
 
                 newBreaks.push({
                     end: naturalBreaks[i],
-                    color: breaks && breaks[i] && breaks[i].color ? breaks[i].color : ***REMOVED***,
-                    borderColor: breaks && breaks[i] && breaks[i].borderColor ? naturalBreaks[i].borderColor : ***REMOVED***,
+                    color: breaks && breaks[i] && breaks[i].color ? breaks[i].color : defaultFillColor,
+                    borderColor: breaks && breaks[i] && breaks[i].borderColor ? naturalBreaks[i].borderColor : defaultBorderColor,
                     size: breaks && breaks[i] && breaks[i].size ? breaks[i].size : DEFAULT_POINT_SIZE,
                     type: 'lessThan'
                 });
             }
 
-            const ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')
-            let color = ***REMOVED***
-            let borderColor = ***REMOVED***
+            const currentGraterThan = breaks.filter(b => b.type == 'graterThan')
+            let color = defaultFillColor
+            let borderColor = defaultBorderColor
 
             let size = DEFAULT_POINT_SIZE
             debugger;
 
-            if (***REMOVED***.length > 0) {
-                color = ***REMOVED***[0].color
-                borderColor = ***REMOVED***[0].borderColor
-                size = ***REMOVED***[0].size
+            if (currentGraterThan.length > 0) {
+                color = currentGraterThan[0].color
+                borderColor = currentGraterThan[0].borderColor
+                size = currentGraterThan[0].size
             }
 
             newBreaks.push({
@@ -85,7 +85,7 @@ const ***REMOVED*** = ({
                 size: size,
                 type: 'graterThan'
             })
-            ***REMOVED***("breaks", [...newBreaks])
+            onChangeProperty("breaks", [...newBreaks])
         });
 
 
@@ -93,70 +93,70 @@ const ***REMOVED*** = ({
     const add = () => {
         //eslint-disable-next-line
         debugger;
-        const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
-        let ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')
+        const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
+        let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
 
-        if (***REMOVED***.length === 0) {
-            ***REMOVED*** = [{
+        if (graterThanBreaks.length === 0) {
+            graterThanBreaks = [{
                 start: 0,
                 end: 1,
-                color: ***REMOVED***,
-                borderColor: ***REMOVED***,
+                color: defaultFillColor,
+                borderColor: defaultBorderColor,
                 size: 1,
                 type: 'graterThan'
             }]
         }
-        const newBreaks = [...***REMOVED***]
+        const newBreaks = [...lessThanBreaks]
 
         newBreaks.push({
             start: 0,
             end: 1,
-            color: ***REMOVED***,
-            borderColor: ***REMOVED***,
+            color: defaultFillColor,
+            borderColor: defaultBorderColor,
             size: DEFAULT_POINT_SIZE,
             type: 'lessThan'
         })
         //keep grater than break at the end
-        ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
+        onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks])
     }
 
     const update = (property, index, value) => {
         //eslint-disable-next-line
         debugger;
-        const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
-        let ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')
-        const newBreaks = [...***REMOVED***]
+        const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
+        let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
+        const newBreaks = [...lessThanBreaks]
         newBreaks[index][property] = value
-        ***REMOVED***[0].end = ***REMOVED***[***REMOVED***.length - 1].end
-        ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
+        graterThanBreaks[0].end = lessThanBreaks[lessThanBreaks.length - 1].end
+        onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks])
     }
 
     const remove = (index) => {
         //eslint-disable-next-line
         debugger;
-        let ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')
-        let ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
-        const newBreaks = [...***REMOVED***]
+        let graterThanBreaks = breaks.filter(b => b.type == 'graterThan')
+        let lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
+        const newBreaks = [...lessThanBreaks]
         newBreaks.splice(index, 1)
 
         if (newBreaks.length > 0) {
-            ***REMOVED***[0].end = ***REMOVED***[newBreaks.length - 1].end
+            graterThanBreaks[0].end = lessThanBreaks[newBreaks.length - 1].end
         }
         if (newBreaks.length == 0) {
-            ***REMOVED*** = []
+            graterThanBreaks = []
         }
 
 
-        ***REMOVED***("breaks", [...newBreaks, ...***REMOVED***])
+        onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks])
     }
 
-    const ***REMOVED*** = (property, value) => {
+    const updateGraterThan = (property, value) => {
         //eslint-disable-next-line
         debugger;
-        const ***REMOVED*** = breaks.filter(b => b.type == 'graterThan')[0]
-        const ***REMOVED*** = breaks.filter(b => b.type == 'lessThan')
-        ***REMOVED***[property] = value
-        ***REMOVED***("breaks", [...***REMOVED***, ***REMOVED***])
+        const graterThanBreak = breaks.filter(b => b.type == 'graterThan')[0]
+        const lessThanBreaks = breaks.filter(b => b.type == 'lessThan')
+        graterThanBreak[property] = value
+        onChangeProperty("breaks", [...lessThanBreaks, graterThanBreak])
     }
 
     /*
@@ -193,7 +193,7 @@ const ***REMOVED*** = ({
                         <div style={{
                             width: "15px",
                             height: "15px",
-                            ***REMOVED***: br.color,
+                            backgroundColor: br.color,
                             border: '1px solid #000',
                             float: "left",
                             marginRight: "5px"
@@ -223,7 +223,7 @@ const ***REMOVED*** = ({
                             />
                         </PanelRow>}
 
-                        <***REMOVED***
+                        <PanelColorSettings
                             title={__(`Fill Color`)}
                             colorSettings={[{
                                 clearable: true,
@@ -247,7 +247,7 @@ const ***REMOVED*** = ({
                         <div style={{
                             width: "15px",
                             height: "15px",
-                            ***REMOVED***: br.color,
+                            backgroundColor: br.color,
                             border: '1px solid #000',
                             float: "left",
                             marginRight: "5px"
@@ -260,7 +260,7 @@ const ***REMOVED*** = ({
                                 label="Size"
                                 value={br.size}
                                 onChange={(value) => {
-                                    ***REMOVED***("size", value)
+                                    updateGraterThan("size", value)
                                 }}
                                 step={1}
                                 min={0}
@@ -268,12 +268,12 @@ const ***REMOVED*** = ({
                             />
                         </PanelRow>}
                         <PanelRow>
-                            <***REMOVED***
+                            <PanelColorSettings
                                 title={__(`Fill Color`)}
                                 colorSettings={[{
                                     value: br.color,
                                     onChange: (fillColor) => {
-                                        ***REMOVED***("color", fillColor)
+                                        updateGraterThan("color", fillColor)
                                     },
 
                                 }]}
@@ -290,4 +290,4 @@ const ***REMOVED*** = ({
 }
 
 
-export default ***REMOVED***;
+export default BreaksGenerator;

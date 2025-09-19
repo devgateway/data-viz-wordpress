@@ -1,14 +1,14 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {RangeControl, Panel, PanelBody, PanelRow, TextControl, ToggleControl} from '@wordpress/components';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import {ResizableBox} from '@wordpress/components';
 import Generic from "../icons";
-import {***REMOVED***} from "../commons";
+import {BlockEditWithFilters} from "../commons";
 import {__} from '@wordpress/i18n';
 
 const EditComponent = (props) => {
-    const {attributes: {height,style,columns}, ***REMOVED***, setAttributes} = props;
-    const urlParams = new ***REMOVED***(window.location.search);
+    const {attributes: {height,style,columns}, toggleSelection, setAttributes} = props;
+    const urlParams = new URLSearchParams(window.location.search);
     const parent = urlParams.get('post');
     const blockProps = useBlockProps({className: 'wp-react-component'});
     const queryString = `editing=true&data-parent=${parent}&data-style=${style}&data-height=${height}&data-columns=${columns}`;
@@ -16,7 +16,7 @@ const EditComponent = (props) => {
     const divStyles = {height: height + 'px', width: '100%'}
     return (
         <div>
-            <***REMOVED***>
+            <InspectorControls>
                 <Panel>
                     <PanelBody>
                         <PanelRow>
@@ -30,7 +30,7 @@ const EditComponent = (props) => {
                         </PanelRow>
                     </PanelBody>
                 </Panel>
-            </***REMOVED***>
+            </InspectorControls>
             <ResizableBox
                 size={{height}}
                 style={{"margin": "auto", width: "100%"}}
@@ -51,10 +51,10 @@ const EditComponent = (props) => {
                         height: parseInt(height + delta.height, 10),
 
                     });
-                    ***REMOVED***(true);
+                    toggleSelection(true);
                 }}
                 onResizeStart={() => {
-                    ***REMOVED***(false);
+                    toggleSelection(false);
                 }}
             >
                 <div {...blockProps} >
@@ -73,8 +73,8 @@ const EditComponent = (props) => {
     );
 }
 const SaveComponent = (props) => {
-    const {attributes: {height,style,columns}, ***REMOVED***, setAttributes} = props;
-    const urlParams = new ***REMOVED***(window.location.search);
+    const {attributes: {height,style,columns}, toggleSelection, setAttributes} = props;
+    const urlParams = new URLSearchParams(window.location.search);
 
     const parent = urlParams.get('post');
 
@@ -89,14 +89,14 @@ const SaveComponent = (props) => {
 }
 
 
-class ***REMOVED*** extends ***REMOVED*** {
+class EditWithSettings extends BlockEditWithFilters {
     render() {
         return <EditComponent
             src={this.state.react_ui_url + "/embeddable/pagegallery?"} {...this.props}></EditComponent>
     }
 }
 
-***REMOVED***(process.env.BLOCKS_NS + '/page-gallery',
+registerBlockType(process.env.BLOCKS_NS + '/page-gallery',
     {
         title: __('Child Pages Gallery',"dg"),
         icon: Generic,
@@ -115,7 +115,7 @@ class ***REMOVED*** extends ***REMOVED*** {
 
         }
         ,
-        edit: ***REMOVED***,
+        edit: EditWithSettings,
         save: SaveComponent,
     }
 )
