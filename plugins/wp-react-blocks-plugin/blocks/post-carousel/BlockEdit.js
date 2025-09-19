@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
     Panel,
@@ -8,10 +8,10 @@ import {
     ToggleControl    
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {***REMOVED***, SizeConfig} from "../commons";
+import {BlockEditWithFilters, SizeConfig} from "../commons";
 
 
-class BlockEdit extends ***REMOVED*** {
+class BlockEdit extends BlockEditWithFilters {
 
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ class BlockEdit extends ***REMOVED*** {
 
     render() {
         const {
-            ***REMOVED***,
+            toggleSelection,
             setAttributes,
             attributes: {
                 count,
@@ -37,14 +37,14 @@ class BlockEdit extends ***REMOVED*** {
 
         return (
             <div>
-                <***REMOVED***>
+                <InspectorControls>
 
                     <Panel header={__("Carousel Configuration","dg")}>
                         <SizeConfig initialOpen={false} setAttributes={setAttributes} height={height} panelStatus={this.props.attributes.panelStatus}></SizeConfig>
                         <PanelBody>
                             <PanelRow>
                                 <NumberControl
-                                    ***REMOVED***={true}
+                                    isShiftStepEnabled={true}
                                     onChange={(count) => setAttributes({ count })}
                                     shiftStep={10}
                                     value={count}
@@ -69,7 +69,7 @@ class BlockEdit extends ***REMOVED*** {
                         
                         {this.renderFilters()}
                     </Panel>
-                </***REMOVED***>
+                </InspectorControls>
 
 
                 <ResizableBox
@@ -90,10 +90,10 @@ class BlockEdit extends ***REMOVED*** {
                         setAttributes({
                             height: parseInt(height + delta.height, 10),
                         });
-                        ***REMOVED***(true);
+                        toggleSelection(true);
                     }}
                     onResizeStart={() => {
-                        ***REMOVED***(false);
+                        toggleSelection(false);
                     }}>
                     <div style={divStyles}>
                         {this.state.react_ui_url&&<iframe style={divStyles} scrolling={"no"}

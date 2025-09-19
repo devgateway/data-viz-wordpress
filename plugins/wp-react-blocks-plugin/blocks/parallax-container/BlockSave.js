@@ -19,8 +19,8 @@ const SaveComponent = (props) => {
                 className={"viz-component"}
                 data-height={height}
                 data-scrolls={scrolls}
-                data-configuration={***REMOVED***(JSON.stringify(props.attributes.configuration))}
-                data-component={"***REMOVED***"}>
+                data-configuration={encodeURIComponent(JSON.stringify(props.attributes.configuration))}
+                data-component={"parallaxContainer"}>
             </div>
 
         </div>

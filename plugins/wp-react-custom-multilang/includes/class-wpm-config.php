@@ -116,7 +116,7 @@ class WPM_Config {
 
 			if ( $file && is_readable( $file ) ) {
 				
-				// phpcs:ignore WordPress.WP.***REMOVED***.file_get_contents_file_get_contents --Reason We are just loading the plugin static file to get the contents.
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents --Reason We are just loading the plugin static file to get the contents.
 				$config = json_decode( file_get_contents( $file ), true );
 
 				if ( is_array( $config ) && ! empty( $config ) ) {

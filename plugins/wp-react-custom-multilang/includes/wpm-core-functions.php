@@ -44,8 +44,8 @@ function wpm_get_template( $slug, $name = '', $custom_dir = '', $args = array() 
 	}
 
 	// If a custom path was defined, check that next
-	if ( ! $template && $custom_dir && file_exists( ***REMOVED***( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
-		$template = ***REMOVED***( $custom_dir ) . "{$slug}-{$name}.php";
+	if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}-{$name}.php" ) ) {
+		$template = trailingslashit( $custom_dir ) . "{$slug}-{$name}.php";
 	}
 
 	// Get default slug-name.php
@@ -59,8 +59,8 @@ function wpm_get_template( $slug, $name = '', $custom_dir = '', $args = array() 
 	}
 
 	// If a custom path was defined, check that next
-	if ( ! $template && $custom_dir && file_exists( ***REMOVED***( $custom_dir ) . "{$slug}.php" ) ) {
-		$template = ***REMOVED***( $custom_dir ) . "{$slug}.php";
+	if ( ! $template && $custom_dir && file_exists( trailingslashit( $custom_dir ) . "{$slug}.php" ) ) {
+		$template = trailingslashit( $custom_dir ) . "{$slug}.php";
 	}
 
 	// Get default slug-name.php
@@ -140,7 +140,7 @@ function wpm_print_js() {
 		 *
 		 * @param string $js JavaScript code.
 		 */
-		//phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***
+		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $js_escaped;
 
 		unset( $wpm_queued_js );
@@ -158,12 +158,12 @@ function wpm_print_js() {
 function wpm_setcookie( $name, $value, $expire = 0, $secure = false ) {
 	if ( ! headers_sent() ) {
 		setcookie( $name, $value, $expire,  COOKIEPATH ? COOKIEPATH : '/', '', $secure );
-		if ( COOKIEPATH != ***REMOVED*** ) {
-			setcookie( $name, $value, $expire, ***REMOVED***, '', $secure );
+		if ( COOKIEPATH != SITECOOKIEPATH ) {
+			setcookie( $name, $value, $expire, SITECOOKIEPATH, '', $secure );
 		}
 	} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		headers_sent( $file, $line );
-		//phpcs:ignore WordPress.Security.EscapeOutput.***REMOVED***,WordPress.PHP.***REMOVED***.error_log_trigger_error
+		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped,WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 		trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE );
 	}
 }
@@ -176,9 +176,9 @@ function wpm_setcookie( $name, $value, $expire = 0, $secure = false ) {
  */
 function wpm_get_current_url() {
 	$url 	=	'';
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 	if( isset( $_SERVER['HTTP_HOST'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** -- Reason unslash not needed because data is not getting stored in database, it's just being used.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Reason unslash not needed because data is not getting stored in database, it's just being used.
 		$url 	= set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 	}
 
@@ -399,7 +399,7 @@ function wpm_maybe_define_constant( $name, $value ) {
  * @return mixed value sanitized by wpm_clean
  */
 function wpm_get_post_data_by_key( $key, $default = '' ) {
-	//phpcs:ignore WordPress.Security.***REMOVED***.Missing, WordPress.Security.ValidatedSanitizedInput.***REMOVED***, WordPress.Security.ValidatedSanitizedInput.***REMOVED*** --Reason: Sanitization is handled below in wpm_clean() function
+	//phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason: Sanitization is handled below in wpm_clean() function
 	$post_val 	=	isset( $_POST[ $key ] ) ? $_POST[ $key ] : null;
 	return wpm_clean( wpm_get_var( $post_val, $default ) );
 }
@@ -437,7 +437,7 @@ function wpm_delete_expired_transients() {
 		AND a.option_name NOT LIKE %s
 		AND b.option_name = CONCAT( '_transient_timeout_', SUBSTRING( a.option_name, 12 ) )
 		AND b.option_value < %d";
-	//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching
+	//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	$rows = $wpdb->query( $wpdb->prepare( $sql, $wpdb->esc_like( '_transient_' ) . '%', $wpdb->esc_like( '_transient_timeout_' ) . '%', time() ) );
 
 	$sql = "DELETE a, b FROM $wpdb->options a, $wpdb->options b
@@ -445,7 +445,7 @@ function wpm_delete_expired_transients() {
 		AND a.option_name NOT LIKE %s
 		AND b.option_name = CONCAT( '_site_transient_timeout_', SUBSTRING( a.option_name, 17 ) )
 		AND b.option_value < %d";
-	//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.***REMOVED***.DirectQuery, WordPress.DB.***REMOVED***.NoCaching 
+	//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching 
 	$rows2 = $wpdb->query( $wpdb->prepare( $sql, $wpdb->esc_like( '_site_transient_' ) . '%', $wpdb->esc_like( '_site_transient_timeout_' ) . '%', time() ) );
 
 	return absint( $rows + $rows2 );
@@ -502,7 +502,7 @@ function wpm_get_page_by_title( $page_title, $output = OBJECT, $post_type = 'pag
 	$cache_key 	= 'wpm_page_title_key';
 	$page 		= wp_cache_get($cache_key);
 	if(false === $page ){
-		//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.***REMOVED***.DirectQuery
+		//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$page = $wpdb->get_var( $sql );
 		wp_cache_set( $cache_key, $page );
 	}	

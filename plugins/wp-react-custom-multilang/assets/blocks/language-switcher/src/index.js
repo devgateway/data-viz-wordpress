@@ -1,13 +1,13 @@
 /**
  * WordPress dependencies
  */
-import { ***REMOVED*** } from '@wordpress/blocks';
-import { useBlockProps, RichText, ***REMOVED*** } from '@wordpress/block-editor';
+import { registerBlockType } from '@wordpress/blocks';
+import { useBlockProps, RichText, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ }   from '@wordpress/i18n';
 
 // Register the block
-***REMOVED***( 'wpm/language-switcher', {
+registerBlockType( 'wpm/language-switcher', {
 	title: "Language Switcher",
 	icon: "translation",
 	keywords: ['Lang', 'Language Switcher', 'Switcher', 'Language', 'Translate'],
@@ -38,15 +38,15 @@ import { __ }   from '@wordpress/i18n';
                               { label: __('Name', 'wp-multilang'), value: 'name' },
                         	];
 
-        const lang = ***REMOVED***.lang; 
-    	const languages = ***REMOVED***.languages;
+        const lang = wpmLanguageSwitcher.lang; 
+    	const languages = wpmLanguageSwitcher.languages;
 
-    	const baseFlagUrl =  ***REMOVED***.flag_url
+    	const baseFlagUrl =  wpmLanguageSwitcher.flag_url
     	const defaultFlag =  baseFlagUrl + languages[lang].flag;
     	const defaultLang =  languages[lang].name;
 
     	const currentURL  =  window.location.href;
-    	const ***REMOVED*** = Object.keys(languages);
+    	const convertlangArray = Object.keys(languages);
 
 
         const renderDropdownSwitcher = () => {
@@ -65,7 +65,7 @@ import { __ }   from '@wordpress/i18n';
 							}
     					</span> 
     					<ul className="wpm-language-dropdown">
-    						{***REMOVED***.map((langIndex, langValue) => ( 
+    						{convertlangArray.map((langIndex, langValue) => ( 
     							langIndex != lang && 
         						<li key={langValue} className={'wpm-item-language-'+langIndex}>
 									<a href="#" data-lang={langIndex}>
@@ -84,10 +84,10 @@ import { __ }   from '@wordpress/i18n';
         	);
         }
 
-        const ***REMOVED*** = () => {
+        const renderListSwitcher = () => {
         	return (
         		<ul className="wpm-language-switcher wpm-switcher-list">
-        			{***REMOVED***.map((langIndex, langValue) => ( 
+        			{convertlangArray.map((langIndex, langValue) => ( 
         				<li key={langValue} className={'wpm-item-language-'+langIndex}>
         					{ lang == langIndex && 
         						<span data-lang={langIndex}>
@@ -116,10 +116,10 @@ import { __ }   from '@wordpress/i18n';
         	)
         }
 
-        const ***REMOVED*** = () => {
+        const renderSelectSwitcher = () => {
         	return (
 	        	<select className="wpm-language-switcher wpm-switcher-select" title={__( 'Language Switcher', 'wp-multilang' )}>
-	        		{***REMOVED***.map((langIndex, langValue) => (
+	        		{convertlangArray.map((langIndex, langValue) => (
 	        			lang != langIndex ?
 	        				<option key={langValue} value={langIndex} data-lang={langIndex}>{languages[langIndex].name}</option> :
 	        				<option key={langValue} value={langIndex} data-lang={langIndex} selected="selected">{languages[langIndex].name}</option> 
@@ -132,15 +132,15 @@ import { __ }   from '@wordpress/i18n';
         	if(attributes.switchType == 'dropdown'){
         		return renderDropdownSwitcher();
 	        }else if(attributes.switchType == 'list'){
-	        	return ***REMOVED***();
+	        	return renderListSwitcher();
 	        }else if(attributes.switchType == 'select'){
-	        	return ***REMOVED***();
+	        	return renderSelectSwitcher();
 	        }
 	    };
 
         return (
             <>
-	            <***REMOVED***>
+	            <InspectorControls>
 	            	<PanelBody>
 	            		<SelectControl
 	                        label={__('Type', 'wp-multilang')}
@@ -156,7 +156,7 @@ import { __ }   from '@wordpress/i18n';
 	                        onChange={(value) => setAttributes({ switchShow: value })}
 	                    />
 	            	</PanelBody>
-	            </***REMOVED***>
+	            </InspectorControls>
 	            
 	            <div>
 	            	{langSwitcher()}
@@ -178,15 +178,15 @@ import { __ }   from '@wordpress/i18n';
                               { label: __('Name', 'wp-multilang'), value: 'name' },
                         	];
 
-        const lang = ***REMOVED***.lang; 
-    	const languages = ***REMOVED***.languages;
+        const lang = wpmLanguageSwitcher.lang; 
+    	const languages = wpmLanguageSwitcher.languages;
 
-    	const baseFlagUrl =  ***REMOVED***.flag_url
+    	const baseFlagUrl =  wpmLanguageSwitcher.flag_url
     	const defaultFlag =  baseFlagUrl + languages[lang].flag;
     	const defaultLang =  languages[lang].name;
 
     	const currentURL  =  window.location.href;
-    	const ***REMOVED*** = Object.keys(languages);
+    	const convertlangArray = Object.keys(languages);
 
 
         const renderDropdownSwitcher = () => {
@@ -205,7 +205,7 @@ import { __ }   from '@wordpress/i18n';
 							}
     					</span> 
     					<ul className="wpm-language-dropdown">
-    						{***REMOVED***.map((langIndex, langValue) => ( 
+    						{convertlangArray.map((langIndex, langValue) => ( 
     							langIndex != lang && 
         						<li key={langValue} className={'wpm-item-language-'+langIndex}>
 									<a href="#" data-lang={langIndex}>
@@ -224,10 +224,10 @@ import { __ }   from '@wordpress/i18n';
         	);
         }
 
-        const ***REMOVED*** = () => {
+        const renderListSwitcher = () => {
         	return (
         		<ul className="wpm-language-switcher wpm-switcher-list">
-        			{***REMOVED***.map((langIndex, langValue) => ( 
+        			{convertlangArray.map((langIndex, langValue) => ( 
         				<li key={langValue} className={'wpm-item-language-'+langIndex}>
         					{ lang == langIndex && 
         						<span data-lang={langIndex}>
@@ -256,10 +256,10 @@ import { __ }   from '@wordpress/i18n';
         	)
         }
 
-        const ***REMOVED*** = () => {
+        const renderSelectSwitcher = () => {
         	return (
 	        	<select className="wpm-language-switcher wpm-switcher-select" title={__( 'Language Switcher', 'wp-multilang' )}>
-	        		{***REMOVED***.map((langIndex, langValue) => (
+	        		{convertlangArray.map((langIndex, langValue) => (
 	        			lang != langIndex ?
 	        				<option key={langValue} value={langIndex} data-lang={langIndex}>{languages[langIndex].name}</option> :
 	        				<option key={langValue} value={langIndex} data-lang={langIndex} selected="selected">{languages[langIndex].name}</option> 
@@ -272,9 +272,9 @@ import { __ }   from '@wordpress/i18n';
         	if(attributes.switchType == 'dropdown'){
         		return renderDropdownSwitcher();
 	        }else if(attributes.switchType == 'list'){
-	        	return ***REMOVED***();
+	        	return renderListSwitcher();
 	        }else if(attributes.switchType == 'select'){
-	        	return ***REMOVED***();
+	        	return renderSelectSwitcher();
 	        }
 	    };
 

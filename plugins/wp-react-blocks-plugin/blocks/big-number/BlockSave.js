@@ -10,14 +10,14 @@ const SaveComponent = (props) => {
             filters,
             group,            
             noDataMsg,
-            ***REMOVED***,
-            ***REMOVED***,
+            dvzProxyDatasetId,
+            numberFontSize,
             numberColor,
             labelFontSize,
             labelColor,
             label,
             csv,
-            ***REMOVED***,
+            waitForFilters,
             noDataText
         }
     } = props;
@@ -35,18 +35,18 @@ const SaveComponent = (props) => {
              data-source={source}
              data-app={app}
              data-csv={csv}
-             data-dvz-proxy-dataset-id={***REMOVED***}
-             data-measures={***REMOVED***(JSON.stringify(measures))}
-             data-format={***REMOVED***(JSON.stringify(format))}
+             data-dvz-proxy-dataset-id={dvzProxyDatasetId}
+             data-measures={encodeURIComponent(JSON.stringify(measures))}
+             data-format={encodeURIComponent(JSON.stringify(format))}
              data-group={group}
-             data-filters={***REMOVED***(JSON.stringify(filters))}
+             data-filters={encodeURIComponent(JSON.stringify(filters))}
              data-no-data-message={noDataMsg}
-             data-number-font-size={***REMOVED***}
-             data-number-color={***REMOVED***(numberColor)}
+             data-number-font-size={numberFontSize}
+             data-number-color={encodeURIComponent(numberColor)}
              data-label-font-size={labelFontSize}
-             data-label-color={***REMOVED***(labelColor)}
+             data-label-color={encodeURIComponent(labelColor)}
              data-label={label}
-             data-wait-for-filters={***REMOVED***}
+             data-wait-for-filters={waitForFilters}
             data-no-data-text={noDataText}>
 
             <InnerBlocks.Content/>

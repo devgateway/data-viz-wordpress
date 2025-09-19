@@ -55,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <input type="checkbox" class="wpmpro-language-cb wpm-free-translation-cb" value="<?php echo esc_attr( $code ); ?>" id="<?php echo esc_attr( $input_id ); ?>" />
                         <label for="<?php echo esc_attr( $input_id ); ?>" class="wpm-cursor-pointer" style="">
                             <?php if ( isset( $language['flag'] ) ) { ?>
-                                <img src=<?php echo esc_url( wpm_get_flags_dir() . $language['flag'] ); // phpcs:ignore PluginCheck.CodeAnalysis.***REMOVED***.***REMOVED*** -- Reason Using built in function doesn't work in our case, so created custom function ?> />
+                                <img src=<?php echo esc_url( wpm_get_flags_dir() . $language['flag'] ); // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage -- Reason Using built in function doesn't work in our case, so created custom function ?> />
                             <?php }?>
                             <?php echo esc_html( $language['name'] ); ?>
                         </label>
@@ -115,7 +115,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php
 
-// Handle ***REMOVED*** in pro version
+// Handle autotranslation in pro version
 $main_params = array(
     'ajax_url'                          => admin_url( 'admin-ajax.php' ),
     'total_record'                      => $total_record,

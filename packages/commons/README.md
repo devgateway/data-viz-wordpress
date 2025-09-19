@@ -17,9 +17,9 @@ pnpm add @devgateway/dvz-wp-commons
 
 ## Overview
 
-This package provides a collection of reusable components, utilities, and type definitions for data-viz WordPress. It facilitates consistent handling of chart ***REMOVED***, data formatting, API connections, and more.
+This package provides a collection of reusable components, utilities, and type definitions for data-viz WordPress. It facilitates consistent handling of chart configurations, data formatting, API connections, and more.
 
-This package is used internally by DevGateway projects and is designed to be compatible with the project customizer, allowing for easy integration and extension in custom ***REMOVED***.
+This package is used internally by DevGateway projects and is designed to be compatible with the project customizer, allowing for easy integration and extension in custom implementations.
 
 ## Components
 
@@ -27,8 +27,8 @@ This package is used internally by DevGateway projects and is designed to be com
 
 - **APIConfig**: Configuration component for API connections.
 - **CSVConfig**: Configuration for CSV data sources.
-- *****REMOVED*****: Configuration for CSV data sources specific to maps.
-- **DataFilters**: Components for filtering data in ***REMOVED***.
+- **MapCSVSourceConfig**: Configuration for CSV data sources specific to maps.
+- **DataFilters**: Components for filtering data in visualizations.
 
 ### Chart Components
 
@@ -41,7 +41,7 @@ This package is used internally by DevGateway projects and is designed to be com
 ### Block Components
 
 - **BlockEditWithAPIMetadata**: Block editor component with API metadata support.
-- *****REMOVED*****: Block editor component with filter capabilities.
+- **BlockEditWithFilters**: Block editor component with filter capabilities.
 - **ComponentWithSettings**: Component wrapper with settings panel.
 - **SizeConfig**: Configuration component for size settings.
 
@@ -58,19 +58,19 @@ This package is used internally by DevGateway projects and is designed to be com
 ### API Utilities
 
 - **APIutils**: Utility functions for API operations.
-  - `***REMOVED***`
-  - `***REMOVED***`
+  - `getTranslatedOptions`
+  - `getTranslation`
   - `isSupersetAPI`
 
 ### Mobile Utilities
 
-- *****REMOVED*****: Utilities for mobile ***REMOVED***.
-  - `***REMOVED***`
+- **MobileConfigUtils**: Utilities for mobile configurations.
+  - `extractAxisValues`
   - `getSelectedLabelsForApp`
   - `transformDataToAppObject`
-  - `***REMOVED***`
+  - `updateMeasureLabels`
   - `getSelectedItemsForApp`
-  - `***REMOVED***`
+  - `getStoredOrSetItem`
 
 ### UI Utilities
 
@@ -95,32 +95,32 @@ This package is used internally by DevGateway projects and is designed to be com
 
 - **Options**: Basic option type with label, value, and optional labels.
 - **Dimension**: Interface for data dimensions.
-- **Category/CategoryItem**: Types for data ***REMOVED***.
+- **Category/CategoryItem**: Types for data categorization.
 - **Measure**: Interface for data measures.
 - **Filter**: Interface for data filters.
 - **FileContent**: Interface for file content metadata.
 
 ### Chart Types
 
-- *****REMOVED*****: Props for chart colors component.
-- *****REMOVED*****: Props for chart legends component.
-- *****REMOVED*****: Props for chart measures component.
+- **ChartColorsProps**: Props for chart colors component.
+- **ChartLegendsProps**: Props for chart legends component.
+- **ChartMeasuresProps**: Props for chart measures component.
 - **FormatProps**: Props for format component.
 - **MeasuresProps**: Props for measures component.
-- *****REMOVED*****: Props for data filters component.
+- **DataFiltersProps**: Props for data filters component.
 - **MapCSVSourceConfigProps**: Props for map CSV source config component.
 
 ### Block Types
 
 - **BlockEditWithAPIMetadataProps/State**: Props and state for BlockEditWithAPIMetadata.
-- **BlockEditWithFiltersProps/State**: Props and state for ***REMOVED***.
+- **BlockEditWithFiltersProps/State**: Props and state for BlockEditWithFilters.
 - **ComponentWithSettingsProps/State**: Props and state for ComponentWithSettings.
-- *****REMOVED*****: Props for SizeConfig component.
+- **SizeConfigProps**: Props for SizeConfig component.
 
 ### Data Types
 
 - **DgSettings**: Interface for global settings.
-- *****REMOVED*****: Interface for Eureka service responses.
+- **EurekaResponse**: Interface for Eureka service responses.
 - **Menu**: Interface for menu structure.
 - **Media**: Interface for media attachments.
 - **SearchResult/SearchResults**: Types for search functionality.
@@ -132,18 +132,18 @@ This package is used internally by DevGateway projects and is designed to be com
 - **Post**: Interface for WordPress posts.
 - **PostContent**: Interface for post content.
 - **PostLinks**: Interface for post links.
-- *****REMOVED*****: Interface for Yoast SEO data.
-- *****REMOVED*****: Enum for schema action types.
+- **PostYoastHeadJSON**: Interface for Yoast SEO data.
+- **PotentialActionType**: Enum for schema action types.
 - **PostSchema**: Interface for structured data schema.
 
 ## Integration with Project Customizer
 
 This package is designed to be integrated with the project customizer, allowing for:
 
-- Custom component ***REMOVED***
+- Custom component configurations
 - Theme-specific styling overrides
 - Extension of data types for project-specific needs
-- Custom visualization ***REMOVED***
+- Custom visualization implementations
 
 When used with the project customizer, components from this package can be easily configured and extended to meet specific project requirements.
 
@@ -154,7 +154,7 @@ When used with the project customizer, components from this package can be easil
 ```jsx
 import { ChartColors, ChartLegends, Format } from '@devgateway/dvz-wp-commons';
 
-const ***REMOVED*** = ({ attributes, setAttributes }) => {
+const MyChartComponent = ({ attributes, setAttributes }) => {
   return (
     <div>
       <ChartColors
@@ -179,7 +179,7 @@ const ***REMOVED*** = ({ attributes, setAttributes }) => {
 ```jsx
 import { APIConfig } from '@devgateway/dvz-wp-commons';
 
-const ***REMOVED*** = ({ attributes, setAttributes }) => {
+const MyAPIComponent = ({ attributes, setAttributes }) => {
   return (
     <APIConfig
       attributes={attributes}

@@ -1,10 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {***REMOVED***} from '@wordpress/blocks';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from "../icons";
 import { withColors} from '@wordpress/block-editor';
-***REMOVED***(process.env.BLOCKS_NS + '/showcase',
+registerBlockType(process.env.BLOCKS_NS + '/showcase',
     {
         title: __('Showcase Form',"dg"),
         icon: Generic,
@@ -20,7 +20,7 @@ import { withColors} from '@wordpress/block-editor';
                 default: "1200px",
             }
             ,
-            ***REMOVED***: {
+            backgroundColor: {
                 type: 'string'
             },
             alignment: {type: 'string', default: 'center'},
@@ -33,12 +33,12 @@ import { withColors} from '@wordpress/block-editor';
             message: {type: 'string', default: 'Please write a message'},
             submitLabel: {type: 'string', default: 'Send'},
             resetLabel: {type: 'string', default: 'Reset'},
-            ***REMOVED***: {type: 'string', default: "Thanks for submitting"},
-            ***REMOVED***: {type: 'string', default: "Something didn't go well, please try again later"},
+            successMessage: {type: 'string', default: "Thanks for submitting"},
+            failureMessage: {type: 'string', default: "Something didn't go well, please try again later"},
 
 
         },
-        edit: withColors('***REMOVED***', {textColor: 'color'})(BlockEdit),
+        edit: withColors('backgroundColor', {textColor: 'color'})(BlockEdit),
         save: BlockSave
     }
 )

@@ -1,4 +1,4 @@
-import {PanelRow, Label, PanelBody, ***REMOVED***} from '@wordpress/components';
+import {PanelRow, Label, PanelBody, TextareaControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
 const Format = (props) => {
@@ -36,7 +36,7 @@ const Format = (props) => {
                 </div>
                 {dimension1 == "none" && dimension2 == "none" &&
                      <PanelRow>
-                            <span style={{"font-size":"11px"}}>Corresponding Population -> {"{"}***REMOVED***{"}"}</span>
+                            <span style={{"font-size":"11px"}}>Corresponding Population -> {"{"}populationValue{"}"}</span>
                       </PanelRow>
                 }  
             {type === "pie" &&
@@ -51,7 +51,7 @@ const Format = (props) => {
             }
             </PanelBody>,
         <PanelRow>
-            <***REMOVED***
+            <TextareaControl
                 label={__("Tooltip")}
                 value={tooltipHTML}
                 help={__("You can use variables {var_name}")}

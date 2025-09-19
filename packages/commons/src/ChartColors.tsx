@@ -3,8 +3,8 @@ import {PanelBody, PanelRow, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import Papa from 'papaparse'
 import {useRef, useState} from "@wordpress/element";
-import {***REMOVED***} from "./APIutils";
-import { ***REMOVED*** } from "@wordpress/block-editor";
+import {getTranslation} from "./APIutils";
+import { PanelColorSettings } from "@wordpress/block-editor";
 import { Categories, Dimension, Filter, Measure, Options } from "./types";
 
 const OVERALL = 'Overall';
@@ -47,7 +47,7 @@ export const diverging = [{value: "brown_blueGreen", label: 'brown_blueGreen'},
 
 const plainColor = {value: "plain_color", label: 'Use Plain color'};
 
-export type ***REMOVED*** = {
+export type ChartColorsProps = {
     allDimensions?: Dimension[];
     allFilters?: Filter[];
     allMeasures?: Measure[];
@@ -66,7 +66,7 @@ export type ***REMOVED*** = {
         type: string;
         app: string;
         csv: string;
-        ***REMOVED***: boolean;
+        includeOverall: boolean;
     }) => void;
     attributes: {
         swap: boolean;
@@ -80,11 +80,11 @@ export type ***REMOVED*** = {
         type: string;
         app: string;
         csv: string;
-        ***REMOVED***: boolean;
+        includeOverall: boolean;
     }
 }
 
-export const ChartColors = (props: ***REMOVED***) => {
+export const ChartColors = (props: ChartColorsProps) => {
     const {
         allDimensions, allFilters, allMeasures, allCategories, allApps, setAttributes, attributes
     } = props;
@@ -101,7 +101,7 @@ export const ChartColors = (props: ***REMOVED***) => {
         type,
         app,
         csv,
-        ***REMOVED***
+        includeOverall
     } = attributes;
 
 
@@ -110,7 +110,7 @@ export const ChartColors = (props: ***REMOVED***) => {
     let d3Label: string | null = null;
 
 
-    const ***REMOVED*** = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : []
+    const selectedMeasures = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : []
 
     let colorOptions: Options[] = []
 
@@ -118,7 +118,7 @@ export const ChartColors = (props: ***REMOVED***) => {
     if (app !== "csv") {
         l1Label = dimension1 != 'none' && allDimensions ? '1st Dimension - ' + allDimensions.filter(d => d.value == dimension1)[0].label : null
         //if one dimensions is selected o
-        if (dimension2 == 'none' && ***REMOVED***.length > 0) {
+        if (dimension2 == 'none' && selectedMeasures.length > 0) {
             d2Label = __("Measure Labels")
             d3Label = __("Measure Values")
         } else if (dimension2 != 'none') {
@@ -137,7 +137,7 @@ export const ChartColors = (props: ***REMOVED***) => {
 
 
     if (type == 'bar') {
-        if (swap && dimension2 == "none" && ***REMOVED***.length > 0) {
+        if (swap && dimension2 == "none" && selectedMeasures.length > 0) {
             colorOptions = []
             if (l1Label) {
                 colorOptions.push({label: l1Label, value: 'id'})
@@ -224,7 +224,7 @@ export const ChartColors = (props: ***REMOVED***) => {
                         initColors(colorBy === "index" ? dimension1 : dimension2)
                     }
                 } else {
-                    ***REMOVED***()
+                    initMeasuresColors()
                 }
 
             }
@@ -273,7 +273,7 @@ export const ChartColors = (props: ***REMOVED***) => {
 
     }
 
-    const ***REMOVED*** = () => {
+    const initMeasuresColors = () => {
         
         const newColors = Object.assign({}, manualColors)
         if (!newColors[app]) {
@@ -292,7 +292,7 @@ export const ChartColors = (props: ***REMOVED***) => {
         setAttributes({...attributes, manualColors: newColors})
     }
 
-    const ***REMOVED*** = (dimension1, dimension2) => {
+    const combinedCatColors = (dimension1, dimension2) => {
         
         if (manualColors[app]) {
             const ds1 = allDimensions?.filter(d => d.value == dimension1)
@@ -307,7 +307,7 @@ export const ChartColors = (props: ***REMOVED***) => {
                 const list: React.ReactNode[] = []
                 cat?.[0].items.sort((a, b) => (a.position ?? 0) - (b.position ?? 0)).forEach(c1 => {
                     cat2?.[0].items.sort((a, b) => (a.position ?? 0) - (b.position ?? 0)).forEach(c2 => {
-                        list.push(<***REMOVED***
+                        list.push(<PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][c1.value + ' - ' + c2.value],
                                 onChange: (color) => {
@@ -338,7 +338,7 @@ export const ChartColors = (props: ***REMOVED***) => {
                 const cat = allCategories?.filter(a => a.type === type)
                 if (cat && cat.length > 0) {
                     const list = cat[0].items.sort((a, b) => (b.position ?? 0) - (a.position ?? 0)).map(item => {
-                        return <***REMOVED***
+                        return <PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][item.code],
                                 onChange: (color) => {
@@ -347,7 +347,7 @@ export const ChartColors = (props: ***REMOVED***) => {
                                     } else {
                                         updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#eeeeee")
                                     }
-                                }, label: ***REMOVED***(item)
+                                }, label: getTranslation(item)
                             }]}
                         />
 
@@ -356,17 +356,17 @@ export const ChartColors = (props: ***REMOVED***) => {
                     const dimensions = [dimension1, dimension2].filter(f => f != '' && f != "none");
 
 
-                    let ***REMOVED***: string[] = []
+                    let selectedMeasures: string[] = []
 
                     allMeasures?.forEach(m => {
                         
                         if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
-                            ***REMOVED***.push(m.value)
+                            selectedMeasures.push(m.value)
                         }
                     })
 
-                    if (***REMOVED***) {
-                        list.push(<***REMOVED***
+                    if (includeOverall) {
+                        list.push(<PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][OVERALL],
                                 onChange: (color) => {
@@ -393,12 +393,12 @@ export const ChartColors = (props: ***REMOVED***) => {
         
         if (manualColors[app] && allMeasures && measures[app]) {
             
-            const ***REMOVED*** = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected)
-             if (***REMOVED***.length > 0) {
+            const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected)
+             if (selectedMeasures.length > 0) {
 
-                const list = ***REMOVED***.sort((a, b) => b.position - a.position)
+                const list = selectedMeasures.sort((a, b) => b.position - a.position)
                     .map(item => {
-                        return <***REMOVED***
+                        return <PanelColorSettings
                             colorSettings={[{
                                 value: manualColors[app][item.value], onChange: (color) => {
                                     if (color) {
@@ -411,8 +411,8 @@ export const ChartColors = (props: ***REMOVED***) => {
                         />
                     })
 
-                if (***REMOVED*** && ***REMOVED***.length == 1) {
-                    list.push(<***REMOVED***
+                if (includeOverall && selectedMeasures.length == 1) {
+                    list.push(<PanelColorSettings
                         colorSettings={[{
                             value: manualColors[app][OVERALL], onChange: (color) => {
                                 if (color) {
@@ -457,7 +457,7 @@ export const ChartColors = (props: ***REMOVED***) => {
 
         if (manualColors[app] && values) {
             return values.map(v => {
-                return <***REMOVED***
+                return <PanelColorSettings
                     colorSettings={[{
                         value: manualColors[app][v],
 
@@ -512,12 +512,12 @@ export const ChartColors = (props: ***REMOVED***) => {
 
 
         (scheme == "plain_color") && <PanelRow>
-            <***REMOVED***
+            <PanelColorSettings
                 title={__('Color settings')}
                 colorSettings={[{
-                    value: ***REMOVED***(barColor), onChange: (color) => {
+                    value: decodeURIComponent(barColor), onChange: (color) => {
                         if (color) {
-                            setAttributes({...attributes, barColor: ***REMOVED***(color)})
+                            setAttributes({...attributes, barColor: encodeURIComponent(color)})
                         } else {
                             setAttributes({...attributes, barColor: null})
                         }
@@ -537,7 +537,7 @@ export const ChartColors = (props: ***REMOVED***) => {
 
                     {type == 'bar' && catColors(dimension2)}
                     {type == 'line' && catColors(dimension2)}
-                    {type == 'pie' && ***REMOVED***(dimension1, dimension2)}
+                    {type == 'pie' && combinedCatColors(dimension1, dimension2)}
                 </PanelBody>}
 
 

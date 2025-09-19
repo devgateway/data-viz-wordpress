@@ -1,4 +1,4 @@
-import {***REMOVED***, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {
     Button, ButtonGroup,
     Panel,
@@ -6,7 +6,7 @@ import {
     PanelRow,
     ResizableBox,
     SelectControl,
-    ***REMOVED***,
+    TextareaControl,
     TextControl,
     ToggleControl
 } from '@wordpress/components';
@@ -14,7 +14,7 @@ import {
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
-import ***REMOVED*** from "../commons/***REMOVED***";
+import CSVSourceConfig from "../commons/CSVSourceConfig";
 import APIConfig from "../commons/APIConfig";
 import Bar from "./Bar.jsx"
 import Pie from "./Pie.jsx"
@@ -31,16 +31,16 @@ import {isSupersetAPI} from "../commons/APIutils";
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
-        this.***REMOVED*** = ['tooltip'];
+        this.ignoreAttributes = ['tooltip'];
     }
 
-    ***REMOVED***(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {setAttributes, attributes: {type,colorBy,dimension1, dimension2 }} = this.props
         const {attributes: {type: prevType }} = prevProps
-        const ***REMOVED*** = this.state?.previewMode;
+        const newPreviewMode = this.state?.previewMode;
 
-        if (***REMOVED*** !== prevState.previewMode) {
-            setAttributes({previewMode: ***REMOVED***});
+        if (newPreviewMode !== prevState.previewMode) {
+            setAttributes({previewMode: newPreviewMode});
         }
 
         if (type !== prevType) {
@@ -62,7 +62,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 }
             }
         }
-        super.***REMOVED***(prevProps, prevState, snapshot);
+        super.componentDidUpdate(prevProps, prevState, snapshot);
     }
     
 
@@ -70,7 +70,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         console.log("apps", this.state.apps)
         const {
             className, isSelected,
-            ***REMOVED***, setAttributes,
+            toggleSelection, setAttributes,
             attributes: {
                 measures,
                 height,
@@ -86,12 +86,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 csv,
                 mode,
                 dualMode,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
+                toggleInfoLabel,
+                toggleChartLabel,
+                dataSourceLabel,
                 dataSource,
                 showLegends,
-                ***REMOVED***,
+                legendPosition,
                 marginLeft,
                 marginTop,
                 marginRight,
@@ -110,10 +110,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 layout,
                 offsetY,
                 csvLineColor,
-                ***REMOVED***,
-                ***REMOVED***,
+                csvLineTooltip,
+                csvLineLayerData,
                 csvLineTitle,
-                ***REMOVED***,
+                lineLayerEnabled,
                 group,
                 maxValue,
                 valueScale,
@@ -121,22 +121,22 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 noDataMessage,
                 legendLabel,
                 barColor,
-                ***REMOVED***,
+                overrideTickColor,
                 fixedMaxValue,
                 fixedMinValue,
                 types,
                 barPadding,
-                ***REMOVED***,
+                barLabelPosition,
                 showGrid,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
+                includeOverall,
+                tooltipEnabled,
+                barInnerPadding,
                 useCheckBoxBackground,
-                ***REMOVED***,
+                useLabelBackground,
                 xLabelColor,
                 barLabelColor,
-                ***REMOVED***,
-                ***REMOVED***,
+                legendLabelColor,
+                highlightXAxisLine,
                 showTickLine,
                 showRightAxis,
 
@@ -146,34 +146,34 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 offsetBottom,
                 hiddenBars,
                 enableArea,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
+                areaShadingCriteria,
+                areaLowerBound,
+                areaUpperBound,
                 showPoints,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
+                confidenceIntervals,
+                showGroupTotal,
+                groupTotalMeasure,
+                groupTotalFormat,
+                groupTotalLabel,
                 groupTotalLabelOffset,
                 groupTotalFixedPosition,
                 centerLabel,
                 showArcLabels,
-                ***REMOVED***,
+                showArcLinkLabels,
                 slicePadding,
                 centerLabelFontWeight,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***,
+                centerLabelFontSize,
+                centerLabelXOffset,
+                centerLabelYOffset,
                 tooltipEnableMarkdown,
-                ***REMOVED***,
+                yAxisTickValues,
                 enableGridY,
                 overallLabel,
                 enableGridX,
                 minMaxClamp,
-                ***REMOVED***,
-                ***REMOVED***,
-                ***REMOVED***
+                mobileCustomization,
+                dvzProxyDatasetId,
+                waitForFilters
             }
         } = this.props;
 
@@ -228,7 +228,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         const divStyles = {height: height + 'px', width: '100%'}
         return ([isSelected && (
-                <***REMOVED***>
+                <InspectorControls>
                     <Panel header={__("Chart Configuration")}>
                         <PanelBody
                             panelStatus={this.props.attributes.panelStatus['GROUP']}
@@ -244,8 +244,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <PanelRow>
                                 <ToggleControl
                                     label={__('Wait For Filters')}
-                                    checked={***REMOVED***}
-                                    onChange={() => setAttributes({***REMOVED***:!***REMOVED***})}
+                                    checked={waitForFilters}
+                                    onChange={() => setAttributes({waitForFilters:!waitForFilters})}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -278,15 +278,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     <PanelRow>
                                         <TextControl
                                             label={__('Toggle Info Graphic Label')}
-                                            value={***REMOVED***}
-                                            onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                            value={toggleInfoLabel}
+                                            onChange={(toggleInfoLabel) => setAttributes({toggleInfoLabel})}
                                         />
                                     </PanelRow>
                                     <PanelRow>
                                         <TextControl
                                             label={__('Toggle Chart Label')}
-                                            value={***REMOVED***}
-                                            onChange={(***REMOVED***) => setAttributes({***REMOVED***})}
+                                            value={toggleChartLabel}
+                                            onChange={(toggleChartLabel) => setAttributes({toggleChartLabel})}
                                         />
                                     </PanelRow>
 
@@ -329,7 +329,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                             onChange={(app) => {
                                                 this.setState({dimensions: [], measures: [], filters: [], categories: []}, () => {
                                                     setAttributes({
-                                                        ***REMOVED***: null,
+                                                        dvzProxyDatasetId: null,
                                                         dimension1: 'none',
                                                         dimension2: 'none',
                                                         dimension3: 'none',
@@ -349,12 +349,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     {isSupersetAPI(app, this.state.apps) &&   <PanelRow>
                                         <SelectControl
                                             label={__('Datasets')}
-                                            value={[***REMOVED***]}
+                                            value={[dvzProxyDatasetId]}
                                             onChange={(newDatasetId)   => {
 
                                                 this.setState({dimensions: [], measures: [], filters: [], categories: []}, () => {
                                                     setAttributes({
-                                                        ***REMOVED***: newDatasetId,
+                                                        dvzProxyDatasetId: newDatasetId,
                                                         dimension1: 'none',
                                                         dimension2: 'none',
                                                         dimension3: 'none',
@@ -370,7 +370,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         />
 
                                             <Button  isPrimary={true} size={"small"}
-                                                    onClick={() => this.***REMOVED***()}>O</Button>
+                                                    onClick={() => this.evictSuperSetCache()}>O</Button>
 
 
                                       </PanelRow>
@@ -386,8 +386,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     {...this.props}>
                                 </APIConfig>}
                                 {app == 'csv' &&
-                                    <***REMOVED*** {...this.props}>
-                                    </***REMOVED***>}
+                                    <CSVSourceConfig {...this.props}>
+                                    </CSVSourceConfig>}
 
 
                                 {type === "bar" && <Bar {...this.props}
@@ -417,15 +417,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 {app == 'csv' && type!='radar' &&
                                     <PanelBody initialOpen={false} title={__("Tooltip")}>
                                         <PanelRow>
-                                            <ToggleControl label={__("Enable Tooltip")} checked={***REMOVED***}
-                                                           onChange={(***REMOVED***) => {
+                                            <ToggleControl label={__("Enable Tooltip")} checked={tooltipEnabled}
+                                                           onChange={(isToolTipEnabled) => {
                                                                setAttributes({
-                                                                   ***REMOVED***: ***REMOVED***,
-                                                                   tooltip: ***REMOVED***(***REMOVED***, tooltipHTML)
+                                                                   tooltipEnabled: isToolTipEnabled,
+                                                                   tooltip: setTooltipState(isToolTipEnabled, tooltipHTML)
                                                                })
                                                            }}/>
                                         </PanelRow>
-                                        {***REMOVED*** &&
+                                        {tooltipEnabled &&
                                             <>
                                                 <PanelRow>
                                                     <ToggleControl label={__("Enable Markdown Syntax Support")}
@@ -453,7 +453,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     </PanelBody>
                                                 }
                                                 <PanelRow>
-                                                    <***REMOVED***
+                                                    <TextareaControl
                                                         label={__("Tooltip")}
                                                         value={tooltipHTML}
                                                         help={__("You can use variables {var_name}")}
@@ -468,15 +468,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 {app != 'csv' && type!='radar' &&
                                     <PanelBody initialOpen={false} title={__("Tooltip")}>
                                         <PanelRow>
-                                            <ToggleControl label={__("Enable Tooltip")} checked={***REMOVED***}
-                                                           onChange={(***REMOVED***) => {
+                                            <ToggleControl label={__("Enable Tooltip")} checked={tooltipEnabled}
+                                                           onChange={(isToolTipEnabled) => {
                                                                setAttributes({
-                                                                   ***REMOVED***: ***REMOVED***,
-                                                                   tooltip: ***REMOVED***(***REMOVED***, tooltipHTML)
+                                                                   tooltipEnabled: isToolTipEnabled,
+                                                                   tooltip: setTooltipState(isToolTipEnabled, tooltipHTML)
                                                                })
                                                            }}/>
                                         </PanelRow>
-                                        {***REMOVED*** &&
+                                        {tooltipEnabled &&
                                             <>
                                                 <PanelRow>
                                                     <ToggleControl label={__("Enable Markdown Syntax Support")}
@@ -513,7 +513,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             </>
                         }
                     </Panel>
-                </***REMOVED***>),
+                </InspectorControls>),
                 (<ResizableBox
                         size={{height}}
                         style={{"margin": "auto", width: "100%"}}
@@ -533,10 +533,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             setAttributes({
                                 height: parseInt(height + delta.height, 10),
                             });
-                            ***REMOVED***(true);
+                            toggleSelection(true);
                         }}
                         onResizeStart={() => {
-                            ***REMOVED***(false);
+                            toggleSelection(false);
                         }}>
 
 
@@ -553,8 +553,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 }
 
-function ***REMOVED*** (***REMOVED***, tooltipHTML) {
-    return ***REMOVED*** && tooltipHTML.trim().length === 0 ? "{value}" : tooltipHTML;
+function setTooltipState (isTooltipEnabled, tooltipHTML) {
+    return isTooltipEnabled && tooltipHTML.trim().length === 0 ? "{value}" : tooltipHTML;
 }
 
 

@@ -17,7 +17,7 @@ class WPM_Admin_Gutenberg_Block {
 	public $blocks = array(
 		'language_switcher' => array(            
                 'handler'      => 'wpm-language-switcher-js-reg',                
-                'local_var'    => '***REMOVED***',
+                'local_var'    => 'wpmLanguageSwitcher',
                 'block_name'   => 'language-switcher',
                 'render_func'  => 'render_language_switcher',
                 'editor'       => 'wpm-lang-switcher-block-editor',
