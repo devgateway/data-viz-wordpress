@@ -1,0 +1,70 @@
+import React from 'react';
+import {PanelRow, PanelBody, TextareaControl} from '@wordpress/components';
+import {__} from '@wordpress/i18n';
+
+export const Tooltip = (props) => {
+
+    function repeat(times) {
+        return function (strs, ...substs) {
+            return cook(strs, ...substs).repeat(times);
+        };
+    }
+
+    function cook(strs, ...substs) {
+        return substs.reduce(
+            (prev, cur, i) => prev + cur + strs[i + 1],
+            strs[0]
+        );
+    }
+
+
+    const {
+        setAttributes,
+        attributes: {tooltipHTML, dimension1, dimension2, dimension3, measures},
+        allMeasures,
+        allDimensions,
+        type
+    } = props;
+
+    return [
+        <PanelBody title={__("Variables")}>
+            <div>
+                {allDimensions.filter(d => (d.value === dimension1 || d.value === dimension2 || d.value === dimension3))
+                    .map(d => <PanelRow>
+                        <span style={{fontSize: "11px"}}>{d.label} -&gt; {"{"}{d.value}{"}"}</span>
+                    </PanelRow>)}
+            </div>
+            <div>
+                {allMeasures
+                    .map(m => <PanelRow>
+                        <span style={{fontSize: "11px"}}>{m.label} -&gt; {"{"}{m.value}{"}"}</span>
+                    </PanelRow>)}
+            </div>
+            {dimension1 == "none" && dimension2 == "none" &&
+                <PanelRow>
+                    <span style={{fontSize: "11px"}}>Corresponding Population -&gt; {"{"}populationValue{"}"}</span>
+                </PanelRow>
+            }
+            {type === "pie" &&
+                <>
+                    <PanelRow>
+                        <span style={{fontSize: "11px"}}>Value Percent -&gt; {'{valuePercent}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{fontSize: "11px"}}>Category -&gt; {'{category}'}</span>
+                    </PanelRow>
+                </>
+            }
+        </PanelBody>,
+        <PanelRow>
+            <TextareaControl
+                label={__("Tooltip")}
+                value={tooltipHTML}
+                help={__("You can use variables {var_name}")}
+                onChange={(tooltipHTML) => setAttributes({tooltipHTML})}
+                rows={10}
+            />
+        </PanelRow>]
+}
+
+export default Tooltip
