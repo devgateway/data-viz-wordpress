@@ -6,7 +6,7 @@ import {
     TextControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings } from "../commons";
+import { ComponentWithSettings } from '@devgateway/dvz-wp-commons';
 import {PanelColorSettings} from '@wordpress/block-editor';
 
 class BlockEdit extends ComponentWithSettings {

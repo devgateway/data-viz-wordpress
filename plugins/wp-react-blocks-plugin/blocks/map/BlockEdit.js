@@ -2,14 +2,14 @@ import { InspectorControls, useBlockProps} from '@wordpress/block-editor'
 import { Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl} from '@wordpress/components'
 import { PanelColorSettings } from '@wordpress/block-editor'
 import { __ } from '@wordpress/i18n'
-import { BlockEditWithAPIMetadata } from '../commons/index'
+import { BlockEditWithAPIMetadata } from '@devgateway/dvz-wp-commons'
 import APIConfig from "./APIConfig"
-import MapCSVSourceConfig from "../commons/MapCSVSourceConfig"
+import {MapCSVSourceConfig} from '@devgateway/dvz-wp-commons'
 import LegendBreaks from "./LegendBreaks"
 import MapSymbols from "./Symbols"
 import Tooltips from "./Tooltips"
 import Settings from "./Settings"
-import {isSupersetAPI} from "../commons/APIutils";
+import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor() {
