@@ -7,8 +7,8 @@ export const getTranslatedOptions = (options) => {
             if (labels && labels[currentLocale]) {
                 label = labels[currentLocale]
             }
-            if (!label){
-                label=value
+            if (!label) {
+                label = value
             }
             return {...o, label, value}
         })
@@ -18,7 +18,7 @@ export const getTranslatedOptions = (options) => {
 }
 
 export const getTranslation = (translatable) => {
-    
+
     const currentLocale = (window._user_locale ? window._user_locale : '').toUpperCase()
     let {label, labels, value} = translatable
     if (labels && labels[currentLocale]) {
@@ -28,13 +28,13 @@ export const getTranslation = (translatable) => {
 }
 
 export const isSupersetAPI = (app, apps) => {
-    
+
     if (app == 'csv' || !apps) {
         return false
     }
     const appObj = apps.filter(a => a.value == app)[0]
-    return appObj && appObj.settings && appObj.settings.metadata 
-    && appObj.settings.metadata.superset == 'true';
+    return appObj && appObj.settings && appObj.settings.metadata
+        && appObj.settings.metadata.superset == 'true';
 }
 
 export default getTranslatedOptions

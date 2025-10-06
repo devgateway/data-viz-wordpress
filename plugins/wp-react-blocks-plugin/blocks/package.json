@@ -1,6 +1,11 @@
 {
   "name": "dg-react-blocks",
   "version": "1.1.1",
+  "author": "Development Gateway",
+  "contributors": [
+    "Sebastian Dimunzio",
+    "Timothy Mugo"
+  ],
   "private": true,
   "description": "",
   "author": "Sebastian Dimunzio",

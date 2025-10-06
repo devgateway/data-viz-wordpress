@@ -76,7 +76,7 @@ export function updateMeasureLabels(data, measures, app) {
             measure.label = apiMeasure.label;
         }
     });
-};
+}
 
 
 export function getStoredOrSetItem(key, fallback, overwrite = false) {

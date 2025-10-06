@@ -10,4 +10,8 @@ export const DEFAULT_FORMAT_SETTINGS = {
         maximumFractionDigits: 2
     },
     useCustomAxisFormat: false
-}; 
+};
+
+
+export const BLOCKS_CATEGORY = 'wp-react-lib-blocks';
+export const BLOCKS_NS = 'viz';
