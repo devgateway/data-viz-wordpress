@@ -1,4 +1,4 @@
-export const togglePanel = (name,panelStatus, setAttributes) => {
+export const togglePanel = (name, panelStatus, setAttributes) => {
     const newStatus = {...panelStatus}
     newStatus[name] = newStatus[name] == true ? false : true
     setAttributes({panelStatus: newStatus})
