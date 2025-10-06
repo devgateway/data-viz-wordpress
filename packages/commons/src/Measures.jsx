@@ -1,7 +1,7 @@
 import {__} from '@wordpress/i18n';
 import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl} from '@wordpress/components';
 
-import Format from '../charts/Format.jsx'
+import Format from './Format'
 import {togglePanel} from "./Util";
 import {getTranslation} from "./APIutils";
 
@@ -13,7 +13,7 @@ const defaultFormat = {
 
 }
 
-const ChartMeasures = (props) => {
+export const Measures = (props) => {
     const {
         onMeasuresChange,
         onFormatChange,
@@ -24,6 +24,7 @@ const ChartMeasures = (props) => {
         allMeasures,
         setAttributes,
         title,
+        format,
         attributes: {
             panelStatus,
             measures,
@@ -34,8 +35,6 @@ const ChartMeasures = (props) => {
         }
     } = props
 
-
-    
 
     const MToggle = ({measure}) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
@@ -48,9 +47,16 @@ const ChartMeasures = (props) => {
 
     const MCheckbox = ({measure}) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
+        let isChecked
+        if (measures instanceof Array) {
+            isChecked = measures.includes(measure.value)
+        } else {
+            isChecked = userMeasure ? userMeasure.selected : false
+        }
+
         return <CheckboxControl
             label={getTranslation(measure)}
-            checked={userMeasure ? userMeasure.selected : false}
+            checked={isChecked}
             onChange={(value) => onSetSingleMeasure(measure.value)}/>
     }
 
@@ -93,28 +99,27 @@ const ChartMeasures = (props) => {
         return []
     }
 
-    const selectedMeasures = getSelectedMeasures()        
+
+    const selectedMeasures = getSelectedMeasures()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
-                      onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
+                        onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
 
         {
             /*
              Multiple measures conditions
 
-             Bar:
-             no dimensions selected
-             one dimension is selected
-             -  not available when second dimension gets selected
-
-             Line:
-               - Always multi measure as measures represents line series, one dimension should always be selected
+             Bar & Line:
+                 no dimensions selected
+                 one dimension is selected
+                 -  not available when second dimension gets selected
 
              Pie:
                   no dimensions selected
                    -  not available when any dimension is selected
              */
 
-            ((type == 'line') ||
+            ((type == 'radar') ||
+                (type == 'line' && dimension2 == 'none') ||
                 (type == 'bar' && dimension2 == 'none') ||
                 (type == 'pie' && dimension1 == 'none' && dimension2 == 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody initialOpen={panelStatus[g]}
@@ -136,19 +141,17 @@ const ChartMeasures = (props) => {
         {
             /*Single measure conditions
 
-        Bar:
-               2 dimensions selected
-         Line:
-                never
-         Pie:
-              any dimensions selected
+            Bar & Lie:
+                2 dimensions selected
+            Pie:
+                any dimensions selected
 
-        */
-            ((type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+            */
+            ((type == 'big-number') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody
                         initialOpen={panelStatus[g]}
                         onToggle={e => togglePanel(g, panelStatus, setAttributes)}
-                        title={`${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group === g).length} ) `}>
+                        title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
 
                         {allMeasures.filter(f => getTranslation(f.group) === g)
                             .map(m => <PanelRow>
@@ -177,57 +180,60 @@ const ChartMeasures = (props) => {
         {(type != 'overlay') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
-                format={measures[app] && measures[app].format ? measures[app].format : defaultFormat}
+                hiddenCustomAxisFormat={type == 'radar' || type == 'big-number'}
+                format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
-                useCustomAxisFormat={measures[app]  ? measures[app].useCustomAxisFormat : false}
+                useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}
                 onFormatChange={(format, field) => {
                     onFormatChange(format, field)
                 }}
-                onUseCustomAxisFormatChange={value => {                    
+                onUseCustomAxisFormatChange={value => {
                     onUseCustomAxisFormatChange(value)
-                }} 
-                >
+                }}
+            >
             </Format>
         </PanelBody>}
 
     </PanelBody>
-    {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
-    <PanelBody title={__("Measure Label Customization")} initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
-                      onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
+        {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
+            <PanelBody title={__("Measure Label Customization")}
+                       initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
+                       onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
 
-                        {selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
-                                 return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
-                                                    onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
-                                                    title={`${g}`}>
-                                         {selectedMeasures.filter(f => getTranslation(f.group) === g)
-                                             .map(m => {                                             
-                                                const userMeasure = measures[app] ? measures[app][m.value] : {}
-                                                return (<><PanelRow><ToggleControl
-                                                    label={getTranslation(m)}
-                                                    checked={userMeasure ? userMeasure.hasCustomLabel : false}
-                                                    onChange={(value) => onCustomLabelToggleChange(m.value)}/> </PanelRow>
-                                                    {userMeasure.hasCustomLabel &&
-                                                    <PanelRow>
-                                                        <TextControl label={__("Custom Label")} value={userMeasure ? userMeasure.customLabel : ""} onChange={(value) => onCustomLabelChange(m.value, value)}/>
-                                                    </PanelRow>
-                                                    }
-                                                    </>)
-                                             
-                                           })}
-                                     </PanelBody>
-             
-             
-                                 )
-                             }
-                         )
-                        }
+                {selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
+                        return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
+                                           onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
+                                           title={`${g}`}>
+                                {selectedMeasures.filter(f => getTranslation(f.group) === g)
+                                    .map(m => {
+                                        const userMeasure = measures[app] ? measures[app][m.value] : {}
+                                        return (<><PanelRow><ToggleControl
+                                            label={getTranslation(m)}
+                                            checked={userMeasure ? userMeasure.hasCustomLabel : false}
+                                            onChange={(value) => onCustomLabelToggleChange(m.value)}/> </PanelRow>
+                                            {userMeasure.hasCustomLabel &&
+                                                <PanelRow>
+                                                    <TextControl label={__("Custom Label")}
+                                                                 value={userMeasure ? userMeasure.customLabel : ""}
+                                                                 onChange={(value) => onCustomLabelChange(m.value, value)}/>
+                                                </PanelRow>
+                                            }
+                                        </>)
 
-         
-    
-        </PanelBody>
-}
+                                    })}
+                            </PanelBody>
+
+
+                        )
+                    }
+                )
+                }
+
+
+            </PanelBody>
+        }
     </>
 }
 
 
-export default ChartMeasures
+export default Measures

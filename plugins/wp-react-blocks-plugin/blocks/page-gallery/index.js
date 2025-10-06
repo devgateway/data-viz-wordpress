@@ -3,7 +3,7 @@ import {RangeControl, Panel, PanelBody, PanelRow, TextControl, ToggleControl} fr
 import {registerBlockType} from '@wordpress/blocks';
 import {ResizableBox} from '@wordpress/components';
 import Generic from "../icons";
-import {BlockEditWithFilters} from "../commons";
+import {BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
 import {__} from '@wordpress/i18n';
 
 const EditComponent = (props) => {

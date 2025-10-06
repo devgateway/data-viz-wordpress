@@ -16,7 +16,7 @@ import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
 import {PanelColorSettings} from "@wordpress/block-editor";
 import BreaksGenerator from "./utils/BreaksGenerator";
-import {isSupersetAPI} from "../../commons/APIutils";
+import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 
 const compareJsonProps = (p1, p2) => {
     return JSON.stringify(p1) === JSON.stringify(p2)

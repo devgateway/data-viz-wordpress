@@ -1,77 +1,50 @@
-import React from 'react';
-import { __ } from '@wordpress/i18n';
-import { CheckboxControl, PanelBody, PanelRow, SelectControl, TextControl } from '@wordpress/components';
-import { Component } from '@wordpress/element'
+import {__} from '@wordpress/i18n';
+import {CheckboxControl, PanelBody, PanelRow, SelectControl, TextControl} from '@wordpress/components';
+import {Component} from '@wordpress/element'
 import apiFetch from '@wordpress/api-fetch';
-import { togglePanel } from './Util';
-import { getTranslatedOptions, isSupersetAPI } from './APIutils'
-import { subscribe, select } from '@wordpress/data';
-import { DgSettings, EurekaResponse, Taxonomies, Taxonomy, Wp_Types } from './types';
+import {togglePanel} from "./Util";
 
-export interface SizeConfigProps {
-    height: number;
-    setAttributes: (attributes: any) => void;
-    panelStatus: any;
-    initialOpen?: boolean;
-}
+import {getTranslatedOptions} from './APIutils'
+import {isSupersetAPI} from "./APIutils";
 
-export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen = false }: SizeConfigProps) => {
+
+export const SizeConfig = ({height, setAttributes, panelStatus, initialOpen}) => {
     return (<PanelBody initialOpen={panelStatus ? panelStatus["SIZE"] : initialOpen}
-        onToggle={() => togglePanel("SIZE", panelStatus, setAttributes)}
-        title={__("Size")}>
+                       onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
+                       title={__("Size")}>
         <PanelRow>
             <TextControl
                 size={10}
                 label="Height"
                 value={height}
-                onChange={(height) => setAttributes({ height: height ? parseInt(height) : 0 })}
+                onChange={(height) => setAttributes({height: height ? parseInt(height) : 0})}
             />
         </PanelRow>
     </PanelBody>)
 
 }
-export type ComponentWithSettingsProps = {
-    attributes: any;
-    setAttributes: (attributes: any) => void;
-}
 
-export type ComponentWithSettingsState = {
-    react_ui_url?: string;
-    react_api_url?: string | null;
-    apache_superset_url?: string | boolean | null;
-    site_language?: string;
-    current_language?: string;
-    previewMode?: string;
-}
+export class ComponentWithSettings extends Component {
 
-export class ComponentWithSettings<T extends ComponentWithSettingsProps, U extends ComponentWithSettingsState> extends Component<T, U> {
-    iframe: React.RefObject<HTMLIFrameElement>;
-    unsubscribe: () => void;
-
-    constructor(props: T) {
+    constructor(props) {
         super(props);
         this.state = {
-            react_ui_url: '',
-            react_api_url: null,
-            apache_superset_url: null,
-            site_language: '',
-            current_language: '',
-        } as U
+            react_ui_url: ''
+        }
 
         window.addEventListener("message", (event) => {
-
             if (event.data.type === 'componentReady' && event.data.value === true) {
                 if (this.iframe.current) {
                     console.log("-----------Sending message -----------")
-                    this.iframe.current.contentWindow?.postMessage(({ messageType: 'component-attributes', ...this.props.attributes }), "*")
+                    this.iframe.current.contentWindow.postMessage(({messageType: 'component-attributes', ...this.props.attributes}), "*")
                 }
             }
         }, false);
         this.iframe = React.createRef();
-        this.unsubscribe = subscribe(() => {
-            const newPreviewMode = select("core/editor").getDeviceType();
+        this.unsubscribe = wp.data.subscribe(() => {
+            const newPreviewMode = wp.data.select("core/editor").getDeviceType();
             if (newPreviewMode !== this.state.previewMode) {
-                this.setState({previewMode: newPreviewMode });
+                this.setState({previewMode: newPreviewMode});
             }
         });
     }
@@ -83,13 +56,13 @@ export class ComponentWithSettings<T extends ComponentWithSettingsProps, U exten
     }
 
     componentDidMount() {
-        apiFetch<DgSettings>({ path: '/dg/v1/settings' }).then((data) => {
+        apiFetch({path: '/dg/v1/settings'}).then((data) => {
             this.setState({
                 react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
                 react_api_url: data["react_api_url"],
                 apache_superset_url: data["apache_superset_url"],
                 site_language: data["site_language"],
-                current_language: new URLSearchParams(document.location.search).get("edit_lang") || ''
+                current_language: new URLSearchParams(document.location.search).get("edit_lang")
             });
         });
     }
@@ -101,44 +74,24 @@ export class ComponentWithSettings<T extends ComponentWithSettingsProps, U exten
     }
 }
 
-export type BlockEditWithFiltersProps = {
-    attributes: any;
-    setAttributes: (attributes: any) => void;
-}
+export class BlockEditWithFilters extends ComponentWithSettings {
 
-
-export interface BlockEditWithFiltersState extends ComponentWithSettingsState {
-    taxonomyValues: Taxonomy[] | null;
-    types: Wp_Types[] | null;
-    taxonomies: Taxonomies | null;
-    loading: boolean;
-}
-
-export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEditWithFiltersProps, S extends BlockEditWithFiltersState = BlockEditWithFiltersState> extends ComponentWithSettings<T, S> {
-
-    constructor(props: T) {
+    constructor(props) {
         super(props);
         this.state = {
-            react_ui_url: '',
-            react_api_url: null,
-            apache_superset_url: null,
-            site_language: '',
-            current_language: '',
-            taxonomyValues: [],
-            types: null,
-            taxonomies: null,
-            loading: true
-        } as unknown as S;
-        this.onTypeChanged = this.onTypeChanged.bind(this);
-        this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this);
-        this.getTaxonomyValues = this.getTaxonomyValues.bind(this);
-        this.onCategoryChanged = this.onCategoryChanged.bind(this);
+            taxonomyValues: [], types: null, taxonomies: null, loading: true
+        }
+        this.onTypeChanged = this.onTypeChanged.bind(this)
+        this.onTaxonomyChanged = this.onTaxonomyChanged.bind(this)
+        this.getTaxonomyValues = this.getTaxonomyValues.bind(this)
+        this.onCategoryChanged = this.onCategoryChanged.bind(this)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {
-            attributes: {
-                type, taxonomy },
+            setAttributes, attributes: {
+                type, taxonomy, count
+            },
         } = this.props;
 
         super.componentDidUpdate(prevProps, prevState, snapshot)
@@ -160,8 +113,9 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
         this.getTaxonomies()
 
         const {
-            attributes: {
-                taxonomy },
+            setAttributes, attributes: {
+                type, taxonomy, count
+            },
         } = this.props;
 
 
@@ -173,49 +127,50 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
     }
 
     onTypeChanged(value) {
-        const { setAttributes } = this.props
-        setAttributes({ categories: [] })
-        setAttributes({ taxonomy: 'none' })
-        setAttributes({ type: value })
+        const {setAttributes} = this.props
+        setAttributes({categories: []})
+        setAttributes({taxonomy: 'none'})
+        setAttributes({type: value})
     }
 
     onTaxonomyChanged(value) {
-        const { setAttributes } = this.props
-        setAttributes({ categories: [] })
-        setAttributes({ taxonomy: value })
+        const {setAttributes} = this.props
+        setAttributes({categories: []})
+        setAttributes({taxonomy: value})
 
     }
 
     onCategoryChanged(checked, value) {
 
-        const { setAttributes, attributes: { categories } } = this.props
+        const {setAttributes, attributes: {categories}} = this.props
         if (!checked) {
-            setAttributes({ categories: categories.filter(i => i != value) })
+            setAttributes({categories: categories.filter(i => i != value)})
         } else {
             let newCate = [...categories]
             newCate.push(value)
-            setAttributes({ categories: newCate })
+            setAttributes({categories: newCate})
         }
 
     }
 
     getTaxonomyValues() {
         const {
-            attributes: {
-                taxonomy },
+            setAttributes, attributes: {
+                type, taxonomy, count
+            },
         } = this.props;
 
-        apiFetch<Taxonomy[]>({
-            path: '/wp/v2/taxonomies/' + taxonomy + '?per_page=100',
+        wp.apiFetch({
+            path: '/wp/v2/' + taxonomy + '?per_page=100',
         }).then(data => {
 
-            this.setState({ taxonomyValues: data });
+            this.setState({taxonomyValues: data});
         });
     }
 
     getTaxonomies() {
 
-        apiFetch<Taxonomies>({
+        wp.apiFetch({
             path: '/wp/v2/taxonomies?per_page=100',
         }).then(data => {
             this.setState({
@@ -225,9 +180,10 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
     }
 
     getTypes() {
-        apiFetch<Wp_Types[]>({
+        wp.apiFetch({
             path: '/wp/v2/types?per_page=100',
         }).then(data => {
+            const types = data
             this.setState({
                 types: data, loading: false
             });
@@ -235,12 +191,17 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
     }
 
     typeOptions() {
-        const { types } = this.state
+        const {
+            setAttributes, attributes: {
+                count, type, taxonomy, category
+            },
+        } = this.props;
+        const {types, taxonomies, taxonomyValues} = this.state
         const typeOptions = types ? Object.keys(types)
             .filter(k => ['page', 'attachment', 'wp_block']
                 .indexOf(k) == -1).map(k => ({
-                    slug: types[k].slug, label: types[k].name, value: types[k].rest_base
-                })) : []
+                slug: types[k].slug, label: types[k].name, value: types[k].rest_base
+            })) : []
 
         return typeOptions
 
@@ -252,8 +213,8 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
                 type,
             },
         } = this.props;
-        const { types, taxonomies } = this.state
-        let slug: string;
+        const {types, taxonomies, taxonomyValues} = this.state
+        let slug;
         if (types) {
             slug = this.typeOptions().filter(t => t.value == type)[0].slug
 
@@ -262,16 +223,16 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
                     label: types[slug].name + ' -> ' + taxonomies[k].name, value: taxonomies[k].rest_base
                 })) : []
 
-            return [{ label: 'None', value: 'none' }, ...taxonomyOptions]
+            return [{label: 'None', value: 'none'}, ...taxonomyOptions]
         } else {
             return []
         }
     }
 
     categoriesOptions() {
-        const { taxonomyValues } = this.state
-        const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({ label: t.name, value: t.id }))
-        return taxonomyValuesOptions || []
+        const {types, taxonomies, taxonomyValues} = this.state
+        const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({label: t.name, value: t.id}))
+        return taxonomyValuesOptions
     }
 
 
@@ -287,16 +248,16 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
                 <SelectControl
                     label={__("Post Type")} options={this.typeOptions()}
                     value={type}
-                    onChange={this.onTypeChanged} />
+                    onChange={this.onTypeChanged}/>
             </PanelRow>
             <PanelRow>
 
                 <SelectControl label={__("Use a taxonomy filter ")} options={this.taxonomyOptions()}
-                    value={taxonomy}
-                    onChange={this.onTaxonomyChanged}
+                               value={taxonomy}
+                               onChange={this.onTaxonomyChanged}
                 />
             </PanelRow>
-            {(taxonomy != 'none' && this.categoriesOptions().length > 0) && this.categoriesOptions().map(o => {
+            {taxonomy != 'none' && this.categoriesOptions().map(o => {
                 return <PanelRow><CheckboxControl
                     label={o.label}
                     onChange={(checked) => this.onCategoryChanged(checked, o.value)}
@@ -308,31 +269,14 @@ export class BlockEditWithFilters<T extends BlockEditWithFiltersProps = BlockEdi
     }
 }
 
-export type BlockEditWithAPIMetadataProps = {
-    attributes: {
-        app: string;
-        dvzProxyDatasetId?: string;
-    };
-    setAttributes: (attributes: any) => void;
-}
 
-export type BlockEditWithAPIMetadataState = {
-    apps: any[];
-    datasets?: any[];
-    dimensions?: any[];
-    filters?: any[];
-    measures?: any[];
-    categories?: any[];
-} & ComponentWithSettingsState;
-
-
-export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = BlockEditWithAPIMetadataProps, S extends BlockEditWithAPIMetadataState = BlockEditWithAPIMetadataState> extends ComponentWithSettings<T, S> {
-    constructor(props: T) {
+export class BlockEditWithAPIMetadata extends ComponentWithSettings {
+    constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        apiFetch<DgSettings>({
+        apiFetch({
             path: '/dg/v1/settings'
         }).then((settingsData) => {
             fetch(`/api/registry/eureka/apps`, {
@@ -340,7 +284,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                     'Accept': 'application/json',
                 },
             })
-                .then((response: Response) => response.json() as Promise<EurekaResponse>)
+                .then(response => response.json())
                 .then(data => {
                     const apps = data.applications ? [...data.applications.application
                         .filter(a => a.instance[0].metadata.type === 'data')
@@ -357,11 +301,11 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                         react_api_url: settingsData["react_api_url"],
                         apache_superset_url: settingsData["apache_superset_url"],
                         site_language: settingsData["site_language"],
-                        current_language: new URLSearchParams(document.location.search).get("edit_lang") || "",
+                        current_language: new URLSearchParams(document.location.search).get("edit_lang"),
                         apps
                     }, () => {
 
-                        const { app, dvzProxyDatasetId } = this.props.attributes;
+                        const {app, dvzProxyDatasetId} = this.props.attributes;
 
                         if (isSupersetAPI(app, this.state.apps)) {
                             this.loadDatasets(app)
@@ -377,8 +321,9 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 });
         });
     }
-    componentDidUpdate(prevProps: BlockEditWithAPIMetadataProps, prevState: any, snapshot?: any) {
-        super.componentDidUpdate(prevProps, prevState, snapshot);
+
+    componentDidUpdate(prevProps) {
+        super.componentDidUpdate(prevProps);
         const {
             attributes: {
                 app,
@@ -402,7 +347,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                     this.loadMetadata(app, dvzProxyDatasetId)
                 }
             } else {
-                this.loadMetadata(app, dvzProxyDatasetId);
+                this.loadMetadata(app);
             }
         } else {//app wasn't changed
 
@@ -415,7 +360,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
 
 
     evictSuperSetCache() {
-        const { app, dvzProxyDatasetId } = this.props.attributes;
+        const {app, dvzProxyDatasetId} = this.props.attributes;
         fetch(`/api/${app}/cacheEvict?dvzProxyDatasetId=${dvzProxyDatasetId}`).then(() => {
             this.loadMetadata(app, dvzProxyDatasetId)
         })
@@ -442,7 +387,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
     }
 
 
-    loadMetadata(app: string, dvzProxyDatasetId?: string) {
+    loadMetadata(app, dvzProxyDatasetId) {
         if (app == 'csv') {
             return;
         }
@@ -466,10 +411,10 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 .then(data => {
 
                     this.setState({
-                        dimensions: [{ "label": __("None"), "value": "none" }, ...getTranslatedOptions(data)]
+                        dimensions: [{"label": __("None"), "value": "none"}, ...getTranslatedOptions(data)]
                     })
                 })
-                .catch(function () {
+                .catch(function (response) {
                     console.log("Error when loading dimensions")
                 })
 
@@ -483,8 +428,8 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 })
                 .then(data => {
 
-                    const options = data.map(f => ({ ...f, value: f.param }))
-                    this.setState({ filters: options })
+                    const options = data.map(f => ({...f, value: f.param}))
+                    this.setState({filters: options})
 
                 })
                 .catch(function (response) {
@@ -500,9 +445,9 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 })
                 .then(data => {
                     sessionStorage.setItem(`measures_${app}`, JSON.stringify(getTranslatedOptions(data)))
-                    this.setState({ measures: getTranslatedOptions(data) })
+                    this.setState({measures: getTranslatedOptions(data)})
                 })
-                .catch(function () {
+                .catch(function (response) {
                     console.log("Error when loading measures")
                 })
 
@@ -514,9 +459,9 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                     return response.json()
                 })
                 .then(data => {
-                    sessionStorage.setItem(`categories_${app}`, JSON.stringify(data))
-                    this.setState({ categories: getTranslatedOptions(data) })
-                }
+                        sessionStorage.setItem(`categories_${app}`, JSON.stringify(data))
+                        this.setState({categories: getTranslatedOptions(data)})
+                    }
                 )
                 .catch(function (response) {
                     console.log("Error when getting categories", response)
@@ -526,7 +471,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
     }
 
 
-    fetchData(url: string, stateKey: string, transformData: (data: any) => any) {
+    fetchData(url, stateKey, transformData) {
         fetch(url)
             .then(response => {
                 if (!response.ok) {
@@ -535,8 +480,7 @@ export class BlockEditWithAPIMetadata<T extends BlockEditWithAPIMetadataProps = 
                 return response.json();
             })
             .then(data => {
-                // TODO: Check if the data is an array
-                // @ts-ignore
+
                 this.setState({
                     [stateKey]: transformData(data)
                 });

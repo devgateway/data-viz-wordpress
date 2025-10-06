@@ -26,7 +26,7 @@ import {
     ToggleControl,
     SelectControl
 } from '@wordpress/components';
-import {BlockEditWithAPIMetadata} from "../commons";
+import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons';
 
 const name = process.env.BLOCKS_NS + '/reference';
 const reference = {
