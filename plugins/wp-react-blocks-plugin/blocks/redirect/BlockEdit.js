@@ -1,5 +1,5 @@
 import {useBlockProps} from '@wordpress/block-editor';
-import {ComponentWithSettings} from "../commons";
+import {ComponentWithSettings} from '@devgateway/dvz-wp-commons';
 import {useDispatch, useSelect} from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import {arrowUp} from '@wordpress/icons';

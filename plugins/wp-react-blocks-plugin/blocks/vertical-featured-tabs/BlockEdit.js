@@ -2,7 +2,7 @@ import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/b
 import {Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-import {BlockEditWithFilters} from '../commons'
+import {BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
 
 
 class BlockEdit extends BlockEditWithFilters {

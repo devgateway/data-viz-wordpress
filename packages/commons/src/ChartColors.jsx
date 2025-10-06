@@ -46,7 +46,7 @@ export const diverging = [{value: "brown_blueGreen", label: 'brown_blueGreen'},
 
 const plainColor = {value: "plain_color", label: 'Use Plain color'};
 
-const ChartColors = (props) => {
+export const ChartColors = (props) => {
     const {
         allDimensions, allFilters, allMeasures, allCategories, allApps, setAttributes, attributes: {
             swap,
@@ -196,14 +196,14 @@ const ChartColors = (props) => {
     const prevStatus = useRef();
 
     const updateColor = (value, color) => {
-        
+
         const newColors = Object.assign({}, manualColors)
         newColors[app][value] = color
         setAttributes({manualColors: newColors})
     }
 
     const initColors = (dimension) => {
-        
+
         const ds = allDimensions.filter(d => d.value == dimension)
         const newColors = Object.assign({}, manualColors)
 
@@ -215,7 +215,7 @@ const ChartColors = (props) => {
             const {type} = ds[0]
             const cat = allCategories.filter(a => a.type === type)
             if (cat.length > 0) {
-                
+
                 cat[0].items.forEach(item => {
                     if (!newColors[app][item.code]) {
                         newColors[app][item.code] = item.categoryStyle ? item.categoryStyle.color : "#eeeeee"
@@ -229,7 +229,7 @@ const ChartColors = (props) => {
     }
 
     const initMeasuresColors = () => {
-        
+
         const newColors = Object.assign({}, manualColors)
         if (!newColors[app]) {
             newColors[app] = {}
@@ -248,7 +248,7 @@ const ChartColors = (props) => {
     }
 
     const combinedCatColors = (dimension1, dimension2) => {
-        
+
         if (manualColors[app]) {
             const ds1 = allDimensions.filter(d => d.value == dimension1)
             const ds2 = allDimensions.filter(d => d.value == dimension2)
@@ -285,7 +285,7 @@ const ChartColors = (props) => {
     }
 
     const catColors = (dimension) => {
-        
+
         if (manualColors[app]) {
             const ds = allDimensions.filter(d => d.value == dimension)
             if (ds.length > 0) {
@@ -315,7 +315,7 @@ const ChartColors = (props) => {
                     let selectedMeasures = []
 
                     allMeasures.forEach(m => {
-                        
+
                         if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
                             selectedMeasures.push(m.value)
                         }
@@ -346,11 +346,11 @@ const ChartColors = (props) => {
     }
 
     const measureColors = () => {
-        
+
         if (manualColors[app] && allMeasures && measures[app]) {
-            
+
             const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected)
-             if (selectedMeasures.length > 0) {
+            if (selectedMeasures.length > 0) {
 
                 const list = selectedMeasures.sort((a, b) => b.position - a.position)
                     .map(item => {
@@ -477,7 +477,7 @@ const ChartColors = (props) => {
 
             {app != "csv" && useColors == "dimension" && colorBy == "index" &&
                 <PanelBody initialOpen={false} title={__("Set Colors")}>
-                     {catColors(dimension1)}
+                    {catColors(dimension1)}
                 </PanelBody>}
             {app != "csv" && useColors == "dimension" && (colorBy == "id" && dimension2 != "none") &&
                 <PanelBody initialOpen={false} title={__("Set Colors")}>
