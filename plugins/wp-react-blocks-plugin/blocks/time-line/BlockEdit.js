@@ -15,7 +15,7 @@ import {
 } from '@wordpress/components'
 
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters, SizeConfig} from "../commons";
+import {BlockEditWithFilters, SizeConfig} from '@devgateway/dvz-wp-commons';
 import apiFetch from '@wordpress/api-fetch';
 
 const COLORS = ["#6acbd5", "#fcb535", "#f79132", "#e54957", "#0e5583","#2fb2e4", "#fcb535"]

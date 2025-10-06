@@ -3,7 +3,7 @@ import {registerBlockType} from '@wordpress/blocks';
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Generic} from '../icons/index.js'
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
-import {ComponentWithSettings} from "../commons";
+import {ComponentWithSettings} from '@devgateway/dvz-wp-commons';
 
 
 const SaveComponent = (props) => {

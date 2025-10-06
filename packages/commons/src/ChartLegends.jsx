@@ -10,7 +10,7 @@ import {
 import {__} from '@wordpress/i18n';
 import {PanelColorSettings} from '@wordpress/block-editor';
 
-const ChartLegends = (props) => {
+export const ChartLegends = (props) => {
     const {
         setAttributes, attributes: {
             showLegends, legendPosition, marginLeft,
@@ -28,7 +28,7 @@ const ChartLegends = (props) => {
     } = props;
 
     return [
-        <PanelBody initialOpen={false}   title={__("Margins")}>
+        <PanelBody initialOpen={false} title={__("Margins")}>
             <PanelRow>
                 <RangeControl
                     label={__('Margin Bottom (Space between chart area and bottom border)')}
@@ -68,7 +68,7 @@ const ChartLegends = (props) => {
                 />
             </PanelRow>
         </PanelBody>,
-        <PanelBody initialOpen={false}   title={__("Legends")}>
+        <PanelBody initialOpen={false} title={__("Legends")}>
 
             <PanelRow>
                 <ToggleControl
@@ -90,15 +90,15 @@ const ChartLegends = (props) => {
                     onChange={(numberOfLegendColumns) => setAttributes({numberOfLegendColumns})}
                     type="number"
                     min={1}
-                    max={10}/>  
+                    max={10}/>
             </PanelRow>}
-           
+
             {showLegends &&
                 <PanelRow>
                     <ToggleControl
                         label={__("Reverse legend order")}
                         checked={reverseLegend}
-                        onChange={() => setAttributes({ reverseLegend: !reverseLegend })}
+                        onChange={() => setAttributes({reverseLegend: !reverseLegend})}
                     />
                 </PanelRow>
             }
@@ -115,8 +115,8 @@ const ChartLegends = (props) => {
             </PanelRow>
 
             }
-           
-             {showLegends && <PanelRow>
+
+            {showLegends && <PanelRow>
                 <ButtonGroup>
                     <Button isPrimary={legendPosition == 'left'} isSecondary={legendPosition != 'left'}
                             onClick={e => setAttributes({legendPosition: "left"})}>
@@ -170,7 +170,7 @@ const ChartLegends = (props) => {
 
                 /> </PanelRow>}
 
-            
+
         </PanelBody>,
 
     ]
