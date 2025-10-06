@@ -17,7 +17,7 @@ import BreaksGenerator from "./utils/BreaksGenerator";
 import {PanelColorSettings} from "@wordpress/block-editor";
 import PatternGenerator from "./utils/PatternGenerator";
 import Format from '../../charts/Format.jsx'
-import {isSupersetAPI} from "../../commons/APIutils";
+import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 import GradientGenerator from "./utils/GradientGenerator";
 
 
@@ -266,8 +266,7 @@ export class DataLayerSetting extends Component {
         let selectedMeasureLabel = ""
         let selectedMeasureValue = ""
 
-        const jsonFields = features.length > 0 ? Object.keys(features[0].properties) : []
-
+        
 
         if (app != 'csv') {
             const theMeasure = measures ? measures[0] : null
@@ -343,30 +342,19 @@ export class DataLayerSetting extends Component {
                 <TextareaControl
                     label={__("Tooltip")}
                     value={tooltip}
+                    help={__("You can use variables {var_name}")}
                     onChange={(tooltip) => onChangeProperty("tooltip", tooltip)}
                     rows={10}
                 />
 
             </PanelRow>
-            <PanelRow>
-                <div style={{display: "flex", flexDirection: "column"}}>
-                    <strong>{__("You can use the following variables", "dg")}</strong>
-                    {app != 'csv' && allMeasures && allMeasures.map(m =><div  style={{
-                        "margin-top": "calc(8px)",
-                        "font-size": "12px",
-                        "font-style": "normal",
-                        "color": "rgb(117, 117, 117)"
-                    }}>
-                        {"{" + m.value + "}"}</div>)}
-
-                    {jsonFields.map(m => <div style={{
-                        "margin-top": "calc(8px)",
-                        "font-size": "12px",
-                        "font-style": "normal",
-                        "color": "rgb(117, 117, 117)"
-                    }}>{"{" + m + "}"}</div>)}
-                </div>
-            </PanelRow>
+            {app != 'csv' && allMeasures && allMeasures.map(m => <PanelRow><p
+                style={{
+                    "margin-top": "calc(8px)",
+                    "font-size": "12px",
+                    "font-style": "normal",
+                    "color": "rgb(117, 117, 117)"
+                }}>{"{" + m.value + "}"}</p></PanelRow>)}
         </PanelBody>,
             <React.Fragment>
                 {app != 'csv' && <Measures

@@ -13,20 +13,20 @@ import {
 
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
-import CSVSourceConfig from "../commons/CSVSourceConfig";
-import APIConfig from "../commons/APIConfig";
+import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
+import {CSVConfig as CSVSourceConfig} from '@devgateway/dvz-wp-commons';
+import {APIConfig} from '@devgateway/dvz-wp-commons';
 import Bar from "./Bar.jsx"
 import Pie from "./Pie.jsx"
 import Line from "./Line.jsx"
 import Bump from "./Bump.jsx"
 import Info from "./Info.jsx"
 import MobileConfig from './MobileConfig.jsx';
-import Tooltip from "../commons/Tooltip.jsx";
-import {togglePanel} from "../commons/Util";
+import {Tooltip} from '@devgateway/dvz-wp-commons';
+import {togglePanel} from '@devgateway/dvz-wp-commons';
 import Radar from './Radar.jsx';
-import {DEFAULT_FORMAT_SETTINGS} from '../commons/Constants';
-import {isSupersetAPI} from "../commons/APIutils";
+import {DEFAULT_FORMAT_SETTINGS} from '@devgateway/dvz-wp-commons';
+import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
@@ -35,8 +35,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {setAttributes, attributes: {type,colorBy,dimension1, dimension2 }} = this.props
-        const {attributes: {type: prevType }} = prevProps
+        const {setAttributes, attributes: {type, colorBy, dimension1, dimension2}} = this.props
+        const {attributes: {type: prevType}} = prevProps
         const newPreviewMode = this.state?.previewMode;
 
         if (newPreviewMode !== prevState.previewMode) {
@@ -64,7 +64,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
         super.componentDidUpdate(prevProps, prevState, snapshot);
     }
-    
+
 
     render() {
         console.log("apps", this.state.apps)
@@ -219,7 +219,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 params[f.param] = f.value
         })
 
-        const  datasets = [{label: 'Select Dataset', value: '0'}]
+        const datasets = [{label: 'Select Dataset', value: '0'}]
         if (this.state.datasets) {
             this.state.datasets.forEach(d => {
                 datasets.push({label: d.label, value: d.id})
@@ -245,7 +245,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <ToggleControl
                                     label={__('Wait For Filters')}
                                     checked={waitForFilters}
-                                    onChange={() => setAttributes({waitForFilters:!waitForFilters})}
+                                    onChange={() => setAttributes({waitForFilters: !waitForFilters})}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -327,7 +327,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                             label={__('Provider')}
                                             value={[app]} // e.g: value = [ 'a', 'c' ]
                                             onChange={(app) => {
-                                                this.setState({dimensions: [], measures: [], filters: [], categories: []}, () => {
+                                                this.setState({
+                                                    dimensions: [],
+                                                    measures: [],
+                                                    filters: [],
+                                                    categories: []
+                                                }, () => {
                                                     setAttributes({
                                                         dvzProxyDatasetId: null,
                                                         dimension1: 'none',
@@ -337,7 +342,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     })
                                                 })
                                                 setAttributes({
-                                                    app: app                                                   
+                                                    app: app
                                                 })
 
                                             }}
@@ -346,13 +351,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     </PanelRow>
 
 
-                                    {isSupersetAPI(app, this.state.apps) &&   <PanelRow>
+                                    {isSupersetAPI(app, this.state.apps) && <PanelRow>
                                         <SelectControl
                                             label={__('Datasets')}
                                             value={[dvzProxyDatasetId]}
-                                            onChange={(newDatasetId)   => {
+                                            onChange={(newDatasetId) => {
 
-                                                this.setState({dimensions: [], measures: [], filters: [], categories: []}, () => {
+                                                this.setState({
+                                                    dimensions: [],
+                                                    measures: [],
+                                                    filters: [],
+                                                    categories: []
+                                                }, () => {
                                                     setAttributes({
                                                         dvzProxyDatasetId: newDatasetId,
                                                         dimension1: 'none',
@@ -369,13 +379,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                             options={datasets}
                                         />
 
-                                            <Button  isPrimary={true} size={"small"}
-                                                    onClick={() => this.evictSuperSetCache()}>O</Button>
+                                        <Button isPrimary={true} size={"small"}
+                                                onClick={() => this.evictSuperSetCache()}>O</Button>
 
 
-                                      </PanelRow>
+                                    </PanelRow>
                                     }
-                                  
+
                                 </PanelBody>
                                 {app != 'csv' && <APIConfig
                                     allDimensions={this.state.dimensions}
@@ -414,7 +424,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 {type === "info" && <Info allMeasures={this.state.measures}
                                                           allDimensions={this.state.dimensions}
                                                           allCategories={this.state.categories} {...this.props}></Info>}
-                                {app == 'csv' && type!='radar' &&
+                                {app == 'csv' && type != 'radar' &&
                                     <PanelBody initialOpen={false} title={__("Tooltip")}>
                                         <PanelRow>
                                             <ToggleControl label={__("Enable Tooltip")} checked={tooltipEnabled}
@@ -465,7 +475,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         }
                                     </PanelBody>
                                 }
-                                {app != 'csv' && type!='radar' &&
+                                {app != 'csv' && type != 'radar' &&
                                     <PanelBody initialOpen={false} title={__("Tooltip")}>
                                         <PanelRow>
                                             <ToggleControl label={__("Enable Tooltip")} checked={tooltipEnabled}
@@ -542,8 +552,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         <div className={className}>
                             {mode == "info" && <div><InnerBlocks template={[['core/image', {}]]}/></div>}
-                            {this.state.react_ui_url && <iframe ref={this.iframe} key={this.state} style={divStyles} scrolling={"no"}
-                                                                src={this.state.react_ui_url + "/embeddable/chart?"}/>}
+                            {this.state.react_ui_url &&
+                                <iframe ref={this.iframe} key={this.state} style={divStyles} scrolling={"no"}
+                                        src={this.state.react_ui_url + "/embeddable/chart?"}/>}
 
                         </div>
                     </ResizableBox>
@@ -553,7 +564,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 }
 
-function setTooltipState (isTooltipEnabled, tooltipHTML) {
+function setTooltipState(isTooltipEnabled, tooltipHTML) {
     return isTooltipEnabled && tooltipHTML.trim().length === 0 ? "{value}" : tooltipHTML;
 }
 

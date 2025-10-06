@@ -9,7 +9,7 @@ import {
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
 import Generic from "../icons";
-import { BlockEditWithFilters } from "../commons";
+import { BlockEditWithFilters } from '@devgateway/dvz-wp-commons';
 
 
 class EditComponent extends BlockEditWithFilters {
