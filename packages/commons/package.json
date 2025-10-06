@@ -1,10 +1,10 @@
 {
   "name": "@devgateway/dvz-wp-commons",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "private": false,
   "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
   "author": "Sebastian Dimunzio",
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "maintainers": [
     "Sebastian Dimunzio",
     "Timothy Mugo"
