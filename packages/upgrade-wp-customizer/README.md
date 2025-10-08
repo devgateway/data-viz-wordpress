@@ -24,14 +24,32 @@ pnpm add -g @devgateway/upgrade-wp-customizer
 
 ## Usage
 
-Navigate to the root of your WordPress Customizer project and run:
+You can run the tool from anywhere by specifying the target folder, or navigate to your project root and run without arguments:
+
 ```bash
+# Specify a target folder (relative or absolute path)
+npx @devgateway/upgrade-wp-customizer custom/wp-customizer
+
+# Relative path
+npx @devgateway/upgrade-wp-customizer ../other-project
+
+# Run in current directory
 npx @devgateway/upgrade-wp-customizer
+
+
+# With force flag
+npx @devgateway/upgrade-wp-customizer custom/wp-customizer --force
 ```
+
+### Arguments
+
+- `[folder]` (optional)
+  Path to the WordPress Customizer project directory. Can be a relative or absolute path.
+  Defaults to the current directory (`.`) if not specified.
 
 ### Options
 
-- `--force`  
+- `--force`
   Proceed even if your git directory has uncommitted changes.
 
 
@@ -80,8 +98,10 @@ The template includes:
 
 ## Safety & Rollback
 
-- If you cancel during the migration, your original project is restored from backup.
+- Before migration starts, a backup directory is created in the same parent directory as your target folder (e.g., `custom/wp-customizer-backup-[timestamp]`).
+- If you cancel during the migration, your original project is automatically restored from backup.
 - If anything goes wrong, you can manually restore from the backup directory created at the start of the process.
+- The backup is automatically deleted after a successful migration.
 
 
 ## Requirements
