@@ -10,7 +10,12 @@ import { yellow, green, red } from 'picocolors';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DEFAULT_SRC = path.resolve(process.cwd());
+// Parse command line arguments
+const args = process.argv.slice(2);
+const force = args.includes('--force');
+const targetFolder = args.filter(arg => !arg.startsWith('--'))[0] || '.';
+
+const DEFAULT_SRC = path.resolve(process.cwd(), targetFolder);
 const BACKUP_SUFFIX = `-backup-${Date.now()}`;
 const BACKUP_DIR = `${DEFAULT_SRC}${BACKUP_SUFFIX}`;
 
@@ -32,9 +37,32 @@ const BLOCKS_IMPORT_LINE = "import { BLOCKS_NS, BLOCKS_CATEGORY } from '@devgate
 
 const cancel = () => {
   if (fs.existsSync(BACKUP_DIR)) {
+    // Preserve .git and node_modules during rollback
+    const gitDir = path.join(DEFAULT_SRC, '.git');
+    const nodeModulesDir = path.join(DEFAULT_SRC, 'node_modules');
+    const tempGitDir = gitDir + '-temp';
+    const tempNodeModulesDir = nodeModulesDir + '-temp';
+
+    // Temporarily move .git and node_modules if they exist
+    if (fs.existsSync(gitDir)) {
+      fs.renameSync(gitDir, tempGitDir);
+    }
+    if (fs.existsSync(nodeModulesDir)) {
+      fs.renameSync(nodeModulesDir, tempNodeModulesDir);
+    }
+
     // Remove current dir and restore backup
     fs.rmSync(DEFAULT_SRC, { recursive: true, force: true });
     fs.renameSync(BACKUP_DIR, DEFAULT_SRC);
+
+    // Restore .git and node_modules
+    if (fs.existsSync(tempGitDir)) {
+      fs.renameSync(tempGitDir, gitDir);
+    }
+    if (fs.existsSync(tempNodeModulesDir)) {
+      fs.renameSync(tempNodeModulesDir, nodeModulesDir);
+    }
+
     console.log(yellow('Upgrade cancelled. Project rolled back to original state.'));
   } else {
     console.log(yellow('Operation cancelled.'));
@@ -262,8 +290,12 @@ function deleteUnusedFilesInRoot(rootDir: string) {
 }
 
 async function main() {
-  // Parse --force from process.argv
-  const force = process.argv.includes('--force');
+  // Check if target directory exists
+  if (!fs.existsSync(DEFAULT_SRC)) {
+    outro(red(`Error: Target directory does not exist: ${DEFAULT_SRC}`));
+    outro(yellow(`Usage: npx @devgateway/upgrade-wp-customizer [folder] [--force]`));
+    process.exit(1);
+  }
 
   // Backup project before making changes
   if (fs.existsSync(DEFAULT_SRC)) {
@@ -276,7 +308,7 @@ async function main() {
   // Check if git directory is dirty
   let isDirty = false;
   try {
-    const gitStatus = execSync('git status --porcelain', { encoding: 'utf8' });
+    const gitStatus = execSync('git status --porcelain --ignore-submodules', { encoding: 'utf8', cwd: DEFAULT_SRC });
     isDirty = gitStatus.trim().length > 0;
   } catch (e) {
     // If git is not available, ignore
@@ -289,7 +321,7 @@ async function main() {
     return;
   }
 
-  intro('WP Customizer Migration Tool');
+  intro(`WP Customizer Migration Tool - Target: ${DEFAULT_SRC}`);
 
   const proceed = await confirm({
     message: `Proceed with migration? This will overwrite files in: ${DEFAULT_SRC}`,
