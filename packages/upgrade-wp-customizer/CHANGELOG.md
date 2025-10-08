@@ -1,5 +1,20 @@
 # @devgateway/upgrade-wp-customizer
 
+## 1.1.1
+
+### Patch Changes
+
+- [#50](https://github.com/devgateway/data-viz-wordpress/pull/50) [`9e15fa7`](https://github.com/devgateway/data-viz-wordpress/commit/9e15fa739809b1d8b300db8f86e48fcfc0913219) Thanks [@timothygachengo](https://github.com/timothygachengo)! - ### Features
+
+  - Allow specifying a target folder when running the CLI, e.g. `npx @devgateway/upgrade-wp-customizer custom/wp-customizer`.
+  - Validate the target directory and show helpful usage when it does not exist.
+  - Improve intro/confirmation messaging to display the resolved target path.
+
+  ### Fixes
+
+  - Preserve `.git` (and `node_modules`) during rollback to prevent repository deinitialization when cancelling the migration.
+  - Run safety checks in the intended target directory.
+
 ## 1.1.0
 
 ### Minor Changes
