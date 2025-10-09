@@ -34,20 +34,20 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.27.0",
+    "@babel/runtime": "^7.28.4",
     "@colbyfayock/semantic-release-pnpm": "^1.2.2",
     "@semantic-release/changelog": "^6.0.3",
     "@types/lodash.isempty": "^4.4.9",
-    "@types/papaparse": "^5.3.15",
+    "@types/papaparse": "^5.3.16",
     "@types/react": "18.3.1",
-    "@types/wordpress__block-editor": "^11.5.16",
-    "@wordpress/scripts": "^30.15.0",
-    "dotenv": "^16.5.0",
-    "dotenv-webpack": "^8.1.0",
-    "semantic-release": "^24.2.3",
+    "@types/wordpress__block-editor": "^11.5.17",
+    "@wordpress/scripts": "^30.25.0",
+    "dotenv": "^17.2.3",
+    "dotenv-webpack": "^8.1.1",
+    "semantic-release": "^24.2.9",
     "semantic-release-monorepo": "^8.0.2",
-    "ts-loader": "^9.5.2",
-    "typescript": "^5.8.3"
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "build": "tsc -b",
@@ -56,17 +56,17 @@
     "start": "tsc -w"
   },
   "dependencies": {
-    "@wordpress/api-fetch": "^7.22.0",
-    "@wordpress/block-editor": "^14.17.0",
-    "@wordpress/components": "^29.8.0",
-    "@wordpress/data": "^10.22.0",
-    "@wordpress/editor": "^14.22.0",
-    "@wordpress/element": "^6.22.0",
-    "@wordpress/i18n": "^5.22.0",
-    "@wordpress/icons": "^10.22.0",
+    "@wordpress/api-fetch": "^7.32.0",
+    "@wordpress/block-editor": "^15.5.0",
+    "@wordpress/components": "^30.5.0",
+    "@wordpress/data": "^10.32.0",
+    "@wordpress/editor": "^14.32.0",
+    "@wordpress/element": "^6.32.0",
+    "@wordpress/i18n": "^6.5.0",
+    "@wordpress/icons": "^10.32.0",
     "classnames": "^2.5.1",
     "lodash.isempty": "^4.4.0",
-    "papaparse": "^5.5.2"
+    "papaparse": "^5.5.3"
   },
   "peerDependencies": {
     "react": "18.3.1"

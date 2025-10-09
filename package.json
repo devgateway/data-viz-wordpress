@@ -1,6 +1,5 @@
 {
   "name": "data-viz-wordpress",
-  "author": "Development Gateway",
   "contributors": [
     "Sebastian Dimunzio",
     "Timothy Mugo"
@@ -31,9 +30,9 @@
   ],
   "author": "Development Gateway",
   "license": "GPL-2.0-or-later",
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.18.1",
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.3"
+    "@changesets/cli": "^2.29.7"
   }
 }
