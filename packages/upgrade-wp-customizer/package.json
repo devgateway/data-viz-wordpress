@@ -35,11 +35,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/parser": "^7.27.2",
-    "@clack/prompts": "^0.10.1",
-    "@types/node": "^22.15.16",
+    "@babel/parser": "^7.28.4",
+    "@clack/prompts": "^0.11.0",
+    "@types/node": "^24.7.0",
     "picocolors": "^1.1.1",
-    "typescript": "^5.8.3",
-    "unbuild": "^3.5.0"
+    "typescript": "^5.9.3",
+    "unbuild": "^3.6.1"
   }
 }
