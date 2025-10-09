@@ -27,14 +27,14 @@
     "create-wp-customizer": "./index.js"
   },
   "devDependencies": {
-    "@clack/prompts": "^0.10.1",
+    "@clack/prompts": "^0.11.0",
     "@types/cross-spawn": "^6.0.6",
-    "@types/node": "^22.15.16",
+    "@types/node": "^24.7.0",
     "cross-spawn": "^7.0.6",
     "mri": "^1.2.0",
     "picocolors": "^1.1.1",
-    "typescript": "^5.8.3",
-    "unbuild": "^3.5.0"
+    "typescript": "^5.9.3",
+    "unbuild": "^3.6.1"
   },
   "repository": {
     "type": "git",
