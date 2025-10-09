@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.2.0
+
+### Minor Changes
+
+- [#52](https://github.com/devgateway/data-viz-wordpress/pull/52) [`3696233`](https://github.com/devgateway/data-viz-wordpress/commit/3696233eb7c1ced6bddc5c7d6b94155079bca6cc) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Bump versions to fix CVEs
+
 ## 1.1.0
 
 ### Minor Changes
