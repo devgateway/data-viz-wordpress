@@ -80,6 +80,19 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
                 type: 'string',
                 default: "#5a5d68",
             },
+            numberColor: {
+                type: 'string',
+                default: "#5a5d68",
+            },
+            percentColor: {
+                type: 'string',
+                default: "#5a5d68",
+            },
+            backGroundColor: {
+                type: 'string',
+                default: "#FFF",
+            },
+
             bigNumberFontSize: {
                 type: 'Numeric',
                 default: 24
@@ -103,6 +116,23 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
             noDataText: {
                 type: 'string',
                 default: '-'
+            },
+
+            styleOption: {
+                type: "string",
+                default: "classic"
+            },
+            iconImage: {
+                type: "string",
+                default: ""
+            },
+            iconDown: {
+                type: "string",
+                default: ""
+            },
+            iconUp: {
+                type: "string",
+                default: ""
             }
         },
         edit: BlockEdit,
