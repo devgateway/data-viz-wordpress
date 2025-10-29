@@ -90,7 +90,7 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
             },
             backGroundColor: {
                 type: 'string',
-                default: "#FFF",
+                default: "none",
             },
 
             bigNumberFontSize: {
