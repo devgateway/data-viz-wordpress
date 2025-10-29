@@ -16,12 +16,12 @@ import {useState} from "@wordpress/element";
 import DataLayer from "./Data";
 import FlowLayer from "./Flow";
 import LatLongLayer from "./LatLong";
-import {BlockEditWithAPIMetadata, ComponentWithSettings} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata, ComponentWithSettings} from "../../commons";
 import Property from "./utils/Property";
 
 import {PanelColorSettings} from "@wordpress/block-editor";
-import {togglePanel} from '@devgateway/dvz-wp-commons';
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import {togglePanel} from "../../commons/Util";
+import {isSupersetAPI} from "../../commons/APIutils";
 
 
 const typeOptions = [

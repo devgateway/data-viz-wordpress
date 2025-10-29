@@ -11,7 +11,7 @@ import {
     TextControl, ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters} from '../commons'
 import {MediaUpload} from "@wordpress/media-utils";
 
 

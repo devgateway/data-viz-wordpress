@@ -1,7 +1,7 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {CheckboxControl, Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ComponentWithSettings} from '@devgateway/dvz-wp-commons';
+import {ComponentWithSettings} from "../commons";
 import apiFetch from '@wordpress/api-fetch';
 import {Label, Search} from "semantic-ui-react";
 

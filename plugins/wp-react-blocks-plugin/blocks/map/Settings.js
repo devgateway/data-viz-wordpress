@@ -2,7 +2,7 @@ import { Component } from "@wordpress/element"
 import {PanelColorSettings } from '@wordpress/block-editor'
 import { PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button, ButtonGroup, RangeControl, TextareaControl} from '@wordpress/components'
 import { __ } from '@wordpress/i18n';
-import {SizeConfig } from '@devgateway/dvz-wp-commons'
+import {SizeConfig } from '../commons/index'
 import Format from "./Format"
 
 export default class Settings  extends Component{

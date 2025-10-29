@@ -8,7 +8,7 @@ import {
     ToggleControl    
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithFilters, SizeConfig} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters, SizeConfig} from "../commons";
 
 
 class BlockEdit extends BlockEditWithFilters {

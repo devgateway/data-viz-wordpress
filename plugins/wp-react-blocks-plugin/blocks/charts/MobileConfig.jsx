@@ -14,7 +14,7 @@ import {
   getSelectedItemsForApp,
   getSelectedLabelsForApp,
   updateMeasureLabels
-} from '@devgateway/dvz-wp-commons';;
+} from "../commons/MobileConfigUtils";
 
 const MarginSection = ({
   setAttributes,

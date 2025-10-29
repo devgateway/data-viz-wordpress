@@ -17,7 +17,7 @@ import BreaksGenerator from "./utils/BreaksGenerator";
 import {PanelColorSettings} from "@wordpress/block-editor";
 import PatternGenerator from "./utils/PatternGenerator";
 import Format from '../../charts/Format.jsx';
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import {isSupersetAPI} from "../../commons/APIutils";
 
 const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
     const sortedOptions = options.sort(function (a, b) {

@@ -1,8 +1,8 @@
 import {PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 import React, {useEffect} from 'react'
 import {__} from '@wordpress/i18n';
-import {ChartColors,ChartLegends}  from '@devgateway/dvz-wp-commons';
-
+import ChartColors from "../commons/ChartColors.jsx"
+import ChartLegends from '../commons/ChartLegends.jsx'
 import AxisConfig from './AxisConfig.jsx'
 import Labels from "./Labels.jsx"
 import Format from "./Format.jsx"

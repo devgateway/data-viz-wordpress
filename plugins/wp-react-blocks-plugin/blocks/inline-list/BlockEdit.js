@@ -1,7 +1,7 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import  {SizeConfig,BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
+import SizeConfig, {BlockEditWithFilters} from "../commons";
 
 class BlockEdit extends BlockEditWithFilters {
     constructor(props) {

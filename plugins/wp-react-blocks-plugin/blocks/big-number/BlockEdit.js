@@ -12,12 +12,11 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
-
-import {togglePanel} from '@devgateway/dvz-wp-commons';;
-import {Measures} from '@devgateway/dvz-wp-commons';
-import {DataFilters} from '@devgateway/dvz-wp-commons';
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata, SizeConfig} from '../commons/index'
+import {togglePanel} from "../commons/Util";
+import Measures from "../commons/Measures";
+import DataFilters from "../commons/DataFilters";
+import {isSupersetAPI} from "../commons/APIutils";
 import Format from "../charts/Format.jsx";
 
 

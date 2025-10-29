@@ -9,8 +9,8 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ChartColors} from '@devgateway/dvz-wp-commons';
-import {ChartLegends} from '@devgateway/dvz-wp-commons';
+import ChartColors from "../commons/ChartColors.jsx"
+import ChartLegends from "../commons/ChartLegends.jsx";
 
 const PieOptions = (props) => {
 

@@ -1,10 +1,10 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons'
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata} from '../commons/index'
+import {isSupersetAPI} from "../commons/APIutils";
 import {useEffect} from "react";
-import {DataFilters} from '@devgateway/dvz-wp-commons';
+import DataFilters from "../commons/DataFilters";
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'
 const HIGHEST_VALUE = 'HIGHEST_VALUE'

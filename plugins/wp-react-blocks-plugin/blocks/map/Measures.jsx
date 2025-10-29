@@ -1,6 +1,6 @@
 import {__} from '@wordpress/i18n';
 import {CheckboxControl, PanelBody, PanelRow, ToggleControl, TextControl} from '@wordpress/components';
-import {getTranslation} from '@devgateway/dvz-wp-commons';
+import {getTranslation} from "../commons/APIutils";
 
 
 const Measures = (props) => {

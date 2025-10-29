@@ -12,7 +12,7 @@ import {
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-import {BlockEditWithAPIMetadata, ComponentWithSettings} from '@devgateway/dvz-wp-commons'
+import {BlockEditWithAPIMetadata, ComponentWithSettings} from '../commons/index'
 import apiFetch from '@wordpress/api-fetch';
 
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'

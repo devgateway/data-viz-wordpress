@@ -4,10 +4,10 @@ import {
 } from '@wordpress/components'
 
 import {__} from '@wordpress/i18n'
-import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '@devgateway/dvz-wp-commons'
+import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '../commons/index'
 import LayerSettings from "./layers/Base";
 import LayerModel from "./layers/Model"
-import {togglePanel} from '@devgateway/dvz-wp-commons';;
+import {togglePanel} from "../commons/Util";
 
 class BlockEdit extends ComponentWithSettings {
     constructor(props) {

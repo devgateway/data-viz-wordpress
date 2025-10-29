@@ -19,7 +19,7 @@ import {
 } from '@wordpress/components';
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {ComponentWithSettings} from '@devgateway/dvz-wp-commons';
+import {ComponentWithSettings} from "../commons";
 
 
 class BlockEdit extends ComponentWithSettings {

@@ -9,7 +9,7 @@ import {
 } from '@wordpress/block-editor';
 import {Generic} from '../icons/index.js'
 import {Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
-import {BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters} from "../commons";
 
 const EditComponent = (props) => {
     const {

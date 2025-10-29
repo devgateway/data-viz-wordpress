@@ -17,7 +17,7 @@ import {
     __experimentalScrollable as Scrollable,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { ComponentWithSettings } from '@devgateway/dvz-wp-commons';
+import { ComponentWithSettings } from "../commons";
 import apiFetch from '@wordpress/api-fetch';
 import { fetchAllCategories } from './utils';
 
