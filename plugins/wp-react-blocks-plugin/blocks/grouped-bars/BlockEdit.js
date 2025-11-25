@@ -1,4 +1,4 @@
-import {InspectorControls, MediaUpload, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
+import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
