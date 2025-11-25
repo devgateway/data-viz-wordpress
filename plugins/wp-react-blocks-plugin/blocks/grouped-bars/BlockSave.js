@@ -15,7 +15,6 @@ const SaveComponent = (props) => {
             dvzProxyDatasetId,
             fontSize,
             textColor,
-            label,            
             waitForFilters,
             noDataText,            
             backGroundColor,
