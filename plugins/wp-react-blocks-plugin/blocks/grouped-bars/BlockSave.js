@@ -22,7 +22,8 @@ const SaveComponent = (props) => {
             defaultBarColor,
             barBackgroundColor,
             labelPosition,
-            valuePosition
+            valuePosition,
+            labelWidth
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -54,7 +55,8 @@ const SaveComponent = (props) => {
              data-default-bar-color={defaultBarColor}
              data-bar-background-color={barBackgroundColor}
             data-label-position={labelPosition}
-            data-value-position={valuePosition}>
+            data-value-position={valuePosition}
+            data-label-width={labelWidth}>
             <InnerBlocks.Content/>
         </div>
     );

@@ -125,7 +125,8 @@ updateColor(value, color) {
                 defaultBarColor,
                 barBackgroundColor,
                 labelPosition,
-                valuePosition
+                valuePosition,
+                labelWidth
             }
         } = this.props;
 
@@ -336,7 +337,7 @@ updateColor(value, color) {
                          {this.catColors()}
                         </PanelBody>
 
-                        <PanelBody title={__('Label & Value Position')} initialOpen={false}>
+                        <PanelBody title={__('Label Settings')} initialOpen={false}>
                             <PanelRow>
                                 <SelectControl  
                                     label={__("Label Position")}
@@ -367,8 +368,22 @@ updateColor(value, color) {
                                     }}
                                 />
                             </PanelRow>
+
+                            <PanelRow>
+                                <TextControl
+                                    label={__('Label Width (in %)')}
+                                    type="number"
+                                    value={labelWidth}
+                                    onChange={(labelWidth) => setAttributes({labelWidth})}
+                                    min={0} max={100} 
+                                    step={1}
+                                />
+                            </PanelRow>
+
+
+
                         </PanelBody>
-                        
+
                 </Panel>
                 </InspectorControls>),
                 (<ResizableBox
