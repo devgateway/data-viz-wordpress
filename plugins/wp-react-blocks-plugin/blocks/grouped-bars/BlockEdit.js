@@ -123,7 +123,9 @@ updateColor(value, color) {
                 noDataText,
                 manualColors,
                 defaultBarColor,
-                barBackgroundColor
+                barBackgroundColor,
+                labelPosition,
+                valuePosition
             }
         } = this.props;
 
@@ -333,6 +335,40 @@ updateColor(value, color) {
                         <PanelBody title={__('Manual Colors')} initialOpen={false}></PanelBody>
                          {this.catColors()}
                         </PanelBody>
+
+                        <PanelBody title={__('Label & Value Position')} initialOpen={false}>
+                            <PanelRow>
+                                <SelectControl  
+                                    label={__("Label Position")}
+                                    value={labelPosition}
+                                    options={[
+                                        { label: 'Top', value: 'top' },
+                                        { label: 'Left', value: 'left' }
+                                    ]}
+                                    onChange={(value) => {
+                                        setAttributes({
+                                            labelPosition: value
+                                        });
+                                    }}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <SelectControl  
+                                    label={__("Value Position")}
+                                    value={valuePosition}
+                                    options={[
+                                        { label: 'Top', value: 'top' },
+                                        { label: 'Bar', value: 'bar' }
+                                    ]}
+                                    onChange={(value) => {
+                                        setAttributes({
+                                            valuePosition: value
+                                        });
+                                    }}
+                                />
+                            </PanelRow>
+                        </PanelBody>
+                        
                 </Panel>
                 </InspectorControls>),
                 (<ResizableBox
