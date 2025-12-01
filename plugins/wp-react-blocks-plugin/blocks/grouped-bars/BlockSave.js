@@ -20,7 +20,10 @@ const SaveComponent = (props) => {
             backGroundColor,
             manualColors = '{}',
             defaultBarColor,
-            barBackgroundColor
+            barBackgroundColor,
+            labelPosition,
+            valuePosition,
+            labelWidth
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -51,7 +54,9 @@ const SaveComponent = (props) => {
              data-manual-colors={encodeURIComponent(manualColors || '{}')}
              data-default-bar-color={defaultBarColor}
              data-bar-background-color={barBackgroundColor}
-        >
+            data-label-position={labelPosition}
+            data-value-position={valuePosition}
+            data-label-width={labelWidth}>
             <InnerBlocks.Content/>
         </div>
     );

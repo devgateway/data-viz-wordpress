@@ -123,7 +123,10 @@ updateColor(value, color) {
                 noDataText,
                 manualColors,
                 defaultBarColor,
-                barBackgroundColor
+                barBackgroundColor,
+                labelPosition,
+                valuePosition,
+                labelWidth
             }
         } = this.props;
 
@@ -332,7 +335,55 @@ updateColor(value, color) {
 
                         <PanelBody title={__('Manual Colors')} initialOpen={false}></PanelBody>
                          {this.catColors()}
+                        
+
+                        <PanelBody title={__('Label Settings')} initialOpen={false}>
+                            <PanelRow>
+                                <SelectControl  
+                                    label={__("Label Position")}
+                                    value={labelPosition}
+                                    options={[
+                                        { label: 'Top', value: 'top' },
+                                        { label: 'Left', value: 'left' }
+                                    ]}
+                                    onChange={(value) => {
+                                        setAttributes({
+                                            labelPosition: value
+                                        });
+                                    }}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <SelectControl  
+                                    label={__("Value Position")}
+                                    value={valuePosition}
+                                    options={[
+                                        { label: 'Top', value: 'top' },
+                                        { label: 'Bar', value: 'bar' }
+                                    ]}
+                                    onChange={(value) => {
+                                        setAttributes({
+                                            valuePosition: value
+                                        });
+                                    }}
+                                />
+                            </PanelRow>
+
+                            <PanelRow>
+                                <TextControl
+                                    label={__('Label Width (in %)')}
+                                    type="number"
+                                    value={labelWidth}
+                                    onChange={(labelWidth) => setAttributes({labelWidth})}
+                                    min={0} max={100} 
+                                    step={1}
+                                />
+                            </PanelRow>
+
+
+                          </PanelBody>
                         </PanelBody>
+
                 </Panel>
                 </InspectorControls>),
                 (<ResizableBox
