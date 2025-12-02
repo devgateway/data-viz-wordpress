@@ -112,7 +112,11 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
             valuePosition: {
                 type: 'string',
                 default: 'top'
-            }           
+            },
+            labelFormat: {
+                type: 'string',
+                default: '{value}'
+            }     
         },
         edit: BlockEdit,
         save: BlockSave
