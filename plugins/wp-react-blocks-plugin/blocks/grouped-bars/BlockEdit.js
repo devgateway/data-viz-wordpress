@@ -126,7 +126,8 @@ updateColor(value, color) {
                 barBackgroundColor,
                 labelPosition,
                 valuePosition,
-                labelWidth
+                labelWidth,
+                labelFormat
             }
         } = this.props;
 
@@ -380,6 +381,25 @@ updateColor(value, color) {
                                 />
                             </PanelRow>
 
+                            <PanelRow>
+                                <TextareaControl
+                                    label={__('Label Format')}
+                                    value={labelFormat}
+                                    onChange={(labelFormat) => setAttributes({labelFormat})}
+                                    rows={4}                                    
+                                    
+                                />
+                            </PanelRow>
+                           <PanelRow>
+                                <Text>
+                                    {__("Available measure variables:")}
+                                    <ul>
+                                        {Array.isArray(measures) && measures.map((m, idx) => (
+                                            <li key={idx}>{"{" + m + "}"}</li>
+                                        ))}
+                                    </ul>
+                                </Text>
+                            </PanelRow>
 
                           </PanelBody>
                         </PanelBody>
