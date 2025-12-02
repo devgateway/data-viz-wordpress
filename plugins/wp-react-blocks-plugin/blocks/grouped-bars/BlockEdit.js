@@ -121,12 +121,12 @@ updateColor(value, color) {
                 type,
                 waitForFilters,
                 noDataText,
-                manualColors,
                 defaultBarColor,
                 barBackgroundColor,
                 labelPosition,
                 valuePosition,
                 labelWidth,
+                labelHeight,
                 labelFormat
             }
         } = this.props;
@@ -380,6 +380,18 @@ updateColor(value, color) {
                                     step={1}
                                 />
                             </PanelRow>
+                            
+                            <PanelRow>
+                                <TextControl
+                                    label={__('Label Height (in px)')}
+                                    type="number"
+                                    value={labelHeight}
+                                    onChange={(labelHeight) => setAttributes({labelHeight})}
+                                    min={0} 
+                                    step={1}
+                                />
+                            </PanelRow>
+
 
                             <PanelRow>
                                 <TextareaControl

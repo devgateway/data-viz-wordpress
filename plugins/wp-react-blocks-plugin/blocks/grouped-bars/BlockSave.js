@@ -24,6 +24,7 @@ const SaveComponent = (props) => {
             labelPosition,
             valuePosition,
             labelWidth,
+            labelHeight,
             labelFormat
         }
     } = props;
@@ -58,6 +59,7 @@ const SaveComponent = (props) => {
             data-label-position={labelPosition}
             data-value-position={valuePosition}
             data-label-width={labelWidth}
+            data-label-height={labelHeight}
             data-label-format={encodeURIComponent(labelFormat)}>
             <InnerBlocks.Content/>
         </div>
