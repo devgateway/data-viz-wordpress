@@ -131,7 +131,6 @@ updateColor(value, color) {
             }
         } = this.props;
 
-
         const datasets = [{label: 'Select Dataset', value: '0'}]
         if (this.state.datasets) {
             this.state.datasets.forEach(d => {
@@ -406,8 +405,8 @@ updateColor(value, color) {
                                 <Text>
                                     {__("Available measure variables:")}
                                     <ul>
-                                        {Array.isArray(measures) && measures.map((m, idx) => (
-                                            <li key={idx}>{"{" + m + "}"}</li>
+                                        {Array.isArray(this.state.measures) && this.state.measures.map((m, idx) => (
+                                            <li key={idx}>{"{" + m.value + "}"}</li>
                                         ))}
                                     </ul>
                                 </Text>
