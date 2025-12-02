@@ -121,12 +121,13 @@ updateColor(value, color) {
                 type,
                 waitForFilters,
                 noDataText,
-                manualColors,
                 defaultBarColor,
                 barBackgroundColor,
                 labelPosition,
                 valuePosition,
-                labelWidth
+                labelWidth,
+                labelHeight,
+                labelFormat
             }
         } = this.props;
 
@@ -379,7 +380,38 @@ updateColor(value, color) {
                                     step={1}
                                 />
                             </PanelRow>
+                            
+                            <PanelRow>
+                                <TextControl
+                                    label={__('Label Height (in px)')}
+                                    type="number"
+                                    value={labelHeight}
+                                    onChange={(labelHeight) => setAttributes({labelHeight})}
+                                    min={0} 
+                                    step={1}
+                                />
+                            </PanelRow>
 
+
+                            <PanelRow>
+                                <TextareaControl
+                                    label={__('Label Format')}
+                                    value={labelFormat}
+                                    onChange={(labelFormat) => setAttributes({labelFormat})}
+                                    rows={4}                                    
+                                    
+                                />
+                            </PanelRow>
+                           <PanelRow>
+                                <Text>
+                                    {__("Available measure variables:")}
+                                    <ul>
+                                        {Array.isArray(measures) && measures.map((m, idx) => (
+                                            <li key={idx}>{"{" + m + "}"}</li>
+                                        ))}
+                                    </ul>
+                                </Text>
+                            </PanelRow>
 
                           </PanelBody>
                         </PanelBody>
