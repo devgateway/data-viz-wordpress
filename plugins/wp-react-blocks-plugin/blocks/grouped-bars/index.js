@@ -24,7 +24,7 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 default: {}
             },
             height: {
-                type: 'number',
+                type: 'Numeric',
                 default: 120,
             },
             app: {
@@ -78,7 +78,7 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
             },
            
             fontSize: {
-                type: 'number',
+                type: 'Numeric',
                 default: 14
             },
             defaultBarColor: {
@@ -106,11 +106,11 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 default: 'top'
             },
             labelWidth: {
-                type: 'number',
+                type: 'Numeric',
                 default: 30
             },
             labelHeight: {
-                type: 'number',
+                type: 'Numeric',
                 default: 32
             },
             valuePosition: {
