@@ -333,9 +333,9 @@ updateColor(value, color) {
                             />
                             
 
-                        <PanelBody title={__('Manual Colors')} initialOpen={false}></PanelBody>
+                        <PanelBody title={__('Manual Colors')} initialOpen={false}>
                          {this.catColors()}
-                        
+                        </PanelBody>
 
                         <PanelBody title={__('Label Settings')} initialOpen={false}>
                             <PanelRow>
