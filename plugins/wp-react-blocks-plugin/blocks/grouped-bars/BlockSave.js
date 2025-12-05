@@ -52,10 +52,10 @@ const SaveComponent = (props) => {
              data-text-color={encodeURIComponent(textColor)}
              data-wait-for-filters={waitForFilters}
              data-no-data-text={noDataText}
-             data-back-ground-color={backGroundColor}           
+             data-back-ground-color={encodeURIComponent(backGroundColor)}           
              data-manual-colors={encodeURIComponent(manualColors || '{}')}
-             data-default-bar-color={defaultBarColor}
-             data-bar-background-color={barBackgroundColor}
+             data-default-bar-color={encodeURIComponent(defaultBarColor)}
+             data-bar-background-color={encodeURIComponent(barBackgroundColor)}
             data-label-position={labelPosition}
             data-value-position={valuePosition}
             data-label-width={labelWidth}
