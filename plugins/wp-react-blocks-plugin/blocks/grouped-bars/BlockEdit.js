@@ -335,7 +335,7 @@ updateColor(value, color) {
 
                         <PanelBody title={__('Manual Colors')} initialOpen={false}>
                          {this.catColors()}
-                        </PanelBody>
+                        </PanelBody>                      
 
                         <PanelBody title={__('Label Settings')} initialOpen={false}>
                             <PanelRow>
@@ -412,6 +412,42 @@ updateColor(value, color) {
                                 </Text>
                             </PanelRow>
 
+                          </PanelBody>
+
+                          <PanelBody title={__('Sorting Settings')} initialOpen={false}>
+                            <PanelRow>
+                                <SelectControl  
+                                    label={__("Sorting")}
+                                    value={this.props.attributes.sorting}
+                                    options={[
+                                        { label: 'None', value: 'none' },
+                                        { label: 'By Dimension', value: 'dimension' },
+                                        { label: 'By Measure', value: 'measure' }
+                                    ]}
+                                    onChange={(value) => {
+                                        setAttributes({
+                                            sorting: value
+                                        });
+                                    }}
+                                />
+                            </PanelRow>
+                            {this.props.attributes.sorting != 'none' && 
+                            <PanelRow>
+                                <SelectControl  
+                                    label={__("Sort Direction")}
+                                    value={this.props.attributes.sortDirection}
+                                    options={[
+                                        { label: 'Ascending', value: 'asc' },
+                                        { label: 'Descending', value: 'desc' }
+                                    ]}
+                                    onChange={(value) => {
+                                        setAttributes({
+                                            sortDirection: value
+                                        });
+                                    }}
+                                />
+                            </PanelRow>
+                            }
                           </PanelBody>
                         </PanelBody>
 

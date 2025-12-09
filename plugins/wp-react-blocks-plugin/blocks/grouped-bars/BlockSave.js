@@ -25,7 +25,10 @@ const SaveComponent = (props) => {
             valuePosition,
             labelWidth,
             labelHeight,
-            labelFormat
+            labelFormat,
+            sorting,
+            sortDirection
+
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -60,7 +63,10 @@ const SaveComponent = (props) => {
             data-value-position={valuePosition}
             data-label-width={labelWidth}
             data-label-height={labelHeight}
-            data-label-format={encodeURIComponent(labelFormat)}>
+            data-label-format={encodeURIComponent(labelFormat)}
+            data-sorting={sorting}
+            data-sort-direction={sortDirection}
+        >
             <InnerBlocks.Content/>
         </div>
     );
