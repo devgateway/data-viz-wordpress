@@ -27,7 +27,8 @@ const SaveComponent = (props) => {
             labelHeight,
             labelFormat,
             sorting,
-            sortDirection
+            sortDirection,
+            topN
 
         }
     } = props;
@@ -66,7 +67,7 @@ const SaveComponent = (props) => {
             data-label-format={encodeURIComponent(labelFormat)}
             data-sorting={sorting}
             data-sort-direction={sortDirection}
-        >
+            data-top-n={topN}>
             <InnerBlocks.Content/>
         </div>
     );

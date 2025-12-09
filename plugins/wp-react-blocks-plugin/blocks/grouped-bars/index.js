@@ -128,7 +128,11 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
             sortDirection: {
                 type: 'string',
                 default: 'asc'
-            }    
+            },
+            topN : {
+                type: 'Numeric',
+                default:  null
+            },
         },
         edit: BlockEdit,
         save: BlockSave
