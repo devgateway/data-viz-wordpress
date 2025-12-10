@@ -127,7 +127,8 @@ updateColor(value, color) {
                 valuePosition,
                 labelWidth,
                 labelHeight,
-                labelFormat
+                labelFormat,
+                topN
             }
         } = this.props;
 
@@ -271,12 +272,22 @@ updateColor(value, color) {
                         </>
 
 
-                        <PanelBody title={__('Settings')} initialOpen={false}>              
+                        <PanelBody title={__('Settings')} initialOpen={false}>                
                             <PanelRow>
                                 <TextControl
                                     label={__('No Data Text')}
                                     value={noDataText}
                                     onChange={(noDataText) => setAttributes({noDataText})}
+                                />
+                            </PanelRow>
+                            <PanelRow>                               
+                                <TextControl
+                                    label={__('Top N Items')}
+                                    type="number"
+                                    value={topN}
+                                    onChange={(topN) => setAttributes({topN})}
+                                    min={-1} 
+                                    step={1}
                                 />
                             </PanelRow>
 
