@@ -48,7 +48,7 @@ const SaveComponent = (props) => {
              data-number-color={encodeURIComponent(numberColor)}
              data-wait-for-filters={waitForFilters}
              data-no-data-text={noDataText}
-             data-text-template={encodeURIComponent(textTemplate)}
+             data-text-template={textTemplate || ''}
              >
             <InnerBlocks.Content></InnerBlocks.Content>
         </span>

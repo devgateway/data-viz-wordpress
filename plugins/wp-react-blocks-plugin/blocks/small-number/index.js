@@ -3,7 +3,7 @@ import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Generic} from '../icons/index.js'
-// HOC for core/paragraph removed; behavior moved to separate block `paragraph-variables`.
+// Keep Paragraph behavior unchanged; Small Number is a separate block
 
 registerBlockType(process.env.BLOCKS_NS + '/small-number',
     {
@@ -29,7 +29,7 @@ registerBlockType(process.env.BLOCKS_NS + '/small-number',
                 default: {}
             },
             height: {
-                type: 'Numeric',
+                type: 'number',
                 default: 120,
             },
             app: {
