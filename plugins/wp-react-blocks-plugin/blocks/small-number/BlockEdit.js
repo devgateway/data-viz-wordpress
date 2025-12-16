@@ -100,7 +100,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 type,
                 waitForFilters,
                 noDataText,
-                textTemplate
+                textTemplate,
+                showPreview
             }
         } = this.props;
 
@@ -240,6 +241,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     placeholder={__('Type your paragraph template…')}
                                 />
                             </PanelRow>
+
+                            <PanelRow>
+                                <Text>
+                                    {__("Available measure variables:")}
+                                    <ul>
+                                        {Array.isArray(this.state.measures) && this.state.measures.map((m, idx) => (
+                                            <li key={idx}>{"{" + m.value + "}"}</li>
+                                        ))}
+                                    </ul>
+                                </Text>
+                            </PanelRow>
+                            
                         </PanelBody>
 
                         <PanelBody title={__('Settings')} initialOpen={false}>
@@ -275,6 +288,16 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             />
                         </PanelBody>
 
+                        <PanelBody title={__('Preview')} initialOpen={false}>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Show Embeddable Preview')}
+                                    checked={!!showPreview}
+                                    onChange={() => setAttributes({ showPreview: !showPreview })}
+                                />
+                            </PanelRow>
+                        </PanelBody>
+
                     </Panel>
                 </InspectorControls>
             ),
@@ -292,6 +315,19 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     placeholder={__('Type your paragraph…')}
                     onChange={(val) => setAttributes({ textTemplate: val })}
                 />
+                
+
+        
+                {showPreview && this.state.react_ui_url && (
+                    <div style={{ marginTop: '8px' }}>
+                    <iframe
+                        ref={this.iframe}
+                        style={inlineStyles}
+                        scrolling="no"
+                        src={this.state.react_ui_url + "/embeddable/smallnumber?"}
+                    />            
+                    </div>
+                )}
             </div>
         ]);
     }
