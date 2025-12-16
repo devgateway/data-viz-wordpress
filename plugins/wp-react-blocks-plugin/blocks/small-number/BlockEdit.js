@@ -190,7 +190,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         <PanelRow>
                             <TextareaControl
                                 label={__('Text Template')}
-                                help={__('Use variables like {{value}} or {{measure}} coming from the API.')}
+                                help={__('You can use basic HTML (e.g. <b>, <i>, <span>) and variables like {{value}}, {{rawValue}}, {{measure}}.')}
                                 value={textTemplate}
                                 onChange={(textTemplate) => setAttributes({ textTemplate })}
                             />
@@ -231,7 +231,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                </Panel>
            </InspectorControls>),
            (
-           <div className={className}>
+           <div >
                         {this.state.react_ui_url && <iframe ref={this.iframe} style={inlineStyles} scrolling={"no"}
                                                             src={this.state.react_ui_url + "/embeddable/smallnumber?"}/>}
 
