@@ -1,7 +1,8 @@
 import {
     InspectorControls,
     PanelColorSettings,
-    useBlockProps
+    useBlockProps,
+    RichText
 } from '@wordpress/block-editor';
 
 import {
@@ -31,16 +32,7 @@ import {
 import Format from "../charts/Format.jsx";
 
 
-// -------------------------------------------------------------------
-// NEW: Auto-growing textarea (single line → expands)
-// -------------------------------------------------------------------
-const AutoGrowTextarea = ({
-    label,
-    help,
-    value,
-    onChange,
-    placeholder
-}) => {
+const AutoGrowTextarea = ({ label, help, value, onChange, placeholder }) => {
     const ref = useRef(null);
 
     const resize = () => {
@@ -80,9 +72,9 @@ const AutoGrowTextarea = ({
 };
 
 
-// -------------------------------------------------------------------
+// -------------------------------
 // Main BlockEdit class
-// -------------------------------------------------------------------
+// -------------------------------
 class BlockEdit extends BlockEditWithAPIMetadata {
 
     componentDidMount() {
@@ -132,7 +124,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 <InspectorControls key="inspector">
                     <Panel header={__("Chart Configuration")}>
 
-                        {/* GROUP */}
                         <PanelBody
                             title={__("Group")}
                             panelStatus={panelStatus['GROUP']}
@@ -163,7 +154,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             height={height}
                         />
 
-                        {/* API */}
                         <PanelBody initialOpen={false} title={__("API & Source")}>
                             <PanelRow>
                                 <SelectControl
@@ -204,15 +194,40 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             />
                         )}
 
+                        {app === 'csv' && (
+                            <PanelBody
+                                initialOpen={false}
+                                title={__("CSV Configuration")}
+                                onToggle={() => togglePanel("csv_cfg", panelStatus, setAttributes)}
+                            >
+                                <PanelRow>
+                                    <BaseControl label={__("CSV Data")}>
+                                        <textarea
+                                            value={csv || ''}
+                                            onChange={(e) => setAttributes({ csv: e.target.value })}
+                                            style={{ width: '100%', minHeight: '120px' }}
+                                        />
+                                    </BaseControl>
+                                </PanelRow>
+
+                                <Format
+                                    hiddenCustomAxisFormat={type === 'radar' || type === 'small-number'}
+                                    format={format}
+                                    customFormat={{}}
+                                    useCustomAxisFormat={false}
+                                    onFormatChange={(newFormat) => setAttributes({ format: newFormat })}
+                                    onUseCustomAxisFormatChange={() => {}}
+                                />
+                            </PanelBody>
+                        )}
+
                         <DataFilters
                             allFilters={this.state.filters}
                             allCategories={this.state.categories}
                             {...this.props}
                         />
 
-                        {/* --------------------------------------------------
-                            UPDATED: Paragraph Template (auto-grow)
-                        -------------------------------------------------- */}
+                        {/* Inspector input (auto-growing) stays here */}
                         <PanelBody title={__('Paragraph Template')} initialOpen={true}>
                             <PanelRow>
                                 <AutoGrowTextarea
@@ -221,23 +236,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         'You can use basic HTML (e.g. <b>, <i>, <span>) and variables like {{value}}, {{rawValue}}, {{measure}}.'
                                     )}
                                     value={textTemplate}
-                                    onChange={(val) =>
-                                        setAttributes({ textTemplate: val })
-                                    }
+                                    onChange={(val) => setAttributes({ textTemplate: val })}
                                     placeholder={__('Type your paragraph template…')}
                                 />
                             </PanelRow>
                         </PanelBody>
 
-                        {/* SETTINGS */}
                         <PanelBody title={__('Settings')} initialOpen={false}>
                             <PanelRow>
                                 <TextControl
                                     label={__('No Data Text')}
                                     value={noDataText}
-                                    onChange={(noDataText) =>
-                                        setAttributes({ noDataText })
-                                    }
+                                    onChange={(noDataText) => setAttributes({ noDataText })}
                                 />
                             </PanelRow>
 
@@ -258,8 +268,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 colorSettings={[
                                     {
                                         value: numberColor,
-                                        onChange: (color) =>
-                                            setAttributes({ numberColor: color }),
+                                        onChange: (color) => setAttributes({ numberColor: color }),
                                         label: __("Number Color")
                                     }
                                 ]}
@@ -270,39 +279,50 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 </InspectorControls>
             ),
 
+            // -------------------------------
+            // UPDATED PREVIEW AREA
+            // - Adds a paragraph-like editor that auto-expands
+            // -------------------------------
             <div key="preview">
+                {/* Existing iframe preview 
                 {this.state.react_ui_url && (
                     <iframe
                         ref={this.iframe}
                         style={inlineStyles}
                         scrolling="no"
-                        src={
-                            this.state.react_ui_url +
-                            "/embeddable/smallnumber?"
-                        }
+                        src={this.state.react_ui_url + "/embeddable/smallnumber?"}
                     />
-                )}
+                )}*/}
+
+               <RichText
+                    tagName="p"
+                    className="dvz-text-template-preview"
+                    value={textTemplate || ''}
+                    allowedFormats={[]} // keep it plain-ish
+                    placeholder={__('Type your paragraph…')}
+                    onChange={(val) => setAttributes({ textTemplate: val })}
+                />
             </div>
         ]);
     }
 }
 
 
-// -------------------------------------------------------------------
+// -------------------------------
 // Wrapper Edit export
-// -------------------------------------------------------------------
+// -------------------------------
 const Edit = (props) => {
     const blockProps = useBlockProps({
+        // Let the preview paragraph behave naturally (block flow)
         style: {
-            display: 'inline',
             verticalAlign: 'baseline'
         }
     });
 
     return (
-        <span {...blockProps}>
+        <div {...blockProps}>
             <BlockEdit {...props} />
-        </span>
+        </div>
     );
 };
 
