@@ -120,6 +120,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             verticalAlign: 'baseline'
         };
 
+        const iframeStyles = {
+            width: '100%',
+            border: '0',
+            // Ensure enough height to show multi-line wrapped content
+            height: `${Math.max(80, (numberFontSize || 14) * 4)}px`
+        };
+
         return ([
             isSelected && (
                 <InspectorControls key="inspector">
@@ -322,7 +329,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     <div style={{ marginTop: '8px' }}>
                     <iframe
                         ref={this.iframe}
-                        style={inlineStyles}
+                        style={iframeStyles}
                         scrolling="no"
                         src={this.state.react_ui_url + "/embeddable/smallnumber?"}
                     />            
