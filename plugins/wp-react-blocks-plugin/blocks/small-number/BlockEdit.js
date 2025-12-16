@@ -1,40 +1,98 @@
-import {InspectorControls, PanelColorSettings, useBlockProps, RichText} from '@wordpress/block-editor';
+import {
+    InspectorControls,
+    PanelColorSettings,
+    useBlockProps
+} from '@wordpress/block-editor';
+
 import {
     Panel,
     PanelBody,
     PanelRow,
-    ResizableBox,
     SelectControl,
     TextControl,
     FontSizePicker,
     __experimentalText as Text,
-    TextareaControl,
-    ToggleControl
+    ToggleControl,
+    BaseControl
 } from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
 
-import {togglePanel} from '@devgateway/dvz-wp-commons';;
-import {Measures} from '@devgateway/dvz-wp-commons';
-import {DataFilters} from '@devgateway/dvz-wp-commons';
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import { __ } from '@wordpress/i18n';
+import { useEffect, useRef } from '@wordpress/element';
+
+import {
+    BlockEditWithAPIMetadata,
+    SizeConfig,
+    togglePanel,
+    Measures,
+    DataFilters,
+    isSupersetAPI
+} from '@devgateway/dvz-wp-commons';
+
 import Format from "../charts/Format.jsx";
 
 
-// This BlockEdit can work both as a standalone block edit and as a HOC wrapper for core/paragraph
+// -------------------------------------------------------------------
+// NEW: Auto-growing textarea (single line → expands)
+// -------------------------------------------------------------------
+const AutoGrowTextarea = ({
+    label,
+    help,
+    value,
+    onChange,
+    placeholder
+}) => {
+    const ref = useRef(null);
+
+    const resize = () => {
+        const el = ref.current;
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = `${el.scrollHeight}px`;
+    };
+
+    useEffect(() => {
+        resize();
+    }, [value]);
+
+    return (
+        <BaseControl label={label} help={help}>
+            <textarea
+                ref={ref}
+                value={value || ''}
+                placeholder={placeholder}
+                rows={1}
+                onInput={resize}
+                onChange={(e) => onChange(e.target.value)}
+                style={{
+                    width: '100%',
+                    resize: 'none',
+                    overflow: 'hidden',
+                    minHeight: '2.2em',
+                    lineHeight: '1.4',
+                    padding: '6px 8px',
+                    boxSizing: 'border-box',
+                    borderRadius: '4px',
+                    fontSize: '13px'
+                }}
+            />
+        </BaseControl>
+    );
+};
+
+
+// -------------------------------------------------------------------
+// Main BlockEdit class
+// -------------------------------------------------------------------
 class BlockEdit extends BlockEditWithAPIMetadata {
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
-        super.componentDidMount()
+        super.componentDidMount();
     }
 
     render() {
         const {
-            className, isSelected,
-            toggleSelection, setAttributes,
+            isSelected,
+            setAttributes,
             attributes: {
                 measures,
                 height,
@@ -43,205 +101,196 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 filters,
                 group,
                 panelStatus,
-                dvzProxyDatasetId,                
+                dvzProxyDatasetId,
                 numberFontSize,
-                numberColor,                
+                numberColor,
                 csv,
                 type,
                 waitForFilters,
-            noDataText,
-            textTemplate
-           }
+                noDataText,
+                textTemplate
+            }
         } = this.props;
 
-
-        const  datasets = [{label: 'Select Dataset', value: '0'}]
+        const datasets = [{ label: 'Select Dataset', value: '0' }];
         if (this.state.datasets) {
             this.state.datasets.forEach(d => {
-                datasets.push({label: d.label, value: d.id})
-            })
+                datasets.push({ label: d.label, value: d.id });
+            });
         }
 
-        let params = {}
-        filters.forEach(f => {
-            if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0)
-                params[f.param] = f.value
-        })
         const inlineStyles = {
             display: 'inline',
             color: numberColor,
             fontSize: (numberFontSize || 14) + 'px',
             lineHeight: '1',
             verticalAlign: 'baseline'
-        }
+        };
 
-        console.log("this.state.measures", this.state.measures)
+        return ([
+            isSelected && (
+                <InspectorControls key="inspector">
+                    <Panel header={__("Chart Configuration")}>
 
-       return ([isSelected && (
-           <InspectorControls>
-               <Panel header={__("Chart Configuration")}>
-                   <PanelBody
-                       panelStatus={panelStatus['GROUP']}
-                       onToggle={e => togglePanel("GROUP", panelStatus, setAttributes)}
-                       title={__("Group")}>
-                       <PanelRow>
-                           <TextControl
-                               label={__('Name')}
-                               value={group}
-                               onChange={(group) => setAttributes({ group })}
-                           />
-                       </PanelRow>
-                         <PanelRow>
+                        {/* GROUP */}
+                        <PanelBody
+                            title={__("Group")}
+                            panelStatus={panelStatus['GROUP']}
+                            onToggle={() => togglePanel("GROUP", panelStatus, setAttributes)}
+                        >
+                            <PanelRow>
+                                <TextControl
+                                    label={__('Name')}
+                                    value={group}
+                                    onChange={(group) => setAttributes({ group })}
+                                />
+                            </PanelRow>
+
+                            <PanelRow>
                                 <ToggleControl
                                     label={__('Wait For Filters')}
                                     checked={waitForFilters}
-                                    onChange={() => setAttributes({waitForFilters:!waitForFilters})}
+                                    onChange={() =>
+                                        setAttributes({ waitForFilters: !waitForFilters })
+                                    }
                                 />
-                            </PanelRow>	
-                   </PanelBody>
-                   <SizeConfig setAttributes={setAttributes} panelStatus={panelStatus}
-                       height={height}></SizeConfig>
+                            </PanelRow>
+                        </PanelBody>
 
-                   <>
-                       <PanelBody initialOpen={false} title={__("API & Source")}>
-                           <PanelRow>
-                               <SelectControl
-                                   value={[app]}
-                                   onChange={(app) => {
-                                       setAttributes({
-                                           app: app
-                                       })
-                                   }}
-                                   options={this.state.apps}
-                               />
-                           </PanelRow>
+                        <SizeConfig
+                            setAttributes={setAttributes}
+                            panelStatus={panelStatus}
+                            height={height}
+                        />
 
+                        {/* API */}
+                        <PanelBody initialOpen={false} title={__("API & Source")}>
+                            <PanelRow>
+                                <SelectControl
+                                    value={[app]}
+                                    onChange={(app) => setAttributes({ app })}
+                                    options={this.state.apps}
+                                />
+                            </PanelRow>
 
-                            {isSupersetAPI(app, this.state.apps) && <PanelRow>
+                            {isSupersetAPI(app, this.state.apps) && (
+                                <PanelRow>
                                     <SelectControl
                                         label={__('Datasets')}
                                         value={[dvzProxyDatasetId]}
                                         onChange={(newDatasetId) => {
-                                            setAttributes({
-                                                dvzProxyDatasetId: newDatasetId
-                                            })
-
-                                            this.loadMetadata(app, newDatasetId)
+                                            setAttributes({ dvzProxyDatasetId: newDatasetId });
+                                            this.loadMetadata(app, newDatasetId);
                                         }}
                                         options={datasets}
                                     />
                                 </PanelRow>
+                            )}
+                        </PanelBody>
+
+                        {app !== 'csv' && (
+                            <Measures
+                                title={__(`Measure`)}
+                                onSetSingleMeasure={value =>
+                                    setAttributes({ measures: [value] })
                                 }
-                       </PanelBody>
-
-
-                         {app != 'csv' &&
-                                <Measures
-                                    title={__(`Measure`)}
-                                    onSetSingleMeasure={value => {
-                                        setAttributes({measures: [value]})
-                                    }}
-                                    onFormatChange={value => {
-                                        setAttributes({format: value})
-                                    }}
-                                    allMeasures={this.state.measures}
-                                    format={format}
-                                    measures={measures}
-                                    {...this.props}/>
-                            }
-
-
-                       {app == 'csv' &&
-                           <>
-                               <PanelBody initialOpen={false} title={__("CSV Configuration")}
-                                   onToggle={e => togglePanel("csv_cfg", panelStatus, setAttributes)}>
-                                   <PanelRow>
-                                       <TextareaControl
-                                           label={__("CSV Data")}
-                                           value={csv}
-                                           onChange={(csv) => setAttributes({ csv })}
-                                       />
-                                   </PanelRow>
-
-                                   <Format
-                                       hiddenCustomAxisFormat={type == 'radar' || type == 'small-number'}
-                                       format={format}
-                                       customFormat={{}}
-                                       useCustomAxisFormat={false}
-                                       onFormatChange={(newFormat, field) => {
-                                           console.log("newFormat", newFormat)
-                                           setAttributes({ format: newFormat })
-                                       }}
-                                       onUseCustomAxisFormatChange={value => {
-                                       }}
-                                   >
-                                   </Format>
-                               </PanelBody>
-                           </>
-                       }
-
-                       <DataFilters
-                           allFilters={this.state.filters}
-                           allCategories={this.state.categories}
-                           {...this.props} />
-
-                   </>
-                   <PanelBody title={__('Paragraph Template')} initialOpen={true}>
-                        <PanelRow>
-                            <TextareaControl
-                                label={__('Text Template')}
-                                help={__('You can use basic HTML (e.g. <b>, <i>, <span>) and variables like {{value}}, {{rawValue}}, {{measure}}.')}
-                                value={textTemplate}
-                                onChange={(textTemplate) => setAttributes({ textTemplate })}
+                                onFormatChange={value =>
+                                    setAttributes({ format: value })
+                                }
+                                allMeasures={this.state.measures}
+                                format={format}
+                                measures={measures}
+                                {...this.props}
                             />
-                        </PanelRow>
-                    </PanelBody>
-                   <PanelBody title={__('Settings')} initialOpen={false}>                       
-                        <PanelRow>
-                           <TextControl
-                               label={__('No Data Text')}
-                               value={noDataText}
-                               onChange={(noDataText) => setAttributes({ noDataText })}
-                           />
-                       </PanelRow>
-                       <PanelRow>
-                           <Text>{__("Number Font Size")}</Text>
-                       </PanelRow>
-                       <FontSizePicker
-                           fontSizes={[]}
-                           value={numberFontSize}
-                           fallbackFontSize={14}
-                           onChange={(newFontSize) => {
-                               setAttributes({ numberFontSize: newFontSize })
-                           }}
-                       />
-                     
-                       <PanelColorSettings title={__('Color Settings')}
-                           colorSettings={[
-                               {
-                                   value: numberColor,
-                                   onChange: (color) => {
-                                       setAttributes({ numberColor: color })
-                                   },
-                                   label: __("Number Color")
-                               }                               
-                           ]}
-                       />
-                   </PanelBody>
-               </Panel>
-           </InspectorControls>),
-           (
-           <div >
-                        {this.state.react_ui_url && <iframe ref={this.iframe} style={inlineStyles} scrolling={"no"}
-                                                            src={this.state.react_ui_url + "/embeddable/smallnumber?"}/>}
+                        )}
 
-                    </div>
-              )]
-        );
+                        <DataFilters
+                            allFilters={this.state.filters}
+                            allCategories={this.state.categories}
+                            {...this.props}
+                        />
 
+                        {/* --------------------------------------------------
+                            UPDATED: Paragraph Template (auto-grow)
+                        -------------------------------------------------- */}
+                        <PanelBody title={__('Paragraph Template')} initialOpen={true}>
+                            <PanelRow>
+                                <AutoGrowTextarea
+                                    label={__('Text Template')}
+                                    help={__(
+                                        'You can use basic HTML (e.g. <b>, <i>, <span>) and variables like {{value}}, {{rawValue}}, {{measure}}.'
+                                    )}
+                                    value={textTemplate}
+                                    onChange={(val) =>
+                                        setAttributes({ textTemplate: val })
+                                    }
+                                    placeholder={__('Type your paragraph template…')}
+                                />
+                            </PanelRow>
+                        </PanelBody>
+
+                        {/* SETTINGS */}
+                        <PanelBody title={__('Settings')} initialOpen={false}>
+                            <PanelRow>
+                                <TextControl
+                                    label={__('No Data Text')}
+                                    value={noDataText}
+                                    onChange={(noDataText) =>
+                                        setAttributes({ noDataText })
+                                    }
+                                />
+                            </PanelRow>
+
+                            <PanelRow>
+                                <Text>{__("Number Font Size")}</Text>
+                            </PanelRow>
+
+                            <FontSizePicker
+                                value={numberFontSize}
+                                fallbackFontSize={14}
+                                onChange={(newFontSize) =>
+                                    setAttributes({ numberFontSize: newFontSize })
+                                }
+                            />
+
+                            <PanelColorSettings
+                                title={__('Color Settings')}
+                                colorSettings={[
+                                    {
+                                        value: numberColor,
+                                        onChange: (color) =>
+                                            setAttributes({ numberColor: color }),
+                                        label: __("Number Color")
+                                    }
+                                ]}
+                            />
+                        </PanelBody>
+
+                    </Panel>
+                </InspectorControls>
+            ),
+
+            <div key="preview">
+                {this.state.react_ui_url && (
+                    <iframe
+                        ref={this.iframe}
+                        style={inlineStyles}
+                        scrolling="no"
+                        src={
+                            this.state.react_ui_url +
+                            "/embeddable/smallnumber?"
+                        }
+                    />
+                )}
+            </div>
+        ]);
     }
 }
 
+
+// -------------------------------------------------------------------
+// Wrapper Edit export
+// -------------------------------------------------------------------
 const Edit = (props) => {
     const blockProps = useBlockProps({
         style: {
@@ -249,6 +298,12 @@ const Edit = (props) => {
             verticalAlign: 'baseline'
         }
     });
-    return <span {...blockProps}><BlockEdit {...props}/></span>;
-}
+
+    return (
+        <span {...blockProps}>
+            <BlockEdit {...props} />
+        </span>
+    );
+};
+
 export default Edit;
