@@ -30,7 +30,7 @@ registerBlockType(process.env.BLOCKS_NS + '/small-number',
             },
             height: {
                 type: 'number',
-                default: 120,
+                default: 32,
             },
             app: {
                 type: 'string',
