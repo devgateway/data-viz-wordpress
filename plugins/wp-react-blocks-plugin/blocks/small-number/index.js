@@ -91,6 +91,10 @@ registerBlockType(process.env.BLOCKS_NS + '/small-number',
             textTemplate: {
                 type: 'string',
                 default: '{{value}}'
+            },
+            showPreview: {
+                type: 'boolean',
+                default: false
             }
         },
 
