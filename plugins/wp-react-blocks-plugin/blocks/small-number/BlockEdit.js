@@ -284,17 +284,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             // - Adds a paragraph-like editor that auto-expands
             // -------------------------------
             <div key="preview">
-                {/* Existing iframe preview 
-                {this.state.react_ui_url && (
-                    <iframe
-                        ref={this.iframe}
-                        style={inlineStyles}
-                        scrolling="no"
-                        src={this.state.react_ui_url + "/embeddable/smallnumber?"}
-                    />
-                )}*/}
-
-               <RichText
+                <RichText
                     tagName="p"
                     className="dvz-text-template-preview"
                     value={textTemplate || ''}
@@ -308,9 +298,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 }
 
 
-// -------------------------------
-// Wrapper Edit export
-// -------------------------------
 const Edit = (props) => {
     const blockProps = useBlockProps({
         // Let the preview paragraph behave naturally (block flow)
