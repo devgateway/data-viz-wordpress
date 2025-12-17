@@ -206,8 +206,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <PanelBody
                                 initialOpen={false}
                                 title={__("CSV Configuration")}
-                                onToggle={() => togglePanel("csv_cfg", panelStatus, setAttributes)}
-                            >
+                                onToggle={() => togglePanel("csv_cfg", panelStatus, setAttributes)}>
                                 <PanelRow>
                                     <BaseControl label={__("CSV Data")}>
                                         <textarea
@@ -241,7 +240,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <AutoGrowTextarea
                                     label={__('Text Template')}
                                     help={__(
-                                        'You can use basic HTML (e.g. <b>, <i>, <span>) and variables like {{value}}, {{rawValue}}, {{measure}}.'
+                                        'Use HTML and Tooltip-style variables: {field}, #(field,2) for number, %(field,2) for percent, #C(field,2) for compact.'
                                     )}
                                     value={textTemplate}
                                     onChange={(val) => setAttributes({ textTemplate: val })}
