@@ -133,6 +133,10 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'Numeric',
                 default:  null
             },
+            barSizeCriteria: {
+                type: 'string',
+                default: 'percentage'
+            },
         },
         edit: BlockEdit,
         save: BlockSave
