@@ -76,9 +76,36 @@ const AutoGrowTextarea = ({ label, help, value, onChange, placeholder }) => {
 // Main BlockEdit class
 // -------------------------------
 class BlockEdit extends BlockEditWithAPIMetadata {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...this.state,
+            previewHeight: null
+        };
+        this.onEmbedMessage = this.onEmbedMessage.bind(this);
+    }
 
     componentDidMount() {
         super.componentDidMount();
+        window.addEventListener('message', this.onEmbedMessage);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('message', this.onEmbedMessage);
+    }
+
+    onEmbedMessage(event) {
+        try {
+            const data = event.data || {};
+            if (data.type === 'dvz-embed-height' && data.id === this.props.clientId) {
+                const next = Math.max(60, Math.min(parseInt(data.height || 0, 10), 2000));
+                if (Number.isFinite(next) && next !== this.state.previewHeight) {
+                    this.setState({ previewHeight: next });
+                }
+            }
+        } catch (e) {
+            // ignore
+        }
     }
 
     render() {
@@ -123,8 +150,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const iframeStyles = {
             width: '100%',
             border: '0',
-            // Ensure enough height to show multi-line wrapped content
-            height: `${Math.max(80, (numberFontSize || 14) * 4)}px`
+            // Prefer explicit block height; else use autoHeight message; else fallback
+            height: (height && Number(height) > 0)
+                ? `${Number(height)}px`
+                : (this.state.previewHeight
+                    ? `${this.state.previewHeight}px`
+                    : `${Math.max(80, (numberFontSize || 14) * 4)}px`)
         };
 
         return ([
@@ -312,25 +343,17 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             // UPDATED PREVIEW AREA
             // - Adds a paragraph-like editor that auto-expands
             // -------------------------------
-            <div key="preview">
-                <RichText
-                    tagName="p"
-                    className="dvz-text-template-preview"
-                    value={textTemplate || ''}
-                    allowedFormats={[]} // keep it plain-ish
-                    placeholder={__('Type your paragraph…')}
-                    onChange={(val) => setAttributes({ textTemplate: val })}
-                />
-                
-
-        
+            <div key="preview">       
                 {showPreview && this.state.react_ui_url && (
                     <div style={{ marginTop: '8px' }}>
                     <iframe
                         ref={this.iframe}
                         style={iframeStyles}
-                        scrolling="no"
-                        src={this.state.react_ui_url + "/embeddable/smallnumber?"}
+                        scrolling="yes"
+                        src={
+                            this.state.react_ui_url +
+                            "/embeddable/smallnumber?"
+                        }
                     />            
                     </div>
                 )}
