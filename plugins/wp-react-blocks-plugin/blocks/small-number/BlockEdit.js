@@ -352,7 +352,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         'core/bold',
                         'core/italic',
                         'core/strikethrough',
-                        'core/link'                      
+                        'core/link',
+                        'viz/text-color'                      
                     ]}
                     placeholder={__('Type your paragraph…')}
                     onChange={(val) => setAttributes({ textTemplate: val })}
