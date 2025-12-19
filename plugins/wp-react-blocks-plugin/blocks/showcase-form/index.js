@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from "../icons";
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 import { withColors} from '@wordpress/block-editor';
-registerBlockType(process.env.BLOCKS_NS + '/showcase',
+registerBlockType(BLOCKS_NS + '/showcase',
     {
         title: __('Showcase Form',"dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             width: {
                 type: 'string',

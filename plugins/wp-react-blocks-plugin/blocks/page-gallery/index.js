@@ -2,8 +2,7 @@ import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {RangeControl, Panel, PanelBody, PanelRow, TextControl, ToggleControl} from '@wordpress/components';
 import {registerBlockType} from '@wordpress/blocks';
 import {ResizableBox} from '@wordpress/components';
-import Generic from "../icons";
-import {BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters, GenericIcon} from '@devgateway/dvz-wp-commons';
 import {__} from '@wordpress/i18n';
 
 const EditComponent = (props) => {
@@ -96,11 +95,11 @@ class EditWithSettings extends BlockEditWithFilters {
     }
 }
 
-registerBlockType(process.env.BLOCKS_NS + '/page-gallery',
+registerBlockType(BLOCKS_NS + '/page-gallery',
     {
         title: __('Child Pages Gallery',"dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             columns: {
                 type: 'Numeric',

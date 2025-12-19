@@ -3,7 +3,7 @@ import {useBlockProps} from '@wordpress/block-editor';
 const SaveComponent = (props) => {
 
     const {
-        attributes: {            
+        attributes: {
             type,
             height,
             dataSourceText,
@@ -23,6 +23,7 @@ const SaveComponent = (props) => {
             mainLayerId,
             mappingField,
             mapLabelField,
+            recentlyToggledLayerId,
             hasMultipleMeasures,
             mapCenter,
             mapLabelShowValue,
@@ -77,7 +78,7 @@ const SaveComponent = (props) => {
             dvzProxyDatasetId
         }
     } = props;
-    
+
     const blockProps = useBlockProps.save({
         className: 'viz component map'
     });
@@ -90,21 +91,21 @@ const SaveComponent = (props) => {
     filters.forEach(f => {
         if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0)
             params[f.param] = f.value
-    })    
+    })
 
     return (
         <div {...blockProps}
             className={"viz-component"}
              data-component={"map"}
              data-group={group}
-             data-height={height}             
+             data-height={height}
              data-type={type}
              data-data-source-text={dataSourceText}
              data-data-source-label={dataSourceLabel}
              data-measures={Array.isArray(measures) ? measures.join(',') : []}
              data-app={app}
-             data-source={source}   
-             data-csv={encodeURIComponent(csv)} 
+             data-source={source}
+             data-csv={encodeURIComponent(csv)}
              data-national-average-label={nationalAverageLabel}
              data-legend-title={legendTitle}
              data-legend-breaks={encodeURIComponent(JSON.stringify(validLegendBreaks))}
@@ -167,7 +168,8 @@ const SaveComponent = (props) => {
              data-no-data-text={noDataText}
              data-custom-measure-labels={encodeURIComponent(JSON.stringify(customMeasureLabels))}
              data-show-shading-layer-labels={showShadingLayerLabels}
-             data-dvz-proxy-dataset-id={dvzProxyDatasetId}  >
+             data-dvz-proxy-dataset-id={dvzProxyDatasetId}
+             data-recently-toggled-layer-id={recentlyToggledLayerId}>
         </div>
     );
 }

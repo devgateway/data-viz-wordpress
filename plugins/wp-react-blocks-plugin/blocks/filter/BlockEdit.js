@@ -1,10 +1,8 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons'
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata, isSupersetAPI, DataFilters} from '@devgateway/dvz-wp-commons';
 import {useEffect} from "react";
-import {DataFilters} from '@devgateway/dvz-wp-commons';
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
 const LOWEST_VALUE = 'LOWEST_VALUE'
 const HIGHEST_VALUE = 'HIGHEST_VALUE'
@@ -12,7 +10,7 @@ const HIGHEST_VALUE = 'HIGHEST_VALUE'
 const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
-            if (a.position !== undefined && b.position !== undefined) {        
+            if (a.position !== undefined && b.position !== undefined) {
                 return a.position - b.position
             }
 
@@ -103,6 +101,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         const iframeStyles = {height: '65px','width': '100%', border: 'none', 'overflow': 'hidden'}
         const selectedFilters = this.state.filters ? this.state.filters.filter(f => f.param == param && f.type != 'Boolean') : null
 
+
         const filter = selectedFilters && selectedFilters.length > 0 ? selectedFilters[0] : null
         const  datasets = [{label: 'Select Dataset', value: '0'}]
         if (this.state.datasets) {
@@ -155,19 +154,19 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
                     </PanelBody>
 
-                    {app != 'csv' && this.state.filters && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                    {app != 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
                         <PanelRow>
                             <SelectControl
                                 value={param}
-                                options={[{value:'', label: __("Select Filter")}, ...this.state.filters]}
+                                options={[{value:'', label: __("Select Filter")}, ...this.state?.filters]}
                                 onChange={param => {
-                                    const type = this.state.filters.filter(f => f.param === param)[0].type
+                                    const type = this.state?.filters.filter(f => f.param === param)[0].type
                                     setAttributes({param, type, hiddenFilters: []})
                                 }}/>
                         </PanelRow>
 
                     </PanelBody>}
-                    {app == 'csv' && this.state.filters && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                    {app == 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
                         <PanelRow>
                             <TextControl label={__("Field")} value={param}
                                          onChange={(param) => setAttributes({param})}></TextControl>

@@ -2,7 +2,7 @@ import { InspectorControls, PanelColorSettings, useBlockProps } from '@wordpress
 import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-import { BlockEditWithFilters } from '@devgateway/dvz-wp-commons';;
+import { BlockEditWithFilters } from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends BlockEditWithFilters {
     constructor(props) {
@@ -50,12 +50,13 @@ class BlockEdit extends BlockEditWithFilters {
                 colors,
                 useScrolls,
                 readMoreLabel,
+                closeLabel,
                 previewMode
             },
         } = this.props;
 
         const colorsParams = Object.keys(colors).map(k => colors[k]).join(",");
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${encodeURIComponent(colorsParams)}&data-read-more-label=${readMoreLabel}&data-use-scrolls=${useScrolls}&data-preview-mode=${previewMode}`;
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${encodeURIComponent(colorsParams)}&data-read-more-label=${readMoreLabel}&data-close-label=${encodeURIComponent(closeLabel || 'Close')}&data-use-scrolls=${useScrolls}&data-preview-mode=${previewMode}`;
         const divStyles = { height: `${height}px`, width: "100%" };
 
         return (
@@ -77,6 +78,14 @@ class BlockEdit extends BlockEditWithFilters {
                                     label={__('Read More Label', 'dg')}
                                     value={readMoreLabel}
                                     onChange={(readMoreLabel) => setAttributes({ readMoreLabel })}
+                                />
+                            </PanelRow>
+
+                            <PanelRow>
+                                <TextControl
+                                    label={__('Close Label', 'dg')}
+                                    value={closeLabel}
+                                    onChange={(closeLabel) => setAttributes({ closeLabel })}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -170,4 +179,3 @@ const Edit = (props) => {
 };
 
 export default Edit;
-
