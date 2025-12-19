@@ -128,7 +128,8 @@ updateColor(value, color) {
                 labelWidth,
                 labelHeight,
                 labelFormat,
-                topN
+                topN,
+                barSizeCriteria
             }
         } = this.props;
 
@@ -289,6 +290,21 @@ updateColor(value, color) {
                                     min={-1} 
                                     step={1}
                                 />
+                            </PanelRow>
+                            <PanelRow>                               
+                                <SelectControl  
+                                    label={__("Bar Size Criteria")}
+                                    value={barSizeCriteria}
+                                    options={[
+                                        { label: 'Percentage of Total', value: 'percentage' },
+                                        { label: 'Relative to Maximum', value: 'relative_max' }]}
+                                    onChange={(value) => {
+                                        setAttributes({
+                                            barSizeCriteria: value
+                                        });
+                                    }}
+                                />
+
                             </PanelRow>
 
                             <PanelRow>
