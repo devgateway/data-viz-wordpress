@@ -343,7 +343,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             // UPDATED PREVIEW AREA
             // - Adds a paragraph-like editor that auto-expands
             // -------------------------------
-            <div key="preview">       
+            <div key="preview">   
+             <RichText
+                    tagName="p"
+                    className="dvz-text-template-preview"
+                    value={textTemplate || ''}
+                    allowedFormats={[]} // keep it plain-ish
+                    placeholder={__('Type your paragraph…')}
+                    onChange={(val) => setAttributes({ textTemplate: val })}
+                />    
                 {showPreview && this.state.react_ui_url && (
                     <div style={{ marginTop: '8px' }}>
                     <iframe
