@@ -348,7 +348,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     tagName="p"
                     className="dvz-text-template-preview"
                     value={textTemplate || ''}
-                    allowedFormats={[]} // keep it plain-ish
+                    allowedFormats={[
+                        'core/bold',
+                        'core/italic',
+                        'core/strikethrough',
+                        'core/link'                      
+                    ]}
                     placeholder={__('Type your paragraph…')}
                     onChange={(val) => setAttributes({ textTemplate: val })}
                 />    
