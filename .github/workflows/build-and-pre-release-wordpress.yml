@@ -11,7 +11,7 @@ on:
       - ".github/**"
       - "packages/create-wp-customizer/**"
       - "packages/upgrade-wp-customizer/**"
-      
+
 permissions:
   contents: write
   pull-requests: write
@@ -28,11 +28,11 @@ jobs:
           uses: actions/checkout@v4
           with:
             fetch-depth: "0"
-        
+
         - name: Get Current Date And Time
           id: current_date
           run: echo "current_date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
-        
+
         - name: Generate Tag
           id: tag_version
           uses: mathieudutour/github-tag-action@v6.2
@@ -73,11 +73,12 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha, scope=data-viz-wordpress
-          cache-to: type=gha, scope=data-viz-wordpress
+          cache-from: type=gha, scope=data-viz-wordpress, ref=${{ vars.DOCKER_REGISTRY }}/data-viz/wordpress:buildcache
+          cache-to: type=gha, scope=data-viz-wordpress, type=inline, mode=max
           context: .
           push: true
           build-args: |
+            BUILDKIT_INLINE_CACHE=1
             VERSION=${{ needs.prepare-a-pre-release.outputs.new_version }}
             TAG=${{ needs.prepare-a-pre-release.outputs.new_tag }}
           tags: |
@@ -97,7 +98,6 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: true
-          make_latest: "false" 
+          make_latest: "false"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                
