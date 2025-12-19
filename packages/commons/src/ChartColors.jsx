@@ -195,10 +195,19 @@ export const ChartColors = (props) => {
 
     const prevStatus = useRef();
 
-    const updateColor = (value, color) => {
+    const updateColor = (value, color, colorByMode = null) => {
 
         const newColors = Object.assign({}, manualColors)
-        newColors[app][value] = color
+        if (colorByMode) {
+            // For CSV colors, nest by colorBy mode
+            if (!newColors[app][colorByMode]) {
+                newColors[app][colorByMode] = {}
+            }
+            newColors[app][colorByMode][value] = color
+        } else {
+            // For non-CSV colors, use flat structure
+            newColors[app][value] = color
+        }
         setAttributes({manualColors: newColors})
     }
 
@@ -350,7 +359,7 @@ export const ChartColors = (props) => {
         if (manualColors[app] && allMeasures && measures[app]) {
 
             const selectedMeasures = allMeasures.filter(m => Object.keys(measures[app]).indexOf(m.value) > -1 && measures[app][m.value].selected)
-            if (selectedMeasures.length > 0) {
+             if (selectedMeasures.length > 0) {
 
                 const list = selectedMeasures.sort((a, b) => b.position - a.position)
                     .map(item => {
@@ -393,7 +402,7 @@ export const ChartColors = (props) => {
         const data = Papa.parse(csv, {header: true, dynamicTyping: true});
         const values = [];
 
-        if (colorBy === "index" && type != 'line') {
+        if ((colorBy === "index" && type != 'line') || type == 'pie') {
             const field = data.meta.fields[0];
             values.push(...data.data.map(d => d[field]))
         }
@@ -406,13 +415,15 @@ export const ChartColors = (props) => {
 
         if (manualColors[app] && values) {
             return values.map(v => {
+                // Get the current colorBy mode's color storage, creating it if needed
+                const colorByColors = manualColors[app][colorBy] || {};
                 return <PanelColorSettings
                     colorSettings={[{
-                        value: manualColors[app][v],
+                        value: colorByColors[v],
 
                         onChange: (color) => {
                             if (color) {
-                                updateColor(v, color)
+                                updateColor(v, color, colorBy)
                             }
                         }, label: __(v)
                     }]}
@@ -441,6 +452,9 @@ export const ChartColors = (props) => {
                 options={colorOptions}
             />
         </PanelRow>)
+    }
+    if(type == 'pie'){
+        setAttributes({colorBy: 'index'});
     }
 
 
@@ -477,7 +491,7 @@ export const ChartColors = (props) => {
 
             {app != "csv" && useColors == "dimension" && colorBy == "index" &&
                 <PanelBody initialOpen={false} title={__("Set Colors")}>
-                    {catColors(dimension1)}
+                     {catColors(dimension1)}
                 </PanelBody>}
             {app != "csv" && useColors == "dimension" && (colorBy == "id" && dimension2 != "none") &&
                 <PanelBody initialOpen={false} title={__("Set Colors")}>
@@ -508,5 +522,3 @@ export const ChartColors = (props) => {
 
         </PanelRow>]
 }
-
-export default ChartColors

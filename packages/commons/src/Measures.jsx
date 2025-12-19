@@ -139,15 +139,15 @@ export const Measures = (props) => {
 
 
         {
-            /*Single measure conditions
+        /*Single measure conditions
 
-            Bar & Lie:
-                2 dimensions selected
-            Pie:
-                any dimensions selected
+        Bar & Lie:
+            2 dimensions selected
+        Pie:
+            any dimensions selected
 
-            */
-            ((type == 'big-number') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+        */
+            ((type=='big-number') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody
                         initialOpen={panelStatus[g]}
                         onToggle={e => togglePanel(g, panelStatus, setAttributes)}
@@ -180,7 +180,7 @@ export const Measures = (props) => {
         {(type != 'overlay') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
-                hiddenCustomAxisFormat={type == 'radar' || type == 'big-number'}
+                hiddenCustomAxisFormat={type=='radar' || type=='big-number'}
                 format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
                 useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}
@@ -235,5 +235,4 @@ export const Measures = (props) => {
     </>
 }
 
-
-export default Measures
+export default Measures;

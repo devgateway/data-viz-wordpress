@@ -2,9 +2,13 @@
   "name": "@devgateway/dvz-wp-commons",
   "version": "1.2.0",
   "private": false,
+  "type": "module",
   "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
   "author": "Sebastian Dimunzio",
   "license": "GPL-2.0-or-later",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "module": "build/index.js",
   "maintainers": [
     "Sebastian Dimunzio",
     "Timothy Mugo"
@@ -21,9 +25,6 @@
   "bugs": {
     "url": "https://github.com/devgateway/data-viz-wordpress/issues"
   },
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
-  "module": "build/index.js",
   "files": [
     "build",
     "LICENSE",
@@ -31,6 +32,7 @@
   ],
   "publishConfig": {
     "access": "public",
+    "provenance": false,
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
@@ -47,10 +49,11 @@
     "semantic-release": "^24.2.9",
     "semantic-release-monorepo": "^8.0.2",
     "ts-loader": "^9.5.4",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "unbuild": "3.6.1"
   },
   "scripts": {
-    "build": "tsc -b",
+    "build": "unbuild",
     "format:js": "wp-scripts format-js",
     "lint:js": "wp-scripts lint-js",
     "start": "tsc -w"
@@ -70,5 +73,11 @@
   },
   "peerDependencies": {
     "react": "18.3.1"
+  },
+  "exports": {
+    ".": {
+      "import": "./build/index.js",
+      "default": "./build/index.cjs"
+    }
   }
 }

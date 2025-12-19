@@ -35,6 +35,8 @@ export const ChartMeasures = (props) => {
     } = props
 
 
+
+
     const MToggle = ({measure}) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
 
@@ -93,7 +95,7 @@ export const ChartMeasures = (props) => {
 
     const selectedMeasures = getSelectedMeasures()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
-                        onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
+                      onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
 
         {
             /*
@@ -177,57 +179,52 @@ export const ChartMeasures = (props) => {
             <Format
                 format={measures[app] && measures[app].format ? measures[app].format : defaultFormat}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
-                useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}
+                useCustomAxisFormat={measures[app]  ? measures[app].useCustomAxisFormat : false}
                 onFormatChange={(format, field) => {
                     onFormatChange(format, field)
                 }}
                 onUseCustomAxisFormatChange={value => {
                     onUseCustomAxisFormatChange(value)
                 }}
-            >
+                >
             </Format>
         </PanelBody>}
 
     </PanelBody>
-        {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
-            <PanelBody title={__("Measure Label Customization")}
-                       initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
-                       onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
+    {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
+    <PanelBody title={__("Measure Label Customization")} initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
+                      onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
 
-                {selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
-                        return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
-                                           onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
-                                           title={`${g}`}>
-                                {selectedMeasures.filter(f => getTranslation(f.group) === g)
-                                    .map(m => {
-                                        const userMeasure = measures[app] ? measures[app][m.value] : {}
-                                        return (<><PanelRow><ToggleControl
-                                            label={getTranslation(m)}
-                                            checked={userMeasure ? userMeasure.hasCustomLabel : false}
-                                            onChange={(value) => onCustomLabelToggleChange(m.value)}/> </PanelRow>
-                                            {userMeasure.hasCustomLabel &&
-                                                <PanelRow>
-                                                    <TextControl label={__("Custom Label")}
-                                                                 value={userMeasure ? userMeasure.customLabel : ""}
-                                                                 onChange={(value) => onCustomLabelChange(m.value, value)}/>
-                                                </PanelRow>
-                                            }
-                                        </>)
+                        {selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
+                                 return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
+                                                    onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
+                                                    title={`${g}`}>
+                                         {selectedMeasures.filter(f => getTranslation(f.group) === g)
+                                             .map(m => {
+                                                const userMeasure = measures[app] ? measures[app][m.value] : {}
+                                                return (<><PanelRow><ToggleControl
+                                                    label={getTranslation(m)}
+                                                    checked={userMeasure ? userMeasure.hasCustomLabel : false}
+                                                    onChange={(value) => onCustomLabelToggleChange(m.value)}/> </PanelRow>
+                                                    {userMeasure.hasCustomLabel &&
+                                                    <PanelRow>
+                                                        <TextControl label={__("Custom Label")} value={userMeasure ? userMeasure.customLabel : ""} onChange={(value) => onCustomLabelChange(m.value, value)}/>
+                                                    </PanelRow>
+                                                    }
+                                                    </>)
 
-                                    })}
-                            </PanelBody>
+                                           })}
+                                     </PanelBody>
 
 
-                        )
-                    }
-                )
-                }
+                                 )
+                             }
+                         )
+                        }
 
 
-            </PanelBody>
-        }
+
+        </PanelBody>
+}
     </>
 }
-
-
-export default ChartMeasures
