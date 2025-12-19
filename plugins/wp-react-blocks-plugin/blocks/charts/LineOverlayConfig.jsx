@@ -9,8 +9,7 @@ import {
 } from '@wordpress/components';
 import {PanelColorSettings} from '@wordpress/block-editor';
 import {__} from '@wordpress/i18n';
-import {togglePanel} from '@devgateway/dvz-wp-commons';;
-import {ChartMeasures} from '@devgateway/dvz-wp-commons';
+import {togglePanel, ChartMeasures} from '@devgateway/dvz-wp-commons';
 
 const overLayPrototype = (preFillCsv) => {
     return {
@@ -121,7 +120,7 @@ const LineOverlay = (props) => {
                         {
                             value: o.lineColor,
                             onChange: (color) => {
-                                
+
                                 if (color) {
                                     onChange(idx, "lineColor", color)
                                 }

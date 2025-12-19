@@ -22,7 +22,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }
         } = this.props;
 
-        
+
 
         const iframeStyles = {height: '30px'}
 
@@ -36,18 +36,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 onChange={(group) => setAttributes({group})}
                             />
                         </PanelRow>
-                    </PanelBody>   
+                    </PanelBody>
                     <PanelBody initialOpen={false} title={__("API & Source")}>
                         <PanelRow>
                             <SelectControl
                                 value={app}
-                                onChange={(app) => {                                    
+                                onChange={(app) => {
                                     setAttributes({app: app})
                                 }}
                                 options={this.state.apps}
                             />
                         </PanelRow>
-                    </PanelBody> 
+                    </PanelBody>
                     <PanelBody initialOpen={false} title={__("Labels")}>
                         <PanelRow>
                             <TextControl
@@ -56,7 +56,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 onChange={(label) => setAttributes({label})}
                             />
                         </PanelRow>
-                    </PanelBody>                  
+                    </PanelBody>
                 </Panel>
             </InspectorControls>),
                 (<div>

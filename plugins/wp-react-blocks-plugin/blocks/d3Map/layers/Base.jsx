@@ -16,13 +16,10 @@ import {useState} from "@wordpress/element";
 import DataLayer from "./Data";
 import FlowLayer from "./Flow";
 import LatLongLayer from "./LatLong";
-import {BlockEditWithAPIMetadata, ComponentWithSettings} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata, ComponentWithSettings, togglePanel, isSupersetAPI} from "@devgateway/dvz-wp-commons";
 import Property from "./utils/Property";
 
 import {PanelColorSettings} from "@wordpress/block-editor";
-import {togglePanel} from '@devgateway/dvz-wp-commons';
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
-
 
 const typeOptions = [
     {label: "Base", value: "base"},
@@ -418,8 +415,7 @@ class LayerWithMetadata extends BlockEditWithAPIMetadata {
 
         return <PanelBody
             initialOpen={false}
-            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)} title={__("Layers")}
-            title={__(`${name}`)}>
+            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)} title={name ? __(`${name}`) : __("Layers")}>
 
             <Base {...this.props} metadata={this.state}></Base>
             <PanelBody>

@@ -16,8 +16,8 @@ import Property from "./utils/Property";
 import BreaksGenerator from "./utils/BreaksGenerator";
 import {PanelColorSettings} from "@wordpress/block-editor";
 import PatternGenerator from "./utils/PatternGenerator";
+import {isSupersetAPI} from "@devgateway/dvz-wp-commons";
 import Format from '../../charts/Format.jsx'
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 import GradientGenerator from "./utils/GradientGenerator";
 
 
@@ -69,7 +69,7 @@ export class DataLayerSetting extends Component {
         }
     }
 
-    
+
 
 
 
@@ -105,7 +105,7 @@ export class DataLayerSetting extends Component {
                 features.forEach(f => {
                     if (f.properties[featureJoinAttribute]) {
                         generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n'
-                    }          
+                    }
                 })
             }
 
@@ -256,17 +256,17 @@ export class DataLayerSetting extends Component {
                 onMoveLayer,
                 dvzProxyDatasetId,
                 patternsVisible,
-                colorLayerVisible                       
+                colorLayerVisible
             }
         } = this.props
 
-        
-        
+
+
 
         let selectedMeasureLabel = ""
         let selectedMeasureValue = ""
 
-        
+
 
         if (app != 'csv') {
             const theMeasure = measures ? measures[0] : null
@@ -289,8 +289,8 @@ export class DataLayerSetting extends Component {
                 <SelectControl
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {  
-                       onChangeProperty("app", app)                            
+                    onChange={(app) => {
+                       onChangeProperty("app", app)
                     }}
                     options={apps}
                 />
@@ -552,7 +552,7 @@ export class DataLayerSetting extends Component {
                     />
                     </PanelRow>
 
-                       
+
 
                 {usePattern && <PatternGenerator allCategories={allCategories} allDimensions={allDimensions}
                     defaultFillColor={fillColor} onChangeProperty={onChangeProperty}

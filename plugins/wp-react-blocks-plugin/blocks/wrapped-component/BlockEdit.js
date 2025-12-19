@@ -3,7 +3,7 @@ import {
     Panel, PanelBody, PanelRow, TextControl, SelectControl, Icon, Button, ButtonGroup, ResizableBox
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons'
+import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends BlockEditWithAPIMetadata {
 
@@ -31,7 +31,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         const newAttr = [...attr]
         newAttr[idx][name] = value
-        
+
         setAttributes({attr: newAttr})
     }
 
@@ -43,7 +43,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } = this.props;
         const newAttr = [...attr]
         newAttr.splice(idx, 1)
-        
+
         setAttributes({attr: newAttr})
     }
 

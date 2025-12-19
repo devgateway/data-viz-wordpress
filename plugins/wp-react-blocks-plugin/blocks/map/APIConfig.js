@@ -201,7 +201,6 @@ export class APIConfig extends Component {
 
 
         const currentType = types.filter(t => t.value === type).length > 0 ? types.filter(t => t.value === type)[0] : null
-
         return (
             [ <PanelBody initialOpen={false} title={__(type == 'map' ? 'Fields' :`Dimensions`)}>
                     <PanelRow>

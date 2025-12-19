@@ -9,6 +9,7 @@ const SaveComponent = (props) => {
             colors,
             useScrolls,
             readMoreLabel,
+            closeLabel,
             previewMode
         },
     } = props;
@@ -31,6 +32,7 @@ const SaveComponent = (props) => {
                 data-categories={categories.toString()}
                 className={"viz-component"}
                 data-read-more-label={readMoreLabel}
+                data-close-label={closeLabel}
                 data-use-scrolls={useScrolls}
                 data-component={"featuredTabs"}
                 data-preview-mode={previewMode}

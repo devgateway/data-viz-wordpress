@@ -1,9 +1,8 @@
 import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
-import {Generic} from '../icons/index.js'
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
-import {ComponentWithSettings} from '@devgateway/dvz-wp-commons';
+import {ComponentWithSettings, GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
 
 const SaveComponent = (props) => {
@@ -116,11 +115,11 @@ class Edit extends ComponentWithSettings {
     }
 }
 
-registerBlockType(`${process.env.BLOCKS_NS}/page-modules`,
+registerBlockType(`${BLOCKS_NS}/page-modules`,
     {
         title: __('Page Modules',"dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'Numeric',

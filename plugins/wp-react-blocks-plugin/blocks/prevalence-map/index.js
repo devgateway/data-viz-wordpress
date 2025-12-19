@@ -8,7 +8,7 @@ import {
     withColors
 } from '@wordpress/block-editor';
 import {Panel, ResizableBox} from '@wordpress/components';
-import {Generic} from "../icons";
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
 const EditComponent = (props) => {
 
@@ -126,10 +126,10 @@ const SaveComponent = (props) => {
 
     );
 }
-registerBlockType(process.env.BLOCKS_NS+'/illicit-map', {
+registerBlockType(BLOCKS_NS+'/illicit-map', {
     title: __('Illicit Map',"dg"),
-    icon: Generic,
-    category: process.env.BLOCKS_CATEGORY,
+    icon: GenericIcon,
+    category: BLOCKS_CATEGORY,
     attributes: {
         width: {
             type: 'Numeric',
