@@ -7,7 +7,7 @@ import {
     useBlockProps,
     withColors
 } from '@wordpress/block-editor';
-import {Generic} from '../icons/index.js'
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 import {Panel, PanelBody, PanelRow, TextControl} from '@wordpress/components';
 import {BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
 
@@ -157,11 +157,11 @@ class EditWithSettings extends BlockEditWithFilters {
     }
 }
 
-registerBlockType(process.env.BLOCKS_NS + '/newsletter',
+registerBlockType(BLOCKS_NS + '/newsletter',
     {
         title: __('Newsletter Form'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             label: {
                 type: 'string',

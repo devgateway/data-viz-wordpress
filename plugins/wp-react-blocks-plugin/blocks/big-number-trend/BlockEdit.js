@@ -12,12 +12,7 @@ import {
     TextareaControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
-import {CSVSourceConfig} from '@devgateway/dvz-wp-commons';
-import {togglePanel} from '@devgateway/dvz-wp-commons';;
-import {Measures} from '@devgateway/dvz-wp-commons';
-import {DataFilters} from '@devgateway/dvz-wp-commons';
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata, SizeConfig, togglePanel, Measures, DataFilters, isSupersetAPI} from '@devgateway/dvz-wp-commons'
 import Format from "../charts/Format.jsx";
 
 
@@ -45,12 +40,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 dvzProxyDatasetId,
                 label,
                 bigNumberFontSize,
-                percentFontSize,                
-                labelFontSize,   
-                textColor,          
+                percentFontSize,
+                labelFontSize,
+                textColor,
                 dimension1,
                 showPercentageChange,
-                csv, 
+                csv,
                 type,
                 waitForFilters,
                 noDataText
@@ -71,7 +66,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 params[f.param] = f.value
         })
         const divStyles = {height: height + 'px', width: '100%'}
-        
+
         return ([isSelected && (
             <InspectorControls>
                 <Panel header={__("Chart Configuration")}>
@@ -92,7 +87,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     checked={waitForFilters}
                                     onChange={() => setAttributes({waitForFilters:!waitForFilters})}
                                 />
-                            </PanelRow>	
+                            </PanelRow>
                     </PanelBody>
                     <SizeConfig setAttributes={setAttributes} panelStatus={panelStatus}
                                 height={height}></SizeConfig>
@@ -120,7 +115,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                                             setAttributes({
                                                                                 dvzProxyDatasetId: newDatasetId
                                                                             })
-                                                                            
+
                                                                             this.loadMetadata(app, newDatasetId)
                                                                         }}
                                                                         options={datasets}
@@ -128,13 +123,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                                   </PanelRow>
                                                                 }
                         </PanelBody>
-                        
+
                         {app != 'csv' &&
                            <PanelBody initialOpen={false} title={__("Dimensions")}>
                                <PanelRow>
                                    <SelectControl
                                        label={__("First Dimension")}
-                                       value={[dimension1]} 
+                                       value={[dimension1]}
                                        onChange={(value) => {
                                            setAttributes({
                                                dimension1: value
@@ -156,9 +151,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                 onChange={(csv) => setAttributes({csv})}
                                             />
                                         </PanelRow>
-                            
+
                                         <Format
-                                            hiddenCustomAxisFormat={type=='radar' || type=='big-number'}              
+                                            hiddenCustomAxisFormat={type=='radar' || type=='big-number'}
                                             format={format}
                                             customFormat={{}}
                                             useCustomAxisFormat={false}
@@ -166,15 +161,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                 console.log("newFormat", newFormat)
                                                 setAttributes({format: newFormat})
                                             }}
-                                            onUseCustomAxisFormatChange = {value => {                                               
+                                            onUseCustomAxisFormatChange = {value => {
                                             }}
                                             >
                                         </Format>
                                     </PanelBody>
                                     </>
                          }
-                      
-                        {app != 'csv' &&  
+
+                        {app != 'csv' &&
                           <Measures
                               title={__(`Measure`)}
                               onSetSingleMeasure={value => {
@@ -185,11 +180,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                               }}
                               allMeasures={this.state.measures}
                               format={format}
-                              measures={measures}                              
+                              measures={measures}
                               {...this.props}/>
                         }
 
-                       
+
 
                         <DataFilters
                           allFilters={this.state.filters}
@@ -197,15 +192,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                           {...this.props}/>
 
                     </>
-                    <PanelBody title={__('Settings')} initialOpen={false}>                   
+                    <PanelBody title={__('Settings')} initialOpen={false}>
                     <br></br>
                     <PanelRow>
                             <ToggleControl label={__('Show Percentage Change')}
                                              checked={showPercentageChange}
                                              onChange={(showPercentageChange) => setAttributes({showPercentageChange})}/>
-                                             
+
                         </PanelRow>
-                    <PanelBody initialOpen={true} title={__("Label")}>     
+                    <PanelBody initialOpen={true} title={__("Label")}>
                             {app != 'csv' &&
                                 <>
                                     <div style={{ "font-weight": "bold", "font-size": "11px" }}>Variables:<br></br></div>
@@ -239,7 +234,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                onChange={(noDataText) => setAttributes({ noDataText })}
                            />
                        </PanelRow>
-                       
+
                         <PanelRow>
                             <Text>{__("Big Number Font Size")}</Text>
                         </PanelRow>
@@ -282,7 +277,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         setAttributes({ textColor: color })
                                     },
                                     label: __("Text Color")
-                                }                               
+                                }
                             ]}
                         />
                     </PanelBody>

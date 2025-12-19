@@ -9,8 +9,7 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ChartColors} from '@devgateway/dvz-wp-commons';
-import {ChartLegends} from '@devgateway/dvz-wp-commons';
+import { ChartColors, ChartLegends} from '@devgateway/dvz-wp-commons'
 
 const PieOptions = (props) => {
 
@@ -31,7 +30,7 @@ const PieOptions = (props) => {
         }
     } = props;
 
-    
+
     return [<PanelBody initialOpen={false} title={__("Pie Options")}>
         <ChartColors {...props}></ChartColors>
         <PanelRow title={"Start Angle"}>
@@ -63,7 +62,7 @@ const PieOptions = (props) => {
                 checked={showArcLinkLabels}
                 onChange={() => setAttributes({showArcLinkLabels: !showArcLinkLabels})}/>
         </PanelRow>
-        
+
         <PanelRow>
             <ToggleControl
                 label={__("Show Percentage")}
@@ -77,7 +76,7 @@ const PieOptions = (props) => {
         <PanelBody initialOpen={false} title={__("Center Label")}>
             <PanelBody initialOpen={false} title={__("Variables")}>
                 <PanelRow>
-                    <span style={{"font-size": "11px"}}>Total Value -> {'{totalValue}'}</span>
+                    <span style={{"font-size": "11px"}}>Total Value -&gt; {'{totalValue}'}</span>
                 </PanelRow>
             </PanelBody>
             <PanelRow>
