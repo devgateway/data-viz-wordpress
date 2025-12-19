@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons/index.js'
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons'
 
-registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
+registerBlockType(BLOCKS_NS + '/bignumbertrend',
     {
         title: __('Big Number Trend'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             type: {
@@ -38,7 +38,7 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
             csv: {
                 type: "String",
                 default: "Year,Amount \n2019,20000 \n2018,10000"
-            },           
+            },
             params: {
                 type: Object,
                 default: {}
@@ -52,7 +52,7 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
                     "currency": "USD"
                 }
             },
-            
+
             measures: {
                 type: "Array",
                 default: []
@@ -75,7 +75,7 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
             label: {
                 type: 'String',
                 default: "# of animals"
-            },           
+            },
             textColor: {
                 type: 'string',
                 default: "#5a5d68",
@@ -87,11 +87,11 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
             labelFontSize: {
                 type: 'Numeric',
                 default: 14
-            },           
+            },
             percentFontSize: {
                 type: 'Numeric',
                 default: 14
-            },                   
+            },
             showPercentageChange: {
                 type: 'Boolean',
                 default: false
@@ -109,4 +109,3 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
         save: BlockSave
     }
 );
-

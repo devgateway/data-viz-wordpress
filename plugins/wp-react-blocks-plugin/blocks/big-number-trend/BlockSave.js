@@ -9,13 +9,13 @@ const SaveComponent = (props) => {
             csv,
             format,
             filters,
-            group,            
+            group,
             noDataMsg,
             dvzProxyDatasetId,
             bigNumberFontSize,
             labelFontSize,
             percentFontSize,
-            textColor,            
+            textColor,
             label,
             showPercentageChange,
             waitForFilters,
@@ -46,8 +46,8 @@ const SaveComponent = (props) => {
              data-big-number-font-size={bigNumberFontSize}
              data-label-font-size={labelFontSize}
              data-percent-font-size={percentFontSize}
-             data-text-color={encodeURIComponent(textColor)}            
-             data-label={label}            
+             data-text-color={encodeURIComponent(textColor)}
+             data-label={label}
              data-show-percentage-change={showPercentageChange}
              data-wait-for-filters={waitForFilters}
              data-no-data-text={noDataText}

@@ -1,6 +1,6 @@
 import {PanelRow, RangeControl, TextControl, SelectControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {getTranslatedOptions} from '@devgateway/dvz-wp-commons';
+import { getTranslatedOptions } from '@devgateway/dvz-wp-commons';
 
 const Sort = (props) => {
     const {
@@ -118,5 +118,4 @@ const Sort = (props) => {
 }
 
 export default Sort
-
 

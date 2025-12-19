@@ -13,7 +13,8 @@ import {registerBlockType} from '@wordpress/blocks';
 import {InspectorControls, RichTextToolbarButton} from '@wordpress/block-editor';
 import {speak} from '@wordpress/a11y';
 import {tag as linkIcon} from '@wordpress/icons';
-import {Generic} from '../icons'
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons';
 import {
     Button,
     Modal,
@@ -26,9 +27,8 @@ import {
     ToggleControl,
     SelectControl
 } from '@wordpress/components';
-import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons';
 
-const name = process.env.BLOCKS_NS + '/reference';
+const name = BLOCKS_NS + '/reference';
 const reference = {
     name,
     object: true,
@@ -48,7 +48,7 @@ const reference = {
 };
 
 const PopUI = ({onClose, onCancel, value}) => {
-    
+
     const [text, setText] = useState("")
     const [link, setLink] = useState("")
     const [updateRefs, setUpdateRefs] = useState(false)
@@ -209,7 +209,7 @@ function edit(props) {
     }
 
     function closeModal(referenceText, referenceLInk, updateRefs, index) {
-        
+
         const text = getTextContent(slice(value));
         const obj = insertObject(value, {
             type: name,
@@ -316,7 +316,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </PanelRow>
                 </PanelBody>
             </Panel>
-                
+
             </InspectorControls>),
                 (<div>
 
@@ -333,7 +333,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 }
 
 const BlockSave = (props) => {
-        const {       
+        const {
         attributes: {
             height,
             columns,

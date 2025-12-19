@@ -5,7 +5,7 @@ import {
     PanelBody,
     PanelRow,
     ResizableBox,
-    ToggleControl    
+    ToggleControl
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithFilters, SizeConfig} from '@devgateway/dvz-wp-commons';
@@ -66,7 +66,7 @@ class BlockEdit extends BlockEditWithFilters {
                                 </PanelRow>
                             }
                         </PanelBody>
-                        
+
                         {this.renderFilters()}
                     </Panel>
                 </InspectorControls>

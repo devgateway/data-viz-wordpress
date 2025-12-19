@@ -48,7 +48,7 @@ class BlockEdit extends ComponentWithSettings {
 
 
         const resultRenderer = ({type, subtype, url, title}) => {
-            return <div><span>{subtype} -> </span><span dangerouslySetInnerHTML={{ __html: title }} ></span><br></br>
+            return <div><span>{subtype} -&gt; </span><span dangerouslySetInnerHTML={{ __html: title }} ></span><br></br>
                 <a onClick={(e) => false}>{url}</a></div>
         }
 
