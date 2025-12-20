@@ -30,6 +30,7 @@ import {
 } from '@devgateway/dvz-wp-commons';
 
 import Format from "../charts/Format.jsx";
+import '@wordpress/format-library';
 
 
 const AutoGrowTextarea = ({ label, help, value, onChange, placeholder }) => {
@@ -353,6 +354,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         'core/italic',
                         'core/strikethrough',
                         'core/link',
+                        'core/code',
+                        'core/underline',
+                        'core/subscript',
+                        'core/superscript',
+                        'core/text-color',
                         'viz/text-color'                      
                     ]}
                     placeholder={__('Type your paragraph…')}
