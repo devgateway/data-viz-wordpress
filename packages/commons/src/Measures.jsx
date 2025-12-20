@@ -147,7 +147,7 @@ export const Measures = (props) => {
                 any dimensions selected
 
             */
-            ((type == 'big-number') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+            ((type == 'big-number' || type == 'data-paragraph') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody
                         initialOpen={panelStatus[g]}
                         onToggle={e => togglePanel(g, panelStatus, setAttributes)}
@@ -177,7 +177,7 @@ export const Measures = (props) => {
         }
 
 
-        {(type != 'overlay') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
+        {(type != 'overlay' && type != 'data-paragraph') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
                 hiddenCustomAxisFormat={type == 'radar' || type == 'big-number'}

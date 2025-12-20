@@ -18,7 +18,7 @@ registerBlockType(process.env.BLOCKS_NS + '/data-paragraph',
         attributes: {
             type: {
                 type: 'string',
-                default: "big-number",
+                default: "data-paragraph",
             },
             group: {
                 type: 'string',
@@ -69,7 +69,7 @@ registerBlockType(process.env.BLOCKS_NS + '/data-paragraph',
             types: {
                 type: 'array',
                 default: [
-                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, singleDimension: false}}
+                  {label: 'Data Paragraph', value: 'data-paragraph', supports: {singleMeasure: true, singleDimension: false}}
                 ]
             },           
             numberFontSize: {
