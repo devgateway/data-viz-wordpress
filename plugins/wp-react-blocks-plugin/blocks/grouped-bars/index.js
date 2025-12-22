@@ -13,7 +13,7 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
         attributes: {
             type: {
                 type: 'string',
-                default: "big-number",
+                default: "grouped-bars",
             },
             group: {
                 type: 'String',
@@ -69,7 +69,7 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
             types: {
                 type: "Array",
                 default: [
-                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, singleDimension: false}}
+                  {label: 'Grouped Bars', value: 'grouped-bars', supports: {singleMeasure: false, singleDimension: false}}
                 ]
             },
             textColor: {
