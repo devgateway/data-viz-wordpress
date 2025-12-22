@@ -117,8 +117,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 measures,
                 height,
                 app,
-                format,
-                filters,
+                format,                
                 group,
                 panelStatus,
                 dvzProxyDatasetId,
@@ -140,18 +139,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             });
         }
 
-        const inlineStyles = {
-            display: 'inline',
-            color: numberColor,
-            fontSize: (numberFontSize || 14) + 'px',
-            lineHeight: '1',
-            verticalAlign: 'baseline'
-        };
-
-        const iframeStyles = {
+         const iframeStyles = {
             width: '100%',
-            border: '0',
-            // Prefer explicit block height; else use autoHeight message; else fallback
+            border: '0',           
             height: (height && Number(height) > 0)
                 ? `${Number(height)}px`
                 : (this.state.previewHeight
