@@ -13,13 +13,19 @@ import {
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
-import {CSVSourceConfig} from '@devgateway/dvz-wp-commons';
 import {togglePanel} from '@devgateway/dvz-wp-commons';
 import {Measures} from '@devgateway/dvz-wp-commons';
 import {DataFilters} from '@devgateway/dvz-wp-commons';
 import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 import Format from "../charts/Format.jsx";
 import {getTranslation} from '@devgateway/dvz-wp-commons';
+
+const defaultFormat = {
+    style: "decimal",
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+    currency: "USD",
+};
 
 
 class BlockEdit extends BlockEditWithAPIMetadata {
@@ -98,6 +104,27 @@ updateColor(value, color) {
 
     setAttributes({ manualColors: JSON.stringify(colorsObj) });
 }
+
+
+  onMeasuresChange(value) {
+        const {
+            setAttributes,
+            attributes: {app, measures},
+        } = this.props;
+        const uMs = Object.assign({}, measures);
+        if (!uMs[app]) {
+            uMs[app] = {};
+        }
+
+        if (uMs[app][value]) {
+            uMs[app][value].selected = uMs[app][value].selected ? false : true;
+        } else {
+            uMs[app][value] = {selected: true, format: defaultFormat};
+        }
+
+        setAttributes({measures: uMs});
+    }
+
 
 
     render() {
@@ -258,6 +285,7 @@ updateColor(value, color) {
                                     onFormatChange={value => {
                                         setAttributes({format: value})
                                     }}
+                                    onMeasuresChange={value => this.onMeasuresChange(value)}
                                     allMeasures={this.state.measures}
                                     format={format}
                                     measures={measures}

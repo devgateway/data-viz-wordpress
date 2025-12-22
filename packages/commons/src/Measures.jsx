@@ -121,6 +121,7 @@ export const Measures = (props) => {
             ((type == 'radar') ||
                 (type == 'line' && dimension2 == 'none') ||
                 (type == 'bar' && dimension2 == 'none') ||
+                (type == 'grouped-bars') ||
                 (type == 'pie' && dimension1 == 'none' && dimension2 == 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody initialOpen={panelStatus[g]}
                                        onToggle={e => togglePanel(g, panelStatus, setAttributes)}
