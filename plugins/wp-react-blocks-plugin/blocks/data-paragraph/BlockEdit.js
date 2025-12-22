@@ -329,7 +329,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         <PanelBody title={__('Preview')} initialOpen={false}>
                             <PanelRow>
                                 <ToggleControl
-                                    label={__('Show Embeddable Preview')}
+                                    label={__('Show Preview')}
                                     checked={!!showPreview}
                                     onChange={() => setAttributes({ showPreview: !showPreview })}
                                 />
