@@ -1,5 +1,5 @@
-import {Component} from "@wordpress/element";
-import {__} from "@wordpress/i18n";
+import { Component } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import {
     Button,
     PanelBody,
@@ -7,8 +7,7 @@ import {
     SelectControl,
     ToggleControl,
 } from "@wordpress/components";
-
-import Measures from "./Measures";
+import {Measures} from "./Measures";
 
 const defaultFormat = {
     style: "percent",
@@ -17,7 +16,7 @@ const defaultFormat = {
     currency: "USD",
 };
 
-const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
+export const FilterSelector = ({ param, index, options, onUpdateFilterParam }) => {
     const sortedOptions = options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
@@ -35,7 +34,7 @@ const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
     );
 };
 
-const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
+export const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             if (a.position !== undefined && b.position !== undefined && a.position !== b.position) {
@@ -98,25 +97,25 @@ export class APIConfig extends Component {
     }
 
     cleanSelection(prevState) {
-        const {setAttributes} = this.props;
-        setAttributes({measures: [], filters: []});
+        const { setAttributes } = this.props;
+        setAttributes({ measures: [], filters: [] });
     }
 
     updateFilterParam(param, idx) {
         const {
-            attributes: {filters},
+            attributes: { filters },
             setAttributes,
             allFilters,
         } = this.props;
         const newFilters = filters.slice();
         const selected = allFilters.filter((f) => f.param === param)[0];
-        newFilters[idx] = {...selected, value: []};
-        setAttributes({filters: newFilters});
+        newFilters[idx] = { ...selected, value: [] };
+        setAttributes({ filters: newFilters });
     }
 
     updateFilterValue(value, idx) {
         const {
-            attributes: {filters},
+            attributes: { filters },
             setAttributes,
             allFilters,
         } = this.props;
@@ -130,12 +129,12 @@ export class APIConfig extends Component {
 
         const newFilters = filters.slice();
         newFilters[idx].value = values;
-        setAttributes({filters: newFilters});
+        setAttributes({ filters: newFilters });
     }
 
     setFilterValue(value, idx) {
         const {
-            attributes: {filters},
+            attributes: { filters },
             setAttributes,
             allFilters,
         } = this.props;
@@ -144,12 +143,12 @@ export class APIConfig extends Component {
         values = value.split(",");
         const newFilters = filters.slice();
         newFilters[idx].value = values;
-        setAttributes({filters: newFilters});
+        setAttributes({ filters: newFilters });
     }
 
     addFilter() {
         const {
-            attributes: {filters},
+            attributes: { filters },
             setAttributes,
             allFilters,
         } = this.props;
@@ -164,26 +163,26 @@ export class APIConfig extends Component {
                 : null;
         let newFilters = filters.slice();
         newFilters.push(newFilter);
-        setAttributes({filters: newFilters});
+        setAttributes({ filters: newFilters });
     }
 
     removeFilter(f) {
         const {
-            attributes: {filters},
+            attributes: { filters },
             setAttributes,
             allFilters,
         } = this.props;
         let newFilters = filters.slice(0, -1);
-        setAttributes({filters: newFilters});
+        setAttributes({ filters: newFilters });
     }
 
     componentDidUpdate(prevProps) {
         const {
             setAttributes,
-            attributes: {type, colorBy, dimension2, types, measures, app},
+            attributes: { type, colorBy, dimension2, types, measures, app },
         } = this.props;
         const {
-            attributes: {type: prevType, dimension2: prevDimension2},
+            attributes: { type: prevType, dimension2: prevDimension2 },
         } = prevProps;
         const prevTypeObject =
             types.filter((t) => t.value === prevType).length > 0
@@ -213,7 +212,7 @@ export class APIConfig extends Component {
                     }
                 }
 
-                setAttributes({measures: uMs});
+                setAttributes({ measures: uMs });
             }
             if (dimension2 == "none" && uMs[app]) {
                 Object.keys(uMs[app]).forEach((k) => {
@@ -222,7 +221,7 @@ export class APIConfig extends Component {
                         uMs[app][k].prevSelected = false;
                     }
                 });
-                setAttributes({measures: uMs});
+                setAttributes({ measures: uMs });
             }
         }
     }
@@ -230,7 +229,7 @@ export class APIConfig extends Component {
     onSetSingleMeasure(value) {
         const {
             setAttributes,
-            attributes: {app, measures},
+            attributes: { app, measures },
         } = this.props;
         const uMs = Object.assign({}, measures);
         if (!uMs[app]) {
@@ -244,17 +243,17 @@ export class APIConfig extends Component {
         if (uMs[app][value]) {
             uMs[app][value].selected = uMs[app][value].selected ? false : true;
         } else {
-            uMs[app][value] = {selected: true, format: defaultFormat};
+            uMs[app][value] = { selected: true, format: defaultFormat };
         }
-        setAttributes({measures: uMs});
+        setAttributes({ measures: uMs });
     }
 
     onFormatChange(format, field) {
         const {
             setAttributes,
-            attributes: {app, measures},
+            attributes: { app, measures },
         } = this.props;
-        const uMs = Object.assign({}, {...measures});
+        const uMs = Object.assign({}, { ...measures });
         if (!uMs[app]) {
             uMs[app] = {
                 allowSelection: false,
@@ -265,18 +264,18 @@ export class APIConfig extends Component {
         }
 
         uMs[app][field] = format;
-        setAttributes({measures: uMs});
+        setAttributes({ measures: uMs });
     }
 
     onUseCustomAxisFormatChange(value) {
         const {
             setAttributes,
-            attributes: {app, measures},
+            attributes: { app, measures },
         } = this.props;
-        const uMs = Object.assign({}, {...measures});
+        const uMs = Object.assign({}, { ...measures });
         if (uMs[app]) {
             uMs[app].useCustomAxisFormat = value;
-            setAttributes({measures: uMs});
+            setAttributes({ measures: uMs });
         } else {
             uMs[app] = {
                 allowSelection: false,
@@ -285,10 +284,9 @@ export class APIConfig extends Component {
                 selected: false,
                 useCustomAxisFormat: value,
             };
-            setAttributes({measures: uMs});
+            setAttributes({ measures: uMs });
         }
     }
-
     /*
       onCustomMeasureFieldChange(measureName, field, value) {
 
@@ -307,7 +305,7 @@ export class APIConfig extends Component {
     onMeasuresChange(value) {
         const {
             setAttributes,
-            attributes: {app, measures},
+            attributes: { app, measures },
         } = this.props;
         const uMs = Object.assign({}, measures);
         if (!uMs[app]) {
@@ -317,16 +315,16 @@ export class APIConfig extends Component {
         if (uMs[app][value]) {
             uMs[app][value].selected = uMs[app][value].selected ? false : true;
         } else {
-            uMs[app][value] = {selected: true, format: defaultFormat};
+            uMs[app][value] = { selected: true, format: defaultFormat };
         }
 
-        setAttributes({measures: uMs});
+        setAttributes({ measures: uMs });
     }
 
     onCustomLabelToggleChange(value) {
         const {
             setAttributes,
-            attributes: {app, measures},
+            attributes: { app, measures },
         } = this.props;
         const uMs = Object.assign({}, measures);
 
@@ -334,20 +332,20 @@ export class APIConfig extends Component {
             uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel
                 ? false
                 : true;
-            setAttributes({measures: uMs});
+            setAttributes({ measures: uMs });
         }
     }
 
     onCustomLabelChange(value, customLabel) {
         const {
             setAttributes,
-            attributes: {app, measures},
+            attributes: { app, measures },
         } = this.props;
         const uMs = Object.assign({}, measures);
 
         if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
             uMs[app][value].customLabel = customLabel;
-            setAttributes({measures: uMs});
+            setAttributes({ measures: uMs });
         }
     }
 
@@ -359,8 +357,8 @@ export class APIConfig extends Component {
         let items = null;
         if (type === "Boolean") {
             items = [
-                {value: "Yes", id: true},
-                {value: "No", id: false},
+                { value: "Yes", id: true },
+                { value: "No", id: false },
             ];
         } else if (cat) {
             items = cat.items;
@@ -374,9 +372,8 @@ export class APIConfig extends Component {
             allFilters,
             allMeasures,
             setAttributes,
-            attributes: {measures, filters, dimension1, dimension2, type, types},
+            attributes: { measures, filters, dimension1, dimension2, type, types },
         } = this.props;
-
 
         const currentType =
             types.filter((t) => t.value === type).length > 0
@@ -401,13 +398,13 @@ export class APIConfig extends Component {
                         options={allDimensions}
                     />
                 </PanelRow>
-                {type != "radar" && (
+                {!['radar'].includes(type) && (
                     <PanelRow>
                         <SelectControl
                             label={__(type == "map" ? "Breakdown Field" : "Second Dimension")}
                             value={[dimension2]} // e.g: value = [ 'a', 'c' ]
                             onChange={(value) => {
-                                setAttributes({dimension2: value});
+                                setAttributes({ dimension2: value });
                             }}
                             options={allDimensions}
                             disabled={dimension1 == "none"}

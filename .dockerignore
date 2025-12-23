@@ -11,3 +11,6 @@ packages/upgrade-wp-customizer/
 .vscode/
 .github/
 .idea/
+nginx/
+docker-compose.*
+.changeset/

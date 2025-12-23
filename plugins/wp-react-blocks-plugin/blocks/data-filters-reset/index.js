@@ -2,11 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
-registerBlockType(process.env.BLOCKS_NS + '/data-filters-reset',
+registerBlockType(BLOCKS_NS + '/data-filters-reset',
     {
         title: __('Data Filters Reset'),
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             group: {

@@ -2,14 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from "../icons";
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
-
-registerBlockType(process.env.BLOCKS_NS + '/new-time-line',
+registerBlockType(BLOCKS_NS + '/new-time-line',
     {
         title: __('New Time Line',"dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'numeric',
@@ -66,7 +65,7 @@ registerBlockType(process.env.BLOCKS_NS + '/new-time-line',
             subtitleWidth: {
                 type: 'Numeric',
                 default: 120
-            },            
+            },
             fontSize: {
                 type: 'Numeric',
                 default: 14

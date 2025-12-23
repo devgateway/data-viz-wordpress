@@ -28,7 +28,7 @@ export const ChartLegends = (props) => {
     } = props;
 
     return [
-        <PanelBody initialOpen={false} title={__("Margins")}>
+        <PanelBody initialOpen={false}   title={__("Margins")}>
             <PanelRow>
                 <RangeControl
                     label={__('Margin Bottom (Space between chart area and bottom border)')}
@@ -68,7 +68,7 @@ export const ChartLegends = (props) => {
                 />
             </PanelRow>
         </PanelBody>,
-        <PanelBody initialOpen={false} title={__("Legends")}>
+        <PanelBody initialOpen={false}   title={__("Legends")}>
 
             <PanelRow>
                 <ToggleControl
@@ -98,7 +98,7 @@ export const ChartLegends = (props) => {
                     <ToggleControl
                         label={__("Reverse legend order")}
                         checked={reverseLegend}
-                        onChange={() => setAttributes({reverseLegend: !reverseLegend})}
+                        onChange={() => setAttributes({ reverseLegend: !reverseLegend })}
                     />
                 </PanelRow>
             }
@@ -116,7 +116,7 @@ export const ChartLegends = (props) => {
 
             }
 
-            {showLegends && <PanelRow>
+             {showLegends && <PanelRow>
                 <ButtonGroup>
                     <Button isPrimary={legendPosition == 'left'} isSecondary={legendPosition != 'left'}
                             onClick={e => setAttributes({legendPosition: "left"})}>
@@ -175,5 +175,3 @@ export const ChartLegends = (props) => {
 
     ]
 }
-
-export default ChartLegends
