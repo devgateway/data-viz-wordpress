@@ -25,6 +25,7 @@ const defaultFormat = {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1,
     currency: "USD",
+    useCustomAxisFormat: false
 };
 
 
@@ -122,8 +123,59 @@ updateColor(value, color) {
             uMs[app][value] = {selected: true, format: defaultFormat};
         }
 
-        setAttributes({measures: uMs});
+        // Force valuePosition to 'bar' when multiple measures are selected
+        const selectedCount = Object.values(uMs[app]).filter(cfg => cfg && cfg.selected).length;
+        const nextAttrs = { measures: uMs };
+        if (selectedCount > 1) {
+            nextAttrs.valuePosition = 'bar';
+        }
+        setAttributes(nextAttrs);
     }
+
+    onCustomLabelToggleChange(value) {
+            const {
+                setAttributes,
+                attributes: {app, measures},
+            } = this.props;
+            const uMs = Object.assign({}, measures);
+    
+            if (uMs[app] && uMs[app][value]) {
+                uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel
+                    ? false
+                    : true;
+                setAttributes({measures: uMs});
+            }
+        }
+    
+        onCustomLabelChange(value, customLabel) {
+            const {
+                setAttributes,
+                attributes: {app, measures},
+            } = this.props;
+            const uMs = Object.assign({}, measures);
+    
+            if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
+                uMs[app][value].customLabel = customLabel;
+                setAttributes({measures: uMs});
+            }
+        }
+    
+        items(type) {
+            const values = this.props.allCategories
+                ? this.props.allCategories.filter((c) => c.type === type)
+                : [];
+            const cat = values.length > 0 ? values[0] : null;
+            let items = null;
+            if (type === "Boolean") {
+                items = [
+                    {value: "Yes", id: true},
+                    {value: "No", id: false},
+                ];
+            } else if (cat) {
+                items = cat.items;
+            }
+            return items;
+        }
 
 
 
@@ -286,10 +338,12 @@ updateColor(value, color) {
                                         setAttributes({format: value})
                                     }}
                                     onMeasuresChange={value => this.onMeasuresChange(value)}
+                                     onCustomLabelToggleChange={value => this.onCustomLabelToggleChange(value)}
+                                     onCustomLabelChange={(value, customLabel) => this.onCustomLabelChange(value, customLabel)}               
                                     allMeasures={this.state.measures}
                                     format={format}
-                                    measures={measures}
-                                    {...this.props}/>
+                                    measures={measures}                                 
+                                   {...this.props}/>
                             }
 
 
@@ -309,16 +363,23 @@ updateColor(value, color) {
                                     onChange={(noDataText) => setAttributes({noDataText})}
                                 />
                             </PanelRow>
-                            <PanelRow>                               
-                                <TextControl
-                                    label={__('Top N Items')}
-                                    type="number"
-                                    value={topN}
-                                    onChange={(topN) => setAttributes({topN})}
-                                    min={-1} 
-                                    step={1}
-                                />
-                            </PanelRow>
+                            {(() => {
+                                const selectedCount = measures && measures[app]
+                                    ? Object.values(measures[app]).filter(cfg => cfg && cfg.selected).length
+                                    : 0;
+                                return selectedCount <= 1 ? (
+                                    <PanelRow>
+                                        <TextControl
+                                            label={__('Top N Items')}
+                                            type="number"
+                                            value={topN}
+                                            onChange={(topN) => setAttributes({topN})}
+                                            min={-1}
+                                            step={1}
+                                        />
+                                    </PanelRow>
+                                ) : null;
+                            })()}
                             <PanelRow>                               
                                 <SelectControl  
                                     label={__("Bar Size Criteria")}
@@ -408,21 +469,28 @@ updateColor(value, color) {
                                     }}
                                 />
                             </PanelRow>
-                            <PanelRow>
-                                <SelectControl  
-                                    label={__("Value Position")}
-                                    value={valuePosition}
-                                    options={[
-                                        { label: 'Top', value: 'top' },
-                                        { label: 'Bar', value: 'bar' }
-                                    ]}
-                                    onChange={(value) => {
-                                        setAttributes({
-                                            valuePosition: value
-                                        });
-                                    }}
-                                />
-                            </PanelRow>
+                            {(() => {
+                                const selectedCount = measures && measures[app]
+                                    ? Object.values(measures[app]).filter(cfg => cfg && cfg.selected).length
+                                    : 0;
+                                return selectedCount <= 1 ? (
+                                    <PanelRow>
+                                        <SelectControl
+                                            label={__("Value Position")}
+                                            value={valuePosition}
+                                            options={[
+                                                { label: 'Top', value: 'top' },
+                                                { label: 'Bar', value: 'bar' }
+                                            ]}
+                                            onChange={(value) => {
+                                                setAttributes({
+                                                    valuePosition: value
+                                                });
+                                            }}
+                                        />
+                                    </PanelRow>
+                                ) : null;
+                            })()}
 
                             <PanelRow>
                                 <TextControl
