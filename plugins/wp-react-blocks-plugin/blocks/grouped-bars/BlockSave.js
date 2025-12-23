@@ -29,7 +29,8 @@ const SaveComponent = (props) => {
             sorting,
             sortDirection,
             topN,
-            barSizeCriteria
+            barSizeCriteria,
+            mainMeasure
 
         }
     } = props;
@@ -69,7 +70,8 @@ const SaveComponent = (props) => {
             data-sorting={sorting}
             data-sort-direction={sortDirection}
             data-top-n={topN}
-            data-bar-size-criteria={barSizeCriteria}>
+            data-bar-size-criteria={barSizeCriteria}
+            data-main-measure={encodeURIComponent(mainMeasure || '')}>
             <InnerBlocks.Content/>
         </div>
     );

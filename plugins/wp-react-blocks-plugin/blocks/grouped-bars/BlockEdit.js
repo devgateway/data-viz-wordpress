@@ -124,11 +124,20 @@ updateColor(value, color) {
         }
 
         // Force valuePosition to 'bar' when multiple measures are selected
-        const selectedCount = Object.values(uMs[app]).filter(cfg => cfg && cfg.selected).length;
+        const selectedKeys = Object.keys(uMs[app]).filter(k => uMs[app][k] && uMs[app][k].selected);
+        const selectedCount = selectedKeys.length;
         const nextAttrs = { measures: uMs };
         if (selectedCount > 1) {
             nextAttrs.valuePosition = 'bar';
             nextAttrs.barSizeCriteria = 'relative_max';
+            // Ensure mainMeasure is valid when multiple selected
+            const { attributes: { mainMeasure } } = this.props;
+            if (!mainMeasure || !selectedKeys.includes(mainMeasure)) {
+                nextAttrs.mainMeasure = selectedKeys[0];
+            }
+        } else {
+            // Clear mainMeasure when not in multi-measure mode
+            nextAttrs.mainMeasure = '';
         }
         setAttributes(nextAttrs);
     }
@@ -209,7 +218,8 @@ updateColor(value, color) {
                 labelHeight,
                 labelFormat,
                 topN,
-                barSizeCriteria
+                barSizeCriteria,
+                mainMeasure
             }
         } = this.props;
 
@@ -382,9 +392,9 @@ updateColor(value, color) {
                                 ) : null;
                             })()}
                             {(() => {
-                                const selectedCount = measures && measures[app]
-                                    ? Object.values(measures[app]).filter(cfg => cfg && cfg.selected).length
-                                    : 0;
+                                const selectedMap = (measures && measures[app]) ? measures[app] : {};
+                                const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
+                                const selectedCount = selectedKeys.length;
                                 return selectedCount <= 1 ? (
                                     <PanelRow>
                                         <SelectControl
@@ -401,7 +411,21 @@ updateColor(value, color) {
                                             }}
                                         />
                                     </PanelRow>
-                                ) : null;
+                                ) : (
+                                    // When multiple measures selected, expose main/highlighted measure selector
+                                    <PanelRow>
+                                        <SelectControl
+                                            label={__("Highlighted Measure")}
+                                            value={selectedKeys.includes(mainMeasure) ? mainMeasure : (selectedKeys[0] || '')}
+                                            options={selectedKeys.map(k => ({
+                                                label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k,
+                                                value: k
+                                            }))}
+                                            onChange={(val) => setAttributes({ mainMeasure: val })}
+                                        />
+                                    </PanelRow>
+                                );
+                            
                             })()}
 
                             <PanelRow>
