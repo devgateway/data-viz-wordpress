@@ -1,7 +1,6 @@
 import {PanelBody, PanelRow, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ChartColors} from '@devgateway/dvz-wp-commons';
-import {ChartLegends} from '@devgateway/dvz-wp-commons';
+import { ChartColors, ChartLegends} from '@devgateway/dvz-wp-commons'
 import AxisConfig from './AxisConfig.jsx'
 
 const BumpOptions = (props) => {

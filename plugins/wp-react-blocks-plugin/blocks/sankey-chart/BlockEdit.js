@@ -12,16 +12,21 @@ import {
 
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
-import {CSVConfig as CSVSourceConfig} from '@devgateway/dvz-wp-commons';
-import {Tooltip} from '@devgateway/dvz-wp-commons';
-import {togglePanel} from '@devgateway/dvz-wp-commons';
-import {Measures} from '@devgateway/dvz-wp-commons';
-import {categorical, sequential, diverging} from "@devgateway/dvz-wp-commons";
-import {getTranslation} from '@devgateway/dvz-wp-commons'
-import {ChartLegends} from '@devgateway/dvz-wp-commons'
+import {
+    BlockEditWithAPIMetadata,
+    SizeConfig,
+    CSVSourceConfig,
+    Tooltip,
+    togglePanel,
+    Measures,
+    categorical,
+    sequential,
+    diverging,
+    getTranslation,
+    ChartLegends,
+    DataFilters
+} from '@devgateway/dvz-wp-commons';
 import Papa from "papaparse";
-import {DataFilters} from '@devgateway/dvz-wp-commons'
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {

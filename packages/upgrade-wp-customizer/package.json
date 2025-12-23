@@ -32,7 +32,9 @@
   "author": "Timothy Mugo",
   "license": "MIT",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": false,
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "@babel/parser": "^7.28.4",

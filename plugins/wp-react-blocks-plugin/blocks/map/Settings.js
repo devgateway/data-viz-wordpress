@@ -2,13 +2,13 @@ import { Component } from "@wordpress/element"
 import {PanelColorSettings } from '@wordpress/block-editor'
 import { PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button, ButtonGroup, RangeControl, TextareaControl} from '@wordpress/components'
 import { __ } from '@wordpress/i18n';
-import {SizeConfig } from '@devgateway/dvz-wp-commons'
+import {SizeConfig } from '@devgateway/dvz-wp-commons';
 import Format from "./Format"
 
 export default class Settings  extends Component{
     constructor(props) {
-        super(props);        
-    }  
+        super(props);
+    }
     render() {
         const {setAttributes, attributes: {
                 height,
@@ -49,8 +49,8 @@ export default class Settings  extends Component{
                                     value={group}
                                     onChange={(group) => setAttributes({group})}
                                 />
-                    </PanelRow>                     
-                    <SizeConfig initialOpen={true} setAttributes={setAttributes} height={height} panelStatus={this.props.attributes.panelStatus}></SizeConfig>                
+                    </PanelRow>
+                    <SizeConfig initialOpen={true} setAttributes={setAttributes} height={height} panelStatus={this.props.attributes.panelStatus}></SizeConfig>
                     <PanelBody title={__("Labels")} initialOpen={false}>
                     <PanelRow>
                         <TextControl
@@ -98,7 +98,7 @@ export default class Settings  extends Component{
                             label='Show "No Data" Label'
                             checked={showNoDataLabel}
                             onChange={() => setAttributes({ showNoDataLabel: !showNoDataLabel })} />
-                    </PanelRow>    
+                    </PanelRow>
                     <PanelRow>
                     <RangeControl
                     label={__('Font Size')}
@@ -118,12 +118,12 @@ export default class Settings  extends Component{
                             isSecondary={labelFontWeight != 'normal'}
                             onClick={e => setAttributes({labelFontWeight: "normal"})}>
                         {__("Normal")}
-                    </Button>   
+                    </Button>
                     <Button isPrimary={labelFontWeight == 'bold'} isSecondary={labelFontWeight != 'bold'}
                             onClick={e => setAttributes({labelFontWeight: "bold"})}>
                         {__("Bold")}
-                    </Button>                                                    
-                    </ButtonGroup>                                                        
+                    </Button>
+                    </ButtonGroup>
                 </PanelRow>
                 <PanelRow>
                 <PanelColorSettings
@@ -143,8 +143,8 @@ export default class Settings  extends Component{
                     ]}
 
                 />
-                </PanelRow>  
-                </PanelBody>  
+                </PanelRow>
+                </PanelBody>
                 <PanelBody title={__("Point Settings")} initialOpen={false}><PanelRow>
                 <PanelColorSettings
                     title={__('Label font color')}
@@ -163,7 +163,7 @@ export default class Settings  extends Component{
                     ]}
 
                 />
-                </PanelRow> 
+                </PanelRow>
                 <PanelRow>
                             <TextControl
                                 placeholder={__('#({value},2)')}
@@ -171,8 +171,8 @@ export default class Settings  extends Component{
                                 value={pointLabelFormat}
                                 onChange={(pointLabelFormat) => setAttributes({ pointLabelFormat })}
                             />
-                        </PanelRow> 
-                </PanelBody> 
+                        </PanelRow>
+                </PanelBody>
                  <PanelBody title={__("Legend")} initialOpen={false}>
                 <PanelRow>
                     <TextControl
@@ -214,7 +214,7 @@ export default class Settings  extends Component{
                             label="Zoom & Pan Enabled"
                             checked={zoomEnabled}
                             onChange={() => setAttributes({ zoomEnabled: !zoomEnabled })}
-                        />                        
+                        />
                     </PanelRow>
                 {app != 'csv' &&
                   <>
@@ -223,7 +223,7 @@ export default class Settings  extends Component{
                     label="Show Overall/National Value"
                     checked={showOverallValue}
                     onChange={() => setAttributes({ showOverallValue: !showOverallValue })}
-                />                        
+                />
                </PanelRow>
                {showOverallValue &&
                   <PanelRow>
@@ -235,8 +235,8 @@ export default class Settings  extends Component{
                     </PanelRow>
                   }
                     </>
-                 }                                      
-               
+                 }
+
                         {locations &&
                         <PanelRow>
                             <SelectControl
@@ -257,9 +257,9 @@ export default class Settings  extends Component{
                            value={highlightedLocLabelFormat}
                            onChange={(highlightedLocLabelFormat) => setAttributes({ highlightedLocLabelFormat })}
                        />
-                     </PanelRow> 
+                     </PanelRow>
                        }
-                        
+
                 </PanelBody>)
     }
 }

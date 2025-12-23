@@ -8,6 +8,7 @@ const SaveComponent = (props) => {
             height,
             colors,
             readMoreLabel,
+            clickToExpandLabel,
             coverWidth,
             previewMode
         },
@@ -26,6 +27,7 @@ const SaveComponent = (props) => {
                      data-categories={encodeURIComponent(JSON.stringify(categories))}
                      className={"viz-component"}
                      data-read-more-label={readMoreLabel}
+                     data-click-to-expand-label={clickToExpandLabel}
                      data-component={"verticalTabs"}
                      data-preview-mode={previewMode}
                      >

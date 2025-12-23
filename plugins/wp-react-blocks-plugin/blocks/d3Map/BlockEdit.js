@@ -4,10 +4,9 @@ import {
 } from '@wordpress/components'
 
 import {__} from '@wordpress/i18n'
-import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '@devgateway/dvz-wp-commons'
+import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig, togglePanel} from '@devgateway/dvz-wp-commons'
 import LayerSettings from "./layers/Base";
 import LayerModel from "./layers/Model"
-import {togglePanel} from '@devgateway/dvz-wp-commons';;
 
 class BlockEdit extends ComponentWithSettings {
     constructor(props) {
@@ -46,7 +45,7 @@ class BlockEdit extends ComponentWithSettings {
         const model = {...LayerModel}
         model.id = Date.now()
         newLayers.push(model)
-        
+
         setAttributes({layers: newLayers})
     }
 
@@ -114,7 +113,7 @@ class BlockEdit extends ComponentWithSettings {
                                     checked={waitForFilters}
                                     onChange={() => setAttributes({waitForFilters:!waitForFilters})}
                                 />
-                    </PanelRow>	
+                    </PanelRow>
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus["SIZE"]}
                            onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
