@@ -128,6 +128,7 @@ updateColor(value, color) {
         const nextAttrs = { measures: uMs };
         if (selectedCount > 1) {
             nextAttrs.valuePosition = 'bar';
+            nextAttrs.barSizeCriteria = 'relative_max';
         }
         setAttributes(nextAttrs);
     }
@@ -380,21 +381,28 @@ updateColor(value, color) {
                                     </PanelRow>
                                 ) : null;
                             })()}
-                            <PanelRow>                               
-                                <SelectControl  
-                                    label={__("Bar Size Criteria")}
-                                    value={barSizeCriteria}
-                                    options={[
-                                        { label: 'Percentage of Total', value: 'percentage' },
-                                        { label: 'Relative to Maximum', value: 'relative_max' }]}
-                                    onChange={(value) => {
-                                        setAttributes({
-                                            barSizeCriteria: value
-                                        });
-                                    }}
-                                />
-
-                            </PanelRow>
+                            {(() => {
+                                const selectedCount = measures && measures[app]
+                                    ? Object.values(measures[app]).filter(cfg => cfg && cfg.selected).length
+                                    : 0;
+                                return selectedCount <= 1 ? (
+                                    <PanelRow>
+                                        <SelectControl
+                                            label={__("Bar Size Criteria")}
+                                            value={barSizeCriteria}
+                                            options={[
+                                                { label: 'Percentage of Total', value: 'percentage' },
+                                                { label: 'Relative to Maximum', value: 'relative_max' }
+                                            ]}
+                                            onChange={(value) => {
+                                                setAttributes({
+                                                    barSizeCriteria: value
+                                                });
+                                            }}
+                                        />
+                                    </PanelRow>
+                                ) : null;
+                            })()}
 
                             <PanelRow>
                                 <Text>{__("Font Size")}</Text>
