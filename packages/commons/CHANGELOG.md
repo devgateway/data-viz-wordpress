@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.0
+
+### Minor Changes
+
+- [#62](https://github.com/devgateway/data-viz-wordpress/pull/62) [`ac3524b`](https://github.com/devgateway/data-viz-wordpress/commit/ac3524beb30377d7008dce0467ea47924130d66d) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Sync code from data-viz-front wordpress folder
+
 ## 1.2.0
 
 ### Minor Changes
