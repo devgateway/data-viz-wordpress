@@ -181,7 +181,7 @@ export const Measures = (props) => {
         {(type != 'overlay' && type != 'data-paragraph') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
-                hiddenCustomAxisFormat={type == 'radar' || type == 'big-number'}
+                hiddenCustomAxisFormat={type == 'radar' || type == 'big-number' || type == 'data-paragraph' || type == 'grouped-bars'}
                 format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
                 useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}
