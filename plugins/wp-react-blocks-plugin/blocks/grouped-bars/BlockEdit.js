@@ -106,6 +106,15 @@ updateColor(value, color) {
     setAttributes({ manualColors: JSON.stringify(colorsObj) });
 }
 
+updateMeasureFormat(measureName, newFormat) {
+    const { setAttributes, attributes: { app, measures } } = this.props;
+    const uMs = Object.assign({}, measures || {});
+    uMs[app] = uMs[app] || {};
+    uMs[app][measureName] = uMs[app][measureName] || { selected: false };
+    uMs[app][measureName].format = newFormat || defaultFormat;
+    setAttributes({ measures: uMs });
+}
+
 
   onMeasuresChange(value) {
         const {
@@ -604,6 +613,40 @@ updateColor(value, color) {
                             </PanelRow>
                             }
                           </PanelBody>
+
+                          {/* Measure-specific formatting overrides */}
+                          {app !== 'csv' && (
+                            <PanelBody title={__('Measure Format Customization')} initialOpen={false}>
+                                {(() => {
+                                    const selectedMap = (measures && measures[app]) ? measures[app] : {};
+                                    const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
+                                    if (selectedKeys.length === 0) {
+                                        return (
+                                            <PanelRow>
+                                                <Text>{__('Select at least one measure to customize format.')}</Text>
+                                            </PanelRow>
+                                        );
+                                    }
+                                    return selectedKeys.map((k) => (
+                                        <PanelRow key={`fmt-${k}`}>
+                                            <div style={{ width: '100%' }}>
+                                                <Text style={{ fontWeight: 600, display: 'block', marginBottom: 8 }}>
+                                                    {(selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k}
+                                                </Text>
+                                                <Format
+                                                    hiddenCustomAxisFormat={true}
+                                                    format={selectedMap[k].format || defaultFormat}
+                                                    customFormat={{}}
+                                                    useCustomAxisFormat={false}
+                                                    onFormatChange={(newFormat) => this.updateMeasureFormat(k, newFormat)}
+                                                    onUseCustomAxisFormatChange={() => {}}
+                                                />
+                                            </div>
+                                        </PanelRow>
+                                    ));
+                                })()}
+                            </PanelBody>
+                          )}
                         </PanelBody>
 
                 </Panel>
