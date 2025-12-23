@@ -57,7 +57,7 @@ export default class Tooltips extends Component {
                             label="Show 'No Data' tooltip"
                             checked={showNoDataTooltip}
                             onChange={() => setAttributes({ showNoDataTooltip: !showNoDataTooltip })} />
-                            
+
                      </PanelRow>
                        <PanelRow>
                            <SelectControl
@@ -80,16 +80,16 @@ export default class Tooltips extends Component {
                                max={20} />
                        </PanelRow>
                        <PanelRow>
-                            <span style={{"font-size":"11px"}}>Location -> { '{locationName}'}</span>
+                            <span style={{"font-size":"11px"}}>Location -&gt; { '{locationName}'}</span>
                         </PanelRow>
                         <PanelRow>
-                            <span style={{"font-size":"11px"}}>Field Label -> { '{label}'}</span>
+                            <span style={{"font-size":"11px"}}>Field Label -&gt; { '{label}'}</span>
                         </PanelRow>
                         <PanelRow>
-                            <span style={{"font-size":"11px"}}>Measure Label -> { '{measureLabel}'}</span>
+                            <span style={{"font-size":"11px"}}>Measure Label -&gt; { '{measureLabel}'}</span>
                         </PanelRow>
                         <PanelRow>
-                            <span style={{"font-size":"11px"}}>Field Value -> { '{value}'}</span>
+                            <span style={{"font-size":"11px"}}>Field Value -&gt; { '{value}'}</span>
                         </PanelRow>
                         <PanelRow>
                             <span style={{"font-size":"11px"}}>All variables/columns that start with an _ in csv</span>
@@ -125,7 +125,7 @@ export default class Tooltips extends Component {
             </PanelRow>
         </PanelBody>
                    </>
-               }       
+               }
         </PanelBody>
         ]
     }

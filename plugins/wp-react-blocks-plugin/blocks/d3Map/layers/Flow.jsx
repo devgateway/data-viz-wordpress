@@ -17,7 +17,7 @@ import BreaksGenerator from "./utils/BreaksGenerator";
 import {PanelColorSettings} from "@wordpress/block-editor";
 import PatternGenerator from "./utils/PatternGenerator";
 import Format from '../../charts/Format.jsx';
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import {isSupersetAPI} from "@devgateway/dvz-wp-commons";
 
 const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
     const sortedOptions = options.sort(function (a, b) {
@@ -84,7 +84,7 @@ export class DataLayerSetting extends Component {
                 markFillColor,
                 markBorderColor,
                 markSizeScale,
-                tooltip                
+                tooltip
             }
         } = this.props
 
@@ -267,13 +267,13 @@ export class DataLayerSetting extends Component {
 
 
         debugger;
-        
+
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
                     label={__("App", "dg")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {                       
+                    onChange={(app) => {
                         onChangeProperty("app", app)
                     }}
                     options={apps}
@@ -467,14 +467,12 @@ export class DataLayerSetting extends Component {
                 <PanelBody title={__("Breaks")}>
 
                     <BreaksGenerator
-                        showSize={true}
                         hasSecondDimension={true}
                         app={app}
                         csv={csv}
                         filters={filters}
                         dvzProxyDatasetId={dvzProxyDatasetId}
                         measures={measures}
-                        filters={filters}
                         apiJoinAttribute={flowOrigin+"/"+flowDestination}
                         showSize={useCentroidPoint}
                         defaultBorderColor={markBorderColor}

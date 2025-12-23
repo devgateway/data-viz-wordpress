@@ -11,7 +11,9 @@ const SaveComponent = (props) => {
             colors,
             showIcons,
             showContentToggle,
-            contentToggleHPosition
+            contentToggleHPosition,
+            readMoreLabel,
+            readLessLabel
         },
     } = props;
 
@@ -28,6 +30,8 @@ const SaveComponent = (props) => {
                      data-show-post-icons={showIcons}
                      data-show-content-toggle={showContentToggle}
                      data-content-toggle-h-position={contentToggleHPosition}
+                     data-read-more-label={readMoreLabel}
+                     data-read-less-label={readLessLabel}
                      data-component={"inlineList"}>
                 </div>
         </div>

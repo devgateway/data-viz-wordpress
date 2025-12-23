@@ -8,7 +8,7 @@ const SaveComponent = (props) => {
             app,
             format,
             filters,
-            group,            
+            group,
             noDataMsg,
             dvzProxyDatasetId,
             numberFontSize,
