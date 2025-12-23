@@ -77,7 +77,8 @@
   "exports": {
     ".": {
       "import": "./build/index.js",
-      "default": "./build/index.cjs"
+      "default": "./build/index.cjs",
+      "types": "./build/index.d.ts"
     }
   }
 }
