@@ -1,7 +1,6 @@
 import {AnglePickerControl, PanelBody, PanelRow, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {ChartColors} from '@devgateway/dvz-wp-commons';
-
+import { ChartColors, ChartLegends} from '@devgateway/dvz-wp-commons'
 import Format from "./Format.jsx";
 
 const PieOptions = (props) => {

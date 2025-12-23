@@ -20,11 +20,11 @@ import apiFetch from '@wordpress/api-fetch';
 
 const COLORS = ["#6acbd5", "#fcb535", "#f79132", "#e54957", "#0e5583","#2fb2e4", "#fcb535"]
 const FontSelector = (props) => {
-    
+
     const {
         setAttributes,
         attributes: {
-            fontSize      
+            fontSize
         },
     } = props;
     return <FontSizePicker
@@ -32,7 +32,7 @@ const FontSelector = (props) => {
         value={fontSize}
         fallbackFontSize={14}
         onChange={(newFontSize) => {
-            setAttributes({fontSize: newFontSize})            
+            setAttributes({fontSize: newFontSize})
         }}
     />
 }
@@ -61,7 +61,7 @@ class BlockEdit extends BlockEditWithFilters {
             },
         } = this.props;
 
-        
+
 
         // path: '/wp/v2/' + taxonomy + '?per_page=100',
         let url = "/wp/v2/" + (type ? type : 'posts')
@@ -135,7 +135,7 @@ class BlockEdit extends BlockEditWithFilters {
                 }
             })
         }
-        
+
 
 
         return (
@@ -226,7 +226,7 @@ class BlockEdit extends BlockEditWithFilters {
                             </PanelRow>
                             <PanelRow>
                                 <FontSelector {...this.props}></FontSelector>
-                            </PanelRow>                            
+                            </PanelRow>
                             <PanelRow>
                             <RangeControl
                                     label={__('Title Width')}
@@ -342,8 +342,8 @@ class BlockEdit extends BlockEditWithFilters {
                                     }} />
                             </PanelRow>
                             }
-                            
-                            
+
+
                         </PanelBody>
                         <PanelBody title={__("Points Configuration")}>
                             {count && Array.from(Array(count).keys()).map(i => {
@@ -388,7 +388,7 @@ class BlockEdit extends BlockEditWithFilters {
 
                                         />
                                     </PanelRow>
-                                    
+
                                     <PanelRow>
                                         <TextControl
                                             label={__('Supporting text')}
@@ -415,8 +415,8 @@ class BlockEdit extends BlockEditWithFilters {
                                     <PanelRow>
                                     <Text>{__("Connector line direction")}</Text>
                                     </PanelRow>
-                                    <PanelRow >                                    
-                                        <ButtonGroup>                                        
+                                    <PanelRow >
+                                        <ButtonGroup>
                                             <Button isPrimary={newConfig[i].position == 'top'}
                                                     isSecondary={newConfig[i].position != 'top'}
                                                     onClick={e => {
@@ -467,7 +467,7 @@ class BlockEdit extends BlockEditWithFilters {
                                                                     newConfig[i].labelColor = color
                                                                     setAttributes({config: newConfig})
                                                                 }, label: __("Subtitle Color")
-                                                            },       
+                                                            },
                                                             {
                                                                 value: newConfig[i].tooltipFontColor,
                                                                 onChange: (color) => {
@@ -528,7 +528,7 @@ const Edit = (props) => {
     const blockProps = useBlockProps({className: 'wp-react-component'});
     const colorsFeature = useSetting('custom-font-sizes');
     const colorsFeature2 = useSetting('editor-font-sizes');
-    
+
     return <div {...blockProps}><BlockEdit {...props}/></div>;
 
 }
