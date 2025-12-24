@@ -57,115 +57,115 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     };
 
     catColors(){
-    const {
-        attributes: {
-            app,
-            dimension1,
-            manualColors
-        }             
-    } = this.props;
-
-   if (this.state.categories && dimension1 && dimension1 != 'none') {
-        
-        const colors = this.decodeManualColors(manualColors);
-        colors[app] = colors[app] || {};
-        
-        const cat = this.state.categories.filter(d => d.type == dimension1)
-            if (cat && cat.length > 0) {
-                const list = cat[0].items.filter(c => c.code !== null && c.code !== undefined && c.code !== "").sort((a, b) => b.position - a.position).map(item => {
-                    return <PanelColorSettings
-                        key={item.code}
-                        colorSettings={[{
-                            value: colors[app][item.code] || (item.categoryStyle ? item.categoryStyle.color : "#3182ce"),
-                            onChange: (color) => {
-                                if (color) {
-                                    this.updateColor(item.code, color)
-                                } else {
-                                    this.updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#3182ce")
-                                }
-                            }, label: getTranslation(item)
-                        }]}
-                    />
-                })
-               
-                return list
-            } else {
-                return null
-            }
-   }
-   return null
-}
-
-updateColor(value, color) {
-    const { setAttributes, attributes: { app, manualColors } } = this.props;
-
-   const colorsObj = manualColors ? JSON.parse(manualColors) : {};
-    colorsObj[app] = colorsObj[app] || {};
-    colorsObj[app][value] = color; 
-
-    setAttributes({ manualColors: JSON.stringify(colorsObj) });
-}
-
-updateMeasureFormat(measureName, newFormat) {
-    const { setAttributes, attributes: { app, measures } } = this.props;
-    const uMs = Object.assign({}, measures || {});
-    uMs[app] = uMs[app] || {};
-    uMs[app][measureName] = uMs[app][measureName] || { selected: false };
-    uMs[app][measureName].format = newFormat || defaultFormat;
-    setAttributes({ measures: uMs });
-}
-
-
-  onMeasuresChange(value) {
         const {
-            setAttributes,
-            attributes: {app, measures},
+            attributes: {
+                app,
+                dimension1,
+                manualColors
+            }             
         } = this.props;
-        const uMs = Object.assign({}, measures);
-        if (!uMs[app]) {
-            uMs[app] = {};
-        }
 
-        if (uMs[app][value]) {
-            uMs[app][value].selected = uMs[app][value].selected ? false : true;
-        } else {
-            uMs[app][value] = {selected: true, format: defaultFormat};
-        }
-
-        // Force valuePosition to 'bar' when multiple measures are selected
-        const selectedKeys = Object.keys(uMs[app]).filter(k => uMs[app][k] && uMs[app][k].selected);
-        const selectedCount = selectedKeys.length;
-        const nextAttrs = { measures: uMs };
-        if (selectedCount > 1) {
-            nextAttrs.valuePosition = 'bar';
-            nextAttrs.barSizeCriteria = 'relative_max';
-            // Ensure mainMeasure is valid when multiple selected
-            const { attributes: { mainMeasure } } = this.props;
-            if (!mainMeasure || !selectedKeys.includes(mainMeasure)) {
-                nextAttrs.mainMeasure = selectedKeys[0];
-            }
-        } else {
-            // Clear mainMeasure when not in multi-measure mode
-            nextAttrs.mainMeasure = '';
-        }
-        setAttributes(nextAttrs);
+       if (this.state.categories && dimension1 && dimension1 != 'none') {
+            
+            const colors = this.decodeManualColors(manualColors);
+            colors[app] = colors[app] || {};
+            
+            const cat = this.state.categories.filter(d => d.type == dimension1)
+                if (cat && cat.length > 0) {
+                    const list = cat[0].items.filter(c => c.code !== null && c.code !== undefined && c.code !== "").sort((a, b) => b.position - a.position).map(item => {
+                        return <PanelColorSettings
+                            key={item.code}
+                            colorSettings={[{
+                                value: colors[app][item.code] || (item.categoryStyle ? item.categoryStyle.color : "#3182ce"),
+                                onChange: (color) => {
+                                    if (color) {
+                                        this.updateColor(item.code, color)
+                                    } else {
+                                        this.updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#3182ce")
+                                    }
+                                }, label: getTranslation(item)
+                            }]}
+                        />
+                    })
+                   
+                    return list
+                } else {
+                    return null
+                }
+       }
+       return null
     }
 
-    onCustomLabelToggleChange(value) {
+    updateColor(value, color) {
+        const { setAttributes, attributes: { app, manualColors } } = this.props;
+
+       const colorsObj = manualColors ? JSON.parse(manualColors) : {};
+        colorsObj[app] = colorsObj[app] || {};
+        colorsObj[app][value] = color; 
+
+        setAttributes({ manualColors: JSON.stringify(colorsObj) });
+    }
+
+    updateMeasureFormat(measureName, newFormat) {
+        const { setAttributes, attributes: { app, measures } } = this.props;
+        const uMs = Object.assign({}, measures || {});
+        uMs[app] = uMs[app] || {};
+        uMs[app][measureName] = uMs[app][measureName] || { selected: false };
+        uMs[app][measureName].format = newFormat || defaultFormat;
+        setAttributes({ measures: uMs });
+    }
+
+
+    onMeasuresChange(value) {
             const {
                 setAttributes,
                 attributes: {app, measures},
             } = this.props;
             const uMs = Object.assign({}, measures);
-    
-            if (uMs[app] && uMs[app][value]) {
-                uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel
-                    ? false
-                    : true;
-                setAttributes({measures: uMs});
+            if (!uMs[app]) {
+                uMs[app] = {};
             }
+
+            if (uMs[app][value]) {
+                uMs[app][value].selected = uMs[app][value].selected ? false : true;
+            } else {
+                uMs[app][value] = {selected: true, format: defaultFormat};
+            }
+
+            // Force valuePosition to 'bar' when multiple measures are selected
+            const selectedKeys = Object.keys(uMs[app]).filter(k => uMs[app][k] && uMs[app][k].selected);
+            const selectedCount = selectedKeys.length;
+            const nextAttrs = { measures: uMs };
+            if (selectedCount > 1) {
+                nextAttrs.valuePosition = 'bar';
+                nextAttrs.barSizeCriteria = 'relative_max';
+                // Ensure mainMeasure is valid when multiple selected, preserving 'none'
+                const { attributes: { mainMeasure } } = this.props;
+                if (mainMeasure !== 'none' && (!mainMeasure || !selectedKeys.includes(mainMeasure))) {
+                    nextAttrs.mainMeasure = selectedKeys[0];
+                }
+            } else {
+                // Clear mainMeasure when not in multi-measure mode
+                nextAttrs.mainMeasure = 'none';
+            }
+            setAttributes(nextAttrs);
         }
-    
+
+        onCustomLabelToggleChange(value) {
+                const {
+                    setAttributes,
+                    attributes: {app, measures},
+                } = this.props;
+                const uMs = Object.assign({}, measures);
+        
+                if (uMs[app] && uMs[app][value]) {
+                    uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel
+                        ? false
+                        : true;
+                    setAttributes({measures: uMs});
+                }
+            }
+        
         onCustomLabelChange(value, customLabel) {
             const {
                 setAttributes,
@@ -425,16 +425,15 @@ updateMeasureFormat(measureName, newFormat) {
                                     <PanelRow>
                                         <SelectControl
                                             label={__("Highlighted Measure")}
-                                            value={selectedKeys.includes(mainMeasure) ? mainMeasure : (selectedKeys[0] || '')}
-                                            options={selectedKeys.map(k => ({
+                                            value={(mainMeasure === 'none') ? 'none' : (selectedKeys.includes(mainMeasure) ? mainMeasure : (selectedKeys[0] || 'none'))}
+                                            options={[{ label: __('None'), value: 'none' }, ...selectedKeys.map(k => ({
                                                 label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k,
                                                 value: k
-                                            }))}
+                                            }))]}
                                             onChange={(val) => setAttributes({ mainMeasure: val })}
                                         />
                                     </PanelRow>
                                 );
-                            
                             })()}
 
                             <PanelRow>
