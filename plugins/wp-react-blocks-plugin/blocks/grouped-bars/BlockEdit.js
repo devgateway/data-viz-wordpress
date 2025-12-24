@@ -226,6 +226,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 labelWidth,
                 labelHeight,
                 labelFormat,
+                showMeasureLabels,
                 topN,
                 barSizeCriteria,
                 mainMeasure,
@@ -510,6 +511,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                             labelPosition: value
                                         });
                                     }}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Show Measure Labels On Bars')}
+                                    checked={!!showMeasureLabels}
+                                    onChange={() => setAttributes({ showMeasureLabels: !showMeasureLabels })}
                                 />
                             </PanelRow>
                             {(() => {
