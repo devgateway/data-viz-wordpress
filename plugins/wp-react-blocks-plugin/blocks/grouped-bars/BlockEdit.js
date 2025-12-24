@@ -382,13 +382,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     value={noDataText}
                                     onChange={(noDataText) => setAttributes({noDataText})}
                                 />
-                            </PanelRow>
-                            {(() => {
-                                const selectedCount = measures && measures[app]
-                                    ? Object.values(measures[app]).filter(cfg => cfg && cfg.selected).length
-                                    : 0;
-                                return selectedCount <= 1 ? (
-                                    <PanelRow>
+                            </PanelRow>                            
+                            <PanelRow>
                                         <TextControl
                                             label={__('Top N Items')}
                                             type="number"
@@ -397,9 +392,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                             min={-1}
                                             step={1}
                                         />
-                                    </PanelRow>
-                                ) : null;
-                            })()}
+                            </PanelRow>                              
                             {(() => {
                                 const selectedMap = (measures && measures[app]) ? measures[app] : {};
                                 const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
