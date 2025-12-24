@@ -228,7 +228,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 labelFormat,
                 topN,
                 barSizeCriteria,
-                mainMeasure
+                mainMeasure,
+                enableCustomMeasureFormats
             }
         } = this.props;
 
@@ -383,6 +384,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     onChange={(noDataText) => setAttributes({noDataText})}
                                 />
                             </PanelRow>                            
+                            
                             <PanelRow>
                                         <TextControl
                                             label={__('Top N Items')}
@@ -428,6 +430,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     </PanelRow>
                                 );
                             })()}
+
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Enable Custom Measure Formats')}
+                                    checked={!!enableCustomMeasureFormats}
+                                    onChange={() => setAttributes({ enableCustomMeasureFormats: !enableCustomMeasureFormats })}
+                                />
+                            </PanelRow>
 
                             <PanelRow>
                                 <Text>{__("Font Size")}</Text>
@@ -607,7 +617,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                           </PanelBody>
 
                           {/* Measure-specific formatting overrides */}
-                          {app !== 'csv' && (
+                          {app !== 'csv' && enableCustomMeasureFormats == true && (
                             <PanelBody title={__('Measure Format Customization')} initialOpen={false}>
                                 {(() => {
                                     const selectedMap = (measures && measures[app]) ? measures[app] : {};

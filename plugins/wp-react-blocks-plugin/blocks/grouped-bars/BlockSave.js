@@ -30,8 +30,8 @@ const SaveComponent = (props) => {
             sortDirection,
             topN,
             barSizeCriteria,
-            mainMeasure
-
+            mainMeasure,
+            enableCustomMeasureFormats
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -71,6 +71,7 @@ const SaveComponent = (props) => {
             data-sort-direction={sortDirection}
             data-top-n={topN}
             data-bar-size-criteria={barSizeCriteria}
+            data-enable-custom-measure-formats={enableCustomMeasureFormats}
             data-main-measure={encodeURIComponent(mainMeasure || '')}>
             <InnerBlocks.Content/>
         </div>

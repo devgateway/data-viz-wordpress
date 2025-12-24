@@ -137,6 +137,10 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: 'percentage'
             },
+                enableCustomMeasureFormats: {
+                    type: 'Boolean',
+                    default: false
+                },
             mainMeasure: {
                 type: 'string',
                 default: ''
