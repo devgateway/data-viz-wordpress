@@ -26,6 +26,7 @@ const SaveComponent = (props) => {
             labelWidth,
             labelHeight,
             labelFormat,
+            showMeasureLabels,
             sorting,
             sortDirection,
             topN,
@@ -67,6 +68,7 @@ const SaveComponent = (props) => {
             data-label-width={labelWidth}
             data-label-height={labelHeight}
             data-label-format={encodeURIComponent(labelFormat)}
+            data-show-measure-labels={showMeasureLabels}
             data-sorting={sorting}
             data-sort-direction={sortDirection}
             data-top-n={topN}

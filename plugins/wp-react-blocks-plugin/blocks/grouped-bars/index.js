@@ -121,6 +121,10 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: '{value}'
             },
+            showMeasureLabels: {
+                type: 'Boolean',
+                default: false
+            },
             sorting: {
                 type: 'string',
                 default: 'none'
