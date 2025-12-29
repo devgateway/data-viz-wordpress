@@ -96,6 +96,40 @@ class BlockEdit extends BlockEditWithAPIMetadata {
        return null
     }
 
+    measureColors() {
+        const { attributes: { app, manualColors, measures } } = this.props;
+        const colors = this.decodeManualColors(manualColors);
+        colors[app] = colors[app] || {};
+        colors[app].measures = colors[app].measures || {};
+
+        const selectedMap = (measures && measures[app]) ? measures[app] : {};
+        const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
+        if (selectedKeys.length === 0) {
+            return (
+                <PanelRow>
+                    <Text>{__('Select at least one measure to set colors.')}</Text>
+                </PanelRow>
+            );
+        }
+
+        return selectedKeys.map((k) => (
+            <PanelColorSettings
+                key={`mcolor-${k}`}
+                colorSettings={[{
+                    value: colors[app].measures[k] || "#3182ce",
+                    onChange: (color) => {
+                        if (color) {
+                            this.updateMeasureColor(k, color);
+                        } else {
+                            this.updateMeasureColor(k, "#3182ce");
+                        }
+                    },
+                    label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k
+                }]}
+            />
+        ));
+    }
+
     updateColor(value, color) {
         const { setAttributes, attributes: { app, manualColors } } = this.props;
 
@@ -103,6 +137,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         colorsObj[app] = colorsObj[app] || {};
         colorsObj[app][value] = color; 
 
+        setAttributes({ manualColors: JSON.stringify(colorsObj) });
+    }
+
+    updateMeasureColor(measureName, color) {
+        const { setAttributes, attributes: { app, manualColors, defaultBarColor } } = this.props;
+        const colorsObj = manualColors ? JSON.parse(manualColors) : {};
+        colorsObj[app] = colorsObj[app] || {};
+        colorsObj[app].measures = colorsObj[app].measures || {};
+        colorsObj[app].measures[measureName] = color || (defaultBarColor || "#3182ce");
         setAttributes({ manualColors: JSON.stringify(colorsObj) });
     }
 
@@ -229,7 +272,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 topN,
                 barSizeCriteria,
                 mainMeasure,
-                enableCustomMeasureFormats
+                enableCustomMeasureFormats,
+                enableManualColors,
+                manualColorsMode
             }
         } = this.props;
 
@@ -514,7 +559,29 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             
 
                         <PanelBody title={__('Manual Colors')} initialOpen={false}>
-                         {this.catColors()}
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Enable Manual Colors')}
+                                    checked={!!enableManualColors}
+                                    onChange={() => setAttributes({ enableManualColors: !enableManualColors })}
+                                />
+                            </PanelRow>
+                            {enableManualColors && (
+                                <>
+                                    <PanelRow>
+                                        <SelectControl
+                                            label={__('Manual Colors Mode')}
+                                            value={manualColorsMode || 'dimension'}
+                                            options={[
+                                                { label: __('By Dimension'), value: 'dimension' },
+                                                { label: __('By Measure'), value: 'measure' }
+                                            ]}
+                                            onChange={(value) => setAttributes({ manualColorsMode: value })}
+                                        />
+                                    </PanelRow>
+                                    {manualColorsMode === 'measure' ? this.measureColors() : this.catColors()}
+                                </>
+                            )}
                         </PanelBody>                      
 
                         <PanelBody title={__('Label Settings')} initialOpen={false}>

@@ -101,6 +101,14 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: '{}' 
             },
+            enableManualColors: {
+                type: 'Boolean',
+                default: false
+            },
+            manualColorsMode: {
+                type: 'string',
+                default: 'dimension' // 'dimension' | 'measure'
+            },
             labelPosition: {
                 type: 'string',
                 default: 'top'
