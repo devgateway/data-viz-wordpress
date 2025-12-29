@@ -349,11 +349,11 @@ const BlockSave = (props) => {
     </div>)
 }
 
-registerBlockType(process.env.BLOCKS_NS + '/reference-lists',
+registerBlockType(BLOCKS_NS + '/reference-lists',
     {
         title: __('References List'),
         icon: GenericIcon,
-        category: process.env.BLOCKS_CATEGORY,
+        category: BLOCKS_CATEGORY,
         attributes: {
             height: {
                 type: "Numeric",
