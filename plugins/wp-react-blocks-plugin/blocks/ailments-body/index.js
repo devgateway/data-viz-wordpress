@@ -8,7 +8,7 @@ import {
     withColors
 } from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
-import {BlockEditWithFilters, GenericIcon} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters, GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from '@devgateway/dvz-wp-commons';
 
 const EditComponent = (props) => {
 
