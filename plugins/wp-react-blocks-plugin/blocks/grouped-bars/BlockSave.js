@@ -14,6 +14,7 @@ const SaveComponent = (props) => {
             noDataMsg,
             dvzProxyDatasetId,
             fontSize,
+            measureTextColor,
             textColor,
             waitForFilters,
             noDataText,            
@@ -57,6 +58,7 @@ const SaveComponent = (props) => {
              data-format={encodeURIComponent(JSON.stringify(format))}
              data-group={group}
              data-filters={encodeURIComponent(JSON.stringify(filters))}
+             data-measure-text-color={encodeURIComponent(measureTextColor)}
              data-no-data-message={noDataMsg}
              data-font-size={fontSize}
              data-text-color={encodeURIComponent(textColor)}

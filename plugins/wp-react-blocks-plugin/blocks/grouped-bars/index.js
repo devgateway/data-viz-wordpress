@@ -76,6 +76,10 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: "#5a5d68",
             },
+            measureTextColor: {
+                type: 'string',
+                default: "#ffffff",
+            },
            
             fontSize: {
                 type: 'Numeric',

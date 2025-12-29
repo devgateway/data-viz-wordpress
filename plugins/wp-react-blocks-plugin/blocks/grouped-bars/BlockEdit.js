@@ -255,6 +255,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 dvzProxyDatasetId,
                 fontSize,
                 textColor,
+                measureTextColor,
                 backGroundColor,
                 dimension1,                
                 csv,
@@ -528,6 +529,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                             setAttributes({ textColor: color }); // Update label color
                                         },
                                         label: __("Text Color") // Label for the color picker
+                                    },
+                                    {
+                                        value: measureTextColor, // In-bar and highlighted measure text color
+
+                                        onChange: (color) => {
+                                            setAttributes({ measureTextColor: color });
+                                        },
+                                        label: __("Measure Text Color")
                                     },
                                     {
                                         value: backGroundColor, // Percent color value
