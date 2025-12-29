@@ -138,8 +138,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             const nextAttrs = { measures: uMs };
             if (selectedCount > 1) {
                 nextAttrs.valuePosition = 'bar';
-                nextAttrs.barSizeCriteria = 'relative_max';
-                // Ensure mainMeasure is valid when multiple selected, preserving 'none'
+                nextAttrs.barSizeCriteria = 'percentage';
                 const { attributes: { mainMeasure } } = this.props;
                 if (mainMeasure !== 'none' && (!mainMeasure || !selectedKeys.includes(mainMeasure))) {
                     nextAttrs.mainMeasure = selectedKeys[0];
@@ -400,35 +399,56 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 const selectedMap = (measures && measures[app]) ? measures[app] : {};
                                 const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
                                 const selectedCount = selectedKeys.length;
-                                return selectedCount <= 1 ? (
-                                    <PanelRow>
-                                        <SelectControl
-                                            label={__("Bar Size Criteria")}
-                                            value={barSizeCriteria}
-                                            options={[
-                                                { label: 'Percentage of Total', value: 'percentage' },
-                                                { label: 'Relative to Maximum', value: 'relative_max' }
-                                            ]}
-                                            onChange={(value) => {
-                                                setAttributes({
-                                                    barSizeCriteria: value
-                                                });
-                                            }}
-                                        />
-                                    </PanelRow>
-                                ) : (
-                                    // When multiple measures selected, expose main/highlighted measure selector
-                                    <PanelRow>
-                                        <SelectControl
-                                            label={__("Highlighted Measure")}
-                                            value={(mainMeasure === 'none') ? 'none' : (selectedKeys.includes(mainMeasure) ? mainMeasure : (selectedKeys[0] || 'none'))}
-                                            options={[{ label: __('None'), value: 'none' }, ...selectedKeys.map(k => ({
-                                                label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k,
-                                                value: k
-                                            }))]}
-                                            onChange={(val) => setAttributes({ mainMeasure: val })}
-                                        />
-                                    </PanelRow>
+                                return (
+                                    <>
+                                        {selectedCount <= 1 ? (
+                                            <PanelRow>
+                                                <SelectControl
+                                                    label={__("Bar Size Criteria")}
+                                                    value={barSizeCriteria}
+                                                    options={[
+                                                        { label: 'Percentage', value: 'percentage' },
+                                                        { label: 'Relative to Maximum', value: 'relative_max' }
+                                                    ]}
+                                                    onChange={(value) => {
+                                                        setAttributes({ barSizeCriteria: value });
+                                                    }}
+                                                />
+                                            </PanelRow>
+                                        ) : (
+                                            <>
+                                                <PanelRow>
+                                                    <SelectControl
+                                                        label={__("Highlighted Measure")}
+                                                        value={(mainMeasure === 'none') ? 'none' : (selectedKeys.includes(mainMeasure) ? mainMeasure : (selectedKeys[0] || 'none'))}
+                                                        options={[{ label: __('None'), value: 'none' }, ...selectedKeys.map(k => ({
+                                                            label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k,
+                                                            value: k
+                                                        }))]}
+                                                        onChange={(val) => setAttributes({ mainMeasure: val })}
+                                                    />
+                                                </PanelRow>
+                                                <PanelRow>
+                                                    <SelectControl
+                                                        label={__("Bar Size Criteria")}
+                                                        value={barSizeCriteria}
+                                                        options={[
+                                                            { label: 'Percentage', value: 'percentage' },
+                                                            { label: 'Relative to Maximum', value: 'relative_max' }
+                                                        ]}
+                                                        onChange={(value) => setAttributes({ barSizeCriteria: value })}
+                                                    />
+                                                </PanelRow>
+                                                <PanelRow>
+                                                    <ToggleControl
+                                                        label={__('Use Group Total/Max for Bar Size')}
+                                                        checked={!!this.props.attributes.barSizeUseGroup}
+                                                        onChange={() => setAttributes({ barSizeUseGroup: !this.props.attributes.barSizeUseGroup })}
+                                                    />
+                                                </PanelRow>
+                                            </>
+                                        )}
+                                    </>
                                 );
                             })()}
 
