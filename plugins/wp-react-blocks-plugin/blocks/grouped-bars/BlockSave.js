@@ -31,6 +31,7 @@ const SaveComponent = (props) => {
             sortDirection,
             topN,
             barSizeCriteria,
+            barSizeUseGroup,
             mainMeasure,
             enableCustomMeasureFormats
         }
@@ -73,6 +74,7 @@ const SaveComponent = (props) => {
             data-sort-direction={sortDirection}
             data-top-n={topN}
             data-bar-size-criteria={barSizeCriteria}
+            data-bar-size-use-group={barSizeUseGroup}
             data-enable-custom-measure-formats={enableCustomMeasureFormats}
             data-main-measure={encodeURIComponent(mainMeasure || '')}>
             <InnerBlocks.Content/>

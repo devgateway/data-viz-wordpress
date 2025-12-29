@@ -139,12 +139,16 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
             },
             barSizeCriteria: {
                 type: 'string',
-                default: 'percentage'
+                default: 'relative_max'
             },
-                enableCustomMeasureFormats: {
-                    type: 'Boolean',
+                barSizeUseGroup: {
+                    type: 'boolean',
                     default: false
                 },
+            enableCustomMeasureFormats: {
+                    type: 'Boolean',
+                    default: false
+            },
             mainMeasure: {
                 type: 'string',
                 default: ''
