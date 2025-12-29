@@ -352,7 +352,7 @@ const BlockSave = (props) => {
 registerBlockType(process.env.BLOCKS_NS + '/reference-lists',
     {
         title: __('References List'),
-        icon: Generic,
+        icon: GenericIcon,
         category: process.env.BLOCKS_CATEGORY,
         attributes: {
             height: {
