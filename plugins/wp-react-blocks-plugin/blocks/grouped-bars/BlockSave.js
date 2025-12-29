@@ -19,6 +19,8 @@ const SaveComponent = (props) => {
             noDataText,            
             backGroundColor,
             manualColors = '{}',
+            enableManualColors = false,
+            manualColorsMode = 'dimension',
             defaultBarColor,
             barBackgroundColor,
             labelPosition,
@@ -61,7 +63,9 @@ const SaveComponent = (props) => {
              data-wait-for-filters={waitForFilters}
              data-no-data-text={noDataText}
              data-back-ground-color={encodeURIComponent(backGroundColor)}           
-             data-manual-colors={encodeURIComponent(manualColors || '{}')}
+             data-manual-colors={encodeURIComponent(enableManualColors ? (manualColors || '{}') : '{}')}
+             data-enable-manual-colors={enableManualColors}
+             data-manual-colors-mode={manualColorsMode}
              data-default-bar-color={encodeURIComponent(defaultBarColor)}
              data-bar-background-color={encodeURIComponent(barBackgroundColor)}
             data-label-position={labelPosition}
