@@ -4,9 +4,11 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./plugins/wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin
+      - ./plugins/wp-react-blocks-plugin/blocks/build:/var/www/html/wp-content/plugins/wp-react-blocks-plugin/blocks/build
       - ./plugins/wp-react-custom-rest-menu:/var/www/html/wp-content/plugins/wp-react-custom-rest-menu
       - ./plugins/wp-react-custom-multilang:/var/www/html/wp-content/plugins/wp-multilang
       - ./wp-theme:/var/www/html/wp-content/themes/dg-semantic
@@ -19,9 +21,10 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - wordpress_data:/var/www/html
+      - ./data/wordpress:/var/www/html
       - ./wp-content:/var/www/html/wp-content
       - ./plugins/wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin
+      - ./plugins/wp-react-blocks-plugin/blocks/build:/var/www/html/wp-content/plugins/wp-react-blocks-plugin/blocks/build
       - ./plugins/wp-react-custom-rest-menu:/var/www/html/wp-content/plugins/wp-react-custom-rest-menu
       - ./plugins/wp-react-custom-multilang:/var/www/html/wp-content/plugins/wp-multilang
       - ./wp-theme:/var/www/html/wp-content/themes/dg-semantic
@@ -37,14 +40,14 @@ services:
   mysql:
     image: mariadb:10.7-focal
     volumes:
-      - mysql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     environment:
       YSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     ports:
-      - 3306:3306
+      - 3307:3306
 
 volumes:
   wordpress_data:
