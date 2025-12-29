@@ -2,7 +2,7 @@ import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {RangeControl, Panel, PanelBody, PanelRow, TextControl, ToggleControl} from '@wordpress/components';
 import {registerBlockType} from '@wordpress/blocks';
 import {ResizableBox} from '@wordpress/components';
-import {BlockEditWithFilters, GenericIcon} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters, GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from '@devgateway/dvz-wp-commons';
 import {__} from '@wordpress/i18n';
 
 const EditComponent = (props) => {
