@@ -36,6 +36,7 @@ const SaveComponent = (props) => {
             barSizeCriteria,
             barSizeUseGroup,
             mainMeasure,
+            mainValueFontSize,
             enableCustomMeasureFormats
         }
     } = props;
@@ -82,6 +83,7 @@ const SaveComponent = (props) => {
             data-bar-size-criteria={barSizeCriteria}
             data-bar-size-use-group={barSizeUseGroup}
             data-enable-custom-measure-formats={enableCustomMeasureFormats}
+            data-main-value-font-size={mainValueFontSize}
             data-main-measure={encodeURIComponent(mainMeasure || '')}>
             <InnerBlocks.Content/>
         </div>
