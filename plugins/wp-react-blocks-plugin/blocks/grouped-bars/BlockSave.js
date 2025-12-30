@@ -14,11 +14,14 @@ const SaveComponent = (props) => {
             noDataMsg,
             dvzProxyDatasetId,
             fontSize,
+            measureTextColor,
             textColor,
             waitForFilters,
             noDataText,            
             backGroundColor,
             manualColors = '{}',
+            enableManualColors = false,
+            manualColorsMode = 'dimension',
             defaultBarColor,
             barBackgroundColor,
             labelPosition,
@@ -26,11 +29,15 @@ const SaveComponent = (props) => {
             labelWidth,
             labelHeight,
             labelFormat,
+            showMeasureLabels,
             sorting,
             sortDirection,
             topN,
-            barSizeCriteria
-
+            barSizeCriteria,
+            barSizeUseGroup,
+            mainMeasure,
+            mainValueFontSize,
+            enableCustomMeasureFormats
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -52,13 +59,16 @@ const SaveComponent = (props) => {
              data-format={encodeURIComponent(JSON.stringify(format))}
              data-group={group}
              data-filters={encodeURIComponent(JSON.stringify(filters))}
+             data-measure-text-color={encodeURIComponent(measureTextColor)}
              data-no-data-message={noDataMsg}
              data-font-size={fontSize}
              data-text-color={encodeURIComponent(textColor)}
              data-wait-for-filters={waitForFilters}
              data-no-data-text={noDataText}
              data-back-ground-color={encodeURIComponent(backGroundColor)}           
-             data-manual-colors={encodeURIComponent(manualColors || '{}')}
+             data-manual-colors={encodeURIComponent(enableManualColors ? (manualColors || '{}') : '{}')}
+             data-enable-manual-colors={enableManualColors}
+             data-manual-colors-mode={manualColorsMode}
              data-default-bar-color={encodeURIComponent(defaultBarColor)}
              data-bar-background-color={encodeURIComponent(barBackgroundColor)}
             data-label-position={labelPosition}
@@ -66,10 +76,15 @@ const SaveComponent = (props) => {
             data-label-width={labelWidth}
             data-label-height={labelHeight}
             data-label-format={encodeURIComponent(labelFormat)}
+            data-show-measure-labels={showMeasureLabels}
             data-sorting={sorting}
             data-sort-direction={sortDirection}
             data-top-n={topN}
-            data-bar-size-criteria={barSizeCriteria}>
+            data-bar-size-criteria={barSizeCriteria}
+            data-bar-size-use-group={barSizeUseGroup}
+            data-enable-custom-measure-formats={enableCustomMeasureFormats}
+            data-main-value-font-size={mainValueFontSize}
+            data-main-measure={encodeURIComponent(mainMeasure || '')}>
             <InnerBlocks.Content/>
         </div>
     );
