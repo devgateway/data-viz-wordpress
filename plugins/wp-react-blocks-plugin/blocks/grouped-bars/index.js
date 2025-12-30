@@ -13,7 +13,7 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
         attributes: {
             type: {
                 type: 'string',
-                default: "big-number",
+                default: "grouped-bars",
             },
             group: {
                 type: 'String',
@@ -69,17 +69,26 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
             types: {
                 type: "Array",
                 default: [
-                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, singleDimension: false}}
+                  {label: 'Grouped Bars', value: 'grouped-bars', supports: {singleMeasure: false, singleDimension: false}}
                 ]
             },
             textColor: {
                 type: 'string',
                 default: "#5a5d68",
             },
+            measureTextColor: {
+                type: 'string',
+                default: "#ffffff",
+            },
            
             fontSize: {
                 type: 'Numeric',
                 default: 14
+            },
+            // Font size for the highlighted measure's VALUE (not the label)
+            mainValueFontSize: {
+                type: 'Numeric',
+                default: 24
             },
             defaultBarColor: {
                 type: 'string',
@@ -101,6 +110,14 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: '{}' 
             },
+            enableManualColors: {
+                type: 'Boolean',
+                default: false
+            },
+            manualColorsMode: {
+                type: 'string',
+                default: 'dimension' // 'dimension' | 'measure'
+            },
             labelPosition: {
                 type: 'string',
                 default: 'top'
@@ -121,6 +138,10 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: '{value}'
             },
+            showMeasureLabels: {
+                type: 'Boolean',
+                default: false
+            },
             sorting: {
                 type: 'string',
                 default: 'none'
@@ -135,7 +156,19 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
             },
             barSizeCriteria: {
                 type: 'string',
-                default: 'percentage'
+                default: 'relative_max'
+            },
+                barSizeUseGroup: {
+                    type: 'boolean',
+                    default: false
+                },
+            enableCustomMeasureFormats: {
+                    type: 'Boolean',
+                    default: false
+            },
+            mainMeasure: {
+                type: 'string',
+                default: ''
             },
         },
         edit: BlockEdit,

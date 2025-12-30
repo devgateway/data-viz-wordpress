@@ -13,13 +13,20 @@ import {
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata, SizeConfig} from '@devgateway/dvz-wp-commons'
-import {CSVSourceConfig} from '@devgateway/dvz-wp-commons';
 import {togglePanel} from '@devgateway/dvz-wp-commons';
 import {Measures} from '@devgateway/dvz-wp-commons';
 import {DataFilters} from '@devgateway/dvz-wp-commons';
 import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 import Format from "../charts/Format.jsx";
 import {getTranslation} from '@devgateway/dvz-wp-commons';
+
+const defaultFormat = {
+    style: "decimal",
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+    currency: "USD",
+    useCustomAxisFormat: false
+};
 
 
 class BlockEdit extends BlockEditWithAPIMetadata {
@@ -50,54 +57,187 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     };
 
     catColors(){
-    const {
-        attributes: {
-            app,
-            dimension1,
-            manualColors
-        }             
-    } = this.props;
+        const {
+            attributes: {
+                app,
+                dimension1,
+                manualColors
+            }             
+        } = this.props;
 
-   if (this.state.categories && dimension1 && dimension1 != 'none') {
-        
+       if (this.state.categories && dimension1 && dimension1 != 'none') {
+            
+            const colors = this.decodeManualColors(manualColors);
+            colors[app] = colors[app] || {};
+            
+            const cat = this.state.categories.filter(d => d.type == dimension1)
+                if (cat && cat.length > 0) {
+                    const list = cat[0].items.filter(c => c.code !== null && c.code !== undefined && c.code !== "").sort((a, b) => b.position - a.position).map(item => {
+                        return <PanelColorSettings
+                            key={item.code}
+                            colorSettings={[{
+                                value: colors[app][item.code] || (item.categoryStyle ? item.categoryStyle.color : "#3182ce"),
+                                onChange: (color) => {
+                                    if (color) {
+                                        this.updateColor(item.code, color)
+                                    } else {
+                                        this.updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#3182ce")
+                                    }
+                                }, label: getTranslation(item)
+                            }]}
+                        />
+                    })
+                   
+                    return list
+                } else {
+                    return null
+                }
+       }
+       return null
+    }
+
+    measureColors() {
+        const { attributes: { app, manualColors, measures } } = this.props;
         const colors = this.decodeManualColors(manualColors);
         colors[app] = colors[app] || {};
-        
-        const cat = this.state.categories.filter(d => d.type == dimension1)
-            if (cat && cat.length > 0) {
-                const list = cat[0].items.filter(c => c.code !== null && c.code !== undefined && c.code !== "").sort((a, b) => b.position - a.position).map(item => {
-                    return <PanelColorSettings
-                        key={item.code}
-                        colorSettings={[{
-                            value: colors[app][item.code] || (item.categoryStyle ? item.categoryStyle.color : "#3182ce"),
-                            onChange: (color) => {
-                                if (color) {
-                                    this.updateColor(item.code, color)
-                                } else {
-                                    this.updateColor(item.code, item.categoryStyle ? item.categoryStyle.color : "#3182ce")
-                                }
-                            }, label: getTranslation(item)
-                        }]}
-                    />
-                })
-               
-                return list
-            } else {
-                return null
+        colors[app].measures = colors[app].measures || {};
+
+        const selectedMap = (measures && measures[app]) ? measures[app] : {};
+        const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
+        if (selectedKeys.length === 0) {
+            return (
+                <PanelRow>
+                    <Text>{__('Select at least one measure to set colors.')}</Text>
+                </PanelRow>
+            );
+        }
+
+        return selectedKeys.map((k) => (
+            <PanelColorSettings
+                key={`mcolor-${k}`}
+                colorSettings={[{
+                    value: colors[app].measures[k] || "#3182ce",
+                    onChange: (color) => {
+                        if (color) {
+                            this.updateMeasureColor(k, color);
+                        } else {
+                            this.updateMeasureColor(k, "#3182ce");
+                        }
+                    },
+                    label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k
+                }]}
+            />
+        ));
+    }
+
+    updateColor(value, color) {
+        const { setAttributes, attributes: { app, manualColors } } = this.props;
+
+       const colorsObj = manualColors ? JSON.parse(manualColors) : {};
+        colorsObj[app] = colorsObj[app] || {};
+        colorsObj[app][value] = color; 
+
+        setAttributes({ manualColors: JSON.stringify(colorsObj) });
+    }
+
+    updateMeasureColor(measureName, color) {
+        const { setAttributes, attributes: { app, manualColors, defaultBarColor } } = this.props;
+        const colorsObj = manualColors ? JSON.parse(manualColors) : {};
+        colorsObj[app] = colorsObj[app] || {};
+        colorsObj[app].measures = colorsObj[app].measures || {};
+        colorsObj[app].measures[measureName] = color || (defaultBarColor || "#3182ce");
+        setAttributes({ manualColors: JSON.stringify(colorsObj) });
+    }
+
+    updateMeasureFormat(measureName, newFormat) {
+        const { setAttributes, attributes: { app, measures } } = this.props;
+        const uMs = Object.assign({}, measures || {});
+        uMs[app] = uMs[app] || {};
+        uMs[app][measureName] = uMs[app][measureName] || { selected: false };
+        uMs[app][measureName].format = newFormat || defaultFormat;
+        setAttributes({ measures: uMs });
+    }
+
+
+    onMeasuresChange(value) {
+            const {
+                setAttributes,
+                attributes: {app, measures},
+            } = this.props;
+            const uMs = Object.assign({}, measures);
+            if (!uMs[app]) {
+                uMs[app] = {};
             }
-   }
-   return null
-}
 
-updateColor(value, color) {
-    const { setAttributes, attributes: { app, manualColors } } = this.props;
+            if (uMs[app][value]) {
+                uMs[app][value].selected = uMs[app][value].selected ? false : true;
+            } else {
+                uMs[app][value] = {selected: true, format: defaultFormat};
+            }
 
-   const colorsObj = manualColors ? JSON.parse(manualColors) : {};
-    colorsObj[app] = colorsObj[app] || {};
-    colorsObj[app][value] = color; 
+            // Force valuePosition to 'bar' when multiple measures are selected
+            const selectedKeys = Object.keys(uMs[app]).filter(k => uMs[app][k] && uMs[app][k].selected);
+            const selectedCount = selectedKeys.length;
+            const nextAttrs = { measures: uMs };
+            if (selectedCount > 1) {
+                nextAttrs.valuePosition = 'bar';
+                nextAttrs.barSizeCriteria = 'percentage';
+                const { attributes: { mainMeasure } } = this.props;
+                if (mainMeasure !== 'none' && (!mainMeasure || !selectedKeys.includes(mainMeasure))) {
+                    nextAttrs.mainMeasure = selectedKeys[0];
+                }
+            } else {
+                // Clear mainMeasure when not in multi-measure mode
+                nextAttrs.mainMeasure = 'none';
+            }
+            setAttributes(nextAttrs);
+        }
 
-    setAttributes({ manualColors: JSON.stringify(colorsObj) });
-}
+        onCustomLabelToggleChange(value) {
+                const {
+                    setAttributes,
+                    attributes: {app, measures},
+                } = this.props;
+                const uMs = Object.assign({}, measures);
+        
+                if (uMs[app] && uMs[app][value]) {
+                    uMs[app][value].hasCustomLabel = uMs[app][value].hasCustomLabel
+                        ? false
+                        : true;
+                    setAttributes({measures: uMs});
+                }
+            }
+        
+        onCustomLabelChange(value, customLabel) {
+            const {
+                setAttributes,
+                attributes: {app, measures},
+            } = this.props;
+            const uMs = Object.assign({}, measures);
+    
+            if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
+                uMs[app][value].customLabel = customLabel;
+                setAttributes({measures: uMs});
+            }
+        }
+    
+        items(type) {
+            const values = this.props.allCategories
+                ? this.props.allCategories.filter((c) => c.type === type)
+                : [];
+            const cat = values.length > 0 ? values[0] : null;
+            let items = null;
+            if (type === "Boolean") {
+                items = [
+                    {value: "Yes", id: true},
+                    {value: "No", id: false},
+                ];
+            } else if (cat) {
+                items = cat.items;
+            }
+            return items;
+        }
+
 
 
     render() {
@@ -115,6 +255,7 @@ updateColor(value, color) {
                 dvzProxyDatasetId,
                 fontSize,
                 textColor,
+                measureTextColor,
                 backGroundColor,
                 dimension1,                
                 csv,
@@ -128,8 +269,14 @@ updateColor(value, color) {
                 labelWidth,
                 labelHeight,
                 labelFormat,
+                showMeasureLabels,
                 topN,
-                barSizeCriteria
+                barSizeCriteria,
+                mainMeasure,
+                mainValueFontSize,
+                enableCustomMeasureFormats,
+                enableManualColors,
+                manualColorsMode
             }
         } = this.props;
 
@@ -258,10 +405,13 @@ updateColor(value, color) {
                                     onFormatChange={value => {
                                         setAttributes({format: value})
                                     }}
+                                    onMeasuresChange={value => this.onMeasuresChange(value)}
+                                     onCustomLabelToggleChange={value => this.onCustomLabelToggleChange(value)}
+                                     onCustomLabelChange={(value, customLabel) => this.onCustomLabelChange(value, customLabel)}               
                                     allMeasures={this.state.measures}
                                     format={format}
-                                    measures={measures}
-                                    {...this.props}/>
+                                    measures={measures}                                 
+                                   {...this.props}/>
                             }
 
 
@@ -280,31 +430,81 @@ updateColor(value, color) {
                                     value={noDataText}
                                     onChange={(noDataText) => setAttributes({noDataText})}
                                 />
-                            </PanelRow>
-                            <PanelRow>                               
-                                <TextControl
-                                    label={__('Top N Items')}
-                                    type="number"
-                                    value={topN}
-                                    onChange={(topN) => setAttributes({topN})}
-                                    min={-1} 
-                                    step={1}
-                                />
-                            </PanelRow>
-                            <PanelRow>                               
-                                <SelectControl  
-                                    label={__("Bar Size Criteria")}
-                                    value={barSizeCriteria}
-                                    options={[
-                                        { label: 'Percentage of Total', value: 'percentage' },
-                                        { label: 'Relative to Maximum', value: 'relative_max' }]}
-                                    onChange={(value) => {
-                                        setAttributes({
-                                            barSizeCriteria: value
-                                        });
-                                    }}
-                                />
+                            </PanelRow>                            
+                            
+                            <PanelRow>
+                                        <TextControl
+                                            label={__('Top N Items')}
+                                            type="number"
+                                            value={topN}
+                                            onChange={(topN) => setAttributes({topN})}
+                                            min={-1}
+                                            step={1}
+                                        />
+                            </PanelRow>                              
+                            {(() => {
+                                const selectedMap = (measures && measures[app]) ? measures[app] : {};
+                                const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
+                                const selectedCount = selectedKeys.length;
+                                return (
+                                    <>
+                                        {selectedCount <= 1 ? (
+                                            <PanelRow>
+                                                <SelectControl
+                                                    label={__("Bar Size Criteria")}
+                                                    value={barSizeCriteria}
+                                                    options={[
+                                                        { label: 'Percentage', value: 'percentage' },
+                                                        { label: 'Relative to Maximum', value: 'relative_max' }
+                                                    ]}
+                                                    onChange={(value) => {
+                                                        setAttributes({ barSizeCriteria: value });
+                                                    }}
+                                                />
+                                            </PanelRow>
+                                        ) : (
+                                            <>
+                                                <PanelRow>
+                                                    <SelectControl
+                                                        label={__("Highlighted Measure")}
+                                                        value={(mainMeasure === 'none') ? 'none' : (selectedKeys.includes(mainMeasure) ? mainMeasure : (selectedKeys[0] || 'none'))}
+                                                        options={[{ label: __('None'), value: 'none' }, ...selectedKeys.map(k => ({
+                                                            label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k,
+                                                            value: k
+                                                        }))]}
+                                                        onChange={(val) => setAttributes({ mainMeasure: val })}
+                                                    />
+                                                </PanelRow>
+                                                <PanelRow>
+                                                    <SelectControl
+                                                        label={__("Bar Size Criteria")}
+                                                        value={barSizeCriteria}
+                                                        options={[
+                                                            { label: 'Percentage', value: 'percentage' },
+                                                            { label: 'Relative to Maximum', value: 'relative_max' }
+                                                        ]}
+                                                        onChange={(value) => setAttributes({ barSizeCriteria: value })}
+                                                    />
+                                                </PanelRow>
+                                                <PanelRow>
+                                                    <ToggleControl
+                                                        label={__('Use Group Total/Max for Bar Size')}
+                                                        checked={!!this.props.attributes.barSizeUseGroup}
+                                                        onChange={() => setAttributes({ barSizeUseGroup: !this.props.attributes.barSizeUseGroup })}
+                                                    />
+                                                </PanelRow>
+                                            </>
+                                        )}
+                                    </>
+                                );
+                            })()}
 
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Enable Custom Measure Formats')}
+                                    checked={!!enableCustomMeasureFormats}
+                                    onChange={() => setAttributes({ enableCustomMeasureFormats: !enableCustomMeasureFormats })}
+                                />
                             </PanelRow>
 
                             <PanelRow>
@@ -319,6 +519,18 @@ updateColor(value, color) {
                                 }}
                             />                          
 
+                            <PanelRow>
+                                <Text>{__("Highlighted Value Font Size")}</Text>
+                            </PanelRow>
+                            <FontSizePicker
+                                fontSizes={[]}
+                                value={mainValueFontSize}
+                                fallbackFontSize={24}
+                                onChange={(newFontSize) => {
+                                    setAttributes({ mainValueFontSize: newFontSize })
+                                }}
+                            />
+
                          
                             <PanelColorSettings
                                 title={__('Color Settings')}
@@ -330,6 +542,14 @@ updateColor(value, color) {
                                             setAttributes({ textColor: color }); // Update label color
                                         },
                                         label: __("Text Color") // Label for the color picker
+                                    },
+                                    {
+                                        value: measureTextColor, // In-bar and highlighted measure text color
+
+                                        onChange: (color) => {
+                                            setAttributes({ measureTextColor: color });
+                                        },
+                                        label: __("Measure Text Color")
                                     },
                                     {
                                         value: backGroundColor, // Percent color value
@@ -361,7 +581,29 @@ updateColor(value, color) {
                             
 
                         <PanelBody title={__('Manual Colors')} initialOpen={false}>
-                         {this.catColors()}
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Enable Manual Colors')}
+                                    checked={!!enableManualColors}
+                                    onChange={() => setAttributes({ enableManualColors: !enableManualColors })}
+                                />
+                            </PanelRow>
+                            {enableManualColors && (
+                                <>
+                                    <PanelRow>
+                                        <SelectControl
+                                            label={__('Manual Colors Mode')}
+                                            value={manualColorsMode || 'dimension'}
+                                            options={[
+                                                { label: __('By Dimension'), value: 'dimension' },
+                                                { label: __('By Measure'), value: 'measure' }
+                                            ]}
+                                            onChange={(value) => setAttributes({ manualColorsMode: value })}
+                                        />
+                                    </PanelRow>
+                                    {manualColorsMode === 'measure' ? this.measureColors() : this.catColors()}
+                                </>
+                            )}
                         </PanelBody>                      
 
                         <PanelBody title={__('Label Settings')} initialOpen={false}>
@@ -381,20 +623,34 @@ updateColor(value, color) {
                                 />
                             </PanelRow>
                             <PanelRow>
-                                <SelectControl  
-                                    label={__("Value Position")}
-                                    value={valuePosition}
-                                    options={[
-                                        { label: 'Top', value: 'top' },
-                                        { label: 'Bar', value: 'bar' }
-                                    ]}
-                                    onChange={(value) => {
-                                        setAttributes({
-                                            valuePosition: value
-                                        });
-                                    }}
+                                <ToggleControl
+                                    label={__('Show Measure Labels On Bars')}
+                                    checked={!!showMeasureLabels}
+                                    onChange={() => setAttributes({ showMeasureLabels: !showMeasureLabels })}
                                 />
                             </PanelRow>
+                            {(() => {
+                                const selectedCount = measures && measures[app]
+                                    ? Object.values(measures[app]).filter(cfg => cfg && cfg.selected).length
+                                    : 0;
+                                return selectedCount <= 1 ? (
+                                    <PanelRow>
+                                        <SelectControl
+                                            label={__("Value Position")}
+                                            value={valuePosition}
+                                            options={[
+                                                { label: 'Top', value: 'top' },
+                                                { label: 'Bar', value: 'bar' }
+                                            ]}
+                                            onChange={(value) => {
+                                                setAttributes({
+                                                    valuePosition: value
+                                                });
+                                            }}
+                                        />
+                                    </PanelRow>
+                                ) : null;
+                            })()}
 
                             <PanelRow>
                                 <TextControl
@@ -476,6 +732,40 @@ updateColor(value, color) {
                             </PanelRow>
                             }
                           </PanelBody>
+
+                          {/* Measure-specific formatting overrides */}
+                          {app !== 'csv' && enableCustomMeasureFormats == true && (
+                            <PanelBody title={__('Measure Format Customization')} initialOpen={false}>
+                                {(() => {
+                                    const selectedMap = (measures && measures[app]) ? measures[app] : {};
+                                    const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
+                                    if (selectedKeys.length === 0) {
+                                        return (
+                                            <PanelRow>
+                                                <Text>{__('Select at least one measure to customize format.')}</Text>
+                                            </PanelRow>
+                                        );
+                                    }
+                                    return selectedKeys.map((k) => (
+                                        <PanelRow key={`fmt-${k}`}>
+                                            <div style={{ width: '100%' }}>
+                                                <Text style={{ fontWeight: 600, display: 'block', marginBottom: 8 }}>
+                                                    {(selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k}
+                                                </Text>
+                                                <Format
+                                                    hiddenCustomAxisFormat={true}
+                                                    format={selectedMap[k].format || defaultFormat}
+                                                    customFormat={{}}
+                                                    useCustomAxisFormat={false}
+                                                    onFormatChange={(newFormat) => this.updateMeasureFormat(k, newFormat)}
+                                                    onUseCustomAxisFormatChange={() => {}}
+                                                />
+                                            </div>
+                                        </PanelRow>
+                                    ));
+                                })()}
+                            </PanelBody>
+                          )}
                         </PanelBody>
 
                 </Panel>
