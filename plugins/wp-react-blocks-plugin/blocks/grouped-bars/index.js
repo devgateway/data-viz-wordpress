@@ -85,6 +85,11 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'Numeric',
                 default: 14
             },
+            // Font size for the highlighted measure's VALUE (not the label)
+            mainValueFontSize: {
+                type: 'Numeric',
+                default: 24
+            },
             defaultBarColor: {
                 type: 'string',
                 default: "#3182ce"

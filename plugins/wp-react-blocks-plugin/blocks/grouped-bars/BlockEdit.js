@@ -273,6 +273,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 topN,
                 barSizeCriteria,
                 mainMeasure,
+                mainValueFontSize,
                 enableCustomMeasureFormats,
                 enableManualColors,
                 manualColorsMode
@@ -517,6 +518,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     setAttributes({fontSize: newFontSize})
                                 }}
                             />                          
+
+                            <PanelRow>
+                                <Text>{__("Highlighted Value Font Size")}</Text>
+                            </PanelRow>
+                            <FontSizePicker
+                                fontSizes={[]}
+                                value={mainValueFontSize}
+                                fallbackFontSize={24}
+                                onChange={(newFontSize) => {
+                                    setAttributes({ mainValueFontSize: newFontSize })
+                                }}
+                            />
 
                          
                             <PanelColorSettings
