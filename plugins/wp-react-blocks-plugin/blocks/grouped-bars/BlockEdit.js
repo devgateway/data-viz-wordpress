@@ -276,7 +276,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 mainValueFontSize,
                 enableCustomMeasureFormats,
                 enableManualColors,
-                manualColorsMode
+                manualColorsMode,
+                showZeroNullMeasures
             }
         } = this.props;
 
@@ -431,6 +432,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     onChange={(noDataText) => setAttributes({noDataText})}
                                 />
                             </PanelRow>                            
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Show Zero/Null Measures')}
+                                    checked={!!showZeroNullMeasures}
+                                    onChange={() => setAttributes({ showZeroNullMeasures: !showZeroNullMeasures })}
+                                />
+                            </PanelRow>
                             
                             <PanelRow>
                                         <TextControl

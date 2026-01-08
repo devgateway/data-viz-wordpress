@@ -170,6 +170,10 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: ''
             },
+            showZeroNullMeasures: {
+                type: 'Boolean',
+                default: false
+            },
         },
         edit: BlockEdit,
         save: BlockSave
