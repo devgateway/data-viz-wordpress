@@ -29,7 +29,8 @@ const SaveComponent = (props) => {
             numberColor,
             backGroundColor,
             showTooltip,
-            tooltipText
+            tooltipText,
+            tooltipStyle
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -69,6 +70,7 @@ const SaveComponent = (props) => {
              data-back-ground-color={backGroundColor}
             data-show-tooltip={showTooltip}
             data-tooltip-text={tooltipText}
+            data-tooltip-style={tooltipStyle}
         >
             <InnerBlocks.Content/>
         </div>

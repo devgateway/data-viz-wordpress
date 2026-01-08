@@ -126,6 +126,10 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
                 type: 'String',
                 default: ''
             },
+            tooltipStyle: {
+                type: 'String',
+                default: 'dark'
+            },
 
             styleOption: {
                 type: "string",

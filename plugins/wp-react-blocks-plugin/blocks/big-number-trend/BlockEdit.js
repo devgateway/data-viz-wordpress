@@ -62,7 +62,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 waitForFilters,
                 noDataText,
                 showTooltip,
-                tooltipText
+                tooltipText,
+                tooltipStyle
             }
         } = this.props;
 
@@ -343,6 +344,19 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         value={tooltipText}
                                         onChange={(tooltipText) => setAttributes({tooltipText})}
                                         rows={4}
+                                    />
+                                </PanelRow>
+                            )}
+                            {showTooltip && (
+                                <PanelRow>
+                                    <SelectControl
+                                        label={__('Tooltip Style')}
+                                        value={tooltipStyle || 'dark'}
+                                        onChange={(value) => setAttributes({tooltipStyle: value})}
+                                        options={[
+                                            { label: __('Dark'), value: 'dark' },
+                                            { label: __('Light'), value: 'light' }
+                                        ]}
                                     />
                                 </PanelRow>
                             )}
