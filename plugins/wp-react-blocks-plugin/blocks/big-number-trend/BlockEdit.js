@@ -60,7 +60,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 csv,
                 type,
                 waitForFilters,
-                noDataText
+                noDataText,
+                showTooltip,
+                tooltipText
             }
         } = this.props;
 
@@ -326,6 +328,58 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     onChange={(noDataText) => setAttributes({noDataText})}
                                 />
                             </PanelRow>
+
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Show Tooltip')}
+                                    checked={!!showTooltip}
+                                    onChange={() => setAttributes({showTooltip: !showTooltip})}
+                                />
+                            </PanelRow>
+                            {showTooltip && (
+                                <PanelRow>
+                                    <TextareaControl
+                                        label={__('Tooltip Text')}
+                                        value={tooltipText}
+                                        onChange={(tooltipText) => setAttributes({tooltipText})}
+                                        rows={4}
+                                    />
+                                </PanelRow>
+                            )}
+                            {showTooltip && (
+                                <>
+                                    <PanelRow>
+                                        <div style={{"font-weight": "bold", "font-size": "11px"}}>
+                                            {__('Available Variables:')}
+                                        </div>
+                                    </PanelRow>
+                                    <PanelRow>
+                                        <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                            {__('Current Year')}: {"{current_year}"}
+                                        </div>
+                                    </PanelRow>
+                                    <PanelRow>
+                                        <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                            {__('Previous Year')}: {"{previous_year}"}
+                                        </div>
+                                    </PanelRow>
+                                    <PanelRow>
+                                        <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                            {__('Current Value')}: {"{current_value}"}
+                                        </div>
+                                    </PanelRow>
+                                    <PanelRow>
+                                        <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                            {__('Previous Value')}: {"{previous_value}"}
+                                        </div>
+                                    </PanelRow>
+                                    <PanelRow>
+                                        <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                            {__('Percent Change')}: {"{percent_change}"}
+                                        </div>
+                                    </PanelRow>
+                                </>
+                            )}
 
                             <PanelRow>
                                 <Text>{__("Big Number Font Size")}</Text>
