@@ -118,6 +118,19 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumbertrend',
                 default: '-'
             },
 
+            showTooltip: {
+                type: 'Boolean',
+                default: false
+            },
+            tooltipText: {
+                type: 'String',
+                default: 'Percent change compares {previous_year} to {current_year}'
+            },
+            tooltipStyle: {
+                type: 'String',
+                default: 'light'
+            },
+
             styleOption: {
                 type: "string",
                 default: "classic"
