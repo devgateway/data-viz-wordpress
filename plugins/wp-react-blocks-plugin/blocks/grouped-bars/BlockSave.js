@@ -37,7 +37,8 @@ const SaveComponent = (props) => {
             barSizeUseGroup,
             mainMeasure,
             mainValueFontSize,
-            enableCustomMeasureFormats
+            enableCustomMeasureFormats,
+            showZeroNullMeasures
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -84,7 +85,8 @@ const SaveComponent = (props) => {
             data-bar-size-use-group={barSizeUseGroup}
             data-enable-custom-measure-formats={enableCustomMeasureFormats}
             data-main-value-font-size={mainValueFontSize}
-            data-main-measure={encodeURIComponent(mainMeasure || '')}>
+            data-main-measure={encodeURIComponent(mainMeasure || '')}
+            data-show-zero-null-measures={showZeroNullMeasures}>
             <InnerBlocks.Content/>
         </div>
     );
