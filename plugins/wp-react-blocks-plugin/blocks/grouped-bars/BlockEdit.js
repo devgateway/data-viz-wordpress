@@ -431,14 +431,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     value={noDataText}
                                     onChange={(noDataText) => setAttributes({noDataText})}
                                 />
-                            </PanelRow>                            
-                            <PanelRow>
-                                <ToggleControl
-                                    label={__('Show Zero/Null Measures')}
-                                    checked={!!showZeroNullMeasures}
-                                    onChange={() => setAttributes({ showZeroNullMeasures: !showZeroNullMeasures })}
-                                />
-                            </PanelRow>
+                            </PanelRow>                      
+                            
                             
                             <PanelRow>
                                         <TextControl
@@ -500,7 +494,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                         checked={!!this.props.attributes.barSizeUseGroup}
                                                         onChange={() => setAttributes({ barSizeUseGroup: !this.props.attributes.barSizeUseGroup })}
                                                     />
-                                                </PanelRow>
+                                                </PanelRow>                                               
                                             </>
                                         )}
                                     </>
@@ -512,6 +506,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     label={__('Enable Custom Measure Formats')}
                                     checked={!!enableCustomMeasureFormats}
                                     onChange={() => setAttributes({ enableCustomMeasureFormats: !enableCustomMeasureFormats })}
+                                />
+                            </PanelRow>
+
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__('Show Zero/Null Measures')}
+                                    checked={!!showZeroNullMeasures}
+                                    onChange={() => setAttributes({ showZeroNullMeasures: !showZeroNullMeasures })}
                                 />
                             </PanelRow>
 
