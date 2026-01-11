@@ -28,7 +28,7 @@ services:
     volumes:
       - mysql:/var/lib/mysql
     environment:
-      YSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
