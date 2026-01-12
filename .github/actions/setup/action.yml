@@ -15,20 +15,16 @@ runs:
         cache-dependency-path: pnpm-lock.yaml
         registry-url: https://registry.npmjs.org
 
+    - name: Install pnpm
+      uses: pnpm/action-setup@1e1c8eafbd745f64b1ef30a7d7ed7965034c486c
+      with:
+        version: 10
+        cache: true
+
     - name: Upgrade npm for OIDC support
       run: npm install -g npm@latest
       shell: bash
 
-    - name: Restore node_modules cache
-      id: modules-cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          node_modules
-          .pnpm-store
-        key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
-
     - name: Install dependencies
-      if: steps.modules-cache.outputs.cache-hit != 'true'
       run: pnpm install --frozen-lockfile
       shell: bash
