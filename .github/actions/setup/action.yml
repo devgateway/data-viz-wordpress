@@ -25,8 +25,7 @@ runs:
       with:
         path: |
           node_modules
-          .pnpm-store
-          packages/*/node_modules
+          .pnpm/store
         key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
     - name: Install dependencies
