@@ -44,6 +44,13 @@ RUN chown -R 82:82 wp-content \
   && tar -caf /wp-content.tgz --exclude="**/node_modules" wp-content
 
 FROM wordpress:6.8.2-fpm-alpine AS runtime
+LABEL org.opencontainers.image.description="WordPress image for Data Viz"
+LABEL org.opencontainers.image.authors="Development Gateway <info@developmentgateway.org>"
+LABEL org.opencontainers.image.url="https://github.com/devgateway/data-viz-wordpress"
+LABEL org.opencontainers.image.source="https://github.com/devgateway/data-viz-wordpress"
+LABEL org.opencontainers.image.vendor="Development Gateway"
+LABEL org.opencontainers.image.licenses="GPL-2.0-or-later"
+
 COPY ./custom/custom.ini /usr/local/etc/php/conf.d/
 COPY --from=builder /wp-content.tgz /tmp
 COPY --chmod=755 wordpress.sh /usr/local/sbin/
