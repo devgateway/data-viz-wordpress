@@ -137,14 +137,15 @@ export const ChartColors = (props) => {
 
 
     let options = []
+    const systemSchemes = app === "csv" ? [{value: "manual", label: 'Manual Colors'}] : system
     if (colorBy === 'index' || colorBy === 'id') {
         if (type == "bar") {
-            options = [...system, plainColor, ...categorical, ...sequential]
+            options = [...systemSchemes, plainColor, ...categorical, ...sequential]
 
         } else if (type == "line") {
-            options = [...system, plainColor, ...categorical]
+            options = [...systemSchemes, plainColor, ...categorical]
         } else {
-            options = [...system, ...categorical, ...sequential]
+            options = [...systemSchemes, ...categorical, ...sequential]
         }
     }
     if (colorBy === 'values') {
