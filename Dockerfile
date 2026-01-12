@@ -32,13 +32,16 @@ RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
 pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
-RUN mkdir -p wp-content/plugins wp-content/themes \
-  && cp -r plugins/* wp-content/plugins/ \
-  && cp -r wp-theme/* wp-content/themes/dg-semantic/
+COPY wp-content wp-content
+COPY wp-theme wp-content/themes/dg-semantic
+
+# Copy built plugins from workspace into wp-content so built assets are included
+RUN mkdir -p wp-content/plugins \
+  && cp -a plugins/. wp-content/plugins/
 
 # Create a tarball of the wp-content directory
 RUN chown -R 82:82 wp-content \
-  && tar -caf /wp-content.tgz wp-content
+  && tar -caf /wp-content.tgz --exclude="**/node_modules" wp-content
 
 FROM wordpress:6.8.2-fpm-alpine AS runtime
 LABEL org.opencontainers.image.description="WordPress image for Data Viz"
