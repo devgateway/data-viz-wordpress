@@ -79,9 +79,3 @@ p.wp-block.rich-text {
     flex-shrink: 0;
     max-width: 100%;
 }
-
-.wp-block-separator {
-    border: 1px solid #dadada !important;
-    opacity: 0.4 !important;
-    /* Add any other custom styles here */
-}
