@@ -121,6 +121,7 @@ export const Measures = (props) => {
             ((type == 'radar') ||
                 (type == 'line' && dimension2 == 'none') ||
                 (type == 'bar' && dimension2 == 'none') ||
+                (type == 'grouped-bars') ||
                 (type == 'pie' && dimension1 == 'none' && dimension2 == 'none')) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody initialOpen={panelStatus[g]}
                                        onToggle={e => togglePanel(g, panelStatus, setAttributes)}
@@ -147,7 +148,7 @@ export const Measures = (props) => {
                 any dimensions selected
 
             */
-            ((type == 'big-number') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+            ((type == 'big-number' || type == 'data-paragraph') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody
                         initialOpen={panelStatus[g]}
                         onToggle={e => togglePanel(g, panelStatus, setAttributes)}
@@ -177,10 +178,10 @@ export const Measures = (props) => {
         }
 
 
-        {(type != 'overlay') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
+        {(type != 'overlay' && type != 'data-paragraph') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
-                hiddenCustomAxisFormat={type == 'radar' || type == 'big-number'}
+                hiddenCustomAxisFormat={type == 'radar' || type == 'big-number' || type == 'data-paragraph' || type == 'grouped-bars'}
                 format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
                 customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
                 useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}

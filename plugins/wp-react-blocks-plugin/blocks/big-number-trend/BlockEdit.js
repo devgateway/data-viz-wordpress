@@ -60,7 +60,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 csv,
                 type,
                 waitForFilters,
-                noDataText
+                noDataText,
+                showTooltip,
+                tooltipText,
+                tooltipStyle
             }
         } = this.props;
 
@@ -327,6 +330,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 />
                             </PanelRow>
 
+
                             <PanelRow>
                                 <Text>{__("Big Number Font Size")}</Text>
                             </PanelRow>
@@ -425,6 +429,77 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     }
                                 ]}
                             />
+                            <PanelBody
+                                initialOpen={false}
+                                panelStatus={panelStatus['TOOLTIP']}
+                                onToggle={e => togglePanel("TOOLTIP", panelStatus, setAttributes)}
+                                title={__("Tooltip")}
+                            >
+                                <PanelRow>
+                                    <ToggleControl
+                                        label={__('Show Tooltip')}
+                                        checked={!!showTooltip}
+                                        onChange={() => setAttributes({showTooltip: !showTooltip})}
+                                    />
+                                </PanelRow>
+                                {showTooltip && (
+                                    <PanelRow>
+                                        <TextareaControl
+                                            label={__('Tooltip Text')}
+                                            value={tooltipText}
+                                            onChange={(tooltipText) => setAttributes({tooltipText})}
+                                            rows={4}
+                                        />
+                                    </PanelRow>
+                                )}
+                                {showTooltip && (
+                                    <PanelRow>
+                                        <SelectControl
+                                            label={__('Tooltip Style')}
+                                            value={tooltipStyle || 'light'}
+                                            onChange={(value) => setAttributes({tooltipStyle: value})}
+                                            options={[
+                                                { label: __('Dark'), value: 'dark' },
+                                                { label: __('Light'), value: 'light' }
+                                            ]}
+                                        />
+                                    </PanelRow>
+                                )}
+                                {showTooltip && (
+                                    <>
+                                        <PanelRow>
+                                            <div style={{"font-weight": "bold", "font-size": "11px"}}>
+                                                {__('Available Variables:')}
+                                            </div>
+                                        </PanelRow>
+                                        <PanelRow>
+                                            <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                                {__('Current Year')}: {"{current_year}"}
+                                            </div>
+                                        </PanelRow>
+                                        <PanelRow>
+                                            <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                                {__('Previous Year')}: {"{previous_year}"}
+                                            </div>
+                                        </PanelRow>
+                                        <PanelRow>
+                                            <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                                {__('Current Value')}: {"{current_value}"}
+                                            </div>
+                                        </PanelRow>
+                                        <PanelRow>
+                                            <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                                {__('Previous Value')}: {"{previous_value}"}
+                                            </div>
+                                        </PanelRow>
+                                        <PanelRow>
+                                            <div style={{"font-size": "11px", "margin-left": "20px"}}>
+                                                {__('Percent Change')}: {"{percent_change}"}
+                                            </div>
+                                        </PanelRow>
+                                    </>
+                                )}
+                            </PanelBody>
                         </PanelBody>
                     </Panel>
                 </InspectorControls>),
