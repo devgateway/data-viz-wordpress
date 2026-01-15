@@ -31,7 +31,13 @@ const SaveComponent = (props) => {
             ascOrder,
             useFilterItems,
             dvzProxyDatasetId,
-            autoApply
+            autoApply,
+
+            childFilter,
+            childFilterParam,
+
+            parentFilter,
+            parentFilterParam,
         }
     } = props;
 
@@ -40,37 +46,43 @@ const SaveComponent = (props) => {
 
 
     return (<div className={"viz-component"}
-                 data-component={"filter"}
-                 data-app={app}
-                 data-dvz-proxy-dataset-id={dvzProxyDatasetId}
-                 data-icon={icon}
-                 data-alphabetical-sort={alphabeticalSort}
-                 data-asc-order={ascOrder}
-                 data-type={type}
-                 data-group={group}
-                 data-param={param}
-                 data-csv-field={csvField}
-                 data-csv-value={csvValue}
-                 data-place-holder={placeHolder}
-                 data-is-range={isRange}
-                 data-all-label={allLabel}
-                 data-none-label={noneLabel}
-                 data-start-label={startLabel}
-                 data-end-label={endLabel}
-                 data-use-single-column={useSingleColumn}
-                 data-enable-text-search={enableTextSearch}
-                 data-filter-type={filterType}
-                 data-default-values={defaultValues}
-                 data-filters={encodeURIComponent(JSON.stringify(filters))}
-                 data-show-no-data-option={showNoDataOption}
-                 data-default-value-criteria={defaultValueCriteria}
-                 data-boolean-true-label={booleanTrueLabel}
-                 data-boolean-false-label={booleanFalseLabel}
-                 data-hidden-filters={encodeURIComponent(JSON.stringify(hiddenFilters))}
-                 data-close-on-select={closeOnSelect}
-                 data-use-filter-items={useFilterItems}
-                 data-all-none-same-behaviour={allNoneSameBehaviour}
-                 data-auto-apply={autoApply}>
+        data-component={"filter"}
+        data-app={app}
+        data-dvz-proxy-dataset-id={dvzProxyDatasetId}
+        data-icon={icon}
+        data-alphabetical-sort={alphabeticalSort}
+        data-asc-order={ascOrder}
+        data-type={type}
+        data-group={group}
+        data-param={param}
+        data-csv-field={csvField}
+        data-csv-value={csvValue}
+        data-place-holder={placeHolder}
+        data-is-range={isRange}
+        data-all-label={allLabel}
+        data-none-label={noneLabel}
+        data-start-label={startLabel}
+        data-end-label={endLabel}
+        data-use-single-column={useSingleColumn}
+        data-enable-text-search={enableTextSearch}
+        data-filter-type={filterType}
+        data-default-values={defaultValues}
+        data-filters={encodeURIComponent(JSON.stringify(filters))}
+        data-show-no-data-option={showNoDataOption}
+        data-default-value-criteria={defaultValueCriteria}
+        data-boolean-true-label={booleanTrueLabel}
+        data-boolean-false-label={booleanFalseLabel}
+        data-hidden-filters={encodeURIComponent(JSON.stringify(hiddenFilters))}
+        data-close-on-select={closeOnSelect}
+        data-use-filter-items={useFilterItems}
+        data-all-none-same-behaviour={allNoneSameBehaviour}
+        data-child-filter={childFilter}
+        data-child-filter-param={childFilterParam}
+
+        data-parent-filter={parentFilter}
+        data-parent-filter-param={parentFilterParam}
+
+        data-auto-apply={autoApply}>
     </div>);
 }
 

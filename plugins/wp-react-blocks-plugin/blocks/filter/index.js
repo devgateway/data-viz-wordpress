@@ -1,5 +1,5 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
@@ -132,9 +132,25 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
                 type: 'Boolean',
                 default: true
             },
+            childFilter: {
+                type: 'String',
+                default: ""
+            },
+            childFilterParam: {
+                type: 'String',
+                default: ""
+            },
+            parentFilter: {
+                type: 'String',
+                default: ""
+            },
+            parentFilterParam: {
+                type: 'String',
+                default: ""
+            }
         },
         edit: BlockEdit,
         save: BlockSave,
     }
 )
-;
+    ;
