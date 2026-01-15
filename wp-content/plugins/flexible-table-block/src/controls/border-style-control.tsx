@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import classnames from 'classnames';
 import type { PropertyValue } from 'csstype';
 
 /**
@@ -11,23 +12,19 @@ import { link, linkOff } from '@wordpress/icons';
 import { useState } from '@wordpress/element';
 import {
 	BaseControl,
+	ButtonGroup,
 	Button,
-	Flex,
-	FlexBlock,
-	FlexItem,
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOptionIcon as ToggleGroupControlOptionIcon,
-	__experimentalHStack as HStack,
-	__experimentalVStack as VStack,
+	Tooltip,
+	// @ts-ignore: has no exported member
 	__experimentalText as Text,
 } from '@wordpress/components';
-import { useInstanceId } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
 import { BORDER_STYLE_CONTROLS, SIDE_CONTROLS } from '../constants';
 import { SideIndicatorControl } from './indicator-control';
+import type { BorderStyleValue } from '../BlockAttributes';
 
 const DEFAULT_VALUES = {
 	top: '',
@@ -37,8 +34,10 @@ const DEFAULT_VALUES = {
 };
 
 type Props = {
+	id: string;
 	label: string;
 	help?: string;
+	className?: string;
 	onChange: ( event: any ) => void;
 	values: {
 		top?: PropertyValue< string >;
@@ -53,8 +52,10 @@ type Props = {
 type ValuesKey = keyof typeof DEFAULT_VALUES;
 
 export default function BorderStyleControl( {
+	id,
 	label = __( 'Border style', 'flexible-table-block' ),
 	help,
+	className,
 	onChange,
 	values: valuesProp,
 	allowSides = true,
@@ -64,20 +65,24 @@ export default function BorderStyleControl( {
 		...DEFAULT_VALUES,
 		...valuesProp,
 	};
-	const instanceId = useInstanceId( BorderStyleControl, 'ftb-border-style-control' );
-	const headingId = `${ instanceId }-heading`;
 
-	const isMixed =
+	const isMixed: boolean =
 		allowSides &&
 		! ( values.top === values.right && values.top === values.bottom && values.top === values.left );
 
 	const [ isLinked, setIsLinked ] = useState< boolean >( true );
+	const headingId = `${ id }-heading`;
+
+	const controlLabel: string =
+		isMixed && isLinked ? `${ label } ${ __( '(Mixed)', 'flexible-table-block' ) }` : label;
 
 	const linkedLabel: string = isLinked
 		? __( 'Unlink sides', 'flexible-table-block' )
 		: __( 'Link sides', 'flexible-table-block' );
 
 	const allInputValue: string | 0 = isMixed ? '' : values.top;
+
+	const classNames: string = classnames( 'ftb-border-style-control', className );
 
 	const toggleLinked = () => setIsLinked( ! isLinked );
 
@@ -86,7 +91,7 @@ export default function BorderStyleControl( {
 		onChange( DEFAULT_VALUES );
 	};
 
-	const handleOnClickAll = ( value: string | number | undefined ) => {
+	const handleOnClickAll = ( value: BorderStyleValue ) => {
 		const newValue =
 			value === values.top &&
 			value === values.right &&
@@ -103,7 +108,7 @@ export default function BorderStyleControl( {
 		} );
 	};
 
-	const handleOnClick = ( value: string | number | undefined, targetSide: ValuesKey ) => {
+	const handleOnClick = ( value: BorderStyleValue, targetSide: ValuesKey ) => {
 		const newValue =
 			values[ targetSide as ValuesKey ] && value === values[ targetSide as ValuesKey ]
 				? undefined
@@ -116,81 +121,75 @@ export default function BorderStyleControl( {
 	};
 
 	return (
-		<BaseControl className="ftb-border-style-control" help={ help } __nextHasNoMarginBottom>
-			<VStack aria-labelledby={ headingId } role="group">
-				<Flex>
-					<Text id={ headingId } upperCase size="11" weight="500" as={ FlexBlock }>
-						{ isMixed && isLinked
-							? `${ label } ${ __( '(Mixed)', 'flexible-table-block' ) }`
-							: label }
-					</Text>
-					<FlexItem>
-						<Button variant="secondary" onClick={ handleOnReset } size="small">
-							{ __( 'Reset', 'flexible-table-block' ) }
-						</Button>
-					</FlexItem>
-				</Flex>
-				<HStack alignment="start" justify="space-between">
-					{ isLinked ? (
-						<HStack spacing={ 2 } justify="start">
-							{ hasIndicator && <SideIndicatorControl /> }
-							<ToggleGroupControl
-								hideLabelFromVision
-								__nextHasNoMarginBottom
-								__next40pxDefaultSize
-								label={ label }
-								value={ allInputValue }
-								isDeselectable
-								onChange={ handleOnClickAll }
-							>
-								{ BORDER_STYLE_CONTROLS.map( ( borderStyle ) => (
-									<ToggleGroupControlOptionIcon
-										key={ borderStyle.value }
-										label={ borderStyle.label }
-										value={ borderStyle.value }
-										icon={ borderStyle.icon }
-									/>
-								) ) }
-							</ToggleGroupControl>
-						</HStack>
-					) : (
-						<VStack spacing={ 1 }>
-							{ SIDE_CONTROLS.map( ( item ) => (
-								<HStack spacing={ 2 } justify="start" key={ item.value }>
+		<BaseControl id={ id } className={ classNames } help={ help }>
+			<div aria-labelledby={ headingId } role="region">
+				<div className="ftb-border-style-control__header">
+					<Text id={ headingId }>{ controlLabel }</Text>
+					<Button isSmall variant="secondary" onClick={ handleOnReset }>
+						{ __( 'Reset', 'flexible-table-block' ) }
+					</Button>
+				</div>
+				<div className="ftb-border-style-control__button-controls">
+					<div className="ftb-border-style-control__button-controls-inner">
+						{ isLinked && (
+							<div className="ftb-border-style-control__button-controls-row">
+								{ hasIndicator && <SideIndicatorControl /> }
+								<ButtonGroup className="ftb-button-group">
+									{ BORDER_STYLE_CONTROLS.map( ( borderStyle ) => (
+										<Button
+											key={ borderStyle.value }
+											label={ borderStyle.label }
+											icon={ borderStyle.icon }
+											isSmall
+											variant={ allInputValue === borderStyle.value ? 'primary' : undefined }
+											onClick={ () => handleOnClickAll( borderStyle.value ) }
+										/>
+									) ) }
+								</ButtonGroup>
+							</div>
+						) }
+						{ ! isLinked &&
+							SIDE_CONTROLS.map( ( item ) => (
+								<div className="ftb-border-style-control__button-controls-row" key={ item.value }>
 									{ hasIndicator && <SideIndicatorControl sides={ [ item.value ] } /> }
-									<ToggleGroupControl
-										hideLabelFromVision
-										__nextHasNoMarginBottom
-										__next40pxDefaultSize
-										label={ item.label }
-										value={ values[ item.value as ValuesKey ] }
-										isDeselectable
-										onChange={ ( value ) => handleOnClick( value, item.value as ValuesKey ) }
-									>
-										{ BORDER_STYLE_CONTROLS.map( ( borderStyle ) => (
-											<ToggleGroupControlOptionIcon
-												key={ borderStyle.value }
-												label={ borderStyle.label }
-												value={ borderStyle.value }
-												icon={ borderStyle.icon }
-											/>
-										) ) }
-									</ToggleGroupControl>
-								</HStack>
+									<ButtonGroup className="ftb-button-group" aria-label={ item.label }>
+										{ BORDER_STYLE_CONTROLS.map( ( borderStyle ) => {
+											return (
+												<Button
+													key={ borderStyle.value }
+													label={ borderStyle.label }
+													icon={ borderStyle.icon }
+													variant={
+														values[ item.value as ValuesKey ] === borderStyle.value
+															? 'primary'
+															: undefined
+													}
+													isSmall
+													onClick={ () =>
+														handleOnClick( borderStyle.value, item.value as ValuesKey )
+													}
+												/>
+											);
+										} ) }
+									</ButtonGroup>
+								</div>
 							) ) }
-						</VStack>
-					) }
+					</div>
 					{ allowSides && (
-						<Button
-							label={ linkedLabel }
-							onClick={ toggleLinked }
-							icon={ isLinked ? link : linkOff }
-							size="small"
-							style={ { marginTop: '6px' } }
-						/>
+						<Tooltip text={ linkedLabel }>
+							<span>
+								<Button
+									className="ftb-border-style-control__header-linked-button"
+									label={ linkedLabel }
+									isSmall
+									onClick={ toggleLinked }
+									icon={ isLinked ? link : linkOff }
+								/>
+							</span>
+						</Tooltip>
 					) }
-				</HStack>
-			</VStack>
+				</div>
+			</div>
 		</BaseControl>
 	);
 }

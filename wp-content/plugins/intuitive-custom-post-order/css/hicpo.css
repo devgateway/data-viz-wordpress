@@ -1,16 +1,13 @@
 .ui-sortable tr:hover {
 	cursor: move;
 }
-
 .ui-sortable tr.alternate {
-	background-color: #f9f9f9;
+	background-color: #F9F9F9;	
 }
-
 .ui-sortable tr.ui-sortable-helper {
-	background-color: #f9f9f9;
-	border-top: 1px solid #dfdfdf;
+	background-color: #F9F9F9;
+	border-top: 1px solid #DFDFDF;
 }
-
 .ui-sortable-placeholder {
 	display: none;
 }

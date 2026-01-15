@@ -6,8 +6,10 @@ import styled from '@emotion/styled';
 
 export const ViewBox = styled.span`
 	position: relative;
+	display: block;
 	width: 24px;
 	height: 24px;
+	margin-right: 12px;
 `;
 
 const Side = styled.span< { isFocused: boolean } >`
@@ -24,66 +26,66 @@ const Corner = styled.span< { isFocused: boolean } >`
 	display: block;
 	pointer-events: none;
 	position: absolute;
-	width: 8px;
-	height: 8px;
+	width: 9px;
+	height: 9px;
 	${ ( { isFocused } ) => ! isFocused && css( { opacity: 0.3 } ) }
 `;
 
 export const TopStroke = styled( Side )`
-	top: 3px;
-	right: 6px;
-	left: 6px;
+	top: 2px;
+	right: 5px;
+	left: 5px;
 	height: 2px;
 `;
 
 export const RightStroke = styled( Side )`
-	top: 6px;
-	right: 3px;
-	bottom: 6px;
+	top: 5px;
+	right: 2px;
+	bottom: 5px;
 	width: 2px;
 	background-color: currentColor;
 `;
 
 export const BottomStroke = styled( Side )`
-	right: 6px;
-	bottom: 3px;
-	left: 6px;
+	right: 5px;
+	bottom: 2px;
+	left: 5px;
 	height: 2px;
 	background-color: currentColor;
 `;
 
 export const LeftStroke = styled( Side )`
-	top: 6px;
-	bottom: 6px;
-	left: 3px;
+	top: 5px;
+	bottom: 5px;
+	left: 2px;
 	width: 2px;
 	background-color: currentColor;
 `;
 
 export const TopLeftStroke = styled( Corner )`
-	top: 3px;
-	left: 3px;
+	top: 2px;
+	left: 2px;
 	border-top: 2px solid;
 	border-left: 2px solid;
 `;
 
 export const TopRightStroke = styled( Corner )`
-	top: 3px;
-	right: 3px;
+	top: 2px;
+	right: 2px;
 	border-top: 2px solid;
 	border-right: 2px solid;
 `;
 
 export const BottomRightStroke = styled( Corner )`
-	right: 3px;
-	bottom: 3px;
+	right: 2px;
+	bottom: 2px;
 	border-right: 2px solid;
 	border-bottom: 2px solid;
 `;
 
 export const BottomLeftStroke = styled( Corner )`
-	bottom: 3px;
-	left: 3px;
+	bottom: 2px;
+	left: 2px;
 	border-bottom: 2px solid;
 	border-left: 2px solid;
 `;

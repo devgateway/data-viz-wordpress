@@ -9,9 +9,6 @@
 
 /**
  * Gets the SVG code for a given icon.
- *
- * @param string $icon The specific icon to retrieve.
- * @param int    $size The desired width and height for the SVG icon.
  */
 function twentynineteen_get_icon_svg( $icon, $size = 24 ) {
 	return TwentyNineteen_SVG_Icons::get_svg( 'ui', $icon, $size );
@@ -19,9 +16,6 @@ function twentynineteen_get_icon_svg( $icon, $size = 24 ) {
 
 /**
  * Gets the SVG code for a given social icon.
- *
- * @param string $icon The specific icon to retrieve.
- * @param int    $size The desired width and height for the SVG icon.
  */
 function twentynineteen_get_social_icon_svg( $icon, $size = 24 ) {
 	return TwentyNineteen_SVG_Icons::get_svg( 'social', $icon, $size );
@@ -29,9 +23,6 @@ function twentynineteen_get_social_icon_svg( $icon, $size = 24 ) {
 
 /**
  * Detects the social network from a URL and returns the SVG code for its icon.
- *
- * @param string $uri  The URL of the social network link.
- * @param int    $size The desired width and height for the SVG icon.
  */
 function twentynineteen_get_social_link_svg( $uri, $size = 24 ) {
 	return TwentyNineteen_SVG_Icons::get_social_link_svg( $uri, $size );
@@ -40,16 +31,16 @@ function twentynineteen_get_social_link_svg( $uri, $size = 24 ) {
 /**
  * Display SVG icons in social links menu.
  *
- * @param string   $item_output The menu item's starting HTML output.
- * @param WP_Post  $item        Menu item data object.
- * @param int      $depth       Depth of the menu. Used for padding.
- * @param stdClass $args        An object of wp_nav_menu() arguments.
- * @return string The menu item output with social icon.
+ * @param  string  $item_output The menu item output.
+ * @param  WP_Post $item        Menu item object.
+ * @param  int     $depth       Depth of the menu.
+ * @param  array   $args        wp_nav_menu() arguments.
+ * @return string  $item_output The menu item output with social icon.
  */
 function twentynineteen_nav_menu_social_icons( $item_output, $item, $depth, $args ) {
 	// Change SVG icon inside social links menu if there is supported URL.
 	if ( 'social' === $args->theme_location ) {
-		$svg = twentynineteen_get_social_link_svg( $item->url, 32 );
+		$svg = twentynineteen_get_social_link_svg( $item->url, 26 );
 		if ( empty( $svg ) ) {
 			$svg = twentynineteen_get_icon_svg( 'link' );
 		}
@@ -63,17 +54,18 @@ add_filter( 'walker_nav_menu_start_el', 'twentynineteen_nav_menu_social_icons', 
 /**
  * Add a dropdown icon to top-level menu items.
  *
- * @param string   $item_output The menu item's starting HTML output.
- * @param WP_Post  $item        Menu item data object.
- * @param int      $depth       Depth of the menu. Used for padding.
- * @param stdClass $args        An object of wp_nav_menu() arguments.
+ * @param string $output Nav menu item start element.
+ * @param object $item   Nav menu item.
+ * @param int    $depth  Depth.
+ * @param object $args   Nav menu args.
  * @return string Nav menu item start element.
+ * Add a dropdown icon to top-level menu items
  */
-function twentynineteen_add_dropdown_icons( $item_output, $item, $depth, $args ) {
+function twentynineteen_add_dropdown_icons( $output, $item, $depth, $args ) {
 
 	// Only add class to 'top level' items on the 'primary' menu.
 	if ( ! isset( $args->theme_location ) || 'menu-1' !== $args->theme_location ) {
-		return $item_output;
+		return $output;
 	}
 
 	if ( in_array( 'mobile-parent-nav-menu-item', $item->classes, true ) && isset( $item->original_id ) ) {
@@ -85,18 +77,18 @@ function twentynineteen_add_dropdown_icons( $item_output, $item, $depth, $args )
 		);
 
 		// Replace opening <a> with <button>.
-		$item_output = preg_replace(
+		$output = preg_replace(
 			'/<a\s.*?>/',
 			$link,
-			$item_output,
+			$output,
 			1 // Limit.
 		);
 
 		// Replace closing </a> with </button>.
-		$item_output = preg_replace(
+		$output = preg_replace(
 			'#</a>#i',
 			'</button>',
-			$item_output,
+			$output,
 			1 // Limit.
 		);
 
@@ -105,12 +97,12 @@ function twentynineteen_add_dropdown_icons( $item_output, $item, $depth, $args )
 		// Add SVG icon to parent items.
 		$icon = twentynineteen_get_icon_svg( 'keyboard_arrow_down', 24 );
 
-		$item_output .= sprintf(
+		$output .= sprintf(
 			'<button class="submenu-expand" tabindex="-1">%s</button>',
 			$icon
 		);
 	}
 
-	return $item_output;
+	return $output;
 }
 add_filter( 'walker_nav_menu_start_el', 'twentynineteen_add_dropdown_icons', 10, 4 );

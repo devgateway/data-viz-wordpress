@@ -37,8 +37,6 @@
 
         private static $_upgrade_basename = null;
 
-        const UPDATES_CHECK_CACHE_EXPIRATION = ( WP_FS__TIME_24_HOURS_IN_SEC / 24 );
-
         #--------------------------------------------------------------------------------
         #region Singleton
         #--------------------------------------------------------------------------------
@@ -106,8 +104,6 @@
 
             if ( ! $this->_fs->has_any_active_valid_license() ) {
                 add_action( 'admin_head', array( &$this, 'catch_plugin_information_dialog_contents' ) );
-            } else {
-                add_action( 'admin_footer', array( &$this, '_add_fs_allow_updater_and_dialog_request_param' ) );
             }
 
             if ( ! WP_FS__IS_PRODUCTION_MODE ) {
@@ -133,46 +129,13 @@
 
         /**
          * @author Leo Fajardo (@leorw)
-         * @since 2.7.4
-         */
-        function _add_fs_allow_updater_and_dialog_request_param() {
-            if ( ! $this->is_plugin_information_dialog_for_plugin() ) {
-                return;
-            }
-            ?>
-            <script type="text/javascript">
-                if ( typeof jQuery !== 'undefined' ) {
-                    jQuery( document ).on( 'wp-plugin-updating', function( event, args ) {
-                        if ( typeof args === 'object' && args.slug && typeof args.slug === 'string' ) {
-                            if ( <?php echo json_encode( $this->_fs->get_slug() ) ?> === args.slug ) {
-                                args.fs_allow_updater_and_dialog = true;
-                            }
-                        }
-                    } );
-                }
-            </script>
-            <?php
-        }
-
-        /**
-         * @author Leo Fajardo (@leorw)
-         * @since 2.7.4
-         *
-         * @return bool
-         */
-        private function is_plugin_information_dialog_for_plugin() {
-            return (
-                'plugin-information' === fs_request_get( 'tab', false ) &&
-                $this->_fs->get_slug() === fs_request_get_raw( 'plugin', false )
-            );
-        }
-
-        /**
-         * @author Leo Fajardo (@leorw)
          * @since 2.1.4
          */
         function catch_plugin_information_dialog_contents() {
-            if ( ! $this->is_plugin_information_dialog_for_plugin() ) {
+            if (
+                'plugin-information' !== fs_request_get( 'tab', false ) ||
+                $this->_fs->get_slug() !== fs_request_get_raw( 'plugin', false )
+            ) {
                 return;
             }
 
@@ -567,7 +530,7 @@
                 $new_version = $this->_fs->get_update(
                     false,
                     fs_request_get_bool( 'force-check' ),
-                    FS_Plugin_Updater::UPDATES_CHECK_CACHE_EXPIRATION,
+                    WP_FS__TIME_24_HOURS_IN_SEC / 24,
                     $current_plugin_version
                 );
 
@@ -651,7 +614,7 @@
 
             $slug = $this->_fs->get_slug();
 
-            if ( $this->can_fetch_data_from_wp_org() ) {
+            if ( $this->_fs->is_org_repo_compliant() && $this->_fs->is_freemium() ) {
                 if ( ! isset( $this->_translation_updates ) ) {
                     $this->_translation_updates = array();
 
@@ -746,7 +709,12 @@
          * @return bool
          */
         private function is_new_version_premium( FS_Plugin_Tag $new_version ) {
-            $params = fs_parse_url_params( $new_version->url );
+            $query_str = parse_url( $new_version->url, PHP_URL_QUERY );
+            if ( empty( $query_str ) ) {
+                return false;
+            }
+
+            parse_str( $query_str, $params );
 
             return ( isset( $params['is_premium'] ) && 'true' == $params['is_premium'] );
         }
@@ -906,16 +874,6 @@
             }
 
             return $res;
-        }
-
-        /**
-         * Returns true if the product can fetch data from WordPress.org.
-         *
-         * @author Leo Fajardo (@leorw)
-         * @since  2.7.4
-         */
-        private function can_fetch_data_from_wp_org() {
-            return ( $this->_fs->is_org_repo_compliant() && $this->_fs->is_freemium() );
         }
 
         /**
@@ -1102,7 +1060,7 @@
             }
 
             $plugin_in_repo = false;
-            if ( ! $is_addon && $this->can_fetch_data_from_wp_org() ) {
+            if ( ! $is_addon ) {
                 // Try to fetch info from .org repository.
                 $data = self::_fetch_plugin_info_from_repository( $action, $args );
 
@@ -1235,7 +1193,7 @@ if ( !isset($info->error) ) {
          * @return object
          */
         private function get_latest_download_details( $addon_id = false, $newer_than = false, $fetch_readme = true ) {
-            return $this->_fs->_fetch_latest_version( $addon_id, true, FS_Plugin_Updater::UPDATES_CHECK_CACHE_EXPIRATION, $newer_than, $fetch_readme );
+            return $this->_fs->_fetch_latest_version( $addon_id, true, WP_FS__TIME_24_HOURS_IN_SEC, $newer_than, $fetch_readme );
         }
 
         /**
