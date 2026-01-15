@@ -52,9 +52,8 @@
     if ( $is_network_activation ) {
         $all_sites = Freemius::get_sites();
 
-        $all_site_details          = array();
-        $subsite_url_by_install_id = array();
-        $install_url_by_install_id = array();
+        $subsite_data_by_install_id = array();
+        $install_url_by_install_id  = array();
 
         foreach ( $all_sites as $site ) {
             $site_details = $fs->get_site_info( $site );
@@ -67,9 +66,9 @@
             $install = $fs->get_install_by_blog_id($blog_id);
 
             if ( is_object( $install ) ) {
-                if ( isset( $subsite_url_by_install_id[ $install->id ] ) ) {
-                    $clone_subsite_url = $subsite_url_by_install_id[ $install->id ];
-                    $clone_install_url = $install_url_by_install_id[ $install->id ];
+                if ( isset( $subsite_data_by_install_id[ $install->id ] ) ) {
+                    $clone_subsite_data = $subsite_data_by_install_id[ $install->id ];
+                    $clone_install_url  = $install_url_by_install_id[ $install->id ];
 
                     if (
                         /**
@@ -78,7 +77,7 @@
                          * @author Leo Fajardo (@leorw)
                          * @since 2.5.0
                          */
-                        fs_strip_url_protocol( untrailingslashit( $clone_install_url ) ) === fs_strip_url_protocol( untrailingslashit( $clone_subsite_url ) ) ||
+                        fs_strip_url_protocol( untrailingslashit( $clone_install_url ) ) === fs_strip_url_protocol( untrailingslashit( $clone_subsite_data['url'] ) ) ||
                         fs_strip_url_protocol( untrailingslashit( $install->url ) ) !== fs_strip_url_protocol( untrailingslashit( $site_details['url'] ) )
                     ) {
                         continue;
@@ -89,17 +88,15 @@
                     $site_details['license_id'] = $install->license_id;
                 }
 
-                $subsite_url_by_install_id[ $install->id ] = $site_details['url'];
-                $install_url_by_install_id[ $install->id ] = $install->url;
+                $subsite_data_by_install_id[ $install->id ] = $site_details;
+                $install_url_by_install_id[ $install->id ]  = $install->url;
             }
-
-            $all_site_details[] = $site_details;
         }
 
         if ( $is_network_activation ) {
             $vars = array(
                 'id'                  => $fs->get_id(),
-                'sites'               => $all_site_details,
+                'sites'               => array_values( $subsite_data_by_install_id ),
                 'require_license_key' => true
             );
 
@@ -151,7 +148,7 @@ HTML;
                     $license->get_html_escaped_masked_secret_key()
                 );
 
-                $license_input_html .= "<option data-id='{$license->id}' value='{$license->id}' data-left='{$license->left()}'>{$label}</option>";
+                $license_input_html .= "<option data-id='{$license->id}' value='{$license->secret_key}' data-left='{$license->left()}'>{$label}</option>";
             }
 
             $license_input_html .= '</select>';
@@ -178,6 +175,7 @@ HTML;
                     type="text"
                     value="{$value}"
                     data-id="{$available_license->id}"
+                    data-license-key="{$available_license->secret_key}"
                     data-left="{$available_license->left()}"
                     readonly />
 HTML;
@@ -561,17 +559,17 @@ HTML;
 					return;
 				}
 
-                var licenseKey = '',
-                    licenseID  = '';
+				var
+                    licenseKey = '';
 
 				if ( hasLicenseTypes ) {
 				    if ( isOtherLicenseKeySelected() ) {
 				        licenseKey = $otherLicenseKey.val();
                     } else {
 				        if ( ! hasLicensesDropdown ) {
-                            licenseID = $availableLicenseKey.data( 'id' );
+                            licenseKey = $availableLicenseKey.data( 'license-key' );
                         } else {
-                            licenseID = $licensesDropdown.val();
+                            licenseKey = $licensesDropdown.val();
                         }
                     }
                 } else {
@@ -580,21 +578,16 @@ HTML;
 
 				disableActivateLicenseButton();
 
-				if ( 0 === licenseID.length && 0 === licenseKey.length ) {
+				if (0 === licenseKey.length) {
 					return;
 				}
 
                 var data = {
                     action     : '<?php echo $fs->get_ajax_action( 'activate_license' ) ?>',
                     security   : '<?php echo $fs->get_ajax_security( 'activate_license' ) ?>',
+                    license_key: licenseKey,
                     module_id  : '<?php echo $fs->get_id() ?>'
                 };
-
-                if ( licenseID.length > 0 ) {
-                    data.license_id = licenseID;
-                } else {
-                    data.license_key = licenseKey;
-                }
 
                 if ( isNetworkActivation ) {
                     var

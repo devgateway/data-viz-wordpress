@@ -21,8 +21,6 @@ class WPSEO_Collector {
 	 * Adds a collection object to the collections.
 	 *
 	 * @param WPSEO_Collection $collection The collection object to add.
-	 *
-	 * @return void
 	 */
 	public function add_collection( WPSEO_Collection $collection ) {
 		$this->collections[] = $collection;
@@ -46,7 +44,7 @@ class WPSEO_Collector {
 	/**
 	 * Returns the collected data as a JSON encoded string.
 	 *
-	 * @return string|false The encode string.
+	 * @return false|string The encode string.
 	 */
 	public function get_as_json() {
 		return WPSEO_Utils::format_json_encode( $this->collect() );

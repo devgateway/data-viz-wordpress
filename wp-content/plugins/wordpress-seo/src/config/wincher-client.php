@@ -20,12 +20,12 @@ class Wincher_Client extends OAuth_Client {
 	/**
 	 * The option's key.
 	 */
-	public const TOKEN_OPTION = 'wincher_tokens';
+	const TOKEN_OPTION = 'wincher_tokens';
 
 	/**
 	 * Name of the temporary PKCE cookie.
 	 */
-	public const PKCE_TRANSIENT_NAME = 'yoast_wincher_pkce';
+	const PKCE_TRANSIENT_NAME = 'yoast_wincher_pkce';
 
 	/**
 	 * The WP_Remote_Handler instance.
@@ -42,7 +42,11 @@ class Wincher_Client extends OAuth_Client {
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
-	public function __construct( Options_Helper $options_helper, WP_Remote_Handler $wp_remote_handler ) {
+	public function __construct(
+		Options_Helper $options_helper,
+		WP_Remote_Handler $wp_remote_handler
+	) {
+
 		$provider = new Wincher_PKCE_Provider(
 			[
 				'clientId'                => 'yoast',

@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import clsx from 'clsx';
+import classnames from 'classnames';
 import type { Properties } from 'csstype';
 
 /**
@@ -290,9 +290,7 @@ const v1 = {
 
 		const isEmpty: boolean = ! head.length && ! body.length && ! foot.length;
 
-		if ( isEmpty ) {
-			return null;
-		}
+		if ( isEmpty ) return null;
 
 		const tableStylesObj: Properties = convertToObject( tableStyles );
 		const captionStylesObj: Properties = convertToObject( captionStyles );
@@ -300,25 +298,23 @@ const v1 = {
 		const colorProps = getColorClassesAndStyles( attributes );
 
 		const blockProps = useBlockProps.save( {
-			className: clsx( {
+			className: classnames( {
 				[ `is-content-justification-${ contentJustification }` ]: contentJustification,
 				'is-scroll-on-pc': isScrollOnPc,
 				'is-scroll-on-mobile': isScrollOnMobile,
 			} ),
 		} );
 
-		const tableClasses: string = clsx( colorProps.className, {
+		const tableClasses: string = classnames( colorProps.className, {
 			'has-fixed-layout': hasFixedLayout,
 			'is-stacked-on-mobile': isStackedOnMobile,
 			[ `is-sticky-${ sticky }` ]: sticky,
 		} );
 
-		const hasCaption: boolean = ! RichText.isEmpty( caption || '' );
+		const hasCaption: boolean = ! RichText.isEmpty( caption );
 
 		const Section = ( { type, rows }: { type: SectionName; rows: Row[] } ) => {
-			if ( ! rows.length ) {
-				return null;
-			}
+			if ( ! rows.length ) return null;
 
 			const Tag = `t${ type }` as const;
 
@@ -352,7 +348,7 @@ const v1 = {
 		};
 
 		const Caption = () => (
-			<RichText.Content tagName="figcaption" value={ caption || '' } style={ captionStylesObj } />
+			<RichText.Content tagName="figcaption" value={ caption } style={ captionStylesObj } />
 		);
 
 		return (

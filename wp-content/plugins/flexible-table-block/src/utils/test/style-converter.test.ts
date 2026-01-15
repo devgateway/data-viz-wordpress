@@ -1,6 +1,3 @@
-/**
- * Internal dependencies
- */
 import { convertToInline, convertToObject } from '../style-converter';
 
 describe( 'style-converter', () => {

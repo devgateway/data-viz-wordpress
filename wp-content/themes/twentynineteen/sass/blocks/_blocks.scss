@@ -137,7 +137,6 @@
 		width: 100%;
 
 		audio {
-			display: block;
 			width: 100%;
 		}
 
@@ -164,11 +163,7 @@
 		}
 	}
 
-	//! Buttons
-	.wp-block-buttons {
-		line-height: $font__line-height-heading;
-	}
-
+	//! Button
 	.wp-block-button {
 
 		.wp-block-button__link {
@@ -176,10 +171,12 @@
 			border: none;
 			font-size: $font__size-sm;
 			@include font-family( $font__heading );
+			line-height: $font__line-height-heading;
 			box-sizing: border-box;
 			font-weight: bold;
 			text-decoration: none;
 			padding: ($size__spacing-unit * .76) $size__spacing-unit;
+			outline: none;
 			outline: none;
 
 			&:not(.has-background) {
@@ -194,9 +191,6 @@
 				color: white;
 				background: $color__background-button-hover;
 				cursor: pointer;
-				&:not(.has-background) {
-					background: $color__background-button-hover;
-				}
 			}
 
 			&:focus {
@@ -204,9 +198,6 @@
 				background: $color__background-button-hover;
 				outline: thin dotted;
 				outline-offset: -4px;
-				&:not(.has-background) {
-					background: $color__background-button-hover;
-				}
 			}
 		}
 
@@ -237,22 +228,6 @@
 			&:not(.has-background) {
 				color: $color__background-button-hover;
 			}
-		}
-	}
-
-	.wp-block-buttons,
-	.wp-block-button {
-
-		&.has-custom-font-size .wp-block-button__link {
-			font-size: 1em;
-		}
-
-		&[style*="font-weight"] .wp-block-button__link {
-			font-weight: inherit;
-		}
-
-		&[style*="text-decoration"] .wp-block-button__link {
-			text-decoration: inherit;
 		}
 	}
 
@@ -364,24 +339,17 @@
 			line-height: 1;
 			font-weight: bold;
 			margin: 0 0.25em 0 0;
-
-			@-moz-document url-prefix()  {
-				& {
-					margin-top: 0.2em;
-				}
-			}
 		}
 	}
 
 	//! Pullquote
 	.wp-block-pullquote {
-		color: $color__text-main;
 		border-color: transparent;
 		border-width: 2px;
 		padding: $size__spacing-unit;
-		font-size: 1em;
 
 		blockquote {
+			color: $color__text-main;
 			border: none;
 			margin-top: calc(4 * #{ $size__spacing-unit});
 			margin-bottom: calc(4.33 * #{ $size__spacing-unit});
@@ -406,7 +374,7 @@
 		}
 
 		cite {
-			display: block;
+			display: inline-block;
 			@include font-family( $font__heading );
 			line-height: 1.6;
 			text-transform: none;
@@ -571,14 +539,11 @@
 			display: block;
 		}
 
-		// If an image does not have a left/center/right alignment,
-		// it's a direct child of .wp-block-image.  If it has no other
-		// alignment added, we want to make sure the image and its
-		// caption do not extend beyond the width of the text column.
-		&:not(.alignwide):not(.alignfull) > img,
-		&:not(.alignwide):not(.alignfull) > a > img,
-		&:not(.alignwide):not(.alignfull) > img + figcaption,
-		&:not(.alignwide):not(.alignfull) > a + figcaption {
+		// If an image does not have a left/center/right alignment, 
+		// it's a direct child of .wp-block-img.  If it has no other 
+		// alignment added, we want to make sure the image does not 
+		// extend beyond the width of the text column.
+		&:not(.alignwide):not(.alignfull) > img {
 			@include postContentMaxWidth();
 		}
 
@@ -713,11 +678,6 @@
 		max-width: 2.25em;
 		text-align: left;
 
-		&:not(.wp-block-separator) {
-			max-width: 100%;
-			@include postContentMaxWidth();
-		}
-
 		&.is-style-wide {
 			max-width: 100%;
 			@include postContentMaxWidth();
@@ -832,8 +792,6 @@
 		}
 
 		// Ensure images do not expand beyond the column.
-		.wp-block-image:not(.alignwide):not(.alignfull) > img,
-		.wp-block-image:not(.alignwide):not(.alignfull) > a > img,
 		.wp-block-image > img:not(.alignwide):not(.alignfull),
 		.wp-block-image > figure {
 
@@ -858,7 +816,7 @@
 	//! Group
 	.wp-block-group {
 
-		// When the Group block is standard/wide, we need to prevent full-aligned
+		// When the Group block is standard/wide, we need to prevent full-aligned 
 		// child blocks from expanding out of their container.
 		&:not(.alignfull) > .wp-block-group__inner-container > .alignfull,
 		&:not(.alignfull) > .wp-block-group__inner-container > .wp-block-image > img {
@@ -899,7 +857,7 @@
 				}
 			}
 
-			// If the Group block is full-width, it does not need this extra padding.
+			// If the Group block is full-width, it does not need this extra padding. 
 			&.alignfull {
 				padding-left: 0;
 				padding-right: 0;
@@ -914,7 +872,7 @@
 			&:not(.alignfull) > .wp-block-group__inner-container > .alignfull {
 				width: 100%;
 				max-width: 100%;
-
+				
 				@include media(tablet) {
 					width: calc( 100% + #{$size__spacing-unit * 2} );
 					max-width: calc( 100% + #{$size__spacing-unit * 2} );
@@ -922,6 +880,7 @@
 				}
 			}
 		}
+		
 	}
 
 	//! Latest Comments
@@ -942,11 +901,19 @@
 			font-size: inherit;
 		}
 
+		&.has-avatars {
+
+		}
+
 		&.has-dates {
 
 			.wp-block-latest-comments__comment-date {
 				font-size: $font__size-xs;
 			}
+		}
+
+		&.has-excerpts {
+
 		}
 	}
 

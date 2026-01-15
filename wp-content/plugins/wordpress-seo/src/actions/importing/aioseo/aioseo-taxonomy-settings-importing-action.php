@@ -11,17 +11,17 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	/**
 	 * The plugin of the action.
 	 */
-	public const PLUGIN = 'aioseo';
+	const PLUGIN = 'aioseo';
 
 	/**
 	 * The type of the action.
 	 */
-	public const TYPE = 'taxonomy_settings';
+	const TYPE = 'taxonomy_settings';
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
-	public const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
+	const SOURCE_OPTION_NAME = 'aioseo_options_dynamic';
 
 	/**
 	 * The map of aioseo_options to yoast settings.
@@ -40,9 +40,9 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	/**
 	 * Additional mapping between AiOSEO replace vars and Yoast replace vars.
 	 *
-	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
-	 *
 	 * @var array
+	 *
+	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
 	 */
 	protected $replace_vars_edited_map = [
 		'#breadcrumb_404_error_format'         => '', // Empty string, as AIOSEO shows nothing for that tag.

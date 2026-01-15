@@ -1,6 +1,6 @@
 <?php
 /**
- * Functions which enhance the theme by hooking into WordPress.
+ * Functions which enhance the theme by hooking into WordPress
  *
  * @package WordPress
  * @subpackage Twenty_Nineteen
@@ -19,7 +19,7 @@ function twentynineteen_body_classes( $classes ) {
 		// Adds `singular` to singular pages.
 		$classes[] = 'singular';
 	} else {
-		// Adds `hfeed` to non-singular pages.
+		// Adds `hfeed` to non singular pages.
 		$classes[] = 'hfeed';
 	}
 
@@ -34,19 +34,17 @@ add_filter( 'body_class', 'twentynineteen_body_classes' );
 
 /**
  * Adds custom class to the array of posts classes.
- *
- * @param array $classes A list of existing post class values.
- * @return array The filtered post class list.
  */
-function twentynineteen_post_classes( $classes ) {
+function twentynineteen_post_classes( $classes, $class, $post_id ) {
 	$classes[] = 'entry';
 
 	return $classes;
 }
-add_filter( 'post_class', 'twentynineteen_post_classes' );
+add_filter( 'post_class', 'twentynineteen_post_classes', 10, 3 );
+
 
 /**
- * Adds a pingback url auto-discovery header for single posts, pages, or attachments.
+ * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
 function twentynineteen_pingback_header() {
 	if ( is_singular() && pings_open() ) {
@@ -57,8 +55,6 @@ add_action( 'wp_head', 'twentynineteen_pingback_header' );
 
 /**
  * Changes comment form default fields.
- *
- * @param array $defaults The default comment form arguments.
  */
 function twentynineteen_comment_form_defaults( $defaults ) {
 	$comment_field = $defaults['comment_field'];
@@ -100,13 +96,12 @@ function twentynineteen_get_the_archive_title() {
 add_filter( 'get_the_archive_title', 'twentynineteen_get_the_archive_title' );
 
 /**
- * Adds custom 'sizes' attribute to responsive image functionality for post thumbnails.
+ * Add custom sizes attribute to responsive image functionality for post thumbnails.
  *
- * @since Twenty Nineteen 1.0
+ * @origin Twenty Nineteen 1.0
  *
- * @param string[] $attr Array of attribute values for the image markup, keyed by attribute name.
- *                       See wp_get_attachment_image().
- * @return string[] The filtered attributes for the image markup.
+ * @param array $attr  Attributes for the image markup.
+ * @return string Value for use in post thumbnail 'sizes' attribute.
  */
 function twentynineteen_post_thumbnail_sizes_attr( $attr ) {
 
@@ -120,13 +115,13 @@ function twentynineteen_post_thumbnail_sizes_attr( $attr ) {
 
 	return $attr;
 }
-add_filter( 'wp_get_attachment_image_attributes', 'twentynineteen_post_thumbnail_sizes_attr' );
+add_filter( 'wp_get_attachment_image_attributes', 'twentynineteen_post_thumbnail_sizes_attr', 10, 1 );
 
 /**
- * Adds an extra menu to our nav for our priority+ navigation to use.
+ * Add an extra menu to our nav for our priority+ navigation to use
  *
- * @param string $nav_menu Nav menu.
- * @param object $args     Nav menu args.
+ * @param object $nav_menu  Nav menu.
+ * @param object $args      Nav menu args.
  * @return string More link for hidden menu items.
  */
 function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
@@ -160,44 +155,28 @@ function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
 add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
 
 /**
- * Handles WCAG 2.0 attributes for dropdown menus.
+ * WCAG 2.0 Attributes for Dropdown Menus
  *
- * Adjustments to menu attributes to support WCAG 2.0 recommendations
+ * Adjustments to menu attributes tot support WCAG 2.0 recommendations
  * for flyout and dropdown menus.
  *
- * @link https://www.w3.org/WAI/tutorials/menus/flyout/
- *
- * @param array    $atts {
- *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
- *
- *     @type string $title        Title attribute.
- *     @type string $target       Target attribute.
- *     @type string $rel          The rel attribute.
- *     @type string $href         The href attribute.
- *     @type string $aria-current The aria-current attribute.
- * }
- * @param WP_Post  $item The current menu item object.
- * @param stdClass $args An object of `wp_nav_menu()` arguments.
- * @return string[] Modified attributes.
+ * @ref https://www.w3.org/WAI/tutorials/menus/flyout/
  */
-function twentynineteen_nav_menu_link_attributes( $atts, $item, $args ) {
+function twentynineteen_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
 
-	// Check that this is the primary menu.
-	if ( isset( $args->theme_location ) && 'menu-1' === $args->theme_location ) {
-		// Add [aria-haspopup] and [aria-expanded] to menu items that have children.
-		$item_has_children = in_array( 'menu-item-has-children', $item->classes, true );
-		if ( $item_has_children ) {
-			$atts['aria-haspopup'] = 'true';
-			$atts['aria-expanded'] = 'false';
-		}
+	// Add [aria-haspopup] and [aria-expanded] to menu items that have children.
+	$item_has_children = in_array( 'menu-item-has-children', $item->classes );
+	if ( $item_has_children ) {
+		$atts['aria-haspopup'] = 'true';
+		$atts['aria-expanded'] = 'false';
 	}
 
 	return $atts;
 }
-add_filter( 'nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes', 10, 3 );
+add_filter( 'nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes', 10, 4 );
 
 /**
- * Creates a nav menu item to be displayed on mobile to navigate from submenu back to the parent.
+ * Create a nav menu item to be displayed on mobile to navigate from submenu back to the parent.
  *
  * This duplicates each parent nav menu item and makes it the first child of itself.
  *
@@ -230,20 +209,3 @@ function twentynineteen_add_mobile_parent_nav_menu_items( $sorted_menu_items, $a
 	return $amended_menu_items;
 }
 add_filter( 'wp_nav_menu_objects', 'twentynineteen_add_mobile_parent_nav_menu_items', 10, 2 );
-
-/**
- * Adds a fragment identifier (to the content) to paginated links.
- *
- * @since Twenty Nineteen 2.6
- *
- * @param string $link The page number HTML output.
- * @param int    $i    Page number for paginated posts' page links.
- * @return string Formatted output in HTML.
- */
-function twentynineteen_link_pages_link( $link, $i ) {
-	if ( $i > 1 && preg_match( '/href="([^"]*)"/', $link, $matches ) ) {
-		$link = str_replace( $matches[1], $matches[1] . '#content', $link );
-	}
-	return $link;
-}
-add_filter( 'wp_link_pages_link', 'twentynineteen_link_pages_link', 10, 2 );

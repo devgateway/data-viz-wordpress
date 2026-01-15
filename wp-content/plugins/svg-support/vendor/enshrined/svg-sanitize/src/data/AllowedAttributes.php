@@ -1,5 +1,8 @@
 <?php
+
+
 namespace enshrined\svgSanitize\data;
+
 
 /**
  * Class AllowedAttributes
@@ -143,7 +146,6 @@ class AllowedAttributes implements AttributeInterface
             'direction',
             'display',
             'divisor',
-            'dominant-baseline',
             'dur',
             'edgemode',
             'elevation',
@@ -152,7 +154,6 @@ class AllowedAttributes implements AttributeInterface
             'fill-opacity',
             'fill-rule',
             'filter',
-            'filterUnits',
             'flood-color',
             'flood-opacity',
             'font-family',
@@ -271,7 +272,6 @@ class AllowedAttributes implements AttributeInterface
             'values',
             'viewbox',
             'visibility',
-            'vector-effect',
             'vert-adv-y',
             'vert-origin-x',
             'vert-origin-y',

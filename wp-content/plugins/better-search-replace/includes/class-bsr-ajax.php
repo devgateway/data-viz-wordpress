@@ -100,14 +100,14 @@ class BSR_AJAX {
 	 */
 	public function process_search_replace() {
 		// Bail if not authorized.
-		if ( ! BSR_Utils::check_admin_referer( 'bsr_ajax_nonce', 'bsr_ajax_nonce' ) ) {
+		if ( ! check_admin_referer( 'bsr_ajax_nonce', 'bsr_ajax_nonce' ) ) {
 			return;
 		}
 
 		// Initialize the DB class.
 		$db   = new BSR_DB();
-		$step = isset( $_REQUEST['bsr_step' ] ) ? absint( $_REQUEST['bsr_step'] ) : 0;
-		$page = isset( $_REQUEST['bsr_page'] ) ? absint( $_REQUEST['bsr_page'] ) : 0;
+		$step = isset( $_POST['bsr_step' ] ) ? absint( $_POST['bsr_step'] ) : 0;
+		$page = isset( $_POST['bsr_page'] ) ? absint( $_POST['bsr_page'] ) : 0;
 
 		// Any operations that should only be performed at the beginning.
 		if ( $step === 0 && $page === 0 ) {
@@ -153,13 +153,11 @@ class BSR_AJAX {
 
 			// Check if isset() again as the step may have changed since last check.
 			if ( isset( $args['select_tables'][$step] ) ) {
-				$msg_tbl = esc_html( $args['select_tables'][$step] );
-
 				$message = sprintf(
 					__( 'Processing table %d of %d: %s', 'better-search-replace' ),
 					$step + 1,
 					count( $args['select_tables'] ),
-					$msg_tbl
+					esc_html( $args['select_tables'][$step] )
 				);
 			}
 
@@ -204,8 +202,8 @@ class BSR_AJAX {
 	public function append_report( $table, $report, $args ) {
 
 		// Bail if not authorized.
-		if ( ! BSR_Utils::check_admin_referer( 'bsr_ajax_nonce', 'bsr_ajax_nonce' ) ) {
-			return false;
+		if ( ! check_admin_referer( 'bsr_ajax_nonce', 'bsr_ajax_nonce' ) ) {
+			return;
 		}
 
 		// Retrieve the existing transient.

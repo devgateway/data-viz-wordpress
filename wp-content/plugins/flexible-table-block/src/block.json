@@ -1,10 +1,10 @@
 {
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "flexible-table-block/table",
 	"title": "Flexible Table",
 	"category": "text",
-	"keywords": [ "table", "cell", "data" ],
-	"description": "Create a flexible configuration table.",
+	"keywords": [ "table", "cell", "data"],
+	"description": "Create flexible configuration table.",
 	"textdomain": "flexible-table-block",
 	"attributes": {
 		"contentJustification": {
@@ -42,8 +42,7 @@
 		"caption": {
 			"type": "string",
 			"source": "html",
-			"selector": "figcaption",
-			"__experimentalRole": "content"
+			"selector": "figcaption"
 		},
 		"captionStyles": {
 			"type": "string",
@@ -65,8 +64,7 @@
 					"query": {
 						"content": {
 							"type": "string",
-							"source": "html",
-							"__experimentalRole": "content"
+							"source": "html"
 						},
 						"styles": {
 							"type": "string",
@@ -126,8 +124,7 @@
 					"query": {
 						"content": {
 							"type": "string",
-							"source": "html",
-							"__experimentalRole": "content"
+							"source": "html"
 						},
 						"styles": {
 							"type": "string",
@@ -187,8 +184,7 @@
 					"query": {
 						"content": {
 							"type": "string",
-							"source": "html",
-							"__experimentalRole": "content"
+							"source": "html"
 						},
 						"styles": {
 							"type": "string",
@@ -237,7 +233,7 @@
 	},
 	"supports": {
 		"anchor": true,
-		"align": [ "left", "right", "wide", "full" ],
+		"align": [ "left", "right", "wide", "full"],
 		"color": {
 			"__experimentalSkipSerialization": [ "text", "background", "gradients" ],
 			"gradients": true,
@@ -250,16 +246,10 @@
 			"__experimentalTextTransform": true,
 			"__experimentalFontStyle": true,
 			"__experimentalFontWeight": true,
-			"__experimentalLetterSpacing": true,
-			"__experimentalDefaultControls": {
-				"fontSize": false
-			}
+			"__experimentalLetterSpacing": true
 		},
 		"spacing": {
-			"margin": true,
-			"__experimentalDefaultControls": {
-				"margin": false
-			}
+			"margin": true
 		},
 		"__experimentalSelector": ".wp-block-flexible-table-block-table > table"
 	},
