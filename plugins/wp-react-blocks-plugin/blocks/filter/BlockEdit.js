@@ -93,6 +93,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         this.items = this.items.bind(this)
         this.updateDefaultValues = this.updateDefaultValues.bind(this)
         this.selectDefaultValue = this.selectDefaultValue.bind(this)
+
+        // Add a key to force iframe reload on attribute changes
+        this.state = { ...(this.state || {}), iframeReloadKey: 0 }
     }
 
     updateHiddenFilters(value, idx) {
@@ -122,7 +125,17 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         super.componentDidUpdate(prevProps, prevState, snapshot)
-        const { setAttributes } = this.props
+        const { attributes } = this.props
+        const prevAttributes = prevProps.attributes || {}
+        if (
+            prevAttributes.defaultValues !== attributes.defaultValues ||
+            prevAttributes.filterType !== attributes.filterType ||
+            prevAttributes.param !== attributes.param ||
+            prevAttributes.app !== attributes.app ||
+            prevAttributes.defaultValueCriteria !== attributes.defaultValueCriteria
+        ) {
+            this.setState({ iframeReloadKey: (this.state.iframeReloadKey || 0) + 1 })
+        }
     }
 
     updateDefaultValues(value) {
@@ -490,9 +503,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         (<div>
 
-            {this.state.react_ui_url && <iframe ref={this.iframe} scrolling={"no"}
-                style={iframeStyles}
-                src={this.state.react_ui_url + "/embeddable/filter?"} />}
+            {this.state.react_ui_url && (
+                <iframe
+                    key={'filter-iframe-' + (this.state.iframeReloadKey || 0)}
+                    ref={this.iframe}
+                    scrolling={"no"}
+                    style={iframeStyles}
+                    src={this.state.react_ui_url + "/embeddable/filter?v=" + (this.state.iframeReloadKey || 0)}
+                />
+            )}
         </div>
 
         )]);
