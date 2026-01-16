@@ -132,7 +132,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             prevAttributes.filterType !== attributes.filterType ||
             prevAttributes.param !== attributes.param ||
             prevAttributes.app !== attributes.app ||
-            prevAttributes.defaultValueCriteria !== attributes.defaultValueCriteria
+            prevAttributes.defaultValueCriteria !== attributes.defaultValueCriteria ||
+            prevAttributes.defaultTopNEnabled !== attributes.defaultTopNEnabled ||
+            prevAttributes.defaultTopNCount !== attributes.defaultTopNCount
         ) {
             this.setState({ iframeReloadKey: (this.state.iframeReloadKey || 0) + 1 })
         }
@@ -183,7 +185,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 closeOnSelect,
                 useFilterItems,
                 dvzProxyDatasetId,
-
+                defaultTopNEnabled,
+                defaultTopNCount,
                 parentFilter
             }
         } = this.props;
@@ -391,13 +394,36 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 </PanelBody>}
                 {app != 'csv' && !isRange && filterAnyType && filterAnyType.length > 0 && (
                     <PanelBody initialOpen={false} title={__('Default Selection')}>
-                        <DefaultSelection
-                            defaultValues={defaultValues}
-                            items={this.items(filterAnyType[0].type)}
-                            filterType={filterType}
-                            onToggle={this.updateDefaultValues}
-                            onSelect={this.selectDefaultValue}
-                        />
+                        <PanelRow>
+                            <ToggleControl
+                                label={__('Select Top N Items')}
+                                checked={!!defaultTopNEnabled}
+                                onChange={() => setAttributes({ defaultTopNEnabled: !defaultTopNEnabled })}
+                                help={__('Enable selecting the first N items by default.')}
+                            />
+                        </PanelRow>
+                        {defaultTopNEnabled && (
+                            <PanelRow>
+                                <TextControl
+                                    label={__('Top N Count')}
+                                    value={defaultTopNCount}
+                                    onChange={(val) => {
+                                        const n = parseInt(val, 10);
+                                        setAttributes({ defaultTopNCount: isNaN(n) ? 0 : n })
+                                    }}
+                                    help={__('Number of items to preselect when enabled.')}
+                                />
+                            </PanelRow>
+                        )}
+                        {!defaultTopNEnabled && (
+                            <DefaultSelection
+                                defaultValues={defaultValues}
+                                items={this.items(filterAnyType[0].type)}
+                                filterType={filterType}
+                                onToggle={this.updateDefaultValues}
+                                onSelect={this.selectDefaultValue}
+                            />
+                        )}
                     </PanelBody>
                 )}
                 <PanelBody title={__("Labels")}>

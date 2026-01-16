@@ -148,6 +148,15 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
                 type: 'String',
                 default: ""
             }
+            ,
+            defaultTopNEnabled: {
+                type: 'Boolean',
+                default: false
+            },
+            defaultTopNCount: {
+                type: 'Number',
+                default: 3
+            }
         },
         edit: BlockEdit,
         save: BlockSave,
