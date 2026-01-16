@@ -31,6 +31,59 @@ const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
     }
 }
 
+const DefaultSelection = ({ defaultValues, items, filterType, onToggle, onSelect }) => {
+    if (!items) {
+        return null;
+    }
+
+    const sortedItems = items.sort(function (a, b) {
+        if (a.position !== undefined && b.position !== undefined) {
+            return a.position - b.position
+        }
+
+        let aValue = a.value ? a.value.toLowerCase() : "";
+        let bValue = b.value ? b.value.toLowerCase() : "";
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    });
+
+    const defaultsArr = (defaultValues || '').toString().split(',').map(v => v.trim()).filter(v => v.length > 0);
+
+    if (filterType === 'multi-select') {
+        return (
+            <>
+                {sortedItems.map(v => {
+                    const idStr = typeof v.id === 'boolean' ? (v.id ? 'true' : 'false') : String(v.id);
+                    const checked = defaultsArr.indexOf(idStr) > -1;
+                    return (
+                        <PanelRow>
+                            <ToggleControl
+                                label={v.value}
+                                checked={checked}
+                                onChange={() => onToggle(v.id)}
+                            />
+                        </PanelRow>
+                    )
+                })}
+            </>
+        )
+    } else if (filterType === 'single-select') {
+        const options = [{ label: __('None'), value: '' }, ...sortedItems.map(v => ({ label: v.value, value: (typeof v.id === 'boolean' ? (v.id ? 'true' : 'false') : String(v.id)) }))];
+        const current = defaultsArr.length > 0 ? defaultsArr[0] : '';
+        return (
+            <PanelRow>
+                <SelectControl
+                    label={__('Default Item')}
+                    value={current}
+                    onChange={onSelect}
+                    options={options}
+                />
+            </PanelRow>
+        )
+    } else {
+        return null;
+    }
+}
+
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
@@ -38,6 +91,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         this.updateHiddenFilters = this.updateHiddenFilters.bind(this)
         //this.onFilterChange = this.onFilterChange.bind(this)
         this.items = this.items.bind(this)
+        this.updateDefaultValues = this.updateDefaultValues.bind(this)
+        this.selectDefaultValue = this.selectDefaultValue.bind(this)
     }
 
     updateHiddenFilters(value, idx) {
@@ -68,6 +123,24 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     componentDidUpdate(prevProps, prevState, snapshot) {
         super.componentDidUpdate(prevProps, prevState, snapshot)
         const { setAttributes } = this.props
+    }
+
+    updateDefaultValues(value) {
+        const { attributes: { defaultValues }, setAttributes } = this.props
+        const arr = (defaultValues || '').toString().split(',').map(v => v.trim()).filter(v => v.length > 0)
+        const valStr = typeof value === 'boolean' ? (value ? 'true' : 'false') : String(value)
+        if (arr.indexOf(valStr) > -1) {
+            const updated = arr.filter(v => v !== valStr).join(',')
+            setAttributes({ defaultValues: updated })
+        } else {
+            const updated = [...arr, valStr].join(',')
+            setAttributes({ defaultValues: updated })
+        }
+    }
+
+    selectDefaultValue(value) {
+        const { setAttributes } = this.props
+        setAttributes({ defaultValues: value })
     }
 
     render() {
@@ -104,6 +177,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         const iframeStyles = { height: '65px', 'width': '100%', border: 'none', 'overflow': 'hidden' }
         const selectedFilters = this.state.filters ? this.state.filters.filter(f => f.param == param && f.type != 'Boolean') : null
+        const filterAnyType = this.state.filters ? this.state.filters.filter(f => f.param == param) : null
 
         const filter = selectedFilters && selectedFilters.length > 0 ? selectedFilters[0] : null
         const datasets = [{ label: 'Select Dataset', value: '0' }]
@@ -302,6 +376,17 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </PanelBody>
                     }
                 </PanelBody>}
+                {app != 'csv' && !isRange && filterAnyType && filterAnyType.length > 0 && (
+                    <PanelBody initialOpen={false} title={__('Default Selection')}>
+                        <DefaultSelection
+                            defaultValues={defaultValues}
+                            items={this.items(filterAnyType[0].type)}
+                            filterType={filterType}
+                            onToggle={this.updateDefaultValues}
+                            onSelect={this.selectDefaultValue}
+                        />
+                    </PanelBody>
+                )}
                 <PanelBody title={__("Labels")}>
                     <PanelRow>
                         <TextControl
