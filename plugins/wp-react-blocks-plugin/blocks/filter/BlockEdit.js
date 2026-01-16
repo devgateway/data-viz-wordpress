@@ -37,9 +37,9 @@ const DefaultSelection = ({ defaultValues, items, filterType, onToggle, onSelect
     }
 
     const sortedItems = items.sort(function (a, b) {
-        if (a.position !== undefined && b.position !== undefined) {
-            return a.position - b.position
-        }
+         if (a.position !== undefined && b.position !== undefined && a.position !== b.position ) {            
+                return a.position - b.position
+         }
 
         let aValue = a.value ? a.value.toLowerCase() : "";
         let bValue = b.value ? b.value.toLowerCase() : "";
