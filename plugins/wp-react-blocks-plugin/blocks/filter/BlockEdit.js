@@ -257,9 +257,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             onChange={param => {
                                 if (param != '') {
                                     const type = this.state.filters.filter(f => f.param === param)[0].type
-                                    setAttributes({ param, type, hiddenFilters: [] })
+                                    setAttributes({ param, type, hiddenFilters: [], defaultValues: "" })
                                 } else {
-                                    setAttributes({ param: "", type: "", hiddenFilters: [] })
+                                    setAttributes({ param: "", type: "", hiddenFilters: [], defaultValues: "" })
                                 }
                             }}
                             help={__('Select the main filter parameter.')}
