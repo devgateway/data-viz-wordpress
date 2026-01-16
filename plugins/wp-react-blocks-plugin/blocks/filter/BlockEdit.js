@@ -268,7 +268,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
 
 
-                    º<PanelRow>
+                    <PanelRow>
                         <SelectControl
                             label={__('Parent Filter')}
                             value={parentFilter}
