@@ -38,6 +38,8 @@ const SaveComponent = (props) => {
 
             parentFilter,
             parentFilterParam,
+            defaultTopNEnabled,
+            defaultTopNCount,
         }
     } = props;
 
@@ -67,6 +69,8 @@ const SaveComponent = (props) => {
         data-enable-text-search={enableTextSearch}
         data-filter-type={filterType}
         data-default-values={defaultValues}
+        data-default-top-n-enabled={defaultTopNEnabled}
+        data-default-top-n-count={defaultTopNCount}
         data-filters={encodeURIComponent(JSON.stringify(filters))}
         data-show-no-data-option={showNoDataOption}
         data-default-value-criteria={defaultValueCriteria}
