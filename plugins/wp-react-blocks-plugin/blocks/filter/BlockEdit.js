@@ -125,7 +125,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         super.componentDidUpdate(prevProps, prevState, snapshot)
-        const { attributes } = this.props
+        const { attributes, setAttributes } = this.props
         const prevAttributes = prevProps.attributes || {}
         if (
             prevAttributes.defaultValues !== attributes.defaultValues ||
@@ -137,6 +137,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             prevAttributes.defaultTopNCount !== attributes.defaultTopNCount
         ) {
             this.setState({ iframeReloadKey: (this.state.iframeReloadKey || 0) + 1 })
+        }
+
+        if (attributes && attributes.filterType === 'single-select' && attributes.defaultTopNEnabled && attributes.defaultTopNCount > 1) {
+            setAttributes({ defaultTopNCount: 1 })
         }
     }
 
@@ -398,7 +402,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <ToggleControl
                                 label={__('Select Top N Items')}
                                 checked={!!defaultTopNEnabled}
-                                onChange={() => setAttributes({ defaultTopNEnabled: !defaultTopNEnabled })}
+                                onChange={() => {
+                                    if (!defaultTopNEnabled) {
+                                        setAttributes({ defaultTopNEnabled: true, defaultTopNCount: filterType === 'single-select' ? 1 : (defaultTopNCount || 1) })
+                                    } else {
+                                        setAttributes({ defaultTopNEnabled: false })
+                                    }
+                                }}
                                 help={__('Enable selecting the first N items by default.')}
                             />
                         </PanelRow>
@@ -406,12 +416,17 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <PanelRow>
                                 <TextControl
                                     label={__('Top N Count')}
-                                    value={defaultTopNCount}
+                                    value={filterType === 'single-select' ? 1 : defaultTopNCount}
+                                    disabled={filterType === 'single-select'}
                                     onChange={(val) => {
                                         const n = parseInt(val, 10);
-                                        setAttributes({ defaultTopNCount: isNaN(n) ? 0 : n })
+                                        if (filterType === 'single-select') {
+                                            setAttributes({ defaultTopNCount: 1 })
+                                        } else {
+                                            setAttributes({ defaultTopNCount: isNaN(n) ? 0 : n })
+                                        }
                                     }}
-                                    help={__('Number of items to preselect when enabled.')}
+                                    help={filterType === 'single-select' ? __('Single-select caps Top N to 1.') : __('Number of items to preselect when enabled.')}
                                 />
                             </PanelRow>
                         )}
