@@ -1,3 +1,4 @@
+import React from 'react';
 import {
     Button,
     ButtonGroup,
@@ -7,8 +8,8 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import {__} from '@wordpress/i18n';
-import {PanelColorSettings} from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { PanelColorSettings } from '@wordpress/block-editor';
 
 export const ChartLegends = (props) => {
     const {
@@ -33,7 +34,7 @@ export const ChartLegends = (props) => {
                 <RangeControl
                     label={__('Margin Bottom (Space between chart area and bottom border)')}
                     value={marginBottom}
-                    onChange={(marginBottom) => setAttributes({marginBottom})}
+                    onChange={(marginBottom) => setAttributes({ marginBottom })}
                     min={0}
                     max={500}
                 />
@@ -44,16 +45,16 @@ export const ChartLegends = (props) => {
                     label={__('Margin Left (Space between chart area and left border)')}
                     value={marginLeft}
                     initialPosition={0}
-                    onChange={(marginLeft) => setAttributes({marginLeft})}
+                    onChange={(marginLeft) => setAttributes({ marginLeft })}
                     step={1}
                     min={0}
-                    max={500}/>
+                    max={500} />
             </PanelRow>
             <PanelRow>
                 <RangeControl
                     label={__('Margin Right')}
                     value={marginRight}
-                    onChange={(marginRight) => setAttributes({marginRight})}
+                    onChange={(marginRight) => setAttributes({ marginRight })}
                     min={0}
                     max={500}
                 />
@@ -62,7 +63,7 @@ export const ChartLegends = (props) => {
                 <RangeControl
                     label={__('Margin Top')}
                     value={marginTop}
-                    onChange={(marginTop) => setAttributes({marginTop})}
+                    onChange={(marginTop) => setAttributes({ marginTop })}
                     min={0}
                     max={500}
                 />
@@ -74,23 +75,23 @@ export const ChartLegends = (props) => {
                 <ToggleControl
                     label={__("Show Legends")}
                     checked={showLegends}
-                    onChange={() => setAttributes({showLegends: !showLegends})}
+                    onChange={() => setAttributes({ showLegends: !showLegends })}
                 />
             </PanelRow>
             {showLegends && <PanelRow>
                 <ToggleControl
                     label={__("Show Legends in Columns")}
                     checked={showLegendsInColumns}
-                    onChange={() => setAttributes({showLegendsInColumns: !showLegendsInColumns})}/>
+                    onChange={() => setAttributes({ showLegendsInColumns: !showLegendsInColumns })} />
             </PanelRow>}
             {showLegends && showLegendsInColumns && <PanelRow>
                 <TextControl
                     label={__('Number of Legend Columns')}
                     value={numberOfLegendColumns}
-                    onChange={(numberOfLegendColumns) => setAttributes({numberOfLegendColumns})}
+                    onChange={(numberOfLegendColumns) => setAttributes({ numberOfLegendColumns })}
                     type="number"
                     min={1}
-                    max={10}/>
+                    max={10} />
             </PanelRow>}
 
             {showLegends &&
@@ -98,19 +99,19 @@ export const ChartLegends = (props) => {
                     <ToggleControl
                         label={__("Reverse legend order")}
                         checked={reverseLegend}
-                        onChange={() => setAttributes({reverseLegend: !reverseLegend})}
+                        onChange={() => setAttributes({ reverseLegend: !reverseLegend })}
                     />
                 </PanelRow>
             }
             {showLegends && <PanelRow>
                 <ToggleControl label={__("Use Label Background")} checked={useLabelBackground}
-                               onChange={e => setAttributes({useLabelBackground: !useLabelBackground})}></ToggleControl>
+                    onChange={e => setAttributes({ useLabelBackground: !useLabelBackground })}></ToggleControl>
 
             </PanelRow>
             }
             {showLegends && <PanelRow>
                 <ToggleControl label={__("Use Checkbox Background")} checked={useCheckBoxBackground}
-                               onChange={e => setAttributes({useCheckBoxBackground: !useCheckBoxBackground})}></ToggleControl>
+                    onChange={e => setAttributes({ useCheckBoxBackground: !useCheckBoxBackground })}></ToggleControl>
 
             </PanelRow>
 
@@ -119,22 +120,22 @@ export const ChartLegends = (props) => {
             {showLegends && <PanelRow>
                 <ButtonGroup>
                     <Button isPrimary={legendPosition == 'left'} isSecondary={legendPosition != 'left'}
-                            onClick={e => setAttributes({legendPosition: "left"})}>
+                        onClick={e => setAttributes({ legendPosition: "left" })}>
                         {__("Left")}
                     </Button>
                     <Button isPrimary={legendPosition == 'top'}
-                            isSecondary={legendPosition != 'top'}
-                            onClick={e => setAttributes({legendPosition: "top"})}>
+                        isSecondary={legendPosition != 'top'}
+                        onClick={e => setAttributes({ legendPosition: "top" })}>
                         {__("Top")}
                     </Button>
                     <Button isPrimary={legendPosition == 'right'}
-                            isSecondary={legendPosition != 'right'}
-                            onClick={e => setAttributes({legendPosition: "right"})}>
+                        isSecondary={legendPosition != 'right'}
+                        onClick={e => setAttributes({ legendPosition: "right" })}>
                         {__("Right")}
                     </Button>
                     <Button isPrimary={legendPosition == 'bottom'}
-                            isSecondary={legendPosition != 'bottom'}
-                            onClick={e => setAttributes({legendPosition: "bottom"})}>
+                        isSecondary={legendPosition != 'bottom'}
+                        onClick={e => setAttributes({ legendPosition: "bottom" })}>
                         {__("Bottom")}
                     </Button>
                 </ButtonGroup>
@@ -144,7 +145,7 @@ export const ChartLegends = (props) => {
                 <TextControl
                     label={__('Legends Title')}
                     value={legendLabel}
-                    onChange={(legendLabel) => setAttributes({legendLabel})}
+                    onChange={(legendLabel) => setAttributes({ legendLabel })}
                 />
             </PanelRow>
             }
@@ -158,9 +159,9 @@ export const ChartLegends = (props) => {
                             onChange: (color) => {
 
                                 if (color) {
-                                    setAttributes({legendLabelColor: encodeURIComponent(color)})
+                                    setAttributes({ legendLabelColor: encodeURIComponent(color) })
                                 } else {
-                                    setAttributes({legendLabelColor: null})
+                                    setAttributes({ legendLabelColor: null })
                                 }
                             },
 
