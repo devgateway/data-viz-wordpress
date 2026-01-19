@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'benbodhi/svg-support',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '2105cda0e72bbaf8047625cd8320d41b8faf9e3e',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'c8c61134935cfdadc2860ee4224523ae8ca156a5',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'benbodhi/svg-support' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '2105cda0e72bbaf8047625cd8320d41b8faf9e3e',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'c8c61134935cfdadc2860ee4224523ae8ca156a5',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
