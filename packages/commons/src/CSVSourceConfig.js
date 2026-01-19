@@ -1,13 +1,14 @@
-import {PanelBody, PanelRow, TextareaControl} from '@wordpress/components';
-import {__} from '@wordpress/i18n';
+import React from 'react';
+import { PanelBody, PanelRow, TextareaControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import Format from "./Format";
-import {togglePanel} from "./Util";
+import { togglePanel } from "./Util";
 
 const defaultFormat = {
     "style": "percent", "minimumFractionDigits": 1, "maximumFractionDigits": 1, "currency": "USD"
 }
 
-export const CSVConfig = ({attributes: {csv, panelStatus, measures, type}, setAttributes}) => {
+export const CSVConfig = ({ attributes: { csv, panelStatus, measures, type }, setAttributes }) => {
 
     const onFormatChange = (format, field) => {
         const app = "csv"
@@ -16,12 +17,12 @@ export const CSVConfig = ({attributes: {csv, panelStatus, measures, type}, setAt
             uMs[app] = {
                 allowSelection: false,
                 format: Object.assign({}, defaultFormat),
-                customFormat: Object.assign({}, {...defaultFormat}),
+                customFormat: Object.assign({}, { ...defaultFormat }),
                 selected: false
             }
         }
         uMs[app][field] = format
-        setAttributes({measures: uMs})
+        setAttributes({ measures: uMs })
 
 
     }
@@ -33,28 +34,28 @@ export const CSVConfig = ({attributes: {csv, panelStatus, measures, type}, setAt
             uMs[app].useCustomAxisFormat = value
 
             if (!uMs[app].customFormat) {
-                uMs[app].customFormat = Object.assign({}, {...defaultFormat})
+                uMs[app].customFormat = Object.assign({}, { ...defaultFormat })
             }
-            setAttributes({measures: uMs})
+            setAttributes({ measures: uMs })
         } else {
             uMs[app] = {
                 allowSelection: false,
-                format: Object.assign({}, {...defaultFormat}),
-                customFormat: Object.assign({}, {...defaultFormat}),
+                format: Object.assign({}, { ...defaultFormat }),
+                customFormat: Object.assign({}, { ...defaultFormat }),
                 selected: false
             }
             uMs[app].useCustomAxisFormat = value
-            setAttributes({measures: uMs})
+            setAttributes({ measures: uMs })
         }
 
     }
     return ([<PanelBody initialOpen={false} title={__("CSV Configuration")}
-                        onToggle={e => togglePanel("csv_cfg", panelStatus, setAttributes)}>
+        onToggle={e => togglePanel("csv_cfg", panelStatus, setAttributes)}>
         <PanelRow>
             <TextareaControl
                 label={__("CSV Data")}
                 value={csv}
-                onChange={(csv) => setAttributes({csv})}
+                onChange={(csv) => setAttributes({ csv })}
             />
         </PanelRow>
 

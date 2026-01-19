@@ -1,19 +1,20 @@
-import {Button, PanelBody, PanelRow, SelectControl, ToggleControl} from "@wordpress/components";
-import {__} from '@wordpress/i18n';
+import React from 'react';
+import { Button, PanelBody, PanelRow, SelectControl, ToggleControl } from "@wordpress/components";
+import { __ } from '@wordpress/i18n';
 
 export const DataFilters = (props) => {
 
     const updateFilterParam = (param, idx) => {
-        const {attributes: {filters}, setAttributes, allFilters} = props
+        const { attributes: { filters }, setAttributes, allFilters } = props
         const newFilters = filters.slice()
         const selected = allFilters.filter(f => f.param === param)[0]
-        newFilters[idx] = {...selected, value: []}
-        setAttributes({filters: newFilters})
+        newFilters[idx] = { ...selected, value: [] }
+        setAttributes({ filters: newFilters })
 
     }
 
     const updateFilterValue = (value, idx) => {
-        const {attributes: {filters}, setAttributes, onChange} = props
+        const { attributes: { filters }, setAttributes, onChange } = props
         const selected = filters[idx]
         let values = selected.value
         if (values.indexOf(value) > -1) {
@@ -24,12 +25,12 @@ export const DataFilters = (props) => {
 
         const newFilters = filters.slice()
         newFilters[idx].value = values
-        setAttributes({filters: newFilters})
+        setAttributes({ filters: newFilters })
         onChange()
     }
 
     const addFilter = () => {
-        const {attributes: {filters}, setAttributes, allFilters} = props
+        const { attributes: { filters }, setAttributes, allFilters } = props
         let index = filters.length > allFilters.length ? allFilters.length : filters.length
         const newFilter = (allFilters && allFilters.length > 0) ? {
             ...allFilters[index],
@@ -37,13 +38,13 @@ export const DataFilters = (props) => {
         } : null
         let newFilters = filters.slice()
         newFilters.push(newFilter)
-        setAttributes({filters: newFilters})
+        setAttributes({ filters: newFilters })
     }
 
     const removeFilter = (f) => {
-        const {attributes: {filters}, setAttributes} = props
+        const { attributes: { filters }, setAttributes } = props
         let newFilters = filters.slice(0, -1)
-        setAttributes({filters: newFilters})
+        setAttributes({ filters: newFilters })
     }
 
     const items = (type) => {
@@ -51,14 +52,14 @@ export const DataFilters = (props) => {
         const cat = values.length > 0 ? values[0] : null
         let items = null
         if (type === 'Boolean') {
-            items = [{"value": "Yes", id: true}, {"value": "No", id: false}]
+            items = [{ "value": "Yes", id: true }, { "value": "No", id: false }]
         } else if (cat) {
             items = cat.items
         }
         return items
     }
 
-    const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
+    const FilterSelector = ({ param, index, options, onUpdateFilterParam }) => {
         const sortedOptions = options.sort(function (a, b) {
             var aLabel = a.label ? a.label.toLowerCase() : "";
             var bLabel = b.label ? b.label.toLowerCase() : "";
@@ -66,10 +67,10 @@ export const DataFilters = (props) => {
         });
         return <SelectControl onChange={(value) => {
             onUpdateFilterParam(value, index)
-        }} value={param} options={sortedOptions}/>
+        }} value={param} options={sortedOptions} />
     }
 
-    const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
+    const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
         if (items) {
             const sortedItems = items.sort(function (a, b) {
                 if (a.position !== undefined && b.position !== undefined && a.position !== b.position) {
@@ -83,7 +84,7 @@ export const DataFilters = (props) => {
             return sortedItems.map(v => <PanelRow>
                 <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1} onChange={e => {
                     onUpdateFilterValue(v.id, index)
-                }}/>
+                }} />
             </PanelRow>)
         } else {
             return null;
@@ -103,9 +104,9 @@ export const DataFilters = (props) => {
             return (
                 <PanelBody initialOpen={true} title={__(`Filter - ${f.label}`)}>
                     <FilterSelector param={f.param} index={index} options={allFilters}
-                                    onUpdateFilterParam={updateFilterParam}/>
+                        onUpdateFilterParam={updateFilterParam} />
                     {<CategoricalFilter value={f.value} index={index} items={items(f.type)}
-                                        onUpdateFilterValue={updateFilterValue}/>}
+                        onUpdateFilterValue={updateFilterValue} />}
                 </PanelBody>)
         })}
 

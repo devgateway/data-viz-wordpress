@@ -1,50 +1,51 @@
-import {PanelBody, PanelRow, SelectControl} from '@wordpress/components';
-import {PanelColorSettings} from '@wordpress/block-editor';
-import {__} from '@wordpress/i18n';
-import {useEffect} from "react";
+import React from 'react';
+import { PanelBody, PanelRow, SelectControl } from '@wordpress/components';
+import { PanelColorSettings } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useEffect } from "react";
 import Papa from 'papaparse'
-import {useRef, useState} from "@wordpress/element";
-import {getTranslation} from "./APIutils";
+import { useRef, useState } from "@wordpress/element";
+import { getTranslation } from "./APIutils";
 
 const OVERALL = 'Overall';
-const system = [{value: "system", label: 'System Colors'}, {value: "manual", label: 'Manual Colors'}]
-export const categorical = [{value: "nivo", label: 'nivo'}, {
+const system = [{ value: "system", label: 'System Colors' }, { value: "manual", label: 'Manual Colors' }]
+export const categorical = [{ value: "nivo", label: 'nivo' }, {
     value: "category10", label: 'category10'
-}, {value: "accent", label: 'Accent'}, {value: "dark2", label: 'dark2'}, {
+}, { value: "accent", label: 'Accent' }, { value: "dark2", label: 'dark2' }, {
     value: "paired", label: 'paired'
-}, {value: "pastel1", label: 'pastel1'}, {value: "pastel2", label: 'pastel2'}, {
+}, { value: "pastel1", label: 'pastel1' }, { value: "pastel2", label: 'pastel2' }, {
     value: "set1", label: 'set1'
-}, {value: "set2", label: 'set2'}, {value: "set3", label: 'set3'}]
+}, { value: "set2", label: 'set2' }, { value: "set3", label: 'set3' }]
 
 
-export const sequential = [{value: "blues", label: 'blues'}, {value: "greens", label: 'greens'}, {
+export const sequential = [{ value: "blues", label: 'blues' }, { value: "greens", label: 'greens' }, {
     value: "greys", label: 'greys'
-}, {value: "oranges", label: 'oranges'}, {value: "purples", label: 'purples'}, {
+}, { value: "oranges", label: 'oranges' }, { value: "purples", label: 'purples' }, {
     value: "reds", label: 'reds'
-}, {value: "blue_green", label: 'blue_green'}, {value: "blue_purple", label: 'blue_purple'}, {
+}, { value: "blue_green", label: 'blue_green' }, { value: "blue_purple", label: 'blue_purple' }, {
     value: "green_blue", label: 'green_blue'
-}, {value: "orange_red", label: 'orange_red'}, {
+}, { value: "orange_red", label: 'orange_red' }, {
     value: "purple_blue_green", label: 'purple_blue_green'
-}, {value: "purple_blue", label: 'purple_blue'}, {value: "purple_red", label: 'purple_red'}, {
+}, { value: "purple_blue", label: 'purple_blue' }, { value: "purple_red", label: 'purple_red' }, {
     value: "red_purple", label: 'red_purple'
-}, {value: "yellow_green_blue", label: 'yellow_green_blue'}, {
+}, { value: "yellow_green_blue", label: 'yellow_green_blue' }, {
     value: "yellow_green", label: 'yellow_green'
-}, {value: "yellow_orange_brown", label: 'yellow_orange_brown'}, {
+}, { value: "yellow_orange_brown", label: 'yellow_orange_brown' }, {
     value: "yellow_orange_red", label: 'yellow_orange_brown'
 }]
 
-export const diverging = [{value: "brown_blueGreen", label: 'brown_blueGreen'},
-    {value: "purpleRed_green", label: 'purpleRed_green'},
-    {value: "pink_yellowGreen", label: 'pink_yellowGreen'},
-    {value: "purple_orange", label: 'purple_orange'},
-    {value: "red_blue", label: 'red_blue'},
-    {value: "red_grey", label: 'red_grey'},
-    {value: "red_yellow_blue", label: 'red_yellow_blue'},
-    {value: "red_yellow_green", label: 'red_yellow_green'},
-    {value: "spectral", label: 'spectral'}
+export const diverging = [{ value: "brown_blueGreen", label: 'brown_blueGreen' },
+{ value: "purpleRed_green", label: 'purpleRed_green' },
+{ value: "pink_yellowGreen", label: 'pink_yellowGreen' },
+{ value: "purple_orange", label: 'purple_orange' },
+{ value: "red_blue", label: 'red_blue' },
+{ value: "red_grey", label: 'red_grey' },
+{ value: "red_yellow_blue", label: 'red_yellow_blue' },
+{ value: "red_yellow_green", label: 'red_yellow_green' },
+{ value: "spectral", label: 'spectral' }
 ]
 
-const plainColor = {value: "plain_color", label: 'Use Plain color'};
+const plainColor = { value: "plain_color", label: 'Use Plain color' };
 
 export const ChartColors = (props) => {
     const {
@@ -89,7 +90,7 @@ export const ChartColors = (props) => {
 
     } else {
         //CSV Color Options
-        const data = Papa.parse(csv, {header: true, dynamicTyping: true});
+        const data = Papa.parse(csv, { header: true, dynamicTyping: true });
         l1Label = data.meta.fields.length > 0 ? '1st Column Values ' : null
         d2Label = __("Measure Columns Labels")
         d3Label = __("Measure Columns Values")
@@ -100,24 +101,24 @@ export const ChartColors = (props) => {
         if (swap && dimension2 == "none" && selectedMeasures.length > 0) {
             colorOptions = []
             if (l1Label) {
-                colorOptions.push({label: l1Label, value: 'id'})
-                colorOptions.push({label: d2Label, value: 'index'})
+                colorOptions.push({ label: l1Label, value: 'id' })
+                colorOptions.push({ label: d2Label, value: 'index' })
             } else {
-                colorOptions.push({label: d2Label, value: 'id'})
-                colorOptions.push({label: "Measure Values", value: 'values'})
+                colorOptions.push({ label: d2Label, value: 'id' })
+                colorOptions.push({ label: "Measure Values", value: 'values' })
             }
 
         } else {
             colorOptions = []
             if (l1Label && l1Label !== 'none') {
-                colorOptions.push({label: l1Label, value: 'index'})
+                colorOptions.push({ label: l1Label, value: 'index' })
             }
             if (d2Label && d2Label !== 'none') {
-                colorOptions.push({label: d2Label, value: (l1Label && l1Label !== 'none') ? 'id' : 'index'})
+                colorOptions.push({ label: d2Label, value: (l1Label && l1Label !== 'none') ? 'id' : 'index' })
             }
 
             if (d3Label && d3Label !== 'none') {
-                colorOptions.push({label: d3Label, value: 'values'})
+                colorOptions.push({ label: d3Label, value: 'values' })
             }
 
         }
@@ -126,11 +127,11 @@ export const ChartColors = (props) => {
     if (type == 'pie') {
 
         if (dimension1 != 'none' && dimension2 == 'none' && colorBy != 'index') {
-            setAttributes({colorBy: 'index'})
+            setAttributes({ colorBy: 'index' })
             return null;
         }
         if (dimension1 != 'none' && dimension2 != 'none' && colorBy != 'id') {
-            setAttributes({colorBy: 'id'})
+            setAttributes({ colorBy: 'id' })
             return null;
         }
     }
@@ -186,10 +187,10 @@ export const ChartColors = (props) => {
             setUseColors(nextUseColors)
         } else {
             if (!manualColors["csv"]) {
-                setAttributes({manualColors: {"csv": {}}})
+                setAttributes({ manualColors: { "csv": {} } })
             }
         }
-        prevStatus.current = {scheme, colorBy, dimension1, dimension2, useColors, app}
+        prevStatus.current = { scheme, colorBy, dimension1, dimension2, useColors, app }
 
     }, [scheme, dimension1, dimension2, colorBy, swap, app, type])
 
@@ -199,7 +200,7 @@ export const ChartColors = (props) => {
 
         const newColors = Object.assign({}, manualColors)
         newColors[app][value] = color
-        setAttributes({manualColors: newColors})
+        setAttributes({ manualColors: newColors })
     }
 
     const initColors = (dimension) => {
@@ -212,7 +213,7 @@ export const ChartColors = (props) => {
         }
 
         if (ds.length > 0) {
-            const {type} = ds[0]
+            const { type } = ds[0]
             const cat = allCategories.filter(a => a.type === type)
             if (cat.length > 0) {
 
@@ -223,7 +224,7 @@ export const ChartColors = (props) => {
                 })
             }
 
-            setAttributes({manualColors: newColors})
+            setAttributes({ manualColors: newColors })
         }
 
     }
@@ -244,7 +245,7 @@ export const ChartColors = (props) => {
             })
 
         }
-        setAttributes({manualColors: newColors})
+        setAttributes({ manualColors: newColors })
     }
 
     const combinedCatColors = (dimension1, dimension2) => {
@@ -254,8 +255,8 @@ export const ChartColors = (props) => {
             const ds2 = allDimensions.filter(d => d.value == dimension2)
             if (ds1.length > 0 && ds2.length > 0) {
 
-                const {type} = ds1[0]
-                const {type: type2} = ds2[0]
+                const { type } = ds1[0]
+                const { type: type2 } = ds2[0]
 
                 const cat = allCategories.filter(a => a.type === type)
                 const cat2 = allCategories.filter(a => a.type === type2)
@@ -289,7 +290,7 @@ export const ChartColors = (props) => {
         if (manualColors[app]) {
             const ds = allDimensions.filter(d => d.value == dimension)
             if (ds.length > 0) {
-                const {type} = ds[0]
+                const { type } = ds[0]
                 const cat = allCategories.filter(a => a.type === type)
 
                 if (cat && cat.length > 0) {
@@ -390,7 +391,7 @@ export const ChartColors = (props) => {
     }
 
     const csvColors = () => {
-        const data = Papa.parse(csv, {header: true, dynamicTyping: true});
+        const data = Papa.parse(csv, { header: true, dynamicTyping: true });
         const values = [];
 
         if (colorBy === "index" && type != 'line') {
@@ -430,12 +431,12 @@ export const ChartColors = (props) => {
                 label={__('Color By')}
                 value={[colorBy]} // e.g: value = [ 'a', 'c' ]
                 onChange={(colorBy) => {
-                    setAttributes({colorBy})
+                    setAttributes({ colorBy })
                     if (colorBy === 'index' || colorBy === 'id') {
-                        setAttributes({colorBy})
+                        setAttributes({ colorBy })
                     }
                     if (colorBy === 'values') {
-                        setAttributes({scheme: "blues", colorBy})
+                        setAttributes({ scheme: "blues", colorBy })
                     }
                 }}
                 options={colorOptions}
@@ -451,7 +452,7 @@ export const ChartColors = (props) => {
                 label={__('Color Scheme')}
                 value={[scheme]} // e.g: value = [ 'a', 'c' ]
                 onChange={(value) => {
-                    setAttributes({scheme: value})
+                    setAttributes({ scheme: value })
                 }}
                 options={options}
             />
@@ -464,9 +465,9 @@ export const ChartColors = (props) => {
                 colorSettings={[{
                     value: decodeURIComponent(barColor), onChange: (color) => {
                         if (color) {
-                            setAttributes({barColor: encodeURIComponent(color)})
+                            setAttributes({ barColor: encodeURIComponent(color) })
                         } else {
-                            setAttributes({barColor: null})
+                            setAttributes({ barColor: null })
                         }
                     }, label: __('Plain color')
                 }]}
