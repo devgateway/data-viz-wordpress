@@ -10,9 +10,9 @@ services:
 
   wordpress:
     image: data-viz-wordpress:latest
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - wordpress:/var/www/html
     environment:
