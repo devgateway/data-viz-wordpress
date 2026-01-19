@@ -1,4 +1,4 @@
-import {AnglePickerControl, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
+import {AnglePickerControl, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {PanelColorSettings} from '@wordpress/block-editor';
 
@@ -28,6 +28,9 @@ const AxisConfig = (props) => {
             fixedMaxValue,
             yAxisTickValues,
             xAxisTickValues,
+            lineXAxisTickMode,
+            lineXAxisTickCount,
+            lineXAxisTickEvery,
             offsetText,
             minMaxClamp
         }
@@ -151,6 +154,46 @@ const AxisConfig = (props) => {
                     max={50}
                 />
             </PanelRow>
+        }
+        {
+            type === "line" && (
+                <>
+                    <PanelRow>
+                        <SelectControl
+                            label={__('X Axis Tick Mode')}
+                            value={lineXAxisTickMode}
+                            options={[
+                                { label: __('None (default)'), value: 'none' },
+                                { label: __('Total number of ticks'), value: 'count' },
+                                { label: __('Show every Nth tick'), value: 'every' },
+                            ]}
+                            onChange={(value) => setAttributes({ lineXAxisTickMode: value })}
+                        />
+                    </PanelRow>
+                    {lineXAxisTickMode === 'count' && (
+                        <PanelRow>
+                            <RangeControl
+                                label={__('Total number of ticks')}
+                                value={lineXAxisTickCount}
+                                onChange={(value) => setAttributes({ lineXAxisTickCount: value })}
+                                min={1}
+                                max={50}
+                            />
+                        </PanelRow>
+                    )}
+                    {lineXAxisTickMode === 'every' && (
+                        <PanelRow>
+                            <RangeControl
+                                label={__('Show every Nth tick')}
+                                value={lineXAxisTickEvery}
+                                onChange={(value) => setAttributes({ lineXAxisTickEvery: value })}
+                                min={1}
+                                max={50}
+                            />
+                        </PanelRow>
+                    )}
+                </>
+            )
         }
         </PanelBody>,
         <PanelBody initialOpen={false}   title={__("Y Axis Settings")}>
