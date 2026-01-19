@@ -126,7 +126,10 @@ const SaveComponent = (props) => {
             waitForFilters,
             lineCurve,
             showLegendsInColumns,
-            numberOfLegendColumns
+            numberOfLegendColumns,
+            lineXAxisTickMode,
+            lineXAxisTickCount,
+            lineXAxisTickEvery
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -236,6 +239,9 @@ const SaveComponent = (props) => {
              data-tooltip-enable-markdown={tooltipEnableMarkdown}
              data-y-axis-tick-values={yAxisTickValues}
              data-x-axis-tick-values={xAxisTickValues}
+             data-line-x-axis-tick-mode={lineXAxisTickMode}
+             data-line-x-axis-tick-count={lineXAxisTickCount}
+             data-line-x-axis-tick-every={lineXAxisTickEvery}
              data-enable-grid-y={enableGridY}
              data-enable-grid-x={enableGridX}
              data-overall-label={overallLabel}
