@@ -24,6 +24,7 @@ const SaveComponent = (props) => {
             tooltip,
             downloadTooltip,
             includeSourceURL,
+            includeFilters,
             sourceURLMarginLeft,
             sourceURLMarginTop,
             sourceURLFontSize
@@ -56,6 +57,7 @@ const SaveComponent = (props) => {
                      data-use-title={useTitle}
                      data-download-tooltip={encodeURIComponent(downloadTooltip)}
                      data-include-source-url={includeSourceURL}
+                     data-include-filters={includeFilters}
                      data-source-urlmargin-left={sourceURLMarginLeft}			
 			         data-source-urlmargin-top={sourceURLMarginTop}
 			         data-source-urlfont-size={sourceURLFontSize}>

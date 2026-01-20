@@ -55,6 +55,7 @@ class BlockEdit extends ComponentWithSettings {
                 tooltip,
                 downloadTooltip,
                 includeSourceURL,
+                includeFilters,
                 sourceURLMarginLeft,
                 sourceURLMarginTop,
                 sourceURLFontSize
@@ -273,6 +274,14 @@ class BlockEdit extends ComponentWithSettings {
                                     />
                                 </>
                             }
+                        </PanelBody>
+                        <PanelBody title={__("Filters in Download")}> 
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__("Include Filters")}
+                                    checked={!!includeFilters}
+                                    onChange={() => setAttributes({includeFilters: !includeFilters})}/>
+                            </PanelRow>
                         </PanelBody>
                     </Panel>
                 </InspectorControls>

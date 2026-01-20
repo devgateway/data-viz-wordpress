@@ -87,6 +87,10 @@ registerBlockType(process.env.BLOCKS_NS + '/download',
                 type: 'boolean',
                 default: false
             },
+            includeFilters: {
+                type: 'boolean',
+                default: false
+            },
             sourceURLMarginLeft: {
                 type: 'Numeric',
                 default: 70
