@@ -38,8 +38,7 @@ const SaveComponent = (props) => {
 
             parentFilter,
             parentFilterParam,
-            defaultTopNEnabled,
-            defaultTopNCount,
+
         }
     } = props;
 
@@ -49,14 +48,6 @@ const SaveComponent = (props) => {
 
     return (<div className={"viz-component"}
         data-component={"filter"}
-
-        data-child-filter={childFilter}
-        data-child-filter-param={childFilterParam}
-
-        data-parent-filter={parentFilter}
-        data-parent-filter-param={parentFilterParam}
-
-
         data-app={app}
         data-dvz-proxy-dataset-id={dvzProxyDatasetId}
         data-icon={icon}
@@ -78,8 +69,6 @@ const SaveComponent = (props) => {
         data-filter-type={filterType}
         data-default-values={defaultValues}
 
-        data-default-top-n-enabled={defaultTopNEnabled}
-        data-default-top-n-count={defaultTopNCount}
 
         data-filters={encodeURIComponent(JSON.stringify(filters))}
         data-show-no-data-option={showNoDataOption}
@@ -90,6 +79,11 @@ const SaveComponent = (props) => {
         data-close-on-select={closeOnSelect}
         data-use-filter-items={useFilterItems}
         data-all-none-same-behaviour={allNoneSameBehaviour}
+        data-child-filter={childFilter}
+        data-child-filter-param={childFilterParam}
+
+        data-parent-filter={parentFilter}
+        data-parent-filter-param={parentFilterParam}
 
         data-auto-apply={autoApply}>
     </div>);
