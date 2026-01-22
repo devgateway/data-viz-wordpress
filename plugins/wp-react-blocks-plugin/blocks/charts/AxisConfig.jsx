@@ -156,7 +156,7 @@ const AxisConfig = (props) => {
             </PanelRow>
         }
         {
-            type === "line" && (
+            (type === "line" || type === "bar") && (
                 <>
                     <PanelRow>
                         <SelectControl
