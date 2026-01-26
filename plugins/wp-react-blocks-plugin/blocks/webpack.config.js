@@ -5,7 +5,7 @@ const Dotenv = require('dotenv-webpack');
 const defaultConfig = require("@wordpress/scripts/config/webpack.config");
 module.exports = {
     ...defaultConfig,
-    entry: {
+        entry: {
         index: path.resolve(process.cwd(), './', 'index.js'),
     },
     optimization: {
