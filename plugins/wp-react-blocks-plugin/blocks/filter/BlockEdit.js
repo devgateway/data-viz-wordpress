@@ -154,11 +154,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
                     </PanelBody>
 
-                    {app != 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                    {app !== 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
                         <PanelRow>
                             <SelectControl
                                 value={param}
-                                options={[{value:'', label: __("Select Filter")}, ...this.state?.filters]}
+                                options={[{value:'', label: __("Select Filter")}, ...(this.state?.filters || [])]}
                                 onChange={param => {
                                     const type = this.state?.filters.filter(f => f.param === param)[0].type
                                     setAttributes({param, type, hiddenFilters: []})
@@ -166,7 +166,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelRow>
 
                     </PanelBody>}
-                    {app == 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                    {app === 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
                         <PanelRow>
                             <TextControl label={__("Field")} value={param}
                                          onChange={(param) => setAttributes({param})}></TextControl>
