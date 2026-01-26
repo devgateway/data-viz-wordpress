@@ -32,7 +32,8 @@ jobs:
           tag_prefix: v
           release_branches: main,production,release/*
           dry_run: "true"
-
+          custom_release_rules: hotfix:patch,pre-feat:preminor,pre-fix:prepatch,pre-break:premajor,docs:patch,chore:patch,ci:patch,test:patch,refactor:minor
+          
   build-and-push-docker-image:
     needs: prepare-a-release
     runs-on: ubuntu-latest
