@@ -8,102 +8,106 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace YoastSEO_Vendor\Symfony\Contracts\Service;
 
 use YoastSEO_Vendor\Psr\Container\ContainerExceptionInterface;
 use YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface;
-
+// Help opcache.preload discover always-needed symbols
+\class_exists(\YoastSEO_Vendor\Psr\Container\ContainerExceptionInterface::class);
+\class_exists(\YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface::class);
+/**
+ * A trait to help implement ServiceProviderInterface.
+ *
+ * @author Robin Chalas <robin.chalas@gmail.com>
+ * @author Nicolas Grekas <p@tchwork.com>
+ */
 trait ServiceLocatorTrait
 {
     private $factories;
-    private $services = [];
     private $loading = [];
-    private $providedTypes = [];
-
+    private $providedTypes;
     /**
-     * @param array<string, callable> $factories A map of service IDs to factory callables
+     * @param callable[] $factories
      */
     public function __construct(array $factories)
     {
         $this->factories = $factories;
     }
-
     /**
      * {@inheritdoc}
+     *
+     * @return bool
      */
-    public function has(string $id): bool
+    public function has(string $id)
     {
         return isset($this->factories[$id]);
     }
-
     /**
      * {@inheritdoc}
+     *
+     * @return mixed
      */
     public function get(string $id)
     {
         if (!isset($this->factories[$id])) {
             throw $this->createNotFoundException($id);
         }
-
-        if (isset($this->services[$id])) {
-            return $this->services[$id];
-        }
-
         if (isset($this->loading[$id])) {
-            // Circular reference detected
-            throw $this->createCircularReferenceException($id, array_keys($this->loading));
+            $ids = \array_values($this->loading);
+            $ids = \array_slice($this->loading, \array_search($id, $ids));
+            $ids[] = $id;
+            throw $this->createCircularReferenceException($id, $ids);
         }
-
-        $this->loading[$id] = true;
-
+        $this->loading[$id] = $id;
         try {
-            $this->services[$id] = ($this->factories[$id])();
+            return $this->factories[$id]($this);
         } finally {
             unset($this->loading[$id]);
         }
-
-        return $this->services[$id];
     }
-
     /**
-     * Returns an associative array of service types keyed by their IDs.
-     *
-     * @return array<string|int, string> e.g. ['logger' => 'Psr\Log\LoggerInterface', 'foo' => '?'] where ? = unspecified type or nullable
+     * {@inheritdoc}
      */
-    public function getProvidedServices(): array
+    public function getProvidedServices() : array
     {
-        if ($this->providedTypes) {
-            return $this->providedTypes;
-        }
-
-        foreach ($this->factories as $name => $factory) {
-            // attempt to infer type from factory return type; if unavailable, fallback to '?'
-            $type = '?';
-
-            if (is_array($factory) && $factory[0] instanceof \Closure && $factory[0]->getReturnType()) {
-                $rt = $factory[0]->getReturnType();
-                if ($rt instanceof \ReflectionNamedType) {
-                    $type = ($rt->allowsNull() ? '?' : '').$rt->getName();
+        if (null === $this->providedTypes) {
+            $this->providedTypes = [];
+            foreach ($this->factories as $name => $factory) {
+                if (!\is_callable($factory)) {
+                    $this->providedTypes[$name] = '?';
                 } else {
-                    $type = (string) $rt;
+                    $type = (new \ReflectionFunction($factory))->getReturnType();
+                    $this->providedTypes[$name] = $type ? ($type->allowsNull() ? '?' : '') . ($type instanceof \ReflectionNamedType ? $type->getName() : $type) : '?';
                 }
             }
-
-            $this->providedTypes[$name] = $type;
         }
-
         return $this->providedTypes;
     }
-
-    private function createNotFoundException(string $id): NotFoundExceptionInterface
+    private function createNotFoundException(string $id) : \YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface
     {
-        return new class(sprintf('Service "%s" not found in service locator.', $id)) extends \InvalidArgumentException implements NotFoundExceptionInterface {
+        if (!($alternatives = \array_keys($this->factories))) {
+            $message = 'is empty...';
+        } else {
+            $last = \array_pop($alternatives);
+            if ($alternatives) {
+                $message = \sprintf('only knows about the "%s" and "%s" services.', \implode('", "', $alternatives), $last);
+            } else {
+                $message = \sprintf('only knows about the "%s" service.', $last);
+            }
+        }
+        if ($this->loading) {
+            $message = \sprintf('The service "%s" has a dependency on a non-existent service "%s". This locator %s', \end($this->loading), $id, $message);
+        } else {
+            $message = \sprintf('Service "%s" not found: the current service locator %s', $id, $message);
+        }
+        return new class($message) extends \InvalidArgumentException implements \YoastSEO_Vendor\Psr\Container\NotFoundExceptionInterface
+        {
         };
     }
-
-    private function createCircularReferenceException(string $id, array $path): \LogicException
+    private function createCircularReferenceException(string $id, array $path) : \YoastSEO_Vendor\Psr\Container\ContainerExceptionInterface
     {
-        return new \LogicException(sprintf('Circular reference detected for service "%s", path: "%s".', $id, implode(' -> ', $path)));
+        return new class(\sprintf('Circular reference detected for service "%s", path: "%s".', $id, \implode(' -> ', $path))) extends \RuntimeException implements \YoastSEO_Vendor\Psr\Container\ContainerExceptionInterface
+        {
+        };
     }
 }

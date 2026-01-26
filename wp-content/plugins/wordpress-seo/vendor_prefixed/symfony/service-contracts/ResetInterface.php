@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace YoastSEO_Vendor\Symfony\Contracts\Service;
 
 /**
@@ -26,8 +25,5 @@ namespace YoastSEO_Vendor\Symfony\Contracts\Service;
  */
 interface ResetInterface
 {
-    /**
-     * @return void
-     */
     public function reset();
 }
