@@ -32,7 +32,7 @@ RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
 pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
-COPY wp-content wp-content
+# Create wp-content directory
 COPY wp-theme wp-content/themes/dg-semantic
 
 # Copy built plugins from workspace into wp-content so built assets are included
