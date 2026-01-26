@@ -1,13 +1,13 @@
-import {InspectorControls, PanelColorSettings, useBlockProps} from '@wordpress/block-editor'
+import { InspectorControls, PanelColorSettings, useBlockProps } from '@wordpress/block-editor'
 import {
     Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl, Button
 } from '@wordpress/components'
 
-import {__} from '@wordpress/i18n'
-import {BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig} from '@devgateway/dvz-wp-commons'
+import { __ } from '@wordpress/i18n'
+import { BlockEditWithAPIMetadata, ComponentWithSettings, SizeConfig } from '@devgateway/dvz-wp-commons'
 import LayerSettings from "./layers/Base";
 import LayerModel from "./layers/Model"
-import {togglePanel} from '@devgateway/dvz-wp-commons';;
+import { togglePanel } from '@devgateway/dvz-wp-commons';;
 
 class BlockEdit extends ComponentWithSettings {
     constructor(props) {
@@ -19,14 +19,14 @@ class BlockEdit extends ComponentWithSettings {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {attributes: {app}} = this.props
+        const { attributes: { app } } = this.props
         super.componentDidUpdate(prevProps, prevState, snapshot);
     }
 
     componentDidMount() {
         super.componentDidMount();
-        const {setAttributes} = this.props;
-        setAttributes({identifier: Math.ceil(Math.random() * 100000000)})//set a random id to identify each of the maps on the page
+        const { setAttributes } = this.props;
+        setAttributes({ identifier: Math.ceil(Math.random() * 100000000) })//set a random id to identify each of the maps on the page
 
         window.addEventListener("message", (event) => {
             if (event.data.type == `d3_map_${this.props.attributes.identifier}`) {
@@ -34,42 +34,42 @@ class BlockEdit extends ComponentWithSettings {
                 const parentOrigin = window.location.origin.split(':')[1]
                 if (iframeOrigin == parentOrigin) {
                     console.log("Received message from iframe " + event.data.type, event.data.value)
-                    setAttributes({mapPosition: event.data.value})
+                    setAttributes({ mapPosition: event.data.value })
                 }
             }
         }, false);
     }
 
     addLayer() {
-        const {setAttributes, attributes: {layers}} = this.props
+        const { setAttributes, attributes: { layers } } = this.props
         const newLayers = [...layers]
-        const model = {...LayerModel}
+        const model = { ...LayerModel }
         model.id = Date.now()
         newLayers.push(model)
-        
-        setAttributes({layers: newLayers})
+
+        setAttributes({ layers: newLayers })
     }
 
     removeLayer(layer) {
-        const {setAttributes, attributes: {layers}} = this.props
-        const {id, name} = layer
+        const { setAttributes, attributes: { layers } } = this.props
+        const { id, name } = layer
         const newLayers = layers.filter(l => l.id != id)
-        setAttributes({layers: newLayers})
+        setAttributes({ layers: newLayers })
     }
 
     onChangeLayer(layer) {
-        const {setAttributes, attributes: {layers}} = this.props
+        const { setAttributes, attributes: { layers } } = this.props
         const newLayers = [...layers]
         const index = layers.findIndex(l => l.id === layer.id);
         if (index !== -1) {
             newLayers[index] = layer;
         }
-        setAttributes({layers: newLayers})
+        setAttributes({ layers: newLayers })
     }
 
     onMoveLayer(direction, layer) {
 
-        const {setAttributes, attributes: {layers}} = this.props
+        const { setAttributes, attributes: { layers } } = this.props
         const newLayers = [...layers]
         const index = newLayers.findIndex(l => l.id === layer.id);
 
@@ -78,7 +78,7 @@ class BlockEdit extends ComponentWithSettings {
 
             const element = newLayers.splice(index, 1);
             newLayers.splice(newIndex, 0, element[0]);
-            setAttributes({layers: newLayers})
+            setAttributes({ layers: newLayers })
         }
     }
 
@@ -94,7 +94,7 @@ class BlockEdit extends ComponentWithSettings {
         } = this.props;
 
 
-        const divStyles = {height: height + 'px', width: '100%'};
+        const divStyles = { height: height + 'px', width: '100%' };
         return ([isSelected && (<InspectorControls>
             <Panel header={__("Map Configuration")}>
                 <PanelBody
@@ -104,27 +104,30 @@ class BlockEdit extends ComponentWithSettings {
                     <PanelRow>
                         <TextControl
                             label={__('Name')}
+                            help={__("Name of the map group")}
                             value={group}
-                            onChange={(group) => setAttributes({group})}
+                            onChange={(group) => setAttributes({ group })}
                         />
                     </PanelRow>
-                     <PanelRow>
-                                <ToggleControl
-                                    label={__('Wait For Filters')}
-                                    checked={waitForFilters}
-                                    onChange={() => setAttributes({waitForFilters:!waitForFilters})}
-                                />
-                    </PanelRow>	
+                    <PanelRow>
+                        <ToggleControl
+                            label={__('Wait For Filters')}
+                            help={__("If enabled, map will wait for filter selection before loading")}
+                            checked={waitForFilters}
+                            onChange={() => setAttributes({ waitForFilters: !waitForFilters })}
+                        />
+                    </PanelRow>
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus["SIZE"]}
-                           onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
-                           title={__("Size and Position")}>
+                    onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
+                    title={__("Size and Position")}>
                     <PanelRow>
                         <TextControl
                             size={10}
                             label="Height"
+                            help={__("Map height in pixels")}
                             value={height}
-                            onChange={(height) => setAttributes({height: height ? parseInt(height) : 0})}
+                            onChange={(height) => setAttributes({ height: height ? parseInt(height) : 0 })}
                         />
                     </PanelRow>
 
@@ -132,8 +135,9 @@ class BlockEdit extends ComponentWithSettings {
                         <TextControl
                             size={10}
                             label="Width"
+                            help={__("Map width in pixels")}
                             value={width}
-                            onChange={(width) => setAttributes({width: width ? parseInt(width) : 0})}
+                            onChange={(width) => setAttributes({ width: width ? parseInt(width) : 0 })}
                         />
                     </PanelRow>
 
@@ -141,21 +145,24 @@ class BlockEdit extends ComponentWithSettings {
                         <TextControl
                             size={10}
                             label="Position"
+                            help={__("Map center coordinates and zoom level")}
                             value={JSON.stringify(mapPosition)}
                             onChange={(newPos) => {
-                                setAttributes({mapPosition: JSON.parse(newPos)})}
+                                setAttributes({ mapPosition: JSON.parse(newPos) })
+                            }
                             }
                         />
                     </PanelRow>
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus["PROJECTION"]}
-                           onToggle={e => togglePanel("PROJECTION", panelStatus, setAttributes)}
-                           title={__("Projection")}>
+                    onToggle={e => togglePanel("PROJECTION", panelStatus, setAttributes)}
+                    title={__("Projection")}>
                     <PanelRow>
                         <SelectControl
                             label={__("Projection")}
+                            help={__("Map projection type")}
                             value={projection}
-                            onChange={(projection) => setAttributes({projection})}
+                            onChange={(projection) => setAttributes({ projection })}
                             options={[
                                 {
                                     label: "geoMercator",
@@ -183,12 +190,12 @@ class BlockEdit extends ComponentWithSettings {
                     </PanelRow>
 
                     <PanelRow>
-                        <ToggleControl label={__('Enable Rotation')} checked={rotationEnabled}
-                                       onChange={e => setAttributes({rotationEnabled: !rotationEnabled})}></ToggleControl>
+                        <ToggleControl label={__('Enable Rotation')} help={__("Allow users to rotate the map")} checked={rotationEnabled}
+                            onChange={e => setAttributes({ rotationEnabled: !rotationEnabled })}></ToggleControl>
                     </PanelRow>
                     <PanelRow>
-                        <ToggleControl label={__('Enable Zoom Controls')} checked={zoomEnabled}
-                                       onChange={e => setAttributes({zoomEnabled: !zoomEnabled})}></ToggleControl>
+                        <ToggleControl label={__('Enable Zoom Controls')} help={__("Show zoom controls on the map")} checked={zoomEnabled}
+                            onChange={e => setAttributes({ zoomEnabled: !zoomEnabled })}></ToggleControl>
                     </PanelRow>
                 </PanelBody>
                 <PanelBody
@@ -205,9 +212,9 @@ class BlockEdit extends ComponentWithSettings {
                             value: decodeURIComponent(backGroundColor),
                             onChange: (color) => {
                                 if (color) {
-                                    setAttributes({backGroundColor: encodeURIComponent(color)})
+                                    setAttributes({ backGroundColor: encodeURIComponent(color) })
                                 } else {
-                                    setAttributes({backGroundColor: "#FFFFFF"})
+                                    setAttributes({ backGroundColor: "#FFFFFF" })
                                 }
                             },
                             label: __('Background Color')
@@ -217,7 +224,7 @@ class BlockEdit extends ComponentWithSettings {
 
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus['LAYERS']}
-                           onToggle={e => togglePanel("LAYERS", panelStatus, setAttributes)} title={__("Layers")}>
+                    onToggle={e => togglePanel("LAYERS", panelStatus, setAttributes)} title={__("Layers")}>
                     {layers.map((layer) => (<LayerSettings
                         {...this.props}
                         setAttributes={setAttributes}
@@ -235,47 +242,47 @@ class BlockEdit extends ComponentWithSettings {
             </Panel>
         </InspectorControls>),
 
-            (<div style={{margin: "auto", width: "100%"}}>
-                <ResizableBox
-                    style={{margin: "auto"}}
-                    size={{
-                        height, width
-                    }}
-                    minHeight="50"
-                    minWidth="50"
-                    enable={{
-                        top: false,
-                        right: true,
-                        bottom: true,
-                        left: false,
-                        topRight: false,
-                        bottomRight: true,
-                        bottomLeft: false,
-                        topLeft: false,
-                    }}
-                    onResizeStop={(event, direction, elt, delta) => {
-                        setAttributes({
-                            height: parseInt(height + delta.height, 10), width: parseInt(width + delta.width, 10),
-                        });
-                        toggleSelection(true);
-                    }}
-                    onResizeStart={() => {
-                        toggleSelection(false);
-                    }}>
+        (<div style={{ margin: "auto", width: "100%" }}>
+            <ResizableBox
+                style={{ margin: "auto" }}
+                size={{
+                    height, width
+                }}
+                minHeight="50"
+                minWidth="50"
+                enable={{
+                    top: false,
+                    right: true,
+                    bottom: true,
+                    left: false,
+                    topRight: false,
+                    bottomRight: true,
+                    bottomLeft: false,
+                    topLeft: false,
+                }}
+                onResizeStop={(event, direction, elt, delta) => {
+                    setAttributes({
+                        height: parseInt(height + delta.height, 10), width: parseInt(width + delta.width, 10),
+                    });
+                    toggleSelection(true);
+                }}
+                onResizeStart={() => {
+                    toggleSelection(false);
+                }}>
 
 
-                    {this.state.react_ui_url && <iframe ref={this.iframe} scrolling={"no"}
-                                                        style={divStyles}
-                                                        src={this.state.react_ui_url + "/embeddable/newMap?"}/>}
+                {this.state.react_ui_url && <iframe ref={this.iframe} scrolling={"no"}
+                    style={divStyles}
+                    src={this.state.react_ui_url + "/embeddable/newMap?"} />}
 
-                </ResizableBox>
-            </div>)]);
+            </ResizableBox>
+        </div>)]);
 
     }
 }
 
 const Edit = (props) => {
-    const blockProps = useBlockProps({className: 'wp-react-component'});
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
     return <div {...blockProps}><BlockEdit {...props} /></div>;
 }
 export default Edit;

@@ -48,6 +48,10 @@ const SaveComponent = (props) => {
 
     return (<div className={"viz-component"}
         data-component={"filter"}
+        data-child-filter-param={childFilterParam}
+        data-parent-filter={parentFilter}
+        data-parent-filter-param={parentFilterParam}
+
         data-app={app}
         data-dvz-proxy-dataset-id={dvzProxyDatasetId}
         data-icon={icon}
@@ -80,10 +84,6 @@ const SaveComponent = (props) => {
         data-use-filter-items={useFilterItems}
         data-all-none-same-behaviour={allNoneSameBehaviour}
         data-child-filter={childFilter}
-        data-child-filter-param={childFilterParam}
-
-        data-parent-filter={parentFilter}
-        data-parent-filter-param={parentFilterParam}
 
         data-auto-apply={autoApply}>
     </div>);

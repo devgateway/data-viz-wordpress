@@ -1,5 +1,5 @@
-import {Component} from "@wordpress/element";
-import {__} from '@wordpress/i18n';
+import { Component } from "@wordpress/element";
+import { __ } from '@wordpress/i18n';
 import {
     Button, ButtonGroup,
     CheckboxControl,
@@ -14,14 +14,14 @@ import {
 import Measures from './utils/MapMeasures.jsx'
 import Property from "./utils/Property";
 import BreaksGenerator from "./utils/BreaksGenerator";
-import {PanelColorSettings} from "@wordpress/block-editor";
+import { PanelColorSettings } from "@wordpress/block-editor";
 import PatternGenerator from "./utils/PatternGenerator";
 import Format from '../../charts/Format.jsx'
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
+import { isSupersetAPI } from '@devgateway/dvz-wp-commons';
 import GradientGenerator from "./utils/GradientGenerator";
 
 
-const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
+const FilterSelector = ({ param, index, options, onUpdateFilterParam }) => {
     const sortedOptions = options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
@@ -30,10 +30,10 @@ const FilterSelector = ({param, index, options, onUpdateFilterParam}) => {
 
     return <SelectControl onChange={(value) => {
         onUpdateFilterParam(value, index)
-    }} value={param} options={sortedOptions}/>
+    }} value={param} options={sortedOptions} />
 }
 
-const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
+const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             /*
@@ -44,9 +44,9 @@ const CategoricalFilter = ({value, index, items, onUpdateFilterValue}) => {
             return a.position - b.position
         });
         return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
-                                                              onChange={e => {
-                                                                  onUpdateFilterValue(v.id, index)
-                                                              }}/></PanelRow>)
+            onChange={e => {
+                onUpdateFilterValue(v.id, index)
+            }} /></PanelRow>)
     } else {
         return null;
     }
@@ -69,7 +69,7 @@ export class DataLayerSetting extends Component {
         }
     }
 
-    
+
 
 
 
@@ -98,14 +98,14 @@ export class DataLayerSetting extends Component {
 
 
     getCSValue() {
-        const {apps, features, layer: {csv, featureJoinAttribute}} = this.props
+        const { apps, features, layer: { csv, featureJoinAttribute } } = this.props
         if (csv == '') {
             let generatedCSV = 'id,value\n'
             if (features && features.length > 0) {
                 features.forEach(f => {
                     if (f.properties[featureJoinAttribute]) {
                         generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n'
-                    }          
+                    }
                 })
             }
 
@@ -116,7 +116,7 @@ export class DataLayerSetting extends Component {
 
     cleanSelection(prevState) {
 
-        const {onChangeProperty} = this.props
+        const { onChangeProperty } = this.props
         onChangeProperty("measures", [])
         onChangeProperty("filters", [])
 
@@ -125,10 +125,10 @@ export class DataLayerSetting extends Component {
 
     updateFilterParam(param, idx) {
 
-        const {layer: {filters}, onChangeProperty, allFilters} = this.props
+        const { layer: { filters }, onChangeProperty, allFilters } = this.props
         const newFilters = filters.slice()
         const selected = allFilters.filter(f => f.param === param)[0]
-        newFilters[idx] = {...selected, value: []}
+        newFilters[idx] = { ...selected, value: [] }
         // setAttributes({filters: newFilters})
         onChangeProperty("filters", newFilters)
 
@@ -137,7 +137,7 @@ export class DataLayerSetting extends Component {
 
     updateFilterValue(value, idx) {
 
-        const {layer: {filters}, onChangeProperty} = this.props
+        const { layer: { filters }, onChangeProperty } = this.props
         const selected = filters[idx]
         let values = selected.value
         if (values.indexOf(value) > -1) {
@@ -154,7 +154,7 @@ export class DataLayerSetting extends Component {
 
     setFilterValue(value, idx) {
 
-        const {layer: {filters}, onChangeProperty} = this.props
+        const { layer: { filters }, onChangeProperty } = this.props
         const selected = filters[idx]
         let values = selected.value
         values = value.split(",")
@@ -167,7 +167,7 @@ export class DataLayerSetting extends Component {
 
     addFilter() {
 
-        const {layer: {filters}, onChangeProperty, allFilters} = this.props
+        const { layer: { filters }, onChangeProperty, allFilters } = this.props
         let index = filters.length > allFilters.length ? allFilters.length : filters.length
         const newFilter = (allFilters && allFilters.length > 0) ? {
             ...allFilters[index], "value": []
@@ -179,20 +179,20 @@ export class DataLayerSetting extends Component {
     }
 
     removeFilter(f) {
-        const {layer: {filters}, onChangeProperty, allFilters} = this.props
+        const { layer: { filters }, onChangeProperty, allFilters } = this.props
         let newFilters = filters.slice(0, -1)
         onChangeProperty("filters", newFilters)
     }
 
 
     componentDidUpdate(prevProps) {
-        const {onChangeProperty, layer: {type, dimension2, types}} = this.props
-        const {layer: {type: prevType, dimension2: prevDimension2}} = prevProps
+        const { onChangeProperty, layer: { type, dimension2, types } } = this.props
+        const { layer: { type: prevType, dimension2: prevDimension2 } } = prevProps
     }
 
 
     onSetSingleMeasure(value) {
-        const {onChangeProperty} = this.props
+        const { onChangeProperty } = this.props
         onChangeProperty("measures", [value])
     }
 
@@ -202,7 +202,7 @@ export class DataLayerSetting extends Component {
         const cat = values.length > 0 ? values[0] : null
         let items = null
         if (type === 'Boolean') {
-            items = [{"value": "Yes", id: true}, {"value": "No", id: false}]
+            items = [{ "value": "Yes", id: true }, { "value": "No", id: false }]
         } else if (cat) {
             items = cat.items
         }
@@ -256,17 +256,17 @@ export class DataLayerSetting extends Component {
                 onMoveLayer,
                 dvzProxyDatasetId,
                 patternsVisible,
-                colorLayerVisible                       
+                colorLayerVisible
             }
         } = this.props
 
-        
-        
+
+
 
         let selectedMeasureLabel = ""
         let selectedMeasureValue = ""
 
-        
+
 
         if (app != 'csv') {
             const theMeasure = measures ? measures[0] : null
@@ -288,36 +288,38 @@ export class DataLayerSetting extends Component {
             <PanelRow>
                 <SelectControl
                     label={__("App", "dg")}
+                    help={__("Data source application")}
                     value={[app]} // e.g: value = [ 'a', 'c' ]
-                    onChange={(app) => {  
-                       onChangeProperty("app", app)                            
+                    onChange={(app) => {
+                        onChangeProperty("app", app)
                     }}
                     options={apps}
                 />
             </PanelRow>
-            {isSupersetAPI(app, apps)  &&
-            <PanelRow>
-                <SelectControl
-                    label={__('Datasets')}
-                    value={[dvzProxyDatasetId]}
-                    onChange={(newDatasetId) => {
-                        onChangeProperty("dvzProxyDatasetId", newDatasetId)
-                    }}
-                    options={allDatasets}
-                />
-            </PanelRow>
+            {isSupersetAPI(app, apps) &&
+                <PanelRow>
+                    <SelectControl
+                        label={__('Datasets')}
+                        value={[dvzProxyDatasetId]}
+                        onChange={(newDatasetId) => {
+                            onChangeProperty("dvzProxyDatasetId", newDatasetId)
+                        }}
+                        options={allDatasets}
+                    />
+                </PanelRow>
             }
             {type != 'dataPoints' && <Property property={"featureJoinAttribute"}
-                                               type={"select"} onChangeProperty={onChangeProperty}
-                                               features={features}
-                                               value={featureJoinAttribute}
-                                               title={"Shape Attribute"}>
+                type={"select"} onChangeProperty={onChangeProperty}
+                features={features}
+                value={featureJoinAttribute}
+                title={"Shape Attribute"}>
 
             </Property>}
 
             {app == 'csv' && <PanelRow>
                 <TextareaControl
                     label={__("CSV Data")}
+                    help={__("Enter CSV data here")}
                     value={this.getCSValue(csv)}
                     onChange={(csv) => onChangeProperty("csv", csv)}
                 />
@@ -325,12 +327,13 @@ export class DataLayerSetting extends Component {
 
             {app == 'csv' && <PanelRow>
                 <Format title={"Format"} format={format} hiddenCustomAxisFormat={true}
-                        onFormatChange={this.onFormatChange}></Format>
+                    onFormatChange={this.onFormatChange}></Format>
             </PanelRow>}
 
             {app != 'csv' && <PanelRow>
                 <SelectControl
                     label={'Dimension' + (type == 'dataPoints' ? 'LatLong' : '')}
+                    help={__("Data dimension field")}
                     value={[apiJoinAttribute]} // e.g: value = [ 'a', 'c' ]
                     onChange={(value) => {
                         onChangeProperty("apiJoinAttribute", value)
@@ -356,216 +359,226 @@ export class DataLayerSetting extends Component {
                     "color": "rgb(117, 117, 117)"
                 }}>{"{" + m.value + "}"}</p></PanelRow>)}
         </PanelBody>,
-            <React.Fragment>
-                {app != 'csv' && <Measures
-                    onFormatChange={this.onFormatChange}
-                    onSetSingleMeasure={this.onSetSingleMeasure}
-                    measures={layer.measures}
-                    format={layer.format}
-                    {...this.props}/>}
-                    </React.Fragment>,
-                    <React.Fragment>
-                {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
+        <React.Fragment>
+            {app != 'csv' && <Measures
+                onFormatChange={this.onFormatChange}
+                onSetSingleMeasure={this.onSetSingleMeasure}
+                measures={layer.measures}
+                format={layer.format}
+                {...this.props} />}
+        </React.Fragment>,
+        <React.Fragment>
+            {app != 'csv' && <PanelBody initialOpen={false} title={__("Filters")}>
                 {filters.map((f, index) => {
                     return (<PanelBody initialOpen={false} title={__(`Filter - ${f.label}`)}>
-                    <FilterSelector param={f.param} index={index} options={allFilters}
-                    onUpdateFilterParam={this.updateFilterParam}/>
-                {<CategoricalFilter value={f.value} index={index} items={this.items(f.type)}
-                    onUpdateFilterValue={this.updateFilterValue}/>}
+                        <FilterSelector param={f.param} index={index} options={allFilters}
+                            onUpdateFilterParam={this.updateFilterParam} />
+                        {<CategoricalFilter value={f.value} index={index} items={this.items(f.type)}
+                            onUpdateFilterValue={this.updateFilterValue} />}
                     </PanelBody>)
                 })}
 
-                    <PanelRow>
+                <PanelRow>
                     <Button variant={"link"} onClick={this.addFilter}>{__("Add Filter")}</Button>
                     <Button variant={"link"} onClick={this.removeFilter}>{__("Remove")}</Button>
-                    </PanelRow>
-                    </PanelBody>}
-                    </React.Fragment>,
-                    <PanelBody initialOpen={false} title={"Symbols and Styles"}>
-                {app != "csv" && selectedMeasureValue && <PanelRow>
-                    <TextControl
+                </PanelRow>
+            </PanelBody>}
+        </React.Fragment>,
+        <PanelBody initialOpen={false} title={"Symbols and Styles"}>
+            {app != "csv" && selectedMeasureValue && <PanelRow>
+                <TextControl
                     label={selectedMeasureLabel}
                     help={__("Customize Measure Label")}
                     value={customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : ""}
                     onChange={(measureLabel) => {
-                    onChangeProperty("customMeasuresLabels", {
-                    ...customMeasuresLabels, [selectedMeasureValue]: measureLabel
-                })
+                        onChangeProperty("customMeasuresLabels", {
+                            ...customMeasuresLabels, [selectedMeasureValue]: measureLabel
+                        })
 
 
-                }}>
-                    </TextControl>
-                    </PanelRow>}
-                    <PanelRow>
-                    <PanelColorSettings
+                    }}>
+                </TextControl>
+            </PanelRow>}
+
+            <PanelRow>
+                <ToggleControl
+                    label="Default Visible?"
+                    help={__("Layer visible by default")}
+                    checked={colorLayerVisible}
+                    onChange={e => {
+                        onChangeProperty("colorLayerVisible", !colorLayerVisible)
+                    }}
+                />
+            </PanelRow>
+            <PanelRow>
+                <PanelColorSettings
                     title={__(`Default Fill Color`)}
                     value={fillColor}
                     colorSettings={[{
-                    clearable: true, enableAlpha: true,
-                    value: fillColor, onChange: (fillColor) => {
-                    onChangeProperty("fillColor", fillColor)
-                },
+                        clearable: true, enableAlpha: true,
+                        value: fillColor, onChange: (fillColor) => {
+                            onChangeProperty("fillColor", fillColor)
+                        },
 
-                }]}
-                    />
-                    </PanelRow>
-                    <PanelRow>
-                    <ToggleControl
+                    }]}
+                />
+            </PanelRow>
+            <PanelRow>
+                <ToggleControl
                     label="Use Centroid Points"
+                    help={__("Display data as centroid points")}
                     checked={useCentroidPoint}
                     onChange={(value) => {
-                    onChangeProperty("useCentroidPoint", true)
-                }}
-                    />
-                    </PanelRow>
-                    <PanelRow>
-                    <ToggleControl
+                        onChangeProperty("useCentroidPoint", true)
+                    }}
+                />
+            </PanelRow>
+            <PanelRow>
+                <ToggleControl
                     label="Use Shape Colors"
+                    help={__("Colorize map shapes based on data")}
                     checked={!useCentroidPoint}
                     onChange={(value) => {
-                    onChangeProperty("useCentroidPoint", false)
-                }}
-                    />
-                    </PanelRow>
+                        onChangeProperty("useCentroidPoint", false)
+                    }}
+                />
+            </PanelRow>
 
 
-                {useCentroidPoint && <PanelRow>
-                    <RangeControl
+            {useCentroidPoint && <PanelRow>
+                <RangeControl
                     label="Point Base Size"
+                    help={__("Base size for points")}
                     value={markSizeScale}
                     onChange={(value) => {
-                    onChangeProperty("markSizeScale", value)
-                }}
+                        onChangeProperty("markSizeScale", value)
+                    }}
                     step={1}
                     min={0}
                     max={100}
-                    />
-                    </PanelRow>}
-                {useCentroidPoint && <PanelRow>
-                    <RangeControl
+                />
+            </PanelRow>}
+            {useCentroidPoint && <PanelRow>
+                <RangeControl
                     label="Point Label Size"
+                    help={__("Size of point labels")}
                     value={markerLabelSize}
                     onChange={(markerLabelSize) => {
-                    onChangeProperty("markerLabelSize", markerLabelSize)
-                }}
+                        onChangeProperty("markerLabelSize", markerLabelSize)
+                    }}
                     step={1}
                     min={0}
                     max={100}
-                    >
+                >
 
-                    </RangeControl>
-                    </PanelRow>}
-                {useCentroidPoint && <PanelRow>
+                </RangeControl>
+            </PanelRow>}
+            {useCentroidPoint && <PanelRow>
 
-                    <PanelColorSettings
+                <PanelColorSettings
                     title={__(`Circle Fill Color`)}
                     value={markFillColor}
                     colorSettings={[{
-                    clearable: true, enableAlpha: true, value: markFillColor, onChange: (markFillColor) => {
-                    onChangeProperty("markFillColor", markFillColor)
-                },
+                        clearable: true, enableAlpha: true, value: markFillColor, onChange: (markFillColor) => {
+                            onChangeProperty("markFillColor", markFillColor)
+                        },
 
-                }]}
-                    /></PanelRow>}
+                    }]}
+                /></PanelRow>}
 
-                {useCentroidPoint && <PanelRow>
-                    <PanelColorSettings
+            {useCentroidPoint && <PanelRow>
+                <PanelColorSettings
                     title={__(`Circle Label Color`)}
                     value={markLabelColor}
                     colorSettings={[{
-                    clearable: true,
-                    enableAlpha: true,
-                    value: markLabelColor,
-                    onChange: (markLabelColor) => {
-                    onChangeProperty("markLabelColor", markLabelColor)
-                },
+                        clearable: true,
+                        enableAlpha: true,
+                        value: markLabelColor,
+                        onChange: (markLabelColor) => {
+                            onChangeProperty("markLabelColor", markLabelColor)
+                        },
 
-                }]}
-                    />
-                    </PanelRow>}
-                {useCentroidPoint && <PanelRow>
-                    <PanelColorSettings
+                    }]}
+                />
+            </PanelRow>}
+            {useCentroidPoint && <PanelRow>
+                <PanelColorSettings
                     title={__(`Circle Border Color`)}
                     value={borderColor}
                     colorSettings={[{
-                    clearable: true, enableAlpha: true, value: markBorderColor, onChange: (borderColor) => {
-                    onChangeProperty("markBorderColor", borderColor)
-                },
+                        clearable: true, enableAlpha: true, value: markBorderColor, onChange: (borderColor) => {
+                            onChangeProperty("markBorderColor", borderColor)
+                        },
 
-                }]}
-                    />
-                    </PanelRow>}
+                    }]}
+                />
+            </PanelRow>}
 
-                        <PanelRow>
-                            <ToggleControl
-                                label="Use Breaks"
-                                checked={useBreaks}
-                                onChange={e => {
-                                    onChangeProperty(["useBreaks", !useBreaks], ["useGradients", false])
-                                }}
-                            />
-                        </PanelRow>
+            <PanelRow>
+                <ToggleControl
+                    label="Use Breaks"
+                    help={__("Use data breaks for coloring")}
+                    checked={useBreaks}
+                    onChange={e => {
+                        onChangeProperty(["useBreaks", !useBreaks], ["useGradients", false])
+                    }}
+                />
+            </PanelRow>
 
-                        <PanelRow>
-                            <ToggleControl
-                                label="Use Gradients"
-                                checked={useGradients}
-                                onChange={e => {
-                                    onChangeProperty(["useGradients", !useGradients], ["useBreaks", false])
-                                }}
-                            />
-                        </PanelRow>
+            <PanelRow>
+                <ToggleControl
+                    label="Use Gradients"
+                    help={__("Use color gradients")}
+                    checked={useGradients}
+                    onChange={e => {
+                        onChangeProperty(["useGradients", !useGradients], ["useBreaks", false])
+                    }}
+                />
+            </PanelRow>
 
-                         <PanelRow>
-                            <ToggleControl
-                                label="Show Color Layer"
-                                checked={colorLayerVisible}
-                                onChange={e => {
-                                    onChangeProperty("colorLayerVisible", !colorLayerVisible)
-                                }}
-                            />
-                        </PanelRow>
 
-                {useBreaks && <BreaksGenerator
-                    app={app}
-                    csv={csv}
-                    dvzProxyDatasetId={dvzProxyDatasetId}
-                    measures={measures}
-                    filters={filters}
-                    apiJoinAttribute={apiJoinAttribute}
-                    showSize={useCentroidPoint}
-                    defaultBorderColor={markBorderColor}
-                    defaultFillColor={markFillColor}
-                    format={format}
-                    onChangeProperty={onChangeProperty} breaks={breaks}/>}
 
-                {useGradients && <GradientGenerator
-                    onChangeProperty={onChangeProperty} gradientReverse={gradientReverse} gradientScheme={gradientScheme}/>}
+            {useBreaks && <BreaksGenerator
+                app={app}
+                csv={csv}
+                dvzProxyDatasetId={dvzProxyDatasetId}
+                measures={measures}
+                filters={filters}
+                apiJoinAttribute={apiJoinAttribute}
+                showSize={useCentroidPoint}
+                defaultBorderColor={markBorderColor}
+                defaultFillColor={markFillColor}
+                format={format}
+                onChangeProperty={onChangeProperty} breaks={breaks} />}
 
-                    <PanelRow>
-                    <ToggleControl
+            {useGradients && <GradientGenerator
+                onChangeProperty={onChangeProperty} gradientReverse={gradientReverse} gradientScheme={gradientScheme} />}
+
+            <PanelRow>
+                <ToggleControl
                     label="Use Patterns"
+                    help={__("Use patterns for filling shapes")}
                     checked={usePattern}
                     onChange={e => {
-                    onChangeProperty("usePattern", !usePattern)
-                }}
-                    />
-                    </PanelRow>
-
-                       
-
-                {usePattern && <PatternGenerator allCategories={allCategories} allDimensions={allDimensions}
-                    defaultFillColor={fillColor} onChangeProperty={onChangeProperty}
-                    patterns={patterns} app={app} csv={csv}
-                    patternDiscriminator={patternDiscriminator}/>}
-                    </PanelBody>
+                        onChangeProperty("usePattern", !usePattern)
+                    }}
+                />
+            </PanelRow>
 
 
 
-                    ])
-                }
+            {usePattern && <PatternGenerator allCategories={allCategories} allDimensions={allDimensions}
+                defaultFillColor={fillColor} onChangeProperty={onChangeProperty}
+                patterns={patterns} app={app} csv={csv}
+                patternDiscriminator={patternDiscriminator} />}
+        </PanelBody>
 
-                }
+
+
+        ])
+    }
+
+}
 
 
 export default DataLayerSetting;
