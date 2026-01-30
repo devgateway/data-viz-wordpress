@@ -94,16 +94,38 @@ registerBlockType('alive/big-filter',
             },
             numberColor: {
                 type: 'string',
+                default: "#aaaf23ff",
+            },
+            labelColor: {
+                type: 'string',
+                default: "#3a62f0ff",
+            },
+            backgroundColor: {
+                type: 'string',
+                default: "#ebecefff",
+            },
+
+            unselectedNumberColor: {
+                type: 'string',
                 default: "#5a5d68",
             },
+            unselectedLabelColor: {
+                type: 'string',
+                default: "#5a5d68",
+            },
+
+            unselectedBackgroundColor: {
+                type: 'string',
+                default: "#ebecefff",
+            },
+
+
+
             labelFontSize: {
                 type: 'Numeric',
                 default: 14
             },
-            labelColor: {
-                type: 'string',
-                default: "#5a5d68",
-            },
+
             sort: {
                 type: 'string',
                 default: "alpha",

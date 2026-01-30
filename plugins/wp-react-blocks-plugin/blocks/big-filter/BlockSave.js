@@ -16,15 +16,21 @@ const SaveComponent = (props) => {
             showZeroValues,
             dvzProxyDatasetId,
             numberFontSize,
-            numberColor,
+
             labelFontSize,
-            labelColor,
+
             label,
             csv,
             waitForFilters,
             nColumns,
-            disabledNumberColor,
-            disabledLabelColor
+
+
+            numberColor,
+            labelColor,
+            backgroundColor,
+            unselectedNumberColor,
+            unselectedLabelColor,
+            unselectedBackgroundColor
 
         }
     } = props;
@@ -53,11 +59,19 @@ const SaveComponent = (props) => {
             data-filters={encodeURIComponent(JSON.stringify(filters))}
             data-n-columns={nColumns}
             data-number-font-size={numberFontSize}
-            data-number-color={encodeURIComponent(numberColor)}
+
+
+
             data-label-font-size={labelFontSize}
+
+            data-background-color={encodeURIComponent(backgroundColor)}
+            data-number-color={encodeURIComponent(numberColor)}
             data-label-color={encodeURIComponent(labelColor)}
-            data-disabled-label-color={encodeURIComponent(disabledLabelColor)}
-            data-disabled-number-color={encodeURIComponent(disabledNumberColor)}
+
+            data-unselected-background-color={encodeURIComponent(unselectedBackgroundColor)}
+            data-unselected-label-color={encodeURIComponent(unselectedLabelColor)}
+            data-unselected-number-color={encodeURIComponent(unselectedNumberColor)}
+
             data-label={label}
             data-wait-for-filters={waitForFilters}
             data-show-zero-values={showZeroValues}

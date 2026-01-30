@@ -51,11 +51,16 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 dvzProxyDatasetId,
                 numberFontSize,
                 numberColor,
+                backgroundColor,
                 labelFontSize,
                 labelColor,
                 nColumns,
-                disabledNumberColor,
-                disabledLabelColor
+
+                unselectedBackgroundColor,
+
+                unselectedLabelColor,
+                unselectedNumberColor
+
             }
         } = this.props;
 
@@ -234,14 +239,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             }}
                         />
 
-                        <PanelColorSettings title={__('Color Settings')}
+                        <PanelColorSettings title={__('Selected Color Settings')}
                             colorSettings={[
                                 {
                                     value: numberColor,
                                     onChange: (color) => {
                                         setAttributes({ numberColor: color })
                                     },
-                                    label: __("Active Color")
+                                    label: __("Number Color")
                                 },
                                 {
                                     value: labelColor,
@@ -249,27 +254,41 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         setAttributes({ labelColor: color })
                                     },
                                     label: __("Label Color")
-                                }
+                                },
+                                {
+                                    value: backgroundColor,
+                                    onChange: (color) => {
+                                        setAttributes({ backgroundColor: color })
+                                    },
+                                    label: __("Background Color")
+                                },
                             ]}
                         />
 
 
-                        <PanelColorSettings title={__('Disabled Settings')}
+                        <PanelColorSettings title={__('Unselected Color Settings')}
                             colorSettings={[
                                 {
-                                    value: disabledNumberColor,
+                                    value: unselectedNumberColor,
                                     onChange: (color) => {
-                                        setAttributes({ disabledNumberColor: color })
+                                        setAttributes({ unselectedNumberColor: color })
                                     },
                                     label: __("Number Color")
                                 },
                                 {
-                                    value: disabledLabelColor,
+                                    value: unselectedLabelColor,
                                     onChange: (color) => {
-                                        setAttributes({ disabledLabelColor: color })
+                                        setAttributes({ unselectedLabelColor: color })
                                     },
                                     label: __("Label Color")
-                                }
+                                },
+                                {
+                                    value: unselectedBackgroundColor,
+                                    onChange: (color) => {
+                                        setAttributes({ unselectedBackgroundColor: color })
+                                    },
+                                    label: __("Background Color")
+                                },
                             ]}
                         />
                     </PanelBody>
