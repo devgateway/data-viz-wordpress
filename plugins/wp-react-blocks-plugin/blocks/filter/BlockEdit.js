@@ -37,9 +37,9 @@ const DefaultSelection = ({ defaultValues, items, filterType, onToggle, onSelect
     }
 
     const sortedItems = items.sort(function (a, b) {
-         if (a.position !== undefined && b.position !== undefined && a.position !== b.position ) {            
-                return a.position - b.position
-         }
+        if (a.position !== undefined && b.position !== undefined && a.position !== b.position) {
+            return a.position - b.position
+        }
 
         let aValue = a.value ? a.value.toLowerCase() : "";
         let bValue = b.value ? b.value.toLowerCase() : "";
@@ -207,7 +207,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             })
         }
 
-        debugger;
         return ([isSelected && (<InspectorControls>
             <Panel header={__("Filter Configuration")}>
                 <PanelBody initialOpen={false} title={__("Group")}>
@@ -282,7 +281,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             help={__('Set parent filter autoaply false in order to avoid unnecesary data reloading.')}
                             options={[{ value: null, label: __("None") }, ...this.state.filters]}
                             onChange={parentFilter => {
-                                debugger;
                                 if (parentFilter != "") {
                                     const parentFilterParam = this.state.filters.filter(f => f.value == parentFilter)[0].param
                                     setAttributes({ parentFilter, parentFilterParam })
