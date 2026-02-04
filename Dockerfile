@@ -9,16 +9,7 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
-FROM base AS installer
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-  --mount=type=bind,source=package.json,target=package.json \
-  --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
-  --mount=type=bind,source=packages/commons/package.json,target=packages/commons/package.json \
-  pnpm install --frozen-lockfile
-
-
 FROM base AS builder
-
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
