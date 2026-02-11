@@ -256,7 +256,9 @@ export class DataLayerSetting extends Component {
                 onMoveLayer,
                 dvzProxyDatasetId,
                 patternsVisible,
-                colorLayerVisible
+                colorLayerVisible,
+                gradientStartColor,
+                gradientEndColor
             }
         } = this.props
 
@@ -552,7 +554,9 @@ export class DataLayerSetting extends Component {
                 onChangeProperty={onChangeProperty} breaks={breaks} />}
 
             {useGradients && <GradientGenerator
-                onChangeProperty={onChangeProperty} gradientReverse={gradientReverse} gradientScheme={gradientScheme} />}
+                gradientStartColor={gradientStartColor}
+                gradientEndColor={gradientEndColor}
+                onChangeProperty={onChangeProperty} gradientReverse={gradientReverse} gradientScheme={gradientScheme || 'custom'} />}
 
             <PanelRow>
                 <ToggleControl
