@@ -1,8 +1,8 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons/index.js'
+import { Generic } from '../icons/index.js'
 
 registerBlockType(process.env.BLOCKS_NS + '/bignumber',
     {
@@ -23,18 +23,22 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumber',
                 type: "Object",
                 default: {}
             },
+            dimension1: {
+                type: 'String',
+                default: 'none'
+            },
             height: {
                 type: 'number',
                 default: 120,
             },
             app: {
                 type: 'String',
-                default: "csv"
+                default: "none"
             },
             csv: {
                 type: "String",
                 default: "Amount \n20000"
-            },    
+            },
             params: {
                 type: Object,
                 default: {}
@@ -64,7 +68,7 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumber',
             types: {
                 type: "Array",
                 default: [
-                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, singleDimension: false}}
+                    { label: 'Big Number', value: 'big-number', supports: { singleMeasure: true, singleDimension: false } }
                 ]
             },
             label: {

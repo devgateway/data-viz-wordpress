@@ -375,6 +375,8 @@ export class APIConfig extends Component {
             allFilters,
             allMeasures,
             setAttributes,
+            multiDimensions = true,
+            multiMeasure,
             attributes: { measures, filters, dimension1, dimension2, type, types },
         } = this.props;
 
@@ -402,7 +404,7 @@ export class APIConfig extends Component {
                         options={allDimensions}
                     />
                 </PanelRow>
-                {type != "radar" && (
+                {type != "radar" && multiDimensions === true && (
                     <PanelRow>
                         <SelectControl
                             label={__(type == "map" ? "Breakdown Field" : "Second Dimension")}
@@ -417,6 +419,7 @@ export class APIConfig extends Component {
                 )}
             </PanelBody>,
             <Measures
+                multiMeasure={multiMeasure}
                 onFormatChange={this.onFormatChange}
                 onUseCustomAxisFormatChange={this.onUseCustomAxisFormatChange}
                 onSetSingleMeasure={this.onSetSingleMeasure}
