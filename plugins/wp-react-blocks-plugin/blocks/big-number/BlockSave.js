@@ -16,6 +16,10 @@ const SaveComponent = (props) => {
         labelFontSize,
         labelColor,
         label,
+        groupLabel,
+        groupLabelFontSize,
+        groupLabelColor,
+
         csv,
         waitForFilters,
         noDataText
@@ -47,6 +51,9 @@ const SaveComponent = (props) => {
             data-label-font-size={labelFontSize}
             data-label-color={encodeURIComponent(labelColor)}
             data-label={label}
+            data-group-label={groupLabel}
+            data-group-label-font-sizee={groupLabelFontSize}
+            data-group-label-color={groupLabelColor}
             data-wait-for-filters={waitForFilters}
             data-no-data-text={noDataText}>
 

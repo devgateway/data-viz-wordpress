@@ -71,9 +71,22 @@ registerBlockType(process.env.BLOCKS_NS + '/bignumber',
                     { label: 'Big Number', value: 'big-number', supports: { singleMeasure: true, singleDimension: false } }
                 ]
             },
+
+            groupLabel: {
+                type: 'String',
+                default: ""
+            },
+            groupLabelFontSize: {
+                type: 'Numeric',
+                default: 14
+            },
+            groupLabelColor: {
+                type: 'string',
+                default: "#5a5d68",
+            },
             label: {
                 type: 'String',
-                default: "# of animals"
+                default: ""
             },
             numberFontSize: {
                 type: 'Numeric',

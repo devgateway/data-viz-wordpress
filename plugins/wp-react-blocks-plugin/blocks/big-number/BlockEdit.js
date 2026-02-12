@@ -43,10 +43,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 group,
                 panelStatus,
                 dvzProxyDatasetId,
-                label,
+
+                groupLabel,
+                groupLabelFontSize,
+                groupLabelColor,
+
                 numberFontSize,
                 numberColor,
-                labelFontSize,
+                labelFontSize, //measure label font size
                 labelColor,
                 csv,
                 type,
@@ -72,6 +76,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         debugger;
         const apps = this.state.apps ? this.state.apps.filter(p => p.value != 'csv') : []
         apps.push({ label: "None", value: "none" })
+
+
         return ([isSelected && (
             <InspectorControls>
                 <Panel header={__("Chart Configuration")}>
@@ -147,9 +153,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     <PanelBody title={__('Settings')} initialOpen={false}>
                         <PanelRow>
                             <TextControl
-                                label={__('Label')}
-                                value={label}
-                                onChange={(label) => setAttributes({ label })}
+                                label={__('Group Label')}
+                                value={groupLabel}
+                                onChange={(groupLabel) => setAttributes({ groupLabel })}
                             />
                         </PanelRow>
                         <PanelRow>
@@ -159,6 +165,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 onChange={(noDataText) => setAttributes({ noDataText })}
                             />
                         </PanelRow>
+                        <PanelRow>
+                            <Text>{__("Group Label Font Size")}</Text>
+                        </PanelRow>
+                        <FontSizePicker
+                            fontSizes={[]}
+                            value={groupLabelFontSize}
+                            fallbackFontSize={14}
+                            onChange={(groupLabelFontSize) => {
+                                setAttributes({ groupLabelFontSize })
+                            }}
+                        />
+
                         <PanelRow>
                             <Text>{__("Number Font Size")}</Text>
                         </PanelRow>
@@ -171,7 +189,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             }}
                         />
                         <PanelRow>
-                            <Text>{__("Label Font Size")}</Text>
+                            <Text>{__("Measure Label Font Size")}</Text>
                         </PanelRow>
                         <FontSizePicker
                             fontSizes={[]}
@@ -185,12 +203,20 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         <PanelColorSettings title={__('Color Settings')}
                             colorSettings={[
                                 {
+                                    value: groupLabelColor,
+                                    onChange: (groupLabelColor) => {
+                                        setAttributes({ groupLabelColor })
+                                    },
+                                    label: __("Group Label Color")
+                                },
+                                {
                                     value: numberColor,
                                     onChange: (color) => {
                                         setAttributes({ numberColor: color })
                                     },
                                     label: __("Number Color")
                                 },
+
                                 {
                                     value: labelColor,
                                     onChange: (color) => {
