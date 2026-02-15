@@ -10,7 +10,6 @@ services:
       - ./plugins/wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin
       - ./plugins/wp-react-blocks-plugin/blocks/build:/var/www/html/wp-content/plugins/wp-react-blocks-plugin/blocks/build
       - ./plugins/wp-react-custom-rest-menu:/var/www/html/wp-content/plugins/wp-react-custom-rest-menu
-      - ./plugins/wp-react-custom-multilang:/var/www/html/wp-content/plugins/wp-multilang
       - ./wp-theme:/var/www/html/wp-content/themes/dg-semantic
     depends_on:
       - wordpress
@@ -24,8 +23,7 @@ services:
       - ./wp-content:/var/www/html/wp-content
       - ./plugins/wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin
       - ./plugins/wp-react-blocks-plugin/blocks/build:/var/www/html/wp-content/plugins/wp-react-blocks-plugin/blocks/build
-      - ./plugins/wp-react-custom-rest-menu:/var/www/html/wp-content/plugins/wp-react-custom-rest-menu
-      - ./plugins/wp-react-custom-multilang:/var/www/html/wp-content/plugins/wp-multilang
+      - ./plugins/wp-react-custom-rest-menu:/var/www/html/wp-content/plugins/wp-react-custom-rest-menu 
       - ./wp-theme:/var/www/html/wp-content/themes/dg-semantic
     environment:
       environment:
