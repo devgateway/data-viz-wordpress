@@ -137,5 +137,7 @@ include '_wpm_config.php';
 include '_settings.php';
 include '_search.php';
 include '_functions.php';
+// include '_plugin_installer.php';
+include '_plugins_installer.php';
 
 //  require get_template_directory() . '/inc/customizer.php';
