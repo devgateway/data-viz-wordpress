@@ -23,7 +23,7 @@ if (!class_exists('magical_plugin_activation_Silent_Upgrader_Skin')) {
      */
     function magical_plugin_activation_load_silent_upgrader_skin() {
         if (!class_exists('WP_Upgrader_Skin')) {
-           
+            require_once ABSPATH . 'wp-admin/includes/file.php';
             require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
         }
         
@@ -439,7 +439,11 @@ class magical_plugin_activation_Plugin_Recommendations {
                         </div>
                         
                         <div class="plugin-description">
-                            <p><?php echo esc_html($plugin['description']); ?></p>
+                            <?php if (!empty($plugin['description'])) : ?>
+                                <p><?php echo esc_html($plugin['description']); ?></p>
+                            <?php else : ?>
+                                <p><?php esc_html_e('No description', 'dg-semantic'); ?></p>
+                            <?php endif; ?>
                         </div>
                         
                         <div class="plugin-actions">
@@ -774,7 +778,6 @@ class magical_plugin_activation_Plugin_Recommendations {
             }
         } else {
             // Handle WordPress.org plugin installation
-            include_once ABSPATH . 'wp-admin/includes/file.php';
             include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
             include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
             
