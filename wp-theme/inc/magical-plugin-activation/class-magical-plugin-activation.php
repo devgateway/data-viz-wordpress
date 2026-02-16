@@ -134,8 +134,11 @@ class magical_plugin_activation_Plugin_Recommendations {
         add_action('admin_notices', array($this, 'show_update_notice'));
         
         // Auto-install required plugins
-        add_action('after_switch_theme', array($this, 'auto_install_required_plugins'));
-        add_action('admin_init', array($this, 'check_required_plugins'));
+        // add_action('after_switch_theme', array($this, 'auto_install_required_plugins'));
+        add_action('after_switch_theme', array($this, 'redirect_to_dashboard_page'));
+        // Do not install/activate plugins silently on admin_init.
+        // Plugins are managed manually via notices and the recommendations page.
+        // add_action('admin_init', array($this, 'check_required_plugins'));
     }
     
     /**
@@ -157,6 +160,26 @@ class magical_plugin_activation_Plugin_Recommendations {
             array($this, 'render_admin_page')
         );
     }
+
+    /**
+     * Redirect to dashboard page after theme activation.
+     */
+    public function redirect_to_dashboard_page() {
+        // Check if we've already done the redirect
+        if (get_transient('magical_plugin_activation_theme_activated')) {
+            return;
+        }
+        
+        if (!is_admin() || !current_user_can('manage_options')) {
+            return;
+        }
+
+        // Set transient to prevent future redirects
+        set_transient('magical_plugin_activation_theme_activated', true, 30);
+        
+        wp_safe_redirect(admin_url('index.php'));
+        exit;
+    }
     
     /**
      * Get recommended plugins (with filter hooks for extensibility)
@@ -165,30 +188,7 @@ class magical_plugin_activation_Plugin_Recommendations {
      */
     public function get_recommended_plugins() {
         // Get default plugin data from the configuration file
-        $default_plugins = array(
-            'easy-share-solution' => array(
-                'name' => __('Easy Share Solution', 'dg-semantic'),
-                'slug' => 'easy-share-solution',
-                'file' => 'easy-share-solution/easy-share-solution.php',
-                'description' => __('Easily add social sharing buttons to your content.', 'dg-semantic'),
-                'category' => 'Utility',
-                'required' => false,
-                'featured' => true,
-                'is_local' => false
-            ),
-            
-            // Security
-            'wp-edit-password-protected' => array(
-                'name' => __('WP Edit Password Protected', 'dg-semantic'),
-                'slug' => 'wp-edit-password-protected',
-                'file' => 'wp-edit-password-protected/wp-edit-password-protected.php',
-                'description' => __('Easily manage password protection for your WordPress content.', 'dg-semantic'),
-                'category' => 'Security',
-                'required' => false,
-                'featured' => true,
-                'is_local' => false
-            ),
-        );
+        $default_plugins = array();
         
         /**
          * Filter to modify the recommended plugins list
@@ -1008,7 +1008,7 @@ class magical_plugin_activation_Plugin_Recommendations {
                     <a href="<?php echo esc_url(admin_url('themes.php?page=magical-plugin-activation-plugins')); ?>" class="button button-secondary">
                         <?php esc_html_e('View All Plugins', 'dg-semantic'); ?>
                     </a>
-                     <button id="install-dismiss" class="button install-dismiss" style="margin-left: 10px;">
+                     <button id="install-dismiss" class="button button-danger install-dismiss" style="margin-left: 10px;">
                         <?php esc_html_e('Dismiss', 'dg-semantic'); ?>
                     </button>
                     
@@ -1064,7 +1064,7 @@ class magical_plugin_activation_Plugin_Recommendations {
                     <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 15px;">
                         <button id="install-recommended-plugins" class="button button-primary"><?php esc_html_e('Install Recommended Plugins', 'dg-semantic'); ?></button>
                         <a href="<?php echo esc_url(admin_url('themes.php?page=magical-plugin-activation-plugins')); ?>" class="button button-secondary"><?php esc_html_e('View All Plugins', 'dg-semantic'); ?></a>
-                        <button class="install-dismiss" class="button" style="margin-left: 10px;">
+                        <button class="install-dismiss button" style="margin-left: 10px;">
                         <?php esc_html_e('Dismiss', 'dg-semantic'); ?>
                         </button>
                     </div>
