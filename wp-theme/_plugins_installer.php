@@ -16,7 +16,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'advanced-custom-fields/acf.php',
             'category' => 'Forms',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'custom-post-type-ui' => array(
@@ -25,7 +25,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'custom-post-type-ui/custom-post-type-ui.php',
             'category' => 'Content Management',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'custom-post-type-permalinks' => array(
@@ -34,7 +34,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'custom-post-type-permalinks/custom-post-type-permalinks.php',
             'category' => 'Content Management',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'custom-taxonomy-order-ne' => array(
@@ -43,25 +43,16 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'custom-taxonomy-order-ne/customtaxorder.php',
             'category' => 'Content Management',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
-        // 'post-types-order' => array(
-        //     'name' => esc_attr__('Post Types Order', 'dg-semantic'),
-        //     'slug' => 'post-types-order',
-        //     'file' => 'post-types-order/post-types-order.php',
-        //     'category' => 'Content Management',
-        //     'required' => true,
-        //     'featured' => true,
-        //     'is_local' => false,
-        // ),
         'duplicate-wp-page-post' => array(
             'name' => esc_attr__('Duplicate WP Page Post', 'dg-semantic'),
             'slug' => 'duplicate-wp-page-post',
             'file' => 'duplicate-wp-page-post/duplicate-wp-page-post.php',
             'category' => 'Content Management',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'intuitive-custom-post-order' => array(
@@ -70,7 +61,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'intuitive-custom-post-order/intuitive-custom-post-order.php',
             'category' => 'Content Management',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'better-search-replace' => array(
@@ -79,7 +70,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'better-search-replace/better-search-replace.php',
             'category' => 'Database',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'wordpress-seo' => array(
@@ -106,7 +97,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'simple-post-type-permalinks/simple-post-type-permalinks.php',
             'category' => 'Content Management',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'flexible-table-block' => array(
@@ -115,7 +106,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'flexible-table-block/flexible-table-block.php',
             'category' => 'Gutenberg Blocks',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'hyperlink-group-block' => array(
@@ -124,7 +115,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'hyperlink-group-block/hyperlink-group-block.php',
             'category' => 'Gutenberg Blocks',
             'required' => true,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
 
@@ -177,7 +168,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'akismet/akismet.php',
             'category' => 'Security',
             'required' => false,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'folders' => array(
@@ -186,7 +177,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'folders/folders.php',
             'category' => 'Content Management',
             'required' => false,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'menu-image' => array(
@@ -195,7 +186,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'menu-image/menu-image.php',
             'category' => 'Admin UI',
             'required' => false,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'wordpress-importer' => array(
@@ -204,7 +195,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'wordpress-importer/wordpress-importer.php',
             'category' => 'Import/Export',
             'required' => false,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         'wp-database-backup' => array(
@@ -213,7 +204,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'file' => 'wp-database-backup/wp-database-backup.php',
             'category' => 'Database',
             'required' => false,
-            'featured' => true,
+            'featured' => false,
             'is_local' => false,
         ),
         

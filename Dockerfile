@@ -9,18 +9,20 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
+
+FROM base AS install
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  pnpm install --frozen-lockfile
+
 FROM base AS builder
 ENV NODE_ENV=production
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-  --mount=type=bind,source=package.json,target=package.json \
-  --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
-  --mount=type=bind,source=packages/commons/package.json,target=packages/commons/package.json \
-  pnpm install --frozen-lockfile
+COPY --from=install /app /app
+WORKDIR /app
 
 # Build the plugins
 RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
-pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
+pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
 COPY wp-theme wp-content/themes/dg-semantic
@@ -46,6 +48,8 @@ COPY --from=builder /wp-content.tgz /tmp
 COPY --chmod=755 wordpress.sh /usr/local/sbin/
 
 EXPOSE 80 443
+
+USER www-data
 
 ENTRYPOINT ["/usr/local/sbin/wordpress.sh"]
 CMD ["php-fpm"]
