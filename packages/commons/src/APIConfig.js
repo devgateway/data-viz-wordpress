@@ -377,6 +377,9 @@ export class APIConfig extends Component {
             setAttributes,
             multiDimensions = true,
             multiMeasure,
+            firstDimensionTooltip = "Main Category",
+            secondDimensionTooltip = "Secondary Category",
+
             attributes: { measures, filters, dimension1, dimension2, type, types },
         } = this.props;
 
@@ -401,6 +404,7 @@ export class APIConfig extends Component {
                                 dimension2: value == "none" ? "none" : dimension2,
                             });
                         }}
+                        help={firstDimensionTooltip}
                         options={allDimensions}
                     />
                 </PanelRow>
@@ -412,6 +416,7 @@ export class APIConfig extends Component {
                             onChange={(value) => {
                                 setAttributes({ dimension2: value });
                             }}
+                            help={secondDimensionTooltip}
                             options={allDimensions}
                             disabled={dimension1 == "none"}
                         />

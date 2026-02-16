@@ -13,7 +13,7 @@ registerBlockType('alive/big-filter',
         attributes: {
             type: {
                 type: 'string',
-                default: "big-number",
+                default: "big-filter",
             },
             group: {
                 type: 'String',

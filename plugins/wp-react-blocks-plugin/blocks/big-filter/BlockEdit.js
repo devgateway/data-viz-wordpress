@@ -38,6 +38,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             bigFilterBlocks,
             attributes: {
                 dimension1,
+                dimension2,
                 height,
                 app,
                 sort,
@@ -65,6 +66,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } = this.props;
 
 
+        //removing possible non valid value due to component copy and paste
+        if (bigFilterBlocks.map(d => d.value).indexOf(parent) == -1 && parent != "") {
+            setAttributes({ parent: "" })
+            return;
+        }
 
 
         const datasets = [{ label: 'Select Dataset', value: '0' }]
@@ -157,6 +163,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         </PanelBody>
                         {app != 'csv' && <APIConfig
+                            firstDimensionTooltip="Select category to display"
+                            secondDimensionTooltip="Select a secondary boolean dimension to highlight cards"
+                            multiDimensions={true}
+                            multiMeasure={false}
                             allDimensions={this.state.dimensions}
                             allFilters={this.state.filters}
                             allMeasures={this.state.measures}
@@ -293,7 +303,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         />
                     </PanelBody>
                 </Panel>
-            </InspectorControls>),
+            </InspectorControls >),
         (<ResizableBox
             size={{ height }}
             style={{ "margin": "auto", width: "100%" }}

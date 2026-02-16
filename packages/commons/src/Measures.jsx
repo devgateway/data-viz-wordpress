@@ -101,10 +101,11 @@ export const Measures = (props) => {
         return []
     }
 
-
+    debugger;
     const selectedMeasures = getSelectedMeasures()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
         onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
+
 
         {
             /*
@@ -127,7 +128,8 @@ export const Measures = (props) => {
                 (type == 'line' && dimension2 == 'none') ||
                 (type == 'bar' && dimension2 == 'none') ||
                 (type == 'grouped-bars') ||
-                (type == 'pie' && dimension1 == 'none' && dimension2 == 'none') || multiMeasure === true
+                (type == 'pie' && dimension1 == 'none' && dimension2 == 'none') ||
+                multiMeasure === true
 
             ) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody initialOpen={panelStatus[g]}
@@ -155,20 +157,25 @@ export const Measures = (props) => {
                 any dimensions selected
 
             */
-            ((type == 'data-paragraph') || (type == 'line' && dimension2 != 'none') || (type == 'bar' && dimension2 != 'none') || (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
-                return (<PanelBody
-                    initialOpen={panelStatus[g]}
-                    onToggle={e => togglePanel(g, panelStatus, setAttributes)}
-                    title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
+            ((multiMeasure == false) ||
+                (type == 'data-paragraph') ||
+                (type == 'line' && dimension2 != 'none') ||
+                (type == 'bar' && dimension2 != 'none') ||
+                (type == 'pie' && (dimension1 != 'none' ||
+                    dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+                        return (<PanelBody
+                            initialOpen={panelStatus[g]}
+                            onToggle={e => togglePanel(g, panelStatus, setAttributes)}
+                            title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
 
-                    {allMeasures.filter(f => getTranslation(f.group) === g)
-                        .map(m => <PanelRow>
-                            <MeasureOptions single={true} measure={m}></MeasureOptions>
-                        </PanelRow>)}
+                            {allMeasures.filter(f => getTranslation(f.group) === g)
+                                .map(m => <PanelRow>
+                                    <MeasureOptions single={true} measure={m}></MeasureOptions>
+                                </PanelRow>)}
 
-                </PanelBody>
-                )
-            })
+                        </PanelBody>
+                        )
+                    })
 
 
         }

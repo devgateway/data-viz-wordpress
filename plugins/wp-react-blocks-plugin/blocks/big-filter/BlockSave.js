@@ -6,6 +6,7 @@ const SaveComponent = (props) => {
             measures,
             height,
             dimension1,
+            dimension2,
             app,
             filters,
             group,
@@ -45,6 +46,7 @@ const SaveComponent = (props) => {
         <div {...blockProps} className={"viz-component"}
             data-component={"bigFilter"}
             data-dimension1={dimension1}
+            data-dimension2={dimension2}
             data-height={height}
             data-source={source}
             data-app={app}
