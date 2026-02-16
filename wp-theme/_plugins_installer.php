@@ -157,15 +157,6 @@ function dg_semantic_recommended_plugins($plugins) {
         ),
 
         // OPTIONAL PLUGINS (Recommended but not essential)
-        'akismet' => array(
-            'name' => esc_attr__('Akismet Anti-spam', 'dg-semantic'),
-            'slug' => 'akismet',
-            'file' => 'akismet/akismet.php',
-            'category' => 'Security',
-            'required' => false,
-            'featured' => false,
-            'is_local' => false,
-        ),
         'folders' => array(
             'name' => esc_attr__('Folders', 'dg-semantic'),
             'slug' => 'folders',
