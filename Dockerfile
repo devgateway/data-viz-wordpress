@@ -6,19 +6,26 @@ RUN echo "Installing corepack..."
 ENV COREPACK_INTEGRITY_KEYS=0
 RUN corepack enable
 
-COPY . /app
 WORKDIR /app
 
-
-FROM base AS install
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-  pnpm install --frozen-lockfile
 
 FROM base AS builder
 ENV NODE_ENV=production
 
-COPY --from=install /app /app
+COPY pnpm-lock.yaml /app/pnpm-lock.yaml
+COPY pnpm-workspace.yaml /app/pnpm-workspace.yaml
+COPY package.json /app/package.json
+
+#Packages
+COPY packages/commons/package.json /app/packages/commons/package.json
+COPY plugins/wp-react-blocks-plugin/blocks/package.json /app/plugins/wp-react-blocks-plugin/blocks/package.json
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  pnpm install --frozen-lockfile --shamefully-hoist
+
 WORKDIR /app
+COPY . /app
+
 
 # Build the plugins
 RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \

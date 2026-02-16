@@ -2,12 +2,22 @@
 set -e
 
 if [ -n "$SKIP_WP_UPDATE" ]; then
-  echo Dev mode: skipping Wordpress file update
+  echo "Dev mode: skipping WordPress file update"
 else
-  echo Updating Wordpress files...
-  tar -xf /tmp/wp-content.tgz --overwrite
+  echo "Updating WordPress files..."
+  # Extract wp-content tarball
+  if [ -f /tmp/wp-content.tgz ]; then
+    tar -xzf /tmp/wp-content.tgz -C /var/www/html/ --overwrite 
+    echo "WordPress files updated successfully"
+  else
+    echo "Warning: /tmp/wp-content.tgz not found"
+  fi
 fi
 
-exec /usr/local/bin/docker-entrypoint.sh $@
-chmod chown -R 82:82 wp-content
-chmod -R ugo+rw /var/www/html/wp-content/uploads/ 
+# Ensure uploads directory exists and is writable
+mkdir -p /var/www/html/wp-content/uploads
+chown -R www-data:www-data /var/www/html/wp-content/uploads
+chmod -R 755 /var/www/html/wp-content/uploads
+
+# Execute the WordPress entrypoint (which will switch to www-data user)
+exec /usr/local/bin/docker-entrypoint.sh "$@" 
