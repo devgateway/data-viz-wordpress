@@ -1,16 +1,38 @@
 wp-theme/_functions.php
 wp-content/debug.log
 wp-content/uploads
+# Exclude node_modules (289MB+ directories that shouldn't be in build context)
 node_modules/
+data/
 .git
+
+# Build artifacts
 dist
+*.tgz
+
+# Packages not needed in container
 packages/create-wp-customizer/
 packages/upgrade-wp-customizer/
-# Log files
-*.log
+packages/*/node_modules
+plugins/*/node_modules
+plugins/*/*/node_modules
+
+# Development files
 .vscode/
 .github/
 .idea/
-nginx/
-docker-compose.*
 .changeset/
+*.log
+.env
+.env.*
+
+# Docker files
+nginx/
+docker-compose*
+Dockerfile*
+.dockerignore
+
+# Documentation
+README.md
+*.md
+!wp-theme/README.md
