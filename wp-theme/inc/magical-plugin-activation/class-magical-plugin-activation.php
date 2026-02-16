@@ -223,6 +223,30 @@ class magical_plugin_activation_Plugin_Recommendations {
          */
         $plugins = apply_filters('magical_plugin_activation_filter_plugins_by_category', $plugins);
         
+        // Enrich plugin data with descriptions from WordPress.org for non-local plugins
+        foreach ($plugins as $slug => &$plugin) {
+            // Skip if plugin already has a description or is a local plugin
+            if (!empty($plugin['description']) || $this->is_local_plugin($plugin)) {
+                continue;
+            }
+            
+            // Fetch plugin info from WordPress.org
+            $plugin_info = $this->fetch_plugin_info_from_repo($plugin['slug']);
+            
+            if ($plugin_info && !empty($plugin_info['description'])) {
+                $plugin['description'] = $plugin_info['description'];
+                
+                // Optionally add additional metadata
+                if (isset($plugin_info['rating'])) {
+                    $plugin['rating'] = $plugin_info['rating'];
+                }
+                if (isset($plugin_info['active_installs'])) {
+                    $plugin['active_installs'] = $plugin_info['active_installs'];
+                }
+            }
+        }
+        unset($plugin); // Break the reference
+        
         return $plugins;
     }
     
@@ -283,6 +307,96 @@ class magical_plugin_activation_Plugin_Recommendations {
     private function is_local_plugin($plugin) {
         $result = isset($plugin['is_local']) && $plugin['is_local'] === true;
         return $result;
+    }
+    
+    /**
+     * Fetch plugin information from WordPress.org repository
+     * Uses transient caching to minimize API calls (24-hour cache)
+     * 
+     * @param string $slug Plugin slug
+     * @return array|false Plugin information array or false on failure
+     */
+    private function fetch_plugin_info_from_repo($slug) {
+        // Check for cached data first (24-hour cache)
+        $transient_key = 'magical_plugin_info_' . $slug;
+        $cached_info = get_transient($transient_key);
+        
+        if ($cached_info !== false) {
+            return $cached_info;
+        }
+        
+        // Include required files for plugins_api
+        if (!function_exists('plugins_api')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+        }
+        
+        // Fetch plugin information from WordPress.org
+        $api = plugins_api('plugin_information', array(
+            'slug' => $slug,
+            'fields' => array(
+                'short_description' => true,
+                'description' => false,
+                'sections' => false,
+                'rating' => true,
+                'ratings' => false,
+                'downloaded' => true,
+                'active_installs' => true,
+                'last_updated' => false,
+                'added' => false,
+                'tags' => false,
+                'compatibility' => false,
+                'homepage' => false,
+                'donate_link' => false,
+                'icons' => false,
+                'banners' => false,
+                'requires' => false,
+                'tested' => false,
+                'requires_php' => false
+            )
+        ));
+        
+        if (is_wp_error($api)) {
+            // Cache the error result for 1 hour to avoid repeated failed API calls
+            set_transient($transient_key, false, HOUR_IN_SECONDS);
+            return false;
+        }
+        
+        // Extract relevant info
+        $plugin_info = array(
+            'description' => isset($api->short_description) ? $api->short_description : '',
+            'rating' => isset($api->rating) ? $api->rating : 0,
+            'active_installs' => isset($api->active_installs) ? $api->active_installs : 0,
+            'downloaded' => isset($api->downloaded) ? $api->downloaded : 0
+        );
+        
+        // Cache for 24 hours
+        set_transient($transient_key, $plugin_info, DAY_IN_SECONDS);
+        
+        return $plugin_info;
+    }
+    
+    /**
+     * Clear plugin info cache for a specific plugin or all plugins
+     * 
+     * @param string|null $slug Plugin slug to clear cache for, or null to clear all
+     * @return int Number of transients deleted
+     */
+    public function clear_plugin_info_cache($slug = null) {
+        global $wpdb;
+        
+        if ($slug) {
+            // Clear cache for a specific plugin
+            $transient_key = 'magical_plugin_info_' . $slug;
+            return delete_transient($transient_key) ? 1 : 0;
+        } else {
+            // Clear cache for all plugins
+            $transient_prefix = '_transient_magical_plugin_info_';
+            $sql = $wpdb->prepare(
+                "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+                $wpdb->esc_like($transient_prefix) . '%'
+            );
+            return $wpdb->query($sql);
+        }
     }
     
     /**
