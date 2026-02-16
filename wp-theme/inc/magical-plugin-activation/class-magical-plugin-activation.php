@@ -552,7 +552,7 @@ class magical_plugin_activation_Plugin_Recommendations {
                             <span class="plugin-category"><?php echo esc_html($plugin['category']); ?></span>
                         </div>
                         
-                        <div class="plugin-description">
+                        <div class="plugin-desc">
                             <?php if (!empty($plugin['description'])) : ?>
                                 <p><?php echo esc_html($plugin['description']); ?></p>
                             <?php else : ?>
