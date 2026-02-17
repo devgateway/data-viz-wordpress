@@ -1,9 +1,13 @@
 <?php
 /**
  * Plugin Name: React Components
- * Plugin URI: https://github.com/devgateway/wp-rteact-lib
+ * Plugin URI: https://github.com/devgateway/data-viz-wordpress
  * Description: Custom UI Components for viz.
  * Version: 0.1.2
+ * Author URI: https://github.com/devgateway/data-viz-wordpress
+ * Requires at least: 5.8
+ * Requires PHP: 7.4
+ * License: GPL2
  * Author: Sebastian Dimunzio
   * @package dg
  */
