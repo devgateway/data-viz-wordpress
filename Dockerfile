@@ -6,24 +6,32 @@ RUN echo "Installing corepack..."
 ENV COREPACK_INTEGRITY_KEYS=0
 RUN corepack enable
 
-COPY . /app
 WORKDIR /app
+
 
 FROM base AS builder
 ENV NODE_ENV=production
 
+COPY pnpm-lock.yaml /app/pnpm-lock.yaml
+COPY pnpm-workspace.yaml /app/pnpm-workspace.yaml
+COPY package.json /app/package.json
+
+#Packages
+COPY packages/commons/package.json /app/packages/commons/package.json
+COPY plugins/wp-react-blocks-plugin/blocks/package.json /app/plugins/wp-react-blocks-plugin/blocks/package.json
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-  --mount=type=bind,source=package.json,target=package.json \
-  --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
-  --mount=type=bind,source=packages/commons/package.json,target=packages/commons/package.json \
-  pnpm install --frozen-lockfile
+  pnpm install --frozen-lockfile --shamefully-hoist
+
+WORKDIR /app
+COPY . /app
+
 
 # Build the plugins
 RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
-pnpm --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
+pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
-COPY wp-content wp-content
 COPY wp-theme wp-content/themes/dg-semantic
 
 # Copy built plugins from workspace into wp-content so built assets are included
@@ -34,7 +42,7 @@ RUN mkdir -p wp-content/plugins \
 RUN chown -R 82:82 wp-content \
   && tar -caf /wp-content.tgz --exclude="**/node_modules" wp-content
 
-FROM wordpress:6.8.2-fpm-alpine AS runtime
+FROM wordpress:6.9.1-fpm-alpine AS runtime
 LABEL org.opencontainers.image.description="WordPress image for Data Viz"
 LABEL org.opencontainers.image.authors="Development Gateway <info@developmentgateway.org>"
 LABEL org.opencontainers.image.url="https://github.com/devgateway/data-viz-wordpress"
@@ -47,6 +55,8 @@ COPY --from=builder /wp-content.tgz /tmp
 COPY --chmod=755 wordpress.sh /usr/local/sbin/
 
 EXPOSE 80 443
+
+USER www-data
 
 ENTRYPOINT ["/usr/local/sbin/wordpress.sh"]
 CMD ["php-fpm"]
