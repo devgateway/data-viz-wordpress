@@ -2,6 +2,16 @@ name: Build And Release Wordpress Image
 
 on:
   workflow_dispatch:
+     inputs:
+      package_bump:
+        description: Package Bump
+        required: true
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
 
 permissions:
   contents: write
@@ -32,6 +42,7 @@ jobs:
           tag_prefix: v
           release_branches: main,production,release/*
           dry_run: "true"
+          default_bump: ${{ github.event.inputs.package_bump }}
 
   build-and-push-docker-image:
     needs: prepare-a-release
