@@ -82,15 +82,6 @@ function dg_semantic_recommended_plugins($plugins) {
             'featured' => true,
             'is_local' => false,
         ),
-        'simple-post-type-permalinks' => array(
-            'name' => esc_attr__('Simple Post Type Permalinks', 'dg-semantic'),
-            'slug' => 'simple-post-type-permalinks',
-            'file' => 'simple-post-type-permalinks/simple-post-type-permalinks.php',
-            'category' => 'Content Management',
-            'required' => false,
-            'featured' => false,
-            'is_local' => false,
-        ),
         'flexible-table-block' => array(
             'name' => esc_attr__('Flexible Table Block', 'dg-semantic'),
             'slug' => 'flexible-table-block',
