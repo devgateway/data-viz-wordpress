@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import BlockSaveV1 from "./BlockSaveV1"
+import BlockSaveV1 from "./BlockSavev1"
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import { Generic } from '../icons'
