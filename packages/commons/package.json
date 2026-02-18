@@ -70,11 +70,5 @@
   },
   "peerDependencies": {
     "react": "18.3.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "@wordpress/block-editor": "15.12.0",
-      "@wordpress/upload-media": "0.24.0"
-    }
   }
 }
