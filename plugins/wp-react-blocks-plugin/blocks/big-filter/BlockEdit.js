@@ -163,6 +163,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         </PanelBody>
                         {app != 'csv' && <APIConfig
+
                             firstDimensionTooltip="Select category to display"
                             secondDimensionTooltip="Select a secondary boolean dimension to highlight cards"
                             multiDimensions={true}
