@@ -56,7 +56,5 @@ COPY --chmod=755 wordpress.sh /usr/local/sbin/
 
 EXPOSE 80 443
 
-USER www-data
-
 ENTRYPOINT ["/usr/local/sbin/wordpress.sh"]
 CMD ["php-fpm"]
