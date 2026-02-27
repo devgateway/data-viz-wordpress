@@ -86,6 +86,7 @@ jobs:
             VERSION=${{ needs.prepare-a-pre-release.outputs.new_version }}
             TAG=${{ needs.prepare-a-pre-release.outputs.new_tag }}
           tags: |
+            ${{vars.DOCKER_REGISTRY }}/devgateway/data-viz/wordpress:dev
             ${{ vars.DOCKER_REGISTRY }}/devgateway/data-viz/wordpress:v${{ needs.prepare-a-pre-release.outputs.new_version }}
   release-on-github:
     needs: build-and-push-docker-image
