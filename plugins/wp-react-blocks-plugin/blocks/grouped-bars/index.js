@@ -150,6 +150,10 @@ registerBlockType(process.env.BLOCKS_NS + '/groupedbars',
                 type: 'string',
                 default: 'asc'
             },
+            sortMeasure: {
+                type: 'string',
+                default: ''
+            },
             topN : {
                 type: 'Numeric',
                 default:  null

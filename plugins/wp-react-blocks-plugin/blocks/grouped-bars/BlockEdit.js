@@ -162,7 +162,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     onMeasuresChange(value) {
             const {
                 setAttributes,
-                attributes: {app, measures},
+                attributes: {app, measures, sortMeasure},
             } = this.props;
             const uMs = Object.assign({}, measures);
             if (!uMs[app]) {
@@ -186,9 +186,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 if (mainMeasure !== 'none' && (!mainMeasure || !selectedKeys.includes(mainMeasure))) {
                     nextAttrs.mainMeasure = selectedKeys[0];
                 }
+                if (!sortMeasure || !selectedKeys.includes(sortMeasure)) {
+                    nextAttrs.sortMeasure = selectedKeys[0] || '';
+                }
             } else {
                 // Clear mainMeasure when not in multi-measure mode
                 nextAttrs.mainMeasure = 'none';
+                nextAttrs.sortMeasure = '';
             }
             setAttributes(nextAttrs);
         }
@@ -272,6 +276,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 showMeasureLabels,
                 topN,
                 barSizeCriteria,
+                sortMeasure,
                 mainMeasure,
                 mainValueFontSize,
                 enableCustomMeasureFormats,
@@ -294,6 +299,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 params[f.param] = f.value
         })
         const divStyles = {height: height+10 + 'px', width: '100%'}
+        const selectedMap = (measures && measures[app]) ? measures[app] : {};
+        const selectedKeys = Object.keys(selectedMap).filter(k => selectedMap[k] && selectedMap[k].selected);
+        const hasHighlightedMeasure = selectedKeys.length > 1
+            && !!mainMeasure
+            && mainMeasure !== 'none'
+            && selectedKeys.includes(mainMeasure);
+        const effectiveSortMeasure = (sortMeasure && selectedKeys.includes(sortMeasure))
+            ? sortMeasure
+            : (selectedKeys[0] || '');
 
         return ([isSelected && (
                 <InspectorControls>
@@ -724,6 +738,23 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     }}
                                 />
                             </PanelRow>
+                            {this.props.attributes.sorting === 'measure' && selectedKeys.length > 1 && !hasHighlightedMeasure && (
+                                <PanelRow>
+                                    <SelectControl
+                                        label={__("Sort Measure")}
+                                        value={effectiveSortMeasure}
+                                        options={selectedKeys.map(k => ({
+                                            label: (selectedMap[k] && selectedMap[k].customLabel) ? selectedMap[k].customLabel : k,
+                                            value: k
+                                        }))}
+                                        onChange={(value) => {
+                                            setAttributes({
+                                                sortMeasure: value
+                                            });
+                                        }}
+                                    />
+                                </PanelRow>
+                            )}
                             {this.props.attributes.sorting != 'none' && 
                             <PanelRow>
                                 <SelectControl  
