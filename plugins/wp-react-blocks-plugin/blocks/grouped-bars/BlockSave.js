@@ -32,6 +32,7 @@ const SaveComponent = (props) => {
             showMeasureLabels,
             sorting,
             sortDirection,
+            sortMeasure,
             topN,
             barSizeCriteria,
             barSizeUseGroup,
@@ -80,6 +81,7 @@ const SaveComponent = (props) => {
             data-show-measure-labels={showMeasureLabels}
             data-sorting={sorting}
             data-sort-direction={sortDirection}
+            data-sort-measure={encodeURIComponent(sortMeasure || '')}
             data-top-n={topN}
             data-bar-size-criteria={barSizeCriteria}
             data-bar-size-use-group={barSizeUseGroup}
