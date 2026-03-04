@@ -73,7 +73,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 params[f.param] = f.value
         })
         const divStyles = { height: height + 'px', width: '100%' }
-        debugger;
+
         const apps = this.state.apps ? this.state.apps.filter(p => p.value != 'csv') : []
         apps.push({ label: "None", value: "none" })
 
