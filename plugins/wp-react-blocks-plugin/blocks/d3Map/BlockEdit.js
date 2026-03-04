@@ -131,15 +131,6 @@ class BlockEdit extends ComponentWithSettings {
                         />
                     </PanelRow>
 
-                    <PanelRow>
-                        <TextControl
-                            size={10}
-                            label="Width"
-                            help={__("Map width in pixels")}
-                            value={width}
-                            onChange={(width) => setAttributes({ width: width ? parseInt(width) : 0 })}
-                        />
-                    </PanelRow>
 
                     <PanelRow>
                         <TextControl
@@ -246,23 +237,22 @@ class BlockEdit extends ComponentWithSettings {
             <ResizableBox
                 style={{ margin: "auto" }}
                 size={{
-                    height, width
+                    height, width: '100%'
                 }}
                 minHeight="50"
-                minWidth="50"
                 enable={{
                     top: false,
-                    right: true,
+                    right: false,
                     bottom: true,
                     left: false,
                     topRight: false,
-                    bottomRight: true,
+                    bottomRight: false,
                     bottomLeft: false,
                     topLeft: false,
                 }}
                 onResizeStop={(event, direction, elt, delta) => {
                     setAttributes({
-                        height: parseInt(height + delta.height, 10), width: parseInt(width + delta.width, 10),
+                        height: parseInt(height + delta.height, 10),
                     });
                     toggleSelection(true);
                 }}
