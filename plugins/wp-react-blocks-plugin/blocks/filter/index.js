@@ -2,10 +2,9 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import Generic from "../icons";
 import BlockSaveV1 from "./BlockSaveV1"
 
-
+import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons';
 
 const oldAttributes = {
 
@@ -180,11 +179,11 @@ const deprecated = [
     },
 ];
 
-registerBlockType(process.env.BLOCKS_NS + '/filter',
+registerBlockType(BLOCKS_NS + '/filter',
     {
         title: __('Data Filter'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: newAttributes,
         edit: BlockEdit,
