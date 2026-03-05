@@ -11,11 +11,15 @@ on:
       - ".github/**"
       - "packages/create-wp-customizer/**"
       - "packages/upgrade-wp-customizer/**"
-      
+
 permissions:
   contents: write
   pull-requests: write
   packages: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   prepare-a-pre-release:
@@ -28,11 +32,11 @@ jobs:
           uses: actions/checkout@v4
           with:
             fetch-depth: "0"
-        
+
         - name: Get Current Date And Time
           id: current_date
           run: echo "current_date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
-        
+
         - name: Generate Tag
           id: tag_version
           uses: mathieudutour/github-tag-action@v6.2
@@ -41,7 +45,7 @@ jobs:
             tag_prefix: v
             release_branches: production,release/*
             pre_release_branches: main
-            append_to_pre_release_tag: snapshot-${{steps.current_date.outputs.current_date}}
+            append_to_pre_release_tag: rc
             dry_run: "true"
 
   build-and-push-docker-image:
@@ -66,23 +70,24 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ vars.DOCKER_REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{  github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha, scope=data-viz-wordpress
-          cache-to: type=gha, scope=data-viz-wordpress
+          cache-from: type=registry,ref=${{ vars.DOCKER_REGISTRY }}/devgateway/data-viz/wordpress:buildcache
+          cache-to: type=registry,ref=${{ vars.DOCKER_REGISTRY }}/devgateway/data-viz/wordpress:buildcache,mode=max
           context: .
           push: true
           build-args: |
+            BUILDKIT_INLINE_CACHE=1
             VERSION=${{ needs.prepare-a-pre-release.outputs.new_version }}
             TAG=${{ needs.prepare-a-pre-release.outputs.new_tag }}
           tags: |
-            ${{ vars.DOCKER_REGISTRY }}/data-viz/wordpress:v${{ needs.prepare-a-pre-release.outputs.new_version }}
-            ${{ vars.DOCKER_REGISTRY }}/data-viz/wordpress:dev
+            ${{vars.DOCKER_REGISTRY }}/devgateway/data-viz/wordpress:dev
+            ${{ vars.DOCKER_REGISTRY }}/devgateway/data-viz/wordpress:v${{ needs.prepare-a-pre-release.outputs.new_version }}
   release-on-github:
     needs: build-and-push-docker-image
     runs-on: ubuntu-latest
@@ -98,7 +103,6 @@ jobs:
           generate_release_notes: true
           draft: false
           prerelease: true
-          make_latest: "false" 
+          make_latest: "false"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                

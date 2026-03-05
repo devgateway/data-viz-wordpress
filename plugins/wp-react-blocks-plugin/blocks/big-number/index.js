@@ -1,14 +1,14 @@
-import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+import {__} from '@wordpress/i18n';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { Generic } from '../icons/index.js'
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
-registerBlockType(process.env.BLOCKS_NS + '/bignumber',
+registerBlockType(BLOCKS_NS+'/bignumber',
     {
         title: __('Big Number'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             type: {

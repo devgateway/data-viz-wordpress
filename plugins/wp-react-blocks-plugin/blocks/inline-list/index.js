@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from '../icons'
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
-registerBlockType(process.env.BLOCKS_NS+'/inline-list',
+registerBlockType(BLOCKS_NS+'/inline-list',
     {
         title: __('Inline List'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'Numeric',
@@ -51,6 +51,14 @@ registerBlockType(process.env.BLOCKS_NS+'/inline-list',
                 type: "Object",
                 default: {}
             },
+            readMoreLabel: {
+                type: 'string',
+                default: 'Read More'
+            },
+            readLessLabel: {
+                type: 'string',
+                default: 'Read less'
+            }
         }
         ,
         edit: BlockEdit,

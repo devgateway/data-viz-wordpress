@@ -45,6 +45,8 @@
   },
   "homepage": "https://github.com/devgateway/data-viz-wordpress/tree/main/packages/create-wp-customizer#readme",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": false,
+    "registry": "https://registry.npmjs.org/"
   }
 }

@@ -1,7 +1,7 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, TextControl, SelectControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons'
+import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons';
 
 
 class BlockEdit extends BlockEditWithAPIMetadata {
@@ -22,7 +22,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }
         } = this.props;
 
-        
+
         const queryString = `data-group=${group}&data-app=${app}&data-reset-label=${resetLabel}`
         const iframeStyles = {height: '30px'}
 
@@ -36,18 +36,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 onChange={(group) => setAttributes({group})}
                             />
                         </PanelRow>
-                    </PanelBody>   
+                    </PanelBody>
                     <PanelBody initialOpen={false} title={__("API & Source")}>
                         <PanelRow>
                             <SelectControl
                                 value={app}
-                                onChange={(app) => {                                    
+                                onChange={(app) => {
                                     setAttributes({app: app})
                                 }}
                                 options={this.state.apps}
                             />
                         </PanelRow>
-                    </PanelBody> 
+                    </PanelBody>
                     <PanelBody initialOpen={false} title={__("Labels")}>
                         <PanelRow>
                             <TextControl
@@ -56,7 +56,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 onChange={(resetLabel) => setAttributes({resetLabel})}
                             />
                         </PanelRow>
-                    </PanelBody>                  
+                    </PanelBody>
                 </Panel>
             </InspectorControls>),
                 (<div>

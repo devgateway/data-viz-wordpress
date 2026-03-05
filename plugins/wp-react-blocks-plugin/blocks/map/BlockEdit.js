@@ -1,15 +1,14 @@
+import React from 'react'
 import { InspectorControls, useBlockProps} from '@wordpress/block-editor'
-import { Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl} from '@wordpress/components'
+import { Panel, PanelBody, PanelRow, SelectControl, ResizableBox, ToggleControl, TextControl, Button} from '@wordpress/components'
 import { PanelColorSettings } from '@wordpress/block-editor'
 import { __ } from '@wordpress/i18n'
-import { BlockEditWithAPIMetadata } from '@devgateway/dvz-wp-commons'
+import { BlockEditWithAPIMetadata, isSupersetAPI, MapCSVSourceConfig } from '@devgateway/dvz-wp-commons';
 import APIConfig from "./APIConfig"
-import {MapCSVSourceConfig} from '@devgateway/dvz-wp-commons'
 import LegendBreaks from "./LegendBreaks"
 import MapSymbols from "./Symbols"
 import Tooltips from "./Tooltips"
 import Settings from "./Settings"
-import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor() {
@@ -21,6 +20,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             loading: true
         }
 
+        this.iframe = React.createRef();
         this.onFileTypeChanged = this.onFileTypeChanged.bind(this)
         this.getLayerColor = this.getLayerColor.bind(this)
         this.setLayerColor = this.setLayerColor.bind(this)
@@ -29,6 +29,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         this.setValue = this.setValue.bind(this)
         this.updateLocationsAndCSV = this.updateLocationsAndCSV.bind(this)
         this.extractFeatures = this.extractFeatures.bind(this)
+        this.applyLocalization = this.applyLocalization.bind(this)
+        this.reloadIframe = this.reloadIframe.bind(this)
     }
 
     componentDidMount() {
@@ -192,6 +194,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
        return [{label: 'None', value: 'none'}, ...mappingFields]
     }
 
+    getLayerMappingFieldOptions() {
+        const selectedLayer = this.props.attributes.recentlyToggledLayerId;
+        if (selectedLayer && !this.state.layerData) {
+            this.getFileMetaData(selectedLayer);
+        }
+        return this.mappingFieldOptions();
+    }
+
     onFileTypeChanged(value) {
         const {setAttributes} = this.props
         const taxonomyValues = this.taxonomyValueOptions()
@@ -211,16 +221,103 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         return []
     }
 
-    updateLocationsAndCSV(layerData, field) {
+    getApiFieldOptions() {
+        const apiFields = []
+        const categories = this.state.categories || []
+
+        categories.forEach(category => {
+            if (category.type) {
+                apiFields.push({
+                    value: category.type,
+                    label: category.label || category.type
+                })
+            }
+        })
+
+        return [{label: 'None', value: 'none'}, ...apiFields]
+    }
+
+    getDatasourceOptions(fileValue) {
+        const { attributes: { app } } = this.props;
+
+        // Set default datasource based on app
+        const currentDatasource = this.getValue(fileValue, 'datasource');
+        if (!currentDatasource && app !== 'csv') {
+            this.setValue(fileValue, 'datasource', app);
+        }
+
+        return [
+            {label: 'Select Datasource', value: 'none'},
+            ...(this.state.apps ? this.state.apps.filter(a => a.value !== 'csv') : [])
+        ];
+    }
+
+    getApiLabels(type, locale) {
+        const labels = this.state.categories?.find(d => d.type.toLowerCase() === type.toLowerCase())?.items;
+        const labelMap = new Map();
+
+        if (labels?.length > 0) {
+            labels.forEach(l => {
+                if (locale && locale !== 'en' && l.labels && l.labels[locale.toUpperCase()]) {
+                    // Use translated label for non-English locales
+                    labelMap.set(l.value, l.labels[locale.toUpperCase()]);
+                } else {
+                    // Use original label for English or when no translation exists
+                    labelMap.set(l.value, l.label || l.value);
+                }
+            });
+        }
+
+        return labelMap;
+    }
+
+    applyLocalization(layerId) {
+        const locale = this.getValue(layerId, 'locale') || 'en';
+        const apiField = this.getValue(layerId, 'apiField');
+        const layerMappingField = this.getValue(layerId, 'layerMappingField');
+        const datasource = this.getValue(layerId, 'datasource');
+
+        if (!datasource || datasource === 'none') {
+            alert(__('Please select a datasource before applying localization'));
+            return;
+        }
+
+        if (!apiField || apiField === 'none' || !layerMappingField || layerMappingField === 'none') {
+            alert(__('Please select both API field and Mapping field before applying localization'));
+            return;
+        }
+
+        const apiLabels = this.getApiLabels(apiField, locale);
+        this.setValue(layerId, 'displayLayerLabels', true);
+        // Update the layer features with localized labels
+        if (apiLabels && apiLabels.size > 0) {
+            this.updateLocationsAndCSV(this.state.layerData, layerMappingField, locale, apiField);
+        }
+        this.reloadIframe();
+    }
+
+    reloadIframe() {
+        // Trigger iframe refresh by updating a timestamp parameter
+        if (this.iframe.current) {
+            const baseUrl = this.state.react_ui_url + "/embeddable/map?"
+            const timestamp = new Date().getTime()
+            this.iframe.current.src = `${baseUrl}refresh=${timestamp}`
+        }
+    }
+
+    updateLocationsAndCSV(layerData, field, locale = 'en', apiField = null) {
         const {setAttributes, attributes: {csv, mappingField}} = this.props;
          const selectedField = field || mappingField
          const features = this.extractFeatures()
+
          if (selectedField) {
             const locations = []
+            const apiLabels = apiField ? this.getApiLabels(apiField, locale) : null;
             features.forEach(g => {
                 if (g.properties && g.properties[selectedField]) {
                     const location = g.properties[selectedField]
-                    locations.push({ value: location, label: location })
+                    const label = apiLabels && apiLabels.has(location) ? apiLabels.get(location) : location
+                    locations.push({ value: location, label: label })
                 }
             })
 
@@ -268,7 +365,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 const index = values.findIndex(l => l.id == itemId)
                 values.splice(index, 1)
             }
-            setAttributes({enabledLayers: values})
+            setAttributes({enabledLayers: values, recentlyToggledLayerId: itemId});
         }
     }
 
@@ -304,7 +401,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     getValue(value, field) {
         const {setAttributes, attributes: {enabledLayers}} = this.props;
         const layer = enabledLayers.filter(l => l.id == value)[0]
-        return layer[field]
+        return layer ? layer[field] : undefined
     }
 
     setValue(id, field, value) {
@@ -315,8 +412,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
          if (enabledLayers) {
             const values = [...enabledLayers]
             const index = values.findIndex(l => l.id == id)
-            values[index][field] = value
-            setAttributes({enabledLayers: values})
+            if (index !== -1) {
+                values[index][field] = value
+                setAttributes({enabledLayers: values})
+            }
         }
     }
 
@@ -380,6 +479,44 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             </PanelRow>
                 </PanelBody>
                 <PanelBody initialOpen={false} title={__("Data Source")}>
+
+                        <PanelBody initialOpen={true} title={__("Data")}>
+                        <PanelRow>
+                        <SelectControl
+                            value={[app]} // e.g: value = [ 'a', 'c' ]
+                            onChange={(app) => {
+                                setAttributes({
+                                    app: app,
+                                    dimension1: 'none',
+                                    dimension2: 'none',
+                                    filters: []
+                                })
+                            }}
+                            options={this.state.apps}
+                        />
+                    </PanelRow>
+
+                     {isSupersetAPI(app, this.state.apps) &&   <PanelRow>
+                                                            <SelectControl
+                                                                label={__('Datasets')}
+                                                                value={[dvzProxyDatasetId]}
+                                                                onChange={(newDatasetId)   => {
+                                                                    setAttributes({
+                                                                        dvzProxyDatasetId: newDatasetId,
+                                                                        dimension1: 'none',
+                                                                        dimension2: 'none',
+                                                                        dimension3: 'none',
+                                                                        measures: []
+                                                                    })
+                                                                    this.setState({dimensions: [], measures: [], filters: [], categories: []})
+                                                                    this.loadMetadata(app, newDatasetId)
+                                                                }}
+                                                                options={datasets}
+                                                            />
+                                                          </PanelRow>
+                                                        }
+
+                        </PanelBody>
                     <PanelBody initialOpen={true} title={__("Map Layers")}>
                    <PanelRow>
                      <SelectControl label={__("Layers Filter")}
@@ -420,6 +557,76 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         {<TextControl value={this.getValue(file.value, 'index')} label={__("Index")}
                             onChange={(value) => {this.setValue(file.value, 'index', value)}} max={10} type="number" />}
                         </div>
+
+                        {app != 'csv' &&
+                            <PanelBody initialOpen={false} title={__("Localize Layer")}>
+                                <PanelRow>
+                                    <p style={{fontSize: '12px', fontStyle: 'italic', color: '#666', margin: '0'}}>
+                                        {__('Note: Use this feature only when there is corresponding API data for this layer in the database. This will apply localized labels to map regions based on the selected API field and locale.')}
+                                    </p>
+                                </PanelRow>
+                                <PanelRow>
+                                    <SelectControl
+                                        label={__('Datasource')}
+                                        value={[this.getValue(file.value, 'datasource') || (app !== 'csv' ? app : 'none')]}
+                                        onChange={(value) => {
+                                            this.setValue(file.value, 'datasource', value);
+                                        }}
+                                        options={this.getDatasourceOptions(file.value)}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <SelectControl
+                                        label={__('API Field')}
+                                        value={[this.getValue(file.value, 'apiField') || 'none']}
+                                        onChange={(value) => {
+                                            this.setValue(file.value, 'apiField', value);
+                                        }}
+                                        options={this.getApiFieldOptions()}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <SelectControl
+                                        label={__('Mapping Field')}
+                                        value={[this.getValue(file.value, 'layerMappingField') || 'none']}
+                                        onChange={(value) => {
+                                            this.setValue(file.value, 'layerMappingField', value);
+                                        }}
+                                        options={this.getLayerMappingFieldOptions()}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <SelectControl
+                                        label={__('Current Locale')}
+                                        value={[this.getValue(file.value, 'locale') || 'en']}
+                                        onChange={(value) => {
+                                            this.setValue(file.value, 'locale', value);
+                                        }}
+                                        options={[
+                                            {label: 'English', value: 'en'},
+                                            {label: 'French', value: 'fr'},
+                                            {label: 'Portuguese', value: 'pt'},
+                                            {label: 'Spanish', value: 'es'},
+                                            {label: 'Swahili', value: 'sw'},
+                                            {label: 'Amharic', value: 'am'}
+                                        ]}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <Button
+                                        variant='primary'
+                                        onClick={() => this.applyLocalization(file.value)}
+                                        disabled={!(
+                                            (this.getValue(file.value, 'datasource') && this.getValue(file.value, 'datasource') !== 'none') &&
+                                            (this.getValue(file.value, 'apiField') && this.getValue(file.value, 'apiField') !== 'none') &&
+                                            (this.getValue(file.value, 'layerMappingField') && this.getValue(file.value, 'layerMappingField') !== 'none')
+                                        )}
+                                    >
+                                        {__('Apply Localization')}
+                                    </Button>
+                                </PanelRow>
+                            </PanelBody>
+                        }
                         </>
                     }
                         </>)
@@ -467,44 +674,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             />
                         </PanelRow>
                     </PanelBody>
-
-                        <PanelBody initialOpen={true} title={__("Data")}>
-                        <PanelRow>
-                        <SelectControl
-                            value={[app]} // e.g: value = [ 'a', 'c' ]
-                            onChange={(app) => {
-                                setAttributes({
-                                    app: app,
-                                    dimension1: 'none',
-                                    dimension2: 'none',
-                                    filters: []                                    
-                                })
-                            }}
-                            options={this.state.apps}
-                        />
-                    </PanelRow>
-
-                     {isSupersetAPI(app, this.state.apps) &&   <PanelRow>
-                                                            <SelectControl
-                                                                label={__('Datasets')}
-                                                                value={[dvzProxyDatasetId]}
-                                                                onChange={(newDatasetId)   => {
-                                                                    setAttributes({
-                                                                        dvzProxyDatasetId: newDatasetId,
-                                                                        dimension1: 'none',
-                                                                        dimension2: 'none',
-                                                                        dimension3: 'none',	
-                                                                        measures: []
-                                                                    })
-                                                                    this.setState({dimensions: [], measures: [], filters: [], categories: []})
-                                                                    this.loadMetadata(app, newDatasetId)
-                                                                }}
-                                                                options={datasets}
-                                                            />
-                                                          </PanelRow>
-                                                        }
-                                                      
-                        </PanelBody>
 
                 </PanelBody>
                 {app != 'csv' &&

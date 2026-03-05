@@ -2,14 +2,15 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave.js";
 import BlockEdit from "./BlockEdit.js";
-import {Generic} from '../icons/index.js'
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons'
+
 // Keep Paragraph behavior unchanged; Small Number is a separate block
 
-registerBlockType(process.env.BLOCKS_NS + '/data-paragraph',
+registerBlockType(BLOCKS_NS + '/data-paragraph',
     {
         title: __('Data Paragraph'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         supports: {
             __experimentalInline: true,

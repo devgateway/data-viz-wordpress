@@ -1,4 +1,4 @@
-import {AnglePickerControl, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl, SelectControl} from '@wordpress/components';
+import {AnglePickerControl, PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {PanelColorSettings} from '@wordpress/block-editor';
 

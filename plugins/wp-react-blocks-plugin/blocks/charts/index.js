@@ -2,13 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Chart} from '../icons/index.js'
+import {ChartIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons'
 
-registerBlockType(process.env.BLOCKS_NS + '/chart',
+registerBlockType(BLOCKS_NS + '/chart',
     {
         title: __('Data Chart'),
-        icon: Chart,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: ChartIcon,
+        category: BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
             height: {

@@ -1,6 +1,6 @@
 import {PanelRow, RangeControl, TextControl, SelectControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import {getTranslatedOptions} from '@devgateway/dvz-wp-commons';
+import { getTranslatedOptions } from '@devgateway/dvz-wp-commons';
 
 const Sort = (props) => {
     const {
@@ -21,11 +21,13 @@ const Sort = (props) => {
 
     //The following code will be used to sort stacked bar's slices https://devgateway.atlassian.net/browse/TCDIKE-767
     let sortBySliceOptions = []
+    debugger;
     if (dimension2 && allCategories) {
 
         const target = allCategories.find(d => d.type == dimension2)
 
         if (target && target.items) {
+            debugger;
             sortBySliceOptions = getTranslatedOptions(target.items)
                 .map(item => {
                     return ({label: "Value of " + item.label, value: item.value})
@@ -116,5 +118,4 @@ const Sort = (props) => {
 }
 
 export default Sort
-
 

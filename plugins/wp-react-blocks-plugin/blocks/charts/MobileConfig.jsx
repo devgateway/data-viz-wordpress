@@ -14,7 +14,7 @@ import {
   getSelectedItemsForApp,
   getSelectedLabelsForApp,
   updateMeasureLabels
-} from '@devgateway/dvz-wp-commons';;
+} from '@devgateway/dvz-wp-commons';
 
 const MarginSection = ({
   setAttributes,
