@@ -25,6 +25,7 @@ class BlockEdit extends ComponentWithSettings {
                 fontColor
             },
         } = this.props;
+        
 
         const queryString = `editing=true&data-button-label=${buttonLabel}&data-height=${height}&data-width=${width}&data-background-color=${backgroundColor}&data-font-color=${fontColor}`
         const divStyles = { height: height + 'px', width: width + 'px' }
@@ -92,13 +93,13 @@ class BlockEdit extends ComponentWithSettings {
                                 />
                             </PanelRow>
                         </PanelBody>
-
+                        
                    </Panel>
                 </InspectorControls>
                 <div style={divStyles}>
                         {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"}
                             src={this.state.react_ui_url + "/embeddable/backtotop?" + queryString} />}
-                </div>
+                </div>               
             </div>
         );
 

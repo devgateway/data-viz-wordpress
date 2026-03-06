@@ -80,6 +80,19 @@ registerBlockType(BLOCKS_NS + '/bignumbertrend',
                 type: 'string',
                 default: "#5a5d68",
             },
+            numberColor: {
+                type: 'string',
+                default: "#5a5d68",
+            },
+            percentColor: {
+                type: 'string',
+                default: "#5a5d68",
+            },
+            backGroundColor: {
+                type: 'string',
+                default: "none",
+            },
+
             bigNumberFontSize: {
                 type: 'Numeric',
                 default: 24
@@ -87,11 +100,11 @@ registerBlockType(BLOCKS_NS + '/bignumbertrend',
             labelFontSize: {
                 type: 'Numeric',
                 default: 14
-            },
+            },           
             percentFontSize: {
                 type: 'Numeric',
                 default: 14
-            },
+            },                   
             showPercentageChange: {
                 type: 'Boolean',
                 default: false
@@ -103,9 +116,40 @@ registerBlockType(BLOCKS_NS + '/bignumbertrend',
             noDataText: {
                 type: 'string',
                 default: '-'
+            },
+
+            showTooltip: {
+                type: 'Boolean',
+                default: false
+            },
+            tooltipText: {
+                type: 'String',
+                default: 'Percent change compares {previous_year} to {current_year}'
+            },
+            tooltipStyle: {
+                type: 'String',
+                default: 'light'
+            },
+
+            styleOption: {
+                type: "string",
+                default: "classic"
+            },
+            iconImage: {
+                type: "string",
+                default: ""
+            },
+            iconDown: {
+                type: "string",
+                default: ""
+            },
+            iconUp: {
+                type: "string",
+                default: ""
             }
         },
         edit: BlockEdit,
         save: BlockSave
     }
 );
+

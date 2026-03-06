@@ -1,9 +1,37 @@
+
+
 {
   "version": 2,
   "settings": {
+    "settings": {
+      "spacing": {
+        "padding": true,
+        "margin": true
+      }
+    },
     "spacing": {
-      "padding": true,
-      "margin": true
+      "spacingSizes": [
+        {
+          "name": "X-Small",
+          "slug": "x-small",
+          "size": "0.5rem"
+        },
+        {
+          "name": "Small",
+          "slug": "small",
+          "size": "1rem"
+        },
+        {
+          "name": "Medium",
+          "slug": "medium",
+          "size": "2rem"
+        },
+        {
+          "name": "Large",
+          "slug": "large",
+          "size": "4rem"
+        }
+      ]
     }
   }
 }

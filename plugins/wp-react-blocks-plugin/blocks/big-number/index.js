@@ -23,13 +23,17 @@ registerBlockType(BLOCKS_NS+'/bignumber',
                 type: "Object",
                 default: {}
             },
+            dimension1: {
+                type: 'String',
+                default: 'none'
+            },
             height: {
                 type: 'number',
                 default: 120,
             },
             app: {
                 type: 'String',
-                default: "csv"
+                default: "none"
             },
             csv: {
                 type: "String",
@@ -64,12 +68,25 @@ registerBlockType(BLOCKS_NS+'/bignumber',
             types: {
                 type: "Array",
                 default: [
-                  {label: 'Big Number', value: 'big-number', supports: {singleMeasure: true, singleDimension: false}}
+                    { label: 'Big Number', value: 'big-number', supports: { singleMeasure: true, singleDimension: false } }
                 ]
+            },
+
+            groupLabel: {
+                type: 'String',
+                default: ""
+            },
+            groupLabelFontSize: {
+                type: 'Numeric',
+                default: 14
+            },
+            groupLabelColor: {
+                type: 'string',
+                default: "#5a5d68",
             },
             label: {
                 type: 'String',
-                default: "# of animals"
+                default: ""
             },
             numberFontSize: {
                 type: 'Numeric',

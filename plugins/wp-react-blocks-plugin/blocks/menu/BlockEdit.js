@@ -12,7 +12,7 @@ import {
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 
-import {BlockEditWithAPIMetadata, ComponentWithSettings} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithAPIMetadata, ComponentWithSettings} from '@devgateway/dvz-wp-commons'
 import apiFetch from '@wordpress/api-fetch';
 
 const DEFAULT_VALUE_INPUT = 'DEFAULT_VALUE_INPUT'
@@ -34,7 +34,7 @@ class BlockEdit extends ComponentWithSettings {
             method: 'GET'
         }).then((res) => {
             if (res) {
-
+                
                 const menus = res.map((item, index) => {
                     return {label: item.name, value: item.name}
                 })
@@ -90,7 +90,7 @@ class BlockEdit extends ComponentWithSettings {
                             label={__('Name')}
                             value={name}
                             onChange={(name) =>{
-
+                                
                                 setAttributes({name: name})
 
                             } }

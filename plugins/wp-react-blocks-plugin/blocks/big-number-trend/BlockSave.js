@@ -1,7 +1,8 @@
 import {useBlockProps} from '@wordpress/block-editor';
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 const SaveComponent = (props) => {
-    const {attributes: {
+    const {
+        attributes: {
             measures,
             height,
             dimension1,
@@ -19,7 +20,17 @@ const SaveComponent = (props) => {
             label,
             showPercentageChange,
             waitForFilters,
-            noDataText
+            noDataText,
+            iconImage,
+            iconUp,
+            iconDown,
+            styleOption,
+            percentColor,
+            numberColor,
+            backGroundColor,
+            showTooltip,
+            tooltipText,
+            tooltipStyle
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -28,7 +39,6 @@ const SaveComponent = (props) => {
 
     const levels = [dimension1]
     const source = levels.filter(l => l != 'none' && l != null).join('/')
-
     return (
         <div {...blockProps} className={"viz-component"}
              data-component={"bignumbertrend"}
@@ -51,7 +61,17 @@ const SaveComponent = (props) => {
              data-show-percentage-change={showPercentageChange}
              data-wait-for-filters={waitForFilters}
              data-no-data-text={noDataText}
-             >
+             data-icon-image={iconImage}
+             data-icon-up={iconUp}
+             data-icon-down={iconDown}
+             data-style-option={styleOption}
+             data-percent-color={percentColor}
+             data-number-color={numberColor}
+             data-back-ground-color={backGroundColor}
+            data-show-tooltip={showTooltip}
+            data-tooltip-text={tooltipText}
+            data-tooltip-style={tooltipStyle}
+        >
             <InnerBlocks.Content/>
         </div>
     );

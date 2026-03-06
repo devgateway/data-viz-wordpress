@@ -1,6 +1,7 @@
 import {PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import { ChartColors, ChartLegends} from '@devgateway/dvz-wp-commons';
+import {ChartColors} from '@devgateway/dvz-wp-commons';
+import {ChartLegends} from '@devgateway/dvz-wp-commons';
 import AxisConfig from './AxisConfig.jsx'
 import Labels from "./Labels.jsx"
 import LineOverlay from "./LineOverlayConfig.jsx";

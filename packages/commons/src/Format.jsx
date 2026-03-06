@@ -348,7 +348,7 @@ export const Format = ({
     const onChangeFormat = (style, formatToUpdate) => {
         const currentFormat = formatToUpdate == DEFAULT_FORMAT ? format : customFormat
         const field = formatToUpdate == DEFAULT_FORMAT ? 'format' : 'customFormat'
-        onFormatChange(Object.assign({}, currentFormat, {style}), field)
+        onFormatChange(Object.assign({}, currentFormat, { style }), field)
     }
 
     const onDecimalChange = (value, formatToUpdate) => {
@@ -396,6 +396,24 @@ export const Format = ({
                         onDecimalChange(value, DEFAULT_FORMAT)
                     }}
                     value={format.minimumFractionDigits}
+                />
+            </PanelRow>
+            <PanelRow>
+                <TextControl
+                    label={__("Prefix", "dg")}
+                    onChange={(value) => {
+                        onFormatChange(Object.assign({}, format, { prefix: value }), 'format')
+                    }}
+                    value={format.prefix}
+                />
+            </PanelRow>
+            <PanelRow>
+                <TextControl
+                    label={__("Suffix", "dg")}
+                    onChange={(value) => {
+                        onFormatChange(Object.assign({}, format, { suffix: value }), 'format')
+                    }}
+                    value={format.suffix}
                 />
             </PanelRow>
         </PanelBody>, <>

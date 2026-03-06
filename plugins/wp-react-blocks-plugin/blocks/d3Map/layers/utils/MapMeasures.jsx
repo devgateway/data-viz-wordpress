@@ -1,6 +1,9 @@
 import {__} from '@wordpress/i18n';
 import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
-import {Format, togglePanel, getTranslation} from '@devgateway/dvz-wp-commons';
+
+import Format from '../../../charts/Format.jsx'
+import {togglePanel} from '@devgateway/dvz-wp-commons';
+import {getTranslation} from '@devgateway/dvz-wp-commons';
 
 const defaultFormat = {
     "style": "percent",

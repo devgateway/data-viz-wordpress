@@ -188,6 +188,18 @@ registerBlockType(BLOCKS_NS + '/chart',
                 type: 'Numeric',
                 default: 10
             },
+            lineXAxisTickMode: {
+                type: 'string',
+                default: 'none'
+            },
+            lineXAxisTickCount: {
+                type: 'Numeric',
+                default: 10
+            },
+            lineXAxisTickEvery: {
+                type: 'Numeric',
+                default: 1
+            },
             xLabelColor: {
                 type: "String",
                 default: encodeURIComponent("#000000")

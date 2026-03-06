@@ -8,29 +8,32 @@ import {
     TextControl,
     ToggleControl, ButtonGroup
 } from "@wordpress/components";
-import {__} from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import {getJsonFiles} from "./utils/FileUtils";
-import {useEffect} from "react";
-import {useState} from "@wordpress/element";
+import { getJsonFiles } from "./utils/FileUtils";
+import { useEffect } from "react";
+import { useState } from "@wordpress/element";
 import DataLayer from "./Data";
 import FlowLayer from "./Flow";
 import LatLongLayer from "./LatLong";
-import {BlockEditWithAPIMetadata, ComponentWithSettings, togglePanel, isSupersetAPI} from "@devgateway/dvz-wp-commons";
+import { BlockEditWithAPIMetadata, ComponentWithSettings } from '@devgateway/dvz-wp-commons';
 import Property from "./utils/Property";
 
-import {PanelColorSettings} from "@wordpress/block-editor";
+import { PanelColorSettings } from "@wordpress/block-editor";
+import { togglePanel } from '@devgateway/dvz-wp-commons';
+import { isSupersetAPI } from '@devgateway/dvz-wp-commons';
+
 
 const typeOptions = [
-    {label: "Base", value: "base"},
-    {label: "Data Shape", value: "data"},
-    {label: "FLow layer ", value: "flow"},
-    {label: "Data Points ", value: "dataPoints"}
+    { label: "Base", value: "base" },
+    { label: "Data Shape", value: "data" },
+    { label: "FLow layer ", value: "flow" },
+    { label: "Data Points ", value: "dataPoints" }
 ]
 
 const toOptions = (files) => {
-    return [{label: 'None', value: 'none'}, ...files.map(file => {
-        return {label: file.title.rendered, value: file.source_url}
+    return [{ label: 'None', value: 'none' }, ...files.map(file => {
+        return { label: file.title.rendered, value: file.source_url }
     })]
 }
 
@@ -39,7 +42,7 @@ const Base = (props) => {
         onChange,
         metadata,
         layer,
-        layer: {name, shapeColor, labelFilter, type, file, app, labelField, visible, hideLabelsAtLowZoom}
+        layer: { name, shapeColor, labelFilter, type, file, app, labelField, visible, hideLabelsAtLowZoom }
     } = props
 
     const [files, setFiles] = useState([])
@@ -68,14 +71,14 @@ const Base = (props) => {
             onChangeProperties(...args)
         } else {
             console.log("change attribute " + atrr + " to " + value)
-            const newLayer = {...layer}
+            const newLayer = { ...layer }
             newLayer[atrr] = value
             onChange(newLayer)
         }
     }
 
     const onChangeProperties = (...propValues) => {
-        const newLayer = {...layer}
+        const newLayer = { ...layer }
         propValues.forEach(pv => {
             const [prop, value] = pv
             console.log("change property " + prop + " to " + value)
@@ -84,10 +87,10 @@ const Base = (props) => {
         onChange(newLayer)
     }
 
-    const datasets = [{label: 'Select Dataset', value: '0'}]
+    const datasets = [{ label: 'Select Dataset', value: '0' }]
     if (metadata.datasets) {
         metadata.datasets.forEach(d => {
-            datasets.push({label: d.label, value: d.id})
+            datasets.push({ label: d.label, value: d.id })
         })
     }
 
@@ -96,6 +99,7 @@ const Base = (props) => {
             <TextControl
                 type={"String"}
                 label={__("Name", "dg")}
+                help={__("Layer name")}
                 onChange={name => onChangeProperty("name", name)}
                 value={name}
             />
@@ -103,6 +107,7 @@ const Base = (props) => {
         <PanelRow>
             <ToggleControl
                 label="Default visible"
+                help={__("Layer visibility on load")}
                 checked={visible}
                 onChange={e => {
                     onChangeProperty("visible", !visible)
@@ -112,6 +117,7 @@ const Base = (props) => {
         <PanelRow>
             <SelectControl
                 label={__("Type", "dg")}
+                help={__("Layer type")}
                 value={type}
                 onChange={type => onChangeProperty("type", type)}
                 options={typeOptions}
@@ -121,6 +127,7 @@ const Base = (props) => {
             <SelectControl
                 type={"String"}
                 label="File"
+                help={__("GeoJSON file source")}
                 onChange={file => onChangeProperty("file", file)}
                 value={file}
                 options={files}>
@@ -179,12 +186,13 @@ const Base = (props) => {
                     title={"Label Field"}
                     property={"labelField"} value={labelField}
                     onChangeProperty={onChangeProperty}
-                    features={features}/>
+                    features={features} />
 
 
                 <PanelRow>
                     <RangeControl
                         label="Size"
+                        help={__("Font size of the labels")}
                         value={layer.labelFontSize}
                         onChange={(labelFontSize) => onChangeProperty("labelFontSize", labelFontSize)}
                         min={1}
@@ -196,6 +204,7 @@ const Base = (props) => {
                 <PanelRow>
                     <RangeControl
                         label="Min Zoom Level (-1 disabled)"
+                        help={__("Minimum zoom level for labels to appear")}
                         value={layer.minLabelZoomVisible}
                         onChange={(minLabelZoomVisible) => onChangeProperty("minLabelZoomVisible", minLabelZoomVisible)}
                         min={-1}
@@ -235,6 +244,7 @@ const Base = (props) => {
                                 <PanelRow>
                                     <RangeControl
                                         label="Offset X"
+                                        help={__("Horizontal label offset")}
                                         min={-500}
                                         max={500}
                                         value={layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0}
@@ -247,6 +257,7 @@ const Base = (props) => {
                                 <PanelRow>
                                     <RangeControl
                                         label="Offset Y"
+                                        help={__("Vertical label offset")}
                                         min={-500}
                                         max={500}
                                         value={layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0}
@@ -258,11 +269,12 @@ const Base = (props) => {
                                 </PanelRow>
                                 <PanelRow>
                                     <AnglePickerControl label={"Rotation"}
-                                                        value={layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0}
-                                                        onChange={(rotation) => onChangeProperty("labelSettings", {
-                                                            ...layer.labelSettings,
-                                                            [feature.properties[labelField] + "_rotation"]: rotation
-                                                        })}>
+                                        help={__("Label rotation angle")}
+                                        value={layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0}
+                                        onChange={(rotation) => onChangeProperty("labelSettings", {
+                                            ...layer.labelSettings,
+                                            [feature.properties[labelField] + "_rotation"]: rotation
+                                        })}>
 
                                     </AnglePickerControl>
                                 </PanelRow>
@@ -340,7 +352,7 @@ class LayerWithMetadata extends BlockEditWithAPIMetadata {
 
 
     componentDidMount() {
-        const {layer: {name, type, file, app, dvzProxyDatasetId}} = this.props
+        const { layer: { name, type, file, app, dvzProxyDatasetId } } = this.props
 
 
         fetch(`/api/registry/eureka/apps`, {
@@ -354,9 +366,9 @@ class LayerWithMetadata extends BlockEditWithAPIMetadata {
                     .filter(a => a.instance[0].metadata.type === 'data')
                     .map(a => ({
                         label: a.name, value: a.instance[0].vipAddress, settings: a.instance[0]
-                    })), {label: 'CSV', value: 'csv'}] : [{label: 'CSV', value: 'csv'}]
+                    })), { label: 'CSV', value: 'csv' }] : [{ label: 'CSV', value: 'csv' }]
 
-                this.setState({...this.state, apps})
+                this.setState({ ...this.state, apps })
 
                 if (app && app != 'none') {
                     if (isSupersetAPI(app, apps)) { //if app is superset proxy an additional step is added
@@ -377,8 +389,8 @@ class LayerWithMetadata extends BlockEditWithAPIMetadata {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         super.componentDidUpdate(prevProps, prevState, snapshot)
-        const {layer: {app, dvzProxyDatasetId}} = this.props
-        const {layer: {app: prevAPP, dvzProxyDatasetId: prevDvzProxyDatasetId}} = prevProps
+        const { layer: { app, dvzProxyDatasetId } } = this.props
+        const { layer: { app: prevAPP, dvzProxyDatasetId: prevDvzProxyDatasetId } } = prevProps
 
         if (app != prevAPP) { //if app changes we shoudl reload metadta
 
@@ -407,7 +419,7 @@ class LayerWithMetadata extends BlockEditWithAPIMetadata {
             panelStatus,
             onRemoveLayer,
             layer,
-            layer: {name, type, file, app}
+            layer: { name, type, file, app }
         } = this.props
 
 
@@ -415,7 +427,8 @@ class LayerWithMetadata extends BlockEditWithAPIMetadata {
 
         return <PanelBody
             initialOpen={false}
-            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)} title={name ? __(`${name}`) : __("Layers")}>
+            onToggle={e => togglePanel('LAYERS_' + name, panelStatus, setAttributes)} title={__("Layers")}
+            title={__(`${name}`)}>
 
             <Base {...this.props} metadata={this.state}></Base>
             <PanelBody>
