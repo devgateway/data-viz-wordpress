@@ -8,8 +8,7 @@ import {
     withColors
 } from '@wordpress/block-editor';
 import { Panel, PanelBody, PanelRow, TextControl } from '@wordpress/components';
-import Generic from "../icons";
-import { BlockEditWithFilters } from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters, GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
 
 class EditComponent extends BlockEditWithFilters {

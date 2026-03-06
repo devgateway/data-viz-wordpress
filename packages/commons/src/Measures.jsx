@@ -1,10 +1,9 @@
-import React from 'react';
-import { __ } from '@wordpress/i18n';
-import { CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl } from '@wordpress/components';
+import {__} from '@wordpress/i18n';
+import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl, TextControl} from '@wordpress/components';
 
 import Format from './Format'
-import { togglePanel } from "./Util";
-import { getTranslation } from "./APIutils";
+import {togglePanel} from "./Util";
+import {getTranslation} from "./APIutils";
 
 const defaultFormat = {
     "style": "percent",
@@ -38,16 +37,16 @@ export const Measures = (props) => {
     } = props
 
 
-    const MToggle = ({ measure }) => {
+    const MToggle = ({measure}) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
 
         return (<ToggleControl
             label={getTranslation(measure)}
             checked={userMeasure ? userMeasure.selected : false}
-            onChange={(value) => onMeasuresChange(measure.value)} />)
+            onChange={(value) => onMeasuresChange(measure.value)}/>)
     }
 
-    const MCheckbox = ({ measure }) => {
+    const MCheckbox = ({measure}) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
         let isChecked
         if (measures instanceof Array) {
@@ -59,11 +58,11 @@ export const Measures = (props) => {
         return <CheckboxControl
             label={getTranslation(measure)}
             checked={isChecked}
-            onChange={(value) => onSetSingleMeasure(measure.value)} />
+            onChange={(value) => onSetSingleMeasure(measure.value)}/>
     }
 
 
-    const MeasureOptions = ({ measure, single }) => {
+    const MeasureOptions = ({measure, single}) => {
         return <PanelRow>
             {single && <MCheckbox measure={measure}></MCheckbox>}
             {!single && <MToggle measure={measure}></MToggle>}
@@ -101,11 +100,10 @@ export const Measures = (props) => {
         return []
     }
 
-    debugger;
+
     const selectedMeasures = getSelectedMeasures()
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
-        onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
-
+                        onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
 
         {
             /*
@@ -119,9 +117,6 @@ export const Measures = (props) => {
              Pie:
                   no dimensions selected
                    -  not available when any dimension is selected
-
-
-            big-number 
              */
 
             ((type == 'radar') ||
@@ -129,53 +124,50 @@ export const Measures = (props) => {
                 (type == 'bar' && dimension2 == 'none') ||
                 (type == 'grouped-bars') ||
                 (type == 'pie' && dimension1 == 'none' && dimension2 == 'none') ||
-                multiMeasure === true
-
-            ) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
-                return (<PanelBody initialOpen={panelStatus[g]}
-                    onToggle={e => togglePanel(g, panelStatus, setAttributes)}
-                    title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
-                    {allMeasures.filter(f => getTranslation(f.group) === g)
-                        .map(m => <PanelRow>
-                            <MeasureOptions single={false} measure={m}></MeasureOptions>
-                        </PanelRow>)}
-                </PanelBody>
+                multiMeasure === true) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+                    return (<PanelBody initialOpen={panelStatus[g]}
+                                       onToggle={e => togglePanel(g, panelStatus, setAttributes)}
+                                       title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
+                            {allMeasures.filter(f => getTranslation(f.group) === g)
+                                .map(m => <PanelRow>
+                                    <MeasureOptions single={false} measure={m}></MeasureOptions>
+                                </PanelRow>)}
+                        </PanelBody>
 
 
-                )
-            }
+                    )
+                }
             )
         }
 
 
         {
-            /*Single measure conditions
+        /*Single measure conditions
 
-            Bar & Lie:
-                2 dimensions selected
-            Pie:
-                any dimensions selected
+        Bar & Lie:
+            2 dimensions selected
+        Pie:
+            any dimensions selected
 
-            */
+        */
             ((multiMeasure == false) ||
                 (type == 'data-paragraph') ||
                 (type == 'line' && dimension2 != 'none') ||
                 (type == 'bar' && dimension2 != 'none') ||
-                (type == 'pie' && (dimension1 != 'none' ||
-                    dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
-                        return (<PanelBody
-                            initialOpen={panelStatus[g]}
-                            onToggle={e => togglePanel(g, panelStatus, setAttributes)}
-                            title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
+                (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+                return (<PanelBody
+                        initialOpen={panelStatus[g]}
+                        onToggle={e => togglePanel(g, panelStatus, setAttributes)}
+                        title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
 
-                            {allMeasures.filter(f => getTranslation(f.group) === g)
-                                .map(m => <PanelRow>
-                                    <MeasureOptions single={true} measure={m}></MeasureOptions>
-                                </PanelRow>)}
+                        {allMeasures.filter(f => getTranslation(f.group) === g)
+                            .map(m => <PanelRow>
+                                <MeasureOptions single={true} measure={m}></MeasureOptions>
+                            </PanelRow>)}
 
-                        </PanelBody>
-                        )
-                    })
+                    </PanelBody>
+                )
+            })
 
 
         }
@@ -184,7 +176,7 @@ export const Measures = (props) => {
             (type == 'overlay') && allMeasures && <SelectControl
                 label="Measure"
                 value={selectedMeasures && selectedMeasures[0] ? selectedMeasures[0].value : null}
-                options={[{ value: '', label: 'Select Measure' }, ...allMeasures]}
+                options={[{value: '', label: 'Select Measure'}, ...allMeasures]}
                 onChange={(measure) => onSetSingleMeasure(measure)}
                 __nextHasNoMarginBottom
             />
@@ -193,7 +185,7 @@ export const Measures = (props) => {
 
 
         {(type != 'overlay' && type != 'data-paragraph') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
-            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
+                                           onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
                 hiddenCustomAxisFormat={type == 'radar' || type == 'big-number' || type == 'data-paragraph' || type == 'grouped-bars'}
                 format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
@@ -212,35 +204,35 @@ export const Measures = (props) => {
     </PanelBody>
         {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
             <PanelBody title={__("Measure Label Customization")}
-                initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
-                onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
+                       initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
+                       onToggle={e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}>
 
                 {selectedMeasures && [...new Set(selectedMeasures.map(p => getTranslation(p.group)))].map(g => {
-                    return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
-                        onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
-                        title={`${g}`}>
-                        {selectedMeasures.filter(f => getTranslation(f.group) === g)
-                            .map(m => {
-                                const userMeasure = measures[app] ? measures[app][m.value] : {}
-                                return (<><PanelRow><ToggleControl
-                                    label={getTranslation(m)}
-                                    checked={userMeasure ? userMeasure.hasCustomLabel : false}
-                                    onChange={(value) => onCustomLabelToggleChange(m.value)} /> </PanelRow>
-                                    {userMeasure.hasCustomLabel &&
-                                        <PanelRow>
-                                            <TextControl label={__("Custom Label")}
-                                                value={userMeasure ? userMeasure.customLabel : ""}
-                                                onChange={(value) => onCustomLabelChange(m.value, value)} />
-                                        </PanelRow>
-                                    }
-                                </>)
+                        return (<PanelBody initialOpen={panelStatus[g + "_LABEL_CUSTOMIZATION"]}
+                                           onToggle={e => togglePanel(g + "_LABEL_CUSTOMIZATION", panelStatus, setAttributes)}
+                                           title={`${g}`}>
+                                {selectedMeasures.filter(f => getTranslation(f.group) === g)
+                                    .map(m => {
+                                        const userMeasure = measures[app] ? measures[app][m.value] : {}
+                                        return (<><PanelRow><ToggleControl
+                                            label={getTranslation(m)}
+                                            checked={userMeasure ? userMeasure.hasCustomLabel : false}
+                                            onChange={(value) => onCustomLabelToggleChange(m.value)}/> </PanelRow>
+                                            {userMeasure.hasCustomLabel &&
+                                                <PanelRow>
+                                                    <TextControl label={__("Custom Label")}
+                                                                 value={userMeasure ? userMeasure.customLabel : ""}
+                                                                 onChange={(value) => onCustomLabelChange(m.value, value)}/>
+                                                </PanelRow>
+                                            }
+                                        </>)
 
-                            })}
-                    </PanelBody>
+                                    })}
+                            </PanelBody>
 
 
-                    )
-                }
+                        )
+                    }
                 )
                 }
 
@@ -250,5 +242,4 @@ export const Measures = (props) => {
     </>
 }
 
-
-export default Measures
+export default Measures;

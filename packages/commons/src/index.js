@@ -45,3 +45,4 @@ export {
 export {ChartLegends} from './ChartLegends';
 export {ChartMeasures} from './ChartMeasures';
 export {GenericIcon, ChartIcon} from './icons/index';
+export {CSVConfig as CSVSourceConfig} from './CSVSourceConfig';

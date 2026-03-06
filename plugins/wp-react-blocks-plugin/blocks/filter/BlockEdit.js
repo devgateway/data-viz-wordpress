@@ -279,13 +279,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             label={__('Parent Filter')}
                             value={parentFilter}
                             help={__('Set parent filter autoaply false in order to avoid unnecesary data reloading.')}
-                            options={[{ value: null, label: __("None") }, ...this.state.filters]}
+                            options={[{ value: "", label: __("None") }, ...this.state.filters]}
                             onChange={parentFilter => {
-                                if (parentFilter != "") {
-                                    const parentFilterParam = this.state.filters.filter(f => f.value == parentFilter)[0].param
-                                    setAttributes({ parentFilter, parentFilterParam })
+                                if (parentFilter && parentFilter !== "") {
+                                    const parentFilterObj = this.state.filters.find(f => f.value === parentFilter);
+                                    if (parentFilterObj) {
+                                        setAttributes({ parentFilter, parentFilterParam: parentFilterObj.param });
+                                    }
                                 } else {
-                                    setAttributes({ parentFilter: "", parentFilterParam: "" })
+                                    setAttributes({ parentFilter: "", parentFilterParam: "" });
                                 }
                             }} />
                     </PanelRow>

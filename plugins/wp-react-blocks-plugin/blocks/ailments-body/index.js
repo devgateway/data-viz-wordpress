@@ -8,8 +8,7 @@ import {
     withColors
 } from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
-import {Generic} from '../icons/index.js'
-import {BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters, GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from '@devgateway/dvz-wp-commons';
 
 const EditComponent = (props) => {
 
@@ -131,10 +130,10 @@ class EditWithSettings extends BlockEditWithFilters {
 }
 
 
-registerBlockType(process.env.BLOCKS_NS + '/ailments', {
+registerBlockType(BLOCKS_NS + '/ailments', {
     title: __('Ailments Body','dg'),
-    icon: Generic,
-    category: process.env.BLOCKS_CATEGORY,
+    icon: GenericIcon,
+    category: BLOCKS_CATEGORY,
     attributes: {
         width: {
             type: 'Numeric',

@@ -1,12 +1,11 @@
-import React from 'react';
-import {PanelRow, PanelBody, TextareaControl} from '@wordpress/components';
-import {__} from '@wordpress/i18n';
+import { PanelRow, Label, PanelBody, TextareaControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 export const Tooltip = (props) => {
 
     function repeat(times) {
-        return function (strs, ...substs) {
-            return cook(strs, ...substs).repeat(times);
+        return function (...args) {
+            return cook(...args).repeat(times);
         };
     }
 
@@ -18,40 +17,35 @@ export const Tooltip = (props) => {
     }
 
 
-    const {
-        setAttributes,
-        attributes: {tooltipHTML, dimension1, dimension2, dimension3, measures},
-        allMeasures,
-        allDimensions,
-        type
-    } = props;
+
+    const { setAttributes, attributes: { tooltipHTML, dimension1, dimension2, dimension3, measures }, allMeasures, allDimensions, type } = props;
 
     return [
         <PanelBody title={__("Variables")}>
             <div>
                 {allDimensions.filter(d => (d.value === dimension1 || d.value === dimension2 || d.value === dimension3))
                     .map(d => <PanelRow>
-                        <span style={{fontSize: "11px"}}>{d.label} -&gt; {"{"}{d.value}{"}"}</span>
+                        <span style={{ "font-size": "11px" }}>{d.label} -&gt; {"{"}{d.value}{"}"}</span>
                     </PanelRow>)}
             </div>
             <div>
                 {allMeasures
                     .map(m => <PanelRow>
-                        <span style={{fontSize: "11px"}}>{m.label} -&gt; {"{"}{m.value}{"}"}</span>
+                        <span style={{ "font-size": "11px" }}>{m.label} -&gt; {"{"}{m.value}{"}"}</span>
                     </PanelRow>)}
             </div>
             {dimension1 == "none" && dimension2 == "none" &&
                 <PanelRow>
-                    <span style={{fontSize: "11px"}}>Corresponding Population -&gt; {"{"}populationValue{"}"}</span>
+                    <span style={{ "font-size": "11px" }}>Corresponding Population -&gt; {"{"}populationValue{"}"}</span>
                 </PanelRow>
             }
             {type === "pie" &&
                 <>
                     <PanelRow>
-                        <span style={{fontSize: "11px"}}>Value Percent -&gt; {'{valuePercent}'}</span>
+                        <span style={{ "font-size": "11px" }}>Value Percent -&gt; {'{valuePercent}'}</span>
                     </PanelRow>
                     <PanelRow>
-                        <span style={{fontSize: "11px"}}>Category -&gt; {'{category}'}</span>
+                        <span style={{ "font-size": "11px" }}>Category -&gt; {'{category}'}</span>
                     </PanelRow>
                 </>
             }
@@ -61,10 +55,8 @@ export const Tooltip = (props) => {
                 label={__("Tooltip")}
                 value={tooltipHTML}
                 help={__("You can use variables {var_name}")}
-                onChange={(tooltipHTML) => setAttributes({tooltipHTML})}
+                onChange={(tooltipHTML) => setAttributes({ tooltipHTML })}
                 rows={10}
             />
-        </PanelRow>]
-}
-
-export default Tooltip
+        </PanelRow>];
+};

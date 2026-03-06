@@ -9,3 +9,7 @@ build
 .DS_Store
 dist/
 .vscode/
+data/
+wp-content/uploads/
+wp-content/plugins
+wp-content/

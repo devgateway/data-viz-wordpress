@@ -10,8 +10,8 @@ import { ComponentWithSettings } from '@devgateway/dvz-wp-commons';
 import {PanelColorSettings} from '@wordpress/block-editor';
 
 class BlockEdit extends ComponentWithSettings {
-    constructor(props) { 
-        super(props);       
+    constructor(props) {
+        super(props);
     }
 
     render() {
@@ -26,8 +26,9 @@ class BlockEdit extends ComponentWithSettings {
             },
         } = this.props;
         
+
         const queryString = `editing=true&data-button-label=${buttonLabel}&data-height=${height}&data-width=${width}&data-background-color=${backgroundColor}&data-font-color=${fontColor}`
-        const divStyles = { height: height + 'px', width: width + 'px' }       
+        const divStyles = { height: height + 'px', width: width + 'px' }
         return (
             <div>
                 <InspectorControls>

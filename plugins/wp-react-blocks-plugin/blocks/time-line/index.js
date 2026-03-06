@@ -2,14 +2,13 @@ import {__} from '@wordpress/i18n';
 import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Generic} from "../icons";
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
-
-registerBlockType(process.env.BLOCKS_NS + '/time-line',
+registerBlockType(BLOCKS_NS + '/time-line',
     {
         title: __('Time Line',"dg"),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: {
             count: {
                 type: 'numeric',
@@ -74,7 +73,7 @@ registerBlockType(process.env.BLOCKS_NS + '/time-line',
             subtitleHeight: {
                 type: 'Numeric',
                 default: 20
-            },                        
+            },
             fontSize: {
                 type: 'Numeric',
                 default: 14
@@ -202,7 +201,7 @@ registerBlockType(process.env.BLOCKS_NS + '/time-line',
             },
             closePopupOnMouseOut: {
                 type: "Boolean",
-                default: false 
+                default: false
             }
         },
         edit: BlockEdit,

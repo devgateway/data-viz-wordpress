@@ -3,7 +3,8 @@ import { registerBlockType } from '@wordpress/blocks';
 import BlockSaveV1 from "./BlockSavev1"
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { Generic } from '../icons'
+import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
+
 
 const oldAttributes = {
     defaultFormat: {
@@ -122,11 +123,11 @@ const newAttributes = {
     }
 }
 
-registerBlockType(process.env.BLOCKS_NS + '/download',
+registerBlockType(BLOCKS_NS + '/download',
     {
         title: __('Download'),
-        icon: Generic,
-        category: process.env.BLOCKS_CATEGORY,
+        icon: GenericIcon,
+        category: BLOCKS_CATEGORY,
         attributes: newAttributes,
         edit: BlockEdit,
         save: BlockSave,

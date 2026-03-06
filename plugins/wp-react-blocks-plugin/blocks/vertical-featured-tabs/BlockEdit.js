@@ -50,13 +50,14 @@ class BlockEdit extends BlockEditWithFilters {
                 height,
                 colors,
                 readMoreLabel,
+                clickToExpandLabel,
                 coverWidth,
                 previewMode
             },
         } = this.props;
 
         const colorsParams = Object.keys(colors).map(k => colors[k]).join(",")
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${encodeURIComponent(colorsParams)}&data-read-more-label=${readMoreLabel}&data-preview-mode=${previewMode}`
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${encodeURIComponent(colorsParams)}&data-read-more-label=${readMoreLabel}&data-click-to-expand-label=${encodeURIComponent(clickToExpandLabel || 'CLICK TO EXPAND')}&data-preview-mode=${previewMode}`
         const divStyles = {height: `${height}px`, width: "100%"}
         return (
             <div>
@@ -82,6 +83,15 @@ class BlockEdit extends BlockEditWithFilters {
                                     onChange={(coverWidth) => setAttributes({coverWidth})}
                                     min={50}
                                     max={500}
+                                />
+                            </PanelRow>
+
+                            <PanelRow>
+                                <TextControl
+                                    label={__("Click to Expand Label")}
+                                    value={clickToExpandLabel}
+                                    onChange={(clickToExpandLabel) => setAttributes({clickToExpandLabel})}
+                                    help={__("Custom text for the 'Click to Expand' overlay")}
                                 />
                             </PanelRow>
                         </PanelBody>

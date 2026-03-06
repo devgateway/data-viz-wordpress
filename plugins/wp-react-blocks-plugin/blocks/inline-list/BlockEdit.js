@@ -1,7 +1,7 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
-import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox} from '@wordpress/components';
+import {FormToggle, Panel, PanelBody, PanelRow, RangeControl, ResizableBox, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import  {SizeConfig,BlockEditWithFilters} from '@devgateway/dvz-wp-commons';
+import {BlockEditWithFilters, SizeConfig} from '@devgateway/dvz-wp-commons';
 
 class BlockEdit extends BlockEditWithFilters {
     constructor(props) {
@@ -24,12 +24,14 @@ class BlockEdit extends BlockEditWithFilters {
                 showIcons,
                 showContentToggle,
                 contentToggleHPosition,
-                panelStatus
+                panelStatus,
+                readMoreLabel,
+                readLessLabel
             },
         } = this.props;
 
 
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-show-post-icons=${showIcons}&data-show-content-toggle=${showContentToggle}&data-content-toggle-h-position=${contentToggleHPosition}`
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-show-post-icons=${showIcons}&data-show-content-toggle=${showContentToggle}&data-content-toggle-h-position=${contentToggleHPosition}&data-read-more-label=${encodeURIComponent(readMoreLabel || 'Read More')}&data-read-less-label=${encodeURIComponent(readLessLabel || 'Read less')}`
         const divStyles = {height: height + 'px', width: '100%'}
         return (
             <div>
@@ -68,7 +70,7 @@ class BlockEdit extends BlockEditWithFilters {
                             />
                         </PanelRow>
                             }
-                            
+
                             <PanelRow>
 
                                 <RangeControl
@@ -79,6 +81,24 @@ class BlockEdit extends BlockEditWithFilters {
                                     max={10}
                                 />
 
+                            </PanelRow>
+
+                            <PanelRow>
+                                <TextControl
+                                    label={__("Read More Label")}
+                                    value={readMoreLabel}
+                                    onChange={(readMoreLabel) => setAttributes({readMoreLabel})}
+                                    help={__("Custom text for the 'Read More' link")}
+                                />
+                            </PanelRow>
+
+                            <PanelRow>
+                                <TextControl
+                                    label={__("Read Less Label")}
+                                    value={readLessLabel}
+                                    onChange={(readLessLabel) => setAttributes({readLessLabel})}
+                                    help={__("Custom text for the 'Read Less' link")}
+                                />
                             </PanelRow>
                         </PanelBody>
                         {this.renderFilters()}
