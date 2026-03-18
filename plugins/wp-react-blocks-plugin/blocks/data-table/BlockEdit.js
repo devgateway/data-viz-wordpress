@@ -3,6 +3,7 @@ import {
     Panel,
     PanelBody,
     PanelRow,
+    ResizableBox,
     SelectControl,
     TextControl,
     TextareaControl,
@@ -42,10 +43,12 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     syncMeasureLabelsFromMetadata() {
         const {
             setAttributes,
-            attributes: { app, measures },
+            attributes: { app, measures = {} },
         } = this.props;
-        const metadataMeasures = this.state.measures || [];
-        if (app === 'csv' || !measures?.[app] || metadataMeasures.length === 0) {
+        const metadataMeasures = Array.isArray(this.state.measures)
+            ? this.state.measures.filter((measure) => measure?.value)
+            : [];
+        if (app === 'csv' || metadataMeasures.length === 0) {
             return;
         }
         const labelsByMeasure = metadataMeasures.reduce((acc, measure) => {
@@ -54,19 +57,51 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }
             return acc;
         }, {});
+        const currentAppMeasures = measures[app];
+        let nextAppMeasures = currentAppMeasures
+            ? Object.entries(currentAppMeasures).reduce((acc, [measureKey, config]) => {
+                if (!labelsByMeasure[measureKey] || !config) {
+                    return acc;
+                }
+                acc[measureKey] = { ...config };
+                return acc;
+            }, {})
+            : null;
         let changed = false;
-        const updatedMeasures = Object.assign({}, measures);
-        updatedMeasures[app] = Object.assign({}, updatedMeasures[app]);
-        Object.entries(updatedMeasures[app]).forEach(([measureKey, config]) => {
+        if (currentAppMeasures) {
+            const currentMeasureKeys = Object.keys(currentAppMeasures);
+            const nextMeasureKeys = nextAppMeasures ? Object.keys(nextAppMeasures) : [];
+            if (currentMeasureKeys.length !== nextMeasureKeys.length) {
+                changed = true;
+            }
+        }
+        if (!nextAppMeasures || Object.keys(nextAppMeasures).length === 0) {
+            nextAppMeasures = metadataMeasures.reduce((acc, measure) => {
+                acc[measure.value] = {
+                    selected: true,
+                    format: { ...defaultFormat },
+                    label: labelsByMeasure[measure.value],
+                };
+                return acc;
+            }, {});
+            changed = true;
+        }
+        Object.entries(nextAppMeasures).forEach(([measureKey, config]) => {
             const label = labelsByMeasure[measureKey];
-            if (!config || !label || config.label === label) {
+            if (!config || !label) {
                 return;
             }
-            updatedMeasures[app][measureKey] = { ...config, label };
-            changed = true;
+            if (!config.format) {
+                nextAppMeasures[measureKey] = { ...nextAppMeasures[measureKey], format: { ...defaultFormat } };
+                changed = true;
+            }
+            if (config.label !== label) {
+                nextAppMeasures[measureKey] = { ...nextAppMeasures[measureKey], label };
+                changed = true;
+            }
         });
         if (changed) {
-            setAttributes({ measures: updatedMeasures });
+            setAttributes({ measures: { ...measures, [app]: nextAppMeasures } });
         }
     }
     onMeasuresChange(value) {
@@ -103,7 +138,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
     render() {
         const {
+            className,
             isSelected,
+            toggleSelection,
             setAttributes,
             attributes: {
                 app,
@@ -309,34 +346,50 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </Panel>
                 </InspectorControls>
             ),
-            <div key="block-preview">
-                <div style={{ ...divStyles, padding: '12px', background: '#f9fafb', borderRadius: '6px' }}>
-                    <strong style={{ fontSize: '13px', color: '#4a5568' }}>
-                        {__('📊 Data Table')}
-                    </strong>
-                    <div style={{ fontSize: '12px', color: '#718096', marginTop: '6px' }}>
-                        {__('Source:')} <code>{app}</code>
-                        {dimension1 && dimension1 !== 'none' && (
-                            <> &nbsp;·&nbsp; {__('Dimension:')} <code>{dimensionLabel || dimension1}</code></>
-                        )}
-                    </div>
-                    {measures && measures[app] && (
-                        <div style={{ fontSize: '12px', color: '#718096', marginTop: '4px' }}>
-                            {__('Measures:')} {
-                                Object.keys(measures[app])
-                                    .filter((k) => measures[app][k] && measures[app][k].selected)
-                                    .map((k) => {
-                                        const measureConfig = measures[app][k];
-                                        return measureConfig?.hasCustomLabel && measureConfig?.customLabel
-                                            ? measureConfig.customLabel
-                                            : (measureConfig?.label || k);
-                                    })
-                                    .join(', ') || __('(none selected)')
-                            }
+            <ResizableBox
+                key="block-preview"
+                size={{ height }}
+                style={{ margin: 'auto', width: '100%' }}
+                minHeight="180"
+                minWidth="50"
+                enable={{
+                    top: false,
+                    right: false,
+                    bottom: true,
+                    left: false,
+                    topRight: false,
+                    bottomRight: false,
+                    bottomLeft: false,
+                    topLeft: false,
+                }}
+                onResizeStop={(event, direction, elt, delta) => {
+                    setAttributes({
+                        height: parseInt(height + delta.height, 10),
+                    });
+                    toggleSelection(true);
+                }}
+                onResizeStart={() => {
+                    toggleSelection(false);
+                }}
+            >
+                <div className={className}>
+                    {this.state.react_ui_url ? (
+                        <iframe
+                            ref={this.iframe}
+                            title={__('Data Table Preview')}
+                            style={divStyles}
+                            scrolling="yes"
+                            src={this.state.react_ui_url + '/embeddable/datatable?'}
+                        />
+                    ) : (
+                        <div style={{ ...divStyles, padding: '12px', background: '#f9fafb', borderRadius: '6px' }}>
+                            <strong style={{ fontSize: '13px', color: '#4a5568' }}>
+                                {__('📊 Loading data table preview...')}
+                            </strong>
                         </div>
                     )}
                 </div>
-            </div>,
+            </ResizableBox>,
         ];
     }
 }
