@@ -7,9 +7,9 @@ import {
     TextareaControl,
     TextControl
 } from '@wordpress/components';
-import { PanelColorSettings } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
-import { togglePanel, Measures } from '@devgateway/dvz-wp-commons';
+import {PanelColorSettings} from '@wordpress/block-editor';
+import {__} from '@wordpress/i18n';
+import {togglePanel, ChartMeasures} from '@devgateway/dvz-wp-commons';
 
 const overLayPrototype = (preFillCsv) => {
     return {
@@ -29,7 +29,7 @@ const LineOverlay = (props) => {
         allMeasures,
         allCategories,
         apps,
-        attributes: { panelStatus, overlays, dimension1, app }
+        attributes: {panelStatus, overlays, dimension1, app}
     } = props;
 
 
@@ -42,14 +42,14 @@ const LineOverlay = (props) => {
             preFillCsv = cat ? cat.items.sort((s1, s2) => s1.position - s2.position).map(i => i.value).join(",\r\n") + "," : ""
         }
         const newOverlay = [...overlays, overLayPrototype(preFillCsv)];
-        setAttributes({ overlays: newOverlay });
+        setAttributes({overlays: newOverlay});
     };
 
 
     const remove = () => {
         const newOverlay = [...overlays]
         newOverlay.pop()
-        setAttributes({ overlays: newOverlay })
+        setAttributes({overlays: newOverlay})
 
     }
 
@@ -57,15 +57,15 @@ const LineOverlay = (props) => {
         const newOverlay = [...overlays]
         newOverlay[idx][attribute] = value
 
-        setAttributes({ overlays: newOverlay })
+        setAttributes({overlays: newOverlay})
     }
 
     return <>{overlays && overlays.map((o, idx) => {
         const overlayMeasures = {}
         overlayMeasures[o.app] = {}
-        overlayMeasures[o.app][o.measure] = { selected: true }
+        overlayMeasures[o.app][o.measure] = {selected: true}
         return <PanelBody title={o.title} panelStatus={panelStatus['series_'] + idx}
-            onToggle={e => togglePanel(panelStatus['series_'] + idx, panelStatus, setAttributes)}>
+                          onToggle={e => togglePanel(panelStatus['series_'] + idx, panelStatus, setAttributes)}>
 
             <PanelRow>
                 <SelectControl
@@ -94,7 +94,7 @@ const LineOverlay = (props) => {
             </PanelRow>}
 
             {o.app != "csv" &&
-                <Measures
+                <ChartMeasures
                     title={"Select Measure"}
                     onMeasuresChange={e => null}
                     onFormatChange={a => alert("format")}
@@ -146,11 +146,11 @@ const LineOverlay = (props) => {
         <PanelRow>
             <ButtonGroup>
                 <Button isSecondary={true}
-                    onClick={add}>
+                        onClick={add}>
                     {__("Add Series")}
                 </Button>
                 <Button isSecondary={true}
-                    onClick={remove}>
+                        onClick={remove}>
                     {__("Remove Series")}
                 </Button>
             </ButtonGroup>
