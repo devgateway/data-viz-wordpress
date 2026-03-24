@@ -34,7 +34,6 @@ This package is used internally by DevGateway projects and is designed to be com
 
 - **ChartColors**: Provides color schemes (categorical, sequential, diverging) for charts.
 - **ChartLegends**: Customizable legend components for charts.
-- **ChartMeasures**: Components for configuring chart measures.
 - **Measures**: Utilities for handling data measures.
 - **Tooltip**: Customizable tooltip component for charts.
 
@@ -104,7 +103,6 @@ This package is used internally by DevGateway projects and is designed to be com
 
 - **ChartColorsProps**: Props for chart colors component.
 - **ChartLegendsProps**: Props for chart legends component.
-- **ChartMeasuresProps**: Props for chart measures component.
 - **FormatProps**: Props for format component.
 - **MeasuresProps**: Props for measures component.
 - **DataFiltersProps**: Props for data filters component.
