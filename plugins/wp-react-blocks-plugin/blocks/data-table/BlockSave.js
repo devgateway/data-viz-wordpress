@@ -20,6 +20,10 @@ const SaveComponent = (props) => {
 			stripedRows,
 			borderStyle,
 			noDataText,
+			showExportButton,
+			exportFileName,
+			defaultSortColumn,
+			defaultSortDirection,
 		},
 	} = props;
 	const blockProps = useBlockProps.save({
@@ -54,6 +58,10 @@ const SaveComponent = (props) => {
 			data-striped-rows={stripedRows}
 			data-border-style={borderStyle}
 			data-no-data-text={noDataText}
+			data-show-export-button={showExportButton}
+			data-export-file-name={exportFileName}
+			data-default-sort-column={defaultSortColumn}
+			data-default-sort-direction={defaultSortDirection}
 		></div>
 	);
 };

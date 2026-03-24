@@ -306,7 +306,9 @@ const SaveComponent = props => {
       csv,
       dvzProxyDatasetId,
       dimension1,
+      dimension2,
       dimensionLabel,
+      dimensionLabel2,
       measures,
       filters,
       group,
@@ -317,14 +319,18 @@ const SaveComponent = props => {
       headerTextColor,
       stripedRows,
       borderStyle,
-      noDataText
+      noDataText,
+      showExportButton,
+      exportFileName,
+      defaultSortColumn,
+      defaultSortDirection
     }
   } = props;
   const blockProps = external_wp_blockEditor_.useBlockProps.save({
     className: 'data-table viz-component'
   });
-  const levels = [dimension1];
-  const source = levels.filter(l => l !== 'none' && l != null).join('/');
+  const levels = [dimension1, dimension2];
+  const source = levels.filter(level => level !== 'none' && level !== null && level !== undefined).join('/');
   return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
     ...blockProps,
     "data-component": "datatable",
@@ -333,7 +339,9 @@ const SaveComponent = props => {
     "data-dvz-proxy-dataset-id": dvzProxyDatasetId,
     "data-source": source,
     "data-dimension1": dimension1,
+    "data-dimension2": dimension2,
     "data-dimension-label": dimensionLabel,
+    "data-dimension2-label": dimensionLabel2,
     "data-measures": encodeURIComponent(JSON.stringify(measures)),
     "data-filters": encodeURIComponent(JSON.stringify(filters)),
     "data-group": group,
@@ -344,7 +352,11 @@ const SaveComponent = props => {
     "data-header-text-color": encodeURIComponent(headerTextColor),
     "data-striped-rows": stripedRows,
     "data-border-style": borderStyle,
-    "data-no-data-text": noDataText
+    "data-no-data-text": noDataText,
+    "data-show-export-button": showExportButton,
+    "data-export-file-name": exportFileName,
+    "data-default-sort-column": defaultSortColumn,
+    "data-default-sort-direction": defaultSortDirection
   });
 };
 /* harmony default export */ const BlockSave = (SaveComponent);
@@ -352,7 +364,11 @@ const SaveComponent = props => {
 var external_wp_components_ = __webpack_require__(6427);
 // EXTERNAL MODULE: ../../../packages/commons/build/index.js + 18 modules
 var build = __webpack_require__(2538);
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.3/node_modules/papaparse/papaparse.min.js
+var papaparse_min = __webpack_require__(3643);
+var papaparse_min_default = /*#__PURE__*/__webpack_require__.n(papaparse_min);
 ;// ./data-table/BlockEdit.js
+
 
 
 
@@ -364,12 +380,16 @@ const defaultFormat = {
   maximumFractionDigits: 2,
   currency: 'USD'
 };
+const buildSortToken = (type, value) => `${type}:${value}`;
 class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
   constructor(props) {
     super(props);
     this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onDimensionChange = this.onDimensionChange.bind(this);
     this.onCustomLabelToggleChange = this.onCustomLabelToggleChange.bind(this);
     this.onCustomLabelChange = this.onCustomLabelChange.bind(this);
+    this.onMeasureOrderChange = this.onMeasureOrderChange.bind(this);
+    this.updateMeasureFormat = this.updateMeasureFormat.bind(this);
     this.syncMeasureLabelsFromMetadata = this.syncMeasureLabelsFromMetadata.bind(this);
   }
   componentDidMount() {
@@ -379,41 +399,202 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
     super.componentDidUpdate(prevProps, prevState);
     this.syncMeasureLabelsFromMetadata();
   }
+  getCsvMetadata(csv) {
+    const parsed = papaparse_min_default().parse(csv || '', {
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true
+    });
+    const headers = Array.isArray(parsed?.meta?.fields) ? parsed.meta.fields.filter(header => header) : [];
+    const rows = Array.isArray(parsed?.data) ? parsed.data : [];
+    const numericHeaders = headers.filter(header => {
+      const values = rows.map(row => row?.[header]).filter(value => value !== '' && value !== null && value !== undefined);
+      return values.length > 0 && values.every(value => typeof value === 'number' && !Number.isNaN(value));
+    });
+    return {
+      headers,
+      numericHeaders
+    };
+  }
+  getAvailableDimensions() {
+    const {
+      attributes: {
+        app,
+        csv
+      }
+    } = this.props;
+    if (app === 'csv') {
+      const {
+        headers
+      } = this.getCsvMetadata(csv);
+      return [{
+        label: (0,external_wp_i18n_.__)('None'),
+        value: 'none'
+      }, ...headers.map(header => ({
+        label: header,
+        value: header
+      }))];
+    }
+    return this.state.dimensions || [{
+      label: (0,external_wp_i18n_.__)('None'),
+      value: 'none'
+    }];
+  }
+  getMetadataMeasures() {
+    const {
+      attributes: {
+        app,
+        csv
+      }
+    } = this.props;
+    if (app === 'csv') {
+      const {
+        numericHeaders
+      } = this.getCsvMetadata(csv);
+      return numericHeaders.map(header => ({
+        label: header,
+        value: header,
+        group: (0,external_wp_i18n_.__)('Measures')
+      }));
+    }
+    return Array.isArray(this.state.measures) ? this.state.measures.filter(measure => measure?.value) : [];
+  }
+  getNextMeasureOrder(appMeasures = {}) {
+    const usedOrders = Object.values(appMeasures).map(config => parseInt(config?.order, 10)).filter(order => Number.isFinite(order));
+    return (usedOrders.length > 0 ? Math.max(...usedOrders) : 0) + 1;
+  }
+  updateMeasureConfig(measureKey, updater) {
+    const {
+      setAttributes,
+      attributes: {
+        app,
+        measures = {}
+      }
+    } = this.props;
+    const nextMeasures = {
+      ...measures
+    };
+    const nextAppMeasures = {
+      ...(nextMeasures[app] || {})
+    };
+    const currentConfig = nextAppMeasures[measureKey] || {};
+    const updatedConfig = typeof updater === 'function' ? updater(currentConfig, nextAppMeasures) : {
+      ...currentConfig,
+      ...updater
+    };
+    nextAppMeasures[measureKey] = updatedConfig;
+    nextMeasures[app] = nextAppMeasures;
+    setAttributes({
+      measures: nextMeasures
+    });
+  }
+  getDimensionOptions(fieldName, options, selectedDimensions) {
+    const currentValue = selectedDimensions[fieldName];
+    return options.filter(option => {
+      if (option.value === 'none') {
+        return true;
+      }
+      if (option.value === currentValue) {
+        return true;
+      }
+      return !Object.entries(selectedDimensions).some(([key, value]) => key !== fieldName && value === option.value);
+    });
+  }
   syncMeasureLabelsFromMetadata() {
     const {
       setAttributes,
       attributes: {
         app,
-        measures
+        measures = {},
+        dimension1,
+        dimension2
       }
     } = this.props;
-    const metadataMeasures = this.state.measures || [];
-    if (app === 'csv' || !measures?.[app] || metadataMeasures.length === 0) {
+    const metadataMeasures = this.getMetadataMeasures();
+    if (metadataMeasures.length === 0) {
       return;
     }
+    const selectedDimensions = [dimension1, dimension2].filter(dimension => dimension && dimension !== 'none');
     const labelsByMeasure = metadataMeasures.reduce((acc, measure) => {
       if (measure?.value) {
         acc[measure.value] = measure.label || measure.value;
       }
       return acc;
     }, {});
+    const currentAppMeasures = measures[app];
+    let nextAppMeasures = currentAppMeasures ? Object.entries(currentAppMeasures).reduce((acc, [measureKey, config]) => {
+      if (!labelsByMeasure[measureKey] || !config) {
+        return acc;
+      }
+      acc[measureKey] = {
+        ...config
+      };
+      return acc;
+    }, {}) : null;
     let changed = false;
-    const updatedMeasures = Object.assign({}, measures);
-    updatedMeasures[app] = Object.assign({}, updatedMeasures[app]);
-    Object.entries(updatedMeasures[app]).forEach(([measureKey, config]) => {
+    if (currentAppMeasures) {
+      const currentMeasureKeys = Object.keys(currentAppMeasures);
+      const nextMeasureKeys = nextAppMeasures ? Object.keys(nextAppMeasures) : [];
+      if (currentMeasureKeys.length !== nextMeasureKeys.length) {
+        changed = true;
+      }
+    }
+    if (!nextAppMeasures || Object.keys(nextAppMeasures).length === 0) {
+      nextAppMeasures = metadataMeasures.reduce((acc, measure, index) => {
+        acc[measure.value] = {
+          selected: !selectedDimensions.includes(measure.value),
+          format: {
+            ...defaultFormat
+          },
+          label: labelsByMeasure[measure.value],
+          order: index + 1
+        };
+        return acc;
+      }, {});
+      changed = true;
+    }
+    Object.entries(nextAppMeasures).forEach(([measureKey, config], index) => {
       const label = labelsByMeasure[measureKey];
-      if (!config || !label || config.label === label) {
+      if (!config || !label) {
         return;
       }
-      updatedMeasures[app][measureKey] = {
-        ...config,
-        label
-      };
-      changed = true;
+      if (!config.format) {
+        nextAppMeasures[measureKey] = {
+          ...nextAppMeasures[measureKey],
+          format: {
+            ...defaultFormat
+          }
+        };
+        changed = true;
+      }
+      if (!Number.isFinite(parseInt(config.order, 10))) {
+        nextAppMeasures[measureKey] = {
+          ...nextAppMeasures[measureKey],
+          order: index + 1
+        };
+        changed = true;
+      }
+      if (config.label !== label) {
+        nextAppMeasures[measureKey] = {
+          ...nextAppMeasures[measureKey],
+          label
+        };
+        changed = true;
+      }
+      if (selectedDimensions.includes(measureKey) && config.selected) {
+        nextAppMeasures[measureKey] = {
+          ...nextAppMeasures[measureKey],
+          selected: false
+        };
+        changed = true;
+      }
     });
     if (changed) {
       setAttributes({
-        measures: updatedMeasures
+        measures: {
+          ...measures,
+          [app]: nextAppMeasures
+        }
       });
     }
   }
@@ -422,73 +603,256 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
       setAttributes,
       attributes: {
         app,
-        measures
+        measures = {}
       }
     } = this.props;
-    const uMs = Object.assign({}, measures);
-    const selectedMeasure = (this.state.measures || []).find(measure => measure.value === value);
+    const nextMeasures = {
+      ...measures
+    };
+    const nextAppMeasures = {
+      ...(nextMeasures[app] || {})
+    };
+    const selectedMeasure = this.getMetadataMeasures().find(measure => measure.value === value);
     const measureLabel = selectedMeasure?.label || value;
-    if (!uMs[app]) uMs[app] = {};
-    if (uMs[app][value]) {
-      uMs[app][value].selected = !uMs[app][value].selected;
-      if (measureLabel && uMs[app][value].label !== measureLabel) {
-        uMs[app][value].label = measureLabel;
-      }
+    if (nextAppMeasures[value]) {
+      nextAppMeasures[value] = {
+        ...nextAppMeasures[value],
+        selected: !nextAppMeasures[value].selected,
+        label: measureLabel,
+        format: nextAppMeasures[value].format || {
+          ...defaultFormat
+        },
+        order: Number.isFinite(parseInt(nextAppMeasures[value].order, 10)) ? parseInt(nextAppMeasures[value].order, 10) : this.getNextMeasureOrder(nextAppMeasures)
+      };
     } else {
-      uMs[app][value] = {
+      nextAppMeasures[value] = {
         selected: true,
-        format: defaultFormat,
-        label: measureLabel
+        format: {
+          ...defaultFormat
+        },
+        label: measureLabel,
+        order: this.getNextMeasureOrder(nextAppMeasures)
       };
     }
+    nextMeasures[app] = nextAppMeasures;
     setAttributes({
-      measures: uMs
+      measures: nextMeasures
     });
   }
-  onCustomLabelToggleChange(value) {
+  onDimensionChange(fieldName, value) {
     const {
       setAttributes,
       attributes: {
-        app,
-        measures
+        dimension1,
+        dimension2
       }
     } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (uMs[app] && uMs[app][value]) {
-      uMs[app][value].hasCustomLabel = !uMs[app][value].hasCustomLabel;
-      setAttributes({
-        measures: uMs
-      });
+    const nextDimensions = {
+      dimension1,
+      dimension2,
+      [fieldName]: value
+    };
+    if (nextDimensions.dimension1 === 'none') {
+      nextDimensions.dimension2 = 'none';
     }
+    const seen = new Set();
+    ['dimension1', 'dimension2'].forEach(key => {
+      const dimensionValue = nextDimensions[key];
+      if (!dimensionValue || dimensionValue === 'none') {
+        return;
+      }
+      if (seen.has(dimensionValue)) {
+        nextDimensions[key] = 'none';
+        return;
+      }
+      seen.add(dimensionValue);
+    });
+    setAttributes(nextDimensions);
+  }
+  onCustomLabelToggleChange(value) {
+    this.updateMeasureConfig(value, currentConfig => ({
+      ...currentConfig,
+      hasCustomLabel: !currentConfig?.hasCustomLabel
+    }));
   }
   onCustomLabelChange(value, customLabel) {
+    this.updateMeasureConfig(value, currentConfig => ({
+      ...currentConfig,
+      customLabel
+    }));
+  }
+  onMeasureOrderChange(value, nextOrder) {
+    const parsedOrder = parseInt(nextOrder, 10);
+    this.updateMeasureConfig(value, (currentConfig, currentMeasures) => ({
+      ...currentConfig,
+      order: Number.isFinite(parsedOrder) && parsedOrder > 0 ? parsedOrder : currentConfig?.order || this.getNextMeasureOrder(currentMeasures)
+    }));
+  }
+  updateMeasureFormat(value, newFormat) {
+    this.updateMeasureConfig(value, currentConfig => ({
+      ...currentConfig,
+      format: newFormat || {
+        ...defaultFormat
+      }
+    }));
+  }
+  getDefaultSortOptions(selectedMeasures) {
     const {
-      setAttributes,
       attributes: {
-        app,
-        measures
+        dimension1,
+        dimension2,
+        dimensionLabel,
+        dimensionLabel2
       }
     } = this.props;
-    const uMs = Object.assign({}, measures);
-    if (uMs[app] && uMs[app][value] && uMs[app][value].hasCustomLabel) {
-      uMs[app][value].customLabel = customLabel;
-      setAttributes({
-        measures: uMs
+    const hasPivotLayout = dimension1 && dimension1 !== 'none' && dimension2 && dimension2 !== 'none' && selectedMeasures.length === 1;
+    const options = [{
+      label: (0,external_wp_i18n_.__)('None'),
+      value: ''
+    }];
+    if (dimension1 && dimension1 !== 'none') {
+      options.push({
+        label: `${(0,external_wp_i18n_.__)('Row')} · ${dimensionLabel || dimension1}`,
+        value: buildSortToken('dimension', dimension1)
       });
     }
+    if (!hasPivotLayout && dimension2 && dimension2 !== 'none') {
+      options.push({
+        label: `${(0,external_wp_i18n_.__)('Row')} · ${dimensionLabel2 || dimension2}`,
+        value: buildSortToken('dimension', dimension2)
+      });
+    }
+    if (!hasPivotLayout) {
+      selectedMeasures.forEach(({
+        key,
+        label
+      }) => {
+        options.push({
+          label: `${(0,external_wp_i18n_.__)('Column')} · ${label}`,
+          value: buildSortToken('measure', key)
+        });
+      });
+    }
+    return {
+      options,
+      hasPivotLayout
+    };
+  }
+  renderMeasureSelectionPanel(availableMeasures, selectedDimensions, app, measures, panelStatus, setAttributes) {
+    if (!availableMeasures || availableMeasures.length === 0) {
+      return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)('Measures (columns)'),
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+          style: {
+            margin: 0,
+            color: '#50575e'
+          },
+          children: (0,external_wp_i18n_.__)('No numeric measures were found for the current source.')
+        })
+      });
+    }
+    const groupedMeasures = availableMeasures.reduce((acc, measure) => {
+      const groupLabel = (0,build/* getTranslation */.sC)(measure.group || (0,external_wp_i18n_.__)('Measures'));
+      if (!acc[groupLabel]) {
+        acc[groupLabel] = [];
+      }
+      acc[groupLabel].push(measure);
+      return acc;
+    }, {});
+    const appMeasures = measures?.[app] || {};
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: panelStatus.MEASURES,
+      title: (0,external_wp_i18n_.__)('Measures (columns)'),
+      onToggle: () => (0,build/* togglePanel */.Pj)('MEASURES', panelStatus, setAttributes),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+        style: {
+          margin: '0 0 12px',
+          color: '#50575e'
+        },
+        children: (0,external_wp_i18n_.__)('Choose which numeric columns to display. Measure order and number formatting can be customized below.')
+      }), Object.entries(groupedMeasures).map(([groupLabel, groupMeasures]) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: groupLabel,
+        children: groupMeasures.map(measure => {
+          const measureConfig = appMeasures[measure.value] || {};
+          const isDisabled = selectedDimensions.includes(measure.value);
+          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,build/* getTranslation */.sC)(measure),
+              checked: !!measureConfig.selected,
+              disabled: isDisabled,
+              help: isDisabled ? (0,external_wp_i18n_.__)('This field is already used as a dimension.') : undefined,
+              onChange: () => this.onMeasuresChange(measure.value)
+            })
+          }, measure.value);
+        })
+      }, groupLabel))]
+    });
+  }
+  renderSelectedMeasureCustomization(selectedMeasures) {
+    if (!selectedMeasures.length) {
+      return null;
+    }
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)('Selected Measure Customization'),
+      children: selectedMeasures.map(({
+        key,
+        label,
+        config
+      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: label,
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)('Column Order'),
+            type: "number",
+            min: 1,
+            value: config?.order || '',
+            onChange: value => this.onMeasureOrderChange(key, value),
+            help: (0,external_wp_i18n_.__)('Lower numbers are shown first.')
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: (0,external_wp_i18n_.__)('Use Custom Column Label'),
+            checked: !!config?.hasCustomLabel,
+            onChange: () => this.onCustomLabelToggleChange(key)
+          })
+        }), config?.hasCustomLabel && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)('Custom Label'),
+            value: config?.customLabel || '',
+            onChange: value => this.onCustomLabelChange(key, value)
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Format */.yL, {
+          hiddenCustomAxisFormat: true,
+          format: config?.format || {
+            ...defaultFormat
+          },
+          customFormat: {},
+          useCustomAxisFormat: false,
+          onFormatChange: newFormat => this.updateMeasureFormat(key, newFormat),
+          onUseCustomAxisFormatChange: () => {}
+        })]
+      }, key))
+    });
   }
   render() {
     const {
+      className,
       isSelected,
+      toggleSelection,
       setAttributes,
       attributes: {
         app,
         csv,
         dvzProxyDatasetId,
         dimension1,
+        dimension2,
         dimensionLabel,
+        dimensionLabel2,
         measures,
-        filters,
         group,
         waitForFilters,
         panelStatus,
@@ -498,7 +862,11 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
         headerTextColor,
         stripedRows,
         borderStyle,
-        noDataText
+        noDataText,
+        showExportButton,
+        exportFileName,
+        defaultSortColumn,
+        defaultSortDirection
       }
     } = this.props;
     const datasets = [{
@@ -513,6 +881,23 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
         });
       });
     }
+    const availableDimensions = this.getAvailableDimensions();
+    const availableMeasures = this.getMetadataMeasures();
+    const selectedDimensions = [dimension1, dimension2].filter(dimension => dimension && dimension !== 'none');
+    const appMeasures = measures?.[app] || {};
+    const selectedMeasures = Object.entries(appMeasures).filter(([measureKey, config]) => config?.selected && !selectedDimensions.includes(measureKey)).map(([measureKey, config], index) => {
+      const metadataMeasure = availableMeasures.find(measure => measure.value === measureKey);
+      return {
+        key: measureKey,
+        config,
+        order: Number.isFinite(parseInt(config?.order, 10)) ? parseInt(config.order, 10) : index + 1,
+        label: config?.hasCustomLabel && config?.customLabel ? config.customLabel : config?.label || metadataMeasure?.label || measureKey
+      };
+    }).sort((left, right) => left.order - right.order || left.label.localeCompare(right.label));
+    const {
+      options: defaultSortOptions,
+      hasPivotLayout
+    } = this.getDefaultSortOptions(selectedMeasures);
     const divStyles = {
       height: height + 'px',
       width: '100%'
@@ -528,8 +913,8 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
               label: (0,external_wp_i18n_.__)('Group Name'),
               value: group,
-              onChange: group => setAttributes({
-                group
+              onChange: nextGroup => setAttributes({
+                group: nextGroup
               })
             })
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
@@ -551,7 +936,7 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
           children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
               label: (0,external_wp_i18n_.__)('Data Source'),
-              value: [app],
+              value: app,
               onChange: nextApp => setAttributes({
                 app: nextApp
               }),
@@ -563,7 +948,7 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
           }), (0,build/* isSupersetAPI */.oL)(app, this.state.apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
               label: (0,external_wp_i18n_.__)('Dataset'),
-              value: [dvzProxyDatasetId],
+              value: dvzProxyDatasetId,
               onChange: newDatasetId => {
                 setAttributes({
                   dvzProxyDatasetId: newDatasetId
@@ -578,63 +963,82 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
           title: (0,external_wp_i18n_.__)('CSV Data'),
           children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-              label: (0,external_wp_i18n_.__)('Paste CSV (first column = dimension)'),
+              label: (0,external_wp_i18n_.__)('Paste CSV data'),
               value: csv,
               onChange: nextCsv => setAttributes({
                 csv: nextCsv
               }),
               rows: 8
             })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.__experimentalText, {
-            variant: "muted",
-            children: (0,external_wp_i18n_.__)('First row must be headers. Numeric columns become available as measures.')
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Dimension Header Label'),
-              value: dimensionLabel,
-              onChange: value => setAttributes({
-                dimensionLabel: value
-              }),
-              help: (0,external_wp_i18n_.__)('Optional label shown in the table header for the first CSV column.')
-            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+            style: {
+              margin: 0,
+              color: '#4a5568',
+              fontSize: '12px'
+            },
+            children: (0,external_wp_i18n_.__)('First row must be headers. Numeric columns become available as measures and any column can be used as a dimension.')
           })]
-        }), app !== 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
           initialOpen: false,
-          title: (0,external_wp_i18n_.__)('Dimension (rows)'),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          title: (0,external_wp_i18n_.__)('Dimensions (rows)'),
+          children: [availableDimensions.length <= 1 && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+            style: {
+              margin: 0,
+              color: '#4a5568',
+              fontSize: '12px'
+            },
+            children: (0,external_wp_i18n_.__)('No dimensions are available for the current source yet.')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              label: (0,external_wp_i18n_.__)('Dimension'),
-              value: [dimension1],
-              onChange: value => setAttributes({
-                dimension1: value
-              }),
-              options: this.state.dimensions || [{
-                label: (0,external_wp_i18n_.__)('None'),
-                value: 'none'
-              }]
+              label: (0,external_wp_i18n_.__)('Dimension 1'),
+              value: dimension1,
+              onChange: value => this.onDimensionChange('dimension1', value),
+              options: this.getDimensionOptions('dimension1', availableDimensions, {
+                dimension1,
+                dimension2
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              label: (0,external_wp_i18n_.__)('Dimension 2'),
+              value: dimension2,
+              disabled: dimension1 === 'none',
+              onChange: value => this.onDimensionChange('dimension2', value),
+              options: this.getDimensionOptions('dimension2', availableDimensions, {
+                dimension1,
+                dimension2
+              })
             })
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Dimension Header Label'),
+              label: (0,external_wp_i18n_.__)('Dimension 1 Header Label'),
               value: dimensionLabel,
               onChange: value => setAttributes({
                 dimensionLabel: value
               }),
-              help: (0,external_wp_i18n_.__)('Optional label shown in the table header for the selected dimension.')
+              help: (0,external_wp_i18n_.__)('Optional label shown in the first dimension column header.')
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Dimension 2 Header Label'),
+              value: dimensionLabel2,
+              disabled: dimension2 === 'none',
+              onChange: value => setAttributes({
+                dimensionLabel2: value
+              }),
+              help: (0,external_wp_i18n_.__)('Optional label shown in the second dimension column header.')
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+              style: {
+                margin: 0,
+                color: '#4a5568',
+                fontSize: '12px'
+              },
+              children: (0,external_wp_i18n_.__)('You can use one or two dimensions. When exactly one measure is selected, Dimension 2 becomes dynamic columns in the table; otherwise it remains a second grouping column.')
             })
           })]
-        }), app !== 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Measures */.I3, {
-          title: (0,external_wp_i18n_.__)('Measures (columns)'),
-          onMeasuresChange: this.onMeasuresChange,
-          onCustomLabelToggleChange: this.onCustomLabelToggleChange,
-          onCustomLabelChange: this.onCustomLabelChange,
-          onFormatChange: () => {},
-          onUseCustomAxisFormatChange: () => {},
-          onSetSingleMeasure: () => {},
-          allMeasures: this.state.measures || [],
-          multiMeasure: true,
-          ...this.props
-        }), app !== 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* DataFilters */.M1, {
+        }), this.renderMeasureSelectionPanel(availableMeasures, selectedDimensions, app, measures, panelStatus, setAttributes), this.renderSelectedMeasureCustomization(selectedMeasures), app !== 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* DataFilters */.M1, {
           allFilters: this.state.filters || [],
           allCategories: this.state.categories || [],
           onChange: () => {},
@@ -685,6 +1089,64 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
                 noDataText: value
               })
             })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Show Export CSV Button'),
+              checked: showExportButton,
+              onChange: () => setAttributes({
+                showExportButton: !showExportButton
+              }),
+              help: (0,external_wp_i18n_.__)('Adds a frontend button that exports the currently displayed table as CSV.')
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Export Filename'),
+              value: exportFileName,
+              onChange: value => setAttributes({
+                exportFileName: value
+              }),
+              help: (0,external_wp_i18n_.__)('Optional filename for the CSV download. The .csv extension is added automatically.')
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              label: (0,external_wp_i18n_.__)('Default Sort Column'),
+              value: defaultSortColumn,
+              onChange: value => setAttributes({
+                defaultSortColumn: value,
+                defaultSortDirection: value ? defaultSortDirection === 'none' ? 'asc' : defaultSortDirection : 'none'
+              }),
+              options: defaultSortOptions,
+              help: (0,external_wp_i18n_.__)('Choose which visible column should be applied as the initial sort on load.')
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              label: (0,external_wp_i18n_.__)('Default Sort Direction'),
+              value: defaultSortColumn ? defaultSortDirection : 'none',
+              disabled: !defaultSortColumn,
+              onChange: value => setAttributes({
+                defaultSortDirection: value
+              }),
+              options: [{
+                label: (0,external_wp_i18n_.__)('None'),
+                value: 'none'
+              }, {
+                label: (0,external_wp_i18n_.__)('Ascending'),
+                value: 'asc'
+              }, {
+                label: (0,external_wp_i18n_.__)('Descending'),
+                value: 'desc'
+              }],
+              help: (0,external_wp_i18n_.__)('Sets the initial sort order before the user clicks a header.')
+            })
+          }), hasPivotLayout && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+              style: {
+                margin: 0,
+                color: '#4a5568',
+                fontSize: '12px'
+              },
+              children: (0,external_wp_i18n_.__)('In pivot layout, only the row dimension can be pre-sorted because the value columns are generated dynamically from the data.')
+            })
           })]
         }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
           title: (0,external_wp_i18n_.__)('Header Colors'),
@@ -704,44 +1166,58 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
           }]
         })]
       })
-    }, "inspector"), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-        style: {
-          ...divStyles,
-          padding: '12px',
-          background: '#f9fafb',
-          borderRadius: '6px'
-        },
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+    }, "inspector"), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+      size: {
+        height
+      },
+      style: {
+        margin: 'auto',
+        width: '100%'
+      },
+      minHeight: "180",
+      minWidth: "50",
+      enable: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: false,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false
+      },
+      onResizeStop: (event, direction, elt, delta) => {
+        setAttributes({
+          height: parseInt(height + delta.height, 10)
+        });
+        toggleSelection(true);
+      },
+      onResizeStart: () => {
+        toggleSelection(false);
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+        className: className,
+        children: this.state.react_ui_url ? /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          title: (0,external_wp_i18n_.__)('Data Table Preview'),
+          style: divStyles,
+          scrolling: "yes",
+          src: this.state.react_ui_url + '/embeddable/datatable?'
+        }) : /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
           style: {
-            fontSize: '13px',
-            color: '#4a5568'
+            ...divStyles,
+            padding: '12px',
+            background: '#f9fafb',
+            borderRadius: '6px'
           },
-          children: (0,external_wp_i18n_.__)('📊 Data Table')
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-          style: {
-            fontSize: '12px',
-            color: '#718096',
-            marginTop: '6px'
-          },
-          children: [(0,external_wp_i18n_.__)('Source:'), " ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
-            children: app
-          }), dimension1 && dimension1 !== 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-            children: [" \xA0\xB7\xA0 ", (0,external_wp_i18n_.__)('Dimension:'), " ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
-              children: dimensionLabel || dimension1
-            })]
-          })]
-        }), measures && measures[app] && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-          style: {
-            fontSize: '12px',
-            color: '#718096',
-            marginTop: '4px'
-          },
-          children: [(0,external_wp_i18n_.__)('Measures:'), " ", Object.keys(measures[app]).filter(k => measures[app][k] && measures[app][k].selected).map(k => {
-            const measureConfig = measures[app][k];
-            return measureConfig?.hasCustomLabel && measureConfig?.customLabel ? measureConfig.customLabel : measureConfig?.label || k;
-          }).join(', ') || (0,external_wp_i18n_.__)('(none selected)')]
-        })]
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            style: {
+              fontSize: '13px',
+              color: '#4a5568'
+            },
+            children: (0,external_wp_i18n_.__)('📊 Loading data table preview…')
+          })
+        })
       })
     }, "block-preview")];
   }
@@ -786,7 +1262,15 @@ const Edit = props => {
       type: 'String',
       default: 'none'
     },
+    dimension2: {
+      type: 'String',
+      default: 'none'
+    },
     dimensionLabel: {
+      type: 'String',
+      default: ''
+    },
+    dimensionLabel2: {
       type: 'String',
       default: ''
     },
@@ -841,6 +1325,22 @@ const Edit = props => {
       type: 'String',
       default: 'No data available'
     },
+    showExportButton: {
+      type: 'Boolean',
+      default: false
+    },
+    exportFileName: {
+      type: 'String',
+      default: ''
+    },
+    defaultSortColumn: {
+      type: 'String',
+      default: ''
+    },
+    defaultSortDirection: {
+      type: 'String',
+      default: 'none'
+    },
     /* ---- internal ---- */
     types: {
       type: 'Array',
@@ -849,7 +1349,7 @@ const Edit = props => {
         value: 'data-table',
         supports: {
           singleMeasure: false,
-          singleDimension: true
+          singleDimension: false
         }
       }]
     }
@@ -9512,6 +10012,7 @@ __webpack_require__.d(__webpack_exports__, {
   BE: () => (/* reexport */ ComponentWithSettings),
   cx: () => (/* reexport */ DEFAULT_FORMAT_SETTINGS),
   M1: () => (/* reexport */ DataFilters),
+  yL: () => (/* reexport */ Format),
   Z7: () => (/* reexport */ GenericIcon),
   C6: () => (/* reexport */ MapCSVSourceConfig),
   I3: () => (/* reexport */ Measures),
@@ -9530,7 +10031,7 @@ __webpack_require__.d(__webpack_exports__, {
   DU: () => (/* reexport */ updateMeasureLabels)
 });
 
-// UNUSED EXPORTS: Format, diverging, panelFocus, transformDataToAppObject
+// UNUSED EXPORTS: diverging, panelFocus, transformDataToAppObject
 
 // EXTERNAL MODULE: external "React"
 var external_React_ = __webpack_require__(1609);

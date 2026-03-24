@@ -94,6 +94,22 @@ registerBlockType(BLOCKS_NS + '/datatable', {
 			type: 'String',
 			default: 'No data available',
 		},
+		showExportButton: {
+			type: 'Boolean',
+			default: false,
+		},
+		exportFileName: {
+			type: 'String',
+			default: '',
+		},
+		defaultSortColumn: {
+			type: 'String',
+			default: '',
+		},
+		defaultSortDirection: {
+			type: 'String',
+			default: 'none',
+		},
 		/* ---- internal ---- */
 		types: {
 			type: 'Array',

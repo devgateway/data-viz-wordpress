@@ -32,6 +32,8 @@ const defaultFormat = {
 	currency: 'USD',
 };
 
+const buildSortToken = (type, value) => `${type}:${value}`;
+
 class BlockEdit extends BlockEditWithAPIMetadata {
 	constructor(props) {
 		super(props);
@@ -332,6 +334,52 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 		}));
 	}
 
+	getDefaultSortOptions(selectedMeasures) {
+		const {
+			attributes: {
+				dimension1,
+				dimension2,
+				dimensionLabel,
+				dimensionLabel2,
+			},
+		} = this.props;
+		const hasPivotLayout =
+			dimension1 &&
+			dimension1 !== 'none' &&
+			dimension2 &&
+			dimension2 !== 'none' &&
+			selectedMeasures.length === 1;
+		const options = [{ label: __('None'), value: '' }];
+
+		if (dimension1 && dimension1 !== 'none') {
+			options.push({
+				label: `${__('Row')} · ${dimensionLabel || dimension1}`,
+				value: buildSortToken('dimension', dimension1),
+			});
+		}
+
+		if (!hasPivotLayout && dimension2 && dimension2 !== 'none') {
+			options.push({
+				label: `${__('Row')} · ${dimensionLabel2 || dimension2}`,
+				value: buildSortToken('dimension', dimension2),
+			});
+		}
+
+		if (!hasPivotLayout) {
+			selectedMeasures.forEach(({ key, label }) => {
+				options.push({
+					label: `${__('Column')} · ${label}`,
+					value: buildSortToken('measure', key),
+				});
+			});
+		}
+
+		return {
+			options,
+			hasPivotLayout,
+		};
+	}
+
 	renderMeasureSelectionPanel(
 		availableMeasures,
 		selectedDimensions,
@@ -474,6 +522,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 				stripedRows,
 				borderStyle,
 				noDataText,
+				showExportButton,
+				exportFileName,
+				defaultSortColumn,
+				defaultSortDirection,
 			},
 		} = this.props;
 		const datasets = [{ label: __('Select Dataset'), value: '0' }];
@@ -513,6 +565,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 				(left, right) =>
 					left.order - right.order || left.label.localeCompare(right.label),
 			);
+		const { options: defaultSortOptions, hasPivotLayout } =
+			this.getDefaultSortOptions(selectedMeasures);
 		const divStyles = { height: height + 'px', width: '100%' };
 		return [
 			isSelected && (
@@ -712,6 +766,75 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 									onChange={(value) => setAttributes({ noDataText: value })}
 								/>
 							</PanelRow>
+							<PanelRow>
+								<ToggleControl
+									label={__('Show Export CSV Button')}
+									checked={showExportButton}
+									onChange={() =>
+										setAttributes({ showExportButton: !showExportButton })
+									}
+									help={__(
+										'Adds a frontend button that exports the currently displayed table as CSV.',
+									)}
+								/>
+							</PanelRow>
+							<PanelRow>
+								<TextControl
+									label={__('Export Filename')}
+									value={exportFileName}
+									onChange={(value) => setAttributes({ exportFileName: value })}
+									help={__(
+										'Optional filename for the CSV download. The .csv extension is added automatically.',
+									)}
+								/>
+							</PanelRow>
+							<PanelRow>
+								<SelectControl
+									label={__('Default Sort Column')}
+									value={defaultSortColumn}
+									onChange={(value) =>
+										setAttributes({
+											defaultSortColumn: value,
+											defaultSortDirection: value
+												? defaultSortDirection === 'none'
+													? 'asc'
+													: defaultSortDirection
+												: 'none',
+										})
+									}
+									options={defaultSortOptions}
+									help={__(
+										'Choose which visible column should be applied as the initial sort on load.',
+									)}
+								/>
+							</PanelRow>
+							<PanelRow>
+								<SelectControl
+									label={__('Default Sort Direction')}
+									value={defaultSortColumn ? defaultSortDirection : 'none'}
+									disabled={!defaultSortColumn}
+									onChange={(value) =>
+										setAttributes({ defaultSortDirection: value })
+									}
+									options={[
+										{ label: __('None'), value: 'none' },
+										{ label: __('Ascending'), value: 'asc' },
+										{ label: __('Descending'), value: 'desc' },
+									]}
+									help={__(
+										'Sets the initial sort order before the user clicks a header.',
+									)}
+								/>
+							</PanelRow>
+							{hasPivotLayout && (
+								<PanelRow>
+									<p style={{ margin: 0, color: '#4a5568', fontSize: '12px' }}>
+										{__(
+											'In pivot layout, only the row dimension can be pre-sorted because the value columns are generated dynamically from the data.',
+										)}
+									</p>
+								</PanelRow>
+							)}
 						</PanelBody>
 						<PanelColorSettings
 							title={__('Header Colors')}
