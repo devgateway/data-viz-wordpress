@@ -70,6 +70,14 @@ const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
     {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
     {label: 'Map', value: 'map', supports: {singleMeasure: true, singleDimension: false}}]*/
 
+const supportsMeasureSelectorInSingleMode = (type, dimension1, dimension2) =>
+    ((type === "line" || type === "bar") && dimension2 !== "none") ||
+    (type === "pie" && (dimension1 !== "none" || dimension2 !== "none"));
+
+const isSingleMeasureMode = (type, dimension1, dimension2) =>
+    type === "data-paragraph" ||
+    supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
+
 export class APIConfig extends Component {
     constructor(props) {
         super(props);
@@ -181,49 +189,81 @@ export class APIConfig extends Component {
     componentDidUpdate(prevProps) {
         const {
             setAttributes,
-            attributes: { type, colorBy, dimension2, types, measures, app },
+            allMeasures,
+            attributes: {
+                type,
+                colorBy,
+                dimension1,
+                dimension2,
+                types,
+                measures,
+                app,
+                enableMeasureSelector,
+            },
         } = this.props;
         const {
-            attributes: { type: prevType, dimension2: prevDimension2 },
+            attributes: {
+                type: prevType,
+                dimension1: prevDimension1,
+                dimension2: prevDimension2,
+                enableMeasureSelector: prevEnableMeasureSelector,
+            },
         } = prevProps;
         const prevTypeObject =
             types.filter((t) => t.value === prevType).length > 0
                 ? types.filter((t) => t.value === prevType)[0]
                 : null;
 
-        if (dimension2 != prevDimension2) {
-            //TODO ensure only one measure remains selected when selecting a second dimensions
-            const uMs = Object.assign({}, measures);
-            if (dimension2 != "none") {
-                let i = 0; //the idea is to keep one selected
-                if (uMs[app]) {
-                    const selected = Object.keys(uMs[app]).map(
-                        (k) => uMs[app][k].selected
-                    ).length;
-                    if (selected > 1) {
-                        Object.keys(uMs[app]).forEach((k) => {
-                            if (uMs[app][k].selected) {
-                                uMs[app][k].prevSelected = true; //can be used to recover measures
-                                uMs[app][k].selected = i > 0 ? false : true;
-                            } else {
-                                uMs[app][k].prevSelected = false;
-                            }
+        const singleMeasureModeChanged =
+            type !== prevType ||
+            dimension1 !== prevDimension1 ||
+            dimension2 !== prevDimension2 ||
+            enableMeasureSelector !== prevEnableMeasureSelector;
 
-                            i++;
-                        });
-                    }
-                }
+        if (singleMeasureModeChanged && measures?.[app] && allMeasures?.length > 0) {
+            const selectorEnabledForCurrentMode =
+                enableMeasureSelector === true &&
+                supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
 
-                setAttributes({ measures: uMs });
-            }
-            if (dimension2 == "none" && uMs[app]) {
-                Object.keys(uMs[app]).forEach((k) => {
-                    if (uMs[app][k].prevSelected) {
-                        uMs[app][k].selected = true; //can be used to recover measures
-                        uMs[app][k].prevSelected = false;
+            const inSingleMeasureMode = isSingleMeasureMode(type, dimension1, dimension2);
+            const nextMeasures = JSON.parse(JSON.stringify(measures));
+            const appMeasures = nextMeasures[app] || {};
+            const measureKeys = allMeasures.map((measure) => measure.value);
+            const selectedMeasureKeys = measureKeys.filter(
+                (key) => appMeasures[key]?.selected,
+            );
+            let changed = false;
+
+            if (inSingleMeasureMode && !selectorEnabledForCurrentMode) {
+                selectedMeasureKeys.forEach((key, index) => {
+                    if (index === 0) {
+                        if (appMeasures[key]?.selected !== true) {
+                            appMeasures[key].selected = true;
+                            changed = true;
+                        }
+                    } else if (appMeasures[key]) {
+                        if (appMeasures[key].selected !== false) {
+                            appMeasures[key].selected = false;
+                            changed = true;
+                        }
+                        if (appMeasures[key].prevSelected !== true) {
+                            appMeasures[key].prevSelected = true;
+                            changed = true;
+                        }
                     }
                 });
-                setAttributes({ measures: uMs });
+            } else {
+                measureKeys.forEach((key) => {
+                    if (appMeasures[key]?.prevSelected) {
+                        appMeasures[key].selected = true;
+                        appMeasures[key].prevSelected = false;
+                        changed = true;
+                    }
+                });
+            }
+
+            if (changed) {
+                setAttributes({ measures: nextMeasures });
             }
         }
     }

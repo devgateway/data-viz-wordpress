@@ -129,7 +129,10 @@ const SaveComponent = (props) => {
             numberOfLegendColumns,
             lineXAxisTickMode,
             lineXAxisTickCount,
-            lineXAxisTickEvery
+            lineXAxisTickEvery,
+            enableMeasureSelector,
+            measureSelectorLabel,
+            defaultMeasure
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -242,6 +245,9 @@ const SaveComponent = (props) => {
              data-line-x-axis-tick-mode={lineXAxisTickMode}
              data-line-x-axis-tick-count={lineXAxisTickCount}
              data-line-x-axis-tick-every={lineXAxisTickEvery}
+             data-enable-measure-selector={enableMeasureSelector}
+             data-measure-selector-label={encodeURIComponent(measureSelectorLabel || '')}
+             data-measure-selector-default-measure={defaultMeasure}
              data-enable-grid-y={enableGridY}
              data-enable-grid-x={enableGridX}
              data-overall-label={overallLabel}

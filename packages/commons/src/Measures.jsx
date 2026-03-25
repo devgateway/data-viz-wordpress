@@ -32,7 +32,10 @@ export const Measures = (props) => {
             dimension1,
             dimension2,
             type,
-            app
+            app,
+            enableMeasureSelector = false,
+            measureSelectorLabel = 'Measure',
+            defaultMeasure = '',
         }
     } = props
 
@@ -102,6 +105,50 @@ export const Measures = (props) => {
 
 
     const selectedMeasures = getSelectedMeasures()
+    const supportsMeasureSelectorInSingleMode =
+        ((type == 'line' || type == 'bar') && dimension2 != 'none') ||
+        (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))
+
+    const selectorDrivenMultiMeasure =
+        supportsMeasureSelectorInSingleMode && enableMeasureSelector === true
+
+    const showMultiMeasureOptions =
+        ((type == 'radar') ||
+            (type == 'line' && dimension2 == 'none') ||
+            (type == 'bar' && dimension2 == 'none') ||
+            (type == 'grouped-bars') ||
+            (type == 'pie' && dimension1 == 'none' && dimension2 == 'none') ||
+            multiMeasure === true ||
+            selectorDrivenMultiMeasure)
+
+    const showSingleMeasureOptions =
+        !selectorDrivenMultiMeasure &&
+        ((multiMeasure == false) ||
+            (type == 'data-paragraph') ||
+            (type == 'line' && dimension2 != 'none') ||
+            (type == 'bar' && dimension2 != 'none') ||
+            (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')))
+
+    const getMeasureDisplayLabel = (measure) => {
+        const userMeasure = measures[app] ? measures[app][measure.value] : {}
+        if (userMeasure?.customLabel && userMeasure.customLabel.trim().length > 0) {
+            return userMeasure.customLabel.trim()
+        }
+
+        return getTranslation(measure)
+    }
+
+    const defaultMeasureOptions = [
+        {value: '', label: __('First selected measure')},
+        ...selectedMeasures.map(measure => ({
+            value: measure.value,
+            label: getMeasureDisplayLabel(measure)
+        }))
+    ]
+    const selectedDefaultMeasure = selectedMeasures.some(measure => measure.value === defaultMeasure)
+        ? defaultMeasure
+        : ''
+
     return <><PanelBody title={title ? title : __("Measures")} initialOpen={panelStatus["MEASURES"]}
                         onToggle={e => togglePanel("MEASURES", panelStatus, setAttributes)}>
 
@@ -119,12 +166,7 @@ export const Measures = (props) => {
                    -  not available when any dimension is selected
              */
 
-            ((type == 'radar') ||
-                (type == 'line' && dimension2 == 'none') ||
-                (type == 'bar' && dimension2 == 'none') ||
-                (type == 'grouped-bars') ||
-                (type == 'pie' && dimension1 == 'none' && dimension2 == 'none') ||
-                multiMeasure === true) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+            showMultiMeasureOptions && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody initialOpen={panelStatus[g]}
                                        onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                                        title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
@@ -150,11 +192,7 @@ export const Measures = (props) => {
             any dimensions selected
 
         */
-            ((multiMeasure == false) ||
-                (type == 'data-paragraph') ||
-                (type == 'line' && dimension2 != 'none') ||
-                (type == 'bar' && dimension2 != 'none') ||
-                (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))) && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
+            showSingleMeasureOptions && allMeasures && [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                 return (<PanelBody
                         initialOpen={panelStatus[g]}
                         onToggle={e => togglePanel(g, panelStatus, setAttributes)}
@@ -171,6 +209,37 @@ export const Measures = (props) => {
 
 
         }
+
+        {supportsMeasureSelectorInSingleMode && (
+            <PanelRow>
+                <ToggleControl
+                    label={__("Show Measure Selector")}
+                    checked={enableMeasureSelector === true}
+                    help={__("Allow selecting multiple measures and show a selector above the chart.")}
+                    onChange={(value) => setAttributes({enableMeasureSelector: value})}
+                />
+            </PanelRow>
+        )}
+
+        {supportsMeasureSelectorInSingleMode && enableMeasureSelector === true && (
+            <>
+                <PanelRow>
+                    <TextControl
+                        label={__("Measure Selector Label")}
+                        value={measureSelectorLabel}
+                        onChange={(value) => setAttributes({measureSelectorLabel: value})}
+                    />
+                </PanelRow>
+                <PanelRow>
+                    <SelectControl
+                        label={__("Default Measure")}
+                        value={selectedDefaultMeasure}
+                        options={defaultMeasureOptions}
+                        onChange={(value) => setAttributes({defaultMeasure: value})}
+                    />
+                </PanelRow>
+            </>
+        )}
 
         {
             (type == 'overlay') && allMeasures && <SelectControl

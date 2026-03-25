@@ -200,6 +200,18 @@ registerBlockType(BLOCKS_NS + '/chart',
                 type: 'Numeric',
                 default: 1
             },
+            enableMeasureSelector: {
+                type: 'Boolean',
+                default: false
+            },
+            measureSelectorLabel: {
+                type: 'String',
+                default: 'Measure'
+            },
+            defaultMeasure: {
+                type: 'String',
+                default: ''
+            },
             xLabelColor: {
                 type: "String",
                 default: encodeURIComponent("#000000")
