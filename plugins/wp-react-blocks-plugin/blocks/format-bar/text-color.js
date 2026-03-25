@@ -4,8 +4,9 @@ import { RichTextToolbarButton, ColorPalette } from '@wordpress/block-editor';
 import { Popover, Panel, PanelBody, Button } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { tag as tagIcon } from '@wordpress/icons';
+import { BLOCK_NS } from '@devgateway/dvz-wp-commons'
 
-const name = process.env.BLOCKS_NS + '/text-color';
+const name = BLOCK_NS + '/text-color';
 
 function Edit(props) {
   const { isActive, value, onChange, contentRef } = props;
