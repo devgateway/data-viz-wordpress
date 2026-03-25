@@ -285,7 +285,7 @@ export class APIConfig extends Component {
         if (uMs[app][value]) {
             uMs[app][value].selected = uMs[app][value].selected ? false : true;
         } else {
-            uMs[app][value] = { selected: true, format: defaultFormat };
+            uMs[app][value] = { selected: true, format: uMs[app].format || defaultFormat };
         }
         setAttributes({ measures: uMs });
     }
@@ -358,7 +358,7 @@ export class APIConfig extends Component {
         if (uMs[app][value]) {
             uMs[app][value].selected = uMs[app][value].selected ? false : true;
         } else {
-            uMs[app][value] = { selected: true, format: defaultFormat };
+            uMs[app][value] = { selected: true, format: uMs[app].format || defaultFormat };
         }
 
         setAttributes({ measures: uMs });

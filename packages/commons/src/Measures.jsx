@@ -105,6 +105,9 @@ export const Measures = (props) => {
 
 
     const selectedMeasures = getSelectedMeasures()
+    const resolvedFormat = measures?.[app]?.format || format || defaultFormat
+    const resolvedCustomFormat = measures?.[app]?.customFormat || defaultFormat
+    const resolvedUseCustomAxisFormat = measures?.[app]?.useCustomAxisFormat || false
     const supportsMeasureSelectorInSingleMode =
         ((type == 'line' || type == 'bar') && dimension2 != 'none') ||
         (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))
@@ -257,9 +260,9 @@ export const Measures = (props) => {
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
                 hiddenCustomAxisFormat={type == 'radar' || type == 'big-number' || type == 'data-paragraph' || type == 'grouped-bars'}
-                format={format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat)}
-                customFormat={measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat}
-                useCustomAxisFormat={measures[app] ? measures[app].useCustomAxisFormat : false}
+                format={resolvedFormat}
+                customFormat={resolvedCustomFormat}
+                useCustomAxisFormat={resolvedUseCustomAxisFormat}
                 onFormatChange={(format, field) => {
                     onFormatChange(format, field)
                 }}
