@@ -211,8 +211,6 @@ class BlockEdit extends ComponentWithSettings {
                             label: __('Background Color')
                         }]}
                     />
-
-
                 </PanelBody>
                 <PanelBody initialOpen={false}//{panelStatus['LAYERS']}
                     onToggle={e => togglePanel("LAYERS", panelStatus, setAttributes)} title={__("Layers")}>

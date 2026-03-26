@@ -55,6 +55,7 @@ const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
 export class DataLayerSetting extends Component {
     constructor(props) {
         super(props);
+        this.onMeasuresChange = this.onMeasuresChange.bind(this)
         this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this)
         this.addFilter = this.addFilter.bind(this)
         this.updateFilterParam = this.updateFilterParam.bind(this)
@@ -67,6 +68,15 @@ export class DataLayerSetting extends Component {
         this.state = {
             measures: [], dimensions: [], filters: [], categories: []
         }
+    }
+
+    onMeasuresChange(value) {
+        const { layer: { measures = [] }, onChangeProperty } = this.props
+        const nextMeasures = measures.includes(value)
+            ? measures.filter(measure => measure !== value)
+            : [...measures, value]
+
+        onChangeProperty("measures", nextMeasures)
     }
 
 
@@ -219,13 +229,31 @@ export class DataLayerSetting extends Component {
                 tooltip,
                 visible = true,
                 dvzProxyDatasetId,
-                showDim2OnLegends
+                showDim2OnLegends,
+                customMeasuresLabels = {}
             }
         } = this.props
 
         const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : []
         const items = cats.length > 0 ? cats[0].items : []
         const dimensionValues = items.map(i => i.value)
+        const selectedMeasureConfigs = app != 'csv' && allMeasures
+            ? measures
+                .map(measureValue => {
+                    const selectedMeasure = allMeasures.find(m => m.value == measureValue)
+                    if (selectedMeasure && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+                        onChangeProperty("customMeasuresLabels", {
+                            ...customMeasuresLabels,
+                            [measureValue]: selectedMeasure.label
+                        })
+                    }
+
+                    return selectedMeasure
+                        ? { label: selectedMeasure.label, value: selectedMeasure.value }
+                        : null
+                })
+                .filter(Boolean)
+            : []
 
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
@@ -335,6 +363,18 @@ export class DataLayerSetting extends Component {
         </React.Fragment>,
 
         <PanelBody initialOpen={false} title={"Symbols and Styles"}>
+            {app != "csv" && pointStyleBy === 'measure' && selectedMeasureConfigs.map(({ label, value }) => <PanelRow key={value}>
+                <TextControl
+                    label={label}
+                    help={__("Customize Measure Label")}
+                    value={customMeasuresLabels ? customMeasuresLabels[value] : ""}
+                    onChange={(measureLabel) => {
+                        onChangeProperty("customMeasuresLabels", {
+                            ...customMeasuresLabels, [value]: measureLabel
+                        })
+                    }}
+                />
+            </PanelRow>)}
             <PanelRow>
                 <ToggleControl
                     label={__("Show 2nd Dimension on Legends")}
@@ -369,6 +409,7 @@ export class DataLayerSetting extends Component {
             </PanelRow>
 
             {pointStyleBy === 'measure' && <Measures
+                onMeasuresChange={this.onMeasuresChange}
                 onFormatChange={this.onFormatChange}
                 onSetSingleMeasure={this.onSetSingleMeasure}
                 measures={layer.measures}

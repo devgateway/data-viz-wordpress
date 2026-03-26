@@ -68,7 +68,19 @@ registerBlockType(BLOCKS_NS + '/new-d3-map',
             rotationEnabled: {
                 type: "Boolean",
                 default: false
-            }   ,
+            },
+            enableMeasureSelector: {
+                type: 'Boolean',
+                default: false
+            },
+            measureSelectorLabel: {
+                type: 'String',
+                default: 'Measure'
+            },
+            defaultMeasure: {
+                type: 'String',
+                default: ''
+            },
             dvzProxyDatasetId: {
                 type: 'String',
                 default: ""

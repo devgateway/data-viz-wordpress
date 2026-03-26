@@ -13,6 +13,9 @@ const SaveComponent = (props) => {
             projection,
             zoomEnabled,
             rotationEnabled,
+            enableMeasureSelector,
+            measureSelectorLabel,
+            defaultMeasure,
             waitForFilters
         }
     } = props;
@@ -34,6 +37,9 @@ const SaveComponent = (props) => {
              data-component={"newMap"}
              data-zoom-enabled={zoomEnabled}
              data-rotation-enabled={rotationEnabled}
+             data-enable-measure-selector={enableMeasureSelector}
+             data-measure-selector-label={encodeURIComponent(measureSelectorLabel || '')}
+             data-measure-selector-default-measure={defaultMeasure}
              data-layers={encodeURIComponent(JSON.stringify(layers))}
              data-wait-for-filters={waitForFilters}
              >

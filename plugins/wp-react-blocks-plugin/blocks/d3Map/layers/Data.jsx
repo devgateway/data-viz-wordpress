@@ -55,6 +55,7 @@ const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
 export class DataLayerSetting extends Component {
     constructor(props) {
         super(props);
+        this.onMeasuresChange = this.onMeasuresChange.bind(this)
         this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this)
         this.addFilter = this.addFilter.bind(this)
         this.updateFilterParam = this.updateFilterParam.bind(this)
@@ -67,6 +68,15 @@ export class DataLayerSetting extends Component {
         this.state = {
             measures: [], dimensions: [], filters: [], categories: []
         }
+    }
+
+    onMeasuresChange(value) {
+        const { layer: { measures = [] }, onChangeProperty } = this.props
+        const nextMeasures = measures.includes(value)
+            ? measures.filter(measure => measure !== value)
+            : [...measures, value]
+
+        onChangeProperty("measures", nextMeasures)
     }
 
 
@@ -265,27 +275,23 @@ export class DataLayerSetting extends Component {
 
 
 
-        let selectedMeasureLabel = ""
-        let selectedMeasureValue = ""
+        const selectedMeasureConfigs = app != 'csv' && allMeasures
+            ? measures
+                .map(measureValue => {
+                    const selectedMeasure = allMeasures.find(m => m.value == measureValue)
+                    if (selectedMeasure && customMeasuresLabels && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+                        onChangeProperty("customMeasuresLabels", {
+                            ...customMeasuresLabels,
+                            [measureValue]: selectedMeasure.label
+                        })
+                    }
 
-
-
-        if (app != 'csv') {
-            const theMeasure = measures ? measures[0] : null
-            const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null
-            if (selectedMeasure) {
-                selectedMeasureLabel = selectedMeasure.label
-                selectedMeasureValue = selectedMeasure.value
-
-
-                if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
-                    onChangeProperty("customMeasuresLabels", {
-                        ...customMeasuresLabels,
-                        [selectedMeasureValue]: selectedMeasureLabel
-                    })
-                }
-            }
-        }
+                    return selectedMeasure
+                        ? { label: selectedMeasure.label, value: selectedMeasure.value }
+                        : null
+                })
+                .filter(Boolean)
+            : []
         return ([<PanelBody initialOpen={false} title={"Data Source"}>
             <PanelRow>
                 <SelectControl
@@ -363,6 +369,7 @@ export class DataLayerSetting extends Component {
         </PanelBody>,
         <React.Fragment>
             {app != 'csv' && <Measures
+                onMeasuresChange={this.onMeasuresChange}
                 onFormatChange={this.onFormatChange}
                 onSetSingleMeasure={this.onSetSingleMeasure}
                 measures={layer.measures}
@@ -387,20 +394,18 @@ export class DataLayerSetting extends Component {
             </PanelBody>}
         </React.Fragment>,
         <PanelBody initialOpen={false} title={"Symbols and Styles"}>
-            {app != "csv" && selectedMeasureValue && <PanelRow>
+            {app != "csv" && selectedMeasureConfigs.map(({ label, value }) => <PanelRow key={value}>
                 <TextControl
-                    label={selectedMeasureLabel}
+                    label={label}
                     help={__("Customize Measure Label")}
-                    value={customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : ""}
+                    value={customMeasuresLabels ? customMeasuresLabels[value] : ""}
                     onChange={(measureLabel) => {
                         onChangeProperty("customMeasuresLabels", {
-                            ...customMeasuresLabels, [selectedMeasureValue]: measureLabel
+                            ...customMeasuresLabels, [value]: measureLabel
                         })
-
-
                     }}>
                 </TextControl>
-            </PanelRow>}
+            </PanelRow>)}
 
             <PanelRow>
                 <ToggleControl

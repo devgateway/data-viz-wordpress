@@ -8250,6 +8250,9 @@ const Measures = props => {
     return [];
   };
   const selectedMeasures = getSelectedMeasures();
+  const resolvedFormat = measures?.[app]?.format || format || defaultFormat;
+  const resolvedCustomFormat = measures?.[app]?.customFormat || defaultFormat;
+  const resolvedUseCustomAxisFormat = measures?.[app]?.useCustomAxisFormat || false;
   const supportsMeasureSelectorInSingleMode = (type == "line" || type == "bar") && dimension2 != "none" || type == "pie" && (dimension1 != "none" || dimension2 != "none");
   const selectorDrivenMultiMeasure = supportsMeasureSelectorInSingleMode && enableMeasureSelector === true;
   const showMultiMeasureOptions = type == "radar" || type == "line" && dimension2 == "none" || type == "bar" && dimension2 == "none" || type == "grouped-bars" || type == "pie" && dimension1 == "none" && dimension2 == "none" || multiMeasure === true || selectorDrivenMultiMeasure;
@@ -8348,9 +8351,9 @@ const Measures = props => {
     onToggle: e => togglePanel("FORMAT", panelStatus, setAttributes)
   }, /* @__PURE__ */React.createElement(build_Format, {
     hiddenCustomAxisFormat: type == "radar" || type == "big-number" || type == "data-paragraph" || type == "grouped-bars",
-    format: format || (measures[app] && measures[app].format ? measures[app].format : defaultFormat),
-    customFormat: measures[app] && measures[app].customFormat ? measures[app].customFormat : defaultFormat,
-    useCustomAxisFormat: measures[app] ? measures[app].useCustomAxisFormat : false,
+    format: resolvedFormat,
+    customFormat: resolvedCustomFormat,
+    useCustomAxisFormat: resolvedUseCustomAxisFormat,
     onFormatChange: (format2, field) => {
       onFormatChange(format2, field);
     },
@@ -8659,7 +8662,7 @@ class APIConfig extends external_wp_element_.Component {
     } else {
       uMs[app][value] = {
         selected: true,
-        format: APIConfig_defaultFormat
+        format: uMs[app].format || APIConfig_defaultFormat
       };
     }
     setAttributes({
@@ -8749,7 +8752,7 @@ class APIConfig extends external_wp_element_.Component {
     } else {
       uMs[app][value] = {
         selected: true,
-        format: APIConfig_defaultFormat
+        format: uMs[app].format || APIConfig_defaultFormat
       };
     }
     setAttributes({
@@ -37952,6 +37955,9 @@ const SaveComponent = props => {
       projection,
       zoomEnabled,
       rotationEnabled,
+      enableMeasureSelector,
+      measureSelectorLabel,
+      defaultMeasure,
       waitForFilters
     }
   } = props;
@@ -37970,6 +37976,9 @@ const SaveComponent = props => {
     "data-component": "newMap",
     "data-zoom-enabled": zoomEnabled,
     "data-rotation-enabled": rotationEnabled,
+    "data-enable-measure-selector": enableMeasureSelector,
+    "data-measure-selector-label": encodeURIComponent(measureSelectorLabel || ''),
+    "data-measure-selector-default-measure": defaultMeasure,
     "data-layers": encodeURIComponent(JSON.stringify(layers)),
     "data-wait-for-filters": waitForFilters
   });
@@ -38018,17 +38027,45 @@ const Measures = props => {
     layer: {
       measures,
       app,
-      format
-    }
+      format,
+      customMeasuresLabels = {}
+    },
+    attributes: {
+      enableMeasureSelector = false,
+      measureSelectorLabel = 'Measure',
+      defaultMeasure = ''
+    } = {}
   } = props;
+  const allowMultipleSelection = enableMeasureSelector === true;
+  const selectedMeasureOptions = (measures || []).map(measureValue => {
+    const measure = allMeasures?.find(m => m.value === measureValue);
+    const customLabel = customMeasuresLabels?.[measureValue];
+    return {
+      value: measureValue,
+      label: customLabel && customLabel.toString().trim().length > 0 ? customLabel : measure ? (0,build/* getTranslation */.sC)(measure) : measureValue
+    };
+  });
+  const selectedDefaultMeasure = selectedMeasureOptions.some(option => option.value === defaultMeasure) ? defaultMeasure : '';
+  const defaultMeasureOptions = [{
+    value: '',
+    label: (0,external_wp_i18n_.__)('First selected measure')
+  }, ...selectedMeasureOptions];
+  const MToggle = ({
+    measure
+  }) => {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+      label: (0,build/* getTranslation */.sC)(measure),
+      checked: measures.indexOf(measure.value) > -1,
+      onChange: () => onMeasuresChange(measure.value)
+    });
+  };
   const MCheckbox = ({
     measure
   }) => {
-    const userMeasure = measures ? measures[measure.value] : {};
     return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
       label: (0,build/* getTranslation */.sC)(measure),
       checked: measures.indexOf(measure.value) > -1,
-      onChange: value => onSetSingleMeasure(measure.value)
+      onChange: () => onSetSingleMeasure(measure.value)
     });
   };
   const countSelected = g => {
@@ -38048,12 +38085,43 @@ const Measures = props => {
         title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group.label === g).length} ) `,
         children: allMeasures.filter(f => (0,build/* getTranslation */.sC)(f.group) === g).map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
           children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MCheckbox, {
+            children: allowMultipleSelection ? /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MToggle, {
+              measure: m
+            }) : /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MCheckbox, {
               measure: m
             })
           })
         }))
       });
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)('Show Measure Selector'),
+        help: (0,external_wp_i18n_.__)('Allow selecting multiple measures and show a selector above the map when compatible layers share measures.'),
+        checked: enableMeasureSelector === true,
+        onChange: value => setAttributes({
+          enableMeasureSelector: value
+        })
+      })
+    }), enableMeasureSelector === true && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)('Measure Selector Label'),
+          value: measureSelectorLabel,
+          onChange: value => setAttributes({
+            measureSelectorLabel: value
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Default Measure'),
+          value: selectedDefaultMeasure,
+          options: defaultMeasureOptions,
+          onChange: value => setAttributes({
+            defaultMeasure: value
+          }),
+          help: selectedMeasureOptions.length > 0 ? (0,external_wp_i18n_.__)('Select the measure shown by default when the selector is enabled.') : (0,external_wp_i18n_.__)('Select one or more measures in this layer to define the selector options.')
+        })
+      })]
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
       format: format ? format : defaultFormat,
       hiddenCustomAxisFormat: true,
@@ -38807,6 +38875,7 @@ const CategoricalFilter = ({
 class DataLayerSetting extends external_wp_element_.Component {
   constructor(props) {
     super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
     this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.updateFilterParam = this.updateFilterParam.bind(this);
@@ -38822,6 +38891,16 @@ class DataLayerSetting extends external_wp_element_.Component {
       filters: [],
       categories: []
     };
+  }
+  onMeasuresChange(value) {
+    const {
+      layer: {
+        measures = []
+      },
+      onChangeProperty
+    } = this.props;
+    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
+    onChangeProperty("measures", nextMeasures);
   }
   onFormatChange(format, field) {
     const {
@@ -39048,22 +39127,19 @@ class DataLayerSetting extends external_wp_element_.Component {
         gradientEndColor
       }
     } = this.props;
-    let selectedMeasureLabel = "";
-    let selectedMeasureValue = "";
-    if (app != 'csv') {
-      const theMeasure = measures ? measures[0] : null;
-      const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null;
-      if (selectedMeasure) {
-        selectedMeasureLabel = selectedMeasure.label;
-        selectedMeasureValue = selectedMeasure.value;
-        if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
-          onChangeProperty("customMeasuresLabels", {
-            ...customMeasuresLabels,
-            [selectedMeasureValue]: selectedMeasureLabel
-          });
-        }
+    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
+      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
+      if (selectedMeasure && customMeasuresLabels && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+        onChangeProperty("customMeasuresLabels", {
+          ...customMeasuresLabels,
+          [measureValue]: selectedMeasure.label
+        });
       }
-    }
+      return selectedMeasure ? {
+        label: selectedMeasure.label,
+        value: selectedMeasure.value
+      } : null;
+    }).filter(Boolean) : [];
     return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
       initialOpen: false,
       title: "Data Source",
@@ -39140,6 +39216,7 @@ class DataLayerSetting extends external_wp_element_.Component {
       }))]
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
       children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        onMeasuresChange: this.onMeasuresChange,
         onFormatChange: this.onFormatChange,
         onSetSingleMeasure: this.onSetSingleMeasure,
         measures: layer.measures,
@@ -39181,19 +39258,22 @@ class DataLayerSetting extends external_wp_element_.Component {
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
       initialOpen: false,
       title: "Symbols and Styles",
-      children: [app != "csv" && selectedMeasureValue && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: [app != "csv" && selectedMeasureConfigs.map(({
+        label,
+        value
+      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: selectedMeasureLabel,
+          label: label,
           help: (0,external_wp_i18n_.__)("Customize Measure Label"),
-          value: customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : "",
+          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
           onChange: measureLabel => {
             onChangeProperty("customMeasuresLabels", {
               ...customMeasuresLabels,
-              [selectedMeasureValue]: measureLabel
+              [value]: measureLabel
             });
           }
         })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
           label: "Default Visible?",
           help: (0,external_wp_i18n_.__)("Layer visible by default"),
@@ -39418,6 +39498,7 @@ const Flow_CategoricalFilter = ({
 class Flow_DataLayerSetting extends external_wp_element_.Component {
   constructor(props) {
     super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
     this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.updateFilterParam = this.updateFilterParam.bind(this);
@@ -39433,6 +39514,16 @@ class Flow_DataLayerSetting extends external_wp_element_.Component {
       filters: [],
       categories: []
     };
+  }
+  onMeasuresChange(value) {
+    const {
+      layer: {
+        measures = []
+      },
+      onChangeProperty
+    } = this.props;
+    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
+    onChangeProperty("measures", nextMeasures);
   }
   onFormatChange(format, field) {
     const {
@@ -39658,22 +39749,19 @@ class Flow_DataLayerSetting extends external_wp_element_.Component {
         offsetPixels
       }
     } = this.props;
-    let selectedMeasureLabel = "";
-    let selectedMeasureValue = "";
-    if (app != 'csv') {
-      const theMeasure = measures ? measures[0] : null;
-      const selectedMeasure = allMeasures && theMeasure ? allMeasures.filter(m => m.value == theMeasure)[0] : null;
-      if (selectedMeasure) {
-        selectedMeasureLabel = selectedMeasure.label;
-        selectedMeasureValue = selectedMeasure.value;
-        if (customMeasuresLabels && (!customMeasuresLabels[selectedMeasureValue] || customMeasuresLabels[selectedMeasureValue] == "")) {
-          onChangeProperty("customMeasuresLabels", {
-            ...customMeasuresLabels,
-            [selectedMeasureValue]: selectedMeasureLabel
-          });
-        }
+    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
+      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
+      if (selectedMeasure && customMeasuresLabels && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+        onChangeProperty("customMeasuresLabels", {
+          ...customMeasuresLabels,
+          [measureValue]: selectedMeasure.label
+        });
       }
-    }
+      return selectedMeasure ? {
+        label: selectedMeasure.label,
+        value: selectedMeasure.value
+      } : null;
+    }).filter(Boolean) : [];
     return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
       initialOpen: false,
       title: "Data Source",
@@ -39764,6 +39852,7 @@ class Flow_DataLayerSetting extends external_wp_element_.Component {
       })]
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
       children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        onMeasuresChange: this.onMeasuresChange,
         onFormatChange: this.onFormatChange,
         onSetSingleMeasure: this.onSetSingleMeasure,
         measures: layer.measures,
@@ -39805,19 +39894,22 @@ class Flow_DataLayerSetting extends external_wp_element_.Component {
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
       initialOpen: false,
       title: "Symbols and Styles",
-      children: [app != "csv" && selectedMeasureValue && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: [app != "csv" && selectedMeasureConfigs.map(({
+        label,
+        value
+      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: selectedMeasureLabel,
+          label: label,
           help: (0,external_wp_i18n_.__)("Customize Measure Label"),
-          value: customMeasuresLabels ? customMeasuresLabels[selectedMeasureValue] : "",
+          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
           onChange: measureLabel => {
             onChangeProperty("customMeasuresLabels", {
               ...customMeasuresLabels,
-              [selectedMeasureValue]: measureLabel
+              [value]: measureLabel
             });
           }
         })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
         title: (0,external_wp_i18n_.__)(`Colors`),
         value: borderColor,
         colorSettings: [{
@@ -39960,6 +40052,7 @@ const LatLong_CategoricalFilter = ({
 class LatLong_DataLayerSetting extends external_wp_element_.Component {
   constructor(props) {
     super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
     this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
     this.addFilter = this.addFilter.bind(this);
     this.updateFilterParam = this.updateFilterParam.bind(this);
@@ -39975,6 +40068,16 @@ class LatLong_DataLayerSetting extends external_wp_element_.Component {
       filters: [],
       categories: []
     };
+  }
+  onMeasuresChange(value) {
+    const {
+      layer: {
+        measures = []
+      },
+      onChangeProperty
+    } = this.props;
+    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
+    onChangeProperty("measures", nextMeasures);
   }
   onFormatChange(format) {
     const {
@@ -40172,12 +40275,26 @@ class LatLong_DataLayerSetting extends external_wp_element_.Component {
         tooltip,
         visible = true,
         dvzProxyDatasetId,
-        showDim2OnLegends
+        showDim2OnLegends,
+        customMeasuresLabels = {}
       }
     } = this.props;
     const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : [];
     const items = cats.length > 0 ? cats[0].items : [];
     const dimensionValues = items.map(i => i.value);
+    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
+      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
+      if (selectedMeasure && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+        onChangeProperty("customMeasuresLabels", {
+          ...customMeasuresLabels,
+          [measureValue]: selectedMeasure.label
+        });
+      }
+      return selectedMeasure ? {
+        label: selectedMeasure.label,
+        value: selectedMeasure.value
+      } : null;
+    }).filter(Boolean) : [];
     return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
       initialOpen: false,
       title: "Data Source",
@@ -40295,7 +40412,22 @@ class LatLong_DataLayerSetting extends external_wp_element_.Component {
     }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
       initialOpen: false,
       title: "Symbols and Styles",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: [app != "csv" && pointStyleBy === 'measure' && selectedMeasureConfigs.map(({
+        label,
+        value
+      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: label,
+          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
+          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
+          onChange: measureLabel => {
+            onChangeProperty("customMeasuresLabels", {
+              ...customMeasuresLabels,
+              [value]: measureLabel
+            });
+          }
+        })
+      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
           label: (0,external_wp_i18n_.__)("Show 2nd Dimension on Legends"),
           help: (0,external_wp_i18n_.__)("Include second dimension in the map legend"),
@@ -40333,6 +40465,7 @@ class LatLong_DataLayerSetting extends external_wp_element_.Component {
           }]
         })
       }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        onMeasuresChange: this.onMeasuresChange,
         onFormatChange: this.onFormatChange,
         onSetSingleMeasure: this.onSetSingleMeasure,
         measures: layer.measures,
@@ -41386,6 +41519,18 @@ const Edit = props => {
     rotationEnabled: {
       type: "Boolean",
       default: false
+    },
+    enableMeasureSelector: {
+      type: 'Boolean',
+      default: false
+    },
+    measureSelectorLabel: {
+      type: 'String',
+      default: 'Measure'
+    },
+    defaultMeasure: {
+      type: 'String',
+      default: ''
     },
     dvzProxyDatasetId: {
       type: 'String',
