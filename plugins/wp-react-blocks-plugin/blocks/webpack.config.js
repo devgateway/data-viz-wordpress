@@ -17,7 +17,6 @@ module.exports = {
         ...defaultConfig.plugins,
         new Dotenv({
             systemvars: true,
-            safe: true
         }),
     ]
 };

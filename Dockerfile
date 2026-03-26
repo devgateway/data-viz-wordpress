@@ -12,6 +12,7 @@ WORKDIR /app
 FROM base AS builder
 ENV NODE_ENV=production
 
+
 COPY pnpm-lock.yaml /app/pnpm-lock.yaml
 COPY pnpm-workspace.yaml /app/pnpm-workspace.yaml
 COPY package.json /app/package.json

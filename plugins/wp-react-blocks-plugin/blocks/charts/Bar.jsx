@@ -55,9 +55,10 @@ const BarOptions = (props) => {
             enableGridY,
             sort,
             sortReverse,
+            manualColors
         }
     } = props;
-
+ 
     const getSeries = () => {
         if (allCategories) {
 
@@ -127,10 +128,12 @@ const BarOptions = (props) => {
     }
     const series = app == 'csv' ? getCSVSeries() : getSeries();
 
+   
+
     return [
       <PanelBody initialOpen={false} title={__("Bar Options")}>
         <PanelBody initialOpen={false} title={__("Colors")}>
-          <ChartColors {...props}></ChartColors>
+          <ChartColors {...props} manualColors={manualColors}></ChartColors>
         </PanelBody>
         <PanelBody initialOpen={false} title={"Layout"}>
           <PanelRow>

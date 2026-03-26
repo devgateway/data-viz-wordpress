@@ -368,7 +368,7 @@ registerBlockType(BLOCKS_NS + '/chart',
             },
 
             manualColors: {
-                type: 'Object',
+                type: 'object',
                 default: {}
             },
             barPadding: {

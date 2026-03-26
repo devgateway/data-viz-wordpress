@@ -157,7 +157,7 @@ export const ChartColors = (props) => {
 
     useEffect(() => {
         let nextUseColors = useColors;
-        if (app != "csv") {
+        if (app !== "csv") {
             // All conditions for coloring by measures
             if ((dimension2 == "none" && colorBy === "index" && swap) ||
                 (dimension1 == "none" && dimension2 == "none")) { //Multi measure colored by first dimension but  swapped (Colored by Measure) or dimensionless bar charts
@@ -198,13 +198,26 @@ export const ChartColors = (props) => {
 
     const updateColor = (value, color, colorByMode = null) => {
 
-        const newColors = Object.assign({}, manualColors)
-        if (colorByMode) {
-            // For CSV colors, nest by colorBy mode
-            if (!newColors[app][colorByMode]) {
-                newColors[app][colorByMode] = {}
+        const newColors = {
+            ...manualColors,
+            [app]: {
+                ...manualColors[app],
             }
-            newColors[app][colorByMode][value] = color
+        }
+        if (colorByMode) {
+            // For CSV colors, nest by colorBy mode.
+            // If the key exists as a flat (legacy) entry, remove it to avoid duplicates.
+            const appColors = newColors[app];
+            const baseApp = typeof appColors[value] === "string"
+                ? (({ [value]: _removed, ...rest }) => rest)(appColors)
+                : appColors;
+            newColors[app] = {
+                ...baseApp,
+                [colorByMode]: {
+                    ...(baseApp[colorByMode] || {}),
+                    [value]: color
+                }
+            }
         } else {
             // For non-CSV colors, use flat structure
             newColors[app][value] = color
@@ -399,7 +412,7 @@ export const ChartColors = (props) => {
         return null
     }
 
-    const csvColors = () => {
+    const csvColors = () => { 
         const data = Papa.parse(csv, {header: true, dynamicTyping: true});
         const values = [];
 
@@ -416,11 +429,12 @@ export const ChartColors = (props) => {
 
         if (manualColors[app] && values) {
             return values.map(v => {
-                // Get the current colorBy mode's color storage, creating it if needed
+                // Get the current colorBy mode's color storage, falling back to flat structure for legacy data
                 const colorByColors = manualColors[app][colorBy] || {};
+                const color = colorByColors[v] !== undefined ? colorByColors[v] : manualColors[app][v];
                 return <PanelColorSettings
                     colorSettings={[{
-                        value: colorByColors[v],
+                        value: color,
 
                         onChange: (color) => {
                             if (color) {
@@ -517,7 +531,7 @@ export const ChartColors = (props) => {
             {/* CSV CHART*/}
 
             {app == "csv" && <PanelBody initialOpen={false} title={__("Set Colors")}>
-                {csvColors(colorBy)}
+                {csvColors()}
             </PanelBody>}
 
 

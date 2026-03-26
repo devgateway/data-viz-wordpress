@@ -20,6 +20,9 @@ importers:
 
   packages/commons:
     dependencies:
+      '@devgateway/dvz-wp-commons':
+        specifier: workspace:@devgateway/dvz-wp-commons@*
+        version: 'link:'
       '@wordpress/api-fetch':
         specifier: ^7.32.0
         version: 7.32.0
