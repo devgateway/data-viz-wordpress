@@ -57,8 +57,7 @@
     "lint:js": "wp-scripts lint-js",
     "start": "tsc -w"
   },
-  "dependencies": {
-    "@devgateway/dvz-wp-commons": "workspace:@devgateway/dvz-wp-commons@*",
+  "dependencies": { 
     "@wordpress/api-fetch": "^7.32.0",
     "@wordpress/block-editor": "^15.5.0",
     "@wordpress/components": "^30.5.0",
