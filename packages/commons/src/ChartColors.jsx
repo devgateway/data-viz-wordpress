@@ -412,9 +412,7 @@ export const ChartColors = (props) => {
         return null
     }
 
-    const csvColors = (colorByParams) => {
-        console.log("color by params...", colorByParams)
-        console.log("csv colors...", manualColors, colorBy)
+    const csvColors = () => { 
         const data = Papa.parse(csv, {header: true, dynamicTyping: true});
         const values = [];
 
@@ -533,7 +531,7 @@ export const ChartColors = (props) => {
             {/* CSV CHART*/}
 
             {app == "csv" && <PanelBody initialOpen={false} title={__("Set Colors")}>
-                {csvColors(colorBy)}
+                {csvColors()}
             </PanelBody>}
 
 
