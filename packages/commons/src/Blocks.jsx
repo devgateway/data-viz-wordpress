@@ -10,7 +10,7 @@ import {
     __experimentalText as Text,
     __experimentalScrollable as Scrollable
 } from '@wordpress/components';
-import { Component } from '@wordpress/element';
+import { Component, createRef } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { togglePanel } from "./Util";
 
@@ -50,7 +50,7 @@ export class ComponentWithSettings extends Component {
                 }
             }
         }, false);
-        this.iframe = React.createRef();
+        this.iframe = createRef();
         this.unsubscribe = wp.data.subscribe(() => {
             const newPreviewMode = wp.data.select("core/editor").getDeviceType();
             if (newPreviewMode !== this.state.previewMode) {
