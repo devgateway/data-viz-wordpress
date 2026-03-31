@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.2
+
+### Patch Changes
+
+- [#114](https://github.com/devgateway/data-viz-wordpress/pull/114) [`d5071a5`](https://github.com/devgateway/data-viz-wordpress/commit/d5071a5b9aa4a7be94558c6bd4225f18a0fad6e7) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Fix manual CSV colors
+
 ## 1.3.0
 
 ### Minor Changes
