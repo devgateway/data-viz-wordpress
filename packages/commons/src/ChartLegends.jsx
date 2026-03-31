@@ -21,9 +21,7 @@ export const ChartLegends = (props) => {
             useLabelBackground,
             useCheckBoxBackground,
             legendLabelColor,
-            reverseLegend,
-            showLegendsInColumns,
-            numberOfLegendColumns
+            reverseLegend
         }
     } = props;
 
@@ -77,22 +75,6 @@ export const ChartLegends = (props) => {
                     onChange={() => setAttributes({showLegends: !showLegends})}
                 />
             </PanelRow>
-            {showLegends && <PanelRow>
-                <ToggleControl
-                    label={__("Show Legends in Columns")}
-                    checked={showLegendsInColumns}
-                    onChange={() => setAttributes({showLegendsInColumns: !showLegendsInColumns})}/>
-            </PanelRow>}
-            {showLegends && showLegendsInColumns && <PanelRow>
-                <TextControl
-                    label={__('Number of Legend Columns')}
-                    value={numberOfLegendColumns}
-                    onChange={(numberOfLegendColumns) => setAttributes({numberOfLegendColumns})}
-                    type="number"
-                    min={1}
-                    max={10}/>
-            </PanelRow>}
-
             {showLegends &&
                 <PanelRow>
                     <ToggleControl
