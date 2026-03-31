@@ -30,7 +30,7 @@ COPY . /app
 
 # Build the plugins
 RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
-pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
+  pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
 COPY wp-theme wp-content/themes/dg-semantic

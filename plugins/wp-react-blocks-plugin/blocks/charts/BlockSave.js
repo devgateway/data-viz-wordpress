@@ -125,8 +125,6 @@ const SaveComponent = (props) => {
             previewMode,
             waitForFilters,
             lineCurve,
-            showLegendsInColumns,
-            numberOfLegendColumns,
             lineXAxisTickMode,
             lineXAxisTickCount,
             lineXAxisTickEvery
@@ -267,8 +265,6 @@ const SaveComponent = (props) => {
              data-mobile-customization={encodeURIComponent(JSON.stringify(mobileCustomization))}
              data-wait-for-filters={waitForFilters}
              data-line-curve={lineCurve}
-             data-show-legends-in-columns={showLegendsInColumns}
-             data-number-of-legend-columns={numberOfLegendColumns}
              >
             <InnerBlocks.Content/>
         </div>

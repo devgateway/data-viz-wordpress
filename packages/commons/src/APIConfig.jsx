@@ -1,3 +1,4 @@
+import React from 'react';
 import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
@@ -7,7 +8,8 @@ import {
     SelectControl,
     ToggleControl,
 } from "@wordpress/components";
-import {Measures} from "./Measures";
+
+import Measures from "./Measures";
 
 const defaultFormat = {
     style: "percent",
@@ -16,25 +18,24 @@ const defaultFormat = {
     currency: "USD",
 };
 
-export const FilterSelector = ({ param, index, options, onUpdateFilterParam }) => {
+const FilterSelector = ({ param, index, options, onUpdateFilterParam }) => {
     const sortedOptions = options.sort(function (a, b) {
         var aLabel = a.label ? a.label.toLowerCase() : "";
         var bLabel = b.label ? b.label.toLowerCase() : "";
         return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
     });
 
-    return (
-        <SelectControl
-            onChange={(value) => {
-                onUpdateFilterParam(value, index);
-            }}
-            value={param}
-            options={sortedOptions}
-        />
+    return (<SelectControl
+        onChange={(value) => {
+            onUpdateFilterParam(value, index);
+        }}
+        value={param}
+        options={sortedOptions}
+    />
     );
 };
 
-export const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
+const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
     if (items) {
         const sortedItems = items.sort(function (a, b) {
             if (a.position !== undefined && b.position !== undefined && a.position !== b.position) {
@@ -287,6 +288,7 @@ export class APIConfig extends Component {
             setAttributes({ measures: uMs });
         }
     }
+
     /*
       onCustomMeasureFieldChange(measureName, field, value) {
 
@@ -372,8 +374,14 @@ export class APIConfig extends Component {
             allFilters,
             allMeasures,
             setAttributes,
+            multiDimensions = true,
+            multiMeasure,
+            firstDimensionTooltip = "Main Category",
+            secondDimensionTooltip = "Secondary Category",
+
             attributes: { measures, filters, dimension1, dimension2, type, types },
         } = this.props;
+
 
         const currentType =
             types.filter((t) => t.value === type).length > 0
@@ -395,10 +403,11 @@ export class APIConfig extends Component {
                                 dimension2: value == "none" ? "none" : dimension2,
                             });
                         }}
+                        help={firstDimensionTooltip}
                         options={allDimensions}
                     />
                 </PanelRow>
-                {!['radar'].includes(type) && (
+                {type != "radar" && multiDimensions === true && (
                     <PanelRow>
                         <SelectControl
                             label={__(type == "map" ? "Breakdown Field" : "Second Dimension")}
@@ -406,6 +415,7 @@ export class APIConfig extends Component {
                             onChange={(value) => {
                                 setAttributes({ dimension2: value });
                             }}
+                            help={secondDimensionTooltip}
                             options={allDimensions}
                             disabled={dimension1 == "none"}
                         />
@@ -413,6 +423,7 @@ export class APIConfig extends Component {
                 )}
             </PanelBody>,
             <Measures
+                multiMeasure={multiMeasure}
                 onFormatChange={this.onFormatChange}
                 onUseCustomAxisFormatChange={this.onUseCustomAxisFormatChange}
                 onSetSingleMeasure={this.onSetSingleMeasure}

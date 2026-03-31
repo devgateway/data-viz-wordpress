@@ -28,8 +28,6 @@ A Gutenberg block that embeds a configurable data visualisation chart (Bar, Line
 | `leftLegend` | string | `"Left Legends"` | Y-axis legend label |
 | `legendPosition` | String | `"top"` | Legend placement: `"top"`, `"right"`, `"bottom"`, `"left"` |
 | `showLegends` | boolean | `true` | Show/hide chart legend |
-| `showLegendsInColumns` | boolean | `false` | Arrange legend items in columns |
-| `numberOfLegendColumns` | Numeric | `4` | Number of legend columns (when `showLegendsInColumns` is true) |
 | `legendLabel` | String | `""` | Legend section header label |
 | `marginLeft/Top/Right/Bottom` | Numeric | `50/25/25/25` | Chart margin in pixels |
 

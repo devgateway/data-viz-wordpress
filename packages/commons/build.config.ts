@@ -11,6 +11,9 @@ export default defineBuildConfig({
       format: "esm",
       ext: "js",
       declaration: true,
+      esbuild: {
+        target: "es2020",
+      },
     },
     {
       builder: "mkdist",
@@ -18,6 +21,9 @@ export default defineBuildConfig({
       outDir: "build",
       format: "cjs",
       ext: "cjs",
+      esbuild: {
+        target: "es2020",
+      },
     }
   ]
 });

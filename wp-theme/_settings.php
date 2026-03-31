@@ -145,6 +145,14 @@ function add_setting_section()
     // Section ID
     );
 
+    add_settings_field(
+        'wp-superset-cache-evict', // Field ID
+        __('Superset Proxy Cache'), // Field title
+        'wp_superset_cache_evict_callback', // Field callback function
+        'general', // Settings page slug
+        'wp-react-section' // Section ID
+    );
+
 
     add_settings_field(
         'wp-react-google-analytics', // Field ID
@@ -211,6 +219,89 @@ function wp_apache_superset_url_callback()
             class="regular-text" type="text" name="apache_superset_url"
             value="<?php echo(get_option('apache_superset_url')) ?>">
     </label>
+    <?php
+}
+function wp_superset_cache_evict_callback()
+{
+    ?>
+    <button type="button" id="superset-cache-evict-btn" class="button button-secondary" disabled>
+        <span class="dashicons dashicons-update" style="vertical-align: middle; margin-top: 3px;"></span>
+        <?php _e('Clear Superset Proxy Cache'); ?>
+    </button>
+    <span id="superset-cache-evict-status" style="margin-left: 10px; vertical-align: middle;"></span>
+    <script>
+        var btn = document.getElementById('superset-cache-evict-btn');
+        var statusEl = document.getElementById('superset-cache-evict-status');
+
+        // Check for superset apps on page load
+        fetch('/api/registry/eureka/apps', {
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+            var supersetApps = [];
+            if (data.applications && data.applications.application) {
+                data.applications.application.forEach(function (a) {
+                    if (a.instance && a.instance[0] &&
+                        a.instance[0].metadata &&
+                        a.instance[0].metadata.superset === 'true') {
+                        supersetApps.push(a.instance[0].vipAddress);
+                    }
+                });
+            }
+            if (supersetApps.length > 0) {
+                btn.disabled = false;
+            } else {
+                statusEl.style.color = '#996600';
+                statusEl.textContent = 'No Superset apps found.';
+            }
+        })
+        .catch(function (err) {
+            statusEl.style.color = 'red';
+            statusEl.textContent = 'Error checking for Superset apps.';
+            console.error(err);
+        });
+
+        btn.addEventListener('click', function () {
+            btn.disabled = true;
+            statusEl.style.color = '';
+            statusEl.textContent = 'Clearing cache…';
+
+            fetch('/api/registry/eureka/apps', {
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                var supersetApps = [];
+                if (data.applications && data.applications.application) {
+                    data.applications.application.forEach(function (a) {
+                        if (a.instance && a.instance[0] &&
+                            a.instance[0].metadata &&
+                            a.instance[0].metadata.superset === 'true') {
+                            supersetApps.push(a.instance[0].vipAddress);
+                        }
+                    });
+                }
+                return Promise.all(
+                    supersetApps.map(function (app) {
+                        return fetch('/api/' + app + '/cacheEvict');
+                    })
+                );
+            })
+            .then(function () {
+                statusEl.style.color = 'green';
+                statusEl.textContent = 'Cache cleared successfully!';
+                btn.disabled = false;
+                setTimeout(function () { statusEl.textContent = ''; }, 4000);
+            })
+            .catch(function (err) {
+                statusEl.style.color = 'red';
+                statusEl.textContent = 'Error clearing cache.';
+                btn.disabled = false;
+                console.error(err);
+            });
+        });
+    </script>
     <?php
 }
 function wp_react_ui_search_type_callback()

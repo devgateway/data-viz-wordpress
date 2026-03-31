@@ -116,14 +116,6 @@ registerBlockType(BLOCKS_NS + '/chart',
                 type: 'boolean',
                 default: true
             },
-            showLegendsInColumns: {
-                type: 'boolean',
-                default: false
-            },
-            numberOfLegendColumns: {
-                type: 'Numeric',
-                default: 4
-            },
             legendLabel: {
                 type: 'String',
                 default: ''
