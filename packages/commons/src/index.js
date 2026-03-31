@@ -1,19 +1,15 @@
-export {
-    APIConfig
-} from './APIConfig';
-export {
-    getTranslatedOptions, getTranslation, isSupersetAPI
-} from './APIutils';
-export {
-    BlockEditWithAPIMetadata, BlockEditWithFilters, ComponentWithSettings, SizeConfig
-} from './Blocks';
+export { APIConfig } from './APIConfig';
+
+export { getTranslatedOptions, getTranslation, isSupersetAPI } from './APIutils';
+
+export { BlockEditWithAPIMetadata, BlockEditWithFilters, ComponentWithSettings, SizeConfig } from './Blocks';
 
 export { categorical, sequential, diverging, ChartColors } from './ChartColors';
-
 
 export { DEFAULT_FORMAT_SETTINGS, BLOCKS_CATEGORY, BLOCKS_NS } from './Constants';
 
 export { CSVConfig } from './CSVSourceConfig';
+
 export {
     DataFilters,
 } from './DataFilters';
