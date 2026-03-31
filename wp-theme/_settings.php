@@ -284,7 +284,13 @@ function wp_superset_cache_evict_callback()
                 }
                 return Promise.all(
                     supersetApps.map(function (app) {
-                        return fetch('/api/' + app + '/cacheEvict');
+                        return fetch('/api/' + app + '/cacheEvict')
+                            .then(function (response) {
+                                if (!response.ok) {
+                                    throw new Error('Cache eviction failed for ' + app + ': ' + response.status + ' ' + response.statusText);
+                                }
+                                return response;
+                            });
                     })
                 );
             })
