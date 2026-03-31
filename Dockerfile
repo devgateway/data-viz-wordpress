@@ -26,7 +26,7 @@ COPY plugins /app/plugins
 
 WORKDIR /app
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+RUN --mount=type=cache,id=pnpm-v2,target=/pnpm/store \
   pnpm install --frozen-lockfile --shamefully-hoist
 
 # Build the plugins
