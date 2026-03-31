@@ -20,12 +20,14 @@ COPY package.json /app/package.json
 COPY packages/commons/package.json /app/packages/commons/package.json
 COPY plugins/wp-react-blocks-plugin/blocks/package.json /app/plugins/wp-react-blocks-plugin/blocks/package.json
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-  pnpm install --frozen-lockfile --shamefully-hoist
+# Copy all workspace source code before pnpm install so workspace links resolve correctly
+COPY packages /app/packages
+COPY plugins /app/plugins
 
 WORKDIR /app
-COPY . /app
 
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  pnpm install --frozen-lockfile --shamefully-hoist
 
 # Build the plugins
 RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
