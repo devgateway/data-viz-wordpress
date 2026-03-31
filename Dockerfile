@@ -12,6 +12,7 @@ WORKDIR /app
 FROM base AS builder
 ENV NODE_ENV=production
 
+
 COPY pnpm-lock.yaml /app/pnpm-lock.yaml
 COPY pnpm-workspace.yaml /app/pnpm-workspace.yaml
 COPY package.json /app/package.json
@@ -20,18 +21,16 @@ COPY package.json /app/package.json
 COPY packages/commons/package.json /app/packages/commons/package.json
 COPY plugins/wp-react-blocks-plugin/blocks/package.json /app/plugins/wp-react-blocks-plugin/blocks/package.json
 
-# Copy all workspace source code before pnpm install so workspace links resolve correctly
-COPY packages /app/packages
-COPY plugins /app/plugins
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+  pnpm install --frozen-lockfile --shamefully-hoist
 
 WORKDIR /app
+COPY . /app
 
-RUN --mount=type=cache,id=pnpm-v2,target=/pnpm/store \
-  pnpm install --frozen-lockfile --shamefully-hoist
 
 # Build the plugins
 RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
-pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
+  pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
 
 # Organize WordPress files to the container
 COPY wp-theme wp-content/themes/dg-semantic
