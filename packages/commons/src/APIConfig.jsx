@@ -104,6 +104,31 @@ export class APIConfig extends Component {
         };
     }
 
+    getMeasureMetadata(value) {
+        const { allMeasures } = this.props;
+        const measure = allMeasures?.find((item) => item.value === value);
+
+        if (!measure) {
+            return {};
+        }
+
+        return {
+            label: measure.label,
+            labels: measure.labels,
+            group: measure.group,
+        };
+    }
+
+    applyMeasureMetadata(value, config = {}) {
+        const metadata = this.getMeasureMetadata(value);
+        return {
+            ...config,
+            ...(metadata.label ? { label: metadata.label } : {}),
+            ...(metadata.labels ? { labels: metadata.labels } : {}),
+            ...(metadata.group ? { group: metadata.group } : {}),
+        };
+    }
+
     cleanSelection(prevState) {
         const { setAttributes } = this.props;
         setAttributes({ measures: [], filters: [] });
@@ -262,6 +287,35 @@ export class APIConfig extends Component {
 
             if (changed) {
                 setAttributes({ measures: nextMeasures });
+                return;
+            }
+        }
+
+        if (measures?.[app] && allMeasures?.length > 0) {
+            const nextMeasures = JSON.parse(JSON.stringify(measures));
+            const appMeasures = nextMeasures[app] || {};
+            let changed = false;
+
+            Object.keys(appMeasures).forEach((key) => {
+                if (!appMeasures[key] || typeof appMeasures[key] !== "object") {
+                    return;
+                }
+
+                const nextMeasureConfig = this.applyMeasureMetadata(key, appMeasures[key]);
+                const currentMeasureConfig = appMeasures[key];
+
+                if (
+                    currentMeasureConfig.label !== nextMeasureConfig.label ||
+                    currentMeasureConfig.group !== nextMeasureConfig.group ||
+                    JSON.stringify(currentMeasureConfig.labels || {}) !== JSON.stringify(nextMeasureConfig.labels || {})
+                ) {
+                    appMeasures[key] = nextMeasureConfig;
+                    changed = true;
+                }
+            });
+
+            if (changed) {
+                setAttributes({ measures: nextMeasures });
             }
         }
     }
@@ -281,9 +335,13 @@ export class APIConfig extends Component {
             .forEach((k) => (uMs[app][k].selected = false)); //single selection all other should be unselected
 
         if (uMs[app][value]) {
+            uMs[app][value] = this.applyMeasureMetadata(value, uMs[app][value]);
             uMs[app][value].selected = uMs[app][value].selected ? false : true;
         } else {
-            uMs[app][value] = { selected: true, format: uMs[app].format || defaultFormat };
+            uMs[app][value] = this.applyMeasureMetadata(value, {
+                selected: true,
+                format: uMs[app].format || defaultFormat,
+            });
         }
         setAttributes({ measures: uMs });
     }
@@ -353,9 +411,13 @@ export class APIConfig extends Component {
         }
 
         if (uMs[app][value]) {
+            uMs[app][value] = this.applyMeasureMetadata(value, uMs[app][value]);
             uMs[app][value].selected = uMs[app][value].selected ? false : true;
         } else {
-            uMs[app][value] = { selected: true, format: uMs[app].format || defaultFormat };
+            uMs[app][value] = this.applyMeasureMetadata(value, {
+                selected: true,
+                format: uMs[app].format || defaultFormat,
+            });
         }
 
         setAttributes({ measures: uMs });

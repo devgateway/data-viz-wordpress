@@ -173,7 +173,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 minMaxClamp,
                 mobileCustomization,
                 dvzProxyDatasetId,
-                waitForFilters
+                waitForFilters,
+                enableMeasureSelector,
+                measureSelectorLabel,
+                defaultMeasure
             }
         } = this.props;
 
@@ -227,6 +230,17 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         }
 
         const divStyles = {height: height + 'px', width: '100%'}
+        const selectedMeasureOptions = [{label: __('First selected measure'), value: ''}]
+        if (app !== 'csv' && this.state.measures && measures && measures[app]) {
+            this.state.measures
+                .filter(measure => measures[app][measure.value] && measures[app][measure.value].selected)
+                .forEach(measure => {
+                    selectedMeasureOptions.push({
+                        label: `${measure.group} - ${measure.label}`,
+                        value: measure.value
+                    })
+                })
+        }
         return ([isSelected && (
                 <InspectorControls>
                     <Panel header={__("Chart Configuration")}>
@@ -424,6 +438,36 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 {type === "info" && <Info allMeasures={this.state.measures}
                                                           allDimensions={this.state.dimensions}
                                                           allCategories={this.state.categories} {...this.props}></Info>}
+                                {app != 'csv' && (
+                                    <PanelBody initialOpen={false} title={__('Measure Selector')}>
+                                        <PanelRow>
+                                            <ToggleControl
+                                                label={__('Show Measure Selector')}
+                                                checked={enableMeasureSelector}
+                                                onChange={() => setAttributes({enableMeasureSelector: !enableMeasureSelector})}
+                                            />
+                                        </PanelRow>
+                                        {enableMeasureSelector && (
+                                            <>
+                                                <PanelRow>
+                                                    <TextControl
+                                                        label={__('Selector Label')}
+                                                        value={measureSelectorLabel}
+                                                        onChange={(value) => setAttributes({measureSelectorLabel: value})}
+                                                    />
+                                                </PanelRow>
+                                                <PanelRow>
+                                                    <SelectControl
+                                                        label={__('Default Measure')}
+                                                        value={defaultMeasure}
+                                                        options={selectedMeasureOptions}
+                                                        onChange={(value) => setAttributes({defaultMeasure: value})}
+                                                    />
+                                                </PanelRow>
+                                            </>
+                                        )}
+                                    </PanelBody>
+                                )}
                                 {app == 'csv' && type != 'radar' &&
                                     <PanelBody initialOpen={false} title={__("Tooltip")}>
                                         <PanelRow>
