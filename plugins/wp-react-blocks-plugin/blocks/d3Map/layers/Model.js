@@ -72,7 +72,8 @@ export const Model = {
     offsetPixels: 10,
     patternsVisible: true,
     colorLayerVisible: true,
-    hideLabelsAtLowZoom: false
+    hideLabelsAtLowZoom: false,
+    animateOnDataRefresh: false
 }
 
 

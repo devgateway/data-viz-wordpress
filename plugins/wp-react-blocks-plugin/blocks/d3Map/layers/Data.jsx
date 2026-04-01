@@ -268,7 +268,8 @@ export class DataLayerSetting extends Component {
                 patternsVisible,
                 colorLayerVisible,
                 gradientStartColor,
-                gradientEndColor
+                gradientEndColor,
+                animateOnDataRefresh
             }
         } = this.props
 
@@ -414,6 +415,16 @@ export class DataLayerSetting extends Component {
                     checked={colorLayerVisible}
                     onChange={e => {
                         onChangeProperty("colorLayerVisible", !colorLayerVisible)
+                    }}
+                />
+            </PanelRow>
+            <PanelRow>
+                <ToggleControl
+                    label="Animate Data Refresh"
+                    help={__("Fade the layer when new filtered data is rendered")}
+                    checked={animateOnDataRefresh === true}
+                    onChange={() => {
+                        onChangeProperty("animateOnDataRefresh", !animateOnDataRefresh)
                     }}
                 />
             </PanelRow>
