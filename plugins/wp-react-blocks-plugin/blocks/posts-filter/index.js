@@ -90,6 +90,14 @@ registerBlockType(BLOCKS_NS + '/posts-filter',
             defaultValues: {
                 type: 'array',
                 default: [],
+            },
+            wordpressSource: {
+                type: 'string',
+                default: ''
+            },
+            wordpressSourceType: {
+                type: 'string',
+                default: 'internal'
             }
         },
         edit: BlockEdit,

@@ -26,6 +26,8 @@ class BlockEdit extends BlockEditWithFilters {
                 enableSorting,
                 sortingTaxonomy,
                 sortFirstBy,
+                wordpressSource,
+                wordpressSourceType,
             }
         } = this.props;
 
@@ -43,8 +45,9 @@ class BlockEdit extends BlockEditWithFilters {
                     </PanelRow>
                 </PanelBody>
 
-                <PanelBody title={__('Filtered Posts Configuration')}>
+                {this.renderWordpressSource()}
 
+                <PanelBody title={__('Filtered Posts Configuration')}>
                     <PanelRow>
                         <RangeControl
                             label={__('Number of columns')}

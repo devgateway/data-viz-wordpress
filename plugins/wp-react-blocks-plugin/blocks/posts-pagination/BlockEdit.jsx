@@ -14,7 +14,9 @@ class BlockEdit extends BlockEditWithFilters {
             setAttributes,
             attributes: {
                 group,
-                numberOfItemsPerPage
+                numberOfItemsPerPage,
+                wordpressSource,
+                wordpressSourceType,
             }
         } = this.props;
 
@@ -37,6 +39,8 @@ class BlockEdit extends BlockEditWithFilters {
                         />
                     </PanelRow>
                 </PanelBody>
+
+                {this.renderWordpressSource()}
 
             </InspectorControls>,
             (

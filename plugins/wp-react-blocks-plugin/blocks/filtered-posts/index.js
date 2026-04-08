@@ -58,6 +58,14 @@ registerBlockType(BLOCKS_NS + '/filteredposts',
             sortFirstBy: {
                 type: 'string',
                 default: 'none'
+            },
+            wordpressSource: {
+                type: 'string',
+                default: ''
+            },
+            wordpressSourceType: {
+                type: 'string',
+                default: 'internal'
             }
         },
         edit: BlockEdit,

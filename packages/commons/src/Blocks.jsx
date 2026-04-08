@@ -72,7 +72,12 @@ export class ComponentWithSettings extends Component {
                 react_api_url: data["react_api_url"],
                 apache_superset_url: data["apache_superset_url"],
                 site_language: data["site_language"],
-                current_language: new URLSearchParams(document.location.search).get("edit_lang")
+                current_language: new URLSearchParams(document.location.search).get("edit_lang"),
+                landing_page_url: data["landing_page_url"] || ''
+            }, () => {
+                if (this.onSettingsLoaded) {
+                    this.onSettingsLoaded();
+                }
             });
         });
     }
@@ -81,6 +86,55 @@ export class ComponentWithSettings extends Component {
         if (this.unsubscribe) {
             this.unsubscribe();
         }
+    }
+
+    renderWordpressSource() {
+        console.log("state==>", this.state);
+        const { setAttributes, attributes: { wordpressSourceType, wordpressSource } } = this.props;
+        const hasLandingUrl = !!this.state.landing_page_url;
+        const sourceType = wordpressSourceType || 'internal';
+        return (
+            <PanelBody title={__('WordPress Source')}>
+                <PanelRow>
+                    <SelectControl
+                        label={__('Source')}
+                        value={sourceType}
+                        options={[
+                            { label: __('Internal (this site)'), value: 'internal' },
+                            {
+                                label: hasLandingUrl
+                                    ? __('Landing Page')
+                                    : __('Landing Page (not configured)'),
+                                value: 'landing',
+                                disabled: !hasLandingUrl,
+                            },
+                            { label: __('Custom URL'), value: 'custom' },
+                        ]}
+                        onChange={(value) => {
+                            if (value === 'landing' && !hasLandingUrl) return;
+                            const landingUrl = value === 'landing'
+                                ? this.state.landing_page_url.replace(/\/+$/, '') + '/wp'
+                                : '';
+                            setAttributes({
+                                wordpressSourceType: value,
+                                wordpressSource: landingUrl,
+                            });
+                        }}
+                    />
+                </PanelRow>
+                {sourceType === 'custom' && (
+                    <PanelRow>
+                        <TextControl
+                            label={__('WordPress URL')}
+                            help={__('Enter the base URL of the WordPress instance to load post types, taxonomies and configuration from.')}
+                            value={wordpressSource || ''}
+                            onChange={(wordpressSource) => setAttributes({ wordpressSource })}
+                            placeholder="https://example.com/wp"
+                        />
+                    </PanelRow>
+                )}
+            </PanelBody>
+        );
     }
 }
 export class BlockEditWithFilters extends ComponentWithSettings {
@@ -108,7 +162,7 @@ export class BlockEditWithFilters extends ComponentWithSettings {
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {
             setAttributes, attributes: {
-                type, taxonomy, count, sortingTaxonomy
+                type, taxonomy, count, sortingTaxonomy, wordpressSource, wordpressSourceType
             },
         } = this.props;
 
@@ -118,10 +172,17 @@ export class BlockEditWithFilters extends ComponentWithSettings {
             }
             if (taxonomy !== prevProps.attributes.taxonomy) {
                 this.getTaxonomyValues();
-
             }
-
             if (sortingTaxonomy !== prevProps.attributes.sortingTaxonomy) {
+                this.getSortingTaxonomyValues();
+            }
+            const sourceChanged =
+                wordpressSourceType !== prevProps.attributes.wordpressSourceType ||
+                wordpressSource !== prevProps.attributes.wordpressSource;
+            if (sourceChanged) {
+                this.getTypes();
+                this.getTaxonomies();
+                this.getTaxonomyValues();
                 this.getSortingTaxonomyValues();
             }
         }
@@ -130,25 +191,27 @@ export class BlockEditWithFilters extends ComponentWithSettings {
 
     componentDidMount() {
         super.componentDidMount();
+        // Data loading is deferred to onSettingsLoaded() to ensure
+        // landing_page_url is available before the first fetch.
+    }
+
+    onSettingsLoaded() {
         this.getTypes();
         this.getTaxonomies();
 
         const {
-            setAttributes, attributes: {
-                type, taxonomy, count, sortingTaxonomy
+            attributes: {
+                taxonomy, sortingTaxonomy
             },
         } = this.props;
 
-
-        if (taxonomy !== 'none' || taxonomy !== null) {
+        if (taxonomy && taxonomy !== 'none') {
             this.getTaxonomyValues();
-
         }
 
-        if (sortingTaxonomy !== 'none' || sortingTaxonomy !== null) {
+        if (sortingTaxonomy && sortingTaxonomy !== 'none') {
             this.getSortingTaxonomyValues();
         }
-
     }
 
     onTypeChanged(value) {
@@ -210,41 +273,63 @@ export class BlockEditWithFilters extends ComponentWithSettings {
     }
 
 
+    apiFetchFromSource(path) {
+        const { attributes: { wordpressSourceType, wordpressSource } } = this.props;
+        if (wordpressSourceType === 'landing') {
+            const base = (this.state.landing_page_url || '').replace(/\/+$/, '');
+            if (base) {
+                const wpUrl = base + '/wp';
+                return fetch(wpUrl + '/wp-json' + path).then(r => r.json());
+            }
+        }
+        if (wordpressSourceType === 'custom' && wordpressSource) {
+            const base = wordpressSource.replace(/\/+$/, '');
+            return fetch(base + '/wp-json' + path).then(r => r.json());
+        }
+        return wp.apiFetch({ path });
+    }
+
     getTaxonomyValues() {
         const {
-            setAttributes, attributes: {
+            attributes: {
                 taxonomy,
             },
         } = this.props;
 
+        if (!taxonomy || taxonomy === 'none') {
+            this.setState({ loading: false, taxonomyValues: [] });
+            return;
+        }
+
         this.setState({ loading: true });
-        wp.apiFetch({
-            path: '/wp/v2/' + taxonomy + '?per_page=100',
-        }).then(data => {
-            this.setState({ loading: false });
-            this.setState({ taxonomyValues: data });
+        this.apiFetchFromSource('/wp/v2/' + taxonomy + '?per_page=100').then(data => {
+            this.setState({ loading: false, taxonomyValues: Array.isArray(data) ? data : [] });
+        }).catch(() => {
+            this.setState({ loading: false, taxonomyValues: [] });
         });
     }
 
     getSortingTaxonomyValues() {
         const {
-            setAttributes, attributes: {
+            attributes: {
                 sortingTaxonomy
             },
         } = this.props;
 
-        wp.apiFetch({
-            path: '/wp/v2/' + sortingTaxonomy + '?per_page=100',
-        }).then(data => {
-            this.setState({ sortingTaxonomyValues: data });
+        if (!sortingTaxonomy || sortingTaxonomy === 'none') {
+            this.setState({ sortingTaxonomyValues: [] });
+            return;
+        }
+
+        this.apiFetchFromSource('/wp/v2/' + sortingTaxonomy + '?per_page=100').then(data => {
+            this.setState({ sortingTaxonomyValues: Array.isArray(data) ? data : [] });
+        }).catch(() => {
+            this.setState({ sortingTaxonomyValues: [] });
         });
     }
 
     getTaxonomies() {
-
-        wp.apiFetch({
-            path: '/wp/v2/taxonomies?per_page=100',
-        }).then(data => {
+        this.apiFetchFromSource('/wp/v2/taxonomies?per_page=100').then(data => {
             this.setState({
                 taxonomies: data,
             });
@@ -252,13 +337,8 @@ export class BlockEditWithFilters extends ComponentWithSettings {
     }
 
     getTypes() {
-        wp.apiFetch({
-            path: '/wp/v2/types?per_page=100',
-        }).then(data => {
-            const types = data;
-            this.setState({
-                types: data, loading: false
-            });
+        this.apiFetchFromSource('/wp/v2/types?per_page=100').then(data => {
+            this.setState({ types: data, loading: false });
         });
     }
 
