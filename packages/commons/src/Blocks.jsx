@@ -113,7 +113,7 @@ export class ComponentWithSettings extends Component {
                         onChange={(value) => {
                             if (value === 'landing' && !hasLandingUrl) return;
                             const landingUrl = value === 'landing'
-                                ? this.state.landing_page_url.replace(/\/+$/, '') + '/wp'
+                                ? this.state.landing_page_url.replace(/\/+$/, '') + '/wp/wp-json'
                                 : '';
                             setAttributes({
                                 wordpressSourceType: value,
@@ -129,7 +129,7 @@ export class ComponentWithSettings extends Component {
                             help={__('Enter the base URL of the WordPress instance to load post types, taxonomies and configuration from.')}
                             value={wordpressSource || ''}
                             onChange={(wordpressSource) => setAttributes({ wordpressSource })}
-                            placeholder="https://example.com/wp"
+                            placeholder="https://example.com/wp/wp-json"
                         />
                     </PanelRow>
                 )}
