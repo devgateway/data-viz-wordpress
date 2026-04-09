@@ -293,7 +293,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </PanelRow>
 
                 </PanelBody>}
-                {app == 'csv' && this.state.filters && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                {app == 'csv'  && <PanelBody initialOpen={false} title={__("Select Filter")}>
                     <PanelRow>
                         <TextControl label={__("Field")} value={param}
                             onChange={(param) => setAttributes({ param })}
