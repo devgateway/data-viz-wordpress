@@ -89,7 +89,6 @@ export class ComponentWithSettings extends Component {
     }
 
     renderWordpressSource() {
-        console.log("state==>", this.state);
         const { setAttributes, attributes: { wordpressSourceType, wordpressSource } } = this.props;
         const hasLandingUrl = !!this.state.landing_page_url;
         const sourceType = wordpressSourceType || 'internal';
