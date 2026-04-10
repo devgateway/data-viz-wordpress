@@ -44,7 +44,7 @@ jobs:
             github_token: ${{ secrets.GITHUB_TOKEN }}
             tag_prefix: v
             release_branches: production,release/*
-            pre_release_branches: main
+            pre_release_branches: main,task/*,feature/*,bugfix/*,feat/*,fix/*
             append_to_pre_release_tag: rc
             dry_run: "true"
 

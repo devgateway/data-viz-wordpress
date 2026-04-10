@@ -17,6 +17,8 @@ const BlockSave = (props) => {
             sortFirstBy,
             wordpressSource,
             wordpressSourceType,
+            noDataMsg,
+            clearFilterMsg,
         }
     } = props;
     return (
@@ -37,6 +39,8 @@ const BlockSave = (props) => {
             data-sort-first-by={sortFirstBy}
             data-wordpress-source={wordpressSource}
             data-wordpress-source-type={wordpressSourceType}
+            data-no-data-msg={noDataMsg}
+            data-clear-filter-msg={clearFilterMsg}
         ></div>
     );
 };
