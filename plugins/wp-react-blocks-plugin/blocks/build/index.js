@@ -23635,7 +23635,10 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
         minMaxClamp,
         mobileCustomization,
         dvzProxyDatasetId,
-        waitForFilters
+        waitForFilters,
+        enableMeasureSelector,
+        measureSelectorLabel,
+        defaultMeasure
       }
     } = this.props;
     if (Object.keys(measures).indexOf("global") > -1) {
@@ -23690,6 +23693,18 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
       height: height + 'px',
       width: '100%'
     };
+    const selectedMeasureOptions = [{
+      label: (0,external_wp_i18n_.__)('First selected measure'),
+      value: ''
+    }];
+    if (app !== 'csv' && this.state.measures && measures && measures[app]) {
+      this.state.measures.filter(measure => measures[app][measure.value] && measures[app][measure.value].selected).forEach(measure => {
+        selectedMeasureOptions.push({
+          label: `${measure.group} - ${measure.label}`,
+          value: measure.value
+        });
+      });
+    }
     return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
       children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
         header: (0,external_wp_i18n_.__)("Chart Configuration"),
@@ -23851,6 +23866,37 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
             allDimensions: this.state.dimensions,
             allCategories: this.state.categories,
             ...this.props
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)('Measure Selector'),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                label: (0,external_wp_i18n_.__)('Show Measure Selector'),
+                checked: enableMeasureSelector,
+                onChange: () => setAttributes({
+                  enableMeasureSelector: !enableMeasureSelector
+                })
+              })
+            }), enableMeasureSelector && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                  label: (0,external_wp_i18n_.__)('Selector Label'),
+                  value: measureSelectorLabel,
+                  onChange: value => setAttributes({
+                    measureSelectorLabel: value
+                  })
+                })
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                  label: (0,external_wp_i18n_.__)('Default Measure'),
+                  value: defaultMeasure,
+                  options: selectedMeasureOptions,
+                  onChange: value => setAttributes({
+                    defaultMeasure: value
+                  })
+                })
+              })]
+            })]
           }), app == 'csv' && type != 'radar' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
             initialOpen: false,
             title: (0,external_wp_i18n_.__)("Tooltip"),
@@ -32811,6 +32857,4027 @@ module.exports = mapCacheHas;
 
 /***/ }),
 
+/***/ 7519:
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__(4997);
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./d3Map/BlockSave.js
+
+
+const SaveComponent = props => {
+  const {
+    attributes: {
+      layers,
+      height,
+      width,
+      group,
+      backGroundColor,
+      mapPosition,
+      projection,
+      zoomEnabled,
+      rotationEnabled,
+      enableMeasureSelector,
+      measureSelectorLabel,
+      defaultMeasure,
+      waitForFilters
+    }
+  } = props;
+  const blockProps = external_wp_blockEditor_.useBlockProps.save({
+    className: 'viz component map'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    className: "viz-component",
+    "data-height": height,
+    "data-width": width,
+    "data-group": group,
+    "data-projection": projection,
+    "data-back-ground-color": backGroundColor,
+    "data-map-position": encodeURIComponent(JSON.stringify(mapPosition)),
+    "data-component": "newMap",
+    "data-zoom-enabled": zoomEnabled,
+    "data-rotation-enabled": rotationEnabled,
+    "data-enable-measure-selector": enableMeasureSelector,
+    "data-measure-selector-label": encodeURIComponent(measureSelectorLabel || ''),
+    "data-measure-selector-default-measure": defaultMeasure,
+    "data-layers": encodeURIComponent(JSON.stringify(layers)),
+    "data-wait-for-filters": waitForFilters
+  });
+};
+/* harmony default export */ const BlockSave = (SaveComponent);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 17 modules
+var build = __webpack_require__(1704);
+// EXTERNAL MODULE: external ["wp","apiFetch"]
+var external_wp_apiFetch_ = __webpack_require__(1455);
+;// ./d3Map/layers/utils/FileUtils.js
+const getJsonFiles = () => {
+  return wp.apiFetch({
+    path: '/wp/v2/media?per_page=100&mime_type=application/json'
+  });
+};
+/* harmony default export */ const FileUtils = ((/* unused pure expression or super */ null && (undefined)));
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(6087);
+// EXTERNAL MODULE: ./charts/Format.jsx
+var Format = __webpack_require__(1012);
+;// ./d3Map/layers/utils/MapMeasures.jsx
+
+
+
+
+
+
+const defaultFormat = {
+  "style": "percent",
+  "minimumFractionDigits": 1,
+  "maximumFractionDigits": 1,
+  "currency": "USD"
+};
+const Measures = props => {
+  const {
+    onMeasuresChange,
+    onFormatChange,
+    onSetSingleMeasure,
+    allMeasures,
+    setAttributes,
+    panelStatus,
+    layer: {
+      measures,
+      app,
+      format,
+      customMeasuresLabels = {}
+    },
+    attributes: {
+      enableMeasureSelector = false,
+      measureSelectorLabel = 'Measure',
+      defaultMeasure = ''
+    } = {}
+  } = props;
+  const allowMultipleSelection = enableMeasureSelector === true;
+  const selectedMeasureOptions = (measures || []).map(measureValue => {
+    const measure = allMeasures?.find(m => m.value === measureValue);
+    const customLabel = customMeasuresLabels?.[measureValue];
+    return {
+      value: measureValue,
+      label: customLabel && customLabel.toString().trim().length > 0 ? customLabel : measure ? (0,build/* getTranslation */.sC)(measure) : measureValue
+    };
+  });
+  const selectedDefaultMeasure = selectedMeasureOptions.some(option => option.value === defaultMeasure) ? defaultMeasure : '';
+  const defaultMeasureOptions = [{
+    value: '',
+    label: (0,external_wp_i18n_.__)('First selected measure')
+  }, ...selectedMeasureOptions];
+  const MToggle = ({
+    measure
+  }) => {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+      label: (0,build/* getTranslation */.sC)(measure),
+      checked: measures.indexOf(measure.value) > -1,
+      onChange: () => onMeasuresChange(measure.value)
+    });
+  };
+  const MCheckbox = ({
+    measure
+  }) => {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
+      label: (0,build/* getTranslation */.sC)(measure),
+      checked: measures.indexOf(measure.value) > -1,
+      onChange: () => onSetSingleMeasure(measure.value)
+    });
+  };
+  const countSelected = g => {
+    const groupMeasures = allMeasures.filter(m => m.group.label === g).map(m => m.value);
+    if (groupMeasures.length > 0) {
+      return groupMeasures.filter(m => measures.includes(m)).length;
+    }
+    return 0;
+  };
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Measures"),
+    children: [allMeasures && [...new Set(allMeasures.map(p => (0,build/* getTranslation */.sC)(p.group)))].map(g => {
+      return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        onToggle: e => (0,build/* togglePanel */.Pj)(g, panelStatus, setAttributes),
+        title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group.label === g).length} ) `,
+        children: allMeasures.filter(f => (0,build/* getTranslation */.sC)(f.group) === g).map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: allowMultipleSelection ? /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MToggle, {
+              measure: m
+            }) : /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MCheckbox, {
+              measure: m
+            })
+          })
+        }))
+      });
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)('Show Measure Selector'),
+        help: (0,external_wp_i18n_.__)('Allow selecting multiple measures and show a selector above the map when compatible layers share measures.'),
+        checked: enableMeasureSelector === true,
+        onChange: value => setAttributes({
+          enableMeasureSelector: value
+        })
+      })
+    }), enableMeasureSelector === true && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)('Measure Selector Label'),
+          value: measureSelectorLabel,
+          onChange: value => setAttributes({
+            measureSelectorLabel: value
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Default Measure'),
+          value: selectedDefaultMeasure,
+          options: defaultMeasureOptions,
+          onChange: value => setAttributes({
+            defaultMeasure: value
+          }),
+          help: selectedMeasureOptions.length > 0 ? (0,external_wp_i18n_.__)('Select the measure shown by default when the selector is enabled.') : (0,external_wp_i18n_.__)('Select one or more measures in this layer to define the selector options.')
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
+      format: format ? format : defaultFormat,
+      hiddenCustomAxisFormat: true,
+      onFormatChange: format => {
+        onFormatChange(format);
+      }
+    })]
+  });
+};
+/* harmony default export */ const MapMeasures = (Measures);
+;// ./d3Map/layers/utils/Property.jsx
+
+
+const Property = ({
+  features,
+  onChangeProperty,
+  value,
+  property,
+  title,
+  type = 'toggle'
+}) => {
+  const properties = features && features.length > 0 ? features[0].properties : {};
+  let attributes = Object.keys(properties);
+  if (type == "toggle") {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: "close",
+      title: title,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "None",
+          checked: value == "none",
+          onChange: value => {
+            onChangeProperty(property, "none");
+          }
+        })
+      }), attributes.map(k => {
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: k,
+            checked: value == k,
+            onChange: value => {
+              onChangeProperty(property, value ? k : "none");
+            }
+          })
+        });
+      })]
+    });
+  } else {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: title,
+        value: [value],
+        onChange: value => {
+          onChangeProperty(property, value);
+        },
+        options: [{
+          label: "None",
+          value: 'none'
+        }, ...attributes.map(k => ({
+          label: k,
+          value: k
+        }))]
+      })
+    });
+  }
+};
+/* harmony default export */ const utils_Property = (Property);
+;// ./d3Map/layers/utils/BreaksGenerator.jsx
+
+
+
+
+var ss = __webpack_require__(2037);
+const BreaksGenerator = ({
+  onChangeProperty,
+  breaks = [],
+  defaultFillColor,
+  defaultBorderColor,
+  showSize,
+  app,
+  csv,
+  apiJoinAttribute,
+  dvzProxyDatasetId,
+  measures,
+  filters,
+  format,
+  hasSecondDimension
+}) => {
+  const prettyRound = (value, digits = 1) => {
+    if (value === 0) return 0;
+    const d = Math.ceil(Math.log10(Math.abs(value)));
+    const power = digits - d;
+    const magnitude = Math.pow(10, power);
+    return Math.round(value * magnitude) / magnitude;
+  };
+  const DEFAULT_POINT_SIZE = 8;
+  const generate = (pretty, nBreaks = 4) => {
+    //eslint-disable-next-line
+
+    const newBreaks = [];
+    const queryString = filters.map(f => f.param + "=" + f.value.map(v => v).toString()).join('&');
+    fetch(`/api/${app}/stats/${apiJoinAttribute}?dvzProxyDatasetId=${dvzProxyDatasetId}&${queryString}`).then(response => response.json()).then(data => {
+      let values = [];
+      if (hasSecondDimension) {
+        values = data.children.flatMap(d => d.children).map(d => d[measures[0]]);
+      } else {
+        values = data.children.map(d => d[measures[0]]);
+      }
+      const numBreaks = Math.min(nBreaks, values.length);
+      const clusters = ss.ckmeans(values, numBreaks);
+      //const naturalBreaks = clusters.map(cluster => cluster[0]);
+      const naturalBreaks = clusters.map((cluster, index) => {
+        if (index === 0 && cluster.length > 1 && cluster[0] !== cluster[1]) {
+          return pretty ? prettyRound(cluster[1]) : cluster[1];
+        }
+        return pretty ? prettyRound(cluster[0]) : cluster[0];
+      });
+      //naturalBreaks.push(clusters[clusters.length - 1].slice(-1)[0]);
+
+      naturalBreaks.push(pretty ? prettyRound(clusters[clusters.length - 1].slice(-1)[0]) : clusters[clusters.length - 1].slice(-1)[0]);
+
+      //eslint-disable-next-line
+      for (let i = 0; i < naturalBreaks.length - 2; i++) {
+        newBreaks.push({
+          end: naturalBreaks[i],
+          color: breaks && breaks[i] && breaks[i].color ? breaks[i].color : defaultFillColor,
+          borderColor: breaks && breaks[i] && breaks[i].borderColor ? naturalBreaks[i].borderColor : defaultBorderColor,
+          size: breaks && breaks[i] && breaks[i].size ? breaks[i].size : DEFAULT_POINT_SIZE,
+          type: 'lessThan'
+        });
+      }
+      const currentGraterThan = breaks.filter(b => b.type == 'graterThan');
+      let color = defaultFillColor;
+      let borderColor = defaultBorderColor;
+      let size = DEFAULT_POINT_SIZE;
+      if (currentGraterThan.length > 0) {
+        color = currentGraterThan[0].color;
+        borderColor = currentGraterThan[0].borderColor;
+        size = currentGraterThan[0].size;
+      }
+      newBreaks.push({
+        end: naturalBreaks[naturalBreaks.length - 1],
+        color: color,
+        borderColor: borderColor,
+        size: size,
+        type: 'graterThan'
+      });
+      onChangeProperty("breaks", [...newBreaks]);
+    });
+  };
+  const add = () => {
+    //eslint-disable-next-line
+    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
+    if (graterThanBreaks.length === 0) {
+      graterThanBreaks = [{
+        start: 0,
+        end: 1,
+        color: defaultFillColor,
+        borderColor: defaultBorderColor,
+        size: 1,
+        type: 'graterThan'
+      }];
+    }
+    const newBreaks = [...lessThanBreaks];
+    newBreaks.push({
+      start: 0,
+      end: 1,
+      color: defaultFillColor,
+      borderColor: defaultBorderColor,
+      size: DEFAULT_POINT_SIZE,
+      type: 'lessThan'
+    });
+    //keep grater than break at the end
+    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
+  };
+  const update = (property, index, value) => {
+    //eslint-disable-next-line
+    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
+    const newBreaks = [...lessThanBreaks];
+    newBreaks[index][property] = value;
+    graterThanBreaks[0].end = lessThanBreaks[lessThanBreaks.length - 1].end;
+    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
+  };
+  const remove = index => {
+    //eslint-disable-next-line
+    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
+    let lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    const newBreaks = [...lessThanBreaks];
+    newBreaks.splice(index, 1);
+    if (newBreaks.length > 0) {
+      graterThanBreaks[0].end = lessThanBreaks[newBreaks.length - 1].end;
+    }
+    if (newBreaks.length == 0) {
+      graterThanBreaks = [];
+    }
+    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
+  };
+  const updateGraterThan = (property, value) => {
+    //eslint-disable-next-line
+    const graterThanBreak = breaks.filter(b => b.type == 'graterThan')[0];
+    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
+    graterThanBreak[property] = value;
+    onChangeProperty("breaks", [...lessThanBreaks, graterThanBreak]);
+  };
+
+  /*
+    format: {
+      "style": "percent",
+      "minimumFractionDigits": 1,
+      "maximumFractionDigits": 1,
+      "currency": "USD",
+  },
+  *
+  * */
+  //TODO: Take locale from current page language
+  const numberFormat = {
+    style: format.style === 'compacted' ? 'decimal' : format.style,
+    notation: format.style === 'compacted' ? 'compact' : "standard",
+    currency: format.currency,
+    minimumFractionDigits: parseInt(format.minimumFractionDigits),
+    maximumFractionDigits: parseInt(format.maximumFractionDigits)
+  };
+  const formatter = new Intl.NumberFormat('en-US', numberFormat);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+          variant: "secondary",
+          onClick: e => add(),
+          children: "Add Custom Break"
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+          variant: "secondary",
+          onClick: e => generate(),
+          children: "Generate Natural Breaks"
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+          variant: "secondary",
+          onClick: e => generate(true),
+          children: "Generate Pretty Numbers"
+        })]
+      })
+    }), breaks.map((br, index) => {
+      if (br.type == 'lessThan') {
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+              style: {
+                width: "15px",
+                height: "15px",
+                backgroundColor: br.color,
+                border: '1px solid #000',
+                float: "left",
+                marginRight: "5px"
+              }
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
+              children: "Less than"
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+              style: {
+                marginLeft: "20px"
+              },
+              children: formatter.format(br.end)
+            })]
+          }),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              type: "Number",
+              label: (0,external_wp_i18n_.__)("Value", "dg"),
+              value: br.end,
+              onChange: value => update("end", index, value)
+            })
+          }), showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: "Size",
+              value: br.size,
+              onChange: value => {
+                update("size", index, value);
+              },
+              step: 1,
+              min: 0,
+              max: 200
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)(`Fill Color`),
+            colorSettings: [{
+              clearable: true,
+              enableAlpha: true,
+              value: br.color,
+              onChange: fillColor => {
+                update("color", index, fillColor);
+              }
+            }]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+              variant: "primary",
+              onClick: e => remove(index),
+              children: "Remove This"
+            })
+          })]
+        });
+      }
+      if (br.type == 'graterThan') {
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+              style: {
+                width: "15px",
+                height: "15px",
+                backgroundColor: br.color,
+                border: '1px solid #000',
+                float: "left",
+                marginRight: "5px"
+              }
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
+              children: " Grater than "
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+              style: {
+                marginLeft: "20px"
+              },
+              children: formatter.format(br.end)
+            })]
+          }),
+          children: [showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: "Size",
+              value: br.size,
+              onChange: value => {
+                updateGraterThan("size", value);
+              },
+              step: 1,
+              min: 0,
+              max: 200
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+              title: (0,external_wp_i18n_.__)(`Fill Color`),
+              colorSettings: [{
+                value: br.color,
+                onChange: fillColor => {
+                  updateGraterThan("color", fillColor);
+                }
+              }]
+            })
+          })]
+        });
+      }
+    })]
+  });
+};
+/* harmony default export */ const utils_BreaksGenerator = (BreaksGenerator);
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.3/node_modules/papaparse/papaparse.min.js
+var papaparse_min = __webpack_require__(3643);
+var papaparse_min_default = /*#__PURE__*/__webpack_require__.n(papaparse_min);
+;// ./d3Map/layers/utils/CSVPatternGenerator.jsx
+
+
+
+
+
+const defaultPatternColor = "#000000";
+const Patterns = ({
+  csv,
+  app,
+  onChangeProperty,
+  patterns,
+  patternDiscriminator,
+  defaultFillColor
+}) => {
+  const patternsOptions = [{
+    label: 'Lines',
+    value: 'lines'
+  }, {
+    label: 'Dots',
+    value: 'dots'
+  }, {
+    label: 'Squares',
+    value: 'squares'
+  }, {
+    label: 'Triangle',
+    value: 'triangle'
+  }];
+  const data = papaparse_min_default().parse(csv, {
+    header: true,
+    dynamicTyping: true
+  });
+  const fieldsOptions = data ? data.meta.fields.map(f => {
+    return {
+      label: f,
+      value: f
+    };
+  }) : [];
+  const values = patternDiscriminator != 'none' ? [...new Set(data.data.filter(d => d[patternDiscriminator] != null && d[patternDiscriminator].toString().trim() !== "").map(d => d[patternDiscriminator].toString().trim()))] : [];
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    title: "Patterns",
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)("Discriminator"),
+        value: patternDiscriminator,
+        onChange: v => {
+          onChangeProperty('patternDiscriminator', v);
+        },
+        options: [{
+          label: "None",
+          value: "none"
+        }, ...fieldsOptions]
+      })
+    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: field,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: "Symbol",
+          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
+          onChange: v => {
+            onChangeProperty('patterns', {
+              ...patterns,
+              [field + '_symbol']: v
+            });
+          },
+          options: [{
+            label: "None",
+            value: "none"
+          }, ...patternsOptions]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Color`),
+          colorSettings: [{
+            value: patterns[field + '_color'] ? patterns[field + '_color'] : defaultPatternColor,
+            label: (0,external_wp_i18n_.__)('Fill Color'),
+            onChange: color => {
+              onChangeProperty('patterns', {
+                ...patterns,
+                [field + '_color']: color
+              });
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+          label: (0,external_wp_i18n_.__)("Rotation"),
+          onChange: value => onChangeProperty('patterns', {
+            ...patterns,
+            [field + '_rotation']: value
+          }),
+          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
+        })
+      })]
+    }))]
+  });
+};
+/* harmony default export */ const CSVPatternGenerator = (Patterns);
+;// ./d3Map/layers/utils/AppPatternGenerator.jsx
+
+
+
+
+
+const AppPatternGenerator_defaultPatternColor = "#000000";
+const AppPatternGenerator_Patterns = ({
+  allCategories,
+  allDimensions,
+  app,
+  onChangeProperty,
+  patterns,
+  patternDiscriminator,
+  patternDiscriminatorLabel,
+  defaultFillColor
+}) => {
+  const patternsOptions = [{
+    label: 'Lines',
+    value: 'lines'
+  }, {
+    label: 'Dots',
+    value: 'dots'
+  }, {
+    label: 'Squares',
+    value: 'squares'
+  }, {
+    label: 'Triangle',
+    value: 'triangle'
+  }];
+  const dims = allDimensions ? allDimensions : [];
+  const cats = patternDiscriminator && allCategories ? allCategories.filter(c => c.type.toUpperCase() == patternDiscriminator.toUpperCase()) : [];
+  console.log(cats);
+  const items = cats.length > 0 ? cats[0].items : [];
+  const values = items.map(i => i.value);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    title: "Patterns",
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)("Discriminator"),
+        value: patternDiscriminator,
+        onChange: v => {
+          onChangeProperty('patternDiscriminator', v);
+        },
+        options: [...dims]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+        label: (0,external_wp_i18n_.__)("Label"),
+        value: patternDiscriminatorLabel,
+        onChange: v => {
+          onChangeProperty('patternDiscriminatorLabel', v);
+        }
+      })
+    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: field,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: "Symbol",
+          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
+          onChange: v => {
+            onChangeProperty('patterns', {
+              ...patterns,
+              [field + '_symbol']: v
+            });
+          },
+          options: [{
+            label: "None",
+            value: "none"
+          }, ...patternsOptions]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Color`),
+          colorSettings: [{
+            value: patterns[field + '_color'] ? patterns[field + '_color'] : AppPatternGenerator_defaultPatternColor,
+            label: (0,external_wp_i18n_.__)('Fill Color'),
+            onChange: color => {
+              onChangeProperty('patterns', {
+                ...patterns,
+                [field + '_color']: color
+              });
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+          label: (0,external_wp_i18n_.__)("Rotation"),
+          onChange: value => onChangeProperty('patterns', {
+            ...patterns,
+            [field + '_rotation']: value
+          }),
+          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
+        })
+      })]
+    }))]
+  });
+};
+/* harmony default export */ const AppPatternGenerator = (AppPatternGenerator_Patterns);
+;// ./d3Map/layers/utils/PatternGenerator.jsx
+
+
+
+
+
+
+
+const PatternGenerator_Patterns = props => {
+  const {
+    app
+  } = props;
+  if (app == "csv") {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CSVPatternGenerator, {
+      ...props
+    });
+  } else {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(AppPatternGenerator, {
+      ...props
+    });
+  }
+};
+/* harmony default export */ const PatternGenerator = (PatternGenerator_Patterns);
+;// ./d3Map/layers/utils/GradientGenerator.jsx
+
+
+
+
+const sequentialColors = [{
+  value: "custom",
+  label: 'Custom'
+}, {
+  value: "blues",
+  label: 'blues'
+}, {
+  value: "greens",
+  label: 'greens'
+}, {
+  value: "greys",
+  label: 'greys'
+}, {
+  value: "oranges",
+  label: 'oranges'
+}, {
+  value: "purples",
+  label: 'purples'
+}, {
+  value: "reds",
+  label: 'reds'
+}, {
+  value: "blue_green",
+  label: 'blue_green'
+}, {
+  value: "blue_purple",
+  label: 'blue_purple'
+}, {
+  value: "green_blue",
+  label: 'green_blue'
+}, {
+  value: "orange_red",
+  label: 'orange_red'
+}, {
+  value: "purple_blue_green",
+  label: 'purple_blue_green'
+}, {
+  value: "purple_blue",
+  label: 'purple_blue'
+}, {
+  value: "purple_red",
+  label: 'purple_red'
+}, {
+  value: "red_purple",
+  label: 'red_purple'
+}, {
+  value: "yellow_green_blue",
+  label: 'yellow_green_blue'
+}, {
+  value: "yellow_green",
+  label: 'yellow_green'
+}, {
+  value: "yellow_orange_brown",
+  label: 'yellow_orange_brown'
+}, {
+  value: "yellow_orange_red",
+  label: 'yellow_orange_red'
+}];
+const GradientGenerator = props => {
+  const {
+    onChangeProperty,
+    gradientScheme,
+    gradientReverse,
+    gradientStartColor,
+    gradientEndColor
+  } = props;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: "Reverse Gradient",
+        checked: gradientReverse,
+        onChange: e => {
+          onChangeProperty("gradientReverse", !gradientReverse);
+        }
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)('Gradient Color Scheme'),
+        value: gradientScheme,
+        onChange: value => {
+          onChangeProperty("gradientScheme", value);
+        },
+        options: sequentialColors
+      })
+    }), gradientScheme === 'custom' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)('Start Color'),
+          initialOpen: true,
+          colorSettings: [{
+            value: gradientStartColor,
+            onChange: color => onChangeProperty('gradientStartColor', color),
+            label: (0,external_wp_i18n_.__)('Start Color')
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)('End Color'),
+          initialOpen: true,
+          colorSettings: [{
+            value: gradientEndColor,
+            onChange: color => onChangeProperty('gradientEndColor', color),
+            label: (0,external_wp_i18n_.__)('End Color')
+          }]
+        })
+      })]
+    })]
+  });
+};
+/* harmony default export */ const utils_GradientGenerator = (GradientGenerator);
+;// ./d3Map/layers/Data.jsx
+
+
+
+
+
+
+
+
+
+
+
+
+const FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      /*
+          var aValue= a.value ? a.value.toLowerCase() : "";
+          var bValue = b.value ? b.value.toLowerCase() : "";
+          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      */
+      return a.position - b.position;
+    });
+    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })]
+    }));
+  } else {
+    return null;
+  }
+};
+class DataLayerSetting extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.getCSValue = this.getCSValue.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  onMeasuresChange(value) {
+    const {
+      layer: {
+        measures = []
+      },
+      onChangeProperty
+    } = this.props;
+    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
+    onChangeProperty("measures", nextMeasures);
+  }
+  onFormatChange(format, field) {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      features,
+      apps,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        fillColor,
+        borderColor,
+        breaks,
+        markFillColor,
+        markBorderColor,
+        markSizeScale,
+        tooltip
+      }
+    } = this.props;
+    onChangeProperty("format", format);
+  }
+  getCSValue() {
+    const {
+      apps,
+      features,
+      layer: {
+        csv,
+        featureJoinAttribute
+      }
+    } = this.props;
+    if (csv == '') {
+      let generatedCSV = 'id,value\n';
+      if (features && features.length > 0) {
+        features.forEach(f => {
+          if (f.properties[featureJoinAttribute]) {
+            generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
+          }
+        });
+      }
+      return generatedCSV;
+    }
+    return csv;
+  }
+  cleanSelection(prevState) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", []);
+    onChangeProperty("filters", []);
+
+    //setAttributes({measures: [], filters: []})
+  }
+  updateFilterParam(param, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  updateFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  setFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  addFilter() {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  removeFilter(f) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    onChangeProperty("filters", newFilters);
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      onChangeProperty,
+      layer: {
+        type,
+        dimension2,
+        types
+      }
+    } = this.props;
+    const {
+      layer: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+  }
+  onSetSingleMeasure(value) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", [value]);
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      items = cat.items;
+    }
+    return items;
+  }
+  render() {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      allCategories,
+      allDatasets,
+      features,
+      apps,
+      layer,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        useCentroidPoint,
+        useBreaks,
+        useGradients,
+        fillColor,
+        borderColor,
+        format,
+        breaks,
+        gradientScheme,
+        gradientReverse,
+        labelFontSize,
+        markFillColor,
+        markLabelColor,
+        markBorderColor,
+        markSizeScale,
+        markerLabelSize,
+        tooltip,
+        usePattern,
+        patterns,
+        customMeasuresLabels,
+        patternDiscriminator,
+        onRemoveLayer,
+        onMoveLayer,
+        dvzProxyDatasetId,
+        patternsVisible,
+        colorLayerVisible,
+        gradientStartColor,
+        gradientEndColor,
+        animateOnDataRefresh
+      }
+    } = this.props;
+    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
+      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
+      if (selectedMeasure && customMeasuresLabels && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+        onChangeProperty("customMeasuresLabels", {
+          ...customMeasuresLabels,
+          [measureValue]: selectedMeasure.label
+        });
+      }
+      return selectedMeasure ? {
+        label: selectedMeasure.label,
+        value: selectedMeasure.value
+      } : null;
+    }).filter(Boolean) : [];
+    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Data Source",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)("App", "dg"),
+          help: (0,external_wp_i18n_.__)("Data source application"),
+          value: [app] // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: app => {
+            onChangeProperty("app", app);
+          },
+          options: apps
+        })
+      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Datasets'),
+          value: [dvzProxyDatasetId],
+          onChange: newDatasetId => {
+            onChangeProperty("dvzProxyDatasetId", newDatasetId);
+          },
+          options: allDatasets
+        })
+      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
+        property: "featureJoinAttribute",
+        type: "select",
+        onChangeProperty: onChangeProperty,
+        features: features,
+        value: featureJoinAttribute,
+        title: "Shape Attribute"
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("CSV Data"),
+          help: (0,external_wp_i18n_.__)("Enter CSV data here"),
+          value: this.getCSValue(csv),
+          onChange: csv => onChangeProperty("csv", csv)
+        })
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
+          title: "Format",
+          format: format,
+          hiddenCustomAxisFormat: true,
+          onFormatChange: this.onFormatChange
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: 'Dimension' + (type == 'dataPoints' ? 'LatLong' : ''),
+          help: (0,external_wp_i18n_.__)("Data dimension field"),
+          value: [apiJoinAttribute] // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: value => {
+            onChangeProperty("apiJoinAttribute", value);
+          },
+          options: allDimensions
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("Tooltip"),
+          value: tooltip,
+          help: (0,external_wp_i18n_.__)("You can use variables {var_name}"),
+          onChange: tooltip => onChangeProperty("tooltip", tooltip),
+          rows: 10
+        })
+      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+          style: {
+            "margin-top": "calc(8px)",
+            "font-size": "12px",
+            "font-style": "normal",
+            "color": "rgb(117, 117, 117)"
+          },
+          children: "{" + m.value + "}"
+        })
+      }))]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        onMeasuresChange: this.onMeasuresChange,
+        onFormatChange: this.onFormatChange,
+        onSetSingleMeasure: this.onSetSingleMeasure,
+        measures: layer.measures,
+        format: layer.format,
+        ...this.props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Filters"),
+        children: [filters.map((f, index) => {
+          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(FilterSelector, {
+              param: f.param,
+              index: index,
+              options: allFilters,
+              onUpdateFilterParam: this.updateFilterParam
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CategoricalFilter, {
+              value: f.value,
+              index: index,
+              items: this.items(f.type),
+              onUpdateFilterValue: this.updateFilterValue
+            })]
+          });
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.addFilter,
+            children: (0,external_wp_i18n_.__)("Add Filter")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.removeFilter,
+            children: (0,external_wp_i18n_.__)("Remove")
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Symbols and Styles",
+      children: [app != "csv" && selectedMeasureConfigs.map(({
+        label,
+        value
+      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: label,
+          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
+          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
+          onChange: measureLabel => {
+            onChangeProperty("customMeasuresLabels", {
+              ...customMeasuresLabels,
+              [value]: measureLabel
+            });
+          }
+        })
+      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Default Visible?",
+          help: (0,external_wp_i18n_.__)("Layer visible by default"),
+          checked: colorLayerVisible,
+          onChange: e => {
+            onChangeProperty("colorLayerVisible", !colorLayerVisible);
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Animate Data Refresh",
+          help: (0,external_wp_i18n_.__)("Fade the layer when new filtered data is rendered"),
+          checked: animateOnDataRefresh === true,
+          onChange: () => {
+            onChangeProperty("animateOnDataRefresh", !animateOnDataRefresh);
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Default Fill Color`),
+          value: fillColor,
+          colorSettings: [{
+            clearable: true,
+            enableAlpha: true,
+            value: fillColor,
+            onChange: fillColor => {
+              onChangeProperty("fillColor", fillColor);
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Centroid Points",
+          help: (0,external_wp_i18n_.__)("Display data as centroid points"),
+          checked: useCentroidPoint,
+          onChange: value => {
+            onChangeProperty("useCentroidPoint", true);
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Shape Colors",
+          help: (0,external_wp_i18n_.__)("Colorize map shapes based on data"),
+          checked: !useCentroidPoint,
+          onChange: value => {
+            onChangeProperty("useCentroidPoint", false);
+          }
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Point Base Size",
+          help: (0,external_wp_i18n_.__)("Base size for points"),
+          value: markSizeScale,
+          onChange: value => {
+            onChangeProperty("markSizeScale", value);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Point Label Size",
+          help: (0,external_wp_i18n_.__)("Size of point labels"),
+          value: markerLabelSize,
+          onChange: markerLabelSize => {
+            onChangeProperty("markerLabelSize", markerLabelSize);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Circle Fill Color`),
+          value: markFillColor,
+          colorSettings: [{
+            clearable: true,
+            enableAlpha: true,
+            value: markFillColor,
+            onChange: markFillColor => {
+              onChangeProperty("markFillColor", markFillColor);
+            }
+          }]
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Circle Label Color`),
+          value: markLabelColor,
+          colorSettings: [{
+            clearable: true,
+            enableAlpha: true,
+            value: markLabelColor,
+            onChange: markLabelColor => {
+              onChangeProperty("markLabelColor", markLabelColor);
+            }
+          }]
+        })
+      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+          title: (0,external_wp_i18n_.__)(`Circle Border Color`),
+          value: borderColor,
+          colorSettings: [{
+            clearable: true,
+            enableAlpha: true,
+            value: markBorderColor,
+            onChange: borderColor => {
+              onChangeProperty("markBorderColor", borderColor);
+            }
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Breaks",
+          help: (0,external_wp_i18n_.__)("Use data breaks for coloring"),
+          checked: useBreaks,
+          onChange: e => {
+            onChangeProperty(["useBreaks", !useBreaks], ["useGradients", false]);
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Gradients",
+          help: (0,external_wp_i18n_.__)("Use color gradients"),
+          checked: useGradients,
+          onChange: e => {
+            onChangeProperty(["useGradients", !useGradients], ["useBreaks", false]);
+          }
+        })
+      }), useBreaks && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
+        app: app,
+        csv: csv,
+        dvzProxyDatasetId: dvzProxyDatasetId,
+        measures: measures,
+        filters: filters,
+        apiJoinAttribute: apiJoinAttribute,
+        showSize: useCentroidPoint,
+        defaultBorderColor: markBorderColor,
+        defaultFillColor: markFillColor,
+        format: format,
+        onChangeProperty: onChangeProperty,
+        breaks: breaks
+      }), useGradients && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_GradientGenerator, {
+        gradientStartColor: gradientStartColor,
+        gradientEndColor: gradientEndColor,
+        onChangeProperty: onChangeProperty,
+        gradientReverse: gradientReverse,
+        gradientScheme: gradientScheme || 'custom'
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: "Use Patterns",
+          help: (0,external_wp_i18n_.__)("Use patterns for filling shapes"),
+          checked: usePattern,
+          onChange: e => {
+            onChangeProperty("usePattern", !usePattern);
+          }
+        })
+      }), usePattern && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(PatternGenerator, {
+        allCategories: allCategories,
+        allDimensions: allDimensions,
+        defaultFillColor: fillColor,
+        onChangeProperty: onChangeProperty,
+        patterns: patterns,
+        app: app,
+        csv: csv,
+        patternDiscriminator: patternDiscriminator
+      })]
+    })];
+  }
+}
+/* harmony default export */ const Data = (DataLayerSetting);
+;// ./d3Map/layers/Flow.jsx
+
+
+
+
+
+
+
+
+
+
+
+const Flow_FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const Flow_CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      /*
+          var aValue= a.value ? a.value.toLowerCase() : "";
+          var bValue = b.value ? b.value.toLowerCase() : "";
+          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      */
+      return a.position - b.position;
+    });
+    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })]
+    }));
+  } else {
+    return null;
+  }
+};
+class Flow_DataLayerSetting extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.getCSValue = this.getCSValue.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  onMeasuresChange(value) {
+    const {
+      layer: {
+        measures = []
+      },
+      onChangeProperty
+    } = this.props;
+    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
+    onChangeProperty("measures", nextMeasures);
+  }
+  onFormatChange(format, field) {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      features,
+      apps,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        fillColor,
+        borderColor,
+        breaks,
+        markFillColor,
+        markBorderColor,
+        markSizeScale,
+        tooltip
+      }
+    } = this.props;
+    onChangeProperty("format", format);
+  }
+  getCSValue() {
+    const {
+      apps,
+      features,
+      layer: {
+        csv,
+        featureJoinAttribute
+      }
+    } = this.props;
+    if (csv == '') {
+      let generatedCSV = 'id,origin,destination,value\n';
+      if (features && features.length > 0) {
+        features.forEach(f => {
+          if (f.properties[featureJoinAttribute]) {
+            generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
+          }
+        });
+      }
+      return generatedCSV;
+    }
+    return csv;
+  }
+  cleanSelection(prevState) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", []);
+    onChangeProperty("filters", []);
+
+    //setAttributes({measures: [], filters: []})
+  }
+  updateFilterParam(param, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  updateFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  setFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  addFilter() {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  removeFilter(f) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    onChangeProperty("filters", newFilters);
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      onChangeProperty,
+      layer: {
+        type,
+        dimension2,
+        types
+      }
+    } = this.props;
+    const {
+      layer: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+  }
+  onSetSingleMeasure(value) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", [value]);
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      items = cat.items;
+    }
+    return items;
+  }
+  render() {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      allCategories,
+      features,
+      apps,
+      allDatasets,
+      layer,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        type,
+        useCentroidPoint,
+        useBreaks,
+        fillColor,
+        borderColor,
+        format,
+        breaks,
+        labelFontSize,
+        markFillColor,
+        markFillColor2,
+        markLabelColor,
+        markBorderColor,
+        markBorderColor2,
+        markSizeScale,
+        markSizeScale2,
+        markerLabelSize,
+        tooltip,
+        usePattern,
+        patterns,
+        customMeasuresLabels,
+        patternDiscriminator,
+        flowOrigin,
+        flowDestination,
+        onRemoveLayer,
+        flowValuesFrom,
+        dvzProxyDatasetId,
+        offsetPixels
+      }
+    } = this.props;
+    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
+      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
+      if (selectedMeasure && customMeasuresLabels && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+        onChangeProperty("customMeasuresLabels", {
+          ...customMeasuresLabels,
+          [measureValue]: selectedMeasure.label
+        });
+      }
+      return selectedMeasure ? {
+        label: selectedMeasure.label,
+        value: selectedMeasure.value
+      } : null;
+    }).filter(Boolean) : [];
+    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Data Source",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)("App", "dg"),
+          help: (0,external_wp_i18n_.__)("Data source application"),
+          value: [app] // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: app => {
+            onChangeProperty("app", app);
+          },
+          options: apps
+        })
+      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Datasets'),
+          value: [dvzProxyDatasetId],
+          onChange: newDatasetId => {
+            onChangeProperty("dvzProxyDatasetId", newDatasetId);
+          },
+          options: allDatasets
+        })
+      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
+        property: "featureJoinAttribute",
+        type: "select",
+        onChangeProperty: onChangeProperty,
+        features: features,
+        value: featureJoinAttribute,
+        title: "Shape Attribute"
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("CSV Data"),
+          value: this.getCSValue(csv),
+          onChange: csv => onChangeProperty("csv", csv)
+        })
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
+          title: "Format",
+          format: format,
+          hiddenCustomAxisFormat: true,
+          onFormatChange: this.onFormatChange
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: 'Origin',
+          help: (0,external_wp_i18n_.__)("Origin dimension field"),
+          value: [flowOrigin] // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: value => {
+            onChangeProperty("flowOrigin", value);
+          },
+          options: allDimensions
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: 'Destination',
+          help: (0,external_wp_i18n_.__)("Destination dimension field"),
+          value: [flowDestination] // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: value => {
+            onChangeProperty("flowDestination", value);
+          },
+          options: allDimensions
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("Tooltip"),
+          value: tooltip,
+          help: (0,external_wp_i18n_.__)("You can use variables, i.e: From {origin_name} to {target_name} : {value}"),
+          onChange: tooltip => onChangeProperty("tooltip", tooltip),
+          rows: 10
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+          className: "components-base-control__help",
+          style: {
+            "display": "block",
+            "text-align": "left",
+            "color": "rgb(117, 117, 117)"
+          },
+          children: [app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
+            children: ["{", m.value, "}"]
+          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
+            children: ["All features attributes are available as variables, use origin_ prefix for origin attributes and use target_ prefix for destination attributes i.e From ", "{", "origin_name", "}", " to ", "{", "target_name", "}", " : ", "{", "value", "}"]
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        onMeasuresChange: this.onMeasuresChange,
+        onFormatChange: this.onFormatChange,
+        onSetSingleMeasure: this.onSetSingleMeasure,
+        measures: layer.measures,
+        format: layer.format,
+        ...this.props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Filters"),
+        children: [filters.map((f, index) => {
+          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_FilterSelector, {
+              param: f.param,
+              index: index,
+              options: allFilters,
+              onUpdateFilterParam: this.updateFilterParam
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_CategoricalFilter, {
+              value: f.value,
+              index: index,
+              items: this.items(f.type),
+              onUpdateFilterValue: this.updateFilterValue
+            })]
+          });
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.addFilter,
+            children: (0,external_wp_i18n_.__)("Add Filter")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.removeFilter,
+            children: (0,external_wp_i18n_.__)("Remove")
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Symbols and Styles",
+      children: [app != "csv" && selectedMeasureConfigs.map(({
+        label,
+        value
+      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: label,
+          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
+          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
+          onChange: measureLabel => {
+            onChangeProperty("customMeasuresLabels", {
+              ...customMeasuresLabels,
+              [value]: measureLabel
+            });
+          }
+        })
+      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Colors`),
+        value: borderColor,
+        colorSettings: [{
+          label: (0,external_wp_i18n_.__)('Border'),
+          clearable: true,
+          enableAlpha: true,
+          value: markBorderColor,
+          onChange: borderColor => {
+            onChangeProperty("markBorderColor", borderColor);
+          }
+        }, {
+          label: (0,external_wp_i18n_.__)('Fill'),
+          clearable: true,
+          enableAlpha: true,
+          value: markFillColor,
+          onChange: markFillColor => {
+            onChangeProperty("markFillColor", markFillColor);
+          }
+        }]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Circle Size",
+          help: (0,external_wp_i18n_.__)("Size of the circle at origin/destination"),
+          value: markSizeScale,
+          onChange: value => {
+            onChangeProperty("markSizeScale", value);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Line Size",
+          help: (0,external_wp_i18n_.__)("Thickness of the flow line"),
+          value: markSizeScale2,
+          onChange: value => {
+            onChangeProperty("markSizeScale2", value);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Offset Size",
+          help: (0,external_wp_i18n_.__)("Offset for multiple flows between same points"),
+          value: offsetPixels,
+          onChange: offsetPixels => {
+            onChangeProperty("offsetPixels", offsetPixels);
+          },
+          step: 1,
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        title: (0,external_wp_i18n_.__)("Breaks"),
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
+          showSize: true,
+          hasSecondDimension: true,
+          app: app,
+          csv: csv,
+          filters: filters,
+          dvzProxyDatasetId: dvzProxyDatasetId,
+          measures: measures,
+          filters: filters,
+          apiJoinAttribute: flowOrigin + "/" + flowDestination,
+          showSize: useCentroidPoint,
+          defaultBorderColor: markBorderColor,
+          defaultFillColor: markFillColor,
+          format: format,
+          onChangeProperty: onChangeProperty,
+          breaks: breaks
+        })
+      })]
+    })];
+  }
+}
+/* harmony default export */ const Flow = (Flow_DataLayerSetting);
+;// ./d3Map/layers/LatLong.jsx
+
+
+
+
+
+
+
+
+
+const compareJsonProps = (p1, p2) => {
+  return JSON.stringify(p1) === JSON.stringify(p2);
+};
+const LatLong_FilterSelector = ({
+  param,
+  index,
+  options,
+  onUpdateFilterParam
+}) => {
+  const sortedOptions = options.sort(function (a, b) {
+    var aLabel = a.label ? a.label.toLowerCase() : "";
+    var bLabel = b.label ? b.label.toLowerCase() : "";
+    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+    onChange: value => {
+      onUpdateFilterParam(value, index);
+    },
+    value: param,
+    options: sortedOptions
+  });
+};
+const LatLong_CategoricalFilter = ({
+  value,
+  index,
+  items,
+  onUpdateFilterValue
+}) => {
+  if (items) {
+    const sortedItems = items.sort(function (a, b) {
+      /*
+          var aValue= a.value ? a.value.toLowerCase() : "";
+          var bValue = b.value ? b.value.toLowerCase() : "";
+          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      */
+      return a.position - b.position;
+    });
+    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: v.value,
+        checked: value.indexOf(v.id) > -1,
+        onChange: e => {
+          onUpdateFilterValue(v.id, index);
+        }
+      })]
+    }));
+  } else {
+    return null;
+  }
+};
+class LatLong_DataLayerSetting extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.setFilterValue = this.setFilterValue.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.items = this.items.bind(this);
+    this.getCSValue = this.getCSValue.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.state = {
+      measures: [],
+      dimensions: [],
+      filters: [],
+      categories: []
+    };
+  }
+  onMeasuresChange(value) {
+    const {
+      layer: {
+        measures = []
+      },
+      onChangeProperty
+    } = this.props;
+    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
+    onChangeProperty("measures", nextMeasures);
+  }
+  onFormatChange(format) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("format", format);
+  }
+  getCSValue() {
+    const {
+      apps,
+      features,
+      layer: {
+        csv,
+        featureJoinAttribute
+      }
+    } = this.props;
+    if (csv == '') {
+      let generatedCSV = 'Latitude,Longitude,value\n';
+      if (features && features.length > 0) {
+        features.forEach(f => {
+          if (f.properties[featureJoinAttribute]) {
+            generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
+          }
+        });
+      }
+      return generatedCSV;
+    }
+    return csv;
+  }
+  cleanSelection(prevState) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", []);
+    onChangeProperty("filters", []);
+
+    //setAttributes({measures: [], filters: []})
+  }
+  updateFilterParam(param, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    const newFilters = filters.slice();
+    const selected = allFilters.filter(f => f.param === param)[0];
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  updateFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    if (values.indexOf(value) > -1) {
+      values = values.filter(v => v != value);
+    } else {
+      values.push(value);
+    }
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    // setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  setFilterValue(value, idx) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty
+    } = this.props;
+    const selected = filters[idx];
+    let values = selected.value;
+    values = value.split(",");
+    const newFilters = filters.slice();
+    newFilters[idx].value = values;
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  addFilter() {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters && allFilters.length > 0 ? {
+      ...allFilters[index],
+      "value": []
+    } : null;
+    let newFilters = filters.slice();
+    newFilters.push(newFilter);
+    //setAttributes({filters: newFilters})
+    onChangeProperty("filters", newFilters);
+  }
+  removeFilter(f) {
+    const {
+      layer: {
+        filters
+      },
+      onChangeProperty,
+      allFilters
+    } = this.props;
+    let newFilters = filters.slice(0, -1);
+    onChangeProperty("filters", newFilters);
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      onChangeProperty,
+      allCategories,
+      layer: {
+        type,
+        dimension2,
+        types
+      }
+    } = this.props;
+    const {
+      allCategories: prevAllCategories,
+      layer: {
+        type: prevType,
+        dimension2: prevDimension2
+      }
+    } = prevProps;
+    if (!compareJsonProps(allCategories, prevAllCategories)) {
+      onChangeProperty("allCategories", allCategories);
+    }
+  }
+  onSetSingleMeasure(value) {
+    const {
+      onChangeProperty
+    } = this.props;
+    onChangeProperty("measures", [value]);
+  }
+  items(type) {
+    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
+    const cat = values.length > 0 ? values[0] : null;
+    let items = null;
+    if (type === 'Boolean') {
+      items = [{
+        "value": "Yes",
+        id: true
+      }, {
+        "value": "No",
+        id: false
+      }];
+    } else if (cat) {
+      items = cat.items;
+    }
+    return items;
+  }
+  render() {
+    const {
+      onChangeProperty,
+      allDimensions,
+      allFilters,
+      allMeasures,
+      allCategories,
+      allDatasets,
+      features,
+      apps,
+      layer,
+      layer: {
+        app,
+        csv,
+        measures,
+        filters,
+        format,
+        featureJoinAttribute,
+        apiJoinAttribute,
+        dimension1,
+        type,
+        useCentroidPoint,
+        fillColor,
+        borderColor,
+        useBreaks,
+        breaks,
+        pointStyleBy,
+        dimension2,
+        pointDimensionStyles = [],
+        markFillColor,
+        markBorderColor,
+        markSizeScale,
+        tooltip,
+        visible = true,
+        dvzProxyDatasetId,
+        showDim2OnLegends,
+        customMeasuresLabels = {}
+      }
+    } = this.props;
+    const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : [];
+    const items = cats.length > 0 ? cats[0].items : [];
+    const dimensionValues = items.map(i => i.value);
+    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
+      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
+      if (selectedMeasure && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
+        onChangeProperty("customMeasuresLabels", {
+          ...customMeasuresLabels,
+          [measureValue]: selectedMeasure.label
+        });
+      }
+      return selectedMeasure ? {
+        label: selectedMeasure.label,
+        value: selectedMeasure.value
+      } : null;
+    }).filter(Boolean) : [];
+    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Data Source",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)("App", "dg"),
+          help: (0,external_wp_i18n_.__)("Data source application"),
+          value: [app] // e.g: value = [ 'a', 'c' ]
+          ,
+          onChange: app => {
+            onChangeProperty("app", app);
+          },
+          options: apps
+        })
+      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Datasets'),
+          value: [dvzProxyDatasetId],
+          onChange: newDatasetId => {
+            onChangeProperty("dvzProxyDatasetId", newDatasetId);
+          },
+          options: allDatasets
+        })
+      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("CSV Data"),
+          help: (0,external_wp_i18n_.__)("Enter CSV data here"),
+          value: this.getCSValue(csv),
+          onChange: csv => onChangeProperty("csv", csv)
+        })
+      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: 'Dimension',
+            help: (0,external_wp_i18n_.__)("Data dimension field"),
+            value: [apiJoinAttribute] // e.g: value = [ 'a', 'c' ]
+            ,
+            onChange: value => {
+              onChangeProperty("apiJoinAttribute", value);
+            },
+            options: allDimensions
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: 'Second Dimension',
+            help: (0,external_wp_i18n_.__)("Secondary data dimension field"),
+            value: [dimension2],
+            onChange: value => {
+              onChangeProperty("dimension2", value);
+            },
+            options: allDimensions
+          })
+        })]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("Tooltip"),
+          value: tooltip,
+          help: (0,external_wp_i18n_.__)(`You can use the following variables: `),
+          onChange: tooltip => onChangeProperty("tooltip", tooltip),
+          rows: 10
+        })
+      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+          style: {
+            "margin-top": "calc(8px)",
+            "font-size": "12px",
+            "font-style": "normal",
+            "color": "rgb(117, 117, 117)"
+          },
+          children: "{" + m.value + "}"
+        })
+      })), app != 'csv' && dimension2 != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+          style: {
+            "margin-top": "calc(8px)",
+            "font-size": "12px",
+            "font-style": "normal",
+            "color": "rgb(117, 117, 117)"
+          },
+          children: "{" + dimension2 + "}"
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
+      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Filters"),
+        children: [filters.map((f, index) => {
+          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_FilterSelector, {
+              param: f.param,
+              index: index,
+              options: allFilters,
+              onUpdateFilterParam: this.updateFilterParam
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_CategoricalFilter, {
+              value: f.value,
+              index: index,
+              items: this.items(f.type),
+              onUpdateFilterValue: this.updateFilterValue
+            })]
+          });
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.addFilter,
+            children: (0,external_wp_i18n_.__)("Add Filter")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.removeFilter,
+            children: (0,external_wp_i18n_.__)("Remove")
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Symbols and Styles",
+      children: [app != "csv" && pointStyleBy === 'measure' && selectedMeasureConfigs.map(({
+        label,
+        value
+      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: label,
+          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
+          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
+          onChange: measureLabel => {
+            onChangeProperty("customMeasuresLabels", {
+              ...customMeasuresLabels,
+              [value]: measureLabel
+            });
+          }
+        })
+      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Show 2nd Dimension on Legends"),
+          help: (0,external_wp_i18n_.__)("Include second dimension in the map legend"),
+          checked: showDim2OnLegends,
+          onChange: showDim2OnLegends => {
+            onChangeProperty("showDim2OnLegends", showDim2OnLegends);
+          }
+        })
+      }), showDim2OnLegends && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)("2nd Dimension Legend Label"),
+          value: layer.dim2LegendLabel ? layer.dim2LegendLabel : '',
+          onChange: dim2LegendLabel => {
+            onChangeProperty("dim2LegendLabel", dim2LegendLabel);
+          },
+          placeholder: (0,external_wp_i18n_.__)("e.g. 'Region'")
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: "Color by",
+          help: (0,external_wp_i18n_.__)("Attribute to determine point color"),
+          value: pointStyleBy ? pointStyleBy : 'none',
+          onChange: v => {
+            onChangeProperty('pointStyleBy', v);
+          },
+          options: [{
+            label: "None",
+            value: "none"
+          }, {
+            label: "Dimension",
+            value: "dimension"
+          }, {
+            label: "Measure",
+            value: "measure"
+          }]
+        })
+      }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        onMeasuresChange: this.onMeasuresChange,
+        onFormatChange: this.onFormatChange,
+        onSetSingleMeasure: this.onSetSingleMeasure,
+        measures: layer.measures,
+        format: layer.format,
+        ...this.props
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: true,
+        title: "Default Styles",
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+            label: (0,external_wp_i18n_.__)(`Default Points Size`),
+            help: (0,external_wp_i18n_.__)("Base size for points"),
+            value: markSizeScale,
+            onChange: value => {
+              onChangeProperty("markSizeScale", value);
+            },
+            step: 1,
+            min: 0,
+            max: 100
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)(`Default Fill Color`),
+            value: markFillColor,
+            colorSettings: [{
+              clearable: true,
+              enableAlpha: true,
+              value: markFillColor,
+              onChange: markFillColor => {
+                onChangeProperty("markFillColor", markFillColor);
+              }
+            }]
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)(`Default Border Color`),
+            value: borderColor,
+            colorSettings: [{
+              clearable: true,
+              enableAlpha: true,
+              value: markBorderColor,
+              onChange: borderColor => {
+                onChangeProperty("markBorderColor", borderColor);
+              }
+            }]
+          })
+        })]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: true,
+        title: "Breaks",
+        children: [pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
+          app: app,
+          csv: csv,
+          dvzProxyDatasetId: dvzProxyDatasetId,
+          measures: measures,
+          filters: filters,
+          apiJoinAttribute: apiJoinAttribute,
+          showSize: useCentroidPoint,
+          defaultBorderColor: markBorderColor,
+          defaultFillColor: markFillColor,
+          format: format,
+          onChangeProperty: onChangeProperty,
+          breaks: breaks
+        }), pointStyleBy === 'dimension' && showDim2OnLegends && dimensionValues.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: field,
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: (0,external_wp_i18n_.__)(`Point Size`),
+              help: (0,external_wp_i18n_.__)("Size for this specific point"),
+              value: pointDimensionStyles[field + '_size'] ? pointDimensionStyles[field + '_size'] : markSizeScale,
+              onChange: v => {
+                onChangeProperty('pointDimensionStyles', {
+                  ...pointDimensionStyles,
+                  [field + '_size']: v
+                });
+              },
+              step: 1,
+              min: 0,
+              max: 100
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+              title: (0,external_wp_i18n_.__)(`Point Fill Color`),
+              value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor,
+              colorSettings: [{
+                clearable: true,
+                enableAlpha: true,
+                value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor,
+                onChange: v => {
+                  onChangeProperty('pointDimensionStyles', {
+                    ...pointDimensionStyles,
+                    [field + '_color']: v
+                  });
+                }
+              }]
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+              title: (0,external_wp_i18n_.__)(`Point Border Color`),
+              value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor,
+              colorSettings: [{
+                clearable: true,
+                enableAlpha: true,
+                value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor,
+                onChange: v => {
+                  onChangeProperty('pointDimensionStyles', {
+                    ...pointDimensionStyles,
+                    [field + '_border']: v
+                  });
+                }
+              }]
+            })
+          })]
+        }))]
+      })]
+    })];
+  }
+}
+/* harmony default export */ const LatLong = (LatLong_DataLayerSetting);
+;// ./d3Map/layers/TileBasemap.jsx
+
+
+
+/**
+ * Tile source options mirrored from TileBasemapLayer.jsx in dvz-ui.
+ * Keep these in sync with TILE_SOURCES in TileBasemapLayer.jsx.
+ */
+
+const TILE_SOURCE_OPTIONS = [{
+  label: (0,external_wp_i18n_.__)('OpenStreetMap', 'dg'),
+  value: 'osm'
+}, {
+  label: (0,external_wp_i18n_.__)('Carto Positron (Light)', 'dg'),
+  value: 'carto-light'
+}, {
+  label: (0,external_wp_i18n_.__)('Carto Dark Matter', 'dg'),
+  value: 'carto-dark'
+}, {
+  label: (0,external_wp_i18n_.__)('Carto Voyager', 'dg'),
+  value: 'carto-voyager'
+}, {
+  label: (0,external_wp_i18n_.__)('Stadia Alidade Smooth', 'dg'),
+  value: 'stadia-alidade-smooth'
+}, {
+  label: (0,external_wp_i18n_.__)('Stadia Alidade Smooth Dark', 'dg'),
+  value: 'stadia-alidade-smooth-dark'
+}, {
+  label: (0,external_wp_i18n_.__)('Stadia OSM Bright', 'dg'),
+  value: 'stadia-osm-bright'
+}, {
+  label: (0,external_wp_i18n_.__)('Stadia Outdoors', 'dg'),
+  value: 'stadia-outdoors'
+}, {
+  label: (0,external_wp_i18n_.__)('ESRI World Imagery (Satellite)', 'dg'),
+  value: 'esri-world-imagery'
+}, {
+  label: (0,external_wp_i18n_.__)('ESRI World Topo Map', 'dg'),
+  value: 'esri-topo'
+}];
+
+/**
+ * TileBasemapLayer editor panel.
+ *
+ * Props:
+ *   - layer: the layer object
+ *   - onChangeProperty: (attr, value) => void
+ */
+const TileBasemapLayer = ({
+  layer,
+  onChangeProperty
+}) => {
+  const {
+    tileSource = 'carto-light',
+    tileOpacity = 1,
+    visible = true
+  } = layer;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    title: (0,external_wp_i18n_.__)('Tile Basemap Settings', 'dg'),
+    initialOpen: true,
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)('Tile Source', 'dg'),
+        help: (0,external_wp_i18n_.__)('Choose the basemap tile layer. Sources use OpenMapTiles-compatible XYZ tiles.', 'dg'),
+        value: tileSource,
+        options: TILE_SOURCE_OPTIONS,
+        onChange: value => onChangeProperty('tileSource', value)
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('Opacity', 'dg'),
+        help: (0,external_wp_i18n_.__)('Tile layer opacity (0 = transparent, 1 = opaque)', 'dg'),
+        value: tileOpacity,
+        onChange: value => onChangeProperty('tileOpacity', value),
+        min: 0,
+        max: 1,
+        step: 0.05
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)('Visible', 'dg'),
+        help: (0,external_wp_i18n_.__)('Show or hide this tile basemap layer', 'dg'),
+        checked: visible,
+        onChange: () => onChangeProperty('visible', !visible)
+      })
+    })]
+  });
+};
+/* harmony default export */ const TileBasemap = (TileBasemapLayer);
+;// ./d3Map/layers/PixelGrid.jsx
+
+
+
+
+
+
+
+
+/**
+ * Editor settings panel for the Pixel Grid layer type.
+ * Mirrors the Data shape layer's app → dataset → dimension flow.
+ */
+
+class PixelGridLayer extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+    this.onMeasuresChange = this.onMeasuresChange.bind(this);
+    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
+    this.onFormatChange = this.onFormatChange.bind(this);
+    this.addFilter = this.addFilter.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
+    this.updateFilterParam = this.updateFilterParam.bind(this);
+    this.updateFilterValue = this.updateFilterValue.bind(this);
+  }
+  onMeasuresChange(value) {
+    const {
+      layer: {
+        measures = []
+      },
+      onChangeProperty
+    } = this.props;
+    const nextMeasures = measures.includes(value) ? measures.filter(m => m !== value) : [...measures, value];
+    onChangeProperty('measures', nextMeasures);
+  }
+  onSetSingleMeasure(value) {
+    this.props.onChangeProperty('measures', [value]);
+  }
+  onFormatChange(format) {
+    this.props.onChangeProperty('format', format);
+  }
+  addFilter() {
+    const {
+      layer: {
+        filters = []
+      },
+      onChangeProperty,
+      allFilters = []
+    } = this.props;
+    const index = filters.length > allFilters.length ? allFilters.length : filters.length;
+    const newFilter = allFilters.length > 0 ? {
+      ...allFilters[index],
+      value: []
+    } : null;
+    if (newFilter) onChangeProperty('filters', [...filters, newFilter]);
+  }
+  removeFilter() {
+    const {
+      layer: {
+        filters = []
+      },
+      onChangeProperty
+    } = this.props;
+    onChangeProperty('filters', filters.slice(0, -1));
+  }
+  updateFilterParam(param, idx) {
+    const {
+      layer: {
+        filters = []
+      },
+      onChangeProperty,
+      allFilters = []
+    } = this.props;
+    const selected = allFilters.find(f => f.param === param);
+    const newFilters = filters.slice();
+    newFilters[idx] = {
+      ...selected,
+      value: []
+    };
+    onChangeProperty('filters', newFilters);
+  }
+  updateFilterValue(value, idx) {
+    const {
+      layer: {
+        filters = []
+      },
+      onChangeProperty
+    } = this.props;
+    const newFilters = filters.slice();
+    const current = newFilters[idx].value || [];
+    newFilters[idx] = {
+      ...newFilters[idx],
+      value: current.includes(value) ? current.filter(v => v !== value) : [...current, value]
+    };
+    onChangeProperty('filters', newFilters);
+  }
+  render() {
+    const {
+      layer,
+      layer: {
+        app = 'none',
+        dvzProxyDatasetId = '',
+        latField = 'none',
+        lonField = 'none',
+        measures = [],
+        filters = [],
+        pixelSizeDeg = 0.05,
+        opacity = 0.8,
+        gradientScheme = 'greens',
+        gradientReverse = false,
+        gradientStartColor,
+        gradientEndColor,
+        tooltip = 'Value: {value}',
+        format = {}
+      },
+      onChangeProperty,
+      allMeasures = [],
+      allDimensions = [],
+      allFilters = [],
+      allDatasets = [],
+      apps = [],
+      attributes,
+      setAttributes
+    } = this.props;
+    const isSuperSet = (0,build/* isSupersetAPI */.oL)(app, apps);
+
+    // Dimension options for lat/lon dropdowns
+    const dimOptions = [{
+      label: (0,external_wp_i18n_.__)('— Select field —', 'dg'),
+      value: 'none'
+    }, ...allDimensions.map(d => ({
+      label: d.label || d.value,
+      value: d.value
+    }))];
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        title: (0,external_wp_i18n_.__)('Data Source', 'dg'),
+        initialOpen: true,
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: (0,external_wp_i18n_.__)('App', 'dg'),
+            help: (0,external_wp_i18n_.__)('Data source application', 'dg'),
+            value: app,
+            options: apps,
+            onChange: value => onChangeProperty('app', value)
+          })
+        }), isSuperSet && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: (0,external_wp_i18n_.__)('Dataset', 'dg'),
+            value: dvzProxyDatasetId,
+            options: allDatasets,
+            onChange: value => onChangeProperty('dvzProxyDatasetId', value)
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: (0,external_wp_i18n_.__)('Latitude field', 'dg'),
+            help: (0,external_wp_i18n_.__)('Dimension that contains the pixel centre latitude', 'dg'),
+            value: latField,
+            options: dimOptions,
+            onChange: value => onChangeProperty('latField', value)
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: (0,external_wp_i18n_.__)('Longitude field', 'dg'),
+            help: (0,external_wp_i18n_.__)('Dimension that contains the pixel centre longitude', 'dg'),
+            value: lonField,
+            options: dimOptions,
+            onChange: value => onChangeProperty('lonField', value)
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+            label: (0,external_wp_i18n_.__)('Tooltip', 'dg'),
+            help: (0,external_wp_i18n_.__)('Use {value}, {lat}, {lon} or any API key. e.g. Yield: {value}', 'dg'),
+            value: tooltip,
+            rows: 4,
+            onChange: value => onChangeProperty('tooltip', value)
+          })
+        }), allMeasures.length > 0 && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
+            style: {
+              marginTop: '8px',
+              fontSize: '12px',
+              color: 'rgb(117,117,117)'
+            },
+            children: '{' + m.value + '}'
+          })
+        }, m.value))]
+      }), app && app !== 'none' && app !== 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
+        layer: layer,
+        allMeasures: allMeasures,
+        onMeasuresChange: this.onMeasuresChange,
+        onFormatChange: this.onFormatChange,
+        onSetSingleMeasure: this.onSetSingleMeasure,
+        attributes: attributes,
+        setAttributes: setAttributes
+      }), app && app !== 'none' && app !== 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        title: (0,external_wp_i18n_.__)('Filters', 'dg'),
+        initialOpen: false,
+        children: [filters.map((f, index) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)(`Filter – ${f.label}`, 'dg'),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            value: f.param,
+            options: allFilters,
+            onChange: value => this.updateFilterParam(value, index)
+          }), allFilters.find(af => af.param === f.param)?.items?.map(item => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: item.value,
+              checked: (f.value || []).includes(item.id),
+              onChange: () => this.updateFilterValue(item.id, index)
+            })
+          }, item.id))]
+        }, index)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.addFilter,
+            children: (0,external_wp_i18n_.__)('Add Filter', 'dg')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "link",
+            onClick: this.removeFilter,
+            children: (0,external_wp_i18n_.__)('Remove', 'dg')
+          })]
+        })]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        title: (0,external_wp_i18n_.__)('Pixel Appearance', 'dg'),
+        initialOpen: false,
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+            label: (0,external_wp_i18n_.__)('Pixel size (degrees)', 'dg'),
+            help: (0,external_wp_i18n_.__)('Match this to the data grid resolution — default 0.05°.', 'dg'),
+            value: pixelSizeDeg,
+            onChange: value => onChangeProperty('pixelSizeDeg', value),
+            min: 0.01,
+            max: 1,
+            step: 0.01
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+            label: (0,external_wp_i18n_.__)('Opacity', 'dg'),
+            value: opacity,
+            onChange: value => onChangeProperty('opacity', value),
+            min: 0,
+            max: 1,
+            step: 0.05
+          })
+        })]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        title: (0,external_wp_i18n_.__)('Gradient Color', 'dg'),
+        initialOpen: false,
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_GradientGenerator, {
+          gradientScheme: gradientScheme,
+          gradientReverse: gradientReverse,
+          gradientStartColor: gradientStartColor,
+          gradientEndColor: gradientEndColor,
+          onChangeProperty: onChangeProperty
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        title: (0,external_wp_i18n_.__)('Number Format', 'dg'),
+        initialOpen: false,
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
+          format: format,
+          onFormatChange: this.onFormatChange
+        })
+      })]
+    });
+  }
+}
+/* harmony default export */ const PixelGrid = (PixelGridLayer);
+;// ./d3Map/layers/Base.jsx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const typeOptions = [{
+  label: "Base",
+  value: "base"
+}, {
+  label: "Data Shape",
+  value: "data"
+}, {
+  label: "FLow layer ",
+  value: "flow"
+}, {
+  label: "Data Points ",
+  value: "dataPoints"
+}, {
+  label: "Tile Basemap",
+  value: "tileBasemap"
+}, {
+  label: "Pixel Grid",
+  value: "pixelGrid"
+}];
+const toOptions = files => {
+  return [{
+    label: 'None',
+    value: 'none'
+  }, ...files.map(file => {
+    return {
+      label: file.title.rendered,
+      value: file.source_url
+    };
+  })];
+};
+const Base = props => {
+  const {
+    onChange,
+    metadata,
+    layer,
+    layer: {
+      name,
+      shapeColor,
+      labelFilter,
+      type,
+      file,
+      app,
+      labelField,
+      visible,
+      hideLabelsAtLowZoom
+    }
+  } = props;
+  const [files, setFiles] = (0,external_wp_element_.useState)([]);
+  const [features, setFeatures] = (0,external_wp_element_.useState)([]);
+  (0,external_React_.useEffect)(() => {
+    getJsonFiles().then(files => {
+      setFiles(toOptions(files));
+    });
+  }, []);
+  (0,external_React_.useEffect)(() => {
+    fetch(file).then(response => response.json()).then(data => {
+      setFeatures(data.features);
+    });
+  }, [layer.file]);
+  const onChangeProperty = (...args) => {
+    const [atrr, value] = args;
+    if (Array.isArray(atrr)) {
+      onChangeProperties(...args);
+    } else {
+      console.log("change attribute " + atrr + " to " + value);
+      const newLayer = {
+        ...layer
+      };
+      newLayer[atrr] = value;
+      onChange(newLayer);
+    }
+  };
+  const onChangeProperties = (...propValues) => {
+    const newLayer = {
+      ...layer
+    };
+    propValues.forEach(pv => {
+      const [prop, value] = pv;
+      console.log("change property " + prop + " to " + value);
+      newLayer[prop] = value;
+    });
+    onChange(newLayer);
+  };
+  const datasets = [{
+    label: 'Select Dataset',
+    value: '0'
+  }];
+  if (metadata.datasets) {
+    metadata.datasets.forEach(d => {
+      datasets.push({
+        label: d.label,
+        value: d.id
+      });
+    });
+  }
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+      type: "String",
+      label: (0,external_wp_i18n_.__)("Name", "dg"),
+      help: (0,external_wp_i18n_.__)("Layer name"),
+      onChange: name => onChangeProperty("name", name),
+      value: name
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+      label: "Default visible",
+      help: (0,external_wp_i18n_.__)("Layer visibility on load"),
+      checked: visible,
+      onChange: e => {
+        onChangeProperty("visible", !visible);
+      }
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+      label: (0,external_wp_i18n_.__)("Type", "dg"),
+      help: (0,external_wp_i18n_.__)("Layer type"),
+      value: type,
+      onChange: type => onChangeProperty("type", type),
+      options: typeOptions
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+    children: type != 'dataPoints' && type != 'tileBasemap' && type != 'pixelGrid' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        type: "String",
+        label: "File",
+        help: (0,external_wp_i18n_.__)("GeoJSON file source"),
+        onChange: file => onChangeProperty("file", file),
+        value: file,
+        options: files
+      })
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+    children: type != 'dataPoints' && type != 'flow' && type != 'tileBasemap' && type != 'pixelGrid' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: "Colors",
+      initialOpen: false,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Fill Color`),
+        colorSettings: [{
+          clearable: true,
+          enableAlpha: true,
+          value: layer.fillColor,
+          onChange: fillColor => {
+            if (fillColor != null) {
+              onChangeProperty("fillColor", fillColor);
+            } else {
+              onChangeProperty("fillColor", "transparent");
+            }
+          }
+        }]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Border Color`),
+        colorSettings: [{
+          value: layer.borderColor,
+          clearable: true,
+          enableAlpha: true,
+          onChange: borderColor => {
+            onChangeProperty("borderColor", borderColor);
+          }
+        }]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)(`Label Color`),
+        label: "Color",
+        colorSettings: [{
+          clearable: true,
+          enableAlpha: true,
+          value: layer.labelColor,
+          onChange: labelColor => {
+            onChangeProperty("labelColor", labelColor);
+          }
+        }]
+      })]
+    })
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+    children: [type != 'dataPoints' && type != 'flow' && type != 'tileBasemap' && type != 'pixelGrid' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      title: "Labels",
+      initialOpen: false,
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
+        title: "Label Field",
+        property: "labelField",
+        value: labelField,
+        onChangeProperty: onChangeProperty,
+        features: features
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Size",
+          help: (0,external_wp_i18n_.__)("Font size of the labels"),
+          value: layer.labelFontSize,
+          onChange: labelFontSize => onChangeProperty("labelFontSize", labelFontSize),
+          min: 1,
+          step: 1,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: "Min Zoom Level (-1 disabled)",
+          help: (0,external_wp_i18n_.__)("Minimum zoom level for labels to appear"),
+          value: layer.minLabelZoomVisible,
+          onChange: minLabelZoomVisible => onChangeProperty("minLabelZoomVisible", minLabelZoomVisible),
+          min: -1,
+          step: 1,
+          max: 100
+        })
+      }), labelField != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Labels"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: "None/All",
+            checked: labelFilter.length == 0,
+            onChange: checked => {
+              if (!checked) {
+                onChangeProperty("labelFilter", features.map(f => f.properties[labelField]));
+              } else {
+                onChangeProperty("labelFilter", []);
+              }
+            }
+          })
+        }), features && features.sort(f => f.properties[labelField]).map(feature => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: feature.properties[labelField],
+              checked: labelFilter.indexOf(feature.properties[labelField]) == -1,
+              onChange: selected => {
+                onChangeProperty("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]));
+              }
+            })
+          }), labelFilter.indexOf(feature.properties[labelField]) == -1 && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            title: (0,external_wp_i18n_.__)("Rotation"),
+            initialOpen: false,
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+                label: "Offset X",
+                help: (0,external_wp_i18n_.__)("Horizontal label offset"),
+                min: -500,
+                max: 500,
+                value: layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0,
+                onChange: offsetX => onChangeProperty("labelSettings", {
+                  ...layer.labelSettings,
+                  [feature.properties[labelField] + "_offsetX"]: offsetX
+                })
+              })
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+                label: "Offset Y",
+                help: (0,external_wp_i18n_.__)("Vertical label offset"),
+                min: -500,
+                max: 500,
+                value: layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0,
+                onChange: offset => onChangeProperty("labelSettings", {
+                  ...layer.labelSettings,
+                  [feature.properties[labelField] + "_offsetY"]: offset
+                })
+              })
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+                label: "Rotation",
+                help: (0,external_wp_i18n_.__)("Label rotation angle"),
+                value: layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0,
+                onChange: rotation => onChangeProperty("labelSettings", {
+                  ...layer.labelSettings,
+                  [feature.properties[labelField] + "_rotation"]: rotation
+                })
+              })
+            })]
+          })]
+        }))]
+      })]
+    }), "  "]
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(React.Fragment, {
+    children: [type == 'data' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Data, {
+        ...props,
+        apps: metadata.apps,
+        onChangeProperty: onChangeProperty,
+        allDimensions: metadata.dimensions || [],
+        allFilters: metadata.filters || [],
+        allMeasures: metadata.measures || [],
+        allCategories: metadata.categories || [],
+        allApps: metadata.apps,
+        features: features,
+        layer: layer,
+        allDatasets: datasets
+      })
+    }), type == 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow, {
+        ...props,
+        apps: metadata.apps,
+        onChangeProperty: onChangeProperty,
+        allDimensions: metadata.dimensions || [],
+        allFilters: metadata.filters || [],
+        allMeasures: metadata.measures || [],
+        allCategories: metadata.categories || [],
+        allApps: metadata.apps,
+        features: features,
+        layer: layer,
+        allDatasets: datasets
+      })
+    }), type == 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong, {
+        ...props,
+        apps: metadata.apps,
+        onChangeProperty: onChangeProperty,
+        allDimensions: metadata.dimensions || [],
+        allFilters: metadata.filters || [],
+        allMeasures: metadata.measures || [],
+        allCategories: metadata.categories || [],
+        allApps: metadata.apps,
+        allDatasets: datasets,
+        features: features,
+        layer: layer
+      })
+    }), type == 'tileBasemap' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(TileBasemap, {
+        layer: layer,
+        onChangeProperty: onChangeProperty
+      })
+    }), type == 'pixelGrid' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(PixelGrid, {
+        ...props,
+        apps: metadata.apps,
+        onChangeProperty: onChangeProperty,
+        allMeasures: metadata.measures || [],
+        allDimensions: metadata.dimensions || [],
+        allFilters: metadata.filters || [],
+        allDatasets: datasets,
+        allApps: metadata.apps,
+        layer: layer
+      })
+    })]
+  })];
+};
+class LayerWithMetadata extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    const {
+      layer: {
+        name,
+        type,
+        file,
+        app,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    fetch(`/api/registry/eureka/apps`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => response.json()).then(data => {
+      const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
+        label: a.name,
+        value: a.instance[0].vipAddress,
+        settings: a.instance[0]
+      })), {
+        label: 'CSV',
+        value: 'csv'
+      }] : [{
+        label: 'CSV',
+        value: 'csv'
+      }];
+      this.setState({
+        ...this.state,
+        apps
+      });
+      if (app && app != 'none') {
+        if ((0,build/* isSupersetAPI */.oL)(app, apps)) {
+          //if app is superset proxy an additional step is added
+          this.loadDatasets(app);
+          if (dvzProxyDatasetId) {
+            this.loadMetadata(app, dvzProxyDatasetId);
+          }
+        } else {
+          this.loadMetadata(app);
+        }
+      }
+    }).catch(function (response) {
+      alert("error" + response);
+    });
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+    const {
+      layer: {
+        app,
+        dvzProxyDatasetId
+      }
+    } = this.props;
+    const {
+      layer: {
+        app: prevAPP,
+        dvzProxyDatasetId: prevDvzProxyDatasetId
+      }
+    } = prevProps;
+    if (app != prevAPP) {
+      //if app changes we shoudl reload metadta
+
+      if ((0,build/* isSupersetAPI */.oL)(app, this.state.apps)) {
+        //if app is superset proxy an additional step is added
+        this.loadDatasets(app);
+        if (dvzProxyDatasetId) {
+          this.loadMetadata(app, dvzProxyDatasetId);
+        }
+      } else {
+        this.loadMetadata(app);
+      }
+    } else {
+      //app wasn't changed
+
+      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
+        this.loadMetadata(app, dvzProxyDatasetId);
+      }
+    }
+  }
+  render() {
+    const {
+      setAttributes,
+      onMoveLayer,
+      panelStatus,
+      onRemoveLayer,
+      layer,
+      layer: {
+        name,
+        type,
+        file,
+        app
+      }
+    } = this.props;
+    console.log(this.state);
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      onToggle: e => (0,build/* togglePanel */.Pj)('LAYERS_' + name, panelStatus, setAttributes),
+      title: (0,external_wp_i18n_.__)("Layers"),
+      title: (0,external_wp_i18n_.__)(`${name}`),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Base, {
+        ...this.props,
+        metadata: this.state
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "secondary",
+            type: true,
+            onClick: onRemoveLayer,
+            children: "Delete"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "secondary",
+            type: true,
+            onClick: e => onMoveLayer(-1, layer),
+            children: "Up"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            variant: "secondary",
+            type: true,
+            onClick: e => onMoveLayer(1, layer),
+            children: "Down"
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {})]
+    });
+  }
+}
+/* harmony default export */ const layers_Base = (LayerWithMetadata);
+;// ./d3Map/layers/Model.js
+
+const Model = {
+  id: Date.now(),
+  name: 'New Layer',
+  app: "csv",
+  dimension1: "none",
+  dimension2: "none",
+  measures: [],
+  filters: [],
+  csv: "",
+  file: 'none',
+  opacity: 1,
+  fillColor: '#FFFFFF',
+  markFillColor: '#FFFFFF',
+  markFillColor2: '#FFFFFF',
+  borderColor: '#000000',
+  markBorderColor: '#000000',
+  markBorderColor2: '#000000',
+  markSizeScale: 8,
+  markSizeScale2: 2,
+  markerLabelSize: 1,
+  labelColor: '#000000',
+  markLabelColor: '#000000',
+  labelFontSize: 2,
+  showDim2OnLegends: false,
+  dim2LegendLabel: null,
+  labelFilter: [],
+  labelSettings: {},
+  minLabelZoomVisible: 3,
+  labelField: 'none',
+  type: 'base',
+  //base layer user will select only a file
+  //type:'shape', //shape layer user will select file and data source
+  //type:'data', //will select data source and symbols + symbols configuration
+  useBreaks: false,
+  useGradients: false,
+  usePattern: false,
+  pointStyleBy: 'none',
+  format: {
+    "style": "percent",
+    "minimumFractionDigits": 1,
+    "maximumFractionDigits": 1,
+    "currency": "USD"
+  },
+  featureJoinAttribute: 'none',
+  apiJoinAttribute: 'none',
+  useCentroidPoint: true,
+  patternDiscriminator: 'none',
+  patternDiscriminatorLabel: null,
+  patterns: [],
+  pointDimensionStyles: [],
+  tooltip: "Value {value}",
+  breaks: [],
+  gradientScheme: 'blues',
+  gradientReverse: false,
+  customMeasuresLabels: {},
+  visible: true,
+  flowValuesFrom: 'origin',
+  flowOrigin: 'none',
+  flowDestination: 'none',
+  dvzProxyDatasetId: '',
+  offsetPixels: 10,
+  patternsVisible: true,
+  colorLayerVisible: true,
+  hideLabelsAtLowZoom: false,
+  animateOnDataRefresh: false,
+  // Tile basemap layer properties (used when type === 'tileBasemap')
+  tileSource: 'carto-light',
+  tileOpacity: 1,
+  // Pixel grid layer properties (used when type === 'pixelGrid')
+  latField: 'lat',
+  lonField: 'lon',
+  pixelSizeDeg: 0.05,
+  opacity: 0.8
+};
+/* harmony default export */ const layers_Model = (Model);
+;// ./d3Map/BlockEdit.js
+
+
+
+
+
+
+
+
+;
+class BlockEdit extends build/* ComponentWithSettings */.BE {
+  constructor(props) {
+    super(props);
+    this.onChangeLayer = this.onChangeLayer.bind(this);
+    this.addLayer = this.addLayer.bind(this);
+    this.removeLayer = this.removeLayer.bind(this);
+    this.onMoveLayer = this.onMoveLayer.bind(this);
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      attributes: {
+        app
+      }
+    } = this.props;
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+  }
+  componentDidMount() {
+    super.componentDidMount();
+    const {
+      setAttributes
+    } = this.props;
+    setAttributes({
+      identifier: Math.ceil(Math.random() * 100000000)
+    }); //set a random id to identify each of the maps on the page
+
+    window.addEventListener("message", event => {
+      if (event.data.type == `d3_map_${this.props.attributes.identifier}`) {
+        const iframeOrigin = event.origin.split(':')[1];
+        const parentOrigin = window.location.origin.split(':')[1];
+        if (iframeOrigin == parentOrigin) {
+          console.log("Received message from iframe " + event.data.type, event.data.value);
+          setAttributes({
+            mapPosition: event.data.value
+          });
+        }
+      }
+    }, false);
+  }
+  addLayer() {
+    const {
+      setAttributes,
+      attributes: {
+        layers
+      }
+    } = this.props;
+    const newLayers = [...layers];
+    const model = {
+      ...layers_Model
+    };
+    model.id = Date.now();
+    newLayers.push(model);
+    setAttributes({
+      layers: newLayers
+    });
+  }
+  removeLayer(layer) {
+    const {
+      setAttributes,
+      attributes: {
+        layers
+      }
+    } = this.props;
+    const {
+      id,
+      name
+    } = layer;
+    const newLayers = layers.filter(l => l.id != id);
+    setAttributes({
+      layers: newLayers
+    });
+  }
+  onChangeLayer(layer) {
+    const {
+      setAttributes,
+      attributes: {
+        layers
+      }
+    } = this.props;
+    const newLayers = [...layers];
+    const index = layers.findIndex(l => l.id === layer.id);
+    if (index !== -1) {
+      newLayers[index] = layer;
+    }
+    setAttributes({
+      layers: newLayers
+    });
+  }
+  onMoveLayer(direction, layer) {
+    const {
+      setAttributes,
+      attributes: {
+        layers
+      }
+    } = this.props;
+    const newLayers = [...layers];
+    const index = newLayers.findIndex(l => l.id === layer.id);
+    const newIndex = index + direction;
+    if (newIndex > -1 && newIndex < newLayers.length) {
+      const element = newLayers.splice(index, 1);
+      newLayers.splice(newIndex, 0, element[0]);
+      setAttributes({
+        layers: newLayers
+      });
+    }
+  }
+  render() {
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes: {
+        projection,
+        panelStatus,
+        mapPosition,
+        height,
+        width,
+        group,
+        backGroundColor,
+        layers = [],
+        rotationEnabled,
+        zoomEnabled,
+        waitForFilters
+      }
+    } = this.props;
+    const divStyles = {
+      height: height + 'px',
+      width: '100%'
+    };
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Map Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false //{false}//{panelStatus['GROUP']}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              help: (0,external_wp_i18n_.__)("Name of the map group"),
+              value: group,
+              onChange: group => setAttributes({
+                group
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Wait For Filters'),
+              help: (0,external_wp_i18n_.__)("If enabled, map will wait for filter selection before loading"),
+              checked: waitForFilters,
+              onChange: () => setAttributes({
+                waitForFilters: !waitForFilters
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus["SIZE"]}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("SIZE", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Size and Position"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              size: 10,
+              label: "Height",
+              help: (0,external_wp_i18n_.__)("Map height in pixels"),
+              value: height,
+              onChange: height => setAttributes({
+                height: height ? parseInt(height) : 0
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              size: 10,
+              label: "Position",
+              help: (0,external_wp_i18n_.__)("Map center coordinates and zoom level"),
+              value: JSON.stringify(mapPosition),
+              onChange: newPos => {
+                setAttributes({
+                  mapPosition: JSON.parse(newPos)
+                });
+              }
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus["PROJECTION"]}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("PROJECTION", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Projection"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              label: (0,external_wp_i18n_.__)("Projection"),
+              help: (0,external_wp_i18n_.__)("Map projection type"),
+              value: projection,
+              onChange: projection => setAttributes({
+                projection
+              }),
+              options: [{
+                label: "geoMercator",
+                value: "geoMercator"
+              }, {
+                label: "geoEqualEarth",
+                value: "geoEqualEarth"
+              }, {
+                label: "geoNaturalEarth1",
+                value: "geoNaturalEarth1"
+              }, {
+                label: "geoAzimuthalEqualArea",
+                value: "geoAzimuthalEqualArea"
+              }, {
+                label: "geoOrthographic",
+                value: "geoOrthographic"
+              }]
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Enable Rotation'),
+              help: (0,external_wp_i18n_.__)("Allow users to rotate the map"),
+              checked: rotationEnabled,
+              onChange: e => setAttributes({
+                rotationEnabled: !rotationEnabled
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Enable Zoom Controls'),
+              help: (0,external_wp_i18n_.__)("Show zoom controls on the map"),
+              checked: zoomEnabled,
+              onChange: e => setAttributes({
+                zoomEnabled: !zoomEnabled
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus['COLORS']}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("COLORS", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Colors"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)('Background'),
+            colorSettings: [{
+              clearable: true,
+              enableAlpha: true,
+              value: decodeURIComponent(backGroundColor),
+              onChange: color => {
+                if (color) {
+                  setAttributes({
+                    backGroundColor: encodeURIComponent(color)
+                  });
+                } else {
+                  setAttributes({
+                    backGroundColor: "#FFFFFF"
+                  });
+                }
+              },
+              label: (0,external_wp_i18n_.__)('Background Color')
+            }]
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false //{panelStatus['LAYERS']}
+          ,
+          onToggle: e => (0,build/* togglePanel */.Pj)("LAYERS", panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Layers"),
+          children: [layers.map(layer => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(layers_Base, {
+            ...this.props,
+            setAttributes: setAttributes,
+            onRemoveLayer: e => this.removeLayer(layer),
+            onChange: this.onChangeLayer,
+            onMoveLayer: this.onMoveLayer,
+            layer: layer
+          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+              variant: "primary",
+              onClick: e => this.addLayer(),
+              children: "Add New Layer"
+            })
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+      style: {
+        margin: "auto",
+        width: "100%"
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+        style: {
+          margin: "auto"
+        },
+        size: {
+          height,
+          width: '100%'
+        },
+        minHeight: "50",
+        enable: {
+          top: false,
+          right: false,
+          bottom: true,
+          left: false,
+          topRight: false,
+          bottomRight: false,
+          bottomLeft: false,
+          topLeft: false
+        },
+        onResizeStop: (event, direction, elt, delta) => {
+          setAttributes({
+            height: parseInt(height + delta.height, 10)
+          });
+          toggleSelection(true);
+        },
+        onResizeStart: () => {
+          toggleSelection(false);
+        },
+        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          scrolling: "no",
+          style: divStyles,
+          src: this.state.react_ui_url + "/embeddable/newMap?"
+        })
+      })
+    })];
+  }
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
+    className: 'wp-react-component'
+  });
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+      ...props
+    })
+  });
+};
+/* harmony default export */ const d3Map_BlockEdit = (Edit);
+;// ./d3Map/index.js
+
+
+
+
+
+(0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/new-d3-map', {
+  title: (0,external_wp_i18n_.__)('D3 Map'),
+  icon: build/* GenericIcon */.Z7,
+  category: build/* BLOCKS_CATEGORY */._q,
+  apiVersion: 2,
+  attributes: {
+    identifier: {
+      type: 'Numeric',
+      default: 0
+    },
+    k: {
+      type: 'Numeric',
+      default: 1
+    },
+    x: {
+      type: 'Numeric',
+      default: 1
+    },
+    y: {
+      type: 'Numeric',
+      default: 1
+    },
+    height: {
+      type: 'Numeric',
+      default: 500
+    },
+    width: {
+      type: 'Numeric',
+      default: 1024
+    },
+    group: {
+      type: 'string',
+      default: 'default'
+    },
+    projection: {
+      type: 'string',
+      default: 'geoMercator'
+    },
+    layers: {
+      type: "Array",
+      default: []
+    },
+    panelStatus: {
+      type: "Object",
+      default: {}
+    },
+    backGroundColor: {
+      type: "string",
+      default: "#347ba2"
+    },
+    mapPosition: {
+      type: "Object",
+      default: {}
+    },
+    zoomEnabled: {
+      type: "Boolean",
+      default: true
+    },
+    rotationEnabled: {
+      type: "Boolean",
+      default: false
+    },
+    enableMeasureSelector: {
+      type: 'Boolean',
+      default: false
+    },
+    measureSelectorLabel: {
+      type: 'String',
+      default: 'Measure'
+    },
+    defaultMeasure: {
+      type: 'String',
+      default: ''
+    },
+    dvzProxyDatasetId: {
+      type: 'String',
+      default: ""
+    },
+    waitForFilters: {
+      type: "Boolean",
+      default: false
+    }
+  },
+  edit: d3Map_BlockEdit,
+  save: BlockSave
+});
+
+/***/ }),
+
 /***/ 7532:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -37927,3626 +41994,6 @@ class EditWithSettings extends _devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODU
 
 /***/ }),
 
-/***/ 9231:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./d3Map/BlockSave.js
-
-
-const SaveComponent = props => {
-  const {
-    attributes: {
-      layers,
-      height,
-      width,
-      group,
-      backGroundColor,
-      mapPosition,
-      projection,
-      zoomEnabled,
-      rotationEnabled,
-      enableMeasureSelector,
-      measureSelectorLabel,
-      defaultMeasure,
-      waitForFilters
-    }
-  } = props;
-  const blockProps = external_wp_blockEditor_.useBlockProps.save({
-    className: 'viz component map'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    className: "viz-component",
-    "data-height": height,
-    "data-width": width,
-    "data-group": group,
-    "data-projection": projection,
-    "data-back-ground-color": backGroundColor,
-    "data-map-position": encodeURIComponent(JSON.stringify(mapPosition)),
-    "data-component": "newMap",
-    "data-zoom-enabled": zoomEnabled,
-    "data-rotation-enabled": rotationEnabled,
-    "data-enable-measure-selector": enableMeasureSelector,
-    "data-measure-selector-label": encodeURIComponent(measureSelectorLabel || ''),
-    "data-measure-selector-default-measure": defaultMeasure,
-    "data-layers": encodeURIComponent(JSON.stringify(layers)),
-    "data-wait-for-filters": waitForFilters
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 17 modules
-var build = __webpack_require__(1704);
-// EXTERNAL MODULE: external ["wp","apiFetch"]
-var external_wp_apiFetch_ = __webpack_require__(1455);
-;// ./d3Map/layers/utils/FileUtils.js
-const getJsonFiles = () => {
-  return wp.apiFetch({
-    path: '/wp/v2/media?per_page=100&mime_type=application/json'
-  });
-};
-/* harmony default export */ const FileUtils = ((/* unused pure expression or super */ null && (undefined)));
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(1609);
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(6087);
-// EXTERNAL MODULE: ./charts/Format.jsx
-var Format = __webpack_require__(1012);
-;// ./d3Map/layers/utils/MapMeasures.jsx
-
-
-
-
-
-
-const defaultFormat = {
-  "style": "percent",
-  "minimumFractionDigits": 1,
-  "maximumFractionDigits": 1,
-  "currency": "USD"
-};
-const Measures = props => {
-  const {
-    onMeasuresChange,
-    onFormatChange,
-    onSetSingleMeasure,
-    allMeasures,
-    setAttributes,
-    panelStatus,
-    layer: {
-      measures,
-      app,
-      format,
-      customMeasuresLabels = {}
-    },
-    attributes: {
-      enableMeasureSelector = false,
-      measureSelectorLabel = 'Measure',
-      defaultMeasure = ''
-    } = {}
-  } = props;
-  const allowMultipleSelection = enableMeasureSelector === true;
-  const selectedMeasureOptions = (measures || []).map(measureValue => {
-    const measure = allMeasures?.find(m => m.value === measureValue);
-    const customLabel = customMeasuresLabels?.[measureValue];
-    return {
-      value: measureValue,
-      label: customLabel && customLabel.toString().trim().length > 0 ? customLabel : measure ? (0,build/* getTranslation */.sC)(measure) : measureValue
-    };
-  });
-  const selectedDefaultMeasure = selectedMeasureOptions.some(option => option.value === defaultMeasure) ? defaultMeasure : '';
-  const defaultMeasureOptions = [{
-    value: '',
-    label: (0,external_wp_i18n_.__)('First selected measure')
-  }, ...selectedMeasureOptions];
-  const MToggle = ({
-    measure
-  }) => {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-      label: (0,build/* getTranslation */.sC)(measure),
-      checked: measures.indexOf(measure.value) > -1,
-      onChange: () => onMeasuresChange(measure.value)
-    });
-  };
-  const MCheckbox = ({
-    measure
-  }) => {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.CheckboxControl, {
-      label: (0,build/* getTranslation */.sC)(measure),
-      checked: measures.indexOf(measure.value) > -1,
-      onChange: () => onSetSingleMeasure(measure.value)
-    });
-  };
-  const countSelected = g => {
-    const groupMeasures = allMeasures.filter(m => m.group.label === g).map(m => m.value);
-    if (groupMeasures.length > 0) {
-      return groupMeasures.filter(m => measures.includes(m)).length;
-    }
-    return 0;
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Measures"),
-    children: [allMeasures && [...new Set(allMeasures.map(p => (0,build/* getTranslation */.sC)(p.group)))].map(g => {
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        onToggle: e => (0,build/* togglePanel */.Pj)(g, panelStatus, setAttributes),
-        title: `${g} (${countSelected(g)} / ${allMeasures.filter(f => f.group.label === g).length} ) `,
-        children: allMeasures.filter(f => (0,build/* getTranslation */.sC)(f.group) === g).map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: allowMultipleSelection ? /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MToggle, {
-              measure: m
-            }) : /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MCheckbox, {
-              measure: m
-            })
-          })
-        }))
-      });
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)('Show Measure Selector'),
-        help: (0,external_wp_i18n_.__)('Allow selecting multiple measures and show a selector above the map when compatible layers share measures.'),
-        checked: enableMeasureSelector === true,
-        onChange: value => setAttributes({
-          enableMeasureSelector: value
-        })
-      })
-    }), enableMeasureSelector === true && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: (0,external_wp_i18n_.__)('Measure Selector Label'),
-          value: measureSelectorLabel,
-          onChange: value => setAttributes({
-            measureSelectorLabel: value
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Default Measure'),
-          value: selectedDefaultMeasure,
-          options: defaultMeasureOptions,
-          onChange: value => setAttributes({
-            defaultMeasure: value
-          }),
-          help: selectedMeasureOptions.length > 0 ? (0,external_wp_i18n_.__)('Select the measure shown by default when the selector is enabled.') : (0,external_wp_i18n_.__)('Select one or more measures in this layer to define the selector options.')
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-      format: format ? format : defaultFormat,
-      hiddenCustomAxisFormat: true,
-      onFormatChange: format => {
-        onFormatChange(format);
-      }
-    })]
-  });
-};
-/* harmony default export */ const MapMeasures = (Measures);
-;// ./d3Map/layers/utils/Property.jsx
-
-
-const Property = ({
-  features,
-  onChangeProperty,
-  value,
-  property,
-  title,
-  type = 'toggle'
-}) => {
-  const properties = features && features.length > 0 ? features[0].properties : {};
-  let attributes = Object.keys(properties);
-  if (type == "toggle") {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: "close",
-      title: title,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "None",
-          checked: value == "none",
-          onChange: value => {
-            onChangeProperty(property, "none");
-          }
-        })
-      }), attributes.map(k => {
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: k,
-            checked: value == k,
-            onChange: value => {
-              onChangeProperty(property, value ? k : "none");
-            }
-          })
-        });
-      })]
-    });
-  } else {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: title,
-        value: [value],
-        onChange: value => {
-          onChangeProperty(property, value);
-        },
-        options: [{
-          label: "None",
-          value: 'none'
-        }, ...attributes.map(k => ({
-          label: k,
-          value: k
-        }))]
-      })
-    });
-  }
-};
-/* harmony default export */ const utils_Property = (Property);
-;// ./d3Map/layers/utils/BreaksGenerator.jsx
-
-
-
-
-var ss = __webpack_require__(2037);
-const BreaksGenerator = ({
-  onChangeProperty,
-  breaks = [],
-  defaultFillColor,
-  defaultBorderColor,
-  showSize,
-  app,
-  csv,
-  apiJoinAttribute,
-  dvzProxyDatasetId,
-  measures,
-  filters,
-  format,
-  hasSecondDimension
-}) => {
-  const prettyRound = (value, digits = 1) => {
-    if (value === 0) return 0;
-    const d = Math.ceil(Math.log10(Math.abs(value)));
-    const power = digits - d;
-    const magnitude = Math.pow(10, power);
-    return Math.round(value * magnitude) / magnitude;
-  };
-  const DEFAULT_POINT_SIZE = 8;
-  const generate = (pretty, nBreaks = 4) => {
-    //eslint-disable-next-line
-
-    const newBreaks = [];
-    const queryString = filters.map(f => f.param + "=" + f.value.map(v => v).toString()).join('&');
-    fetch(`/api/${app}/stats/${apiJoinAttribute}?dvzProxyDatasetId=${dvzProxyDatasetId}&${queryString}`).then(response => response.json()).then(data => {
-      let values = [];
-      if (hasSecondDimension) {
-        values = data.children.flatMap(d => d.children).map(d => d[measures[0]]);
-      } else {
-        values = data.children.map(d => d[measures[0]]);
-      }
-      const numBreaks = Math.min(nBreaks, values.length);
-      const clusters = ss.ckmeans(values, numBreaks);
-      //const naturalBreaks = clusters.map(cluster => cluster[0]);
-      const naturalBreaks = clusters.map((cluster, index) => {
-        if (index === 0 && cluster.length > 1 && cluster[0] !== cluster[1]) {
-          return pretty ? prettyRound(cluster[1]) : cluster[1];
-        }
-        return pretty ? prettyRound(cluster[0]) : cluster[0];
-      });
-      //naturalBreaks.push(clusters[clusters.length - 1].slice(-1)[0]);
-
-      naturalBreaks.push(pretty ? prettyRound(clusters[clusters.length - 1].slice(-1)[0]) : clusters[clusters.length - 1].slice(-1)[0]);
-
-      //eslint-disable-next-line
-      for (let i = 0; i < naturalBreaks.length - 2; i++) {
-        newBreaks.push({
-          end: naturalBreaks[i],
-          color: breaks && breaks[i] && breaks[i].color ? breaks[i].color : defaultFillColor,
-          borderColor: breaks && breaks[i] && breaks[i].borderColor ? naturalBreaks[i].borderColor : defaultBorderColor,
-          size: breaks && breaks[i] && breaks[i].size ? breaks[i].size : DEFAULT_POINT_SIZE,
-          type: 'lessThan'
-        });
-      }
-      const currentGraterThan = breaks.filter(b => b.type == 'graterThan');
-      let color = defaultFillColor;
-      let borderColor = defaultBorderColor;
-      let size = DEFAULT_POINT_SIZE;
-      if (currentGraterThan.length > 0) {
-        color = currentGraterThan[0].color;
-        borderColor = currentGraterThan[0].borderColor;
-        size = currentGraterThan[0].size;
-      }
-      newBreaks.push({
-        end: naturalBreaks[naturalBreaks.length - 1],
-        color: color,
-        borderColor: borderColor,
-        size: size,
-        type: 'graterThan'
-      });
-      onChangeProperty("breaks", [...newBreaks]);
-    });
-  };
-  const add = () => {
-    //eslint-disable-next-line
-    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
-    if (graterThanBreaks.length === 0) {
-      graterThanBreaks = [{
-        start: 0,
-        end: 1,
-        color: defaultFillColor,
-        borderColor: defaultBorderColor,
-        size: 1,
-        type: 'graterThan'
-      }];
-    }
-    const newBreaks = [...lessThanBreaks];
-    newBreaks.push({
-      start: 0,
-      end: 1,
-      color: defaultFillColor,
-      borderColor: defaultBorderColor,
-      size: DEFAULT_POINT_SIZE,
-      type: 'lessThan'
-    });
-    //keep grater than break at the end
-    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
-  };
-  const update = (property, index, value) => {
-    //eslint-disable-next-line
-    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
-    const newBreaks = [...lessThanBreaks];
-    newBreaks[index][property] = value;
-    graterThanBreaks[0].end = lessThanBreaks[lessThanBreaks.length - 1].end;
-    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
-  };
-  const remove = index => {
-    //eslint-disable-next-line
-    let graterThanBreaks = breaks.filter(b => b.type == 'graterThan');
-    let lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    const newBreaks = [...lessThanBreaks];
-    newBreaks.splice(index, 1);
-    if (newBreaks.length > 0) {
-      graterThanBreaks[0].end = lessThanBreaks[newBreaks.length - 1].end;
-    }
-    if (newBreaks.length == 0) {
-      graterThanBreaks = [];
-    }
-    onChangeProperty("breaks", [...newBreaks, ...graterThanBreaks]);
-  };
-  const updateGraterThan = (property, value) => {
-    //eslint-disable-next-line
-    const graterThanBreak = breaks.filter(b => b.type == 'graterThan')[0];
-    const lessThanBreaks = breaks.filter(b => b.type == 'lessThan');
-    graterThanBreak[property] = value;
-    onChangeProperty("breaks", [...lessThanBreaks, graterThanBreak]);
-  };
-
-  /*
-    format: {
-      "style": "percent",
-      "minimumFractionDigits": 1,
-      "maximumFractionDigits": 1,
-      "currency": "USD",
-  },
-  *
-  * */
-  //TODO: Take locale from current page language
-  const numberFormat = {
-    style: format.style === 'compacted' ? 'decimal' : format.style,
-    notation: format.style === 'compacted' ? 'compact' : "standard",
-    currency: format.currency,
-    minimumFractionDigits: parseInt(format.minimumFractionDigits),
-    maximumFractionDigits: parseInt(format.maximumFractionDigits)
-  };
-  const formatter = new Intl.NumberFormat('en-US', numberFormat);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-          variant: "secondary",
-          onClick: e => add(),
-          children: "Add Custom Break"
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-          variant: "secondary",
-          onClick: e => generate(),
-          children: "Generate Natural Breaks"
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-          variant: "secondary",
-          onClick: e => generate(true),
-          children: "Generate Pretty Numbers"
-        })]
-      })
-    }), breaks.map((br, index) => {
-      if (br.type == 'lessThan') {
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-              style: {
-                width: "15px",
-                height: "15px",
-                backgroundColor: br.color,
-                border: '1px solid #000',
-                float: "left",
-                marginRight: "5px"
-              }
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
-              children: "Less than"
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-              style: {
-                marginLeft: "20px"
-              },
-              children: formatter.format(br.end)
-            })]
-          }),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              type: "Number",
-              label: (0,external_wp_i18n_.__)("Value", "dg"),
-              value: br.end,
-              onChange: value => update("end", index, value)
-            })
-          }), showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: "Size",
-              value: br.size,
-              onChange: value => {
-                update("size", index, value);
-              },
-              step: 1,
-              min: 0,
-              max: 200
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)(`Fill Color`),
-            colorSettings: [{
-              clearable: true,
-              enableAlpha: true,
-              value: br.color,
-              onChange: fillColor => {
-                update("color", index, fillColor);
-              }
-            }]
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-              variant: "primary",
-              onClick: e => remove(index),
-              children: "Remove This"
-            })
-          })]
-        });
-      }
-      if (br.type == 'graterThan') {
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-              style: {
-                width: "15px",
-                height: "15px",
-                backgroundColor: br.color,
-                border: '1px solid #000',
-                float: "left",
-                marginRight: "5px"
-              }
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
-              children: " Grater than "
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-              style: {
-                marginLeft: "20px"
-              },
-              children: formatter.format(br.end)
-            })]
-          }),
-          children: [showSize && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: "Size",
-              value: br.size,
-              onChange: value => {
-                updateGraterThan("size", value);
-              },
-              step: 1,
-              min: 0,
-              max: 200
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-              title: (0,external_wp_i18n_.__)(`Fill Color`),
-              colorSettings: [{
-                value: br.color,
-                onChange: fillColor => {
-                  updateGraterThan("color", fillColor);
-                }
-              }]
-            })
-          })]
-        });
-      }
-    })]
-  });
-};
-/* harmony default export */ const utils_BreaksGenerator = (BreaksGenerator);
-// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.3/node_modules/papaparse/papaparse.min.js
-var papaparse_min = __webpack_require__(3643);
-var papaparse_min_default = /*#__PURE__*/__webpack_require__.n(papaparse_min);
-;// ./d3Map/layers/utils/CSVPatternGenerator.jsx
-
-
-
-
-
-const defaultPatternColor = "#000000";
-const Patterns = ({
-  csv,
-  app,
-  onChangeProperty,
-  patterns,
-  patternDiscriminator,
-  defaultFillColor
-}) => {
-  const patternsOptions = [{
-    label: 'Lines',
-    value: 'lines'
-  }, {
-    label: 'Dots',
-    value: 'dots'
-  }, {
-    label: 'Squares',
-    value: 'squares'
-  }, {
-    label: 'Triangle',
-    value: 'triangle'
-  }];
-  const data = papaparse_min_default().parse(csv, {
-    header: true,
-    dynamicTyping: true
-  });
-  const fieldsOptions = data ? data.meta.fields.map(f => {
-    return {
-      label: f,
-      value: f
-    };
-  }) : [];
-  const values = patternDiscriminator != 'none' ? [...new Set(data.data.filter(d => d[patternDiscriminator] != null && d[patternDiscriminator].toString().trim() !== "").map(d => d[patternDiscriminator].toString().trim()))] : [];
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    title: "Patterns",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)("Discriminator"),
-        value: patternDiscriminator,
-        onChange: v => {
-          onChangeProperty('patternDiscriminator', v);
-        },
-        options: [{
-          label: "None",
-          value: "none"
-        }, ...fieldsOptions]
-      })
-    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: field,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: "Symbol",
-          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
-          onChange: v => {
-            onChangeProperty('patterns', {
-              ...patterns,
-              [field + '_symbol']: v
-            });
-          },
-          options: [{
-            label: "None",
-            value: "none"
-          }, ...patternsOptions]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Color`),
-          colorSettings: [{
-            value: patterns[field + '_color'] ? patterns[field + '_color'] : defaultPatternColor,
-            label: (0,external_wp_i18n_.__)('Fill Color'),
-            onChange: color => {
-              onChangeProperty('patterns', {
-                ...patterns,
-                [field + '_color']: color
-              });
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-          label: (0,external_wp_i18n_.__)("Rotation"),
-          onChange: value => onChangeProperty('patterns', {
-            ...patterns,
-            [field + '_rotation']: value
-          }),
-          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
-        })
-      })]
-    }))]
-  });
-};
-/* harmony default export */ const CSVPatternGenerator = (Patterns);
-;// ./d3Map/layers/utils/AppPatternGenerator.jsx
-
-
-
-
-
-const AppPatternGenerator_defaultPatternColor = "#000000";
-const AppPatternGenerator_Patterns = ({
-  allCategories,
-  allDimensions,
-  app,
-  onChangeProperty,
-  patterns,
-  patternDiscriminator,
-  patternDiscriminatorLabel,
-  defaultFillColor
-}) => {
-  const patternsOptions = [{
-    label: 'Lines',
-    value: 'lines'
-  }, {
-    label: 'Dots',
-    value: 'dots'
-  }, {
-    label: 'Squares',
-    value: 'squares'
-  }, {
-    label: 'Triangle',
-    value: 'triangle'
-  }];
-  const dims = allDimensions ? allDimensions : [];
-  const cats = patternDiscriminator && allCategories ? allCategories.filter(c => c.type.toUpperCase() == patternDiscriminator.toUpperCase()) : [];
-  console.log(cats);
-  const items = cats.length > 0 ? cats[0].items : [];
-  const values = items.map(i => i.value);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    title: "Patterns",
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)("Discriminator"),
-        value: patternDiscriminator,
-        onChange: v => {
-          onChangeProperty('patternDiscriminator', v);
-        },
-        options: [...dims]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-        label: (0,external_wp_i18n_.__)("Label"),
-        value: patternDiscriminatorLabel,
-        onChange: v => {
-          onChangeProperty('patternDiscriminatorLabel', v);
-        }
-      })
-    }), values.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: field,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: "Symbol",
-          value: patterns[field + '_symbol'] ? patterns[field + '_symbol'] : 'none',
-          onChange: v => {
-            onChangeProperty('patterns', {
-              ...patterns,
-              [field + '_symbol']: v
-            });
-          },
-          options: [{
-            label: "None",
-            value: "none"
-          }, ...patternsOptions]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Color`),
-          colorSettings: [{
-            value: patterns[field + '_color'] ? patterns[field + '_color'] : AppPatternGenerator_defaultPatternColor,
-            label: (0,external_wp_i18n_.__)('Fill Color'),
-            onChange: color => {
-              onChangeProperty('patterns', {
-                ...patterns,
-                [field + '_color']: color
-              });
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-          label: (0,external_wp_i18n_.__)("Rotation"),
-          onChange: value => onChangeProperty('patterns', {
-            ...patterns,
-            [field + '_rotation']: value
-          }),
-          value: patterns[field + '_rotation'] ? patterns[field + '_rotation'] : 0
-        })
-      })]
-    }))]
-  });
-};
-/* harmony default export */ const AppPatternGenerator = (AppPatternGenerator_Patterns);
-;// ./d3Map/layers/utils/PatternGenerator.jsx
-
-
-
-
-
-
-
-const PatternGenerator_Patterns = props => {
-  const {
-    app
-  } = props;
-  if (app == "csv") {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CSVPatternGenerator, {
-      ...props
-    });
-  } else {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(AppPatternGenerator, {
-      ...props
-    });
-  }
-};
-/* harmony default export */ const PatternGenerator = (PatternGenerator_Patterns);
-;// ./d3Map/layers/utils/GradientGenerator.jsx
-
-
-
-
-const sequentialColors = [{
-  value: "custom",
-  label: 'Custom'
-}, {
-  value: "blues",
-  label: 'blues'
-}, {
-  value: "greens",
-  label: 'greens'
-}, {
-  value: "greys",
-  label: 'greys'
-}, {
-  value: "oranges",
-  label: 'oranges'
-}, {
-  value: "purples",
-  label: 'purples'
-}, {
-  value: "reds",
-  label: 'reds'
-}, {
-  value: "blue_green",
-  label: 'blue_green'
-}, {
-  value: "blue_purple",
-  label: 'blue_purple'
-}, {
-  value: "green_blue",
-  label: 'green_blue'
-}, {
-  value: "orange_red",
-  label: 'orange_red'
-}, {
-  value: "purple_blue_green",
-  label: 'purple_blue_green'
-}, {
-  value: "purple_blue",
-  label: 'purple_blue'
-}, {
-  value: "purple_red",
-  label: 'purple_red'
-}, {
-  value: "red_purple",
-  label: 'red_purple'
-}, {
-  value: "yellow_green_blue",
-  label: 'yellow_green_blue'
-}, {
-  value: "yellow_green",
-  label: 'yellow_green'
-}, {
-  value: "yellow_orange_brown",
-  label: 'yellow_orange_brown'
-}, {
-  value: "yellow_orange_red",
-  label: 'yellow_orange_red'
-}];
-const GradientGenerator = props => {
-  const {
-    onChangeProperty,
-    gradientScheme,
-    gradientReverse,
-    gradientStartColor,
-    gradientEndColor
-  } = props;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: "Reverse Gradient",
-        checked: gradientReverse,
-        onChange: e => {
-          onChangeProperty("gradientReverse", !gradientReverse);
-        }
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)('Gradient Color Scheme'),
-        value: gradientScheme,
-        onChange: value => {
-          onChangeProperty("gradientScheme", value);
-        },
-        options: sequentialColors
-      })
-    }), gradientScheme === 'custom' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)('Start Color'),
-          initialOpen: true,
-          colorSettings: [{
-            value: gradientStartColor,
-            onChange: color => onChangeProperty('gradientStartColor', color),
-            label: (0,external_wp_i18n_.__)('Start Color')
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)('End Color'),
-          initialOpen: true,
-          colorSettings: [{
-            value: gradientEndColor,
-            onChange: color => onChangeProperty('gradientEndColor', color),
-            label: (0,external_wp_i18n_.__)('End Color')
-          }]
-        })
-      })]
-    })]
-  });
-};
-/* harmony default export */ const utils_GradientGenerator = (GradientGenerator);
-;// ./d3Map/layers/Data.jsx
-
-
-
-
-
-
-
-
-
-
-
-
-const FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      /*
-          var aValue= a.value ? a.value.toLowerCase() : "";
-          var bValue = b.value ? b.value.toLowerCase() : "";
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      */
-      return a.position - b.position;
-    });
-    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })]
-    }));
-  } else {
-    return null;
-  }
-};
-class DataLayerSetting extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onMeasuresChange = this.onMeasuresChange.bind(this);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.getCSValue = this.getCSValue.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  onMeasuresChange(value) {
-    const {
-      layer: {
-        measures = []
-      },
-      onChangeProperty
-    } = this.props;
-    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
-    onChangeProperty("measures", nextMeasures);
-  }
-  onFormatChange(format, field) {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      features,
-      apps,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        fillColor,
-        borderColor,
-        breaks,
-        markFillColor,
-        markBorderColor,
-        markSizeScale,
-        tooltip
-      }
-    } = this.props;
-    onChangeProperty("format", format);
-  }
-  getCSValue() {
-    const {
-      apps,
-      features,
-      layer: {
-        csv,
-        featureJoinAttribute
-      }
-    } = this.props;
-    if (csv == '') {
-      let generatedCSV = 'id,value\n';
-      if (features && features.length > 0) {
-        features.forEach(f => {
-          if (f.properties[featureJoinAttribute]) {
-            generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
-          }
-        });
-      }
-      return generatedCSV;
-    }
-    return csv;
-  }
-  cleanSelection(prevState) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", []);
-    onChangeProperty("filters", []);
-
-    //setAttributes({measures: [], filters: []})
-  }
-  updateFilterParam(param, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  updateFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  setFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  addFilter() {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  removeFilter(f) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    onChangeProperty("filters", newFilters);
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      onChangeProperty,
-      layer: {
-        type,
-        dimension2,
-        types
-      }
-    } = this.props;
-    const {
-      layer: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-  }
-  onSetSingleMeasure(value) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", [value]);
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  }
-  render() {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      allCategories,
-      allDatasets,
-      features,
-      apps,
-      layer,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        useCentroidPoint,
-        useBreaks,
-        useGradients,
-        fillColor,
-        borderColor,
-        format,
-        breaks,
-        gradientScheme,
-        gradientReverse,
-        labelFontSize,
-        markFillColor,
-        markLabelColor,
-        markBorderColor,
-        markSizeScale,
-        markerLabelSize,
-        tooltip,
-        usePattern,
-        patterns,
-        customMeasuresLabels,
-        patternDiscriminator,
-        onRemoveLayer,
-        onMoveLayer,
-        dvzProxyDatasetId,
-        patternsVisible,
-        colorLayerVisible,
-        gradientStartColor,
-        gradientEndColor
-      }
-    } = this.props;
-    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
-      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
-      if (selectedMeasure && customMeasuresLabels && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
-        onChangeProperty("customMeasuresLabels", {
-          ...customMeasuresLabels,
-          [measureValue]: selectedMeasure.label
-        });
-      }
-      return selectedMeasure ? {
-        label: selectedMeasure.label,
-        value: selectedMeasure.value
-      } : null;
-    }).filter(Boolean) : [];
-    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Data Source",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)("App", "dg"),
-          help: (0,external_wp_i18n_.__)("Data source application"),
-          value: [app] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: app => {
-            onChangeProperty("app", app);
-          },
-          options: apps
-        })
-      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Datasets'),
-          value: [dvzProxyDatasetId],
-          onChange: newDatasetId => {
-            onChangeProperty("dvzProxyDatasetId", newDatasetId);
-          },
-          options: allDatasets
-        })
-      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
-        property: "featureJoinAttribute",
-        type: "select",
-        onChangeProperty: onChangeProperty,
-        features: features,
-        value: featureJoinAttribute,
-        title: "Shape Attribute"
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("CSV Data"),
-          help: (0,external_wp_i18n_.__)("Enter CSV data here"),
-          value: this.getCSValue(csv),
-          onChange: csv => onChangeProperty("csv", csv)
-        })
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-          title: "Format",
-          format: format,
-          hiddenCustomAxisFormat: true,
-          onFormatChange: this.onFormatChange
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Dimension' + (type == 'dataPoints' ? 'LatLong' : ''),
-          help: (0,external_wp_i18n_.__)("Data dimension field"),
-          value: [apiJoinAttribute] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: value => {
-            onChangeProperty("apiJoinAttribute", value);
-          },
-          options: allDimensions
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("Tooltip"),
-          value: tooltip,
-          help: (0,external_wp_i18n_.__)("You can use variables {var_name}"),
-          onChange: tooltip => onChangeProperty("tooltip", tooltip),
-          rows: 10
-        })
-      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-          style: {
-            "margin-top": "calc(8px)",
-            "font-size": "12px",
-            "font-style": "normal",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: "{" + m.value + "}"
-        })
-      }))]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
-        onMeasuresChange: this.onMeasuresChange,
-        onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
-        measures: layer.measures,
-        format: layer.format,
-        ...this.props
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Filters"),
-        children: [filters.map((f, index) => {
-          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(FilterSelector, {
-              param: f.param,
-              index: index,
-              options: allFilters,
-              onUpdateFilterParam: this.updateFilterParam
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(CategoricalFilter, {
-              value: f.value,
-              index: index,
-              items: this.items(f.type),
-              onUpdateFilterValue: this.updateFilterValue
-            })]
-          });
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.addFilter,
-            children: (0,external_wp_i18n_.__)("Add Filter")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.removeFilter,
-            children: (0,external_wp_i18n_.__)("Remove")
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Symbols and Styles",
-      children: [app != "csv" && selectedMeasureConfigs.map(({
-        label,
-        value
-      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: label,
-          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
-          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
-          onChange: measureLabel => {
-            onChangeProperty("customMeasuresLabels", {
-              ...customMeasuresLabels,
-              [value]: measureLabel
-            });
-          }
-        })
-      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Default Visible?",
-          help: (0,external_wp_i18n_.__)("Layer visible by default"),
-          checked: colorLayerVisible,
-          onChange: e => {
-            onChangeProperty("colorLayerVisible", !colorLayerVisible);
-          }
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Default Fill Color`),
-          value: fillColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: fillColor,
-            onChange: fillColor => {
-              onChangeProperty("fillColor", fillColor);
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Centroid Points",
-          help: (0,external_wp_i18n_.__)("Display data as centroid points"),
-          checked: useCentroidPoint,
-          onChange: value => {
-            onChangeProperty("useCentroidPoint", true);
-          }
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Shape Colors",
-          help: (0,external_wp_i18n_.__)("Colorize map shapes based on data"),
-          checked: !useCentroidPoint,
-          onChange: value => {
-            onChangeProperty("useCentroidPoint", false);
-          }
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Point Base Size",
-          help: (0,external_wp_i18n_.__)("Base size for points"),
-          value: markSizeScale,
-          onChange: value => {
-            onChangeProperty("markSizeScale", value);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Point Label Size",
-          help: (0,external_wp_i18n_.__)("Size of point labels"),
-          value: markerLabelSize,
-          onChange: markerLabelSize => {
-            onChangeProperty("markerLabelSize", markerLabelSize);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Circle Fill Color`),
-          value: markFillColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markFillColor,
-            onChange: markFillColor => {
-              onChangeProperty("markFillColor", markFillColor);
-            }
-          }]
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Circle Label Color`),
-          value: markLabelColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markLabelColor,
-            onChange: markLabelColor => {
-              onChangeProperty("markLabelColor", markLabelColor);
-            }
-          }]
-        })
-      }), useCentroidPoint && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-          title: (0,external_wp_i18n_.__)(`Circle Border Color`),
-          value: borderColor,
-          colorSettings: [{
-            clearable: true,
-            enableAlpha: true,
-            value: markBorderColor,
-            onChange: borderColor => {
-              onChangeProperty("markBorderColor", borderColor);
-            }
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Breaks",
-          help: (0,external_wp_i18n_.__)("Use data breaks for coloring"),
-          checked: useBreaks,
-          onChange: e => {
-            onChangeProperty(["useBreaks", !useBreaks], ["useGradients", false]);
-          }
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Gradients",
-          help: (0,external_wp_i18n_.__)("Use color gradients"),
-          checked: useGradients,
-          onChange: e => {
-            onChangeProperty(["useGradients", !useGradients], ["useBreaks", false]);
-          }
-        })
-      }), useBreaks && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
-        app: app,
-        csv: csv,
-        dvzProxyDatasetId: dvzProxyDatasetId,
-        measures: measures,
-        filters: filters,
-        apiJoinAttribute: apiJoinAttribute,
-        showSize: useCentroidPoint,
-        defaultBorderColor: markBorderColor,
-        defaultFillColor: markFillColor,
-        format: format,
-        onChangeProperty: onChangeProperty,
-        breaks: breaks
-      }), useGradients && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_GradientGenerator, {
-        gradientStartColor: gradientStartColor,
-        gradientEndColor: gradientEndColor,
-        onChangeProperty: onChangeProperty,
-        gradientReverse: gradientReverse,
-        gradientScheme: gradientScheme || 'custom'
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: "Use Patterns",
-          help: (0,external_wp_i18n_.__)("Use patterns for filling shapes"),
-          checked: usePattern,
-          onChange: e => {
-            onChangeProperty("usePattern", !usePattern);
-          }
-        })
-      }), usePattern && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(PatternGenerator, {
-        allCategories: allCategories,
-        allDimensions: allDimensions,
-        defaultFillColor: fillColor,
-        onChangeProperty: onChangeProperty,
-        patterns: patterns,
-        app: app,
-        csv: csv,
-        patternDiscriminator: patternDiscriminator
-      })]
-    })];
-  }
-}
-/* harmony default export */ const Data = (DataLayerSetting);
-;// ./d3Map/layers/Flow.jsx
-
-
-
-
-
-
-
-
-
-
-
-const Flow_FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const Flow_CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      /*
-          var aValue= a.value ? a.value.toLowerCase() : "";
-          var bValue = b.value ? b.value.toLowerCase() : "";
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      */
-      return a.position - b.position;
-    });
-    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })]
-    }));
-  } else {
-    return null;
-  }
-};
-class Flow_DataLayerSetting extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onMeasuresChange = this.onMeasuresChange.bind(this);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.getCSValue = this.getCSValue.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  onMeasuresChange(value) {
-    const {
-      layer: {
-        measures = []
-      },
-      onChangeProperty
-    } = this.props;
-    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
-    onChangeProperty("measures", nextMeasures);
-  }
-  onFormatChange(format, field) {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      features,
-      apps,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        fillColor,
-        borderColor,
-        breaks,
-        markFillColor,
-        markBorderColor,
-        markSizeScale,
-        tooltip
-      }
-    } = this.props;
-    onChangeProperty("format", format);
-  }
-  getCSValue() {
-    const {
-      apps,
-      features,
-      layer: {
-        csv,
-        featureJoinAttribute
-      }
-    } = this.props;
-    if (csv == '') {
-      let generatedCSV = 'id,origin,destination,value\n';
-      if (features && features.length > 0) {
-        features.forEach(f => {
-          if (f.properties[featureJoinAttribute]) {
-            generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
-          }
-        });
-      }
-      return generatedCSV;
-    }
-    return csv;
-  }
-  cleanSelection(prevState) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", []);
-    onChangeProperty("filters", []);
-
-    //setAttributes({measures: [], filters: []})
-  }
-  updateFilterParam(param, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  updateFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  setFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  addFilter() {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  removeFilter(f) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    onChangeProperty("filters", newFilters);
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      onChangeProperty,
-      layer: {
-        type,
-        dimension2,
-        types
-      }
-    } = this.props;
-    const {
-      layer: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-  }
-  onSetSingleMeasure(value) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", [value]);
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  }
-  render() {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      allCategories,
-      features,
-      apps,
-      allDatasets,
-      layer,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        type,
-        useCentroidPoint,
-        useBreaks,
-        fillColor,
-        borderColor,
-        format,
-        breaks,
-        labelFontSize,
-        markFillColor,
-        markFillColor2,
-        markLabelColor,
-        markBorderColor,
-        markBorderColor2,
-        markSizeScale,
-        markSizeScale2,
-        markerLabelSize,
-        tooltip,
-        usePattern,
-        patterns,
-        customMeasuresLabels,
-        patternDiscriminator,
-        flowOrigin,
-        flowDestination,
-        onRemoveLayer,
-        flowValuesFrom,
-        dvzProxyDatasetId,
-        offsetPixels
-      }
-    } = this.props;
-    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
-      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
-      if (selectedMeasure && customMeasuresLabels && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
-        onChangeProperty("customMeasuresLabels", {
-          ...customMeasuresLabels,
-          [measureValue]: selectedMeasure.label
-        });
-      }
-      return selectedMeasure ? {
-        label: selectedMeasure.label,
-        value: selectedMeasure.value
-      } : null;
-    }).filter(Boolean) : [];
-    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Data Source",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)("App", "dg"),
-          help: (0,external_wp_i18n_.__)("Data source application"),
-          value: [app] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: app => {
-            onChangeProperty("app", app);
-          },
-          options: apps
-        })
-      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Datasets'),
-          value: [dvzProxyDatasetId],
-          onChange: newDatasetId => {
-            onChangeProperty("dvzProxyDatasetId", newDatasetId);
-          },
-          options: allDatasets
-        })
-      }), type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
-        property: "featureJoinAttribute",
-        type: "select",
-        onChangeProperty: onChangeProperty,
-        features: features,
-        value: featureJoinAttribute,
-        title: "Shape Attribute"
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("CSV Data"),
-          value: this.getCSValue(csv),
-          onChange: csv => onChangeProperty("csv", csv)
-        })
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-          title: "Format",
-          format: format,
-          hiddenCustomAxisFormat: true,
-          onFormatChange: this.onFormatChange
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Origin',
-          help: (0,external_wp_i18n_.__)("Origin dimension field"),
-          value: [flowOrigin] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: value => {
-            onChangeProperty("flowOrigin", value);
-          },
-          options: allDimensions
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: 'Destination',
-          help: (0,external_wp_i18n_.__)("Destination dimension field"),
-          value: [flowDestination] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: value => {
-            onChangeProperty("flowDestination", value);
-          },
-          options: allDimensions
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("Tooltip"),
-          value: tooltip,
-          help: (0,external_wp_i18n_.__)("You can use variables, i.e: From {origin_name} to {target_name} : {value}"),
-          onChange: tooltip => onChangeProperty("tooltip", tooltip),
-          rows: 10
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-          className: "components-base-control__help",
-          style: {
-            "display": "block",
-            "text-align": "left",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: [app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
-            children: ["{", m.value, "}"]
-          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
-            children: ["All features attributes are available as variables, use origin_ prefix for origin attributes and use target_ prefix for destination attributes i.e From ", "{", "origin_name", "}", " to ", "{", "target_name", "}", " : ", "{", "value", "}"]
-          })]
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
-        onMeasuresChange: this.onMeasuresChange,
-        onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
-        measures: layer.measures,
-        format: layer.format,
-        ...this.props
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Filters"),
-        children: [filters.map((f, index) => {
-          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_FilterSelector, {
-              param: f.param,
-              index: index,
-              options: allFilters,
-              onUpdateFilterParam: this.updateFilterParam
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow_CategoricalFilter, {
-              value: f.value,
-              index: index,
-              items: this.items(f.type),
-              onUpdateFilterValue: this.updateFilterValue
-            })]
-          });
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.addFilter,
-            children: (0,external_wp_i18n_.__)("Add Filter")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.removeFilter,
-            children: (0,external_wp_i18n_.__)("Remove")
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Symbols and Styles",
-      children: [app != "csv" && selectedMeasureConfigs.map(({
-        label,
-        value
-      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: label,
-          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
-          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
-          onChange: measureLabel => {
-            onChangeProperty("customMeasuresLabels", {
-              ...customMeasuresLabels,
-              [value]: measureLabel
-            });
-          }
-        })
-      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Colors`),
-        value: borderColor,
-        colorSettings: [{
-          label: (0,external_wp_i18n_.__)('Border'),
-          clearable: true,
-          enableAlpha: true,
-          value: markBorderColor,
-          onChange: borderColor => {
-            onChangeProperty("markBorderColor", borderColor);
-          }
-        }, {
-          label: (0,external_wp_i18n_.__)('Fill'),
-          clearable: true,
-          enableAlpha: true,
-          value: markFillColor,
-          onChange: markFillColor => {
-            onChangeProperty("markFillColor", markFillColor);
-          }
-        }]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Circle Size",
-          help: (0,external_wp_i18n_.__)("Size of the circle at origin/destination"),
-          value: markSizeScale,
-          onChange: value => {
-            onChangeProperty("markSizeScale", value);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Line Size",
-          help: (0,external_wp_i18n_.__)("Thickness of the flow line"),
-          value: markSizeScale2,
-          onChange: value => {
-            onChangeProperty("markSizeScale2", value);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Offset Size",
-          help: (0,external_wp_i18n_.__)("Offset for multiple flows between same points"),
-          value: offsetPixels,
-          onChange: offsetPixels => {
-            onChangeProperty("offsetPixels", offsetPixels);
-          },
-          step: 1,
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-        title: (0,external_wp_i18n_.__)("Breaks"),
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
-          showSize: true,
-          hasSecondDimension: true,
-          app: app,
-          csv: csv,
-          filters: filters,
-          dvzProxyDatasetId: dvzProxyDatasetId,
-          measures: measures,
-          filters: filters,
-          apiJoinAttribute: flowOrigin + "/" + flowDestination,
-          showSize: useCentroidPoint,
-          defaultBorderColor: markBorderColor,
-          defaultFillColor: markFillColor,
-          format: format,
-          onChangeProperty: onChangeProperty,
-          breaks: breaks
-        })
-      })]
-    })];
-  }
-}
-/* harmony default export */ const Flow = (Flow_DataLayerSetting);
-;// ./d3Map/layers/LatLong.jsx
-
-
-
-
-
-
-
-
-
-const compareJsonProps = (p1, p2) => {
-  return JSON.stringify(p1) === JSON.stringify(p2);
-};
-const LatLong_FilterSelector = ({
-  param,
-  index,
-  options,
-  onUpdateFilterParam
-}) => {
-  const sortedOptions = options.sort(function (a, b) {
-    var aLabel = a.label ? a.label.toLowerCase() : "";
-    var bLabel = b.label ? b.label.toLowerCase() : "";
-    return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-    onChange: value => {
-      onUpdateFilterParam(value, index);
-    },
-    value: param,
-    options: sortedOptions
-  });
-};
-const LatLong_CategoricalFilter = ({
-  value,
-  index,
-  items,
-  onUpdateFilterValue
-}) => {
-  if (items) {
-    const sortedItems = items.sort(function (a, b) {
-      /*
-          var aValue= a.value ? a.value.toLowerCase() : "";
-          var bValue = b.value ? b.value.toLowerCase() : "";
-          return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      */
-      return a.position - b.position;
-    });
-    return sortedItems.map(v => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-      children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: v.value,
-        checked: value.indexOf(v.id) > -1,
-        onChange: e => {
-          onUpdateFilterValue(v.id, index);
-        }
-      })]
-    }));
-  } else {
-    return null;
-  }
-};
-class LatLong_DataLayerSetting extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-    this.onMeasuresChange = this.onMeasuresChange.bind(this);
-    this.onSetSingleMeasure = this.onSetSingleMeasure.bind(this);
-    this.addFilter = this.addFilter.bind(this);
-    this.updateFilterParam = this.updateFilterParam.bind(this);
-    this.updateFilterValue = this.updateFilterValue.bind(this);
-    this.setFilterValue = this.setFilterValue.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
-    this.items = this.items.bind(this);
-    this.getCSValue = this.getCSValue.bind(this);
-    this.onFormatChange = this.onFormatChange.bind(this);
-    this.state = {
-      measures: [],
-      dimensions: [],
-      filters: [],
-      categories: []
-    };
-  }
-  onMeasuresChange(value) {
-    const {
-      layer: {
-        measures = []
-      },
-      onChangeProperty
-    } = this.props;
-    const nextMeasures = measures.includes(value) ? measures.filter(measure => measure !== value) : [...measures, value];
-    onChangeProperty("measures", nextMeasures);
-  }
-  onFormatChange(format) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("format", format);
-  }
-  getCSValue() {
-    const {
-      apps,
-      features,
-      layer: {
-        csv,
-        featureJoinAttribute
-      }
-    } = this.props;
-    if (csv == '') {
-      let generatedCSV = 'Latitude,Longitude,value\n';
-      if (features && features.length > 0) {
-        features.forEach(f => {
-          if (f.properties[featureJoinAttribute]) {
-            generatedCSV = generatedCSV + f.properties[featureJoinAttribute] + ', \n';
-          }
-        });
-      }
-      return generatedCSV;
-    }
-    return csv;
-  }
-  cleanSelection(prevState) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", []);
-    onChangeProperty("filters", []);
-
-    //setAttributes({measures: [], filters: []})
-  }
-  updateFilterParam(param, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    const newFilters = filters.slice();
-    const selected = allFilters.filter(f => f.param === param)[0];
-    newFilters[idx] = {
-      ...selected,
-      value: []
-    };
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  updateFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    if (values.indexOf(value) > -1) {
-      values = values.filter(v => v != value);
-    } else {
-      values.push(value);
-    }
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    // setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  setFilterValue(value, idx) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty
-    } = this.props;
-    const selected = filters[idx];
-    let values = selected.value;
-    values = value.split(",");
-    const newFilters = filters.slice();
-    newFilters[idx].value = values;
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  addFilter() {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let index = filters.length > allFilters.length ? allFilters.length : filters.length;
-    const newFilter = allFilters && allFilters.length > 0 ? {
-      ...allFilters[index],
-      "value": []
-    } : null;
-    let newFilters = filters.slice();
-    newFilters.push(newFilter);
-    //setAttributes({filters: newFilters})
-    onChangeProperty("filters", newFilters);
-  }
-  removeFilter(f) {
-    const {
-      layer: {
-        filters
-      },
-      onChangeProperty,
-      allFilters
-    } = this.props;
-    let newFilters = filters.slice(0, -1);
-    onChangeProperty("filters", newFilters);
-  }
-  componentDidUpdate(prevProps) {
-    const {
-      onChangeProperty,
-      allCategories,
-      layer: {
-        type,
-        dimension2,
-        types
-      }
-    } = this.props;
-    const {
-      allCategories: prevAllCategories,
-      layer: {
-        type: prevType,
-        dimension2: prevDimension2
-      }
-    } = prevProps;
-    if (!compareJsonProps(allCategories, prevAllCategories)) {
-      onChangeProperty("allCategories", allCategories);
-    }
-  }
-  onSetSingleMeasure(value) {
-    const {
-      onChangeProperty
-    } = this.props;
-    onChangeProperty("measures", [value]);
-  }
-  items(type) {
-    const values = this.props.allCategories ? this.props.allCategories.filter(c => c.type === type) : [];
-    const cat = values.length > 0 ? values[0] : null;
-    let items = null;
-    if (type === 'Boolean') {
-      items = [{
-        "value": "Yes",
-        id: true
-      }, {
-        "value": "No",
-        id: false
-      }];
-    } else if (cat) {
-      items = cat.items;
-    }
-    return items;
-  }
-  render() {
-    const {
-      onChangeProperty,
-      allDimensions,
-      allFilters,
-      allMeasures,
-      allCategories,
-      allDatasets,
-      features,
-      apps,
-      layer,
-      layer: {
-        app,
-        csv,
-        measures,
-        filters,
-        format,
-        featureJoinAttribute,
-        apiJoinAttribute,
-        dimension1,
-        type,
-        useCentroidPoint,
-        fillColor,
-        borderColor,
-        useBreaks,
-        breaks,
-        pointStyleBy,
-        dimension2,
-        pointDimensionStyles = [],
-        markFillColor,
-        markBorderColor,
-        markSizeScale,
-        tooltip,
-        visible = true,
-        dvzProxyDatasetId,
-        showDim2OnLegends,
-        customMeasuresLabels = {}
-      }
-    } = this.props;
-    const cats = dimension2 && allCategories ? allCategories.filter(c => c.type.toUpperCase() == dimension2.toUpperCase()) : [];
-    const items = cats.length > 0 ? cats[0].items : [];
-    const dimensionValues = items.map(i => i.value);
-    const selectedMeasureConfigs = app != 'csv' && allMeasures ? measures.map(measureValue => {
-      const selectedMeasure = allMeasures.find(m => m.value == measureValue);
-      if (selectedMeasure && (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] == "")) {
-        onChangeProperty("customMeasuresLabels", {
-          ...customMeasuresLabels,
-          [measureValue]: selectedMeasure.label
-        });
-      }
-      return selectedMeasure ? {
-        label: selectedMeasure.label,
-        value: selectedMeasure.value
-      } : null;
-    }).filter(Boolean) : [];
-    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Data Source",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)("App", "dg"),
-          help: (0,external_wp_i18n_.__)("Data source application"),
-          value: [app] // e.g: value = [ 'a', 'c' ]
-          ,
-          onChange: app => {
-            onChangeProperty("app", app);
-          },
-          options: apps
-        })
-      }), (0,build/* isSupersetAPI */.oL)(app, apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Datasets'),
-          value: [dvzProxyDatasetId],
-          onChange: newDatasetId => {
-            onChangeProperty("dvzProxyDatasetId", newDatasetId);
-          },
-          options: allDatasets
-        })
-      }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("CSV Data"),
-          help: (0,external_wp_i18n_.__)("Enter CSV data here"),
-          value: this.getCSValue(csv),
-          onChange: csv => onChangeProperty("csv", csv)
-        })
-      }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-            label: 'Dimension',
-            help: (0,external_wp_i18n_.__)("Data dimension field"),
-            value: [apiJoinAttribute] // e.g: value = [ 'a', 'c' ]
-            ,
-            onChange: value => {
-              onChangeProperty("apiJoinAttribute", value);
-            },
-            options: allDimensions
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-            label: 'Second Dimension',
-            help: (0,external_wp_i18n_.__)("Secondary data dimension field"),
-            value: [dimension2],
-            onChange: value => {
-              onChangeProperty("dimension2", value);
-            },
-            options: allDimensions
-          })
-        })]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("Tooltip"),
-          value: tooltip,
-          help: (0,external_wp_i18n_.__)(`You can use the following variables: `),
-          onChange: tooltip => onChangeProperty("tooltip", tooltip),
-          rows: 10
-        })
-      }), app != 'csv' && allMeasures && allMeasures.map(m => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-          style: {
-            "margin-top": "calc(8px)",
-            "font-size": "12px",
-            "font-style": "normal",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: "{" + m.value + "}"
-        })
-      })), app != 'csv' && dimension2 != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("p", {
-          style: {
-            "margin-top": "calc(8px)",
-            "font-size": "12px",
-            "font-style": "normal",
-            "color": "rgb(117, 117, 117)"
-          },
-          children: "{" + dimension2 + "}"
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(React.Fragment, {
-      children: app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Filters"),
-        children: [filters.map((f, index) => {
-          return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)(`Filter - ${f.label}`),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_FilterSelector, {
-              param: f.param,
-              index: index,
-              options: allFilters,
-              onUpdateFilterParam: this.updateFilterParam
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong_CategoricalFilter, {
-              value: f.value,
-              index: index,
-              items: this.items(f.type),
-              onUpdateFilterValue: this.updateFilterValue
-            })]
-          });
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.addFilter,
-            children: (0,external_wp_i18n_.__)("Add Filter")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "link",
-            onClick: this.removeFilter,
-            children: (0,external_wp_i18n_.__)("Remove")
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Symbols and Styles",
-      children: [app != "csv" && pointStyleBy === 'measure' && selectedMeasureConfigs.map(({
-        label,
-        value
-      }) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: label,
-          help: (0,external_wp_i18n_.__)("Customize Measure Label"),
-          value: customMeasuresLabels ? customMeasuresLabels[value] : "",
-          onChange: measureLabel => {
-            onChangeProperty("customMeasuresLabels", {
-              ...customMeasuresLabels,
-              [value]: measureLabel
-            });
-          }
-        })
-      }, value)), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Show 2nd Dimension on Legends"),
-          help: (0,external_wp_i18n_.__)("Include second dimension in the map legend"),
-          checked: showDim2OnLegends,
-          onChange: showDim2OnLegends => {
-            onChangeProperty("showDim2OnLegends", showDim2OnLegends);
-          }
-        })
-      }), showDim2OnLegends && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: (0,external_wp_i18n_.__)("2nd Dimension Legend Label"),
-          value: layer.dim2LegendLabel ? layer.dim2LegendLabel : '',
-          onChange: dim2LegendLabel => {
-            onChangeProperty("dim2LegendLabel", dim2LegendLabel);
-          },
-          placeholder: (0,external_wp_i18n_.__)("e.g. 'Region'")
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: "Color by",
-          help: (0,external_wp_i18n_.__)("Attribute to determine point color"),
-          value: pointStyleBy ? pointStyleBy : 'none',
-          onChange: v => {
-            onChangeProperty('pointStyleBy', v);
-          },
-          options: [{
-            label: "None",
-            value: "none"
-          }, {
-            label: "Dimension",
-            value: "dimension"
-          }, {
-            label: "Measure",
-            value: "measure"
-          }]
-        })
-      }), pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MapMeasures, {
-        onMeasuresChange: this.onMeasuresChange,
-        onFormatChange: this.onFormatChange,
-        onSetSingleMeasure: this.onSetSingleMeasure,
-        measures: layer.measures,
-        format: layer.format,
-        ...this.props
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: true,
-        title: "Default Styles",
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-            label: (0,external_wp_i18n_.__)(`Default Points Size`),
-            help: (0,external_wp_i18n_.__)("Base size for points"),
-            value: markSizeScale,
-            onChange: value => {
-              onChangeProperty("markSizeScale", value);
-            },
-            step: 1,
-            min: 0,
-            max: 100
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)(`Default Fill Color`),
-            value: markFillColor,
-            colorSettings: [{
-              clearable: true,
-              enableAlpha: true,
-              value: markFillColor,
-              onChange: markFillColor => {
-                onChangeProperty("markFillColor", markFillColor);
-              }
-            }]
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)(`Default Border Color`),
-            value: borderColor,
-            colorSettings: [{
-              clearable: true,
-              enableAlpha: true,
-              value: markBorderColor,
-              onChange: borderColor => {
-                onChangeProperty("markBorderColor", borderColor);
-              }
-            }]
-          })
-        })]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: true,
-        title: "Breaks",
-        children: [pointStyleBy === 'measure' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_BreaksGenerator, {
-          app: app,
-          csv: csv,
-          dvzProxyDatasetId: dvzProxyDatasetId,
-          measures: measures,
-          filters: filters,
-          apiJoinAttribute: apiJoinAttribute,
-          showSize: useCentroidPoint,
-          defaultBorderColor: markBorderColor,
-          defaultFillColor: markFillColor,
-          format: format,
-          onChangeProperty: onChangeProperty,
-          breaks: breaks
-        }), pointStyleBy === 'dimension' && showDim2OnLegends && dimensionValues.map(field => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: field,
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: (0,external_wp_i18n_.__)(`Point Size`),
-              help: (0,external_wp_i18n_.__)("Size for this specific point"),
-              value: pointDimensionStyles[field + '_size'] ? pointDimensionStyles[field + '_size'] : markSizeScale,
-              onChange: v => {
-                onChangeProperty('pointDimensionStyles', {
-                  ...pointDimensionStyles,
-                  [field + '_size']: v
-                });
-              },
-              step: 1,
-              min: 0,
-              max: 100
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-              title: (0,external_wp_i18n_.__)(`Point Fill Color`),
-              value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor,
-              colorSettings: [{
-                clearable: true,
-                enableAlpha: true,
-                value: pointDimensionStyles[field + '_color'] ? pointDimensionStyles[field + '_color'] : markFillColor,
-                onChange: v => {
-                  onChangeProperty('pointDimensionStyles', {
-                    ...pointDimensionStyles,
-                    [field + '_color']: v
-                  });
-                }
-              }]
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-              title: (0,external_wp_i18n_.__)(`Point Border Color`),
-              value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor,
-              colorSettings: [{
-                clearable: true,
-                enableAlpha: true,
-                value: pointDimensionStyles[field + '_border'] ? pointDimensionStyles[field + '_border'] : markBorderColor,
-                onChange: v => {
-                  onChangeProperty('pointDimensionStyles', {
-                    ...pointDimensionStyles,
-                    [field + '_border']: v
-                  });
-                }
-              }]
-            })
-          })]
-        }))]
-      })]
-    })];
-  }
-}
-/* harmony default export */ const LatLong = (LatLong_DataLayerSetting);
-;// ./d3Map/layers/Base.jsx
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const typeOptions = [{
-  label: "Base",
-  value: "base"
-}, {
-  label: "Data Shape",
-  value: "data"
-}, {
-  label: "FLow layer ",
-  value: "flow"
-}, {
-  label: "Data Points ",
-  value: "dataPoints"
-}];
-const toOptions = files => {
-  return [{
-    label: 'None',
-    value: 'none'
-  }, ...files.map(file => {
-    return {
-      label: file.title.rendered,
-      value: file.source_url
-    };
-  })];
-};
-const Base = props => {
-  const {
-    onChange,
-    metadata,
-    layer,
-    layer: {
-      name,
-      shapeColor,
-      labelFilter,
-      type,
-      file,
-      app,
-      labelField,
-      visible,
-      hideLabelsAtLowZoom
-    }
-  } = props;
-  const [files, setFiles] = (0,external_wp_element_.useState)([]);
-  const [features, setFeatures] = (0,external_wp_element_.useState)([]);
-  (0,external_React_.useEffect)(() => {
-    getJsonFiles().then(files => {
-      setFiles(toOptions(files));
-    });
-  }, []);
-  (0,external_React_.useEffect)(() => {
-    fetch(file).then(response => response.json()).then(data => {
-      setFeatures(data.features);
-    });
-  }, [layer.file]);
-  const onChangeProperty = (...args) => {
-    const [atrr, value] = args;
-    if (Array.isArray(atrr)) {
-      onChangeProperties(...args);
-    } else {
-      console.log("change attribute " + atrr + " to " + value);
-      const newLayer = {
-        ...layer
-      };
-      newLayer[atrr] = value;
-      onChange(newLayer);
-    }
-  };
-  const onChangeProperties = (...propValues) => {
-    const newLayer = {
-      ...layer
-    };
-    propValues.forEach(pv => {
-      const [prop, value] = pv;
-      console.log("change property " + prop + " to " + value);
-      newLayer[prop] = value;
-    });
-    onChange(newLayer);
-  };
-  const datasets = [{
-    label: 'Select Dataset',
-    value: '0'
-  }];
-  if (metadata.datasets) {
-    metadata.datasets.forEach(d => {
-      datasets.push({
-        label: d.label,
-        value: d.id
-      });
-    });
-  }
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-      type: "String",
-      label: (0,external_wp_i18n_.__)("Name", "dg"),
-      help: (0,external_wp_i18n_.__)("Layer name"),
-      onChange: name => onChangeProperty("name", name),
-      value: name
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-      label: "Default visible",
-      help: (0,external_wp_i18n_.__)("Layer visibility on load"),
-      checked: visible,
-      onChange: e => {
-        onChangeProperty("visible", !visible);
-      }
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-      label: (0,external_wp_i18n_.__)("Type", "dg"),
-      help: (0,external_wp_i18n_.__)("Layer type"),
-      value: type,
-      onChange: type => onChangeProperty("type", type),
-      options: typeOptions
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-    children: type != 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        type: "String",
-        label: "File",
-        help: (0,external_wp_i18n_.__)("GeoJSON file source"),
-        onChange: file => onChangeProperty("file", file),
-        value: file,
-        options: files
-      })
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-    children: type != 'dataPoints' && type != 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: "Colors",
-      initialOpen: false,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Fill Color`),
-        colorSettings: [{
-          clearable: true,
-          enableAlpha: true,
-          value: layer.fillColor,
-          onChange: fillColor => {
-            if (fillColor != null) {
-              onChangeProperty("fillColor", fillColor);
-            } else {
-              onChangeProperty("fillColor", "transparent");
-            }
-          }
-        }]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Border Color`),
-        colorSettings: [{
-          value: layer.borderColor,
-          clearable: true,
-          enableAlpha: true,
-          onChange: borderColor => {
-            onChangeProperty("borderColor", borderColor);
-          }
-        }]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)(`Label Color`),
-        label: "Color",
-        colorSettings: [{
-          clearable: true,
-          enableAlpha: true,
-          value: layer.labelColor,
-          onChange: labelColor => {
-            onChangeProperty("labelColor", labelColor);
-          }
-        }]
-      })]
-    })
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-    children: [type != 'dataPoints' && type != 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      title: "Labels",
-      initialOpen: false,
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(utils_Property, {
-        title: "Label Field",
-        property: "labelField",
-        value: labelField,
-        onChangeProperty: onChangeProperty,
-        features: features
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Size",
-          help: (0,external_wp_i18n_.__)("Font size of the labels"),
-          value: layer.labelFontSize,
-          onChange: labelFontSize => onChangeProperty("labelFontSize", labelFontSize),
-          min: 1,
-          step: 1,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: "Min Zoom Level (-1 disabled)",
-          help: (0,external_wp_i18n_.__)("Minimum zoom level for labels to appear"),
-          value: layer.minLabelZoomVisible,
-          onChange: minLabelZoomVisible => onChangeProperty("minLabelZoomVisible", minLabelZoomVisible),
-          min: -1,
-          step: 1,
-          max: 100
-        })
-      }), labelField != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Labels"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: "None/All",
-            checked: labelFilter.length == 0,
-            onChange: checked => {
-              if (!checked) {
-                onChangeProperty("labelFilter", features.map(f => f.properties[labelField]));
-              } else {
-                onChangeProperty("labelFilter", []);
-              }
-            }
-          })
-        }), features && features.sort(f => f.properties[labelField]).map(feature => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: feature.properties[labelField],
-              checked: labelFilter.indexOf(feature.properties[labelField]) == -1,
-              onChange: selected => {
-                onChangeProperty("labelFilter", !selected ? [...layer.labelFilter, feature.properties[labelField]] : layer.labelFilter.filter(f => f !== feature.properties[labelField]));
-              }
-            })
-          }), labelFilter.indexOf(feature.properties[labelField]) == -1 && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            title: (0,external_wp_i18n_.__)("Rotation"),
-            initialOpen: false,
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-                label: "Offset X",
-                help: (0,external_wp_i18n_.__)("Horizontal label offset"),
-                min: -500,
-                max: 500,
-                value: layer.labelSettings[feature.properties[labelField] + "_offsetX"] || 0,
-                onChange: offsetX => onChangeProperty("labelSettings", {
-                  ...layer.labelSettings,
-                  [feature.properties[labelField] + "_offsetX"]: offsetX
-                })
-              })
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-                label: "Offset Y",
-                help: (0,external_wp_i18n_.__)("Vertical label offset"),
-                min: -500,
-                max: 500,
-                value: layer.labelSettings[feature.properties[labelField] + "_offsetY"] || 0,
-                onChange: offset => onChangeProperty("labelSettings", {
-                  ...layer.labelSettings,
-                  [feature.properties[labelField] + "_offsetY"]: offset
-                })
-              })
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-                label: "Rotation",
-                help: (0,external_wp_i18n_.__)("Label rotation angle"),
-                value: layer.labelSettings[feature.properties[labelField] + "_rotation"] || 0,
-                onChange: rotation => onChangeProperty("labelSettings", {
-                  ...layer.labelSettings,
-                  [feature.properties[labelField] + "_rotation"]: rotation
-                })
-              })
-            })]
-          })]
-        }))]
-      })]
-    }), "  "]
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(React.Fragment, {
-    children: [type == 'data' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Data, {
-        ...props,
-        apps: metadata.apps,
-        onChangeProperty: onChangeProperty,
-        allDimensions: metadata.dimensions || [],
-        allFilters: metadata.filters || [],
-        allMeasures: metadata.measures || [],
-        allCategories: metadata.categories || [],
-        allApps: metadata.apps,
-        features: features,
-        layer: layer,
-        allDatasets: datasets
-      })
-    }), type == 'flow' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Flow, {
-        ...props,
-        apps: metadata.apps,
-        onChangeProperty: onChangeProperty,
-        allDimensions: metadata.dimensions || [],
-        allFilters: metadata.filters || [],
-        allMeasures: metadata.measures || [],
-        allCategories: metadata.categories || [],
-        allApps: metadata.apps,
-        features: features,
-        layer: layer,
-        allDatasets: datasets
-      })
-    }), type == 'dataPoints' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_ReactJSXRuntime_.Fragment, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LatLong, {
-        ...props,
-        apps: metadata.apps,
-        onChangeProperty: onChangeProperty,
-        allDimensions: metadata.dimensions || [],
-        allFilters: metadata.filters || [],
-        allMeasures: metadata.measures || [],
-        allCategories: metadata.categories || [],
-        allApps: metadata.apps,
-        allDatasets: datasets,
-        features: features,
-        layer: layer
-      })
-    })]
-  })];
-};
-class LayerWithMetadata extends build/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    const {
-      layer: {
-        name,
-        type,
-        file,
-        app,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    fetch(`/api/registry/eureka/apps`, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => response.json()).then(data => {
-      const apps = data.applications ? [...data.applications.application.filter(a => a.instance[0].metadata.type === 'data').map(a => ({
-        label: a.name,
-        value: a.instance[0].vipAddress,
-        settings: a.instance[0]
-      })), {
-        label: 'CSV',
-        value: 'csv'
-      }] : [{
-        label: 'CSV',
-        value: 'csv'
-      }];
-      this.setState({
-        ...this.state,
-        apps
-      });
-      if (app && app != 'none') {
-        if ((0,build/* isSupersetAPI */.oL)(app, apps)) {
-          //if app is superset proxy an additional step is added
-          this.loadDatasets(app);
-          if (dvzProxyDatasetId) {
-            this.loadMetadata(app, dvzProxyDatasetId);
-          }
-        } else {
-          this.loadMetadata(app);
-        }
-      }
-    }).catch(function (response) {
-      alert("error" + response);
-    });
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-    const {
-      layer: {
-        app,
-        dvzProxyDatasetId
-      }
-    } = this.props;
-    const {
-      layer: {
-        app: prevAPP,
-        dvzProxyDatasetId: prevDvzProxyDatasetId
-      }
-    } = prevProps;
-    if (app != prevAPP) {
-      //if app changes we shoudl reload metadta
-
-      if ((0,build/* isSupersetAPI */.oL)(app, this.state.apps)) {
-        //if app is superset proxy an additional step is added
-        this.loadDatasets(app);
-        if (dvzProxyDatasetId) {
-          this.loadMetadata(app, dvzProxyDatasetId);
-        }
-      } else {
-        this.loadMetadata(app);
-      }
-    } else {
-      //app wasn't changed
-
-      if (dvzProxyDatasetId != prevDvzProxyDatasetId) {
-        this.loadMetadata(app, dvzProxyDatasetId);
-      }
-    }
-  }
-  render() {
-    const {
-      setAttributes,
-      onMoveLayer,
-      panelStatus,
-      onRemoveLayer,
-      layer,
-      layer: {
-        name,
-        type,
-        file,
-        app
-      }
-    } = this.props;
-    console.log(this.state);
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      onToggle: e => (0,build/* togglePanel */.Pj)('LAYERS_' + name, panelStatus, setAttributes),
-      title: (0,external_wp_i18n_.__)("Layers"),
-      title: (0,external_wp_i18n_.__)(`${name}`),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Base, {
-        ...this.props,
-        metadata: this.state
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "secondary",
-            type: true,
-            onClick: onRemoveLayer,
-            children: "Delete"
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "secondary",
-            type: true,
-            onClick: e => onMoveLayer(-1, layer),
-            children: "Up"
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            variant: "secondary",
-            type: true,
-            onClick: e => onMoveLayer(1, layer),
-            children: "Down"
-          })]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {})]
-    });
-  }
-}
-/* harmony default export */ const layers_Base = (LayerWithMetadata);
-;// ./d3Map/layers/Model.js
-
-const Model = {
-  id: Date.now(),
-  name: 'New Layer',
-  app: "csv",
-  dimension1: "none",
-  dimension2: "none",
-  measures: [],
-  filters: [],
-  csv: "",
-  file: 'none',
-  opacity: 1,
-  fillColor: '#FFFFFF',
-  markFillColor: '#FFFFFF',
-  markFillColor2: '#FFFFFF',
-  borderColor: '#000000',
-  markBorderColor: '#000000',
-  markBorderColor2: '#000000',
-  markSizeScale: 8,
-  markSizeScale2: 2,
-  markerLabelSize: 1,
-  labelColor: '#000000',
-  markLabelColor: '#000000',
-  labelFontSize: 2,
-  showDim2OnLegends: false,
-  dim2LegendLabel: null,
-  labelFilter: [],
-  labelSettings: {},
-  minLabelZoomVisible: 3,
-  labelField: 'none',
-  type: 'base',
-  //base layer user will select only a file
-  //type:'shape', //shape layer user will select file and data source
-  //type:'data', //will select data source and symbols + symbols configuration
-  useBreaks: false,
-  useGradients: false,
-  usePattern: false,
-  pointStyleBy: 'none',
-  format: {
-    "style": "percent",
-    "minimumFractionDigits": 1,
-    "maximumFractionDigits": 1,
-    "currency": "USD"
-  },
-  featureJoinAttribute: 'none',
-  apiJoinAttribute: 'none',
-  useCentroidPoint: true,
-  patternDiscriminator: 'none',
-  patternDiscriminatorLabel: null,
-  patterns: [],
-  pointDimensionStyles: [],
-  tooltip: "Value {value}",
-  breaks: [],
-  gradientScheme: 'blues',
-  gradientReverse: false,
-  customMeasuresLabels: {},
-  visible: true,
-  flowValuesFrom: 'origin',
-  flowOrigin: 'none',
-  flowDestination: 'none',
-  dvzProxyDatasetId: '',
-  offsetPixels: 10,
-  patternsVisible: true,
-  colorLayerVisible: true,
-  hideLabelsAtLowZoom: false
-};
-/* harmony default export */ const layers_Model = (Model);
-;// ./d3Map/BlockEdit.js
-
-
-
-
-
-
-
-
-;
-class BlockEdit extends build/* ComponentWithSettings */.BE {
-  constructor(props) {
-    super(props);
-    this.onChangeLayer = this.onChangeLayer.bind(this);
-    this.addLayer = this.addLayer.bind(this);
-    this.removeLayer = this.removeLayer.bind(this);
-    this.onMoveLayer = this.onMoveLayer.bind(this);
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      attributes: {
-        app
-      }
-    } = this.props;
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-  }
-  componentDidMount() {
-    super.componentDidMount();
-    const {
-      setAttributes
-    } = this.props;
-    setAttributes({
-      identifier: Math.ceil(Math.random() * 100000000)
-    }); //set a random id to identify each of the maps on the page
-
-    window.addEventListener("message", event => {
-      if (event.data.type == `d3_map_${this.props.attributes.identifier}`) {
-        const iframeOrigin = event.origin.split(':')[1];
-        const parentOrigin = window.location.origin.split(':')[1];
-        if (iframeOrigin == parentOrigin) {
-          console.log("Received message from iframe " + event.data.type, event.data.value);
-          setAttributes({
-            mapPosition: event.data.value
-          });
-        }
-      }
-    }, false);
-  }
-  addLayer() {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const newLayers = [...layers];
-    const model = {
-      ...layers_Model
-    };
-    model.id = Date.now();
-    newLayers.push(model);
-    setAttributes({
-      layers: newLayers
-    });
-  }
-  removeLayer(layer) {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const {
-      id,
-      name
-    } = layer;
-    const newLayers = layers.filter(l => l.id != id);
-    setAttributes({
-      layers: newLayers
-    });
-  }
-  onChangeLayer(layer) {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const newLayers = [...layers];
-    const index = layers.findIndex(l => l.id === layer.id);
-    if (index !== -1) {
-      newLayers[index] = layer;
-    }
-    setAttributes({
-      layers: newLayers
-    });
-  }
-  onMoveLayer(direction, layer) {
-    const {
-      setAttributes,
-      attributes: {
-        layers
-      }
-    } = this.props;
-    const newLayers = [...layers];
-    const index = newLayers.findIndex(l => l.id === layer.id);
-    const newIndex = index + direction;
-    if (newIndex > -1 && newIndex < newLayers.length) {
-      const element = newLayers.splice(index, 1);
-      newLayers.splice(newIndex, 0, element[0]);
-      setAttributes({
-        layers: newLayers
-      });
-    }
-  }
-  render() {
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        projection,
-        panelStatus,
-        mapPosition,
-        height,
-        width,
-        group,
-        backGroundColor,
-        layers = [],
-        rotationEnabled,
-        zoomEnabled,
-        waitForFilters
-      }
-    } = this.props;
-    const divStyles = {
-      height: height + 'px',
-      width: '100%'
-    };
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Map Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false //{false}//{panelStatus['GROUP']}
-          ,
-          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              help: (0,external_wp_i18n_.__)("Name of the map group"),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)('Wait For Filters'),
-              help: (0,external_wp_i18n_.__)("If enabled, map will wait for filter selection before loading"),
-              checked: waitForFilters,
-              onChange: () => setAttributes({
-                waitForFilters: !waitForFilters
-              })
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus["SIZE"]}
-          ,
-          onToggle: e => (0,build/* togglePanel */.Pj)("SIZE", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Size and Position"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              size: 10,
-              label: "Height",
-              help: (0,external_wp_i18n_.__)("Map height in pixels"),
-              value: height,
-              onChange: height => setAttributes({
-                height: height ? parseInt(height) : 0
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              size: 10,
-              label: "Position",
-              help: (0,external_wp_i18n_.__)("Map center coordinates and zoom level"),
-              value: JSON.stringify(mapPosition),
-              onChange: newPos => {
-                setAttributes({
-                  mapPosition: JSON.parse(newPos)
-                });
-              }
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus["PROJECTION"]}
-          ,
-          onToggle: e => (0,build/* togglePanel */.Pj)("PROJECTION", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Projection"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              label: (0,external_wp_i18n_.__)("Projection"),
-              help: (0,external_wp_i18n_.__)("Map projection type"),
-              value: projection,
-              onChange: projection => setAttributes({
-                projection
-              }),
-              options: [{
-                label: "geoMercator",
-                value: "geoMercator"
-              }, {
-                label: "geoEqualEarth",
-                value: "geoEqualEarth"
-              }, {
-                label: "geoNaturalEarth1",
-                value: "geoNaturalEarth1"
-              }, {
-                label: "geoAzimuthalEqualArea",
-                value: "geoAzimuthalEqualArea"
-              }, {
-                label: "geoOrthographic",
-                value: "geoOrthographic"
-              }]
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)('Enable Rotation'),
-              help: (0,external_wp_i18n_.__)("Allow users to rotate the map"),
-              checked: rotationEnabled,
-              onChange: e => setAttributes({
-                rotationEnabled: !rotationEnabled
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)('Enable Zoom Controls'),
-              help: (0,external_wp_i18n_.__)("Show zoom controls on the map"),
-              checked: zoomEnabled,
-              onChange: e => setAttributes({
-                zoomEnabled: !zoomEnabled
-              })
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus['COLORS']}
-          ,
-          onToggle: e => (0,build/* togglePanel */.Pj)("COLORS", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Colors"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            title: (0,external_wp_i18n_.__)('Background'),
-            colorSettings: [{
-              clearable: true,
-              enableAlpha: true,
-              value: decodeURIComponent(backGroundColor),
-              onChange: color => {
-                if (color) {
-                  setAttributes({
-                    backGroundColor: encodeURIComponent(color)
-                  });
-                } else {
-                  setAttributes({
-                    backGroundColor: "#FFFFFF"
-                  });
-                }
-              },
-              label: (0,external_wp_i18n_.__)('Background Color')
-            }]
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false //{panelStatus['LAYERS']}
-          ,
-          onToggle: e => (0,build/* togglePanel */.Pj)("LAYERS", panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Layers"),
-          children: [layers.map(layer => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(layers_Base, {
-            ...this.props,
-            setAttributes: setAttributes,
-            onRemoveLayer: e => this.removeLayer(layer),
-            onChange: this.onChangeLayer,
-            onMoveLayer: this.onMoveLayer,
-            layer: layer
-          })), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-              variant: "primary",
-              onClick: e => this.addLayer(),
-              children: "Add New Layer"
-            })
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-      style: {
-        margin: "auto",
-        width: "100%"
-      },
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
-        style: {
-          margin: "auto"
-        },
-        size: {
-          height,
-          width: '100%'
-        },
-        minHeight: "50",
-        enable: {
-          top: false,
-          right: false,
-          bottom: true,
-          left: false,
-          topRight: false,
-          bottomRight: false,
-          bottomLeft: false,
-          topLeft: false
-        },
-        onResizeStop: (event, direction, elt, delta) => {
-          setAttributes({
-            height: parseInt(height + delta.height, 10)
-          });
-          toggleSelection(true);
-        },
-        onResizeStart: () => {
-          toggleSelection(false);
-        },
-        children: this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-          ref: this.iframe,
-          scrolling: "no",
-          style: divStyles,
-          src: this.state.react_ui_url + "/embeddable/newMap?"
-        })
-      })
-    })];
-  }
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)({
-    className: 'wp-react-component'
-  });
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-      ...props
-    })
-  });
-};
-/* harmony default export */ const d3Map_BlockEdit = (Edit);
-;// ./d3Map/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/new-d3-map', {
-  title: (0,external_wp_i18n_.__)('D3 Map'),
-  icon: build/* GenericIcon */.Z7,
-  category: build/* BLOCKS_CATEGORY */._q,
-  apiVersion: 2,
-  attributes: {
-    identifier: {
-      type: 'Numeric',
-      default: 0
-    },
-    k: {
-      type: 'Numeric',
-      default: 1
-    },
-    x: {
-      type: 'Numeric',
-      default: 1
-    },
-    y: {
-      type: 'Numeric',
-      default: 1
-    },
-    height: {
-      type: 'Numeric',
-      default: 500
-    },
-    width: {
-      type: 'Numeric',
-      default: 1024
-    },
-    group: {
-      type: 'string',
-      default: 'default'
-    },
-    projection: {
-      type: 'string',
-      default: 'geoMercator'
-    },
-    layers: {
-      type: "Array",
-      default: []
-    },
-    panelStatus: {
-      type: "Object",
-      default: {}
-    },
-    backGroundColor: {
-      type: "string",
-      default: "#347ba2"
-    },
-    mapPosition: {
-      type: "Object",
-      default: {}
-    },
-    zoomEnabled: {
-      type: "Boolean",
-      default: true
-    },
-    rotationEnabled: {
-      type: "Boolean",
-      default: false
-    },
-    enableMeasureSelector: {
-      type: 'Boolean',
-      default: false
-    },
-    measureSelectorLabel: {
-      type: 'String',
-      default: 'Measure'
-    },
-    defaultMeasure: {
-      type: 'String',
-      default: ''
-    },
-    dvzProxyDatasetId: {
-      type: 'String',
-      default: ""
-    },
-    waitForFilters: {
-      type: "Boolean",
-      default: false
-    }
-  },
-  edit: d3Map_BlockEdit,
-  save: BlockSave
-});
-
-/***/ }),
-
 /***/ 9236:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -43874,7 +44321,7 @@ __webpack_require__(643);
 __webpack_require__(4493);
 __webpack_require__(5190);
 __webpack_require__(933);
-__webpack_require__(9231);
+__webpack_require__(7519);
 __webpack_require__(6987);
 __webpack_require__(8401);
 __webpack_require__(2925);

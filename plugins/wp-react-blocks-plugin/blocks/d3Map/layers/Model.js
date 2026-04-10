@@ -73,7 +73,17 @@ export const Model = {
     patternsVisible: true,
     colorLayerVisible: true,
     hideLabelsAtLowZoom: false,
-    animateOnDataRefresh: false
+    animateOnDataRefresh: false,
+
+    // Tile basemap layer properties (used when type === 'tileBasemap')
+    tileSource: 'carto-light',
+    tileOpacity: 1,
+
+    // Pixel grid layer properties (used when type === 'pixelGrid')
+    latField: 'lat',
+    lonField: 'lon',
+    pixelSizeDeg: 0.05,
+    opacity: 0.8,
 }
 
 

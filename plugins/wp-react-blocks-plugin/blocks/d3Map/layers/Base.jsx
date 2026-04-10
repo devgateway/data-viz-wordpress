@@ -16,6 +16,8 @@ import { useState } from "@wordpress/element";
 import DataLayer from "./Data";
 import FlowLayer from "./Flow";
 import LatLongLayer from "./LatLong";
+import TileBasemapLayerSettings from "./TileBasemap";
+import PixelGridLayerSettings from "./PixelGrid";
 import { BlockEditWithAPIMetadata, ComponentWithSettings } from '@devgateway/dvz-wp-commons';
 import Property from "./utils/Property";
 
@@ -28,7 +30,9 @@ const typeOptions = [
     { label: "Base", value: "base" },
     { label: "Data Shape", value: "data" },
     { label: "FLow layer ", value: "flow" },
-    { label: "Data Points ", value: "dataPoints" }
+    { label: "Data Points ", value: "dataPoints" },
+    { label: "Tile Basemap", value: "tileBasemap" },
+    { label: "Pixel Grid", value: "pixelGrid" },
 ]
 
 const toOptions = (files) => {
@@ -123,7 +127,7 @@ const Base = (props) => {
                 options={typeOptions}
             />
         </PanelRow>,
-        <>{type != 'dataPoints' && <PanelRow>
+        <>{type != 'dataPoints' && type != 'tileBasemap' && type != 'pixelGrid' && <PanelRow>
             <SelectControl
                 type={"String"}
                 label="File"
@@ -135,7 +139,7 @@ const Base = (props) => {
         </PanelRow>
         }</>,
         <>
-            {type != 'dataPoints' && type != 'flow' && <PanelBody title={"Colors"} initialOpen={false}>
+            {type != 'dataPoints' && type != 'flow' && type != 'tileBasemap' && type != 'pixelGrid' && <PanelBody title={"Colors"} initialOpen={false}>
                 <PanelColorSettings
                     title={__(`Fill Color`)}
                     colorSettings={[{
@@ -180,7 +184,7 @@ const Base = (props) => {
             </PanelBody>}
         </>,
         <>
-            {type != 'dataPoints' && type != 'flow' && <PanelBody title={"Labels"} initialOpen={false}>
+            {type != 'dataPoints' && type != 'flow' && type != 'tileBasemap' && type != 'pixelGrid' && <PanelBody title={"Labels"} initialOpen={false}>
 
                 <Property
                     title={"Label Field"}
@@ -337,6 +341,25 @@ const Base = (props) => {
                 >
                 </LatLongLayer>
 
+            </>}
+            {type == 'tileBasemap' && <>
+                <TileBasemapLayerSettings
+                    layer={layer}
+                    onChangeProperty={onChangeProperty}
+                />
+            </>}
+            {type == 'pixelGrid' && <>
+                <PixelGridLayerSettings
+                    {...props}
+                    apps={metadata.apps}
+                    onChangeProperty={onChangeProperty}
+                    allMeasures={metadata.measures || []}
+                    allDimensions={metadata.dimensions || []}
+                    allFilters={metadata.filters || []}
+                    allDatasets={datasets}
+                    allApps={metadata.apps}
+                    layer={layer}
+                />
             </>}
         </React.Fragment>,
 
