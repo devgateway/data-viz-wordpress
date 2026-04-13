@@ -1,5 +1,14 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.4
+
+### Patch Changes
+
+- [#122](https://github.com/devgateway/data-viz-wordpress/pull/122) [`75a71eb`](https://github.com/devgateway/data-viz-wordpress/commit/75a71eb432158e0bba385647c26de50ec2fab4d6) Thanks [@timothygachengo](https://github.com/timothygachengo)! - - _(TCDICORE-522)_ Add WordPress source URL to posts components `ComponentWithSettings`
+  - _(TCDICORE-522)_ Add missing blocks and append `/wp-json` to landing URL
+  - _(TCDICORE-522)_ Remove logging
+  - _(TCDICORE-525)_ Make "no data" message configurable
+
 ## 1.3.2
 
 ### Patch Changes
