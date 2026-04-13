@@ -20,10 +20,6 @@ runs:
       with:
         cache: true
 
-    - name: Upgrade npm for OIDC support
-      run: npm install -g npm@latest
-      shell: bash
-
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
       shell: bash
