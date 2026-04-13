@@ -57,6 +57,7 @@ class BlockEdit extends BlockEditWithFilters {
                 isYearFilter,
                 selectedYear,
                 defaultValues,
+                wordpressSource,
 
             }
         } = this.props;
@@ -76,8 +77,9 @@ class BlockEdit extends BlockEditWithFilters {
                         </PanelRow>
                     </PanelBody>
 
-                    <PanelBody title={__("Filter Configuration")}>
+                    {this.renderWordpressSource()}
 
+                    <PanelBody title={__("Filter Configuration")}>
                         <SelectControl
                             label={__('Filter Type')}
                             value={filterType}

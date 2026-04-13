@@ -23,6 +23,8 @@ const SaveComponent = (props) => {
             selectedYear,
             type,
             defaultValues,
+            wordpressSource,
+            wordpressSourceType,
         }
     } = props;
 
@@ -52,7 +54,9 @@ const SaveComponent = (props) => {
             data-is-year-filter={isYearFilter}
             data-selected-year={selectedYear}
             data-type={type}
-            data-default-values={encodeURIComponent(JSON.stringify(defaultValues))}>
+            data-default-values={encodeURIComponent(JSON.stringify(defaultValues))}
+            data-wordpress-source={wordpressSource}
+            data-wordpress-source-type={wordpressSourceType}>
         </div>
     );
 };

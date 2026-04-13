@@ -26,6 +26,10 @@ class BlockEdit extends BlockEditWithFilters {
                 enableSorting,
                 sortingTaxonomy,
                 sortFirstBy,
+                wordpressSource,
+                wordpressSourceType,
+                noDataMsg,
+                clearFilterMsg,
             }
         } = this.props;
 
@@ -43,8 +47,9 @@ class BlockEdit extends BlockEditWithFilters {
                     </PanelRow>
                 </PanelBody>
 
-                <PanelBody title={__('Filtered Posts Configuration')}>
+                {this.renderWordpressSource()}
 
+                <PanelBody title={__('Filtered Posts Configuration')}>
                     <PanelRow>
                         <RangeControl
                             label={__('Number of columns')}
@@ -95,6 +100,22 @@ class BlockEdit extends BlockEditWithFilters {
                             value={numberOfItemsPerPage}
                             min={1}
                             onChange={(value) => setAttributes({ numberOfItemsPerPage: parseInt(value, 10) })}
+                        />
+                    </PanelRow>
+                </PanelBody>
+                <PanelBody title={__('No Data Config')}>
+                    <PanelRow>
+                        <TextControl
+                            label={__('No data message')}
+                            value={noDataMsg}
+                            onChange={(value) => setAttributes({ noDataMsg: value })}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <TextControl
+                            label={__('Clear filter label')}
+                            value={clearFilterMsg}
+                            onChange={(value) => setAttributes({ clearFilterMsg: value })}
                         />
                     </PanelRow>
                 </PanelBody>

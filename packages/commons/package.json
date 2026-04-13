@@ -55,7 +55,7 @@
     "build": "unbuild",
     "format:js": "wp-scripts format-js",
     "lint:js": "wp-scripts lint-js",
-    "start": "tsc -w"
+    "start": "unbuild --watch"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^7.32.0",
