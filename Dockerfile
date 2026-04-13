@@ -37,7 +37,7 @@ COPY wp-theme wp-content/themes/dg-semantic
 
 # Copy built plugins from workspace into wp-content so built assets are included
 RUN mkdir -p wp-content/plugins \
-  && cp -a plugins/. wp-content/plugins/
+  && cp -a plugins/ wp-content/plugins/
 
 # Create a tarball of the wp-content directory
 RUN chown -R 82:82 wp-content \
