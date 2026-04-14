@@ -12,7 +12,7 @@ import {
 } from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BlockEditWithAPIMetadata} from '@devgateway/dvz-wp-commons'
-import Format from '../charts/Format.jsx'
+import { Format } from '@devgateway/dvz-wp-commons'
 import {useState} from "@wordpress/element";
 import {v4 as uuidv4} from "uuid";
 

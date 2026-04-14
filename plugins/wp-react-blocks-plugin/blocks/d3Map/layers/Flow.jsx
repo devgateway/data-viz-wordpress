@@ -16,7 +16,7 @@ import Property from "./utils/Property";
 import BreaksGenerator from "./utils/BreaksGenerator";
 import { PanelColorSettings } from "@wordpress/block-editor";
 import PatternGenerator from "./utils/PatternGenerator";
-import Format from '../../charts/Format.jsx';
+import { Format } from '@devgateway/dvz-wp-commons';
 import { isSupersetAPI } from '@devgateway/dvz-wp-commons';
 
 const FilterSelector = ({ param, index, options, onUpdateFilterParam }) => {

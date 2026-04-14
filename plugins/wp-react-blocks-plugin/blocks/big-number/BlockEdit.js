@@ -18,7 +18,7 @@ import { togglePanel } from '@devgateway/dvz-wp-commons';;
 import { Measures } from '@devgateway/dvz-wp-commons';
 import { DataFilters } from '@devgateway/dvz-wp-commons';
 import { isSupersetAPI } from '@devgateway/dvz-wp-commons';
-import Format from "../charts/Format.jsx";
+import { Format } from '@devgateway/dvz-wp-commons';
 
 
 class BlockEdit extends BlockEditWithAPIMetadata {

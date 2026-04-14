@@ -4,7 +4,7 @@ import {__} from '@wordpress/i18n';
 import { ChartColors, ChartLegends} from '@devgateway/dvz-wp-commons'
 import AxisConfig from './AxisConfig.jsx'
 import Labels from "./Labels.jsx"
-import Format from "./Format.jsx"
+import { Format } from '@devgateway/dvz-wp-commons'
 import Papa from 'papaparse'
 import Sort from "./Sort.jsx"
 

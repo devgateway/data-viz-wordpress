@@ -341,7 +341,8 @@ export const Format = ({
                            onUseCustomAxisFormatChange,
                            customFormat,
                            hiddenCustomAxisFormat,
-                           useCustomAxisFormat
+                           useCustomAxisFormat,
+                           showPrefixSuffix = false
                        }) => {
 
 
@@ -398,7 +399,7 @@ export const Format = ({
                     value={format.minimumFractionDigits}
                 />
             </PanelRow>
-            <PanelRow>
+            {showPrefixSuffix && <PanelRow>
                 <TextControl
                     label={__("Prefix", "dg")}
                     onChange={(value) => {
@@ -406,8 +407,8 @@ export const Format = ({
                     }}
                     value={format.prefix}
                 />
-            </PanelRow>
-            <PanelRow>
+            </PanelRow>}
+            {showPrefixSuffix && <PanelRow>
                 <TextControl
                     label={__("Suffix", "dg")}
                     onChange={(value) => {
@@ -415,7 +416,7 @@ export const Format = ({
                     }}
                     value={format.suffix}
                 />
-            </PanelRow>
+            </PanelRow>}
         </PanelBody>, <>
             {!hiddenCustomAxisFormat && <PanelRow>
                 <ToggleControl label={__("Use Custom Axis Format", "dg")} checked={useCustomAxisFormat}
