@@ -1585,8 +1585,8 @@ class magical_plugin_activation_Plugin_Recommendations {
                 $this->delete_directory($plugin_dir);
             }
             
-            // Extract new plugin
-            $result = $this->extract_plugin_zip($plugin['source'], WP_PLUGIN_DIR);
+            // Extract new plugin (reuse install logic which has all fallback methods)
+            $result = $this->install_local_plugin($plugin);
             
             if ($result) {
                 // Reactivate plugin
