@@ -95,6 +95,7 @@ class PixelGridLayer extends Component {
                 gradientEndColor,
                 tooltip = 'Value: {value}',
                 format = {},
+                customMeasuresLabels = {},
             },
             onChangeProperty,
             allMeasures = [],
@@ -105,6 +106,27 @@ class PixelGridLayer extends Component {
             attributes,
             setAttributes,
         } = this.props;
+
+        // Auto-populate customMeasuresLabels for any selected measure that doesn't yet have a label,
+        // mirroring the same pattern used by the Data shape layer.
+        // Batch all missing labels into a single update to avoid each call overwriting the previous one.
+        if (app !== 'csv' && allMeasures && allMeasures.length > 0) {
+            const missingLabels = {};
+            measures.forEach(measureValue => {
+                if (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] === '') {
+                    const found = allMeasures.find(m => m.value === measureValue);
+                    if (found) {
+                        missingLabels[measureValue] = found.label;
+                    }
+                }
+            });
+            if (Object.keys(missingLabels).length > 0) {
+                onChangeProperty('customMeasuresLabels', {
+                    ...customMeasuresLabels,
+                    ...missingLabels,
+                });
+            }
+        }
 
         const isSuperSet = isSupersetAPI(app, apps);
 
