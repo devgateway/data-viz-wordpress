@@ -138,7 +138,7 @@ function dg_semantic_recommended_plugins($plugins) {
         'wp-react-custom-api' => array(
             'name' => esc_attr__('WP REST API Custom Endpoints', 'dg-semantic'),
             'slug' => 'wp-react-custom-api',
-            'file' => 'wp-react-custom-api/custom-wp-rest-api.php',
+            'file' => 'wp-react-custom-api/wp-react-custom-api.php',
             'description' => esc_attr__('Custom REST API endpoints for theme-specific data and functionality.', 'dg-semantic'),
             'category' => 'REST API',
             'required' => true,
