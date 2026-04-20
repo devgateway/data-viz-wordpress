@@ -157,8 +157,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'featured' => false,
             'is_local' => false,
         ),
-        
-    
+
     );
     return array_merge($plugins, $theme_plugins);
 }

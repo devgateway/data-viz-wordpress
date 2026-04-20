@@ -7,6 +7,8 @@ const BlockSave = (props) => {
             numberOfItemsPerPage,
             wordpressSource,
             wordpressSourceType,
+            pageLabel,
+            ofLabel,
         }
     } = props;
 
@@ -22,6 +24,8 @@ const BlockSave = (props) => {
             data-number-of-items-per-page={numberOfItemsPerPage}
             data-wordpress-source={wordpressSource}
             data-wordpress-source-type={wordpressSourceType}
+            data-page-label={pageLabel}
+            data-of-label={ofLabel}
         ></div>
     );
 };

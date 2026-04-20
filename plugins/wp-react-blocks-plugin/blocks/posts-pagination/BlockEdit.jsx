@@ -17,6 +17,8 @@ class BlockEdit extends BlockEditWithFilters {
                 numberOfItemsPerPage,
                 wordpressSource,
                 wordpressSourceType,
+                pageLabel,
+                ofLabel,
             }
         } = this.props;
 
@@ -36,6 +38,22 @@ class BlockEdit extends BlockEditWithFilters {
                             value={numberOfItemsPerPage}
                             min={1}
                             onChange={(numberOfItemsPerPage) => setAttributes({ numberOfItemsPerPage: parseInt(numberOfItemsPerPage, 10) })}
+                        />
+                    </PanelRow>
+                </PanelBody>
+                <PanelBody title={__("Pagination Labels")}>
+                    <PanelRow>
+                        <TextControl
+                            label={__('"Page" label')}
+                            value={pageLabel}
+                            onChange={(pageLabel) => setAttributes({ pageLabel })}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <TextControl
+                            label={__('"of" label')}
+                            value={ofLabel}
+                            onChange={(ofLabel) => setAttributes({ ofLabel })}
                         />
                     </PanelRow>
                 </PanelBody>

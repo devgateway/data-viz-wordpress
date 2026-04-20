@@ -26,6 +26,14 @@ registerBlockType(BLOCKS_NS + '/posts-pagination',
             wordpressSourceType: {
                 type: 'string',
                 default: 'internal'
+            },
+            pageLabel: {
+                type: 'string',
+                default: 'Page'
+            },
+            ofLabel: {
+                type: 'string',
+                default: 'of'
             }
         },
         edit: BlockEdit,
