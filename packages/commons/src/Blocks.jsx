@@ -283,7 +283,7 @@ export class BlockEditWithFilters extends ComponentWithSettings {
         }
         if (wordpressSourceType === 'custom' && wordpressSource) {
             const base = wordpressSource.replace(/\/+$/, '');
-            return fetch(base + '/wp-json' + path).then(r => r.json());
+            return fetch(base + path).then(r => r.json());
         }
         return wp.apiFetch({ path });
     }
