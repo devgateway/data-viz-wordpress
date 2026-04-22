@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.5
+
+### Patch Changes
+
+- [#129](https://github.com/devgateway/data-viz-wordpress/pull/129) [`f5ac94d`](https://github.com/devgateway/data-viz-wordpress/commit/f5ac94d8d460c4e83422385701a7a380fcf952a9) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Fix custom URL wordpress source
+
 ## 1.3.4
 
 ### Patch Changes
