@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
+import { BLOCKS_NS } from '@devgateway/dvz-wp-commons';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 
 
-registerBlockType('alive/big-filter',
+registerBlockType(BLOCKS_NS + '/big-filter',
     {
         title: __('Big Filter', 'dg'),
         icon: "database",

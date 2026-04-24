@@ -100,8 +100,6 @@ class WPM_AJAX {
 			'delete_localization'  => false,
 			'qtx_import'           => false,
 			'rated'                => false,
-			'send_query_message'   => false,
-			'send_feedback'   	   => false,
 			'subscribe_to_news_letter' => false,
 			'newsletter_hide_form' => false,
 			'settings_newsletter_submit' => false,
@@ -260,123 +258,6 @@ class WPM_AJAX {
 		wp_die();
 	}
 
-	/**
-	 * Triggered when any support query is sent from Help & Support tab
-	 * @since 2.4.2
-	 * */
-	public static function send_query_message()
-	{
-		check_ajax_referer( 'support-localization', 'security' );
-
-		if ( ! current_user_can( 'manage_translations' ) ) {
-			wp_die( -1 );
-		}
-		
-		if ( isset( $_POST['message'] ) && isset( $_POST['email'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
-			$message        = sanitize_textarea_field( $_POST['message'] ); 
-		    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason unslash not needed because data is not getting stored in database, it's just being used. 
-		    $email          = sanitize_email( $_POST['email'] );   
-		                            
-		    if(function_exists('wp_get_current_user')){
-
-		        $user           = wp_get_current_user();
-
-		        $message = '<p>'.esc_html($message).'</p><br><br>'.'Query from WP Multilang plugin support tab';
-		        
-		        $user_data  = $user->data;        
-		        $user_email = $user_data->user_email;     
-		        
-		        if($email){
-		            $user_email = $email;
-		        }            
-		        //php mailer variables        
-		        $sendto    = 'team@magazine3.in';
-		        $subject   = "WP Multilang Query";
-		        
-		        $headers[] = 'Content-Type: text/html; charset=UTF-8';
-		        $headers[] = 'From: '. esc_attr($user_email);            
-		        $headers[] = 'Reply-To: ' . esc_attr($user_email);
-		        // Load WP components, no themes.   
-
-		        $sent = wp_mail($sendto, $subject, $message, $headers); 
-
-		        if($sent){
-
-		             echo wp_json_encode(array('status'=>'t'));  
-
-		        }else{
-
-		            echo wp_json_encode(array('status'=>'f'));            
-
-		        }
-		        
-		    }
-		}
-	                    
-	    wp_die(); 
-	}
-	
-	/**
-	 * Triggered when any support query is sent from Help & Support tab
-	 * @since 2.4.6
-	 * */
-	public static function send_feedback()
-	{
-		if ( ! current_user_can( 'manage_translations' ) ) {
-			wp_die( -1 );
-		}
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Security measurament is done below in this function with nonce key wpm_feedback_nonce.
-		if( isset( $_POST['data'] ) ) {
-	        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Sanitization is handled below in this function
-	        parse_str( $_POST['data'], $data );
-	    }
-
-	    if(!isset($data['wpm_feedback_nonce'])){
-	    	wp_die( -1 );
-	    }
-
-	    if ( !wp_verify_nonce( $data['wpm_feedback_nonce'], 'wpm_feedback_nonce' ) ){
-       		return;  
-    	}
-
-		$text = '';
-	    if( isset( $data['wpm_disable_text'] ) ) {
-	        $text = implode( "\n\r", sanitize_text_field( $data['wpm_disable_text'] ) );
-	    }
-
-	    $headers = array();
-
-	    $from = isset( $data['wpm_disable_from'] ) ? sanitize_email( $data['wpm_disable_from'] ) : '';
-	    if( $from ) {
-	    	$headers[] = 'Content-Type: text/html; charset=UTF-8';
-	        $headers[] = "From: $from";
-	        $headers[] = "Reply-To: $from";
-	    }
-
-	    $subject = isset( $data['wpm_disable_reason'] ) ? sanitize_text_field( $data['wpm_disable_reason'] ) : '(no reason given)';
-
-	    if($subject == 'technical'){
-	    	  $subject = $subject.' - WP Multilang';
-	    	  
-	          $text = trim($text);
-
-	          if(!empty($text)){
-
-	            $text = 'technical issue description: '.$text;
-
-	          }else{
-
-	            $text = 'no description: '.$text;
-	          }
-	      
-	    }
-
-	    $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
-
-		wp_die();
-	}
 	
 	/**
 	 * Triggered when any newsletter subscribe button is clicked
