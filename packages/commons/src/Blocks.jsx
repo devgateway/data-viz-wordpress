@@ -581,8 +581,8 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                         }
                     });
                 })
-                .catch(() => {
-                    console.log("Error when loading apps, falling back to CSV");
+                .catch((error) => {
+                    console.error("Error when loading apps, falling back to CSV", error);
                     this.setState({
                         react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
                         react_api_url: settingsData["react_api_url"],
