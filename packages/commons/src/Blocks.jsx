@@ -179,6 +179,14 @@ export class BlockEditWithFilters extends ComponentWithSettings {
                 wordpressSourceType !== prevProps.attributes.wordpressSourceType ||
                 wordpressSource !== prevProps.attributes.wordpressSource;
             if (sourceChanged) {
+                setAttributes({
+                    type: undefined,
+                    taxonomy: 'none',
+                    categories: [],
+                    sortingTaxonomy: 'none',
+                    sortFirstBy: 'none',
+                    defaultValues: [],
+                });
                 this.getTypes();
                 this.getTaxonomies();
                 this.getTaxonomyValues();
@@ -538,7 +546,10 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     'Accept': 'application/json',
                 },
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error(`Eureka apps returned ${response.status}`);
+                    return response.json();
+                })
                 .then(data => {
                     const apps = data.applications ? [...data.applications.application
                         .filter(a => a.instance[0].metadata.type === 'data')
@@ -571,7 +582,20 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     });
                 })
                 .catch(() => {
-                    console.log("Error when loading apps");
+                    console.log("Error when loading apps, falling back to CSV");
+                    this.setState({
+                        react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
+                        react_api_url: settingsData["react_api_url"],
+                        apache_superset_url: settingsData["apache_superset_url"],
+                        site_language: settingsData["site_language"],
+                        current_language: new URLSearchParams(document.location.search).get("edit_lang"),
+                        apps: [{ label: 'CSV', value: 'csv' }]
+                    }, () => {
+                        const { app, dvzProxyDatasetId } = this.props.attributes;
+                        if (app && app != 'none') {
+                            this.loadMetadata(app, dvzProxyDatasetId);
+                        }
+                    });
                 });
         });
     }
