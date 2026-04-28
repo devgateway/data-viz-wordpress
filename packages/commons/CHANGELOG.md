@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.6
+
+### Patch Changes
+
+- [#132](https://github.com/devgateway/data-viz-wordpress/pull/132) [`6ce57f7`](https://github.com/devgateway/data-viz-wordpress/commit/6ce57f782c7742819608e535d7f03d7c2057a28d) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Clear old filters on wordpress source change
+
 ## 1.3.5
 
 ### Patch Changes
