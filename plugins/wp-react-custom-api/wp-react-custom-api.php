@@ -3,8 +3,11 @@
 Plugin Name: Custom WP-REST-API Endpoints
 Version: 0.0.1
 Description: Adding custom endpoints on WP REST API
-Author: Timothy Mugo (Development Gateway)
-Author URI:
+Author: Development Gateway
+Author URI: https://www.developmentgateway.org/
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Copyright: © 2025 Development Gateway
 */
 
 function custom_api_test_callback() {

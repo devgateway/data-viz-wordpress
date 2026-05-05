@@ -1,21 +1,28 @@
 <?php
 /**
- * Plugin Name:       WP Multilang
+ * Plugin Name:       WP Multilang (Customized)
  * Plugin URI:        https://github.com/ahmedkaludi/wp-multilang
  * GitHub Plugin URI: https://github.com/ahmedkaludi/wp-multilang
  * Description:       Multilingual plugin for WordPress. Go Multilingual in minutes with full WordPress support. Translate your site easily with this localization plugin. (DO NOT UPDATE THIS PLUGIN)
- * Author:            TCDI Team 
- * Author URI: 		  https://wp-multilang.com/
- * License:           GPL2
+ * Author:            Development Gateway
+ * Author URI:        https://www.developmentgateway.org/
+ * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wp-multilang
  * Domain Path:       /languages
  * Version:           2.4.16
- * Copyright:         © 2017-2019 Valentyn Riaboshtan
+ *
+ * Based on WP Multilang by Valentyn Riaboshtan
+ * Original Copyright: © 2017-2019 Valentyn Riaboshtan
+ * Original Plugin URI: https://github.com/ahmedkaludi/wp-multilang
+ *
+ * Modifications Copyright: © 2025 Development Gateway
+ * Modified by: Development Gateway — added language-switcher Gutenberg block
+ *              and additional admin scripts.
  *
  * @package  WPM
  * @category Core
- * @author   Valentyn Riaboshtan
+ * @author   Valentyn Riaboshtan (original), Development Gateway (modifications)
  */
 
 use WPM\Includes\WP_Multilang;
