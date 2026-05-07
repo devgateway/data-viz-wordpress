@@ -29,7 +29,10 @@
     "link:package": "pnpm build && pnpm link --global"
   },
   "bin": "./index.js",
-  "author": "Timothy Mugo",
+  "author": "Sebastian Dimunzio <sdimunzio@gmail.com>",
+  "contributors": [
+    "Timothy Gachengo (https://github.com/timothygachengo)"
+  ],
   "license": "MIT",
   "publishConfig": {
     "access": "public",
