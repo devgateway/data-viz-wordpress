@@ -160,13 +160,13 @@ Forking is not enabled on this repository. To contribute, request access from a 
 5. At least one maintainer approval is required before merging
 6. All CI checks must pass
 
-Do not introduce hardcoded credentials, internal URLs, client-specific identifiers, or PII. Ensure any new dependency has an Apache-2.0-compatible license.
+Do not introduce hardcoded credentials, internal URLs, client-specific identifiers, or PII. Ensure any new dependency has a GPL-2.0-or-later-compatible license (MIT, BSD, Apache-2.0, ISC, and similar permissive licenses are all compatible).
 
 ---
 
 ## License
 
-By contributing you agree that your contributions are licensed under the [Apache License 2.0](LICENSE).
+By contributing you agree that your contributions are licensed under the [GNU General Public License v2.0 or later](LICENSE).
 
 ---
 
