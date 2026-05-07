@@ -150,9 +150,7 @@ ci: add changeset check to test-pr workflow
 
 ## Opening a Pull Request
 
-**External contributors:** fork the repo, create a branch off `main` on your fork, then open a PR.
-
-**Organisation members:** create a branch directly in this repo off `main` — forking is not required.
+Forking is not enabled on this repository. To contribute, request access from a maintainer, then create a branch directly in this repo off `main`.
 
 1. Create a branch off `main` (see [Branching Model](#branching-model))
 2. Make your changes and add a changeset if a published package was modified (see above)
