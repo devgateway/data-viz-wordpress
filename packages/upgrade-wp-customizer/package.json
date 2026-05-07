@@ -33,7 +33,7 @@
   "contributors": [
     "Timothy Gachengo (https://github.com/timothygachengo)"
   ],
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "publishConfig": {
     "access": "public",
     "provenance": false,

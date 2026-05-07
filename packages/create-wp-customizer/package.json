@@ -20,7 +20,7 @@
     "link:package": "pnpm build && pnpm link --global"
   },
   "keywords": [],
-  "license": "MIT",
+  "license": "GPL-2.0-or-later",
   "bin": {
     "create-wp-customizer": "./index.js"
   },
