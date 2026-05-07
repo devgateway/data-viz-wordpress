@@ -77,6 +77,7 @@ docker compose up -d
   - `chore/short-description`
   - `docs/short-description`
   - `refactor/short-description`
+  - `ci/short-description`
 - For long-running project integrations use `project/short-description` (see below).
 - Do not push directly to `main`.
 
