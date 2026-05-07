@@ -19,7 +19,6 @@ const Sort = (props) => {
     } = props;
 
 
-    //The following code will be used to sort stacked bar's slices https://devgateway.atlassian.net/browse/TCDIKE-767
     let sortBySliceOptions = []
     if (dimension2 && allCategories) {
 

@@ -13,3 +13,4 @@ data/
 wp-content/uploads/
 wp-content/plugins
 wp-content/
+.claude/

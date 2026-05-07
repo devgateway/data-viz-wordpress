@@ -51,7 +51,6 @@ class WPM_Admin_Settings {
 			$settings[] = new Settings\WPM_Settings_Auto_Translate();
 			$settings[] = new Settings\WPM_Settings_Additional();
 			// $settings[] = new Settings\WPM_Settings_Premium();
-			$settings[] = new Settings\WPM_Settings_Support();
 			// if(!defined('WP_MULTILANG_PRO_VERSION')){
 			// 	$settings[] = new Settings\WPM_Settings_Upgrade_Pro();
 			// }
