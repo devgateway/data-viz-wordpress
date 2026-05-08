@@ -36,7 +36,7 @@ The CLI will ask:
 1. **Project name** — used as the plugin directory name and WordPress plugin slug
 2. **Template** — choose between JavaScript (`template-js`) or TypeScript (`template-ts`)
 
-After confirming, the tool generates the project structure and installs dependencies.
+After confirming, the tool generates the project structure. Install dependencies afterward using the commands in [After Scaffolding](#after-scaffolding).
 
 ## Generated Structure
 

@@ -7,6 +7,7 @@
     "Timothy Mugo"
   ],
   "private": true,
+  "license": "GPL-2.0-or-later",
   "description": "",
   "keywords": [
     "WordPress",
@@ -57,7 +58,6 @@
     "@wordpress/rich-text": "^7.32.0",
     "ajv": "^8.17.1",
     "classnames": "^2.5.1",
-    "gzip-js": "^0.3.2",
     "lodash": "^4.17.21",
     "lodash.isempty": "^4.4.0",
     "lodash.isequal": "^4.5.0",

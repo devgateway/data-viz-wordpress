@@ -13,20 +13,11 @@ Only the latest release on the `main` branch receives security fixes.
 
 **Please do not report security vulnerabilities through public GitHub issues, pull requests, or discussions.**
 
-To report a vulnerability privately, use one of the following methods:
+To report a vulnerability privately, use the following method:
 
-### Option 1 — GitHub Private Vulnerability Reporting (preferred)
+### GitHub Private Vulnerability Reporting (preferred)
 
 Use GitHub's built-in [private vulnerability reporting](https://github.com/devgateway/data-viz-wordpress/security/advisories/new) feature. Your report will be visible only to repository maintainers.
-
-### Option 2 — Email
-
-Send a description of the vulnerability to the Development Gateway maintainers. Include:
-
-- A description of the vulnerability and its potential impact
-- Steps to reproduce or a proof-of-concept
-- Affected versions or components
-- Any suggested mitigations
 
 ## What to Expect
 
