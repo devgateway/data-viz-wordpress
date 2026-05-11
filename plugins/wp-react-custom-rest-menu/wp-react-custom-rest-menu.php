@@ -3,8 +3,15 @@
 Plugin Name: Custom WP-REST-API V2 Menus
 Version: 0.7.7
 Description: Adding menus endpoints on WP REST API v2
-Author: Originally created by Claudio La Barbera - Modified by Sebastian Dinunzio (Development Gateway)
-Author URI:
+Author: Development Gateway
+Author URI: https://www.developmentgateway.org/
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Based on WP REST API Menus by Claudio La Barbera and contributors.
+Original plugin: https://wordpress.org/plugins/wp-api-menus/
+Original Copyright: © Claudio La Barbera and contributors (GPLv2 or later)
+Modifications Copyright: © 2025 Development Gateway
 */
 
 /**

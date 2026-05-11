@@ -13,7 +13,7 @@ import {
     ToggleControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { BlockEditWithAPIMetadata, SizeConfig } from "@devgateway/dvz-wp-commons";
+import { BlockEditWithAPIMetadata, SizeConfig, BLOCKS_NS } from "@devgateway/dvz-wp-commons";
 import { togglePanel } from "@devgateway/dvz-wp-commons";
 import { Measures } from "@devgateway/dvz-wp-commons";
 import { DataFilters } from "@devgateway/dvz-wp-commons";
@@ -344,7 +344,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 const Edit = (props) => {
 
 
-    // Get all blocks of a specific type (e.g., 'alive/big-filter')
+    // Get all blocks of a specific type (e.g., 'viz/big-filter')
     const bigFilterBlocks = useSelect((select) => {
         const { getBlocks } = select('core/block-editor');
         // Get all blocks in the editor
@@ -354,7 +354,7 @@ const Edit = (props) => {
         const findBlocksRecursive = (blocks) => {
             let found = [];
             blocks.forEach(block => {
-                if (block.name === 'alive/big-filter' && block.clientId !== props.clientId) {
+                if (block.name === BLOCKS_NS + '/big-filter' && block.clientId !== props.clientId) {
                     found.push({
                         type: block.attributes.type,
                         label: block.attributes.blockName + "(" + block.attributes.dimension1 + ")",

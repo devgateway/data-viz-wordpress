@@ -3,7 +3,7 @@
 Common utilities for Data Visualization in WordPress that can also be used in other projects.
 
 [![npm version](https://img.shields.io/npm/v/@devgateway/dvz-wp-commons.svg)](https://www.npmjs.com/package/@devgateway/dvz-wp-commons)
-[![MIT License](https://img.shields.io/npm/l/@devgateway/dvz-wp-commons.svg)](https://github.com/devgateway/data-viz-wordpress/blob/main/packages/commons/LICENSE)
+[![GPL-2.0-or-later License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](https://github.com/devgateway/data-viz-wordpress/blob/main/LICENSE)
 
 ## Installation
 
@@ -189,4 +189,4 @@ const MyAPIComponent = ({ attributes, setAttributes }) => {
 
 ## License
 
-MIT
+GPL-2.0-or-later — see the [LICENSE](../../LICENSE) file for details.
