@@ -4,15 +4,14 @@
   "private": false,
   "type": "module",
   "description": "Common Utilities for Data Viz Wordpress that can be also used in other projects",
-  "author": "Sebastian Dimunzio",
+  "author": "Sebastian Dimunzio <sdimunzio@gmail.com>",
+  "contributors": [
+    "Timothy Gachengo (https://github.com/timothygachengo)"
+  ],
   "license": "GPL-2.0-or-later",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "module": "build/index.js",
-  "maintainers": [
-    "Sebastian Dimunzio",
-    "Timothy Mugo"
-  ],
   "keywords": [
     "react",
     "WordPress",

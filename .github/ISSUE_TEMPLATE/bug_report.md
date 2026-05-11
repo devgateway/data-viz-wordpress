@@ -20,14 +20,16 @@ labels: bug
 
 ## Actual behavior
 
-<!-- What actually happened. Include any error messages or screenshots. -->
+<!-- What actually happened. Include any error messages or console output. -->
 
 ## Environment
 
+- Package / plugin affected:
+- Package version (if published):
+- Node.js version:
 - WordPress version:
-- Plugin version:
-- Browser (if UI issue):
-- Are you using a customized deployment? (custom `BLOCKS_NS`, extended types, etc.): Yes / No
+- Browser (if relevant):
+- Are you using a customized deployment? Yes / No
 
 ## Additional context
 

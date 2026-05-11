@@ -12,6 +12,10 @@ labels: enhancement
 
 <!-- Describe the feature you'd like. -->
 
+## Affected package(s) / plugin(s)
+
+<!-- Which part of the repo would this touch? dvz-wp-commons / wp-react-blocks-plugin / wp-react-custom-api / other -->
+
 ## Alternatives considered
 
 <!-- Any alternative approaches you've considered. -->

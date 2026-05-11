@@ -1,9 +1,5 @@
 {
   "name": "data-viz-wordpress",
-  "contributors": [
-    "Sebastian Dimunzio",
-    "Timothy Mugo"
-  ],
   "version": "1.0.0",
   "private": true,
   "description": "Wordpress Repository for Data Viz that contains plugins and blocks for the Data Viz plugin",
@@ -29,7 +25,10 @@
     "dg-data-viz",
     "devgateway"
   ],
-  "author": "Development Gateway",
+  "author": "Sebastian Dimunzio <sdimunzio@gmail.com>",
+  "contributors": [
+    "Timothy Gachengo (https://github.com/timothygachengo)"
+  ],
   "license": "GPL-2.0-or-later",
   "packageManager": "pnpm@10.18.1",
   "devDependencies": {
