@@ -254,7 +254,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     }
                 </PanelBody>
 
-                {app != 'csv' && this.state.filters && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                {app && app !== 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
                     <PanelRow>
                         <SelectControl
                             label={__('Filter')}
@@ -293,7 +293,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </PanelRow>
 
                 </PanelBody>}
-                {app == 'csv' && this.state.filters && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                {app && app === 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
                     <PanelRow>
                         <TextControl label={__("Field")} value={param}
                             onChange={(param) => setAttributes({ param })}
@@ -321,7 +321,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             help={__('How to determine the default value.')}
                         />
                     </PanelRow>
-                    {defaultValueCriteria == DEFAULT_VALUE_INPUT && <PanelRow>
+                    {defaultValueCriteria === DEFAULT_VALUE_INPUT && <PanelRow>
                         <TextControl label={__("Default Values")} value={defaultValues}
                             onChange={(defaultValues) => setAttributes({ defaultValues })}
                             help={__("Manually specified default values.")}
@@ -338,7 +338,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             onChange={(filterType) => {
                                 setAttributes({ filterType: filterType, isRange: filterType == "range" })
                             }}
-                            options={app == 'csv' ? [{
+                            options={app === 'csv' ? [{
                                 label: "Multi select",
                                 value: "multi-select"
                             }, { label: "Single select", value: "single-select" }, {
@@ -369,7 +369,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         />
                     </PanelRow>}
                 </PanelBody>
-                {app != 'csv' && <PanelBody initialOpen={false} title={__("Filter or hide items")}>
+                {app !== 'csv' && <PanelBody initialOpen={false} title={__("Filter or hide items")}>
                     <PanelRow>
                         <ToggleControl
                             label={__("Filter items")}
@@ -506,7 +506,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             help={__("Show a message when filter list is empty is empty.")}
                         />
                     </PanelRow>
-                    {filterType == "multi-select" && <>
+                    {filterType === "multi-select" && <>
                         <PanelRow>
                             <ToggleControl
                                 label={__("Close dropdown on item select/click")}
