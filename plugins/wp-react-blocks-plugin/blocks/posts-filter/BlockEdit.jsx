@@ -84,7 +84,7 @@ class BlockEdit extends BlockEditWithFilters {
                             label={__('Filter Type')}
                             value={filterType}
                             onChange={(filterType) => {
-                                setAttributes({ filterType: filterType });
+                                setAttributes({ filterType: filterType, defaultValues: [] });
                             }}
                             options={[
                                 { label: "Single select", value: "single-select" },
@@ -99,7 +99,8 @@ class BlockEdit extends BlockEditWithFilters {
                             onChange={() => setAttributes({
                                 isCountryFilter: !isCountryFilter,
                                 isYearFilter: false,
-                                selectedYear: null
+                                selectedYear: null,
+                                defaultValues: []
                             })} />
 
                         <ToggleControl
@@ -109,7 +110,8 @@ class BlockEdit extends BlockEditWithFilters {
                             onChange={() => setAttributes({
                                 isYearFilter: !isYearFilter,
                                 isCountryFilter: false,
-                                selectedYear: null
+                                selectedYear: null,
+                                defaultValues: []
                             })} />
 
                     </PanelBody>

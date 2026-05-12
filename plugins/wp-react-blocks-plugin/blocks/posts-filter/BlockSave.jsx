@@ -49,7 +49,7 @@ const SaveComponent = (props) => {
             data-all-none-same-behaviour={allNoneSameBehaviour}
             data-auto-apply={autoApply}
             data-taxonomy={taxonomy}
-            data-categories={categories.toString()}
+            data-categories={encodeURIComponent(JSON.stringify(categories))}
             data-is-country-filter={isCountryFilter}
             data-is-year-filter={isYearFilter}
             data-selected-year={selectedYear}
