@@ -278,7 +278,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 <SelectControl
                                     label={__('Parent Filter')}
                                     value={parentFilter}
-                                    help={__('Set parent filter autoaply false in order to avoid unnecesary data reloading.')}
+                                    help={__('Set the parent filter auto-apply option to false to avoid unnecessary data reloading.')}
                                     options={[{ value: "", label: __("None") }, ...this.state.filters]}
                                     onChange={parentFilter => {
                                         if (parentFilter && parentFilter !== "") {
