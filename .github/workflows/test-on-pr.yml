@@ -2,11 +2,11 @@ name: Test on PR
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
-      - "packages/commons/**"
-      - "packages/create-wp-customizer/**"
-      - "packages/upgrade-wp-customizer/**"
-      - "data-viz-wordpress/**"
+      - "packages/**"
+      - "plugins/wp-react-blocks-plugin/**"
+      - "pnpm-workspace.yaml"
       - "package.json"
       - "pnpm-lock.yaml"
     
@@ -17,9 +17,10 @@ permissions:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+
 jobs:
   test:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
