@@ -28,6 +28,17 @@ const SaveComponent = (props) => {
         }
     } = props;
 
+    const normalizedDefaultValues = Array.isArray(defaultValues)
+        ? defaultValues
+            .map((value) => {
+                if (value === null || value === undefined || value === 'none') {
+                    return value;
+                }
+                const numericValue = Number(value);
+                return Number.isNaN(numericValue) ? value : numericValue;
+            })
+        : defaultValues;
+
     const divClass = {};
     const divStyles = {};
 
@@ -54,7 +65,7 @@ const SaveComponent = (props) => {
             data-is-year-filter={isYearFilter}
             data-selected-year={selectedYear}
             data-type={type}
-            data-default-values={encodeURIComponent(JSON.stringify(defaultValues))}
+            data-default-values={encodeURIComponent(JSON.stringify(normalizedDefaultValues))}
             data-wordpress-source={wordpressSource}
             data-wordpress-source-type={wordpressSourceType}>
         </div>
