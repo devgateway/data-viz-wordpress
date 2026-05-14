@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.7
+
+### Patch Changes
+
+- [#137](https://github.com/devgateway/data-viz-wordpress/pull/137) [`555bfdb`](https://github.com/devgateway/data-viz-wordpress/commit/555bfdb83d46a9fadd0da8e11a5b773318af4d04) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Normalize default values in posts filter
+
 ## 1.3.6
 
 ### Patch Changes
