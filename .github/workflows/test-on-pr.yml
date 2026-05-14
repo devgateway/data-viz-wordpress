@@ -1,0 +1,32 @@
+name: Test on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths:
+      - "packages/**"
+      - "plugins/wp-react-blocks-plugin/**"
+      - "pnpm-workspace.yaml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+    
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Run PNPM Build
+        run: pnpm run build

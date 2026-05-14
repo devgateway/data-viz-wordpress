@@ -254,46 +254,51 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     }
                 </PanelBody>
 
-                {app != 'csv' && this.state.filters && <PanelBody initialOpen={false} title={__("Select Filter")}>
-                    <PanelRow>
-                        <SelectControl
-                            label={__('Filter')}
-                            value={param}
-                            options={[{ value: '', label: __("Select Filter") }, ...this.state.filters]}
-                            onChange={param => {
-                                if (param != '') {
-                                    const type = this.state.filters.filter(f => f.param === param)[0].type
-                                    setAttributes({ param, type, hiddenFilters: [], defaultValues: "" })
-                                } else {
-                                    setAttributes({ param: "", type: "", hiddenFilters: [], defaultValues: "" })
-                                }
-                            }}
-                            help={__('Select the main filter parameter.')}
-                        />
-                    </PanelRow>
+                {app && app !== 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                    {this.state.filters ? (
+                        <>
+                            <PanelRow>
+                                <SelectControl
+                                    label={__('Filter')}
+                                    value={param}
+                                    options={[{ value: '', label: __("Select Filter") }, ...this.state.filters]}
+                                    onChange={param => {
+                                        if (param != '') {
+                                            const type = this.state.filters.filter(f => f.param === param)[0].type
+                                            setAttributes({ param, type, hiddenFilters: [], defaultValues: "" })
+                                        } else {
+                                            setAttributes({ param: "", type: "", hiddenFilters: [], defaultValues: "" })
+                                        }
+                                    }}
+                                    help={__('Select the main filter parameter.')}
+                                />
+                            </PanelRow>
 
-
-
-                    <PanelRow>
-                        <SelectControl
-                            label={__('Parent Filter')}
-                            value={parentFilter}
-                            help={__('Set parent filter autoaply false in order to avoid unnecesary data reloading.')}
-                            options={[{ value: "", label: __("None") }, ...this.state.filters]}
-                            onChange={parentFilter => {
-                                if (parentFilter && parentFilter !== "") {
-                                    const parentFilterObj = this.state.filters.find(f => f.value === parentFilter);
-                                    if (parentFilterObj) {
-                                        setAttributes({ parentFilter, parentFilterParam: parentFilterObj.param });
-                                    }
-                                } else {
-                                    setAttributes({ parentFilter: "", parentFilterParam: "" });
-                                }
-                            }} />
-                    </PanelRow>
-
+                            <PanelRow>
+                                <SelectControl
+                                    label={__('Parent Filter')}
+                                    value={parentFilter}
+                                    help={__('Set the parent filter auto-apply option to false to avoid unnecessary data reloading.')}
+                                    options={[{ value: "", label: __("None") }, ...this.state.filters]}
+                                    onChange={parentFilter => {
+                                        if (parentFilter && parentFilter !== "") {
+                                            const parentFilterObj = this.state.filters.find(f => f.value === parentFilter);
+                                            if (parentFilterObj) {
+                                                setAttributes({ parentFilter, parentFilterParam: parentFilterObj.param });
+                                            }
+                                        } else {
+                                            setAttributes({ parentFilter: "", parentFilterParam: "" });
+                                        }
+                                    }} />
+                            </PanelRow>
+                        </>
+                    ) : (
+                        <PanelRow>
+                            <p>{__('Loading filter options...')}</p>
+                        </PanelRow>
+                    )}
                 </PanelBody>}
-                {app == 'csv' && this.state.filters && <PanelBody initialOpen={false} title={__("Select Filter")}>
+                {app && app === 'csv' && <PanelBody initialOpen={false} title={__("Select Filter")}>
                     <PanelRow>
                         <TextControl label={__("Field")} value={param}
                             onChange={(param) => setAttributes({ param })}
@@ -321,7 +326,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             help={__('How to determine the default value.')}
                         />
                     </PanelRow>
-                    {defaultValueCriteria == DEFAULT_VALUE_INPUT && <PanelRow>
+                    {defaultValueCriteria === DEFAULT_VALUE_INPUT && <PanelRow>
                         <TextControl label={__("Default Values")} value={defaultValues}
                             onChange={(defaultValues) => setAttributes({ defaultValues })}
                             help={__("Manually specified default values.")}
@@ -338,7 +343,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             onChange={(filterType) => {
                                 setAttributes({ filterType: filterType, isRange: filterType == "range" })
                             }}
-                            options={app == 'csv' ? [{
+                            options={app === 'csv' ? [{
                                 label: "Multi select",
                                 value: "multi-select"
                             }, { label: "Single select", value: "single-select" }, {
@@ -369,7 +374,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         />
                     </PanelRow>}
                 </PanelBody>
-                {app != 'csv' && <PanelBody initialOpen={false} title={__("Filter or hide items")}>
+                {app !== 'csv' && <PanelBody initialOpen={false} title={__("Filter or hide items")}>
                     <PanelRow>
                         <ToggleControl
                             label={__("Filter items")}
@@ -382,7 +387,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             checked={!useFilterItems}
                             onChange={() => setAttributes({ useFilterItems: !useFilterItems, filters: [], hiddenFilters: [] })} />
                     </PanelRow>
-                    {useFilterItems && <DataFilters
+                    {useFilterItems && this.state.filters && <DataFilters
                         allFilters={this.state.filters}
                         allCategories={this.state.categories}
                         {...this.props} />
@@ -506,7 +511,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             help={__("Show a message when filter list is empty is empty.")}
                         />
                     </PanelRow>
-                    {filterType == "multi-select" && <>
+                    {filterType === "multi-select" && <>
                         <PanelRow>
                             <ToggleControl
                                 label={__("Close dropdown on item select/click")}
