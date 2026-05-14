@@ -266,16 +266,19 @@ export class BlockEditWithFilters extends ComponentWithSettings {
 
     onDefaultCategoryChanged(value, filterType = 'multi-select', checked) {
         const { setAttributes, attributes: { defaultValues } } = this.props;
+        const normalizedValue = value === null || value === undefined || value === 'none'
+            ? value
+            : Number(value);
 
         if (filterType === 'multi-select') {
             if (!checked) {
-                setAttributes({ defaultValues: defaultValues.filter(i => i !== value) });
+                setAttributes({ defaultValues: defaultValues.filter(i => Number(i) !== normalizedValue) });
             } else {
-                setAttributes({ defaultValues: [...defaultValues, value] });
+                setAttributes({ defaultValues: [...defaultValues, normalizedValue] });
             }
         } else {
             // For single-select, 'checked' parameter is not used, 'value' is the selected value
-            setAttributes({ defaultValues: [value] });
+            setAttributes({ defaultValues: [normalizedValue] });
         }
     }
 
@@ -520,7 +523,7 @@ export class BlockEditWithFilters extends ComponentWithSettings {
                         </Text>
                         <SelectControl
                             options={[{ label: 'None', value: 'none' }, ...this.categoriesOptions()]}
-                            value={defaultValues[0]} onChange={(value) => {
+                            value={defaultValues[0] !== undefined ? String(defaultValues[0]) : 'none'} onChange={(value) => {
                                 this.onDefaultCategoryChanged(value, filterType);
                             }} />
                     </PanelBody>
