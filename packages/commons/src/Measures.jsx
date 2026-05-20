@@ -13,6 +13,63 @@ const defaultFormat = {
 
 }
 
+const hasConfiguredDimension = (dimension) => dimension && dimension !== 'none'
+
+const supportsMeasureSelectorInSingleMode = (type, dimension1, dimension2) =>
+    ((type === 'line' || type === 'bar') && hasConfiguredDimension(dimension2)) ||
+    (type === 'pie' && (hasConfiguredDimension(dimension1) || hasConfiguredDimension(dimension2)))
+
+const isMeasureSelectorDrivenMultiMeasure = (type, dimension1, dimension2, enableMeasureSelector) =>
+    supportsMeasureSelectorInSingleMode(type, dimension1, dimension2) && enableMeasureSelector === true
+
+const isMultiMeasureMode = (type, dimension1, dimension2, multiMeasure, enableMeasureSelector) => {
+    if (multiMeasure === true) {
+        return true
+    }
+
+    if (isMeasureSelectorDrivenMultiMeasure(type, dimension1, dimension2, enableMeasureSelector)) {
+        return true
+    }
+
+    if (['radar', 'bump', 'diverging', 'grouped-bars', 'scatter', 'intervalPlot', 'dumbbell'].includes(type)) {
+        return true
+    }
+
+    if ((type === 'line' || type === 'bar') && !hasConfiguredDimension(dimension2)) {
+        return true
+    }
+
+    if (type === 'pie' && !hasConfiguredDimension(dimension1) && !hasConfiguredDimension(dimension2)) {
+        return true
+    }
+
+    return false
+}
+
+const isSingleMeasureMode = (type, dimension1, dimension2, multiMeasure, enableMeasureSelector) => {
+    if (multiMeasure === false) {
+        return true
+    }
+
+    if (isMeasureSelectorDrivenMultiMeasure(type, dimension1, dimension2, enableMeasureSelector)) {
+        return false
+    }
+
+    if (['data-paragraph', 'sunburst', 'heatmap', 'waterfall', 'histogram'].includes(type)) {
+        return true
+    }
+
+    if ((type === 'line' || type === 'bar') && hasConfiguredDimension(dimension2)) {
+        return true
+    }
+
+    if (type === 'pie' && (hasConfiguredDimension(dimension1) || hasConfiguredDimension(dimension2))) {
+        return true
+    }
+
+    return false
+}
+
 export const Measures = (props) => {
     const {
         onMeasuresChange,
@@ -108,29 +165,12 @@ export const Measures = (props) => {
     const resolvedFormat = measures?.[app]?.format || format || defaultFormat
     const resolvedCustomFormat = measures?.[app]?.customFormat || defaultFormat
     const resolvedUseCustomAxisFormat = measures?.[app]?.useCustomAxisFormat || false
-    const supportsMeasureSelectorInSingleMode =
-        ((type == 'line' || type == 'bar') && dimension2 != 'none') ||
-        (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none'))
+    const selectorSupportedInMeasures = supportsMeasureSelectorInSingleMode(type, dimension1, dimension2)
+    const selectorDrivenMultiMeasure = isMeasureSelectorDrivenMultiMeasure(type, dimension1, dimension2, enableMeasureSelector)
 
-    const selectorDrivenMultiMeasure =
-        supportsMeasureSelectorInSingleMode && enableMeasureSelector === true
+    const showMultiMeasureOptions = isMultiMeasureMode(type, dimension1, dimension2, multiMeasure, enableMeasureSelector)
 
-    const showMultiMeasureOptions =
-        ((type == 'radar') ||
-            (type == 'line' && dimension2 == 'none') ||
-            (type == 'bar' && dimension2 == 'none') ||
-            (type == 'grouped-bars') ||
-            (type == 'pie' && dimension1 == 'none' && dimension2 == 'none') ||
-            multiMeasure === true ||
-            selectorDrivenMultiMeasure)
-
-    const showSingleMeasureOptions =
-        !selectorDrivenMultiMeasure &&
-        ((multiMeasure == false) ||
-            (type == 'data-paragraph') ||
-            (type == 'line' && dimension2 != 'none') ||
-            (type == 'bar' && dimension2 != 'none') ||
-            (type == 'pie' && (dimension1 != 'none' || dimension2 != 'none')))
+    const showSingleMeasureOptions = isSingleMeasureMode(type, dimension1, dimension2, multiMeasure, enableMeasureSelector)
 
     const getMeasureDisplayLabel = (measure) => {
         const userMeasure = measures[app] ? measures[app][measure.value] : {}
@@ -213,7 +253,7 @@ export const Measures = (props) => {
 
         }
 
-        {supportsMeasureSelectorInSingleMode && (
+        {selectorSupportedInMeasures && (
             <PanelRow>
                 <ToggleControl
                     label={__("Show Measure Selector")}
@@ -224,7 +264,7 @@ export const Measures = (props) => {
             </PanelRow>
         )}
 
-        {supportsMeasureSelectorInSingleMode && enableMeasureSelector === true && (
+        {selectorSupportedInMeasures && enableMeasureSelector === true && (
             <>
                 <PanelRow>
                     <TextControl
@@ -273,7 +313,6 @@ export const Measures = (props) => {
             </Format>
         </PanelBody>}
 
-    </PanelBody>
         {(type != 'overlay') && selectedMeasures && selectedMeasures.length > 0 &&
             <PanelBody title={__("Measure Label Customization")}
                        initialOpen={panelStatus["MEASURES_LABEL_CUSTOMIZATION"]}
@@ -311,6 +350,8 @@ export const Measures = (props) => {
 
             </PanelBody>
         }
+
+    </PanelBody>
     </>
 }
 

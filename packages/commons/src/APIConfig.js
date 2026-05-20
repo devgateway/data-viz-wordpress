@@ -70,12 +70,16 @@ const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
     {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
     {label: 'Map', value: 'map', supports: {singleMeasure: true, singleDimension: false}}]*/
 
+const hasConfiguredDimension = (dimension) => dimension && dimension !== "none";
+
 const supportsMeasureSelectorInSingleMode = (type, dimension1, dimension2) =>
-    ((type === "line" || type === "bar") && dimension2 !== "none") ||
-    (type === "pie" && (dimension1 !== "none" || dimension2 !== "none"));
+    ((type === "line" || type === "bar") && hasConfiguredDimension(dimension2)) ||
+    (type === "pie" && (hasConfiguredDimension(dimension1) || hasConfiguredDimension(dimension2)));
 
 const isSingleMeasureMode = (type, dimension1, dimension2) =>
     type === "data-paragraph" ||
+    type === "sunburst" ||
+    type === "heatmap" ||
     supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
 
 export class APIConfig extends Component {
@@ -103,6 +107,31 @@ export class APIConfig extends Component {
             dimensions: [],
             filters: [],
             categories: [],
+        };
+    }
+
+    getMeasureMetadata(value) {
+        const { allMeasures } = this.props;
+        const measure = allMeasures?.find((item) => item.value === value);
+
+        if (!measure) {
+            return {};
+        }
+
+        return {
+            label: measure.label,
+            labels: measure.labels,
+            group: measure.group,
+        };
+    }
+
+    applyMeasureMetadata(value, config = {}) {
+        const metadata = this.getMeasureMetadata(value);
+        return {
+            ...config,
+            ...(metadata.label ? { label: metadata.label } : {}),
+            ...(metadata.labels ? { labels: metadata.labels } : {}),
+            ...(metadata.group ? { group: metadata.group } : {}),
         };
     }
 
@@ -206,6 +235,7 @@ export class APIConfig extends Component {
                 type: prevType,
                 dimension1: prevDimension1,
                 dimension2: prevDimension2,
+                app: prevApp,
                 enableMeasureSelector: prevEnableMeasureSelector,
             },
         } = prevProps;
@@ -218,30 +248,77 @@ export class APIConfig extends Component {
             type !== prevType ||
             dimension1 !== prevDimension1 ||
             dimension2 !== prevDimension2 ||
+            app !== prevApp ||
             enableMeasureSelector !== prevEnableMeasureSelector;
 
-        if (singleMeasureModeChanged && measures?.[app] && allMeasures?.length > 0) {
+        const measureOptionsChanged =
+            JSON.stringify((allMeasures || []).map((measure) => measure.value)) !==
+            JSON.stringify((prevProps.allMeasures || []).map((measure) => measure.value));
+
+        if ((singleMeasureModeChanged || measureOptionsChanged) && allMeasures?.length > 0) {
             const selectorEnabledForCurrentMode =
                 enableMeasureSelector === true &&
                 supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
 
             const inSingleMeasureMode = isSingleMeasureMode(type, dimension1, dimension2);
-            const nextMeasures = JSON.parse(JSON.stringify(measures));
-            const appMeasures = nextMeasures[app] || {};
+            const nextMeasures = JSON.parse(JSON.stringify(measures || {}));
+            let changed = false;
+            let appMeasures = nextMeasures[app];
+
+            if (!appMeasures || typeof appMeasures !== "object" || Array.isArray(appMeasures)) {
+                appMeasures = {
+                    format: nextMeasures.format || defaultFormat,
+                    customFormat: nextMeasures.customFormat || defaultFormat,
+                    useCustomAxisFormat: nextMeasures.useCustomAxisFormat || false,
+                };
+                nextMeasures[app] = appMeasures;
+                changed = true;
+            }
+
             const measureKeys = allMeasures.map((measure) => measure.value);
             const selectedMeasureKeys = measureKeys.filter(
                 (key) => appMeasures[key]?.selected,
             );
-            let changed = false;
 
             if (inSingleMeasureMode && !selectorEnabledForCurrentMode) {
-                selectedMeasureKeys.forEach((key, index) => {
-                    if (index === 0) {
-                        if (appMeasures[key]?.selected !== true) {
+                const selectedKey =
+                    (selectedMeasureKeys.length > 0 ? selectedMeasureKeys[0] : measureKeys[0]) || null;
+
+                if (selectedKey && !appMeasures[selectedKey]) {
+                    appMeasures[selectedKey] = this.applyMeasureMetadata(selectedKey, {
+                        selected: true,
+                        format: appMeasures.format || defaultFormat,
+                    });
+                    changed = true;
+                }
+
+                if (selectedKey && appMeasures[selectedKey]?.prevSelected) {
+                    appMeasures[selectedKey].prevSelected = false;
+                    changed = true;
+                }
+
+                measureKeys.forEach((key) => {
+                    if (!appMeasures[key] || typeof appMeasures[key] !== "object") {
+                        if (key === selectedKey) {
+                            appMeasures[key] = this.applyMeasureMetadata(key, {
+                                selected: true,
+                                format: appMeasures.format || defaultFormat,
+                            });
+                            changed = true;
+                        }
+                    }
+
+                    if (!appMeasures[key] || typeof appMeasures[key] !== "object") {
+                        return;
+                    }
+
+                    const shouldStaySelected = selectedKey === key;
+                    if (shouldStaySelected) {
+                        if (appMeasures[key].selected !== true) {
                             appMeasures[key].selected = true;
                             changed = true;
                         }
-                    } else if (appMeasures[key]) {
+                    } else {
                         if (appMeasures[key].selected !== false) {
                             appMeasures[key].selected = false;
                             changed = true;

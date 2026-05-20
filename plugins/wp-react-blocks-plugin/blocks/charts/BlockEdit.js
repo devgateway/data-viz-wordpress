@@ -20,6 +20,12 @@ import Bar from "./Bar.jsx"
 import Pie from "./Pie.jsx"
 import Line from "./Line.jsx"
 import Bump from "./Bump.jsx"
+import Waterfall from "./Waterfall.jsx"
+import Dumbbell from "./Dumbbell.jsx"
+import Histogram from "./Histogram.jsx"
+import Scatter from "./Scatter.jsx"
+import Heatmap from "./Heatmap.jsx"
+import IntervalPlot from "./IntervalPlot.jsx"
 import Info from "./Info.jsx"
 import MobileConfig from './MobileConfig.jsx';
 import {Tooltip} from '@devgateway/dvz-wp-commons';
@@ -35,22 +41,25 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {setAttributes, attributes: {type, colorBy, dimension1, dimension2}} = this.props
-        const {attributes: {type: prevType}} = prevProps
+        const {setAttributes, attributes: {type, colorBy, dimension1, dimension2, tooltipHTML}, forcedType} = this.props
+        const prevForcedType = prevProps.forcedType;
+        const effectiveType = forcedType || type;
+        const prevType = prevForcedType || prevProps.attributes.type;
+        const previousTooltipTemplate = prevProps.attributes.tooltipHTML;
         const newPreviewMode = this.state?.previewMode;
 
         if (newPreviewMode !== prevState.previewMode) {
             setAttributes({previewMode: newPreviewMode});
         }
 
-        if (type !== prevType) {
-            if (type === 'radar') {
+        if (effectiveType !== prevType) {
+            if (effectiveType === 'radar') {
                 if (colorBy !== 'id') {
                     setAttributes({colorBy: 'id'})
 
                 }
             }
-            if (type === 'pie') {
+            if (effectiveType === 'pie') {
 
                 if (dimension1 !== 'none' && dimension2 === 'none' && colorBy !== 'index') {
                     setAttributes({colorBy: 'index'})
@@ -61,12 +70,29 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                 }
             }
+
+            const previousDefaultTooltip = getDefaultTooltipTemplate(prevType);
+            const currentDefaultTooltip = getDefaultTooltipTemplate(effectiveType);
+            const shouldUpdateTooltipTemplate = [
+                '',
+                '{value}',
+                previousDefaultTooltip,
+            ].includes((tooltipHTML || '').trim()) || [
+                '',
+                '{value}',
+                previousDefaultTooltip,
+            ].includes((previousTooltipTemplate || '').trim());
+
+            if (shouldUpdateTooltipTemplate && currentDefaultTooltip !== tooltipHTML) {
+                setAttributes({tooltipHTML: currentDefaultTooltip});
+            }
         }
         super.componentDidUpdate(prevProps, prevState, snapshot);
     }
 
 
     render() {
+        const {forcedType, previewComponentName} = this.props;
         console.log("apps", this.state.apps)
         const {
             className, isSelected,
@@ -179,6 +205,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 defaultMeasure
             }
         } = this.props;
+
+        if (forcedType && type !== forcedType) {
+            setAttributes({type: forcedType});
+            return null;
+        }
+
+        const effectiveType = forcedType || type;
 
 
         if (Object.keys(measures).indexOf("global") > -1) {
@@ -309,11 +342,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelBody>
                         */}
 
-                        {type === 'map' ? null : <PanelBody initialOpen={false} title={__("Chart Type")}>
+                        {forcedType || effectiveType === 'map' ? null : <PanelBody initialOpen={false} title={__("Chart Type")}>
                             <PanelRow>
                                 <SelectControl
                                     label={__('Type')}
-                                    value={[type]} // e.g: value = [ 'a', 'c' ]
+                                    value={[effectiveType]} // e.g: value = [ 'a', 'c' ]
                                     onChange={(value) => {
                                         if (value != 'bar' && scheme == 'plain_color') {
                                             //    setAttributes({scheme: 'system'})
@@ -326,7 +359,16 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         {label: 'Bar', value: 'bar'},
                                         {label: 'Pie', value: 'pie'},
                                         {label: 'Line', value: 'line'},
-                                        {label: 'Radar', value: 'radar'}
+                                        {label: 'Radar', value: 'radar'},
+                                        {label: 'Bump', value: 'bump'},
+                                         {label: 'Waterfall', value: 'waterfall'},
+                                         {label: 'Dumbbell', value: 'dumbbell'},
+                                         {label: 'Histogram', value: 'histogram'},
+                                         {label: 'Scatter', value: 'scatter'},
+                                        {label: 'Heatmap', value: 'heatmap'},
+                                        {label: 'Sunburst', value: 'sunburst'},
+                                        {label: 'Interval Plot', value: 'intervalPlot'},
+                                        {label: 'Diverging', value: 'diverging'}
                                     ] : types}
                                 />
 
@@ -414,68 +456,56 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     </CSVSourceConfig>}
 
 
-                                {type === "bar" && <Bar {...this.props}
+                                {(effectiveType === "bar" || effectiveType === "diverging") && <Bar {...this.props}
                                                         apps={this.state.apps}
                                                         allMeasures={this.state.measures}
                                                         allDimensions={this.state.dimensions}
                                                         allCategories={this.state.categories}>
 
                                 </Bar>}
-                                {type === "pie" && <Pie allMeasures={this.state.measures}
+                                {(effectiveType === "pie" || effectiveType === "sunburst") && <Pie allMeasures={this.state.measures}
                                                         allDimensions={this.state.dimensions}
                                                         allCategories={this.state.categories} {...this.props}></Pie>}
-                                {type === "line" && <Line {...this.props}
+                                {effectiveType === "line" && <Line {...this.props}
                                                           allMeasures={this.state.measures}
                                                           allDimensions={this.state.dimensions}
                                                           allCategories={this.state.categories}
                                                           measures={measures}></Line>}
-                                {type === "bump" && <Bump allMeasures={this.state.measures}
+                                {effectiveType === "bump" && <Bump allMeasures={this.state.measures}
                                                           allDimensions={this.state.dimensions}
                                                           allCategories={this.state.categories}  {...this.props}></Bump>}
-                                {type === "radar" && <Radar allMeasures={this.state.measures}
+                                 {effectiveType === "waterfall" && <Waterfall allMeasures={this.state.measures}
+                                                                  allDimensions={this.state.dimensions}
+                                                                  allCategories={this.state.categories} {...this.props}></Waterfall>}
+                                 {effectiveType === "dumbbell" && <Dumbbell allMeasures={this.state.measures}
+                                                                  allDimensions={this.state.dimensions}
+                                                                  allCategories={this.state.categories} {...this.props}></Dumbbell>}
+                                 {effectiveType === "histogram" && <Histogram allMeasures={this.state.measures}
+                                                                  allDimensions={this.state.dimensions}
+                                                                  allCategories={this.state.categories} {...this.props}></Histogram>}
+                                 {effectiveType === "scatter" && <Scatter allMeasures={this.state.measures}
+                                                              allDimensions={this.state.dimensions}
+                                                              allCategories={this.state.categories} {...this.props}></Scatter>}
+                                {effectiveType === "heatmap" && <Heatmap allMeasures={this.state.measures}
+                                                              allDimensions={this.state.dimensions}
+                                                              allCategories={this.state.categories} {...this.props}></Heatmap>}
+                                {effectiveType === "intervalPlot" && <IntervalPlot allMeasures={this.state.measures}
+                                                                      allDimensions={this.state.dimensions}
+                                                                      allCategories={this.state.categories} {...this.props}></IntervalPlot>}
+                                {effectiveType === "radar" && <Radar allMeasures={this.state.measures}
                                                             allDimensions={this.state.dimensions}
                                                             allCategories={this.state.categories} {...this.props}></Radar>}
-                                {type === "info" && <Info allMeasures={this.state.measures}
+                                {effectiveType === "info" && <Info allMeasures={this.state.measures}
                                                           allDimensions={this.state.dimensions}
                                                           allCategories={this.state.categories} {...this.props}></Info>}
-                                {app != 'csv' && (
-                                    <PanelBody initialOpen={false} title={__('Measure Selector')}>
-                                        <PanelRow>
-                                            <ToggleControl
-                                                label={__('Show Measure Selector')}
-                                                checked={enableMeasureSelector}
-                                                onChange={() => setAttributes({enableMeasureSelector: !enableMeasureSelector})}
-                                            />
-                                        </PanelRow>
-                                        {enableMeasureSelector && (
-                                            <>
-                                                <PanelRow>
-                                                    <TextControl
-                                                        label={__('Selector Label')}
-                                                        value={measureSelectorLabel}
-                                                        onChange={(value) => setAttributes({measureSelectorLabel: value})}
-                                                    />
-                                                </PanelRow>
-                                                <PanelRow>
-                                                    <SelectControl
-                                                        label={__('Default Measure')}
-                                                        value={defaultMeasure}
-                                                        options={selectedMeasureOptions}
-                                                        onChange={(value) => setAttributes({defaultMeasure: value})}
-                                                    />
-                                                </PanelRow>
-                                            </>
-                                        )}
-                                    </PanelBody>
-                                )}
-                                {app == 'csv' && type != 'radar' &&
+                                {app == 'csv' &&
                                     <PanelBody initialOpen={false} title={__("Tooltip")}>
                                         <PanelRow>
                                             <ToggleControl label={__("Enable Tooltip")} checked={tooltipEnabled}
                                                            onChange={(isToolTipEnabled) => {
                                                                setAttributes({
                                                                    tooltipEnabled: isToolTipEnabled,
-                                                                   tooltip: setTooltipState(isToolTipEnabled, tooltipHTML)
+                                                                    tooltip: setTooltipState(isToolTipEnabled, tooltipHTML, effectiveType)
                                                                })
                                                            }}/>
                                         </PanelRow>
@@ -490,7 +520,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                                        })
                                                                    }}/>
                                                 </PanelRow>
-                                                {type === "pie" &&
+                                                {effectiveType === "pie" &&
                                                     <PanelBody initialOpen={false} title={__("Variables")}>
                                                         <PanelRow>
                                                             <span
@@ -519,14 +549,14 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                         }
                                     </PanelBody>
                                 }
-                                {app != 'csv' && type != 'radar' &&
+                                {app != 'csv' &&
                                     <PanelBody initialOpen={false} title={__("Tooltip")}>
                                         <PanelRow>
                                             <ToggleControl label={__("Enable Tooltip")} checked={tooltipEnabled}
                                                            onChange={(isToolTipEnabled) => {
                                                                setAttributes({
                                                                    tooltipEnabled: isToolTipEnabled,
-                                                                   tooltip: setTooltipState(isToolTipEnabled, tooltipHTML)
+                                                                    tooltip: setTooltipState(isToolTipEnabled, tooltipHTML, effectiveType)
                                                                })
                                                            }}/>
                                         </PanelRow>
@@ -598,7 +628,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             {mode == "info" && <div><InnerBlocks template={[['core/image', {}]]}/></div>}
                             {this.state.react_ui_url &&
                                 <iframe ref={this.iframe} key={this.state} style={divStyles} scrolling={"no"}
-                                        src={this.state.react_ui_url + "/embeddable/chart?"}/>}
+                                        src={this.state.react_ui_url + "/embeddable/" + (previewComponentName || 'chart') + "?"}/>}
 
                         </div>
                     </ResizableBox>
@@ -608,8 +638,42 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 }
 
-function setTooltipState(isTooltipEnabled, tooltipHTML) {
-    return isTooltipEnabled && tooltipHTML.trim().length === 0 ? "{value}" : tooltipHTML;
+function getDefaultTooltipTemplate(type) {
+    if (type === 'scatter') {
+        return '<strong>{label}</strong><br/>{xLabel}: #(x)<br/>{yLabel}: #(y)<br/>Series: {seriesDisplay}';
+    }
+
+    if (type === 'heatmap') {
+        return '<strong>{rowLabel}</strong><br/>{columnLabel}<br/>{measureLabel}: #(value)';
+    }
+
+    if (type === 'intervalPlot') {
+        return '<strong>{label}</strong><br/>{lowLabel}: #(low)<br/>{centerLabel}: #(value)<br/>{highLabel}: #(high)';
+    }
+
+    if (type === 'waterfall') {
+        return '<strong>{label}</strong><br/>Start: #(start)<br/>Change: #(value)<br/>End: #(end)';
+    }
+
+    if (type === 'dumbbell') {
+        return '<strong>{label}</strong><br/>{leftLabel}: #(left)<br/>{rightLabel}: #(right)<br/>Δ: #(delta)';
+    }
+
+    if (type === 'histogram') {
+        return '<strong>{series}</strong><br/>{binStart} – {binEnd}<br/>Count: #(value)';
+    }
+
+    if (type === 'sunburst') {
+        return '<strong>{label}</strong><br/>#(value)';
+    }
+
+    return '{value}';
+}
+
+function setTooltipState(isTooltipEnabled, tooltipHTML, type) {
+    return isTooltipEnabled && tooltipHTML.trim().length === 0
+        ? getDefaultTooltipTemplate(type)
+        : tooltipHTML;
 }
 
 

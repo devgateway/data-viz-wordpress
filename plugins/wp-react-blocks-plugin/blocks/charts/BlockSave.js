@@ -1,6 +1,7 @@
 import {useBlockProps} from '@wordpress/block-editor';
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 const SaveComponent = (props) => {
+    const {forcedType, componentName} = props;
     const {
         toggleSelection, setAttributes, attributes: {
             height,
@@ -132,9 +133,24 @@ const SaveComponent = (props) => {
             lineXAxisTickEvery,
             enableMeasureSelector,
             measureSelectorLabel,
-            defaultMeasure
+            defaultMeasure,
+            scatterMinSize,
+            scatterMaxSize,
+            scatterShowLabels,
+            scatterConnectPoints,
+            scatterPointOpacity,
+            scatterReferenceX,
+            scatterReferenceY,
+            scatterReferenceXLabel,
+            scatterReferenceYLabel,
+            scatterQuadrantTopLeftLabel,
+            scatterQuadrantTopRightLabel,
+            scatterQuadrantBottomLeftLabel,
+            scatterQuadrantBottomRightLabel
         }
     } = props;
+    const resolvedType = forcedType || type;
+    const resolvedComponentName = componentName || "chart";
     const blockProps = useBlockProps.save({
         className: 'viz component chart'
     });
@@ -144,9 +160,9 @@ const SaveComponent = (props) => {
 
     return (
         <div {...blockProps} className={"viz-component"}
-             data-component={"chart"}
+             data-component={resolvedComponentName}
              data-height={height}
-             data-type={type}
+             data-type={resolvedType}
              data-source={source}
              data-dvz-proxy-dataset-id={dvzProxyDatasetId}
              data-dimension1={dimension1}
@@ -275,6 +291,19 @@ const SaveComponent = (props) => {
              data-line-curve={lineCurve}
              data-show-legends-in-columns={showLegendsInColumns}
              data-number-of-legend-columns={numberOfLegendColumns}
+              data-scatter-min-size={scatterMinSize}
+              data-scatter-max-size={scatterMaxSize}
+              data-scatter-show-labels={scatterShowLabels}
+              data-scatter-connect-points={scatterConnectPoints}
+              data-scatter-point-opacity={scatterPointOpacity}
+              data-scatter-reference-x={scatterReferenceX}
+              data-scatter-reference-y={scatterReferenceY}
+              data-scatter-reference-x-label={encodeURIComponent(scatterReferenceXLabel || '')}
+              data-scatter-reference-y-label={encodeURIComponent(scatterReferenceYLabel || '')}
+              data-scatter-quadrant-top-left-label={encodeURIComponent(scatterQuadrantTopLeftLabel || '')}
+              data-scatter-quadrant-top-right-label={encodeURIComponent(scatterQuadrantTopRightLabel || '')}
+              data-scatter-quadrant-bottom-left-label={encodeURIComponent(scatterQuadrantBottomLeftLabel || '')}
+              data-scatter-quadrant-bottom-right-label={encodeURIComponent(scatterQuadrantBottomRightLabel || '')}
              >
             <InnerBlocks.Content/>
         </div>

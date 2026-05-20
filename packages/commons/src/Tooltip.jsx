@@ -49,6 +49,76 @@ export const Tooltip = (props) => {
                     </PanelRow>
                 </>
             }
+            {type === "sunburst" &&
+                <>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Label -&gt; {'{label}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Value -&gt; {'{value}'} or {'#(value)'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Path -&gt; {'{path}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Depth -&gt; {'{depth}'}</span>
+                    </PanelRow>
+                </>
+            }
+            {type === "scatter" &&
+                <>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Point Label -&gt; {'{label}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Series -&gt; {'{series}'} / {'{seriesDisplay}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>X Value -&gt; {'{x}'} or {'#(x)'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Y Value -&gt; {'{y}'} or {'#(y)'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Bubble Size -&gt; {'{size}'} or {'#(size)'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Axis Labels -&gt; {'{xLabel}'}, {'{yLabel}'}, {'{sizeLabel}'}</span>
+                    </PanelRow>
+                </>
+            }
+            {type === "heatmap" &&
+                <>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Row Label -&gt; {'{rowLabel}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Column Label -&gt; {'{columnLabel}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Value -&gt; {'{value}'} or {'#(value)'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Measure Label -&gt; {'{measureLabel}'}</span>
+                    </PanelRow>
+                </>
+            }
+            {type === "intervalPlot" &&
+                <>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Label -&gt; {'{label}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Center / Expected -&gt; {'{value}'} or {'#(value)'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Low / High -&gt; {'{low}'}, {'{high}'}</span>
+                    </PanelRow>
+                    <PanelRow>
+                        <span style={{ "font-size": "11px" }}>Measure Labels -&gt; {'{centerLabel}'}, {'{lowLabel}'}, {'{highLabel}'}</span>
+                    </PanelRow>
+                </>
+            }
         </PanelBody>,
         <PanelRow>
             <TextareaControl

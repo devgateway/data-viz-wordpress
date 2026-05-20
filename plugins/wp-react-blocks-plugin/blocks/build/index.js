@@ -6689,7 +6689,7 @@ module.exports = window["wp"]["apiFetch"];
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var baseIsMatch = __webpack_require__(2073),
-    getMatchData = __webpack_require__(6422),
+    getMatchData = __webpack_require__(4041),
     matchesStrictComparable = __webpack_require__(3939);
 
 /**
@@ -8161,6 +8161,45 @@ const defaultFormat = {
   "maximumFractionDigits": 1,
   "currency": "USD"
 };
+const hasConfiguredDimension = dimension => dimension && dimension !== "none";
+const supportsMeasureSelectorInSingleMode = (type, dimension1, dimension2) => (type === "line" || type === "bar") && hasConfiguredDimension(dimension2) || type === "pie" && (hasConfiguredDimension(dimension1) || hasConfiguredDimension(dimension2));
+const isMeasureSelectorDrivenMultiMeasure = (type, dimension1, dimension2, enableMeasureSelector) => supportsMeasureSelectorInSingleMode(type, dimension1, dimension2) && enableMeasureSelector === true;
+const isMultiMeasureMode = (type, dimension1, dimension2, multiMeasure, enableMeasureSelector) => {
+  if (multiMeasure === true) {
+    return true;
+  }
+  if (isMeasureSelectorDrivenMultiMeasure(type, dimension1, dimension2, enableMeasureSelector)) {
+    return true;
+  }
+  if (["radar", "bump", "diverging", "grouped-bars", "scatter", "intervalPlot", "dumbbell"].includes(type)) {
+    return true;
+  }
+  if ((type === "line" || type === "bar") && !hasConfiguredDimension(dimension2)) {
+    return true;
+  }
+  if (type === "pie" && !hasConfiguredDimension(dimension1) && !hasConfiguredDimension(dimension2)) {
+    return true;
+  }
+  return false;
+};
+const isSingleMeasureMode = (type, dimension1, dimension2, multiMeasure, enableMeasureSelector) => {
+  if (multiMeasure === false) {
+    return true;
+  }
+  if (isMeasureSelectorDrivenMultiMeasure(type, dimension1, dimension2, enableMeasureSelector)) {
+    return false;
+  }
+  if (["data-paragraph", "sunburst", "heatmap", "waterfall", "histogram"].includes(type)) {
+    return true;
+  }
+  if ((type === "line" || type === "bar") && hasConfiguredDimension(dimension2)) {
+    return true;
+  }
+  if (type === "pie" && (hasConfiguredDimension(dimension1) || hasConfiguredDimension(dimension2))) {
+    return true;
+  }
+  return false;
+};
 const Measures = props => {
   const {
     onMeasuresChange,
@@ -8253,10 +8292,10 @@ const Measures = props => {
   const resolvedFormat = measures?.[app]?.format || format || defaultFormat;
   const resolvedCustomFormat = measures?.[app]?.customFormat || defaultFormat;
   const resolvedUseCustomAxisFormat = measures?.[app]?.useCustomAxisFormat || false;
-  const supportsMeasureSelectorInSingleMode = (type == "line" || type == "bar") && dimension2 != "none" || type == "pie" && (dimension1 != "none" || dimension2 != "none");
-  const selectorDrivenMultiMeasure = supportsMeasureSelectorInSingleMode && enableMeasureSelector === true;
-  const showMultiMeasureOptions = type == "radar" || type == "line" && dimension2 == "none" || type == "bar" && dimension2 == "none" || type == "grouped-bars" || type == "pie" && dimension1 == "none" && dimension2 == "none" || multiMeasure === true || selectorDrivenMultiMeasure;
-  const showSingleMeasureOptions = !selectorDrivenMultiMeasure && (multiMeasure == false || type == "data-paragraph" || type == "line" && dimension2 != "none" || type == "bar" && dimension2 != "none" || type == "pie" && (dimension1 != "none" || dimension2 != "none"));
+  const selectorSupportedInMeasures = supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
+  const selectorDrivenMultiMeasure = isMeasureSelectorDrivenMultiMeasure(type, dimension1, dimension2, enableMeasureSelector);
+  const showMultiMeasureOptions = isMultiMeasureMode(type, dimension1, dimension2, multiMeasure, enableMeasureSelector);
+  const showSingleMeasureOptions = isSingleMeasureMode(type, dimension1, dimension2, multiMeasure, enableMeasureSelector);
   const getMeasureDisplayLabel = measure => {
     const userMeasure = measures[app] ? measures[app][measure.value] : {};
     if (userMeasure?.customLabel && userMeasure.customLabel.trim().length > 0) {
@@ -8316,14 +8355,14 @@ const Measures = props => {
       single: true,
       measure: m
     }))));
-  }), supportsMeasureSelectorInSingleMode && /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement(external_wp_components_.ToggleControl, {
+  }), selectorSupportedInMeasures && /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement(external_wp_components_.ToggleControl, {
     label: (0,external_wp_i18n_.__)("Show Measure Selector"),
     checked: enableMeasureSelector === true,
     help: (0,external_wp_i18n_.__)("Allow selecting multiple measures and show a selector above the chart."),
     onChange: value => setAttributes({
       enableMeasureSelector: value
     })
-  })), supportsMeasureSelectorInSingleMode && enableMeasureSelector === true && /* @__PURE__ */React.createElement(React.Fragment, null, /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement(external_wp_components_.TextControl, {
+  })), selectorSupportedInMeasures && enableMeasureSelector === true && /* @__PURE__ */React.createElement(React.Fragment, null, /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement(external_wp_components_.TextControl, {
     label: (0,external_wp_i18n_.__)("Measure Selector Label"),
     value: measureSelectorLabel,
     onChange: value => setAttributes({
@@ -8360,7 +8399,7 @@ const Measures = props => {
     onUseCustomAxisFormatChange: value => {
       onUseCustomAxisFormatChange(value);
     }
-  }))), type != "overlay" && selectedMeasures && selectedMeasures.length > 0 && /* @__PURE__ */React.createElement(external_wp_components_.PanelBody, {
+  })), type != "overlay" && selectedMeasures && selectedMeasures.length > 0 && /* @__PURE__ */React.createElement(external_wp_components_.PanelBody, {
     title: (0,external_wp_i18n_.__)("Measure Label Customization"),
     initialOpen: panelStatus["MEASURES_LABEL_CUSTOMIZATION"],
     onToggle: e => togglePanel("MEASURES_LABEL_CUSTOMIZATION", panelStatus, setAttributes)
@@ -8381,7 +8420,7 @@ const Measures = props => {
         onChange: value => onCustomLabelChange(m.value, value)
       })));
     }));
-  })));
+  }))));
 };
 /* harmony default export */ const build_Measures = (Measures);
 // EXTERNAL MODULE: external "ReactJSXRuntime"
@@ -8453,8 +8492,9 @@ const CategoricalFilter = ({
     {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
     {label: 'Map', value: 'map', supports: {singleMeasure: true, singleDimension: false}}]*/
 
-const supportsMeasureSelectorInSingleMode = (type, dimension1, dimension2) => (type === "line" || type === "bar") && dimension2 !== "none" || type === "pie" && (dimension1 !== "none" || dimension2 !== "none");
-const isSingleMeasureMode = (type, dimension1, dimension2) => type === "data-paragraph" || supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
+const APIConfig_hasConfiguredDimension = dimension => dimension && dimension !== "none";
+const APIConfig_supportsMeasureSelectorInSingleMode = (type, dimension1, dimension2) => (type === "line" || type === "bar") && APIConfig_hasConfiguredDimension(dimension2) || type === "pie" && (APIConfig_hasConfiguredDimension(dimension1) || APIConfig_hasConfiguredDimension(dimension2));
+const APIConfig_isSingleMeasureMode = (type, dimension1, dimension2) => type === "data-paragraph" || type === "sunburst" || type === "heatmap" || APIConfig_supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
 class APIConfig extends external_wp_element_.Component {
   constructor(props) {
     super(props);
@@ -8477,6 +8517,35 @@ class APIConfig extends external_wp_element_.Component {
       dimensions: [],
       filters: [],
       categories: []
+    };
+  }
+  getMeasureMetadata(value) {
+    const {
+      allMeasures
+    } = this.props;
+    const measure = allMeasures?.find(item => item.value === value);
+    if (!measure) {
+      return {};
+    }
+    return {
+      label: measure.label,
+      labels: measure.labels,
+      group: measure.group
+    };
+  }
+  applyMeasureMetadata(value, config = {}) {
+    const metadata = this.getMeasureMetadata(value);
+    return {
+      ...config,
+      ...(metadata.label ? {
+        label: metadata.label
+      } : {}),
+      ...(metadata.labels ? {
+        labels: metadata.labels
+      } : {}),
+      ...(metadata.group ? {
+        group: metadata.group
+      } : {})
     };
   }
   cleanSelection(prevState) {
@@ -8596,27 +8665,63 @@ class APIConfig extends external_wp_element_.Component {
         type: prevType,
         dimension1: prevDimension1,
         dimension2: prevDimension2,
+        app: prevApp,
         enableMeasureSelector: prevEnableMeasureSelector
       }
     } = prevProps;
     const prevTypeObject = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null;
-    const singleMeasureModeChanged = type !== prevType || dimension1 !== prevDimension1 || dimension2 !== prevDimension2 || enableMeasureSelector !== prevEnableMeasureSelector;
-    if (singleMeasureModeChanged && measures?.[app] && allMeasures?.length > 0) {
-      const selectorEnabledForCurrentMode = enableMeasureSelector === true && supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
-      const inSingleMeasureMode = isSingleMeasureMode(type, dimension1, dimension2);
-      const nextMeasures = JSON.parse(JSON.stringify(measures));
-      const appMeasures = nextMeasures[app] || {};
+    const singleMeasureModeChanged = type !== prevType || dimension1 !== prevDimension1 || dimension2 !== prevDimension2 || app !== prevApp || enableMeasureSelector !== prevEnableMeasureSelector;
+    const measureOptionsChanged = JSON.stringify((allMeasures || []).map(measure => measure.value)) !== JSON.stringify((prevProps.allMeasures || []).map(measure => measure.value));
+    if ((singleMeasureModeChanged || measureOptionsChanged) && allMeasures?.length > 0) {
+      const selectorEnabledForCurrentMode = enableMeasureSelector === true && APIConfig_supportsMeasureSelectorInSingleMode(type, dimension1, dimension2);
+      const inSingleMeasureMode = APIConfig_isSingleMeasureMode(type, dimension1, dimension2);
+      const nextMeasures = JSON.parse(JSON.stringify(measures || {}));
+      let changed = false;
+      let appMeasures = nextMeasures[app];
+      if (!appMeasures || typeof appMeasures !== "object" || Array.isArray(appMeasures)) {
+        appMeasures = {
+          format: nextMeasures.format || APIConfig_defaultFormat,
+          customFormat: nextMeasures.customFormat || APIConfig_defaultFormat,
+          useCustomAxisFormat: nextMeasures.useCustomAxisFormat || false
+        };
+        nextMeasures[app] = appMeasures;
+        changed = true;
+      }
       const measureKeys = allMeasures.map(measure => measure.value);
       const selectedMeasureKeys = measureKeys.filter(key => appMeasures[key]?.selected);
-      let changed = false;
       if (inSingleMeasureMode && !selectorEnabledForCurrentMode) {
-        selectedMeasureKeys.forEach((key, index) => {
-          if (index === 0) {
-            if (appMeasures[key]?.selected !== true) {
+        const selectedKey = (selectedMeasureKeys.length > 0 ? selectedMeasureKeys[0] : measureKeys[0]) || null;
+        if (selectedKey && !appMeasures[selectedKey]) {
+          appMeasures[selectedKey] = this.applyMeasureMetadata(selectedKey, {
+            selected: true,
+            format: appMeasures.format || APIConfig_defaultFormat
+          });
+          changed = true;
+        }
+        if (selectedKey && appMeasures[selectedKey]?.prevSelected) {
+          appMeasures[selectedKey].prevSelected = false;
+          changed = true;
+        }
+        measureKeys.forEach(key => {
+          if (!appMeasures[key] || typeof appMeasures[key] !== "object") {
+            if (key === selectedKey) {
+              appMeasures[key] = this.applyMeasureMetadata(key, {
+                selected: true,
+                format: appMeasures.format || APIConfig_defaultFormat
+              });
+              changed = true;
+            }
+          }
+          if (!appMeasures[key] || typeof appMeasures[key] !== "object") {
+            return;
+          }
+          const shouldStaySelected = selectedKey === key;
+          if (shouldStaySelected) {
+            if (appMeasures[key].selected !== true) {
               appMeasures[key].selected = true;
               changed = true;
             }
-          } else if (appMeasures[key]) {
+          } else {
             if (appMeasures[key].selected !== false) {
               appMeasures[key].selected = false;
               changed = true;
@@ -10452,7 +10557,79 @@ const Tooltip = props => {
     style: {
       "font-size": "11px"
     }
-  }, "Category -> ", "{category}")))), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement(external_wp_components_.TextareaControl, {
+  }, "Category -> ", "{category}"))), type === "sunburst" && /* @__PURE__ */React.createElement(React.Fragment, null, /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Label -> ", "{label}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Value -> ", "{value}", " or ", "#(value)")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Path -> ", "{path}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Depth -> ", "{depth}"))), type === "scatter" && /* @__PURE__ */React.createElement(React.Fragment, null, /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Point Label -> ", "{label}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Series -> ", "{series}", " / ", "{seriesDisplay}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "X Value -> ", "{x}", " or ", "#(x)")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Y Value -> ", "{y}", " or ", "#(y)")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Bubble Size -> ", "{size}", " or ", "#(size)")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Axis Labels -> ", "{xLabel}", ", ", "{yLabel}", ", ", "{sizeLabel}"))), type === "heatmap" && /* @__PURE__ */React.createElement(React.Fragment, null, /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Row Label -> ", "{rowLabel}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Column Label -> ", "{columnLabel}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Value -> ", "{value}", " or ", "#(value)")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Measure Label -> ", "{measureLabel}"))), type === "intervalPlot" && /* @__PURE__ */React.createElement(React.Fragment, null, /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Label -> ", "{label}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Center / Expected -> ", "{value}", " or ", "#(value)")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Low / High -> ", "{low}", ", ", "{high}")), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement("span", {
+    style: {
+      "font-size": "11px"
+    }
+  }, "Measure Labels -> ", "{centerLabel}", ", ", "{lowLabel}", ", ", "{highLabel}")))), /* @__PURE__ */React.createElement(external_wp_components_.PanelRow, null, /* @__PURE__ */React.createElement(external_wp_components_.TextareaControl, {
     label: (0,external_wp_i18n_.__)("Tooltip"),
     value: tooltipHTML,
     help: (0,external_wp_i18n_.__)("You can use variables {var_name}"),
@@ -15141,6 +15318,37 @@ module.exports = baseSetToString;
 
 /***/ }),
 
+/***/ 2783:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7723);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4997);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _BlockSave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4279);
+/* harmony import */ var _BlockEdit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9742);
+/* harmony import */ var _chartAttributes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6422);
+/* harmony import */ var _devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1704);
+
+
+
+
+
+
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(_devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_5__/* .BLOCKS_NS */ .Rp + '/chart', {
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Data Chart'),
+  icon: _devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_5__/* .ChartIcon */ .Kx,
+  category: _devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_5__/* .BLOCKS_CATEGORY */ ._q,
+  apiVersion: 2,
+  attributes: _chartAttributes__WEBPACK_IMPORTED_MODULE_4__/* .CHART_ATTRIBUTES */ .v,
+  edit: _BlockEdit__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A,
+  save: _BlockSave__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .A
+});
+
+/***/ }),
+
 /***/ 2792:
 /***/ ((module) => {
 
@@ -19029,6 +19237,37 @@ module.exports = baseToString;
 
 /***/ }),
 
+/***/ 4041:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var isStrictComparable = __webpack_require__(3570),
+    keys = __webpack_require__(9244);
+
+/**
+ * Gets the property names, values, and compare flags of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the match data of `object`.
+ */
+function getMatchData(object) {
+  var result = keys(object),
+      length = result.length;
+
+  while (length--) {
+    var key = result[length],
+        value = object[key];
+
+    result[length] = [key, value, isStrictComparable(value)];
+  }
+  return result;
+}
+
+module.exports = getMatchData;
+
+
+/***/ }),
+
 /***/ 4068:
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
@@ -20452,6 +20691,124 @@ const tag = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(
 
 /***/ }),
 
+/***/ 4212:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7723);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4997);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _BlockSave__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4279);
+/* harmony import */ var _BlockEdit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9742);
+/* harmony import */ var _devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1704);
+/* harmony import */ var _chartAttributes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6422);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(790);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
+
+
+
+
+const SPECIALIZED_CHART_BLOCKS = [{
+  name: 'bar-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bar Chart'),
+  forcedType: 'bar',
+  componentName: 'barChart'
+}, {
+  name: 'line-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Line Chart'),
+  forcedType: 'line',
+  componentName: 'lineChart'
+}, {
+  name: 'pie-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Pie Chart'),
+  forcedType: 'pie',
+  componentName: 'pieChart'
+}, {
+  name: 'radar-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Radar Chart'),
+  forcedType: 'radar',
+  componentName: 'radarChart'
+}, {
+  name: 'bump-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bump Chart'),
+  forcedType: 'bump',
+  componentName: 'bumpChart'
+}, {
+  name: 'waterfall-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Waterfall Chart'),
+  forcedType: 'waterfall',
+  componentName: 'waterfallChart'
+}, {
+  name: 'dumbbell-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Dumbbell Chart'),
+  forcedType: 'dumbbell',
+  componentName: 'dumbbellChart'
+}, {
+  name: 'histogram-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Histogram Chart'),
+  forcedType: 'histogram',
+  componentName: 'histogramChart'
+}, {
+  name: 'scatter-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Scatter Chart'),
+  forcedType: 'scatter',
+  componentName: 'scatterChart'
+}, {
+  name: 'heatmap-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Heatmap Chart'),
+  forcedType: 'heatmap',
+  componentName: 'heatmapChart'
+}, {
+  name: 'sunburst-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Sunburst Chart'),
+  forcedType: 'sunburst',
+  componentName: 'sunburstChart'
+}, {
+  name: 'interval-plot',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Interval Plot'),
+  forcedType: 'intervalPlot',
+  componentName: 'intervalPlot'
+}, {
+  name: 'diverging-chart',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Diverging Chart'),
+  forcedType: 'diverging',
+  componentName: 'divergingChart'
+}];
+const createEdit = ({
+  forcedType,
+  componentName
+}) => props => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_BlockEdit__WEBPACK_IMPORTED_MODULE_3__/* ["default"] */ .A, {
+  ...props,
+  forcedType: forcedType,
+  previewComponentName: componentName
+});
+const createSave = ({
+  forcedType,
+  componentName
+}) => props => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_BlockSave__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .A, {
+  ...props,
+  forcedType: forcedType,
+  componentName: componentName
+});
+SPECIALIZED_CHART_BLOCKS.forEach(block => {
+  (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(`${_devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_4__/* .BLOCKS_NS */ .Rp}/${block.name}`, {
+    title: block.title,
+    icon: _devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_4__/* .ChartIcon */ .Kx,
+    category: _devgateway_dvz_wp_commons__WEBPACK_IMPORTED_MODULE_4__/* .BLOCKS_CATEGORY */ ._q,
+    apiVersion: 2,
+    attributes: _chartAttributes__WEBPACK_IMPORTED_MODULE_5__/* .CHART_ATTRIBUTES */ .v,
+    edit: createEdit(block),
+    save: createSave(block)
+  });
+});
+
+/***/ }),
+
 /***/ 4235:
 /***/ ((module) => {
 
@@ -20509,6 +20866,338 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
+
+/***/ }),
+
+/***/ 4279:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   A: () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4715);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3656);
+/* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(790);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+ // or wp.editor
+
+const SaveComponent = props => {
+  const {
+    forcedType,
+    componentName
+  } = props;
+  const {
+    toggleSelection,
+    setAttributes,
+    attributes: {
+      height,
+      width,
+      type,
+      groupMode,
+      bottomLegend,
+      leftLegend,
+      scheme,
+      colorBy,
+      dimension1,
+      dimension2,
+      dimension3,
+      dualMode,
+      toggleInfoLabel,
+      toggleChartLabel,
+      dataSourceLabel,
+      dataSource,
+      legendPosition,
+      marginLeft,
+      marginTop,
+      marginRight,
+      marginBottom,
+      showLegends,
+      legendLabel,
+      app,
+      measures,
+      tickColor,
+      tickRotation,
+      offsetText,
+      format,
+      decimals,
+      currency,
+      tooltipHTML,
+      csv,
+      startAngle,
+      endAngle,
+      layout,
+      reverse,
+      offsetY,
+      csvLineLayerData,
+      csvLineColor,
+      csvLineTooltip,
+      csvLineTitle,
+      lineLayerEnabled,
+      group,
+      maxValue,
+      valueScale,
+      filters,
+      swap,
+      noDataMessage,
+      barColor,
+      overrideTickColor,
+      fixedMaxValue,
+      fixedMinValue,
+      barPadding,
+      barLabelPosition,
+      lineLabelPosition,
+      showGrid,
+      includeOverall,
+      tooltipEnabled,
+      barInnerPadding,
+      useLabelBackground,
+      useCheckBoxBackground,
+      xLabelColor = "#000000",
+      barLabelColor = "#000000",
+      legendLabelColor = "#000000",
+      highlightXAxisLine,
+      showTickLine,
+      manualColors,
+      showRightAxis,
+      rightLegend,
+      offsetRight,
+      offsetBottom,
+      hiddenBars,
+      enableArea,
+      areaShadingCriteria,
+      areaLowerBound,
+      areaUpperBound,
+      showPoints,
+      confidenceIntervals,
+      centerLabel,
+      showArcLabels,
+      showArcLinkLabels,
+      slicePadding,
+      centerLabelFontWeight,
+      centerLabelFontSize,
+      centerLabelXOffset,
+      centerLabelYOffset,
+      groupTotalMeasure,
+      showGroupTotal,
+      groupTotalFormat,
+      groupTotalFixedPosition,
+      groupTotalLabel,
+      groupTotalLabelOffset,
+      tooltipEnableMarkdown,
+      xAxisTickValues,
+      yAxisTickValues,
+      enableGridY,
+      enableGridX,
+      overallLabel,
+      overlays,
+      minMaxClamp,
+      reverseLegend,
+      sort,
+      sortReverse,
+      sortSecondDimension,
+      sortReverseSecondDimension,
+      radarCurve,
+      radarFillOpacity,
+      radarBorderWidth,
+      radarGridLevels,
+      radarGridShape,
+      radarGridLabelOffset,
+      radarEnableDots,
+      radarDotSize,
+      radarEnableDotLabel,
+      radarDotLabelOffset,
+      mobileCustomization,
+      dvzProxyDatasetId,
+      showPercentage,
+      previewMode,
+      waitForFilters,
+      lineCurve,
+      showLegendsInColumns,
+      numberOfLegendColumns,
+      lineXAxisTickMode,
+      lineXAxisTickCount,
+      lineXAxisTickEvery,
+      enableMeasureSelector,
+      measureSelectorLabel,
+      defaultMeasure,
+      scatterMinSize,
+      scatterMaxSize,
+      scatterShowLabels,
+      scatterConnectPoints,
+      scatterPointOpacity,
+      scatterReferenceX,
+      scatterReferenceY,
+      scatterReferenceXLabel,
+      scatterReferenceYLabel,
+      scatterQuadrantTopLeftLabel,
+      scatterQuadrantTopRightLabel,
+      scatterQuadrantBottomLeftLabel,
+      scatterQuadrantBottomRightLabel
+    }
+  } = props;
+  const resolvedType = forcedType || type;
+  const resolvedComponentName = componentName || "chart";
+  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save({
+    className: 'viz component chart'
+  });
+  const levels = [dimension1, dimension2, dimension3];
+  const source = levels.filter(l => l != 'none' && l != null).join('/');
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    ...blockProps,
+    className: "viz-component",
+    "data-component": resolvedComponentName,
+    "data-height": height,
+    "data-type": resolvedType,
+    "data-source": source,
+    "data-dvz-proxy-dataset-id": dvzProxyDatasetId,
+    "data-dimension1": dimension1,
+    "data-dimension2": dimension2,
+    "data-dimension3": dimension3,
+    "data-color-by": colorBy,
+    "data-scheme": scheme,
+    "data-group-mode": groupMode,
+    "data-left-legend": leftLegend,
+    "data-dualMode": dualMode,
+    "data-bottom-legend": bottomLegend,
+    "data-toggle-info-label": toggleInfoLabel,
+    "data-toggle-chart-label": toggleChartLabel,
+    "data-data-source-label": dataSourceLabel,
+    "data-chart-data-source": dataSource,
+    "data-margin-left": marginLeft,
+    "data-margin-top": marginTop,
+    "data-margin-right": marginRight,
+    "data-margin-bottom": marginBottom,
+    "data-show-legends": showLegends,
+    "data-legend-position": legendPosition,
+    "data-app": app,
+    "data-tick-rotation": tickRotation,
+    "data-offset-text": offsetText,
+    "data-tick-color": tickColor,
+    "data-line-layer-enabled": lineLayerEnabled,
+    "data-measures": encodeURIComponent(JSON.stringify(measures)),
+    "data-format": encodeURIComponent(JSON.stringify(format)),
+    "data-decimals": decimals,
+    "data-currency": currency,
+    "data-csv": csv,
+    "data-tooltip-html": encodeURIComponent(tooltipHTML),
+    "data-start-angle": startAngle,
+    "data-end-angle": endAngle,
+    "data-layout": layout,
+    "data-reverse": reverse,
+    "data-offset-y": offsetY
+    //data-csv-line-layer-data={csvLineLayerData}
+    //data-csv-line-color={csvLineColor}
+    // data-csv-line-tooltip={csvLineTooltip}
+    //data-csv-line-title={csvLineTitle}
+    ,
+    "data-group": group,
+    "data-max-value": maxValue,
+    "data-value-scale": valueScale,
+    "data-filters": encodeURIComponent(JSON.stringify(filters)),
+    "data-swap": swap,
+    "data-no-data-message": noDataMessage,
+    "data-legend-label": legendLabel,
+    "data-bar-color": barColor,
+    "data-override-tick-color": overrideTickColor,
+    "data-fixed-min-value": fixedMinValue,
+    "data-fixed-max-value": fixedMaxValue,
+    "data-bar-padding": barPadding,
+    "data-bar-label-position": barLabelPosition,
+    "data-line-label-position": lineLabelPosition,
+    "data-show-grid": showGrid,
+    "data-include-overall": includeOverall,
+    "data-tooltip-enabled": tooltipEnabled,
+    "data-x-label-color": xLabelColor,
+    "data-bar-label-color": barLabelColor,
+    "data-bar-inner-padding": barInnerPadding,
+    "data-use-label-background": useLabelBackground,
+    "data-use-check-box-background": useCheckBoxBackground,
+    "data-legend-label-color": legendLabelColor,
+    "data-highlight-xaxis-line": highlightXAxisLine,
+    "data-show-tick-line": showTickLine,
+    "data-show-right-axis": showRightAxis,
+    "data-right-legend": rightLegend,
+    "data-offset-right": offsetRight,
+    "data-offset-bottom": offsetBottom,
+    "data-enable-area": enableArea,
+    "data-area-shading-criteria": areaShadingCriteria,
+    "data-area-lower-bound": areaLowerBound,
+    "data-area-upper-bound": areaUpperBound,
+    "data-show-points": showPoints,
+    "data-hidden-bars": hiddenBars.join(','),
+    "data-confidence-intervals": encodeURIComponent(JSON.stringify(confidenceIntervals)),
+    "data-manual-colors": encodeURIComponent(JSON.stringify(manualColors)),
+    "data-group-total-measure": groupTotalMeasure,
+    "data-show-group-total": showGroupTotal,
+    "data-group-total-label-offset": groupTotalLabelOffset,
+    "data-group-total-format": encodeURIComponent(JSON.stringify(groupTotalFormat)),
+    "data-group-total-fixed-position": groupTotalFixedPosition,
+    "data-group-total-label": groupTotalLabel,
+    "data-show-arc-labels": showArcLabels,
+    "data-show-arc-link-labels": showArcLinkLabels,
+    "data-slice-padding": slicePadding,
+    "data-center-label": centerLabel,
+    "data-center-label-font-weight": centerLabelFontWeight,
+    "data-center-label-font-size": centerLabelFontSize,
+    "data-center-label-xoffset": centerLabelXOffset,
+    "data-center-label-yoffset": centerLabelYOffset,
+    "data-tooltip-enable-markdown": tooltipEnableMarkdown,
+    "data-y-axis-tick-values": yAxisTickValues,
+    "data-x-axis-tick-values": xAxisTickValues,
+    "data-line-x-axis-tick-mode": lineXAxisTickMode,
+    "data-line-x-axis-tick-count": lineXAxisTickCount,
+    "data-line-x-axis-tick-every": lineXAxisTickEvery,
+    "data-enable-measure-selector": enableMeasureSelector,
+    "data-measure-selector-label": encodeURIComponent(measureSelectorLabel || ''),
+    "data-measure-selector-default-measure": defaultMeasure,
+    "data-enable-grid-y": enableGridY,
+    "data-enable-grid-x": enableGridX,
+    "data-overall-label": overallLabel,
+    "data-overlays": encodeURIComponent(JSON.stringify(overlays)),
+    "data-min-max-clamp": minMaxClamp,
+    "data-reverse-legend": reverseLegend,
+    "data-sort": sort,
+    "data-sort-reverse": sortReverse,
+    "data-sort-second-dimension": sortSecondDimension,
+    "data-sort-reverse-second-dimension": sortReverseSecondDimension,
+    "data-radar-curve": radarCurve,
+    "data-radar-fill-opacity": radarFillOpacity,
+    "data-radar-border-width": radarBorderWidth,
+    "data-radar-grid-levels": radarGridLevels,
+    "data-radar-grid-shape": radarGridShape,
+    "data-radar-grid-label-offset": radarGridLabelOffset,
+    "data-radar-enable-dots": radarEnableDots,
+    "data-radar-dot-size": radarDotSize,
+    "data-radar-enable-dot-label": radarEnableDotLabel,
+    "data-radar-dot-label-offset": radarDotLabelOffset,
+    "data-show-percentage": showPercentage,
+    "data-preview-mode": previewMode,
+    "data-mobile-customization": encodeURIComponent(JSON.stringify(mobileCustomization)),
+    "data-wait-for-filters": waitForFilters,
+    "data-line-curve": lineCurve,
+    "data-show-legends-in-columns": showLegendsInColumns,
+    "data-number-of-legend-columns": numberOfLegendColumns,
+    "data-scatter-min-size": scatterMinSize,
+    "data-scatter-max-size": scatterMaxSize,
+    "data-scatter-show-labels": scatterShowLabels,
+    "data-scatter-connect-points": scatterConnectPoints,
+    "data-scatter-point-opacity": scatterPointOpacity,
+    "data-scatter-reference-x": scatterReferenceX,
+    "data-scatter-reference-y": scatterReferenceY,
+    "data-scatter-reference-x-label": encodeURIComponent(scatterReferenceXLabel || ''),
+    "data-scatter-reference-y-label": encodeURIComponent(scatterReferenceYLabel || ''),
+    "data-scatter-quadrant-top-left-label": encodeURIComponent(scatterQuadrantTopLeftLabel || ''),
+    "data-scatter-quadrant-top-right-label": encodeURIComponent(scatterQuadrantTopRightLabel || ''),
+    "data-scatter-quadrant-bottom-left-label": encodeURIComponent(scatterQuadrantBottomLeftLabel || ''),
+    "data-scatter-quadrant-bottom-right-label": encodeURIComponent(scatterQuadrantBottomRightLabel || ''),
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, {})
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SaveComponent);
 
 /***/ }),
 
@@ -20657,4064 +21346,6 @@ function setCacheAdd(value) {
 
 module.exports = setCacheAdd;
 
-
-/***/ }),
-
-/***/ 4458:
-/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__(7723);
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__(4997);
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__(4715);
-// EXTERNAL MODULE: external ["wp","editor"]
-var external_wp_editor_ = __webpack_require__(3656);
-// EXTERNAL MODULE: external "ReactJSXRuntime"
-var external_ReactJSXRuntime_ = __webpack_require__(790);
-;// ./charts/BlockSave.js
-
- // or wp.editor
-
-const SaveComponent = props => {
-  const {
-    toggleSelection,
-    setAttributes,
-    attributes: {
-      height,
-      width,
-      type,
-      groupMode,
-      bottomLegend,
-      leftLegend,
-      scheme,
-      colorBy,
-      dimension1,
-      dimension2,
-      dimension3,
-      dualMode,
-      toggleInfoLabel,
-      toggleChartLabel,
-      dataSourceLabel,
-      dataSource,
-      legendPosition,
-      marginLeft,
-      marginTop,
-      marginRight,
-      marginBottom,
-      showLegends,
-      legendLabel,
-      app,
-      measures,
-      tickColor,
-      tickRotation,
-      offsetText,
-      format,
-      decimals,
-      currency,
-      tooltipHTML,
-      csv,
-      startAngle,
-      endAngle,
-      layout,
-      reverse,
-      offsetY,
-      csvLineLayerData,
-      csvLineColor,
-      csvLineTooltip,
-      csvLineTitle,
-      lineLayerEnabled,
-      group,
-      maxValue,
-      valueScale,
-      filters,
-      swap,
-      noDataMessage,
-      barColor,
-      overrideTickColor,
-      fixedMaxValue,
-      fixedMinValue,
-      barPadding,
-      barLabelPosition,
-      lineLabelPosition,
-      showGrid,
-      includeOverall,
-      tooltipEnabled,
-      barInnerPadding,
-      useLabelBackground,
-      useCheckBoxBackground,
-      xLabelColor = "#000000",
-      barLabelColor = "#000000",
-      legendLabelColor = "#000000",
-      highlightXAxisLine,
-      showTickLine,
-      manualColors,
-      showRightAxis,
-      rightLegend,
-      offsetRight,
-      offsetBottom,
-      hiddenBars,
-      enableArea,
-      areaShadingCriteria,
-      areaLowerBound,
-      areaUpperBound,
-      showPoints,
-      confidenceIntervals,
-      centerLabel,
-      showArcLabels,
-      showArcLinkLabels,
-      slicePadding,
-      centerLabelFontWeight,
-      centerLabelFontSize,
-      centerLabelXOffset,
-      centerLabelYOffset,
-      groupTotalMeasure,
-      showGroupTotal,
-      groupTotalFormat,
-      groupTotalFixedPosition,
-      groupTotalLabel,
-      groupTotalLabelOffset,
-      tooltipEnableMarkdown,
-      xAxisTickValues,
-      yAxisTickValues,
-      enableGridY,
-      enableGridX,
-      overallLabel,
-      overlays,
-      minMaxClamp,
-      reverseLegend,
-      sort,
-      sortReverse,
-      sortSecondDimension,
-      sortReverseSecondDimension,
-      radarCurve,
-      radarFillOpacity,
-      radarBorderWidth,
-      radarGridLevels,
-      radarGridShape,
-      radarGridLabelOffset,
-      radarEnableDots,
-      radarDotSize,
-      radarEnableDotLabel,
-      radarDotLabelOffset,
-      mobileCustomization,
-      dvzProxyDatasetId,
-      showPercentage,
-      previewMode,
-      waitForFilters,
-      lineCurve,
-      showLegendsInColumns,
-      numberOfLegendColumns,
-      lineXAxisTickMode,
-      lineXAxisTickCount,
-      lineXAxisTickEvery,
-      enableMeasureSelector,
-      measureSelectorLabel,
-      defaultMeasure
-    }
-  } = props;
-  const blockProps = external_wp_blockEditor_.useBlockProps.save({
-    className: 'viz component chart'
-  });
-  const levels = [dimension1, dimension2, dimension3];
-  const source = levels.filter(l => l != 'none' && l != null).join('/');
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    className: "viz-component",
-    "data-component": "chart",
-    "data-height": height,
-    "data-type": type,
-    "data-source": source,
-    "data-dvz-proxy-dataset-id": dvzProxyDatasetId,
-    "data-dimension1": dimension1,
-    "data-dimension2": dimension2,
-    "data-dimension3": dimension3,
-    "data-color-by": colorBy,
-    "data-scheme": scheme,
-    "data-group-mode": groupMode,
-    "data-left-legend": leftLegend,
-    "data-dualMode": dualMode,
-    "data-bottom-legend": bottomLegend,
-    "data-toggle-info-label": toggleInfoLabel,
-    "data-toggle-chart-label": toggleChartLabel,
-    "data-data-source-label": dataSourceLabel,
-    "data-chart-data-source": dataSource,
-    "data-margin-left": marginLeft,
-    "data-margin-top": marginTop,
-    "data-margin-right": marginRight,
-    "data-margin-bottom": marginBottom,
-    "data-show-legends": showLegends,
-    "data-legend-position": legendPosition,
-    "data-app": app,
-    "data-tick-rotation": tickRotation,
-    "data-offset-text": offsetText,
-    "data-tick-color": tickColor,
-    "data-line-layer-enabled": lineLayerEnabled,
-    "data-measures": encodeURIComponent(JSON.stringify(measures)),
-    "data-format": encodeURIComponent(JSON.stringify(format)),
-    "data-decimals": decimals,
-    "data-currency": currency,
-    "data-csv": csv,
-    "data-tooltip-html": encodeURIComponent(tooltipHTML),
-    "data-start-angle": startAngle,
-    "data-end-angle": endAngle,
-    "data-layout": layout,
-    "data-reverse": reverse,
-    "data-offset-y": offsetY
-    //data-csv-line-layer-data={csvLineLayerData}
-    //data-csv-line-color={csvLineColor}
-    // data-csv-line-tooltip={csvLineTooltip}
-    //data-csv-line-title={csvLineTitle}
-    ,
-    "data-group": group,
-    "data-max-value": maxValue,
-    "data-value-scale": valueScale,
-    "data-filters": encodeURIComponent(JSON.stringify(filters)),
-    "data-swap": swap,
-    "data-no-data-message": noDataMessage,
-    "data-legend-label": legendLabel,
-    "data-bar-color": barColor,
-    "data-override-tick-color": overrideTickColor,
-    "data-fixed-min-value": fixedMinValue,
-    "data-fixed-max-value": fixedMaxValue,
-    "data-bar-padding": barPadding,
-    "data-bar-label-position": barLabelPosition,
-    "data-line-label-position": lineLabelPosition,
-    "data-show-grid": showGrid,
-    "data-include-overall": includeOverall,
-    "data-tooltip-enabled": tooltipEnabled,
-    "data-x-label-color": xLabelColor,
-    "data-bar-label-color": barLabelColor,
-    "data-bar-inner-padding": barInnerPadding,
-    "data-use-label-background": useLabelBackground,
-    "data-use-check-box-background": useCheckBoxBackground,
-    "data-legend-label-color": legendLabelColor,
-    "data-highlight-xaxis-line": highlightXAxisLine,
-    "data-show-tick-line": showTickLine,
-    "data-show-right-axis": showRightAxis,
-    "data-right-legend": rightLegend,
-    "data-offset-right": offsetRight,
-    "data-offset-bottom": offsetBottom,
-    "data-enable-area": enableArea,
-    "data-area-shading-criteria": areaShadingCriteria,
-    "data-area-lower-bound": areaLowerBound,
-    "data-area-upper-bound": areaUpperBound,
-    "data-show-points": showPoints,
-    "data-hidden-bars": hiddenBars.join(','),
-    "data-confidence-intervals": encodeURIComponent(JSON.stringify(confidenceIntervals)),
-    "data-manual-colors": encodeURIComponent(JSON.stringify(manualColors)),
-    "data-group-total-measure": groupTotalMeasure,
-    "data-show-group-total": showGroupTotal,
-    "data-group-total-label-offset": groupTotalLabelOffset,
-    "data-group-total-format": encodeURIComponent(JSON.stringify(groupTotalFormat)),
-    "data-group-total-fixed-position": groupTotalFixedPosition,
-    "data-group-total-label": groupTotalLabel,
-    "data-show-arc-labels": showArcLabels,
-    "data-show-arc-link-labels": showArcLinkLabels,
-    "data-slice-padding": slicePadding,
-    "data-center-label": centerLabel,
-    "data-center-label-font-weight": centerLabelFontWeight,
-    "data-center-label-font-size": centerLabelFontSize,
-    "data-center-label-xoffset": centerLabelXOffset,
-    "data-center-label-yoffset": centerLabelYOffset,
-    "data-tooltip-enable-markdown": tooltipEnableMarkdown,
-    "data-y-axis-tick-values": yAxisTickValues,
-    "data-x-axis-tick-values": xAxisTickValues,
-    "data-line-x-axis-tick-mode": lineXAxisTickMode,
-    "data-line-x-axis-tick-count": lineXAxisTickCount,
-    "data-line-x-axis-tick-every": lineXAxisTickEvery,
-    "data-enable-measure-selector": enableMeasureSelector,
-    "data-measure-selector-label": encodeURIComponent(measureSelectorLabel || ''),
-    "data-measure-selector-default-measure": defaultMeasure,
-    "data-enable-grid-y": enableGridY,
-    "data-enable-grid-x": enableGridX,
-    "data-overall-label": overallLabel,
-    "data-overlays": encodeURIComponent(JSON.stringify(overlays)),
-    "data-min-max-clamp": minMaxClamp,
-    "data-reverse-legend": reverseLegend,
-    "data-sort": sort,
-    "data-sort-reverse": sortReverse,
-    "data-sort-second-dimension": sortSecondDimension,
-    "data-sort-reverse-second-dimension": sortReverseSecondDimension,
-    "data-radar-curve": radarCurve,
-    "data-radar-fill-opacity": radarFillOpacity,
-    "data-radar-border-width": radarBorderWidth,
-    "data-radar-grid-levels": radarGridLevels,
-    "data-radar-grid-shape": radarGridShape,
-    "data-radar-grid-label-offset": radarGridLabelOffset,
-    "data-radar-enable-dots": radarEnableDots,
-    "data-radar-dot-size": radarDotSize,
-    "data-radar-enable-dot-label": radarEnableDotLabel,
-    "data-radar-dot-label-offset": radarDotLabelOffset,
-    "data-show-percentage": showPercentage,
-    "data-preview-mode": previewMode,
-    "data-mobile-customization": encodeURIComponent(JSON.stringify(mobileCustomization)),
-    "data-wait-for-filters": waitForFilters,
-    "data-line-curve": lineCurve,
-    "data-show-legends-in-columns": showLegendsInColumns,
-    "data-number-of-legend-columns": numberOfLegendColumns,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks.Content, {})
-  });
-};
-/* harmony default export */ const BlockSave = (SaveComponent);
-// EXTERNAL MODULE: external ["wp","components"]
-var external_wp_components_ = __webpack_require__(6427);
-// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 17 modules
-var build = __webpack_require__(1704);
-;// ./charts/AxisConfig.jsx
-
-
-
-
-const AxisConfig = props => {
-  const {
-    toggleSelection,
-    setAttributes,
-    attributes: {
-      leftLegend,
-      offsetY,
-      tickColor,
-      tickRotation,
-      overrideTickColor,
-      xLabelColor,
-      barLabelColor,
-      type,
-      rightLegend,
-      offsetRight,
-      showRightAxis,
-      bottomLegend,
-      offsetBottom,
-      showTickLine,
-      highlightXAxisLine,
-      maxValue,
-      fixedMinValue,
-      fixedMaxValue,
-      yAxisTickValues,
-      xAxisTickValues,
-      lineXAxisTickMode,
-      lineXAxisTickCount,
-      lineXAxisTickEvery,
-      offsetText,
-      minMaxClamp
-    }
-  } = props;
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("X Axis Settings"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Highlight X Axis Line"),
-        checked: highlightXAxisLine,
-        onChange: highlightXAxisLine => setAttributes({
-          highlightXAxisLine
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show X axis label lines"),
-        checked: showTickLine === true,
-        onChange: value => setAttributes({
-          showTickLine: !showTickLine
-        })
-      })
-    }), showTickLine && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Change Stick Color"),
-        checked: overrideTickColor === true,
-        onChange: value => setAttributes({
-          overrideTickColor: !overrideTickColor
-        })
-      })
-    }), showTickLine && overrideTickColor && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)("Stick Color"),
-        colorSettings: [{
-          value: decodeURIComponent(tickColor ? tickColor : "#FFFFFF"),
-          onChange: color => {
-            if (color) {
-              setAttributes({
-                tickColor: encodeURIComponent(color)
-              });
-            } else {
-              setAttributes({
-                tickColor: null
-              });
-            }
-          },
-          label: (0,external_wp_i18n_.__)("")
-        }]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-        label: (0,external_wp_i18n_.__)("X Axis Text Rotation"),
-        value: tickRotation,
-        onChange: value => setAttributes({
-          tickRotation: value
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)('X Axis Text Offset'),
-        value: offsetText,
-        onChange: offsetText => setAttributes({
-          offsetText
-        }),
-        min: -200,
-        max: 200
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)('X Axis Text Color'),
-        colorSettings: [{
-          value: decodeURIComponent(xLabelColor ? xLabelColor : "#000000"),
-          onChange: color => {
-            if (color) {
-              setAttributes({
-                xLabelColor: encodeURIComponent(color)
-              });
-            } else {
-              setAttributes({
-                xLabelColor: null
-              });
-            }
-          },
-          label: (0,external_wp_i18n_.__)("")
-        }]
-      })
-    }), type == 'bar' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-        title: (0,external_wp_i18n_.__)('Bar Text Color'),
-        colorSettings: [{
-          value: decodeURIComponent(barLabelColor ? barLabelColor : "#000000"),
-          onChange: color => {
-            if (color) {
-              setAttributes({
-                barLabelColor: encodeURIComponent(color)
-              });
-            } else {
-              setAttributes({
-                barLabelColor: null
-              });
-            }
-          },
-          label: (0,external_wp_i18n_.__)("")
-        }]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-        label: (0,external_wp_i18n_.__)('X Axis Title'),
-        value: bottomLegend,
-        onChange: bottomLegend => setAttributes({
-          bottomLegend
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)('X Axis Title Offset'),
-        value: offsetBottom,
-        onChange: offsetBottom => setAttributes({
-          offsetBottom
-        }),
-        min: -200,
-        max: 200
-      })
-    }), type === "bar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)('Number of Intervals'),
-        value: xAxisTickValues,
-        onChange: xAxisTickValues => setAttributes({
-          xAxisTickValues
-        }),
-        min: 0,
-        max: 50
-      })
-    }), (type === "line" || type === "bar") && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('X Axis Tick Mode'),
-          value: lineXAxisTickMode,
-          options: [{
-            label: (0,external_wp_i18n_.__)('None (default)'),
-            value: 'none'
-          }, {
-            label: (0,external_wp_i18n_.__)('Total number of ticks'),
-            value: 'count'
-          }, {
-            label: (0,external_wp_i18n_.__)('Show every Nth tick'),
-            value: 'every'
-          }],
-          onChange: value => setAttributes({
-            lineXAxisTickMode: value
-          })
-        })
-      }), lineXAxisTickMode === 'count' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)('Total number of ticks'),
-          value: lineXAxisTickCount,
-          onChange: value => setAttributes({
-            lineXAxisTickCount: value
-          }),
-          min: 1,
-          max: 50
-        })
-      }), lineXAxisTickMode === 'every' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)('Show every Nth tick'),
-          value: lineXAxisTickEvery,
-          onChange: value => setAttributes({
-            lineXAxisTickEvery: value
-          }),
-          min: 1,
-          max: 50
-        })
-      })]
-    })]
-  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Y Axis Settings"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-        label: (0,external_wp_i18n_.__)('Title'),
-        value: leftLegend,
-        onChange: leftLegend => setAttributes({
-          leftLegend
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)('Left Axis Title Offset'),
-        value: offsetY,
-        onChange: offsetY => setAttributes({
-          offsetY
-        }),
-        min: -500,
-        max: 500
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)('Number of Intervals'),
-        value: yAxisTickValues,
-        onChange: yAxisTickValues => setAttributes({
-          yAxisTickValues
-        }),
-        min: 0,
-        max: 50
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show Right Axis"),
-        checked: showRightAxis,
-        onChange: showRightAxis => setAttributes({
-          showRightAxis
-        })
-      })
-    }), showRightAxis && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          label: (0,external_wp_i18n_.__)('Right Axis Title'),
-          value: rightLegend,
-          onChange: rightLegend => setAttributes({
-            rightLegend
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)('Right Axis Title Offset'),
-          value: offsetRight,
-          onChange: offsetRight => setAttributes({
-            offsetRight
-          }),
-          min: -500,
-          max: 500
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Use Fixed Min & Max Values"),
-        checked: maxValue === "fixed",
-        onChange: () => setAttributes({
-          maxValue: maxValue === "auto" ? "fixed" : "auto"
-        })
-      })
-    }), maxValue === 'fixed' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Chop off Chart at Min & Max Values"),
-          checked: minMaxClamp === true,
-          onChange: () => setAttributes({
-            minMaxClamp: !minMaxClamp
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          value: fixedMinValue,
-          label: (0,external_wp_i18n_.__)("Min y-Axis Value"),
-          onChange: value => setAttributes({
-            fixedMinValue: value
-          }),
-          type: "number"
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-          value: fixedMaxValue,
-          label: (0,external_wp_i18n_.__)("Max y-Axis Value"),
-          onChange: value => setAttributes({
-            fixedMaxValue: value
-          }),
-          type: "number"
-        })
-      })]
-    })]
-  })];
-};
-/* harmony default export */ const charts_AxisConfig = (AxisConfig);
-;// ./charts/Labels.jsx
-
-
-
-const Labels = props => {
-  const {
-    setAttributes,
-    attributes: {
-      barLabelPosition,
-      lineLabelPosition,
-      type
-    }
-  } = props;
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-    children: [type == "bar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)("Bar Label Position", "dg"),
-        value: [barLabelPosition],
-        onChange: barLabelPosition => {
-          setAttributes({
-            barLabelPosition: barLabelPosition
-          });
-        },
-        options: [{
-          label: (0,external_wp_i18n_.__)("Top", "dg"),
-          value: "top"
-        }, {
-          label: (0,external_wp_i18n_.__)("Middle", "dg"),
-          value: "middle"
-        }, {
-          label: (0,external_wp_i18n_.__)("None", "dg"),
-          value: "none"
-        }],
-        style: {
-          width: "120px"
-        }
-      })
-    }), type == "line" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)("Point Label Position", "dg"),
-        value: [lineLabelPosition],
-        onChange: position => {
-          setAttributes({
-            lineLabelPosition: position
-          });
-        },
-        options: [{
-          label: (0,external_wp_i18n_.__)("On Top", "dg"),
-          value: "top"
-        }, {
-          label: (0,external_wp_i18n_.__)("None", "dg"),
-          value: "none"
-        }],
-        style: {
-          width: "120px"
-        }
-      })
-    })]
-  })];
-};
-/* harmony default export */ const charts_Labels = (Labels);
-;// ./charts/LineOverlayConfig.jsx
-
-
-
-
-
-const overLayPrototype = preFillCsv => {
-  return {
-    app: 'csv',
-    lineColor: "#555555",
-    csvLineLayerData: preFillCsv,
-    tooltip: "",
-    title: "",
-    measure: []
-  };
-};
-const LineOverlay = props => {
-  const {
-    setAttributes,
-    allDimensions,
-    allMeasures,
-    allCategories,
-    apps,
-    attributes: {
-      panelStatus,
-      overlays,
-      dimension1,
-      app
-    }
-  } = props;
-  const add = () => {
-    let preFillCsv = "";
-    if (app != "csv" && dimension1) {
-      const dimension = allDimensions.filter(d => d.value === dimension1).reduce((a, b) => b, null);
-      const cat = allCategories.filter(c => c.type == dimension.type).reduce((a, b) => b, null);
-      preFillCsv = cat ? cat.items.sort((s1, s2) => s1.position - s2.position).map(i => i.value).join(",\r\n") + "," : "";
-    }
-    const newOverlay = [...overlays, overLayPrototype(preFillCsv)];
-    setAttributes({
-      overlays: newOverlay
-    });
-  };
-  const remove = () => {
-    const newOverlay = [...overlays];
-    newOverlay.pop();
-    setAttributes({
-      overlays: newOverlay
-    });
-  };
-  const onChange = (idx, attribute, value) => {
-    const newOverlay = [...overlays];
-    newOverlay[idx][attribute] = value;
-    setAttributes({
-      overlays: newOverlay
-    });
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-    children: [overlays && overlays.map((o, idx) => {
-      const overlayMeasures = {};
-      overlayMeasures[o.app] = {};
-      overlayMeasures[o.app][o.measure] = {
-        selected: true
-      };
-      return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-        title: o.title,
-        panelStatus: panelStatus['series_'] + idx,
-        onToggle: e => (0,build/* togglePanel */.Pj)(panelStatus['series_'] + idx, panelStatus, setAttributes),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-            value: [o.app] // e.g: value = [ 'a', 'c' ]
-            ,
-            onChange: value => onChange(idx, "app", value),
-            options: apps
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-            label: (0,external_wp_i18n_.__)('Title', "dg"),
-            value: o.title,
-            onChange: value => onChange(idx, "title", value)
-          })
-        }), o.app == "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
-            children: [(0,external_wp_i18n_.__)("First value should match with bar x value", "dg"), " "]
-          })
-        }), o.app == "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-            label: (0,external_wp_i18n_.__)("CSV Data", "dg"),
-            value: o.csvLineLayerData,
-            onChange: value => onChange(idx, "csvLineLayerData", value)
-          })
-        }), o.app != "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build.ChartMeasures, {
-          title: "Select Measure",
-          onMeasuresChange: e => null,
-          onFormatChange: a => alert("format"),
-          onSetSingleMeasure: value => onChange(idx, "measure", [value]),
-          allMeasures: allMeasures,
-          setAttributes: setAttributes,
-          attributes: {
-            panelStatus,
-            measures: overlayMeasures,
-            dimension1: null,
-            dimension2: null,
-            type: 'overlay',
-            app: o.app
-          }
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
-            colorSettings: [{
-              value: o.lineColor,
-              onChange: color => {
-                if (color) {
-                  onChange(idx, "lineColor", color);
-                }
-              },
-              label: o.lineColor
-            }]
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-            label: (0,external_wp_i18n_.__)("Tooltip", "dg"),
-            value: o.tooltip,
-            help: (0,external_wp_i18n_.__)("You can use {x} and {y} variables and # % #C formatters", "dg"),
-            onChange: value => onChange(idx, "tooltip", value)
-          })
-        })]
-      });
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-          isSecondary: true,
-          onClick: add,
-          children: (0,external_wp_i18n_.__)("Add Series")
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-          isSecondary: true,
-          onClick: remove,
-          children: (0,external_wp_i18n_.__)("Remove Series")
-        })]
-      })
-    })]
-  });
-};
-/* harmony default export */ const LineOverlayConfig = (LineOverlay);
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__(6087);
-;// ./charts/ConfidenceIntervalConfig.jsx
-
-
-
-
-class ConfidenceIntervalConfig extends external_wp_element_.Component {
-  constructor(props) {
-    super(props);
-  }
-  setFieldData(serieId, serieLabel, dataField, value) {
-    const {
-      attributes: {
-        confidenceIntervals
-      },
-      setAttributes
-    } = this.props;
-    const newConfidenceIntervals = confidenceIntervals.slice();
-    let current = newConfidenceIntervals.filter(c => c.serieId == serieId)[0];
-    if (!current) {
-      current = {
-        serieId,
-        serieLabel
-      };
-      current[dataField] = value;
-      newConfidenceIntervals.push(current);
-    }
-    current[dataField] = value;
-    setAttributes({
-      confidenceIntervals: newConfidenceIntervals
-    });
-  }
-  render() {
-    const {
-      app,
-      series,
-      setAttributes,
-      attributes: {
-        confidenceIntervals
-      }
-    } = this.props;
-    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Confidence Intervals"),
-      children: series && series.map(s => {
-        const current = confidenceIntervals.filter(c => c.serieId == s.id)[0];
-        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-            children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("label", {
-              children: [s.value, " "]
-            })]
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                label: (0,external_wp_i18n_.__)("Low"),
-                value: current && current.low ? parseFloat(current.low) : null,
-                onChange: value => this.setFieldData(s.id, s.value, 'low', value),
-                type: "number"
-              })
-            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
-              style: {
-                marginLeft: "10px"
-              },
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                label: (0,external_wp_i18n_.__)("High"),
-                value: current && current.high ? parseFloat(current.high) : null,
-                onChange: value => this.setFieldData(s.id, s.value, 'high', value),
-                type: "number"
-              })
-            })]
-          })]
-        });
-      })
-    })];
-  }
-}
-// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.3/node_modules/papaparse/papaparse.min.js
-var papaparse_min = __webpack_require__(3643);
-var papaparse_min_default = /*#__PURE__*/__webpack_require__.n(papaparse_min);
-// EXTERNAL MODULE: ./charts/Format.jsx
-var Format = __webpack_require__(1012);
-;// ./charts/GroupTotalSetting.jsx
-
-
-
-
-
-const Settings = ({
-  setAttributes,
-  allMeasures,
-  attributes: {
-    app,
-    csv,
-    groupTotalFormat,
-    groupTotalMeasure,
-    groupTotalLabelOffset,
-    groupTotalLabel,
-    groupTotalFixedPosition
-  }
-}) => {
-  let data = null;
-  if (app == "csv" && csv) {
-    data = papaparse_min_default().parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-  }
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Group Settings"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-      children: [app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)('Measure'),
-        value: [groupTotalMeasure] // e.g: value = [ 'a', 'c' ]
-        ,
-        onChange: value => {
-          setAttributes({
-            groupTotalMeasure: value
-          });
-        },
-        options: allMeasures ? allMeasures.map(({
-          value,
-          label
-        }) => ({
-          label,
-          value
-        })) : []
-      }), app == "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)('Measure'),
-        value: [groupTotalMeasure] // e.g: value = [ 'a', 'c' ]
-        ,
-        onChange: value => {
-          setAttributes({
-            groupTotalMeasure: value
-          });
-        },
-        options: data && data.meta ? data.meta.fields.map(k => ({
-          label: k,
-          value: k
-        })) : []
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-      title: (0,external_wp_i18n_.__)("Group Total Format"),
-      format: groupTotalFormat,
-      onFormatChange: groupTotalFormat => {
-        setAttributes({
-          groupTotalFormat
-        });
-      }
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Fixed"),
-        checked: groupTotalFixedPosition,
-        onChange: groupTotalFixedPosition => {
-          setAttributes({
-            groupTotalFixedPosition
-          });
-        }
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)('Offset'),
-        value: groupTotalLabelOffset,
-        onChange: groupTotalLabelOffset => setAttributes({
-          groupTotalLabelOffset
-        }),
-        allowReset: true,
-        resetFallbackValue: 0,
-        step: 5,
-        min: -250,
-        max: 250
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-        value: groupTotalLabel,
-        label: (0,external_wp_i18n_.__)("Label"),
-        onChange: value => setAttributes({
-          groupTotalLabel: value
-        }),
-        type: "string"
-      })
-    })]
-  });
-};
-/* harmony default export */ const GroupTotalSetting = (Settings);
-;// ./charts/Sort.jsx
-
-
-
-
-const Sort = props => {
-  const {
-    setAttributes,
-    allCategories,
-    attributes: {
-      sort,
-      sortReverse,
-      dimension1,
-      dimension2,
-      sortSecondDimension,
-      sortReverseSecondDimension,
-      type
-    }
-  } = props;
-
-  //The following code will be used to sort stacked bar's slices https://devgateway.atlassian.net/browse/TCDIKE-767
-  let sortBySliceOptions = [];
-  if (dimension2 && allCategories) {
-    const target = allCategories.find(d => d.type == dimension2);
-    if (target && target.items) {
-      sortBySliceOptions = (0,build/* getTranslatedOptions */.rd)(target.items).map(item => {
-        return {
-          label: "Value of " + item.label,
-          value: item.value
-        };
-      });
-    }
-  }
-  let firtDimSortItems;
-  if (type == 'line') {
-    firtDimSortItems = [{
-      label: (0,external_wp_i18n_.__)('Default', "dg"),
-      value: 'default'
-    }, {
-      label: (0,external_wp_i18n_.__)('Alphabetically ', "dg"),
-      value: 'alphabetically'
-    }, {
-      label: (0,external_wp_i18n_.__)('By Date ', "dg"),
-      value: 'date'
-    }];
-  } else {
-    firtDimSortItems = [{
-      label: (0,external_wp_i18n_.__)('Default', "dg"),
-      value: 'default'
-    }, {
-      label: (0,external_wp_i18n_.__)('Alphabetically ', "dg"),
-      value: 'alphabetically'
-    }, {
-      label: (0,external_wp_i18n_.__)('By Date ', "dg"),
-      value: 'date'
-    }, {
-      label: (0,external_wp_i18n_.__)('Value (Group/Bar/Total)', "dg"),
-      value: 'values'
-    }, ...sortBySliceOptions];
-  }
-  if (dimension1 != 'none') {
-    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Group Sort: ', "dg"),
-          value: [sort],
-          onChange: sort => {
-            setAttributes({
-              sort
-            });
-          },
-          options: props.options || firtDimSortItems
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)('Reverse Sort ', "dg"),
-          value: [sortReverse],
-          onChange: sortReverse => {
-            setAttributes({
-              sortReverse
-            });
-          },
-          checked: sortReverse
-        })
-      }), dimension2 != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-            label: (0,external_wp_i18n_.__)('Bar/Slice Sort: ', "dg"),
-            value: [sortSecondDimension],
-            onChange: sortSecondDimension => {
-              setAttributes({
-                sortSecondDimension
-              });
-            },
-            options: props.options || [{
-              label: (0,external_wp_i18n_.__)('Default', "dg"),
-              value: 'default'
-            }, {
-              label: (0,external_wp_i18n_.__)('Alphabetically ', "dg"),
-              value: 'alphabetically'
-            }, {
-              label: (0,external_wp_i18n_.__)('By Date ', "dg"),
-              value: 'date'
-            }]
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: (0,external_wp_i18n_.__)('Reverse Sort Second Dimension', "dg"),
-            value: [sortReverseSecondDimension],
-            onChange: sortReverseSecondDimension => {
-              setAttributes({
-                sortReverseSecondDimension
-              });
-            },
-            checked: sortReverseSecondDimension
-          })
-        })]
-      })]
-    });
-  }
-  return [];
-};
-/* harmony default export */ const charts_Sort = (Sort);
-;// ./charts/Bar.jsx
-
-
-
-
-
-
-
-
-
-
-
-
-const BarOptions = props => {
-  const {
-    apps,
-    setAttributes,
-    allDimensions,
-    allMeasures,
-    allCategories,
-    attributes: {
-      scheme,
-      app,
-      measures,
-      dimension1,
-      dimension2,
-      layout,
-      groupMode,
-      reverse,
-      colorBy,
-      lineLayerEnabled,
-      valueScale,
-      maxValue,
-      swap,
-      csv,
-      fixedMaxValue,
-      fixedMinValue,
-      barPadding,
-      barLabelPosition,
-      showGrid,
-      includeOverall,
-      overallLabel,
-      barInnerPadding,
-      highlightXAxisLine,
-      showTickLine,
-      showRightAxis,
-      hiddenBars,
-      format,
-      showGroupTotal,
-      groupTotalMeasure,
-      groupTotalLabel,
-      groupTotalFormat,
-      groupTotalLabelOffset,
-      groupTotalOffset,
-      enableGridX,
-      enableGridY,
-      sort,
-      sortReverse
-    }
-  } = props;
-  const getSeries = () => {
-    if (allCategories) {
-      let byDimension = false;
-      let whichDimension = null;
-      if (dimension2 == "none" && colorBy === "index" && swap) {
-        //Multi measure colored by first dimension but  swapped (Colored by Measure)
-        byDimension = true;
-        whichDimension = dimension1;
-      } else if (dimension2 == "none" && colorBy === "id" && !swap) {
-        //Multi Measure chart colored by second dimension (Measure)
-        byDimension = false;
-      } else {
-        byDimension = true;
-        whichDimension = colorBy == "index" ? dimension1 : dimension2;
-      }
-      if (byDimension) {
-        const ds = allDimensions ? allDimensions.filter(d => d.value == whichDimension) : [];
-        if (ds.length > 0) {
-          const {
-            type
-          } = ds[0];
-          const cat = allCategories.filter(a => a.type === type);
-          if (cat && cat.length > 0) {
-            return cat[0].items.sort((a, b) => b.position - a.position).map(d => ({
-              value: d.value,
-              id: d.id,
-              code: d.code,
-              labels: d.labels
-            }));
-          }
-        }
-      } else {
-        return null;
-      }
-    }
-    return null;
-  };
-  const getCSVSeries = () => {
-    const data = papaparse_min_default().parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-    let series;
-    const nonVarFields = data.meta.fields.filter(f => !f.startsWith('_'));
-    if (nonVarFields.length > 1) {
-      series = [];
-      const categoryField = nonVarFields[0];
-      data.data.forEach((item, i) => {
-        if (item[categoryField]) {
-          series.push({
-            id: item[categoryField],
-            value: item[categoryField]
-          });
-        }
-      });
-    }
-    return series;
-  };
-  let selectedMeasures = [];
-  if (allMeasures) {
-    allMeasures.forEach(m => {
-      if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
-        selectedMeasures.push(m.value);
-      }
-    });
-  }
-  const series = app == 'csv' ? getCSVSeries() : getSeries();
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Bar Options"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Colors"),
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
-        ...props
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: "Layout",
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Grouped"),
-          checked: groupMode === "grouped",
-          onChange: () => setAttributes({
-            groupMode: groupMode === "grouped" ? "stacked" : "grouped"
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Symlog Scale"),
-          checked: valueScale === "symlog",
-          onChange: () => setAttributes({
-            valueScale: valueScale === "linear" ? "symlog" : "linear"
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Horizontal"),
-          checked: layout === "horizontal",
-          onChange: value => setAttributes({
-            layout: layout === "horizontal" ? "vertical" : "horizontal"
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Reverse"),
-          checked: reverse,
-          onChange: value => setAttributes({
-            reverse: !reverse
-          })
-        })
-      }), app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Sort, {
-        ...props
-      }), app !== "csv" && dimension1 != "none" && dimension2 == "none" && selectedMeasures.length > 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Swap Values"),
-          checked: swap,
-          onChange: swap => setAttributes({
-            swap
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable Y Grid Lines"),
-          checked: enableGridY,
-          onChange: () => setAttributes({
-            enableGridY: !enableGridY
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable X Grid Lines"),
-          checked: enableGridX,
-          onChange: () => setAttributes({
-            enableGridX: !enableGridX
-          })
-        })
-      }), app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: (0,external_wp_i18n_.__)("Include Overall"),
-            checked: includeOverall,
-            onChange: includeOverall => setAttributes({
-              includeOverall
-            })
-          })
-        }), includeOverall && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-            label: (0,external_wp_i18n_.__)("Overall Label"),
-            value: overallLabel,
-            onChange: overallLabel => setAttributes({
-              overallLabel
-            })
-          })
-        })]
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Display Group Total"),
-          checked: showGroupTotal,
-          onChange: showGroupTotal => {
-            if (!groupTotalMeasure || groupTotalMeasure == "") {
-              setAttributes({
-                showGroupTotal,
-                groupTotalMeasure: allMeasures ? allMeasures[0].value : ""
-              });
-            } else {
-              setAttributes({
-                showGroupTotal
-              });
-            }
-          }
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Labels, {
-        ...props
-      })]
-    }), showGroupTotal && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(GroupTotalSetting, {
-      ...props
-    }), getSeries() && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Hidden Bars"),
-      children: getSeries().map(p => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: p.value,
-          checked: hiddenBars.includes(p.value) || p.labels && Object.values(p.labels).some(label => hiddenBars.includes(label)),
-          onChange: () => {
-            // Check if the bar or any of its labels is hidden
-            const hiddenBarsHasLabel = p.labels ? Object.values(p.labels).some(label => hiddenBars.includes(label)) : false;
-            let updatedBars = [...hiddenBars];
-            if (hiddenBars.includes(p.value) || hiddenBarsHasLabel) {
-              // Remove the bar and its associated labels
-              updatedBars = updatedBars.filter(item => item !== p.value && !(p.labels && Object.values(p.labels).includes(item)));
-            } else {
-              // Add the bar and its associated labels (if applicable)
-              updatedBars = [...new Set([...updatedBars, p.value, ...(p.labels ? Object.values(p.labels) : [])])];
-            }
-            console.log('updatedBars....', updatedBars);
-
-            // Update the attributes
-            setAttributes({
-              hiddenBars: updatedBars
-            });
-          }
-        })
-      }, p.value))
-    }), series && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(ConfidenceIntervalConfig, {
-      series: series,
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Padding"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Bar Padding (Space between bars that are not in the same group)"),
-          value: barPadding,
-          initialPosition: 0.15,
-          onChange: barPadding => setAttributes({
-            barPadding
-          }),
-          step: 0.05,
-          min: 0,
-          max: 1
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Bar Inner Padding (Space between bars in the same group)"),
-          value: barInnerPadding,
-          initialPosition: 0.75,
-          onChange: barInnerPadding => setAttributes({
-            barInnerPadding
-          }),
-          step: 0.25,
-          min: 0,
-          max: 50
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Line Overlay"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable Overlay"),
-          checked: lineLayerEnabled === true,
-          onChange: value => setAttributes({
-            lineLayerEnabled: !lineLayerEnabled
-          })
-        })
-      }), lineLayerEnabled && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LineOverlayConfig, {
-        allMeasures: allMeasures,
-        apps: apps,
-        ...props
-      })]
-    })]
-  })];
-};
-/* harmony default export */ const Bar = (BarOptions);
-;// ./charts/Pie.jsx
-
-
-
-
-const PieOptions = props => {
-  const {
-    setAttributes,
-    attributes: {
-      endAngle,
-      startAngle,
-      centerLabel,
-      showArcLabels,
-      format,
-      showArcLinkLabels,
-      slicePadding,
-      centerLabelFontWeight,
-      centerLabelFontSize,
-      centerLabelXOffset,
-      centerLabelYOffset,
-      showPercentage
-    }
-  } = props;
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Pie Options"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      title: "Start Angle",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-        value: startAngle,
-        onChange: value => setAttributes({
-          startAngle: value
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      title: "End Angle",
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-        value: endAngle,
-        onChange: value => setAttributes({
-          endAngle: value
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)('Slice Padding'),
-        value: slicePadding,
-        initialPosition: 1,
-        onChange: slicePadding => setAttributes({
-          slicePadding
-        }),
-        step: 0.5,
-        min: 0,
-        max: 20
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show Slice Labels"),
-        checked: showArcLabels,
-        onChange: () => setAttributes({
-          showArcLabels: !showArcLabels
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show Link Labels"),
-        checked: showArcLinkLabels,
-        onChange: () => setAttributes({
-          showArcLinkLabels: !showArcLinkLabels
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show Percentage"),
-        checked: showPercentage,
-        onChange: () => setAttributes({
-          showPercentage: !showPercentage
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Center Label"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-        initialOpen: false,
-        title: (0,external_wp_i18n_.__)("Variables"),
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
-            style: {
-              "font-size": "11px"
-            },
-            children: ["Total Value -> ", '{totalValue}']
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-          label: (0,external_wp_i18n_.__)("Label"),
-          value: centerLabel,
-          help: (0,external_wp_i18n_.__)("You can use variables {var_name}."),
-          onChange: centerLabel => setAttributes({
-            centerLabel
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)('Font Size'),
-          value: centerLabelFontSize,
-          onChange: centerLabelFontSize => setAttributes({
-            centerLabelFontSize
-          }),
-          min: 0,
-          max: 100
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            isPrimary: centerLabelFontWeight == 'lighter',
-            isSecondary: centerLabelFontWeight != 'lighter',
-            onClick: e => setAttributes({
-              centerLabelFontWeight: "lighter"
-            }),
-            children: (0,external_wp_i18n_.__)("Lighter")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            isPrimary: centerLabelFontWeight == 'normal',
-            isSecondary: centerLabelFontWeight != 'normal',
-            onClick: e => setAttributes({
-              centerLabelFontWeight: "normal"
-            }),
-            children: (0,external_wp_i18n_.__)("Normal")
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-            isPrimary: centerLabelFontWeight == 'bold',
-            isSecondary: centerLabelFontWeight != 'bold',
-            onClick: e => setAttributes({
-              centerLabelFontWeight: "bold"
-            }),
-            children: (0,external_wp_i18n_.__)("Bold")
-          })]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)('X Offset'),
-          value: centerLabelXOffset,
-          onChange: centerLabelXOffset => setAttributes({
-            centerLabelXOffset
-          }),
-          min: -100,
-          max: 300
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)('Y Offset'),
-          value: centerLabelYOffset,
-          onChange: centerLabelYOffset => setAttributes({
-            centerLabelYOffset
-          }),
-          min: -100,
-          max: 300
-        })
-      })]
-    })]
-  })];
-};
-/* harmony default export */ const Pie = (PieOptions);
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__(1609);
-;// ./charts/Line.jsx
-
-
-
-
-
-
-
-
-
-
-const LineOptions = props => {
-  const {
-    allMeasures,
-    setAttributes,
-    attributes: {
-      measures,
-      app,
-      dimension1,
-      dimension2,
-      layout,
-      format,
-      groupMode,
-      reverse,
-      colorBy,
-      lineLayerEnabled,
-      valueScale,
-      maxValue,
-      swap,
-      csv,
-      fixedMaxValue,
-      fixedMinValue,
-      barPadding,
-      barLabelPosition,
-      showGrid,
-      includeOverall,
-      barInnerPadding,
-      highlightXAxisLine,
-      showTickLine,
-      showRightAxis,
-      enableArea,
-      areaShadingCriteria,
-      areaLowerBound,
-      areaUpperBound,
-      showPoints,
-      enableGridY,
-      enableGridX,
-      lineCurve
-    }
-  } = props;
-  let measuresOptions = [];
-  if (app == 'csv') {
-    const data = papaparse_min_default().parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-    measuresOptions.push({
-      value: '',
-      label: ''
-    });
-    data.meta.fields.forEach((field, i) => {
-      if (i !== 0) {
-        measuresOptions.push({
-          value: field,
-          label: field
-        });
-      }
-    });
-  } else {
-    if (allMeasures && measures && measures[app]) {
-      const list = allMeasures.filter(measure => {
-        return measures[app][measure.value] && measures[app][measure.value].selected;
-      }).map(m => {
-        return {
-          value: m.value,
-          label: m.group + ' - ' + m.label
-        };
-      }).sort((a, b) => {
-        return a.label > b.label ? 1 : -1;
-      });
-      measuresOptions = [{
-        value: '',
-        label: ''
-      }, ...list];
-    }
-  }
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Line Options"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Layout"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Grouped"),
-          checked: groupMode === "grouped",
-          onChange: () => setAttributes({
-            groupMode: groupMode === "grouped" ? "stacked" : "grouped"
-          })
-        })
-      }), app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Sort, {
-        ...props
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Show Line Points"),
-          checked: showPoints,
-          onChange: () => setAttributes({
-            showPoints: !showPoints
-          })
-        })
-      }), showPoints && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Labels, {
-        ...props
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable Y Grid Lines"),
-          checked: enableGridY,
-          onChange: () => setAttributes({
-            enableGridY: !enableGridY
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable X Grid Lines"),
-          checked: enableGridX,
-          onChange: () => setAttributes({
-            enableGridX: !enableGridX
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-          label: (0,external_wp_i18n_.__)('Curve'),
-          value: [lineCurve],
-          onChange: lineCurve => {
-            setAttributes({
-              lineCurve
-            });
-          },
-          options: [{
-            value: "basis",
-            label: "basis"
-          }, {
-            value: "cardinal",
-            label: "cardinal"
-          }, {
-            value: "catmullRom",
-            label: "catmullRom"
-          }, {
-            value: "linear",
-            label: "linear"
-          }, {
-            value: "monotoneX",
-            label: "monotoneX"
-          }, {
-            value: "monotoneY",
-            label: "monotoneY"
-          }, {
-            value: "natural",
-            label: "natural"
-          }, {
-            value: "step",
-            label: "step"
-          }, {
-            value: "stepAfter",
-            label: "stepAfter"
-          }, {
-            value: "stepBefore",
-            label: "stepBefore"
-          }]
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable Area"),
-          checked: enableArea,
-          onChange: () => setAttributes({
-            enableArea: !enableArea
-          })
-        })
-      }), enableArea && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-            label: (0,external_wp_i18n_.__)('Shading Criteria'),
-            value: [areaShadingCriteria],
-            onChange: areaShadingCriteria => {
-              setAttributes({
-                areaShadingCriteria
-              });
-            },
-            options: [{
-              value: "DEFAULT",
-              label: "default"
-            }, {
-              value: "CUSTOM_BETWEEN_TWO_LINES",
-              label: "Custom (Shade area between lines)"
-            }]
-          })
-        }), areaShadingCriteria == "CUSTOM_BETWEEN_TWO_LINES" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              style: {
-                width: 150
-              },
-              label: (0,external_wp_i18n_.__)('Area Lower Bound'),
-              value: [areaLowerBound],
-              onChange: areaLowerBound => {
-                setAttributes({
-                  areaLowerBound
-                });
-              },
-              options: measuresOptions
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              style: {
-                width: 150
-              },
-              label: (0,external_wp_i18n_.__)('Area Upper Bound'),
-              value: [areaUpperBound],
-              onChange: areaUpperBound => {
-                setAttributes({
-                  areaUpperBound
-                });
-              },
-              options: measuresOptions
-            })
-          })]
-        })]
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Colors"),
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
-        ...props
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
-      ...props
-    })]
-  })];
-};
-/* harmony default export */ const Line = (LineOptions);
-;// ./charts/Bump.jsx
-
-
-
-
-
-const BumpOptions = props => {
-  const {
-    setAttributes,
-    attributes: {
-      groupMode,
-      colorBy
-    }
-  } = props;
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Bump Options"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
-      ...props
-    }), colorBy === "id" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
-      ...props
-    })]
-  })];
-};
-/* harmony default export */ const Bump = (BumpOptions);
-;// ./charts/Info.jsx
-
-
-
-
-
-const Info_PieOptions = props => {
-  const {
-    setAttributes,
-    attributes: {
-      figure
-    }
-  } = props;
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Inf Graphic Options"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-        label: (0,external_wp_i18n_.__)('Figure'),
-        value: [figure] // e.g: value = [ 'a', 'c' ]
-        ,
-        onChange: value => {
-          setAttributes({
-            figure: value
-          });
-        },
-        options: [{
-          label: 'Male',
-          value: 'male'
-        }, {
-          label: 'Female',
-          value: 'female'
-        }]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
-      ...props
-    })]
-  })];
-};
-/* harmony default export */ const Info = (Info_PieOptions);
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(8468);
-var external_lodash_default = /*#__PURE__*/__webpack_require__.n(external_lodash_);
-;// ./charts/MobileConfig.jsx
-
-
-
-
-
-
-const MarginSection = ({
-  setAttributes,
-  attributes: {
-    mobileCustomization
-  }
-}) => {
-  const {
-    marginBottom,
-    marginLeft,
-    marginRight,
-    marginTop
-  } = mobileCustomization;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Margins"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Margin Bottom (Space between chart area and bottom border)"),
-        value: marginBottom,
-        onChange: marginBottom => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            marginBottom: marginBottom,
-            yAxisIntervalUserModified: true
-          }
-        }),
-        min: -500,
-        max: 500
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Margin Left (Space between chart area and left border)"),
-        value: marginLeft,
-        initialPosition: 0,
-        onChange: marginLeft => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            marginLeft: marginLeft
-          }
-        }),
-        step: 1,
-        min: -500,
-        max: 500
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Margin Right"),
-        value: marginRight,
-        onChange: marginRight => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            marginRight: marginRight
-          }
-        }),
-        min: -500,
-        max: 500
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Margin Top"),
-        value: marginTop,
-        onChange: marginTop => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            marginTop: marginTop
-          }
-        }),
-        min: -500,
-        max: 500
-      })
-    })]
-  });
-};
-const RadarMarginSection = ({
-  setAttributes,
-  attributes: {
-    mobileCustomization
-  }
-}) => {
-  const {
-    mobileMarginBottom,
-    mobileMarginLeft,
-    mobileMarginRight,
-    mobileMarginTop,
-    tabletMarginBottom,
-    tabletMarginLeft,
-    tabletMarginRight,
-    tabletMarginTop
-  } = mobileCustomization;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Mobile Margins"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Mobile Margin Bottom (space between chart area and bottom border)"),
-          value: mobileMarginBottom,
-          onChange: marginBottom => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              mobileMarginBottom: marginBottom
-            }
-          }),
-          min: -500,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Mobile Margin Left (space between chart area and left border)"),
-          value: mobileMarginLeft,
-          onChange: marginLeft => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              mobileMarginLeft: marginLeft
-            }
-          }),
-          step: 1,
-          min: -500,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Mobile Margin Right"),
-          value: mobileMarginRight,
-          onChange: marginRight => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              mobileMarginRight: marginRight
-            }
-          }),
-          min: -500,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Mobile Margin Top"),
-          value: mobileMarginTop,
-          onChange: marginTop => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              mobileMarginTop: marginTop
-            }
-          }),
-          min: -500,
-          max: 500
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Tablet Margins"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Tablet Margin Bottom (space between chart area and bottom border)"),
-          value: tabletMarginBottom,
-          onChange: marginBottom => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              tabletMarginBottom: marginBottom
-            }
-          }),
-          min: -500,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Tablet Margin Left (space between chart area and left border)"),
-          value: tabletMarginLeft,
-          onChange: marginLeft => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              tabletMarginLeft: marginLeft
-            }
-          }),
-          step: 1,
-          min: -500,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Tablet Margin Right"),
-          value: tabletMarginRight,
-          onChange: marginRight => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              tabletMarginRight: marginRight
-            }
-          }),
-          min: -500,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Tablet Margin Top"),
-          value: tabletMarginTop,
-          onChange: marginTop => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              tabletMarginTop: marginTop
-            }
-          }),
-          min: -500,
-          max: 500
-        })
-      })]
-    })]
-  });
-};
-const PaddingSection = ({
-  setAttributes,
-  attributes: {
-    mobileCustomization,
-    barPadding,
-    barInnerPadding
-  }
-}) => {
-  var _mobileCustomization$, _mobileCustomization$2;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Padding"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Bar Padding (Space between bars that are not in the same group)"),
-        value: (_mobileCustomization$ = mobileCustomization?.barPadding) !== null && _mobileCustomization$ !== void 0 ? _mobileCustomization$ : barPadding,
-        initialPosition: 0.15,
-        onChange: newBarPadding => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            barPadding: newBarPadding
-          }
-        }),
-        step: 0.05,
-        min: 0,
-        max: 1
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Bar Inner Padding (Space between bars in the same group)"),
-        value: (_mobileCustomization$2 = mobileCustomization?.barInnerPadding) !== null && _mobileCustomization$2 !== void 0 ? _mobileCustomization$2 : barInnerPadding,
-        initialPosition: 0.75,
-        onChange: barInnerPadding => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            barInnerPadding: barInnerPadding
-          }
-        }),
-        step: 0.25,
-        min: 0,
-        max: 50
-      })
-    })]
-  });
-};
-const TitleSection = ({
-  setAttributes,
-  attributes: {
-    mobileCustomization
-  }
-}) => {
-  var _mobileCustomization$3, _mobileCustomization$4, _mobileCustomization$5;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Axis Titles"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show X Axis Title"),
-        checked: (_mobileCustomization$3 = mobileCustomization?.showXAxisTitle) !== null && _mobileCustomization$3 !== void 0 ? _mobileCustomization$3 : true,
-        onChange: isShowXAxisTitle => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            showXAxisTitle: isShowXAxisTitle
-          }
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show Y Axis Title"),
-        checked: (_mobileCustomization$4 = mobileCustomization?.showYAxisTitle) !== null && _mobileCustomization$4 !== void 0 ? _mobileCustomization$4 : true,
-        onChange: isShowYAxisTitle => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            showYAxisTitle: isShowYAxisTitle
-          }
-        })
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show Right Axis Title"),
-        checked: (_mobileCustomization$5 = mobileCustomization?.showRightAxisTitle) !== null && _mobileCustomization$5 !== void 0 ? _mobileCustomization$5 : true,
-        onChange: isShowRightAxisTitle => setAttributes({
-          mobileCustomization: {
-            ...mobileCustomization,
-            showRightAxisTitle: isShowRightAxisTitle
-          }
-        })
-      })
-    })]
-  });
-};
-const IntervalsSection = ({
-  setAttributes,
-  attributes: {
-    mobileCustomization,
-    yAxisTickValues,
-    xAxisTickValues,
-    layout
-  }
-}) => {
-  var _mobileCustomization$6, _mobileCustomization$7;
-  const isHorizontal = layout === "horizontal" && mobileCustomization.chartLayoutOverride === false || layout === "vertical" && mobileCustomization.chartLayoutOverride === true;
-  const isVertical = layout === "vertical" && mobileCustomization.chartLayoutOverride === false || layout === "horizontal" && mobileCustomization.chartLayoutOverride === true;
-  const onIntervalChange = (value, prop, intervalProp) => {
-    const newObject = Object.assign({}, mobileCustomization);
-    if (newObject) {
-      newObject[prop] = value;
-      newObject[intervalProp] = true;
-    }
-    setAttributes({
-      mobileCustomization: newObject
-    });
-  };
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Intervals"),
-    children: [
-    /**
-     * the number of intervals should default to the value set by yAxisTickValues
-     * this should only be displayed when the layout is vertical and the mobileCustomization.chartLayoutOverride is false
-     */
-    isVertical && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Number of Y Axis Intervals"),
-        value: !mobileCustomization?.yAxisIntervalUserModified ? yAxisTickValues : (_mobileCustomization$6 = mobileCustomization.yAxisTickValues) !== null && _mobileCustomization$6 !== void 0 ? _mobileCustomization$6 : yAxisTickValues,
-        onChange: newYAxisTickValue => onIntervalChange(newYAxisTickValue, "yAxisTickValues", "yAxisIntervalUserModified"),
-        min: 0,
-        max: 50
-      })
-    }),
-    /**
-     * the number of intervals should default to the value set by xAxisTickValues
-     * this should only be displayed when the layout is horizontal and the mobileCustomization.chartLayoutOverride is false
-     * */
-    isHorizontal && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-        label: (0,external_wp_i18n_.__)("Number of X Axis Intervals"),
-        value: !mobileCustomization?.xAxisIntervalUserModified ? xAxisTickValues : (_mobileCustomization$7 = mobileCustomization.xAxisTickValues) !== null && _mobileCustomization$7 !== void 0 ? _mobileCustomization$7 : xAxisTickValues,
-        onChange: newXAxisTickValue => onIntervalChange(newXAxisTickValue, "xAxisTickValues", "xAxisIntervalUserModified"),
-        min: 0,
-        max: 50
-      })
-    })]
-  });
-};
-const RadarSection = props => {
-  const {
-    setAttributes,
-    attributes: {
-      mobileCustomization
-    }
-  } = props;
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Radar Settings"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Tablet"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Tablet Y Axis Line Height"),
-          value: !mobileCustomization?.tabletYAxisLineHeight ? 12 : mobileCustomization.tabletYAxisLineHeight,
-          onChange: value => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              tabletYAxisLineHeight: value
-            }
-          }),
-          min: 0,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Tablet Max Tick Word Length"),
-          value: !mobileCustomization?.tabletMaxTickLength ? 25 : mobileCustomization.tabletMaxTickLength,
-          onChange: value => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              tabletMaxTickLength: value
-            }
-          }),
-          min: 0,
-          max: 500
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Mobile"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Mobile Y Axis Line Height"),
-          value: !mobileCustomization?.mobileYAxisLineHeight ? 12 : mobileCustomization.mobileYAxisLineHeight,
-          onChange: value => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              mobileYAxisLineHeight: value
-            }
-          }),
-          min: 0,
-          max: 500
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-          label: (0,external_wp_i18n_.__)("Mobile Max Tick Word Length."),
-          value: !mobileCustomization?.mobileMaxTickLength ? 25 : mobileCustomization.mobileMaxTickLength,
-          onChange: value => setAttributes({
-            mobileCustomization: {
-              ...mobileCustomization,
-              mobileMaxTickLength: value
-            }
-          }),
-          min: 0,
-          max: 500
-        })
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Margins"),
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(RadarMarginSection, {
-        ...props
-      })
-    })]
-  });
-};
-const MobileConfig = props => {
-  const {
-    setAttributes,
-    attributes: {
-      type,
-      mobileCustomization,
-      csv,
-      app,
-      measures,
-      dimension1,
-      yAxisTickValues,
-      xAxisTickValues,
-      tickRotation
-    },
-    allMeasures,
-    allCategories,
-    allDimensions
-  } = props;
-  const [xAxisLabels, setXAxisLabels] = (0,external_React_.useState)([]);
-  const onIntervalChange = (value, prop, intervalProp, mobileCustomizationObject) => {
-    const newObject = Object.assign({}, mobileCustomizationObject);
-    if (newObject) {
-      newObject[prop] = value;
-      newObject[intervalProp] = true;
-    }
-    setAttributes({
-      mobileCustomization: newObject
-    });
-  };
-  (0,external_React_.useEffect)(() => {
-    const updatedMobileCustomization = {
-      ...mobileCustomization
-    };
-    if (!mobileCustomization.yAxisIntervalUserModified) {
-      updatedMobileCustomization.yAxisTickValues = yAxisTickValues;
-    }
-    if (!mobileCustomization.xAxisIntervalUserModified) {
-      updatedMobileCustomization.xAxisTickValues = xAxisTickValues;
-    }
-    if (!mobileCustomization.mobileXAxisTextRotationModified) {
-      updatedMobileCustomization.mobileXAxisTextRotation = tickRotation;
-    }
-    if (!mobileCustomization.tabletXAxisTextRotationModified) {
-      updatedMobileCustomization.tabletXAxisTextRotation = tickRotation;
-    }
-    setAttributes({
-      mobileCustomization: updatedMobileCustomization
-    });
-  }, [yAxisTickValues, xAxisTickValues, tickRotation]);
-  (0,external_React_.useEffect)(() => {
-    let labels = [];
-    const categoryKey = `_categories_${app}`;
-    if (app === "csv") {
-      labels = (0,build/* extractAxisValues */.n9)(csv);
-    } else {
-      if (dimension1 !== "none") {
-        const dimensionKey = `_dimensions_${app}`;
-        const dimensions = (0,build/* getStoredOrSetItem */.Sw)(dimensionKey, allDimensions, true);
-        const categories = (0,build/* getStoredOrSetItem */.Sw)(categoryKey, allCategories, true);
-        const dimType = dimensions.filter(dim => dim.value === dimension1)?.[0]?.type;
-        const matchedCategories = categories.filter(a => a.type === dimType);
-        labels = matchedCategories[0]?.items?.map(item => item.value) || [];
-      } else {
-        if (allMeasures && measures) {
-          (0,build/* updateMeasureLabels */.DU)(allMeasures, measures, app);
-          const selectedMeasures = (0,build/* getSelectedItemsForApp */.E7)(measures, app);
-          labels = external_lodash_default().isEmpty(selectedMeasures) ? [] : (0,build/* getSelectedLabelsForApp */.Bv)(selectedMeasures);
-        } else {
-          labels = [];
-        }
-      }
-    }
-    setXAxisLabels(labels);
-  }, [app, dimension1, csv, allDimensions, allCategories, allMeasures, measures]);
-  const onXAxisLabelChange = (label, value) => {
-    const newObject = Object.assign({}, mobileCustomization);
-    if (newObject?.labels?.xAxis) {
-      newObject.labels.xAxis[label] = value;
-    }
-    setAttributes({
-      mobileCustomization: newObject
-    });
-  };
-  const onShowMobileCustomizationChange = value => {
-    setAttributes({
-      mobileCustomization: {
-        ...mobileCustomization,
-        showCustomization: value
-      }
-    });
-  };
-  const setInitialTogle = (initialToggleState, label, axis) => {
-    // initial toggle state is false
-    if (!initialToggleState) {
-      return mobileCustomization.labels[axis][label];
-    }
-    // initial toggle state is true but customization is already present
-    if (mobileCustomization?.labels.hasOwnProperty(axis)) {
-      if (mobileCustomization.labels[axis].hasOwnProperty(label)) {
-        return mobileCustomization.labels[axis][label];
-      }
-      return true;
-    }
-    // initial toggle state is true and customization is not present
-    return true;
-  };
-  const isBarOrLineOrPieOrRadar = ["bar", "line", "pie", "radar"].includes(type);
-  const isBarOrLineOrPie = ["bar", "line", "pie"].includes(type);
-  const isRadar = type === "radar";
-  const isBarOrLine = ["bar", "line"].includes(type);
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Mobile & Tablet Customization Settings"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-        label: (0,external_wp_i18n_.__)("Show Mobile & Tablet Customization Settings"),
-        checked: mobileCustomization?.showCustomization,
-        onChange: isShowMobileCustomization => onShowMobileCustomizationChange(isShowMobileCustomization)
-      })
-    }), isBarOrLineOrPieOrRadar && mobileCustomization?.showCustomization && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-      children: [isBarOrLine && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: (0,external_wp_i18n_.__)("Disable X Axis Labels"),
-            checked: mobileCustomization.xAxisDisabled,
-            onChange: isXAxisEnabled => setAttributes({
-              mobileCustomization: {
-                ...mobileCustomization,
-                xAxisDisabled: isXAxisEnabled
-              }
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-            label: (0,external_wp_i18n_.__)("Override Chart Layout"),
-            checked: mobileCustomization.chartLayoutOverride,
-            onChange: isChartLayoutToggle => setAttributes({
-              mobileCustomization: {
-                ...mobileCustomization,
-                chartLayoutOverride: isChartLayoutToggle
-              }
-            })
-          })
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("Tablet Settings"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: (0,external_wp_i18n_.__)("Tablet Y Axis Line Height"),
-              value: !mobileCustomization?.tabletYAxisLineHeight ? 12 : mobileCustomization.tabletYAxisLineHeight,
-              onChange: value => setAttributes({
-                mobileCustomization: {
-                  ...mobileCustomization,
-                  tabletYAxisLineHeight: value
-                }
-              }),
-              min: 0,
-              max: 500
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: (0,external_wp_i18n_.__)("Tablet Max Tick Word Length"),
-              value: !mobileCustomization?.tabletMaxTickLength ? 25 : mobileCustomization.tabletMaxTickLength,
-              onChange: value => setAttributes({
-                mobileCustomization: {
-                  ...mobileCustomization,
-                  tabletMaxTickLength: value
-                }
-              }),
-              min: 0,
-              max: 500
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-              label: (0,external_wp_i18n_.__)("X Axis Text Rotation"),
-              value: !mobileCustomization?.tabletXAxisTextRotationModified ? tickRotation : mobileCustomization.tabletXAxisTextRotation,
-              onChange: value => onIntervalChange(value, "tabletXAxisTextRotation", "tabletXAxisTextRotationModified", mobileCustomization)
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("Mobile Settings"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: (0,external_wp_i18n_.__)("Mobile Y Axis Line Height"),
-              value: !mobileCustomization?.mobileYAxisLineHeight ? 12 : mobileCustomization.mobileYAxisLineHeight,
-              onChange: value => setAttributes({
-                mobileCustomization: {
-                  ...mobileCustomization,
-                  mobileYAxisLineHeight: value
-                }
-              }),
-              min: 0,
-              max: 500
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
-              label: (0,external_wp_i18n_.__)("Mobile Max Tick Word Length."),
-              value: !mobileCustomization?.mobileMaxTickLength ? 25 : mobileCustomization.mobileMaxTickLength,
-              onChange: value => setAttributes({
-                mobileCustomization: {
-                  ...mobileCustomization,
-                  mobileMaxTickLength: value
-                }
-              }),
-              min: 0,
-              max: 500
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
-              label: (0,external_wp_i18n_.__)("X Axis Text Rotation"),
-              value: !mobileCustomization?.mobileXAxisTextRotationModified ? tickRotation : mobileCustomization.mobileXAxisTextRotation,
-              onChange: value => onIntervalChange(value, "mobileXAxisTextRotation", "mobileXAxisTextRotationModified", mobileCustomization)
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(IntervalsSection, {
-          ...props
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("All Labels"),
-          children: xAxisLabels?.map((label, index) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)(label),
-              checked: setInitialTogle(true, label, "xAxis"),
-              onChange: value => {
-                onXAxisLabelChange(label, value);
-              }
-            }, `_____${index}${label}`)
-          }, `____${index}${label}`))
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(TitleSection, {
-          ...props
-        })]
-      }), isRadar && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(RadarSection, {
-        ...props
-      }), isBarOrLineOrPie && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MarginSection, {
-        ...props
-      }), type === "bar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(PaddingSection, {
-        ...props
-      })]
-    })]
-  });
-};
-/* harmony default export */ const charts_MobileConfig = (MobileConfig);
-;// ./charts/Radar.jsx
-
-
-
-
-
-
-
-
-const RadarChart = props => {
-  const {
-    allMeasures,
-    setAttributes,
-    attributes: {
-      measures,
-      app,
-      dimension1,
-      dimension2,
-      layout,
-      format,
-      groupMode,
-      reverse,
-      colorBy,
-      lineLayerEnabled,
-      valueScale,
-      maxValue,
-      swap,
-      csv,
-      fixedMaxValue,
-      fixedMinValue,
-      barPadding,
-      barLabelPosition,
-      showGrid,
-      includeOverall,
-      barInnerPadding,
-      highlightXAxisLine,
-      showTickLine,
-      showRightAxis,
-      enableArea,
-      areaShadingCriteria,
-      areaLowerBound,
-      areaUpperBound,
-      showPoints,
-      enableGridY,
-      enableGridX
-    }
-  } = props;
-  let measuresOptions = [];
-  if (app == 'csv') {
-    const data = papaparse_min_default().parse(csv, {
-      header: true,
-      dynamicTyping: true
-    });
-    measuresOptions.push({
-      value: '',
-      label: ''
-    });
-    data.meta.fields.forEach((field, i) => {
-      if (i !== 0) {
-        measuresOptions.push({
-          value: field,
-          label: field
-        });
-      }
-    });
-  } else {
-    if (allMeasures && measures && measures[app]) {
-      const list = allMeasures.filter(measure => {
-        return measures[app][measure.value] && measures[app][measure.value].selected;
-      }).map(m => {
-        return {
-          value: m.value,
-          label: m.group + ' - ' + m.label
-        };
-      }).sort((a, b) => {
-        return a.label > b.label ? 1 : -1;
-      });
-      measuresOptions = [{
-        value: '',
-        label: ''
-      }, ...list];
-    }
-  }
-  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-    initialOpen: false,
-    title: (0,external_wp_i18n_.__)("Radar Options"),
-    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Layout"),
-      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Grouped"),
-          checked: groupMode === "grouped",
-          onChange: () => setAttributes({
-            groupMode: groupMode === "grouped" ? "stacked" : "grouped"
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Show Line Points"),
-          checked: showPoints,
-          onChange: () => setAttributes({
-            showPoints: !showPoints
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable Y Grid Lines"),
-          checked: enableGridY,
-          onChange: () => setAttributes({
-            enableGridY: !enableGridY
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable X Grid Lines"),
-          checked: enableGridX,
-          onChange: () => setAttributes({
-            enableGridX: !enableGridX
-          })
-        })
-      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-          label: (0,external_wp_i18n_.__)("Enable Area"),
-          checked: enableArea,
-          onChange: () => setAttributes({
-            enableArea: !enableArea
-          })
-        })
-      }), enableArea && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-            label: (0,external_wp_i18n_.__)('Shading Criteria'),
-            value: [areaShadingCriteria],
-            onChange: areaShadingCriteria => {
-              setAttributes({
-                areaShadingCriteria
-              });
-            },
-            options: [{
-              value: "DEFAULT",
-              label: "default"
-            }, {
-              value: "CUSTOM_BETWEEN_TWO_LINES",
-              label: "Custom (Shade area between lines)"
-            }]
-          })
-        }), areaShadingCriteria == "CUSTOM_BETWEEN_TWO_LINES" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              style: {
-                width: 150
-              },
-              label: (0,external_wp_i18n_.__)('Area Lower Bound'),
-              value: [areaLowerBound],
-              onChange: areaLowerBound => {
-                setAttributes({
-                  areaLowerBound
-                });
-              },
-              options: measuresOptions
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              style: {
-                width: 150
-              },
-              label: (0,external_wp_i18n_.__)('Area Upper Bound'),
-              value: [areaUpperBound],
-              onChange: areaUpperBound => {
-                setAttributes({
-                  areaUpperBound
-                });
-              },
-              options: measuresOptions
-            })
-          })]
-        })]
-      })]
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-      initialOpen: false,
-      title: (0,external_wp_i18n_.__)("Colors"),
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
-        ...props
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Labels, {
-      ...props
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
-      ...props
-    })]
-  })];
-};
-/* harmony default export */ const Radar = (RadarChart);
-;// ./charts/BlockEdit.js
-
-
- // or wp.editor
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
-  constructor(props) {
-    super(props);
-    this.ignoreAttributes = ['tooltip'];
-  }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      setAttributes,
-      attributes: {
-        type,
-        colorBy,
-        dimension1,
-        dimension2
-      }
-    } = this.props;
-    const {
-      attributes: {
-        type: prevType
-      }
-    } = prevProps;
-    const newPreviewMode = this.state?.previewMode;
-    if (newPreviewMode !== prevState.previewMode) {
-      setAttributes({
-        previewMode: newPreviewMode
-      });
-    }
-    if (type !== prevType) {
-      if (type === 'radar') {
-        if (colorBy !== 'id') {
-          setAttributes({
-            colorBy: 'id'
-          });
-        }
-      }
-      if (type === 'pie') {
-        if (dimension1 !== 'none' && dimension2 === 'none' && colorBy !== 'index') {
-          setAttributes({
-            colorBy: 'index'
-          });
-        }
-        if (dimension1 !== 'none' && dimension2 !== 'none' && colorBy !== 'id') {
-          setAttributes({
-            colorBy: 'id'
-          });
-        }
-      }
-    }
-    super.componentDidUpdate(prevProps, prevState, snapshot);
-  }
-  render() {
-    console.log("apps", this.state.apps);
-    const {
-      className,
-      isSelected,
-      toggleSelection,
-      setAttributes,
-      attributes: {
-        measures,
-        height,
-        type,
-        groupMode,
-        bottomLegend,
-        leftLegend,
-        scheme,
-        colorBy,
-        dimension1,
-        dimension2,
-        dimension3,
-        csv,
-        mode,
-        dualMode,
-        toggleInfoLabel,
-        toggleChartLabel,
-        dataSourceLabel,
-        dataSource,
-        showLegends,
-        legendPosition,
-        marginLeft,
-        marginTop,
-        marginRight,
-        marginBottom,
-        app,
-        tooltipHTML,
-        tooltip,
-        tickColor,
-        tickRotation,
-        offsetText,
-        format,
-        filters,
-        startAngle,
-        endAngle,
-        reverse,
-        layout,
-        offsetY,
-        csvLineColor,
-        csvLineTooltip,
-        csvLineLayerData,
-        csvLineTitle,
-        lineLayerEnabled,
-        group,
-        maxValue,
-        valueScale,
-        swap,
-        noDataMessage,
-        legendLabel,
-        barColor,
-        overrideTickColor,
-        fixedMaxValue,
-        fixedMinValue,
-        types,
-        barPadding,
-        barLabelPosition,
-        showGrid,
-        includeOverall,
-        tooltipEnabled,
-        barInnerPadding,
-        useCheckBoxBackground,
-        useLabelBackground,
-        xLabelColor,
-        barLabelColor,
-        legendLabelColor,
-        highlightXAxisLine,
-        showTickLine,
-        showRightAxis,
-        rightLegend,
-        offsetRight,
-        manualColors,
-        offsetBottom,
-        hiddenBars,
-        enableArea,
-        areaShadingCriteria,
-        areaLowerBound,
-        areaUpperBound,
-        showPoints,
-        confidenceIntervals,
-        showGroupTotal,
-        groupTotalMeasure,
-        groupTotalFormat,
-        groupTotalLabel,
-        groupTotalLabelOffset,
-        groupTotalFixedPosition,
-        centerLabel,
-        showArcLabels,
-        showArcLinkLabels,
-        slicePadding,
-        centerLabelFontWeight,
-        centerLabelFontSize,
-        centerLabelXOffset,
-        centerLabelYOffset,
-        tooltipEnableMarkdown,
-        yAxisTickValues,
-        enableGridY,
-        overallLabel,
-        enableGridX,
-        minMaxClamp,
-        mobileCustomization,
-        dvzProxyDatasetId,
-        waitForFilters,
-        enableMeasureSelector,
-        measureSelectorLabel,
-        defaultMeasure
-      }
-    } = this.props;
-    if (Object.keys(measures).indexOf("global") > -1) {
-      //migrating measures
-      const appMeasures = {};
-      appMeasures[app] = {};
-      appMeasures['csv'] = measures['csv'];
-      const count = Object.keys(measures).filter(k => measures[k].selected).length;
-      Object.keys(measures).filter(k => ['global', 'csv'].indexOf(k) == -1).forEach(k => {
-        if (measures[k].selected) {
-          appMeasures[app][k] = measures[k];
-        }
-        if (count == 1) {
-          appMeasures[app]['format'] = measures[k].format;
-        }
-        if (count > 1) {
-          appMeasures[app]['format'] = measures['global']['format'];
-        }
-      });
-      setAttributes({
-        measures: appMeasures
-      });
-      return null;
-    }
-    //migration code
-    if (tooltip != '') {
-      setAttributes({
-        tooltipHTML: tooltip,
-        tooltip: ''
-      });
-      return null;
-    }
-    const levels = [dimension1, dimension2, dimension3];
-    const source = levels.filter(l => l != 'none' && l != null).join('/');
-    let params = {};
-    filters.forEach(f => {
-      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
-    });
-    const datasets = [{
-      label: 'Select Dataset',
-      value: '0'
-    }];
-    if (this.state.datasets) {
-      this.state.datasets.forEach(d => {
-        datasets.push({
-          label: d.label,
-          value: d.id
-        });
-      });
-    }
-    const divStyles = {
-      height: height + 'px',
-      width: '100%'
-    };
-    const selectedMeasureOptions = [{
-      label: (0,external_wp_i18n_.__)('First selected measure'),
-      value: ''
-    }];
-    if (app !== 'csv' && this.state.measures && measures && measures[app]) {
-      this.state.measures.filter(measure => measures[app][measure.value] && measures[app][measure.value].selected).forEach(measure => {
-        selectedMeasureOptions.push({
-          label: `${measure.group} - ${measure.label}`,
-          value: measure.value
-        });
-      });
-    }
-    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
-        header: (0,external_wp_i18n_.__)("Chart Configuration"),
-        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-          panelStatus: this.props.attributes.panelStatus['GROUP'],
-          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", this.props.attributes.panelStatus, setAttributes),
-          title: (0,external_wp_i18n_.__)("Group"),
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-              label: (0,external_wp_i18n_.__)('Name'),
-              value: group,
-              onChange: group => setAttributes({
-                group
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-              label: (0,external_wp_i18n_.__)('Wait For Filters'),
-              checked: waitForFilters,
-              onChange: () => setAttributes({
-                waitForFilters: !waitForFilters
-              })
-            })
-          })]
-        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* SizeConfig */.yr, {
-          setAttributes: setAttributes,
-          panelStatus: this.props.attributes.panelStatus,
-          height: height
-        }), type === 'map' ? null : /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-          initialOpen: false,
-          title: (0,external_wp_i18n_.__)("Chart Type"),
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-              label: (0,external_wp_i18n_.__)('Type'),
-              value: [type] // e.g: value = [ 'a', 'c' ]
-              ,
-              onChange: value => {
-                if (value != 'bar' && scheme == 'plain_color') {
-                  //    setAttributes({scheme: 'system'})
-                }
-                setAttributes({
-                  type: value
-                });
-              },
-              options: app == 'csv' ? [{
-                label: 'Bar',
-                value: 'bar'
-              }, {
-                label: 'Pie',
-                value: 'pie'
-              }, {
-                label: 'Line',
-                value: 'line'
-              }, {
-                label: 'Radar',
-                value: 'radar'
-              }] : types
-            })
-          })
-        }), mode == 'chart' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("API & Source"),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                label: (0,external_wp_i18n_.__)('Provider'),
-                value: [app] // e.g: value = [ 'a', 'c' ]
-                ,
-                onChange: app => {
-                  this.setState({
-                    dimensions: [],
-                    measures: [],
-                    filters: [],
-                    categories: []
-                  }, () => {
-                    setAttributes({
-                      dvzProxyDatasetId: null,
-                      dimension1: 'none',
-                      dimension2: 'none',
-                      dimension3: 'none',
-                      measures: Object.assign({}, build/* DEFAULT_FORMAT_SETTINGS */.cx)
-                    });
-                  });
-                  setAttributes({
-                    app: app
-                  });
-                },
-                options: this.state.apps
-              })
-            }), (0,build/* isSupersetAPI */.oL)(app, this.state.apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                label: (0,external_wp_i18n_.__)('Datasets'),
-                value: [dvzProxyDatasetId],
-                onChange: newDatasetId => {
-                  this.setState({
-                    dimensions: [],
-                    measures: [],
-                    filters: [],
-                    categories: []
-                  }, () => {
-                    setAttributes({
-                      dvzProxyDatasetId: newDatasetId,
-                      dimension1: 'none',
-                      dimension2: 'none',
-                      dimension3: 'none',
-                      measures: Object.assign({}, build/* DEFAULT_FORMAT_SETTINGS */.cx)
-                    });
-                  });
-
-                  //look at component did update of BlockEditWithAPIMetadata
-                  //this.loadMetadata(app, newDatasetId)
-                },
-                options: datasets
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
-                isPrimary: true,
-                size: "small",
-                onClick: () => this.evictSuperSetCache(),
-                children: "O"
-              })]
-            })]
-          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* APIConfig */.pG, {
-            allDimensions: this.state.dimensions,
-            allFilters: this.state.filters,
-            allMeasures: this.state.measures,
-            allCategories: this.state.categories,
-            allApps: this.state.apps,
-            ...this.props
-          }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* CSVConfig */.dM, {
-            ...this.props
-          }), type === "bar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Bar, {
-            ...this.props,
-            apps: this.state.apps,
-            allMeasures: this.state.measures,
-            allDimensions: this.state.dimensions,
-            allCategories: this.state.categories
-          }), type === "pie" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Pie, {
-            allMeasures: this.state.measures,
-            allDimensions: this.state.dimensions,
-            allCategories: this.state.categories,
-            ...this.props
-          }), type === "line" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Line, {
-            ...this.props,
-            allMeasures: this.state.measures,
-            allDimensions: this.state.dimensions,
-            allCategories: this.state.categories,
-            measures: measures
-          }), type === "bump" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Bump, {
-            allMeasures: this.state.measures,
-            allDimensions: this.state.dimensions,
-            allCategories: this.state.categories,
-            ...this.props
-          }), type === "radar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Radar, {
-            allMeasures: this.state.measures,
-            allDimensions: this.state.dimensions,
-            allCategories: this.state.categories,
-            ...this.props
-          }), type === "info" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Info, {
-            allMeasures: this.state.measures,
-            allDimensions: this.state.dimensions,
-            allCategories: this.state.categories,
-            ...this.props
-          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)('Measure Selector'),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                label: (0,external_wp_i18n_.__)('Show Measure Selector'),
-                checked: enableMeasureSelector,
-                onChange: () => setAttributes({
-                  enableMeasureSelector: !enableMeasureSelector
-                })
-              })
-            }), enableMeasureSelector && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                  label: (0,external_wp_i18n_.__)('Selector Label'),
-                  value: measureSelectorLabel,
-                  onChange: value => setAttributes({
-                    measureSelectorLabel: value
-                  })
-                })
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
-                  label: (0,external_wp_i18n_.__)('Default Measure'),
-                  value: defaultMeasure,
-                  options: selectedMeasureOptions,
-                  onChange: value => setAttributes({
-                    defaultMeasure: value
-                  })
-                })
-              })]
-            })]
-          }), app == 'csv' && type != 'radar' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("Tooltip"),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                label: (0,external_wp_i18n_.__)("Enable Tooltip"),
-                checked: tooltipEnabled,
-                onChange: isToolTipEnabled => {
-                  setAttributes({
-                    tooltipEnabled: isToolTipEnabled,
-                    tooltip: setTooltipState(isToolTipEnabled, tooltipHTML)
-                  });
-                }
-              })
-            }), tooltipEnabled && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                  label: (0,external_wp_i18n_.__)("Enable Markdown Syntax Support"),
-                  checked: tooltipEnableMarkdown,
-                  onChange: tooltipEnableMarkdown => {
-                    setAttributes({
-                      tooltipEnableMarkdown
-                    });
-                  }
-                })
-              }), type === "pie" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-                initialOpen: false,
-                title: (0,external_wp_i18n_.__)("Variables"),
-                children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                  children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
-                    style: {
-                      "font-size": "11px"
-                    },
-                    children: ["Value -> ", '{value}']
-                  })
-                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                  children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
-                    style: {
-                      "font-size": "11px"
-                    },
-                    children: ["Value Percent -> ", '{valuePercent}']
-                  })
-                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                  children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
-                    style: {
-                      "font-size": "11px"
-                    },
-                    children: ["Category -> ", '{category}']
-                  })
-                })]
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
-                  label: (0,external_wp_i18n_.__)("Tooltip"),
-                  value: tooltipHTML,
-                  help: (0,external_wp_i18n_.__)("You can use variables {var_name}"),
-                  onChange: tooltipHTML => setAttributes({
-                    tooltipHTML
-                  }),
-                  rows: 10
-                })
-              })]
-            })]
-          }), app != 'csv' && type != 'radar' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: (0,external_wp_i18n_.__)("Tooltip"),
-            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                label: (0,external_wp_i18n_.__)("Enable Tooltip"),
-                checked: tooltipEnabled,
-                onChange: isToolTipEnabled => {
-                  setAttributes({
-                    tooltipEnabled: isToolTipEnabled,
-                    tooltip: setTooltipState(isToolTipEnabled, tooltipHTML)
-                  });
-                }
-              })
-            }), tooltipEnabled && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
-              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
-                  label: (0,external_wp_i18n_.__)("Enable Markdown Syntax Support"),
-                  checked: tooltipEnableMarkdown,
-                  onChange: tooltipEnableMarkdown => {
-                    setAttributes({
-                      tooltipEnableMarkdown
-                    });
-                  }
-                })
-              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Tooltip */.m_, {
-                allDimensions: this.state.dimensions,
-                allMeasures: this.state.measures,
-                ...this.props
-              })]
-            })]
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
-            initialOpen: false,
-            title: "Messages",
-            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
-              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
-                label: (0,external_wp_i18n_.__)('No Data Message'),
-                value: noDataMessage,
-                onChange: noDataMessage => setAttributes({
-                  noDataMessage
-                })
-              })
-            })
-          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_MobileConfig, {
-            allMeasures: this.state.measures,
-            allDimensions: this.state.dimensions,
-            allCategories: this.state.categories,
-            attributes: this.props.attributes,
-            setAttributes: setAttributes
-          })]
-        })]
-      })
-    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
-      size: {
-        height
-      },
-      style: {
-        "margin": "auto",
-        width: "100%"
-      },
-      minHeight: "50",
-      minWidth: "50",
-      enable: {
-        top: false,
-        right: false,
-        bottom: true,
-        left: false,
-        topRight: false,
-        bottomRight: false,
-        bottomLeft: false,
-        topLeft: false
-      },
-      onResizeStop: (event, direction, elt, delta) => {
-        setAttributes({
-          height: parseInt(height + delta.height, 10)
-        });
-        toggleSelection(true);
-      },
-      onResizeStart: () => {
-        toggleSelection(false);
-      },
-      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
-        className: className,
-        children: [mode == "info" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks, {
-            template: [['core/image', {}]]
-          })
-        }), this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
-          ref: this.iframe,
-          style: divStyles,
-          scrolling: "no",
-          src: this.state.react_ui_url + "/embeddable/chart?"
-        }, this.state)]
-      })
-    })];
-  }
-}
-function setTooltipState(isTooltipEnabled, tooltipHTML) {
-  return isTooltipEnabled && tooltipHTML.trim().length === 0 ? "{value}" : tooltipHTML;
-}
-const Edit = props => {
-  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
-  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
-    ...blockProps,
-    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
-      ...props
-    })
-  });
-};
-/* harmony default export */ const charts_BlockEdit = (Edit);
-;// ./charts/index.js
-
-
-
-
-
-(0,external_wp_blocks_.registerBlockType)(build/* BLOCKS_NS */.Rp + '/chart', {
-  title: (0,external_wp_i18n_.__)('Data Chart'),
-  icon: build/* ChartIcon */.Kx,
-  category: build/* BLOCKS_CATEGORY */._q,
-  apiVersion: 2,
-  attributes: {
-    height: {
-      type: 'number',
-      default: 500
-    },
-    type: {
-      type: 'string',
-      default: "bar"
-    },
-    source: {
-      type: 'string',
-      default: ''
-    },
-    bottomLegend: {
-      type: 'string',
-      default: ""
-    },
-    leftLegend: {
-      type: 'string',
-      default: "Left Legends"
-    },
-    scheme: {
-      type: 'string',
-      default: 'nivo'
-    },
-    colorBy: {
-      type: 'String',
-      default: 'index'
-    },
-    dimension1: {
-      type: 'String',
-      default: 'none'
-    },
-    dimension2: {
-      type: 'String',
-      default: 'none'
-    },
-    dimension3: {
-      type: 'String',
-      default: 'none'
-    },
-    groupMode: {
-      type: 'String',
-      default: 'grouped'
-    },
-    group: {
-      type: 'String',
-      default: 'default'
-    },
-    mode: {
-      type: 'String',
-      default: "chart"
-    },
-    dualMode: {
-      type: "Boolean",
-      default: false
-    },
-    toggleInfoLabel: {
-      type: 'String',
-      default: "Info Graphic"
-    },
-    toggleChartLabel: {
-      type: 'String',
-      default: "Chart"
-    },
-    dataSourceLabel: {
-      type: 'String',
-      default: "Source"
-    },
-    dataSource: {
-      type: 'String',
-      default: "NIDS"
-    },
-    legendPosition: {
-      type: 'String',
-      default: "top"
-    },
-    marginLeft: {
-      type: 'Numeric',
-      default: 50
-    },
-    marginTop: {
-      type: 'Numeric',
-      default: 25
-    },
-    marginBottom: {
-      type: 'Numeric',
-      default: 25
-    },
-    marginRight: {
-      type: 'Numeric',
-      default: 25
-    },
-    showLegends: {
-      type: 'boolean',
-      default: true
-    },
-    showLegendsInColumns: {
-      type: 'boolean',
-      default: false
-    },
-    numberOfLegendColumns: {
-      type: 'Numeric',
-      default: 4
-    },
-    legendLabel: {
-      type: 'String',
-      default: ''
-    },
-    app: {
-      type: 'String',
-      default: "csv"
-    },
-    params: {
-      type: Object,
-      default: {}
-    },
-    dvzProxyDatasetId: {
-      type: 'String',
-      default: ""
-    },
-    format: {
-      type: Object,
-      default: {
-        "style": "percent",
-        "minimumFractionDigits": 1,
-        "maximumFractionDigits": 1,
-        "currency": "USD"
-      }
-    },
-    groupTotalFormat: {
-      type: Object,
-      default: {
-        "style": "percent",
-        "minimumFractionDigits": 1,
-        "maximumFractionDigits": 1,
-        "currency": "USD"
-      }
-    },
-    groupTotalFixedPosition: {
-      type: "Boolean",
-      default: false
-    },
-    groupTotalOffset: {
-      type: 'Numeric',
-      default: 0
-    },
-    tickRotation: {
-      type: 'Numeric',
-      default: 0
-    },
-    offsetText: {
-      type: "Numeric",
-      default: 0
-    },
-    tickColor: {
-      type: "String",
-      default: encodeURIComponent("#FFFFFF")
-    },
-    yAxisTickValues: {
-      type: 'Numeric',
-      default: 10
-    },
-    xAxisTickValues: {
-      type: 'Numeric',
-      default: 10
-    },
-    lineXAxisTickMode: {
-      type: 'string',
-      default: 'none'
-    },
-    lineXAxisTickCount: {
-      type: 'Numeric',
-      default: 10
-    },
-    lineXAxisTickEvery: {
-      type: 'Numeric',
-      default: 1
-    },
-    enableMeasureSelector: {
-      type: 'Boolean',
-      default: false
-    },
-    measureSelectorLabel: {
-      type: 'String',
-      default: 'Measure'
-    },
-    defaultMeasure: {
-      type: 'String',
-      default: ''
-    },
-    xLabelColor: {
-      type: "String",
-      default: encodeURIComponent("#000000")
-    },
-    barLabelColor: {
-      type: "String",
-      default: encodeURIComponent("#000000")
-    },
-    keys: {
-      type: "Array",
-      default: []
-    },
-    measures: {
-      type: "Object",
-      default: {
-        csv: {
-          format: {
-            style: "percent",
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          },
-          customFormat: {
-            style: "percent",
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          },
-          useCustomAxisFormat: false
-        }
-      }
-    },
-    _measures: {},
-    filters: {
-      type: "Array",
-      default: []
-    },
-    csv: {
-      type: "String",
-      default: "Key1,Key2,Key3,Key4 \nIndex1,12,13,14 \nIndex2,22,23,34 \nIndex3,32,33,34"
-    },
-    startAngle: {
-      type: "Numeric",
-      default: 0
-    },
-    tooltipHTML: {
-      type: "String",
-      default: "{value}"
-    },
-    tooltip: {
-      type: "String",
-      default: "{value}"
-    },
-    endAngle: {
-      type: "Numeric",
-      default: 360
-    },
-    layout: {
-      type: "String",
-      default: "vertical"
-    },
-    reverse: {
-      type: "Boolean",
-      default: false
-    },
-    useLabelBackground: {
-      type: "Boolean",
-      default: false
-    },
-    showGroupTotal: {
-      type: "Boolean",
-      default: false
-    },
-    groupTotalMeasure: {
-      type: "String",
-      default: ""
-    },
-    groupTotalLabel: {
-      type: "String",
-      default: ""
-    },
-    useCheckBoxBackground: {
-      type: "Boolean",
-      default: true
-    },
-    offsetY: {
-      type: "Numeric",
-      default: -40
-    },
-    groupTotalLabelOffset: {
-      type: "Numeric",
-      default: 0
-    },
-    legendLabelColor: {
-      type: "String",
-      default: encodeURIComponent("#000000")
-    },
-    overlays: {
-      type: 'Array',
-      default: []
-    },
-    csvLineLayerData: {
-      type: "String",
-      default: ""
-    },
-    csvLineColor: {
-      type: "String",
-      default: encodeURIComponent("#000000")
-    },
-    csvLineTooltip: {
-      type: "String",
-      default: "{x} - #({y},2)"
-    },
-    csvLineTitle: {
-      type: "String",
-      default: "Overlay"
-    },
-    lineLayerEnabled: {
-      type: "Boolean",
-      default: false
-    },
-    valueScale: {
-      type: 'String',
-      default: 'linear'
-    },
-    maxValue: {
-      type: 'String',
-      default: 'auto'
-    },
-    fixedMinValue: {
-      type: 'Numeric',
-      default: 0
-    },
-    fixedMaxValue: {
-      type: 'Numeric',
-      default: 0
-    },
-    swap: {
-      type: 'Boolean',
-      default: false
-    },
-    noDataMessage: {
-      type: 'String',
-      default: "No data matches your selection."
-    },
-    types: {
-      type: "Array",
-      default: [{
-        label: 'Bar',
-        value: 'bar',
-        supports: {
-          singleMeasure: false,
-          singleDimension: false
-        }
-      }, {
-        label: 'Pie',
-        value: 'pie',
-        supports: {
-          singleMeasure: false,
-          singleDimension: false
-        }
-      }, {
-        label: 'Line',
-        value: 'line',
-        supports: {
-          singleMeasure: false,
-          singleDimension: true
-        }
-      }, {
-        label: 'Radar',
-        value: 'radar',
-        supports: {
-          singleMeasure: true,
-          singleDimension: true
-        }
-      }]
-    },
-    barColor: {
-      type: "String",
-      default: encodeURIComponent("#000000")
-    },
-    overrideTickColor: {
-      type: 'Boolean',
-      default: false
-    },
-    manualColors: {
-      type: 'Object',
-      default: {}
-    },
-    barPadding: {
-      type: 'Numeric',
-      default: 0.15
-    },
-    barLabelPosition: {
-      type: "String",
-      default: "middle"
-    },
-    lineLabelPosition: {
-      type: "String",
-      default: "none"
-    },
-    showGrid: {
-      type: 'Boolean',
-      default: true
-    },
-    includeOverall: {
-      type: 'Boolean',
-      default: false
-    },
-    overallLabel: {
-      type: "String",
-      default: "Overall"
-    },
-    tooltipEnabled: {
-      type: "Boolean",
-      default: true
-    },
-    barInnerPadding: {
-      type: 'Numeric',
-      default: 0.7
-    },
-    highlightXAxisLine: {
-      type: "Boolean",
-      default: false
-    },
-    showTickLine: {
-      type: "Boolean",
-      default: false
-    },
-    showRightAxis: {
-      type: "Boolean",
-      default: false
-    },
-    offsetRight: {
-      type: "Numeric",
-      default: 40
-    },
-    rightLegend: {
-      type: 'string',
-      default: "Right Legend"
-    },
-    offsetBottom: {
-      type: "Numeric",
-      default: 40
-    },
-    hiddenBars: {
-      type: "Array",
-      default: []
-    },
-    enableArea: {
-      type: "Boolean",
-      default: false
-    },
-    areaShadingCriteria: {
-      type: 'string',
-      default: "DEFAULT"
-    },
-    areaLowerBound: {
-      type: 'string',
-      default: ""
-    },
-    areaUpperBound: {
-      type: 'string',
-      default: ""
-    },
-    showPoints: {
-      type: "Boolean",
-      default: true
-    },
-    confidenceIntervals: {
-      type: "Array",
-      default: []
-    },
-    centerLabel: {
-      type: 'string',
-      default: ""
-    },
-    centerLabelFontWeight: {
-      type: 'String',
-      default: 'normal'
-    },
-    centerLabelFontSize: {
-      type: 'Numeric',
-      default: 12
-    },
-    showArcLabels: {
-      type: "Boolean",
-      default: true
-    },
-    showArcLinkLabels: {
-      type: "Boolean",
-      default: false
-    },
-    slicePadding: {
-      type: "Numeric",
-      default: 1
-    },
-    centerLabelXOffset: {
-      type: "Numeric",
-      default: 0
-    },
-    centerLabelYOffset: {
-      type: "Numeric",
-      default: 0
-    },
-    panelStatus: {
-      type: "Object",
-      default: {}
-    },
-    tooltipEnableMarkdown: {
-      type: 'Boolean',
-      default: false
-    },
-    enableGridY: {
-      type: 'Boolean',
-      default: true
-    },
-    enableGridX: {
-      type: 'Boolean',
-      default: false
-    },
-    minMaxClamp: {
-      type: 'Boolean',
-      default: false
-    },
-    mobileCustomization: {
-      type: 'Object',
-      default: {
-        showCustomization: false,
-        labels: {
-          xAxis: {},
-          yAxis: {}
-        },
-        xAxisDisabled: false,
-        mobileXAxisTextRotation: 0,
-        tabletXAxisTextRotation: 0,
-        xAxisTickValues: 10,
-        xAxisIntervalUserModified: false,
-        yAxisTickValues: 10,
-        yAxisIntervalUserModified: false,
-        chartLayoutOverride: false,
-        marginLeft: 50,
-        marginTop: 25,
-        marginBottom: 25,
-        marginRight: 25,
-        showXAxisTitle: true,
-        showYAxisTitle: true,
-        showRightAxisTitle: true,
-        barPadding: 0.15,
-        barInnerPadding: 0.7,
-        mobileYAxisLineHeight: 12,
-        mobileMaxTickLength: 25,
-        tabletYAxisLineHeight: 12,
-        tabletMaxTickLength: 25,
-        mobileXAxisTextRotationModified: false,
-        tabletXAxisTextRotationModified: false,
-        mobileMarginBottom: 25,
-        mobileMarginLeft: 25,
-        mobileMarginRight: 25,
-        mobileMarginTop: 25,
-        tabletMarginBottom: 25,
-        tabletMarginLeft: 25,
-        tabletMarginRight: 25,
-        tabletMarginTop: 25
-      }
-    },
-    reverseLegend: {
-      type: 'Boolean',
-      default: false
-    },
-    sort: {
-      type: 'string',
-      default: ''
-    },
-    sortSecondDimension: {
-      type: 'string',
-      default: 'none'
-    },
-    sortReverse: {
-      type: 'Boolean',
-      default: false
-    },
-    sortReverseSecondDimension: {
-      type: 'Boolean',
-      default: false
-    },
-    radarCurve: {
-      type: 'string',
-      default: 'linearClosed'
-    },
-    radarFillOpacity: {
-      type: 'Numeric',
-      default: 0.25
-    },
-    radarBorderWidth: {
-      type: 'Numeric',
-      default: 1
-    },
-    radarGridLevels: {
-      type: 'Numeric',
-      default: 7
-    },
-    radarGridShape: {
-      type: 'string',
-      default: 'circular'
-    },
-    radarGridLabelOffset: {
-      type: 'Numeric',
-      default: 36
-    },
-    radarEnableDots: {
-      type: 'Boolean',
-      default: true
-    },
-    radarDotSize: {
-      type: 'Numeric',
-      default: 6
-    },
-    radarEnableDotLabel: {
-      type: 'Boolean',
-      default: false
-    },
-    radarDotLabelOffset: {
-      type: 'Numeric',
-      default: -12
-    },
-    showPercentage: {
-      type: 'Boolean',
-      default: false
-    },
-    previewMode: {
-      type: "string",
-      default: "Desktop"
-    },
-    waitForFilters: {
-      type: "Boolean",
-      default: false
-    },
-    lineCurve: {
-      type: "string",
-      default: "linear"
-    }
-  },
-  edit: charts_BlockEdit,
-  save: BlockSave
-});
 
 /***/ }),
 
@@ -29117,33 +25748,759 @@ module.exports = createCurry;
 /***/ }),
 
 /***/ 6422:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-var isStrictComparable = __webpack_require__(3570),
-    keys = __webpack_require__(9244);
-
-/**
- * Gets the property names, values, and compare flags of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the match data of `object`.
- */
-function getMatchData(object) {
-  var result = keys(object),
-      length = result.length;
-
-  while (length--) {
-    var key = result[length],
-        value = object[key];
-
-    result[length] = [key, value, isStrictComparable(value)];
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   v: () => (/* binding */ CHART_ATTRIBUTES)
+/* harmony export */ });
+const CHART_ATTRIBUTES = {
+  height: {
+    type: 'number',
+    default: 500
+  },
+  type: {
+    type: 'string',
+    default: "bar"
+  },
+  source: {
+    type: 'string',
+    default: ''
+  },
+  bottomLegend: {
+    type: 'string',
+    default: ""
+  },
+  leftLegend: {
+    type: 'string',
+    default: "Left Legends"
+  },
+  scheme: {
+    type: 'string',
+    default: 'nivo'
+  },
+  colorBy: {
+    type: 'String',
+    default: 'index'
+  },
+  dimension1: {
+    type: 'String',
+    default: 'none'
+  },
+  dimension2: {
+    type: 'String',
+    default: 'none'
+  },
+  dimension3: {
+    type: 'String',
+    default: 'none'
+  },
+  groupMode: {
+    type: 'String',
+    default: 'grouped'
+  },
+  group: {
+    type: 'String',
+    default: 'default'
+  },
+  mode: {
+    type: 'String',
+    default: "chart"
+  },
+  dualMode: {
+    type: "Boolean",
+    default: false
+  },
+  toggleInfoLabel: {
+    type: 'String',
+    default: "Info Graphic"
+  },
+  toggleChartLabel: {
+    type: 'String',
+    default: "Chart"
+  },
+  dataSourceLabel: {
+    type: 'String',
+    default: "Source"
+  },
+  dataSource: {
+    type: 'String',
+    default: "NIDS"
+  },
+  legendPosition: {
+    type: 'String',
+    default: "top"
+  },
+  marginLeft: {
+    type: 'Numeric',
+    default: 50
+  },
+  marginTop: {
+    type: 'Numeric',
+    default: 25
+  },
+  marginBottom: {
+    type: 'Numeric',
+    default: 25
+  },
+  marginRight: {
+    type: 'Numeric',
+    default: 25
+  },
+  showLegends: {
+    type: 'boolean',
+    default: true
+  },
+  showLegendsInColumns: {
+    type: 'boolean',
+    default: false
+  },
+  numberOfLegendColumns: {
+    type: 'Numeric',
+    default: 4
+  },
+  legendLabel: {
+    type: 'String',
+    default: ''
+  },
+  app: {
+    type: 'String',
+    default: "csv"
+  },
+  params: {
+    type: Object,
+    default: {}
+  },
+  dvzProxyDatasetId: {
+    type: 'String',
+    default: ""
+  },
+  format: {
+    type: Object,
+    default: {
+      "style": "percent",
+      "minimumFractionDigits": 1,
+      "maximumFractionDigits": 1,
+      "currency": "USD"
+    }
+  },
+  groupTotalFormat: {
+    type: Object,
+    default: {
+      "style": "percent",
+      "minimumFractionDigits": 1,
+      "maximumFractionDigits": 1,
+      "currency": "USD"
+    }
+  },
+  groupTotalFixedPosition: {
+    type: "Boolean",
+    default: false
+  },
+  groupTotalOffset: {
+    type: 'Numeric',
+    default: 0
+  },
+  tickRotation: {
+    type: 'Numeric',
+    default: 0
+  },
+  offsetText: {
+    type: "Numeric",
+    default: 0
+  },
+  tickColor: {
+    type: "String",
+    default: encodeURIComponent("#FFFFFF")
+  },
+  yAxisTickValues: {
+    type: 'Numeric',
+    default: 10
+  },
+  xAxisTickValues: {
+    type: 'Numeric',
+    default: 10
+  },
+  lineXAxisTickMode: {
+    type: 'string',
+    default: 'none'
+  },
+  lineXAxisTickCount: {
+    type: 'Numeric',
+    default: 10
+  },
+  lineXAxisTickEvery: {
+    type: 'Numeric',
+    default: 1
+  },
+  enableMeasureSelector: {
+    type: 'Boolean',
+    default: false
+  },
+  measureSelectorLabel: {
+    type: 'String',
+    default: 'Measure'
+  },
+  defaultMeasure: {
+    type: 'String',
+    default: ''
+  },
+  xLabelColor: {
+    type: "String",
+    default: encodeURIComponent("#000000")
+  },
+  barLabelColor: {
+    type: "String",
+    default: encodeURIComponent("#000000")
+  },
+  keys: {
+    type: "Array",
+    default: []
+  },
+  measures: {
+    type: "Object",
+    default: {
+      csv: {
+        format: {
+          style: "percent",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        },
+        customFormat: {
+          style: "percent",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        },
+        useCustomAxisFormat: false
+      }
+    }
+  },
+  _measures: {},
+  filters: {
+    type: "Array",
+    default: []
+  },
+  csv: {
+    type: "String",
+    default: "Key1,Key2,Key3,Key4 \nIndex1,12,13,14 \nIndex2,22,23,34 \nIndex3,32,33,34"
+  },
+  startAngle: {
+    type: "Numeric",
+    default: 0
+  },
+  tooltipHTML: {
+    type: "String",
+    default: "{value}"
+  },
+  tooltip: {
+    type: "String",
+    default: "{value}"
+  },
+  endAngle: {
+    type: "Numeric",
+    default: 360
+  },
+  layout: {
+    type: "String",
+    default: "vertical"
+  },
+  reverse: {
+    type: "Boolean",
+    default: false
+  },
+  useLabelBackground: {
+    type: "Boolean",
+    default: false
+  },
+  showGroupTotal: {
+    type: "Boolean",
+    default: false
+  },
+  groupTotalMeasure: {
+    type: "String",
+    default: ""
+  },
+  groupTotalLabel: {
+    type: "String",
+    default: ""
+  },
+  useCheckBoxBackground: {
+    type: "Boolean",
+    default: true
+  },
+  offsetY: {
+    type: "Numeric",
+    default: -40
+  },
+  groupTotalLabelOffset: {
+    type: "Numeric",
+    default: 0
+  },
+  legendLabelColor: {
+    type: "String",
+    default: encodeURIComponent("#000000")
+  },
+  overlays: {
+    type: 'Array',
+    default: []
+  },
+  csvLineLayerData: {
+    type: "String",
+    default: ""
+  },
+  csvLineColor: {
+    type: "String",
+    default: encodeURIComponent("#000000")
+  },
+  csvLineTooltip: {
+    type: "String",
+    default: "{x} - #({y},2)"
+  },
+  csvLineTitle: {
+    type: "String",
+    default: "Overlay"
+  },
+  lineLayerEnabled: {
+    type: "Boolean",
+    default: false
+  },
+  valueScale: {
+    type: 'String',
+    default: 'linear'
+  },
+  maxValue: {
+    type: 'String',
+    default: 'auto'
+  },
+  fixedMinValue: {
+    type: 'Numeric',
+    default: 0
+  },
+  fixedMaxValue: {
+    type: 'Numeric',
+    default: 0
+  },
+  swap: {
+    type: 'Boolean',
+    default: false
+  },
+  noDataMessage: {
+    type: 'String',
+    default: "No data matches your selection."
+  },
+  types: {
+    type: "Array",
+    default: [{
+      label: 'Bar',
+      value: 'bar',
+      supports: {
+        singleMeasure: false,
+        singleDimension: false
+      }
+    }, {
+      label: 'Pie',
+      value: 'pie',
+      supports: {
+        singleMeasure: false,
+        singleDimension: false
+      }
+    }, {
+      label: 'Line',
+      value: 'line',
+      supports: {
+        singleMeasure: false,
+        singleDimension: true
+      }
+    }, {
+      label: 'Radar',
+      value: 'radar',
+      supports: {
+        singleMeasure: true,
+        singleDimension: true
+      }
+    }, {
+      label: 'Bump',
+      value: 'bump',
+      supports: {
+        singleMeasure: true,
+        singleDimension: true
+      }
+    }, {
+      label: 'Waterfall',
+      value: 'waterfall',
+      supports: {
+        singleMeasure: true,
+        singleDimension: true
+      }
+    }, {
+      label: 'Dumbbell',
+      value: 'dumbbell',
+      supports: {
+        singleMeasure: false,
+        singleDimension: true
+      }
+    }, {
+      label: 'Histogram',
+      value: 'histogram',
+      supports: {
+        singleMeasure: true,
+        singleDimension: true
+      }
+    }, {
+      label: 'Scatter',
+      value: 'scatter',
+      supports: {
+        singleMeasure: false,
+        singleDimension: true
+      }
+    }, {
+      label: 'Heatmap',
+      value: 'heatmap',
+      supports: {
+        singleMeasure: true,
+        singleDimension: false
+      }
+    }, {
+      label: 'Sunburst',
+      value: 'sunburst',
+      supports: {
+        singleMeasure: true,
+        singleDimension: false
+      }
+    }, {
+      label: 'Interval Plot',
+      value: 'intervalPlot',
+      supports: {
+        singleMeasure: false,
+        singleDimension: true
+      }
+    }, {
+      label: 'Diverging',
+      value: 'diverging',
+      supports: {
+        singleMeasure: false,
+        singleDimension: true
+      }
+    }]
+  },
+  barColor: {
+    type: "String",
+    default: encodeURIComponent("#000000")
+  },
+  overrideTickColor: {
+    type: 'Boolean',
+    default: false
+  },
+  manualColors: {
+    type: 'Object',
+    default: {}
+  },
+  barPadding: {
+    type: 'Numeric',
+    default: 0.15
+  },
+  barLabelPosition: {
+    type: "String",
+    default: "middle"
+  },
+  lineLabelPosition: {
+    type: "String",
+    default: "none"
+  },
+  showGrid: {
+    type: 'Boolean',
+    default: true
+  },
+  includeOverall: {
+    type: 'Boolean',
+    default: false
+  },
+  overallLabel: {
+    type: "String",
+    default: "Overall"
+  },
+  tooltipEnabled: {
+    type: "Boolean",
+    default: true
+  },
+  barInnerPadding: {
+    type: 'Numeric',
+    default: 0.7
+  },
+  highlightXAxisLine: {
+    type: "Boolean",
+    default: false
+  },
+  showTickLine: {
+    type: "Boolean",
+    default: false
+  },
+  showRightAxis: {
+    type: "Boolean",
+    default: false
+  },
+  offsetRight: {
+    type: "Numeric",
+    default: 40
+  },
+  rightLegend: {
+    type: 'string',
+    default: "Right Legend"
+  },
+  offsetBottom: {
+    type: "Numeric",
+    default: 40
+  },
+  hiddenBars: {
+    type: "Array",
+    default: []
+  },
+  enableArea: {
+    type: "Boolean",
+    default: false
+  },
+  areaShadingCriteria: {
+    type: 'string',
+    default: "DEFAULT"
+  },
+  areaLowerBound: {
+    type: 'string',
+    default: ""
+  },
+  areaUpperBound: {
+    type: 'string',
+    default: ""
+  },
+  showPoints: {
+    type: "Boolean",
+    default: true
+  },
+  confidenceIntervals: {
+    type: "Array",
+    default: []
+  },
+  centerLabel: {
+    type: 'string',
+    default: ""
+  },
+  centerLabelFontWeight: {
+    type: 'String',
+    default: 'normal'
+  },
+  centerLabelFontSize: {
+    type: 'Numeric',
+    default: 12
+  },
+  showArcLabels: {
+    type: "Boolean",
+    default: true
+  },
+  showArcLinkLabels: {
+    type: "Boolean",
+    default: false
+  },
+  slicePadding: {
+    type: "Numeric",
+    default: 1
+  },
+  centerLabelXOffset: {
+    type: "Numeric",
+    default: 0
+  },
+  centerLabelYOffset: {
+    type: "Numeric",
+    default: 0
+  },
+  panelStatus: {
+    type: "Object",
+    default: {}
+  },
+  tooltipEnableMarkdown: {
+    type: 'Boolean',
+    default: false
+  },
+  enableGridY: {
+    type: 'Boolean',
+    default: true
+  },
+  enableGridX: {
+    type: 'Boolean',
+    default: false
+  },
+  minMaxClamp: {
+    type: 'Boolean',
+    default: false
+  },
+  mobileCustomization: {
+    type: 'Object',
+    default: {
+      showCustomization: false,
+      labels: {
+        xAxis: {},
+        yAxis: {}
+      },
+      xAxisDisabled: false,
+      mobileXAxisTextRotation: 0,
+      tabletXAxisTextRotation: 0,
+      xAxisTickValues: 10,
+      xAxisIntervalUserModified: false,
+      yAxisTickValues: 10,
+      yAxisIntervalUserModified: false,
+      chartLayoutOverride: false,
+      marginLeft: 50,
+      marginTop: 25,
+      marginBottom: 25,
+      marginRight: 25,
+      showXAxisTitle: true,
+      showYAxisTitle: true,
+      showRightAxisTitle: true,
+      barPadding: 0.15,
+      barInnerPadding: 0.7,
+      mobileYAxisLineHeight: 12,
+      mobileMaxTickLength: 25,
+      tabletYAxisLineHeight: 12,
+      tabletMaxTickLength: 25,
+      mobileXAxisTextRotationModified: false,
+      tabletXAxisTextRotationModified: false,
+      mobileMarginBottom: 25,
+      mobileMarginLeft: 25,
+      mobileMarginRight: 25,
+      mobileMarginTop: 25,
+      tabletMarginBottom: 25,
+      tabletMarginLeft: 25,
+      tabletMarginRight: 25,
+      tabletMarginTop: 25
+    }
+  },
+  reverseLegend: {
+    type: 'Boolean',
+    default: false
+  },
+  sort: {
+    type: 'string',
+    default: ''
+  },
+  sortSecondDimension: {
+    type: 'string',
+    default: 'none'
+  },
+  sortReverse: {
+    type: 'Boolean',
+    default: false
+  },
+  sortReverseSecondDimension: {
+    type: 'Boolean',
+    default: false
+  },
+  radarCurve: {
+    type: 'string',
+    default: 'linearClosed'
+  },
+  radarFillOpacity: {
+    type: 'Numeric',
+    default: 0.25
+  },
+  radarBorderWidth: {
+    type: 'Numeric',
+    default: 1
+  },
+  radarGridLevels: {
+    type: 'Numeric',
+    default: 7
+  },
+  radarGridShape: {
+    type: 'string',
+    default: 'circular'
+  },
+  radarGridLabelOffset: {
+    type: 'Numeric',
+    default: 36
+  },
+  radarEnableDots: {
+    type: 'Boolean',
+    default: true
+  },
+  radarDotSize: {
+    type: 'Numeric',
+    default: 6
+  },
+  radarEnableDotLabel: {
+    type: 'Boolean',
+    default: false
+  },
+  radarDotLabelOffset: {
+    type: 'Numeric',
+    default: -12
+  },
+  showPercentage: {
+    type: 'Boolean',
+    default: false
+  },
+  previewMode: {
+    type: "string",
+    default: "Desktop"
+  },
+  waitForFilters: {
+    type: "Boolean",
+    default: false
+  },
+  lineCurve: {
+    type: "string",
+    default: "linear"
+  },
+  scatterMinSize: {
+    type: 'Numeric',
+    default: 10
+  },
+  scatterMaxSize: {
+    type: 'Numeric',
+    default: 30
+  },
+  scatterShowLabels: {
+    type: 'Boolean',
+    default: false
+  },
+  scatterConnectPoints: {
+    type: 'Boolean',
+    default: false
+  },
+  scatterPointOpacity: {
+    type: 'Numeric',
+    default: 0.85
+  },
+  scatterReferenceX: {
+    type: 'String',
+    default: ''
+  },
+  scatterReferenceY: {
+    type: 'String',
+    default: ''
+  },
+  scatterReferenceXLabel: {
+    type: 'String',
+    default: ''
+  },
+  scatterReferenceYLabel: {
+    type: 'String',
+    default: ''
+  },
+  scatterQuadrantTopLeftLabel: {
+    type: 'String',
+    default: ''
+  },
+  scatterQuadrantTopRightLabel: {
+    type: 'String',
+    default: ''
+  },
+  scatterQuadrantBottomLeftLabel: {
+    type: 'String',
+    default: ''
+  },
+  scatterQuadrantBottomRightLabel: {
+    type: 'String',
+    default: ''
   }
-  return result;
-}
-
-module.exports = getMatchData;
-
+};
 
 /***/ }),
 
@@ -35728,7 +33085,8 @@ class PixelGridLayer extends external_wp_element_.Component {
         gradientStartColor,
         gradientEndColor,
         tooltip = 'Value: {value}',
-        format = {}
+        format = {},
+        customMeasuresLabels = {}
       },
       onChangeProperty,
       allMeasures = [],
@@ -35739,6 +33097,27 @@ class PixelGridLayer extends external_wp_element_.Component {
       attributes,
       setAttributes
     } = this.props;
+
+    // Auto-populate customMeasuresLabels for any selected measure that doesn't yet have a label,
+    // mirroring the same pattern used by the Data shape layer.
+    // Batch all missing labels into a single update to avoid each call overwriting the previous one.
+    if (app !== 'csv' && allMeasures && allMeasures.length > 0) {
+      const missingLabels = {};
+      measures.forEach(measureValue => {
+        if (!customMeasuresLabels[measureValue] || customMeasuresLabels[measureValue] === '') {
+          const found = allMeasures.find(m => m.value === measureValue);
+          if (found) {
+            missingLabels[measureValue] = found.label;
+          }
+        }
+      });
+      if (Object.keys(missingLabels).length > 0) {
+        onChangeProperty('customMeasuresLabels', {
+          ...customMeasuresLabels,
+          ...missingLabels
+        });
+      }
+    }
     const isSuperSet = (0,build/* isSupersetAPI */.oL)(app, apps);
 
     // Dimension options for lat/lon dropdowns
@@ -42665,6 +40044,3754 @@ Object.defineProperty(exports, "__esModule", ({value:!0}));var env=__webpack_req
 
 /***/ }),
 
+/***/ 9742:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  A: () => (/* binding */ charts_BlockEdit)
+});
+
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__(4715);
+// EXTERNAL MODULE: external ["wp","components"]
+var external_wp_components_ = __webpack_require__(6427);
+// EXTERNAL MODULE: external ["wp","editor"]
+var external_wp_editor_ = __webpack_require__(3656);
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__(7723);
+// EXTERNAL MODULE: ../../../packages/commons/build/index.js + 17 modules
+var build = __webpack_require__(1704);
+// EXTERNAL MODULE: external "ReactJSXRuntime"
+var external_ReactJSXRuntime_ = __webpack_require__(790);
+;// ./charts/AxisConfig.jsx
+
+
+
+
+const AxisConfig = props => {
+  const {
+    toggleSelection,
+    setAttributes,
+    attributes: {
+      leftLegend,
+      offsetY,
+      tickColor,
+      tickRotation,
+      overrideTickColor,
+      xLabelColor,
+      barLabelColor,
+      type,
+      rightLegend,
+      offsetRight,
+      showRightAxis,
+      bottomLegend,
+      offsetBottom,
+      showTickLine,
+      highlightXAxisLine,
+      maxValue,
+      fixedMinValue,
+      fixedMaxValue,
+      yAxisTickValues,
+      xAxisTickValues,
+      lineXAxisTickMode,
+      lineXAxisTickCount,
+      lineXAxisTickEvery,
+      offsetText,
+      minMaxClamp
+    }
+  } = props;
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("X Axis Settings"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Highlight X Axis Line"),
+        checked: highlightXAxisLine,
+        onChange: highlightXAxisLine => setAttributes({
+          highlightXAxisLine
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show X axis label lines"),
+        checked: showTickLine === true,
+        onChange: value => setAttributes({
+          showTickLine: !showTickLine
+        })
+      })
+    }), showTickLine && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Change Stick Color"),
+        checked: overrideTickColor === true,
+        onChange: value => setAttributes({
+          overrideTickColor: !overrideTickColor
+        })
+      })
+    }), showTickLine && overrideTickColor && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)("Stick Color"),
+        colorSettings: [{
+          value: decodeURIComponent(tickColor ? tickColor : "#FFFFFF"),
+          onChange: color => {
+            if (color) {
+              setAttributes({
+                tickColor: encodeURIComponent(color)
+              });
+            } else {
+              setAttributes({
+                tickColor: null
+              });
+            }
+          },
+          label: (0,external_wp_i18n_.__)("")
+        }]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+        label: (0,external_wp_i18n_.__)("X Axis Text Rotation"),
+        value: tickRotation,
+        onChange: value => setAttributes({
+          tickRotation: value
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('X Axis Text Offset'),
+        value: offsetText,
+        onChange: offsetText => setAttributes({
+          offsetText
+        }),
+        min: -200,
+        max: 200
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)('X Axis Text Color'),
+        colorSettings: [{
+          value: decodeURIComponent(xLabelColor ? xLabelColor : "#000000"),
+          onChange: color => {
+            if (color) {
+              setAttributes({
+                xLabelColor: encodeURIComponent(color)
+              });
+            } else {
+              setAttributes({
+                xLabelColor: null
+              });
+            }
+          },
+          label: (0,external_wp_i18n_.__)("")
+        }]
+      })
+    }), type == 'bar' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+        title: (0,external_wp_i18n_.__)('Bar Text Color'),
+        colorSettings: [{
+          value: decodeURIComponent(barLabelColor ? barLabelColor : "#000000"),
+          onChange: color => {
+            if (color) {
+              setAttributes({
+                barLabelColor: encodeURIComponent(color)
+              });
+            } else {
+              setAttributes({
+                barLabelColor: null
+              });
+            }
+          },
+          label: (0,external_wp_i18n_.__)("")
+        }]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+        label: (0,external_wp_i18n_.__)('X Axis Title'),
+        value: bottomLegend,
+        onChange: bottomLegend => setAttributes({
+          bottomLegend
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('X Axis Title Offset'),
+        value: offsetBottom,
+        onChange: offsetBottom => setAttributes({
+          offsetBottom
+        }),
+        min: -200,
+        max: 200
+      })
+    }), type === "bar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('Number of Intervals'),
+        value: xAxisTickValues,
+        onChange: xAxisTickValues => setAttributes({
+          xAxisTickValues
+        }),
+        min: 0,
+        max: 50
+      })
+    }), (type === "line" || type === "bar") && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('X Axis Tick Mode'),
+          value: lineXAxisTickMode,
+          options: [{
+            label: (0,external_wp_i18n_.__)('None (default)'),
+            value: 'none'
+          }, {
+            label: (0,external_wp_i18n_.__)('Total number of ticks'),
+            value: 'count'
+          }, {
+            label: (0,external_wp_i18n_.__)('Show every Nth tick'),
+            value: 'every'
+          }],
+          onChange: value => setAttributes({
+            lineXAxisTickMode: value
+          })
+        })
+      }), lineXAxisTickMode === 'count' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Total number of ticks'),
+          value: lineXAxisTickCount,
+          onChange: value => setAttributes({
+            lineXAxisTickCount: value
+          }),
+          min: 1,
+          max: 50
+        })
+      }), lineXAxisTickMode === 'every' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Show every Nth tick'),
+          value: lineXAxisTickEvery,
+          onChange: value => setAttributes({
+            lineXAxisTickEvery: value
+          }),
+          min: 1,
+          max: 50
+        })
+      })]
+    })]
+  }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Y Axis Settings"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+        label: (0,external_wp_i18n_.__)('Title'),
+        value: leftLegend,
+        onChange: leftLegend => setAttributes({
+          leftLegend
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('Left Axis Title Offset'),
+        value: offsetY,
+        onChange: offsetY => setAttributes({
+          offsetY
+        }),
+        min: -500,
+        max: 500
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('Number of Intervals'),
+        value: yAxisTickValues,
+        onChange: yAxisTickValues => setAttributes({
+          yAxisTickValues
+        }),
+        min: 0,
+        max: 50
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show Right Axis"),
+        checked: showRightAxis,
+        onChange: showRightAxis => setAttributes({
+          showRightAxis
+        })
+      })
+    }), showRightAxis && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)('Right Axis Title'),
+          value: rightLegend,
+          onChange: rightLegend => setAttributes({
+            rightLegend
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Right Axis Title Offset'),
+          value: offsetRight,
+          onChange: offsetRight => setAttributes({
+            offsetRight
+          }),
+          min: -500,
+          max: 500
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Use Fixed Min & Max Values"),
+        checked: maxValue === "fixed",
+        onChange: () => setAttributes({
+          maxValue: maxValue === "auto" ? "fixed" : "auto"
+        })
+      })
+    }), maxValue === 'fixed' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Chop off Chart at Min & Max Values"),
+          checked: minMaxClamp === true,
+          onChange: () => setAttributes({
+            minMaxClamp: !minMaxClamp
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          value: fixedMinValue,
+          label: (0,external_wp_i18n_.__)("Min y-Axis Value"),
+          onChange: value => setAttributes({
+            fixedMinValue: value
+          }),
+          type: "number"
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          value: fixedMaxValue,
+          label: (0,external_wp_i18n_.__)("Max y-Axis Value"),
+          onChange: value => setAttributes({
+            fixedMaxValue: value
+          }),
+          type: "number"
+        })
+      })]
+    })]
+  })];
+};
+/* harmony default export */ const charts_AxisConfig = (AxisConfig);
+;// ./charts/Labels.jsx
+
+
+
+const Labels = props => {
+  const {
+    setAttributes,
+    attributes: {
+      barLabelPosition,
+      lineLabelPosition,
+      type
+    }
+  } = props;
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+    children: [type == "bar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)("Bar Label Position", "dg"),
+        value: [barLabelPosition],
+        onChange: barLabelPosition => {
+          setAttributes({
+            barLabelPosition: barLabelPosition
+          });
+        },
+        options: [{
+          label: (0,external_wp_i18n_.__)("Top", "dg"),
+          value: "top"
+        }, {
+          label: (0,external_wp_i18n_.__)("Middle", "dg"),
+          value: "middle"
+        }, {
+          label: (0,external_wp_i18n_.__)("None", "dg"),
+          value: "none"
+        }],
+        style: {
+          width: "120px"
+        }
+      })
+    }), type == "line" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)("Point Label Position", "dg"),
+        value: [lineLabelPosition],
+        onChange: position => {
+          setAttributes({
+            lineLabelPosition: position
+          });
+        },
+        options: [{
+          label: (0,external_wp_i18n_.__)("On Top", "dg"),
+          value: "top"
+        }, {
+          label: (0,external_wp_i18n_.__)("None", "dg"),
+          value: "none"
+        }],
+        style: {
+          width: "120px"
+        }
+      })
+    })]
+  })];
+};
+/* harmony default export */ const charts_Labels = (Labels);
+;// ./charts/LineOverlayConfig.jsx
+
+
+
+
+
+const overLayPrototype = preFillCsv => {
+  return {
+    app: 'csv',
+    lineColor: "#555555",
+    csvLineLayerData: preFillCsv,
+    tooltip: "",
+    title: "",
+    measure: []
+  };
+};
+const LineOverlay = props => {
+  const {
+    setAttributes,
+    allDimensions,
+    allMeasures,
+    allCategories,
+    apps,
+    attributes: {
+      panelStatus,
+      overlays,
+      dimension1,
+      app
+    }
+  } = props;
+  const add = () => {
+    let preFillCsv = "";
+    if (app != "csv" && dimension1) {
+      const dimension = allDimensions.filter(d => d.value === dimension1).reduce((a, b) => b, null);
+      const cat = allCategories.filter(c => c.type == dimension.type).reduce((a, b) => b, null);
+      preFillCsv = cat ? cat.items.sort((s1, s2) => s1.position - s2.position).map(i => i.value).join(",\r\n") + "," : "";
+    }
+    const newOverlay = [...overlays, overLayPrototype(preFillCsv)];
+    setAttributes({
+      overlays: newOverlay
+    });
+  };
+  const remove = () => {
+    const newOverlay = [...overlays];
+    newOverlay.pop();
+    setAttributes({
+      overlays: newOverlay
+    });
+  };
+  const onChange = (idx, attribute, value) => {
+    const newOverlay = [...overlays];
+    newOverlay[idx][attribute] = value;
+    setAttributes({
+      overlays: newOverlay
+    });
+  };
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+    children: [overlays && overlays.map((o, idx) => {
+      const overlayMeasures = {};
+      overlayMeasures[o.app] = {};
+      overlayMeasures[o.app][o.measure] = {
+        selected: true
+      };
+      return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+        title: o.title,
+        panelStatus: panelStatus['series_'] + idx,
+        onToggle: e => (0,build/* togglePanel */.Pj)(panelStatus['series_'] + idx, panelStatus, setAttributes),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            value: [o.app] // e.g: value = [ 'a', 'c' ]
+            ,
+            onChange: value => onChange(idx, "app", value),
+            options: apps
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)('Title', "dg"),
+            value: o.title,
+            onChange: value => onChange(idx, "title", value)
+          })
+        }), o.app == "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("p", {
+            children: [(0,external_wp_i18n_.__)("First value should match with bar x value", "dg"), " "]
+          })
+        }), o.app == "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+            label: (0,external_wp_i18n_.__)("CSV Data", "dg"),
+            value: o.csvLineLayerData,
+            onChange: value => onChange(idx, "csvLineLayerData", value)
+          })
+        }), o.app != "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build.ChartMeasures, {
+          title: "Select Measure",
+          onMeasuresChange: e => null,
+          onFormatChange: a => alert("format"),
+          onSetSingleMeasure: value => onChange(idx, "measure", [value]),
+          allMeasures: allMeasures,
+          setAttributes: setAttributes,
+          attributes: {
+            panelStatus,
+            measures: overlayMeasures,
+            dimension1: null,
+            dimension2: null,
+            type: 'overlay',
+            app: o.app
+          }
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            colorSettings: [{
+              value: o.lineColor,
+              onChange: color => {
+                if (color) {
+                  onChange(idx, "lineColor", color);
+                }
+              },
+              label: o.lineColor
+            }]
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+            label: (0,external_wp_i18n_.__)("Tooltip", "dg"),
+            value: o.tooltip,
+            help: (0,external_wp_i18n_.__)("You can use {x} and {y} variables and # % #C formatters", "dg"),
+            onChange: value => onChange(idx, "tooltip", value)
+          })
+        })]
+      });
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+          isSecondary: true,
+          onClick: add,
+          children: (0,external_wp_i18n_.__)("Add Series")
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+          isSecondary: true,
+          onClick: remove,
+          children: (0,external_wp_i18n_.__)("Remove Series")
+        })]
+      })
+    })]
+  });
+};
+/* harmony default export */ const LineOverlayConfig = (LineOverlay);
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__(6087);
+;// ./charts/ConfidenceIntervalConfig.jsx
+
+
+
+
+class ConfidenceIntervalConfig extends external_wp_element_.Component {
+  constructor(props) {
+    super(props);
+  }
+  setFieldData(serieId, serieLabel, dataField, value) {
+    const {
+      attributes: {
+        confidenceIntervals
+      },
+      setAttributes
+    } = this.props;
+    const newConfidenceIntervals = confidenceIntervals.slice();
+    let current = newConfidenceIntervals.filter(c => c.serieId == serieId)[0];
+    if (!current) {
+      current = {
+        serieId,
+        serieLabel
+      };
+      current[dataField] = value;
+      newConfidenceIntervals.push(current);
+    }
+    current[dataField] = value;
+    setAttributes({
+      confidenceIntervals: newConfidenceIntervals
+    });
+  }
+  render() {
+    const {
+      app,
+      series,
+      setAttributes,
+      attributes: {
+        confidenceIntervals
+      }
+    } = this.props;
+    return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Confidence Intervals"),
+      children: series && series.map(s => {
+        const current = confidenceIntervals.filter(c => c.serieId == s.id)[0];
+        return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+            children: [" ", /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("label", {
+              children: [s.value, " "]
+            })]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                label: (0,external_wp_i18n_.__)("Low"),
+                value: current && current.low ? parseFloat(current.low) : null,
+                onChange: value => this.setFieldData(s.id, s.value, 'low', value),
+                type: "number"
+              })
+            }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
+              style: {
+                marginLeft: "10px"
+              },
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                label: (0,external_wp_i18n_.__)("High"),
+                value: current && current.high ? parseFloat(current.high) : null,
+                onChange: value => this.setFieldData(s.id, s.value, 'high', value),
+                type: "number"
+              })
+            })]
+          })]
+        });
+      })
+    })];
+  }
+}
+// EXTERNAL MODULE: ../../../node_modules/.pnpm/papaparse@5.5.3/node_modules/papaparse/papaparse.min.js
+var papaparse_min = __webpack_require__(3643);
+var papaparse_min_default = /*#__PURE__*/__webpack_require__.n(papaparse_min);
+// EXTERNAL MODULE: ./charts/Format.jsx
+var Format = __webpack_require__(1012);
+;// ./charts/GroupTotalSetting.jsx
+
+
+
+
+
+const Settings = ({
+  setAttributes,
+  allMeasures,
+  attributes: {
+    app,
+    csv,
+    groupTotalFormat,
+    groupTotalMeasure,
+    groupTotalLabelOffset,
+    groupTotalLabel,
+    groupTotalFixedPosition
+  }
+}) => {
+  let data = null;
+  if (app == "csv" && csv) {
+    data = papaparse_min_default().parse(csv, {
+      header: true,
+      dynamicTyping: true
+    });
+  }
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Group Settings"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+      children: [app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)('Measure'),
+        value: [groupTotalMeasure] // e.g: value = [ 'a', 'c' ]
+        ,
+        onChange: value => {
+          setAttributes({
+            groupTotalMeasure: value
+          });
+        },
+        options: allMeasures ? allMeasures.map(({
+          value,
+          label
+        }) => ({
+          label,
+          value
+        })) : []
+      }), app == "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)('Measure'),
+        value: [groupTotalMeasure] // e.g: value = [ 'a', 'c' ]
+        ,
+        onChange: value => {
+          setAttributes({
+            groupTotalMeasure: value
+          });
+        },
+        options: data && data.meta ? data.meta.fields.map(k => ({
+          label: k,
+          value: k
+        })) : []
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
+      title: (0,external_wp_i18n_.__)("Group Total Format"),
+      format: groupTotalFormat,
+      onFormatChange: groupTotalFormat => {
+        setAttributes({
+          groupTotalFormat
+        });
+      }
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Fixed"),
+        checked: groupTotalFixedPosition,
+        onChange: groupTotalFixedPosition => {
+          setAttributes({
+            groupTotalFixedPosition
+          });
+        }
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('Offset'),
+        value: groupTotalLabelOffset,
+        onChange: groupTotalLabelOffset => setAttributes({
+          groupTotalLabelOffset
+        }),
+        allowReset: true,
+        resetFallbackValue: 0,
+        step: 5,
+        min: -250,
+        max: 250
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+        value: groupTotalLabel,
+        label: (0,external_wp_i18n_.__)("Label"),
+        onChange: value => setAttributes({
+          groupTotalLabel: value
+        }),
+        type: "string"
+      })
+    })]
+  });
+};
+/* harmony default export */ const GroupTotalSetting = (Settings);
+;// ./charts/Sort.jsx
+
+
+
+
+const Sort = props => {
+  const {
+    setAttributes,
+    allCategories,
+    attributes: {
+      sort,
+      sortReverse,
+      dimension1,
+      dimension2,
+      sortSecondDimension,
+      sortReverseSecondDimension,
+      type
+    }
+  } = props;
+
+  //The following code will be used to sort stacked bar's slices https://devgateway.atlassian.net/browse/TCDIKE-767
+  let sortBySliceOptions = [];
+  if (dimension2 && allCategories) {
+    const target = allCategories.find(d => d.type == dimension2);
+    if (target && target.items) {
+      sortBySliceOptions = (0,build/* getTranslatedOptions */.rd)(target.items).map(item => {
+        return {
+          label: "Value of " + item.label,
+          value: item.value
+        };
+      });
+    }
+  }
+  let firtDimSortItems;
+  if (type == 'line') {
+    firtDimSortItems = [{
+      label: (0,external_wp_i18n_.__)('Default', "dg"),
+      value: 'default'
+    }, {
+      label: (0,external_wp_i18n_.__)('Alphabetically ', "dg"),
+      value: 'alphabetically'
+    }, {
+      label: (0,external_wp_i18n_.__)('By Date ', "dg"),
+      value: 'date'
+    }];
+  } else {
+    firtDimSortItems = [{
+      label: (0,external_wp_i18n_.__)('Default', "dg"),
+      value: 'default'
+    }, {
+      label: (0,external_wp_i18n_.__)('Alphabetically ', "dg"),
+      value: 'alphabetically'
+    }, {
+      label: (0,external_wp_i18n_.__)('By Date ', "dg"),
+      value: 'date'
+    }, {
+      label: (0,external_wp_i18n_.__)('Value (Group/Bar/Total)', "dg"),
+      value: 'values'
+    }, ...sortBySliceOptions];
+  }
+  if (dimension1 != 'none') {
+    return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Group Sort: ', "dg"),
+          value: [sort],
+          onChange: sort => {
+            setAttributes({
+              sort
+            });
+          },
+          options: props.options || firtDimSortItems
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)('Reverse Sort ', "dg"),
+          value: [sortReverse],
+          onChange: sortReverse => {
+            setAttributes({
+              sortReverse
+            });
+          },
+          checked: sortReverse
+        })
+      }), dimension2 != 'none' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: (0,external_wp_i18n_.__)('Bar/Slice Sort: ', "dg"),
+            value: [sortSecondDimension],
+            onChange: sortSecondDimension => {
+              setAttributes({
+                sortSecondDimension
+              });
+            },
+            options: props.options || [{
+              label: (0,external_wp_i18n_.__)('Default', "dg"),
+              value: 'default'
+            }, {
+              label: (0,external_wp_i18n_.__)('Alphabetically ', "dg"),
+              value: 'alphabetically'
+            }, {
+              label: (0,external_wp_i18n_.__)('By Date ', "dg"),
+              value: 'date'
+            }]
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: (0,external_wp_i18n_.__)('Reverse Sort Second Dimension', "dg"),
+            value: [sortReverseSecondDimension],
+            onChange: sortReverseSecondDimension => {
+              setAttributes({
+                sortReverseSecondDimension
+              });
+            },
+            checked: sortReverseSecondDimension
+          })
+        })]
+      })]
+    });
+  }
+  return [];
+};
+/* harmony default export */ const charts_Sort = (Sort);
+;// ./charts/Bar.jsx
+
+
+
+
+
+
+
+
+
+
+
+
+const BarOptions = props => {
+  const {
+    apps,
+    setAttributes,
+    allDimensions,
+    allMeasures,
+    allCategories,
+    attributes: {
+      scheme,
+      app,
+      measures,
+      dimension1,
+      dimension2,
+      layout,
+      groupMode,
+      reverse,
+      colorBy,
+      lineLayerEnabled,
+      valueScale,
+      maxValue,
+      swap,
+      csv,
+      fixedMaxValue,
+      fixedMinValue,
+      barPadding,
+      barLabelPosition,
+      showGrid,
+      includeOverall,
+      overallLabel,
+      barInnerPadding,
+      highlightXAxisLine,
+      showTickLine,
+      showRightAxis,
+      hiddenBars,
+      format,
+      showGroupTotal,
+      groupTotalMeasure,
+      groupTotalLabel,
+      groupTotalFormat,
+      groupTotalLabelOffset,
+      groupTotalOffset,
+      enableGridX,
+      enableGridY,
+      sort,
+      sortReverse
+    }
+  } = props;
+  const getSeries = () => {
+    if (allCategories) {
+      let byDimension = false;
+      let whichDimension = null;
+      if (dimension2 == "none" && colorBy === "index" && swap) {
+        //Multi measure colored by first dimension but  swapped (Colored by Measure)
+        byDimension = true;
+        whichDimension = dimension1;
+      } else if (dimension2 == "none" && colorBy === "id" && !swap) {
+        //Multi Measure chart colored by second dimension (Measure)
+        byDimension = false;
+      } else {
+        byDimension = true;
+        whichDimension = colorBy == "index" ? dimension1 : dimension2;
+      }
+      if (byDimension) {
+        const ds = allDimensions ? allDimensions.filter(d => d.value == whichDimension) : [];
+        if (ds.length > 0) {
+          const {
+            type
+          } = ds[0];
+          const cat = allCategories.filter(a => a.type === type);
+          if (cat && cat.length > 0) {
+            return cat[0].items.sort((a, b) => b.position - a.position).map(d => ({
+              value: d.value,
+              id: d.id,
+              code: d.code,
+              labels: d.labels
+            }));
+          }
+        }
+      } else {
+        return null;
+      }
+    }
+    return null;
+  };
+  const getCSVSeries = () => {
+    const data = papaparse_min_default().parse(csv, {
+      header: true,
+      dynamicTyping: true
+    });
+    let series;
+    const nonVarFields = data.meta.fields.filter(f => !f.startsWith('_'));
+    if (nonVarFields.length > 1) {
+      series = [];
+      const categoryField = nonVarFields[0];
+      data.data.forEach((item, i) => {
+        if (item[categoryField]) {
+          series.push({
+            id: item[categoryField],
+            value: item[categoryField]
+          });
+        }
+      });
+    }
+    return series;
+  };
+  let selectedMeasures = [];
+  if (allMeasures) {
+    allMeasures.forEach(m => {
+      if (measures[app] && measures[app][m.value] && measures[app][m.value].selected) {
+        selectedMeasures.push(m.value);
+      }
+    });
+  }
+  const series = app == 'csv' ? getCSVSeries() : getSeries();
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Bar Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: "Layout",
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Grouped"),
+          checked: groupMode === "grouped",
+          onChange: () => setAttributes({
+            groupMode: groupMode === "grouped" ? "stacked" : "grouped"
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Symlog Scale"),
+          checked: valueScale === "symlog",
+          onChange: () => setAttributes({
+            valueScale: valueScale === "linear" ? "symlog" : "linear"
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Horizontal"),
+          checked: layout === "horizontal",
+          onChange: value => setAttributes({
+            layout: layout === "horizontal" ? "vertical" : "horizontal"
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Reverse"),
+          checked: reverse,
+          onChange: value => setAttributes({
+            reverse: !reverse
+          })
+        })
+      }), app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Sort, {
+        ...props
+      }), app !== "csv" && dimension1 != "none" && dimension2 == "none" && selectedMeasures.length > 0 && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Swap Values"),
+          checked: swap,
+          onChange: swap => setAttributes({
+            swap
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Enable Y Grid Lines"),
+          checked: enableGridY,
+          onChange: () => setAttributes({
+            enableGridY: !enableGridY
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Enable X Grid Lines"),
+          checked: enableGridX,
+          onChange: () => setAttributes({
+            enableGridX: !enableGridX
+          })
+        })
+      }), app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: (0,external_wp_i18n_.__)("Include Overall"),
+            checked: includeOverall,
+            onChange: includeOverall => setAttributes({
+              includeOverall
+            })
+          })
+        }), includeOverall && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)("Overall Label"),
+            value: overallLabel,
+            onChange: overallLabel => setAttributes({
+              overallLabel
+            })
+          })
+        })]
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Display Group Total"),
+          checked: showGroupTotal,
+          onChange: showGroupTotal => {
+            if (!groupTotalMeasure || groupTotalMeasure == "") {
+              setAttributes({
+                showGroupTotal,
+                groupTotalMeasure: allMeasures ? allMeasures[0].value : ""
+              });
+            } else {
+              setAttributes({
+                showGroupTotal
+              });
+            }
+          }
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Labels, {
+        ...props
+      })]
+    }), showGroupTotal && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(GroupTotalSetting, {
+      ...props
+    }), getSeries() && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Hidden Bars"),
+      children: getSeries().map(p => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: p.value,
+          checked: hiddenBars.includes(p.value) || p.labels && Object.values(p.labels).some(label => hiddenBars.includes(label)),
+          onChange: () => {
+            // Check if the bar or any of its labels is hidden
+            const hiddenBarsHasLabel = p.labels ? Object.values(p.labels).some(label => hiddenBars.includes(label)) : false;
+            let updatedBars = [...hiddenBars];
+            if (hiddenBars.includes(p.value) || hiddenBarsHasLabel) {
+              // Remove the bar and its associated labels
+              updatedBars = updatedBars.filter(item => item !== p.value && !(p.labels && Object.values(p.labels).includes(item)));
+            } else {
+              // Add the bar and its associated labels (if applicable)
+              updatedBars = [...new Set([...updatedBars, p.value, ...(p.labels ? Object.values(p.labels) : [])])];
+            }
+            console.log('updatedBars....', updatedBars);
+
+            // Update the attributes
+            setAttributes({
+              hiddenBars: updatedBars
+            });
+          }
+        })
+      }, p.value))
+    }), series && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(ConfidenceIntervalConfig, {
+      series: series,
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Padding"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Bar Padding (Space between bars that are not in the same group)"),
+          value: barPadding,
+          initialPosition: 0.15,
+          onChange: barPadding => setAttributes({
+            barPadding
+          }),
+          step: 0.05,
+          min: 0,
+          max: 1
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Bar Inner Padding (Space between bars in the same group)"),
+          value: barInnerPadding,
+          initialPosition: 0.75,
+          onChange: barInnerPadding => setAttributes({
+            barInnerPadding
+          }),
+          step: 0.25,
+          min: 0,
+          max: 50
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Line Overlay"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Enable Overlay"),
+          checked: lineLayerEnabled === true,
+          onChange: value => setAttributes({
+            lineLayerEnabled: !lineLayerEnabled
+          })
+        })
+      }), lineLayerEnabled && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(LineOverlayConfig, {
+        allMeasures: allMeasures,
+        apps: apps,
+        ...props
+      })]
+    })]
+  })];
+};
+/* harmony default export */ const Bar = (BarOptions);
+;// ./charts/Pie.jsx
+
+
+
+
+const PieOptions = props => {
+  const {
+    setAttributes,
+    attributes: {
+      endAngle,
+      startAngle,
+      centerLabel,
+      showArcLabels,
+      format,
+      showArcLinkLabels,
+      slicePadding,
+      centerLabelFontWeight,
+      centerLabelFontSize,
+      centerLabelXOffset,
+      centerLabelYOffset,
+      showPercentage
+    }
+  } = props;
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Pie Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      title: "Start Angle",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+        value: startAngle,
+        onChange: value => setAttributes({
+          startAngle: value
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      title: "End Angle",
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+        value: endAngle,
+        onChange: value => setAttributes({
+          endAngle: value
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)('Slice Padding'),
+        value: slicePadding,
+        initialPosition: 1,
+        onChange: slicePadding => setAttributes({
+          slicePadding
+        }),
+        step: 0.5,
+        min: 0,
+        max: 20
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show Slice Labels"),
+        checked: showArcLabels,
+        onChange: () => setAttributes({
+          showArcLabels: !showArcLabels
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show Link Labels"),
+        checked: showArcLinkLabels,
+        onChange: () => setAttributes({
+          showArcLinkLabels: !showArcLinkLabels
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show Percentage"),
+        checked: showPercentage,
+        onChange: () => setAttributes({
+          showPercentage: !showPercentage
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Center Label"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+        initialOpen: false,
+        title: (0,external_wp_i18n_.__)("Variables"),
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+            style: {
+              "font-size": "11px"
+            },
+            children: ["Total Value -> ", '{totalValue}']
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+          label: (0,external_wp_i18n_.__)("Label"),
+          value: centerLabel,
+          help: (0,external_wp_i18n_.__)("You can use variables {var_name}."),
+          onChange: centerLabel => setAttributes({
+            centerLabel
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Font Size'),
+          value: centerLabelFontSize,
+          onChange: centerLabelFontSize => setAttributes({
+            centerLabelFontSize
+          }),
+          min: 0,
+          max: 100
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.ButtonGroup, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            isPrimary: centerLabelFontWeight == 'lighter',
+            isSecondary: centerLabelFontWeight != 'lighter',
+            onClick: e => setAttributes({
+              centerLabelFontWeight: "lighter"
+            }),
+            children: (0,external_wp_i18n_.__)("Lighter")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            isPrimary: centerLabelFontWeight == 'normal',
+            isSecondary: centerLabelFontWeight != 'normal',
+            onClick: e => setAttributes({
+              centerLabelFontWeight: "normal"
+            }),
+            children: (0,external_wp_i18n_.__)("Normal")
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+            isPrimary: centerLabelFontWeight == 'bold',
+            isSecondary: centerLabelFontWeight != 'bold',
+            onClick: e => setAttributes({
+              centerLabelFontWeight: "bold"
+            }),
+            children: (0,external_wp_i18n_.__)("Bold")
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('X Offset'),
+          value: centerLabelXOffset,
+          onChange: centerLabelXOffset => setAttributes({
+            centerLabelXOffset
+          }),
+          min: -100,
+          max: 300
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Y Offset'),
+          value: centerLabelYOffset,
+          onChange: centerLabelYOffset => setAttributes({
+            centerLabelYOffset
+          }),
+          min: -100,
+          max: 300
+        })
+      })]
+    })]
+  })];
+};
+/* harmony default export */ const Pie = (PieOptions);
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(1609);
+;// ./charts/Line.jsx
+
+
+
+
+
+
+
+
+
+
+const LineOptions = props => {
+  const {
+    allMeasures,
+    setAttributes,
+    attributes: {
+      measures,
+      app,
+      dimension1,
+      dimension2,
+      layout,
+      format,
+      groupMode,
+      reverse,
+      colorBy,
+      lineLayerEnabled,
+      valueScale,
+      maxValue,
+      swap,
+      csv,
+      fixedMaxValue,
+      fixedMinValue,
+      barPadding,
+      barLabelPosition,
+      showGrid,
+      includeOverall,
+      barInnerPadding,
+      highlightXAxisLine,
+      showTickLine,
+      showRightAxis,
+      enableArea,
+      areaShadingCriteria,
+      areaLowerBound,
+      areaUpperBound,
+      showPoints,
+      enableGridY,
+      enableGridX,
+      lineCurve
+    }
+  } = props;
+  let measuresOptions = [];
+  if (app == 'csv') {
+    const data = papaparse_min_default().parse(csv, {
+      header: true,
+      dynamicTyping: true
+    });
+    measuresOptions.push({
+      value: '',
+      label: ''
+    });
+    data.meta.fields.forEach((field, i) => {
+      if (i !== 0) {
+        measuresOptions.push({
+          value: field,
+          label: field
+        });
+      }
+    });
+  } else {
+    if (allMeasures && measures && measures[app]) {
+      const list = allMeasures.filter(measure => {
+        return measures[app][measure.value] && measures[app][measure.value].selected;
+      }).map(m => {
+        return {
+          value: m.value,
+          label: m.group + ' - ' + m.label
+        };
+      }).sort((a, b) => {
+        return a.label > b.label ? 1 : -1;
+      });
+      measuresOptions = [{
+        value: '',
+        label: ''
+      }, ...list];
+    }
+  }
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Line Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Layout"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Grouped"),
+          checked: groupMode === "grouped",
+          onChange: () => setAttributes({
+            groupMode: groupMode === "grouped" ? "stacked" : "grouped"
+          })
+        })
+      }), app !== "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Sort, {
+        ...props
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Show Line Points"),
+          checked: showPoints,
+          onChange: () => setAttributes({
+            showPoints: !showPoints
+          })
+        })
+      }), showPoints && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Labels, {
+        ...props
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Enable Y Grid Lines"),
+          checked: enableGridY,
+          onChange: () => setAttributes({
+            enableGridY: !enableGridY
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Enable X Grid Lines"),
+          checked: enableGridX,
+          onChange: () => setAttributes({
+            enableGridX: !enableGridX
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Curve'),
+          value: [lineCurve],
+          onChange: lineCurve => {
+            setAttributes({
+              lineCurve
+            });
+          },
+          options: [{
+            value: "basis",
+            label: "basis"
+          }, {
+            value: "cardinal",
+            label: "cardinal"
+          }, {
+            value: "catmullRom",
+            label: "catmullRom"
+          }, {
+            value: "linear",
+            label: "linear"
+          }, {
+            value: "monotoneX",
+            label: "monotoneX"
+          }, {
+            value: "monotoneY",
+            label: "monotoneY"
+          }, {
+            value: "natural",
+            label: "natural"
+          }, {
+            value: "step",
+            label: "step"
+          }, {
+            value: "stepAfter",
+            label: "stepAfter"
+          }, {
+            value: "stepBefore",
+            label: "stepBefore"
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Enable Area"),
+          checked: enableArea,
+          onChange: () => setAttributes({
+            enableArea: !enableArea
+          })
+        })
+      }), enableArea && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: (0,external_wp_i18n_.__)('Shading Criteria'),
+            value: [areaShadingCriteria],
+            onChange: areaShadingCriteria => {
+              setAttributes({
+                areaShadingCriteria
+              });
+            },
+            options: [{
+              value: "DEFAULT",
+              label: "default"
+            }, {
+              value: "CUSTOM_BETWEEN_TWO_LINES",
+              label: "Custom (Shade area between lines)"
+            }]
+          })
+        }), areaShadingCriteria == "CUSTOM_BETWEEN_TWO_LINES" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              style: {
+                width: 150
+              },
+              label: (0,external_wp_i18n_.__)('Area Lower Bound'),
+              value: [areaLowerBound],
+              onChange: areaLowerBound => {
+                setAttributes({
+                  areaLowerBound
+                });
+              },
+              options: measuresOptions
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              style: {
+                width: 150
+              },
+              label: (0,external_wp_i18n_.__)('Area Upper Bound'),
+              value: [areaUpperBound],
+              onChange: areaUpperBound => {
+                setAttributes({
+                  areaUpperBound
+                });
+              },
+              options: measuresOptions
+            })
+          })]
+        })]
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Line = (LineOptions);
+;// ./charts/Bump.jsx
+
+
+
+
+
+const BumpOptions = props => {
+  const {
+    setAttributes,
+    attributes: {
+      groupMode,
+      colorBy
+    }
+  } = props;
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Bump Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    }), colorBy === "id" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Bump = (BumpOptions);
+;// ./charts/Waterfall.jsx
+
+
+
+
+const WaterfallOptions = props => {
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Waterfall Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Examples & Presets"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('API mapping')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 dimension for the step labels.'), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 measure for the step change / amount. Positive values go up and negative values go down.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('CSV example')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "label,value,type"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "Current retained supply,120,total"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "Scenario production gain,35,increase"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "Remaining gap,-18,decrease"
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Default tooltip')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: '<strong>{label}</strong><br/>Start: #(start)<br/>Change: #(value)<br/>End: #(end)'
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Waterfall = (WaterfallOptions);
+;// ./charts/Dumbbell.jsx
+
+
+
+
+
+
+const DumbbellOptions = props => {
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Dumbbell Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Examples & Presets"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('API mapping')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 dimension for the comparison labels.'), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 2 measures in order: left endpoint, right endpoint.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('CSV example')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "label,current,projected"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "Maize,220,285"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "Beans,180,205"
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Default tooltip')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: '<strong>{label}</strong><br/>{leftLabel}: #(left)<br/>{rightLabel}: #(right)<br/>Δ: #(delta)'
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Sorting"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Sort, {
+        ...props,
+        options: [{
+          label: (0,external_wp_i18n_.__)('Default', 'dg'),
+          value: 'default'
+        }, {
+          label: (0,external_wp_i18n_.__)('Alphabetically', 'dg'),
+          value: 'alphabetically'
+        }, {
+          label: (0,external_wp_i18n_.__)('By Date', 'dg'),
+          value: 'date'
+        }, {
+          label: (0,external_wp_i18n_.__)('By Difference', 'dg'),
+          value: 'values'
+        }]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Dumbbell = (DumbbellOptions);
+;// ./charts/Histogram.jsx
+
+
+
+
+
+const HistogramOptions = props => {
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Histogram Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Examples & Presets"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('API mapping')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 dimension for the observations / records.'), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 measure for the numeric value that should be binned.'), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Optional second dimension can be used as a series / comparison grouping when available.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('CSV example')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "label,value,series,weight"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "Pixel 1,3.2,Scenario A,1"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "Pixel 2,4.1,Scenario A,1"
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Default tooltip')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: '<strong>{series}</strong><br/>{binStart} – {binEnd}<br/>Count: #(value)'
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Histogram = (HistogramOptions);
+;// ./charts/Scatter.jsx
+
+
+
+
+
+const ScatterOptions = props => {
+  const {
+    setAttributes,
+    attributes: {
+      scatterMinSize,
+      scatterMaxSize,
+      scatterShowLabels,
+      scatterConnectPoints,
+      scatterPointOpacity,
+      scatterReferenceX,
+      scatterReferenceY,
+      scatterReferenceXLabel,
+      scatterReferenceYLabel,
+      scatterQuadrantTopLeftLabel,
+      scatterQuadrantTopRightLabel,
+      scatterQuadrantBottomLeftLabel,
+      scatterQuadrantBottomRightLabel
+    }
+  } = props;
+  const showQuadrantLabels = scatterReferenceX !== '' && scatterReferenceY !== '';
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Scatter Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Points & Labels"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Min Point Size'),
+          value: scatterMinSize,
+          onChange: value => setAttributes({
+            scatterMinSize: value || 1
+          }),
+          min: 1,
+          max: 40
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Max Point Size'),
+          value: scatterMaxSize,
+          onChange: value => setAttributes({
+            scatterMaxSize: value || 1
+          }),
+          min: 1,
+          max: 80
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Point Opacity'),
+          value: scatterPointOpacity,
+          onChange: value => setAttributes({
+            scatterPointOpacity: value !== null && value !== void 0 ? value : 0.85
+          }),
+          min: 0.1,
+          max: 1,
+          step: 0.05
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Show Point Labels"),
+          checked: scatterShowLabels === true,
+          onChange: value => setAttributes({
+            scatterShowLabels: value
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Connect Points"),
+          checked: scatterConnectPoints === true,
+          onChange: value => setAttributes({
+            scatterConnectPoints: value
+          })
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Quadrants & Guides"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)('Vertical Reference (X)'),
+          value: scatterReferenceX,
+          onChange: value => setAttributes({
+            scatterReferenceX: value
+          }),
+          help: (0,external_wp_i18n_.__)('Numeric value for the vertical guide line.')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)('Vertical Reference Label'),
+          value: scatterReferenceXLabel,
+          onChange: value => setAttributes({
+            scatterReferenceXLabel: value
+          })
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)('Horizontal Reference (Y)'),
+          value: scatterReferenceY,
+          onChange: value => setAttributes({
+            scatterReferenceY: value
+          }),
+          help: (0,external_wp_i18n_.__)('Numeric value for the horizontal guide line.')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+          label: (0,external_wp_i18n_.__)('Horizontal Reference Label'),
+          value: scatterReferenceYLabel,
+          onChange: value => setAttributes({
+            scatterReferenceYLabel: value
+          })
+        })
+      }), showQuadrantLabels && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)('Top Left Quadrant Label'),
+            value: scatterQuadrantTopLeftLabel,
+            onChange: value => setAttributes({
+              scatterQuadrantTopLeftLabel: value
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)('Top Right Quadrant Label'),
+            value: scatterQuadrantTopRightLabel,
+            onChange: value => setAttributes({
+              scatterQuadrantTopRightLabel: value
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)('Bottom Left Quadrant Label'),
+            value: scatterQuadrantBottomLeftLabel,
+            onChange: value => setAttributes({
+              scatterQuadrantBottomLeftLabel: value
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+            label: (0,external_wp_i18n_.__)('Bottom Right Quadrant Label'),
+            value: scatterQuadrantBottomRightLabel,
+            onChange: value => setAttributes({
+              scatterQuadrantBottomRightLabel: value
+            })
+          })
+        })]
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Examples & Presets"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Scatter / Quadrant')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 2 measures: first = X, second = Y.'), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 dimension for point labels, optional 2nd dimension for series.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Bubble')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 3 measures: X, Y, then Size.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Frontier')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Enable “Connect Points” and use a series dimension or naturally ordered point labels.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('CSV example')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "label,x,y,size,series"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "County A,12,48,120,Scenario 1"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "County B,18,52,180,Scenario 1"
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Default tooltip')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: '<strong>{label}</strong><br/>{xLabel}: #(x)<br/>{yLabel}: #(y)<br/>Series: {seriesDisplay}'
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Bubble tooltip example')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: '<strong>{label}</strong><br/>{xLabel}: #(x)<br/>{yLabel}: #(y)<br/>{sizeLabel}: #(size)'
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Scatter = (ScatterOptions);
+;// ./charts/Heatmap.jsx
+
+
+
+
+
+const HeatmapOptions = props => {
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Heatmap Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Examples & Presets"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('API mapping')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 2 dimensions: first = rows, second = columns.'), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 measure for the cell value / intensity.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('CSV example')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "row,column,value"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "County A,2024,12"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "County A,2025,18"
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Default tooltip')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: '<strong>{rowLabel}</strong><br/>{columnLabel}<br/>{measureLabel}: #(value)'
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Heatmap = (HeatmapOptions);
+;// ./charts/IntervalPlot.jsx
+
+
+
+
+
+
+const IntervalPlotOptions = props => {
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Interval Plot Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Examples & Presets"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('API mapping')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 1 dimension for labels.'), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), (0,external_wp_i18n_.__)('Use 3 measures in order: Center, Low, High.')]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('CSV example')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "label,center,low,high"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "County A,250,210,290"
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: "County B,180,140,230"
+          })]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("strong", {
+            children: (0,external_wp_i18n_.__)('Default tooltip')
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("br", {}), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("code", {
+            children: '<strong>{label}</strong><br/>{lowLabel}: #(low)<br/>{centerLabel}: #(value)<br/>{highLabel}: #(high)'
+          })]
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Sorting"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_Sort, {
+        ...props,
+        options: [{
+          label: (0,external_wp_i18n_.__)('Default', 'dg'),
+          value: 'default'
+        }, {
+          label: (0,external_wp_i18n_.__)('Alphabetically', 'dg'),
+          value: 'alphabetically'
+        }, {
+          label: (0,external_wp_i18n_.__)('By Date', 'dg'),
+          value: 'date'
+        }, {
+          label: (0,external_wp_i18n_.__)('Expected Value', 'dg'),
+          value: 'values'
+        }]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_AxisConfig, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const IntervalPlot = (IntervalPlotOptions);
+;// ./charts/Info.jsx
+
+
+
+
+
+const Info_PieOptions = props => {
+  const {
+    setAttributes,
+    attributes: {
+      figure
+    }
+  } = props;
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Inf Graphic Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+        label: (0,external_wp_i18n_.__)('Figure'),
+        value: [figure] // e.g: value = [ 'a', 'c' ]
+        ,
+        onChange: value => {
+          setAttributes({
+            figure: value
+          });
+        },
+        options: [{
+          label: 'Male',
+          value: 'male'
+        }, {
+          label: 'Female',
+          value: 'female'
+        }]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+      ...props
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Format/* default */.A, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Info = (Info_PieOptions);
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(8468);
+var external_lodash_default = /*#__PURE__*/__webpack_require__.n(external_lodash_);
+;// ./charts/MobileConfig.jsx
+
+
+
+
+
+
+const MarginSection = ({
+  setAttributes,
+  attributes: {
+    mobileCustomization
+  }
+}) => {
+  const {
+    marginBottom,
+    marginLeft,
+    marginRight,
+    marginTop
+  } = mobileCustomization;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Margins"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Margin Bottom (Space between chart area and bottom border)"),
+        value: marginBottom,
+        onChange: marginBottom => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            marginBottom: marginBottom,
+            yAxisIntervalUserModified: true
+          }
+        }),
+        min: -500,
+        max: 500
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Margin Left (Space between chart area and left border)"),
+        value: marginLeft,
+        initialPosition: 0,
+        onChange: marginLeft => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            marginLeft: marginLeft
+          }
+        }),
+        step: 1,
+        min: -500,
+        max: 500
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Margin Right"),
+        value: marginRight,
+        onChange: marginRight => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            marginRight: marginRight
+          }
+        }),
+        min: -500,
+        max: 500
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Margin Top"),
+        value: marginTop,
+        onChange: marginTop => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            marginTop: marginTop
+          }
+        }),
+        min: -500,
+        max: 500
+      })
+    })]
+  });
+};
+const RadarMarginSection = ({
+  setAttributes,
+  attributes: {
+    mobileCustomization
+  }
+}) => {
+  const {
+    mobileMarginBottom,
+    mobileMarginLeft,
+    mobileMarginRight,
+    mobileMarginTop,
+    tabletMarginBottom,
+    tabletMarginLeft,
+    tabletMarginRight,
+    tabletMarginTop
+  } = mobileCustomization;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Mobile Margins"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Mobile Margin Bottom (space between chart area and bottom border)"),
+          value: mobileMarginBottom,
+          onChange: marginBottom => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              mobileMarginBottom: marginBottom
+            }
+          }),
+          min: -500,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Mobile Margin Left (space between chart area and left border)"),
+          value: mobileMarginLeft,
+          onChange: marginLeft => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              mobileMarginLeft: marginLeft
+            }
+          }),
+          step: 1,
+          min: -500,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Mobile Margin Right"),
+          value: mobileMarginRight,
+          onChange: marginRight => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              mobileMarginRight: marginRight
+            }
+          }),
+          min: -500,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Mobile Margin Top"),
+          value: mobileMarginTop,
+          onChange: marginTop => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              mobileMarginTop: marginTop
+            }
+          }),
+          min: -500,
+          max: 500
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Tablet Margins"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Tablet Margin Bottom (space between chart area and bottom border)"),
+          value: tabletMarginBottom,
+          onChange: marginBottom => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              tabletMarginBottom: marginBottom
+            }
+          }),
+          min: -500,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Tablet Margin Left (space between chart area and left border)"),
+          value: tabletMarginLeft,
+          onChange: marginLeft => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              tabletMarginLeft: marginLeft
+            }
+          }),
+          step: 1,
+          min: -500,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Tablet Margin Right"),
+          value: tabletMarginRight,
+          onChange: marginRight => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              tabletMarginRight: marginRight
+            }
+          }),
+          min: -500,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Tablet Margin Top"),
+          value: tabletMarginTop,
+          onChange: marginTop => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              tabletMarginTop: marginTop
+            }
+          }),
+          min: -500,
+          max: 500
+        })
+      })]
+    })]
+  });
+};
+const PaddingSection = ({
+  setAttributes,
+  attributes: {
+    mobileCustomization,
+    barPadding,
+    barInnerPadding
+  }
+}) => {
+  var _mobileCustomization$, _mobileCustomization$2;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Padding"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Bar Padding (Space between bars that are not in the same group)"),
+        value: (_mobileCustomization$ = mobileCustomization?.barPadding) !== null && _mobileCustomization$ !== void 0 ? _mobileCustomization$ : barPadding,
+        initialPosition: 0.15,
+        onChange: newBarPadding => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            barPadding: newBarPadding
+          }
+        }),
+        step: 0.05,
+        min: 0,
+        max: 1
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Bar Inner Padding (Space between bars in the same group)"),
+        value: (_mobileCustomization$2 = mobileCustomization?.barInnerPadding) !== null && _mobileCustomization$2 !== void 0 ? _mobileCustomization$2 : barInnerPadding,
+        initialPosition: 0.75,
+        onChange: barInnerPadding => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            barInnerPadding: barInnerPadding
+          }
+        }),
+        step: 0.25,
+        min: 0,
+        max: 50
+      })
+    })]
+  });
+};
+const TitleSection = ({
+  setAttributes,
+  attributes: {
+    mobileCustomization
+  }
+}) => {
+  var _mobileCustomization$3, _mobileCustomization$4, _mobileCustomization$5;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Axis Titles"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show X Axis Title"),
+        checked: (_mobileCustomization$3 = mobileCustomization?.showXAxisTitle) !== null && _mobileCustomization$3 !== void 0 ? _mobileCustomization$3 : true,
+        onChange: isShowXAxisTitle => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            showXAxisTitle: isShowXAxisTitle
+          }
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show Y Axis Title"),
+        checked: (_mobileCustomization$4 = mobileCustomization?.showYAxisTitle) !== null && _mobileCustomization$4 !== void 0 ? _mobileCustomization$4 : true,
+        onChange: isShowYAxisTitle => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            showYAxisTitle: isShowYAxisTitle
+          }
+        })
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show Right Axis Title"),
+        checked: (_mobileCustomization$5 = mobileCustomization?.showRightAxisTitle) !== null && _mobileCustomization$5 !== void 0 ? _mobileCustomization$5 : true,
+        onChange: isShowRightAxisTitle => setAttributes({
+          mobileCustomization: {
+            ...mobileCustomization,
+            showRightAxisTitle: isShowRightAxisTitle
+          }
+        })
+      })
+    })]
+  });
+};
+const IntervalsSection = ({
+  setAttributes,
+  attributes: {
+    mobileCustomization,
+    yAxisTickValues,
+    xAxisTickValues,
+    layout
+  }
+}) => {
+  var _mobileCustomization$6, _mobileCustomization$7;
+  const isHorizontal = layout === "horizontal" && mobileCustomization.chartLayoutOverride === false || layout === "vertical" && mobileCustomization.chartLayoutOverride === true;
+  const isVertical = layout === "vertical" && mobileCustomization.chartLayoutOverride === false || layout === "horizontal" && mobileCustomization.chartLayoutOverride === true;
+  const onIntervalChange = (value, prop, intervalProp) => {
+    const newObject = Object.assign({}, mobileCustomization);
+    if (newObject) {
+      newObject[prop] = value;
+      newObject[intervalProp] = true;
+    }
+    setAttributes({
+      mobileCustomization: newObject
+    });
+  };
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Intervals"),
+    children: [
+    /**
+     * the number of intervals should default to the value set by yAxisTickValues
+     * this should only be displayed when the layout is vertical and the mobileCustomization.chartLayoutOverride is false
+     */
+    isVertical && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Number of Y Axis Intervals"),
+        value: !mobileCustomization?.yAxisIntervalUserModified ? yAxisTickValues : (_mobileCustomization$6 = mobileCustomization.yAxisTickValues) !== null && _mobileCustomization$6 !== void 0 ? _mobileCustomization$6 : yAxisTickValues,
+        onChange: newYAxisTickValue => onIntervalChange(newYAxisTickValue, "yAxisTickValues", "yAxisIntervalUserModified"),
+        min: 0,
+        max: 50
+      })
+    }),
+    /**
+     * the number of intervals should default to the value set by xAxisTickValues
+     * this should only be displayed when the layout is horizontal and the mobileCustomization.chartLayoutOverride is false
+     * */
+    isHorizontal && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+        label: (0,external_wp_i18n_.__)("Number of X Axis Intervals"),
+        value: !mobileCustomization?.xAxisIntervalUserModified ? xAxisTickValues : (_mobileCustomization$7 = mobileCustomization.xAxisTickValues) !== null && _mobileCustomization$7 !== void 0 ? _mobileCustomization$7 : xAxisTickValues,
+        onChange: newXAxisTickValue => onIntervalChange(newXAxisTickValue, "xAxisTickValues", "xAxisIntervalUserModified"),
+        min: 0,
+        max: 50
+      })
+    })]
+  });
+};
+const RadarSection = props => {
+  const {
+    setAttributes,
+    attributes: {
+      mobileCustomization
+    }
+  } = props;
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Radar Settings"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Tablet"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Tablet Y Axis Line Height"),
+          value: !mobileCustomization?.tabletYAxisLineHeight ? 12 : mobileCustomization.tabletYAxisLineHeight,
+          onChange: value => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              tabletYAxisLineHeight: value
+            }
+          }),
+          min: 0,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Tablet Max Tick Word Length"),
+          value: !mobileCustomization?.tabletMaxTickLength ? 25 : mobileCustomization.tabletMaxTickLength,
+          onChange: value => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              tabletMaxTickLength: value
+            }
+          }),
+          min: 0,
+          max: 500
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Mobile"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Mobile Y Axis Line Height"),
+          value: !mobileCustomization?.mobileYAxisLineHeight ? 12 : mobileCustomization.mobileYAxisLineHeight,
+          onChange: value => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              mobileYAxisLineHeight: value
+            }
+          }),
+          min: 0,
+          max: 500
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)("Mobile Max Tick Word Length."),
+          value: !mobileCustomization?.mobileMaxTickLength ? 25 : mobileCustomization.mobileMaxTickLength,
+          onChange: value => setAttributes({
+            mobileCustomization: {
+              ...mobileCustomization,
+              mobileMaxTickLength: value
+            }
+          }),
+          min: 0,
+          max: 500
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Margins"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(RadarMarginSection, {
+        ...props
+      })
+    })]
+  });
+};
+const MobileConfig = props => {
+  const {
+    setAttributes,
+    attributes: {
+      type,
+      mobileCustomization,
+      csv,
+      app,
+      measures,
+      dimension1,
+      yAxisTickValues,
+      xAxisTickValues,
+      tickRotation
+    },
+    allMeasures,
+    allCategories,
+    allDimensions
+  } = props;
+  const [xAxisLabels, setXAxisLabels] = (0,external_React_.useState)([]);
+  const onIntervalChange = (value, prop, intervalProp, mobileCustomizationObject) => {
+    const newObject = Object.assign({}, mobileCustomizationObject);
+    if (newObject) {
+      newObject[prop] = value;
+      newObject[intervalProp] = true;
+    }
+    setAttributes({
+      mobileCustomization: newObject
+    });
+  };
+  (0,external_React_.useEffect)(() => {
+    const updatedMobileCustomization = {
+      ...mobileCustomization
+    };
+    if (!mobileCustomization.yAxisIntervalUserModified) {
+      updatedMobileCustomization.yAxisTickValues = yAxisTickValues;
+    }
+    if (!mobileCustomization.xAxisIntervalUserModified) {
+      updatedMobileCustomization.xAxisTickValues = xAxisTickValues;
+    }
+    if (!mobileCustomization.mobileXAxisTextRotationModified) {
+      updatedMobileCustomization.mobileXAxisTextRotation = tickRotation;
+    }
+    if (!mobileCustomization.tabletXAxisTextRotationModified) {
+      updatedMobileCustomization.tabletXAxisTextRotation = tickRotation;
+    }
+    setAttributes({
+      mobileCustomization: updatedMobileCustomization
+    });
+  }, [yAxisTickValues, xAxisTickValues, tickRotation]);
+  (0,external_React_.useEffect)(() => {
+    let labels = [];
+    const categoryKey = `_categories_${app}`;
+    if (app === "csv") {
+      labels = (0,build/* extractAxisValues */.n9)(csv);
+    } else {
+      if (dimension1 !== "none") {
+        const dimensionKey = `_dimensions_${app}`;
+        const dimensions = (0,build/* getStoredOrSetItem */.Sw)(dimensionKey, allDimensions, true);
+        const categories = (0,build/* getStoredOrSetItem */.Sw)(categoryKey, allCategories, true);
+        const dimType = dimensions.filter(dim => dim.value === dimension1)?.[0]?.type;
+        const matchedCategories = categories.filter(a => a.type === dimType);
+        labels = matchedCategories[0]?.items?.map(item => item.value) || [];
+      } else {
+        if (allMeasures && measures) {
+          (0,build/* updateMeasureLabels */.DU)(allMeasures, measures, app);
+          const selectedMeasures = (0,build/* getSelectedItemsForApp */.E7)(measures, app);
+          labels = external_lodash_default().isEmpty(selectedMeasures) ? [] : (0,build/* getSelectedLabelsForApp */.Bv)(selectedMeasures);
+        } else {
+          labels = [];
+        }
+      }
+    }
+    setXAxisLabels(labels);
+  }, [app, dimension1, csv, allDimensions, allCategories, allMeasures, measures]);
+  const onXAxisLabelChange = (label, value) => {
+    const newObject = Object.assign({}, mobileCustomization);
+    if (newObject?.labels?.xAxis) {
+      newObject.labels.xAxis[label] = value;
+    }
+    setAttributes({
+      mobileCustomization: newObject
+    });
+  };
+  const onShowMobileCustomizationChange = value => {
+    setAttributes({
+      mobileCustomization: {
+        ...mobileCustomization,
+        showCustomization: value
+      }
+    });
+  };
+  const setInitialTogle = (initialToggleState, label, axis) => {
+    // initial toggle state is false
+    if (!initialToggleState) {
+      return mobileCustomization.labels[axis][label];
+    }
+    // initial toggle state is true but customization is already present
+    if (mobileCustomization?.labels.hasOwnProperty(axis)) {
+      if (mobileCustomization.labels[axis].hasOwnProperty(label)) {
+        return mobileCustomization.labels[axis][label];
+      }
+      return true;
+    }
+    // initial toggle state is true and customization is not present
+    return true;
+  };
+  const isBarOrLineOrPieOrRadar = ["bar", "line", "pie", "radar"].includes(type);
+  const isBarOrLineOrPie = ["bar", "line", "pie"].includes(type);
+  const isRadar = type === "radar";
+  const isBarOrLine = ["bar", "line"].includes(type);
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Mobile & Tablet Customization Settings"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+        label: (0,external_wp_i18n_.__)("Show Mobile & Tablet Customization Settings"),
+        checked: mobileCustomization?.showCustomization,
+        onChange: isShowMobileCustomization => onShowMobileCustomizationChange(isShowMobileCustomization)
+      })
+    }), isBarOrLineOrPieOrRadar && mobileCustomization?.showCustomization && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+      children: [isBarOrLine && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: (0,external_wp_i18n_.__)("Disable X Axis Labels"),
+            checked: mobileCustomization.xAxisDisabled,
+            onChange: isXAxisEnabled => setAttributes({
+              mobileCustomization: {
+                ...mobileCustomization,
+                xAxisDisabled: isXAxisEnabled
+              }
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: (0,external_wp_i18n_.__)("Override Chart Layout"),
+            checked: mobileCustomization.chartLayoutOverride,
+            onChange: isChartLayoutToggle => setAttributes({
+              mobileCustomization: {
+                ...mobileCustomization,
+                chartLayoutOverride: isChartLayoutToggle
+              }
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("Tablet Settings"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: (0,external_wp_i18n_.__)("Tablet Y Axis Line Height"),
+              value: !mobileCustomization?.tabletYAxisLineHeight ? 12 : mobileCustomization.tabletYAxisLineHeight,
+              onChange: value => setAttributes({
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  tabletYAxisLineHeight: value
+                }
+              }),
+              min: 0,
+              max: 500
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: (0,external_wp_i18n_.__)("Tablet Max Tick Word Length"),
+              value: !mobileCustomization?.tabletMaxTickLength ? 25 : mobileCustomization.tabletMaxTickLength,
+              onChange: value => setAttributes({
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  tabletMaxTickLength: value
+                }
+              }),
+              min: 0,
+              max: 500
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+              label: (0,external_wp_i18n_.__)("X Axis Text Rotation"),
+              value: !mobileCustomization?.tabletXAxisTextRotationModified ? tickRotation : mobileCustomization.tabletXAxisTextRotation,
+              onChange: value => onIntervalChange(value, "tabletXAxisTextRotation", "tabletXAxisTextRotationModified", mobileCustomization)
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("Mobile Settings"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: (0,external_wp_i18n_.__)("Mobile Y Axis Line Height"),
+              value: !mobileCustomization?.mobileYAxisLineHeight ? 12 : mobileCustomization.mobileYAxisLineHeight,
+              onChange: value => setAttributes({
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  mobileYAxisLineHeight: value
+                }
+              }),
+              min: 0,
+              max: 500
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+              label: (0,external_wp_i18n_.__)("Mobile Max Tick Word Length."),
+              value: !mobileCustomization?.mobileMaxTickLength ? 25 : mobileCustomization.mobileMaxTickLength,
+              onChange: value => setAttributes({
+                mobileCustomization: {
+                  ...mobileCustomization,
+                  mobileMaxTickLength: value
+                }
+              }),
+              min: 0,
+              max: 500
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.AnglePickerControl, {
+              label: (0,external_wp_i18n_.__)("X Axis Text Rotation"),
+              value: !mobileCustomization?.mobileXAxisTextRotationModified ? tickRotation : mobileCustomization.mobileXAxisTextRotation,
+              onChange: value => onIntervalChange(value, "mobileXAxisTextRotation", "mobileXAxisTextRotationModified", mobileCustomization)
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(IntervalsSection, {
+          ...props
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("All Labels"),
+          children: xAxisLabels?.map((label, index) => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)(label),
+              checked: setInitialTogle(true, label, "xAxis"),
+              onChange: value => {
+                onXAxisLabelChange(label, value);
+              }
+            }, `_____${index}${label}`)
+          }, `____${index}${label}`))
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(TitleSection, {
+          ...props
+        })]
+      }), isRadar && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(RadarSection, {
+        ...props
+      }), isBarOrLineOrPie && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(MarginSection, {
+        ...props
+      }), type === "bar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(PaddingSection, {
+        ...props
+      })]
+    })]
+  });
+};
+/* harmony default export */ const charts_MobileConfig = (MobileConfig);
+;// ./charts/Radar.jsx
+
+
+
+
+const RadarChart = props => {
+  const {
+    setAttributes,
+    attributes: {
+      radarCurve,
+      radarFillOpacity,
+      radarBorderWidth,
+      radarGridLevels,
+      radarGridShape,
+      radarGridLabelOffset,
+      radarEnableDots,
+      radarDotSize,
+      radarEnableDotLabel,
+      radarDotLabelOffset
+    }
+  } = props;
+  return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+    initialOpen: false,
+    title: (0,external_wp_i18n_.__)("Radar Options"),
+    children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Shape & Grid"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Curve'),
+          value: radarCurve,
+          onChange: value => setAttributes({
+            radarCurve: value
+          }),
+          options: [{
+            value: 'linearClosed',
+            label: (0,external_wp_i18n_.__)('Linear')
+          }, {
+            value: 'cardinalClosed',
+            label: (0,external_wp_i18n_.__)('Cardinal')
+          }, {
+            value: 'catmullRomClosed',
+            label: (0,external_wp_i18n_.__)('Catmull-Rom')
+          }, {
+            value: 'basisClosed',
+            label: (0,external_wp_i18n_.__)('Basis')
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Grid Shape'),
+          value: radarGridShape,
+          onChange: value => setAttributes({
+            radarGridShape: value
+          }),
+          options: [{
+            value: 'circular',
+            label: (0,external_wp_i18n_.__)('Circular')
+          }, {
+            value: 'linear',
+            label: (0,external_wp_i18n_.__)('Polygon')
+          }]
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Grid Levels'),
+          value: Number(radarGridLevels) || 1,
+          onChange: value => setAttributes({
+            radarGridLevels: value || 1
+          }),
+          min: 1,
+          max: 12
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Grid Label Offset'),
+          value: Number(radarGridLabelOffset) || 0,
+          onChange: value => setAttributes({
+            radarGridLabelOffset: value || 0
+          }),
+          min: -100,
+          max: 100
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Series & Dots"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Area Fill Opacity'),
+          value: Number(radarFillOpacity) || 0,
+          onChange: value => setAttributes({
+            radarFillOpacity: value !== null && value !== void 0 ? value : 0
+          }),
+          min: 0,
+          max: 1,
+          step: 0.05
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Border Width'),
+          value: Number(radarBorderWidth) || 0,
+          onChange: value => setAttributes({
+            radarBorderWidth: value || 0
+          }),
+          min: 0,
+          max: 10
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+          label: (0,external_wp_i18n_.__)("Enable Dots"),
+          checked: radarEnableDots === true,
+          onChange: value => setAttributes({
+            radarEnableDots: value
+          })
+        })
+      }), radarEnableDots === true && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+            label: (0,external_wp_i18n_.__)('Dot Size'),
+            value: Number(radarDotSize) || 0,
+            onChange: value => setAttributes({
+              radarDotSize: value || 0
+            }),
+            min: 0,
+            max: 24
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+            label: (0,external_wp_i18n_.__)("Enable Dot Labels"),
+            checked: radarEnableDotLabel === true,
+            onChange: value => setAttributes({
+              radarEnableDotLabel: value
+            })
+          })
+        }), radarEnableDotLabel === true && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+            label: (0,external_wp_i18n_.__)('Dot Label Offset'),
+            value: Number(radarDotLabelOffset) || 0,
+            onChange: value => setAttributes({
+              radarDotLabelOffset: value || 0
+            }),
+            min: -40,
+            max: 40
+          })
+        })]
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Colors"),
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartColors */.zK, {
+        ...props
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* ChartLegends */.NV, {
+      ...props
+    })]
+  })];
+};
+/* harmony default export */ const Radar = (RadarChart);
+;// ./charts/BlockEdit.js
+
+
+ // or wp.editor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
+  constructor(props) {
+    super(props);
+    this.ignoreAttributes = ['tooltip'];
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {
+      setAttributes,
+      attributes: {
+        type,
+        colorBy,
+        dimension1,
+        dimension2,
+        tooltipHTML
+      },
+      forcedType
+    } = this.props;
+    const prevForcedType = prevProps.forcedType;
+    const effectiveType = forcedType || type;
+    const prevType = prevForcedType || prevProps.attributes.type;
+    const previousTooltipTemplate = prevProps.attributes.tooltipHTML;
+    const newPreviewMode = this.state?.previewMode;
+    if (newPreviewMode !== prevState.previewMode) {
+      setAttributes({
+        previewMode: newPreviewMode
+      });
+    }
+    if (effectiveType !== prevType) {
+      if (effectiveType === 'radar') {
+        if (colorBy !== 'id') {
+          setAttributes({
+            colorBy: 'id'
+          });
+        }
+      }
+      if (effectiveType === 'pie') {
+        if (dimension1 !== 'none' && dimension2 === 'none' && colorBy !== 'index') {
+          setAttributes({
+            colorBy: 'index'
+          });
+        }
+        if (dimension1 !== 'none' && dimension2 !== 'none' && colorBy !== 'id') {
+          setAttributes({
+            colorBy: 'id'
+          });
+        }
+      }
+      const previousDefaultTooltip = getDefaultTooltipTemplate(prevType);
+      const currentDefaultTooltip = getDefaultTooltipTemplate(effectiveType);
+      const shouldUpdateTooltipTemplate = ['', '{value}', previousDefaultTooltip].includes((tooltipHTML || '').trim()) || ['', '{value}', previousDefaultTooltip].includes((previousTooltipTemplate || '').trim());
+      if (shouldUpdateTooltipTemplate && currentDefaultTooltip !== tooltipHTML) {
+        setAttributes({
+          tooltipHTML: currentDefaultTooltip
+        });
+      }
+    }
+    super.componentDidUpdate(prevProps, prevState, snapshot);
+  }
+  render() {
+    const {
+      forcedType,
+      previewComponentName
+    } = this.props;
+    console.log("apps", this.state.apps);
+    const {
+      className,
+      isSelected,
+      toggleSelection,
+      setAttributes,
+      attributes: {
+        measures,
+        height,
+        type,
+        groupMode,
+        bottomLegend,
+        leftLegend,
+        scheme,
+        colorBy,
+        dimension1,
+        dimension2,
+        dimension3,
+        csv,
+        mode,
+        dualMode,
+        toggleInfoLabel,
+        toggleChartLabel,
+        dataSourceLabel,
+        dataSource,
+        showLegends,
+        legendPosition,
+        marginLeft,
+        marginTop,
+        marginRight,
+        marginBottom,
+        app,
+        tooltipHTML,
+        tooltip,
+        tickColor,
+        tickRotation,
+        offsetText,
+        format,
+        filters,
+        startAngle,
+        endAngle,
+        reverse,
+        layout,
+        offsetY,
+        csvLineColor,
+        csvLineTooltip,
+        csvLineLayerData,
+        csvLineTitle,
+        lineLayerEnabled,
+        group,
+        maxValue,
+        valueScale,
+        swap,
+        noDataMessage,
+        legendLabel,
+        barColor,
+        overrideTickColor,
+        fixedMaxValue,
+        fixedMinValue,
+        types,
+        barPadding,
+        barLabelPosition,
+        showGrid,
+        includeOverall,
+        tooltipEnabled,
+        barInnerPadding,
+        useCheckBoxBackground,
+        useLabelBackground,
+        xLabelColor,
+        barLabelColor,
+        legendLabelColor,
+        highlightXAxisLine,
+        showTickLine,
+        showRightAxis,
+        rightLegend,
+        offsetRight,
+        manualColors,
+        offsetBottom,
+        hiddenBars,
+        enableArea,
+        areaShadingCriteria,
+        areaLowerBound,
+        areaUpperBound,
+        showPoints,
+        confidenceIntervals,
+        showGroupTotal,
+        groupTotalMeasure,
+        groupTotalFormat,
+        groupTotalLabel,
+        groupTotalLabelOffset,
+        groupTotalFixedPosition,
+        centerLabel,
+        showArcLabels,
+        showArcLinkLabels,
+        slicePadding,
+        centerLabelFontWeight,
+        centerLabelFontSize,
+        centerLabelXOffset,
+        centerLabelYOffset,
+        tooltipEnableMarkdown,
+        yAxisTickValues,
+        enableGridY,
+        overallLabel,
+        enableGridX,
+        minMaxClamp,
+        mobileCustomization,
+        dvzProxyDatasetId,
+        waitForFilters,
+        enableMeasureSelector,
+        measureSelectorLabel,
+        defaultMeasure
+      }
+    } = this.props;
+    if (forcedType && type !== forcedType) {
+      setAttributes({
+        type: forcedType
+      });
+      return null;
+    }
+    const effectiveType = forcedType || type;
+    if (Object.keys(measures).indexOf("global") > -1) {
+      //migrating measures
+      const appMeasures = {};
+      appMeasures[app] = {};
+      appMeasures['csv'] = measures['csv'];
+      const count = Object.keys(measures).filter(k => measures[k].selected).length;
+      Object.keys(measures).filter(k => ['global', 'csv'].indexOf(k) == -1).forEach(k => {
+        if (measures[k].selected) {
+          appMeasures[app][k] = measures[k];
+        }
+        if (count == 1) {
+          appMeasures[app]['format'] = measures[k].format;
+        }
+        if (count > 1) {
+          appMeasures[app]['format'] = measures['global']['format'];
+        }
+      });
+      setAttributes({
+        measures: appMeasures
+      });
+      return null;
+    }
+    //migration code
+    if (tooltip != '') {
+      setAttributes({
+        tooltipHTML: tooltip,
+        tooltip: ''
+      });
+      return null;
+    }
+    const levels = [dimension1, dimension2, dimension3];
+    const source = levels.filter(l => l != 'none' && l != null).join('/');
+    let params = {};
+    filters.forEach(f => {
+      if (f.value != null && f.value.filter(v => v != null && v.toString().trim() != "").length > 0) params[f.param] = f.value;
+    });
+    const datasets = [{
+      label: 'Select Dataset',
+      value: '0'
+    }];
+    if (this.state.datasets) {
+      this.state.datasets.forEach(d => {
+        datasets.push({
+          label: d.label,
+          value: d.id
+        });
+      });
+    }
+    const divStyles = {
+      height: height + 'px',
+      width: '100%'
+    };
+    const selectedMeasureOptions = [{
+      label: (0,external_wp_i18n_.__)('First selected measure'),
+      value: ''
+    }];
+    if (app !== 'csv' && this.state.measures && measures && measures[app]) {
+      this.state.measures.filter(measure => measures[app][measure.value] && measures[app][measure.value].selected).forEach(measure => {
+        selectedMeasureOptions.push({
+          label: `${measure.group} - ${measure.label}`,
+          value: measure.value
+        });
+      });
+    }
+    return [isSelected && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.InspectorControls, {
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.Panel, {
+        header: (0,external_wp_i18n_.__)("Chart Configuration"),
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+          panelStatus: this.props.attributes.panelStatus['GROUP'],
+          onToggle: e => (0,build/* togglePanel */.Pj)("GROUP", this.props.attributes.panelStatus, setAttributes),
+          title: (0,external_wp_i18n_.__)("Group"),
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+              label: (0,external_wp_i18n_.__)('Name'),
+              value: group,
+              onChange: group => setAttributes({
+                group
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Wait For Filters'),
+              checked: waitForFilters,
+              onChange: () => setAttributes({
+                waitForFilters: !waitForFilters
+              })
+            })
+          })]
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* SizeConfig */.yr, {
+          setAttributes: setAttributes,
+          panelStatus: this.props.attributes.panelStatus,
+          height: height
+        }), forcedType || effectiveType === 'map' ? null : /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+          initialOpen: false,
+          title: (0,external_wp_i18n_.__)("Chart Type"),
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+              label: (0,external_wp_i18n_.__)('Type'),
+              value: [effectiveType] // e.g: value = [ 'a', 'c' ]
+              ,
+              onChange: value => {
+                if (value != 'bar' && scheme == 'plain_color') {
+                  //    setAttributes({scheme: 'system'})
+                }
+                setAttributes({
+                  type: value
+                });
+              },
+              options: app == 'csv' ? [{
+                label: 'Bar',
+                value: 'bar'
+              }, {
+                label: 'Pie',
+                value: 'pie'
+              }, {
+                label: 'Line',
+                value: 'line'
+              }, {
+                label: 'Radar',
+                value: 'radar'
+              }, {
+                label: 'Bump',
+                value: 'bump'
+              }, {
+                label: 'Waterfall',
+                value: 'waterfall'
+              }, {
+                label: 'Dumbbell',
+                value: 'dumbbell'
+              }, {
+                label: 'Histogram',
+                value: 'histogram'
+              }, {
+                label: 'Scatter',
+                value: 'scatter'
+              }, {
+                label: 'Heatmap',
+                value: 'heatmap'
+              }, {
+                label: 'Sunburst',
+                value: 'sunburst'
+              }, {
+                label: 'Interval Plot',
+                value: 'intervalPlot'
+              }, {
+                label: 'Diverging',
+                value: 'diverging'
+              }] : types
+            })
+          })
+        }), mode == 'chart' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+          children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("API & Source"),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                label: (0,external_wp_i18n_.__)('Provider'),
+                value: [app] // e.g: value = [ 'a', 'c' ]
+                ,
+                onChange: app => {
+                  this.setState({
+                    dimensions: [],
+                    measures: [],
+                    filters: [],
+                    categories: []
+                  }, () => {
+                    setAttributes({
+                      dvzProxyDatasetId: null,
+                      dimension1: 'none',
+                      dimension2: 'none',
+                      dimension3: 'none',
+                      measures: Object.assign({}, build/* DEFAULT_FORMAT_SETTINGS */.cx)
+                    });
+                  });
+                  setAttributes({
+                    app: app
+                  });
+                },
+                options: this.state.apps
+              })
+            }), (0,build/* isSupersetAPI */.oL)(app, this.state.apps) && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelRow, {
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+                label: (0,external_wp_i18n_.__)('Datasets'),
+                value: [dvzProxyDatasetId],
+                onChange: newDatasetId => {
+                  this.setState({
+                    dimensions: [],
+                    measures: [],
+                    filters: [],
+                    categories: []
+                  }, () => {
+                    setAttributes({
+                      dvzProxyDatasetId: newDatasetId,
+                      dimension1: 'none',
+                      dimension2: 'none',
+                      dimension3: 'none',
+                      measures: Object.assign({}, build/* DEFAULT_FORMAT_SETTINGS */.cx)
+                    });
+                  });
+
+                  //look at component did update of BlockEditWithAPIMetadata
+                  //this.loadMetadata(app, newDatasetId)
+                },
+                options: datasets
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.Button, {
+                isPrimary: true,
+                size: "small",
+                onClick: () => this.evictSuperSetCache(),
+                children: "O"
+              })]
+            })]
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* APIConfig */.pG, {
+            allDimensions: this.state.dimensions,
+            allFilters: this.state.filters,
+            allMeasures: this.state.measures,
+            allCategories: this.state.categories,
+            allApps: this.state.apps,
+            ...this.props
+          }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* CSVConfig */.dM, {
+            ...this.props
+          }), (effectiveType === "bar" || effectiveType === "diverging") && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Bar, {
+            ...this.props,
+            apps: this.state.apps,
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories
+          }), (effectiveType === "pie" || effectiveType === "sunburst") && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Pie, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "line" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Line, {
+            ...this.props,
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            measures: measures
+          }), effectiveType === "bump" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Bump, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "waterfall" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Waterfall, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "dumbbell" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Dumbbell, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "histogram" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Histogram, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "scatter" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Scatter, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "heatmap" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Heatmap, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "intervalPlot" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(IntervalPlot, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "radar" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Radar, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), effectiveType === "info" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(Info, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            ...this.props
+          }), app == 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("Tooltip"),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                label: (0,external_wp_i18n_.__)("Enable Tooltip"),
+                checked: tooltipEnabled,
+                onChange: isToolTipEnabled => {
+                  setAttributes({
+                    tooltipEnabled: isToolTipEnabled,
+                    tooltip: setTooltipState(isToolTipEnabled, tooltipHTML, effectiveType)
+                  });
+                }
+              })
+            }), tooltipEnabled && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                  label: (0,external_wp_i18n_.__)("Enable Markdown Syntax Support"),
+                  checked: tooltipEnableMarkdown,
+                  onChange: tooltipEnableMarkdown => {
+                    setAttributes({
+                      tooltipEnableMarkdown
+                    });
+                  }
+                })
+              }), effectiveType === "pie" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+                initialOpen: false,
+                title: (0,external_wp_i18n_.__)("Variables"),
+                children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                  children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+                    style: {
+                      "font-size": "11px"
+                    },
+                    children: ["Value -> ", '{value}']
+                  })
+                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                  children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+                    style: {
+                      "font-size": "11px"
+                    },
+                    children: ["Value Percent -> ", '{valuePercent}']
+                  })
+                }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                  children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("span", {
+                    style: {
+                      "font-size": "11px"
+                    },
+                    children: ["Category -> ", '{category}']
+                  })
+                })]
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextareaControl, {
+                  label: (0,external_wp_i18n_.__)("Tooltip"),
+                  value: tooltipHTML,
+                  help: (0,external_wp_i18n_.__)("You can use variables {var_name}"),
+                  onChange: tooltipHTML => setAttributes({
+                    tooltipHTML
+                  }),
+                  rows: 10
+                })
+              })]
+            })]
+          }), app != 'csv' && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: (0,external_wp_i18n_.__)("Tooltip"),
+            children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                label: (0,external_wp_i18n_.__)("Enable Tooltip"),
+                checked: tooltipEnabled,
+                onChange: isToolTipEnabled => {
+                  setAttributes({
+                    tooltipEnabled: isToolTipEnabled,
+                    tooltip: setTooltipState(isToolTipEnabled, tooltipHTML, effectiveType)
+                  });
+                }
+              })
+            }), tooltipEnabled && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+              children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+                children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+                  label: (0,external_wp_i18n_.__)("Enable Markdown Syntax Support"),
+                  checked: tooltipEnableMarkdown,
+                  onChange: tooltipEnableMarkdown => {
+                    setAttributes({
+                      tooltipEnableMarkdown
+                    });
+                  }
+                })
+              }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Tooltip */.m_, {
+                allDimensions: this.state.dimensions,
+                allMeasures: this.state.measures,
+                ...this.props
+              })]
+            })]
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelBody, {
+            initialOpen: false,
+            title: "Messages",
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+              children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
+                label: (0,external_wp_i18n_.__)('No Data Message'),
+                value: noDataMessage,
+                onChange: noDataMessage => setAttributes({
+                  noDataMessage
+                })
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(charts_MobileConfig, {
+            allMeasures: this.state.measures,
+            allDimensions: this.state.dimensions,
+            allCategories: this.state.categories,
+            attributes: this.props.attributes,
+            setAttributes: setAttributes
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ResizableBox, {
+      size: {
+        height
+      },
+      style: {
+        "margin": "auto",
+        width: "100%"
+      },
+      minHeight: "50",
+      minWidth: "50",
+      enable: {
+        top: false,
+        right: false,
+        bottom: true,
+        left: false,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false
+      },
+      onResizeStop: (event, direction, elt, delta) => {
+        setAttributes({
+          height: parseInt(height + delta.height, 10)
+        });
+        toggleSelection(true);
+      },
+      onResizeStart: () => {
+        toggleSelection(false);
+      },
+      children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)("div", {
+        className: className,
+        children: [mode == "info" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks, {
+            template: [['core/image', {}]]
+          })
+        }), this.state.react_ui_url && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("iframe", {
+          ref: this.iframe,
+          style: divStyles,
+          scrolling: "no",
+          src: this.state.react_ui_url + "/embeddable/" + (previewComponentName || 'chart') + "?"
+        }, this.state)]
+      })
+    })];
+  }
+}
+function getDefaultTooltipTemplate(type) {
+  if (type === 'scatter') {
+    return '<strong>{label}</strong><br/>{xLabel}: #(x)<br/>{yLabel}: #(y)<br/>Series: {seriesDisplay}';
+  }
+  if (type === 'heatmap') {
+    return '<strong>{rowLabel}</strong><br/>{columnLabel}<br/>{measureLabel}: #(value)';
+  }
+  if (type === 'intervalPlot') {
+    return '<strong>{label}</strong><br/>{lowLabel}: #(low)<br/>{centerLabel}: #(value)<br/>{highLabel}: #(high)';
+  }
+  if (type === 'waterfall') {
+    return '<strong>{label}</strong><br/>Start: #(start)<br/>Change: #(value)<br/>End: #(end)';
+  }
+  if (type === 'dumbbell') {
+    return '<strong>{label}</strong><br/>{leftLabel}: #(left)<br/>{rightLabel}: #(right)<br/>Δ: #(delta)';
+  }
+  if (type === 'histogram') {
+    return '<strong>{series}</strong><br/>{binStart} – {binEnd}<br/>Count: #(value)';
+  }
+  if (type === 'sunburst') {
+    return '<strong>{label}</strong><br/>#(value)';
+  }
+  return '{value}';
+}
+function setTooltipState(isTooltipEnabled, tooltipHTML, type) {
+  return isTooltipEnabled && tooltipHTML.trim().length === 0 ? getDefaultTooltipTemplate(type) : tooltipHTML;
+}
+const Edit = props => {
+  const blockProps = (0,external_wp_blockEditor_.useBlockProps)();
+  return /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("div", {
+    ...blockProps,
+    children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(BlockEdit, {
+      ...props
+    })
+  });
+};
+/* harmony default export */ const charts_BlockEdit = (Edit);
+
+/***/ }),
+
 /***/ 9761:
 /***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
@@ -44297,7 +45424,8 @@ __webpack_require__(5268);
 __webpack_require__(2455);
 __webpack_require__(3583);
 __webpack_require__(1784);
-__webpack_require__(4458);
+__webpack_require__(2783);
+__webpack_require__(4212);
 __webpack_require__(2979);
 __webpack_require__(1982);
 __webpack_require__(4068);
