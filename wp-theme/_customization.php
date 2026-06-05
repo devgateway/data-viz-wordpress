@@ -32,7 +32,7 @@ function show_customization_settings($request)
     $results['site_logo'] = $current_logo;
     $results['site_icon'] = $current_site_icon;
 
-    if (isset($name)) {
+    if ( ! empty( $name ) ) {
         $the_query = new WP_Query(
             array(
                 'post_name__in' => array($name),
