@@ -20,7 +20,7 @@
 <?php if(isset($_GET['customize_changeset_uuid'])){?>
     <iframe
        id="react-preview"
-       style="border:0px; width: 100%; height: 100%; position: absolute;" src='<?php echo get_option( 'react_ui_url' )."/".wpm_get_language().'?customize_changeset_uuid='.esc_attr(sanitize_text_field($_GET['customize_changeset_uuid'])).'&random='.rand(10,100); ?>'
+       style="border:0px; width: 100%; height: 100%; position: absolute;" src="<?php echo esc_url( get_option( 'react_ui_url' ) . "/" . wpm_get_language() . '?customize_changeset_uuid=' . rawurlencode( sanitize_text_field( wp_unslash( $_GET['customize_changeset_uuid'] ) ) ) . '&random=' . rand(10,100) ); ?>"
        >
        </iframe>
 
