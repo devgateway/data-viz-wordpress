@@ -356,13 +356,13 @@ function wp_react_google_analytics_callback()
 
 function namespace_register_setting_route()
 {
-    register_rest_route('dg/v1', '/settings', ['methods' => WP_REST_Server::READABLE, 'callback' => 'show_ui_setting', 'args' => namespace_get_search_args()]);
+    register_rest_route('dg/v1', '/settings', ['methods' => WP_REST_Server::READABLE, 'callback' => 'show_ui_setting', 'permission_callback' => '__return_true', 'args' => namespace_get_search_args()]);
 }
 add_action('rest_api_init', 'namespace_register_setting_route');
 function show_ui_setting($request)
 {
 
-    $p_name = $_GET['customize_changeset_uuid'];
+    $p_name = $request->get_param('customize_changeset_uuid');
     $settings = array(
         "react_ui_url" => get_option("react_ui_url"),
         "react_api_url" => get_option("react_api_url"),

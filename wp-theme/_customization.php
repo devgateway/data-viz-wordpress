@@ -6,7 +6,7 @@ function namespace_register_customization_route()
 
     register_rest_route('dg/v1', '/settings/customization',
 
-        ['methods' => WP_REST_Server::READABLE, 'callback' => 'show_customization_settings', 'args' => namespace_get_search_args()]);
+        ['methods' => WP_REST_Server::READABLE, 'callback' => 'show_customization_settings', 'permission_callback' => '__return_true', 'args' => namespace_get_search_args()]);
 
 }
 
@@ -14,7 +14,7 @@ function show_customization_settings($request)
 {
 
 
-    $name = $_GET['customize_changeset_uuid'];
+    $name = $request->get_param('customize_changeset_uuid');
 
     $results = array();
     $current_name = wpm_translate_value(get_option('blogname'));
@@ -32,10 +32,10 @@ function show_customization_settings($request)
     $results['site_logo'] = $current_logo;
     $results['site_icon'] = $current_site_icon;
 
-    if (isset($name)) {
+    if ( ! empty( $name ) ) {
         $the_query = new WP_Query(
             array(
-                'post_name__in' => array($_GET['customize_changeset_uuid']),
+                'post_name__in' => array($name),
                 'post_type' => array('customize_changeset'),
                 'post_status' => array('auto-draft', 'draft')
             ));
