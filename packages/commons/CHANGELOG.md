@@ -1,5 +1,32 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.7
+
+### Patch Changes
+
+- [#137](https://github.com/devgateway/data-viz-wordpress/pull/137) [`555bfdb`](https://github.com/devgateway/data-viz-wordpress/commit/555bfdb83d46a9fadd0da8e11a5b773318af4d04) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Normalize default values in posts filter
+
+## 1.3.6
+
+### Patch Changes
+
+- [#132](https://github.com/devgateway/data-viz-wordpress/pull/132) [`6ce57f7`](https://github.com/devgateway/data-viz-wordpress/commit/6ce57f782c7742819608e535d7f03d7c2057a28d) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Clear old filters on wordpress source change
+
+## 1.3.5
+
+### Patch Changes
+
+- [#129](https://github.com/devgateway/data-viz-wordpress/pull/129) [`f5ac94d`](https://github.com/devgateway/data-viz-wordpress/commit/f5ac94d8d460c4e83422385701a7a380fcf952a9) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Fix custom URL wordpress source
+
+## 1.3.4
+
+### Patch Changes
+
+- [#122](https://github.com/devgateway/data-viz-wordpress/pull/122) [`75a71eb`](https://github.com/devgateway/data-viz-wordpress/commit/75a71eb432158e0bba385647c26de50ec2fab4d6) Thanks [@timothygachengo](https://github.com/timothygachengo)! - - _(TCDICORE-522)_ Add WordPress source URL to posts components `ComponentWithSettings`
+  - _(TCDICORE-522)_ Add missing blocks and append `/wp-json` to landing URL
+  - _(TCDICORE-522)_ Remove logging
+  - _(TCDICORE-525)_ Make "no data" message configurable
+
 ## 1.3.2
 
 ### Patch Changes

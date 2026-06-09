@@ -72,7 +72,12 @@ export class ComponentWithSettings extends Component {
                 react_api_url: data["react_api_url"],
                 apache_superset_url: data["apache_superset_url"],
                 site_language: data["site_language"],
-                current_language: new URLSearchParams(document.location.search).get("edit_lang")
+                current_language: new URLSearchParams(document.location.search).get("edit_lang"),
+                landing_page_url: data["landing_page_url"] || ''
+            }, () => {
+                if (this.onSettingsLoaded) {
+                    this.onSettingsLoaded();
+                }
             });
         });
     }
@@ -81,6 +86,54 @@ export class ComponentWithSettings extends Component {
         if (this.unsubscribe) {
             this.unsubscribe();
         }
+    }
+
+    renderWordpressSource() {
+        const { setAttributes, attributes: { wordpressSourceType, wordpressSource } } = this.props;
+        const hasLandingUrl = !!this.state.landing_page_url;
+        const sourceType = wordpressSourceType || 'internal';
+        return (
+            <PanelBody title={__('WordPress Source')}>
+                <PanelRow>
+                    <SelectControl
+                        label={__('Source')}
+                        value={sourceType}
+                        options={[
+                            { label: __('Internal (this site)'), value: 'internal' },
+                            {
+                                label: hasLandingUrl
+                                    ? __('Landing Page')
+                                    : __('Landing Page (not configured)'),
+                                value: 'landing',
+                                disabled: !hasLandingUrl,
+                            },
+                            { label: __('Custom URL'), value: 'custom' },
+                        ]}
+                        onChange={(value) => {
+                            if (value === 'landing' && !hasLandingUrl) return;
+                            const landingUrl = value === 'landing'
+                                ? this.state.landing_page_url.replace(/\/+$/, '') + '/wp/wp-json'
+                                : '';
+                            setAttributes({
+                                wordpressSourceType: value,
+                                wordpressSource: landingUrl,
+                            });
+                        }}
+                    />
+                </PanelRow>
+                {sourceType === 'custom' && (
+                    <PanelRow>
+                        <TextControl
+                            label={__('WordPress URL')}
+                            help={__('Enter the base URL of the WordPress instance to load post types, taxonomies and configuration from.')}
+                            value={wordpressSource || ''}
+                            onChange={(wordpressSource) => setAttributes({ wordpressSource })}
+                            placeholder="https://example.com/wp/wp-json"
+                        />
+                    </PanelRow>
+                )}
+            </PanelBody>
+        );
     }
 }
 export class BlockEditWithFilters extends ComponentWithSettings {
@@ -108,7 +161,7 @@ export class BlockEditWithFilters extends ComponentWithSettings {
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {
             setAttributes, attributes: {
-                type, taxonomy, count, sortingTaxonomy
+                type, taxonomy, count, sortingTaxonomy, wordpressSource, wordpressSourceType
             },
         } = this.props;
 
@@ -118,10 +171,25 @@ export class BlockEditWithFilters extends ComponentWithSettings {
             }
             if (taxonomy !== prevProps.attributes.taxonomy) {
                 this.getTaxonomyValues();
-
             }
-
             if (sortingTaxonomy !== prevProps.attributes.sortingTaxonomy) {
+                this.getSortingTaxonomyValues();
+            }
+            const sourceChanged =
+                wordpressSourceType !== prevProps.attributes.wordpressSourceType ||
+                wordpressSource !== prevProps.attributes.wordpressSource;
+            if (sourceChanged) {
+                setAttributes({
+                    type: undefined,
+                    taxonomy: 'none',
+                    categories: [],
+                    sortingTaxonomy: 'none',
+                    sortFirstBy: 'none',
+                    defaultValues: [],
+                });
+                this.getTypes();
+                this.getTaxonomies();
+                this.getTaxonomyValues();
                 this.getSortingTaxonomyValues();
             }
         }
@@ -130,25 +198,27 @@ export class BlockEditWithFilters extends ComponentWithSettings {
 
     componentDidMount() {
         super.componentDidMount();
+        // Data loading is deferred to onSettingsLoaded() to ensure
+        // landing_page_url is available before the first fetch.
+    }
+
+    onSettingsLoaded() {
         this.getTypes();
         this.getTaxonomies();
 
         const {
-            setAttributes, attributes: {
-                type, taxonomy, count, sortingTaxonomy
+            attributes: {
+                taxonomy, sortingTaxonomy
             },
         } = this.props;
 
-
-        if (taxonomy !== 'none' || taxonomy !== null) {
+        if (taxonomy && taxonomy !== 'none') {
             this.getTaxonomyValues();
-
         }
 
-        if (sortingTaxonomy !== 'none' || sortingTaxonomy !== null) {
+        if (sortingTaxonomy && sortingTaxonomy !== 'none') {
             this.getSortingTaxonomyValues();
         }
-
     }
 
     onTypeChanged(value) {
@@ -196,55 +266,80 @@ export class BlockEditWithFilters extends ComponentWithSettings {
 
     onDefaultCategoryChanged(value, filterType = 'multi-select', checked) {
         const { setAttributes, attributes: { defaultValues } } = this.props;
+        const normalizedValue = value === null || value === undefined || value === 'none'
+            ? value
+            : Number(value);
 
         if (filterType === 'multi-select') {
             if (!checked) {
-                setAttributes({ defaultValues: defaultValues.filter(i => i !== value) });
+                setAttributes({ defaultValues: defaultValues.filter(i => Number(i) !== normalizedValue) });
             } else {
-                setAttributes({ defaultValues: [...defaultValues, value] });
+                setAttributes({ defaultValues: [...defaultValues, normalizedValue] });
             }
         } else {
             // For single-select, 'checked' parameter is not used, 'value' is the selected value
-            setAttributes({ defaultValues: [value] });
+            setAttributes({ defaultValues: [normalizedValue] });
         }
     }
 
 
+    apiFetchFromSource(path) {
+        const { attributes: { wordpressSourceType, wordpressSource } } = this.props;
+        if (wordpressSourceType === 'landing') {
+            const base = (this.state.landing_page_url || '').replace(/\/+$/, '');
+            if (base) {
+                const wpUrl = base + '/wp';
+                return fetch(wpUrl + '/wp-json' + path).then(r => r.json());
+            }
+        }
+        if (wordpressSourceType === 'custom' && wordpressSource) {
+            const base = wordpressSource.replace(/\/+$/, '');
+            return fetch(base + path).then(r => r.json());
+        }
+        return wp.apiFetch({ path });
+    }
+
     getTaxonomyValues() {
         const {
-            setAttributes, attributes: {
+            attributes: {
                 taxonomy,
             },
         } = this.props;
 
+        if (!taxonomy || taxonomy === 'none') {
+            this.setState({ loading: false, taxonomyValues: [] });
+            return;
+        }
+
         this.setState({ loading: true });
-        wp.apiFetch({
-            path: '/wp/v2/' + taxonomy + '?per_page=100',
-        }).then(data => {
-            this.setState({ loading: false });
-            this.setState({ taxonomyValues: data });
+        this.apiFetchFromSource('/wp/v2/' + taxonomy + '?per_page=100').then(data => {
+            this.setState({ loading: false, taxonomyValues: Array.isArray(data) ? data : [] });
+        }).catch(() => {
+            this.setState({ loading: false, taxonomyValues: [] });
         });
     }
 
     getSortingTaxonomyValues() {
         const {
-            setAttributes, attributes: {
+            attributes: {
                 sortingTaxonomy
             },
         } = this.props;
 
-        wp.apiFetch({
-            path: '/wp/v2/' + sortingTaxonomy + '?per_page=100',
-        }).then(data => {
-            this.setState({ sortingTaxonomyValues: data });
+        if (!sortingTaxonomy || sortingTaxonomy === 'none') {
+            this.setState({ sortingTaxonomyValues: [] });
+            return;
+        }
+
+        this.apiFetchFromSource('/wp/v2/' + sortingTaxonomy + '?per_page=100').then(data => {
+            this.setState({ sortingTaxonomyValues: Array.isArray(data) ? data : [] });
+        }).catch(() => {
+            this.setState({ sortingTaxonomyValues: [] });
         });
     }
 
     getTaxonomies() {
-
-        wp.apiFetch({
-            path: '/wp/v2/taxonomies?per_page=100',
-        }).then(data => {
+        this.apiFetchFromSource('/wp/v2/taxonomies?per_page=100').then(data => {
             this.setState({
                 taxonomies: data,
             });
@@ -252,13 +347,8 @@ export class BlockEditWithFilters extends ComponentWithSettings {
     }
 
     getTypes() {
-        wp.apiFetch({
-            path: '/wp/v2/types?per_page=100',
-        }).then(data => {
-            const types = data;
-            this.setState({
-                types: data, loading: false
-            });
+        this.apiFetchFromSource('/wp/v2/types?per_page=100').then(data => {
+            this.setState({ types: data, loading: false });
         });
     }
 
@@ -433,7 +523,7 @@ export class BlockEditWithFilters extends ComponentWithSettings {
                         </Text>
                         <SelectControl
                             options={[{ label: 'None', value: 'none' }, ...this.categoriesOptions()]}
-                            value={defaultValues[0]} onChange={(value) => {
+                            value={defaultValues[0] !== undefined ? String(defaultValues[0]) : 'none'} onChange={(value) => {
                                 this.onDefaultCategoryChanged(value, filterType);
                             }} />
                     </PanelBody>
@@ -459,7 +549,10 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                     'Accept': 'application/json',
                 },
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error(`Eureka apps returned ${response.status}`);
+                    return response.json();
+                })
                 .then(data => {
                     const apps = data.applications ? [...data.applications.application
                         .filter(a => a.instance[0].metadata.type === 'data')
@@ -491,8 +584,21 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                         }
                     });
                 })
-                .catch(() => {
-                    console.log("Error when loading apps");
+                .catch((error) => {
+                    console.error("Error when loading apps, falling back to CSV", error);
+                    this.setState({
+                        react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
+                        react_api_url: settingsData["react_api_url"],
+                        apache_superset_url: settingsData["apache_superset_url"],
+                        site_language: settingsData["site_language"],
+                        current_language: new URLSearchParams(document.location.search).get("edit_lang"),
+                        apps: [{ label: 'CSV', value: 'csv' }]
+                    }, () => {
+                        const { app, dvzProxyDatasetId } = this.props.attributes;
+                        if (app && app != 'none') {
+                            this.loadMetadata(app, dvzProxyDatasetId);
+                        }
+                    });
                 });
         });
     }

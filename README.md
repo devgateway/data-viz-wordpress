@@ -16,6 +16,7 @@ A **pnpm monorepo** that packages all WordPress plugins, themes, shared npm libr
 - [Scripts](#scripts)
 - [Release Management](#release-management)
 - [CI/CD](#cicd)
+- [Contributing & Support](#contributing--support)
 - [License](#license)
 
 ---
@@ -201,6 +202,8 @@ pnpm build:npm-packages
 docker build -t data-viz-wordpress .
 ```
 
+> **Warning — Production Deployments:** The default `docker-compose.yml` uses placeholder credentials (`WORDPRESS_DB_PASSWORD: wordpress`, `MYSQL_ROOT_PASSWORD: somewordpress`). These are for local development only. Before any internet-facing deployment, replace all default passwords with strong, unique values.
+
 ---
 
 ## Scripts
@@ -237,6 +240,21 @@ Three GitHub Actions workflows live in `.github/workflows/`:
 | `release-npm-packages.yml` | Push to `main` (packages/\* or .changeset/\* changed) or manual dispatch | Publishes updated npm packages via Changesets |
 
 Dependabot is configured to open weekly PRs for npm dependency updates (max 1 open at a time).
+
+---
+
+## Contributing & Support
+
+Contributions are welcome. Please read [CONTRIBUTING.md](.github/CONTRIBUTING.md) before opening a pull request.
+
+| Channel | Purpose |
+|---------|---------|
+| [GitHub Issues](https://github.com/devgateway/data-viz-wordpress/issues) | Bug reports and feature requests |
+| [GitHub Discussions](https://github.com/devgateway/data-viz-wordpress/discussions) | Questions and general discussion |
+| [info@developmentgateway.org](mailto:info@developmentgateway.org) | Direct contact with the Development Gateway team |
+| [SECURITY.md](.github/SECURITY.md) | Reporting security vulnerabilities privately |
+
+This project is maintained by [Development Gateway](https://www.developmentgateway.org/).
 
 ---
 

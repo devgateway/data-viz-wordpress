@@ -3,6 +3,7 @@ import { defineBuildConfig } from "unbuild";
 export default defineBuildConfig({
   failOnWarn: false,
   outDir: "build",
+  watch: process.argv.includes("--watch"),
   entries: [
     {
       builder: "mkdist",

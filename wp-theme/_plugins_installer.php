@@ -51,7 +51,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'slug' => 'duplicate-wp-page-post',
             'file' => 'duplicate-wp-page-post/duplicate-wp-page-post.php',
             'category' => 'Content Management',
-            'required' => true,
+            'required' => false,
             'featured' => false,
             'is_local' => false,
         ),
@@ -60,7 +60,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'slug' => 'intuitive-custom-post-order',
             'file' => 'intuitive-custom-post-order/intuitive-custom-post-order.php',
             'category' => 'Content Management',
-            'required' => true,
+            'required' => false,
             'featured' => false,
             'is_local' => false,
         ),
@@ -69,7 +69,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'slug' => 'better-search-replace',
             'file' => 'better-search-replace/better-search-replace.php',
             'category' => 'Database',
-            'required' => true,
+            'required' => false,
             'featured' => false,
             'is_local' => false,
         ),
@@ -87,7 +87,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'slug' => 'flexible-table-block',
             'file' => 'flexible-table-block/flexible-table-block.php',
             'category' => 'Gutenberg Blocks',
-            'required' => true,
+            'required' => false,
             'featured' => false,
             'is_local' => false,
         ),
@@ -101,7 +101,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'is_local' => false,
         ),
 
-        //Local plugins (Developed in-house and bundled with the theme)
+        // DEPLOYMENT-MANAGED PLUGINS (Bundled via Docker — activation only, never reinstalled)
         'wp-react-blocks-plugin' => array(
             'name' => esc_attr__('WP React Blocks Plugin', 'dg-semantic'),
             'slug' => 'wp-react-blocks-plugin',
@@ -110,8 +110,8 @@ function dg_semantic_recommended_plugins($plugins) {
             'category' => 'Gutenberg Blocks',
             'required' => true,
             'featured' => true,
-            'is_local' => true,
-            'source' => plugin_dir_path(__FILE__) . 'wp-react-blocks-plugin/wp-react-blocks-plugin.php',
+            'is_local' => false,
+            'deployment_managed' => true,
         ),
         'wp-react-custom-multilang' => array(
             'name' => esc_attr__('WP Multilang', 'dg-semantic'),
@@ -121,8 +121,8 @@ function dg_semantic_recommended_plugins($plugins) {
             'category' => 'Multilingual',
             'required' => true,
             'featured' => true,
-            'is_local' => true,
-            'source' => plugin_dir_path(__FILE__) . 'wp-react-custom-multilang/wp-multilang.php',
+            'is_local' => false,
+            'deployment_managed' => true,
         ),
         'wp-react-custom-rest-menu' => array(
             'name' => esc_attr__('WP REST API Custom Menu', 'dg-semantic'),
@@ -132,8 +132,8 @@ function dg_semantic_recommended_plugins($plugins) {
             'category' => 'REST API',
             'required' => true,
             'featured' => true,
-            'is_local' => true,
-            'source' => plugin_dir_path(__FILE__) . 'wp-react-custom-rest-menu/wp-react-custom-rest-menu.php',
+            'is_local' => false,
+            'deployment_managed' => true,
         ),
         'wp-react-custom-api' => array(
             'name' => esc_attr__('WP REST API Custom Endpoints', 'dg-semantic'),
@@ -143,29 +143,11 @@ function dg_semantic_recommended_plugins($plugins) {
             'category' => 'REST API',
             'required' => true,
             'featured' => true,
-            'is_local' => true,
-            'source' => plugin_dir_path(__FILE__) . 'wp-react-custom-api/wp-react-custom-api.php',
+            'is_local' => false,
+            'deployment_managed' => true,
         ),
 
         // OPTIONAL PLUGINS (Recommended but not essential)
-        'folders' => array(
-            'name' => esc_attr__('Folders', 'dg-semantic'),
-            'slug' => 'folders',
-            'file' => 'folders/folders.php',
-            'category' => 'Content Management',
-            'required' => false,
-            'featured' => false,
-            'is_local' => false,
-        ),
-        'wordpress-importer' => array(
-            'name' => esc_attr__('WordPress Importer', 'dg-semantic'),
-            'slug' => 'wordpress-importer',
-            'file' => 'wordpress-importer/wordpress-importer.php',
-            'category' => 'Import/Export',
-            'required' => false,
-            'featured' => false,
-            'is_local' => false,
-        ),
         'wp-database-backup' => array(
             'name' => esc_attr__('WP Database Backup', 'dg-semantic'),
             'slug' => 'wp-database-backup',
@@ -175,8 +157,7 @@ function dg_semantic_recommended_plugins($plugins) {
             'featured' => false,
             'is_local' => false,
         ),
-        
-    
+
     );
     return array_merge($plugins, $theme_plugins);
 }

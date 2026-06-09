@@ -257,10 +257,11 @@ class magical_plugin_activation_Plugin_Recommendations {
         $this->check_plugin_functions();
         
         $plugin_file = $plugin['file'];
+        $is_deployment_managed = !empty($plugin['deployment_managed']);
         
         if (is_plugin_active($plugin_file)) {
-            // Check if plugin needs update (for plugins with version specified)
-            if (isset($plugin['version']) && !empty($plugin['version'])) {
+            // Deployment-managed plugins are never flagged for update — versions are controlled by Docker
+            if (!$is_deployment_managed && isset($plugin['version']) && !empty($plugin['version'])) {
                 $current_version = $this->get_plugin_version($plugin_file);
                 if ($current_version && version_compare($current_version, $plugin['version'], '<')) {
                     return 'needs-update';
@@ -268,8 +269,8 @@ class magical_plugin_activation_Plugin_Recommendations {
             }
             return 'active';
         } elseif (file_exists(WP_PLUGIN_DIR . '/' . $plugin_file)) {
-            // Check if inactive plugin needs update
-            if (isset($plugin['version']) && !empty($plugin['version'])) {
+            // Deployment-managed plugins are never flagged for update
+            if (!$is_deployment_managed && isset($plugin['version']) && !empty($plugin['version'])) {
                 $current_version = $this->get_plugin_version($plugin_file);
                 if ($current_version && version_compare($current_version, $plugin['version'], '<')) {
                     return 'inactive-needs-update';
@@ -277,6 +278,15 @@ class magical_plugin_activation_Plugin_Recommendations {
             }
             return 'inactive';
         } else {
+            // For deployment-managed plugins, also check if the plugin folder exists on disk.
+            // The folder may exist but the main file path may differ; treat it as inactive so
+            // the Activate button is shown instead of the disabled "Managed by deployment" label.
+            if ($is_deployment_managed) {
+                $plugin_folder = WP_PLUGIN_DIR . '/' . dirname($plugin_file);
+                if (is_dir($plugin_folder)) {
+                    return 'inactive';
+                }
+            }
             return 'not-installed';
         }
     }
@@ -599,7 +609,9 @@ class magical_plugin_activation_Plugin_Recommendations {
                 echo '<button class="button button-secondary update-plugin" data-slug="' . esc_attr($slug) . '" data-file="' . esc_attr($plugin['file']) . '" data-is-local="' . ($is_local ? '1' : '0') . '">' . esc_html__('Update', 'dg-semantic') . '</button>';
                 break;
             case 'not-installed':
-                if ($is_local) {
+                if (!empty($plugin['deployment_managed'])) {
+                    echo '<span class="button disabled">' . esc_html__('Managed by deployment', 'dg-semantic') . '</span>';
+                } elseif ($is_local) {
                     echo '<button class="button button-primary install-plugin" data-slug="' . esc_attr($slug) . '" data-is-local="1">' . esc_html__('Install', 'dg-semantic') . '</button>';
                 } else {
                     echo '<button class="button button-primary install-plugin" data-slug="' . esc_attr($plugin['slug']) . '" data-is-local="0">' . esc_html__('Install', 'dg-semantic') . '</button>';
@@ -1087,12 +1099,7 @@ class magical_plugin_activation_Plugin_Recommendations {
      */
     public function show_recommendation_notice() {
         $screen = get_current_screen();
-        
-        // Only show on dashboard, themes, and plugins pages
-        if (!in_array($screen->id, array('dashboard', 'themes', 'plugins', 'appearance_page_magical-plugin-activation-plugins'))) {
-            return;
-        }
-        
+
         // Check if there are any missing required plugins
         $missing_required = array();
         $required_plugins = $this->get_required_plugins();
@@ -1578,8 +1585,8 @@ class magical_plugin_activation_Plugin_Recommendations {
                 $this->delete_directory($plugin_dir);
             }
             
-            // Extract new plugin
-            $result = $this->extract_plugin_zip($plugin['source'], WP_PLUGIN_DIR);
+            // Extract new plugin (reuse install logic which has all fallback methods)
+            $result = $this->install_local_plugin($plugin);
             
             if ($result) {
                 // Reactivate plugin

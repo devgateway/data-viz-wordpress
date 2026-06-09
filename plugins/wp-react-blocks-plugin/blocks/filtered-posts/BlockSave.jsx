@@ -15,6 +15,10 @@ const BlockSave = (props) => {
             enableSorting,
             sortingTaxonomy,
             sortFirstBy,
+            wordpressSource,
+            wordpressSourceType,
+            noDataMsg,
+            clearFilterMsg,
         }
     } = props;
     return (
@@ -33,6 +37,10 @@ const BlockSave = (props) => {
             data-enable-sorting={enableSorting}
             data-sorting-taxonomy={sortingTaxonomy}
             data-sort-first-by={sortFirstBy}
+            data-wordpress-source={wordpressSource}
+            data-wordpress-source-type={wordpressSourceType}
+            data-no-data-msg={noDataMsg}
+            data-clear-filter-msg={clearFilterMsg}
         ></div>
     );
 };

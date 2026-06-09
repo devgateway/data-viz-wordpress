@@ -35,6 +35,8 @@ class BlockEditComponent extends ComponentWithSettings {
         };
         window.wp = window.wp || {};
 
+        console.log("state in constructor", this.state);
+
     }
 
     componentDidMount() {
@@ -43,7 +45,6 @@ class BlockEditComponent extends ComponentWithSettings {
     }
 
     getSystemCategories() {
-
         fetchAllCategories().then(categories => {
             const categoriesList = [];
             categories.forEach(category => {
@@ -77,7 +78,7 @@ class BlockEditComponent extends ComponentWithSettings {
                 categories,
                 categoryPlaceholder,
                 countryCategory,
-                countryPlaceholder
+                countryPlaceholder,
             }
         } = this.props;
         const systemCategories = this.state.categories;

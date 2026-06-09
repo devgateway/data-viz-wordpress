@@ -113,6 +113,6 @@ The template includes:
 
 ## License
 
-MIT
+GPL-2.0-or-later — see the [LICENSE](../../LICENSE) file for details.
 
 ---
