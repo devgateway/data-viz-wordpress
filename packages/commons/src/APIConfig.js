@@ -382,7 +382,20 @@ export class APIConfig extends Component {
             };
         }
 
-        uMs[app][field] = format;
+        // If field is 'format' or 'customFormat', store at the app level (existing behaviour).
+        // If field is a measure key, store the format nested inside that measure's object
+        // so we don't overwrite its `selected`, `hasCustomLabel` etc. flags.
+        if (field === 'format' || field === 'customFormat' || field === undefined) {
+            uMs[app][field || 'format'] = format;
+        } else {
+            // Per-measure format — merge into existing measure entry
+            const existingMeasure = uMs[app][field] || {};
+            uMs[app][field] = {
+                ...existingMeasure,
+                format,
+            };
+        }
+
         setAttributes({ measures: uMs });
     }
 

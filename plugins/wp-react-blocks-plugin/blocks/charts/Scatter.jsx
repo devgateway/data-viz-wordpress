@@ -1,4 +1,5 @@
-import {PanelBody, PanelRow, RangeControl, TextControl, ToggleControl} from '@wordpress/components';
+import {PanelBody, PanelRow, RangeControl, SelectControl, TextControl, ToggleControl} from '@wordpress/components';
+import {PanelColorSettings} from '@wordpress/block-editor';
 import {__} from '@wordpress/i18n';
 import { ChartColors, ChartLegends } from '@devgateway/dvz-wp-commons';
 import AxisConfig from './AxisConfig.jsx';
@@ -7,11 +8,20 @@ const ScatterOptions = (props) => {
     const {
         setAttributes,
         attributes: {
+            app,
+            measures,
             scatterMinSize,
             scatterMaxSize,
             scatterShowLabels,
+            scatterLabelPosition,
+            scatterLabelColor,
+            scatterLabelSize,
             scatterConnectPoints,
             scatterPointOpacity,
+            scatterXMeasure,
+            scatterYMeasure,
+            scatterSizeMeasure,
+            scatterColorMeasure,
             scatterReferenceX,
             scatterReferenceY,
             scatterReferenceXLabel,
@@ -20,12 +30,78 @@ const ScatterOptions = (props) => {
             scatterQuadrantTopRightLabel,
             scatterQuadrantBottomLeftLabel,
             scatterQuadrantBottomRightLabel,
+            scatterXAxisLegendOffset,
+            scatterYAxisLegendOffset,
         },
     } = props;
 
     const showQuadrantLabels = scatterReferenceX !== '' && scatterReferenceY !== '';
+    const selectedMeasureConfig = measures?.[app] || {};
+    const selectedMeasureOptions = (props.allMeasures || [])
+        .filter((measure) => selectedMeasureConfig?.[measure.value]?.selected)
+        .sort((left, right) => (left.position || 0) - (right.position || 0))
+        .map((measure) => ({
+            value: measure.value,
+            label: `${measure.group || __('Measure')} - ${measure.label || measure.value}`,
+        }));
+
+    const axisMeasureOptions = [{label: __('Auto'), value: ''}, ...selectedMeasureOptions];
+    const optionalMeasureOptions = [{label: __('None'), value: ''}, ...selectedMeasureOptions];
+
+    const setScatterMeasure = (attributeName, value) => {
+        setAttributes({[attributeName]: value || ''});
+    };
 
     return [<PanelBody initialOpen={false} title={__("Scatter Options")}>
+        <PanelBody initialOpen={false} title={__("Measure Mapping")}>
+            <PanelRow>
+                <SelectControl
+                    label={__('X Axis Measure')}
+                    value={scatterXMeasure || ''}
+                    options={axisMeasureOptions}
+                    onChange={(value) => setScatterMeasure('scatterXMeasure', value)}
+                    help={__('If empty, the first selected measure is used.')}
+                />
+            </PanelRow>
+            <PanelRow>
+                <SelectControl
+                    label={__('Y Axis Measure')}
+                    value={scatterYMeasure || ''}
+                    options={axisMeasureOptions}
+                    onChange={(value) => setScatterMeasure('scatterYMeasure', value)}
+                    help={__('If empty, the second selected measure is used.')}
+                />
+            </PanelRow>
+            <PanelRow>
+                <SelectControl
+                    label={__('Bubble Size Measure')}
+                    value={scatterSizeMeasure || ''}
+                    options={optionalMeasureOptions}
+                    onChange={(value) => setScatterMeasure('scatterSizeMeasure', value)}
+                    help={__('Optional. Use a third measure for bubble size.')}
+                />
+            </PanelRow>
+            <PanelRow>
+                <SelectControl
+                    label={__('Bubble Color Intensity Measure')}
+                    value={scatterColorMeasure || ''}
+                    options={optionalMeasureOptions}
+                    onChange={(value) => setScatterMeasure('scatterColorMeasure', value)}
+                    help={__('Optional. Example: color_weighted_roi_pct.')}
+                />
+            </PanelRow>
+            <PanelRow>
+                <span style={{fontSize: '11px'}}>
+                    {__('Scatter now uses each selected measure\'s format in axes and tooltips.')}
+                </span>
+            </PanelRow>
+            <PanelRow>
+                <span style={{fontSize: '11px'}}>
+                    {__('Second dimension is kept for multi-series use (for example, points by county and series by scenario). If a chosen dimension matches a selected measure key, it is ignored to avoid Superset duplicate-label errors.')}
+                </span>
+            </PanelRow>
+        </PanelBody>
+
         <PanelBody initialOpen={false} title={__("Points & Labels")}>
             <PanelRow>
                 <RangeControl
@@ -62,6 +138,47 @@ const ScatterOptions = (props) => {
                     onChange={(value) => setAttributes({scatterShowLabels: value})}
                 />
             </PanelRow>
+            {scatterShowLabels && (
+                <>
+                    <PanelRow>
+                        <SelectControl
+                            label={__('Label Position')}
+                            value={scatterLabelPosition || 'top-right'}
+                            options={[
+                                {label: __('Top Right'), value: 'top-right'},
+                                {label: __('Top'), value: 'top'},
+                                {label: __('Top Left'), value: 'top-left'},
+                                {label: __('Right'), value: 'right'},
+                                {label: __('Center'), value: 'center'},
+                                {label: __('Left'), value: 'left'},
+                                {label: __('Bottom Right'), value: 'bottom-right'},
+                                {label: __('Bottom'), value: 'bottom'},
+                                {label: __('Bottom Left'), value: 'bottom-left'},
+                            ]}
+                            onChange={(value) => setAttributes({scatterLabelPosition: value || 'top-right'})}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <PanelColorSettings
+                            title={__('Label Color')}
+                            colorSettings={[{
+                                value: scatterLabelColor || '',
+                                onChange: (color) => setAttributes({scatterLabelColor: color || ''}),
+                                label: __('Label Color'),
+                            }]}
+                        />
+                    </PanelRow>
+                    <PanelRow>
+                        <RangeControl
+                            label={__('Label Size')}
+                            value={Number(scatterLabelSize) || 11}
+                            onChange={(value) => setAttributes({scatterLabelSize: Number(value) || 11})}
+                            min={8}
+                            max={24}
+                        />
+                    </PanelRow>
+                </>
+            )}
             <PanelRow>
                 <ToggleControl
                     label={__("Connect Points")}
@@ -72,6 +189,26 @@ const ScatterOptions = (props) => {
         </PanelBody>
 
         <PanelBody initialOpen={false} title={__("Quadrants & Guides")}>
+            <PanelRow>
+                <RangeControl
+                    label={__('X Axis Label Offset')}
+                    value={Number(scatterXAxisLegendOffset) || 56}
+                    onChange={(value) => setAttributes({scatterXAxisLegendOffset: Number(value) || 56})}
+                    min={20}
+                    max={120}
+                    help={__('Distance from axis ticks to axis title label (bottom axis).')}
+                />
+            </PanelRow>
+            <PanelRow>
+                <RangeControl
+                    label={__('Y Axis Label Offset')}
+                    value={Number(scatterYAxisLegendOffset) || 60}
+                    onChange={(value) => setAttributes({scatterYAxisLegendOffset: Number(value) || 60})}
+                    min={20}
+                    max={120}
+                    help={__('Distance from axis ticks to axis title label (left axis).')}
+                />
+            </PanelRow>
             <PanelRow>
                 <TextControl
                     label={__('Vertical Reference (X)')}

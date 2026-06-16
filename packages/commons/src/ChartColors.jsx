@@ -56,6 +56,7 @@ export const ChartColors = (props) => {
             colorBy,
             dimension1,
             dimension2,
+            scatterColorMeasure,
             barColor,
             type,
             app,
@@ -71,6 +72,9 @@ export const ChartColors = (props) => {
 
 
     const selectedMeasures = measures[app] ? Object.keys(measures[app]).map(k => measures[app][k]).filter(m => m.selected) : []
+    const selectedMeasureKeys = measures[app]
+        ? Object.keys(measures[app]).filter((measureKey) => measures[app][measureKey]?.selected)
+        : []
 
     let colorOptions = []
 
@@ -136,9 +140,31 @@ export const ChartColors = (props) => {
     }
 
 
-    let options = []
     const systemSchemes = app === "csv" ? [{value: "manual", label: 'Manual Colors'}] : system
-    if (colorBy === 'index' || colorBy === 'id') {
+    const scatterUsesGradient = type === 'scatter' && !!scatterColorMeasure && selectedMeasureKeys.includes(scatterColorMeasure)
+    const gradientSchemeValues = [...sequential, ...diverging].map(({value}) => value)
+    const categoricalSchemeValues = [...categorical, ...systemSchemes].map(({value}) => value)
+    if (scatterUsesGradient && colorBy !== 'values') {
+        setAttributes({colorBy: 'values'})
+        return null
+    }
+    if (type === 'scatter' && !scatterUsesGradient && colorBy !== 'index') {
+        setAttributes({colorBy: 'index'})
+        return null
+    }
+    if (scatterUsesGradient && gradientSchemeValues.indexOf(scheme) === -1) {
+        setAttributes({scheme: 'red_yellow_green'})
+        return null
+    }
+    if (type === 'scatter' && !scatterUsesGradient && colorBy === 'index' && categoricalSchemeValues.indexOf(scheme) === -1) {
+        setAttributes({scheme: 'nivo'})
+        return null
+    }
+
+    let options = []
+    if (scatterUsesGradient) {
+        options = [...sequential, ...diverging]
+    } else if (colorBy === 'index' || colorBy === 'id') {
         if (type == "bar") {
             options = [...systemSchemes, plainColor, ...categorical, ...sequential]
 
@@ -463,7 +489,7 @@ export const ChartColors = (props) => {
         ...elements,
         <PanelRow>
             <SelectControl
-                label={__('Color Scheme')}
+                label={scatterUsesGradient ? __('Color Gradient') : __('Color Scheme')}
                 value={[scheme]} // e.g: value = [ 'a', 'c' ]
                 onChange={(value) => {
                     setAttributes({scheme: value})
@@ -488,7 +514,7 @@ export const ChartColors = (props) => {
             />
         </PanelRow>,
 
-        (scheme == "manual") && <PanelRow>
+        (scheme == "manual" && !scatterUsesGradient) && <PanelRow>
 
             {app != "csv" && useColors == "dimension" && colorBy == "index" &&
                 <PanelBody initialOpen={false} title={__("Set Colors")}>

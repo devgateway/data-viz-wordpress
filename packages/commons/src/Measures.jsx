@@ -13,6 +13,13 @@ const defaultFormat = {
 
 }
 
+const measureFormatStyles = [
+    {label: 'Decimal', value: 'decimal'},
+    {label: 'Compacted', value: 'compacted'},
+    {label: 'Currency', value: 'currency'},
+    {label: 'Percent', value: 'percent'}
+]
+
 const hasConfiguredDimension = (dimension) => dimension && dimension !== 'none'
 
 const supportsMeasureSelectorInSingleMode = (type, dimension1, dimension2) =>
@@ -122,6 +129,68 @@ export const Measures = (props) => {
     }
 
 
+    const isMeasureSelected = (measure) => {
+        const userMeasure = measures?.[app]?.[measure.value]
+        return Boolean(userMeasure?.selected)
+    }
+
+    const getMeasureFormat = (measure) => {
+        const appMeasures = measures?.[app] || {}
+        return {
+            ...defaultFormat,
+            ...(appMeasures?.format || {}),
+            ...(appMeasures?.[measure.value]?.format || {})
+        }
+    }
+
+    const onMeasureFormatChange = (measure, patch) => {
+        const nextFormat = {
+            ...getMeasureFormat(measure),
+            ...patch,
+        }
+        onFormatChange(nextFormat, measure.value)
+    }
+
+    const MeasureFormatOptions = ({measure}) => {
+        if (type !== 'scatter' || !isMeasureSelected(measure)) {
+            return null
+        }
+
+        const selectedFormat = getMeasureFormat(measure)
+        return <PanelBody initialOpen={false} title={__('Format')}>
+            <PanelRow>
+                <SelectControl
+                    label={__('Style', 'dg')}
+                    value={selectedFormat.style || 'decimal'}
+                    options={measureFormatStyles}
+                    onChange={(value) => onMeasureFormatChange(measure, {style: value})}
+                />
+            </PanelRow>
+            {selectedFormat.style === 'currency' && <PanelRow>
+                <TextControl
+                    label={__('Currency', 'dg')}
+                    value={selectedFormat.currency || 'USD'}
+                    onChange={(value) => onMeasureFormatChange(measure, {currency: value || 'USD'})}
+                />
+            </PanelRow>}
+            <PanelRow>
+                <TextControl
+                    type={'number'}
+                    label={__('Decimal Points', 'dg')}
+                    onChange={(value) => {
+                        const decimals = Number.parseInt(value, 10)
+                        const safeDecimals = Number.isFinite(decimals) ? Math.max(0, Math.min(6, decimals)) : 0
+                        onMeasureFormatChange(measure, {
+                            minimumFractionDigits: safeDecimals,
+                            maximumFractionDigits: safeDecimals,
+                        })
+                    }}
+                    value={selectedFormat.minimumFractionDigits}
+                />
+            </PanelRow>
+        </PanelBody>
+    }
+
     const MeasureOptions = ({measure, single}) => {
         return <PanelRow>
             {single && <MCheckbox measure={measure}></MCheckbox>}
@@ -214,9 +283,12 @@ export const Measures = (props) => {
                                        onToggle={e => togglePanel(g, panelStatus, setAttributes)}
                                        title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
                             {allMeasures.filter(f => getTranslation(f.group) === g)
-                                .map(m => <PanelRow>
-                                    <MeasureOptions single={false} measure={m}></MeasureOptions>
-                                </PanelRow>)}
+                                .map(m => <div key={`measure-${m.value}`}>
+                                    <PanelRow>
+                                        <MeasureOptions single={false} measure={m}></MeasureOptions>
+                                    </PanelRow>
+                                    <MeasureFormatOptions measure={m}></MeasureFormatOptions>
+                                </div>)}
                         </PanelBody>
 
 
@@ -242,9 +314,12 @@ export const Measures = (props) => {
                         title={`${g} (${countSelected(g)} / ${countTotal(g)} ) `}>
 
                         {allMeasures.filter(f => getTranslation(f.group) === g)
-                            .map(m => <PanelRow>
-                                <MeasureOptions single={true} measure={m}></MeasureOptions>
-                            </PanelRow>)}
+                            .map(m => <div key={`single-measure-${m.value}`}>
+                                <PanelRow>
+                                    <MeasureOptions single={true} measure={m}></MeasureOptions>
+                                </PanelRow>
+                                <MeasureFormatOptions measure={m}></MeasureFormatOptions>
+                            </div>)}
 
                     </PanelBody>
                 )
@@ -296,7 +371,7 @@ export const Measures = (props) => {
         }
 
 
-        {(type != 'overlay' && type != 'data-paragraph') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
+        {(type != 'overlay' && type != 'data-paragraph' && type != 'scatter') && <PanelBody title={__("Format")} initialOpen={panelStatus["FORMAT"]}
                                            onToggle={e => togglePanel("FORMAT", panelStatus, setAttributes)}>
             <Format
                 hiddenCustomAxisFormat={type == 'radar' || type == 'big-number' || type == 'data-paragraph' || type == 'grouped-bars'}

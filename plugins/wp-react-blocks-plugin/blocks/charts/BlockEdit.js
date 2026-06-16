@@ -41,7 +41,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {setAttributes, attributes: {type, colorBy, dimension1, dimension2, tooltipHTML}, forcedType} = this.props
+        const {setAttributes, attributes: {type, app, measures, colorBy, dimension1, dimension2, tooltipHTML, scatterColorMeasure}, forcedType} = this.props
         const prevForcedType = prevProps.forcedType;
         const effectiveType = forcedType || type;
         const prevType = prevForcedType || prevProps.attributes.type;
@@ -85,6 +85,28 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
             if (shouldUpdateTooltipTemplate && currentDefaultTooltip !== tooltipHTML) {
                 setAttributes({tooltipHTML: currentDefaultTooltip});
+            }
+        }
+
+        if (effectiveType === 'scatter') {
+            const selectedMeasureKeys = Object.keys(measures?.[app] || {})
+                .filter((measureKey) => measures?.[app]?.[measureKey]?.selected);
+            const hasValidIntensityMeasure = Boolean(scatterColorMeasure) && selectedMeasureKeys.includes(scatterColorMeasure);
+            const expectedCategoricalColorBy = 'index';
+
+            if (!hasValidIntensityMeasure && scatterColorMeasure) {
+                setAttributes({scatterColorMeasure: ''});
+                return;
+            }
+
+            if (hasValidIntensityMeasure && colorBy !== 'values') {
+                setAttributes({colorBy: 'values'});
+                return;
+            }
+
+            if (!hasValidIntensityMeasure && colorBy !== expectedCategoricalColorBy) {
+                setAttributes({colorBy: expectedCategoricalColorBy});
+                return;
             }
         }
         super.componentDidUpdate(prevProps, prevState, snapshot);

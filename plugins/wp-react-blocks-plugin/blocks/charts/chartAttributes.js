@@ -647,6 +647,18 @@ export const CHART_ATTRIBUTES = {
         type: 'Boolean',
         default: false
     },
+    scatterLabelPosition: {
+        type: 'String',
+        default: 'top-right'
+    },
+    scatterLabelColor: {
+        type: 'String',
+        default: ''
+    },
+    scatterLabelSize: {
+        type: 'number',
+        default: 11
+    },
     scatterConnectPoints: {
         type: 'Boolean',
         default: false
@@ -654,6 +666,22 @@ export const CHART_ATTRIBUTES = {
     scatterPointOpacity: {
         type: 'Numeric',
         default: 0.85
+    },
+    scatterXMeasure: {
+        type: 'String',
+        default: ''
+    },
+    scatterYMeasure: {
+        type: 'String',
+        default: ''
+    },
+    scatterSizeMeasure: {
+        type: 'String',
+        default: ''
+    },
+    scatterColorMeasure: {
+        type: 'String',
+        default: ''
     },
     scatterReferenceX: {
         type: 'String',
@@ -686,6 +714,14 @@ export const CHART_ATTRIBUTES = {
     scatterQuadrantBottomRightLabel: {
         type: 'String',
         default: ''
+    },
+    scatterXAxisLegendOffset: {
+        type: 'number',
+        default: 56
+    },
+    scatterYAxisLegendOffset: {
+        type: 'number',
+        default: 60
     },
 };
 

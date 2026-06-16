@@ -9,7 +9,7 @@ import {
 } from '@wordpress/components';
 import {PanelColorSettings} from '@wordpress/block-editor';
 import {__} from '@wordpress/i18n';
-import {togglePanel, ChartMeasures} from '@devgateway/dvz-wp-commons';
+import {togglePanel, Measures as ChartMeasures} from '@devgateway/dvz-wp-commons';
 
 const overLayPrototype = (preFillCsv) => {
     return {

@@ -137,8 +137,15 @@ const SaveComponent = (props) => {
             scatterMinSize,
             scatterMaxSize,
             scatterShowLabels,
+            scatterLabelPosition,
+            scatterLabelColor,
+            scatterLabelSize,
             scatterConnectPoints,
             scatterPointOpacity,
+            scatterXMeasure,
+            scatterYMeasure,
+            scatterSizeMeasure,
+            scatterColorMeasure,
             scatterReferenceX,
             scatterReferenceY,
             scatterReferenceXLabel,
@@ -146,7 +153,9 @@ const SaveComponent = (props) => {
             scatterQuadrantTopLeftLabel,
             scatterQuadrantTopRightLabel,
             scatterQuadrantBottomLeftLabel,
-            scatterQuadrantBottomRightLabel
+            scatterQuadrantBottomRightLabel,
+            scatterXAxisLegendOffset,
+            scatterYAxisLegendOffset,
         }
     } = props;
     const resolvedType = forcedType || type;
@@ -294,8 +303,15 @@ const SaveComponent = (props) => {
               data-scatter-min-size={scatterMinSize}
               data-scatter-max-size={scatterMaxSize}
               data-scatter-show-labels={scatterShowLabels}
+               data-scatter-label-position={scatterLabelPosition}
+               data-scatter-label-color={encodeURIComponent(scatterLabelColor || '')}
+               data-scatter-label-size={scatterLabelSize}
               data-scatter-connect-points={scatterConnectPoints}
               data-scatter-point-opacity={scatterPointOpacity}
+               data-scatter-x-measure={scatterXMeasure}
+               data-scatter-y-measure={scatterYMeasure}
+               data-scatter-size-measure={scatterSizeMeasure}
+               data-scatter-color-measure={scatterColorMeasure}
               data-scatter-reference-x={scatterReferenceX}
               data-scatter-reference-y={scatterReferenceY}
               data-scatter-reference-x-label={encodeURIComponent(scatterReferenceXLabel || '')}
@@ -304,6 +320,8 @@ const SaveComponent = (props) => {
               data-scatter-quadrant-top-right-label={encodeURIComponent(scatterQuadrantTopRightLabel || '')}
               data-scatter-quadrant-bottom-left-label={encodeURIComponent(scatterQuadrantBottomLeftLabel || '')}
               data-scatter-quadrant-bottom-right-label={encodeURIComponent(scatterQuadrantBottomRightLabel || '')}
+              data-scatter-x-axis-legend-offset={scatterXAxisLegendOffset}
+              data-scatter-y-axis-legend-offset={scatterYAxisLegendOffset}
              >
             <InnerBlocks.Content/>
         </div>

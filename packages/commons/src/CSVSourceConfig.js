@@ -21,7 +21,12 @@ export const CSVConfig = ({ attributes: { csv, panelStatus, measures, type }, se
                 selected: false
             }
         }
-        uMs[app][field] = format
+        if (field === 'format' || field === 'customFormat' || field === undefined) {
+            uMs[app][field || 'format'] = format
+        } else {
+            const existingMeasure = uMs[app][field] || {}
+            uMs[app][field] = { ...existingMeasure, format }
+        }
         setAttributes({ measures: uMs })
 
 
