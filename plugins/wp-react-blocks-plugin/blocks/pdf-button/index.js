@@ -1,8 +1,8 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
+import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons';
 
 registerBlockType(BLOCKS_NS + 'viz-components/pdf-button',
     {
@@ -12,7 +12,7 @@ registerBlockType(BLOCKS_NS + 'viz-components/pdf-button',
         attributes: {
             buttonLabel: {
                 type: 'string',
-                default: "Download Prevalence Factsheet"
+                default: "Download"
             },
             height: {
                 type: 'Numeric',
@@ -42,4 +42,4 @@ registerBlockType(BLOCKS_NS + 'viz-components/pdf-button',
         save: BlockSave,
     }
 )
-;
+    ;

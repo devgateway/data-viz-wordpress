@@ -1,8 +1,8 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {ChartIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons'
+import { ChartIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons'
 
 registerBlockType(BLOCKS_NS + '/chart',
     {
@@ -99,7 +99,7 @@ registerBlockType(BLOCKS_NS + '/chart',
             },
             dataSource: {
                 type: 'String',
-                default: "NIDS"
+                default: "Source"
             },
 
             legendPosition: {
@@ -354,10 +354,10 @@ registerBlockType(BLOCKS_NS + '/chart',
             types: {
                 type: "Array",
                 default: [
-                    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, singleDimension: false}},
-                    {label: 'Pie', value: 'pie', supports: {singleMeasure: false, singleDimension: false}},
-                    {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
-                    {label: 'Radar', value: 'radar', supports: {singleMeasure: true, singleDimension: true}}
+                    { label: 'Bar', value: 'bar', supports: { singleMeasure: false, singleDimension: false } },
+                    { label: 'Pie', value: 'pie', supports: { singleMeasure: false, singleDimension: false } },
+                    { label: 'Line', value: 'line', supports: { singleMeasure: false, singleDimension: true } },
+                    { label: 'Radar', value: 'radar', supports: { singleMeasure: true, singleDimension: true } }
                 ]
             },
             barColor: {

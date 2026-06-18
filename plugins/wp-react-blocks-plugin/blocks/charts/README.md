@@ -59,7 +59,7 @@ A Gutenberg block that embeds a configurable data visualisation chart (Bar, Line
 | `dualMode` | Boolean | `false` | Enable toggling between chart and info-graphic views |
 | `toggleInfoLabel` | String | `"Info Graphic"` | Button label for info view |
 | `toggleChartLabel` | String | `"Chart"` | Button label for chart view |
-| `dataSource` | String | `"NIDS"` | Data source attribution text |
+| `dataSource` | String | `"Source"` | Data source attribution text |
 | `dataSourceLabel` | String | `"Source"` | Label preceding the data source text |
 
 ### Pie / Radar (selected)
