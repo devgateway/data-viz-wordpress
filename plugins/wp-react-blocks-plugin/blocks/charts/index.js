@@ -16,6 +16,16 @@ registerBlockType(BLOCKS_NS + '/chart',
                 default: 500,
             },
 
+            // Optional explicit chart-area height, decoupled from the total
+            // `height` (the resizable box). When > 0, the chart renders at this
+            // height and the legend flows naturally above/below it; the container
+            // grows to fit. When 0 (default) the legacy behavior is kept, so
+            // existing charts are unaffected.
+            chartHeight: {
+                type: 'number',
+                default: 0,
+            },
+
             type: {
                 type: 'string',
                 default: "bar",

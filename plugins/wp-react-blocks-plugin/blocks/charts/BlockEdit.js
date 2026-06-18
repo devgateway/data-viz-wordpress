@@ -4,6 +4,7 @@ import {
     Panel,
     PanelBody,
     PanelRow,
+    RangeControl,
     ResizableBox,
     SelectControl,
     TextareaControl,
@@ -74,6 +75,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             attributes: {
                 measures,
                 height,
+                chartHeight,
                 type,
                 groupMode,
                 bottomLegend,
@@ -251,6 +253,18 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         </PanelBody>
                         <SizeConfig setAttributes={setAttributes} panelStatus={this.props.attributes.panelStatus}
                                     height={height}></SizeConfig>
+                        <PanelBody initialOpen={false} title={__("Chart Area Height")}>
+                            <PanelRow>
+                                <RangeControl
+                                    label={__("Chart height (0 = auto: chart fills the box and the legend shares it, legacy behavior). When > 0 the chart uses this height and the legend flows above/below it.")}
+                                    value={chartHeight}
+                                    min={0}
+                                    max={2000}
+                                    step={10}
+                                    onChange={(chartHeight) => setAttributes({ chartHeight: chartHeight ?? 0 })}
+                                />
+                            </PanelRow>
+                        </PanelBody>
                         {/*
                         <PanelBody initialOpen={false} title={__("Info Graphic")}>
                             <PanelRow>

@@ -4,6 +4,7 @@ const SaveComponent = (props) => {
     const {
         toggleSelection, setAttributes, attributes: {
             height,
+            chartHeight,
             width,
             type,
             groupMode,
@@ -141,6 +142,7 @@ const SaveComponent = (props) => {
         <div {...blockProps} className={"viz-component"}
              data-component={"chart"}
              data-height={height}
+             data-chart-height={chartHeight}
              data-type={type}
              data-source={source}
              data-dvz-proxy-dataset-id={dvzProxyDatasetId}
