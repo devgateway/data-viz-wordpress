@@ -24,7 +24,7 @@ const DeprecatedFormat = (props) => {
         "  import { Format } from '@devgateway/dvz-wp-commons';\n" +
         'To expose Prefix/Suffix fields pass showPrefixSuffix={true}.'
     );
-    return CommonsFormat(props);
+    return <CommonsFormat {...props} />;
 };
 
 export default DeprecatedFormat;
