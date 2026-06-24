@@ -1,10 +1,10 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
+import { GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons';
 
-registerBlockType(BLOCKS_NS+'/map',
+registerBlockType(BLOCKS_NS + '/map',
     {
         title: __('Data Map'),
         icon: GenericIcon,
@@ -21,7 +21,7 @@ registerBlockType(BLOCKS_NS+'/map',
             },
             dataSourceText: {
                 type: 'String',
-                default: "NIDS"
+                default: "Source"
             },
             source: {
                 type: 'string',
@@ -41,7 +41,7 @@ registerBlockType(BLOCKS_NS+'/map',
             },
             measures: {
                 type: "Array",
-                default: ["prevalenceSmokeAny"]
+                default: []
             },
             filters: {
                 type: "Array",
@@ -54,30 +54,30 @@ registerBlockType(BLOCKS_NS+'/map',
             },
             nationalAverageLabel: {
                 type: "String",
-                default: "National Prevalence Avg"
+                default: "National Avg"
             },
             legendTitle: {
                 type: "String",
-                default: "Tobacco Prevalence Rate"
+                default: "Rate"
             },
             types: {
                 type: "Array",
-                default: [{label: 'Map', value: 'map', supports: {singleMeasure: false, singleDimension: false}}]
+                default: [{ label: 'Map', value: 'map', supports: { singleMeasure: false, singleDimension: false } }]
             },
-            showLegendLabels:{
-                type:'Boolean',
+            showLegendLabels: {
+                type: 'Boolean',
                 default: false
             },
             legendBreaks: {
                 type: "Array",
-                default: [{ min: 0, max: 2.99, color: '#66A3D9', label: '', filters: []}, { min: 3, max: 4.99, color: '#BC91D9', label: '', filters: []}, { min: 5, color: '#F26363', label: '', filters: []}]
+                default: [{ min: 0, max: 2.99, color: '#66A3D9', label: '', filters: [] }, { min: 3, max: 4.99, color: '#BC91D9', label: '', filters: [] }, { min: 5, color: '#F26363', label: '', filters: [] }]
             },
             showNoDataLegendItem: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
-            zoomEnabled:{
-                type:'Boolean',
+            zoomEnabled: {
+                type: 'Boolean',
                 default: false
             },
             mapFile: {
@@ -86,7 +86,7 @@ registerBlockType(BLOCKS_NS+'/map',
             },
             enabledLayers: {
                 type: "Array",
-                default:[]
+                default: []
             },
             mainLayerId: {
                 type: "String",
@@ -101,38 +101,38 @@ registerBlockType(BLOCKS_NS+'/map',
                 default: "zone"
             },
             hasMultipleMeasures: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
-            mapCenter:{
+            mapCenter: {
                 type: "String",
                 default: "NGA"
             },
-            mapLabelShowValue:{
-                type:'Boolean',
+            mapLabelShowValue: {
+                type: 'Boolean',
                 default: false
             },
-            showTooltip:{
-                type:'Boolean',
+            showTooltip: {
+                type: 'Boolean',
                 default: true
             },
             measureSelectorLabel: {
                 type: "String",
                 default: ""
             },
-            valueFormat:{
+            valueFormat: {
                 type: "String",
                 default: "%({value},2)"
             },
-            showOverallValue:{
-                type:'Boolean',
+            showOverallValue: {
+                type: 'Boolean',
                 default: false
             },
             autoGenerateBreaks: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
-            numberOfBreaks:{
+            numberOfBreaks: {
                 type: 'Numeric',
                 default: 5
             },
@@ -141,14 +141,14 @@ registerBlockType(BLOCKS_NS+'/map',
                 default: 'reds'
             },
             showNoDataLabel: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
             group: {
                 type: 'String',
                 default: 'default',
             },
-            mapSymbols:{
+            mapSymbols: {
                 type: 'Array',
                 default: []
             },
@@ -168,11 +168,11 @@ registerBlockType(BLOCKS_NS+'/map',
                 type: 'String',
                 default: 'normal',
             },
-            legendFontSize:{
+            legendFontSize: {
                 type: 'Numeric',
                 default: 12,
             },
-            legendFontWeight:{
+            legendFontWeight: {
                 type: 'String',
                 default: 'normal',
             },
@@ -192,7 +192,7 @@ registerBlockType(BLOCKS_NS+'/map',
                 type: "String",
                 default: "USD"
             },
-            tooltipFontSize:{
+            tooltipFontSize: {
                 type: 'Numeric',
                 default: 14,
             },
@@ -216,20 +216,20 @@ registerBlockType(BLOCKS_NS+'/map',
                 type: 'String',
                 default: encodeURIComponent("#000"),
             },
-            highlightedLocation:{
+            highlightedLocation: {
                 type: "String",
                 default: ""
             },
-            highlightedLocLabelFormat:{
+            highlightedLocLabelFormat: {
                 type: "String",
                 default: "{locationName} - Score: #({value},2)"
             },
-            tooltipFormat:{
+            tooltipFormat: {
                 type: "String",
                 default: "{locationName} %({value},2) \n {label}: %({value},2)"
             },
             showNoDataTooltip: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
             mapContainerBgColor: {
@@ -256,7 +256,7 @@ registerBlockType(BLOCKS_NS+'/map',
                 type: "Object",
                 default: {}
             },
-            pointLabelFormat:{
+            pointLabelFormat: {
                 type: "String",
                 default: "%({value},2)"
             },
@@ -273,19 +273,19 @@ registerBlockType(BLOCKS_NS+'/map',
                 default: ""
             },
             enableSummaryView: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
             aggregationFormula: {
                 type: 'String',
                 default: "COUNT"
             },
-            zoomLevelToShowPoints:{
+            zoomLevelToShowPoints: {
                 type: "Numeric",
                 default: 2
             },
             zoomOnFilter: {
-                type:'Boolean',
+                type: 'Boolean',
                 default: false
             },
             zoomOnFilterField: {
