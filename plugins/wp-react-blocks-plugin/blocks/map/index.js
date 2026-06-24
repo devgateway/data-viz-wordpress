@@ -41,7 +41,7 @@ registerBlockType(BLOCKS_NS + '/map',
             },
             measures: {
                 type: "Array",
-                default: ["prevalenceSmokeAny"]
+                default: []
             },
             filters: {
                 type: "Array",
@@ -54,11 +54,11 @@ registerBlockType(BLOCKS_NS + '/map',
             },
             nationalAverageLabel: {
                 type: "String",
-                default: "National Prevalence Avg"
+                default: "National Avg"
             },
             legendTitle: {
                 type: "String",
-                default: "Tobacco Prevalence Rate"
+                default: "Rate"
             },
             types: {
                 type: "Array",
