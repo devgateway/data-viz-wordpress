@@ -29,7 +29,7 @@ import {
     isSupersetAPI
 } from '@devgateway/dvz-wp-commons';
 
-import Format from "../charts/Format.jsx";
+import { Format } from '@devgateway/dvz-wp-commons';
 import '@wordpress/format-library';
 
 

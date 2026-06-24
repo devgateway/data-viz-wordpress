@@ -11,7 +11,6 @@ const SaveComponent = (props) => {
             format,
             filters,
             group,
-            noDataMsg,
             dvzProxyDatasetId,
             bigNumberFontSize,
             labelFontSize,
@@ -30,20 +29,18 @@ const SaveComponent = (props) => {
             backGroundColor,
             showTooltip,
             tooltipText,
-            tooltipStyle
+            tooltipStyle,
+            percentChangeFormat
         }
     } = props;
     const blockProps = useBlockProps.save({
         className: 'big-number-trend'
     });
 
-    const levels = [dimension1]
-    const source = levels.filter(l => l != 'none' && l != null).join('/')
     return (
         <div {...blockProps} className={"viz-component"}
              data-component={"bignumbertrend"}
              data-height={height}
-             data-source={source}
              data-app={app}
              data-csv={csv}
              data-dvz-proxy-dataset-id={dvzProxyDatasetId}
@@ -52,11 +49,13 @@ const SaveComponent = (props) => {
              data-format={encodeURIComponent(JSON.stringify(format))}
              data-group={group}
              data-filters={encodeURIComponent(JSON.stringify(filters))}
-             data-no-data-message={noDataMsg}
              data-big-number-font-size={bigNumberFontSize}
              data-label-font-size={labelFontSize}
              data-percent-font-size={percentFontSize}
              data-text-color={encodeURIComponent(textColor)}
+             data-number-color={encodeURIComponent(numberColor)}
+             data-percent-color={encodeURIComponent(percentColor)}
+             data-back-ground-color={backGroundColor}
              data-label={label}
              data-show-percentage-change={showPercentageChange}
              data-wait-for-filters={waitForFilters}
@@ -65,12 +64,10 @@ const SaveComponent = (props) => {
              data-icon-up={iconUp}
              data-icon-down={iconDown}
              data-style-option={styleOption}
-             data-percent-color={percentColor}
-             data-number-color={numberColor}
-             data-back-ground-color={backGroundColor}
-            data-show-tooltip={showTooltip}
-            data-tooltip-text={tooltipText}
-            data-tooltip-style={tooltipStyle}
+             data-show-tooltip={showTooltip}
+             data-tooltip-text={tooltipText}
+             data-tooltip-style={tooltipStyle}
+             data-percent-change-format={encodeURIComponent(JSON.stringify(percentChangeFormat))}
         >
             <InnerBlocks.Content/>
         </div>

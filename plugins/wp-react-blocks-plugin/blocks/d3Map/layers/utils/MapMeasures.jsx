@@ -1,7 +1,7 @@
 import {__} from '@wordpress/i18n';
 import {CheckboxControl, PanelBody, PanelRow, SelectControl, ToggleControl} from '@wordpress/components';
 
-import Format from '../../../charts/Format.jsx'
+import { Format } from '@devgateway/dvz-wp-commons'
 import {togglePanel} from '@devgateway/dvz-wp-commons';
 import {getTranslation} from '@devgateway/dvz-wp-commons';
 

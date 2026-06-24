@@ -17,7 +17,7 @@ import {togglePanel} from '@devgateway/dvz-wp-commons';
 import {Measures} from '@devgateway/dvz-wp-commons';
 import {DataFilters} from '@devgateway/dvz-wp-commons';
 import {isSupersetAPI} from '@devgateway/dvz-wp-commons';
-import Format from "../charts/Format.jsx";
+import { Format } from '@devgateway/dvz-wp-commons';
 import {getTranslation} from '@devgateway/dvz-wp-commons';
 
 const defaultFormat = {
@@ -399,6 +399,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                             format={format}
                                             customFormat={{}}
                                             useCustomAxisFormat={false}
+                                            showPrefixSuffix={true}
                                             onFormatChange={(newFormat, field) => {
                                                 console.log("newFormat", newFormat)
                                                 setAttributes({format: newFormat})
@@ -798,6 +799,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     format={selectedMap[k].format || defaultFormat}
                                                     customFormat={{}}
                                                     useCustomAxisFormat={false}
+                                                    showPrefixSuffix={true}
                                                     onFormatChange={(newFormat) => this.updateMeasureFormat(k, newFormat)}
                                                     onUseCustomAxisFormatChange={() => {}}
                                                 />

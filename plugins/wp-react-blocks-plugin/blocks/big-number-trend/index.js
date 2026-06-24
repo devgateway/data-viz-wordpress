@@ -146,6 +146,14 @@ registerBlockType(BLOCKS_NS + '/bignumbertrend',
             iconUp: {
                 type: "string",
                 default: ""
+            },
+            percentChangeFormat: {
+                type: 'Object',
+                default: {
+                    "style": "percent",
+                    "minimumFractionDigits": 2,
+                    "maximumFractionDigits": 2
+                }
             }
         },
         edit: BlockEdit,

@@ -1,8 +1,8 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {ChartIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons'
+import { ChartIcon, BLOCKS_NS, BLOCKS_CATEGORY } from '@devgateway/dvz-wp-commons'
 
 registerBlockType(BLOCKS_NS + '/chart',
     {
@@ -14,6 +14,16 @@ registerBlockType(BLOCKS_NS + '/chart',
             height: {
                 type: 'number',
                 default: 500,
+            },
+
+            // Optional explicit chart-area height, decoupled from the total
+            // `height` (the resizable box). When > 0, the chart renders at this
+            // height and the legend flows naturally above/below it; the container
+            // grows to fit. When 0 (default) the legacy behavior is kept, so
+            // existing charts are unaffected.
+            chartHeight: {
+                type: 'number',
+                default: 0,
             },
 
             type: {
@@ -89,7 +99,7 @@ registerBlockType(BLOCKS_NS + '/chart',
             },
             dataSource: {
                 type: 'String',
-                default: "NIDS"
+                default: "Source"
             },
 
             legendPosition: {
@@ -344,10 +354,10 @@ registerBlockType(BLOCKS_NS + '/chart',
             types: {
                 type: "Array",
                 default: [
-                    {label: 'Bar', value: 'bar', supports: {singleMeasure: false, singleDimension: false}},
-                    {label: 'Pie', value: 'pie', supports: {singleMeasure: false, singleDimension: false}},
-                    {label: 'Line', value: 'line', supports: {singleMeasure: false, singleDimension: true}},
-                    {label: 'Radar', value: 'radar', supports: {singleMeasure: true, singleDimension: true}}
+                    { label: 'Bar', value: 'bar', supports: { singleMeasure: false, singleDimension: false } },
+                    { label: 'Pie', value: 'pie', supports: { singleMeasure: false, singleDimension: false } },
+                    { label: 'Line', value: 'line', supports: { singleMeasure: false, singleDimension: true } },
+                    { label: 'Radar', value: 'radar', supports: { singleMeasure: true, singleDimension: true } }
                 ]
             },
             barColor: {

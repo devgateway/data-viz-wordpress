@@ -37,7 +37,7 @@ A Gutenberg block that renders an interactive choropleth/symbol map by embedding
 | `showOverallValue` | `Boolean` | `false` | Display an overall/national average value on the map. |
 | `nationalAverageLabel` | `String` | `"National Prevalence Avg"` | Label for the national average annotation. |
 | `dataSourceLabel` | `String` | `"Source"` | Label prefix for the data source credit. |
-| `dataSourceText` | `String` | `"NIDS"` | Data source credit text. |
+| `dataSourceText` | `String` | `"Source"` | Data source credit text. |
 | `labelFontSize` | `Numeric` | `12` | Font size (px) for admin unit labels on the map. |
 | `labelFontWeight` | `String` | `"normal"` | Font weight for admin unit labels. |
 | `labelFontColor` | `String` | `"%23595959"` (URL-encoded `#595959`) | Colour for admin unit labels. |

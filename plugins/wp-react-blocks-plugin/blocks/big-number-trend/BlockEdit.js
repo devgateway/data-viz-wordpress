@@ -18,7 +18,7 @@ import { togglePanel } from '@devgateway/dvz-wp-commons';
 import { Measures } from '@devgateway/dvz-wp-commons';
 import { DataFilters } from '@devgateway/dvz-wp-commons';
 import { isSupersetAPI } from '@devgateway/dvz-wp-commons';
-import Format from "../charts/Format.jsx";
+import { Format } from '@devgateway/dvz-wp-commons';
 
 
 class BlockEdit extends BlockEditWithAPIMetadata {
@@ -63,7 +63,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 noDataText,
                 showTooltip,
                 tooltipText,
-                tooltipStyle
+                tooltipStyle,
+                percentChangeFormat
             }
         } = this.props;
 
@@ -265,7 +266,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <MediaUpload
                                 onSelect={(media) => setAttributes({ iconUp: media.url })}
                                 allowedTypes={["image"]}
-                                value={iconImage}
+                                value={iconUp}
                                 render={({ open }) => (
                                     <button onClick={open} className="components-button is-secondary">
                                         {iconImage
@@ -295,7 +296,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             <MediaUpload
                                 onSelect={(media) => setAttributes({ iconDown: media.url })}
                                 allowedTypes={["image"]}
-                                value={iconImage}
+                                value={iconDown}
                                 render={({ open }) => (
                                     <button onClick={open} className="components-button is-secondary">
                                         {iconImage
@@ -431,6 +432,20 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 }
                             ]}
                         />
+                        <PanelBody
+                            initialOpen={false}
+                            title={__("Percentage Change Format")}
+                        >
+                            <Format
+                                hiddenCustomAxisFormat={true}
+                                showPrefixSuffix={true}
+                                format={percentChangeFormat}
+                                customFormat={{}}
+                                useCustomAxisFormat={false}
+                                onFormatChange={(newFormat) => setAttributes({ percentChangeFormat: newFormat })}
+                                onUseCustomAxisFormatChange={() => {}}
+                            />
+                        </PanelBody>
                         <PanelBody
                             initialOpen={false}
                             panelStatus={panelStatus['TOOLTIP']}

@@ -1,6 +1,6 @@
 import {PanelBody, PanelRow, RangeControl, SelectControl, TextControl, ToggleControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
-import Format from "./Format.jsx";
+import { Format } from '@devgateway/dvz-wp-commons';
 import Papa from "papaparse";
 
 const Settings = ({setAttributes,allMeasures,
