@@ -55,7 +55,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 csv,
                 type,
                 waitForFilters,
-                noDataText
+                noDataText,
+                showZeroValues
             }
         } = this.props;
 
@@ -163,6 +164,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                 label={__('No Data Text')}
                                 value={noDataText}
                                 onChange={(noDataText) => setAttributes({ noDataText })}
+                            />
+                        </PanelRow>
+                        <PanelRow>
+                            <ToggleControl
+                                label={__('Show Zero Values')}
+                                checked={showZeroValues}
+                                onChange={() => setAttributes({ showZeroValues: !showZeroValues })}
                             />
                         </PanelRow>
                         <PanelRow>

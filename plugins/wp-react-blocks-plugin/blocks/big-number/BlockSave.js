@@ -22,7 +22,8 @@ const SaveComponent = (props) => {
 
         csv,
         waitForFilters,
-        noDataText
+        noDataText,
+        showZeroValues
     }
     } = props;
     const blockProps = useBlockProps.save({
@@ -55,7 +56,8 @@ const SaveComponent = (props) => {
             data-group-label-font-sizee={groupLabelFontSize}
             data-group-label-color={groupLabelColor}
             data-wait-for-filters={waitForFilters}
-            data-no-data-text={noDataText}>
+            data-no-data-text={noDataText}
+            data-show-zero-values={showZeroValues}>
 
             <InnerBlocks.Content />
         </div>

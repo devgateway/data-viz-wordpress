@@ -2,6 +2,7 @@ import {PanelRow, SelectControl, TextControl, ToggleControl, PanelBody} from '@w
 import {__} from '@wordpress/i18n';
 
 const styles = [
+    {label: 'None', value: 'none'},
     {label: 'Decimal', value: 'decimal'},
     {label: 'Compacted', value: 'compacted'},
     {label: 'Currency', value: 'currency'},
@@ -388,7 +389,7 @@ const Format = ({
                     options={currencies}
                 />
             </PanelRow>}</>
-            <PanelRow>
+            <>{format.style !== "none" && <PanelRow>
                 <TextControl
                     type={"Number"}
                     label={__("Decimal Points", "dg")}
@@ -397,7 +398,7 @@ const Format = ({
                     }}
                     value={format.minimumFractionDigits}
                 />
-            </PanelRow>
+            </PanelRow>}</>
         </PanelBody>, <>
             {!hiddenCustomAxisFormat && <PanelRow>
                 <ToggleControl label={__("Use Custom Axis Format", "dg")} checked={useCustomAxisFormat}
@@ -428,7 +429,7 @@ const Format = ({
                         options={currencies}
                     />
                 </PanelRow>}</>
-                <PanelRow>
+                <>{customFormat.style !== "none" && <PanelRow>
                     <TextControl
                         type={"Number"}
                         label={__("Decimal Points", "dg")}
@@ -437,7 +438,7 @@ const Format = ({
                         }}
                         value={customFormat.minimumFractionDigits}
                     />
-                </PanelRow>
+                </PanelRow>}</>
             </PanelBody>}</>
 
     ]

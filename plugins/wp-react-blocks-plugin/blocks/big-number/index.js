@@ -111,6 +111,10 @@ registerBlockType(BLOCKS_NS+'/bignumber',
             noDataText: {
                 type: 'string',
                 default: '-'
+            },
+            showZeroValues: {
+                type: 'boolean',
+                default: false
             }
         },
 
