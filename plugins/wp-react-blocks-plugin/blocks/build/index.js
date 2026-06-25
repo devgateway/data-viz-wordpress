@@ -3510,6 +3510,9 @@ module.exports = getSymbols;
 
 
 const styles = [{
+  label: 'None',
+  value: 'none'
+}, {
   label: 'Decimal',
   value: 'decimal'
 }, {
@@ -4507,14 +4510,16 @@ const Format = ({
           options: currencies
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelRow, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
-        type: "Number",
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Decimal Points", "dg"),
-        onChange: value => {
-          onDecimalChange(value, DEFAULT_FORMAT);
-        },
-        value: format.minimumFractionDigits
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+      children: format.style !== "none" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelRow, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+          type: "Number",
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Decimal Points", "dg"),
+          onChange: value => {
+            onDecimalChange(value, DEFAULT_FORMAT);
+          },
+          value: format.minimumFractionDigits
+        })
       })
     })]
   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
@@ -4550,14 +4555,16 @@ const Format = ({
             options: currencies
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelRow, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
-          type: "Number",
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Decimal Points", "dg"),
-          onChange: value => {
-            onDecimalChange(value, CUSTOM_FORMAT);
-          },
-          value: customFormat.minimumFractionDigits
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+        children: customFormat.style !== "none" && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.PanelRow, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_0__.TextControl, {
+            type: "Number",
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Decimal Points", "dg"),
+            onChange: value => {
+              onDecimalChange(value, CUSTOM_FORMAT);
+            },
+            value: customFormat.minimumFractionDigits
+          })
         })
       })]
     })
@@ -21027,8 +21034,15 @@ const SaveComponent = props => {
       scatterMinSize,
       scatterMaxSize,
       scatterShowLabels,
+      scatterLabelPosition,
+      scatterLabelColor,
+      scatterLabelSize,
       scatterConnectPoints,
       scatterPointOpacity,
+      scatterXMeasure,
+      scatterYMeasure,
+      scatterSizeMeasure,
+      scatterColorMeasure,
       scatterReferenceX,
       scatterReferenceY,
       scatterReferenceXLabel,
@@ -21036,7 +21050,9 @@ const SaveComponent = props => {
       scatterQuadrantTopLeftLabel,
       scatterQuadrantTopRightLabel,
       scatterQuadrantBottomLeftLabel,
-      scatterQuadrantBottomRightLabel
+      scatterQuadrantBottomRightLabel,
+      scatterXAxisLegendOffset,
+      scatterYAxisLegendOffset
     }
   } = props;
   const resolvedType = forcedType || type;
@@ -21184,8 +21200,15 @@ const SaveComponent = props => {
     "data-scatter-min-size": scatterMinSize,
     "data-scatter-max-size": scatterMaxSize,
     "data-scatter-show-labels": scatterShowLabels,
+    "data-scatter-label-position": scatterLabelPosition,
+    "data-scatter-label-color": encodeURIComponent(scatterLabelColor || ''),
+    "data-scatter-label-size": scatterLabelSize,
     "data-scatter-connect-points": scatterConnectPoints,
     "data-scatter-point-opacity": scatterPointOpacity,
+    "data-scatter-x-measure": scatterXMeasure,
+    "data-scatter-y-measure": scatterYMeasure,
+    "data-scatter-size-measure": scatterSizeMeasure,
+    "data-scatter-color-measure": scatterColorMeasure,
     "data-scatter-reference-x": scatterReferenceX,
     "data-scatter-reference-y": scatterReferenceY,
     "data-scatter-reference-x-label": encodeURIComponent(scatterReferenceXLabel || ''),
@@ -21194,6 +21217,8 @@ const SaveComponent = props => {
     "data-scatter-quadrant-top-right-label": encodeURIComponent(scatterQuadrantTopRightLabel || ''),
     "data-scatter-quadrant-bottom-left-label": encodeURIComponent(scatterQuadrantBottomLeftLabel || ''),
     "data-scatter-quadrant-bottom-right-label": encodeURIComponent(scatterQuadrantBottomRightLabel || ''),
+    "data-scatter-x-axis-legend-offset": scatterXAxisLegendOffset,
+    "data-scatter-y-axis-legend-offset": scatterYAxisLegendOffset,
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks.Content, {})
   });
 };
@@ -26460,6 +26485,18 @@ const CHART_ATTRIBUTES = {
     type: 'Boolean',
     default: false
   },
+  scatterLabelPosition: {
+    type: 'String',
+    default: 'top-right'
+  },
+  scatterLabelColor: {
+    type: 'String',
+    default: ''
+  },
+  scatterLabelSize: {
+    type: 'number',
+    default: 11
+  },
   scatterConnectPoints: {
     type: 'Boolean',
     default: false
@@ -26467,6 +26504,22 @@ const CHART_ATTRIBUTES = {
   scatterPointOpacity: {
     type: 'Numeric',
     default: 0.85
+  },
+  scatterXMeasure: {
+    type: 'String',
+    default: ''
+  },
+  scatterYMeasure: {
+    type: 'String',
+    default: ''
+  },
+  scatterSizeMeasure: {
+    type: 'String',
+    default: ''
+  },
+  scatterColorMeasure: {
+    type: 'String',
+    default: ''
   },
   scatterReferenceX: {
     type: 'String',
@@ -26499,6 +26552,14 @@ const CHART_ATTRIBUTES = {
   scatterQuadrantBottomRightLabel: {
     type: 'String',
     default: ''
+  },
+  scatterXAxisLegendOffset: {
+    type: 'number',
+    default: 56
+  },
+  scatterYAxisLegendOffset: {
+    type: 'number',
+    default: 60
   }
 };
 
@@ -32996,6 +33057,7 @@ class PixelGridLayer extends external_wp_element_.Component {
     this.removeFilter = this.removeFilter.bind(this);
     this.updateFilterParam = this.updateFilterParam.bind(this);
     this.updateFilterValue = this.updateFilterValue.bind(this);
+    this.getFilterItems = this.getFilterItems.bind(this);
   }
   onMeasuresChange(value) {
     const {
@@ -33068,6 +33130,21 @@ class PixelGridLayer extends external_wp_element_.Component {
     };
     onChangeProperty('filters', newFilters);
   }
+  getFilterItems(type) {
+    const {
+      allCategories = []
+    } = this.props;
+    if (type === 'Boolean') {
+      return [{
+        value: 'Yes',
+        id: true
+      }, {
+        value: 'No',
+        id: false
+      }];
+    }
+    return allCategories.find(category => category.type === type)?.items || [];
+  }
   render() {
     const {
       layer,
@@ -33092,11 +33169,17 @@ class PixelGridLayer extends external_wp_element_.Component {
       allMeasures = [],
       allDimensions = [],
       allFilters = [],
+      allCategories = [],
       allDatasets = [],
       apps = [],
       attributes,
       setAttributes
     } = this.props;
+    const sortedFilterOptions = [...allFilters].sort((a, b) => {
+      const aLabel = a.label ? a.label.toLowerCase() : '';
+      const bLabel = b.label ? b.label.toLowerCase() : '';
+      return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+    });
 
     // Auto-populate customMeasuresLabels for any selected measure that doesn't yet have a label,
     // mirroring the same pattern used by the Data shape layer.
@@ -33197,9 +33280,9 @@ class PixelGridLayer extends external_wp_element_.Component {
           title: (0,external_wp_i18n_.__)(`Filter – ${f.label}`, 'dg'),
           children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
             value: f.param,
-            options: allFilters,
+            options: sortedFilterOptions,
             onChange: value => this.updateFilterParam(value, index)
-          }), allFilters.find(af => af.param === f.param)?.items?.map(item => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          }), this.getFilterItems(f.type).slice().sort((a, b) => (a.position || 0) - (b.position || 0)).map(item => /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
             children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
               label: item.value,
               checked: (f.value || []).includes(item.id),
@@ -33604,6 +33687,7 @@ const Base = props => {
         allMeasures: metadata.measures || [],
         allDimensions: metadata.dimensions || [],
         allFilters: metadata.filters || [],
+        allCategories: metadata.categories || [],
         allDatasets: datasets,
         allApps: metadata.apps,
         layer: layer
@@ -40524,7 +40608,7 @@ const LineOverlay = props => {
             value: o.csvLineLayerData,
             onChange: value => onChange(idx, "csvLineLayerData", value)
           })
-        }), o.app != "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build.ChartMeasures, {
+        }), o.app != "csv" && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(build/* Measures */.I3, {
           title: "Select Measure",
           onMeasuresChange: e => null,
           onFormatChange: a => alert("format"),
@@ -41845,15 +41929,25 @@ const HistogramOptions = props => {
 
 
 
+
 const ScatterOptions = props => {
   const {
     setAttributes,
     attributes: {
+      app,
+      measures,
       scatterMinSize,
       scatterMaxSize,
       scatterShowLabels,
+      scatterLabelPosition,
+      scatterLabelColor,
+      scatterLabelSize,
       scatterConnectPoints,
       scatterPointOpacity,
+      scatterXMeasure,
+      scatterYMeasure,
+      scatterSizeMeasure,
+      scatterColorMeasure,
       scatterReferenceX,
       scatterReferenceY,
       scatterReferenceXLabel,
@@ -41861,14 +41955,84 @@ const ScatterOptions = props => {
       scatterQuadrantTopLeftLabel,
       scatterQuadrantTopRightLabel,
       scatterQuadrantBottomLeftLabel,
-      scatterQuadrantBottomRightLabel
+      scatterQuadrantBottomRightLabel,
+      scatterXAxisLegendOffset,
+      scatterYAxisLegendOffset
     }
   } = props;
   const showQuadrantLabels = scatterReferenceX !== '' && scatterReferenceY !== '';
+  const selectedMeasureConfig = measures?.[app] || {};
+  const selectedMeasureOptions = (props.allMeasures || []).filter(measure => selectedMeasureConfig?.[measure.value]?.selected).sort((left, right) => (left.position || 0) - (right.position || 0)).map(measure => ({
+    value: measure.value,
+    label: `${measure.group || (0,external_wp_i18n_.__)('Measure')} - ${measure.label || measure.value}`
+  }));
+  const axisMeasureOptions = [{
+    label: (0,external_wp_i18n_.__)('Auto'),
+    value: ''
+  }, ...selectedMeasureOptions];
+  const optionalMeasureOptions = [{
+    label: (0,external_wp_i18n_.__)('None'),
+    value: ''
+  }, ...selectedMeasureOptions];
+  const setScatterMeasure = (attributeName, value) => {
+    setAttributes({
+      [attributeName]: value || ''
+    });
+  };
   return [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
     initialOpen: false,
     title: (0,external_wp_i18n_.__)("Scatter Options"),
     children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
+      initialOpen: false,
+      title: (0,external_wp_i18n_.__)("Measure Mapping"),
+      children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('X Axis Measure'),
+          value: scatterXMeasure || '',
+          options: axisMeasureOptions,
+          onChange: value => setScatterMeasure('scatterXMeasure', value),
+          help: (0,external_wp_i18n_.__)('If empty, the first selected measure is used.')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Y Axis Measure'),
+          value: scatterYMeasure || '',
+          options: axisMeasureOptions,
+          onChange: value => setScatterMeasure('scatterYMeasure', value),
+          help: (0,external_wp_i18n_.__)('If empty, the second selected measure is used.')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Bubble Size Measure'),
+          value: scatterSizeMeasure || '',
+          options: optionalMeasureOptions,
+          onChange: value => setScatterMeasure('scatterSizeMeasure', value),
+          help: (0,external_wp_i18n_.__)('Optional. Use a third measure for bubble size.')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+          label: (0,external_wp_i18n_.__)('Bubble Color Intensity Measure'),
+          value: scatterColorMeasure || '',
+          options: optionalMeasureOptions,
+          onChange: value => setScatterMeasure('scatterColorMeasure', value),
+          help: (0,external_wp_i18n_.__)('Optional. Example: color_weighted_roi_pct.')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: (0,external_wp_i18n_.__)('Scatter now uses each selected measure\'s format in axes and tooltips.')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)("span", {
+          style: {
+            fontSize: '11px'
+          },
+          children: (0,external_wp_i18n_.__)('Second dimension is kept for multi-series use (for example, points by county and series by scenario). If a chosen dimension matches a selected measure key, it is ignored to avoid Superset duplicate-label errors.')
+        })
+      })]
+    }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_wp_components_.PanelBody, {
       initialOpen: false,
       title: (0,external_wp_i18n_.__)("Points & Labels"),
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
@@ -41910,6 +42074,65 @@ const ScatterOptions = props => {
             scatterShowLabels: value
           })
         })
+      }), scatterShowLabels && /*#__PURE__*/(0,external_ReactJSXRuntime_.jsxs)(external_ReactJSXRuntime_.Fragment, {
+        children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.SelectControl, {
+            label: (0,external_wp_i18n_.__)('Label Position'),
+            value: scatterLabelPosition || 'top-right',
+            options: [{
+              label: (0,external_wp_i18n_.__)('Top Right'),
+              value: 'top-right'
+            }, {
+              label: (0,external_wp_i18n_.__)('Top'),
+              value: 'top'
+            }, {
+              label: (0,external_wp_i18n_.__)('Top Left'),
+              value: 'top-left'
+            }, {
+              label: (0,external_wp_i18n_.__)('Right'),
+              value: 'right'
+            }, {
+              label: (0,external_wp_i18n_.__)('Center'),
+              value: 'center'
+            }, {
+              label: (0,external_wp_i18n_.__)('Left'),
+              value: 'left'
+            }, {
+              label: (0,external_wp_i18n_.__)('Bottom Right'),
+              value: 'bottom-right'
+            }, {
+              label: (0,external_wp_i18n_.__)('Bottom'),
+              value: 'bottom'
+            }, {
+              label: (0,external_wp_i18n_.__)('Bottom Left'),
+              value: 'bottom-left'
+            }],
+            onChange: value => setAttributes({
+              scatterLabelPosition: value || 'top-right'
+            })
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_blockEditor_.PanelColorSettings, {
+            title: (0,external_wp_i18n_.__)('Label Color'),
+            colorSettings: [{
+              value: scatterLabelColor || '',
+              onChange: color => setAttributes({
+                scatterLabelColor: color || ''
+              }),
+              label: (0,external_wp_i18n_.__)('Label Color')
+            }]
+          })
+        }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+          children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+            label: (0,external_wp_i18n_.__)('Label Size'),
+            value: Number(scatterLabelSize) || 11,
+            onChange: value => setAttributes({
+              scatterLabelSize: Number(value) || 11
+            }),
+            min: 8,
+            max: 24
+          })
+        })]
       }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
           label: (0,external_wp_i18n_.__)("Connect Points"),
@@ -41923,6 +42146,28 @@ const ScatterOptions = props => {
       initialOpen: false,
       title: (0,external_wp_i18n_.__)("Quadrants & Guides"),
       children: [/*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('X Axis Label Offset'),
+          value: Number(scatterXAxisLegendOffset) || 56,
+          onChange: value => setAttributes({
+            scatterXAxisLegendOffset: Number(value) || 56
+          }),
+          min: 20,
+          max: 120,
+          help: (0,external_wp_i18n_.__)('Distance from axis ticks to axis title label (bottom axis).')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+        children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.RangeControl, {
+          label: (0,external_wp_i18n_.__)('Y Axis Label Offset'),
+          value: Number(scatterYAxisLegendOffset) || 60,
+          onChange: value => setAttributes({
+            scatterYAxisLegendOffset: Number(value) || 60
+          }),
+          min: 20,
+          max: 120,
+          help: (0,external_wp_i18n_.__)('Distance from axis ticks to axis title label (left axis).')
+        })
+      }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
         children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.TextControl, {
           label: (0,external_wp_i18n_.__)('Vertical Reference (X)'),
           value: scatterReferenceX,
@@ -43138,10 +43383,13 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
       setAttributes,
       attributes: {
         type,
+        app,
+        measures,
         colorBy,
         dimension1,
         dimension2,
-        tooltipHTML
+        tooltipHTML,
+        scatterColorMeasure
       },
       forcedType
     } = this.props;
@@ -43182,6 +43430,29 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
         setAttributes({
           tooltipHTML: currentDefaultTooltip
         });
+      }
+    }
+    if (effectiveType === 'scatter') {
+      const selectedMeasureKeys = Object.keys(measures?.[app] || {}).filter(measureKey => measures?.[app]?.[measureKey]?.selected);
+      const hasValidIntensityMeasure = Boolean(scatterColorMeasure) && selectedMeasureKeys.includes(scatterColorMeasure);
+      const expectedCategoricalColorBy = 'index';
+      if (!hasValidIntensityMeasure && scatterColorMeasure) {
+        setAttributes({
+          scatterColorMeasure: ''
+        });
+        return;
+      }
+      if (hasValidIntensityMeasure && colorBy !== 'values') {
+        setAttributes({
+          colorBy: 'values'
+        });
+        return;
+      }
+      if (!hasValidIntensityMeasure && colorBy !== expectedCategoricalColorBy) {
+        setAttributes({
+          colorBy: expectedCategoricalColorBy
+        });
+        return;
       }
     }
     super.componentDidUpdate(prevProps, prevState, snapshot);
@@ -44747,7 +45018,8 @@ const SaveComponent = props => {
       groupLabelColor,
       csv,
       waitForFilters,
-      noDataText
+      noDataText,
+      showZeroValues
     }
   } = props;
   const blockProps = external_wp_blockEditor_.useBlockProps.save({
@@ -44780,6 +45052,7 @@ const SaveComponent = props => {
     "data-group-label-color": groupLabelColor,
     "data-wait-for-filters": waitForFilters,
     "data-no-data-text": noDataText,
+    "data-show-zero-values": showZeroValues,
     children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_editor_.InnerBlocks.Content, {})
   });
 };
@@ -44836,7 +45109,8 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
         csv,
         type,
         waitForFilters,
-        noDataText
+        noDataText,
+        showZeroValues
       }
     } = this.props;
     const datasets = [{
@@ -44946,6 +45220,14 @@ class BlockEdit extends build/* BlockEditWithAPIMetadata */.TM {
               value: noDataText,
               onChange: noDataText => setAttributes({
                 noDataText
+              })
+            })
+          }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
+            children: /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.ToggleControl, {
+              label: (0,external_wp_i18n_.__)('Show Zero Values'),
+              checked: showZeroValues,
+              onChange: () => setAttributes({
+                showZeroValues: !showZeroValues
               })
             })
           }), /*#__PURE__*/(0,external_ReactJSXRuntime_.jsx)(external_wp_components_.PanelRow, {
@@ -45184,6 +45466,10 @@ const Edit = props => {
     noDataText: {
       type: 'string',
       default: '-'
+    },
+    showZeroValues: {
+      type: 'boolean',
+      default: false
     }
   },
   edit: big_number_BlockEdit,

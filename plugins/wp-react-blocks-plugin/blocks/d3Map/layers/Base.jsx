@@ -356,6 +356,7 @@ const Base = (props) => {
                     allMeasures={metadata.measures || []}
                     allDimensions={metadata.dimensions || []}
                     allFilters={metadata.filters || []}
+                    allCategories={metadata.categories || []}
                     allDatasets={datasets}
                     allApps={metadata.apps}
                     layer={layer}

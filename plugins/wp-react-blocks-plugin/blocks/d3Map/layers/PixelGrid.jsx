@@ -28,6 +28,7 @@ class PixelGridLayer extends Component {
         this.removeFilter = this.removeFilter.bind(this);
         this.updateFilterParam = this.updateFilterParam.bind(this);
         this.updateFilterValue = this.updateFilterValue.bind(this);
+        this.getFilterItems = this.getFilterItems.bind(this);
     }
 
     onMeasuresChange(value) {
@@ -77,6 +78,19 @@ class PixelGridLayer extends Component {
         onChangeProperty('filters', newFilters);
     }
 
+    getFilterItems(type) {
+        const { allCategories = [] } = this.props;
+
+        if (type === 'Boolean') {
+            return [
+                { value: 'Yes', id: true },
+                { value: 'No', id: false },
+            ];
+        }
+
+        return allCategories.find(category => category.type === type)?.items || [];
+    }
+
     render() {
         const {
             layer,
@@ -106,6 +120,12 @@ class PixelGridLayer extends Component {
             attributes,
             setAttributes,
         } = this.props;
+
+        const sortedFilterOptions = [...allFilters].sort((a, b) => {
+            const aLabel = a.label ? a.label.toLowerCase() : '';
+            const bLabel = b.label ? b.label.toLowerCase() : '';
+            return aLabel < bLabel ? -1 : aLabel > bLabel ? 1 : 0;
+        });
 
         // Auto-populate customMeasuresLabels for any selected measure that doesn't yet have a label,
         // mirroring the same pattern used by the Data shape layer.
@@ -227,13 +247,13 @@ class PixelGridLayer extends Component {
                             <PanelBody key={index} initialOpen={false} title={__(`Filter – ${f.label}`, 'dg')}>
                                 <SelectControl
                                     value={f.param}
-                                    options={allFilters}
+                                    options={sortedFilterOptions}
                                     onChange={value => this.updateFilterParam(value, index)}
                                 />
-                                {allFilters
-                                    .find(af => af.param === f.param)
-                                    ?.items
-                                    ?.map(item => (
+                                {this.getFilterItems(f.type)
+                                    .slice()
+                                    .sort((a, b) => (a.position || 0) - (b.position || 0))
+                                    .map(item => (
                                         <PanelRow key={item.id}>
                                             <ToggleControl
                                                 label={item.value}
