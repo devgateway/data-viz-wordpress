@@ -1,8 +1,7 @@
 const SaveComponent = (props) => {
     const {
-        setAttributes,
         attributes: {
-            count,
+            items,
             type,
             taxonomy,
             categories,
@@ -19,11 +18,9 @@ const SaveComponent = (props) => {
     const divClass = {}
     const divStyles = {}
 
-//const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-width=${width}&data-theme=${theme}&data-show-icons=${showIcons}&data-user-labels=${useLabels}`
-//data-theme=${theme}&data-show-icons=${showIcons}&data-show-labels=${useLabels}`
     return (<div className={divClass} style={divStyles}>
             <div
-                data-items={count}
+                data-items={items}
                 data-height={height}
                 data-width={width}
                 data-type={type}

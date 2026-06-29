@@ -48,9 +48,6 @@ class EditComponent extends BlockEditWithFilters {
             }
         }
 
-        const queryString = `editing=true&organization=${organization}&name=${name}&email=${email}&country=${country}&message=${message}&submitlabel=${submitLabel}&resetlabel=${resetLabel}&successmessage=${successMessage}&failuremessage=${failureMessage}&width=${width}&height=${height}&alignment=${alignment}`;
-
-
         return (
             <div>
                 <InspectorControls>
@@ -150,8 +147,8 @@ class EditComponent extends BlockEditWithFilters {
                     </Panel>
                 </InspectorControls>
                 <div className={divClass} style={{ ...divStyles, width, height }}>
-                    {this.state.react_ui_url && <iframe scrolling={"no"} style={{ width, height }}
-                        src={this.state.react_ui_url + "/embeddable/showcaseForm?" + queryString} />}
+                    {this.state.react_ui_url && <iframe ref={this.iframe} scrolling={"no"} style={{ width, height }}
+                        src={this.state.react_ui_url + "/embeddable/showcaseForm"} />}
                 </div>
 
             </div>

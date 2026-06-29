@@ -3,13 +3,19 @@ import {
 } from '@wordpress/block-editor';
 
 const SaveComponent = (props) => {
-    const {setAttributes} = props;
     const {
         customBackgroundColor,
         backgroundColor,
-        width,
-        height,
-        alignment
+        alignment,
+        organization,
+        name,
+        email,
+        country,
+        message,
+        submitLabel,
+        resetLabel,
+        successMessage,
+        failureMessage,
     } = props.attributes;
 
     const divClass = getColorClassName('background-color', backgroundColor);
@@ -19,8 +25,21 @@ const SaveComponent = (props) => {
         "text-align": alignment,
         "margin": 'auto'
     };
-    return (<div className={divClass} style={divStyles}>
-            <div {...props.attributes} className={"viz-component"} data-component={"showCaseForm"}></div>
+    return (
+        <div className={divClass} style={divStyles}>
+            <div
+                className={"viz-component"}
+                data-component={"showCaseForm"}
+                data-organization={organization}
+                data-name={name}
+                data-email={email}
+                data-country={country}
+                data-message={message}
+                data-submit-label={submitLabel}
+                data-reset-label={resetLabel}
+                data-success-message={successMessage}
+                data-failure-message={failureMessage}
+            />
         </div>
     );
 }

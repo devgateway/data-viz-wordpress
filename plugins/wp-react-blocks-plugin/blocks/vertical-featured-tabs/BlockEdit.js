@@ -35,6 +35,7 @@ class BlockEdit extends BlockEditWithFilters {
         if (newPreviewMode !== prevState.previewMode) {
             this.props.setAttributes({previewMode: newPreviewMode})
         }
+        super.componentDidUpdate(prevProps, prevState, snapshot)
     }
 
     render() {
@@ -56,8 +57,6 @@ class BlockEdit extends BlockEditWithFilters {
             },
         } = this.props;
 
-        const colorsParams = Object.keys(colors).map(k => colors[k]).join(",")
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${encodeURIComponent(colorsParams)}&data-read-more-label=${readMoreLabel}&data-click-to-expand-label=${encodeURIComponent(clickToExpandLabel || 'CLICK TO EXPAND')}&data-preview-mode=${previewMode}`
         const divStyles = {height: `${height}px`, width: "100%"}
         return (
             <div>

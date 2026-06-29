@@ -4,15 +4,23 @@ import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {Panel, PanelBody, PanelRow, ResizableBox, TextControl} from '@wordpress/components';
 import {ComponentWithSettings, GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
+const v1Attributes = {
+    count: { type: 'Numeric', default: 3 },
+    height: { type: "number", default: 400 },
+    width: { type: "number", default: 800 },
+    topTopLabel: { type: 'String', default: "TO THE TOP" },
+    navLabel: { type: 'String', default: "Sections" },
+    previewMode: { type: 'string', default: 'Desktop' },
+};
 
 const SaveComponent = (props) => {
-  const { navLabel, topTopLabel, previewMode } = props.attributes;
+  const { navLabel, toTopLabel, previewMode } = props.attributes;
   return (
     <div
       className={"viz-component"}
       data-component={"pageModules"}
       data-nav-label={navLabel}
-      data-to-top-label={topTopLabel}
+      data-to-top-label={toTopLabel}
       data-preview-mode={previewMode}
     />
   );
@@ -34,6 +42,7 @@ class Edit extends ComponentWithSettings {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        super.componentDidUpdate(prevProps, prevState, snapshot);
         const newPreviewMode = this.state?.previewMode ?? 'Desktop';
         if (newPreviewMode !== prevState.previewMode) {
             this.props.setAttributes({previewMode: newPreviewMode})
@@ -41,11 +50,9 @@ class Edit extends ComponentWithSettings {
     }
 
     render() {
-        const {attributes: {width, height, navLabel, topTopLabel, previewMode}, toggleSelection, setAttributes} = this.props;
+        const {attributes: {width, height, navLabel, toTopLabel, previewMode}, toggleSelection, setAttributes} = this.props;
         const urlParams = new URLSearchParams(window.location.search);
         const parent = urlParams.get('post');
-        const queryString = `editing=true&parent=${parent}&data-nav-label=${navLabel}&data-to-top-label=${topTopLabel}&data-preview-mode=${previewMode}`;
-        const divClass = ""
         const divStyles = {height: `${height}px`, width: '100%'}
 
         return (
@@ -66,8 +73,8 @@ class Edit extends ComponentWithSettings {
                             <PanelRow>
                                 <TextControl
                                     label={__('To Top Label',"dg")}
-                                    value={topTopLabel}
-                                    onChange={(topTopLabel) => setAttributes({topTopLabel})}
+                                    value={toTopLabel}
+                                    onChange={(toTopLabel) => setAttributes({toTopLabel})}
                                 />
 
                             </PanelRow>
@@ -103,9 +110,10 @@ class Edit extends ComponentWithSettings {
 
                     <div>
                         {this.state.react_ui_url&&<iframe
-                            style={{...divStyles}} className={divClass}
+                            style={{...divStyles}}
                             scrolling={"no"}
-                            src={this.state.react_ui_url + "/embeddable/pagemodules?" + queryString}/>}
+                            ref={this.iframe}
+                            src={this.state.react_ui_url + "/embeddable/pagemodules?parent=" + parent}/>}
                     </div>
                 </ResizableBox>
             </div>
@@ -121,10 +129,6 @@ registerBlockType(`${BLOCKS_NS}/page-modules`,
         icon: GenericIcon,
         category: BLOCKS_CATEGORY,
         attributes: {
-            count: {
-                type: 'Numeric',
-                default: 3,
-            },
             height: {
                 type: "number",
                 default: 400
@@ -133,7 +137,7 @@ registerBlockType(`${BLOCKS_NS}/page-modules`,
                 type: "number",
                 default: 800
             },
-            topTopLabel: {
+            toTopLabel: {
                 type: 'String',
                 default: "TO THE TOP",
             },
@@ -145,10 +149,28 @@ registerBlockType(`${BLOCKS_NS}/page-modules`,
                 type: 'string',
                 default: 'Desktop'
             }
-        }
-        ,
+        },
         edit: Edit,
         save: SaveComponent,
+        deprecated: [
+            {
+                attributes: v1Attributes,
+                migrate({ topTopLabel, count, ...rest }) {
+                    return { ...rest, toTopLabel: topTopLabel };
+                },
+                save({ attributes: { navLabel, topTopLabel, previewMode } }) {
+                    return (
+                        <div
+                            className={"viz-component"}
+                            data-component={"pageModules"}
+                            data-nav-label={navLabel}
+                            data-to-top-label={topTopLabel}
+                            data-preview-mode={previewMode}
+                        />
+                    );
+                }
+            }
+        ],
     }
 )
 ;

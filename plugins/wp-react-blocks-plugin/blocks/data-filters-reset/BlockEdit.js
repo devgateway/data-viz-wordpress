@@ -23,7 +23,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } = this.props;
 
 
-        const queryString = `data-group=${group}&data-app=${app}&data-reset-label=${resetLabel}`
         const iframeStyles = {height: '30px'}
 
         return ([isSelected && (<InspectorControls>

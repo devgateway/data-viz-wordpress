@@ -104,7 +104,6 @@ class BlockEdit extends BlockEditWithFilters {
             },
         } = this.props;
 
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-config=${encodeURIComponent(JSON.stringify(config))}&data-csv-line-color=${encodeURIComponent(lineColor)}&data-position=${position}&data-line-width=${lineWidth}&data-margin-left=${marginLeft}&data-margin-top=${marginTop}&data-margin-right=${marginRight}&data-margin-bottom=${marginBottom}&data-font-size=${fontSize}&data-title-width=${titleWidth}&data-subtitle-width=${subtitleWidth}`
         const divStyles = {height: height + 'px', width: '100%'}
 
 

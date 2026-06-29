@@ -23,7 +23,6 @@
 ## Checklist
 
 - [ ] PR title follows [Conventional Commits](https://www.conventionalcommits.org/) format
-- [ ] A changeset has been added (`pnpm changeset`) for any change to a published package
 - [ ] `pnpm build` passes locally
 - [ ] No hardcoded credentials, internal URLs, client names, or PII introduced
 - [ ] Any new dependency has a GPL-2.0-or-later-compatible license (MIT, BSD, Apache-2.0, ISC are all compatible)
