@@ -15,13 +15,12 @@ class BlockEdit extends BlockEditWithFilters {
             toggleSelection,
             setAttributes,
             attributes: {
-                count,
+                items,
                 type,
                 taxonomy,
                 categories,
                 height,
-                width,
-                showIcons,
+                showPostIcons,
                 showContentToggle,
                 contentToggleHPosition,
                 panelStatus,
@@ -30,8 +29,6 @@ class BlockEdit extends BlockEditWithFilters {
             },
         } = this.props;
 
-
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-show-post-icons=${showIcons}&data-show-content-toggle=${showContentToggle}&data-content-toggle-h-position=${contentToggleHPosition}&data-read-more-label=${encodeURIComponent(readMoreLabel || 'Read More')}&data-read-less-label=${encodeURIComponent(readLessLabel || 'Read less')}`
         const divStyles = {height: height + 'px', width: '100%'}
         return (
             <div>
@@ -45,8 +42,8 @@ class BlockEdit extends BlockEditWithFilters {
                                 <p>{__("Show Post Icon")}</p>
                                 <FormToggle
                                     label={__("Show Post Icon")}
-                                    checked={showIcons}
-                                    onChange={() => setAttributes({showIcons: !showIcons})}
+                                    checked={showPostIcons}
+                                    onChange={() => setAttributes({showPostIcons: !showPostIcons})}
                                 />
 
                             </PanelRow>
@@ -75,8 +72,8 @@ class BlockEdit extends BlockEditWithFilters {
 
                                 <RangeControl
                                     label="Items"
-                                    value={count}
-                                    onChange={(count) => setAttributes({count})}
+                                    value={items}
+                                    onChange={(items) => setAttributes({items})}
                                     min={2}
                                     max={10}
                                 />
@@ -135,7 +132,8 @@ class BlockEdit extends BlockEditWithFilters {
 
                     <div style={divStyles}>
                         {this.state.react_ui_url&&<iframe style={divStyles} scrolling={"no"}
-                                 src={this.state.react_ui_url + "/embeddable/inlinelist?" + queryString}/>}
+                                 ref={this.iframe}
+                                 src={this.state.react_ui_url + "/embeddable/inlinelist"}/>}
                     </div>
                 </ResizableBox>
             </div>

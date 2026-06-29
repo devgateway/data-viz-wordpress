@@ -1,8 +1,7 @@
 const SaveComponent = (props) => {
     const {
-        setAttributes,
         attributes: {
-            count,
+            items,
             type,
             taxonomy,
             categories,
@@ -12,11 +11,9 @@ const SaveComponent = (props) => {
         },
     } = props;
 
-    const divClass = {}
-    const divStyles = {}
-
-    return (<div className={divClass} style={divStyles}>
-            <div data-items={count} data-type={type} data-taxonomy={taxonomy} data-categories={categories.toString()}
+    return (
+        <div>
+            <div data-items={items} data-type={type} data-taxonomy={taxonomy} data-categories={categories.toString()}
                  className={"viz-component"}
                  data-height={height}
                  data-component={"postsCarousel"}
@@ -24,8 +21,6 @@ const SaveComponent = (props) => {
                  data-interval={interval}>
             </div>
         </div>
-
-
     );
 }
 

@@ -4,13 +4,28 @@ import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {GenericIcon, BLOCKS_NS, BLOCKS_CATEGORY} from '@devgateway/dvz-wp-commons';
 
+const v1Attributes = {
+    count: { type: 'Numeric', default: 3 },
+    type: { type: 'string', default: "posts" },
+    taxonomy: { type: 'string', default: "none" },
+    categories: { type: 'array', default: [] },
+    height: { type: 'Numeric', default: 500 },
+    showIcons: { type: 'boolean', default: false },
+    colors: { type: "object", default: {color_0: '#FFFF', color_1: '#FFFF', color_2: '#FFFF'} },
+    showContentToggle: { type: 'boolean', default: false },
+    contentToggleHPosition: { type: 'Numeric', default: 50 },
+    panelStatus: { type: "Object", default: {} },
+    readMoreLabel: { type: 'string', default: 'Read More' },
+    readLessLabel: { type: 'string', default: 'Read less' },
+};
+
 registerBlockType(BLOCKS_NS+'/inline-list',
     {
         title: __('Inline List'),
         icon: GenericIcon,
         category: BLOCKS_CATEGORY,
         attributes: {
-            count: {
+            items: {
                 type: 'Numeric',
                 default: 3,
             },
@@ -30,8 +45,7 @@ registerBlockType(BLOCKS_NS+'/inline-list',
                 type: 'Numeric',
                 default: 500,
             },
-
-            showIcons: {
+            showPostIcons: {
                 type: 'boolean',
                 default: false
             },
@@ -59,10 +73,36 @@ registerBlockType(BLOCKS_NS+'/inline-list',
                 type: 'string',
                 default: 'Read less'
             }
-        }
-        ,
+        },
         edit: BlockEdit,
         save: BlockSave,
+        deprecated: [
+            {
+                attributes: v1Attributes,
+                migrate({ count, showIcons, ...rest }) {
+                    return { ...rest, items: count, showPostIcons: showIcons };
+                },
+                save({ attributes: { count, type, taxonomy, categories, height, colors, showIcons, showContentToggle, contentToggleHPosition, readMoreLabel, readLessLabel } }) {
+                    const colorsParams = Object.keys(colors).map(k => colors[k]).join(",");
+                    return (
+                        <div>
+                            <div data-items={count}
+                                 data-height={height}
+                                 data-color={colorsParams}
+                                 data-type={type} data-taxonomy={taxonomy} data-categories={categories.toString()}
+                                 className={"viz-component"}
+                                 data-show-post-icons={showIcons}
+                                 data-show-content-toggle={showContentToggle}
+                                 data-content-toggle-h-position={contentToggleHPosition}
+                                 data-read-more-label={readMoreLabel}
+                                 data-read-less-label={readLessLabel}
+                                 data-component={"inlineList"}>
+                            </div>
+                        </div>
+                    );
+                }
+            }
+        ],
     }
 )
 ;

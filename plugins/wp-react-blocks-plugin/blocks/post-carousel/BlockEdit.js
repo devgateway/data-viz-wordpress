@@ -22,7 +22,7 @@ class BlockEdit extends BlockEditWithFilters {
             toggleSelection,
             setAttributes,
             attributes: {
-                count,
+                items,
                 type,
                 taxonomy,
                 categories,
@@ -32,7 +32,6 @@ class BlockEdit extends BlockEditWithFilters {
             },
         } = this.props;
 
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-auto-switch=${autoSwitch}&data-interval=${interval}`
         const divStyles = {height: height+'px', width: '100%'}
 
         return (
@@ -45,9 +44,9 @@ class BlockEdit extends BlockEditWithFilters {
                             <PanelRow>
                                 <NumberControl
                                     isShiftStepEnabled={true}
-                                    onChange={(count) => setAttributes({ count })}
+                                    onChange={(items) => setAttributes({ items })}
                                     shiftStep={10}
-                                    value={count}
+                                    value={items}
                                     label={__("Items","dg")} />
                             </PanelRow>
                             <PanelRow>
@@ -97,7 +96,8 @@ class BlockEdit extends BlockEditWithFilters {
                     }}>
                     <div style={divStyles}>
                         {this.state.react_ui_url&&<iframe style={divStyles} scrolling={"no"}
-                                 src={this.state.react_ui_url + "/embeddable/postscarousel?" + queryString}/>}
+                                 ref={this.iframe}
+                                 src={this.state.react_ui_url + "/embeddable/postscarousel"}/>}
                     </div>
                 </ResizableBox>
 

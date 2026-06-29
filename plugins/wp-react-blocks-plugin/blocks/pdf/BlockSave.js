@@ -4,24 +4,23 @@ const SaveComponent = (props) => {
     const {
         setAttributes,
         attributes: {
-            type,
             height,
             buttonLabel,
-            pdfLabel,
+            fileLabel,
             url
         },
     } = props;
 
     const divClass = {}
     const divStyles = {}
-    
+
     return (<div className={divClass} style={divStyles}>
-                <div 
+                <div
                      data-height={height}
                      className={"viz-component"}
                      data-component={"downloadpdf"}
                      data-button-label={buttonLabel}
-                     data-pdf-label={pdfLabel}
+                     data-file-label={fileLabel}
                      data-url={url}
                 >
 

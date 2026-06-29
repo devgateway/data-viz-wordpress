@@ -10,17 +10,10 @@ class BlockEdit extends BlockEditWithFilters {
     }
 
     onChangeColor(i, value) {
-        const {
-            setAttributes,
-            attributes: {
-                colors
-            },
-        } = this.props;
-
-        const newColors = Object.assign({}, colors);
-        newColors["color_" + i] = value;
-
-        setAttributes({ "colors": newColors });
+        const { setAttributes, attributes: { color } } = this.props;
+        const parts = (color || '').split(',');
+        parts[i] = value || '#FFFF';
+        setAttributes({ color: parts.join(',') });
     }
 
     componentWillUnmount() {
@@ -30,6 +23,7 @@ class BlockEdit extends BlockEditWithFilters {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        super.componentDidUpdate(prevProps, prevState, snapshot);
         const newPreviewMode = this.state?.previewMode;
         if (newPreviewMode !== prevState.previewMode) {
             this.props.setAttributes({ previewMode: newPreviewMode });
@@ -42,12 +36,12 @@ class BlockEdit extends BlockEditWithFilters {
             toggleSelection,
             setAttributes,
             attributes: {
-                count,
+                items,
                 type,
                 taxonomy,
                 categories,
                 height,
-                colors,
+                color,
                 useScrolls,
                 readMoreLabel,
                 closeLabel,
@@ -55,8 +49,6 @@ class BlockEdit extends BlockEditWithFilters {
             },
         } = this.props;
 
-        const colorsParams = Object.keys(colors).map(k => colors[k]).join(",");
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-color=${encodeURIComponent(colorsParams)}&data-read-more-label=${readMoreLabel}&data-close-label=${encodeURIComponent(closeLabel || 'Close')}&data-use-scrolls=${useScrolls}&data-preview-mode=${previewMode}`;
         const divStyles = { height: `${height}px`, width: "100%" };
 
         return (
@@ -67,8 +59,8 @@ class BlockEdit extends BlockEditWithFilters {
                             <PanelRow>
                                 <RangeControl
                                     label={__("Items", "dg")}
-                                    value={count}
-                                    onChange={(count) => setAttributes({ count })}
+                                    value={items}
+                                    onChange={(items) => setAttributes({ items })}
                                     min={2}
                                     max={10}
                                 />
@@ -118,13 +110,13 @@ class BlockEdit extends BlockEditWithFilters {
                         {this.renderFilters()}
 
                         <PanelBody title={__("Colors")}>
-                            {new Array(count).fill(1).map((v, i) =>
+                            {new Array(items).fill(1).map((v, i) =>
                                 <PanelRow key={i}>
                                     <PanelColorSettings
                                         title={__(`Color Settings  ${i + 1}`)}
                                         colorSettings={[
                                             {
-                                                value: colors[`color_${i}`],
+                                                value: (color || '').split(',')[i],
                                                 onChange: (colorValue) => this.onChangeColor(i, colorValue),
                                                 label: __('Background Color'),
                                             }
@@ -164,7 +156,8 @@ class BlockEdit extends BlockEditWithFilters {
                 >
                     <div style={divStyles}>
                         {this.state.react_ui_url && <iframe style={divStyles} scrolling={"no"}
-                                                            src={this.state.react_ui_url + "/embeddable/featuredtabs?" + queryString}/>}
+                                                            ref={this.iframe}
+                                                            src={this.state.react_ui_url + "/embeddable/featuredtabs"}/>}
 
                     </div>
                 </ResizableBox>
