@@ -18,6 +18,29 @@ import { getTranslatedOptions } from './APIutils';
 import { isSupersetAPI } from "./APIutils";
 
 
+// Global iframe load throttle — prevents browser ERR_INSUFFICIENT_RESOURCES when many blocks
+// are on the same page and all try to load the Vite dev server simultaneously.
+const _iframeQueue = [];
+let _iframeLoadingCount = 0;
+const MAX_CONCURRENT_IFRAMES = 3;
+
+function _requestIframeSlot(callback) {
+    if (_iframeLoadingCount < MAX_CONCURRENT_IFRAMES) {
+        _iframeLoadingCount++;
+        callback();
+    } else {
+        _iframeQueue.push(callback);
+    }
+}
+
+function _releaseIframeSlot() {
+    _iframeLoadingCount = Math.max(0, _iframeLoadingCount - 1);
+    if (_iframeQueue.length > 0) {
+        _iframeLoadingCount++;
+        _iframeQueue.shift()();
+    }
+}
+
 export const SizeConfig = ({ height, setAttributes, panelStatus, initialOpen }) => {
     return (<PanelBody initialOpen={panelStatus ? panelStatus["SIZE"] : initialOpen}
         onToggle={e => togglePanel("SIZE", panelStatus, setAttributes)}
@@ -42,15 +65,20 @@ export class ComponentWithSettings extends Component {
             react_ui_url: ''
         };
 
-        window.addEventListener("message", (event) => {
+        this.iframe = createRef();
+        this._messageHandler = (event) => {
             if (event.data.type === 'componentReady' && event.data.value === true) {
-                if (this.iframe.current) {
-                    console.log("-----------Sending message -----------");
+                // Only respond to our own iframe to avoid O(N²) postMessage storms
+                if (this.iframe.current && event.source === this.iframe.current.contentWindow) {
+                    if (this._hasIframeSlot) {
+                        _releaseIframeSlot();
+                        this._hasIframeSlot = false;
+                    }
                     this.iframe.current.contentWindow.postMessage(({ messageType: 'component-attributes', ...this.props.attributes }), "*");
                 }
             }
-        }, false);
-        this.iframe = createRef();
+        };
+        window.addEventListener("message", this._messageHandler, false);
         this.unsubscribe = wp.data.subscribe(() => {
             const newPreviewMode = wp.data.select("core/editor").getDeviceType();
             if (newPreviewMode !== this.state.previewMode) {
@@ -67,24 +95,42 @@ export class ComponentWithSettings extends Component {
 
     componentDidMount() {
         apiFetch({ path: '/dg/v1/settings' }).then((data) => {
-            this.setState({
-                react_ui_url: data["react_ui_url"] + '/' + window._page_locale,
+            const stateWithoutUrl = {
                 react_api_url: data["react_api_url"],
                 apache_superset_url: data["apache_superset_url"],
                 site_language: data["site_language"],
                 current_language: new URLSearchParams(document.location.search).get("edit_lang"),
                 landing_page_url: data["landing_page_url"] || ''
-            }, () => {
-                if (this.onSettingsLoaded) {
-                    this.onSettingsLoaded();
+            };
+            const url = data["react_ui_url"] + '/' + window._page_locale;
+            // Set non-iframe state immediately, defer the URL that triggers iframe rendering
+            this.setState(stateWithoutUrl);
+            this._hasIframeSlot = true;
+            _requestIframeSlot(() => {
+                if (!this._unmounted) {
+                    this.setState({ react_ui_url: url }, () => {
+                        if (this.onSettingsLoaded) {
+                            this.onSettingsLoaded();
+                        }
+                    });
+                } else {
+                    _releaseIframeSlot();
+                    this._hasIframeSlot = false;
                 }
             });
         });
     }
 
     componentWillUnmount() {
+        this._unmounted = true;
         if (this.unsubscribe) {
             this.unsubscribe();
+        }
+        window.removeEventListener('message', this._messageHandler);
+        // Release any held slot so the queue doesn't stall
+        if (this._hasIframeSlot) {
+            _releaseIframeSlot();
+            this._hasIframeSlot = false;
         }
     }
 
@@ -564,39 +610,56 @@ export class BlockEditWithAPIMetadata extends ComponentWithSettings {
                         label: 'CSV', value: 'csv'
                     }];
 
-                    this.setState({
-                        react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
+                    const url = settingsData["react_ui_url"] + '/' + window._page_locale;
+                    const baseState = {
                         react_api_url: settingsData["react_api_url"],
                         apache_superset_url: settingsData["apache_superset_url"],
                         site_language: settingsData["site_language"],
                         current_language: new URLSearchParams(document.location.search).get("edit_lang"),
                         apps
-                    }, () => {
-
-                        const { app, dvzProxyDatasetId } = this.props.attributes;
-
-                        if (isSupersetAPI(app, this.state.apps)) {
-                            this.loadDatasets(app);
-                        }
-
-                        if (app && app != 'none') {
-                            this.loadMetadata(app, dvzProxyDatasetId);
+                    };
+                    this.setState(baseState);
+                    this._hasIframeSlot = true;
+                    _requestIframeSlot(() => {
+                        if (!this._unmounted) {
+                            this.setState({ react_ui_url: url }, () => {
+                                const { app, dvzProxyDatasetId } = this.props.attributes;
+                                if (isSupersetAPI(app, this.state.apps)) {
+                                    this.loadDatasets(app);
+                                }
+                                if (app && app != 'none') {
+                                    this.loadMetadata(app, dvzProxyDatasetId);
+                                }
+                            });
+                        } else {
+                            _releaseIframeSlot();
+                            this._hasIframeSlot = false;
                         }
                     });
                 })
                 .catch((error) => {
                     console.error("Error when loading apps, falling back to CSV", error);
-                    this.setState({
-                        react_ui_url: settingsData["react_ui_url"] + '/' + window._page_locale,
+                    const url = settingsData["react_ui_url"] + '/' + window._page_locale;
+                    const baseState = {
                         react_api_url: settingsData["react_api_url"],
                         apache_superset_url: settingsData["apache_superset_url"],
                         site_language: settingsData["site_language"],
                         current_language: new URLSearchParams(document.location.search).get("edit_lang"),
                         apps: [{ label: 'CSV', value: 'csv' }]
-                    }, () => {
-                        const { app, dvzProxyDatasetId } = this.props.attributes;
-                        if (app && app != 'none') {
-                            this.loadMetadata(app, dvzProxyDatasetId);
+                    };
+                    this.setState(baseState);
+                    this._hasIframeSlot = true;
+                    _requestIframeSlot(() => {
+                        if (!this._unmounted) {
+                            this.setState({ react_ui_url: url }, () => {
+                                const { app, dvzProxyDatasetId } = this.props.attributes;
+                                if (app && app != 'none') {
+                                    this.loadMetadata(app, dvzProxyDatasetId);
+                                }
+                            });
+                        } else {
+                            _releaseIframeSlot();
+                            this._hasIframeSlot = false;
                         }
                     });
                 });
