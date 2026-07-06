@@ -30,6 +30,22 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         super.componentDidMount()
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        super.componentDidUpdate(prevProps, prevState, snapshot);
+        // The base class sends raw WP attributes, but measures/format/filters/percentChangeFormat
+        // are Array/Object types that the embeddable expects as JSON strings. Send a correction.
+        if (this.iframe && this.iframe.current) {
+            const { measures, format, filters, percentChangeFormat } = this.props.attributes;
+            this.iframe.current.contentWindow.postMessage({
+                messageType: 'component-attributes',
+                measures: JSON.stringify(measures),
+                format: JSON.stringify(format),
+                filters: JSON.stringify(filters),
+                percentChangeFormat: JSON.stringify(percentChangeFormat),
+            }, '*');
+        }
+    }
+
     render() {
         const {
             className, isSelected,
