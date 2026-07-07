@@ -137,7 +137,10 @@ const attributes = {
     tag: {
         type: 'string',
         default: "",
-    }
+    },
+    alignment: { type: 'string', default: 'center' },
+    backgroundColor: { type: 'string' },
+    customBackgroundColor: { type: 'string' },
 };
 
 const SaveComponent = (props) => {
