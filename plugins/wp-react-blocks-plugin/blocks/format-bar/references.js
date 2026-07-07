@@ -288,7 +288,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } = this.props;
 
 
-        const queryString = `data-group=${group}&data-app=${app}&data-reset-label=${resetLabel}&editing=true`
         const iframeStyles = {height: '65px'}
 
         return ([isSelected && (<InspectorControls>
@@ -321,9 +320,9 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 (<div>
 
                         {this.state.react_ui_url &&
-                            <iframe id={"id_description_iframe"} scrolling={"no"}
+                            <iframe ref={this.iframe} scrolling={"no"}
                                     style={iframeStyles}
-                                    src={this.state.react_ui_url + "/embeddable/references?" + queryString}/>}
+                                    src={this.state.react_ui_url + "/embeddable/references"}/>}
                     </div>
 
                 )]

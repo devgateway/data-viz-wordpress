@@ -1,12 +1,12 @@
 const SaveComponent = (props) => {
     const {
         attributes: {
-            count,
+            items,
             type,
             taxonomy,
             categories,
             height,
-            colors,
+            color,
             useScrolls,
             readMoreLabel,
             closeLabel,
@@ -14,19 +14,16 @@ const SaveComponent = (props) => {
         },
     } = props;
 
-    const divClass = {};
     const divStyles = {
-        height: `${height}px`, // Set the height style
+        height: `${height}px`,
     };
 
-    const colorsParams = Object.keys(colors).map(k => colors[k]).join(",");
-
     return (
-        <div className={divClass} style={divStyles}>
+        <div style={divStyles}>
             <div
-                data-items={count}
+                data-items={items}
                 data-height={height}
-                data-color={colorsParams}
+                data-color={color}
                 data-type={type}
                 data-taxonomy={taxonomy}
                 data-categories={categories.toString()}
@@ -42,4 +39,3 @@ const SaveComponent = (props) => {
 }
 
 export default SaveComponent;
-

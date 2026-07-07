@@ -15,6 +15,7 @@ const EditComponent = (props) => {
     const {
         backgroundColor,
         setBackgroundColor,
+        iframeRef,
         attributes: {
             label,
             placeholder,
@@ -44,9 +45,6 @@ const EditComponent = (props) => {
             className: divClass
         }
     );
-
-
-    const queryString = `editing=true&label=${label}&list=${list}&tag=${tag}&placeholder=${placeholder}&successmessage=${successMessage}&failuremessage=${failureMessage}&alignment=${alignment}`;
 
     return (
         <div>
@@ -112,22 +110,51 @@ const EditComponent = (props) => {
 
             </InspectorControls>
             <div {...blockProps}  >
-                <iframe  style={{width:'100%'}} scrolling={"no"}
-                        src={props.src + queryString}/>
+                <iframe ref={iframeRef} style={{width:'100%'}} scrolling={"no"}
+                        src={props.src}/>
 
             </div>
 
         </div>
     );
 }
+
+const attributes = {
+    label: {
+        type: 'string',
+        default: "Send",
+    },
+    placeholder: {
+        type: 'string',
+        default: "Enter your email",
+    },
+    successMessage: {type: 'string', default: "Thanks for submitting"},
+    failureMessage: {type: 'string', default: "Something didn't go well, please try again later"},
+    list: {
+        type: 'string',
+        default: "",
+    },
+    tag: {
+        type: 'string',
+        default: "",
+    },
+    alignment: { type: 'string', default: 'center' },
+    backgroundColor: { type: 'string' },
+    customBackgroundColor: { type: 'string' },
+};
+
 const SaveComponent = (props) => {
-    const {setAttributes} = props;
     const {
         customBackgroundColor,
         backgroundColor,
-        alignment
+        alignment,
+        label,
+        placeholder,
+        successMessage,
+        failureMessage,
+        list,
+        tag,
     } = props.attributes;
-
 
     const divClass = getColorClassName('background-color', backgroundColor);
 
@@ -142,18 +169,27 @@ const SaveComponent = (props) => {
             className: divClass
         }
     );
-    return (<div {...blockProps}>
-            <div {...props.attributes} className={"viz-component"} data-component={"newsletter"}></div>
+    return (
+        <div {...blockProps}>
+            <div
+                className={"viz-component"}
+                data-component={"newsletter"}
+                data-label={label}
+                data-placeholder={placeholder}
+                data-success-message={successMessage}
+                data-failure-message={failureMessage}
+                data-list={list}
+                data-tag={tag}
+            />
         </div>
-
-
     );
 }
 
 class EditWithSettings extends BlockEditWithFilters {
     render() {
         return <EditComponent
-            src={this.state.react_ui_url + "/embeddable/newsletter?"} {...this.props}></EditComponent>
+            iframeRef={this.iframe}
+            src={this.state.react_ui_url + "/embeddable/newsletter"} {...this.props}></EditComponent>
     }
 }
 
@@ -162,31 +198,27 @@ registerBlockType(BLOCKS_NS + '/newsletter',
         title: __('Newsletter Form'),
         icon: GenericIcon,
         category: BLOCKS_CATEGORY,
-        attributes: {
-            label: {
-                type: 'string',
-                default: "Send",
+        attributes,
+        deprecated: [
+            {
+                attributes,
+                save({attributes}) {
+                    const {customBackgroundColor, backgroundColor, alignment} = attributes;
+                    const divClass = getColorClassName('background-color', backgroundColor);
+                    const divStyles = {
+                        "background-color": customBackgroundColor,
+                        "text-align": alignment,
+                        "margin": 'auto'
+                    };
+                    const blockProps = useBlockProps.save({style: divStyles, className: divClass});
+                    return (
+                        <div {...blockProps}>
+                            <div {...attributes} className={"viz-component"} data-component={"newsletter"}></div>
+                        </div>
+                    );
+                }
             }
-            ,
-            placeholder: {
-                type: 'string',
-                default: "Enter your email",
-            }
-            ,
-            successMessage: {type: 'string', default: "Thanks for submitting"},
-            failureMessage: {type: 'string', default: "Something didn't go well, please try again later"},
-            list: {
-                type: 'string',
-                default: "",
-            },
-            tag: {
-                type: 'string',
-                default: "",
-            }
-
-
-        }
-        ,
+        ],
         edit: withColors('backgroundColor', {textColor: 'color'})(EditWithSettings),
         save: SaveComponent,
     }

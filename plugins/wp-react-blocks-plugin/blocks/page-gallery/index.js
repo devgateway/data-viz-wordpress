@@ -6,11 +6,10 @@ import {BlockEditWithFilters, GenericIcon, BLOCKS_CATEGORY, BLOCKS_NS } from '@d
 import {__} from '@wordpress/i18n';
 
 const EditComponent = (props) => {
-    const {attributes: {height,style,columns}, toggleSelection, setAttributes} = props;
+    const {attributes: {height,style,columns}, toggleSelection, setAttributes, iframeRef} = props;
     const urlParams = new URLSearchParams(window.location.search);
     const parent = urlParams.get('post');
     const blockProps = useBlockProps({className: 'wp-react-component'});
-    const queryString = `editing=true&data-parent=${parent}&data-style=${style}&data-height=${height}&data-columns=${columns}`;
     const divClass = ""
     const divStyles = {height: height + 'px', width: '100%'}
     return (
@@ -60,9 +59,10 @@ const EditComponent = (props) => {
 
                     {
                         props.src && <iframe
+                            ref={iframeRef}
                             style={{...divStyles}} className={divClass}
                             scrolling={"no"}
-                            src={props.src + queryString}/>
+                            src={props.src + "?data-parent=" + parent}/>
                     }
 
 
@@ -91,7 +91,8 @@ const SaveComponent = (props) => {
 class EditWithSettings extends BlockEditWithFilters {
     render() {
         return <EditComponent
-            src={this.state.react_ui_url + "/embeddable/pagegallery?"} {...this.props}></EditComponent>
+            iframeRef={this.iframe}
+            src={this.state.react_ui_url + "/embeddable/pagegallery"} {...this.props}></EditComponent>
     }
 }
 

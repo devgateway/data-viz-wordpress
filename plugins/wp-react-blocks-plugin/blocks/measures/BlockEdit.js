@@ -337,7 +337,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }
         } = this.props;
         const iframeStyles = {height: '65px', width: '100%'}
-        const queryString = ``
         const selectableGroups = measuresGroups[app] ? measuresGroups[app] : [];
 
 
@@ -430,7 +429,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                         {this.state.react_ui_url &&
                             <iframe ref={this.iframe} scrolling={"no"} style={iframeStyles}
-                                    src={this.state.react_ui_url + "/embeddable/measures?" + queryString}/>}
+                                    src={this.state.react_ui_url + "/embeddable/measures"}/>}
                     </div>
 
                 )

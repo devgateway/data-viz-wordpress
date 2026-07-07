@@ -18,6 +18,7 @@ class BlockEdit extends BlockEditWithFilters {
         if (newPreviewMode !== prevState.previewMode) {
             this.props.setAttributes({previewMode: newPreviewMode});
         }
+        super.componentDidUpdate(prevProps, prevState, snapshot);
     }
 
     render() {
@@ -27,7 +28,7 @@ class BlockEdit extends BlockEditWithFilters {
             setAttributes,
             attributes: {
                 panelStatus,
-                count,
+                items,
                 type,
                 taxonomy,
                 categories,
@@ -35,14 +36,11 @@ class BlockEdit extends BlockEditWithFilters {
                 theme,
                 useScrolls,
                 showIcons,
-                useLabels,
+                showLabels,
                 previewMode
             },
         } = this.props;
 
-
-
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-theme=${theme}&data-show-icons=${showIcons}&data-show-labels=${useLabels}&data-use-scrolls=${useScrolls}&data-preview-mode=${previewMode}`
         const divStyles = {height: `${height}px`, width: '100%'}
         return (
             <div>
@@ -60,8 +58,8 @@ class BlockEdit extends BlockEditWithFilters {
                             <PanelRow>
                                 <p>{__("Use Labels","dg")}</p>
                                 <FormToggle
-                                    checked={useLabels}
-                                    onChange={() => setAttributes({useLabels: !useLabels})}
+                                    checked={showLabels}
+                                    onChange={() => setAttributes({showLabels: !showLabels})}
                                 />
                             </PanelRow>
                             <PanelRow>
@@ -83,8 +81,8 @@ class BlockEdit extends BlockEditWithFilters {
                             <PanelRow>
                                 <RangeControl
                                     label={__("Items", "dg")}
-                                    value={count}
-                                    onChange={(count) => setAttributes({count})}
+                                    value={items}
+                                    onChange={(items) => setAttributes({items})}
                                     min={2}
                                     max={10}/>
                             </PanelRow>
@@ -122,8 +120,8 @@ class BlockEdit extends BlockEditWithFilters {
                         toggleSelection(false);
                     }}>
                     <div style={divStyles}>
-                        {this.state.react_ui_url&&<iframe style={divStyles} scrolling={"no"}
-                                 src={this.state.react_ui_url + "/embeddable/tabbedposts?" + queryString}/>}
+                        {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
+                                 src={this.state.react_ui_url + "/embeddable/tabbedposts"}/>}
                     </div>
                 </ResizableBox>
             </div>

@@ -52,13 +52,11 @@ class BlockEdit extends ComponentWithSettings {
                 type,
                 buttonLabel,
                 height,
-                fileName
+                fileLabel
 
             },
         } = this.props;
 
-
-        const queryString = `editing=true&data-type=${type}&data-button-label=${buttonLabel}&data-file-name=${fileName}`
         const divStyles = {height: "60px"}
         return (
 
@@ -109,11 +107,11 @@ class BlockEdit extends ComponentWithSettings {
 
 
                         </PanelBody>
-                        <PanelBody title={__("PDF File Name","dg")}>
+                        <PanelBody title={__("PDF File Label","dg")}>
                             <PanelRow>
                                 <TextControl
-                                    value={fileName}
-                                    onChange={(fileName) => setAttributes({fileName})}
+                                    value={fileLabel}
+                                    onChange={(fileLabel) => setAttributes({fileLabel})}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -123,8 +121,8 @@ class BlockEdit extends ComponentWithSettings {
                 </InspectorControls>
 
                 <div style={divStyles}>
-                    <iframe style={divStyles} scrolling={"no"}
-                            src={this.state.react_ui_url + "/embeddable/downloadpdf?" + queryString}/>
+                    <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
+                            src={this.state.react_ui_url + "/embeddable/downloadpdf"}/>
                 </div>
 
             </div>
