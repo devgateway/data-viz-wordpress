@@ -17,6 +17,9 @@ const attributes = {
     backgroundColor: {
         type: 'string'
     },
+    customBackgroundColor: {
+        type: 'string'
+    },
     alignment: {type: 'string', default: 'center'},
     organization: {type: 'string', default: 'Organization'},
     name: {type: 'string', default: 'Name'},
