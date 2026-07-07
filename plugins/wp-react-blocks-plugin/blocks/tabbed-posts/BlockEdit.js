@@ -121,7 +121,7 @@ class BlockEdit extends BlockEditWithFilters {
                     }}>
                     <div style={divStyles}>
                         {this.state.react_ui_url && <iframe ref={this.iframe} style={divStyles} scrolling={"no"}
-                                 src={this.state.react_ui_url + "/embeddable/tabbedposts?"}/>}
+                                 src={this.state.react_ui_url + "/embeddable/tabbedposts"}/>}
                     </div>
                 </ResizableBox>
             </div>
