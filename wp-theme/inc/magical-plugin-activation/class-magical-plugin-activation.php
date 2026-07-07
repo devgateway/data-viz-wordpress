@@ -132,6 +132,10 @@ class magical_plugin_activation_Plugin_Recommendations {
         add_action('wp_ajax_magical_plugin_activation_check_recommended_plugins_status', array($this, 'ajax_check_recommended_plugins_status'));
         add_action('admin_notices', array($this, 'show_recommendation_notice'));
         add_action('admin_notices', array($this, 'show_update_notice'));
+
+        // Protect deployment-managed plugins from being deleted via the WP admin
+        add_action('wp_ajax_delete-plugin', array($this, 'block_deployment_managed_delete'), 0);
+        add_filter('plugin_action_links', array($this, 'remove_delete_link_for_managed_plugins'), 10, 2);
         
         // Auto-install required plugins
         // add_action('after_switch_theme', array($this, 'auto_install_required_plugins'));
@@ -1712,16 +1716,58 @@ class magical_plugin_activation_Plugin_Recommendations {
      */
     private function are_all_recommended_plugins_active() {
         $all_plugins = $this->get_recommended_plugins();
-        
+
         foreach ($all_plugins as $plugin) {
             if ($this->get_plugin_status($plugin) !== 'active') {
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
+    /**
+     * Build a set of deployment-managed plugin files for quick lookup.
+     */
+    private function get_deployment_managed_files() {
+        static $managed = null;
+        if ($managed === null) {
+            $managed = array();
+            foreach ($this->get_recommended_plugins() as $plugin) {
+                if (!empty($plugin['deployment_managed'])) {
+                    $managed[$plugin['file']] = true;
+                }
+            }
+        }
+        return $managed;
+    }
+
+    /**
+     * Block deletion of deployment-managed plugins via the WP admin AJAX handler.
+     * Runs at priority 0, before WordPress's own delete-plugin handler.
+     */
+    public function block_deployment_managed_delete() {
+        $plugin_file = isset($_REQUEST['plugin']) ? sanitize_text_field(wp_unslash($_REQUEST['plugin'])) : '';
+        if (isset($this->get_deployment_managed_files()[$plugin_file])) {
+            check_admin_referer('delete-plugin_' . $plugin_file);
+            wp_die(
+                esc_html__('This plugin is managed by the deployment and cannot be deleted from the WordPress admin.', 'dg-semantic'),
+                esc_html__('Action not allowed', 'dg-semantic'),
+                array('response' => 403, 'back_link' => true)
+            );
+        }
+    }
+
+    /**
+     * Remove the "Delete" action link for deployment-managed plugins in the plugin list.
+     */
+    public function remove_delete_link_for_managed_plugins($actions, $plugin_file) {
+        if (isset($this->get_deployment_managed_files()[$plugin_file])) {
+            unset($actions['delete']);
+        }
+        return $actions;
+    }
+
 }
 
 // Initialize the plugin recommendations
