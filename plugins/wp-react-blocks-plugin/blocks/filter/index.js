@@ -158,6 +158,11 @@ const newAttributes = {
     defaultTopNCount: {
         type: 'number',
         default: undefined
+    },
+
+    showAsButtons: {
+        type: 'Boolean',
+        default: false
     }
 }
 

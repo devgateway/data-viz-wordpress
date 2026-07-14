@@ -34,6 +34,7 @@ class BlockEdit extends BlockEditWithFilters {
                 height,
                 theme,
                 useScrolls,
+                keepMounted,
                 showIcons,
                 useLabels,
                 previewMode
@@ -42,7 +43,7 @@ class BlockEdit extends BlockEditWithFilters {
 
 
 
-        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-theme=${theme}&data-show-icons=${showIcons}&data-show-labels=${useLabels}&data-use-scrolls=${useScrolls}&data-preview-mode=${previewMode}`
+        const queryString = `editing=true&data-type=${type}&data-taxonomy=${taxonomy}&data-categories=${categories}&data-items=${count}&data-height=${height}&data-theme=${theme}&data-show-icons=${showIcons}&data-show-labels=${useLabels}&data-use-scrolls=${useScrolls}&data-keep-mounted=${keepMounted}&data-preview-mode=${previewMode}`
         const divStyles = {height: `${height}px`, width: '100%'}
         return (
             <div>
@@ -78,6 +79,13 @@ class BlockEdit extends BlockEditWithFilters {
                                 <FormToggle
                                     checked={useScrolls}
                                     onChange={() => setAttributes({useScrolls: !useScrolls})}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <p>{__("Keep Mounted","dg")}</p>
+                                <FormToggle
+                                    checked={keepMounted}
+                                    onChange={() => setAttributes({keepMounted: !keepMounted})}
                                 />
                             </PanelRow>
                             <PanelRow>

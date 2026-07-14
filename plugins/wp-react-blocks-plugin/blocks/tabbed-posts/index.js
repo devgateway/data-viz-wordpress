@@ -46,6 +46,10 @@ registerBlockType(BLOCKS_NS + '/tabbed-posts',
                 type: "boolean",
                 default: false
             },
+            keepMounted: {
+                type: "boolean",
+                default: false
+            },
             panelStatus: {
                 type: "Object",
                 default: {}

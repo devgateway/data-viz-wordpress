@@ -11,6 +11,7 @@ const SaveComponent = (props) => {
             showLabels,
             showIcons,
             useScrolls,
+            keepMounted,
             theme,
             previewMode
         },
@@ -32,6 +33,7 @@ const SaveComponent = (props) => {
                 data-show-labels={showLabels}
                 data-show-icons={showIcons}
                 data-use-scrolls={useScrolls}
+                data-keep-mounted={keepMounted}
                 data-theme={theme}
                 data-preview-mode={previewMode}
                 className={"viz-component"}

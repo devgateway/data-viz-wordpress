@@ -191,7 +191,8 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 dvzProxyDatasetId,
                 defaultTopNEnabled,
                 defaultTopNCount,
-                parentFilter
+                parentFilter,
+                showAsButtons
             }
         } = this.props;
 
@@ -500,12 +501,22 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         />
                     </PanelRow>
                     <PanelRow>
-                        <ToggleControl label={__("Show No Data Option (if available)")}
+                         <ToggleControl label={__("Show No Data Option (if available)")}
                             checked={showNoDataOption}
                             onChange={() => setAttributes({ showNoDataOption: !showNoDataOption })}
                             help={__("Show a message when filter list is empty is empty.")}
                         />
                     </PanelRow>
+                    {filterType == "single-select" && <>
+                        <PanelRow>
+                            <ToggleControl
+                                label={__("Show as Buttons")}
+                                checked={showAsButtons}
+                                onChange={() => setAttributes({ showAsButtons: !showAsButtons })}
+                                help={__("Display filter options as clickable buttons instead of dropdown.")}
+                            />
+                        </PanelRow>
+                    </>}
                     {filterType == "multi-select" && <>
                         <PanelRow>
                             <ToggleControl

@@ -40,6 +40,7 @@ const SaveComponent = (props) => {
             parentFilterParam,
             defaultTopNEnabled,
             defaultTopNCount,
+            showAsButtons,
         }
     } = props;
 
@@ -90,7 +91,7 @@ const SaveComponent = (props) => {
         data-close-on-select={closeOnSelect}
         data-use-filter-items={useFilterItems}
         data-all-none-same-behaviour={allNoneSameBehaviour}
-
+        data-show-as-buttons={showAsButtons}
         data-auto-apply={autoApply}>
     </div>);
 }
