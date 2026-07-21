@@ -57,9 +57,10 @@ COPY --chmod=755 wordpress.sh /usr/local/sbin/
 
 EXPOSE 80 443
 
-# Update permissions for WordPress files and directories
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+# Ensure WordPress core remains read-only for the PHP user; only wp-content needs to be writable
+RUN chown -R www-data:www-data /var/www/html/wp-content \
+    && find /var/www/html -type d -exec chmod 755 {} + \
+    && find /var/www/html -type f -exec chmod 644 {} +
 
 ENTRYPOINT ["/usr/local/sbin/wordpress.sh"]
 CMD ["php-fpm"]
