@@ -43,7 +43,7 @@ RUN mkdir -p wp-content/plugins \
 RUN chown -R 82:82 wp-content \
   && tar -caf /wp-content.tgz --exclude="**/node_modules" wp-content
 
-FROM wordpress:6.9.1-fpm-alpine AS runtime
+FROM wordpress:7.0.2-fpm-alpine AS runtime
 LABEL org.opencontainers.image.description="WordPress image for Data Viz"
 LABEL org.opencontainers.image.authors="Development Gateway <info@developmentgateway.org>"
 LABEL org.opencontainers.image.url="https://github.com/devgateway/data-viz-wordpress"
@@ -56,6 +56,10 @@ COPY --from=builder /wp-content.tgz /tmp
 COPY --chmod=755 wordpress.sh /usr/local/sbin/
 
 EXPOSE 80 443
+
+# Update permissions for WordPress files and directories
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
 ENTRYPOINT ["/usr/local/sbin/wordpress.sh"]
 CMD ["php-fpm"]
