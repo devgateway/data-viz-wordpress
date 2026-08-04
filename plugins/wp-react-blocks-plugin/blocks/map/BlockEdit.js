@@ -36,6 +36,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     componentDidMount() {
         super.componentDidMount();
         this.getTaxonomies()
+        console.log("BlockEdit componentDidMount called", this.props);
         const {
             attributes: {
                 mainLayerId
@@ -694,7 +695,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 <Settings {...this.props} locations = {this.state.locations}> </Settings>
                 <LegendBreaks {...this.props} allMeasures={this.state.measures || []} app = {app}/>
                 <MapSymbols {...this.props} allMeasures={this.state.measures || []} app = {app} locations = {this.state.locations}/>
-                <Tooltips {...this.props} allMeasures={this.state.measures || []} app = {app} locations = {this.state.locations}></Tooltips>
+                <Tooltips {...this.props} allMeasures={this.state.measures || []}  app = {app} locations = {this.state.locations}></Tooltips>
                 {mapType == "POINTS_MAP" &&
                 <PanelBody title="Point Map Config">
                      <PanelRow>
