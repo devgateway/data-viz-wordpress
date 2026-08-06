@@ -227,7 +227,7 @@ export class APIConfig extends Component {
                       <PanelRow>
                      <SelectControl
                             label={__('Additional Dimension')}
-                            value={[dimension3]} // e.g: value = [ 'a', 'c' ]
+                            value={[dimension3]}
                             onChange={(value) => {
                                 setAttributes({dimension3: value})
                             }}
