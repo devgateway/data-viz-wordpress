@@ -74,8 +74,7 @@ const SaveComponent = (props) => {
             zoomOnFilterField,
             labelsExclusionList,
             noDataText,
-            customMeasureLabels,
-            tooltipValueVariables,
+            customMeasureLabels, 
             showShadingLayerLabels,
             dvzProxyDatasetId
         }

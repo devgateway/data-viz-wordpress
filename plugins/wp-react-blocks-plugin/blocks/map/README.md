@@ -12,7 +12,8 @@ A Gutenberg block that renders an interactive choropleth/symbol map by embedding
 | `app` | `String` | `"csv"` | Data source identifier (`"csv"` or an API app slug). |
 | `csv` | `String` | `""` | Inline CSV data used when `app` is `"csv"`. |
 | `dimension1` | `String` | `"zone"` | Primary geographic dimension field. |
-| `dimension2` | `String` | `"gender"` | Secondary dimension field (e.g. for disaggregation). |
+| `dimension2` | `String` | `"none"` | Secondary dimension field (e.g. for disaggregation). |
+| `dimension3` | `String` | `"none"` | Secondary dimension field (e.g. for disaggregation). |
 | `measures` | `Array` | `[]` | Measure fields to visualise on the map. Must be configured; no measure is pre-selected by default. |
 | `filters` | `Array` | `[]` | Active filter values passed as query params to the data API. |
 | `mapFile` | `String` | `""` | Path (relative to the UI app) to the TopoJSON map file. |
@@ -34,7 +35,6 @@ A Gutenberg block that renders an interactive choropleth/symbol map by embedding
 | `tooltipTheme` | `String` | `"map-tooltip-dark"` | CSS class applied to the tooltip container. |
 | `tooltipFontSize` | `Numeric` | `14` | Font size (px) for tooltip text. |
 | `customTooltips` | `Array` | `[]` | Per-measure custom tooltip templates. |
-| `tooltipValueVariables` | `Object` | `{}` | Per-measure (API apps only) override: `{ [measure]: { useVariable, variable } }`. When enabled, the named column's value replaces `{value}` in the tooltip (e.g. show a text legend instead of a numeric/categorical code). |
 | `showOverallValue` | `Boolean` | `false` | Display an overall/national average value on the map. |
 | `nationalAverageLabel` | `String` | `"National Prevalence Avg"` | Label for the national average annotation. |
 | `dataSourceLabel` | `String` | `"Source"` | Label prefix for the data source credit. |
