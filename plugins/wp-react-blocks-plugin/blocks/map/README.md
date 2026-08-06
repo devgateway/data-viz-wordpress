@@ -34,6 +34,7 @@ A Gutenberg block that renders an interactive choropleth/symbol map by embedding
 | `tooltipTheme` | `String` | `"map-tooltip-dark"` | CSS class applied to the tooltip container. |
 | `tooltipFontSize` | `Numeric` | `14` | Font size (px) for tooltip text. |
 | `customTooltips` | `Array` | `[]` | Per-measure custom tooltip templates. |
+| `tooltipValueVariables` | `Object` | `{}` | Per-measure (API apps only) override: `{ [measure]: { useVariable, variable } }`. When enabled, the named column's value replaces `{value}` in the tooltip (e.g. show a text legend instead of a numeric/categorical code). |
 | `showOverallValue` | `Boolean` | `false` | Display an overall/national average value on the map. |
 | `nationalAverageLabel` | `String` | `"National Prevalence Avg"` | Label for the national average annotation. |
 | `dataSourceLabel` | `String` | `"Source"` | Label prefix for the data source credit. |

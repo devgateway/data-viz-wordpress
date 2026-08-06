@@ -428,6 +428,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                 app,
                 dimension1,
                 dimension2,
+                dimension3,
                 legendBreaks,
                 mainLayerId,
                 mappingField,
@@ -447,7 +448,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         } = this.props;
 
         const {mapFiles} = this.state;
-        const levels = [dimension1, dimension2]
+        const levels = [dimension1, dimension2, dimension3]
         const source = levels.filter(l => l != 'none' && l != null).join('/')
         const validLegendBreaks = legendBreaks.filter(b => b.min || b.max);
         let params = {}
@@ -490,6 +491,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                     app: app,
                                     dimension1: 'none',
                                     dimension2: 'none',
+                                    dimension3: 'none',
                                     filters: []
                                 })
                             }}
@@ -559,7 +561,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                             onChange={(value) => {this.setValue(file.value, 'index', value)}} max={10} type="number" />}
                         </div>
 
-                        {app != 'csv' &&
+                        {app !== 'csv' &&
                             <PanelBody initialOpen={false} title={__("Localize Layer")}>
                                 <PanelRow>
                                     <p style={{fontSize: '12px', fontStyle: 'italic', color: '#666', margin: '0'}}>
@@ -677,7 +679,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                     </PanelBody>
 
                 </PanelBody>
-                {app != 'csv' &&
+                {app !== 'csv' &&
                     <APIConfig
                         allDimensions={this.state.dimensions || []}
                         allFilters={this.state.filters || []}

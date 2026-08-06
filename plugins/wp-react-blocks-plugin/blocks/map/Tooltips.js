@@ -15,6 +15,7 @@ function APITooltipGuide({
   allDimensions = [],
   dimension1 = "none",
   dimension2 = "none",
+  dimension3 = "none",
   filters = [],
 }) {
   return (
@@ -72,6 +73,21 @@ function APITooltipGuide({
         </PanelRow>
       )}
 
+      {dimension3 && dimension3 !== "none" && (
+        <PanelRow>
+          <p
+            style={{
+              "margin-top": "4px",
+              "font-size": "12px",
+              "font-style": "normal",
+              color: "rgb(117, 117, 117)",
+            }}
+          >
+            Dimension 3: {"{" + dimension3 + "}"}
+          </p>
+        </PanelRow>
+      )}
+
       <p
         style={{
           "margin-top": "4px",
@@ -94,31 +110,6 @@ function APITooltipGuide({
               }}
             >
               {"{" + m + "}"}
-            </p>
-          </PanelRow>
-        ))}
-
-        <p
-        style={{
-          "margin-top": "4px",
-          "font-size": "12px",
-          "font-style": "normal",
-          color: "rgb(117, 117, 117)",
-        }}
-      >
-        Filters
-      </p> 
-        {filters && filters.map((f) => (
-          <PanelRow key={f.param}>
-            <p
-              style={{
-                "margin-top": "4px",
-                "font-size": "12px",
-                "font-style": "normal",
-                color: "rgb(117, 117, 117)",
-              }}
-            >
-              {"{" + f.param + "}"}
             </p>
           </PanelRow>
         ))}
@@ -209,6 +200,7 @@ export default class Tooltips extends Component {
         tooltipFontSize,
         dimension1,
         dimension2,
+        dimension3,
         measures,
         filters,
       },
@@ -267,6 +259,7 @@ export default class Tooltips extends Component {
                 allMeasures={measures}
                 dimension1={dimension1}
                 dimension2={dimension2}
+                dimension3={dimension3}
                 filters={filters}
               />
             )}

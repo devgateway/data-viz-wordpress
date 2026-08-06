@@ -194,6 +194,7 @@ export class APIConfig extends Component {
                 filters,
                 dimension1,
                 dimension2,
+                dimension3,
                 type,
                 types
             }
@@ -219,6 +220,16 @@ export class APIConfig extends Component {
                             value={[dimension2]} // e.g: value = [ 'a', 'c' ]
                             onChange={(value) => {
                                 setAttributes({dimension2: value})
+                            }}
+                            options={allDimensions}
+                        />
+                    </PanelRow>
+                      <PanelRow>
+                     <SelectControl
+                            label={__('Additional Dimension')}
+                            value={[dimension3]} // e.g: value = [ 'a', 'c' ]
+                            onChange={(value) => {
+                                setAttributes({dimension3: value})
                             }}
                             options={allDimensions}
                         />

@@ -33,7 +33,11 @@ registerBlockType(BLOCKS_NS + '/map',
             },
             dimension2: {
                 type: 'String',
-                default: 'gender'
+                default: 'none'
+            },
+            dimension3: {
+                type: 'String',
+                default: 'none'
             },
             app: {
                 type: 'String',
