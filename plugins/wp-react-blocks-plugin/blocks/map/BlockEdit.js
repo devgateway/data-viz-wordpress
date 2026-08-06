@@ -36,7 +36,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     componentDidMount() {
         super.componentDidMount();
         this.getTaxonomies()
-        console.log("BlockEdit componentDidMount called", this.props);
         const {
             attributes: {
                 mainLayerId
