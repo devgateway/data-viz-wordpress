@@ -12,7 +12,8 @@ A Gutenberg block that renders an interactive choropleth/symbol map by embedding
 | `app` | `String` | `"csv"` | Data source identifier (`"csv"` or an API app slug). |
 | `csv` | `String` | `""` | Inline CSV data used when `app` is `"csv"`. |
 | `dimension1` | `String` | `"zone"` | Primary geographic dimension field. |
-| `dimension2` | `String` | `"gender"` | Secondary dimension field (e.g. for disaggregation). |
+| `dimension2` | `String` | `"none"` | Secondary dimension field (e.g. for disaggregation). |
+| `dimension3` | `String` | `"none"` | Additional dimension (can be for tooltips) |
 | `measures` | `Array` | `[]` | Measure fields to visualise on the map. Must be configured; no measure is pre-selected by default. |
 | `filters` | `Array` | `[]` | Active filter values passed as query params to the data API. |
 | `mapFile` | `String` | `""` | Path (relative to the UI app) to the TopoJSON map file. |

@@ -10,6 +10,7 @@ const SaveComponent = (props) => {
             dataSourceLabel,
             dimension1,
             dimension2,
+            dimension3,
             measures,
             filters,
             app,
@@ -73,7 +74,7 @@ const SaveComponent = (props) => {
             zoomOnFilterField,
             labelsExclusionList,
             noDataText,
-            customMeasureLabels,
+            customMeasureLabels, 
             showShadingLayerLabels,
             dvzProxyDatasetId
         }
@@ -83,7 +84,7 @@ const SaveComponent = (props) => {
         className: 'viz component map'
     });
 
-    const levels = [dimension1, dimension2]
+    const levels = [dimension1, dimension2, dimension3]
     const source = levels.filter(l => l != 'none' && l != null).join('/')
     const validLegendBreaks = legendBreaks.filter(b => b.min || b.max);
 
@@ -152,6 +153,7 @@ const SaveComponent = (props) => {
              data-file-type={fileType}
              data-dimension1={dimension1}
              data-dimension2={dimension2}
+             data-dimension3={dimension3}
              data-enabled-layers={encodeURIComponent(JSON.stringify(enabledLayers))}
              data-point-label-color={pointLabelColor}
              data-point-label-format={pointLabelFormat}
