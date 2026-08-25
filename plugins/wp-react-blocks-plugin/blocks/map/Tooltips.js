@@ -8,6 +8,8 @@ import {
   TextareaControl,
   RangeControl,
   ToggleControl,
+   __experimentalDivider as Divider,
+   __experimentalText as Text
 } from "@wordpress/components";
 
 function APITooltipGuide({
@@ -19,8 +21,8 @@ function APITooltipGuide({
   filters = [],
 }) {
   return (
-    <>
-      <p style={{ "font-size": "11px", marginTop: "8px" }}>DEFAULT VARIABLES</p>
+    <PanelBody initialOpen={false} title={__("Tooltip Variables")}>
+      <Text size="xSmall" style={{ fontSize: '12px', marginTop: '4px'}}>DEFAULT VARIABLES</Text>
       <PanelRow>
         <span style={{ "font-size": "11px" }}>
           Location -&gt; {"{locationName}"}
@@ -41,7 +43,7 @@ function APITooltipGuide({
           Field Value -&gt; {"{value}"}
         </span>
       </PanelRow>
-      <div style={{ "margin-top": "8px" }}></div>
+      <Divider height={8}/>
       <p style={{ "font-size": "11px" }}>DYNAMIC VARIABLES</p>
       {dimension1 && dimension1 !== "none" && (
         <PanelRow>
@@ -88,32 +90,46 @@ function APITooltipGuide({
         </PanelRow>
       )}
 
-      <p
-        style={{
-          "margin-top": "4px",
-          "font-size": "12px",
-          "font-style": "normal",
-          color: "rgb(117, 117, 117)",
-        }}
-      >
-        Measures
-      </p>
+      <Divider height={8}/>
+
+      <Text size="xSmall" style={{ fontSize: '12px', marginTop: '4px'}}>MEASURES</Text> 
       {allMeasures &&
         allMeasures.map((m) => (
           <PanelRow key={m}>
             <p
               style={{
                 "margin-top": "4px",
-                "font-size": "12px",
+                "font-size": "11px",
                 "font-style": "normal",
                 color: "rgb(117, 117, 117)",
               }}
             >
-              {"{" + m + "}"}
+              {m.label} -&gt; {"{" + m.value + "}"}
             </p>
           </PanelRow>
         ))}
-    </>
+
+      <Divider height={8}/>
+      
+      <Text size="xSmall" style={{ fontSize: '12px', marginTop: '4px'}}>DIMENSIONS</Text>
+
+      {allDimensions &&
+        allDimensions.map((d) => (
+          <PanelRow key={d}>
+            <p
+              style={{
+                "margin-top": "4px",
+                "font-size": "11px",
+                "font-style": "normal",
+                color: "rgb(117, 117, 117)",
+              }}
+            >
+              {d.label} -&gt; {"{" + d.value + "}"}
+            </p>
+          </PanelRow>
+        ))}
+
+    </PanelBody>
   );
 }
 
@@ -190,7 +206,9 @@ export default class Tooltips extends Component {
   render() {
     const {
       setAttributes,
-      attributes: {
+      allDimensions,
+      allMeasures,
+      attributes: { 
         customTooltips,
         app,
         tooltipFormat,
@@ -252,15 +270,17 @@ export default class Tooltips extends Component {
                 max={20}
               />
             </PanelRow>
+            <div style={{ marginTop: "4px", marginBottom: "4px" }}/>
             {app === "csv" && <CSVTooltipGuide />}
 
             {app !== "csv" && (
               <APITooltipGuide
-                allMeasures={measures}
+                allMeasures={allMeasures}
                 dimension1={dimension1}
                 dimension2={dimension2}
                 dimension3={dimension3}
                 filters={filters}
+                allDimensions={allDimensions}
               />
             )}
             <PanelRow>
