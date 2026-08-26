@@ -39,6 +39,10 @@ registerBlockType(BLOCKS_NS + '/map',
                 type: 'String',
                 default: 'none'
             },
+            extraTooltipColumns: {
+                type: 'Array',
+                default: []
+            },
             app: {
                 type: 'String',
                 default: "csv"

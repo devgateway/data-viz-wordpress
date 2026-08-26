@@ -2,6 +2,7 @@ import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import {
   Button,
+  CheckboxControl,
   PanelBody,
   PanelRow,
   SelectControl,
@@ -18,6 +19,7 @@ function APITooltipGuide({
   dimension1 = "none",
   dimension2 = "none",
   dimension3 = "none",
+  extraTooltipColumns = [],
   filters = [],
 }) {
   return (
@@ -90,6 +92,24 @@ function APITooltipGuide({
         </PanelRow>
       )}
 
+      {extraTooltipColumns && extraTooltipColumns.length > 0 && extraTooltipColumns.map((col) => {
+        const dim = allDimensions.find((d) => d.value === col);
+        return (
+          <PanelRow key={col}>
+            <p
+              style={{
+                "margin-top": "4px",
+                "font-size": "12px",
+                "font-style": "normal",
+                color: "rgb(117, 117, 117)",
+              }}
+            >
+              {(dim ? dim.label : col)}: {"{" + col + "}"}
+            </p>
+          </PanelRow>
+        );
+      })}
+
       <Divider height={8}/>
 
       <Text size="xSmall" style={{ fontSize: '12px', marginTop: '4px'}}>MEASURES</Text> 
@@ -105,26 +125,6 @@ function APITooltipGuide({
               }}
             >
               {m.label} -&gt; {"{" + m.value + "}"}
-            </p>
-          </PanelRow>
-        ))}
-
-      <Divider height={8}/>
-      
-      <Text size="xSmall" style={{ fontSize: '12px', marginTop: '4px'}}>DIMENSIONS</Text>
-
-      {allDimensions &&
-        allDimensions.map((d) => (
-          <PanelRow key={d}>
-            <p
-              style={{
-                "margin-top": "4px",
-                "font-size": "11px",
-                "font-style": "normal",
-                color: "rgb(117, 117, 117)",
-              }}
-            >
-              {d.label} -&gt; {"{" + d.value + "}"}
             </p>
           </PanelRow>
         ))}
@@ -219,6 +219,7 @@ export default class Tooltips extends Component {
         dimension1,
         dimension2,
         dimension3,
+        extraTooltipColumns,
         measures,
         filters,
       },
@@ -274,15 +275,53 @@ export default class Tooltips extends Component {
             {app === "csv" && <CSVTooltipGuide />}
 
             {app !== "csv" && (
+              <PanelBody
+                initialOpen={false}
+                title={__("Extra Tooltip Columns")}
+              >
+                <PanelRow>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      fontStyle: "italic",
+                      color: "#666",
+                      margin: "0",
+                    }}
+                  >
+                    {__(
+                      "Additional fields to expose as tooltip variables, without adding them as dimensions.",
+                    )}
+                  </p>
+                </PanelRow>
+                {allDimensions && allDimensions.filter(d => d.value !== 'none').map((d) => (
+                  <PanelRow key={d.value}>
+                    <CheckboxControl
+                      label={d.label}
+                      checked={extraTooltipColumns.indexOf(d.value) > -1}
+                      onChange={(checked) => {
+                        const newValue = checked
+                          ? [...extraTooltipColumns, d.value]
+                          : extraTooltipColumns.filter((v) => v !== d.value);
+                        setAttributes({ extraTooltipColumns: newValue });
+                      }}
+                    />
+                  </PanelRow>
+                ))}
+              </PanelBody>
+            )}
+
+            {app !== "csv" && (
               <APITooltipGuide
                 allMeasures={allMeasures}
                 dimension1={dimension1}
                 dimension2={dimension2}
                 dimension3={dimension3}
+                extraTooltipColumns={extraTooltipColumns}
                 filters={filters}
                 allDimensions={allDimensions}
               />
             )}
+            
             <PanelRow>
               <TextareaControl
                 label={__("Tooltip Format")}

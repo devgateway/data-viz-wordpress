@@ -11,6 +11,7 @@ const SaveComponent = (props) => {
             dimension1,
             dimension2,
             dimension3,
+            extraTooltipColumns,
             measures,
             filters,
             app,
@@ -154,6 +155,7 @@ const SaveComponent = (props) => {
              data-dimension1={dimension1}
              data-dimension2={dimension2}
              data-dimension3={dimension3}
+             data-extra-tooltip-columns={encodeURIComponent(JSON.stringify(extraTooltipColumns))}
              data-enabled-layers={encodeURIComponent(JSON.stringify(enabledLayers))}
              data-point-label-color={pointLabelColor}
              data-point-label-format={pointLabelFormat}
