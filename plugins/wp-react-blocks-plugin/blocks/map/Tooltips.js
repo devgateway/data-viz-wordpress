@@ -293,10 +293,11 @@ export default class Tooltips extends Component {
                     )}
                   </p>
                 </PanelRow>
-                {allDimensions && allDimensions.filter(d => d.value !== 'none').map((d) => (
-                  <PanelRow key={d.value}>
+                {allDimensions && allDimensions.filter(d => d.value !== 'none'
+                  && d.value !== dimension1 && d.value !== dimension2 && d.value !== dimension3).map((d) => (
+                  <PanelRow key={d.value} style={{ alignItems: 'flex-start' }}>
                     <CheckboxControl
-                      label={d.label}
+                      label={<span style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{d.label}</span>}
                       checked={extraTooltipColumns.indexOf(d.value) > -1}
                       onChange={(checked) => {
                         const newValue = checked
