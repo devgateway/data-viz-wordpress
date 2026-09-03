@@ -43,7 +43,7 @@ const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
             */
             return a.position - b.position
         });
-        return sortedItems.map(v => <PanelRow style={{ alignItems: 'flex-start' }}> <ToggleControl label={<span style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{v.value}</span>} checked={value.indexOf(v.id) > -1}
+        return sortedItems.map(v => <PanelRow key={v.id} style={{ alignItems: 'flex-start' }}> <ToggleControl label={<span style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{v.value}</span>} checked={value.indexOf(v.id) > -1}
             onChange={e => {
                 onUpdateFilterValue(v.id, index)
             }} /></PanelRow>)
