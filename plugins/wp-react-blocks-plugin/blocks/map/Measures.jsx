@@ -6,6 +6,7 @@ import {getTranslation} from '@devgateway/dvz-wp-commons';
 const Measures = (props) => {
     const {
         currentType,
+        app,
         onMeasuresChange,
         onSetSingleMeasure,
         allMeasures,
@@ -16,6 +17,9 @@ const Measures = (props) => {
             customMeasureLabels
         }
     } = props
+
+    const supportsMultipleMeasures = app !== 'csv' ||
+        (currentType && currentType.supports && currentType.supports.singleMeasure === false)
 
 
     const MeasureToggle = ({measure}) => {
@@ -56,8 +60,12 @@ const Measures = (props) => {
               {
             [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody title={g}>
-                            {allMeasures.filter(f => getTranslation(f.group) === g).map(m => <PanelRow><MeasureCheckBox
-                                measure={m}></MeasureCheckBox></PanelRow>)}
+                            {allMeasures.filter(f => getTranslation(f.group) === g).map(m => <PanelRow key={m.value}>
+                                {supportsMultipleMeasures ?
+                                    <MeasureToggle measure={m}/> :
+                                    <MeasureCheckBox measure={m}/>
+                                }
+                            </PanelRow>)}
                         </PanelBody>
                     )
                 }

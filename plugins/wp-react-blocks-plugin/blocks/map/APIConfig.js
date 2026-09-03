@@ -137,7 +137,9 @@ export class APIConfig extends Component {
 
 
         const prevTypeObject = types.filter(t => t.value === prevType).length > 0 ? types.filter(t => t.value === prevType)[0] : null
-        const currentType = types.filter(t => t.value === type).length > 0 ? types.filter(t => t.value === type)[0] : null
+        const currentType = types && types.length > 0
+            ? types.find(t => t.value === type)
+            : null
 
         if (type != prevType && currentType) {
             if (prevTypeObject.supports.singleMeasure != currentType.supports.singleMeasure || (currentType.supports.singleMeasure == false && dimension2 != "none")) {
