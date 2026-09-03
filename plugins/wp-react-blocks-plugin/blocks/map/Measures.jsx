@@ -5,17 +5,18 @@ import {getTranslation} from '@devgateway/dvz-wp-commons';
 
 const Measures = (props) => {
     const {
-        currentType,
         onMeasuresChange,
         onSetSingleMeasure,
         allMeasures,
         setAttributes,
         attributes: {
             measures,
-            dimension2,
-            customMeasureLabels
+            customMeasureLabels,
+            hasMultipleMeasures
         }
     } = props
+
+    const supportsMultipleMeasures = hasMultipleMeasures
 
 
     const MeasureToggle = ({measure}) => {
@@ -53,11 +54,22 @@ const Measures = (props) => {
 
 
     return <><PanelBody initialOpen={false} title={__("Measures")}>
+              <PanelRow>
+                  <ToggleControl
+                      label={__('Allow Multiple Measures')}
+                      checked={hasMultipleMeasures}
+                      onChange={(value) => setAttributes({hasMultipleMeasures: value, measures: []})}
+                  />
+              </PanelRow>
               {
             [...new Set(allMeasures.map(p => getTranslation(p.group)))].map(g => {
                     return (<PanelBody title={g}>
-                            {allMeasures.filter(f => getTranslation(f.group) === g).map(m => <PanelRow><MeasureCheckBox
-                                measure={m}></MeasureCheckBox></PanelRow>)}
+                            {allMeasures.filter(f => getTranslation(f.group) === g).map(m => <PanelRow key={m.value}>
+                                {supportsMultipleMeasures ?
+                                    <MeasureToggle measure={m}/> :
+                                    <MeasureCheckBox measure={m}/>
+                                }
+                            </PanelRow>)}
                         </PanelBody>
                     )
                 }
