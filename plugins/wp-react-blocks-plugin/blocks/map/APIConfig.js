@@ -142,10 +142,12 @@ export class APIConfig extends Component {
             : null
 
         if (type != prevType && currentType) {
-            if (prevTypeObject.supports.singleMeasure != currentType.supports.singleMeasure || (currentType.supports.singleMeasure == false && dimension2 != "none")) {
-                setAttributes({measures: [], filters: []})
-            } else {
-                setAttributes({filters: []})
+            if (prevTypeObject.supports) {
+                if (prevTypeObject.supports.singleMeasure != currentType.supports.singleMeasure || (currentType.supports.singleMeasure == false && dimension2 != "none")) {
+                    setAttributes({measures: [], filters: []})
+                } else {
+                    setAttributes({filters: []})
+                }
             }
         }
 
