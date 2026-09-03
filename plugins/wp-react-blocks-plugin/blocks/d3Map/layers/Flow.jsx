@@ -372,7 +372,7 @@ export class DataLayerSetting extends Component {
                         fontStyle: "italic",
                         color: "#666",
                         margin: "0",
-                    
+                    }}>
                         {__("Additional fields to expose as tooltip variables, without adding them as dimensions.")}
                     </p>
                 </PanelRow>
