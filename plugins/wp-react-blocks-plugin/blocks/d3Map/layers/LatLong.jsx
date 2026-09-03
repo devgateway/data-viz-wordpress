@@ -319,7 +319,7 @@ export class DataLayerSetting extends Component {
                             ))}
 
                     </PanelBody>}
-                </React.Fragment>,
+                </React.Fragment>
             </PanelRow>
 
             <PanelRow>
