@@ -349,11 +349,11 @@ export class DataLayerSetting extends Component {
                     {app !== 'csv' && <PanelBody initialOpen={false} title={__("Extra Tooltip Columns")}>
                         <PanelRow>
                             <p style={{
-                                "font-size": "12px",
-                                "font-style": "italic",
-                                "color": "#666",
-                                "margin": "0",
-                            }}>
+                                fontSize: "12px",
+                                fontStyle: "italic",
+                                color: "#666",
+                                margin: "0",
+                            
                                 {__("Additional fields to expose as tooltip variables, without adding them as dimensions.")}
                             </p>
                         </PanelRow>
