@@ -43,7 +43,7 @@ const CategoricalFilter = ({ value, index, items, onUpdateFilterValue }) => {
             */
             return a.position - b.position
         });
-        return sortedItems.map(v => <PanelRow> <ToggleControl label={v.value} checked={value.indexOf(v.id) > -1}
+        return sortedItems.map(v => <PanelRow key={v.id} style={{ alignItems: 'flex-start' }}> <ToggleControl label={<span style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{v.value}</span>} checked={value.indexOf(v.id) > -1}
             onChange={e => {
                 onUpdateFilterValue(v.id, index)
             }} /></PanelRow>)
@@ -230,6 +230,7 @@ export class DataLayerSetting extends Component {
                 filters,
                 featureJoinAttribute,
                 apiJoinAttribute,
+                extraTooltipColumns = [],
                 type,
                 useCentroidPoint,
                 useBreaks,
@@ -344,6 +345,38 @@ export class DataLayerSetting extends Component {
                 />
             </PanelRow>}
             <PanelRow>
+                 <React.Fragment>
+                    {app !== 'csv' && <PanelBody initialOpen={false} title={__("Extra Tooltip Columns")}>
+                        <PanelRow>
+                            <p style={{
+                                fontSize: "12px",
+                                fontStyle: "italic",
+                                color: "#666",
+                                margin: "0",
+                            }}>
+                                {__("Additional fields to expose as tooltip variables, without adding them as dimensions.")}
+                            </p>
+                        </PanelRow>
+                        {allDimensions && allDimensions.filter(d => d.value !== 'none'
+                            && d.value !== apiJoinAttribute && d.value !== patternDiscriminator).map(d => (
+                                <PanelRow key={d.value} style={{ alignItems: 'flex-start' }}>
+                                    <CheckboxControl
+                                        label={<span style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{d.label}</span>}
+                                        checked={extraTooltipColumns.indexOf(d.value) > -1}
+                                        onChange={(checked) => {
+                                            const newValue = checked
+                                                ? [...extraTooltipColumns, d.value]
+                                                : extraTooltipColumns.filter(v => v !== d.value);
+                                            onChangeProperty("extraTooltipColumns", newValue)
+                                        }}
+                                    />
+                                </PanelRow>
+                            ))}
+
+                    </PanelBody>}
+                </React.Fragment>
+            </PanelRow>
+            <PanelRow>
                 <TextareaControl
                     label={__("Tooltip")}
                     value={tooltip}
@@ -360,7 +393,18 @@ export class DataLayerSetting extends Component {
                     "font-style": "normal",
                     "color": "rgb(117, 117, 117)"
                 }}>{"{" + m.value + "}"}</p></PanelRow>)}
+            {extraTooltipColumns && extraTooltipColumns.length > 0 && extraTooltipColumns.map(col => {
+                const dim = allDimensions ? allDimensions.find(d => d.value === col) : null
+                return (<PanelRow key={col}><p
+                    style={{
+                        "margin-top": "calc(8px)",
+                        "font-size": "12px",
+                        "font-style": "normal",
+                        "color": "rgb(117, 117, 117)"
+                    }}>{(dim ? dim.label : col) + ": " + "{" + col + "}"}</p></PanelRow>)
+            })}
         </PanelBody>,
+
         <React.Fragment>
             {app != 'csv' && <Measures
                 onFormatChange={this.onFormatChange}

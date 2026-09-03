@@ -54,6 +54,7 @@ export const Model = {
     },
     featureJoinAttribute: 'none',
     apiJoinAttribute: 'none',
+    extraTooltipColumns: [],
     useCentroidPoint: true,
     patternDiscriminator: 'none',
     patternDiscriminatorLabel: null,
