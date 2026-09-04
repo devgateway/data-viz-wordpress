@@ -154,7 +154,7 @@ importers:
   plugins/wp-react-blocks-plugin/blocks:
     dependencies:
       '@devgateway/dvz-wp-commons':
-        specifier: workspace:@devgateway/dvz-wp-commons@*
+        specifier: workspace:*
         version: link:../../../packages/commons
       '@types/react':
         specifier: '18'

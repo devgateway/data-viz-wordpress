@@ -42,3 +42,4 @@ export { ChartLegends } from './ChartLegends';
 
 export { GenericIcon, ChartIcon } from './icons/index';
 export { CSVConfig as CSVSourceConfig } from './CSVSourceConfig';
+export { DatasetSelector } from './DatasetSelector';

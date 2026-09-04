@@ -39,7 +39,7 @@
     "start": "wp-scripts start"
   },
   "dependencies": {
-    "@devgateway/dvz-wp-commons": "workspace:@devgateway/dvz-wp-commons@*",
+    "@devgateway/dvz-wp-commons": "workspace:*",
     "@types/react": "18",
     "@wordpress/a11y": "^4.32.0",
     "@wordpress/api-fetch": "^7.32.0",

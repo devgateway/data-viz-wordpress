@@ -9,6 +9,7 @@ import {
   ToggleControl,
   TextControl,
   Button,
+  ComboboxControl,
 } from "@wordpress/components";
 import { PanelColorSettings } from "@wordpress/block-editor";
 import { __ } from "@wordpress/i18n";
@@ -16,6 +17,7 @@ import {
   BlockEditWithAPIMetadata,
   isSupersetAPI,
   MapCSVSourceConfig,
+  DatasetSelector
 } from "@devgateway/dvz-wp-commons";
 import APIConfig from "./APIConfig";
 import LegendBreaks from "./LegendBreaks";
@@ -31,6 +33,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
       types: "media",
       taxonomies: null,
       loading: true,
+      datasetFilter: null,
     };
 
     this.iframe = React.createRef();
@@ -544,6 +547,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
     const divStyles = { height: height + "px", width: "100%" };
 
+
     return [
       isSelected && (
         <InspectorControls>
@@ -583,26 +587,13 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                 {isSupersetAPI(app, this.state.apps) && (
                   <PanelRow>
-                    <SelectControl
-                      label={__("Datasets")}
-                      value={[dvzProxyDatasetId]}
-                      onChange={(newDatasetId) => {
-                        setAttributes({
-                          dvzProxyDatasetId: newDatasetId,
-                          dimension1: "none",
-                          dimension2: "none",
-                          dimension3: "none",
-                          measures: [],
-                        });
-                        this.setState({
-                          dimensions: [],
-                          measures: [],
-                          filters: [],
-                          categories: [],
-                        });
-                        this.loadMetadata(app, newDatasetId);
-                      }}
-                      options={datasets}
+                    <DatasetSelector
+                      setAttributes={setAttributes}
+                      setState={this.setState.bind(this)}
+                      loadMetadata={this.loadMetadata.bind(this)}
+                      dvzProxyDatasetId={dvzProxyDatasetId}
+                      app={app}
+                      datasets={datasets}
                     />
                   </PanelRow>
                 )}
