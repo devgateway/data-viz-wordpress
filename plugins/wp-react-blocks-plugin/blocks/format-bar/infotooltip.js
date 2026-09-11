@@ -14,6 +14,14 @@ import {info as linkIcon} from '@wordpress/icons';
 import {Button, Modal, Panel, PanelBody, PanelRow, Popover, TextareaControl} from '@wordpress/components';
 import { BLOCKS_NS } from '@devgateway/dvz-wp-commons';
 
+function safeDecodeURIComponent(text) {
+    try {
+        return decodeURIComponent(text);
+    } catch (e) {
+        return text;
+    }
+}
+
 const name = BLOCKS_NS + '/info-tooltip';
 const reference = {
     name,
@@ -35,7 +43,7 @@ const PopUI = ({onClose, onCancel}) => {
     return <Modal title={__("Reference")} onRequestClose={e => onCancel()}>
         <TextareaControl
             label={__("Description")}
-            value={decodeURIComponent(text)}
+            value={safeDecodeURIComponent(text)}
             onChange={(value) => setText(encodeURIComponent(value))}
         />
 
@@ -91,8 +99,8 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
                             <TextareaControl
                                 rows={5}
                                 label={__("Description")}
-                                value={decodeURIComponent (content)}
-                                onChange={(content) => setContent(content)}
+                                value={safeDecodeURIComponent(content)}
+                                onChange={(newValue) => setContent(encodeURIComponent(newValue))}
                             />
                         </PanelRow>
                         <PanelRow>
