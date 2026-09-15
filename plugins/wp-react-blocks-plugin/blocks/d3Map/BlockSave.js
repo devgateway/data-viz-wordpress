@@ -17,6 +17,12 @@ const SaveComponent = (props) => {
         }
     } = props;
 
+    const normalizedLayers = (layers || []).map(layer => ({
+        ...layer,
+        labelSettings: Array.isArray(layer.labelSettings) ? {} : (layer.labelSettings || {}),
+        customMeasuresLabels: Array.isArray(layer.customMeasuresLabels) ? {} : (layer.customMeasuresLabels || {})
+    }));
+
     const blockProps = useBlockProps.save({
         className: 'viz component map'
     });
@@ -34,7 +40,7 @@ const SaveComponent = (props) => {
              data-component={"newMap"}
              data-zoom-enabled={zoomEnabled}
              data-rotation-enabled={rotationEnabled}
-             data-layers={encodeURIComponent(JSON.stringify(layers))}
+             data-layers={encodeURIComponent(JSON.stringify(normalizedLayers))}
              data-wait-for-filters={waitForFilters}
              >
         </div>

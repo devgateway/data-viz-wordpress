@@ -241,32 +241,34 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                     {isSupersetAPI(app, this.state.apps) &&
                         <PanelRow>
+                            <div style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}>
+                                <ComboboxControl
+                                    label={__('Datasets')}
+                                    value={dvzProxyDatasetId}
+                                    style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}
+                                    onChange={(newDatasetId) => {
+                                        setAttributes({
+                                            dvzProxyDatasetId: newDatasetId,
+                                            dimension1: 'none',
+                                            dimension2: 'none'
 
-                            <ComboboxControl
-                                label={__('Datasets')}
-                                value={dvzProxyDatasetId}
-                                onChange={(newDatasetId) => {
-                                    setAttributes({
-                                        dvzProxyDatasetId: newDatasetId,
-                                        dimension1: 'none',
-                                        dimension2: 'none'
-
-                                    })
-                                    this.setState({ dimensions: [], measures: [], filters: [], categories: [] })
-                                    //  this.loadMetadataForSuperset(app, newDatasetId)
-                                }}
-                                options={this.state.filteredDatasets || datasets}
-                                isLoading={datasets.length === 0}
-                                onFilterValueChange={(inputValue) => {
-                                    const searchValue = (inputValue || '').toLowerCase()
-                                    const filteredDatasets = datasets.filter((option) =>
-                                        option.label.toLowerCase().includes(searchValue) ||
-                                        option.value.toString().toLowerCase().includes(searchValue)
-                                    )
-                                    this.setState({ filteredDatasets })
-                                }}
-                                help={__('Select the dataset from the API.')}
-                            />
+                                        })
+                                        this.setState({ dimensions: [], measures: [], filters: [], categories: [] })
+                                        //  this.loadMetadataForSuperset(app, newDatasetId)
+                                    }}
+                                    options={this.state.filteredDatasets || datasets}
+                                    isLoading={datasets.length === 0}
+                                    onFilterValueChange={(inputValue) => {
+                                        const searchValue = (inputValue || '').toLowerCase()
+                                        const filteredDatasets = datasets.filter((option) =>
+                                            option.label.toLowerCase().includes(searchValue) ||
+                                            option.value.toString().toLowerCase().includes(searchValue)
+                                        )
+                                        this.setState({ filteredDatasets })
+                                    }}
+                                    help={__('Select the dataset from the API.')}
+                                />
+                            </div>
                         </PanelRow>
                     }
                 </PanelBody>
