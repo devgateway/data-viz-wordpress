@@ -6,6 +6,7 @@ import {
     PanelRow,
     ResizableBox,
     SelectControl,
+    ComboboxControl,
     TextControl,
     FontSizePicker,
     __experimentalText as Text,
@@ -25,10 +26,18 @@ import { useSelect } from '@wordpress/data';
 class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
+        this.state = { ...(this.state || {}), filteredDatasets: null };
     }
 
     componentDidMount() {
         super.componentDidMount()
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.datasets !== prevState.datasets && this.state.filteredDatasets !== null) {
+            this.setState({ filteredDatasets: null })
+        }
+        super.componentDidUpdate(prevProps, prevState, snapshot)
     }
 
     render() {
@@ -144,18 +153,30 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
 
                             {isSupersetAPI(app, this.state.apps) && <PanelRow>
-                                <SelectControl
-                                    label={__('Datasets')}
-                                    value={[dvzProxyDatasetId]}
-                                    onChange={(newDatasetId) => {
-                                        setAttributes({
-                                            dvzProxyDatasetId: newDatasetId
-                                        })
+                                <div style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}>
+                                    <ComboboxControl
+                                        label={__('Datasets')}
+                                        value={dvzProxyDatasetId}
+                                        style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}
+                                        onChange={(newDatasetId) => {
+                                            setAttributes({
+                                                dvzProxyDatasetId: newDatasetId
+                                            })
 
-                                        this.loadMetadata(app, newDatasetId)
-                                    }}
-                                    options={datasets}
-                                />
+                                            this.loadMetadata(app, newDatasetId)
+                                        }}
+                                        options={this.state.filteredDatasets || datasets}
+                                        isLoading={datasets.length === 0}
+                                        onFilterValueChange={(inputValue) => {
+                                            const searchValue = (inputValue || '').toLowerCase()
+                                            const filteredDatasets = datasets.filter((option) =>
+                                                option.label.toLowerCase().includes(searchValue) ||
+                                                option.value.toString().toLowerCase().includes(searchValue)
+                                            )
+                                            this.setState({ filteredDatasets })
+                                        }}
+                                    />
+                                </div>
                             </PanelRow>
                             }
 
