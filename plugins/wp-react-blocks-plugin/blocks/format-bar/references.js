@@ -28,6 +28,14 @@ import {
     SelectControl
 } from '@wordpress/components';
 
+function safeDecodeURIComponent(text) {
+    try {
+        return decodeURIComponent(text);
+    } catch (e) {
+        return text;
+    }
+}
+
 const name = BLOCKS_NS + '/reference';
 const reference = {
     name,
@@ -81,7 +89,7 @@ const PopUI = ({onClose, onCancel, value}) => {
         <TextareaControl
             label={__("Description")}
             help={__("Enter reference description ")}
-            value={decodeURIComponent(text)}
+            value={safeDecodeURIComponent(text)}
             onChange={(value) => setText(encodeURIComponent(value))}
         />
         <TextControl value={link} label={__("URL")}
@@ -151,8 +159,8 @@ function InlineUI({value, onChange, activeObjectAttributes, contentRef, onClose}
                                 className="block-editor-format-toolbar__image-container-value"
 
                                 label={__("Description")}
-                                value={decodeURIComponent(content)}
-                                onChange={(content) => setContent(content)}
+                                value={safeDecodeURIComponent(content)}
+                                onChange={(newValue) => setContent(encodeURIComponent(newValue))}
                             />
                         </PanelRow>
                         <PanelRow>
