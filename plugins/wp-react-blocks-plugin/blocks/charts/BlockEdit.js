@@ -9,7 +9,8 @@ import {
     SelectControl,
     TextareaControl,
     TextControl,
-    ToggleControl
+    ToggleControl,
+    ComboboxControl
 } from '@wordpress/components';
 
 import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
@@ -33,6 +34,48 @@ class BlockEdit extends BlockEditWithAPIMetadata {
     constructor(props) {
         super(props);
         this.ignoreAttributes = ['tooltip'];
+        this.state = {
+            ...this.state,
+            datasetFilterValue: '',
+            filteredDatasets: null
+        }
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        this.migrateLegacyAttributes();
+    }
+
+    migrateLegacyAttributes() {
+        const {setAttributes, attributes: {measures, app, tooltip}} = this.props;
+
+        if (Object.keys(measures).indexOf('global') > -1) {
+            const appMeasures = {
+                [app]: {},
+                csv: measures.csv
+            };
+            const count = Object.keys(measures).filter(key => measures[key].selected).length;
+
+            Object.keys(measures)
+                .filter(key => !['global', 'csv'].includes(key))
+                .forEach(key => {
+                    if (measures[key].selected) {
+                        appMeasures[app][key] = measures[key];
+                    }
+                    if (count === 1) {
+                        appMeasures[app].format = measures[key].format;
+                    }
+                    if (count > 1) {
+                        appMeasures[app].format = measures.global.format;
+                    }
+                });
+
+            setAttributes({measures: appMeasures});
+        }
+
+        if (typeof tooltip === 'string' && tooltip !== '') {
+            setAttributes({tooltipHTML: tooltip, tooltip: ''});
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -42,6 +85,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
         if (newPreviewMode !== prevState.previewMode) {
             setAttributes({previewMode: newPreviewMode});
+        }
+
+        if (this.state.datasets !== prevState.datasets && this.state.filteredDatasets !== null) {
+            this.setState({filteredDatasets: null});
         }
 
         if (type !== prevType) {
@@ -179,38 +226,6 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             }
         } = this.props;
 
-
-        if (Object.keys(measures).indexOf("global") > -1) {
-
-            //migrating measures
-            const appMeasures = {}
-            appMeasures[app] = {}
-            appMeasures['csv'] = measures['csv']
-            const count = Object.keys(measures).filter(k => measures[k].selected).length
-            Object.keys(measures)
-                .filter(k => ['global', 'csv']
-                    .indexOf(k) == -1).forEach(k => {
-
-                    if (measures[k].selected) {
-                        appMeasures[app][k] = measures[k]
-                    }
-                    if (count == 1) {
-                        appMeasures[app]['format'] = measures[k].format
-                    }
-                    if (count > 1) {
-                        appMeasures[app]['format'] = measures['global']['format']
-                    }
-
-                }
-            )
-            setAttributes({measures: appMeasures})
-            return null;
-        }
-        //migration code
-        if (tooltip != '') {
-            setAttributes({tooltipHTML: tooltip, tooltip: ''})
-            return null;
-        }
 
         const levels = [dimension1, dimension2, dimension3]
         const source = levels.filter(l => l != 'none' && l != null).join('/')
@@ -366,9 +381,21 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
 
                                     {isSupersetAPI(app, this.state.apps) && <PanelRow>
-                                        <SelectControl
+                                         <div style={{
+                                            maxWidth: "100%",
+                                            minWidth: 0,
+                                            overflowWrap: "anywhere",
+                                            width: "100%",
+                                        }}>
+                                             <ComboboxControl
                                             label={__('Datasets')}
-                                            value={[dvzProxyDatasetId]}
+                                            value={dvzProxyDatasetId}
+                                            style={{
+                                                maxWidth: "100%",
+                                                minWidth: 0,
+                                                overflowWrap: "anywhere",
+                                                width: "100%",
+                                            }}
                                             onChange={(newDatasetId) => {
 
                                                 this.setState({
@@ -390,8 +417,19 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                 //look at component did update of BlockEditWithAPIMetadata
                                                 //this.loadMetadata(app, newDatasetId)
                                             }}
-                                            options={datasets}
+                                            options={this.state.filteredDatasets ? this.state.filteredDatasets : datasets}
+                                            isLoading={datasets.length === 0}
+                                            onFilterValueChange={(inputValue) => {
+                                                const searchValue = (inputValue || '').toLowerCase();
+                                                const opts = datasets.filter((option) =>
+                                                    option.label.toLowerCase().includes(searchValue) ||
+                                                    option.value.toString().toLowerCase().includes(searchValue)
+                                                )
+                                                this.setState({ filteredDatasets: opts })
+                                            }}
                                         />
+                                        </div>
+                                       
 
                                         <Button isPrimary={true} size={"small"}
                                                 onClick={() => this.evictSuperSetCache()}>O</Button>
@@ -464,15 +502,15 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                                                     <PanelBody initialOpen={false} title={__("Variables")}>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Value -> {'{value}'}</span>
+                                                                style={{"font-size": "11px"}}>Value {'->'} {'{value}'}</span>
                                                         </PanelRow>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Value Percent -> {'{valuePercent}'}</span>
+                                                                style={{"font-size": "11px"}}>Value Percent {'->'} {'{valuePercent}'}</span>
                                                         </PanelRow>
                                                         <PanelRow>
                                                             <span
-                                                                style={{"font-size": "11px"}}>Category -> {'{category}'}</span>
+                                                                style={{"font-size": "11px"}}>Category {'->'} {'{category}'}</span>
                                                         </PanelRow>
                                                     </PanelBody>
                                                 }

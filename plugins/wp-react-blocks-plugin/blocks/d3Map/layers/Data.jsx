@@ -7,6 +7,7 @@ import {
     PanelRow,
     RangeControl,
     SelectControl,
+    ComboboxControl,
     TextareaControl,
     TextControl,
     ToggleControl
@@ -65,7 +66,7 @@ export class DataLayerSetting extends Component {
         this.getCSValue = this.getCSValue.bind(this)
         this.onFormatChange = this.onFormatChange.bind(this)
         this.state = {
-            measures: [], dimensions: [], filters: [], categories: []
+            measures: [], dimensions: [], filters: [], categories: [], filteredDatasets: null
         }
     }
 
@@ -301,14 +302,26 @@ export class DataLayerSetting extends Component {
             </PanelRow>
             {isSupersetAPI(app, apps) &&
                 <PanelRow>
-                    <SelectControl
-                        label={__('Datasets')}
-                        value={[dvzProxyDatasetId]}
-                        onChange={(newDatasetId) => {
-                            onChangeProperty("dvzProxyDatasetId", newDatasetId)
-                        }}
-                        options={allDatasets}
-                    />
+                    <div style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}>
+                        <ComboboxControl
+                            label={__('Datasets')}
+                            value={dvzProxyDatasetId}
+                            style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}
+                            onChange={(newDatasetId) => {
+                                onChangeProperty("dvzProxyDatasetId", newDatasetId)
+                            }}
+                            options={this.state.filteredDatasets || allDatasets}
+                            isLoading={allDatasets.length === 0}
+                            onFilterValueChange={(inputValue) => {
+                                const searchValue = (inputValue || '').toLowerCase()
+                                const filteredDatasets = allDatasets.filter((option) =>
+                                    option.label.toLowerCase().includes(searchValue) ||
+                                    option.value.toString().toLowerCase().includes(searchValue)
+                                )
+                                this.setState({ filteredDatasets })
+                            }}
+                        />
+                    </div>
                 </PanelRow>
             }
             {type != 'dataPoints' && <Property property={"featureJoinAttribute"}
