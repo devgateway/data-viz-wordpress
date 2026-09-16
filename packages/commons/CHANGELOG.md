@@ -1,5 +1,11 @@
 # @devgateway/dvz-wp-commons
 
+## 1.3.8
+
+### Patch Changes
+
+- [#153](https://github.com/devgateway/data-viz-wordpress/pull/153) [`269fbfe`](https://github.com/devgateway/data-viz-wordpress/commit/269fbfe7e4ea857ca73161e42d11f3c69ea4d885) Thanks [@timothygachengo](https://github.com/timothygachengo)! - Implement dataset search input and selector to search from a list of datasets
+
 ## 1.3.7
 
 ### Patch Changes
