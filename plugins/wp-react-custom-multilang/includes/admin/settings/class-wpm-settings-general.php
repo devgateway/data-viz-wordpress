@@ -33,6 +33,7 @@ class WPM_Settings_General extends WPM_Settings_Page {
 		add_filter( 'wpm_disable_translation_options', array( $this, 'unset_translation_options' ) );
 		add_filter( 'wpm_general_settings', array( $this, 'add_reset_settings' ) );
 		add_action( 'wpm_admin_field_reset_settings', array( $this, 'reset_settings' ) );
+		add_filter( 'wpm_general_settings', array( $this, 'add_cpt_settings' ) );
 	}
 
 	/**
@@ -93,12 +94,29 @@ class WPM_Settings_General extends WPM_Settings_Page {
 				'default' => 'no',
 				'type'    => 'checkbox',
 			),
+
+			array(
+				'title'   => esc_html__( 'Force Auto Retranslation', 'wp-multilang' ),
+				'desc'    => esc_html__( 'This will allow users to force auto re-translation for a specific language.', 'wp-multilang' ),
+				'id'      => 'wpm_allow_auto_override',
+				'default' => 'no',
+				'type'    => 'checkbox',
+			),
 			
 			array(
 				'title'   => esc_html__( 'Slug Translation', 'wp-multilang' ),
 				/* translators: %s: url */
 				'desc'    => sprintf( __( 'Translate posts, pages, custom posts, categories and custom taxonomies slug. <a href="%s" target="_blank">Learn More</a>', 'wp-multilang' ), esc_url( 'https://wp-multilang.com/docs/knowledge-base/how-to-translate-url-slugs-with-selective-languages/' ) ),
 				'id'      => 'wpm_string_translation',
+				'default' => 'no',
+				'type'    => 'checkbox',
+			),
+
+			array(
+				'title'   => esc_html__( 'Auto Slug Translation', 'wp-multilang' ),
+				/* translators: %s: url */
+				'desc'    => sprintf( __( 'This translates the slug automatically when you auto translate any post, page etc. <a href="%s" target="_blank">Learn More</a>', 'wp-multilang' ), esc_url( 'https://wp-multilang.com/docs/knowledge-base/how-to-translate-url-slugs-with-selective-languages/' ) ),
+				'id'      => 'wpm_auto_slug_translation',
 				'default' => 'no',
 				'type'    => 'checkbox',
 			),
@@ -177,7 +195,7 @@ class WPM_Settings_General extends WPM_Settings_Page {
 	 * */
 	public function unset_translation_options( $settings ){
 		
-		$unset_keys 	=	array( 'wpm_string_translation', 'wpm_base_translation' );
+		$unset_keys 	=	array( 'wpm_string_translation', 'wpm_base_translation', 'wpm_auto_slug_translation' );
 
 		if( ! defined('WP_MULTILANG_PRO_VERSION') ) {
 			if( ! empty( $settings ) && is_array( $settings ) ) {
@@ -247,6 +265,39 @@ class WPM_Settings_General extends WPM_Settings_Page {
 			</td>
 		</tr>
 		<?php
+
+	}
+
+	/**
+	 * Add reset settings options
+	 * @param  	$settings 	Array
+	 * @return 	$settings 	Array
+	 * @since 	2.4.18
+	 * */
+	public function add_cpt_settings( $settings ){
+
+		$post_types 	=	array();
+		$post_types 	=	wpm_get_custom_post_types();
+
+
+
+		$settings[] = array(
+			'title' => esc_html__( 'Activate Multilingual Support for Post Types', 'wp-multilang' ),
+			'type'  => 'title',
+			'id'	=> 'wpm-cpt-settings'	
+		);
+
+		$settings[] = array(
+			'title'    => esc_html__( 'Post Types', 'wp-multilang' ),
+			'desc'     => esc_html__( 'Select custom post types for translation', 'wp-multilang' ),
+			'id'       => 'wpm_custom_post_types',
+			'type'     => 'checkboxgroup',
+			'options'  => $post_types,
+		);
+
+		$settings[] = array( 'type' => 'sectionend', 'id' => 'wpm-cpt-settings' );
+
+		return $settings;
 
 	}
 }

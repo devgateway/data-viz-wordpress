@@ -21,7 +21,7 @@ final class WP_Multilang {
 	 *
 	 * @var string
 	 */
-	public $version = '2.4.16';
+	public $version = '2.4.33';
 
 	/**
 	 * The single instance of the class.
@@ -95,6 +95,7 @@ final class WP_Multilang {
 		$this->define( 'WPM_ABSPATH', dirname( WPM_PLUGIN_FILE ) . '/' );
 		$this->define( 'WPM_PLUGIN_BASENAME', plugin_basename( WPM_PLUGIN_FILE ) );
 		$this->define( 'WPM_VERSION', $this->version );
+		$this->define( 'WPM_OPENAI_PROMPT', 'You are a professional translator that translates text from {{source_language}} to {{target_language}}.' );
 	}
 
 	/**
@@ -179,6 +180,10 @@ final class WP_Multilang {
 		new WPM_Users();
 		new WPM_Comments();
 		new WPM_Shortcodes();
+		new WPM_Custom_Post_Types();
+		if( class_exists( 'WPM\Includes\Admin\Settings\WPM_Settings_Auto_Translate_Pro' ) ) {
+			new \WPM\Includes\Admin\Settings\WPM_Settings_Auto_Translate_Pro();
+		}
 
 		if ( $this->is_request( 'admin' ) ) {
 			new Admin\WPM_Admin();

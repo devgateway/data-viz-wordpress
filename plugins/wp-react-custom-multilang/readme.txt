@@ -4,8 +4,8 @@ Contributors: magazine3
 Donate link: https://paypal.me/kaludi
 Tags: localization, multilanguage, multilingual, translation, translate
 Requires at least: 4.7
-Tested up to: 6.7
-Stable tag: 2.4.16
+Tested up to: 7.1
+Stable tag: 2.4.33
 Requires PHP: 5.6.20
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -28,6 +28,9 @@ Translations of post types, taxonomies, meta fields, options, text fields in mil
 * Auto Translation ( [available in premium version](https://wp-multilang.com/pricing/) ) - [View Tutorial](https://wp-multilang.com/docs/knowledge-base/how-to-auto-translate-your-website-contents-using-wp-multilang/)
 * Support URL Slug Translation ( [available in premium version](https://wp-multilang.com/pricing/) ) - [View Tutorial](https://wp-multilang.com/docs/knowledge-base/how-to-translate-url-slugs-with-selective-languages/)
 * Support Base Translation ( [available in premium version](https://wp-multilang.com/pricing/) ) - [View Tutorial](https://wp-multilang.com/docs/knowledge-base/how-to-translate-taxonomy-bases-such-as-categories-and-tags-into-selective-languages-using-the-base-translation-option/)
+* Export and import content in XLIFF or xml format to translate outside
+* Activate Multilingual Support for Post Types
+* Support Auto URL Slug Translation ( [available in premium version](https://wp-multilang.com/pricing/) ) - [View Tutorial](https://wp-multilang.com/docs/knowledge-base/how-to-translate-url-slugs-with-selective-languages/)
 
 == Features of the plugin WP Multilang ==
 
@@ -52,11 +55,13 @@ Translations of post types, taxonomies, meta fields, options, text fields in mil
 
 * Elementor ( [available in premium version](https://wp-multilang.com/pricing/) ) - [View Tutorial](https://wp-multilang.com/docs/knowledge-base/how-to-build-a-multilingual-site-with-elementor-using-wp-multilang/)
 * Divi Builder ( [available in premium version](https://wp-multilang.com/pricing/) ) - [View Tutorial](https://wp-multilang.com/docs/knowledge-base/how-to-build-a-multilingual-site-with-divi-builder-using-wp-multilang/)
+* Bricks Builder ( [available in premium version](https://wp-multilang.com/pricing/) ) - [View Tutorial](https://wp-multilang.com/docs/knowledge-base/)
 * ACF, ACF Pro
 * WooCommerce
 * WooCommerce Customizer
 * Gutenberg
 * Yoast Seo
+* SEOPress 
 * Contact Form 7 (added mail tag [_language] for send user language in mail)
 * WPBakery Visual Composer
 * Page Builder by SiteOrigin
@@ -79,6 +84,22 @@ Translations of post types, taxonomies, meta fields, options, text fields in mil
 * Team – Team Members Showcase Plugin
 * Schema & Structured Data for WP & AMP
 * Forminator Forms
+* Gravity Forms
+* Ultimate Member Form
+* Oxygen Builder ( [available in premium version](https://wp-multilang.com/pricing/) )
+* Internal Link Juicer
+* Strong Testimonials
+* Fluent Forms
+* Gamipress
+* PublishPress Authors
+* Autolinks Manager
+
+== Advance Woocommerce Support ==
+* Send emails in customer's selected language
+* REST API Support
+* Import and export products in customer's selected language
+* Translate products (simple products, variable products, grouped products), categories, tags, global attributes
+* Cart synchronization across multiple languages 
 
 Manage translation settings via json.
 
@@ -236,98 +257,113 @@ If you have opened several browser tabs for editing this post in different langu
 
 == Changelog ==
 
-= 2.4.16 =
-- feature Rankmath multilingual schema and structured data support #56
-- feature Yoast multilingual schema and structured data support #57
-- feature AIOSEO multilingual schema and structured data support #58
-- feature Added a new feature that helps users select different logos as per the language of the site #71
-- feature Compatibility with Forminator form Plugin #132
+= 2.4.33 =
+- Feature: Added compatibility with a BasePress module plugin #213
+- Feature: Added compatibility with Frontend Post Submission Manager lite plugin #235
+- Fixed: Translations are overwritten by default language when editing multiple translations in Gutenberg #277
+- Tested: Tested with wordpress version 7.0 #278
+- Fixed: Language switcher design issue after updating to wordpress 7.1 #279
 
-= 2.4.15 =
-- feature Added compatibility with Schema & Structured Data for WP & AMP Plugin #59
-- feature Added compatibility with Team – Team Members Showcase Plugin #75
-- feature Added option to reset the translation languages #122
-- fixed WPBakery Builder Meta Descriptions and Meta Titles Not Translating #128
-- fixed Auto translate not working when adding post via elementor #130
+= 2.4.32 =
+- Feature: Added Compatibility With Autolink Manager #232
+- Feature: Added Compatibility With PublishPress Authors #233
+- Feature: Added Compatibility With Gamipress #234
+- Enhancement: Ultimate Member compatibility improvement $237
+- Fixed: Vulnerability fix reported by wordfence #272
+- Feature: Product type compatibility with Qodeum theme #275
 
-= 2.4.14 =
-- fixed Woocommerce product attributes are not getting translated #93
-- feature Added compatibility with the WP Githuber plugin #99
-- enhancement Use 'translate' keyword for search the plugin from add new plugin section #103
-- feature Added compatibility with Smart Custom Fields Plugin #116
-- feature Added eature to translate slug for 2nd level of hierarchy of urls #121
-- fixed Code improvement #125
-- fixed Compatibility with WordPress 6.7 and updated readme.txt #126
+= 2.4.31 =
+- Fixed: Backslashes lost upon saving different language in custom HTML editor #267
+- Fixed: Yoast global settings not saving values per language #271
+- Enhancement: Improve Post Content Rendering and HTML Entity Handling #272
 
-= 2.4.13 =
-- feature WP GraphQL support #44
-- fixed Post Title translation issue for multiple languages #78
-- enhancement Language switcher disappears too early in Wordpress 6.6 #91
-- enhancement Code improvement #96
-- fixed Out of memory error after update to 2.4.11 #111
-- fixed Issue with yoast meta description #113
-- fixed License key wrong link issue #118
-- fixed Error after the update 2.4.11 #109
+= 2.4.30 =
+- Feature: Need to add DeepL AI Integration #257
+- Fixed: Language switcher compatibility with wordpress 7.0 #264
+- Feature: Added compaitbility with YMC Filter plugin #266
+- Fixed: Duplicate content creating in post/page using Divi #268
+- Enhancement: Added support to Secure Custom Fields #269
 
-= 2.4.12 =
-- feature URL Slug Translation #25
-- fixed PHP waring #102
-- fixed Yoast meta description translation issue #113
+= 2.4.29 =
+- Fixed: With WooCommerce storefront theme customization #252
+- Fixed: issue with Gutslider #253
+- Feature: Need to add compatibility with custom post type #256
+- Feature: Added compatibility with fluent form #261
 
-= 2.4.11 =
-- fixed Product attributers are not getting translated in frontend #94
-- enhancement Code improvement #96
-- fixed Warning: Undefined array key #102
-- feature Automatic translation #77
+= 2.4.28 =
+- Feature: Added a Compatibility With Strong Testimonials #238
+- Enhancement: Add Welsh Flag #250
+- Fixed: ACF Fields saving issue with key #254
+- Feature: Added compatibility with bricks builder #255
+- Tested: Tested with wordpress version 7.0 #259
 
-= 2.4.10 =
-- feature Added compatibility with Divi #72
-- fixed issue with canonical and href URL as per the language. #85
-- fixed issue with Language switcher block in site editor #86
-- fixed Compatibility with WordPress 6.6 and updated readme.txt
+= 2.4.27 =
+- Fixed: other language content is not updating in Elementor #215
+- Enhancement: Issue with ACF blocks #218
+- Feature: Added compatibility with the Internal Link Juicer plugin #219
+- Feature: Added Xliff file support for Oxygen Builder #242
+- Enhancement: Fixed bbPress forum translation issue  #244
+- Fixed: Undefined index notice in update_description method #249
 
-= 2.4.9 =
-- feature WordPress full site editing support #46
-- fixed Conflicts with the Newsletter plugin #61
-- enhancement Changed premium tab to Premium Features in readme.txt #80
-- feature Added Language Switcher Gutenberg Block #82
+= 2.4.26 =
+- Feature: Added OpenAI Integration for Automatic Neural Network Translation #207
+- Feature: Allow override to be configurable in Auto translate #223
+- Feature: Added compatibility with oxygen builder #227
+- Fixed: WooCommerce products marked for single language still appear in other language archives (AUTO-DRAFT/empty titles) #229
+- Feature: Added compatibility with TownPress theme custom post types #230
 
-= 2.4.8 =
-- fixed admin_html_tags leaving empty fields #41
-- feature Gutenberg view post should redirect to current language post #55
-- fixed Conflicts with the Newsletter plugin #61
-- feature Woocommerce product attributes translation issue #70
-- fixed Issue with CF7 form #73
-- fixed Language switch button interface Guternberg block button  #74
+= 2.4.25 =
+- Fixed: Other language content is not updating in Elementor #215
+- Fixed: Promotion Banner BFCM #221
+- Fixed: Yoast SEO meta tags not translating #225
 
-= 2.4.7 =
-- fixed Call to undefined function #65
-- feature Admin settings page UI/UX changes #67
-- feature Added Newsletter Form #68
+= 2.4.24 =
+- Added: Promotion Banner BFCM #221
+- Added: OpenAI Integration for Automatic Neural Network Translation #207
+- fixed: Wrong url was added in switcher #220
+- Tested: WordPress version upto 6.9.
 
-= 2.4.6 =
-- enhancement Updated website links like contact page and other info in plugin and wp.org #45
-- feature Adedd feedback popup on deactivation #54
-- feature Added compatibility with Elementor (Premium) 
+= 2.4.23 =
+- feature Compatibility Ultimate Member Forms #208
+- fixed Error while adding ACF pro repeater fields #209
+- fixed Critical error while translation #217
 
-= 2.4.5 =
-- feature Different product or post images for each language #20
-- fixed Widget block translate issue #29
-- fixed Fatal Error with latest Yoast SEO plugin update #30
-- fixed Translation of special mail tags for Contact Form 7 #31
-- fixed Translation of the "title" attribute in the shortcode of Contact Form 7 #32
-- fixed wpseo_og:locale:alternate to be set properly #33
-- fixed Translate escaping text #34
-- fixed Rank Math custom fields getting duplicated on the translated posts #35
-- fixed Issue with language switcher regex for gutenberg #36
+= 2.4.22 =
+- enhancement Fixed woocommerce attribute translation issue for third language #175
+- fixed Auto Translate style issue on product taxanomies/terms #196
+- enhancement Added re-translate option for taxonomies #197
+- feature Added an option to exclude page/post from auto translation #200 (Pro)
+- fixed Featured image issue on block editor #203
 
-= 2.4.4 =
-- fixed issue with ACF PRO #12
-- fixed An error occurred when deleting a post #13
-- fixed E_ERROR in class-wpm-install.php #16
-- fixed Issue with Gutenberg reusable blocks and create pattern #17
-- fixed No translation for Title, Meta etc. if using AIOSEO plugin #18
-- fixed No Translation of URL, and social meta tags using YOAST plugin in #23
-- fixed Issue with the Rank Math Seo meta field #24
+= 2.4.21 =
+- fixed Rankmath title translation improvement #177
+- fixed Flag translation issue on products #185
+- fixed Memory size limit improvement #189
+- feature XLIFF export compatibility with ACF fields on post/pages #190
+- feature Added Bulk Translation Option for Tag and Categories #191
+- fixed Retranslation issue with Elementor pages #192
+- fixed Code improvement for duplicate queries #194
+
+= 2.4.20 =
+- feature Compatibility with SEOpress #170
+- feature Auto url slug translation #171
+- fixed Divi builder content translation improvement #173
+- fixed Conflict with latest pro 1.12 version #178
+- feature Added option to retranslate #180
+- fixed Yoast default title issue #181
+- feature Added support for exporting and importing content in XLIFF or XML format for pages #182
+- fixed Code improvement for custom post taxonomy description #183
+
+= 2.4.19.1 =
+- fixed Vulnerability fix reported by patchstack
+
+= 2.4.19 =
+- fixed Code-profiler plugin execution time issue #149
+- fixed Woocommerce settings translation improvement #161
+- feature Compatibility with ACF Pro Pages Option #162
+- fixed Conflict issue with pinnacle theme #163
+- fixed Code improvement of translation #164
+- fixed Compatibility with WordPress 6.8 and updated readme.txt #165
+- feature Added compatibility with Cyr-To-Lat plugin #169
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/wp-multilang/releases).
