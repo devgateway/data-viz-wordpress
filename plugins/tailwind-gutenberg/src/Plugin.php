@@ -7,6 +7,7 @@ defined( 'ABSPATH' ) || exit;
 class Plugin {
 
 	public static function init(): void {
+		add_action( 'init', array( self::class, 'load_textdomain' ) );
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) );
 
 		Class_Index::init();
@@ -15,10 +16,20 @@ class Plugin {
 		Settings_Page::init();
 	}
 
+	public static function load_textdomain(): void {
+		load_plugin_textdomain(
+			'tailwind-gutenberg',
+			false,
+			dirname( plugin_basename( TWG_PLUGIN_FILE ) ) . '/languages'
+		);
+	}
+
 	public static function enqueue_editor_assets(): void {
 		$settings = Settings_Page::get();
 
 		if ( self::enqueue_script_from_asset( 'twg-editor', 'editor' ) ) {
+			wp_set_script_translations( 'twg-editor', 'tailwind-gutenberg', TWG_PLUGIN_DIR . 'languages' );
+
 			wp_localize_script(
 				'twg-editor',
 				'twgEditorData',

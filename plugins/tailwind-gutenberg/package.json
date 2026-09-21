@@ -27,6 +27,8 @@
     "@wordpress/element": "^6.32.0",
     "@wordpress/hooks": "^4.32.0",
     "@wordpress/i18n": "^6.5.0",
+    "@wordpress/icons": "^10.32.0",
+    "@wordpress/keyboard-shortcuts": "^5.32.0",
     "classnames": "^2.5.1"
   }
 }

@@ -10,12 +10,13 @@ class Settings_Page {
 	const PAGE_SLUG   = 'tailwind-gutenberg';
 
 	const DEFAULTS = array(
-		'frontend_mode'    => 'local',
-		'theme_css'        => '',
-		'safelist'         => '',
-		'preflight'        => false,
-		'load_on_frontend' => true,
-		'suggest_limit'    => 50,
+		'frontend_mode'            => 'local',
+		'theme_css'                => '',
+		'safelist'                 => '',
+		'preflight'                => false,
+		'load_on_frontend'         => true,
+		'suggest_limit'            => 50,
+		'delete_data_on_uninstall' => false,
 	);
 
 	public static function init(): void {
@@ -68,6 +69,7 @@ class Settings_Page {
 			'preflight'        => ! empty( $value['preflight'] ),
 			'load_on_frontend' => ! empty( $value['load_on_frontend'] ),
 			'suggest_limit'    => max( 1, absint( $value['suggest_limit'] ?? self::DEFAULTS['suggest_limit'] ) ),
+			'delete_data_on_uninstall' => ! empty( $value['delete_data_on_uninstall'] ),
 		);
 	}
 
@@ -223,6 +225,18 @@ class Settings_Page {
 								name="<?php echo esc_attr( self::OPTION_NAME ); ?>[suggest_limit]"
 								value="<?php echo esc_attr( $settings['suggest_limit'] ); ?>"
 							/>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'On uninstall', 'tailwind-gutenberg' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[delete_data_on_uninstall]" value="1" <?php checked( $settings['delete_data_on_uninstall'] ); ?> />
+								<?php esc_html_e( 'Delete generated files and settings when this plugin is deleted', 'tailwind-gutenberg' ); ?>
+							</label>
+							<p class="description">
+								<?php esc_html_e( 'Off by default. Post content and its Tailwind classes are never deleted either way.', 'tailwind-gutenberg' ); ?>
+							</p>
 						</td>
 					</tr>
 				</table>

@@ -16,7 +16,7 @@ importers:
         version: 2.29.7(@types/node@24.7.0)
       '@wordpress/scripts':
         specifier: ^30.25.0
-        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
+        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
 
   packages/commons:
     dependencies:
@@ -80,13 +80,13 @@ importers:
         version: 11.5.17(@emotion/is-prop-valid@1.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@wordpress/scripts':
         specifier: ^30.25.0
-        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
+        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
       dotenv-webpack:
         specifier: ^8.1.1
-        version: 8.1.1(webpack@5.99.5)
+        version: 8.1.1(webpack@5.99.5(webpack-cli@5.1.4))
       semantic-release:
         specifier: ^24.2.9
         version: 24.2.9(typescript@5.9.3)
@@ -95,7 +95,7 @@ importers:
         version: 8.0.2(semantic-release@24.2.9(typescript@5.9.3))
       ts-loader:
         specifier: ^9.5.4
-        version: 9.5.4(typescript@5.9.3)(webpack@5.99.5)
+        version: 9.5.4(typescript@5.9.3)(webpack@5.99.5(webpack-cli@5.1.4))
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -186,13 +186,19 @@ importers:
       '@wordpress/i18n':
         specifier: ^6.5.0
         version: 6.5.0
+      '@wordpress/icons':
+        specifier: ^10.32.0
+        version: 10.32.0(react@18.3.1)
+      '@wordpress/keyboard-shortcuts':
+        specifier: ^5.32.0
+        version: 5.32.0(react@18.3.1)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
     devDependencies:
       '@wordpress/scripts':
         specifier: ^30.25.0
-        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
+        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
@@ -301,13 +307,13 @@ importers:
         version: 12.5.18(@emotion/is-prop-valid@1.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@wordpress/scripts':
         specifier: ^30.25.0
-        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
+        version: 30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
       dotenv-webpack:
         specifier: ^8.1.1
-        version: 8.1.1(webpack@5.99.5)
+        version: 8.1.1(webpack@5.99.5(webpack-cli@5.1.4))
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -12094,17 +12100,17 @@ snapshots:
   '@webpack-cli/configtest@2.1.1(webpack-cli@5.1.4)(webpack@5.99.5)':
     dependencies:
       webpack: 5.99.5(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.99.5)
+      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.99.5))(webpack@5.99.5(webpack-cli@5.1.4))
 
   '@webpack-cli/info@2.0.2(webpack-cli@5.1.4)(webpack@5.99.5)':
     dependencies:
       webpack: 5.99.5(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.99.5)
+      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.99.5))(webpack@5.99.5(webpack-cli@5.1.4))
 
   '@webpack-cli/serve@2.0.5(webpack-cli@5.1.4)(webpack-dev-server@4.15.2)(webpack@5.99.5)':
     dependencies:
       webpack: 5.99.5(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.99.5)
+      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.99.5))(webpack@5.99.5(webpack-cli@5.1.4))
     optionalDependencies:
       webpack-dev-server: 4.15.2(webpack-cli@5.1.4)(webpack@5.99.5)
 
@@ -13055,7 +13061,7 @@ snapshots:
       react: 18.3.1
       route-recognizer: 0.3.4
 
-  '@wordpress/scripts@30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)':
+  '@wordpress/scripts@30.25.0(@playwright/test@1.51.1)(@types/eslint@9.6.1)(@types/node@24.7.0)(@types/webpack@4.41.40)(babel-plugin-macros@3.1.0)(file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)))(node-notifier@8.0.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.12.0(stylelint@16.18.0(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)':
     dependencies:
       '@babel/core': 7.25.7
       '@playwright/test': 1.51.1
@@ -13114,10 +13120,10 @@ snapshots:
       source-map-loader: 3.0.2(webpack@5.99.5)
       stylelint: 16.18.0(typescript@5.9.3)
       terser-webpack-plugin: 5.3.14(webpack@5.99.5)
-      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.99.5))(webpack@5.99.5)
+      url-loader: 4.1.1(file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)))(webpack@5.99.5(webpack-cli@5.1.4))
       webpack: 5.99.5(webpack-cli@5.1.4)
       webpack-bundle-analyzer: 4.10.2
-      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.99.5)
+      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.99.5))(webpack@5.99.5(webpack-cli@5.1.4))
       webpack-dev-server: 4.15.2(webpack-cli@5.1.4)(webpack@5.99.5)
     transitivePeerDependencies:
       - '@rspack/core'
@@ -14509,7 +14515,7 @@ snapshots:
     dependencies:
       dotenv: 8.6.0
 
-  dotenv-webpack@8.1.1(webpack@5.99.5):
+  dotenv-webpack@8.1.1(webpack@5.99.5(webpack-cli@5.1.4)):
     dependencies:
       dotenv-defaults: 2.0.2
       webpack: 5.99.5(webpack-cli@5.1.4)
@@ -15145,7 +15151,7 @@ snapshots:
     dependencies:
       flat-cache: 3.2.0
 
-  file-loader@6.2.0(webpack@5.99.5):
+  file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)):
     dependencies:
       loader-utils: 2.0.4
       schema-utils: 3.3.0
@@ -19179,7 +19185,7 @@ snapshots:
     dependencies:
       typescript: 5.9.3
 
-  ts-loader@9.5.4(typescript@5.9.3)(webpack@5.99.5):
+  ts-loader@9.5.4(typescript@5.9.3)(webpack@5.99.5(webpack-cli@5.1.4)):
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.18.1
@@ -19397,14 +19403,14 @@ snapshots:
 
   url-join@5.0.0: {}
 
-  url-loader@4.1.1(file-loader@6.2.0(webpack@5.99.5))(webpack@5.99.5):
+  url-loader@4.1.1(file-loader@6.2.0(webpack@5.99.5(webpack-cli@5.1.4)))(webpack@5.99.5(webpack-cli@5.1.4)):
     dependencies:
       loader-utils: 2.0.4
       mime-types: 2.1.35
       schema-utils: 3.3.0
       webpack: 5.99.5(webpack-cli@5.1.4)
     optionalDependencies:
-      file-loader: 6.2.0(webpack@5.99.5)
+      file-loader: 6.2.0(webpack@5.99.5(webpack-cli@5.1.4))
 
   url-parse@1.5.10:
     dependencies:
@@ -19520,7 +19526,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.99.5):
+  webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.99.5))(webpack@5.99.5(webpack-cli@5.1.4)):
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
       '@webpack-cli/configtest': 2.1.1(webpack-cli@5.1.4)(webpack@5.99.5)
@@ -19583,7 +19589,7 @@ snapshots:
       ws: 8.18.2
     optionalDependencies:
       webpack: 5.99.5(webpack-cli@5.1.4)
-      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.99.5)
+      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.99.5))(webpack@5.99.5(webpack-cli@5.1.4))
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -19624,7 +19630,7 @@ snapshots:
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     optionalDependencies:
-      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.99.5)
+      webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.99.5))(webpack@5.99.5(webpack-cli@5.1.4))
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
