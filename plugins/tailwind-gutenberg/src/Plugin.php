@@ -44,6 +44,18 @@ class Plugin {
 		}
 
 		if ( self::enqueue_script_from_asset( 'twg-canvas', 'canvas' ) ) {
+			// Each editor session's compiler only ever sees the classes on
+			// screen in that one canvas, but the uploaded CSS becomes the
+			// SITE-WIDE stylesheet (one file, one twg_current_css). Without
+			// feeding the full site-wide index in here too, saving post B
+			// would upload a stylesheet containing only post B's classes,
+			// silently breaking every other post's styling.
+			$safelist = array_values(
+				array_unique(
+					array_merge( Class_Index::get(), Settings_Page::get_safelist_classes() )
+				)
+			);
+
 			wp_localize_script(
 				'twg-canvas',
 				'twgCanvasData',
@@ -51,7 +63,7 @@ class Plugin {
 					'tailwindBrowserUrl' => plugins_url( 'build/tailwindcss-browser.js', TWG_PLUGIN_FILE ),
 					'themeCss'           => $settings['theme_css'],
 					'preflight'          => $settings['preflight'],
-					'safelist'           => Settings_Page::get_safelist_classes(),
+					'safelist'           => $safelist,
 				)
 			);
 		}

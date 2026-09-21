@@ -22,7 +22,7 @@ function buildCanvasCss() {
 function injectSafelist( doc ) {
 	const safelist = window.twgCanvasData?.safelist || [];
 
-	if ( ! safelist.length || ! doc.body ) {
+	if ( ! safelist.length ) {
 		return;
 	}
 
@@ -64,8 +64,13 @@ function injectIntoIframe( iframe ) {
 	if (
 		! doc ||
 		! doc.head ||
+		! doc.body ||
 		doc.head.querySelector( `script[${ MARKER_ATTRIBUTE }]` )
 	) {
+		// A missing head/body means the iframe document isn't ready yet
+		// (e.g. mid-navigation right after a device-preview switch); since
+		// nothing gets marked below, the observers retry on the next
+		// mutation/load instead of half-completing the injection.
 		return;
 	}
 
