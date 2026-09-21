@@ -8,6 +8,9 @@ class Plugin {
 
 	public static function init(): void {
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) );
+
+		Class_Index::init();
+		Rest::init();
 	}
 
 	public static function enqueue_editor_assets(): void {

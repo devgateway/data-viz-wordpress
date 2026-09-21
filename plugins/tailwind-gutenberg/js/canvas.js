@@ -1,10 +1,35 @@
+import apiFetch from '@wordpress/api-fetch';
+import { subscribe, select } from '@wordpress/data';
+import { store as editorStore } from '@wordpress/editor';
+
 const IFRAME_SELECTOR = 'iframe[name="editor-canvas"]';
 const MARKER_ATTRIBUTE = 'data-twg-canvas';
+const COMPILED_ATTRIBUTE = 'data-twg-compiled';
 
 // Preflight is intentionally excluded: it resets margins/borders and would
 // visibly wreck the editor chrome outside the canvas.
 const CANVAS_THEME_CSS = `@import "tailwindcss/theme" layer(theme);
 @import "tailwindcss/utilities" layer(utilities);`;
+
+// @tailwindcss/browser writes its compiled output into a <style> tag it
+// creates itself, with no id or attribute to identify it by. It appends
+// that tag to <head> synchronously as soon as it runs, so watching for the
+// next plain <style> element added to <head> right after injection is the
+// only way to get a handle on it.
+function markCompiledStyleTag( doc ) {
+	const observer = new window.MutationObserver( () => {
+		const style = doc.head.querySelector(
+			`style:not([type]):not([${ COMPILED_ATTRIBUTE }])`
+		);
+
+		if ( style ) {
+			style.setAttribute( COMPILED_ATTRIBUTE, '1' );
+			observer.disconnect();
+		}
+	} );
+
+	observer.observe( doc.head, { childList: true } );
+}
 
 function injectIntoIframe( iframe ) {
 	const doc = iframe.contentDocument;
@@ -21,6 +46,8 @@ function injectIntoIframe( iframe ) {
 	themeStyle.setAttribute( 'type', 'text/tailwindcss' );
 	themeStyle.textContent = CANVAS_THEME_CSS;
 	doc.head.appendChild( themeStyle );
+
+	markCompiledStyleTag( doc );
 
 	const script = doc.createElement( 'script' );
 	script.setAttribute( MARKER_ATTRIBUTE, '1' );
@@ -44,6 +71,32 @@ function tryInject() {
 	}
 }
 
+function getCompiledCss() {
+	const iframe = document.querySelector( IFRAME_SELECTOR );
+	const style = iframe?.contentDocument?.head?.querySelector(
+		`style[${ COMPILED_ATTRIBUTE }]`
+	);
+
+	return style?.textContent || '';
+}
+
+function uploadCompiledCss() {
+	const css = getCompiledCss();
+
+	if ( ! css ) {
+		return;
+	}
+
+	apiFetch( {
+		path: '/twg/v1/css',
+		method: 'POST',
+		data: { css },
+	} ).catch( () => {
+		// Best-effort: the editor preview already reflects the current
+		// classes regardless of whether the frontend copy uploaded.
+	} );
+}
+
 // Device-preview switches and other editor UI destroy and recreate the
 // iframe, so a one-shot check at boot isn't enough.
 new window.MutationObserver( tryInject ).observe( document.body, {
@@ -63,3 +116,16 @@ document.addEventListener(
 );
 
 tryInject();
+
+let wasSaving = false;
+
+subscribe( () => {
+	const isSaving = select( editorStore ).isSavingPost();
+	const isAutosaving = select( editorStore ).isAutosavingPost();
+
+	if ( wasSaving && ! isSaving && ! isAutosaving ) {
+		uploadCompiledCss();
+	}
+
+	wasSaving = isSaving;
+} );

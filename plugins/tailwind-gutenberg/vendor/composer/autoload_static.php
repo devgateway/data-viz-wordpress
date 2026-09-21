@@ -22,7 +22,6 @@ class ComposerStaticInitec010574960aec756ba2bd6df8a9d53b
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Twg\\Plugin' => __DIR__ . '/../..' . '/src/Plugin.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
