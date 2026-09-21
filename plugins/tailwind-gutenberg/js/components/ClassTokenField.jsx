@@ -99,6 +99,7 @@ export default function ClassTokenField( { value, onChange } ) {
 						'tailwind-gutenberg'
 					) }
 				/>
+				<span style={{ marginBottom: '8px' }}></span>
 				<ToggleControl
 					__nextHasNoMarginBottom
 					label={ __( 'Paste raw', 'tailwind-gutenberg' ) }
