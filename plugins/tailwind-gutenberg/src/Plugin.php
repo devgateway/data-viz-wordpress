@@ -9,6 +9,7 @@ class Plugin {
 	public static function init(): void {
 		add_action( 'init', array( self::class, 'load_textdomain' ) );
 		add_action( 'enqueue_block_editor_assets', array( self::class, 'enqueue_editor_assets' ) );
+		add_action( 'wp_enqueue_scripts', array( self::class, 'enqueue_frontend_assets' ) );
 
 		Class_Index::init();
 		Rest::init();
@@ -67,6 +68,33 @@ class Plugin {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Attaches the compiled stylesheet to a normal WordPress-rendered page
+	 * (block editor "Preview", or any non-headless use of this site).
+	 * The REST route (Twg\Rest::get_css) covers the headless case, where
+	 * a separate frontend app fetches the URL and links to it itself -
+	 * this is what makes the same file work when WordPress renders the
+	 * page directly instead.
+	 */
+	public static function enqueue_frontend_assets(): void {
+		$settings = Settings_Page::get();
+
+		if ( 'local' !== $settings['frontend_mode'] || ! $settings['load_on_frontend'] ) {
+			return;
+		}
+
+		$current_css = Compiler::get_current();
+
+		if ( empty( $current_css['url'] ) ) {
+			return;
+		}
+
+		// No `ver` query string: the filename itself is content-hashed, so
+		// this keeps the "changing content changes the URL" caching model
+		// intact instead of adding a redundant cache-busting param.
+		wp_enqueue_style( 'twg-frontend', $current_css['url'], array(), null );
 	}
 
 	private static function enqueue_script_from_asset( string $handle, string $entry ): bool {

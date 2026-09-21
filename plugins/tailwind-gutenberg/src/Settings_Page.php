@@ -206,10 +206,10 @@ class Settings_Page {
 						<td>
 							<label>
 								<input type="checkbox" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[load_on_frontend]" value="1" <?php checked( $settings['load_on_frontend'] ); ?> />
-								<?php esc_html_e( 'Expose the compiled stylesheet via GET /wp-json/twg/v1/css', 'tailwind-gutenberg' ); ?>
+								<?php esc_html_e( 'Load the compiled stylesheet on the frontend', 'tailwind-gutenberg' ); ?>
 							</label>
 							<p class="description">
-								<?php esc_html_e( 'Turn off if your frontend app already bundles Tailwind itself.', 'tailwind-gutenberg' ); ?>
+								<?php esc_html_e( 'Exposes it via GET /wp-json/twg/v1/css for a headless frontend app, and enqueues it directly on normal WordPress-rendered pages (including "Preview"). Turn off if your frontend app already bundles Tailwind itself.', 'tailwind-gutenberg' ); ?>
 							</p>
 						</td>
 					</tr>
