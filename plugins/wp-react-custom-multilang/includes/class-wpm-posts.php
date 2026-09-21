@@ -56,9 +56,15 @@ class WPM_Posts extends WPM_Object {
 		add_filter( 'wp_get_attachment_link', array( $this, 'translate_attachment_link' ), 5 );
 		add_filter( 'render_block', array( $this, 'wpm_render_post_block' ), 10, 2);
 		add_filter( 'rest_post_dispatch', array( $this, 'wpm_rest_post_dispatch' ), 10, 3);
-		
+		add_filter( 'rest_post_dispatch', array( $this, 'translate_block_nav_url' ), 10, 3);
+		add_filter('block_parser_class', function () {
+   			return 'WPM\\Includes\\WPM_WP_Block_Parser';
+		});
 		// Block editor filter for saving the post data
 		add_filter( 'wpm_filter_block_editor_post_data', array( $this, 'wpm_filter_block_editor_post_data_clbk' ), 10, 2 );
+
+		// Translate raw post content for divi builder
+		add_filter( 'et_fb_load_raw_post_content', [ $this, 'translate_divi_post_content' ], 10, 2 );
 	}
 
 
@@ -71,7 +77,23 @@ class WPM_Posts extends WPM_Object {
 	 */
 	public function translate_posts( $posts ) {
 		foreach ( $posts as &$post ) {
-			$post = wpm_translate_post( $post );
+
+			if(!function_exists('wp_get_theme')){
+				require_once ABSPATH . 'wp-includes/theme.php';
+			}
+
+			$active_theme = wp_get_theme();
+			$active_theme_name = '';
+			if ( ! empty( $active_theme ) && is_object( $active_theme ) ) {
+				$active_theme_name = $active_theme->get( 'Name' );
+			}
+
+			if ( $active_theme_name == 'Pinnacle' && isset( $post->post_type ) && $post->post_type == 'page' ) {
+				$post = $post;
+			}else{
+				$post = wpm_translate_post( $post );
+			}
+
 		}
 
 		return $posts;
@@ -95,6 +117,23 @@ class WPM_Posts extends WPM_Object {
 			if ( is_string( $post_type ) && null === wpm_get_post_config( $post_type ) ) {
 				return $query;
 			}
+		}
+
+		/**
+		 * If language is not selected from language meta box for category then return as it is
+		 * Solution to ticket no #149
+		 * @since 	2.4.19
+		 * */
+		if ( is_category() || is_archive() || ( function_exists( 'is_product_category' ) && is_product_category() ) ) {
+
+			$queried_obj 	=	get_queried_object();
+			if ( is_object( $queried_obj ) && isset( $queried_obj->term_id ) ) {
+				$is_lang_exists 	=	get_term_meta( $queried_obj->term_id, '_languages', true );
+				if ( empty( $is_lang_exists ) ) {
+					return $query;	
+				}
+			}
+
 		}
 
 		$lang = get_query_var( 'lang' );
@@ -176,6 +215,10 @@ class WPM_Posts extends WPM_Object {
 			}
 		}
 
+		if ( ! empty( $data['post_type'] ) && $data['post_type'] === 'customize_changeset' ) {
+			return $data;	
+		}
+
 		$post_id = isset( $data['ID'] ) ? wpm_clean( $data['ID'] ) : ( isset( $postarr['ID'] ) ? wpm_clean( $postarr['ID'] ) : 0 );
 	
 		$post_content = isset($data['post_content'])?$data['post_content']:'';
@@ -194,8 +237,26 @@ class WPM_Posts extends WPM_Object {
 
 				if ( ! wpm_is_ml_value( $data[ $key ] ) ) {
 					$data[ $key ] = wpm_set_new_value( $old_value, $data[ $key ], $post_field_config );
+				} else {
+					$data[ $key ] = wp_slash( wp_unslash( $data[ $key ] ) );
 				}
 			}
+		}
+
+		/* Only touch Divi's save-verification when this save is genuinely
+		*  coming from the Divi Visual Builder's own AJAX save action, AND
+		*  the content WPM wrapped is actual Divi builder markup.
+		*  Fix for the ticket #268 
+		*/
+		$is_divi_fb_ajax_save = (
+		    defined( 'DOING_AJAX' ) && DOING_AJAX
+		    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- read-only check, actual nonce verification already done by et_fb_ajax_save() itself.
+		    && isset( $_POST['action'] ) && 'et_fb_ajax_save' === $_POST['action']
+		    && isset( $post_content ) && strpos( $post_content, '[et_pb_' ) !== false
+		);
+
+		if ( $is_divi_fb_ajax_save ) {
+		    add_filter( 'et_fb_ajax_save_verification_result', '__return_true' );
 		}
 
 		if ( 'nav_menu_item' === $data['post_type'] ) {
@@ -348,6 +409,8 @@ class WPM_Posts extends WPM_Object {
 		// Check if current post is being edited in gutenberg block editor
 		$is_block_editor 	=	use_block_editor_for_post( $post_id );
 		
+		do_action( 'wpm_clear_blockeditor_post_data_cache', $post_id, $is_block_editor );
+
 		$raw_keys 			=	array( 'post_title', 'post_excerpt' );
 		$old_value 			= 	get_post_field( $key, $post_id, 'edit' );
 
@@ -358,5 +421,40 @@ class WPM_Posts extends WPM_Object {
 		}
 
 		return $old_value;
+	}
+
+	/**
+	 * Transate the block editor navigation block url for page
+	 * @param 	$result 	WP_HTTP_Response 
+	 * @param 	$server 	WP_REST_Server  
+	 * @param 	$request 	WP_REST_Request  
+	 * @return 	$result 	WP_HTTP_Response  
+	 * @since 	2.4.18
+	 * */
+	public function translate_block_nav_url( $result, $server, $request  ) {
+		
+		if ( is_object( $result ) && ! empty( $result->data ) && is_array( $result->data ) ) {
+
+			foreach ( $result->data as $key => $value ) {
+
+				if ( is_array( $value ) && ! empty( $value['subtype'] ) && ! empty( $value['url'] ) && $value['subtype'] == 'page' ) {
+					$result->data[$key]['url'] 	=	wpm_translate_url( $value['url'] );		
+				}
+
+			}
+		
+		}
+		return $result;
+
+	}
+
+	public function translate_divi_post_content( $post_content, $post_id ) {
+		
+		if ( ! empty( $post_content ) && is_string( $post_content ) ) {
+			$post_content 	=	wpm_translate_string( $post_content );
+		}
+
+		return $post_content;
+
 	}
 }

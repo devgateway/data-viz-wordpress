@@ -16,12 +16,14 @@
         "name" : {},
         "value" : {}
       }
-    }
+    },
+    "_product_image_gallery": {}
   },
   "taxonomies": {
     "product_cat" : {},
     "product_tag" : {},
-    "product_shipping_class" : {}
+    "product_shipping_class" : {},
+    "product_brand" : {}
   },
   "admin_pages": [
     "woocommerce_page_wc-settings",
@@ -125,7 +127,14 @@
         "account_name": {},
         "bank_name": {}
       }
-    }
+    },
+    "woocommerce_pickup_location_settings": {
+      "title" : {}
+    },
+    "wooccm_checkout_order_notes_label" : {},
+    "wooccm_checkout_order_notes_placeholder" : {},
+    "wooccm_checkout_checkout_form_before_message" : {},
+    "wooccm_checkout_checkout_form_after_message" : {}
   },
   "admin_html_tags": {
     "product_page_product_attributes": {

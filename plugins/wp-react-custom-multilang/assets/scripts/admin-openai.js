@@ -1,0 +1,157 @@
+/**
+ * Openai scripts
+ * @since 2.4.23
+ * */
+
+jQuery(document).ready(function($){
+	
+	let wpmpProBtn = '<span class="wpm-upgrade-to-pro-note" style="font-weight: 500;"> This Feature requires the <a href="https://wp-multilang.com/pricing/#pricings" target="__blank">Premium Version</span>';
+	let wpmOpenAINote = '<span class="wpm-upgrade-to-pro-note" style="font-weight: 500;"> Please configure OpenAI settings</span>';
+	let wpmLicenseKeyError = '<span class="wpm-upgrade-to-pro-note" style="font-weight: 500;"> Your license key is inactive or expired</span>';
+
+	// Validate openai key
+	$(document).on('click', '#wpm-validate-openai-key', function(e) {
+		e.preventDefault();
+		const rawSecretKey = $('#wpm-openai-secretkey').val();
+		const secretKey = rawSecretKey.trim();
+		if ( secretKey.length === 0 ) {
+			$('#wpm-secret-key-error').show();
+			return;
+		}
+		provider = 'openai';
+
+		$('#wpm-secret-key-error').hide();
+		$('#wpm-prompt-error').hide();
+		$('.wpm-openai-api-success-note').hide();
+		$('.wpm-openai-api-error-note').hide();
+		$('.wpm-openai-provider-note').hide();
+		$(this).addClass('updating-message');
+		$.ajax({
+			url: ajaxurl,
+			type: 'POST',
+			data: {action: 'wpm_validate_secret_key', provider: provider, secret_key: secretKey, security: wpm_openai_params.wpmpro_openai_nonce},
+			success: function(response) {
+				$('#wpm-validate-openai-key').removeClass('updating-message');
+				if ( response.success ) {
+					const models 	=	response.data.models;
+
+					let optionsHtml = '';
+					$.each(models, function(index, value) {
+						optionsHtml += `<option value="${value}">${value}</option>`;
+					});
+					$('#wpm-hide-openai-models-wrapper').show();
+					$('#wpm-openai-models').html(optionsHtml);
+					$('.wpm-openai-api-success-note').show();
+					$('.wpm-openai-api-success-note').text( response.data.message );
+				} else {
+					if ( response.data && response.data.message ) {
+						$('.wpm-openai-api-error-note').show();
+						$('.wpm-openai-api-error-note').text( response.data.message );
+					}	
+				}
+			}
+		});
+	}); 
+
+	$(document).on('click', '#wpm-save-openai-settings', function(e) {
+		e.preventDefault();
+
+		$('#wpm-secret-key-error').hide();
+		$('#wpm-prompt-error').hide();
+		let provider = $('#wpm-ai-provider').val();
+		let providerExists 	=	false;
+		const aiApiProviders = wpm_openai_params.ai_api_providers;
+
+		if (provider in aiApiProviders) {
+			providerExists 	=	true;
+		}
+
+		let model = '';
+		const prompt =  $('#wpm-openai-prompt').val();
+		if ( $('#wpm-openai-models').length > 0 ) {
+			model = $('#wpm-openai-models').val();
+			if ( model ) {
+				model = model.trim(); 
+			}
+		}
+		let enabled = '0';
+		if ( $('#wpm_openai_integration').is(':checked') ) {
+			enabled = '1';
+		}
+
+		let deeplEnabled = '0';
+		if ( $('#wpm_deepl_integration').is(':checked') ) {
+			deeplEnabled = '1';
+		}
+
+		let deeplSecretKey = $('#wpm-deepl-secretkey').val();
+		let deeplApiPlan = $('#wpm-deepl-api-plan').val();
+
+		let $button = $('#wpm-save-openai-settings');
+
+		if ( providerExists ) {
+			// if ( model.length === 0 ) {
+			// 	alert('Please validate api key and select model');
+			// 	return;
+			// }
+
+			$($button).prop('disabled', true).text('Saving Changes...');
+
+			$.ajax({
+				url: ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'wpm_save_openai_settings', 
+					provider: provider, 
+					model: model, 
+					prompt: prompt, 
+					wpm_openai_integration: enabled, 
+					wpm_deepl_integration: deeplEnabled,
+					wpm_deepl_secret_key: deeplSecretKey,
+					wpm_deepl_api_plan: deeplApiPlan,
+					security: wpm_openai_params.wpmpro_openai_nonce},
+				success: function(response) {
+					if (!response.success) {
+	                    $('#wpm-prompt-error')
+	                        .text(response.data.message)
+	                        .show();
+
+	                    $button.prop('disabled', false).text('Save Changes');
+	                    return;
+	                }
+					window.location.reload(true);
+				},
+				error: function() {
+	                alert('Something went wrong. Please try again.');
+	                $button.prop('disabled', false).text('Save Changes');
+	            }
+			});
+
+
+		}else{
+			alert('Please select provider');
+			return;
+		}
+	})
+
+	$(document).on('click', '#wpm_openai_integration', function(e) {
+		if($(this).is(':checked')) {
+			const provider = 'openai';
+			$('.wpm-openai-children').show();
+			if( wpm_openai_params.ai_settings.model.length === 0) {
+				$('#wpm-hide-openai-models-wrapper').hide();
+			}
+		}else{
+			$('.wpm-openai-children').hide();
+		}
+	});
+
+	$(document).on('click', '#wpm_deepl_integration', function(e) {
+		if($(this).is(':checked')) {
+			$('.wpm-deepl-children').show();
+		}else{
+			$('.wpm-deepl-children').hide();
+		}
+	});
+
+});

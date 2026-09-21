@@ -28,6 +28,7 @@ class WPM_Acf {
 		add_filter( 'acf/update_value', array( $this, 'update_value' ), 99, 3 );
 		add_filter( 'acf/load_field', 'wpm_translate_value', 6 );
 		add_filter( 'acf/load_value', 'wpm_translate_value', 6 );
+		add_filter( 'acf/validate_field', [ $this, 'translate_validate_field' ] );
 		add_filter( 'wpm_acf_field_text_config', array( $this, 'add_text_field_config' ) );
 		add_filter( 'wpm_acf_field_textarea_config', array( $this, 'add_text_field_config' ) );
 		add_filter( 'wpm_acf_field_wysiwyg_config', array( $this, 'add_text_field_config' ) );
@@ -35,6 +36,9 @@ class WPM_Acf {
 		add_filter( 'wpm_acf_textarea_config', '__return_empty_array' );
 		add_filter( 'wpm_acf_wysiwyg_config', '__return_empty_array' );
 		add_filter( 'wpm_acf_image_config', '__return_empty_array' );
+		add_filter( 'wpm_admin_pages', array( $this, 'add_dynamic_pages' ) );
+		add_filter( 'wpm_filter_xliff_data', array( $this, 'add_acf_fields_to_export' ), 10, 2 );
+
 	}
 
 
@@ -70,8 +74,16 @@ class WPM_Acf {
 
 		$old_field = maybe_unserialize( get_post_field( 'post_content', $field['ID'], 'edit' ) );
 
-		if ( ! $old_field ) {
+		if ( ! $old_field && ! is_array( $old_field ) ) {
 			return $field;
+		}
+
+		if ( ! empty( $old_field ) && is_string( $old_field ) ) {
+			$old_field 	=	wpm_translate_string( $old_field );
+			$old_field 	=	maybe_unserialize( $old_field );
+			if ( ! is_array( $old_field ) ) {
+				return $field;
+			}	
 		}
 
 		$old_field          = wpm_array_merge_recursive( $field, $old_field );
@@ -126,6 +138,11 @@ class WPM_Acf {
 
 		$info = acf_get_post_id_info( $post_id );
 
+		// ACF is added as a block in post content then find that block
+		if ( strpos( $post_id, 'block_' ) === 0 && is_array( $info ) ) {
+    		$info['type'] = 'block';
+		}
+		
 		switch ( $info['type'] ) {
 
 			case 'post':
@@ -141,8 +158,20 @@ class WPM_Acf {
 				if ( ! $term || is_wp_error( $term ) || null === wpm_get_taxonomy_config( $term->taxonomy ) ) {
 					return $value;
 				}
-		}
 
+				break;
+
+			case 'block':
+					
+					$post_type = get_post_type( $info['id'] );
+					if ( ! $post_type || null === wpm_get_post_config( $post_type ) ) {
+						return $value;
+					}
+
+				break;
+
+		}
+		
 		$acf_field_config = apply_filters( "wpm_acf_{$info['type']}_config", null, $value, $post_id, $field );
 		$acf_field_config = apply_filters( "wpm_acf_{$field['type']}_config", $acf_field_config, $value, $post_id, $field );
 		$acf_field_config = apply_filters( "wpm_acf_name_{$field['_name']}_config", $acf_field_config, $value, $post_id, $field );
@@ -158,5 +187,169 @@ class WPM_Acf {
 		$value = wpm_set_new_value( $old_value, $value, $acf_field_config );
 
 		return $value;
+	}
+	
+	/**
+	 * Add dynamic option pages to config
+	 * @param 	$config 	array
+	 * @return 	$config 	array
+	 * @since 	2.4.19
+	 * */
+	public function add_dynamic_pages( $config ) {
+		
+		$posts = get_posts([
+		    'post_type'      => 'acf-ui-options-page',
+		    'post_status'    => 'publish',
+		    'numberposts'    => -1, // Get all published posts
+		]);
+
+		if ( ! empty( $posts ) && is_array( $posts ) ) {
+			foreach ( $posts as $option_page ) {
+				if ( is_object( $option_page ) && ! empty( $option_page->post_content ) ) {
+					$content 	=	maybe_unserialize( wpm_translate_string( $option_page->post_content ) );
+					if ( is_array( $content ) && ! empty( $content['menu_slug'] ) ) {
+						$parent 	=	$content['parent_slug'];
+						$page_id 	=	'toplevel_page_' . $content['menu_slug'];
+						$config[] 	=	$page_id;
+						
+						// If page is assigned to any of the menus the get the proper base to add it into the config
+						if ( $parent != 'none' ) {
+							
+							if ( $parent == 'options-general.php' ) {
+								$page_id 	=	'settings_page_' . $content['menu_slug']; 	
+							} else if( $parent == 'tools.php' ) {
+								$page_id 	=	'tools_page_' . $content['menu_slug'];
+							}else{
+
+								// If parent is assigned other than settings and tools menu then get the correct base for this
+								$parse_parent	=	wp_parse_url( $parent, PHP_URL_QUERY );
+								parse_str( $parse_parent, $params );
+								if ( is_array( $params ) && ! empty( $params['post_type'] ) ) {
+									$delimiter	=	strpos( $params['post_type'], '-' ) !== false ? '-' : '_';
+									if ( ! empty( $delimiter ) ) {
+										$base 	=	explode( $delimiter, $params['post_type'] )[0];
+										$page_id 	=	$base . '_' . 'page_' . $content['menu_slug'];
+									}
+								}
+
+							}
+							
+						}
+
+						$config[] 	=	$page_id;
+					}
+				}	
+			}
+		}
+		
+		return $config;
+
+	}
+
+	/**
+	 * Get acf field and value and add it into data for export
+	 * @param 	$data 	array
+	 * @param 	$post 	WP_Post
+	 * @return 	$data 	array
+	 * @since 	2.4.21
+	 * */
+	public function add_acf_fields_to_export( $data, $post ) {
+		// Get ACF fields
+        if ( function_exists( 'get_fields' ) && ! empty( $data ) ) {
+
+        	global $wpdb;
+        	$default_lang = wpm_get_default_language();
+        	$current_lang = wpm_get_language();
+
+        	foreach ( $data as $key => $value ) {
+        		if ( is_array( $value ) && ! empty( $value['id'] ) ) {
+        			$acf_fields     	=   get_fields( $value['id'] );
+		        	if( ! empty( $acf_fields ) ) {
+		                foreach ( $acf_fields as $field_key => $field ) {
+
+		                	if ( is_string( $field ) ) {
+
+		                		$result 		=	$wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s", $value['id'], $field_key ), ARRAY_A );
+
+		                		if ( is_array( $result ) && ! empty( $result[0] ) && is_array( $result[0] ) ) {
+		                			if ( ! empty( $result[0]['meta_value'] ) && is_string( $result[0]['meta_value'] ) ) {
+
+		                				$field_array 						=	array();
+		                				$field_array['key'] 				=	$field_key;
+		                				$field_array['source_value'] 		=	wpm_translate_string( $result[0]['meta_value'], $default_lang );
+		                				$target_value 						=	wpm_translate_string( $result[0]['meta_value'], $current_lang );
+		                				$field_array['target_value'] 		=	'';
+		                				if ( $field_array['source_value'] !== $target_value ) {
+		                					$field_array['target_value'] 	=	$target_value;	
+		                				}
+										$data[$key]['acf'][] 	=	$field_array; 	
+
+		                			}
+		                		}
+		              
+		                	} else if( is_array( $field ) && ! empty( $field[0] ) ) {
+		                		// Repeater fields
+		                		foreach ( $field as $r_key => $repeater ) {
+
+		                			foreach ( $repeater as $rs_key => $sub_repeater ) {
+		                				$repeater_key 	=	$field_key . '_' . $r_key . '_' . $rs_key;
+		                				$result 		=	$wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s", $value['id'], $repeater_key ), ARRAY_A );
+
+			                			if ( is_array( $result ) && ! empty( $result[0] ) && is_array( $result[0] ) ) {
+
+			                				if ( is_string( $result[0]['meta_value'] ) ) {
+					                			$field_array 						=	array();
+				                				$field_array['key'] 				=	$repeater_key;
+				                				$field_array['source_value'] 		=	wpm_translate_string( $result[0]['meta_value'], $default_lang );
+				                				$target_value 						=	wpm_translate_string( $result[0]['meta_value'], $current_lang );
+				                				$field_array['target_value'] 		=	'';
+				                				if ( $field_array['source_value'] !== $target_value ) {
+				                					$field_array['target_value'] 	=	$target_value;	
+				                				}
+												$data[$key]['acf'][] 	=	$field_array; 	
+											}
+			         
+			                			}
+		                			
+		                			}
+
+		                			
+		                		}
+		                	}
+
+		                }
+		            }
+        				
+        		}
+        	} 
+            
+        }
+
+        return $data;
+	}
+
+	/**
+	 * Translate the validate field
+	 * @param 	$field 	array
+	 * @return 	$field 	array
+	 * @since 	2.4.28
+	 * */
+	public function translate_validate_field( $field ) {
+		
+		if ( ! empty( $field ) && is_array( $field ) && ! empty( $field[0] ) ) {
+
+			$translate_field_content 	= 	(array) acf_maybe_unserialize( wpm_translate_value( $field[0] ) );
+
+			// Unset the unwanted array field generated by ACF
+			unset( $field[0] );
+
+			if ( is_array( $translate_field_content ) ) {
+				$field 	=	array_merge( $field, $translate_field_content );
+			}
+
+		}
+		
+		return $field;
+
 	}
 }
