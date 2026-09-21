@@ -11,6 +11,7 @@ class Plugin {
 
 		Class_Index::init();
 		Rest::init();
+		Render::init();
 	}
 
 	public static function enqueue_editor_assets(): void {
