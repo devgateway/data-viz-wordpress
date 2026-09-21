@@ -127,6 +127,7 @@ export default function ClassTokenField( { value, onChange } ) {
 			{ declaration && (
 				<p className="twg-declaration-preview">{ declaration }</p>
 			) }
+			<span style={{ marginBottom: '8px' }}></span>
 			<ToggleControl
 				__nextHasNoMarginBottom
 				label={ __( 'Paste raw', 'tailwind-gutenberg' ) }
