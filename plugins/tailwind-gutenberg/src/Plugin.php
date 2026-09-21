@@ -14,7 +14,18 @@ class Plugin {
 	}
 
 	public static function enqueue_editor_assets(): void {
-		self::enqueue_script_from_asset( 'twg-editor', 'editor' );
+		if ( self::enqueue_script_from_asset( 'twg-editor', 'editor' ) ) {
+			wp_localize_script(
+				'twg-editor',
+				'twgEditorData',
+				array(
+					// Loaded via `new Worker()`, not wp_enqueue_script(), so
+					// only its URL is needed here, not a registered handle.
+					'workerUrl'     => plugins_url( 'build/worker.js', TWG_PLUGIN_FILE ),
+					'classIndexUrl' => plugins_url( 'assets/class-index.json', TWG_PLUGIN_FILE ),
+				)
+			);
+		}
 
 		if ( self::enqueue_script_from_asset( 'twg-canvas', 'canvas' ) ) {
 			wp_localize_script(

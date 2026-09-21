@@ -1,10 +1,11 @@
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import classnames from 'classnames';
+import ClassTokenField from './components/ClassTokenField';
 
 const ATTRIBUTE_NAME = 'twgClasses';
 
@@ -40,8 +41,7 @@ const withTwgInspectorControl = createHigherOrderComponent( ( BlockEdit ) => {
 							) }
 							initialOpen={ false }
 						>
-							<TextControl
-								label={ __( 'Classes', 'tailwind-gutenberg' ) }
+							<ClassTokenField
 								value={ attributes[ ATTRIBUTE_NAME ] || '' }
 								onChange={ ( value ) =>
 									setAttributes( {

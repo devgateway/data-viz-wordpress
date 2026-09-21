@@ -17,14 +17,18 @@ const CANVAS_THEME_CSS = `@import "tailwindcss/theme" layer(theme);
 // next plain <style> element added to <head> right after injection is the
 // only way to get a handle on it.
 function markCompiledStyleTag( doc ) {
-	const observer = new window.MutationObserver( () => {
-		const style = doc.head.querySelector(
-			`style:not([type]):not([${ COMPILED_ATTRIBUTE }])`
-		);
-
-		if ( style ) {
-			style.setAttribute( COMPILED_ATTRIBUTE, '1' );
-			observer.disconnect();
+	const observer = new window.MutationObserver( ( mutations ) => {
+		for ( const mutation of mutations ) {
+			for ( const node of mutation.addedNodes ) {
+				if (
+					node.tagName === 'STYLE' &&
+					! node.hasAttribute( 'type' )
+				) {
+					node.setAttribute( COMPILED_ATTRIBUTE, '1' );
+					observer.disconnect();
+					return;
+				}
+			}
 		}
 	} );
 
