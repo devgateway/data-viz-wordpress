@@ -9,6 +9,10 @@
  * @package       WPM/Functions
  * @version       2.0.0
  */
+use WPM\Includes\WPM_Custom_Post_Types;
+use WPM\Includes\Admin\WPM_OpenAI;
+use WPM\Includes\Admin\WPM_Deepl;
+use WPM\Includes\Admin\Settings\WPM_Settings_AI_Integration;
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -29,6 +33,16 @@ function wpm_translate_url( $url, $language = '' ) {
 		return $url;
 	}
 
+	/**
+	 * Check if post type support is enabled or not
+	 * if it is not enabled then return the string as it is
+	 * @since 2.4.18
+	 * */
+	global $post;
+	if ( WPM_Custom_Post_Types::validate_post_type_support( $post ) ) {
+		return $url;
+	}
+
 	$user_language = wpm_get_language();
 	$options       = wpm_get_lang_option();
 
@@ -41,8 +55,13 @@ function wpm_translate_url( $url, $language = '' ) {
 		$language = $user_language;
 	}
 
-	if ( is_admin_url( $url ) || preg_match( '/^.*\.php$/i', wp_parse_url( $url, PHP_URL_PATH ) ) ) {
-		return add_query_arg( 'lang', $language, $url );
+	if ( ! empty( $url ) ) {
+		$parse_url 	=	wp_parse_url( $url, PHP_URL_PATH );
+		if ( ! empty( $parse_url ) ) {
+			if ( is_admin_url( $url ) || preg_match( '/^.*\.php$/i', $parse_url ) ) {
+				return add_query_arg( 'lang', $language, $url );
+			}
+		}
 	}
 
 	$url         = remove_query_arg( 'lang', $url );
@@ -87,6 +106,16 @@ function wpm_translate_url( $url, $language = '' ) {
 function wpm_translate_string( $string, $language = '' ) {
 
 	if ( ! wpm_is_ml_string( $string ) ) {
+		return $string;
+	}
+
+	/**
+	 * Check if post type support is enabled or not
+	 * if it is not enabled then return the string as it is
+	 * @since 2.4.18
+	 * */
+	global $post;
+	if ( WPM_Custom_Post_Types::validate_post_type_support( $post ) ) {
 		return $string;
 	}
 
@@ -409,7 +438,7 @@ function wpm_translate_term( $term, $taxonomy, $lang = '' ) {
 function wpm_untranslate_post( $post ) {
 	if ( $post instanceof WP_Post ) {
 		global $wpdb;
-		$cache_key 	= 'wpm_posts_by_id_key';
+		$cache_key 	= 'wpm_posts_by_id_key_'.$post->ID;
 		$orig_post 		= wp_cache_get($cache_key);
 		if( false === $orig_post ){
 			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -501,6 +530,20 @@ function wpm_is_ml_value( $value ) {
  *
  * @return array|bool|string
  */
+/**
+ * Recursively sanitize arrays and strings using wp_kses_post.
+ *
+ * @param mixed $value
+ * @return mixed
+ */
+function wpm_kses_post_deep( $value ) {
+	if ( is_array( $value ) ) {
+		return array_map( 'wpm_kses_post_deep', $value );
+	}
+
+	return is_string( $value ) ? wp_kses_post( $value ) : $value;
+}
+
 function wpm_set_new_value( $old_value, $new_value, $config = array(), $lang = '' ) {
 
 	if ( is_bool( $new_value ) ) {
@@ -511,12 +554,19 @@ function wpm_set_new_value( $old_value, $new_value, $config = array(), $lang = '
 		return $old_value;
 	}
 
+	if ( function_exists( 'current_user_can' ) && ! current_user_can( 'unfiltered_html' ) ) {
+		$new_value = wpm_kses_post_deep( $new_value );
+	}
+
 	$old_value = wpm_value_to_ml_array( $old_value );
 
 	if ( wpm_is_ml_array( $old_value ) ) {
+		$is_post_save = doing_filter( 'wp_insert_post_data' ) || doing_filter( 'wp_insert_attachment_data' );
 		foreach ($old_value as $key => $lang_value) {
-			if ( strpos($lang_value, '{"') || strpos($lang_value, ':{"') || strpos($lang_value, '""')  || strpos($lang_value, '":"') ) {
-				$old_value[ $key ] = wp_slash( $lang_value );
+			if ( is_string( $lang_value ) ) {
+				if ( $is_post_save || strpos($lang_value, '{"') || strpos($lang_value, ':{"') || strpos($lang_value, '""')  || strpos($lang_value, '":"') ) {
+					$old_value[ $key ] = wp_slash( $lang_value );
+				}
 			}
 		}
 	}
@@ -537,18 +587,371 @@ function wpm_set_new_value( $old_value, $new_value, $config = array(), $lang = '
 add_filter( 'wpm_filter_string_to_ml_array', 'wpm_filter_string_for_github_md_plugin' );
 function wpm_filter_string_for_github_md_plugin( $string ) {
 
-	$flag 	=	0;
-
 	if ( in_array( 'githuber-md/githuber-md.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ), true )  ) ) {
 		// Check if string contains <code> tag and it's post markdown option is enabled
 		if ( strpos( $string, '<code>' ) !== false ) {
-			$flag 	=	1;
+			return $string;
 		}
 	}
-	
-	if ( $flag == 0 ) {
-		$string = htmlspecialchars_decode( $string );
-	}
 
+	// Checks if any html attribute contains json data and skips
+	if ( in_array( 'slider-blocks/slider-blocks.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ), true )  ) ) {
+		if ( preg_match( '/=\s*["\'][^"\']*&quot;/i', $string ) ) {
+	        $string = str_replace(
+	            [ '&amp;', '&#039;', '&lt;', '&gt;' ],
+	            [ '&',     "'",      '<',    '>'    ],
+	            $string
+	        );
+	        return $string;
+	    }
+	}
 	return $string;
+}
+
+
+/**
+ * Transform multilingual array to multilingual string
+ *
+ * @param $strings
+ *
+ * @return string
+ * @since 1.4
+ */
+if ( ! function_exists( 'wpm_ml_get_language_string' ) ) {
+	function wpm_ml_get_language_string( $string,$source ) {
+		if( preg_match( '/\[:'.$source.'\](.*?)\[:/si', $string, $matches ) ) {
+			if( isset( $matches[1] ) ) {
+				$string = $matches[1];
+			}
+		}
+		return $string;
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_check_language_string' ) ) {
+	function wpm_ml_check_language_string( $string, $source ) {
+		$is_exist 		= false;
+		if( preg_match( '/\[:'.$source.'\](.*?)\[:/si', $string ) ) {
+			$is_exist 	= true;
+		}
+		return $is_exist;
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_log_message' ) ) {
+	function wpm_ml_log_message( $message, $level = 'info' ) {
+		$log_file = WP_CONTENT_DIR . '/wpm_translation.log';
+		$timestamp = current_time('Y-m-d H:i:s');
+		$log_entry = "[{$timestamp}] [{$level}] {$message}" . PHP_EOL;
+		file_put_contents( $log_file, $log_entry, FILE_APPEND | LOCK_EX );
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_is_untranslatable' ) ) {
+	/**
+	 * Check if a string doesn't need translation (numbers, symbols, template tags, etc.)
+	 *
+	 * @param  string $string
+	 * @return bool
+	 * @since  2.4.30
+	 */
+	function wpm_ml_is_untranslatable( $string ) {
+		$trimmed = trim( $string );
+		if ( $trimmed === '' ) return true;
+		if ( preg_match( '/^[\d\s.,+\-:;\/\\\\]+$/', $trimmed ) ) return true;
+		if ( mb_strlen( $trimmed ) <= 1 ) return true;
+		if ( preg_match( '/^\{[^}]+\}$/', $trimmed ) ) return true;
+		if ( preg_match( '/^[㎡㎥㎏℃℉%°²³]+$/u', $trimmed ) ) return true;
+		return false;
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_batch_translate' ) ) {
+	/**
+	 * Translate an array of strings in a single API call using a separator.
+	 * Falls back to individual calls if the API doesn't preserve the separator.
+	 *
+	 * @param  array  $strings  Indexed array of strings to translate.
+	 * @param  string $source   Source language code.
+	 * @param  string $target   Target language code.
+	 * @return array            Indexed array of translated strings (same order/count as input).
+	 * @since  2.4.30
+	 */
+	function wpm_ml_batch_translate( array $strings, $source, $target ) {
+		if ( empty( $strings ) ) {
+			return $strings;
+		}
+
+		$separator     = "\n|||WPM_SEP|||\n";
+		$max_batch_len = 8000;
+
+		$batches   = array();
+		$current   = array();
+		$current_len = 0;
+
+		foreach ( $strings as $s ) {
+			$add_len = strlen( $s ) + strlen( $separator );
+			if ( $current_len + $add_len > $max_batch_len && ! empty( $current ) ) {
+				$batches[] = $current;
+				$current   = array();
+				$current_len = 0;
+			}
+			$current[]   = $s;
+			$current_len += $add_len;
+		}
+		if ( ! empty( $current ) ) {
+			$batches[] = $current;
+		}
+
+		$all_translated = array();
+
+		foreach ( $batches as $batch ) {
+			$combined   = implode( $separator, $batch );
+			$translated = wpm_ml_auto_fetch_translation( $combined, $source, $target );
+
+			if ( $translated && $translated !== 'false' ) {
+				$parts = explode( '|||WPM_SEP|||', $translated );
+				$parts = array_map( 'trim', $parts );
+
+				if ( count( $parts ) === count( $batch ) ) {
+					foreach ( $parts as $i => $p ) {
+						$all_translated[] = ( $p !== '' && $p !== 'false' ) ? $p : $batch[ $i ];
+					}
+				} else {
+					wpm_ml_log_message( sprintf(
+						'Batch separator mismatch: expected %d, got %d. Falling back to individual calls.',
+						count( $batch ), count( $parts )
+					), 'warning' );
+					foreach ( $batch as $single ) {
+						$t = wpm_ml_auto_fetch_translation( $single, $source, $target );
+						$all_translated[] = ( $t && $t !== 'false' ) ? $t : $single;
+					}
+				}
+			} else {
+				foreach ( $batch as $single ) {
+					$t = wpm_ml_auto_fetch_translation( $single, $source, $target );
+					$all_translated[] = ( $t && $t !== 'false' ) ? $t : $single;
+				}
+			}
+		}
+
+		return $all_translated;
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_auto_translate_content' ) ) {
+	function wpm_ml_auto_translate_content( $string, $source, $target, $batch_start = 0, $batch_size = 100 ) {
+		if ( $string == "" ) {
+			return $string;
+		}
+
+		libxml_use_internal_errors( true );
+
+		// Plain text (no HTML tags)
+		if ( preg_match( '/<[^>]+>/', $string ) !== 1 ) {
+
+			if ( wpm_ml_is_untranslatable( $string ) ) {
+				return $string;
+			}
+
+			$words  = explode( ' ', $string );
+			$chunks = array_chunk( $words, 500 );
+
+			if ( count( $chunks ) <= 1 ) {
+				$t_text = wpm_ml_auto_fetch_translation( $string, $source, $target );
+				return $t_text ? $t_text : $string;
+			}
+
+			$chunk_strings = array_map( function( $chunk ) {
+				return implode( ' ', $chunk );
+			}, $chunks );
+
+			wpm_ml_log_message( sprintf( 'Plain-text batching: %d chunks via batch_translate', count( $chunk_strings ) ) );
+			$translated_chunks = wpm_ml_batch_translate( $chunk_strings, $source, $target );
+			return implode( ' ', $translated_chunks );
+		}
+
+		// HTML content
+		$dom    = new DOMDocument( '1.0', 'UTF-8' );
+		$isHTML = $dom->loadHTML( '<?xml encoding="UTF-8"?>' . $string, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		libxml_clear_errors();
+
+		if ( ! $isHTML ) {
+			return $string;
+		}
+
+		$xpath      = new DOMXPath( $dom );
+		$text_nodes = $xpath->query( '//text()[normalize-space() and not(ancestor::script or ancestor::style or ancestor::noscript or ancestor::iframe)]' );
+		$total_nodes = $text_nodes->length;
+
+		if ( $batch_start === 0 && $batch_size === 0 ) {
+			return array( 'total_nodes' => $total_nodes );
+		}
+
+		$enable_logging = apply_filters( 'wpm_ml_translation_debug_log', true );
+		wpm_ml_log_message( sprintf( 'HTML batching: %d total text nodes', $total_nodes ) );
+
+		// Collect all translatable text nodes in one pass
+		$translatable_keys   = array();
+		$translatable_texts  = array();
+		$original_values     = array();
+		$node_count          = 0;
+		$collected           = 0;
+
+		foreach ( $text_nodes as $key => $node ) {
+			$node_count++;
+
+			if ( $node_count <= $batch_start ) {
+				continue;
+			}
+			if ( $collected >= $batch_size ) {
+				break;
+			}
+
+			$node_value  = is_string( $node->nodeValue ) ? $node->nodeValue : '';
+			$source_text = wpm_ml_remove_special_characters( $node_value );
+
+			if ( wpm_ml_is_untranslatable( $source_text ) ) {
+				continue;
+			}
+
+			$translatable_keys[]  = $key;
+			$translatable_texts[] = $source_text;
+			$original_values[]    = $node_value;
+			$collected++;
+		}
+
+		if ( empty( $translatable_texts ) ) {
+			$final_html = $dom->saveHTML();
+			return str_replace( '<?xml encoding="UTF-8"?>', '', $final_html );
+		}
+
+		wpm_ml_log_message( sprintf( 'Sending %d text nodes in batched API call(s) (skipped %d untranslatable)',
+			count( $translatable_texts ), $total_nodes - count( $translatable_texts ) ) );
+
+		// Translate all collected texts in batched API calls
+		try {
+			$translated_texts = wpm_ml_batch_translate( $translatable_texts, $source, $target );
+		} catch ( \Throwable $e ) {
+			if ( $enable_logging ) {
+				wpm_ml_log_message( sprintf( 'Batch translation error: %s', $e->getMessage() ), 'error' );
+			}
+			$translated_texts = $translatable_texts;
+		}
+
+		// Map translations back to DOM nodes
+		foreach ( $translatable_keys as $i => $dom_key ) {
+			$translated = isset( $translated_texts[ $i ] ) ? $translated_texts[ $i ] : $original_values[ $i ];
+			$translated = wpm_ml_add_special_characters( $translated );
+
+			foreach ( $text_nodes as $nk => $node ) {
+				if ( $nk === $dom_key ) {
+					$node->nodeValue = $translated;
+					break;
+				}
+			}
+		}
+
+		$final_html = $dom->saveHTML();
+		if ( strpos( $final_html, '<?xml encoding="UTF-8"?>' ) === 0 ) {
+			$final_html = str_replace( '<?xml encoding="UTF-8"?>', '', $final_html );
+		}
+		return $final_html;
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_auto_fetch_translation' ) ) {
+	function wpm_ml_auto_fetch_translation( $string, $source, $target ) {
+
+		if( $string == "" || $source == $target || $source == "" || $target == "" ) {
+			return false;
+		}
+
+
+		if ( wpm_is_pro_active() ) {
+			$string 	=	apply_filters( 'wpmpro_auto_translate_content', $string, $source, $target );
+			return $string;
+		}
+		
+		$ai_settings 	=	array();
+		$ai_settings 	=	WPM_Settings_AI_Integration::get_openai_settings();
+		$enable_logging = apply_filters( 'wpm_ml_translation_debug_log', true );
+
+		switch ( $ai_settings['api_provider'] ) {
+
+			case 'openai':
+
+				if ( ! empty( $ai_settings['api_keys']['openai'] ) ) {
+					try {
+						$string 	=	WPM_OpenAI::translate_content( $string, $source, $target, $ai_settings );
+					} catch ( \Throwable $e ) {
+						if ( $enable_logging ) {
+	                        wpm_ml_log_message( sprintf('Error in openAI translation: %s', $e->getMessage()), 'error' );
+	                    }
+					}
+				}
+				
+			break;
+
+			case 'deepl':
+
+				if ( ! empty( $ai_settings['deepl_secret_key'] ) ) {
+					try {
+						$string 	=	WPM_Deepl::translate_content( $string, $source, $target, $ai_settings );
+					} catch ( \Throwable $e ) {
+						if ( $enable_logging ) {
+	                        wpm_ml_log_message( sprintf('Error in openAI translation: %s', $e->getMessage()), 'error' );
+	                    }
+					}	
+				}
+
+			break;
+
+		}
+
+		return $string;
+
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_remove_special_characters' ) ) {
+	function wpm_ml_remove_special_characters( $string = '' ){
+		if( $string ){
+			
+			 $find = ['|'];
+			 
+			 $tokens = ['_PIPE_TOKEN_'];
+	        
+	         $stringWithToken = str_replace( $find, $tokens, $string );
+			 
+			 return $stringWithToken;
+		}
+		
+		return '';
+	}
+}
+
+if ( ! function_exists( 'wpm_ml_add_special_characters' ) ) {
+	function wpm_ml_add_special_characters( $string = '' ){
+		if( $string ){
+			
+			 $tokens = ['_PIPE_TOKEN_'];
+			 
+			 $replace = ['|'];
+	        
+	         $stringWithoutToken = str_replace( $tokens, $replace, $string );
+			 
+			 return $stringWithoutToken;
+			
+		}
+		
+		return '';
+	}
+}
+
+function wpm_is_pro_active(){
+	
+	$is_active 		=	is_plugin_active( 'wp-multilang-pro/wp-multilang-pro.php' );
+	return $is_active;
+
 }

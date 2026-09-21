@@ -1,5 +1,5 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button } from '@wordpress/components';
+import { Panel, PanelBody, PanelRow, SelectControl, TextControl, ToggleControl, Button, ComboboxControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BlockEditWithAPIMetadata } from '@devgateway/dvz-wp-commons'
 import { isSupersetAPI } from '@devgateway/dvz-wp-commons';
@@ -95,7 +95,11 @@ class BlockEdit extends BlockEditWithAPIMetadata {
         this.selectDefaultValue = this.selectDefaultValue.bind(this)
 
         // Add a key to force iframe reload on attribute changes
-        this.state = { ...(this.state || {}), iframeReloadKey: 0 }
+        this.state = {
+            ...(this.state || {}),
+            iframeReloadKey: 0,
+            filteredDatasets: null
+        }
     }
 
     updateHiddenFilters(value, idx) {
@@ -137,6 +141,10 @@ class BlockEdit extends BlockEditWithAPIMetadata {
             prevAttributes.defaultTopNCount !== attributes.defaultTopNCount
         ) {
             this.setState({ iframeReloadKey: (this.state.iframeReloadKey || 0) + 1 })
+        }
+
+        if (this.state.datasets !== prevState.datasets && this.state.filteredDatasets !== null) {
+            this.setState({ filteredDatasets: null })
         }
 
         if (attributes && attributes.filterType === 'single-select' && attributes.defaultTopNEnabled && attributes.defaultTopNCount > 1) {
@@ -233,23 +241,34 @@ class BlockEdit extends BlockEditWithAPIMetadata {
 
                     {isSupersetAPI(app, this.state.apps) &&
                         <PanelRow>
+                            <div style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}>
+                                <ComboboxControl
+                                    label={__('Datasets')}
+                                    value={dvzProxyDatasetId}
+                                    style={{ maxWidth: '100%', minWidth: 0, overflowWrap: 'anywhere', width: '100%' }}
+                                    onChange={(newDatasetId) => {
+                                        setAttributes({
+                                            dvzProxyDatasetId: newDatasetId,
+                                            dimension1: 'none',
+                                            dimension2: 'none'
 
-                            <SelectControl
-                                label={__('Datasets')}
-                                value={[dvzProxyDatasetId]}
-                                onChange={(newDatasetId) => {
-                                    setAttributes({
-                                        dvzProxyDatasetId: newDatasetId,
-                                        dimension1: 'none',
-                                        dimension2: 'none'
-
-                                    })
-                                    this.setState({ dimensions: [], measures: [], filters: [], categories: [] })
-                                    //  this.loadMetadataForSuperset(app, newDatasetId)
-                                }}
-                                options={datasets}
-                                help={__('Select the dataset from the API.')}
-                            />
+                                        })
+                                        this.setState({ dimensions: [], measures: [], filters: [], categories: [] })
+                                        //  this.loadMetadataForSuperset(app, newDatasetId)
+                                    }}
+                                    options={this.state.filteredDatasets || datasets}
+                                    isLoading={datasets.length === 0}
+                                    onFilterValueChange={(inputValue) => {
+                                        const searchValue = (inputValue || '').toLowerCase()
+                                        const filteredDatasets = datasets.filter((option) =>
+                                            option.label.toLowerCase().includes(searchValue) ||
+                                            option.value.toString().toLowerCase().includes(searchValue)
+                                        )
+                                        this.setState({ filteredDatasets })
+                                    }}
+                                    help={__('Select the dataset from the API.')}
+                                />
+                            </div>
                         </PanelRow>
                     }
                 </PanelBody>
