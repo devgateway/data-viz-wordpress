@@ -12,9 +12,12 @@ class Plugin {
 		Class_Index::init();
 		Rest::init();
 		Render::init();
+		Settings_Page::init();
 	}
 
 	public static function enqueue_editor_assets(): void {
+		$settings = Settings_Page::get();
+
 		if ( self::enqueue_script_from_asset( 'twg-editor', 'editor' ) ) {
 			wp_localize_script(
 				'twg-editor',
@@ -24,6 +27,7 @@ class Plugin {
 					// only its URL is needed here, not a registered handle.
 					'workerUrl'     => plugins_url( 'build/worker.js', TWG_PLUGIN_FILE ),
 					'classIndexUrl' => plugins_url( 'assets/class-index.json', TWG_PLUGIN_FILE ),
+					'suggestLimit'  => $settings['suggest_limit'],
 				)
 			);
 		}
@@ -34,6 +38,9 @@ class Plugin {
 				'twgCanvasData',
 				array(
 					'tailwindBrowserUrl' => plugins_url( 'build/tailwindcss-browser.js', TWG_PLUGIN_FILE ),
+					'themeCss'           => $settings['theme_css'],
+					'preflight'          => $settings['preflight'],
+					'safelist'           => Settings_Page::get_safelist_classes(),
 				)
 			);
 		}

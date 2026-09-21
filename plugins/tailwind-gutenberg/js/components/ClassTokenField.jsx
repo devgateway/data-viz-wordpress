@@ -22,6 +22,7 @@ function getWorker() {
 	worker.postMessage( {
 		type: 'init',
 		indexUrl: window.twgEditorData.classIndexUrl,
+		maxResults: window.twgEditorData.suggestLimit,
 	} );
 
 	worker.addEventListener( 'message', ( event ) => {

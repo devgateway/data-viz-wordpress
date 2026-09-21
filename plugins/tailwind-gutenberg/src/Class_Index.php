@@ -44,6 +44,47 @@ class Class_Index {
 		return get_option( self::OPTION_NAME, array() );
 	}
 
+	/**
+	 * Full rescan and prune, unlike the additive save_post merge: replaces
+	 * the stored index outright with only the classes currently found in
+	 * content, including reusable blocks/patterns (wp_block).
+	 */
+	public static function rebuild(): int {
+		$post_types = array_values(
+			array_unique(
+				array_merge( get_post_types( array( 'public' => true ) ), array( 'wp_block' ) )
+			)
+		);
+
+		$query = new \WP_Query(
+			array(
+				'post_type'      => $post_types,
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+
+		$classes = array();
+
+		foreach ( $query->posts as $post_id ) {
+			$post = get_post( $post_id );
+
+			if ( $post ) {
+				foreach ( self::collect_classes_from_content( $post->post_content ) as $class ) {
+					$classes[] = $class;
+				}
+			}
+		}
+
+		$classes = array_values( array_unique( $classes ) );
+
+		update_option( self::OPTION_NAME, $classes, false );
+
+		return count( $classes );
+	}
+
 	private static function collect_from_block( array $block, array &$classes ): void {
 		if ( ! empty( $block['attrs']['twgClasses'] ) && is_string( $block['attrs']['twgClasses'] ) ) {
 			foreach ( preg_split( '/\s+/', trim( $block['attrs']['twgClasses'] ) ) as $class ) {

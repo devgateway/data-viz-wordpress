@@ -6,10 +6,33 @@ const IFRAME_SELECTOR = 'iframe[name="editor-canvas"]';
 const MARKER_ATTRIBUTE = 'data-twg-canvas';
 const COMPILED_ATTRIBUTE = 'data-twg-compiled';
 
-// Preflight is intentionally excluded: it resets margins/borders and would
-// visibly wreck the editor chrome outside the canvas.
-const CANVAS_THEME_CSS = `@import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);`;
+// Preflight is opt-in (off by default) since it resets margins/borders and
+// would visibly wreck the editor chrome outside the canvas for most themes.
+function buildCanvasCss() {
+	const imports = window.twgCanvasData?.preflight
+		? '@import "tailwindcss";'
+		: '@import "tailwindcss/theme" layer(theme);\n@import "tailwindcss/utilities" layer(utilities);';
+
+	return `${ imports }\n${ window.twgCanvasData?.themeCss || '' }`;
+}
+
+// @tailwindcss/browser only compiles classes it finds on elements actually
+// in the DOM, so safelisted classes need a real (if hidden) element to
+// live on rather than being handed to the compiler directly.
+function injectSafelist( doc ) {
+	const safelist = window.twgCanvasData?.safelist || [];
+
+	if ( ! safelist.length || ! doc.body ) {
+		return;
+	}
+
+	const marker = doc.createElement( 'div' );
+	marker.setAttribute( 'aria-hidden', 'true' );
+	marker.setAttribute( 'data-twg-safelist', '1' );
+	marker.style.display = 'none';
+	marker.className = safelist.join( ' ' );
+	doc.body.appendChild( marker );
+}
 
 // @tailwindcss/browser writes its compiled output into a <style> tag it
 // creates itself, with no id or attribute to identify it by. It appends
@@ -48,9 +71,10 @@ function injectIntoIframe( iframe ) {
 
 	const themeStyle = doc.createElement( 'style' );
 	themeStyle.setAttribute( 'type', 'text/tailwindcss' );
-	themeStyle.textContent = CANVAS_THEME_CSS;
+	themeStyle.textContent = buildCanvasCss();
 	doc.head.appendChild( themeStyle );
 
+	injectSafelist( doc );
 	markCompiledStyleTag( doc );
 
 	const script = doc.createElement( 'script' );

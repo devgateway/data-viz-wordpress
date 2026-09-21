@@ -28,10 +28,10 @@ const VARIANTS = [
 	'dark',
 ];
 
-const MAX_RESULTS = 50;
 const ARBITRARY_VALUE_PATTERN = /\[.+\]$/;
 
 let indexPromise = null;
+let maxResults = 50;
 
 // The editor UI (FormTokenField) re-filters whatever list this returns by
 // plain substring containment against the full typed text, so a fuzzy
@@ -58,13 +58,16 @@ function rankUtilities( query, entries ) {
 		( a, b ) => a.score - b.score || a.entry.c.length - b.entry.c.length
 	);
 
-	return scored.slice( 0, MAX_RESULTS ).map( ( r ) => r.entry );
+	return scored.slice( 0, maxResults ).map( ( r ) => r.entry );
 }
 
 self.addEventListener( 'message', async ( event ) => {
 	const { type } = event.data;
 
 	if ( type === 'init' ) {
+		if ( event.data.maxResults ) {
+			maxResults = event.data.maxResults;
+		}
 		indexPromise = fetch( event.data.indexUrl ).then( ( response ) =>
 			response.json()
 		);
@@ -87,7 +90,7 @@ self.addEventListener( 'message', async ( event ) => {
 	// starting point for that segment instead (including chaining, e.g.
 	// "md:hover:").
 	if ( query.endsWith( ':' ) ) {
-		const results = VARIANTS.slice( 0, MAX_RESULTS ).map( ( v ) => ( {
+		const results = VARIANTS.slice( 0, maxResults ).map( ( v ) => ( {
 			c: `${ query }${ v }:`,
 			d: '',
 		} ) );

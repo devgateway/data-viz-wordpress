@@ -42,6 +42,10 @@ class Rest {
 	}
 
 	public static function get_css(): \WP_REST_Response {
+		if ( ! Settings_Page::get()['load_on_frontend'] ) {
+			return new \WP_REST_Response( array() );
+		}
+
 		return new \WP_REST_Response( Compiler::get_current() );
 	}
 
