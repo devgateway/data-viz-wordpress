@@ -11,22 +11,38 @@ class Plugin {
 	}
 
 	public static function enqueue_editor_assets(): void {
-		$asset_path = TWG_PLUGIN_DIR . 'build/editor.asset.php';
+		self::enqueue_script_from_asset( 'twg-editor', 'editor' );
+
+		if ( self::enqueue_script_from_asset( 'twg-canvas', 'canvas' ) ) {
+			wp_localize_script(
+				'twg-canvas',
+				'twgCanvasData',
+				array(
+					'tailwindBrowserUrl' => plugins_url( 'build/tailwindcss-browser.js', TWG_PLUGIN_FILE ),
+				)
+			);
+		}
+	}
+
+	private static function enqueue_script_from_asset( string $handle, string $entry ): bool {
+		$asset_path = TWG_PLUGIN_DIR . "build/{$entry}.asset.php";
 
 		if ( ! file_exists( $asset_path ) ) {
-			return;
+			return false;
 		}
 
 		$asset = include $asset_path;
 
 		wp_register_script(
-			'twg-editor',
-			plugins_url( 'build/editor.js', TWG_PLUGIN_FILE ),
+			$handle,
+			plugins_url( "build/{$entry}.js", TWG_PLUGIN_FILE ),
 			$asset['dependencies'],
 			$asset['version'],
 			true
 		);
 
-		wp_enqueue_script( 'twg-editor' );
+		wp_enqueue_script( $handle );
+
+		return true;
 	}
 }

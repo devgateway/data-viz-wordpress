@@ -34,14 +34,19 @@ const withTwgInspectorControl = createHigherOrderComponent( ( BlockEdit ) => {
 				{ isSelected && (
 					<InspectorControls>
 						<PanelBody
-							title={ __( 'Tailwind Classes', 'tailwind-gutenberg' ) }
+							title={ __(
+								'Tailwind Classes',
+								'tailwind-gutenberg'
+							) }
 							initialOpen={ false }
 						>
 							<TextControl
 								label={ __( 'Classes', 'tailwind-gutenberg' ) }
 								value={ attributes[ ATTRIBUTE_NAME ] || '' }
 								onChange={ ( value ) =>
-									setAttributes( { [ ATTRIBUTE_NAME ]: value } )
+									setAttributes( {
+										[ ATTRIBUTE_NAME ]: value,
+									} )
 								}
 							/>
 						</PanelBody>
@@ -62,6 +67,40 @@ function applyTwgExtraProps( extraProps, _blockType, attributes ) {
 	return extraProps;
 }
 
+// Mirrors applyTwgExtraProps, but for the live editing canvas: getSaveContent
+// only affects the serialized save() markup, not the DOM the block renders
+// while being edited, so the canvas-side Tailwind compiler would never see
+// these classes without also applying them here.
+const withTwgListBlockClass = createHigherOrderComponent(
+	( BlockListBlock ) => {
+		return ( props ) => {
+			const classes =
+				props.attributes && props.attributes[ ATTRIBUTE_NAME ];
+
+			if ( ! classes ) {
+				return <BlockListBlock { ...props } />;
+			}
+
+			return (
+				<BlockListBlock
+					{ ...props }
+					className={ classnames( props.className, classes ) }
+				/>
+			);
+		};
+	},
+	'withTwgListBlockClass'
+);
+
 addFilter( 'blocks.registerBlockType', 'twg/attributes', addTwgAttribute );
 addFilter( 'editor.BlockEdit', 'twg/inspector', withTwgInspectorControl );
-addFilter( 'blocks.getSaveContent.extraProps', 'twg/extra-props', applyTwgExtraProps );
+addFilter(
+	'blocks.getSaveContent.extraProps',
+	'twg/extra-props',
+	applyTwgExtraProps
+);
+addFilter(
+	'editor.BlockListBlock',
+	'twg/list-block-class',
+	withTwgListBlockClass
+);

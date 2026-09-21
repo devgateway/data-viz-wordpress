@@ -153,6 +153,9 @@ importers:
 
   plugins/tailwind-gutenberg:
     dependencies:
+      '@tailwindcss/browser':
+        specifier: ^4.3.3
+        version: 4.3.3
       '@wordpress/block-editor':
         specifier: ^15.5.0
         version: 15.5.0(@emotion/is-prop-valid@1.3.1)(@types/react-dom@18.3.6(@types/react@18.3.1))(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2288,6 +2291,9 @@ packages:
   '@svgr/webpack@8.1.0':
     resolution: {integrity: sha512-LnhVjMWyMQV9ZmeEy26maJk+8HTIbd59cH4F2MJ439k9DqejRisfFNGAPvRYlKETuh9LrImlS8aKsBgKjMA8WA==}
     engines: {node: '>=14'}
+
+  '@tailwindcss/browser@4.3.3':
+    resolution: {integrity: sha512-fFaqX18SiyiukLoEI7/cVc0B65mkTslDNo2TxazSDZ9rKs5umOEoujmEkpy8z6GrMdoVzBDbWD8j5DTKLyAWWw==}
 
   '@tannin/compile@1.1.0':
     resolution: {integrity: sha512-n8m9eNDfoNZoxdvWiTfW/hSPhehzLJ3zW7f8E7oT6mCROoMNWCB4TYtv041+2FMAxweiE0j7i1jubQU4MEC/Gg==}
@@ -8812,6 +8818,7 @@ packages:
 
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   v8-to-istanbul@9.3.0:
@@ -11562,6 +11569,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+
+  '@tailwindcss/browser@4.3.3': {}
 
   '@tannin/compile@1.1.0':
     dependencies:

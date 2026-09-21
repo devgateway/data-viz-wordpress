@@ -6,14 +6,15 @@
   "description": "Editor integration for the Tailwind Classes for Gutenberg plugin.",
   "author": "Development Gateway",
   "scripts": {
-    "build": "wp-scripts build js/editor.js",
-    "start": "wp-scripts start js/editor.js",
+    "build": "wp-scripts build js/editor.js js/canvas.js && mkdir -p build && cp node_modules/@tailwindcss/browser/dist/index.global.js build/tailwindcss-browser.js",
+    "start": "wp-scripts start js/editor.js js/canvas.js",
     "lint:js": "wp-scripts lint-js"
   },
   "devDependencies": {
     "@wordpress/scripts": "^30.25.0"
   },
   "dependencies": {
+    "@tailwindcss/browser": "^4.3.3",
     "@wordpress/block-editor": "^15.5.0",
     "@wordpress/blocks": "^15.5.0",
     "@wordpress/components": "^30.5.0",
