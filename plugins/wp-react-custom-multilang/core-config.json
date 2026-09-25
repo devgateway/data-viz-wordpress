@@ -14,12 +14,7 @@
     "wp_template": {},
     "wp_template_part": {},
     "wp_navigation": {},
-    "wp_global_styles": {},
-    "woodmart_layout": {},
-    "cms_block": {},
-    "al_product": {},
-    "saswp_reviews": {},
-    "saswp-collections": {}
+    "wp_global_styles": {}
   },
   "post_fields": {
     "_wp_attachment_image_alt": {},
@@ -27,16 +22,10 @@
   },
   "taxonomies": {
     "category" : {},
-    "post_tag" : {},
-    "al_product-cat" : {},
-    "brand-category" : {}
+    "post_tag" : {}
   },
   "term_fields": {},
-  "user_fields": {
-    "dokan_profile_settings" : {
-      "vendor_biography" : {}
-    }
-  },
+  "user_fields": {},
   "comment_fields": {},
   "admin_pages": [
     "upload",
