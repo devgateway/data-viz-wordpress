@@ -884,6 +884,7 @@ class BlockEdit extends BlockEditWithAPIMetadata {
                         label: "Democratic Republic of the Congo",
                         value: "DRC",
                       },
+                      { label: "Senegal", value: "SEN" },
                       { label: "World", value: "World" },
                     ]}
                   />
