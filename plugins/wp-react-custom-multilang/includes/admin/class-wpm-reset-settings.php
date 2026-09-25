@@ -56,10 +56,7 @@ class WPM_Reset_Settings {
 		update_option( 'wpm_uninstall_translations', 'no' );
 		update_option( 'wpm_elementor_compatibility_free', 'no' );
 		update_option( 'wpm_divi_compatibility_free', 'no' );
-		update_option( 'wpm_bricks_compatibility_free', 'no' );
-		update_option( 'wpm_allow_auto_override', 'no' );
 		update_option( 'wpm_languages', $default_language );
-		delete_option( 'wpm_custom_post_types' );
 
 	}
 
@@ -267,40 +264,11 @@ class WPM_Reset_Settings {
 						}
 
 						if ( wpm_is_ml_string( $option_value ) ) {
-							$check_value 	=	maybe_unserialize( $option_value );
-							if ( is_array( $check_value ) || is_object( $check_value ) ) {
-								$option_value = serialize( wpm_translate_value( unserialize( $option_value ), $default_language ) );	
-							}else{
-								$option_value = wpm_translate_string( $option_value, $default_language );	
-							}
+							$option_value = wpm_translate_string( $option_value, $default_language );
 						}
 
 						//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching --Reason Reason We are just cleaning the data that has been changed by our plugin
 						$wpdb->update( $wpdb->options, compact( 'option_value' ), array( 'option_id' => $result->option_id ) );
-					}
-
-					/**
-					 * Delete custom options stored by WP-Multilang plgin
-					 * @since 2.4.17
-					 * */
-					$delete_options 	=	array( 'gf_display_meta_' );
-
-					// Prepare the LIKE conditions for the query
-					$like_clauses 		= array_map( function($prefix) use ($wpdb ) {
-					    return $wpdb->prepare( "option_name LIKE %s", $prefix . '%' );
-					}, $delete_options);
-					// Join the conditions with OR
-					$where_clause 		= implode( ' OR ', $like_clauses );
-					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-					$custom_options 	= $wpdb->get_results( "SELECT * FROM {$wpdb->options} WHERE $where_clause" );
-
-					if ( ! empty( $custom_options ) && is_array( $custom_options ) ) {
-						foreach ( $custom_options as $gf_options ) {
-							if ( is_object( $gf_options ) && isset( $gf_options->option_id ) ) {
-								// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-								$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_id=$gf_options->option_id" );		
-							}
-						}
 					}
 
 					break;

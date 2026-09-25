@@ -117,10 +117,6 @@ class WPM_Admin_Assets {
 			$show_switcher = true;
 		}
 
-		if ( 'edit-comments' === $screen_id ) {
-			$show_switcher = true;
-		}
-
 		$config             = wpm_get_config();
 		$admin_pages_config = (array) apply_filters( 'wpm_admin_pages', $config['admin_pages'] );
 
@@ -230,9 +226,6 @@ class WPM_Admin_Assets {
 	 * @since 2.4.9
 	 * */
 	public function render_language_switcher($interval = 2000){
-		global $wp_version;
-		$current_wp_version = isset( $wp_version ) ? $wp_version : ( function_exists( 'get_bloginfo' ) ? get_bloginfo( 'version' ) : '0' );
-
 		$script = "
 			(function( $ ) {
 
@@ -253,10 +246,12 @@ class WPM_Admin_Assets {
                         window.setTimeout(wpm_add_language_switcher_deferred, ".esc_js( $interval ).");
 
                         wpm_site_editor_lang_switcher_deferred = function() {
-                            var SiteToolBar = $('.edit-site-site-hub .edit-site-site-hub__title');
+                            var SiteToolBar = $('.edit-site-layout__header-container .edit-site-site-hub__site-view-link');
                             
                             if(SiteToolBar.length) {
                                 SiteToolBar.before(language_switcher);
+
+                                $('.edit-site-layout__header-container .wpm-language-switcher').css({'left': '67%'});
                             }
                         }
 
@@ -277,21 +272,11 @@ class WPM_Admin_Assets {
                 });
 
                 function wpm_change_switcher_margin(){
-                	// Use the WordPress version (injected from PHP) to detect WP 7.1+.
-                	// In WP 7.1 the + inserter became the first flex child at 0px inside the toolbar,
-                	// overlapping the absolutely-positioned flag at left:10px.
-                	// Fix: add padding-left to the toolbar so + shifts right of the flag.
-                	var wpmWpVersion = parseFloat('".esc_js( $current_wp_version )."');
-                	if (wpmWpVersion >= 7.1) {
-                		$('.wpm-language-switcher').css({'left': '3%'});
-                	} else {
-                		// WP 7.0 and earlier — original behaviour, completely unchanged
-                    	if($('body').hasClass('is-fullscreen-mode')){
-                        	$('.wpm-language-switcher').css({'margin-left': '75px'});
-                        }else{
-                        	$('.wpm-language-switcher').css({'margin-left': '10px'});
-                        }
-                	}
+                	if($('body').hasClass('is-fullscreen-mode')){
+                    	$('.wpm-language-switcher').css({'margin-left': '75px'});
+                    }else{
+                    	$('.wpm-language-switcher').css({'margin-left': '10px'});
+                    }	
                 }
 
 				$(document).on('click', '#wpm-language-switcher .lang-dropdown a', function(){
@@ -299,9 +284,13 @@ class WPM_Admin_Assets {
 					var url = document.location.origin + document.location.pathname;
 					var query = document.location.search;
 					var href = '';
-					if(query.length == 0){
-						href = url + '?edit_lang=' + lang + document.location.hash;
-					}else{
+					if (query.search(/edit_lang=/i) !== -1) {
+						href = url + query.replace(/edit_lang=[a-z]{2,4}((-[a-z]{2,4})?)*/i, 'edit_lang=' + lang) + document.location.hash;
+					} else {
+						if(query.indexOf('?')==-1){
+							query = '?';
+						}
+
 						href = url + query + '&edit_lang=' + lang + document.location.hash;
 					}
 					$(this).attr('href', href);
@@ -338,7 +327,7 @@ class WPM_Admin_Assets {
 	            		if($('.wpm-language-switcher').length > 0){
 	            			$('.wpm-language-switcher').css({'left': '67%'});
 
-	            			$('.edit-site-site-hub .wpm-language-switcher').remove();
+	            			$('.edit-site-layout__header-container .wpm-language-switcher').remove();
 
 	            			window.setTimeout(wpm_site_editor_lang_switcher_deferred, 500);
 
@@ -355,7 +344,7 @@ class WPM_Admin_Assets {
 	                	if($('.wpm-language-switcher').length > 0){
 			            	$('.wpm-language-switcher').css({'left': '67%'});
 
-			            	$('.edit-site-site-hub .wpm-language-switcher').remove();
+			            	$('.edit-site-layout__header-container .wpm-language-switcher').remove();
 
 			            	window.setTimeout(wpm_site_editor_lang_switcher_deferred, 500);
 			            }else{
