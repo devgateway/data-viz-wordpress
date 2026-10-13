@@ -94,6 +94,21 @@ class Class_Index {
 			}
 		}
 
+		// Raw HTML blocks (e.g. the footer page) carry their classes in markup,
+		// not in twgClasses, so without this they never reach the safelist and
+		// lose styling whenever any other post's save overwrites the site CSS.
+		if ( 'core/html' === ( $block['blockName'] ?? '' ) && ! empty( $block['innerHTML'] ) ) {
+			if ( preg_match_all( '/\bclass\s*=\s*"([^"]*)"/i', $block['innerHTML'], $matches ) ) {
+				foreach ( $matches[1] as $class_list ) {
+					foreach ( preg_split( '/\s+/', trim( $class_list ) ) as $class ) {
+						if ( '' !== $class ) {
+							$classes[] = $class;
+						}
+					}
+				}
+			}
+		}
+
 		if ( ! empty( $block['innerBlocks'] ) ) {
 			foreach ( $block['innerBlocks'] as $inner_block ) {
 				self::collect_from_block( $inner_block, $classes );
