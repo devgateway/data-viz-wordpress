@@ -1,4 +1,4 @@
-FROM node:22-slim AS base
+FROM node:24-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
@@ -43,7 +43,7 @@ RUN mkdir -p wp-content/plugins \
 RUN chown -R 82:82 wp-content \
   && tar -caf /wp-content.tgz --exclude="**/node_modules" wp-content
 
-FROM wordpress:7.1.0-fpm-alpine AS runtime
+FROM wordpress:7.1.3-fpm-alpine AS runtime
 LABEL org.opencontainers.image.description="WordPress image for Data Viz"
 LABEL org.opencontainers.image.authors="Development Gateway <info@developmentgateway.org>"
 LABEL org.opencontainers.image.url="https://github.com/devgateway/data-viz-wordpress"
