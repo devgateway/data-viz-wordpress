@@ -37,12 +37,51 @@ const FontSelector = (props) => {
     />
 }
 
+/**
+ * Builds the per-point configuration for `count` points, keeping any existing
+ * entries and creating defaults for the new ones. Used both for rendering and
+ * when the number of posts changes, so the saved config always matches `count`.
+ */
+const buildConfig = (config, count) => {
+    const current = Array.isArray(config) ? config : []
+    const result = []
+    for (let i = 0; i < (count || 0); i++) {
+        if (!current[i]) {
+            result.push({
+                circleColor: COLORS[i] || "#000000",
+                lineColor: COLORS[i] || "#000000",
+                labelColor: "#000000",
+                titleColor: COLORS[i] || "#000000",
+                size: 10,
+                subtitleOffset: 20,
+                titleOffset: (i % 2 > 0) ? 120 : -120,
+                connectorLineHeight: 100,
+                position: (i % 2 > 0) ? "bottom" : "top",
+                readMoreLabel: "read more"
+            })
+        } else {
+            result.push(Object.assign({}, current[i]))
+        }
+    }
+    return result
+}
+
 class BlockEdit extends BlockEditWithFilters {
 
     constructor(props) {
         super(props);
         this.onCategoryChanged = this.onCategoryChanged.bind(this)
         this.onLoadPosts = this.onLoadPosts.bind(this)
+    }
+
+    componentDidMount() {
+        super.componentDidMount()
+        // Blocks saved before this fix may have fewer point configs than posts;
+        // persist the missing ones so the front end gets a complete config.
+        const {setAttributes, attributes: {config, count}} = this.props
+        if (count && (!Array.isArray(config) || config.length < count)) {
+            setAttributes({config: buildConfig(config, count)})
+        }
     }
 
 
@@ -114,27 +153,7 @@ class BlockEdit extends BlockEditWithFilters {
         const divStyles = {height: height + 'px', width: '100%'}
 
 
-        const newConfig = []
-        if (count) {
-            Array.from(Array(count).keys()).forEach(i => {
-                if (!config[i]) {
-                    newConfig.push({
-                        circleColor: COLORS[i] || "#000000",
-                        lineColor: COLORS[i]|| "#000000",
-                        labelColor: "#000000",
-                        titleColor: COLORS[i] || "#000000",
-                        size: 10,
-                        subtitleOffset: 20,
-                        titleOffset: (i % 2 > 0) ? 120 : -120,
-                        connectorLineHeight: 100,
-                        position: (i % 2 > 0) ? "bottom" : "top",
-                        readMoreLabel: "read more"
-                    })
-                } else {
-                    newConfig.push(Object.assign({}, config[i]))
-                }
-            })
-        }
+        const newConfig = buildConfig(config, count)
 
 
 
@@ -154,9 +173,12 @@ class BlockEdit extends BlockEditWithFilters {
                             <PanelRow>
                                 <RangeControl
                                     isShiftStepEnabled={true}
-                                    onChange={(count) => {
-                                        setAttributes({count: parseInt(count)})
-                                        setAttributes({config: newConfig})
+                                    onChange={(value) => {
+                                        const newCount = parseInt(value)
+                                        if (isNaN(newCount)) {
+                                            return
+                                        }
+                                        setAttributes({count: newCount, config: buildConfig(config, newCount)})
                                     }}
                                     shiftStep={1}
                                     min={1}
