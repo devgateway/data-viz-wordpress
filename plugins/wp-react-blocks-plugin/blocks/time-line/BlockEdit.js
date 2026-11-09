@@ -38,14 +38,16 @@ const FontSelector = (props) => {
 }
 
 /**
- * Builds the per-point configuration for `count` points, keeping any existing
- * entries and creating defaults for the new ones. Used both for rendering and
- * when the number of posts changes, so the saved config always matches `count`.
+ * Builds the per-point configuration. Existing entries are always kept as they
+ * are, even beyond `count`, so lowering the number of posts (or passing through
+ * a lower value while typing it) never discards saved settings. Default entries
+ * are only created for points that have no saved entry yet.
  */
 const buildConfig = (config, count) => {
     const current = Array.isArray(config) ? config : []
     const result = []
-    for (let i = 0; i < (count || 0); i++) {
+    const total = Math.max(count || 0, current.length)
+    for (let i = 0; i < total; i++) {
         if (!current[i]) {
             result.push({
                 circleColor: COLORS[i] || "#000000",
