@@ -59,7 +59,8 @@ const buildConfig = (config, count) => {
                 titleOffset: (i % 2 > 0) ? 120 : -120,
                 connectorLineHeight: 100,
                 position: (i % 2 > 0) ? "bottom" : "top",
-                readMoreLabel: "read more"
+                readMoreLabel: "read more",
+                tooltipFontColor: "#fff"
             })
         } else {
             result.push(Object.assign({}, current[i]))
