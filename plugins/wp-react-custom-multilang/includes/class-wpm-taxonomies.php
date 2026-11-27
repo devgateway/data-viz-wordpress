@@ -40,18 +40,11 @@ class WPM_Taxonomies extends WPM_Object {
 	 * WPM_Taxonomies constructor.
 	 */
 	public function __construct() {
-		// --- ADDED: translate taxonomy UI labels (fixes raw [:en:]...[:]  in Gutenberg block inserter) ---
-		add_action( 'registered_taxonomy', array( $this, 'translate_registered_taxonomy_labels' ), 99, 3 );
-		add_action( 'init',                array( $this, 'translate_registered_taxonomies_labels' ), 99 );
-		// --- END ADDED ---
 		add_filter( 'get_term', 'wpm_translate_term', 5, 2 );
 		add_filter( 'get_terms', array( $this, 'translate_terms' ), 5 );
 		add_filter( 'term_name', 'wpm_translate_string', 5 );
 		add_filter( 'term_description', 'wpm_translate_value', 5 );
 		add_filter( 'get_terms_args', array( $this, 'filter_terms_by_language' ), 10, 2 );
-		// --- ADDED: translate labels in live REST responses (e.g. Gutenberg follow-up fetches) ---
-		add_filter( 'rest_prepare_taxonomy', array( $this, 'translate_rest_taxonomy' ), 10, 3 );
-		// --- END ADDED ---
 		add_filter( "get_{$this->object_type}_metadata", array( $this, 'get_meta_field' ), 5, 3 );
 		add_filter( "update_{$this->object_type}_metadata", array( $this, 'update_meta_field' ), 99, 5 );
 		add_filter( "add_{$this->object_type}_metadata", array( $this, 'add_meta_field' ), 99, 5 );
@@ -62,127 +55,7 @@ class WPM_Taxonomies extends WPM_Object {
 		add_filter( 'wp_update_term_data', array( $this, 'update_term' ), 99, 4 );
 		add_action( 'edited_term_taxonomy', array( $this, 'update_description' ), 5, 2 );
 		add_filter( 'get_terms_args', array( $this, 'get_term_by_name' ), 99, 2 );
-		add_action( 'pre_get_posts', array( $this, 'filter_posts_by_language_cat_posts' ), 99 );
 	}
-
-
-	// =========================================================================
-	// ADDED METHODS — fix for raw [:en:]...[:]  labels in Gutenberg block inserter
-	// Root cause: WordPress sets WP_Taxonomy->label (singular, used by REST 'name'
-	// field) as a one-time copy of ->labels->name at registration. WPM translated
-	// ->labels but never synced ->label, so the raw syntax leaked into REST responses
-	// which Gutenberg reads to build block variation titles in the inserter panel.
-	// =========================================================================
-
-	/**
-	 * Translate taxonomy labels registered with multilingual strings.
-	 * Fires immediately after each register_taxonomy() call (priority 99).
-	 *
-	 * THE KEY FIX: after translating ->labels, also sync ->label (the singular
-	 * shortcut property that the REST API reads for the 'name' field).
-	 */
-	public function translate_registered_taxonomy_labels( $taxonomy, $object_type, $args ) {
-		global $wp_taxonomies;
-
-		if ( empty( $wp_taxonomies[ $taxonomy ] ) || empty( $wp_taxonomies[ $taxonomy ]->labels ) ) {
-			return;
-		}
-
-		// Translate all strings inside the labels object
-		$wp_taxonomies[ $taxonomy ]->labels = $this->translate_labels_object( $wp_taxonomies[ $taxonomy ]->labels );
-
-		// Sync ->label (used by REST 'name' field) with the now-translated ->labels->name
-		if ( ! empty( $wp_taxonomies[ $taxonomy ]->labels->name ) ) {
-			$wp_taxonomies[ $taxonomy ]->label = $wp_taxonomies[ $taxonomy ]->labels->name;
-		}
-	}
-
-	/**
-	 * Translate labels for any taxonomies registered before WPM attached its hook
-	 * (runs at init priority 99, after all plugins have registered their taxonomies).
-	 */
-	public function translate_registered_taxonomies_labels() {
-		global $wp_taxonomies;
-
-		if ( empty( $wp_taxonomies ) || ! is_array( $wp_taxonomies ) ) {
-			return;
-		}
-
-		foreach ( array_keys( $wp_taxonomies ) as $taxonomy ) {
-			$this->translate_registered_taxonomy_labels( $taxonomy, array(), array() );
-		}
-	}
-
-	/**
-	 * Translate taxonomy labels in live REST responses (covers Gutenberg follow-up
-	 * fetches made after the initial page load, e.g. context=edit requests).
-	 */
-	public function translate_rest_taxonomy( $response, $taxonomy, $request ) {
-		if ( ! empty( $response->data['labels'] ) && is_array( $response->data['labels'] ) ) {
-			$response->data['labels'] = $this->translate_labels_array( $response->data['labels'] );
-		}
-
-		if ( ! empty( $response->data['name'] ) ) {
-			$response->data['name'] = $this->translate_label_string( $response->data['name'] );
-		}
-
-		return $response;
-	}
-
-	/**
-	 * Translate all string properties of a labels stdClass object.
-	 */
-	private function translate_labels_object( $labels ) {
-		foreach ( get_object_vars( $labels ) as $key => $label ) {
-			if ( is_string( $label ) ) {
-				$labels->$key = $this->translate_label_string( $label );
-			}
-		}
-
-		return $labels;
-	}
-
-	/**
-	 * Translate all string values of a labels array.
-	 */
-	private function translate_labels_array( $labels ) {
-		foreach ( $labels as $key => $label ) {
-			if ( is_string( $label ) ) {
-				$labels[ $key ] = $this->translate_label_string( $label );
-			}
-		}
-
-		return $labels;
-	}
-
-	/**
-	 * Translate a single [:en]...[:]  multilingual label string to the current language.
-	 */
-	private function translate_label_string( $label ) {
-		if ( ! wpm_is_ml_string( $label ) ) {
-			return $label;
-		}
-
-		$labels = wpm_string_to_ml_array( $label );
-
-		if ( ! is_array( $labels ) || empty( $labels ) ) {
-			return $label;
-		}
-
-		$language = wpm_get_language();
-
-		if ( isset( $labels[ $language ] ) && '' !== $labels[ $language ] ) {
-			return $labels[ $language ];
-		}
-
-		$default_language = wpm_get_default_language();
-
-		return isset( $labels[ $default_language ] ) ? $labels[ $default_language ] : '';
-	}
-
-	// =========================================================================
-	// END ADDED METHODS
-	// =========================================================================
 
 
 	/**
@@ -347,9 +220,7 @@ class WPM_Taxonomies extends WPM_Object {
 		}
 
 		$description = wpm_set_new_value( array(), $value, $taxonomy_config['description'] );
-		if ( ! empty( $description ) ) {
-			$description = wp_unslash( $description );
-		}
+
 		global $wpdb;
 		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'description' ), array( 'term_taxonomy_id' => $tt_id ) );
@@ -412,12 +283,8 @@ class WPM_Taxonomies extends WPM_Object {
 			return;
 		}
 
-		$old_value 	 =	isset( $this->description['old'] ) ? $this->description['old'] : array();
+		$description = wpm_set_new_value( $this->description['old'], $value, $taxonomy_config['description'] );
 
-		$description = wpm_set_new_value( $old_value, $value, $taxonomy_config['description'] );
-		if ( ! empty( $description ) ) {
-			$description = wp_unslash( $description );
-		}
 		global $wpdb;
 		//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: using WP bulit in function updates the data of term_taxonomy of current language which does not work for our plugin in this case
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'description' ), array( 'term_taxonomy_id' => $tt_id ) );
@@ -438,59 +305,11 @@ class WPM_Taxonomies extends WPM_Object {
 		if ( ! empty( $args['name'] ) && empty( $args['name__like'] ) ) {
 			$taxonomy = current( $taxonomies );
 			if ( null !== wpm_get_taxonomy_config( $taxonomy ) ) {
-				$term_name = $args['name'];
-				if ( is_array( $term_name ) && ! empty( $term_name[0] ) ) {
-					$term_name 	=	$term_name[0];		
-				}
-				$args['name__like'] = '[:' . wpm_get_language() . ']' . $term_name . '[:';
+				$args['name__like'] = '[:' . wpm_get_language() . ']' . $args['name'] . '[:';
 				$args['name']       = '';
 			}
 		}
 
 		return $args;
 	}
-
-	/**
-	 * Display language respective posts or products on archive page
-	 * @param 	$query 
-	 * @return 	$query 
-	 * @since 	2.4.26
-	 * */
-	public function filter_posts_by_language_cat_posts( $query ) {
-
-	    if ( is_admin() ) {
-	        return;
-	    }
-
-	    if ( ! is_category() && ! is_tag() && ! is_tax() && ! ( function_exists( 'is_product_category' ) && is_product_category() ) ) {
-	        return;
-	    }
-
-	    $lang = get_query_var( 'lang' );
-	    if ( ! $lang ) {
-	        $lang = wpm_get_user_language();
-	    }
-
-	    if ( 'all' === $lang ) {
-	        return;
-	    }
-
-	    $meta_query = (array) $query->get( 'meta_query' );
-
-	    $meta_query[] = array(
-	        'relation' => 'OR',
-	        array(
-	            'key'     => '_languages',
-	            'compare' => 'NOT EXISTS',
-	        ),
-	        array(
-	            'key'     => '_languages',
-	            'value'   => '"' . $lang . '"',
-	            'compare' => 'LIKE',
-	        ),
-	    );
-
-	    $query->set( 'meta_query', $meta_query );
-	}
-
 }

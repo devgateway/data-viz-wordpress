@@ -52,8 +52,6 @@ class WPM_Yoast_Seo {
 				add_filter( 'wpseo_frontend_presenters', array( $this, 'add_wpseo_frontend_presenters' ) );
 			}			
 		}
-
-		add_action( 'admin_enqueue_scripts', [ $this, 'render_language_switcher' ] );
 	}
 
 	/**
@@ -122,8 +120,11 @@ class WPM_Yoast_Seo {
 	 * @return string
 	 */
 	public function translate_title( $title ) {
-		
-		$title = wpm_translate_value( $title );
+		$separator   = wpseo_replace_vars( '%%sep%%', array() );
+		$separator   = ' ' . trim( $separator ) . ' ';
+		$titles_part = explode( $separator, $title );
+		$titles_part = wpm_translate_value( $titles_part );
+		$title       = implode( $separator, $titles_part );
 
 		return $title;
 	}
@@ -443,7 +444,7 @@ class WPM_Yoast_Seo {
 			// Get _yoast_wpseo_metadesc and _yoast_wpseo_title values from options table
 			$option_name = 'wpseo_taxonomy_meta';
 			//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-			$option_result = $wpdb->get_row($wpdb->prepare("SELECT option_value FROM {$wpdb->prefix}options WHERE option_name = %s", $option_name ));
+			$option_result = $wpdb->get_row($wpdb->prepare("SELECT option_value FROM {$wpdb->prefix}yoast_indexable WHERE option_name = %s", $option_name ));
 
 			if(is_object($option_result) && isset($option_result->option_value)){
 				if(!empty($option_result->option_value) && is_string($option_result->option_value)){
@@ -491,7 +492,7 @@ class WPM_Yoast_Seo {
 
 								// Update the title and description field values of yoast_indexable table
 								//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-								$wpdb->update($yoast_table_name, $update_array_values, array('object_id' => $term_id, 'object_type' => 'term'));
+								$wpdb->update($yoast_table_name, $update_array_values, array('object_id' => $term_id));
 							}
 						}
 					}
@@ -674,29 +675,8 @@ class WPM_Yoast_Seo {
 
 		if( is_object( $post ) && ! empty( $post->ID ) ) {
 			
-			$desc 	=	get_post_meta( $post->ID, '_yoast_wpseo_metadesc', true );
-			if ( ! empty( $desc ) ) {
-				$description 	=	$desc;
-			}
+			$description 	=	get_post_meta( $post->ID, '_yoast_wpseo_metadesc', true );
 		}
 		return $description;
-	}
-
-	/**
-	 * Function to load the yoast seo script
-	 * @param 	$hook	string
-	 * @since 	2.4.31
-	 * */
-	public function render_language_switcher( $hook ) {
-		
-		if ( $hook === 'seo_page_wpseo_page_settings' ) {
-
-			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-			wp_register_script( 'wpm-yoast-seo-script', wpm_asset_path( 'scripts/wpm-yoast-seo' . $suffix . '.js' ), array( 'jquery', 'wp-util', 'wpm_language_switcher' ), WPM_VERSION, true );
-			wp_enqueue_script( 'wpm-yoast-seo-script' );
-
-		}
-
 	}
 }

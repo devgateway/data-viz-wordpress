@@ -524,7 +524,6 @@ class WPM_Setup {
 		$integrations = apply_filters( 'wpm_integrations', array(
 			'advanced-custom-fields'     => __NAMESPACE__ . '\Integrations\WPM_Acf',
 			'advanced-custom-fields-pro' => __NAMESPACE__ . '\Integrations\WPM_Acf',
-			'secure-custom-fields' 		 => __NAMESPACE__ . '\Integrations\WPM_Acf',
 			'all-in-one-seo-pack'        => __NAMESPACE__ . '\Integrations\WPM_AIOSP',
 			'better-search'              => __NAMESPACE__ . '\Integrations\WPM_Better_Search',
 			'buddypress'                 => __NAMESPACE__ . '\Integrations\WPM_BuddyPress',
@@ -545,15 +544,6 @@ class WPM_Setup {
 			'schema-and-structured-data-for-wp' => __NAMESPACE__ . '\Integrations\WPM_Schema_Saswp',
 			'tlp-team' 					 => __NAMESPACE__ . '\Integrations\WPM_Team',
 			'forminator' 				 => __NAMESPACE__ . '\Integrations\WPM_Forminator',
-			'fluentform' 				 => __NAMESPACE__ . '\Integrations\WPM_Fluentform',
-			'gravityforms' 				 => __NAMESPACE__ . '\Integrations\WPM_Gravityforms',
-			'ultimate-member' 			 => __NAMESPACE__ . '\Integrations\WPM_Ultimate_Member',
-			'advanced-ads' 			 	 => __NAMESPACE__ . '\Integrations\WPM_Advanced_Ads',
-			'strong-testimonials' 		 => __NAMESPACE__ . '\Integrations\WPM_Strong_Testimonials',
-			'internal-links' 		 	 => __NAMESPACE__ . '\Integrations\WPM_Internal_Links',
-			'daext-autolinks-manager'    => __NAMESPACE__ . '\Integrations\WPM_Daext_Autolinks_Manager',
-			'frontend-post-submission-manager-lite'    => __NAMESPACE__ . '\Integrations\WPM_Fpsml',
-			'UX4G Government Block Theme' => __NAMESPACE__ . '\Integrations\WPM_UX4G_Theme',
 		) );
 
 		$active_plugins = wp_cache_get( 'active_plugins', 'wpm' );
