@@ -247,6 +247,46 @@ function get_custom_posts_with_years_callback($request) {
     return $response;
 }
 
+const DG_BLOCK_STYLES_TRANSIENT = 'dg_block_styles_css';
+
+// A headless frontend never runs wp_head, so the global stylesheet (base
+// .is-layout-flex/flow/constrained rules) and the per-render wp-container-*
+// block-support rules are never printed. Rendering every published post's
+// blocks once fills the style engine's block-supports store with all of them.
+function get_block_styles_callback() {
+    $css = get_transient(DG_BLOCK_STYLES_TRANSIENT);
+
+    if (false === $css) {
+        $css = wp_get_global_stylesheet();
+
+        $post_ids = get_posts(array(
+            'post_type' => 'any',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+            'no_found_rows' => true,
+        ));
+
+        foreach ($post_ids as $post_id) {
+            do_blocks(get_post_field('post_content', $post_id));
+        }
+
+        $css .= wp_style_engine_get_stylesheet_from_context('block-supports', array('prettify' => false));
+
+        set_transient(DG_BLOCK_STYLES_TRANSIENT, $css, DAY_IN_SECONDS);
+    }
+
+    return array('css' => $css);
+}
+
+function clear_block_styles_cache() {
+    delete_transient(DG_BLOCK_STYLES_TRANSIENT);
+}
+
+add_action('save_post', 'clear_block_styles_cache');
+add_action('deleted_post', 'clear_block_styles_cache');
+add_action('switch_theme', 'clear_block_styles_cache');
+
 add_action('rest_api_init', function () {
     register_rest_route('util-api/v1', '/test', array(
         'methods' => 'GET',
@@ -259,6 +299,11 @@ add_action('rest_api_init', function () {
     register_rest_route('util-api/v1', '/year-range', array(
         'methods' => 'GET',
         'callback' => 'get_year_range_for_posts_callback',
+    ));
+    register_rest_route('util-api/v1', '/block-styles', array(
+        'methods' => 'GET',
+        'callback' => 'get_block_styles_callback',
+        'permission_callback' => '__return_true',
     ));
     register_rest_route('dg/v1', '/posts', array(
         'methods' => 'GET',

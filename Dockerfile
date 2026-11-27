@@ -20,6 +20,7 @@ COPY package.json /app/package.json
 #Packages
 COPY packages/commons/package.json /app/packages/commons/package.json
 COPY plugins/wp-react-blocks-plugin/blocks/package.json /app/plugins/wp-react-blocks-plugin/blocks/package.json
+COPY plugins/tailwind-gutenberg/package.json /app/plugins/tailwind-gutenberg/package.json
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
   pnpm install --frozen-lockfile --shamefully-hoist
@@ -30,7 +31,7 @@ COPY . /app
 
 # Build the plugins
 RUN BLOCKS_CATEGORY=wp-react-lib-blocks BLOCKS_NS=viz \
-  pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" build
+  pnpm -r --filter="@devgateway/dvz-wp-commons" --filter="dg-react-blocks" --filter="tailwind-gutenberg" build
 
 # Organize WordPress files to the container
 COPY wp-theme wp-content/themes/dg-semantic

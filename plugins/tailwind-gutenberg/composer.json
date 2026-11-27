@@ -1,0 +1,14 @@
+{
+    "name": "devgateway/tailwind-gutenberg",
+    "description": "Adds Tailwind CSS utility classes to any Gutenberg block, with autocomplete and live preview.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Twg\\": "src/"
+        }
+    }
+}
